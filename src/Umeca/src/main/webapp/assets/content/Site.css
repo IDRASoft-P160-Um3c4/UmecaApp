@@ -233,3 +233,9 @@ div.blocker {
     margin: auto !important;
     text-align: center !important;
 }
+
+.ui-pg-selbox,
+.ui-pg-input,
+.ui-search-input{
+    color: #000000;
+}

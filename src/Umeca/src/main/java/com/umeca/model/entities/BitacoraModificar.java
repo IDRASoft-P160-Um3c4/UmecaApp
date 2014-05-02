@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 
-@Entity
-@Table(name="BITACORA_MODIFICACIONES")
+//@Entity
+//@Table(name="BITACORA_MODIFICACIONES")
 public class BitacoraModificar {
 
 	@Id

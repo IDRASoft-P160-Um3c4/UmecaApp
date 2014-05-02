@@ -56,16 +56,12 @@
 
         var m = $scope.m;
 
-
         $http({
             method: 'POST',
-            url: '/loginAccount.json',
-            data: JSON.stringify({
-                username: m.username,
-                password: m.password
-            }),
-            cache: false,
-            headers: {'Content-Type': 'application/json'}
+            url: '/j_spring_security_check',
+            data: $(formId).serialize()
+            ,cache: false
+            ,headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(onSuccess).error(onError);
     };
 });
