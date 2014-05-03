@@ -18,7 +18,7 @@
     </http>
 
     <authentication-manager>
-        <authentication-provider user-service-ref="userDetailServiceImpl" ref="">
+        <authentication-provider user-service-ref="userDetailServiceImpl">
             <password-encoder hash="bcrypt" />
         </authentication-provider>
     </authentication-manager>

@@ -1,7 +1,7 @@
 package com.umeca.service.account;
 
 import com.umeca.model.entities.account.Role;
-import com.umeca.repository.Account.UserRepository;
+import com.umeca.repository.account.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

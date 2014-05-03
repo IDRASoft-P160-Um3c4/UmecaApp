@@ -23,11 +23,12 @@
                     url: '<c:url value='/management/user/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Usuario', 'Acción'],
+                    colNames: ['ID', 'Usuario','Perfil', 'Acción'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
-                        { name: 'username', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                        { name: 'enabled', index: 'enabled', width: 500, align: "center", search: false }
+                        { name: 'username', index: 'username', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                        { name: 'role', index: 'role', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                        { name: 'enabled', index: 'enabled', width: 200, align: "center", search: false }
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],

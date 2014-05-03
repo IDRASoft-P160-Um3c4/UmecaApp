@@ -1,10 +1,7 @@
 package com.umeca.account;
 
 import org.junit.Test;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.lang.System;
 
 public class PasswordHash {
 

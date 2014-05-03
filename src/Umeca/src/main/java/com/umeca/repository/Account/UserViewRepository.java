@@ -1,4 +1,4 @@
-package com.umeca.repository.Account;
+package com.umeca.repository.account;
 
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,9 @@ import java.util.List;
  * Time: 10:16 PM
  */
 
-@Repository
+@Repository("userviewRepository")
 public class UserViewRepository {
+
     @PersistenceContext(unitName = "punit")
     private javax.persistence.EntityManager entityManager;
 
@@ -36,7 +38,7 @@ public class UserViewRepository {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<UserView> cq = cb.createQuery(UserView.class);
         Root<User> r = cq.from(User.class);
-        cq.multiselect(r.get("id"), r.get("username"), r.get("enabled"), r.get("roles").get("role"));
+        cq.multiselect(r.get("id"), r.get("username"), r.get("enabled"), r.join("roles").get("role"));
 
         if(StringExt.isNullOrWhiteSpace(opts.getSord()) == false && StringExt.isNullOrWhiteSpace(opts.getSidx())== false){
             if(opts.getSord().trim().toLowerCase().equals(EntitySpecification.JQGRID_ASC)){
@@ -51,23 +53,26 @@ public class UserViewRepository {
         Root<User> from = cqCount.from(User.class);
         CriteriaQuery<Long> selCount = cqCount.select(cb.count(from));
 
+        Predicate p = cb.conjunction();
+        p.getExpressions().add(cb.like(cb.lower(r.get("username").as(String.class)), "user r%"));
+        cq.where(p);
+
+        Predicate p1 = cb.conjunction();
+        p1.getExpressions().add(cb.like(cb.lower(from.get("username").as(String.class)), "user r%"));
+        selCount.where(p1);
+
         TypedQuery<Long> tqCount = entityManager.createQuery(selCount);
         TypedQuery<UserView> tqData = entityManager.createQuery(cq);
 
-
-
-//        return entityManager.createQuery(q).getResultList();
-//        Predicate p = cb.conjunction();
-//        p.
-
-        tqData.setFirstResult(opts.getPage() * opts.getRows());
+        tqData.setFirstResult((opts.getPage()-1) * opts.getRows());
         tqData.setMaxResults(opts.getRows());
 
         List<UserView> lstEnt = tqData.getResultList();
+        Long count = tqCount.getSingleResult();
 
-        result.setTotal((int)(tqCount.getSingleResult() / opts.getRows()) + 1);
+        result.setTotal((int)(count / opts.getRows()) + 1);
         result.setPage(opts.getPage());
-        result.setRecords(tqCount.getSingleResult());
+        result.setRecords(count);
 
         List<JqGridRowsModel> rows = new ArrayList<>();
 

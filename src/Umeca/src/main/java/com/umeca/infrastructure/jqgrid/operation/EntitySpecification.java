@@ -60,7 +60,31 @@ public class EntitySpecification<T> {
         };
     }
 
+    private void buildQuery(Predicate predicate, CriteriaBuilder builder, Root<T> ent, String filters) {
+        JqGridMultipleFilterModel filter;
+        try{
+            filter = JqgridObjectMapper.map(filters);
+            for(JqGridRulesModel rule : filter.getRules()){
+                //Por ahora sólo se aplican AND (conjuntion) entre las reglas y el operador LIKE (Búsqueda de comienza con...)
+                predicate.getExpressions().add(builder.like(builder.lower(ent.get(rule.field).as(String.class)), rule.data.trim().toLowerCase() + "%"));
+            }
+        }catch (Exception ex){
+            return;
+        }
 
+    }
+
+
+    public Sort orderBy(JqGridFilterModel opts) {
+        Sort sort;
+        if(opts.getSord().trim().toLowerCase().equals(JQGRID_ASC))
+            sort = new Sort(new Sort.Order(Sort.Direction.ASC, opts.getSidx()));
+        else
+            sort = new Sort(new Sort.Order(Sort.Direction.DESC, opts.getSidx()));
+        return sort;  //To change body of created methods use File | Settings | File Templates.
+    }
+
+    /*
     public Specification<User> byFilter(final String filters, final int i ){
         return new Specification<User>() {
             public Predicate toPredicate(Root<User> ent, CriteriaQuery<?> query, CriteriaBuilder builder) {
@@ -94,30 +118,8 @@ public class EntitySpecification<T> {
         }catch (Exception ex){
             return;
         }
-
     }
 
+    */
 
-    private void buildQuery(Predicate predicate, CriteriaBuilder builder, Root<T> ent, String filters) {
-        JqGridMultipleFilterModel filter;
-        try{
-            filter = JqgridObjectMapper.map(filters);
-            for(JqGridRulesModel rule : filter.getRules()){
-                //Por ahora sólo se aplican AND (conjuntion) entre las reglas y el operador LIKE (Búsqueda de comienza con...)
-                predicate.getExpressions().add(builder.like(builder.lower(ent.get(rule.field).as(String.class)), rule.data.trim().toLowerCase() + "%"));
-            }
-        }catch (Exception ex){
-            return;
-        }
-
-    }
-
-    public Sort orderBy(JqGridFilterModel opts) {
-        Sort sort;
-        if(opts.getSord().trim().toLowerCase().equals(JQGRID_ASC))
-            sort = new Sort(new Sort.Order(Sort.Direction.ASC, opts.getSidx()));
-        else
-            sort = new Sort(new Sort.Order(Sort.Direction.DESC, opts.getSidx()));
-        return sort;  //To change body of created methods use File | Settings | File Templates.
-    }
 }

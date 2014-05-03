@@ -1,22 +1,14 @@
 package com.umeca.controller.management;
 
-import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
-import com.umeca.infrastructure.jqgrid.model.JqGridRowsModel;
 import com.umeca.infrastructure.jqgrid.operation.JqGridPageSortFilter;
 import com.umeca.model.entities.account.Role;
-import com.umeca.model.entities.shared.EntityGrid;
-import com.umeca.repository.Account.RoleRepository;
+import com.umeca.repository.account.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Project: Umeca

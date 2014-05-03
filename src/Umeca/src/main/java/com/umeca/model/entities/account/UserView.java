@@ -23,10 +23,11 @@ public class UserView implements EntityGrid {
     private String role;
 
 
-    public UserView(Long id, String username, Boolean enabled){
+    public UserView(Long id, String username, Boolean enabled, String role){
         this.id = id;
         this.username = username;
         this.enabled = enabled;
+        this.role = role;
     }
 
 

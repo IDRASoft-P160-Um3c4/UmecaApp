@@ -24,12 +24,6 @@
         <listener-class>com.umeca.infrastructure.InitListener</listener-class>
     </listener>
 
-
-    <context-param>
-        <param-name></param-name>
-        <param-value></param-value>
-    </context-param>
-
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>

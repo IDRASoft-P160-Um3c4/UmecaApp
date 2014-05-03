@@ -48,8 +48,8 @@ public class JqGridPageSortFilter<T extends EntityGrid> {
             row.setCell(entity);
             rows.add(row);
         }
-        result.setRows(rows);
 
+        result.setRows(rows);
         return result;
 
 
