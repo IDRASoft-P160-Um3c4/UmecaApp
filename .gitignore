@@ -8,3 +8,5 @@
 [Tt]arget/
 *.class
 
+src/Umeca.rar
+*.classpath
