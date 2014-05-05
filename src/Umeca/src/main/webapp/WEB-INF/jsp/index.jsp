@@ -2,7 +2,7 @@
 <HTML lang="es-ES">
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/head.jsp"%>
+    <%@ include file="/WEB-INF/jsp/shared/headAce.jsp"%>
 </head>
 <body scroll="no" ng-app="ptlUmc">
     <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
