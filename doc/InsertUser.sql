@@ -1,4 +1,4 @@
-insert into user (username, password, enabled) values ("administrador", "$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm", true);
+insert into user (username, password, email, fullname, enabled) values ("administrador", "$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm", true);
 insert into role (role, description) values ("ROLE_ADMIN", "Administradores");
 insert into role (role, description) values ("ROLE_USER", "Usuario");
 insert into user_role (id_user, id_role) values (1,1);
