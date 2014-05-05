@@ -1,4 +1,4 @@
-package com.umeca.model.entities.shared;
+package com.umeca.model.shared;
 
 /**
  * Project: Umeca

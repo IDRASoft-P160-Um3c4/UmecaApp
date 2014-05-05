@@ -10,7 +10,7 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headGrid.jsp"%>
-<title>Roles</title>
+<title>Perfiles</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
     <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -53,7 +53,7 @@
 
         </script>
 
-        <h2 class="element-center"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Roles</h2>
+        <h2 class="element-center"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Perfiles</h2>
 
         <div id="angJsjqGridId" ng-controller="modalDlgController">
             <table id="GridId" class="element-center" style="margin: auto"></table>

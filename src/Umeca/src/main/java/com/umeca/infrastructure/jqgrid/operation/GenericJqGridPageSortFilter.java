@@ -3,7 +3,7 @@ package com.umeca.infrastructure.jqgrid.operation;
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.infrastructure.jqgrid.mapper.JqgridObjectMapper;
 import com.umeca.infrastructure.jqgrid.model.*;
-import com.umeca.model.entities.shared.EntityGrid;
+import com.umeca.model.shared.EntityGrid;
 import com.umeca.repository.shared.SelectFilterFields;
 import org.springframework.stereotype.Repository;
 

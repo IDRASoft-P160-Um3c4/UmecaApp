@@ -1,6 +1,6 @@
 package com.umeca.model.entities.account;
 
-import com.umeca.model.entities.shared.EntityGrid;
+import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,6 +26,12 @@ public class User implements EntityGrid {
 
     @Column(name="password", length = 1000, nullable = false)
     private String password;
+
+    @Column(name="fullname", length = 500, nullable = false)
+    private String fullname;
+
+    @Column(name="email", length = 1000, nullable = false)
+    private String email;
 
     @Column(name="enabled", nullable = false)
     private Boolean enabled;

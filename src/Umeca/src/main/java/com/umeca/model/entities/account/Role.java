@@ -1,6 +1,6 @@
 package com.umeca.model.entities.account;
 
-import com.umeca.model.entities.shared.EntityGrid;
+import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
 

@@ -1,9 +1,6 @@
 package com.umeca.model.entities.account;
 
-import com.umeca.model.entities.shared.EntityGrid;
-
-import javax.persistence.*;
-import java.util.List;
+import com.umeca.model.shared.EntityGrid;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,16 +17,21 @@ public class UserView implements EntityGrid {
 
     private Boolean enabled;
 
+    private String fullname;
+
+    private String email;
+
     private String role;
 
 
-    public UserView(Long id, String username, Boolean enabled, String role){
+    public UserView(Long id, String username, String fullname, String email, Boolean enabled, String role){
         this.id = id;
         this.username = username;
         this.enabled = enabled;
+        this.fullname = fullname;
+        this.email = email;
         this.role = role;
     }
-
 
     public Long getId() {
         return id;
@@ -61,5 +63,21 @@ public class UserView implements EntityGrid {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

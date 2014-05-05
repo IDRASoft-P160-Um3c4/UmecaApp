@@ -1,17 +1,18 @@
 package com.umeca.controller.management;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.account.UserView;
+import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
@@ -47,6 +48,8 @@ public class UserController {
                 return new ArrayList<Selection<?>>(){{
                     add(r.get("id"));
                     add(r.get("username"));
+                    add(r.get("fullname"));
+                    add(r.get("email"));
                     add(r.get("enabled"));
                     add(r.join("roles").get("role"));
                 }};
@@ -62,5 +65,21 @@ public class UserController {
 
         return result;
 
+    }
+
+    @Qualifier("qRoleRepository")
+    @Autowired
+    RoleRepository repositoryRole;
+
+    @RequestMapping(value = "/management/user/upsert", method = RequestMethod.POST)
+    public ModelAndView upsert(@RequestParam(required = false) Long id){
+        ModelAndView model = new ModelAndView("/management/user/upsert");
+
+        Gson gson = new Gson();
+        String lstRoles = gson.toJson(repositoryRole.findSelectList());
+
+        model.addObject("lstRoles", lstRoles);
+
+        return model;
     }
 }

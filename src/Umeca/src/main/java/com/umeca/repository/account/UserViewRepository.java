@@ -7,7 +7,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRowsModel;
 import com.umeca.infrastructure.jqgrid.operation.EntitySpecification;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.account.UserView;
-import com.umeca.model.entities.shared.EntityGrid;
+import com.umeca.model.shared.EntityGrid;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.PersistenceContext;
