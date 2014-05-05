@@ -19,13 +19,12 @@ public class AjaxAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)throws IOException, ServletException {
         String contentType = request.getHeader("Content-Type");
-        if ("application/json".equals(contentType) || "application/x-www-form-urlencoded".equals(contentType)) {
+        //if ("application/json".equals(contentType) || "application/x-www-form-urlencoded".equals(contentType)) {
             SecurityContextHolder.getContext().setAuthentication(auth);
-
-            response.getWriter().print("{\"hasError\":false,\"message\":\"\",\"urlToGo\":\"/index.html\"}");
+              response.getWriter().print("{\"hasError\":false,\"message\":\"\",\"urlToGo\":\"/index.html\"}");
             response.getWriter().flush();
-        } else {
-            super.onAuthenticationSuccess(request, response, auth);
-        }
+
+        //    super.onAuthenticationSuccess(request, response, auth);
+
     }
 }
