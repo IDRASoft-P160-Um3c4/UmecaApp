@@ -11,18 +11,18 @@
                 </li>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administración <b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administraciï¿½n <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="/management/role/index.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Perfiles</a></li>
                             <li><a href="/management/user/index.html"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Usuarios</a></li>
                         </ul>
                     </li>
                 </sec:authorize>
-                <sec:authorize access="hasRole('ROLE_USER')">
+                <sec:authorize access="hasRole('ROLE_REVIEWER')">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administraciï¿½n <b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Evaluador <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/management/role/index.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;jqGrid</a></li>
+                            <li><a href="/reviewer/meeting/index.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Entevista</a></li>
 
                         </ul>
                     </li>
