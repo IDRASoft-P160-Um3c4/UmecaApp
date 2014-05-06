@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!--
 * Project: Umeca
@@ -9,7 +9,7 @@
 
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headGrid.jsp"%>
+    <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
 <title>Perfiles</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -37,10 +37,18 @@
                     viewrecords: true,
                     shrinkToFit: false,
                     sortorder: "desc",
-                    caption: "&nbsp;"
+                    caption: "&nbsp;",
+                    altRows: true,
+                    loadComplete : function() {
+                        var table = this;
+                        setTimeout(function(){
+                            updatePagerIcons(table);
+                            enableTooltips(table);
+                        }, 0);
+                    }
                 });
                                                              0
-                jQuery("#GridId").jqGrid('navGrid', '#GridPager', { edit: false, add: false, del: false, search: false});
+                jQuery("#GridId").jqGrid('navGrid', '#GridPager', { edit: false, add: false, del: false, search: false, refreshicon : 'icon-refresh green'});
 
                 jQuery("#GridId").jqGrid('filterToolbar', {
                     stringResult: true,

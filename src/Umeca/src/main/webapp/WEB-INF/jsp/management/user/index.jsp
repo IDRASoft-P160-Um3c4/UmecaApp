@@ -9,7 +9,7 @@
 
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headGrid.jsp"%>
+    <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
     <title>Usuarios</title>
 </head>
@@ -51,6 +51,7 @@
                     shrinkToFit: false,
                     sortorder: "desc",
                     caption: "&nbsp;",
+                    altRows: true,
                     gridComplete: function () {
                         var ids = $(this).jqGrid('getDataIDs');
                         for (var i = 0; i < ids.length; i++) {
@@ -66,10 +67,22 @@
                             }
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }
+                    },
+                    loadComplete : function() {
+                        var table = this;
+                        setTimeout(function(){
+                            updatePagerIcons(table);
+                            enableTooltips(table);
+                        }, 0);
                     }
                 });
 
-                jQuery("#GridId").jqGrid('navGrid', '#GridPager', { edit: false, add: true, del: false, search: false, addfunc: window.upsert});
+                jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
+                    edit: false, editicon : 'icon-pencil blue',
+                    add: true, addfunc: window.upsert, addicon : 'icon-plus-sign purple',
+                    refresh: true, refreshicon : 'icon-refresh green',
+                    del: false,
+                    search: false});
 
                 jQuery("#GridId").jqGrid('filterToolbar', {
                     stringResult: true,

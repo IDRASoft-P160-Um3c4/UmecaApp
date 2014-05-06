@@ -239,3 +239,11 @@ div.blocker {
 .ui-search-input{
     color: #000000;
 }
+
+.ui-jqgrid-bdiv{
+    border: 1px solid rgb(225, 225, 225) !important;
+}
+
+.ui-jqgrid-sortable{
+    text-align: center;
+}

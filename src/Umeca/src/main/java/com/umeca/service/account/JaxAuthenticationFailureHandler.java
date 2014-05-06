@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Service
-public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-    public AjaxAuthenticationFailureHandler() {
+public class JaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+    public JaxAuthenticationFailureHandler() {
     }
 
     @Override

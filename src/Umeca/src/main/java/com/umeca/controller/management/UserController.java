@@ -51,14 +51,14 @@ public class UserController {
                     add(r.get("fullname"));
                     add(r.get("email"));
                     add(r.get("enabled"));
-                    add(r.join("roles").get("role"));
+                    add(r.join("roles").get("description"));
                 }};
             }
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if(field.equals("role"))
-                    return r.join("roles").get("role");
+                    return r.join("roles").get("description");
                 return null;
             }
         }, User.class, UserView.class);

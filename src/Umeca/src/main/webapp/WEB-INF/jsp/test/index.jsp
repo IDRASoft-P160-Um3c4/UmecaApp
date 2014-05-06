@@ -9,7 +9,7 @@
 
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headAce.jsp"%>
+    <%@ include file="/WEB-INF/jsp/shared/headUm.jsp"%>
 <title>Perfiles</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
