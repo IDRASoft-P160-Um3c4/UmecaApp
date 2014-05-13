@@ -5,18 +5,18 @@
 <META http-equiv="X-UA-Compatible" content="IE=9, IE=10" name="description" />
 <title>UMECA</title>
 
-<link href="../../assets/content/Site.css" rel="stylesheet" type="text/css">
-<link href="../../assets/content/bootstrap.css" rel="stylesheet" />
-<link href="../../assets/content/bootstrap.theme.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/assets/content/Site.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/content/bootstrap.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/assets/content/bootstrap.theme.css" rel="stylesheet" />
 
-<script src="../../assets/scripts/modernizr-2.6.2.js"></script>
-<script src="../../assets/scripts/jquery-1.10.2.min.js"></script>
-<script src="../../assets/scripts/angular/angular.min.js"></script>
-<script src="../../assets/scripts/bootstrap.min.js"></script>
-<script src="../../assets/scripts/respond.min.js"></script>
-<script src="../../assets/scripts/jquery.validate.min.js"></script>
-<script src="../../assets/scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="../../assets/scripts/app/shared/mainApp.js"></script>
-<script src="../../assets/scripts/app/shared/menuCtrl.js"></script>
-<script src="../../assets/scripts/app/shared/loginCtrl.js"></script>
-<script src="../../assets/scripts/common.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/modernizr-2.6.2.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/jquery-1.10.2.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/angular/angular.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/respond.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/mainApp.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/menuCtrl.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/loginCtrl.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/common.js"></script>

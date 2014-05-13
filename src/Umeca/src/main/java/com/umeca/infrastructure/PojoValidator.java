@@ -16,29 +16,27 @@ public class PojoValidator {
 		Set<ConstraintViolation<T>> violations = validator.validate(pojo);
 
 		for (ConstraintViolation<T> constraintViolation : violations) {
-            //String propertyPath = constraintViolation.getPropertyPath().toString();
             String message = constraintViolation.getMessage();
-            //return new ResponseMessage(false, message);
-            return new ResponseMessage();
+            return new ResponseMessage(true, message);
         }
 		
 		return null;
 	}
 
     public static <T> String validateConcat(T pojo){
-        String cadena=new String("");
+        String cadMsg = new String("");
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<T>> violations = validator.validate(pojo);
 
         for (ConstraintViolation<T> constraintViolation : violations) {
             String message = constraintViolation.getMessage();
-            cadena=cadena+message;
+            cadMsg = cadMsg + message;
         }
 
-        if(cadena.trim().equals(""))
+        if(cadMsg.trim().equals(""))
             return null;
         else
-            return cadena;
+            return cadMsg;
     }
 }

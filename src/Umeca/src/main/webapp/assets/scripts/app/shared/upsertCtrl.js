@@ -27,14 +27,14 @@
         $scope.WaitFor = false;
 
         try {
-            if (resp.HasError === false) {
+            if (resp.hasError === false) {
                 $rootScope.$broadcast("onLastId", resp.Id);
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({ isCancel: false });
                 return;
             }
 
-            $scope.MsgError = resp.Message;
+            $scope.MsgError = resp.message;
             $scope.$apply();
 
         } catch (e) {
@@ -47,13 +47,13 @@
         $scope.WaitFor = false;
 
         try {
-            if (resp.HasError === false) {
+            if (resp.hasError === false) {
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({ isCancel: false });
                 return;
             }
 
-            $scope.MsgError = resp.Message;
+            $scope.MsgError = resp.message;
             $scope.$apply();
 
         } catch (e) {

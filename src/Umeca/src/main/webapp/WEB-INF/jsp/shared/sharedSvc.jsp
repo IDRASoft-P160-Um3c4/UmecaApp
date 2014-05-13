@@ -34,7 +34,7 @@
         //Dialogo para mensajes con acciones de éxito, información, advertencia o error
         var dlgMsgBox = $('#MessageBoxDlgId');
 
-        this.cfgMsg = { Title: '', Message: '', Type: '' };
+        this.cfgMsg = { title: '', message: '', type: '' };
         this.respMsg = {};
 
         this.showDlg = function (cfg) {
@@ -88,9 +88,9 @@
         $scope.sharedSvc = sharedSvc;
 
         $scope.$watch('sharedSvc.cfgMsg', function (cfg) {
-            $scope.Title = cfg.Title;
-            $scope.Message = $sce.trustAsHtml(cfg.Message);
-            $scope.Type = cfg.Type;
+            $scope.Title = cfg.title;
+            $scope.Message = $sce.trustAsHtml(cfg.message);
+            $scope.Type = cfg.type;
         });
 
         $scope.ok = function () {
@@ -104,9 +104,9 @@
         $scope.sharedSvc = sharedSvc;
 
         $scope.$watch('sharedSvc.cfgMsg', function (cfg) {
-            $scope.Title = cfg.Title;
-            $scope.Message = $sce.trustAsHtml(cfg.Message);
-            $scope.Type = cfg.Type;
+            $scope.Title = cfg.title;
+            $scope.Message = $sce.trustAsHtml(cfg.message);
+            $scope.Type = cfg.type;
         });
 
         $scope.yes = function() {

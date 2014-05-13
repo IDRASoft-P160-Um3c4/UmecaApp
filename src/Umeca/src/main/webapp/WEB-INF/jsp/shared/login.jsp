@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="login('#loginForm', 'Error de red. Intente más tarde')">Ingresar</span>
+                        <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="login('#loginForm', 'Error de red. Intente más tarde')">Ingresar</button>
                     </div>
                 </div>
             </div>

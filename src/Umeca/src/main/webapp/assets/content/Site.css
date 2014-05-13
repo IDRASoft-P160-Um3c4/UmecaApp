@@ -247,3 +247,7 @@ div.blocker {
 .ui-jqgrid-sortable{
     text-align: center;
 }
+
+.error{
+    color: orangered;
+}

@@ -3,6 +3,8 @@ package com.umeca.repository.account;
 import com.umeca.model.entities.account.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,7 +13,16 @@ import org.springframework.stereotype.Repository;
  * Date: 5/2/14
  * Time: 8:10 PM
  */
-@Repository("userRepository")
+@Repository("qUserRepository")
 public interface UserRepository extends JpaRepository<User, Long>{
-    User findByUsername(String username);
+
+    @Query("SELECT u FROM User u WHERE u.username=:username AND u.enabled = true")
+    User findByUsername(@Param("username")String username);
+
+    @Query("SELECT COUNT(u.id) FROM User u WHERE u.username=:username AND u.id<>:id")
+    Long countByUsername(@Param("username")String username, @Param("id")Long id);
+
+    @Query("SELECT u.id FROM User u WHERE u.username=:username")
+    Long findIdByUsername(@Param("username")String username);
+
 }

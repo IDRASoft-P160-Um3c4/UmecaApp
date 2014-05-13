@@ -25,9 +25,9 @@
             error: function() {
                 sharedSvc.showMsg(
                     {
-                        Title: "Error de red",
-                        Message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
-                        Type: "danger"
+                        title: "Error de red",
+                        message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
+                        type: "danger"
                     }).then(function () { def.reject({ isError: true }); });
                 $scope.$apply(function () { $scope.working = false; });
             }
@@ -39,7 +39,7 @@
 
     $scope.doConfirm = function (data, urlToGo) {
         var def = $q.defer();
-        sharedSvc.showConf({ Title: "Confirmación de Servicio", Message: "¿Está seguro que desea de confirmar el uso del servicio?", Type: "warning" }).
+        sharedSvc.showConf({ title: "Confirmación de Servicio", message: "¿Está seguro que desea de confirmar el uso del servicio?", type: "warning" }).
             then(function () {
                 $scope.doPost(data, urlToGo, def);
             }, def.reject);
@@ -48,16 +48,29 @@
     
     $scope.doCancelDocument = function (data, urlToGo, folio) {
         var def = $q.defer();
-        sharedSvc.showConf({ Title: "Confirmación de cancelación de documento", Message: "¿Está seguro que desea cancelar el documento con folio "+folio+"?", Type: "warning" }).
+        sharedSvc.showConf({ title: "Confirmación de cancelación de documento", message: "¿Está seguro que desea cancelar el documento con folio "+folio+"?", type: "warning" }).
             then(function () {
                 $scope.doPost(data, urlToGo, def);
             }, def.reject);
         return def.promise;
     };
-    
+
     $scope.doObsolete = function(data, urlToGo) {
         var def = $q.defer();
-        sharedSvc.showConf({ Title: "Eliminar registro", Message: "¿Está seguro de que desea eliminar el registro?", Type: "danger" }).
+        sharedSvc.showConf({ title: "Eliminar registro", message: "¿Está seguro de que desea eliminar el registro?", type: "danger" }).
+            then(function() {
+                $scope.doPost(data, urlToGo, def);
+            }, def.reject);
+        return def.promise;
+    };
+
+
+    $scope.doAction = function(data, urlToGo, title, message, type) {
+        if(type == undefined)
+            type = "danger";
+
+        var def = $q.defer();
+        sharedSvc.showConf({ title: title, message: message, type: type }).
             then(function() {
                 $scope.doPost(data, urlToGo, def);
             }, def.reject);
@@ -71,12 +84,12 @@
             url: urlToGo,
             data: data,
             success: function (resp) {
-                if (resp.HasError === true) {
+                if (resp.hasError === true) {
                     sharedSvc.showMsg(
                         {
-                            Title: resp.Title,
-                            Message: resp.Message,
-                            Type: "danger"
+                            title: resp.title,
+                            message: resp.message,
+                            type: "danger"
                         }).then(function () { def.reject({ isError: true }); });
                 }
                 else {
@@ -86,9 +99,9 @@
             error: function () {
                 sharedSvc.showMsg(
                     {
-                        Title: "Error de red",
-                        Message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
-                        Type: "danger"
+                        title: "Error de red",
+                        message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
+                        type: "danger"
                     }).then(function () { def.reject({ isError: true }); });
             }
         };

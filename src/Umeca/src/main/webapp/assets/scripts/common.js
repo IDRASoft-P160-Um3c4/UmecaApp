@@ -42,6 +42,11 @@ window.showObsolete = function (id, divScope, urlToGo, jqGridToUse) {
         then(function () { $(jqGridToUse).trigger("reloadGrid"); });
 };
 
+window.showAction = function (id, divScope, urlToGo, jqGridToUse, title, message, type) {
+    var scope = angular.element($(divScope)).scope();
+    scope.doAction({ id: id }, urlToGo, title, message, type).
+        then(function () { $(jqGridToUse).trigger("reloadGrid"); });
+};
 
 window.showModalFormDlg = function (divModalid, formId) {
     var dlgCat = $(divModalid);

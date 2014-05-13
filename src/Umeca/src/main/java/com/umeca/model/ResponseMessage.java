@@ -7,6 +7,13 @@ public class ResponseMessage {
     private String urlToGo;
     private String title;
 
+    public ResponseMessage(){
+    }
+
+    public ResponseMessage(boolean hasError, String message){
+        this.hasError = hasError;
+        this.message = message;
+    }
 
     public boolean isHasError() {
         return hasError;
