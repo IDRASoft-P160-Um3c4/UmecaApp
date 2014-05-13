@@ -8,7 +8,7 @@
 <script>
     app.service('sharedSvc', function ($timeout, $q) {
 
-        //Dialogo para la espera de algÃºn evento
+        //Dialogo para la espera de algún evento
         var dlgProcessing = $('#ProcessingDlgId');
         var th = this;
         this.cfgProc = { toProcessing: undefined, procCount: 0 };
@@ -31,7 +31,7 @@
             dlgProcessing.modal('hide');
         };
 
-        //Dialogo para mensajes con acciones de Ã©xito, informaciÃ³n, advertencia o error
+        //Dialogo para mensajes con acciones de éxito, información, advertencia o error
         var dlgMsgBox = $('#MessageBoxDlgId');
 
         this.cfgMsg = { title: '', message: '', type: '' };
