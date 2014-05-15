@@ -10,6 +10,7 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/uniqueDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
     <title>Usuarios</title>
 </head>
@@ -23,8 +24,13 @@
                 window.showUpsert(id, "#angJsjqGridId", "/management/user/upsert.html", "#GridId");
             };
 
-            window.obsolete = function (id) {
-                window.showObsolete(id, "#angJsjqGridId", "/management/user/obsolete.json", "#GridId");
+            window.disable = function (id) {
+                window.showAction(id, "#angJsjqGridId", "/management/user/disable.json", "#GridId", "Deshabilitar usuario", "¿Desea deshabilitar al usuario?", "warning");
+            };
+
+
+            window.enable = function (id) {
+                window.showAction(id, "#angJsjqGridId", "/management/user/enable.json", "#GridId", "Habilitar usuario", "¿Desea habilitar al usuario?", "warning");
             };
 
             $(document).ready(function() {
@@ -61,9 +67,9 @@
                             var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
                             if (enabled == "true") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.enable('" + cl + "');\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.disable('" + cl + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
                             }else{
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Habilitar usuario\" onclick=\"window.disable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Habilitar usuario\" onclick=\"window.enable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok\"></span></a>";
                             }
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

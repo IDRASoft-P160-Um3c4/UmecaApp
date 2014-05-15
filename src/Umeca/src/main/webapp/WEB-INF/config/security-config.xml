@@ -12,6 +12,7 @@
         <intercept-url pattern="/index.html" access="permitAll" />
         <intercept-url pattern="/management/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/reviewer/**" access="hasRole('ROLE_REVIEWER')" />
+        <intercept-url pattern="/**" access="hasRole('ROLE_NOTUSE')" />
         <form-login login-page="/index.html"
                     authentication-success-handler-ref="ajaxAuthenticationSuccessHandler"
                     authentication-failure-handler-ref="ajaxAuthenticationFailureHandler"/>

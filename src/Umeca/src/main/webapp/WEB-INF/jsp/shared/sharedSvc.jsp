@@ -8,7 +8,7 @@
 <script>
     app.service('sharedSvc', function ($timeout, $q) {
 
-        //Dialogo para la espera de algÃºn evento
+        //Dialogo para la espera de algún evento
         var dlgProcessing = $('#ProcessingDlgId');
         var th = this;
         this.cfgProc = { toProcessing: undefined, procCount: 0 };
@@ -31,10 +31,10 @@
             dlgProcessing.modal('hide');
         };
 
-        //Dialogo para mensajes con acciones de Ã©xito, informaciÃ³n, advertencia o error
+        //Dialogo para mensajes con acciones de éxito, información, advertencia o error
         var dlgMsgBox = $('#MessageBoxDlgId');
 
-        this.cfgMsg = { Title: '', Message: '', Type: '' };
+        this.cfgMsg = { title: '', message: '', type: '' };
         this.respMsg = {};
 
         this.showDlg = function (cfg) {
@@ -88,9 +88,9 @@
         $scope.sharedSvc = sharedSvc;
 
         $scope.$watch('sharedSvc.cfgMsg', function (cfg) {
-            $scope.Title = cfg.Title;
-            $scope.Message = $sce.trustAsHtml(cfg.Message);
-            $scope.Type = cfg.Type;
+            $scope.Title = cfg.title;
+            $scope.Message = $sce.trustAsHtml(cfg.message);
+            $scope.Type = cfg.type;
         });
 
         $scope.ok = function () {
@@ -104,9 +104,9 @@
         $scope.sharedSvc = sharedSvc;
 
         $scope.$watch('sharedSvc.cfgMsg', function (cfg) {
-            $scope.Title = cfg.Title;
-            $scope.Message = $sce.trustAsHtml(cfg.Message);
-            $scope.Type = cfg.Type;
+            $scope.Title = cfg.title;
+            $scope.Message = $sce.trustAsHtml(cfg.message);
+            $scope.Type = cfg.type;
         });
 
         $scope.yes = function() {

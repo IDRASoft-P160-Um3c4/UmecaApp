@@ -1,6 +1,7 @@
 package com.umeca.model.entities.account;
 
 import com.umeca.model.shared.EntityGrid;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,19 +23,30 @@ public class User implements EntityGrid {
     private Long id;
 
     @Column(name="username", unique = true, length = 200, nullable = false)
+    @NotEmpty(message="El usuario es un campo requerido")
     private String username;
 
     @Column(name="password", length = 1000, nullable = false)
+    @NotEmpty(message="Contraseña es un campo requerido")
     private String password;
 
+    @Transient
+    @NotEmpty(message="Confirmación es un campo requerido")
+    private String confirm;
+
     @Column(name="fullname", length = 500, nullable = false)
+    @NotEmpty(message="Nombre completo es un campo requerido")
     private String fullname;
 
     @Column(name="email", length = 1000, nullable = false)
+    @NotEmpty(message="Correo electrónico es un campo requerido")
     private String email;
 
     @Column(name="enabled", nullable = false)
     private Boolean enabled;
+
+    @Transient
+    private Boolean hasChangePass;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="user_role", joinColumns ={@JoinColumn(name = "id_user")}, inverseJoinColumns = {@JoinColumn(name = "id_role")})
@@ -79,5 +91,37 @@ public class User implements EntityGrid {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getHasChangePass() {
+        return hasChangePass;
+    }
+
+    public void setHasChangePass(Boolean hasChangePass) {
+        this.hasChangePass = hasChangePass;
     }
 }

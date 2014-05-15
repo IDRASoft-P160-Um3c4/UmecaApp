@@ -1,9 +1,14 @@
-insert into user (username, password, email, fullname, enabled) values ("administrador", "$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm", true);
+insert into user (username, password, email, fullname, enabled) values ("administrador", "$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm", 'admin@admin.com', 'Administrador sistema', true);
 insert into role (role, description) values ("ROLE_ADMIN", "Administradores");
 insert into role (role, description) values ("ROLE_USER", "Usuario");
 insert into user_role (id_user, id_role) values (1,1);
 
+insert into user (username, password, email, fullname, enabled) values ("usuario", "$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm", 'admin@admin.com', 'Administrador sistema', true);
+insert into user_role (id_user, id_role) values (2,1);
 
+
+insert into role (role, description) values ("ROLE_SUPERVISOR", "Supervisor");
+insert into role (role, description) values ("ROLE_REVIEWER", "Revisor");
 
 
 insert into role (role, description) values ("ROLE_USER1", "Usuario1");

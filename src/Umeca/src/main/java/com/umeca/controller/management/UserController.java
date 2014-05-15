@@ -1,12 +1,18 @@
 package com.umeca.controller.management;
 
 import com.google.gson.Gson;
+import com.umeca.infrastructure.PojoValidator;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.infrastructure.security.BcryptUtil;
+import com.umeca.model.ResponseMessage;
+import com.umeca.model.ResponseUniqueMessage;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.account.UserUnique;
 import com.umeca.model.entities.account.UserView;
 import com.umeca.repository.account.RoleRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -67,19 +73,145 @@ public class UserController {
 
     }
 
+
     @Qualifier("qRoleRepository")
     @Autowired
     RoleRepository repositoryRole;
 
     @RequestMapping(value = "/management/user/upsert", method = RequestMethod.POST)
     public ModelAndView upsert(@RequestParam(required = false) Long id){
-        ModelAndView model = new ModelAndView("/management/user/upsert");
+        ModelAndView modelView = new ModelAndView("/management/user/upsert");
 
         Gson gson = new Gson();
         String lstRoles = gson.toJson(repositoryRole.findSelectList());
 
-        model.addObject("lstRoles", lstRoles);
+        modelView.addObject("lstRoles", lstRoles);
 
-        return model;
+        if(id != null)
+        {
+            User model = repositoryUser.findOne(id);
+            modelView.addObject("model", model);
+
+            if(model.getRoles().size() > 0 )
+                modelView.addObject("roleId", model.getRoles().get(0).getId());
+        }
+
+        return modelView;
+    }
+
+
+
+    @Qualifier("qUserRepository")
+    @Autowired
+    UserRepository repositoryUser;
+
+    @RequestMapping(value = "/management/user/doUpsert", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage doUpsert(@ModelAttribute User modelNew){
+
+        ResponseMessage response = new ResponseMessage();
+
+        try{
+            User model;
+
+            if(modelNew.getId() > 0) {
+                model = repositoryUser.findOne(modelNew.getId());
+                model.setUsername(modelNew.getUsername());
+                model.setEmail(modelNew.getEmail());
+                model.setFullname(modelNew.getFullname());
+                model.getRoles().clear();
+                model.setRoles(modelNew.getRoles());
+
+                if(modelNew.getHasChangePass()){
+                    model.setPassword(modelNew.getPassword());
+                    model.setConfirm(modelNew.getConfirm());
+                }
+                else{
+                    model.setConfirm(model.getPassword());
+                }
+            }
+            else{
+                model = modelNew;
+                model.setEnabled(true);
+            }
+
+            ResponseMessage resp = PojoValidator.validate(model);
+            if(resp != null)
+                return resp;
+
+            if(model.getId() <= 0 || modelNew.getHasChangePass())
+                model.setPassword(BcryptUtil.encode(modelNew.getPassword()));
+
+            Long idUser = repositoryUser.findIdByUsername(model.getUsername());
+
+            if(idUser != null && idUser != model.getId()){
+                response.setHasError(true);
+                response.setMessage("El usuario ya existe, por favor elija otro usuario");
+                return response;
+            }
+
+            repositoryUser.save(model);
+            response.setHasError(false);
+        }catch (Exception ex){
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        }
+
+        return response;
+    }
+
+    @RequestMapping(value = "/management/user/isUserAvailable", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseUniqueMessage isUserAvailable(@RequestBody UserUnique model){
+
+        ResponseUniqueMessage response = new ResponseUniqueMessage();
+
+        try{
+            Long count = repositoryUser.countByUsername(model.getUsername(), model.getId());
+            if(count != null && count > 0)
+                response.setUnique(false);
+            else
+                response.setUnique(true);
+
+        }catch (Exception ex){
+            response.setUnique(false);
+        }
+
+        return response;
+    }
+
+
+    @RequestMapping(value = "/management/user/disable", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage disable(@RequestParam Long id){
+        return EnableUser(id, false);
+    }
+
+
+    @RequestMapping(value = "/management/user/enable", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage enable(@RequestParam Long id){
+        return EnableUser(id, true);
+    }
+
+    private ResponseMessage EnableUser(Long id, boolean bIsEnabled) {
+        ResponseMessage response = new ResponseMessage();
+        try{
+            User model = repositoryUser.findOne(id);
+
+            if(model == null){
+                response.setHasError(true);
+                response.setMessage("Por favor revise que el registro exista e intente de nuevo");
+                return response;
+            }
+
+            model.setEnabled(bIsEnabled);
+            repositoryUser.save(model);
+            response.setHasError(false);
+
+        }catch (Exception ex){
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise que el registro exista e intente de nuevo");
+        }
+        return response;
     }
 }
