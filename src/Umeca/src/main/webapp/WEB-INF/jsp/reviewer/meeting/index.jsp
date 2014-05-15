@@ -20,7 +20,7 @@
 
     <script>
         window.upsert = function(id) {
-            window.showUpsert(id, "#angJsjqGridId", "/management/user/upsert.html", "#GridId");
+            window.showUpsert(id, "#angJsjqGridId", "/reviewer/meeting/newMeeting.html", "#GridId", "/reviewer/meeting/meeting.html");
         };
 
         window.obsolete = function (id) {
@@ -32,7 +32,7 @@
                 url: '<c:url value='/management/user/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Usuario','Nombre completo','Correo electrï¿½nico','Perfil', 'Habilitado', 'Acciï¿½n'],
+                colNames: ['ID', 'Usuario','Nombre completo','Correo electrónico','Perfil', 'Habilitado', 'Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'username', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -95,7 +95,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Usuarios</h2>
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevistas de evaluación de riesgos procesales</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

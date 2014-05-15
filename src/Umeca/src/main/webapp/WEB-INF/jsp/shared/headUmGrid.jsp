@@ -9,7 +9,6 @@
 <link href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap.min.css" rel="stylesheet" type="text/css">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/jquery-ui-1.10.3.full.min.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/ui.jqgrid.css" />
 
 <link href="${pageContext.request.contextPath}/assets/content/themes/umeca/ace-fonts.css" rel="stylesheet" type="text/css">
@@ -32,7 +31,7 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/typeahead-bs2.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/jqGrid/jquery.jqGrid.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/jqGrid/i18n/grid.locale-es.js"></script>
 

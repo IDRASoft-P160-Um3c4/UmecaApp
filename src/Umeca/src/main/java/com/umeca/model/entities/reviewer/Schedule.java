@@ -21,7 +21,7 @@ public class Schedule {
     @Column(name="monday", nullable = false)
     private Boolean monday;
 
-    @Column(name="monday_start", nullable = true)
+    @Column(name="monday_start",  nullable = true)
     private Time mondayStart;
 
     @Column(name="monday_end", nullable = true)

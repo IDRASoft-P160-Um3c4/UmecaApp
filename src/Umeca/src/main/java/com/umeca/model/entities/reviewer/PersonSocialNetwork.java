@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.Catalog.DocumentType;
+import com.umeca.model.Catalog.Election;
 import com.umeca.model.Catalog.Relationship;
 
 import javax.persistence.*;
@@ -8,41 +9,50 @@ import javax.persistence.*;
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
- * Date: 8/05/14
- * Time: 01:16 PM
+ * Date: 13/05/14
+ * Time: 11:59 AM
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="reference")
-public class Reference {
+@Table(name = "person_social_network")
+public class PersonSocialNetwork {
+
     @Id
     @GeneratedValue
-    @Column(name="id_reference")
+    @Column(name = "id_person_social")
     private Long id;
 
     @Column(name="name", length = 150, nullable = false)
     private String name;
 
-    @Column(name="age", nullable = false)
-    private Integer age;
-
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="id_relationship", nullable = false)
     private Relationship relationship;
 
-    @Column(name="address", length = 250, nullable = true)
-    private String address;
+    @Column(name="age", nullable = false)
+    private Integer age;
 
-    @Column(name="phone", length = 10, nullable =true)
+    @Column(name="phone", nullable = false)
     private String phone;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_document_type", nullable = false)
     private DocumentType documentType;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_dependent", nullable = false)
+    private Election dependent;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_living_with", nullable = false)
+    private Election livingWith;
+
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = false)
-    private Meeting meeting;
+    @JoinColumn(name="id_social_network", nullable = false)
+    private SocialNetwork socialNetwork;
+
+
+
 
     public Long getId() {
         return id;
@@ -52,21 +62,12 @@ public class Reference {
         this.id = id;
     }
 
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public Relationship getRelationship() {
@@ -77,12 +78,12 @@ public class Reference {
         this.relationship = relationship;
     }
 
-    public String getAddress() {
-        return address;
+    public Integer getAge() {
+        return age;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     public String getPhone() {
@@ -101,11 +102,27 @@ public class Reference {
         this.documentType = documentType;
     }
 
-    public Meeting getMeeting() {
-        return meeting;
+    public SocialNetwork getSocialNetwork() {
+        return socialNetwork;
     }
 
-    public void setMeeting(Meeting meeting) {
-        this.meeting = meeting;
+    public void setSocialNetwork(SocialNetwork socialNetwork) {
+        this.socialNetwork = socialNetwork;
+    }
+
+    public Election getDependent() {
+        return dependent;
+    }
+
+    public void setDependent(Election dependent) {
+        this.dependent = dependent;
+    }
+
+    public Election getLivingWith() {
+        return livingWith;
+    }
+
+    public void setLivingWith(Election livingWith) {
+        this.livingWith = livingWith;
     }
 }

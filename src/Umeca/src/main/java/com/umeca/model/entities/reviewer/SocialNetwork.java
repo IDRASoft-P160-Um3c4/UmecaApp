@@ -4,6 +4,7 @@ import com.umeca.model.Catalog.DocumentType;
 import com.umeca.model.Catalog.Relationship;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,22 +22,11 @@ public class SocialNetwork {
     @Column(name="id_social_network")
     private Long id;
 
-    @Column(name="name", length = 150, nullable = false)
-    private String name;
+    @Column(name="comment")
+    private String comment;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_relationship", nullable = false)
-    private Relationship relationship;
-
-    @Column(name="age", nullable = false)
-    private Integer age;
-
-    @Column(name="phone", nullable = false)
-    private String phone;
-
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_document_type", nullable = false)
-    private DocumentType documentType;
+    @OneToMany(mappedBy="socialNetwork", cascade={CascadeType.ALL})
+    private List<PersonSocialNetwork> peopleSocialNetwork;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
@@ -50,44 +40,20 @@ public class SocialNetwork {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getComment() {
+        return comment;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public Relationship getRelationship() {
-        return relationship;
+    public List<PersonSocialNetwork> getPeopleSocialNetwork() {
+        return peopleSocialNetwork;
     }
 
-    public void setRelationship(Relationship relationship) {
-        this.relationship = relationship;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public DocumentType getDocumentType() {
-        return documentType;
-    }
-
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setPeopleSocialNetwork(List<PersonSocialNetwork> peopleSocialNetwork) {
+        this.peopleSocialNetwork = peopleSocialNetwork;
     }
 
     public Meeting getMeeting() {
