@@ -1,5 +1,8 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.Catalog.DayWeek;
+import com.umeca.model.Catalog.RegisterType;
+
 import javax.persistence.*;
 import java.sql.Time;
 
@@ -18,67 +21,81 @@ public class Schedule {
     @Column(name="id_schedule")
     private Long id;
 
-    @Column(name="monday", nullable = false)
-    private Boolean monday;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_day", nullable = false)
+    private DayWeek day;
 
-    @Column(name="monday_start",  nullable = true)
-    private Time mondayStart;
+    @Column(name="start", nullable = true)
+    private Time start;
 
-    @Column(name="monday_end", nullable = true)
-    private Time mondayEnd;
+    @Column(name="end", nullable = true)
+    private Time end;
 
-    @Column(name="tuesday", nullable = false)
-    private Boolean tuesday;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_domicile", nullable = true)
+    private Domicile domicile;
 
-    @Column(name="tuesday_start", nullable = true)
-    private Time tuesdayStart;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_job", nullable = true)
+    private Job job;
 
-    @Column(name="tuesdayEnd", nullable = true)
-    private Time tuesdayEnd;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_school", nullable = true)
+    private School school;
 
-    @Column(name="wednesday", nullable = false)
-    private Boolean wednesday;
+    public Long getId() {
+        return id;
+    }
 
-    @Column(name="wednesday_start", nullable = true)
-    private Time wednesdayStart;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    @Column(name="wednesday_end", nullable = true)
-    private Time wednesdayEnd;
+    public DayWeek getDay() {
+        return day;
+    }
 
-    @Column(name="thursday", nullable = false)
-    private Boolean thursday;
+    public void setDay(DayWeek day) {
+        this.day = day;
+    }
 
-    @Column(name="thursday_start", nullable = true)
-    private Time thursdayStart;
+    public Time getStart() {
+        return start;
+    }
 
-    @Column(name="thursday_end", nullable = true)
-    private Time thursdayEnd;
+    public void setStart(Time start) {
+        this.start = start;
+    }
 
-    @Column(name="friday", nullable = false)
-    private Boolean friday;
+    public Time getEnd() {
+        return end;
+    }
 
-    @Column(name="friday_start", nullable = true)
-    private Time fridayStart;
+    public void setEnd(Time end) {
+        this.end = end;
+    }
 
-    @Column(name="friay_end", nullable = true)
-    private Time fridayEnd;
+    public Domicile getDomicile() {
+        return domicile;
+    }
 
-    @Column(name="saturday", nullable = false)
-    private Boolean saturday;
+    public void setDomicile(Domicile domicile) {
+        this.domicile = domicile;
+    }
 
-    @Column(name="saturday_start", nullable = true)
-    private Time saturdayStart;
+    public Job getJob() {
+        return job;
+    }
 
-    @Column(name="saturday_end", nullable = true)
-    private Time saturdayEnd;
+    public void setJob(Job job) {
+        this.job = job;
+    }
 
-    @Column(name="sunday", nullable = false)
-    private Boolean sunday;
+    public School getSchool() {
+        return school;
+    }
 
-    @Column(name="sunday_start", nullable = true)
-    private Time sundayStart;
-
-    @Column(name="sunday_end", nullable = true)
-    private Time sundayEnd;
-
+    public void setSchool(School school) {
+        this.school = school;
+    }
 }

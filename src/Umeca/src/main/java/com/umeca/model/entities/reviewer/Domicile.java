@@ -4,6 +4,7 @@ import com.umeca.model.Catalog.RegisterType;
 import com.umeca.model.Catalog.Town;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,9 +51,9 @@ public class Domicile {
     @Column(name="description", length = 1000, nullable = true)
     private String description;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_schedule", nullable = true)
-    private Schedule schedule;
+
+    @OneToMany(mappedBy="domicile", cascade={CascadeType.ALL})
+    private List<Schedule> schedule;
 
     @Column(name="cp", length = 5)
     private String cp;
@@ -141,13 +142,6 @@ public class Domicile {
         this.description = description;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-    }
 
     public String getCp() {
         return cp;
@@ -163,5 +157,13 @@ public class Domicile {
 
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
+    }
+
+    public List<Schedule> getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(List<Schedule> schedule) {
+        this.schedule = schedule;
     }
 }

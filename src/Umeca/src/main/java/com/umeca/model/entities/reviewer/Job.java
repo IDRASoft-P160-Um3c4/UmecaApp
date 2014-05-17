@@ -4,6 +4,7 @@ import com.umeca.model.Catalog.RegisterType;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -43,13 +44,12 @@ public class Job {
     @Column(name="reason_change", nullable = true, length = 1000)
     private String reasonChange;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_register_type", nullable = false)
     private RegisterType registerType;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_schedule", nullable = true)
-    private Schedule schedule;
+    @OneToMany(mappedBy="job", cascade={CascadeType.ALL})
+    private List<Schedule> schedule;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
@@ -127,11 +127,11 @@ public class Job {
         this.registerType = registerType;
     }
 
-    public Schedule getSchedule() {
+    public List<Schedule> getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(Schedule schedule) {
+    public void setSchedule(List<Schedule> schedule) {
         this.schedule = schedule;
     }
 
