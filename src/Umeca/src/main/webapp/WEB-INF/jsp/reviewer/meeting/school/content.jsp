@@ -61,7 +61,7 @@
 
     <div class="widget-box">
         <div class="widget-header">
-            <h4>Escuela Anterior</h4>
+            <h4>Escuela anterior</h4>
         </div>
         <div class="widget-body">
             <br/>
