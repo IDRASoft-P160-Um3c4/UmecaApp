@@ -1,7 +1,6 @@
 package com.umeca.repository;
 
-import com.umeca.model.Catalog.StatusMeeting;
-import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.catalogs.StatusMeeting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
