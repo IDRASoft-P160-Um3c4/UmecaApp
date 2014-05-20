@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.umeca.model.shared.Constants" %>
 <!--
 * Project: Umeca
 * User: Israel
@@ -11,6 +12,13 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css" />
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/rfcDrct.js"></script>
     <title>Usuarios</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -19,33 +27,40 @@
 <div class="container body-content">
 
     <script>
-        window.upsert = function(id) {
-            window.showUpsert(id, "#angJsjqGridId", "/reviewer/meeting/newMeeting.html", "#GridId", "/reviewer/meeting/meeting.html");
+        window.newMeeting = function() {
+            window.showUpsert(null, "#angJsjqGridId", "/reviewer/meeting/newMeeting.html", "#GridId", "/reviewer/meeting/meeting.html");
         };
 
-        window.obsolete = function (id) {
+        window.upsert=function(id){
+            var params= [];
+            params["idParam"]=id;
+            window.goToUrlMvcUrl("/reviewer/meeting/meeting.html?id=idParam",params);
+
+        };
+        window.legal = function (id) {
             window.showObsolete(id, "#angJsjqGridId", "/management/user/obsolete.json", "#GridId");
         };
 
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/management/user/list.json' />',
+                url: '<c:url value='/reviewer/meeting/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Usuario','Nombre completo','Correo electrónico','Perfil', 'Habilitado', 'Acción'],
+                colNames: ['ID','RFC','Nombre completo','Fecha de nacimiento','Género','Estatus','I d estatus','Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'username', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'rfc', index: 'rfc', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullname', index: 'fullname', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'email', index: 'email', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'role', index: 'role', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'enabled', index: 'enabled', hidden: true },
+                    { name: 'dateBirthString', index: 'dateBirthString', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'genderString', index: 'genderString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'description', index: 'description', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'idStatus', index: 'idStatus',hidden:true },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 pager: '#GridPager',
-                sortname: 'username',
+                sortname: 'rfc',
                 height: 450,
                 viewrecords: true,
                 shrinkToFit: false,
@@ -57,13 +72,13 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
-                        var enabled = row.enabled;
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                        var idStatus = row.idStatus;
+                        var idConstant = parseInt($("#hdnStatusLegal").val());
 
-                        if (enabled == "true") {
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.enable('" + cl + "');\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+                        if (2 == idStatus) {
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Procesos legales usuario\" onclick=\"window.legal('" + cl + "');\"><i class=\"icon-legal\"></i></a>";
                         }else{
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Habilitar usuario\" onclick=\"window.disable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
+                            var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
@@ -79,7 +94,7 @@
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                 edit: false, editicon : 'icon-pencil blue',
-                add: true, addfunc: window.upsert, addicon : 'icon-plus-sign purple',
+                add: true, addfunc: window.newMeeting, addicon : 'icon-plus-sign purple',
                 refresh: true, refreshicon : 'icon-refresh green',
                 del: false,
                 search: false});
@@ -96,7 +111,6 @@
     </script>
 
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevistas de evaluación de riesgos procesales</h2>
-
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>
         <div id="GridPager"></div>

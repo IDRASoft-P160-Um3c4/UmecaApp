@@ -23,8 +23,14 @@ public class Case {
     @Column(name="id_mp", length = 15, nullable = true)
     private String idMP;
 
+    @Column(name="recidivist", nullable = false)
+    private Boolean recidivist;
+
     @OneToOne(mappedBy="caseDetention", cascade={CascadeType.ALL})
     private Meeting meeting;
+
+    @Transient
+    private String idString;
 
     public Long getId() {
         return id;
@@ -56,5 +62,22 @@ public class Case {
 
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
+    }
+
+    public Boolean getRecidivist() {
+        return recidivist;
+    }
+
+    public void setRecidivist(Boolean recidivist) {
+        this.recidivist = recidivist;
+    }
+
+    public String getIdString() {
+        this.idString =  String.format("%010d", id);
+        return idString;
+    }
+
+    public void setIdString(String idString) {
+        this.idString = idString;
     }
 }
