@@ -4,6 +4,7 @@
     $scope.Model = {};
 
     $scope.submit = function (formId, urlToPost, hasReturnId) {
+
         if ($(formId).valid() == false) {
             $scope.Invalid = true;
             return false;
