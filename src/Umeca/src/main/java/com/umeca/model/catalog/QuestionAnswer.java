@@ -1,14 +1,15 @@
-package com.umeca.model.catalogs;
+package com.umeca.model.catalog;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="question_type")
-public class QuestionType {
+@Table(name="question_answer")
+public class QuestionAnswer {
+
 
     @Id
     @GeneratedValue
-    @Column(name="id_question_type")
+    @Column(name="id_question_answer")
     private Long id;
 
     @Column(name="name", length = 100, nullable = false)
@@ -17,9 +18,12 @@ public class QuestionType {
     @Column(name="description", length = 100, nullable = true)
     private String description;
 
-    @Column(name="is_obsolete", nullable = false)
+    @Column(name="is_obsolete")
     private Boolean isObsolete;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_question", nullable = false)
+    private Question question;
 
     public Long getId() {
         return id;
@@ -51,5 +55,13 @@ public class QuestionType {
 
     public void setIsObsolete(Boolean isObsolete) {
         this.isObsolete = isObsolete;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 }

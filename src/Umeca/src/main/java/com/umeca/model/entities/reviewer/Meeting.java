@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.account.User;
 
 import javax.persistence.*;
@@ -61,6 +62,10 @@ public class Meeting {
 
     @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
     private  PreviousCriminalProceeding previousCriminalProceeding;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_status", nullable = false)
+    private StatusMeeting status;
 
 
     public Long getId() {
@@ -173,5 +178,13 @@ public class Meeting {
 
     public void setPreviousCriminalProceeding(PreviousCriminalProceeding previousCriminalProceeding) {
         this.previousCriminalProceeding = previousCriminalProceeding;
+    }
+
+    public StatusMeeting getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusMeeting status) {
+        this.status = status;
     }
 }

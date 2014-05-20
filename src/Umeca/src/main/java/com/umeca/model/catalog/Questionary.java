@@ -1,29 +1,31 @@
-package com.umeca.model.catalogs;
+package com.umeca.model.catalog;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name="question_answer")
-public class QuestionAnswer {
-
+@Table(name="questionary")
+public class Questionary {
 
     @Id
     @GeneratedValue
-    @Column(name="id_question_answer")
+    @Column(name="id_questionary")
     private Long id;
 
     @Column(name="name", length = 100, nullable = false)
     private String name;
 
+    @Column(name="code", length = 20, nullable = false)
+    private String code;
+
     @Column(name="description", length = 100, nullable = true)
     private String description;
 
-    @Column(name="is_obsolete")
+    @Column(name="is_obsolete", nullable = false)
     private Boolean isObsolete;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_question", nullable = false)
-    private Question question;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionary", fetch = FetchType.LAZY)
+    private List<QuestionarySection> sections;
 
     public Long getId() {
         return id;
@@ -39,6 +41,14 @@ public class QuestionAnswer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDescription() {
@@ -57,11 +67,11 @@ public class QuestionAnswer {
         this.isObsolete = isObsolete;
     }
 
-    public Question getQuestion() {
-        return question;
+    public List<QuestionarySection> getSections() {
+        return sections;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setSections(List<QuestionarySection> sections) {
+        this.sections = sections;
     }
 }

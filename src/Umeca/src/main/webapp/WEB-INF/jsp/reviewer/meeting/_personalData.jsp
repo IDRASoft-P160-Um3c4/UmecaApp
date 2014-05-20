@@ -11,24 +11,9 @@
 <br/>
 
 <div class="row">
-<div class="row">
     <div class="col-xs-6">
         <div class="col-xs-3 element-left">
-            Apodo:
-        </div>
-        <div class="col-xs-9">
-            <input class="form-control" data-val="true"
-                   data-val-length="Debe tener al menos 3 y máximo 150 caracteres"
-                   data-val-length-max="150" data-val-length-min="3"
-                   data-val-required="El Apodo es un campo requerido" id="name"
-                   type="text" value="" ng-model="m.apodo">
-        </div>
-        <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
-        </div>
-        <br/>
-        <div class="col-xs-2 element-left">
-            Género:
+            <br/>Género:
         </div>
         <div class="col-xs-9">
             <div class="row">
@@ -56,16 +41,16 @@
             <span class="field-validation-valid" data-valmsg-for="genero" data-valmsg-replace="true"></span>
         </div>
         <br/>
+        <br/>
         <div class="col-xs-3 element-left">
             Fecha de nacimiento:
         </div>
         <div class="col-xs-9">
             <div class="input-group">
-                <input id="id-date-picker-1" class="form-control date-picker" type="text"
-                       data-date-format="dd-mm-yyyy">
-                <span class="input-group-addon">
-                <i class="icon-calendar bigger-110"></i>
-                </span>
+                <input class="form-control date-picker" id="dpStartBefore" type="text" data-date-format="dd/MM/yyyy" name="${m.imputed.dateBirth}" value="${m.imputed.dateBirth}"/>
+																	<span class="input-group-addon">
+																		<i class="icon-calendar bigger-110"></i>
+																	</span>
             </div>
         </div>
         <div class="col-xs-9 col-xs-offset-3">
@@ -248,4 +233,15 @@
 </div>
 </div>
 </div>
+<div class="modal-footer">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="submit('#FormCatId', '/reviewer/meeting/doNewMeeting.json');">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                          Guardar
+                    </span>
 </div>
+<script>
+    $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+        $(this).prev().focus();
+    });
+</script>

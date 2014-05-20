@@ -29,16 +29,16 @@
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos procesales</h2>
 
     <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-3">
             <h3 class="header smaller lighter blue">
-                <small>Número de carpeta de investigación:  </small>
-                56-565L
+                <small>Número de caso:  </small>
+                &nbsp;${m.caseDetention.idString}
             </h3>
         </div>
-        <div class="col-sm-5 col-sm-offset-1">
+        <div class="col-sm-7 col-sm-offset-1">
             <h3 class="header smaller lighter blue">
                 <small>Nombre del imputado:  </small>
-                Nombre del Imputado
+                &nbsp;${m.imputed.name} &nbsp; ${m.imputed.lastNameP} &nbsp; ${m.imputed.lastNameM}
             </h3>
         </div>
     </div>

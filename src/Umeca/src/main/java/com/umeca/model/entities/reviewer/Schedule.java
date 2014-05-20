@@ -1,6 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalogs.DayWeek;
+import com.umeca.model.catalog.DayWeek;
 
 import javax.persistence.*;
 import java.sql.Time;

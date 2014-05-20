@@ -1,6 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalogs.StatusVerification;
+import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.entities.account.User;
 
 import javax.persistence.*;

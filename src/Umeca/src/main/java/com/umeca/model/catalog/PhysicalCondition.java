@@ -1,4 +1,4 @@
-package com.umeca.model.catalogs;
+package com.umeca.model.catalog;
 
 import javax.persistence.*;
 
@@ -6,22 +6,18 @@ import javax.persistence.*;
  * Created with IntelliJ IDEA.
  * User: Desarrollo
  * Date: 9/05/14
- * Time: 11:51 AM
+ * Time: 01:32 PM
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="academic_year")
-public class AcademicYear {
+@Table(name="physical_condition")
+public class PhysicalCondition {
     @Id
-    @Column(name="id_academic_year")
+    @Column(name="id_physical_condition")
     private Long id;
 
-    @Column(name="academic_year", length=255, nullable=false)
+    @Column(name="physical_condition", length=255, nullable=false)
     private String name;
-
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_academic_degree", nullable = false)
-    private AcademicDegree academicDegree;
 
     @Transient
     private String value;
@@ -43,14 +39,6 @@ public class AcademicYear {
         this.name = name;
     }
 
-    public AcademicDegree getAcademicDegree() {
-        return academicDegree;
-    }
-
-    public void setAcademicDegree(AcademicDegree academicDegree) {
-        this.academicDegree = academicDegree;
-    }
-
     public String getValue() {
 
         if(id == null)
@@ -68,4 +56,5 @@ public class AcademicYear {
 
         this.value = value;
     }
+
 }

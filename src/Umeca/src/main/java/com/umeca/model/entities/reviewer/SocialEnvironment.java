@@ -1,7 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalogs.Activity;
-import com.umeca.model.catalogs.PhysicalCondition;
+import com.umeca.model.catalog.Activity;
+import com.umeca.model.catalog.PhysicalCondition;
 
 import javax.persistence.*;
 import java.util.List;

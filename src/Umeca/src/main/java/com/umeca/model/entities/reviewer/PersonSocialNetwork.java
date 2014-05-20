@@ -1,8 +1,8 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalogs.DocumentType;
-import com.umeca.model.catalogs.Election;
-import com.umeca.model.catalogs.Relationship;
+import com.umeca.model.catalog.DocumentType;
+import com.umeca.model.catalog.Election;
+import com.umeca.model.catalog.Relationship;
 
 import javax.persistence.*;
 

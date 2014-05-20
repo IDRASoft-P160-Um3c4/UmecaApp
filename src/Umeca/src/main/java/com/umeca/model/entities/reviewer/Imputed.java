@@ -12,11 +12,13 @@ import java.util.Date;
  */
 @Entity
 @Table(name="imputed")
-public class Imputed {
-    @Id
+public class Imputed { @Id
     @GeneratedValue
     @Column(name="id_imputed")
     private Long id;
+
+    @Column(name="rfc", length = 10, nullable = false)
+    private String rfc;
 
     @Column(name="name", length = 50, nullable = false)
     private String name;
@@ -30,7 +32,7 @@ public class Imputed {
     @Column(name="nickName", length = 50, nullable = true)
     private String nickName;
 
-    @Column(name="gender", nullable = false)
+    @Column(name="gender", nullable = true)
     private Boolean gender;
 
     @Column(name="date_birth", nullable = false)
@@ -115,7 +117,13 @@ public class Imputed {
         this.meeting = meeting;
     }
 
+    public String getRfc() {
+        return rfc;
+    }
 
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
+    }
 }
 
 

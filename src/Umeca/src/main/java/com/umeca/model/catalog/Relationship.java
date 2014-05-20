@@ -1,22 +1,22 @@
-package com.umeca.model.catalogs;
+package com.umeca.model.catalog;
 
 import javax.persistence.*;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
- * Date: 9/05/14
- * Time: 12:54 PM
+ * Date: 8/05/14
+ * Time: 01:28 PM
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="periodicity")
-public class Periodicity {
+@Table(name="relationship")
+public class Relationship {
     @Id
-    @Column(name="id_periodicity")
+    @Column(name="id_relationship")
     private Long id;
 
-    @Column(name="periodicity", length=255, nullable=false)
+    @Column(name="relationship", length=255, nullable=false)
     private String name;
 
     @Transient
@@ -30,6 +30,7 @@ public class Periodicity {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
@@ -52,7 +53,7 @@ public class Periodicity {
 
     public void setValue(String value) {
 
-        // id = Convert.ToLong(value);
+       // id = Convert.ToLong(value);
 
         this.value = value;
     }
