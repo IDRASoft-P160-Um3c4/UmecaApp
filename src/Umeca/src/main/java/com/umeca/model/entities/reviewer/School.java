@@ -5,6 +5,7 @@ import com.umeca.model.Catalog.RegisterType;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,9 +37,8 @@ public class School {
     @JoinColumn(name="id_register_type", nullable = false)
     private RegisterType registerType;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_schedule", nullable = false)
-    private Schedule schedule;
+    @OneToMany(mappedBy="school", cascade={CascadeType.ALL})
+    private List<Schedule> schedule;
 
     @Column(name="start", nullable = false)
     private Date start;
@@ -97,11 +97,11 @@ public class School {
         this.registerType = registerType;
     }
 
-    public Schedule getSchedule() {
+    public List<Schedule> getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(Schedule schedule) {
+    public void setSchedule(List<Schedule> schedule) {
         this.schedule = schedule;
     }
 

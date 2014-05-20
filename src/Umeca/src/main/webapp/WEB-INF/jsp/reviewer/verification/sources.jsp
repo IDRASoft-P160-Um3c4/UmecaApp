@@ -20,7 +20,8 @@
 
     <script>
         window.upsert = function(id) {
-            window.showUpsert(id, "#angJsjqGridId", "/reviewer/meeting/newMeeting.html", "#GridId", "/reviewer/meeting/meeting.html");
+            window.goToUrlMvcUrl("/reviewer/verification/verificationBySource.html");
+            //window.showUpsert(id, "#angJsjqGridId", "/reviewer/meeting/newMeeting.html", "#GridId", "/reviewer/meeting/meeting.html");
         };
 
         window.obsolete = function (id) {
@@ -32,14 +33,13 @@
                 url: '<c:url value='/management/user/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Usuario','Nombre completo','Correo electrónico','Perfil', 'Habilitado', 'Acción'],
+                colNames: ['ID', 'Nombre', 'Dirección', 'Teléfono', 'Identificación', 'Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'username', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullname', index: 'fullname', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'email', index: 'email', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'role', index: 'role', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'enabled', index: 'enabled', hidden: true },
+                    { name: 'fullname', index: 'fullname', width: 400, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'email', index: 'email', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'role', index: 'role', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
@@ -78,8 +78,8 @@
             });
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
-                edit: false, editicon : 'icon-pencil blue',
-                add: true, addfunc: window.upsert, addicon : 'icon-plus-sign purple',
+                edit: false, editicon : 'icon-notes blue',
+                add: true, addfunc: window.upsert, addicon : 'icon-edit blue',
                 refresh: true, refreshicon : 'icon-refresh green',
                 del: false,
                 search: false});
@@ -95,7 +95,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevistas de evaluación de riesgos procesales</h2>
+    <h2 class="element-center"><i class=" icon-group"></i>&nbsp;&nbsp;Fuentes de verificación</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

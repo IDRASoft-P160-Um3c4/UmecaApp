@@ -28,6 +28,9 @@
         $scope.WaitFor = false;
 
         try {
+            if(resp.hasError===undefined){
+                resp=resp.responseMessage;
+            }
             if (resp.hasError === false) {
                 $rootScope.$broadcast("onLastId", resp.Id);
                 $scope.Model.dlg.modal('hide');
@@ -48,6 +51,8 @@
         $scope.WaitFor = false;
 
         try {
+            if(resp.hasError===undefined){
+                resp=resp.responseMessage;}
             if (resp.hasError === false) {
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({ isCancel: false });

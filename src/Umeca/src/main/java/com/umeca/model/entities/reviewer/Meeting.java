@@ -32,8 +32,8 @@ public class Meeting {
     @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
     private Imputed imputed;
 
-    @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
-    private List<SocialNetwork> socialNetwork;
+    @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
+    private SocialNetwork socialNetwork;
 
     @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
     private List<Reference> references;
@@ -95,11 +95,11 @@ public class Meeting {
         this.imputed = imputed;
     }
 
-    public List<SocialNetwork> getSocialNetwork() {
+    public SocialNetwork getSocialNetwork() {
         return socialNetwork;
     }
 
-    public void setSocialNetwork(List<SocialNetwork> socialNetwork) {
+    public void setSocialNetwork(SocialNetwork socialNetwork) {
         this.socialNetwork = socialNetwork;
     }
 
