@@ -1,7 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.Catalog.RegisterType;
-import com.umeca.model.Catalog.Town;
+import com.umeca.model.catalogs.RegisterType;
+import com.umeca.model.catalogs.Town;
 
 import javax.persistence.*;
 import java.util.List;

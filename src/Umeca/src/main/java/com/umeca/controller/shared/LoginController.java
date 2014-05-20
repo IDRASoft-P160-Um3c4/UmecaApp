@@ -24,6 +24,7 @@ public class LoginController {
 
     @RequestMapping(value = "loginAccount", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage login(@RequestBody User user){
+
         return service.authenticate(user);
     }
 

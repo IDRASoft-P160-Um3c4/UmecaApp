@@ -1,6 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.Catalog.RegisterType;
+import com.umeca.model.catalogs.RegisterType;
 
 import javax.persistence.*;
 import java.util.Date;

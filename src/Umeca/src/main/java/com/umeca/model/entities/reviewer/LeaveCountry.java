@@ -1,6 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.Catalog.Election;
+import com.umeca.model.catalogs.Election;
 
 import javax.persistence.*;
 

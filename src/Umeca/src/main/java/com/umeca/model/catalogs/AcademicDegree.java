@@ -1,26 +1,29 @@
-package com.umeca.model.Catalog;
-
+package com.umeca.model.catalogs;
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
  * Date: 9/05/14
- * Time: 01:32 PM
+ * Time: 11:43 AM
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="physical_condition")
-public class PhysicalCondition {
+@Table(name="academic_degree")
+public class AcademicDegree {
     @Id
-    @Column(name="id_physical_condition")
+    @Column(name="id_academic_degree")
     private Long id;
 
-    @Column(name="physical_condition", length=255, nullable=false)
+    @Column(name="academic_degree", length=255, nullable=false)
     private String name;
 
     @Transient
     private String value;
+
+    @OneToMany(mappedBy="academicDegree", cascade={CascadeType.ALL})
+    private List<AcademicYear> academicYears;
 
     public Long getId() {
         return id;
@@ -30,6 +33,7 @@ public class PhysicalCondition {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
@@ -57,4 +61,11 @@ public class PhysicalCondition {
         this.value = value;
     }
 
+    public List<AcademicYear> getAcademicYears() {
+        return academicYears;
+    }
+
+    public void setAcademicYears(List<AcademicYear> academicYears) {
+        this.academicYears = academicYears;
+    }
 }

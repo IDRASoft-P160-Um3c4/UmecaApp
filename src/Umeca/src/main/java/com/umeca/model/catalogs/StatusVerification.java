@@ -1,22 +1,22 @@
-package com.umeca.model.Catalog;
+package com.umeca.model.catalogs;
 
 import javax.persistence.*;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
- * Date: 15/05/14
- * Time: 11:34 AM
+ * Date: 9/05/14
+ * Time: 06:41 PM
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="cat_day_week")
-public class DayWeek {
+@Table(name = "status_verification")
+public class StatusVerification {
     @Id
-    @Column(name="id_day")
+    @Column(name="id_status")
     private Long id;
 
-    @Column(name="day", length=255, nullable=false)
+    @Column(name="status", length=255, nullable=false)
     private String name;
 
     @Transient
@@ -30,6 +30,7 @@ public class DayWeek {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
@@ -56,5 +57,4 @@ public class DayWeek {
 
         this.value = value;
     }
-
 }

@@ -1,8 +1,8 @@
 
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.Catalog.DrugType;
-import com.umeca.model.Catalog.Periodicity;
+import com.umeca.model.catalogs.DrugType;
+import com.umeca.model.catalogs.Periodicity;
 
 import javax.persistence.*;
 import java.util.Date;
