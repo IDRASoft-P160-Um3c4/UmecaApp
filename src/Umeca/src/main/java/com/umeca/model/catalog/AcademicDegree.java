@@ -1,26 +1,29 @@
-package com.umeca.model.catalogs;
-
+package com.umeca.model.catalog;
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
  * Date: 9/05/14
- * Time: 06:41 PM
+ * Time: 11:43 AM
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "status_verification")
-public class StatusVerification {
+@Table(name="academic_degree")
+public class AcademicDegree {
     @Id
-    @Column(name="id_status")
+    @Column(name="id_academic_degree")
     private Long id;
 
-    @Column(name="status", length=255, nullable=false)
+    @Column(name="academic_degree", length=255, nullable=false)
     private String name;
 
     @Transient
     private String value;
+
+    @OneToMany(mappedBy="academicDegree", cascade={CascadeType.ALL})
+    private List<AcademicYear> academicYears;
 
     public Long getId() {
         return id;
@@ -56,5 +59,13 @@ public class StatusVerification {
         // id = Convert.ToLong(value);
 
         this.value = value;
+    }
+
+    public List<AcademicYear> getAcademicYears() {
+        return academicYears;
+    }
+
+    public void setAcademicYears(List<AcademicYear> academicYears) {
+        this.academicYears = academicYears;
     }
 }

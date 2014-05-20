@@ -1,4 +1,4 @@
-package com.umeca.model.catalogs;
+package com.umeca.model.catalog;
 
 import javax.persistence.*;
 
@@ -10,20 +10,20 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="election")
-public class Election {
-    public Election() {
+@Table(name="register_type")
+public class RegisterType {
+    public RegisterType() {
     }
 
-    public Election(Long id) {
+    public RegisterType(Long id) {
         this.id = id;
     }
 
     @Id
-    @Column(name="id_election")
+    @Column(name="id_register_type")
     private Long id;
 
-    @Column(name="election", length=255, nullable=false)
+    @Column(name="register_type", length=255, nullable=false)
     private String name;
 
     @Transient

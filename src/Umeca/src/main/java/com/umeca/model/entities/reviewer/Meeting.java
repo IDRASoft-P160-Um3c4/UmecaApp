@@ -1,6 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalogs.StatusMeeting;
+import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.account.User;
 
 import javax.persistence.*;

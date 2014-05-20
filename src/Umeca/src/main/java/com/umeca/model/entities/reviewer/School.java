@@ -1,7 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalogs.AcademicYear;
-import com.umeca.model.catalogs.RegisterType;
+import com.umeca.model.catalog.AcademicYear;
+import com.umeca.model.catalog.RegisterType;
 
 import javax.persistence.*;
 import java.util.Date;

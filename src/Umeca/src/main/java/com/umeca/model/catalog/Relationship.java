@@ -1,27 +1,23 @@
-package com.umeca.model.catalogs;
+package com.umeca.model.catalog;
 
 import javax.persistence.*;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
- * Date: 9/05/14
- * Time: 11:51 AM
+ * Date: 8/05/14
+ * Time: 01:28 PM
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="academic_year")
-public class AcademicYear {
+@Table(name="relationship")
+public class Relationship {
     @Id
-    @Column(name="id_academic_year")
+    @Column(name="id_relationship")
     private Long id;
 
-    @Column(name="academic_year", length=255, nullable=false)
+    @Column(name="relationship", length=255, nullable=false)
     private String name;
-
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_academic_degree", nullable = false)
-    private AcademicDegree academicDegree;
 
     @Transient
     private String value;
@@ -35,20 +31,13 @@ public class AcademicYear {
         this.id = id;
     }
 
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public AcademicDegree getAcademicDegree() {
-        return academicDegree;
-    }
-
-    public void setAcademicDegree(AcademicDegree academicDegree) {
-        this.academicDegree = academicDegree;
     }
 
     public String getValue() {
@@ -64,7 +53,7 @@ public class AcademicYear {
 
     public void setValue(String value) {
 
-        // id = Convert.ToLong(value);
+       // id = Convert.ToLong(value);
 
         this.value = value;
     }

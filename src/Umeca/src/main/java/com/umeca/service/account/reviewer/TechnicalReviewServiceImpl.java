@@ -2,8 +2,8 @@ package com.umeca.service.account.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.model.catalogs.Question;
-import com.umeca.model.catalogs.QuestionarySection;
+import com.umeca.model.catalog.Question;
+import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.QuestionReviewRel;
 import com.umeca.model.entities.reviewer.QuestionView;
 import com.umeca.model.entities.reviewer.QuestionarySectionView;

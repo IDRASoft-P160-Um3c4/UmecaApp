@@ -1,4 +1,4 @@
-package com.umeca.model.catalogs;
+package com.umeca.model.catalog;
 
 import javax.persistence.*;
 
@@ -6,18 +6,21 @@ import javax.persistence.*;
  * Created with IntelliJ IDEA.
  * User: Desarrollo
  * Date: 9/05/14
- * Time: 01:32 PM
+ * Time: 06:41 PM
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="physical_condition")
-public class PhysicalCondition {
+@Table(name = "status_meeting")
+public class StatusMeeting {
     @Id
-    @Column(name="id_physical_condition")
+    @Column(name="id_status")
     private Long id;
 
-    @Column(name="physical_condition", length=255, nullable=false)
+    @Column(name="status", length=255, nullable=false)
     private String name;
+
+    @Column(name="description", length=255, nullable=false)
+    private String description;
 
     @Transient
     private String value;
@@ -30,6 +33,7 @@ public class PhysicalCondition {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
@@ -57,4 +61,11 @@ public class PhysicalCondition {
         this.value = value;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

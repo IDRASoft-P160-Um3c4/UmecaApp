@@ -1,7 +1,7 @@
 package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
-import com.umeca.model.catalogs.StatusMeeting;
+import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
