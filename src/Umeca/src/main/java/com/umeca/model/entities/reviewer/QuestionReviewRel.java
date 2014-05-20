@@ -1,7 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 
-import com.umeca.model.Catalog.Question;
+import com.umeca.model.catalogs.Question;
 import javax.persistence.*;
 
 @Entity

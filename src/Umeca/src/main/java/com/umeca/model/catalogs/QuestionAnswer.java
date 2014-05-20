@@ -1,6 +1,4 @@
-package com.umeca.model.Catalog;
-
-import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
+package com.umeca.model.catalogs;
 
 import javax.persistence.*;
 

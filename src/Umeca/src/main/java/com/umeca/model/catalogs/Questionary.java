@@ -1,4 +1,4 @@
-package com.umeca.model.Catalog;
+package com.umeca.model.catalogs;
 
 import javax.persistence.*;
 import java.util.List;

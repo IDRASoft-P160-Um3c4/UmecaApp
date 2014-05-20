@@ -4,13 +4,11 @@ import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
-import com.umeca.model.Catalog.Question;
-import com.umeca.model.Catalog.Questionary;
-import com.umeca.model.Catalog.QuestionarySection;
+import com.umeca.model.catalogs.Questionary;
+import com.umeca.model.catalogs.QuestionarySection;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.account.UserView;
-import com.umeca.model.entities.reviewer.QuestionView;
 import com.umeca.model.entities.reviewer.QuestionarySectionView;
 import com.umeca.model.entities.reviewer.TechnicalReview;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
@@ -28,7 +26,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Vmware on 06/05/2014.

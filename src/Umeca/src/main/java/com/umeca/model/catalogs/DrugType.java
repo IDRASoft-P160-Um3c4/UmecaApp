@@ -1,22 +1,22 @@
-package com.umeca.model.Catalog;
+package com.umeca.model.catalogs;
 
 import javax.persistence.*;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
- * Date: 8/05/14
- * Time: 01:28 PM
+ * Date: 9/05/14
+ * Time: 12:54 PM
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="document_type")
-public class DocumentType {
+@Table(name="drug_type")
+public class DrugType {
     @Id
-    @Column(name="id_document_type")
+    @Column(name="id_drug_type")
     private Long id;
 
-    @Column(name="document_type", length=255, nullable=false)
+    @Column(name="drug", length=255, nullable=false)
     private String name;
 
     @Transient
@@ -52,7 +52,7 @@ public class DocumentType {
 
     public void setValue(String value) {
 
-       // id = Convert.ToLong(value);
+        // id = Convert.ToLong(value);
 
         this.value = value;
     }

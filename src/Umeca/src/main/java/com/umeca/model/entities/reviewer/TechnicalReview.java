@@ -1,8 +1,5 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.Catalog.QuestionType;
-import com.umeca.model.Catalog.Questionary;
-
 import javax.persistence.*;
 import java.util.List;
 

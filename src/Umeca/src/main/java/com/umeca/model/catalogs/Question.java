@@ -1,6 +1,4 @@
-package com.umeca.model.Catalog;
-
-import sun.swing.SwingUtilities2;
+package com.umeca.model.catalogs;
 
 import javax.persistence.*;
 import java.util.List;

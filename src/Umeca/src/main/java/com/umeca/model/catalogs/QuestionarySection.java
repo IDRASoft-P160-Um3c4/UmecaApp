@@ -1,6 +1,4 @@
-package com.umeca.model.Catalog;
-
-import org.springframework.context.annotation.Lazy;
+package com.umeca.model.catalogs;
 
 import javax.persistence.*;
 import java.util.List;
