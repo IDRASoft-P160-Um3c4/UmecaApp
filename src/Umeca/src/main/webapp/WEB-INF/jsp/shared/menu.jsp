@@ -23,7 +23,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Evaluador <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="/reviewer/meeting/index.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Entevista</a></li>
-
+                            <li><a href="/reviewer/verification/index.html"><i class="icon-check"></i>&nbsp;&nbsp;Verificación</a></li>
                             <li><a href="/reviewer/technicalReview/technicalReview.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;FORMA</a></li>
 
                         </ul>
