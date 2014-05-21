@@ -60,7 +60,7 @@ public class InsertCatalogController {
         return "Question OK!";
     }
 
-    @RequestMapping(value = "insertCatalogAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
         service.user();
