@@ -114,7 +114,7 @@ public class TechnicalReviewController {
         ResponseMessage response = new ResponseMessage();
 
         try{
-            result.setAnswersSel(technicalReviewService.generateQuesRevRel(result.getMeetingId(),result.getTxtListQuest()));
+            result.setAnswersSel(technicalReviewService.generateQuesRevRel(result,result.getTxtListQuest()));
             technicalReviewRepository.save(result);
             System.out.println(result.getId());
 

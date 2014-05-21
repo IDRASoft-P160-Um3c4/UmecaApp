@@ -11,7 +11,7 @@
                 </li>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administraciï¿½n <b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administraci?n <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="/management/role/index.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Perfiles</a></li>
                             <li><a href="/management/user/index.html"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Usuarios</a></li>
@@ -23,7 +23,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Evaluador <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="/reviewer/meeting/index.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Entevista</a></li>
-                            <li><a href="/reviewer/verification/index.html"><i class="icon-check"></i>&nbsp;&nbsp;VerificaciÃ³n</a></li>
+                            <li><a href="/reviewer/verification/index.html"><i class="icon-check"></i>&nbsp;&nbsp;Verificación</a></li>
+                            <li><a href="/reviewer/technicalReview/index.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Opinión técnica</a></li>
                             <li><a href="/reviewer/technicalReview/technicalReview.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;FORMA</a></li>
 
                         </ul>
