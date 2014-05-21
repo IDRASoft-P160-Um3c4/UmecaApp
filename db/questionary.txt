@@ -1,0 +1,2 @@
+﻿id|code|description|is_obsolete|name
+1|OP_TEC|descripcion|false|Opinión técnica
