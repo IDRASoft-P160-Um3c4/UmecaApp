@@ -28,7 +28,7 @@ import java.util.List;
 
 @Repository("userviewRepository")
 public class UserViewRepository {
-//sdf
+
     @PersistenceContext(unitName = "punit")
     private javax.persistence.EntityManager entityManager;
 
