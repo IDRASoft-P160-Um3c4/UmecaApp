@@ -9,6 +9,7 @@
 
     <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/assets/**" access="permitAll" />
+        <intercept-url pattern="/catalogs/**" access="permitAll" />
         <intercept-url pattern="/index.html" access="permitAll" />
         <intercept-url pattern="/management/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/reviewer/**" access="hasRole('ROLE_REVIEWER')" />
