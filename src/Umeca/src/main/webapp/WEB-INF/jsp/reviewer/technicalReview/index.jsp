@@ -21,36 +21,24 @@
 <div class="container body-content">
 
     <script>
-        window.upsert = function(id) {
-            window.showUpsert(id, "#angJsjqGridId", "/reviewer/technicalReview/technicalReview.html", "#GridId");
-        };
-
-        /*window.obsolete = function (id) {
-            window.showObsolete(id, "#angJsjqGridId", "/management/user/obsolete.json", "#GridId");
-        };*/
-
-        var data_grid_reviews = [{id:"1",idCarpeta:"C-001",idMp:"MP-001",fullname:"Rolandael Vite Padilla"},
-                                {id:"2",idCarpeta:"C-002",idMp:"MP-002",fullname:"Isrolando Gómez Silva"}
-        ];
 
         $(document).ready(function() {
-            jQuery("#GridTecRevId").jqGrid({
-                //data:data_grid_reviews,
+            jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/technicalReview/list.json' />',
-                datatype: "local",
+                datatype: "json",
                 mtype: 'POST',
-                colNames: ['Id','Id Carpeta', 'Id M.P.','Imputado', 'Acción'],
+                colNames: ['ID', 'Usuario','Nombre completo','Correo electrónico','Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'idCarpeta', index: 'idCarpeta', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'idMp', index: 'idMp', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullname', index: 'fullname', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'fullName', index: 'fullName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
-                pager: '#GridPagerTecRev',
-                sortname: 'fullname',
+                pager: '#GridPager',
+                sortname: 'id',
                 height: 450,
                 viewrecords: true,
                 shrinkToFit: false,
@@ -63,7 +51,7 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
                         var enabled = row.enabled;
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Calcular riesgo\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                        var be = "<a href=\"/reviewer/technicalReview/technicalReview.html?id=" + cl + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },
@@ -76,14 +64,14 @@
                 }
             });
 
-            jQuery("#GridTecRevId").jqGrid('navGrid', '#GridPagerTecRev', {
+            jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                 edit: false, editicon : 'icon-pencil blue',
                 add: true, addfunc: window.upsert, addicon : 'icon-plus-sign purple',
                 refresh: true, refreshicon : 'icon-refresh green',
                 del: false,
                 search: false});
 
-            jQuery("#GridTecRevId").jqGrid('filterToolbar', {
+            jQuery("#GridId").jqGrid('filterToolbar', {
                 stringResult: true,
                 searchOperators: true,
                 searchOnEnter: true,
@@ -94,11 +82,11 @@
 
     </script>
 
-    <h2 class="element-center"><i class="icon-archive"></i>&nbsp;&nbsp;Opinión técnica</h2>
+    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Usuarios</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
-        <table id="GridTecRevId" class="element-center" style="margin: auto"></table>
-        <div id="GridPagerTecRev"></div>
+        <table id="GridId" class="element-center" style="margin: auto"></table>
+        <div id="GridPager"></div>
         <div class="blocker" ng-show="working">
             <div>
                 Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
