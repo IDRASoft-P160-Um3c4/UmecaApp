@@ -45,7 +45,7 @@
             <li ng-class="m.actTab==5 ? 'active' : ''">
 
                 <a data-toggle="tab" href="#secEval">
-                    <i class="icon-bar-chart blue bigger-200"></i>
+                    <i class="icon-gears blue bigger-200"></i>
                     Calcular riesgo
                 </a>
             </li>
