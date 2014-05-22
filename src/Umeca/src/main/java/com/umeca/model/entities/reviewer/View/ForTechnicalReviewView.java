@@ -8,6 +8,7 @@ import com.umeca.model.shared.EntityGrid;
 public class ForTechnicalReviewView implements EntityGrid{
 
     private Long id;
+    private String status;
     private String idFolder;
     private String idMP;
     private String name;
@@ -15,7 +16,7 @@ public class ForTechnicalReviewView implements EntityGrid{
     private String lastNameM;
     private String fullName;
 
-    public ForTechnicalReviewView(Long id, String idFolder, String idMP, String name, String lastNameP, String lastNameM) {
+    public ForTechnicalReviewView(Long id, String status,String idFolder, String idMP, String name, String lastNameP, String lastNameM) {
         this.id = id;
         this.idFolder = idFolder;
         this.idMP = idMP;
@@ -79,5 +80,13 @@ public class ForTechnicalReviewView implements EntityGrid{
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

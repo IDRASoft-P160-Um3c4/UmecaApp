@@ -29,6 +29,9 @@ public class Case {
     @OneToOne(mappedBy="caseDetention", cascade={CascadeType.ALL})
     private Meeting meeting;
 
+    @Column(name = "status",nullable = false)
+    private String status;
+
     @Transient
     private String idString;
 

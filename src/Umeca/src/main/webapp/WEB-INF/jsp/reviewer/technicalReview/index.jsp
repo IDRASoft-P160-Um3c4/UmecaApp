@@ -47,6 +47,10 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
+                    var otra = $(this).jqGrid('getCol', 'status', false);
+
+                    alert(otra);
+
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
