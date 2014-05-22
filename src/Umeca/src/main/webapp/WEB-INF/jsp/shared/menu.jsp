@@ -11,7 +11,7 @@
                 </li>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administraci?n <b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administración <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="/management/role/index.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Perfiles</a></li>
                             <li><a href="/management/user/index.html"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Usuarios</a></li>
@@ -31,7 +31,7 @@
                     </li>
                 </sec:authorize>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav ace-nav navbar-right">
 
                 <sec:authorize access="isAnonymous()">
                     <li>
@@ -39,11 +39,25 @@
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
-                    <li>
-                        <a><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Bienvenido: <%=SecurityContextHolder.getContext().getAuthentication().getName()%></a>
-                    </li>
-                    <li>
-                        <a href="<c:url value='j_spring_security_logout'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Salir</a>
+                    <li class="nav-li-blue">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                            <img class="nav-user-photo" src="assets/avatars/avatar0.png" alt="Usuario" />
+								<span class="user-info">
+									<small>Bienvenido,</small>
+									<%=SecurityContextHolder.getContext().getAuthentication().getName()%>
+								</span>
+
+                            <i class="icon-caret-down"></i>
+                        </a>
+
+                        <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                            <li>
+                                <a href="<c:url value='j_spring_security_logout'/>">
+                                    <i class="icon-off"></i>
+                                    Salir
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </sec:authorize>
             </ul>
