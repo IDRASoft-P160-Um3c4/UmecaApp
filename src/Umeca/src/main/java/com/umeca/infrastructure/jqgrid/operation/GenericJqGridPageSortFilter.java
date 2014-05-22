@@ -71,10 +71,8 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
 
     private Expression<?> selectExpression(Root<T> r, String field, SelectFilterFields selFil) {
         Expression<String> exp = selFil.setFilterField(r, field);
-
         if(exp == null)
             exp = r.get(field);
-
         return exp;
     }
 
