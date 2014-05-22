@@ -37,10 +37,10 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
 
         if(StringExt.isNullOrWhiteSpace(opts.getSord()) == false && StringExt.isNullOrWhiteSpace(opts.getSidx())== false){
             if(opts.getSord().trim().toLowerCase().equals(EntitySpecification.JQGRID_ASC)){
-                cq.orderBy(cb.asc(r.get(opts.getSidx())));
+                cq.orderBy(cb.asc(selectExpression(r, opts.getSidx(), selFil)));
             }
             else{
-                cq.orderBy(cb.desc(r.get(opts.getSidx())));
+                cq.orderBy(cb.desc(selectExpression(r, opts.getSidx(), selFil)));
             }
         }
 
@@ -67,6 +67,13 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
         result.setRows(rows);
 
         return result;
+    }
+
+    private Expression<?> selectExpression(Root<T> r, String field, SelectFilterFields selFil) {
+        Expression<String> exp = selFil.setFilterField(r, field);
+        if(exp == null)
+            exp = r.get(field);
+        return exp;
     }
 
     private Long criteriaCount(CriteriaBuilder cb, JqGridFilterModel opts, Class<T> tClass, SelectFilterFields selFil) {
