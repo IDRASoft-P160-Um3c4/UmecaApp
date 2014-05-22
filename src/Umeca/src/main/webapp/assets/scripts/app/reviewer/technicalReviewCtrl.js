@@ -282,7 +282,7 @@ app.controller('tecRevController', function ($scope, $timeout) {
             $scope.lstTot[totId] = value;
         }
     };
-
+//a
     $scope.calcRisk = function(){
 
         //validar que se haya seleccionado al menos una pregunta de cada seccion;

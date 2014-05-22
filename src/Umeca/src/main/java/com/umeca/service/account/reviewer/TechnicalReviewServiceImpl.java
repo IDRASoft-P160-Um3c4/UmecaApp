@@ -7,6 +7,7 @@ import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.QuestionReviewRel;
 import com.umeca.model.entities.reviewer.QuestionView;
 import com.umeca.model.entities.reviewer.QuestionarySectionView;
+import com.umeca.model.entities.reviewer.TechnicalReview;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -51,7 +52,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService{
         return sectionView;
     }
 
-    public List<QuestionReviewRel> generateQuesRevRel(Long technicalReviewId, String txtListSel){
+    public List<QuestionReviewRel> generateQuesRevRel(TechnicalReview technicalReview, String txtListSel){
 
         Gson conv = new Gson();
 
@@ -67,9 +68,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService{
 
             Question quest = new Question();
             quest.setId(Long.parseLong(cad,10));
-
             rel.setQuestion(quest);
 
+            rel.setTechnicalReview(technicalReview);
             lstQuesRevRel.add(rel);
         }
 

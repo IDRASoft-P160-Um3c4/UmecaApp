@@ -14,7 +14,18 @@
         <p><a href="/" class="btn btn-primary btn-large">Inicio &raquo;</a></p>
     </div>
 
+
+
     <div class="row">
+
+        <div class="col-xs-4">
+            <h2>Noticia 1</h2>
+            <p>
+                Bla bla bla
+            </p>
+            <p><a class="btn btn-default" href="/">Ir a &raquo;</a></p>
+        </div>
+
         <div class="col-xs-4">
             <h2>Noticia 1</h2>
             <p>
