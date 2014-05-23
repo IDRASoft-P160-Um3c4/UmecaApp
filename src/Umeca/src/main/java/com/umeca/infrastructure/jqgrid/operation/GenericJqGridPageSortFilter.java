@@ -46,7 +46,7 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
 
         Long totalRecords = criteriaCount(cb, opts, tClass, selFil);
 
-        buildQuery(cb, cq, r, opts.filters, selFil);
+        buildQuery(cb, cq, r, opts, selFil);
 
         Long numRows = opts.getRows() > 0 ? opts.getRows() : 1l;
         TypedQuery<V> tqData = entityManager.createQuery(cq);
@@ -80,20 +80,32 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
         CriteriaQuery<Long> cqCount = cb.createQuery(Long.class);
         Root<T> r = cqCount.from(tClass);
         CriteriaQuery<Long> cq = cqCount.select(cb.count(r));
-        buildQuery(cb, cq, r, opts.filters, selFil);
+        buildQuery(cb, cq, r, opts, selFil);
         TypedQuery<Long> tqCount = entityManager.createQuery(cq);
         return tqCount.getSingleResult();
     }
 
-    private void buildQuery(CriteriaBuilder cb, CriteriaQuery<?> cq, Root<T> r, String filters , SelectFilterFields selFil) {
-        JqGridMultipleFilterModel filter;
+    private void buildQuery(CriteriaBuilder cb, CriteriaQuery<?> cq, Root<T> r, JqGridFilterModel opts, SelectFilterFields selFil) {
+        JqGridMultipleFilterModel filter = null;
 
-        if(StringExt.isNullOrWhiteSpace(filters))
+        if(opts == null || (StringExt.isNullOrWhiteSpace(opts.filters) && opts.extraFilters == null))
             return;
 
         try{
             Predicate p = cb.conjunction();
-            filter = JqgridObjectMapper.map(filters);
+
+            if(StringExt.isNullOrWhiteSpace(opts.filters) == false){
+                filter = JqgridObjectMapper.map(opts.filters);
+            }
+
+            if(opts.extraFilters != null){
+                if(filter == null){
+                    filter = new JqGridMultipleFilterModel();
+                    filter.setRules(new ArrayList<JqGridRulesModel>());
+                }
+                filter.getRules().addAll(opts.extraFilters);
+            }
+
             for(JqGridRulesModel rule : filter.getRules()){
                 //Por ahora sólo se aplican AND (conjuntion) entre las reglas y el operador LIKE (Búsqueda de comienza con...)
                 Expression<String> exp = selFil.setFilterField(r, rule.field);
@@ -101,7 +113,14 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                 if(exp == null)
                     exp = r.get(rule.field).as(String.class);
 
-                p.getExpressions().add(cb.like(cb.lower(exp), rule.data.trim().toLowerCase() + "%"));
+                switch (rule.op){
+                    case JqGridFilterModel.COMPARE_EQUAL:
+                        p.getExpressions().add(cb.equal(exp, rule.data));
+                        break;
+                    default:
+                        p.getExpressions().add(cb.like(cb.lower(exp), rule.data.trim().toLowerCase() + "%"));
+                        break;
+                }
             }
 
             cq.where(p);

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.umeca.infrastructure.PojoValidator;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
+import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.security.BcryptUtil;
 import com.umeca.model.ResponseMessage;
@@ -47,6 +48,10 @@ public class UserController {
 
     @RequestMapping(value = "/management/user/list", method = RequestMethod.POST)
     public @ResponseBody JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
+
+        //opts.extraFilters = new ArrayList<>();
+        //JqGridRulesModel extraFilter = new JqGridRulesModel("enabled", "1", JqGridFilterModel.COMPARE_EQUAL);
+        //opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override

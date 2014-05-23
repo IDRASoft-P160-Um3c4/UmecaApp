@@ -41,7 +41,7 @@
                 <sec:authorize access="isAuthenticated()">
                     <li class="nav-li-blue">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                            <img class="nav-user-photo" src="assets/avatars/avatar0.png" alt="Usuario" />
+                            <img class="nav-user-photo" src="/assets/avatars/avatar0.png" alt="Usuario" />
 								<span class="user-info">
 									<small>Bienvenido,</small>
 									<%=SecurityContextHolder.getContext().getAuthentication().getName()%>

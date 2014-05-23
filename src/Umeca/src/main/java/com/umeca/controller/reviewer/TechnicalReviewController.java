@@ -3,6 +3,7 @@ package com.umeca.controller.reviewer;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
+import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Questionary;
@@ -59,6 +60,10 @@ public class TechnicalReviewController {
     @RequestMapping(value = "/reviewer/technicalReview/list", method = RequestMethod.POST)
     public @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
+
+        //opts.extraFilters = new ArrayList<>();
+        //JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", "false", JqGridFilterModel.COMPARE_EQUAL);
+        //opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -130,7 +135,7 @@ public class TechnicalReviewController {
 
         }catch (Exception ex){
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se presentï¿½ un error inesperado. Por favor revise que la informaciï¿½n e intente de nuevo");
         }
 
         return response;
