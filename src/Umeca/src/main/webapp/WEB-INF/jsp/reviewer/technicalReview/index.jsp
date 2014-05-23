@@ -27,9 +27,10 @@
                 url: '<c:url value='/reviewer/technicalReview/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Usuario','Nombre completo','Correo electrónico','Acción'],
+                colNames: ['ID','SHOW','No. Carpeta','No. M.P.','Imputado','Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
+                    { name: 'show', index: 'show', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -38,7 +39,7 @@
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 pager: '#GridPager',
-                sortname: 'id',
+                sortname: 'idFolder',
                 height: 450,
                 viewrecords: true,
                 shrinkToFit: false,
@@ -47,7 +48,7 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-                    var otra = $(this).jqGrid('getCol', 'status', false);
+                    var otra = $(this).jqGrid('getCol', 'show', false);
 
                     alert(otra);
 
@@ -63,7 +64,7 @@
                     var table = this;
                     setTimeout(function(){
                         updatePagerIcons(table);
-                        enableTooltips(table);
+                        enableTooltips(table);s
                     }, 0);
                 }
             });

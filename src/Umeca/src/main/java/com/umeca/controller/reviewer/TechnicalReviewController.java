@@ -65,12 +65,12 @@ public class TechnicalReviewController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
-                    add(r.join("caseDetention").get("status").in());
+                    add(r.join("caseDetention").get("status"));
                     add(r.join("caseDetention").get("idFolder"));
                     add(r.join("caseDetention").get("idMP"));
-                    add(r.join("caseDetention").join("imputed").get("name"));
-                    add(r.join("caseDetention").join("imputed").get("lastNameP"));
-                    add(r.join("caseDetention").join("imputed").get("lastNameM"));
+                    add(r.join("caseDetention").join("meeting").join("imputed").get("name"));
+                    add(r.join("caseDetention").join("meeting").join("imputed").get("lastNameP"));
+                    add(r.join("caseDetention").join("meeting").join("imputed").get("lastNameM"));
                 }};
             }
 

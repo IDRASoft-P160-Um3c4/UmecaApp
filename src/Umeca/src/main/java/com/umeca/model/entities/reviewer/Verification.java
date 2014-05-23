@@ -37,11 +37,6 @@ public class Verification {
     @OneToMany(mappedBy="verification", cascade={CascadeType.ALL})
     private List<SourceVerification> sourceVerifications;
 
-   /* @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_technical_review")
-    private TechnicalReview technicalReview;*/
-
-
     public Long getId() {
         return id;
     }
