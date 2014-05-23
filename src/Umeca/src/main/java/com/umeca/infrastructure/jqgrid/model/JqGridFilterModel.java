@@ -1,5 +1,7 @@
 package com.umeca.infrastructure.jqgrid.model;
 
+import java.util.List;
+
 /**
  * Project: Umeca
  * User: Israel
@@ -8,6 +10,10 @@ package com.umeca.infrastructure.jqgrid.model;
  */
 public class JqGridFilterModel
 {
+    public static final String OPERATOR_AND = "and";
+
+    public static final String COMPARE_EQUAL = "eq";
+
     public String sidx;
     public String sord;
     public Integer page;
@@ -17,6 +23,8 @@ public class JqGridFilterModel
     public String searchOper;
     public String searchString;
     public String filters;
+    public List<JqGridRulesModel> extraFilters;
+
     //public Long primaryId;
     //public String codeItem;
 
@@ -91,6 +99,16 @@ public class JqGridFilterModel
     public void setFilters(String filters) {
         this.filters = filters;
     }
+
+    public List<JqGridRulesModel> getExtraFilters() {
+        return extraFilters;
+    }
+
+    public void setExtraFilters(List<JqGridRulesModel> extraFilters) {
+        this.extraFilters = extraFilters;
+    }
+
+
 /*
     public long getPrimaryId() {
         return primaryId;
