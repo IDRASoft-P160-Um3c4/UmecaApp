@@ -23,13 +23,13 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="showSql" value="false" />
+				<property name="showSql" value="true" />
 			</bean>
 		</property>
 		<property name="jpaPropertyMap">
 			<map>
 				<entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
-				<entry key="hibernate.hbm2ddl.auto" value="update" />
+				<entry key="hibernate.hbm2ddl.auto" value="create" />
 				<entry key="hibernate.format_sql" value="true" />
 			</map>
 		</property>
@@ -49,14 +49,15 @@
 		<property name="password" value="EMP3ND3T1C41"/>
 		<property name="poolPreparedStatements"><value>true</value></property>
 		<property name="maxActive"><value>10</value></property>
-		<property name="maxIdle"><value>10</value></property>	 
+		<property name="maxIdle"><value>10</value></property>
+		 s@lp@ssw04rD$$
 	</bean>-->
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/umecaTest?autoReconnect=true" />
 		<property name="username" value="root" />
-		<property name="password" value="admin" />
+        <property name="password" value="admin" />
 	</bean>
 
 </beans>

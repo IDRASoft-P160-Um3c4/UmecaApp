@@ -5,6 +5,7 @@ import com.umeca.model.shared.SelectList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,5 +21,8 @@ import java.util.List;
 public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
     @Query("SELECT new com.umeca.model.shared.SelectList(r.id, r.description) FROM Role r")
     public List<SelectList> findSelectList();
+
+    @Query("SELECT r FROM Role r WHERE r.role=:role")
+    public Role findByCode(@Param("role")String role);
 
 }
