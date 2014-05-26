@@ -1,5 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.MaritalStatus;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -29,9 +31,6 @@ public class Imputed { @Id
     @Column(name="lastname_m", length = 50, nullable = false)
     private String lastNameM;
 
-    @Column(name="nickName", length = 50, nullable = true)
-    private String nickName;
-
     @Column(name="gender", nullable = true)
     private Boolean gender;
 
@@ -40,6 +39,19 @@ public class Imputed { @Id
 
     @Column(name="cel_phone", length = 10, nullable = true)
     private String celPhone;
+
+    @Column(name="years_marital_status", nullable = true)
+    private Integer yearsMaritalStatus;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_marital_status", nullable = true)
+    private MaritalStatus maritalStatus;
+
+    @Column(name="boys", nullable = true)
+    private Integer boys;
+
+    @Column(name="dependent_boys", nullable = true)
+    private Integer dependentBoys;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
@@ -75,14 +87,6 @@ public class Imputed { @Id
 
     public void setLastNameM(String lastNameM) {
         this.lastNameM = lastNameM;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
     }
 
     public Boolean getGender() {
@@ -123,6 +127,38 @@ public class Imputed { @Id
 
     public void setRfc(String rfc) {
         this.rfc = rfc;
+    }
+
+    public Integer getYearsMaritalStatus() {
+        return yearsMaritalStatus;
+    }
+
+    public void setYearsMaritalStatus(Integer yearsMaritalStatus) {
+        this.yearsMaritalStatus = yearsMaritalStatus;
+    }
+
+    public MaritalStatus getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(MaritalStatus maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
+    public Integer getBoys() {
+        return boys;
+    }
+
+    public void setBoys(Integer boys) {
+        this.boys = boys;
+    }
+
+    public Integer getDependentBoys() {
+        return dependentBoys;
+    }
+
+    public void setDependentBoys(Integer dependentBoys) {
+        this.dependentBoys = dependentBoys;
     }
 }
 
