@@ -29,7 +29,7 @@ public class Case {
     @OneToOne(mappedBy="caseDetention", cascade={CascadeType.ALL})
     private Meeting meeting;
 
-    @Column(name = "status",nullable = false)
+    @Column(name = "status_code") // agregar nullable = false cuando se corrija la insercion en la entrevista
     private String status;
 
     @Transient
@@ -82,5 +82,13 @@ public class Case {
 
     public void setIdString(String idString) {
         this.idString = idString;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

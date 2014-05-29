@@ -37,8 +37,12 @@
             window.goToUrlMvcUrl("/reviewer/meeting/meeting.html?id=idParam",params);
 
         };
-        window.legal = function (id) {
-            window.showObsolete(id, "#angJsjqGridId", "/management/user/obsolete.json", "#GridId");
+
+        window.legal=function(id){
+            var params= [];
+            params["idParam"]=id;
+            window.goToUrlMvcUrl("/reviewer/meeting/legal/index.html?id=idParam",params);
+
         };
 
         $(document).ready(function() {
@@ -51,9 +55,9 @@
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'rfc', index: 'rfc', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullname', index: 'fullname', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'dateBirthString', index: 'dateBirthString', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'dateBirthString', index: 'dateBirthString', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'genderString', index: 'genderString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'description', index: 'description', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'description', index: 'description', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'idStatus', index: 'idStatus',hidden:true },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
@@ -74,11 +78,11 @@
                         var row = $(this).getRowData(cl);
                         var idStatus = row.idStatus;
                         var idConstant = parseInt($("#hdnStatusLegal").val());
-
-                        if (2 == idStatus) {
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Procesos legales usuario\" onclick=\"window.legal('" + cl + "');\"><i class=\"icon-legal\"></i></a>";
+                        var be;
+                        if ( 2 == idStatus) {
+                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Procesos legales usuario\" onclick=\"window.legal('" + cl + "');\"><i class=\"icon-legal\"></i></a>";
                         }else{
-                            var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

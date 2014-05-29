@@ -78,14 +78,11 @@
     <div class="col-xs-12">
         <h2> <i class="orange icon-book  bigger-100">&nbsp;</i>Historia Escolar</h2>
         <br/>
-        <div id="angJsjqGridIdSchool" ng-controller="modalDlgController">
-            <table id="GridIdSchool" class="element-center" style="margin: auto"></table>
-            <div id="GridPagerSchool"></div>
-            <div class="blocker" ng-show="working">
-                <div>
-                    Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
-                </div>
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <%@ include file="/WEB-INF/jsp/reviewer/meeting/school/content.jsp"%>
             </div>
+
         </div>
     </div>
 </div>
