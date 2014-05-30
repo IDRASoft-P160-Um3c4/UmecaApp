@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/technicalReviewCtrl.js"></script>
 
     <title>Opinión técnica</title>
@@ -30,7 +23,7 @@
                 colNames: ['ID','SHOW','No. Carpeta','No. M.P.','Imputado','Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'show', index: 'show', hidden: true },
+                    { name: 'status', index: 'status', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -48,15 +41,27 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-                    var otra = $(this).jqGrid('getCol', 'show', false);
+                   var status = $(this).jqGrid('getCol', 'status', false);
 
-                    alert(otra);
 
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
                         var enabled = row.enabled;
-                        var be = "<a href=\"/reviewer/technicalReview/technicalReview.html?id=" + cl + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                        var be;
+
+                        switch (status[i]){
+                            case "VERIF":
+                            be = "<a style=\"display:inline-block;\" title=\"Agregar opinión técnica\" href=\"/reviewer/technicalReview/technicalReview.html?id=" + cl + "\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+                            break;
+                            case "TEC_REV":
+                                be = "<a style=\"display:inline-block;\" title=\"Visualizar opinión técnica\" href=\"/reviewer/technicalReview/technicalReview.html?id=" + cl + "\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                            break;
+                            default:
+                                be = "<a style=\"display:inline-block;\" title=\"Aún no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+                                break;
+                        }
+
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },
@@ -64,7 +69,7 @@
                     var table = this;
                     setTimeout(function(){
                         updatePagerIcons(table);
-                        enableTooltips(table);s
+                        enableTooltips(table);
                     }, 0);
                 }
             });
@@ -87,7 +92,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Usuarios</h2>
+    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Opinión Técnica</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

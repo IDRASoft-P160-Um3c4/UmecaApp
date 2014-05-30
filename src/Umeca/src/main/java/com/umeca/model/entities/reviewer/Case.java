@@ -32,6 +32,10 @@ public class Case {
     @Column(name = "status_code") // agregar nullable = false cuando se corrija la insercion en la entrevista
     private String status;
 
+    @OneToOne(mappedBy="caseDetention", cascade={CascadeType.ALL})
+    private TechnicalReview technicalReview;
+
+
     @Transient
     private String idString;
 
@@ -90,5 +94,13 @@ public class Case {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public TechnicalReview getTechnicalReview() {
+        return technicalReview;
+    }
+
+    public void setTechnicalReview(TechnicalReview technicalReview) {
+        this.technicalReview = technicalReview;
     }
 }
