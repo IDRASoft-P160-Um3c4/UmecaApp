@@ -71,4 +71,15 @@ public class MeetingServiceImpl implements MeetingService {
         model.addObject("lstRoles", lstRoles);
         return model;
     }
+
+    @Override
+    public ModelAndView showLegalProcess(Long id) {
+        ModelAndView model = new ModelAndView("/reviewer/meeting/legal/index");
+        Gson gson = new Gson();
+        String lstRoles = gson.toJson(new ResponseMessage());
+        Case caseDetention = caseRepository.findOne(id);
+        model.addObject("m",caseDetention.getMeeting());
+        model.addObject("lstRoles", lstRoles);
+        return model;
+    }
 }

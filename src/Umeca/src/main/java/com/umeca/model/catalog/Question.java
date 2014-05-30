@@ -1,4 +1,4 @@
-package com.umeca.model.catalog;
+ package com.umeca.model.catalog;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
 

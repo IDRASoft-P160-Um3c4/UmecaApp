@@ -34,7 +34,7 @@
             <ul class="nav ace-nav navbar-right">
 
                 <sec:authorize access="isAnonymous()">
-                    <li>
+                    <li  class="nav-li-blue">
                         <a href="javascript:void(0)" ng-click="linkLogin()"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Ingresar</a>
                     </li>
                 </sec:authorize>

@@ -9,6 +9,7 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.reviewer.SocialEnvironment;
 import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.shared.SelectFilterFields;
@@ -69,6 +70,37 @@ public class MeetingController {
 
     }
 
+    @RequestMapping(value = "/reviewer/meeting/listAddress", method = RequestMethod.POST)
+    public @ResponseBody JqGridResultModel listAddress(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase){
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                return new ArrayList<Selection<?>>(){{
+                    add(r.join("meeting").join("caseDetention").get("id"));
+                    add(r.get("rfc"));
+                    add(r.get("name"));
+                    add(r.get("lastNameP"));
+                    add(r.get("lastNameM"));
+                    add(r.get("dateBirth"));
+                    add(r.get("gender"));
+                    add(r.join("meeting").join("status").get("description"));
+                    add(r.join("meeting").join("status").get("id").alias("idStatus"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                //if(field.equals("rfc"))
+                //    return r.get("rfc");
+                return null;
+            }
+        }, Imputed.class, MeetingView.class);
+
+        return result;
+
+    }
+
     @RequestMapping(value = "/reviewer/meeting/newMeeting", method = RequestMethod.POST)
     public String newMeeting(){
             return "/reviewer/meeting/newMeeting";
@@ -82,6 +114,11 @@ public class MeetingController {
     @RequestMapping(value = "/reviewer/meeting/meeting", method = RequestMethod.GET)
     public @ResponseBody ModelAndView meeting(@RequestParam(required = true) Long id){
         return meetingService.showMeeting(id);
+    }
+
+    @RequestMapping(value = "/reviewer/meeting/legal/index", method = RequestMethod.GET)
+    public @ResponseBody ModelAndView legal(@RequestParam(required = true) Long id){
+        return meetingService.showLegalProcess(id);
     }
 
     @RequestMapping(value = "/reviewer/meeting/address/upsert", method = RequestMethod.POST)
@@ -138,6 +175,15 @@ public class MeetingController {
     public ModelAndView upsertSchool(@RequestParam(required = false) Long id){
         ModelAndView model = new ModelAndView("/reviewer/meeting/school/upsert");
 
+        Gson gson = new Gson();
+        String lstRoles = gson.toJson(new ResponseMessage());
+        model.addObject("lstRoles", lstRoles);
+        return model;
+    }
+
+    @RequestMapping(value = "/reviewer/meeting/school/upsertPersonalData", method = RequestMethod.POST)
+    public ModelAndView upsertPersonalData(@RequestParam(required = true) Imputed imputed, @RequestParam(required = true)SocialEnvironment socialEnvironment){
+        ModelAndView model = new ModelAndView("/reviewer/meeting/meeting");
         Gson gson = new Gson();
         String lstRoles = gson.toJson(new ResponseMessage());
         model.addObject("lstRoles", lstRoles);

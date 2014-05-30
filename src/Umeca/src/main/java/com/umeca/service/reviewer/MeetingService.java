@@ -15,4 +15,6 @@ public interface MeetingService {
     ResponseMessage createMeeting(Imputed imputed);
 
     ModelAndView showMeeting(Long id);
+
+    ModelAndView showLegalProcess(Long id);
 }

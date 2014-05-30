@@ -37,6 +37,7 @@ public class MeetingView implements EntityGrid {
             this.genderString="Sin proporcionar";
         }
         Date date = Calendar.getInstance().getTime();
+        date.setTime(dateBirth.getTime());
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         this.dateBirthString = formatter.format(date);
     }
