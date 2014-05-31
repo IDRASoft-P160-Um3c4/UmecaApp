@@ -3,8 +3,13 @@ package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.DrugType;
 import com.umeca.model.catalog.Periodicity;
+import com.umeca.model.shared.EntityGrid;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -16,7 +21,24 @@ import java.util.Date;
  */
 @Entity
 @Table(name="drug")
-public class Drug {
+public class Drug implements EntityGrid{
+
+    public Drug() {
+    }
+
+    public Drug(Long id, String perName, Date lastUse, String drugName, String quantity) {
+        this.id = id;
+        this.perName = perName;
+        this.lastUse = lastUse;
+        this.drugName = drugName;
+        this.quantity = quantity;
+        if(lastUse!=null){
+            Date date = Calendar.getInstance().getTime();
+            date.setTime(lastUse.getTime());
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            this.lastUseFormat = formatter.format(date);
+        }
+    }
 
     @Id
     @GeneratedValue
@@ -37,9 +59,21 @@ public class Drug {
     @Column(name="last_use", nullable = false)
     private Date lastUse;
 
+    @Column(name="other", nullable = true, length = 30)
+    private String other;
+
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
+
+    @Transient
+    private String perName;
+
+    @Transient
+    private String lastUseFormat;
+
+    @Transient
+    private String drugName;
 
     public Long getId() {
         return id;
@@ -81,11 +115,44 @@ public class Drug {
         this.lastUse = lastUse;
     }
 
+    @JsonIgnore
     public Meeting getMeeting() {
         return meeting;
     }
 
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
+    }
+
+    public String getPerName() {
+        return perName;
+    }
+
+    public void setPerName(String perName) {
+        this.perName = perName;
+    }
+
+    public String getLastUseFormat() {
+        return lastUseFormat;
+    }
+
+    public void setLastUseFormat(String lastUseFormat) {
+        this.lastUseFormat = lastUseFormat;
+    }
+
+    public String getDrugName() {
+        return drugName;
+    }
+
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
+    }
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
     }
 }

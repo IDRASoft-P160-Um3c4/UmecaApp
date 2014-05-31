@@ -5,7 +5,7 @@
 </script>
 
 <div>
-    <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
+    <div id="dlgUpModalId" class="modal fade" ng-controller="socialNetworkController" ng-cloak>
         <div class="modal-dialog" style="width:800px">
             <div class="modal-content">
                 <div class="modal-header">
@@ -33,7 +33,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormCatId', '/reviewer/meeting/socialNetwork/doUpsert.json');">
+                          ng-click="submit('#FormCatId', '/reviewer/meeting/socialNetwork/doUpsert.json?idCase=${idCase}');">
                           Guardar
                     </span>
                 </div>

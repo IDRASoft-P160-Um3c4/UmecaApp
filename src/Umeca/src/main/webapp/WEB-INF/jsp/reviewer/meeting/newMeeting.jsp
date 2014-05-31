@@ -34,7 +34,7 @@
                                        data-val-length-max="10" data-val-length-min="10"
                                        data-val-required="El RFC es un campo requerido" ng-init="m.rfc='AAAA933639'"
                                        id="rfc" name="rfc" readonly="readonly" value="AAAA933639"
-                                       type="text" ng-model="m.rfc"/>
+                                       ng-model="m.rfc" type="text" />
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
@@ -50,8 +50,8 @@
                                        data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3" ng-init="m.name=''"
                                        data-val-required="El nombre es un campo requerido"
-                                       id="name" name="name" rfc-calculated
-                                       type="text" ng-model="m.name"/>
+                                       id="name" name="name" ng-model="m.name"
+                                       type="text" rfc-calculated/>
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>

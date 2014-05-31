@@ -3,32 +3,33 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <script>
     window.upsertSocialNetwork = function(id) {
-        window.showUpsert(id, "#angJsjqGridIdSocialNetwork", "/reviewer/meeting/socialNetwork/upsert.html", "#GridIdSocialNetwork");
+
+        window.showUpsertWithIdCase(id, "#angJsjqGridIdSocialNetwork", "/reviewer/meeting/socialNetwork/upsert.html", "#GridIdSocialNetwork",undefined, ${m.caseDetention.id});
     };
 
-    window.obsolete = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdSocialNetwork", "/management/user/obsolete.json", "#GridIdSocialNetwork");
+        window.delete = function (id) {
+        window.showObsolete(id, "#angJsjqGridIdSocialNetwork", "/reviewer/meeting/socialNetwork/delete.json", "#GridIdSocialNetwork");
     };
 
     $(document).ready(function() {
         jQuery("#GridIdSocialNetwork").jqGrid({
-            url: '<c:url value='/reviewer/meeting/listSocialNetwork.json' />',
+            url: '<c:url value='/reviewer/meeting/listSocialNetwork.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Nombre','Relación','Edad','Teléfono', 'Acción'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
-                { name: 'referenceString', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'fullname', index: 'fullname', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'email', index: 'email', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'role', index: 'role', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'relName', index: 'relName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'age', index: 'age', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'phone', index: 'phone', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
             pager: '#GridPagerSocialNetwork',
-            sortname: 'username',
-            height: 450,
+            sortname: 'name',
+            height: 200,
             viewrecords: true,
             shrinkToFit: false,
             sortorder: "desc",
@@ -40,9 +41,9 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar persona de red social\" onclick=\"window.upsertSocialNetwork('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.enable('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Borrar persona de red social\" onclick=\"window.delete('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                           $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },
@@ -87,6 +88,7 @@
             </div>
         </div>
         <br/>
+
         <div class="row">
             <div class="col-xs-11 col-xs-offset-1">
                 <div class="col-xs-2 element-left">Comentarios:</div>
@@ -94,6 +96,13 @@
                     <textarea id="form-field-11" class="form-control"></textarea>
                 </div>
             </div>
+        </div>
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="submit('#FormPersonalData', '/reviewer/meeting/upsertPersonalData.json');">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                          Guardar
+                    </span>
         </div>
     </div>
 </div>

@@ -30,6 +30,21 @@ window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue)
         });
 
 };
+
+window.showUpsertWithIdCase = function (id, divScope, urlToGo, jqGridToUse, urlToContinue, idCase) {
+    var scope = angular.element($(divScope)).scope();
+    scope.show({ id: id ,idCase: idCase}, urlToGo).
+        then(function () {
+
+            if(urlToContinue !== undefined){
+                window.goToUrlMvcUrl(urlToContinue);
+                return;
+            }
+
+            $(jqGridToUse).trigger("reloadGrid");
+        });
+
+};
 window.showConfirmService = function (id, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.doConfirm({ id: id }, urlToGo).

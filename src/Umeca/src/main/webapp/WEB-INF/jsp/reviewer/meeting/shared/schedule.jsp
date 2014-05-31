@@ -1,9 +1,9 @@
 
 <div class="row element-center">
-    <div class="col-xs-10 col-xs-offset-1">
+    <div class="col-xs-8 col-xs-offset-2">
         <div class="row">
     <div class="col-xs-4 element-center">
-       <b>Día</b> <br/>
+       Día<br/>
         <select class="form-control element-center">
             <option value="0">Lunes</option>
             <option value="1">Martes</option>
@@ -15,25 +15,25 @@
         </select>
     </div>
     <div class="col-xs-3 element-center">
-                    <b>Inicio</b> <br/>
+                    Inicio<br/>
         <div class="input-group bootstrap-timepicker">
             <input id="timepickerStart" type="text" class="form-control" />
             <span class="input-group-addon">
-				<i class="icon-time bigger-110"></i>
+				<i class="icon-time bigger-60"></i>
 			</span>
         </div>
     </div>
     <div class="col-xs-3 element-center">
-        <b>Fin</b> <br/>
+        Fin <br/>
         <div class="input-group bootstrap-timepicker">
             <input id="timepickerEnd" type="text" class="form-control" />
             <span class="input-group-addon">
-				<i class="icon-time bigger-110"></i>
+				<i class="icon-time  bigger-40"></i>
 			</span>
         </div>
     </div>
     <div class="col-xs-2">
-        <b>Acciones</b> <br/><div class="space-5"></div>
+        Acciones <br/><div class="space-5"></div>
         <i class="icon-plus-sign orange"></i>
     </div>
     </div>

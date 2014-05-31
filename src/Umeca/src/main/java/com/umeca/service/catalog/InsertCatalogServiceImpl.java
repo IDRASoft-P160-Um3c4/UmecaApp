@@ -2,17 +2,12 @@ package com.umeca.service.catalog;
 
 import com.umeca.infrastructure.ReaderFile;
 import com.umeca.infrastructure.extensions.LongExt;
-import com.umeca.model.catalog.Question;
-import com.umeca.model.catalog.QuestionType;
-import com.umeca.model.catalog.Questionary;
-import com.umeca.model.catalog.QuestionarySection;
+import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
-import com.umeca.repository.catalog.QuestionRepository;
-import com.umeca.repository.catalog.QuestionTypeRepository;
-import com.umeca.repository.catalog.QuestionarySectionRepository;
+import com.umeca.repository.catalog.*;
 import com.umeca.repository.shared.QuestionaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +24,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";//"C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";//"C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
 
 
     @Autowired
@@ -170,5 +165,162 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             repositoryQun.save(model);
         }
         repositoryQun.flush();
+    }
+
+    @Autowired
+    PhysicalConditionRepository physicalConditionRepository;
+    @Override
+    public void physicalCondition(){
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "physical_condition.txt","\\|", 2);
+
+        for (String[] data : lstDta) {
+            PhysicalCondition model = new PhysicalCondition();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            physicalConditionRepository.save(model);
+        }
+
+        physicalConditionRepository.flush();
+    }
+
+    @Autowired
+    ActivityRepository activityRepository;
+    @Override
+    public void activity() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity.txt","\\|", 2);
+
+        for (String[] data : lstDta) {
+            Activity model = new Activity();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            activityRepository.save(model);
+        }
+
+        activityRepository.flush();
+
+    }
+
+    @Autowired
+    StatusMeetingRepository statusMeetingRepository;
+
+    @Override
+    public void statusMeeting() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "status_meeting.txt","\\|", 3);
+
+        for (String[] data : lstDta) {
+            StatusMeeting model = new StatusMeeting();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            statusMeetingRepository.save(model);
+            }
+
+        statusMeetingRepository.flush();
+
+    }
+
+    @Autowired
+    MaritalStatusRepository maritalStatusRepository;
+    @Override
+    public void maritalStatus() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "marital_status.txt","\\|", 2);
+
+        for (String[] data : lstDta) {
+            MaritalStatus model = new MaritalStatus();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);;
+            maritalStatusRepository.save(model);
+        }
+
+        maritalStatusRepository.flush();
+    }
+
+    @Autowired
+    ElectionRepository electionRepository;
+
+    @Override
+    public void election() {
+       List<String[]> lstDta = ReaderFile.readFile(PATH + "election.txt","\\|", 2);
+        for (String[] data : lstDta) {
+            Election model = new Election();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);;
+            electionRepository.save(model);
+        }
+        electionRepository.flush();
+    }
+
+    @Autowired
+    RelationshipRepository relationshipRepository;
+
+    @Override
+    public void relationship() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt","\\|", 2);
+        for (String[] data : lstDta) {
+            Relationship model = new Relationship();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);;
+            relationshipRepository.save(model);
+        }
+        relationshipRepository.flush();
+    }
+
+    @Autowired
+    DocumentTypeRepository documentTypeRepository;
+
+    @Override
+    public void documentType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "document_type.txt","\\|", 2);
+        for (String[] data : lstDta) {
+            DocumentType model = new DocumentType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);;
+            documentTypeRepository.save(model);
+        }
+        documentTypeRepository.flush();
+    }
+
+    @Autowired
+    DrugTypeRepository drugTypeRepository;
+    @Override
+    public void drugType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "drug_type.txt","\\|", 2);
+        for (String[] data : lstDta) {
+            DrugType model = new DrugType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);;
+            drugTypeRepository.save(model);
+        }
+        drugTypeRepository.flush();
+
+    }
+
+    @Autowired
+    PeriodicityRepository periodicityRepository;
+    @Override
+    public void periodicity() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "periodicity.txt","\\|", 2);
+        for (String[] data : lstDta) {
+            Periodicity model = new Periodicity();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);;
+            periodicityRepository.save(model);
+        }
+        periodicityRepository.flush();
+    }
+
+    @Autowired
+    DayWeekRepository dayWeekRepository;
+    @Override
+    public void dayWeek() {
+
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "day_week.txt","\\|", 2);
+        for (String[] data : lstDta) {
+            DayWeek model = new DayWeek();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);;
+            dayWeekRepository.save(model);
+        }
+        dayWeekRepository.flush();
     }
 }

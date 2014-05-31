@@ -1,5 +1,6 @@
-package com.umeca.repository;
+package com.umeca.repository.catalog;
 
+import com.umeca.model.catalog.PhysicalCondition;
 import com.umeca.model.catalog.StatusMeeting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository("statusMeetingRepository")
-public interface StatusMeetingRepository extends JpaRepository<StatusMeeting, Long>{
+public interface StatusMeetingRepository extends JpaRepository<StatusMeeting,Long> {
     @Query("SELECT s from StatusMeeting s where status=:code")
     public StatusMeeting findByCode(@Param("code") String code);
 }

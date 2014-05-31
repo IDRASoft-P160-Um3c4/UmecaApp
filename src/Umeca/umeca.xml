@@ -336,7 +336,7 @@
     <property name="artifact.temp.output.umeca:war" value="${artifacts.temp.dir}/Umeca_war"/>
     <mkdir dir="${artifact.temp.output.umeca:war}"/>
     <zip destfile="${temp.jar.path.Umeca.war}">
-      <zipfileset dir="${artifact.temp.output.umeca:war_exploded}"/>
+      <zipfileset dir="${artifact.output.umeca:war_exploded}"/>
     </zip>
     <copy file="${temp.jar.path.Umeca.war}" tofile="${artifact.temp.output.umeca:war}/Umeca.war"/>
   </target>
