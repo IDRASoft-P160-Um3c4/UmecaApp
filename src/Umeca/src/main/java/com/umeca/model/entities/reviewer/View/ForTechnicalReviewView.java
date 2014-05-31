@@ -25,8 +25,8 @@ public class ForTechnicalReviewView implements EntityGrid{
         this.name = name;
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
-        this.fullName = name+"_"+lastNameP+"_"+lastNameP;
-        if(status.equals("VERIFICA"))
+        this.fullName = name+" "+lastNameP+" "+lastNameM;
+        if(status!=null && status.equals("VERIFICA"))
             show=true;
     }
 
