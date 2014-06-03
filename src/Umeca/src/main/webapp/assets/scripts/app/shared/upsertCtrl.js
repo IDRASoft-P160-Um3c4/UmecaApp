@@ -9,6 +9,7 @@
             $scope.Invalid = true;
             return false;
         }
+
         $scope.WaitFor = true;
 
         if (hasReturnId === true) {
@@ -24,12 +25,65 @@
         return true;
     };
 
+
+    $scope.submitRedirect = function (formId, urlToPost, hasReturnId, validate) {
+
+        if (validate != undefined)
+            if (validate() == false)
+                return;
+
+        if ($(formId).valid() == false) {
+            $scope.Invalid = true;
+            return false;
+        }
+
+        $scope.WaitFor = true;
+
+        if (hasReturnId === true) {
+            $.post(urlToPost, $(formId).serialize())
+                .success($scope.handleSuccessWithId)
+                .error($scope.handleError);
+        }
+        else {
+            $.post(urlToPost, $(formId).serialize())
+                .success($scope.handleSuccessRedirect)
+                .error($scope.handleError);
+        }
+        return true;
+    };
+
+    $scope.returnUrl = function (urlToGo) {
+        window.goToUrlMvcUrl(urlToGo,"");
+    };
+
+
+    $scope.handleSuccessRedirect = function (resp) {
+        $scope.WaitFor = false;
+
+        try {
+            if (resp.hasError === undefined) {
+                resp = resp.responseMessage;
+            }
+            if (resp.hasError === false) {
+                window.goToUrlMvcUrl(resp.urlToGo,"");
+                return;
+            }
+
+            $scope.MsgError = resp.message;
+
+            $scope.$apply();
+
+        } catch (e) {
+            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
+        }
+    };
+
     $scope.handleSuccessWithId = function (resp) {
         $scope.WaitFor = false;
 
         try {
-            if(resp.hasError===undefined){
-                resp=resp.responseMessage;
+            if (resp.hasError === undefined) {
+                resp = resp.responseMessage;
             }
             if (resp.hasError === false) {
                 $rootScope.$broadcast("onLastId", resp.Id);
@@ -51,8 +105,9 @@
         $scope.WaitFor = false;
 
         try {
-            if(resp.hasError===undefined){
-                resp=resp.responseMessage;}
+            if (resp.hasError === undefined) {
+                resp = resp.responseMessage;
+            }
             if (resp.hasError === false) {
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({ isCancel: false });

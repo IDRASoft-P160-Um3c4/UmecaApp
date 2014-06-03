@@ -3,8 +3,8 @@ package com.umeca.model.catalog;
 import javax.persistence.*;
 
 @Entity
-@Table(name="question_answer")
-public class QuestionAnswer {
+@Table(name="answer")
+public class Answer {
 
 
     @Id

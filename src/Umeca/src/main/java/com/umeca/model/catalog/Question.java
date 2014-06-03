@@ -1,6 +1,9 @@
  package com.umeca.model.catalog;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
+
 import javax.persistence.*;
+import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -15,8 +18,11 @@ public class Question {
     @Column(name="question", length = 1200, nullable = false)
     private String question;
 
-    @Column(name="value", nullable = true)
+    @Column(name="value", nullable = false)
     private Integer value;
+
+    @Column(name="quest_index", nullable = false)
+    private Integer index;
 
     @Column(name="is_obsolete", nullable = false)
     private Boolean isObsolete;
@@ -26,11 +32,20 @@ public class Question {
     private QuestionType questionType;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "question", fetch = FetchType.LAZY)
-    private List<QuestionAnswer> answers;
+    private List<Answer> answers;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_questionary_section", nullable = false)
     private QuestionarySection section;
+
+
+    @Transient
+    public static final Comparator<Question> questComparator = new Comparator<Question>() {
+        @Override
+        public int compare(Question q1, Question q2) {
+            return  q1.getIndex().compareTo(q2.getIndex());
+        }
+    };
 
 
     public Long getId() {
@@ -73,19 +88,27 @@ public class Question {
         this.questionType = questionType;
     }
 
-    public List<QuestionAnswer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<QuestionAnswer> answers) {
-        this.answers = answers;
-    }
-
     public QuestionarySection getSection() {
         return section;
     }
 
     public void setSection(QuestionarySection section) {
         this.section = section;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 }

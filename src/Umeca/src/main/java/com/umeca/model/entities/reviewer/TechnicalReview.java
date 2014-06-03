@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -18,14 +19,21 @@ public class TechnicalReview {
     @Column(name = "comments", length = 1000, nullable = false)
     private String comments;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "technicalReview", fetch = FetchType.LAZY)
-    private List<QuestionReviewRel> answersSel;
+    @Column(name = "subtotals", length = 3000, nullable = false)
+    private String subtotalsTxt;
 
-    @Transient
-    private Long meetingId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "technicalReview", fetch = FetchType.LAZY)
+    private List<QuestionReviewRel> questionsSel;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_case_detention")
+    private Case caseDetention;
 
     @Transient
     private String txtListQuest;
+
+    @Transient
+    private Long idVerification;
 
     public Long getId() {
         return id;
@@ -51,20 +59,12 @@ public class TechnicalReview {
         this.comments = comments;
     }
 
-    public List<QuestionReviewRel> getAnswersSel() {
-        return answersSel;
+    public List<QuestionReviewRel> getQuestionsSel() {
+        return questionsSel;
     }
 
-    public void setAnswersSel(List<QuestionReviewRel> answersSel) {
-        this.answersSel = answersSel;
-    }
-
-    public Long getMeetingId() {
-        return meetingId;
-    }
-
-    public void setMeetingId(Long meetingId) {
-        this.meetingId = meetingId;
+    public void setQuestionsSel(List<QuestionReviewRel> questionsSel) {
+        this.questionsSel = questionsSel;
     }
 
     public String getTxtListQuest() {
@@ -73,5 +73,29 @@ public class TechnicalReview {
 
     public void setTxtListQuest(String txtListQuest) {
         this.txtListQuest = txtListQuest;
+    }
+
+    public Case getCaseDetention() {
+        return caseDetention;
+    }
+
+    public void setCaseDetention(Case caseDetention) {
+        this.caseDetention = caseDetention;
+    }
+
+    public Long getIdVerification() {
+        return idVerification;
+    }
+
+    public void setIdVerification(Long idVerification) {
+        this.idVerification = idVerification;
+    }
+
+    public String getSubtotalsTxt() {
+        return subtotalsTxt;
+    }
+
+    public void setSubtotalsTxt(String subtotalsTxt) {
+        this.subtotalsTxt = subtotalsTxt;
     }
 }

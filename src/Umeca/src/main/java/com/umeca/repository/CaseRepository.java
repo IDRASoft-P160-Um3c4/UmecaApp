@@ -13,7 +13,12 @@ import org.springframework.stereotype.Repository;
  * Date: 5/2/14
  * Time: 8:10 PM
  */
-@Repository("caseRepository")
+@Repository("qCaseRepository")
 public interface CaseRepository extends JpaRepository<Case, Long>{
 
+    @Query("SELECT c FROM Case c WHERE c.id =:idCase")
+    Case findById(@Param("idCase")Long idCase);
+
 }
+
+
