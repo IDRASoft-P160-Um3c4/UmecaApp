@@ -24,5 +24,35 @@ public class AssignedArrangement {
     @JoinColumn(name = "id_hearing_format", nullable = false)
     private HearingFormat hearingFormat;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Arrangement getArrangement() {
+        return arrangement;
+    }
+
+    public void setArrangement(Arrangement arrangement) {
+        this.arrangement = arrangement;
+    }
+
+    public HearingFormat getHearingFormat() {
+        return hearingFormat;
+    }
+
+    public void setHearingFormat(HearingFormat hearingFormat) {
+        this.hearingFormat = hearingFormat;
+    }
 }
