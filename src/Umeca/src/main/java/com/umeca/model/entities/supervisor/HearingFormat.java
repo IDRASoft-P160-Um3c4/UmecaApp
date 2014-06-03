@@ -1,9 +1,11 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.entities.reviewer.Case;
+
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "hearing_format")
@@ -44,8 +46,21 @@ public class HearingFormat {
     @Column(name = "additional_data", nullable = false)
     private String additionalData;
 
-/*    @OneToOne(mappedBy = "hearingFormat",cascade = CascadeType.ALL)
-    private HearingFormatSpecs hearingFormatSpecs;*/
+    @Column(name = "terms", nullable = false)
+    private String terms;
+
+    @OneToOne(mappedBy = "hearingFormat", fetch = FetchType.LAZY)
+    private HearingFormatSpecs hearingFormatSpecs;
+
+    @OneToMany(mappedBy = "hearingFormat",fetch = FetchType.LAZY)
+    private List<AssignedArrangement> assignedArrangements;
+
+    @OneToMany(mappedBy = "hearingFormat",fetch = FetchType.LAZY)
+    private List<ContactData> contacts;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_case", nullable = false)
+    private Case caseDetention;
 
     public Long getId() {
         return id;
@@ -134,12 +149,44 @@ public class HearingFormat {
     public void setAdditionalData(String additionalData) {
         this.additionalData = additionalData;
     }
-/*
+
+    public String getTerms() {
+        return terms;
+    }
+
+    public void setTerms(String terms) {
+        this.terms = terms;
+    }
+
     public HearingFormatSpecs getHearingFormatSpecs() {
         return hearingFormatSpecs;
     }
 
     public void setHearingFormatSpecs(HearingFormatSpecs hearingFormatSpecs) {
         this.hearingFormatSpecs = hearingFormatSpecs;
-    }*/
+    }
+
+    public List<AssignedArrangement> getAssignedArrangements() {
+        return assignedArrangements;
+    }
+
+    public void setAssignedArrangements(List<AssignedArrangement> assignedArrangements) {
+        this.assignedArrangements = assignedArrangements;
+    }
+
+    public List<ContactData> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<ContactData> contacts) {
+        this.contacts = contacts;
+    }
+
+    public Case getCaseDetention() {
+        return caseDetention;
+    }
+
+    public void setCaseDetention(Case caseDetention) {
+        this.caseDetention = caseDetention;
+    }
 }
