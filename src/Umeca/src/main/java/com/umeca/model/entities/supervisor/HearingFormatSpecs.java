@@ -24,6 +24,4 @@ public class HearingFormatSpecs {
     @Column(name = "linkage_date")
     private Date linkageDate;
 
-
-
 }

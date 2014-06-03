@@ -44,8 +44,8 @@ public class HearingFormat {
     @Column(name = "additional_data", nullable = false)
     private String additionalData;
 
-    @OneToOne(mappedBy = "hearingFormat",cascade = CascadeType.ALL)
-    private HearingFormatSpecs hearingFormatSpecs;
+/*    @OneToOne(mappedBy = "hearingFormat",cascade = CascadeType.ALL)
+    private HearingFormatSpecs hearingFormatSpecs;*/
 
     public Long getId() {
         return id;
@@ -134,12 +134,12 @@ public class HearingFormat {
     public void setAdditionalData(String additionalData) {
         this.additionalData = additionalData;
     }
-
+/*
     public HearingFormatSpecs getHearingFormatSpecs() {
         return hearingFormatSpecs;
     }
 
     public void setHearingFormatSpecs(HearingFormatSpecs hearingFormatSpecs) {
         this.hearingFormatSpecs = hearingFormatSpecs;
-    }
+    }*/
 }
