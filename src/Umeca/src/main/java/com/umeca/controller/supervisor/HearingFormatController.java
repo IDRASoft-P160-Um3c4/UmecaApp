@@ -1,6 +1,8 @@
 package com.umeca.controller.supervisor;
 
 import com.umeca.model.catalog.Arrangement;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,12 +20,17 @@ public class HearingFormatController  {
     @Autowired
     ArrangementRepository arrangementRepository;
 
+    @Qualifier("qCaseRepository")
+    @Autowired
+    CaseRepository caseRepository;
 
 
     @RequestMapping(value = "/supervisor/hearingFormat", method = RequestMethod.GET)
     public ModelAndView hearingFormat() {
         ModelAndView model = new ModelAndView("/supervisor/hearingFormat");
         List<Arrangement> arrangements = arrangementRepository.findAll();
+
+        Case caseDet =  caseRepository.findByIdFolder("F-002");
 
         return model;
     }
