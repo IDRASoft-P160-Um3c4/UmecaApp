@@ -10,7 +10,6 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/generateMonPlanCtrl.js"></script>
     <title></title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -19,38 +18,31 @@
     <div class="container body-content">
 
         <script>
-            window.upsert = function(id) {
-                window.showUpsert(id, "#angJsjqGridId", "/supervisor/generateMonitoringPlan/upsert.html", "#GridId");
+            window.generate = function(id) {
+                window.showUpsert(id, "#angJsjqGridId", "/supervisor/generateMonitoringPlan/generate.html", "#GridId");
             };
 
-            window.disable = function (id) {
-                window.showAction(id, "#angJsjqGridId", "/supervisor/generateMonitoringPlan/disable.json", "#GridId", "Deshabilitar usuario", "¿Desea deshabilitar al usuario?", "warning");
-            };
-
-
-            window.enable = function (id) {
-                window.showAction(id, "#angJsjqGridId", "/supervisor/generateMonitoringPlan/enable.json", "#GridId", "Habilitar usuario", "¿Desea habilitar al usuario?", "warning");
-            };
 
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/supervisor/generateMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Usuario','Nombre completo','Correo electrónico','Perfil', 'Habilitado', 'Acción'],
+                    colNames: ['ID', 'No. Carpeta', 'No. M.P.','Imputado', 'Fecha asignación', 'Estatus', 'Asignado a', 'Acción'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
-                        { name: 'username', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                        { name: 'fullname', index: 'fullname', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                        { name: 'email', index: 'email', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                        { name: 'role', index: 'role', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                        { name: 'enabled', index: 'enabled', hidden: true },
+                        { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sortable: false, search: false },
+                        { name: 'idMP', index: 'idMP', width: 200, align: "center", sortable: false, search: false },
+                        { name: 'fullName', index: 'fullName', width: 300, align: "center", sortable: false, search: false },
+                        { name: 'stCreationTime', index: 'stCreationTime', width: 200, align: "center", sortable: true, search: false },
+                        { name: 'status', index: 'status', width: 200, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                        { name: 'supervisor', index: 'supervisor', width: 200, align: "center", sortable: false, search: false },
                         { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],
                     pager: '#GridPager',
-                    sortname: 'username',
+                    sortname: 'creationTime',
                     height: 450,
                     viewrecords: true,
                     shrinkToFit: false,
@@ -62,14 +54,15 @@
                         for (var i = 0; i < ids.length; i++) {
                             var cl = ids[i];
                             var row = $(this).getRowData(cl);
-                            var enabled = row.enabled;
-                            var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                            var status = row.status;
+                            var be = "";
 
-                            if (enabled == "true") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.disable('" + cl + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
+                            if (status === "NUEVO") {
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
                             }else{
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Habilitar usuario\" onclick=\"window.enable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok\"></span></a>";
                             }
+
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }
                     },
@@ -84,7 +77,7 @@
 
                 jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                     edit: false, editicon : 'icon-pencil blue',
-                    add: true, addfunc: window.upsert, addicon : 'icon-plus-sign purple',
+                    add: false,
                     refresh: true, refreshicon : 'icon-refresh green',
                     del: false,
                     search: false});
