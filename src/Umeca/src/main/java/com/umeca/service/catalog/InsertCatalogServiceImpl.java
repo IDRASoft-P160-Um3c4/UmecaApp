@@ -2,14 +2,13 @@ package com.umeca.service.catalog;
 
 import com.umeca.infrastructure.ReaderFile;
 import com.umeca.infrastructure.extensions.LongExt;
-import com.umeca.model.catalog.Question;
-import com.umeca.model.catalog.QuestionType;
-import com.umeca.model.catalog.Questionary;
-import com.umeca.model.catalog.QuestionarySection;
+import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
+import com.umeca.repository.StatusMeetingRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.QuestionRepository;
 import com.umeca.repository.catalog.QuestionTypeRepository;
 import com.umeca.repository.catalog.QuestionarySectionRepository;
@@ -29,7 +28,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";//"C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\IDRASoft\\UmecaApp\\db\\";//"C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
 
 
     @Autowired
@@ -72,6 +71,42 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         }
 
         repositoryUser.flush();
+    }
+
+
+    @Autowired
+    StatusMeetingRepository repositoryStMe;
+
+    @Override
+    public void statusMeeting() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "status_meeting.txt","\\|", 3);
+        for (String[] data : lstDta) {
+            StatusMeeting model = new StatusMeeting();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            repositoryStMe.save(model);
+        }
+        repositoryStMe.flush();
+    }
+
+
+    @Autowired
+    ArrangementRepository repositoryArr;
+
+    @Override
+    public void arrangement() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "arrangement.txt","\\|", 5);
+        for (String[] data : lstDta) {
+            Arrangement model = new Arrangement();
+            model.setId(Long.parseLong(data[0]));
+            model.setDescription(data[1]);
+            model.setType(Integer.parseInt(data[2]));
+            model.setIndex(Integer.parseInt(data[3]));
+            model.setIsObsolete(data[4].equals("1"));
+            repositoryArr.save(model);
+        }
+        repositoryArr.flush();
     }
 
     @Autowired

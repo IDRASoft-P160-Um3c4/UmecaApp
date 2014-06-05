@@ -34,6 +34,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Supervisor<b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="/supervisor/hearingFormat.html"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Formato de audiencia</a></li>
+                            <li><a href="/supervisor/generateMonitoringPlan/index.html"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar plan de supervisión</a></li>
+                            <li><a href="/supervisor/trackMonitoringPlan/index.html"><i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Seguimiento al plan de supervisión</a></li>
                         </ul>
                     </li>
                 </sec:authorize>

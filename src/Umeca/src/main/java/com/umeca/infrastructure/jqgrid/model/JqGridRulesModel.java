@@ -11,10 +11,10 @@ public class JqGridRulesModel {
     public String op;
     public String data;
 
-    public JqGridRulesModel(String field, String data, String op) {
+    public JqGridRulesModel(String field, String op, String data) {
         this.field = field;
-        this.data = data;
         this.op = op;
+        this.data = data;
     }
 
     public String getField() {

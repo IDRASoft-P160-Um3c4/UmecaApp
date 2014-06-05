@@ -32,6 +32,18 @@ public class InsertCatalogController {
         return "User OK!";
     }
 
+    @RequestMapping(value = "/catalogs/insertStatusMeeting", method = RequestMethod.GET)
+    public String insertStatusMeeting(){
+        service.statusMeeting();
+        return "Status Meeting OK!";
+    }
+
+    @RequestMapping(value = "/catalogs/insertArrangement", method = RequestMethod.GET)
+    public String insertArrangement(){
+        service.arrangement();
+        return "Arrangement OK!";
+    }
+
 
     @RequestMapping(value = "/catalogs/insertQuestionType", method = RequestMethod.GET)
     public String insertQuestionType(){
@@ -64,6 +76,8 @@ public class InsertCatalogController {
     public String insertCatalogAll(){
         service.role();
         service.user();
+        service.statusMeeting();
+        service.arrangement();
         service.questionType();
         service.questionary();
         service.questionarySection();
