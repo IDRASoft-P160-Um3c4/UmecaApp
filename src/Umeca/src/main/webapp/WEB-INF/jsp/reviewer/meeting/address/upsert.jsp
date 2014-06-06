@@ -35,7 +35,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormAddressId', '/reviewer/meeting/address/doUpsert.json?idCase=${idCase}');">
+                          ng-click="submit('#FormAddressId', '<c:url value='/reviewer/meeting/address/doUpsert.json?idCase=${idCase}'/>');">
                           Guardar
                     </span>
                 </div>

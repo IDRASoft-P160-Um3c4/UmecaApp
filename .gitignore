@@ -13,3 +13,6 @@ src/Umeca.rar
 src/Umeca/src/main/resources/jpaContext.xml
 src/Umeca/src/main/resources/jpaContext.xml
 src/Umeca/src/main/resources/jpaContext.xml
+*.xml
+*.iml
+*.properties

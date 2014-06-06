@@ -17,7 +17,6 @@ public interface InsertCatalogService {
     void question();
     void physicalCondition();
     void activity();
-    void statusMeeting();
     void maritalStatus();
     void election();
     void relationship();

@@ -1,6 +1,6 @@
 id|name|idLevel
 1|No sabe leer ni escribir|1
-2|Sabe leer y escribir|1 
+2|Sabe leer y escribir|1
 3|Primero|2
 4|Segundo|2
 5|Tercero|2

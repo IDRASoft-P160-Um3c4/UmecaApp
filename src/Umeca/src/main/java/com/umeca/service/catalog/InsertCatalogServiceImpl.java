@@ -201,22 +201,38 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     }
 
     @Autowired
-    StatusMeetingRepository statusMeetingRepository;
+    StatusMeetingRepository repositoryStMe;
 
     @Override
     public void statusMeeting() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "status_meeting.txt","\\|", 3);
-
         for (String[] data : lstDta) {
             StatusMeeting model = new StatusMeeting();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
-            statusMeetingRepository.save(model);
-            }
+            repositoryStMe.save(model);
+        }
+        repositoryStMe.flush();
+    }
 
-        statusMeetingRepository.flush();
 
+    @Autowired
+    ArrangementRepository repositoryArr;
+
+    @Override
+    public void arrangement() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "arrangement.txt","\\|", 5);
+        for (String[] data : lstDta) {
+            Arrangement model = new Arrangement();
+            model.setId(Long.parseLong(data[0]));
+            model.setDescription(data[1]);
+            model.setType(Integer.parseInt(data[2]));
+            model.setIndex(Integer.parseInt(data[3]));
+            model.setIsObsolete(data[4].equals("1"));
+            repositoryArr.save(model);
+        }
+        repositoryArr.flush();
     }
 
     @Autowired

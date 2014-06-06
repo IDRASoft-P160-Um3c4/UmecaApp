@@ -78,6 +78,12 @@ public class InsertCatalogController {
         return "Physical condition OK!";
     }
 
+    @RequestMapping(value = "/catalogs/insertArrangement", method = RequestMethod.GET)
+    public String insertArrangement(){
+        service.arrangement();
+        return "Arrangement OK!";
+    }
+
    @RequestMapping(value="/catalogs/insertMaritalStatus", method = RequestMethod.GET)
     public String insertMaritalStatus(){
         service.maritalStatus();
@@ -136,6 +142,7 @@ public class InsertCatalogController {
     public String insertCatalogAll(){
         service.role();
         service.user();
+        service.arrangement();
         //service.questionType();
         //service.questionary();
         //service.questionarySection();
