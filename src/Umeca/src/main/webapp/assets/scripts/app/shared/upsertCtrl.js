@@ -28,11 +28,12 @@
 
     $scope.submitRedirect = function (formId, urlToPost, hasReturnId, validate) {
 
-        if (validate != undefined)
-            if (validate() == false)
-                return;
+        var stVal = true;
 
-        if ($(formId).valid() == false) {
+        if (validate != undefined)
+            stVal = validate();
+
+        if ($(formId).valid() == false || stVal == false) {
             $scope.Invalid = true;
             return false;
         }
@@ -53,7 +54,7 @@
     };
 
     $scope.returnUrl = function (urlToGo) {
-        window.goToUrlMvcUrl(urlToGo,"");
+        window.goToUrlMvcUrl(urlToGo, "");
     };
 
 
@@ -65,7 +66,7 @@
                 resp = resp.responseMessage;
             }
             if (resp.hasError === false) {
-                window.goToUrlMvcUrl(resp.urlToGo,"");
+                window.goToUrlMvcUrl(resp.urlToGo, "");
                 return;
             }
 

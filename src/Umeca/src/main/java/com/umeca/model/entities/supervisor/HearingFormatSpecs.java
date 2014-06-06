@@ -1,9 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
-import com.umeca.model.catalog.AcademicDegree;
-
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.sql.Time;
 import java.util.Date;
 
 @Entity
@@ -28,7 +26,7 @@ public class HearingFormatSpecs {
     private Date linkageDate;
 
     @Column(name = "linkage_time")
-    private Timestamp linkageTime;
+    private Time linkageTime;
 
     @Column(name = "linkage_room")
     private String linkageRoom;
@@ -81,11 +79,11 @@ public class HearingFormatSpecs {
         this.linkageDate = linkageDate;
     }
 
-    public Timestamp getLinkageTime() {
+    public Time getLinkageTime() {
         return linkageTime;
     }
 
-    public void setLinkageTime(Timestamp linkageTime) {
+    public void setLinkageTime(Time linkageTime) {
         this.linkageTime = linkageTime;
     }
 

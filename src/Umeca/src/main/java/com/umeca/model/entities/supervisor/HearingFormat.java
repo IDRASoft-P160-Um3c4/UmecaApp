@@ -3,8 +3,8 @@ package com.umeca.model.entities.supervisor;
 import com.umeca.model.entities.reviewer.Case;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,20 +19,17 @@ public class HearingFormat {
     @Column(name = "no_date", length = 255, nullable = false)
     private String noDate;
 
-    @Column(name = "register_time", nullable = false)
-    private Timestamp registerTime;
-
-    @Column(name = "hearing_date", nullable = false)
-    private Date hearingDate;
+    @Column(name = "register_timestamp", nullable = false)
+    private Timestamp registerTimestamp;
 
     @Column(name = "room", nullable = false)
     private String room;
 
     @Column(name = "init_time", nullable = false)
-    private Timestamp initTime;
+    private Time initTime;
 
     @Column(name = "end_time", nullable = false)
-    private Timestamp endTime;
+    private Time endTime;
 
     @Column(name = "judge_name", nullable = false)
     private String judgeName;
@@ -43,13 +40,16 @@ public class HearingFormat {
     @Column(name = "defender_name", nullable = false)
     private String defenderName;
 
-    @Column(name = "additional_data", nullable = false)
+    @Column(name = "crimes", length = 5000 , nullable = false)
+    private String crimes;
+
+    @Column(name = "additional_data", length = 5000, nullable = false)
     private String additionalData;
 
-    @Column(name = "terms", nullable = false)
+    @Column(name = "terms", length = 1000, nullable = false)
     private String terms;
 
-    @OneToOne(mappedBy = "hearingFormat", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private HearingFormatSpecs hearingFormatSpecs;
 
     @OneToMany(mappedBy = "hearingFormat",fetch = FetchType.LAZY)
@@ -78,20 +78,12 @@ public class HearingFormat {
         this.noDate = noDate;
     }
 
-    public Timestamp getRegisterTime() {
-        return registerTime;
+    public Timestamp getRegisterTimestamp() {
+        return registerTimestamp;
     }
 
-    public void setRegisterTime(Timestamp registerTime) {
-        this.registerTime = registerTime;
-    }
-
-    public Date getHearingDate() {
-        return hearingDate;
-    }
-
-    public void setHearingDate(Date hearingDate) {
-        this.hearingDate = hearingDate;
+    public void setRegisterTimestamp(Timestamp registerTimestamp) {
+        this.registerTimestamp = registerTimestamp;
     }
 
     public String getRoom() {
@@ -102,19 +94,19 @@ public class HearingFormat {
         this.room = room;
     }
 
-    public Timestamp getInitTime() {
+    public Time getInitTime() {
         return initTime;
     }
 
-    public void setInitTime(Timestamp initTime) {
+    public void setInitTime(Time initTime) {
         this.initTime = initTime;
     }
 
-    public Timestamp getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Timestamp endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 
@@ -140,6 +132,14 @@ public class HearingFormat {
 
     public void setDefenderName(String defenderName) {
         this.defenderName = defenderName;
+    }
+
+    public String getCrimes() {
+        return crimes;
+    }
+
+    public void setCrimes(String crimes) {
+        this.crimes = crimes;
     }
 
     public String getAdditionalData() {

@@ -1,5 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.entities.supervisor.HearingFormat;
+
 import javax.persistence.*;
 
 /**
@@ -34,6 +36,9 @@ public class Case {
 
     @OneToOne(mappedBy="caseDetention", cascade={CascadeType.ALL})
     private TechnicalReview technicalReview;
+
+    @OneToOne(mappedBy="caseDetention", cascade={CascadeType.ALL})
+    private HearingFormat hearingFormat;
 
 
     @Transient
@@ -102,5 +107,13 @@ public class Case {
 
     public void setTechnicalReview(TechnicalReview technicalReview) {
         this.technicalReview = technicalReview;
+    }
+
+    public HearingFormat getHearingFormat() {
+        return hearingFormat;
+    }
+
+    public void setHearingFormat(HearingFormat hearingFormat) {
+        this.hearingFormat = hearingFormat;
     }
 }

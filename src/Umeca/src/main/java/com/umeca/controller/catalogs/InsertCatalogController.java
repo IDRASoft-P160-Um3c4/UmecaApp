@@ -81,7 +81,7 @@ public class InsertCatalogController {
         service.questionType();
         service.questionary();
         service.questionarySection();
-        service.question();
+//        service.question();
         return "insertCatalog OK!!";
     }
 }
