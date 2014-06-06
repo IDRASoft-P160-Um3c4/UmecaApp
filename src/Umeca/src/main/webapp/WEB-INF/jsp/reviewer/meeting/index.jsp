@@ -19,7 +19,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/rfcDrct.js"></script>
-    <title>Usuarios</title>
+    <title>Entrevistas</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -80,9 +80,9 @@
                         var idConstant = parseInt($("#hdnStatusLegal").val());
                         var be;
                         if ( 2 == idStatus) {
-                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Procesos legales usuario\" onclick=\"window.legal('" + cl + "');\"><i class=\"icon-legal\"></i></a>";
+                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Procesos legales usuario\" onclick=\"window.legal('" + cl + "');\"><i class=\"icon-legal\"></i></a>";
                         }else{
-                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

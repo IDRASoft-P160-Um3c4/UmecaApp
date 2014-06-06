@@ -323,4 +323,46 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         }
         dayWeekRepository.flush();
     }
+
+    @Autowired
+    SchoolLevelRepository schoolLevelRepository;
+
+    @Autowired
+    GradeRepository gradeRepository;
+
+    @Override
+    public void schoolLevel() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "school_level.txt","\\|", 2);
+        for (String[] data : lstDta) {
+            SchoolLevel model = new SchoolLevel();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            schoolLevelRepository.save(model);
+        }
+        List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "grade.txt","\\|", 3);
+        for (String[] data : lstDtaGrade) {
+            Grade model = new Grade();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setSchoolLevel(schoolLevelRepository.findOne(Long.parseLong(data[2])));
+            gradeRepository.save(model);
+        }
+        schoolLevelRepository.flush();
+    }
+
+    @Autowired
+    RegisterTypeRepository registerTypeRepository;
+    @Override
+    public void registerType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "register_type.txt","\\|", 2);
+        for (String[] data : lstDta) {
+            RegisterType model = new RegisterType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            registerTypeRepository.save(model);
+        }
+        registerTypeRepository.flush();
+    }
+
+
 }

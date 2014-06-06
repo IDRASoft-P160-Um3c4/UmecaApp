@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="col-xs-10 element-center col-xs-offset-1">
-        <h2><i class="purple glyphicon glyphicon-user bigger-100"></i> &nbsp;Datos personales y entorno social</h2>
+        <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el país</h2>
         <br/>
         <div class="row">
                 <div class="col-xs-12">

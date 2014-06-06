@@ -6,7 +6,7 @@
         window.showUpsertWithIdCase(id, "#angJsjqGridIdReference", "/reviewer/meeting/reference/upsert.html", "#GridIdReference",undefined, ${m.caseDetention.id});
     };
 
-    window.delete = function (id) {
+    window.deleteReference = function (id) {
         window.showObsolete(id, "#angJsjqGridIdReference", "/reviewer/meeting/reference/delete.json", "#GridIdReference");
     };
 
@@ -42,7 +42,7 @@
                     var enabled = row.enabled;
                     var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar referencia\" onclick=\"window.upsertReference('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar referencia\" onclick=\"window.delete('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar referencia\" onclick=\"window.deleteReference('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                           $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },

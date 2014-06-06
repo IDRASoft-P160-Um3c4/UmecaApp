@@ -6,7 +6,7 @@
     <input type="hidden" ng-update-hidden ng-model="d.perId" name="periodicity.id" id="perId"
            ng-init="d.perId = ${perId == null ? "undefined" : perId};">
     <input type="hidden" ng-update-hidden ng-model="id" name="id" id="id"
-           ng-init="id = ${d.id}">
+           ng-init='id = "${(d.id == null)? '':d.id}"'>
     <div class="col-xs-2">
         Sustancia:
     </div>
@@ -23,7 +23,7 @@
     <div ng-show="d.typeId==6" class="col-xs-4">
         <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
                                      data-val-length-max="200" data-val-length-min="3" data-val-required="La especificación es un campo requerido"
-                                     type="text" value="" ng-model="d.other" ng-init="d.other = '${d.other}'" id="other" name="other">
+                                     type="text" value="" ng-model="d.other" ng-init='d.other = "${(d.other == null) ? '' : d.other}"' id="other" name="other">
         <br/>
         <span class="field-validation-valid" data-valmsg-for="other" data-valmsg-replace="true"></span>
     </div>
@@ -46,7 +46,7 @@
     <div class="col-xs-4">
         <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y máximo 25 caracteres"
                data-val-length-max="25" data-val-length-min="2" data-val-required="La cantidad es un campo requerido"
-               type="text"  ng-model="d.quantity" ng-init="d.quantity='${d.quantity}';" name="quantity" id="quantity">
+               type="text"  ng-model="d.quantity" ng-init='d.quantity="${(d.quantity == null) ? '' : d.quantity}";' name="quantity" id="quantity">
         <br/>
         <span class="field-validation-valid" data-valmsg-for="quantity" data-valmsg-replace="true"></span>
     </div>

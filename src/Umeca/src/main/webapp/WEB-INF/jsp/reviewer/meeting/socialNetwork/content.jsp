@@ -11,7 +11,7 @@
     <input type="hidden" ng-update-hidden ng-model="p.depId" name="dependent.id" id="depId"
            ng-init="p.depId = ${depId == null ? "undefined" : depId};">
     <input type="hidden" ng-model="person" id="person"
-           ng-init='person = ${p}'>
+           ng-init='person = ${(p == null) ? '""': p}'>
     <input type="hidden" ng-update-hidden ng-model="id" name="id" id="id"
            ng-init="id = person.id">
 <div class="row" >

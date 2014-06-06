@@ -23,4 +23,6 @@ public interface InsertCatalogService {
     void drugType();
     void periodicity();
     void dayWeek();
+    void schoolLevel();
+    void registerType();
 }

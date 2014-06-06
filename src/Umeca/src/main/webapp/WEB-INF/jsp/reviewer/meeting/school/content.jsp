@@ -1,49 +1,32 @@
 <div class="row">
     <div class="col-xs-12">
-        <div class="col-xs-2 element-left">
-            Escuela:
-        </div>
-        <div class="col-xs-10">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                   data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
-                   type="text" value="" ng-model="m.name">
-        </div>
+        <div class="col-xs-2 element-left"> Escuela:</div>
+        <div class="col-xs-10"><input class="form-control" data-val="true"
+                                      data-val-length="Debe tener al menos 5 y m?ximo 200 caracteres"
+                                      data-val-length-max="200" data-val-length-min="5"
+                                      data-val-required="La escuela es un campo requerido" type="text" value=""
+                                      ng-init='school.name="${(m.school.name == null) ? '' : m.school.name}"'
+                                      ng-model="school.name" id="school.name" name="school.name"></div>
         <div class="row">
-            <div class="col-xs-9 col-xs-offset-3">
-                <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
-            </div>
+            <div class="col-xs-9 col-xs-offset-2 element-left"><span class="field-validation-valid"
+                                                                     data-valmsg-for="school.name"
+                                                                     data-valmsg-replace="true"></span></div>
         </div>
     </div>
-
 </div>
 <br/>
+
 <div class="row">
     <div class="col-xs-6">
-        <div class="col-xs-4 element-left">
-            Teléfono:
-        </div>
-        <div class="col-xs-8">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                   data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
-                   type="text" value="" ng-model="m.name">
-        </div>
-        <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
-        </div>
-    </div>
-    <div class="col-xs-6">
-        <div class="col-xs-5 element-left">
-            Tipo de escuela:
-        </div>
-        <div class="col-xs-6">
-            <select class="form-control element-center" ng-init="typeJob=0" ng-model="typeJob">
-                <option value="0">Actual</option>
-                <option value="1">Anterior</option>
-            </select>
-        </div>
-        <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
-        </div>
+        <div class="col-xs-4 element-left"> Teléfono:</div>
+        <div class="col-xs-8"><input class="form-control" data-val="true"
+                                     data-val-length="Debe tener al menos 8 y máximo 25 caracteres"
+                                     data-val-length-max="25" data-val-length-min="8"
+                                     data-val-required="El teléfono es un campo requerido" type="text" value=""
+                                     ng-model="school.phone" id="school.phone" name="school.phone"
+                                     ng-init='school.phone = "${(m.school.phone == null) ? '' : m.school.phone}"'></div>
+        <div class="col-xs-9 col-xs-offset-3"><span class="field-validation-valid" data-valmsg-for="school.phone"
+                                                    data-valmsg-replace="true"></span></div>
     </div>
 </div>
 <br/>
@@ -51,109 +34,56 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="col-xs-2 element-left">Dirección:</div>
-        <div class="col-xs-10">
-            <textarea id="form-field-11" class="form-control"></textarea>
+        <div class="col-xs-10"><textarea id="school.address" class="form-control" name="school.address"
+                                         ng-model="school.address" ng-init='school.address = "${(m.school.address == null) ? "" : m.school.address}"'
+                                         data-val="true" data-val-required="La dirección es un campo requerido"
+                                         data-val-length="Debe tener al menos 6 y máximo 500 caracteres"
+                                         data-val-length-max="500" data-val-length-min="6">${m.school.address}</textarea></div>
+        <div class="row">
+            <div class="col-xs-9 col-xs-offset-2 element-left"><span class="field-validation-valid"
+                                                                     data-valmsg-for="school.address"
+                                                                     data-valmsg-replace="true"></span></div>
         </div>
     </div>
 </div>
 <br/>
-<div class="row" ng-show="typeJob==1">
 
-    <div class="widget-box">
-        <div class="widget-header">
-            <h4>Escuela anterior</h4>
+<div class="row">
+    <div class="col-xs-6">
+        <div class="col-xs-4  element-left">
+            Nivel:
         </div>
-        <div class="widget-body">
-            <br/>
-            <div class="row">
-                <div class="col-xs-10 col-xs-offset-1">
-                    <div class="row widget-main">
-                        <div class="col-xs-3">
-                            Fecha Inicio:
-                        </div>
-                        <div class="col-xs-3">
-                            <div class="input-group">
-                                <input class="form-control date-picker" id="dpStartBefore" type="text" data-date-format="dd-mm-yyyy" />
-																	<span class="input-group-addon">
-																		<i class="icon-calendar bigger-110"></i>
-																	</span>
-                            </div>
-                        </div>
-                        <div class="col-xs-3">
-                            Fecha Fin:
-                        </div>
-                        <div class="col-xs-3">
-                            <div class="input-group">
-                                <input class="form-control date-picker" id="dpEndBefore" type="text" data-date-format="dd-mm-yyyy" />
-																	<span class="input-group-addon">
-																		<i class="icon-calendar bigger-110"></i>
-																	</span>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                        <div class="col-xs-3">Motivo de cambio:</div>
-                        <div class="col-xs-9">
-                            <textarea id="form-field-11" class="form-control"></textarea>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="hr hr-8"></div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-xs-8">
+            <select class="form-control element-center" ng-model="school.level"
+                    ng-options="e.name for e in lstLevel" ng-init='lstLevel = ${lstLevel};'
+                    ng-change="school.levelId = school.level.id; lstGrade = school.level.grades; school.grade=lstGrade[0]"></select>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="col-xs-4">
+            Grado:
+        </div>
+        <div class="col-xs-7">
+
+            <select class="form-control element-center" ng-model="school.grade"
+                    ng-options="e.name for e in lstGrade"
+                    ng-change="school.gradeId = school.grade.id"
+                    ng-init='lstGrade = school.level.grades;'></select>
+            <input type="hidden" ng-update-hidden ng-model="gradeId" name="school.grade.id" id="gradeId"
+                   ng-init="gradeId = ${(gradeId == null) ? 'undefined' : gradeId};">
         </div>
     </div>
 </div>
-<div class="row" ng-show="typeJob==0">
+<br/>
+
+<div class="row schedule_visible">
     <div class="widget-box">
         <div class="widget-header">
-            <h4>Escuela actual</h4>
+            <h5><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h5>
         </div>
-
         <div class="widget-body">
-            <br/>
-            <div class="row">
-                <div class="col-xs-10 col-xs-offset-1">
-                    <div class="row">
-                        <div class="col-xs-2">
-                            Nivel:
-                        </div>
-                        <div class="col-xs-4">
-                            <select class="form-control element-center">
-                                <option value="0">Primaria</option>
-                                <option value="1">Secundaria</option>
-                            </select>
-                        </div>
-                        <div class="col-xs-2">
-                            Grado:
-                        </div>
-                        <div class="col-xs-4">
-                            <select class="form-control element-center">
-                                <option value="0">Primero</option>
-                                <option value="1">Segundo</option>
-                            </select>
-                        </div>
-                    </div>
-                    <br/>
-                    <div class="row schedule_visible">
-                        <div class="widget-box">
-                            <div class="widget-header">
-                                <h5><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h5>
-                            </div>
-
-                            <div class="widget-body">
-                                <br/>
-                                <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/schedule.jsp"%>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="hr hr-8"></div>
-                    </div>
-                </div>
-            </div>
+            <br/><br/>
+            <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/schedule.jsp" %>
         </div>
     </div>
 </div>

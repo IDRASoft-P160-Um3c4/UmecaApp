@@ -22,8 +22,14 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/socialNetworkCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/referenceCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/drugCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/scheduleCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/schoolCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/jobCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/zipSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/addressCtrl.js"></script>
 
-    <title>Usuarios</title>
+
+    <title>Entrevista</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -83,13 +89,13 @@
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#academyHistory">
+                        <a data-toggle="tab" href="#school">
                             <i class="orange icon-book  bigger-200"></i>
                             Historia Escolar
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#drougs">
+                        <a data-toggle="tab" href="#drugsSection">
                             <i class="green icon-warning-sign  bigger-200"></i>
                             Consumo de sustancias
                         </a>
@@ -104,13 +110,11 @@
 
                 <div class="tab-content">
                     <div id="personalData" class="tab-pane in active">
-                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/_personalData.jsp"%>
+                      <%@ include file="/WEB-INF/jsp/reviewer/meeting/_personalData.jsp"%>
                     </div>
-
                     <div id="address" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/address/index.jsp"%>
+                      <%@ include file="/WEB-INF/jsp/reviewer/meeting/address/index.jsp"%>
                     </div>
-
                     <div id="socialNetwork" class="tab-pane">
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/socialNetwork/index.jsp"%>
                     </div>
@@ -120,10 +124,10 @@
                     <div id="jobHistory" class="tab-pane">
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/job/index.jsp"%>
                     </div>
-                    <div id="academyHistory" class="tab-pane">
+                    <div id="school" class="tab-pane">
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/school/index.jsp"%>
                     </div>
-                    <div id="drougs" class="tab-pane">
+                    <div id="drugsSection" class="tab-pane">
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/drug/index.jsp"%>
                     </div>
                     <div id="leaveCountry" class="tab-pane">

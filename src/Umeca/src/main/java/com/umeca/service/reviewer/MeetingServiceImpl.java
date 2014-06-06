@@ -1,18 +1,22 @@
 package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.umeca.model.catalog.*;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.dto.SchoolLevelDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -70,13 +74,17 @@ public class MeetingServiceImpl implements MeetingService {
     ElectionRepository electionRepository;
     @Autowired
     DocumentTypeRepository documentTypeRepository;
+    @Autowired
+    DayWeekRepository dayWeekRepository;
+    @Autowired
+    SchoolLevelRepository schoolLevelRepository;
+    @Autowired
+    ScheduleService scheduleService;
     @Override
     public ModelAndView showMeeting(Long id) {
         ModelAndView model = new ModelAndView("/reviewer/meeting/meeting");
         Gson gson = new Gson();
         ////////////////////Personal data
-        String lstPhysicalCondition = gson.toJson(physicalConditionRepository.findAll());
-        String lstActivity = gson.toJson(activityRepository.findAll());
         Case caseDetention = caseRepository.findOne(id);
         model.addObject("m",caseDetention.getMeeting());
         if(caseDetention.getMeeting().getSocialEnvironment()!=null){
@@ -97,8 +105,24 @@ public class MeetingServiceImpl implements MeetingService {
                 model.addObject("physicalCondition",gson.toJson(physicalCondition));
             }
         }
-        model.addObject("lstPhysicalCondition", lstPhysicalCondition);
-        model.addObject("lstActivity", lstActivity);
+        model.addObject("lstPhysicalCondition", gson.toJson(physicalConditionRepository.findAll()));
+        model.addObject("lstActivity", gson.toJson(activityRepository.findAll()));
+        model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
+        List<SchoolLevel> lstLevel = schoolLevelRepository.findAll();
+        List<SchoolLevelDto> listDto = new ArrayList<SchoolLevelDto>();
+        for(SchoolLevel s: lstLevel){
+            SchoolLevelDto dtoLevel  = new SchoolLevelDto();
+            listDto.add(dtoLevel.doDto(s));
+        }
+        model.addObject("lstLevel",gson.toJson(listDto));
+        if(caseDetention.getMeeting()!=null && caseDetention.getMeeting().getSchool()!=null ){
+            if(caseDetention.getMeeting().getSchool().getGrade()!=null){
+                model.addObject("gradeId", gson.toJson(caseDetention.getMeeting().getSchool().getGrade().getId()));
+            }
+            if(caseDetention.getMeeting().getSchool().getSchedule()!= null && caseDetention.getMeeting().getSchool().getSchedule().size()>0){
+                model.addObject("listSchedule",scheduleService.getSchedules(caseDetention.getId(), School.class));
+            }
+        }
         /////////////////////////Social Network
 
         return model;
@@ -165,6 +189,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Autowired
     PersonSocialNetworkRepository personSocialNetworkRepository;
+
     @Override
     public ModelAndView upsertSocialNetwork(Long id, Long idCase) {
         ModelAndView model = new ModelAndView("/reviewer/meeting/socialNetwork/upsert");
@@ -189,6 +214,9 @@ public class MeetingServiceImpl implements MeetingService {
         return model;
     }
 
+    @Autowired
+    SocialNetworkRepository socialNetworkRepository;
+
     @Override
     public ResponseMessage doUpsertSocialNetwork(PersonSocialNetwork person, Long idCase) {
         ResponseMessage result = new ResponseMessage();
@@ -198,8 +226,14 @@ public class MeetingServiceImpl implements MeetingService {
             person.setDependent(electionRepository.findOne(person.getDependent().getId()));
             person.setLivingWith(electionRepository.findOne(person.getLivingWith().getId()));
             Case caseDetention = caseRepository.findOne(idCase);
-            person.setSocialNetwork(caseDetention.getMeeting().getSocialNetwork());
-            if(person.getId()==0){
+            SocialNetwork sn=caseDetention.getMeeting().getSocialNetwork();
+            if (sn== null){
+                sn = new SocialNetwork();
+                sn.setMeeting(caseDetention.getMeeting());
+                socialNetworkRepository.save(sn);
+            }
+            person.setSocialNetwork(sn);
+            if(person.getId() != null && person.getId()==0){
                    person.setId(null);
             }
             personSocialNetworkRepository.save(person);
@@ -289,6 +323,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Autowired
     DrugRepository drugRepository;
+
     @Override
     public ModelAndView upsertDrug(Long id, Long idCase) {
         ModelAndView model = new ModelAndView("/reviewer/meeting/drug/upsert");
@@ -336,6 +371,177 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(true);
             result.setMessage("Ocurrio un error al eliminar la sustancia. Inténte más tarde");
         }
+        return result;
+    }
+
+    @Autowired
+    SchoolRepository schoolRepository;
+    @Autowired
+    ScheduleRepository scheduleRepository;
+    @Autowired
+    GradeRepository gradeRepository;
+
+    @Override
+    public ResponseMessage doUpsertSchool(Long id, School school,String schedules) {
+        ResponseMessage result = new ResponseMessage();
+        try{
+            Case caseDetention = caseRepository.findOne(id);
+            school.setMeeting(caseDetention.getMeeting());
+            if(caseDetention.getMeeting().getSchool() != null){
+                school.setId(caseDetention.getMeeting().getSchool().getId());
+            }
+                Grade grade = gradeRepository.findOne(school.getGrade().getId());
+                school.setGrade(grade);
+                schoolRepository.save(school);
+                scheduleService.saveSchedules(schedules,id, School.class);
+            schoolRepository.saveAndFlush(school);
+            result.setHasError(false);
+            result.setMessage("Se ha actualizado su información exitosamente");
+        }catch (Exception e){
+             result.setHasError(true);
+            result.setMessage("Ha ocurrido un error al actualizar su información"+e.getMessage());
+        }
+        return  result;
+    }
+
+    @Autowired
+    JobRepository jobRepository;
+    @Autowired
+    RegisterTypeRepository registerTypeRepository;
+
+    @Override
+    public ModelAndView upsertJob(Long id, Long idCase) {
+        ModelAndView model = new ModelAndView("/reviewer/meeting/job/upsert");
+        Gson gson = new Gson();
+        model.addObject("lstRegisterType",gson.toJson(registerTypeRepository.findAll()));
+        model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
+        if(id!=null && id!= 0){
+            Job j = jobRepository.findOne(id);
+            model.addObject("j", j);
+            model.addObject("listSchedule",scheduleService.getSchedules(j.getId(), Job.class));
+            model.addObject("registerTypeId",j.getRegisterType().getId());
+        }
+        model.addObject("idCase", idCase);
+        return model;
+    }
+
+    @Override
+    public ResponseMessage doUpsertJob(Job job, Long idCase, String sch) {
+       ResponseMessage result = new ResponseMessage();
+        try {
+            if(!job.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)){
+                ResponseMessage validate = validateSchedules(sch, "el trabajo");
+                if(validate!=null){
+                    return validate;
+                }
+            }
+           Case c= caseRepository.findById(idCase);
+           if(job.getId()!=null && job.getId() == 0){
+              job.setId(null);
+           }
+           job.setMeeting(c.getMeeting());
+            job.setRegisterType(registerTypeRepository.findOne(job.getRegisterType().getId()));
+            jobRepository.save(job);
+           if(!job.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)){
+             scheduleService.saveSchedules(sch,job.getId(),Job.class);
+           }
+            result.setHasError(false);
+            result.setMessage("Se ha guardado la infomación exitosamente");
+        }catch (Exception e){
+            result.setHasError(true);
+            result.setMessage("Ha ocurrido un error al actualizar su información. Intente más tarde.");
+        }
+        return result;
+    }
+
+    private ResponseMessage validateSchedules(String sch, String entidad) {
+        if(sch== null || (sch!= null && sch.equals("")) || (sch != null && sch.equals("[]"))){
+            ResponseMessage validate= new ResponseMessage(true,"La disponibilidad de "+entidad+" actual es requerida.");
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseMessage deleteJob(Long id) {
+        ResponseMessage result = new ResponseMessage();
+       try{
+           jobRepository.delete(id);
+           result.setHasError(false);
+           result.setMessage("Se ha eliminado correctamente el registro");
+       }catch (Exception e){
+           result.setHasError(true);
+           result.setMessage("Ha ocurrido un error al intentar eliminar el registro. Inténte más tarde.");
+       }
+        return result;
+    }
+
+    @Autowired
+     DomicileRepository domicileRepository;
+    @Override
+    public ModelAndView upsertAddress(Long id, Long idCase) {
+        ModelAndView model = new ModelAndView("/reviewer/meeting/address/upsert");
+        try{
+            Gson gson = new Gson();
+            model.addObject("listRegisterType", gson.toJson(registerTypeRepository.findAll()));
+            model.addObject("listElection",gson.toJson(electionRepository.findAll()));
+            model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
+            model.addObject("idCase", idCase);
+            if(id!=null && id!=0){
+               Domicile domicile = domicileRepository.findOne(id);
+               model.addObject("d", domicile);
+               model.addObject("zipCode", domicile.getLocation().getZipCode());
+               model.addObject("belongId", domicile.getBelong().getId());
+                model.addObject("listSchedule",scheduleService.getSchedules(domicile.getId(), Domicile.class));
+               model.addObject("typeId", domicile.getRegisterType().getId());
+            }
+        }catch (Exception e){
+
+        }
+        return model;
+    }
+
+    @Override
+    public ResponseMessage doUpsertAddress(Domicile domicile, Long idCase, String sch) {
+       ResponseMessage result = new ResponseMessage();
+        try{
+            if(!domicile.getRegisterType().equals(Constants.REGYSTER_TYPE_PREVIOUS)){
+               ResponseMessage validate = validateSchedules(sch, "el domicilio");
+                if(validate!=null){
+                    return validate;
+                }
+            }
+            Case c = caseRepository.findById(idCase);
+            if(domicile.getId()!=null && domicile.getId() == 0 ){
+                domicile.setId(null);
+            }
+            domicile.setMeeting(c.getMeeting());
+            domicile.setBelong(electionRepository.findOne(domicile.getBelong().getId()));
+            domicile.setRegisterType(registerTypeRepository.findOne(domicile.getRegisterType().getId()));
+            domicile.setDomicile(domicile.toString());
+            Domicile newDomicile = domicileRepository.save(domicile);
+            if(!newDomicile.getRegisterType().equals(Constants.REGYSTER_TYPE_PREVIOUS)){
+              scheduleService.saveSchedules(sch,domicile.getId(),Domicile.class);
+            }
+            result.setHasError(false);
+            result.setMessage("Se ha guardado la información con éxito");
+        }catch (Exception e){
+            result.setHasError(true);
+            result.setMessage("Ha ocurrido un error al guardar su inormación. Intente más tarde.");
+        }
+        return result;
+    }
+
+    @Override
+    public ResponseMessage deleteAddress(Long id) {
+        ResponseMessage result = new ResponseMessage();
+       try{
+           domicileRepository.delete(id);
+           result.setHasError(false);
+           result.setMessage("Se ha eliminado el registro exitosamente");
+       }catch (Exception e){
+           result.setHasError(true);
+           result.setMessage("Ha ocurrido un error al eliminar el registro. Inténte más tarde");
+       }
         return result;
     }
 }

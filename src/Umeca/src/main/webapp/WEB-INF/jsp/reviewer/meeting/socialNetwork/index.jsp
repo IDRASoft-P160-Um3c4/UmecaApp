@@ -7,7 +7,7 @@
         window.showUpsertWithIdCase(id, "#angJsjqGridIdSocialNetwork", "/reviewer/meeting/socialNetwork/upsert.html", "#GridIdSocialNetwork",undefined, ${m.caseDetention.id});
     };
 
-        window.delete = function (id) {
+    window.deleteSocialNetwork = function (id) {
         window.showObsolete(id, "#angJsjqGridIdSocialNetwork", "/reviewer/meeting/socialNetwork/delete.json", "#GridIdSocialNetwork");
     };
 
@@ -43,7 +43,7 @@
                     var enabled = row.enabled;
                     var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar persona de red social\" onclick=\"window.upsertSocialNetwork('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Borrar persona de red social\" onclick=\"window.delete('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Borrar persona de red social\" onclick=\"window.deleteSocialNetwork('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                           $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },
@@ -97,6 +97,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-xs-12">
         <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submit('#FormPersonalData', '/reviewer/meeting/upsertPersonalData.json');">

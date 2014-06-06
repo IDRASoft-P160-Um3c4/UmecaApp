@@ -4,6 +4,8 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.reviewer.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
@@ -19,7 +21,6 @@ public interface MeetingService {
     ModelAndView showLegalProcess(Long id);
 
     ResponseMessage upsertPersonalData(Long idCase, Imputed imputed, SocialEnvironment socialEnvironment, Integer[] physicalCondition, Integer[] activity);
-
 
     ModelAndView upsertSocialNetwork(Long id, Long idCase);
 
@@ -38,4 +39,18 @@ public interface MeetingService {
     ResponseMessage doUpsertDrug(Drug drug, Long idCase);
 
     ResponseMessage deleteDrug(Long id);
+
+    ResponseMessage doUpsertSchool(Long id, School school,String schedules);
+
+    ModelAndView upsertJob(Long id, Long idCase);
+
+    ResponseMessage doUpsertJob(Job job, Long idCase, String sch);
+
+    ResponseMessage deleteJob(Long id);
+
+    ModelAndView upsertAddress(Long id, Long idCase);
+
+    ResponseMessage doUpsertAddress(Domicile domicile, Long idCase, String sch);
+
+    ResponseMessage deleteAddress(Long id);
 }

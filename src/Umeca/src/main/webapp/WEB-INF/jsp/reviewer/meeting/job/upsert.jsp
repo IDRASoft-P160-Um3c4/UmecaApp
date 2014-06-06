@@ -1,11 +1,13 @@
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormCatId");
+        window.showModalFormDlg("#dlgUpModalId", "#FormJobId");
     });
 </script>
 
+
+
 <div>
-    <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
+    <div id="dlgUpModalId" class="modal fade" ng-controller="jobController" ng-cloak>
         <div class="modal-dialog" style="width:800px">
             <div class="modal-content">
                 <div class="modal-header">
@@ -15,7 +17,7 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal" role="form">
+                    <form id="FormJobId" name="FormJobId" class="form-horizontal" role="form">
                         <br />
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/job/content.jsp"%>
                     </form>
@@ -33,8 +35,8 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormCatId', '/reviewer/meeting/doNewMeeting.json');">
-                          Continuar
+                          ng-click="submit('#FormJobId', '/reviewer/meeting/job/doUpsert.json');">
+                          Guardar
                     </span>
                 </div>
             </div>

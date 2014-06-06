@@ -3,33 +3,34 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <script>
     window.upsertJob = function(id) {
-        window.showUpsert(id, "#angJsjqGridIdJob", "/reviewer/meeting/job/upsert.html", "#GridIdJob");
+        window.showUpsertWithIdCase(id, "#angJsjqGridIdJob", "/reviewer/meeting/job/upsert.html", "#GridIdJob",undefined, ${m.caseDetention.id});
     };
 
-    window.obsolete = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdJob", "/management/user/obsolete.json", "#GridIdJob");
+    window.deleteJob = function (id) {
+        window.showObsolete(id, "#angJsjqGridIdJob", "/reviewer/meeting/job/delete.json", "#GridIdJob");
     };
 
     $(document).ready(function() {
         jQuery("#GridIdJob").jqGrid({
-            url: '<c:url value='/reviewer/meeting/listJob.json' />',
+            url: '<c:url value='/reviewer/meeting/listJob.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Empresa','Puesto','Teléfono','Inicio','Fin','Acción'],
+            colNames: ['ID', 'Empresa','Puesto','Patrón','Teléfono','Tipo','TipoId','Acción'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
-                { name: 'referenceString', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'fullname', index: 'fullname', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'email', index: 'email', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'role', index: 'role', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'role', index: 'role', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'company', index: 'company', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'post', index: 'post', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'nameHead', index: 'nameHead', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'phone', index: 'phone', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'registerTypeString', index: 'registerTypeString', hidden: true, width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'registerTypeId', index: 'registerTypeId', hidden: true},
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
             pager: '#GridPagerJob',
-            sortname: 'username',
-            height: 450,
+            sortname: 'registerTypeId',
+            height: 200,
             viewrecords: true,
             shrinkToFit: false,
             sortorder: "desc",
@@ -41,9 +42,9 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.enable('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                           $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },

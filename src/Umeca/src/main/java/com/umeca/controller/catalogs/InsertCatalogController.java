@@ -120,15 +120,26 @@ public class InsertCatalogController {
         return "Day Week OK!";
     }
 
+    @RequestMapping(value="/catalogs/insertSchoolLevel", method = RequestMethod.GET)
+    public String insertSchoolLevel(){
+        service.schoolLevel();
+        return "School level OK!";
+    }
+
+    @RequestMapping(value = "/catalogs/insertTypeRegister", method = RequestMethod.GET)
+    public String insertTypeRegister(){
+        service.registerType();
+        return "Register Type OK!";
+    }
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
         service.user();
-        service.questionType();
-        service.questionary();
-        service.questionarySection();
-        service.question();
+        //service.questionType();
+        //service.questionary();
+        //service.questionarySection();
+        //service.question();
         service.activity();
         service.physicalCondition();
         service.statusMeeting();
@@ -139,6 +150,8 @@ public class InsertCatalogController {
         service.drugType();
         service.periodicity();
         service.dayWeek();
+        service.schoolLevel();
+        service.registerType();
         return "insertCatalog OK!!";
     }
 }
