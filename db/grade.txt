@@ -1,0 +1,20 @@
+id|name|idLevel
+1|No sabe leer ni escribir|1
+2|Sabe leer y escribir|1 
+3|Primero|2
+4|Segundo|2
+5|Tercero|2
+6|Terminado|2
+7|Primero|3
+8|Segundo|3
+9|Tercero|3
+10|Terminado|3
+11|Primero|4
+12|Segundo|4
+13|Tercero|4
+14|Terminado|4
+15|Primero|5
+16|Segundo|5
+17|Tercero|5
+18|Trunco|6
+19|Terminado|6

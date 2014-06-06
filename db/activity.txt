@@ -1,0 +1,8 @@
+id|name
+1|Laborales
+2|Escolares
+3|Religiosas
+4|Deportivias
+5|Reuniones sociales
+6|Reuniones familiares
+7|Otras
