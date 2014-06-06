@@ -32,7 +32,6 @@
                 $scope.$apply(function () { $scope.working = false; });
             }
         };
-
         $.ajax(settings);
         return def.promise;
     };

@@ -15,6 +15,21 @@
     return { x: x * scaleX, y: y * scaleY };
 };
 
+/*
+window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue) {
+    var scope = angular.element($(divScope)).scope();
+    scope.show({ id: id }, urlToGo).
+        then(function () {
+
+            if(urlToContinue !== undefined){
+                window.goToUrlMvcUrl(urlToContinue);
+                return;
+            }
+
+            $(jqGridToUse).trigger("reloadGrid");
+        });
+
+};*/
 
 window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue) {
     var scope = angular.element($(divScope)).scope();

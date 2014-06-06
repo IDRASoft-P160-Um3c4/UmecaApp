@@ -14,7 +14,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface MeetingService {
-    ResponseMessage createMeeting(Imputed imputed);
+    Long createMeeting(Imputed imputed);
 
     ModelAndView showMeeting(Long id);
 

@@ -38,8 +38,8 @@ public class MeetingServiceImpl implements MeetingService {
     private StatusMeetingRepository statusMeetingRepository;
 
     @Override
-    public ResponseMessage createMeeting(Imputed imputed) {
-        ResponseMessage result = new ResponseMessage();
+    public Long createMeeting(Imputed imputed) {
+        Long result = null;
         try{
             Case caseDetention = new Case();
             if(imputedRepository.countCaseSameRFC(imputed.getRfc())>0)
@@ -54,14 +54,12 @@ public class MeetingServiceImpl implements MeetingService {
             meeting=meetingRepository.save(meeting);
             imputed.setMeeting(meeting);
             imputedRepository.save(imputed);
-            result.setHasError(false);
-            result.setMessage("redireccion");
-            result.setUrlToGo("/reviewer/meeting/meeting");
+            result = caseDetention.getId();
         }catch (Exception e){
-            result.setHasError(true);
-            result.setMessage("Ocurrio un error al crear el expediente. Intente más tarde."+ e.getMessage());
+            e.printStackTrace();
+        }finally {
+            return result;
         }
-        return result;
     }
 
     @Autowired

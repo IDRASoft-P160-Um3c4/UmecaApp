@@ -1,37 +1,7 @@
-app.controller('schoolController', function($scope, $timeout) {
-    $scope.school = {};
-    $scope.lstLevel = [];
-    $scope.lstGrade = [];
-    $scope.school.grade = 0;
-    $scope.school.level = 0;
+app.controller('meetingController', function($scope, $timeout) {
+    $scope.model = {};
 
     $scope.init = function(){
-        if($scope.lstLevel === undefined || $scope.lstLevel.length <= 0)
-            return;
-        if($scope.gradeId == undefined){
-            if($scope.school.levelId === undefined){
-                $scope.school.level = $scope.lstLevel[0];
-                $scope.school.levelId = $scope.school.level.id;
-                $scope.lstGrade =  $scope.lstLevel[0].grades;
-                $scope.school.grade =$scope.lstGrade[0];
-                $scope.school.gradeId = $scope.school.grade.id;
-            }
-         }else{
-           for(var i = 0; i<$scope.lstLevel.length;i++){
-               var grade = $scope.lstLevel[i].grades;
-               $scope.lstGrade = grade;
-               for(var j=0; j<grade.length; j++){
-                   if($scope.gradeId === grade[j].id ){
-                       $scope.school.level = $scope.lstLevel[i];
-                       $scope.school.levelId = $scope.lstLevel[i].id;
-                       $scope.school.grade = $scope.lstLevel[i].grades[j];
-                       $scope.school.gradeId = $scope.lstLevel[i].grades[j].id;
-                       $scope.$apply();
-                       return;
-                   }
-               }
-           }
-        }
     };
 
 
@@ -63,6 +33,28 @@ app.controller('schoolController', function($scope, $timeout) {
         return true;
     };
 
+    $scope.handleSuccessWithId = function (resp) {
+        $scope.WaitFor = false;
+
+        try {
+            if(resp.hasError===undefined){
+                resp=resp.responseMessage;
+            }
+            if (resp.hasError === false) {
+                $rootScope.$broadcast("onLastId", resp.Id);
+                $scope.Model.dlg.modal('hide');
+                $scope.Model.def.resolve({ isCancel: false });
+                return;
+            }
+
+            $scope.MsgError = resp.message;
+            $scope.$apply();
+
+        } catch (e) {
+            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
+        }
+    };
+
 
     $scope.handleSuccess = function (resp) {
         $scope.WaitFor = false;
@@ -71,15 +63,16 @@ app.controller('schoolController', function($scope, $timeout) {
             if(resp.hasError===undefined){
                 resp=resp.responseMessage;}
             if (resp.hasError === false) {
-                $scope.msgExito = resp.message;
-                $scope.$apply();
+                $scope.Model.dlg.modal('hide');
+                $scope.Model.def.resolve({ isCancel: false });
                 return;
             }
-            $scope.msgError = resp.message;
+
+            $scope.MsgError = resp.message;
             $scope.$apply();
 
         } catch (e) {
-            $scope.msgError = "Error inesperado de datos. Por favor intente más tarde.";
+            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
         }
     };
 
@@ -103,5 +96,4 @@ app.controller('schoolController', function($scope, $timeout) {
             dlg.replaceWith("");
         });
     };
-
 });

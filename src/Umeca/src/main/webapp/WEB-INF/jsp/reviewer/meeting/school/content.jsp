@@ -61,7 +61,7 @@
     </div>
     <div class="col-xs-6">
         <div class="col-xs-4">
-            Grado:
+            Grado: {{school.gradeId}}
         </div>
         <div class="col-xs-7">
 
@@ -69,7 +69,7 @@
                     ng-options="e.name for e in lstGrade"
                     ng-change="school.gradeId = school.grade.id"
                     ng-init='lstGrade = school.level.grades;'></select>
-            <input type="hidden" ng-update-hidden ng-model="gradeId" name="school.grade.id" id="gradeId"
+            <input type="hidden" ng-update-hidden ng-model="school.gradeId" name="school.grade.id" id="gradeId"
                    ng-init="gradeId = ${(gradeId == null) ? 'undefined' : gradeId};">
         </div>
     </div>

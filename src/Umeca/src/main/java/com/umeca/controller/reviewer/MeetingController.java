@@ -249,7 +249,10 @@ public class MeetingController {
 
     @RequestMapping(value = "/reviewer/meeting/doNewMeeting", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed){
-        return meetingService.createMeeting(imputed);
+        Long idCase = meetingService.createMeeting(imputed);
+        ResponseMessage result = new ResponseMessage(false,"Se ha guardado exitosamente");
+        result.setUrlToGo("/reviewer/meeting/meeting.html?id="+ idCase);
+        return result;
     }
 
     @RequestMapping(value = "/reviewer/meeting/meeting", method = RequestMethod.GET)
