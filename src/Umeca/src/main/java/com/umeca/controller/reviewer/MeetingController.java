@@ -251,7 +251,7 @@ public class MeetingController {
     public @ResponseBody ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed){
         Long idCase = meetingService.createMeeting(imputed);
         ResponseMessage result = new ResponseMessage(false,"Se ha guardado exitosamente");
-        result.setUrlToGo("/reviewer/meeting/meeting.html?id="+ idCase);
+        result.setUrlToGo("reviewer/meeting/meeting.html?id="+ idCase);
         return result;
     }
 
