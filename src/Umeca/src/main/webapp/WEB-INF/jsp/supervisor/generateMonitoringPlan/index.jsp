@@ -19,9 +19,10 @@
 
         <script>
             window.generate = function(id) {
-                window.showUpsert(id, "#angJsjqGridId", "/supervisor/generateMonitoringPlan/generate.html", "#GridId");
+                var params= [];
+                params["idParam"]=id;
+                window.goToUrlMvcUrl("<c:url value='/supervisor/generateMonitoringPlan/generate.html?id=idParam' />",params);
             };
-
 
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
@@ -57,7 +58,7 @@
                             var status = row.status;
                             var be = "";
 
-                            if (status === "NUEVO") {
+                            if (status === "NUEVO" || status === "EN PROCESO DE GENERAR" ) {
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
                             }else{
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Habilitar usuario\" onclick=\"window.enable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok\"></span></a>";
