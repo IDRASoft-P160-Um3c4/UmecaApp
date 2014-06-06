@@ -20,7 +20,7 @@
                         <br />
                         <div class="row">
                             <div class="col-xs-12">
-                                <label>Ingrese la información requerida para poder generar un nuevo número de expediente:</label>
+                                <label>Ingrese la informaciï¿½n requerida para poder generar un nuevo nï¿½mero de expediente:</label>
                             </div>
                         </div>
                         <br/>
@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-xs-8">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
+                                       data-val-length="Debe tener al menos 3 y mÃ¡ximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3" ng-init="m.name=''"
                                        data-val-required="El nombre es un campo requerido"
                                        id="name" name="name" ng-model="m.name"
@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-xs-8">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y máximo 50 caracteres" ng-init="m.lastNameP=''"
+                                       data-val-length="Debe tener al menos 3 y mï¿½ximo 50 caracteres" ng-init="m.lastNameP=''"
                                        data-val-length-max="50" data-val-length-min="3"  rfc-calculated
                                        data-val-required="El apellido paterno es un campo requerido"
                                        id="lastNameP" name="lastNameP"
@@ -82,7 +82,7 @@
                             </div>
                             <div class="col-xs-8">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
+                                       data-val-length="Debe tener al menos 3 y mÃ¡ximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3"          rfc-calculated
                                        data-val-required="El apellido parterno es un campo requerido" ng-inti="lastNameM=''"
                                        id="lastNameM" name="lastNameM"
@@ -99,7 +99,7 @@
                             </div>
                             <div class="col-xs-7">
                                 <div class="input-group">
-                                    <input class="form-control date-picker" type="text" data-date-format="yyyy/mm/dd"    rfc-calculated
+                                    <input class="form-control date-picker" readonly="readonly" type="text" data-date-format="yyyy/mm/dd"    rfc-calculated
                                             data-val="true" data-val-required="La fecha de nacimiento es un campo requerido" ng-init="m.dateBirth=''"
                                             id="dateBirth" name="dateBirth" ng-model="m.dateBirth"/>
 											<span class="input-group-addon">
@@ -113,7 +113,7 @@
                             <div class="col-xs-12 element-center">
                                 <span class="label label-pink label-lg arrowed-right">
                                     <i class="icon-warning-sign bigger-120"></i>&nbsp;
-                                    Estos datos no podrán ser modificados durante la entrevista.
+                                    Estos datos no podrï¿½n ser modificados durante la entrevista.
                                 </span>
                             </div>
                         </div>

@@ -26,7 +26,7 @@ public class TechnicalReview {
     private List<QuestionReviewRel> questionsSel;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_case_detention")
+    @JoinColumn(name = "id_case_detention")//@JoinColumn(name = "id_case") cambiar por esta linea
     private Case caseDetention;
 
     @Transient

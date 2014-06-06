@@ -12,6 +12,20 @@ public class JqGridMultipleFilterModel {
     public String groupOp;
     public List<JqGridRulesModel> rules;
 
+    public JqGridMultipleFilterModel(){
+
+    }
+
+    public JqGridMultipleFilterModel(String groupOp){
+        this.groupOp = groupOp;
+    }
+
+
+    public JqGridMultipleFilterModel(String groupOp, List<JqGridRulesModel> rules){
+        this.groupOp = groupOp;
+        this.rules = rules;
+    }
+
     public String getGroupOp() {
         return groupOp;
     }

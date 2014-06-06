@@ -121,6 +121,9 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                         p.getExpressions().add(cb.like(cb.lower(exp), rule.data.trim().toLowerCase() + "%"));
                         break;
                 }
+
+                //List<String> lst = new ArrayList<String>();
+                //cb.in(exp.in(lst));
             }
 
             cq.where(p);

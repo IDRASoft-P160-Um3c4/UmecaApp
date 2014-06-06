@@ -1,4 +1,0 @@
-id_status|status|description
-1|INCOMPLETE|Pestañas iniciales incompletas
-2|INCOMPLETE_LEGAL|Falta llenado de sección legal
-3|COMPLETE|Entrevista terminada

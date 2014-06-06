@@ -9,6 +9,8 @@ package com.umeca.service.catalog;
 public interface InsertCatalogService {
     void role();
     void user();
+    void statusMeeting();
+    void arrangement();
     void questionType();
     void questionary();
     void questionarySection();

@@ -20,7 +20,7 @@
         <script>
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
-                    url: '<c:url value='/management/role/list.json' />',
+                    url: "<c:url value='/management/role/list.json' />",
                     datatype: "json",
                     mtype: 'POST',
                     colNames: ['ID', 'Nombre', 'Descripción'],

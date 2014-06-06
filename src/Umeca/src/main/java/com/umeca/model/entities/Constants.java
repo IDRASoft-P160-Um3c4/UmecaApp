@@ -14,6 +14,7 @@ public class Constants {
     public static final String TECHNICAL_REVIEW_STATUS_CASE= "TEC_REV";
     public static final String VERIFICATION_STATUS_CASE= "VERIF";
 
+    public static final Integer CONDITIONAL_REPRIEVE_HEARING= 1;
+    public static final Integer MEETING_HEARING= 2;
 
-    //////////
 }

@@ -44,7 +44,7 @@
         $scope.m.password = "";
     };
 
-    $scope.login = function (formId, msgError) {
+    $scope.login = function (formId, msgError, url) {
 
         msgErrorDefault = msgError;
         $.validator.unobtrusive.parse(formId);
@@ -58,7 +58,7 @@
 
         $http({
             method: 'POST',
-            url: '/j_spring_security_check',
+            url: url,
             data: $(formId).serialize()
             ,cache: false
             ,headers: {'Content-Type': 'application/x-www-form-urlencoded'}
