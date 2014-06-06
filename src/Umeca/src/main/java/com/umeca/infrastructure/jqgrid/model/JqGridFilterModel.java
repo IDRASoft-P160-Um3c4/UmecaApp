@@ -108,8 +108,7 @@ public class JqGridFilterModel
         this.extraFilters = extraFilters;
     }
 
-
-/*
+    /*
     public long getPrimaryId() {
         return primaryId;
     }

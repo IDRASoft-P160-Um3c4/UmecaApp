@@ -1,46 +1,51 @@
 
-<div class="row element-center">
-    <div class="col-xs-10 col-xs-offset-1">
+<div class="row element-center" ng-controller="scheduleController">
+    <input type="hidden" ng-update-hidden ng-model="schString" name='sch'>
+    <input type="hidden" ng-update-hidden ng-init='listSchedule = ${(listSchedule == null) ? "undefined" : listSchedule};'>
+    <div class="col-xs-8 col-xs-offset-2">
         <div class="row">
     <div class="col-xs-4 element-center">
-       <b>Día</b> <br/>
-        <select class="form-control element-center">
-            <option value="0">Lunes</option>
-            <option value="1">Martes</option>
-            <option value="2">Miércoles</option>
-            <option value="3">Jueves</option>
-            <option value="4">Viernes</option>
-            <option value="5">Sábado</option>
-            <option value="6">Domingo</option>
-        </select>
+       Día<br/>
+        <select class="form-control element-center" ng-model="s.dayWeek"
+                ng-options="e.name for e in lstDayWeek"
+                ng-change="s.dayWeekId = s.dayWeek.id"
+                ng-init='lstDayWeek = ${lstDayWeek};'></select>
     </div>
     <div class="col-xs-3 element-center">
-                    <b>Inicio</b> <br/>
+                    Inicio<br/>
         <div class="input-group bootstrap-timepicker">
-            <input id="timepickerStart" type="text" class="form-control" />
+            <input id="timepickerStart" type="text" class="form-control" ng-model="s.start"/>
             <span class="input-group-addon">
-				<i class="icon-time bigger-110"></i>
+				<i class="icon-time bigger-60"></i>
 			</span>
         </div>
     </div>
     <div class="col-xs-3 element-center">
-        <b>Fin</b> <br/>
+        Fin <br/>
         <div class="input-group bootstrap-timepicker">
-            <input id="timepickerEnd" type="text" class="form-control" />
+            <input id="timepickerEnd" type="text" class="form-control" ng-model="s.end"/>
             <span class="input-group-addon">
-				<i class="icon-time bigger-110"></i>
+				<i class="icon-time  bigger-40"></i>
 			</span>
         </div>
     </div>
     <div class="col-xs-2">
-        <b>Acciones</b> <br/><div class="space-5"></div>
-        <i class="icon-plus-sign orange"></i>
+        Acciones<br/><div class="space-5"></div>
+        <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addSchedule()"></i>
     </div>
     </div>
-        <div class="row">
+        <div class="row" >
         <div class="hr hr-6"></div>
         </div>
-        <div class="col-xs-9 col-xs-offset-3">
+        <div ng-show="msgError" class="alert alert-danger element-center error-font">
+            {{msgError}}
+        </div>
+        <div class="col-xs-12" ng-show="listSchedule.length==0">
+            <br/>
+            <br/>
+            <br/>
+        </div>
+        <div class="col-xs-9 col-xs-offset-3" ng-show ="listSchedule.length > 0">
          <div class="row center">
              <div class="col-xs-2">
                  <h5 class="smaller lighter blue">Día</h5>
@@ -59,39 +64,21 @@
                  <div class="hr hr-2"></div>
              </div>
          </div>
-            <div class="row center">
+            <div class="row center" ng-repeat ="sch in listSchedule">
                 <div class="col-xs-2">
-                    Lunes
+                    {{sch.day.name}}
                 </div>
                 <div class="col-xs-2">
-                    12:00
+                     {{sch.start}}
                 </div>
                 <div class="col-xs-2">
-                    14:00
+                    {{sch.end}}
                 </div>
                 <div class="col-xs-3">
-                    <a class="red" href="#">
-                        <i class="icon-trash bigger-130"></i>
-                    </a>
+                    <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteSchedule($index)"></i>
                 </div>
             </div>
-            <div class="row center">
-                <div class="col-xs-2">
-                    Martes
-                </div>
-                <div class="col-xs-2">
-                    10:00
-                </div>
-                <div class="col-xs-2">
-                    13:00
-                </div>
-                <div class="col-xs-3">
-                    <a class="red" href="#">
-                        <i class="icon-trash bigger-130"></i>
-                    </a>
-                </div>
-            </div>
-            </div>
+         </div>
     </div>
     <br/>
 </div>

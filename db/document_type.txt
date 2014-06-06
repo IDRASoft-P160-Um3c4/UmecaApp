@@ -1,0 +1,10 @@
+id|name
+1|Credencial de Elector
+2|Licencia de Manejo
+3|Pasaporte
+4|Credencial escolar
+5|INSEN
+6|INAPAM
+7|Certificado escolar
+8|Cédula profesional
+9|Ninguno

@@ -1,0 +1,17 @@
+id|name
+1|Hermano
+2|Madre
+3|Hijo(a)
+4|Primo(a)
+5|Tío(a)
+6|Amigo
+7|Vecino
+8|Desconocido
+9|Patrón
+10|Compañero de trabajo
+11|Padrino
+12|Empleado
+13|Pareja sentimental
+14|Esposa
+15|Suegra
+16|Familiar Político

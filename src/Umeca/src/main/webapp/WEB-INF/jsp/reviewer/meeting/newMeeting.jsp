@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script>
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormCatId");
@@ -20,7 +20,7 @@
                         <br />
                         <div class="row">
                             <div class="col-xs-12">
-                                <label>Ingrese la informaciï¿½n requerida para poder generar un nuevo nï¿½mero de expediente:</label>
+                                <label>Ingrese la información requerida para poder generar un nuevo número de expediente:</label>
                             </div>
                         </div>
                         <br/>
@@ -34,7 +34,7 @@
                                        data-val-length-max="10" data-val-length-min="10"
                                        data-val-required="El RFC es un campo requerido" ng-init="m.rfc='AAAA933639'"
                                        id="rfc" name="rfc" readonly="readonly" value="AAAA933639"
-                                       type="text" ng-model="m.rfc"/>
+                                       ng-model="m.rfc" type="text" />
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
@@ -50,8 +50,8 @@
                                        data-val-length="Debe tener al menos 3 y mÃ¡ximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3" ng-init="m.name=''"
                                        data-val-required="El nombre es un campo requerido"
-                                       id="name" name="name" rfc-calculated
-                                       type="text" ng-model="m.name"/>
+                                       id="name" name="name" ng-model="m.name"
+                                       type="text" rfc-calculated/>
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
@@ -113,7 +113,7 @@
                             <div class="col-xs-12 element-center">
                                 <span class="label label-pink label-lg arrowed-right">
                                     <i class="icon-warning-sign bigger-120"></i>&nbsp;
-                                    Estos datos no podrï¿½n ser modificados durante la entrevista.
+                                    Estos datos no podrán ser modificados durante la entrevista.
                                 </span>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormCatId', '/reviewer/meeting/doNewMeeting.json');">
+                          ng-click="submitRedirect('#FormCatId','<c:url value="/reviewer/meeting/doNewMeeting.json"/>');">
                           Continuar
                     </span>
                 </div>

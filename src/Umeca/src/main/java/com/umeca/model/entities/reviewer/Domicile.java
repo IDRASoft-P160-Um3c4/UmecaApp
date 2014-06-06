@@ -1,7 +1,9 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.Election;
+import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.RegisterType;
-import com.umeca.model.catalog.Town;
+import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,7 +17,18 @@ import java.util.List;
  */
 @Entity
 @Table(name="domicile")
-public class Domicile {
+public class Domicile implements EntityGrid{
+
+    public Domicile() {
+    }
+
+    public Domicile(Long id,String domicile, String timeLive, String registerTypeString, String belongString) {
+        this.id=id;
+        this.domicile = domicile;
+        this.timeLive = timeLive;
+        this.registerTypeString = registerTypeString;
+        this.belongString = belongString;
+    }
 
     @Id
     @GeneratedValue
@@ -31,36 +44,42 @@ public class Domicile {
     @Column(name="no_inside", length = 10, nullable = false)
     private String noIn;
 
-    @Column(name="city", length = 150, nullable = false)
-    private String city;
-
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_town", nullable = false)
-    private Town town;
+    @JoinColumn(name="id_location", nullable = false)
+    private Location location;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_register_type", nullable = false)
     private RegisterType registerType;
 
-    @Column(name="time_live")
-    private Integer timeLive;
+    @Column(name="time_live", nullable = true, length = 30)
+    private String timeLive;
 
-    @Column(name="reason_change", length = 1000, nullable = true)
+    @ManyToOne
+    @JoinColumn(name="id_belong", nullable = false)
+    private Election belong;
+
+    @Column(name="reason_change", length = 500, nullable = true)
     private String reasonChange;
 
-    @Column(name="description", length = 1000, nullable = true)
+    @Column(name="description", length = 500, nullable = true)
     private String description;
-
 
     @OneToMany(mappedBy="domicile", cascade={CascadeType.ALL})
     private List<Schedule> schedule;
 
-    @Column(name="cp", length = 5)
-    private String cp;
-
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
+
+    @Column(name="domicile_string", nullable = false, length = 500)
+    private String domicile;
+
+    @Transient
+    private String registerTypeString;
+
+    @Transient
+    private String belongString;
 
     public Long getId() {
         return id;
@@ -94,20 +113,12 @@ public class Domicile {
         this.noIn = noIn;
     }
 
-    public String getCity() {
-        return city;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public Town getTown() {
-        return town;
-    }
-
-    public void setTown(Town town) {
-        this.town = town;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public RegisterType getRegisterType() {
@@ -118,11 +129,11 @@ public class Domicile {
         this.registerType = registerType;
     }
 
-    public Integer getTimeLive() {
+    public String getTimeLive() {
         return timeLive;
     }
 
-    public void setTimeLive(Integer timeLive) {
+    public void setTimeLive(String timeLive) {
         this.timeLive = timeLive;
     }
 
@@ -142,15 +153,6 @@ public class Domicile {
         this.description = description;
     }
 
-
-    public String getCp() {
-        return cp;
-    }
-
-    public void setCp(String cp) {
-        this.cp = cp;
-    }
-
     public Meeting getMeeting() {
         return meeting;
     }
@@ -166,4 +168,49 @@ public class Domicile {
     public void setSchedule(List<Schedule> schedule) {
         this.schedule = schedule;
     }
+
+    public Election getBelong() {
+        return belong;
+    }
+
+    public void setBelong(Election belong) {
+        this.belong = belong;
+    }
+
+    public String getDomicile() {
+        return domicile;
+    }
+
+    public void setDomicile(String domicile) {
+        this.domicile = domicile;
+    }
+
+    public String getRegisterTypeString() {
+        return registerTypeString;
+    }
+
+    public void setRegisterTypeString(String registerTypeString) {
+        this.registerTypeString = registerTypeString;
+    }
+
+    public String getBelongString() {
+        return belongString;
+    }
+
+    public void setBelongString(String belongString) {
+        this.belongString = belongString;
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+        result = "Calle: "+street+" No Ext: "+noOut;
+        if(noIn != null && !noIn.equals("")){
+            result= result + " No Int:"+ noIn;
+        }
+        if(location!=null){
+            result = result + ","+location.getName()+". CP: "+location.getZipCode()+". "+location.getMunicipality().getName()+", "+location.getMunicipality().getState().getName()+".";
+        }
+        return  result;
+  }
 }

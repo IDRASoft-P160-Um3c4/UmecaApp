@@ -1,16 +1,20 @@
 <div class="row">
+    <input type="hidden" ng-update-hidden ng-model="idCase" name="idCase" id="idCase"
+           ng-init="idCase = ${(idCase == null) ? 0 : idCase};">
+    <input type="hidden" ng-update-hidden ng-model="id" name="id" id="id"
+           ng-init='id = ${(j.id == null)? 0: j.id}'>
     <div class="col-xs-12">
         <div class="col-xs-2 element-left">
             Empresa:
         </div>
         <div class="col-xs-10">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                   data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
-                   type="text" value="" ng-model="m.name">
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 150 caracteres"
+                   data-val-length-max="150" data-val-length-min="3" data-val-required="La empresa es un campo requerido"
+                   type="text" value="" ng-model="j.company" ng-init='j.company = "${(j.company == null) ? '' : j.company}"' id="company" name="company">
         </div>
         <div class="row">
-            <div class="col-xs-9 col-xs-offset-3">
-                <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
+            <div class="col-xs-offset-2 element-rigth">
+                <span class="field-validation-valid" data-valmsg-for="company" data-valmsg-replace="true"></span>
             </div>
         </div>
     </div>
@@ -23,12 +27,12 @@
             Puesto:
         </div>
         <div class="col-xs-8">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                   data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido" id="name"
-                   type="text" value="" ng-model="m.name">
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
+                   data-val-length-max="50" data-val-length-min="3" data-val-required="El puesto es un campo requerido"
+                   type="text" value="" ng-init='j.post= "${(j.post == null) ? "" : j.post}"' ng-model="j.post" name="post" id="post">
         </div>
         <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
+            <span class="field-validation-valid" data-valmsg-for="post" data-valmsg-replace="true"></span>
         </div>
     </div>
     <div class="col-xs-6">
@@ -36,12 +40,12 @@
             Teléfono:
         </div>
         <div class="col-xs-6">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                   data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido" id="name"
-                   type="text" value="" ng-model="m.name">
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y máximo 30 caracteres"
+                   data-val-length-max="30" data-val-length-min="8" data-val-required="El teléfono es un campo requerido"
+                   type="text" value="" ng-model="j.phone" ng-init='j.phone = "${(j.phone == null)? "": j.phone}"' name="phone" id="phone">
         </div>
         <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
+            <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
         </div>
     </div>
 </div>
@@ -52,12 +56,12 @@
             Nombre del patrón:
         </div>
         <div class="col-xs-8">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                   data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
-                   type="text" value="" ng-model="m.name">
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y máximo 150 caracteres"
+                   data-val-length-max="150" data-val-length-min="6" data-val-required="El nombre del patrón es un campo requerido"
+                   type="text" value="" ng-model="j.nameHead" ng-init='j.nameHead= "${(j.nameHead == null) ? "" : j.nameHead}"' name="nameHead" id="nameHead">
         </div>
-        <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
+        <div class="col-xs-10 col-xs-offset-1">
+            <span class="field-validation-valid" data-valmsg-for="nameHead" data-valmsg-replace="true"></span>
         </div>
     </div>
     <div class="col-xs-6">
@@ -65,13 +69,11 @@
             Tipo de empleo:
         </div>
         <div class="col-xs-6">
-            <select class="form-control element-center" ng-init="typeJob=0" ng-model="typeJob">
-                <option value="0">Actual</option>
-                <option value="1">Anterior</option>
-            </select>
-        </div>
-        <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
+            <input type="hidden" ng-update-hidden ng-model="j.registerTypeId" name="registerType.id" id="registerTypeId"
+                   ng-init='j.registerTypeId = ${registerTypeId}'>
+            <select class="form-control element-center" ng-model="j.registerType"
+                    ng-options="e.name for e in lstRegisterType" ng-init='lstRegisterType = ${lstRegisterType};'
+                    ng-change="j.registerTypeId = j.registerType.id;"></select>
         </div>
     </div>
 </div>
@@ -80,12 +82,14 @@
     <div class="col-xs-12">
         <div class="col-xs-2 element-left">Dirección:</div>
         <div class="col-xs-10">
-            <textarea id="form-field-11" class="form-control"></textarea>
+           <textarea class="form-control" ng-init='j.address = "${(j.address == null) ? "" : j.address}"' ng-model="j.address" name="address">${j.address}</textarea>
+            <br/>
+            <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
         </div>
     </div>
 </div>
 <br/>
-<div class="row" ng-show="typeJob==1">
+<div class="row" ng-show="j.registerTypeId==3">
     <div class="widget-box">
         <div class="widget-header">
             <h4>Trabajo Anterior</h4>
@@ -100,10 +104,15 @@
                         </div>
                         <div class="col-xs-3">
                             <div class="input-group">
-                                <input class="form-control date-picker" id="dpStartBefore" type="text" data-date-format="dd-mm-yyyy" />
-																	<span class="input-group-addon">
+                                <input class="form-control date-picker" id="jdpStart" type="text" data-date-format="yyyy/mm/dd" value="${j.startPrev}"
+                                       data-val="true" data-val-required="La fecha de inicio es un campo requerido" name="startPrev"/> <span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
 																	</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-9 col-xs-offset-3">
+                                    <span class="field-validation-valid" data-valmsg-for="startPrev" data-valmsg-replace="true"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-xs-3">
@@ -111,10 +120,17 @@
                         </div>
                         <div class="col-xs-3">
                             <div class="input-group">
-                                <input class="form-control date-picker" id="dpEndBefore" type="text" data-date-format="dd-mm-yyyy" />
+                                <input class="form-control date-picker" id="jdbEnd" type="text" data-date-format="yyyy/mm/dd"  value='${j.end}'
+                                       data-val="true" data-val-required="La fecha de fin es un campo requerido" name="end"/>
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
 																	</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-9 col-xs-offset-3">
+                                    <span class="field-validation-valid" data-valmsg-for="end" data-valmsg-replace="true" ></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -122,10 +138,13 @@
                     <div class="row">
                         <div class="col-xs-3">Motivo de cambio:</div>
                         <div class="col-xs-9">
-                            <textarea id="form-field-11" class="form-control"></textarea>
+                            <textarea id="form-field-11" class="form-control" ng-init='j.reasonChange = "${(j.reasonChange == null) ? "" : j.reasonChange}";' ng-model ="j.reasonChange" name ="reasonChange"
+                                      data-val="true" data-val-required="El motivo de cambio es un campo requerido" >${j.reasonChange}</textarea>
                         </div>
                     </div>
                     <div class="row">
+                        <span class="field-validation-valid" data-valmsg-for="reasonChange" data-valmsg-replace="true"></span>
+                        <br/>
                         <div class="hr hr-8"></div>
                     </div>
                 </div>
@@ -133,7 +152,7 @@
         </div>
     </div>
 </div>
-<div class="row" ng-show="typeJob==0">
+<div class="row" ng-show="j.registerTypeId == 1 || j.registerTypeId == 2">
     <div class="widget-box">
         <div class="widget-header">
             <h4>Trabajo actual</h4>
@@ -149,19 +168,30 @@
                         </div>
                         <div class="col-xs-3">
                             <div class="input-group">
-                                <input class="form-control date-picker" id="dpStartBefore" type="text" data-date-format="dd-mm-yyyy" />
+                                <input class="form-control date-picker" id="jdpStartCurrent" type="text" data-date-format="yyyy/mm/dd"  value='${j.start}'
+                                       data-val="true" data-val-required="La fecha de inicio es un campo requerido" name="start"/>
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
 																	</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <span class="field-validation-valid" data-valmsg-for="start" data-valmsg-replace="true"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-xs-3">
                             Salario semanal:
                         </div>
                         <div class="col-xs-3">
-                            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                                   data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
-                                   type="text" value="">
+                            <input class="form-control" data-val="true" data-val-length="Debe tener máximo 7 caracteres"  name="salaryWeek"
+                                   data-val-length-max="6" data-val-length-min="1" data-val-required="El salario semanal es un campo requerido"
+                                   type="text" value="" ng-init='j.salaryWeek = ${(j.salaryWeek == null)? 0 : j.salaryWeek}' ng-model="j.salaryWeek">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-9 col-xs-offset-3">
+                                <span class="field-validation-valid" data-valmsg-for="salaryWeek" data-valmsg-replace="true"></span>
+                            </div>
                         </div>
                     </div>
                     <br/>

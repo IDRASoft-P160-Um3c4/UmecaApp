@@ -2,8 +2,11 @@ package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.DocumentType;
 import com.umeca.model.catalog.Relationship;
+import com.umeca.model.shared.EntityGrid;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,14 +17,26 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="reference")
-public class Reference {
+public class Reference implements EntityGrid{
+
+    public Reference() {
+    }
+
+    public Reference(Long id,String fullName, String relName,Integer age, String phone) {
+        this.id = id;
+        this.fullName = fullName;
+        this.age = age;
+        this.phone = phone;
+        this.relName = relName;
+    }
+
     @Id
     @GeneratedValue
     @Column(name="id_reference")
     private Long id;
 
     @Column(name="name", length = 150, nullable = false)
-    private String name;
+    private String fullName;
 
     @Column(name="age", nullable = false)
     private Integer age;
@@ -44,6 +59,9 @@ public class Reference {
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
 
+    @Transient
+    private String relName;
+
     public Long getId() {
         return id;
     }
@@ -52,13 +70,12 @@ public class Reference {
         this.id = id;
     }
 
-
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Integer getAge() {
@@ -68,7 +85,7 @@ public class Reference {
     public void setAge(Integer age) {
         this.age = age;
     }
-
+    @JsonIgnore
     public Relationship getRelationship() {
         return relationship;
     }
@@ -92,7 +109,7 @@ public class Reference {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
+    @JsonIgnore
     public DocumentType getDocumentType() {
         return documentType;
     }
@@ -101,11 +118,20 @@ public class Reference {
         this.documentType = documentType;
     }
 
+    @JsonIgnore
     public Meeting getMeeting() {
         return meeting;
     }
 
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
+    }
+
+    public String getRelName() {
+        return relName;
+    }
+
+    public void setRelName(String relName) {
+        this.relName = relName;
     }
 }

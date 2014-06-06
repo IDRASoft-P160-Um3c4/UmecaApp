@@ -1,6 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalog.AcademicYear;
+import com.umeca.model.catalog.Grade;
 import com.umeca.model.catalog.RegisterType;
 
 import javax.persistence.*;
@@ -23,35 +23,21 @@ public class School {
     @Column(name="id_school")
     private Long id;
 
-    @Column(name="name", length = 150, nullable = false)
+    @Column(name="name", length = 200, nullable = false)
     private String name;
 
     @Column(name="phone", length = 25, nullable = true)
     private String phone;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_academic_year", nullable = false)
-    private AcademicYear academicYear;
+    @Column(name="address", length = 255, nullable = true)
+    private String address;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_register_type", nullable = false)
-    private RegisterType registerType;
+    @JoinColumn(name="id_grade", nullable = false)
+    private Grade grade;
 
     @OneToMany(mappedBy="school", cascade={CascadeType.ALL})
     private List<Schedule> schedule;
-
-    @Column(name="start", nullable = false)
-    private Date start;
-
-    @Column(name="end", nullable = true)
-    private Date end;
-
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_domicile", nullable = true)
-    private Domicile domicile;
-
-    @Column(name="reason_change", length = 1000, nullable = true)
-    private String reasonChange;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
@@ -81,20 +67,12 @@ public class School {
         this.phone = phone;
     }
 
-    public AcademicYear getAcademicYear() {
-        return academicYear;
+    public Grade getGrade() {
+        return grade;
     }
 
-    public void setAcademicYear(AcademicYear academicYear) {
-        this.academicYear = academicYear;
-    }
-
-    public RegisterType getRegisterType() {
-        return registerType;
-    }
-
-    public void setRegisterType(RegisterType registerType) {
-        this.registerType = registerType;
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 
     public List<Schedule> getSchedule() {
@@ -105,43 +83,19 @@ public class School {
         this.schedule = schedule;
     }
 
-    public Date getStart() {
-        return start;
-    }
-
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
-    }
-
-    public Domicile getDomicile() {
-        return domicile;
-    }
-
-    public void setDomicile(Domicile domicile) {
-        this.domicile = domicile;
-    }
-
-    public String getReasonChange() {
-        return reasonChange;
-    }
-
-    public void setReasonChange(String reasonChange) {
-        this.reasonChange = reasonChange;
-    }
-
     public Meeting getMeeting() {
         return meeting;
     }
 
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

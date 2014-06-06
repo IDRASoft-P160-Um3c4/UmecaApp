@@ -3,14 +3,15 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <script>
     window.upsertAddress = function(id) {
-        window.showUpsert(id, "#angJsjqGridIdAddress", "/reviewer/meeting/address/upsert.html", "#GridIdAddress");
+        window.showUpsertWithIdCase(id, "#angJsjqGridIdAddress", "<c:url value='/reviewer/meeting/address/upsert.html'/>", "#GridIdAddress",undefined, ${m.caseDetention.id});
     };
 
-    window.obsolete = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdAddress", "/management/user/obsolete.json", "#GridIdAddress");
+    window.deleteAddress = function (id) {
+        window.showObsolete(id, "#angJsjqGridIdAddress", "<c:url value='/management/user/obsolete.json'/>", "#GridIdAddress");
     };
 
     $(document).ready(function() {
+
         jQuery("#GridIdAddress").jqGrid({
             url: '<c:url value='/reviewer/meeting/listAddress.json?idCase=${m.caseDetention.id}'/>',
             datatype: "json",
@@ -18,17 +19,17 @@
             colNames: ['ID', 'Direccion','Tipo de domicilio','Tiempo de recidencia','Tipo de propiedad', 'Acción'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
-                { name: 'addressString', index: 'username', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'fullname', index: 'fullname', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'email', index: 'email', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'role', index: 'role', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'domicile', index: 'domicile', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'timeLive', index: 'timeLive', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'registerTypeString', index: 'registerTypeString', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'belongString', index: 'belongString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
             pager: '#GridPagerAddress',
-            sortname: 'username',
-            height: 450,
+            sortname: 'registerTypeString',
+            height: 200,
             viewrecords: true,
             shrinkToFit: false,
             sortorder: "desc",
@@ -40,9 +41,9 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar domicilio\" onclick=\"window.upsertAddress('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.enable('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar domicilio\" onclick=\"window.enable('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                           $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },

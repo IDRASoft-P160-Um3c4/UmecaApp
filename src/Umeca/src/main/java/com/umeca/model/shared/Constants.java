@@ -18,4 +18,8 @@ public class Constants {
     public static String getS_MEETING_INCOMPLETE() {
         return S_MEETING_INCOMPLETE;
     }
+
+    public static Long REGYSTER_TYPE_CURRENT = 1L;
+    public static Long REGYSTER_TYPE_SECONDARY = 2L;
+    public static Long REGYSTER_TYPE_PREVIOUS = 3L;
 }

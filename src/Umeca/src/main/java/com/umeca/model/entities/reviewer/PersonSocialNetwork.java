@@ -3,6 +3,7 @@ package com.umeca.model.entities.reviewer;
 import com.umeca.model.catalog.DocumentType;
 import com.umeca.model.catalog.Election;
 import com.umeca.model.catalog.Relationship;
+import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
 
@@ -15,7 +16,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "person_social_network")
-public class PersonSocialNetwork {
+public class PersonSocialNetwork{
+
 
     @Id
     @GeneratedValue
@@ -50,8 +52,6 @@ public class PersonSocialNetwork {
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_social_network", nullable = false)
     private SocialNetwork socialNetwork;
-
-
 
 
     public Long getId() {
