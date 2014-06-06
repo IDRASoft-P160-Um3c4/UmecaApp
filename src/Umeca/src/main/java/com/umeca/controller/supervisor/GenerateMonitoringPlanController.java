@@ -4,11 +4,10 @@ import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
-import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.account.UserView;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlanView;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,13 +40,18 @@ public class GenerateMonitoringPlanController {
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
 
+    @Autowired
+    private SharedUserService userService;
+
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/list", method = RequestMethod.POST)
     public @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
 
-        //opts.extraFilters = new ArrayList<>();
-        //JqGridRulesModel extraFilter = new JqGridRulesModel("supervisor", "1", JqGridFilterModel.COMPARE_EQUAL);
-        //opts.extraFilters.add(extraFilter);
+        Long userId = userService.GetLoggedUserId();
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("supervisorId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -69,6 +73,8 @@ public class GenerateMonitoringPlanController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if(field.equals("stCreationTime"))
                     return r.get("creationTime");
+                if(field.equals("supervisorId"))
+                    return r.join("supervisor").get("id");
                 return null;
             }
         }, MonitoringPlan.class, MonitoringPlanView.class);
