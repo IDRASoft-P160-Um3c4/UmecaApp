@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormJobId");
@@ -35,7 +36,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormJobId', '/reviewer/meeting/job/doUpsert.json');">
+                          ng-click="submit('#FormJobId', '<c:url value="/reviewer/meeting/job/doUpsert.json"/>');">
                           Guardar
                     </span>
                 </div>

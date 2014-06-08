@@ -61,7 +61,7 @@
     </div>
     <div class="col-xs-6">
         <div class="col-xs-4">
-            Grado: {{school.gradeId}}
+            Grado:
         </div>
         <div class="col-xs-7">
 

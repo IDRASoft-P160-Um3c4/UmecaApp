@@ -82,7 +82,10 @@
     <div class="col-xs-12">
         <div class="col-xs-2 element-left">Dirección:</div>
         <div class="col-xs-10">
-           <textarea class="form-control" ng-init='j.address = "${(j.address == null) ? "" : j.address}"' ng-model="j.address" name="address">${j.address}</textarea>
+           <textarea class="form-control" ng-init='j.address = "${(j.address == null) ? "" : j.address}"' ng-model="j.address" name="address" id="address"
+                     data-val="true" data-val-required="La dirección es un campo requerido"
+                     data-val-length="Debe tener al menos 6 y máximo 500 caracteres"
+                     data-val-length-max="500" data-val-length-min="6">${j.address}</textarea>
             <br/>
             <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
         </div>

@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormSocialNetworkId");
@@ -33,7 +34,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormSocialNetworkId', '/reviewer/meeting/socialNetwork/doUpsert.json?idCase=${idCase}');">
+                          ng-click="submit('#FormSocialNetworkId', '<c:url value="/reviewer/meeting/socialNetwork/doUpsert.json?idCase=${idCase}"/>');">
                           Guardar
                     </span>
                 </div>

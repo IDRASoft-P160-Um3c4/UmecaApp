@@ -4,11 +4,11 @@
 <script>
     window.upsertSocialNetwork = function(id) {
 
-        window.showUpsertWithIdCase(id, "#angJsjqGridIdSocialNetwork", "/reviewer/meeting/socialNetwork/upsert.html", "#GridIdSocialNetwork",undefined, ${m.caseDetention.id});
+        window.showUpsertWithIdCase(id, "#angJsjqGridIdSocialNetwork", "<c:url value='/reviewer/meeting/socialNetwork/upsert.html'/>", "#GridIdSocialNetwork",undefined, ${m.caseDetention.id});
     };
 
     window.deleteSocialNetwork = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdSocialNetwork", "/reviewer/meeting/socialNetwork/delete.json", "#GridIdSocialNetwork");
+        window.showObsolete(id, "#angJsjqGridIdSocialNetwork", "<c:url value='/reviewer/meeting/socialNetwork/delete.json'/>", "#GridIdSocialNetwork");
     };
 
     $(document).ready(function() {
