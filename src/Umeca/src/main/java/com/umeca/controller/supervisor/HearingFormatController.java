@@ -1,13 +1,14 @@
 package com.umeca.controller.supervisor;
 
+import com.google.gson.Gson;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.catalog.Arrangement;
-import com.umeca.model.entities.Constants;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.supervisor.ArrangementView;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.HearingFormatView;
-import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
+import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,46 +25,41 @@ public class HearingFormatController {
     @Autowired
     ArrangementRepository arrangementRepository;
 
-    @Qualifier("qCaseRepository")
     @Autowired
-    CaseRepository caseRepository;
+    CaseService caseService;
 
     @Autowired
     HearingFormatService hearingFormatService;
 
-
     @RequestMapping(value = "/supervisor/hearingFormat", method = RequestMethod.GET)
-    public ModelAndView hearingFormat() {
-        ModelAndView model = new ModelAndView("/supervisor/hearingFormat");
-        List<Arrangement> arrangements = arrangementRepository.findAll();
+    public String hearingFormat() {
 
-        Case caseDet = caseRepository.findByIdFolder("F-002");
-
-        return model;
+        return "/supervisor/hearingFormat";
     }
 
     @RequestMapping(value = "/supervisor/searchCase", method = RequestMethod.POST)
-    public @ResponseBody HearingFormatView searchCase(@RequestBody String idFolder) {
+    public
+    @ResponseBody
+    HearingFormatView searchCase(@RequestBody String idFolder) {
 
-        Case caseDet = caseRepository.findByIdFolder("F-002");
+        HearingFormatView hearingFormatView;
 
-        HearingFormatView hearingFormatView = new HearingFormatView();
-
-        hearingFormatView.setArrangementType(Constants.CONDITIONAL_REPRIEVE_HEARING);
-
-        if(caseDet!=null){
-            hearingFormatView=hearingFormatService.fillForView(caseDet);
-            hearingFormatView.setArrangementType(Constants.MEETING_HEARING);
-        }
+        Case caseDet = caseService.findByIdFolder(idFolder);
+        hearingFormatView = hearingFormatService.fillForView(caseDet, idFolder);
 
         return hearingFormatView;
     }
 
-    @RequestMapping(value = "/supervisor/searchArrangement", method = RequestMethod.POST)
-    public @ResponseBody List<Arrangement> searchArrangement(@RequestBody Integer idType) {
+    @RequestMapping(value = "/supervisor/searchArrangements", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String searchArrangement(@RequestBody String folderId) {
 
-        List<Arrangement> lstArrangement= arrangementRepository.findByType(idType);
-        return lstArrangement;
+        Gson conv = new Gson();
+        List<ArrangementView> lstArrangementView = hearingFormatService.getArrangmentLst(folderId);
+        String jsonLst = conv.toJson(lstArrangementView);
+
+        return jsonLst;
     }
 
 
@@ -73,33 +69,47 @@ public class HearingFormatController {
     ResponseMessage doUpsert(@ModelAttribute HearingFormatView result) {
 
         ResponseMessage response = new ResponseMessage();
-        try{
+        try {
 
-            Case caseDet = caseRepository.findByIdFolder(result.getIdFolderCode());
+            Case caseDet = caseService.findByIdFolder(result.getIdFolderCode());
 
             HearingFormat hearingFormat;
+            hearingFormat = hearingFormatService.fillHearingFormat(result);
 
-            if(caseDet!=null)
-                hearingFormat=hearingFormatService.fillHearingFormatMeeting(result,caseDet);
-            else
-                hearingFormat=hearingFormatService.fillHearingFormatConditional(result);
+            if (caseDet != null) {
+                hearingFormat.setCaseDetention(caseDet);
+                response = hearingFormatService.save(hearingFormat);
+            } else {
 
-            hearingFormatService.save(hearingFormat);
+                Imputed imp = new Imputed();
+                imp.setName(result.getImputedName());
+                imp.setLastNameP(result.getImputedFLastName());
+                imp.setLastNameM(result.getImputedSLastName());
+                imp.setCelPhone(result.getImputedTel());
+                imp.setDateBirth(result.getImputedBirthDate());
+                caseDet = caseService.generateNewCase(imp);
+                caseDet.setIdFolder(result.getIdFolderCode());
+
+                hearingFormat.setCaseDetention(caseDet);
+                caseDet.setHearingFormat(hearingFormat);
+
+                caseDet = caseService.save(caseDet);
+            }
 
             response.setHasError(false);
-            response.setUrlToGo("/supervisor/index.html");
+            //response.setUrlToGo("/supervisor/hearingFormat.html?idFolder=" + caseDet.getIdFolder());
+            response.setMessage(caseDet.getIdFolder());
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
             System.out.println("Error al guardar el formato de audiencia!\n");
             System.out.println(e.getMessage());
             response.setHasError(true);
             response.setMessage(e.getMessage());
 
-        }finally {
+        } finally {
             return response;
         }
-
     }
 
 

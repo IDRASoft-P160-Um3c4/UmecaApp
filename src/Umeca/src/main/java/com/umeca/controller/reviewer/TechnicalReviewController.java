@@ -36,7 +36,7 @@ public class TechnicalReviewController {
 
     @RequestMapping(value = "/reviewer/technicalReview/index", method = RequestMethod.GET)
     public String index() {
-        return "/reviewer/technicalReview/index";
+        return "reviewer/technicalReview/index";
     }
 
     @Autowired
@@ -91,7 +91,7 @@ public class TechnicalReviewController {
     @RequestMapping(value = "/reviewer/technicalReview/technicalReview", method = RequestMethod.GET)
     public ModelAndView technicalReview(Long id) {
 
-        ModelAndView model = new ModelAndView("/reviewer/technicalReview/technicalReview");
+        ModelAndView model = new ModelAndView("reviewer/technicalReview/technicalReview");
 
         try {
 
@@ -158,7 +158,7 @@ public class TechnicalReviewController {
             result.setCaseDetention(caseDetention);
             technicalReviewRepository.save(result);
             response.setHasError(false);
-            response.setUrlToGo("/reviewer/technicalReview/index.html");
+            response.setUrlToGo("reviewer/technicalReview/index.html");
         } catch (Exception ex) {
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo.");

@@ -10,6 +10,7 @@
 </head>
 
 <body scroll="no" ng-app="ptlUmc">
+
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
 <h2 class="element-center"><i class="icon-archive"></i>&nbsp;&nbsp;Opinión técnica</h2>
@@ -66,7 +67,7 @@
 
 
 <div class="row element-right" ng-show="flgIsEvaluated==true">
-<span class="btn btn-default btn-sm" ng-click="returnUrl('/reviewer/technicalReview/index.html')">
+<span class="btn btn-default btn-sm" ng-click="returnUrl('<c:url value='/reviewer/technicalReview/index.html'/>')">
                                 Regresar
                             </span>
 
@@ -285,11 +286,11 @@
 
     <div class="row element-right">
                             <span class="btn btn-default btn-sm"
-                                  ng-click="returnUrl('/reviewer/technicalReview/index.html')">
+                                  ng-click="returnUrl('<c:url value='/reviewer/technicalReview/index.html'/>')">
                                 Cancelar
                             </span>
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="submitRedirect('#FormTecRevId', '/reviewer/technicalReview/doUpsert.json',false,validateSave)"
+                                  ng-click="submitRedirect('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>',false,validateSave)"
                                   ng-show="flgIsEvaluated == false">
                                   Guardar
                             </span>

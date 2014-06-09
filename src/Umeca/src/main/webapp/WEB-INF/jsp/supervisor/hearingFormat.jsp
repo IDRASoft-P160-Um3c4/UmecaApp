@@ -95,21 +95,24 @@
 
 <div class="container body-content" ng-controller="hearingFormatController">
 
+<input type="hidden" name="arrangementType" value="{{m.arrmntType}}"/>
+<input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
+
 <div class="row">
 <div class="row element-right">
-    <div ng-show="m.canSave==false">
+    <div ng-show="(m.canSave==false&&m.hasHF==true)||m.hasSearch==false">
         <span class="btn btn-default btn-sm"
               ng-click="returnUrl('/index.html')">
                                 Regresar
                             </span>
     </div>
-    <div ng-show="m.canSave==true">
+    <div ng-show="m.canSave==true&&m.hasHF==false&&m.hasSearch==true">
                             <span class="btn btn-default btn-sm"
                                   ng-click="returnUrl('/index.html')">
                                 Cancelar
                             </span>
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="submitRedirect('#FormFormatId', '/supervisor/doUpsert.json',false,validateSave)">
+                                  ng-click="submitReloadHF('#FormFormatId', '/supervisor/doUpsert.json',false,validateSave)">
                                   Guardar
                             </span>
     </div>
@@ -130,12 +133,13 @@
         <label>No. Carpeta:</label>
 
         <div class="input-group">
-            <input type="text" class="form-control search-query input-small" ng-model="m.idFolderParam"
+            <input id="idFolderParam" type="text" class="form-control search-query input-small"
+                   ng-model="m.idFolderParam"
                    name="idFolderCode"
                    placeholder="No. de carpeta..." data-val="true"
                    data-val-required="No. de carpeta es un campo requerido"/>
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-purple btn-sm"
+                                        <button id="btnSearch" type="button" class="btn btn-purple btn-sm"
                                                 ng-click="searchCase(m.idFolderParam);">
                                             Buscar
                                             <i class="icon-search icon-on-right bigger-110"></i>
@@ -190,7 +194,7 @@
             <span class="input-group-addon"><i class="icon-time bigger-110"></i></span>
             <br/>
         </div>
-        <span class="field-validation-error">{{m.errTimeIn}}</span>
+        <span ng-class='m.errTimeIn&&m.errTimeIn!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errTimeIn}}</span>
     </div>
 
     <div class="col-xs-3">
@@ -202,7 +206,7 @@
             <span class="input-group-addon"><i class="icon-time bigger-110"></i></span>
             <br/>
         </div>
-        <span class="field-validation-error">{{m.errTime}}</span>
+        <span ng-class='m.errTime&&m.errTime!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errTime}}</span>
 
     </div>
 
@@ -305,12 +309,13 @@
                 <div class="input-group">
                     <input ng-class='m.errBth&&m.errBth!=""&&!m.impBthDay ? "form-control date-picker input-validation-error" : "form-control date-picker"'
                            id="imputedBirthDate" name="imputedBirthDate" type="text"
+                           data-date-format="dd/mm/yyyy"
                            readonly ng-change="calcAge();" ng-model="m.impBthDay"/>
                                                 <span class="input-group-addon">
                                                     <i class="icon-calendar bigger-110"></i>
                                                 </span>
                 </div>
-                <span class="field-validation-error">{{m.errBth}}</span>
+                <span ng-class='m.errBth&&m.errBth!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errBth}}</span>
             </div>
         </div>
 
@@ -322,7 +327,7 @@
         <br/>
         <input id="imputedAge" name="imputedAge" type="text" class="input-xxlarge" readonly ng-model="m.impAge"/>
         <br/>
-        <span class="field-validation-error">{{m.errAge}}</span>
+        <span ng-class='m.errAge&&m.errAge!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errAge}}</span>
 
     </div>
 
@@ -390,7 +395,7 @@
     <div class="col-xs-3 col-xs-offset-1">
         <label>Control de detención</label>
         <br/>
-        <span class="field-validation-error">{{m.errCtrlDet}}</span>
+        <span ng-class='m.errCtrlDet&&m.errCtrlDet!=""? "field-validation-error" : "input-validation-valid"'>{{m.errCtrlDet}}</span>
 
         <div class="radio">
             <label ng-click="clCrtlDet();">
@@ -409,7 +414,7 @@
     <div class="col-xs-3 col-xs-offset-1">
         <label>Ampliación del termino</label>
         <br/>
-        <span class="field-validation-error">{{m.errExt}}</span>
+        <span ng-class='m.errExt&&m.errExt!=""? "field-validation-error" : "input-validation-valid"'>{{m.errExt}}</span>
 
         <div class="radio">
             <label ng-click="clExtension();">
@@ -432,7 +437,7 @@
     <div class="col-xs-3 col-xs-offset-1">
         <label>Audiencia</label>
         <br/>
-        <span class="field-validation-error">{{m.errHtype}}</span>
+        <span ng-class='m.errHtype&&m.errHtype!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errHtype}}</span>
 
         <div class="radio">
             <label ng-click="clHType();">
@@ -458,19 +463,19 @@
         <div class="row">
             <label>Formulación de imputación</label>
             <br/>
-            <span class="field-validation-error">{{m.errFormImp}}</span>
+            <span ng-class='m.errFormImp&&m.errFormImp!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errFormImp}}</span>
 
             <div class="radio">
 
                 <label ng-click="clFormImp();">
                     <input class="ace col-xs-1" type="radio" ng-model="m.formImp" value="1"
-                           ng-checked="m.impDate&&m.impDate!=''">
+                           ng-checked="m.impDate!=''&&m.hasHF==true">
                     <span class="lbl col-xs-10">&nbsp;&nbsp;Si</span>
                 </label>
 
                 <label ng-click="clFormImp();">
                     <input class="ace col-xs-1" type="radio" ng-model="m.formImp" value="2"
-                           ng-checked="!(m.impDate&&m.impDate!='')&&m.canSave==false">
+                           ng-checked="m.impDate==''&&m.hasHF==true">
                     <span class="lbl col-xs-10">&nbsp;&nbsp;No</span>
                 </label>
             </div>
@@ -484,8 +489,9 @@
                 <div class="input-group">
 
                     <input ng-class='m.errFormImpDate&&m.errFormImpDate!=""&&!m.impDate ? "form-control date-picker input-validation-error" : "form-control date-picker"'
-                           ng-disabled="m.formImp!=1"
+                           ng-disabled="m.formImp!=1&&m.formImp>0"
                            id="imputationDate" name="imputationDate" ng-model="m.impDate"
+                           data-date-format="dd/mm/yyyy"
                            type="text"
                            ng-change="m.errFormImpDate=''"
                            readonly/>
@@ -493,7 +499,7 @@
                                 <i class="icon-calendar bigger-110"></i>
                             </span>
                 </div>
-                <span class="field-validation-error">{{m.errFormImpDate}}</span>
+                <span ng-class='m.errFormImpDate&&m.errFormImpDate!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errFormImpDate}}</span>
 
             </div>
         </div>
@@ -505,18 +511,18 @@
         <div class="row">
             <label>Vinculación a proceso</label>
             <br/>
-            <span class="field-validation-error">{{m.errLinkProc}}</span>
+            <span ng-class='m.errLinkProc&&m.errLinkProc!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errLinkProc}}</span>
 
 
             <div class="radio">
                 <label ng-click="clLinkProc();">
                     <input class="ace col-xs-1" name="vincProcessRadio" type="radio" value="1" ng-model="m.vincProcess"
-                           ng-checked="m.linkageRoom&&m.linkageRoom!=''" value="true">
+                           ng-checked="">
                     <span class="lbl col-xs-10">&nbsp;&nbsp;Si</span>
                 </label>
                 <label ng-click="clLinkProc();">
                     <input class="ace col-xs-1" name="vincProcessRadio" type="radio" value="2" ng-model="m.vincProcess"
-                           ng-checked="!(m.linkageRoom&&m.linkageRoom!='')&&m.canSave==false" value="false">
+                           ng-checked="">
                     <span class="lbl col-xs-10">&nbsp;&nbsp;No</span>
                 </label>
             </div>
@@ -531,9 +537,10 @@
                     <label><span ng-show="m.vincProcess==1">*</span>Sala:</label>
                     <input type="text" name="linkageRoom"
                            ng-class='m.errLnkRoom&&m.errLnkRoom!="" ? "input-validation-error input-small" : "input-small"'
-                           ng-disabled="m.vincProcess!=1" ng-model="m.linkageRoom" ng-change="m.errLnkRoom=''"/>
+                           ng-disabled="m.vincProcess&&m.vincProcess>1" ng-model="m.linkageRoom"
+                           ng-change="m.errLnkRoom=''"/>
                     <br/>
-                    <span class="field-validation-error">{{m.errLnkRoom}}</span>
+                    <span ng-class='m.errLnkRoom&&m.errLnkRoom ? "field-validation-error" : "input-validation-valid"'>{{m.errLnkRoom}}</span>
                 </div>
 
 
@@ -543,8 +550,9 @@
 
                     <div class="input-group">
                         <input ng-class='m.errLnkDt&&m.errLnkDt!=""&&!m.linkageDate ? "form-control date-picker input-validation-error" : "form-control date-picker"'
-                               ng-disabled="m.vincProcess!=1"
+                               ng-disabled="m.vincProcess&&m.vincProcess>1"
                                id="linkageDate"
+                               data-date-format="dd/mm/yyyy"
                                ng-change="m.errLnkDt=''"
                                name="linkageDate"
                                ng-model="m.linkageDate"
@@ -554,7 +562,7 @@
                     <i class="icon-calendar bigger-110"></i>
                 </span>
                     </div>
-                    <span class="field-validation-error">{{m.errLnkDt}}</span>
+                    <span class='m.errLnkDt&&m.errLnkDt!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errLnkDt}}</span>
 
                 </div>
 
@@ -565,13 +573,14 @@
                     <div class="input-group bootstrap-timepicker">
                         <input id="linkageTime" name="linkageTime" readonly type="text"
                                ng-class='m.errLnkTm && m.errLnkTm!="" ? "form-control input-validation-error" : "form-control"'
-                               ng-disabled="m.vincProcess!=1" ng-model="m.linkageTime" ng-change="m.errLnkTm=''"/>
+                               ng-disabled="m.vincProcess&&m.vincProcess>1" ng-model="m.linkageTime"
+                               ng-change="m.errLnkTm=''"/>
                                             <span class="input-group-addon">
                                                 <i class="icon-time bigger-110"></i>
                                             </span>
 
                     </div>
-                    <span class="field-validation-error">{{m.errLnkTm}}</span>
+                    <span ng-class='m.errLnkTm&&m.errLnkTm!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errLnkTm}}</span>
                 </div>
             </div>
         </div>
@@ -588,17 +597,7 @@
 </div>
 
 
-<div class="row">
-
-    <div class="col-xs-6">
-        <label for="room">Plazo</label>
-        <br/>
-        <input id="terms" ng-model="m.terms" name="terms" type="text" class="input-large" data-val="true"
-               data-val-required="Plazo es un campo requerido"/>
-        <br/>
-            <span class="field-validation-valid" data-valmsg-for="terms"
-                  data-valmsg-replace="true"></span>
-    </div>
+<div class="row" ng-show="m.hasSearch==true">
 
 
     <div class="widget-box">
@@ -608,26 +607,44 @@
         <div class="widget-body">
 
             <div class="row">
+                <br/>
+
+                <div class="col-xs-6 col-xs-offset-1">
+                    <label for="room">Plazo</label>
+                    <br/>
+                    <input id="terms" ng-model="m.terms" name="terms" type="text" class="input-xxlarge" data-val="true"
+                           data-val-required="Plazo es un campo requerido"/>
+                    <br/>
+            <span class="field-validation-valid" data-valmsg-for="terms"
+                  data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <br/>
+
+                <div class="col-xs-11 col-xs-offset-1">
+                    <span ng-class='m.errArrmntSel&&m.errArrmntSel!=""? "field-validation-error" : "input-validation-valid"'>{{m.errArrmntSel}}</span>
+                </div>
+                <br/>
 
                 <div class="col-xs-11 col-xs-offset-1">
 
 
-                    <div class="row" ng-repeat="arrangment in lstArrangment">
-                        <div class="checkbox col-xs-offset-1">
+                    <div class="row" ng-repeat="arrangment in m.lstArrangementShow">
+                        <div class="checkbox">
                             <label>
-                                <input class="ace col-xs-1"
-                                       ng-disabled="flgIsEvaluated == true"
-                                       type="checkbox">
+                                <input class="ace" ng-disabled="m.hasHF==true"
+                                       type="checkbox" ng-model="m.lstArrangementShow[$index].selVal">
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;{{arrangment.name}}</span>
                             </label>
                         </div>
-                        <div>
-                            <label>Comentarios</label>
-                            <textarea class="form-control limited"
-                                      maxlength="980"></textarea>
+                        <div class="col-xs-offset-1">
+                            <textarea class="form-control limited" ng-disabled="m.hasHF==true"
+                                      maxlength="980" ng-model="m.lstArrangementShow[$index].description"
+                                      ng-show="m.lstArrangementShow[$index].selVal==true">{{m.lstArrangementShow[$index].description}}</textarea>
                         </div>
                     </div>
-
 
                 </div>
 

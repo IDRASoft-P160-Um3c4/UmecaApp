@@ -6,7 +6,7 @@
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/technicalReviewCtrl.js"></script>
 
-    <title>OpiniÃ³n tÃ©cnica</title>
+    <title>Opinión técnica</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -15,12 +15,28 @@
 
     <script>
 
+        addTechnicalReview = function(id){
+            var goTo="<c:url value='/reviewer/technicalReview/technicalReview.html'/>"+"?id="+id;
+            window.goToUrlMvcUrl(goTo);
+        };
+
+
+        addTechnicalReview = function(id){
+            var goTo="<c:url value='/reviewer/technicalReview/technicalReview.html'/>"+"?id="+id;
+            window.goToUrlMvcUrl(goTo);
+        };
+
+        addTechnicalReview = function(id){
+            var goTo="<c:url value='/reviewer/technicalReview/technicalReview.html'/>"+"?id="+id;
+            window.goToUrlMvcUrl(goTo);
+        };
+
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/technicalReview/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID','SHOW','No. Carpeta','No. M.P.','Imputado','AcciÃ³n'],
+                colNames: ['ID','SHOW','No. Carpeta','No. M.P.','Imputado','Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'status', index: 'status', hidden: true },
@@ -50,15 +66,16 @@
                         var enabled = row.enabled;
                         var be;
 
-                        switch (status[i]){
+                     switch (status[i]){
                             case "VERIF":
-                            be = "<a style=\"display:inline-block;\" title=\"Agregar opiniï¿½n tï¿½cnica\" href=\"/reviewer/technicalReview/technicalReview.html?id=" + cl + "\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar opinión técnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+
                             break;
                             case "TEC_REV":
-                                be = "<a style=\"display:inline-block;\" title=\"Visualizar opiniï¿½n tï¿½cnica\" href=\"/reviewer/technicalReview/technicalReview.html?id=" + cl + "\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar opinión técnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                             break;
                             default:
-                                be = "<a style=\"display:inline-block;\" title=\"Aï¿½n no cuenta con la verificaciï¿½n completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+                                be = "<a style=\"display:inline-block;\" title=\"Aún no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
                                 break;
                         }
 
@@ -92,7 +109,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Opiniï¿½n Tï¿½cnica</h2>
+    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Opinión Técnica</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

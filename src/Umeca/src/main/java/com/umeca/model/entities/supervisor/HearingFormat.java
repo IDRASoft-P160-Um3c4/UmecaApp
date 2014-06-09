@@ -49,10 +49,13 @@ public class HearingFormat {
     @Column(name = "terms", length = 1000, nullable = false)
     private String terms;
 
+    @Column(name = "origin_type", length = 1000, nullable = false)
+    private Integer originType;
+
     @OneToOne(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private HearingFormatSpecs hearingFormatSpecs;
 
-    @OneToMany(mappedBy = "hearingFormat",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hearingFormat",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<AssignedArrangement> assignedArrangements;
 
     @OneToMany(mappedBy = "hearingFormat",fetch = FetchType.LAZY)
@@ -188,5 +191,13 @@ public class HearingFormat {
 
     public void setCaseDetention(Case caseDetention) {
         this.caseDetention = caseDetention;
+    }
+
+    public Integer getOriginType() {
+        return originType;
+    }
+
+    public void setOriginType(Integer originType) {
+        this.originType = originType;
     }
 }
