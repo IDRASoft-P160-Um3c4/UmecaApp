@@ -27,6 +27,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/jobCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/zipSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/addressCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/leavingCountryCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/loadStatesDrct.js.js"></script>
 
 
     <title>Entrevista</title>

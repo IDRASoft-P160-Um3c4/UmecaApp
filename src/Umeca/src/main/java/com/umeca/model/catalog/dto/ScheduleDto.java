@@ -1,4 +1,4 @@
-package com.umeca.model.entities.reviewer.dto;
+package com.umeca.model.catalog.dto;
 
 import com.umeca.model.entities.reviewer.Schedule;
 

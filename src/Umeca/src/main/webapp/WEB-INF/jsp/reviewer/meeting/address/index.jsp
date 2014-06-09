@@ -1,13 +1,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<style>
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+    }
+</style>
 <script>
     window.upsertAddress = function(id) {
         window.showUpsertWithIdCase(id, "#angJsjqGridIdAddress", "<c:url value='/reviewer/meeting/address/upsert.html'/>", "#GridIdAddress",undefined, ${m.caseDetention.id});
     };
 
     window.deleteAddress = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdAddress", "<c:url value='/management/user/obsolete.json'/>", "#GridIdAddress");
+        window.showObsolete(id, "#angJsjqGridIdAddress", "<c:url value='/reviewer/meeting/address/delete.json'/>", "#GridIdAddress");
     };
 
     $(document).ready(function() {
@@ -43,7 +48,7 @@
                     var enabled = row.enabled;
                     var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar domicilio\" onclick=\"window.upsertAddress('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar domicilio\" onclick=\"window.enable('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar domicilio\" onclick=\"window.deleteAddress('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                           $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },

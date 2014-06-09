@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.Country;
 import com.umeca.model.catalog.MaritalStatus;
 
 import javax.persistence.*;
@@ -52,6 +53,13 @@ public class Imputed { @Id
 
     @Column(name="dependent_boys", nullable = true)
     private Integer dependentBoys;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_country", nullable = true)
+    private Country birthCountry;
+
+    @Column(name="birth_place", nullable = true, length = 500)
+    private String birthPlace;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
@@ -159,6 +167,22 @@ public class Imputed { @Id
 
     public void setDependentBoys(Integer dependentBoys) {
         this.dependentBoys = dependentBoys;
+    }
+
+    public Country getBirthCountry() {
+        return birthCountry;
+    }
+
+    public void setBirthCountry(Country birthCountry) {
+        this.birthCountry = birthCountry;
+    }
+
+    public String getBirthPlace() {
+        return birthPlace;
+    }
+
+    public void setBirthPlace(String birthPlace) {
+        this.birthPlace = birthPlace;
     }
 }
 

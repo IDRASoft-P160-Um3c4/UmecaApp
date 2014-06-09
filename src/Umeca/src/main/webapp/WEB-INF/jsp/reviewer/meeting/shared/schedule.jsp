@@ -1,4 +1,10 @@
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css" />
+<script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
+
 <div class="row element-center" ng-controller="scheduleController">
     <input type="hidden" ng-update-hidden ng-model="schString" name='sch'>
     <input type="hidden" ng-update-hidden ng-init='listSchedule = ${(listSchedule == null) ? "undefined" : listSchedule};'>

@@ -53,4 +53,6 @@ public interface MeetingService {
     ResponseMessage doUpsertAddress(Domicile domicile, Long idCase, String sch);
 
     ResponseMessage deleteAddress(Long id);
+
+    ResponseMessage upsertLeaveCountry(Long id, LeaveCountry leaveCountry);
 }

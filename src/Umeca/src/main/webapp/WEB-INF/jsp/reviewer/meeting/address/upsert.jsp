@@ -7,7 +7,7 @@
 
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="addressController" ng-cloak>
-        <div class="modal-dialog" style="width:800px">
+        <div class="modal-dialog" style="width:900px">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-info ">

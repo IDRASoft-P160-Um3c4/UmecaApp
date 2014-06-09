@@ -29,20 +29,20 @@
 
     <script>
         window.newMeeting = function() {
-            window.showUpsert(null, "#angJsjqGridId", "/reviewer/meeting/newMeeting.html", "#GridId", "/reviewer/meeting/meeting.html");
+            window.showUpsert(null, "#angJsjqGridId", "<c:url value='/reviewer/meeting/newMeeting.html'/>", "#GridId", "/reviewer/meeting/meeting.html");
         };
 
         window.upsert=function(id){
             var params= [];
             params["idParam"]=id;
-            window.goToUrlMvcUrl("/reviewer/meeting/meeting.html?id=idParam",params);
+            window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/meeting.html?id=idParam'/>",params);
 
         };
 
         window.legal=function(id){
             var params= [];
             params["idParam"]=id;
-            window.goToUrlMvcUrl("/reviewer/meeting/legal/index.html?id=idParam",params);
+            window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/legal/index.html?id=idParam'/>",params);
 
         };
 

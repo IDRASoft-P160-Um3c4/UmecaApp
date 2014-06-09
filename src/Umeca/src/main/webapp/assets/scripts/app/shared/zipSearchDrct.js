@@ -1,11 +1,13 @@
 app.directive('zipSearch', function ($http, $timeout) {
-    return function (scope, elem) {
+    return function (scope, elem, attr) {
 
         var currentTimeout = null;
 
+        var urlRequest =  attr['urlRequest'];
+
         var ajaxConf = {
             method: 'POST',
-            url: '/catalogs/locationsByZipCode.json'
+            url: urlRequest
         };
 
         elem.on('keyup change blur', function () {
@@ -21,14 +23,15 @@ app.directive('zipSearch', function ($http, $timeout) {
             currentTimeout = $timeout(function() {
                 $http(ajaxConf)
                     .success(function (data) {
-                        data.locations=jQuery.parseJSON(data.locations);
-                        if (data.locations == undefined || data.locations.length === 0) {
+                        data.data=jQuery.parseJSON(data.data);
+                        if (data.data == undefined || data.data.length === 0) {
                             scope.clear();
                             return;
                         }
 
-                        scope.listLocation = data.locations;
-                        scope.a.location =data.locations[0];
+                        scope.listLocation = data.data;
+                        scope.a.location =scope.listLocation[0];
+                        scope.a.locationId = scope.a.location.id;
                         //scope.selectedLocation = data.Locations[0];
 
                     });

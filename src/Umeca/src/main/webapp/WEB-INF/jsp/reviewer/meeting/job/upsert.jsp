@@ -1,10 +1,10 @@
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormJobId");
     });
 </script>
-
 
 
 <div>

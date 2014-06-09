@@ -44,7 +44,8 @@
   content: "";
   display: inline-block;
   left: 9px;
-  position: absolute;
+  position: relative;
+  z-index: 1000;
   top: -7px;
 }
 .bootstrap-timepicker-widget.dropdown-menu:after {
@@ -54,7 +55,8 @@
   content: "";
   display: inline-block;
   left: 10px;
-  position: absolute;
+  position: relative;
+  z-index: 1000;
   top: -6px;
 }
 .bootstrap-timepicker-widget a.btn,

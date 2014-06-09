@@ -1,25 +1,30 @@
-app.controller('addressController', function($scope, $timeout) {
-    $scope.a = {};
+app.controller('leavingController', function($scope, $timeout) {
+    $scope.l = {};
     $scope.listLocation = [];
     $scope.listElection = [];
-    $scope.listRegisterType = [];
-    $scope.a.belong = 0;
-    $scope.a.type=0;
+    $scope.listCountry = [];
+    $scope.l.oc= 0;
+    $scope.l.doc = 0;
+    $scope.l.cfId = 0;
+    $scope.l.cfId = 0;
+    $scope.country=0;
+    $scope.state=0;
+    $scope.m = {};
 
     $scope.init = function(){
-        if($scope.listRegisterType === undefined || $scope.listRegisterType.length <= 0)
+        if($scope.listCountry === undefined || $scope.listCountry.length <= 0)
             return;
 
-        if($scope.a.typeId === undefined){
-            $scope.a.type = $scope.listRegisterType[0];
-            $scope.a.typeId = $scope.a.type.id;
+        if($scope.countryId === undefined){
+            $scope.country = $scope.listCountry[0];
+            $scope.countryId = $scope.country.id;
         }
         else{
-            for(var i=0; i < $scope.listRegisterType.length; i++){
-                var type = $scope.listRegisterType[i];
+            for(var i=0; i < $scope.listCountry.length; i++){
+                var country = $scope.listCountry[i];
 
-                if(type.id === $scope.a.typeId){
-                    $scope.a.type =type;
+                if(country.id === $scope.countryId){
+                    $scope.country = country;
                     break;
                 }
             }
@@ -27,24 +32,64 @@ app.controller('addressController', function($scope, $timeout) {
         if($scope.listElection === undefined || $scope.listElection.length <= 0)
             return;
 
-        if($scope.a.belongId === undefined){
-            $scope.a.belong = $scope.listElection[0];
-            $scope.a.belongId = $scope.a.belong.id;
+        if($scope.l.ocId === undefined){
+            $scope.l.oc = $scope.listElection[0];
+            $scope.l.ocId = $scope.l.oc.id;
         }
         else{
             for(var i=0; i < $scope.listElection.length; i++){
-                var bel = $scope.listElection[i];
+                var oc = $scope.listElection[i];
 
-                if(bel.id === $scope.a.belongId){
-                    $scope.a.belong = bel;
+                if(oc.id === $scope.l.ocId){
+                    $scope.l.oc = oc;
                     break;
                 }
             }
         }
 
-        if($scope.zipCode != "" && $scope.zipCode!= undefined){
-         //   var urlRequest =  $scope.zipCode['urlRequest'];
-          //  alert("url - >" + urlRequest);
+        if($scope.l.docId === undefined){
+            $scope.l.doc = $scope.listElection[0];
+            $scope.l.docId = $scope.l.doc.id;
+        }
+        else{
+            for(var i=0; i < $scope.listElection.length; i++){
+                var doc = $scope.listElection[i];
+
+                if(doc.id === $scope.l.docId){
+                    $scope.l.doc = doc;
+                    break;
+                }
+            }
+        }
+
+        if($scope.l.cfId === undefined){
+            $scope.l.cf = $scope.listElection[0];
+            $scope.l.cfId = $scope.l.cf.id;
+        }
+        else{
+            for(var i=0; i < $scope.listElection.length; i++){
+                var cf = $scope.listElection[i];
+
+                if(cf.id === $scope.l.cfId){
+                    $scope.l.cf = cf;
+                    break;
+                }
+            }
+        }
+
+        if($scope.l.facId === undefined){
+            $scope.l.fac = $scope.listElection[0];
+            $scope.l.facId = $scope.l.fac.id;
+        }
+        else{
+            for(var i=0; i < $scope.listElection.length; i++){
+                var fac = $scope.listElection[i];
+
+                if(fac.id === $scope.l.facId){
+                    $scope.l.fac = fac;
+                    break;
+                }
+            }
         }
     };
 
@@ -107,16 +152,15 @@ app.controller('addressController', function($scope, $timeout) {
             if(resp.hasError===undefined){
                 resp=resp.responseMessage;}
             if (resp.hasError === false) {
-                $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                $scope.msgExito = resp.message;
+                $scope.$apply();
                 return;
             }
-
-            $scope.MsgError = resp.message;
+            $scope.msgError = resp.message;
             $scope.$apply();
 
         } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
+            $scope.msgError = "Error inesperado de datos. Por favor intente más tarde.";
         }
     };
 

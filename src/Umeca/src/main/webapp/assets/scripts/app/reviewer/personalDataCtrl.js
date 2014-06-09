@@ -4,6 +4,8 @@ app.controller('personalDataController', function($scope, $timeout) {
     $scope.activityModel = [];
     $scope.activityList = [];
     $scope.phyModel = [];
+    $scope.listCountry = [];
+    $scope.country=0;
     $scope.lstPhysicalCondition = [];
     $scope.pCSelected = [];
 
@@ -13,6 +15,23 @@ app.controller('personalDataController', function($scope, $timeout) {
             $(".chosen-select").chosen();
             var dateBirth=$("#dateBirth").val();
              $("#dateBirth").val(dateBirth.replace("00:00:00.0",""));
+        if($scope.listCountry === undefined || $scope.listCountry.length <= 0)
+            return;
+
+        if($scope.countryId === undefined){
+            $scope.country = $scope.listCountry[0];
+            $scope.countryId = $scope.country.id;
+        }
+        else{
+            for(var i=0; i < $scope.listCountry.length; i++){
+                var country = $scope.listCountry[i];
+
+                if(country.id === $scope.countryId){
+                    $scope.country = country;
+                    break;
+                }
+            }
+        }
     };
     $timeout(function() {
         $scope.init();
