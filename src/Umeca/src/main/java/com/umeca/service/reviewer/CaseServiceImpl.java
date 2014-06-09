@@ -1,16 +1,14 @@
 package com.umeca.service.reviewer;
 
-import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
-import com.umeca.repository.StatusMeetingRepository;
+import com.umeca.repository.catalog.StatusMeetingRepository;
 import com.umeca.repository.reviewer.ImputedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
