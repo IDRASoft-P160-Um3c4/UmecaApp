@@ -38,7 +38,6 @@ public class Question {
     @JoinColumn(name = "id_questionary_section", nullable = false)
     private QuestionarySection section;
 
-
     @Transient
     public static final Comparator<Question> questComparator = new Comparator<Question>() {
         @Override

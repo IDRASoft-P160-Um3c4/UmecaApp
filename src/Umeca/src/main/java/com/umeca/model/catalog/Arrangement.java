@@ -1,6 +1,9 @@
 package com.umeca.model.catalog;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
+import java.util.Comparator;
 
 @Entity
 @Table(name="arrangement")
@@ -21,6 +24,14 @@ public class Arrangement {
 
     @Column(name = "is_obsolete", nullable = false)
     private Boolean isObsolete;
+
+    @Transient
+    public static final Comparator<Arrangement> arrangementComparator = new Comparator<Arrangement>() {
+        @Override
+        public int compare(Arrangement q1, Arrangement q2) {
+            return  q1.getIndex().compareTo(q2.getIndex());
+        }
+    };
 
     public Long getId() {
         return id;

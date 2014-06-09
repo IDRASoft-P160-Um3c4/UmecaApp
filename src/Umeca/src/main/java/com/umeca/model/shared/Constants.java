@@ -8,6 +8,8 @@ package com.umeca.model.shared;
  * To change this template use File | Settings | File Templates.
  */
 public class Constants {
+    public static final Long ELECTION_YES = 1L;
+    public static final Long ELECTION_NO = 2L;
     public static String S_MEETING_INCOMPLETE="INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL="INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE="COMPLETE";

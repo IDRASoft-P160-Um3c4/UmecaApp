@@ -1,22 +1,22 @@
-package com.umeca.model.entities.reviewer.dto;
+package com.umeca.model.catalog.dto;
 
-import com.umeca.model.catalog.DayWeek;
+import com.umeca.model.catalog.Grade;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
  * Date: 4/06/14
- * Time: 12:20 PM
+ * Time: 10:32 AM
  * To change this template use File | Settings | File Templates.
  */
-public class DayDto {
+public class GradeDto {
     private Long id;
     private String name;
 
-    public DayDto dtoDay(DayWeek dayWeek){
-        this.id= dayWeek.getId();
-        this.name = dayWeek.getName();
-      return  this;
+    public GradeDto dtoGrade(Grade grade){
+        this.id = grade.getId();
+        this.name=grade.getName();
+        return this;
     }
 
     public Long getId() {

@@ -3,7 +3,7 @@ package com.umeca.service.reviewer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.entities.reviewer.*;
-import com.umeca.model.entities.reviewer.dto.ScheduleDto;
+import com.umeca.model.catalog.dto.ScheduleDto;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.reviewer.*;
 import org.springframework.beans.factory.annotation.Autowired;

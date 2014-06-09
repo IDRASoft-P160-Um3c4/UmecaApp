@@ -1,6 +1,8 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.Country;
 import com.umeca.model.catalog.Election;
+import com.umeca.model.catalog.State;
 
 import javax.persistence.*;
 
@@ -29,10 +31,10 @@ public class LeaveCountry {
     @JoinColumn(name="id_lived_country", nullable = false)
     private Election livedCountry;
 
-    @Column(name = "duration", length = 25, nullable = true)
-    private String duration;
+    @Column(name = "time_ago", length = 25, nullable = true)
+    private String timeAgo;
 
-    @Column(name="reason", length = 1000, nullable = true)
+    @Column(name="reason", length = 500, nullable = true)
     private String reason;
 
     @ManyToOne(fetch=FetchType.LAZY)
@@ -42,6 +44,20 @@ public class LeaveCountry {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_communication_family", nullable = false)
     private Election communicationFamily;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_country", nullable = true)
+    private Country country;
+
+    @Column(name="state", length = 100, nullable = true)
+    private String state;
+
+    @Column(name="media", length = 100, nullable = true)
+    private String media;
+
+
+    @Column(name="address", nullable = true, length = 500)
+    private String address;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
@@ -71,12 +87,36 @@ public class LeaveCountry {
         this.livedCountry = livedCountry;
     }
 
-    public String getDuration() {
-        return duration;
+    public String getTimeAgo() {
+        return timeAgo;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getReason() {
@@ -109,5 +149,13 @@ public class LeaveCountry {
 
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
+    }
+
+    public String getMedia() {
+        return media;
+    }
+
+    public void setMedia(String media) {
+        this.media = media;
     }
 }

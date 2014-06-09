@@ -1,6 +1,6 @@
 package com.umeca.service.catalog;
 
-import com.umeca.model.ResponseMessageLocations;
+import com.umeca.model.ResponseMessageAddress;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,5 +10,7 @@ import com.umeca.model.ResponseMessageLocations;
  * To change this template use File | Settings | File Templates.
  */
 public interface CatalogService {
-    ResponseMessageLocations findLocationByZipCode(String zipCode);
+    ResponseMessageAddress findLocationByZipCode(String zipCode);
+
+    ResponseMessageAddress getStatesByCountry(Long countryId);
 }

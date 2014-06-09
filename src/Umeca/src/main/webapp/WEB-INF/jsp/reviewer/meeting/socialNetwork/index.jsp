@@ -4,11 +4,11 @@
 <script>
     window.upsertSocialNetwork = function(id) {
 
-        window.showUpsertWithIdCase(id, "#angJsjqGridIdSocialNetwork", "/reviewer/meeting/socialNetwork/upsert.html", "#GridIdSocialNetwork",undefined, ${m.caseDetention.id});
+        window.showUpsertWithIdCase(id, "#angJsjqGridIdSocialNetwork", "<c:url value='/reviewer/meeting/socialNetwork/upsert.html'/>", "#GridIdSocialNetwork",undefined, ${m.caseDetention.id});
     };
 
     window.deleteSocialNetwork = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdSocialNetwork", "/reviewer/meeting/socialNetwork/delete.json", "#GridIdSocialNetwork");
+        window.showObsolete(id, "#angJsjqGridIdSocialNetwork", "<c:url value='/reviewer/meeting/socialNetwork/delete.json'/>", "#GridIdSocialNetwork");
     };
 
     $(document).ready(function() {
@@ -89,7 +89,7 @@
         </div>
         <br/>
 
-        <div class="row">
+  <!--      <div class="row">
             <div class="col-xs-11 col-xs-offset-1">
                 <div class="col-xs-2 element-left">Comentarios:</div>
                 <div class="col-xs-10">
@@ -105,6 +105,6 @@
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>
-        </div>
+        </div>    -->
     </div>
 </div>

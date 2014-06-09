@@ -33,7 +33,7 @@ public class HearingFormatView {
 
     private String imputedSLastName;
 
-    private String imputedBirthDate;
+    private Date imputedBirthDate;
 
     private String imputedTel;
 
@@ -60,6 +60,10 @@ public class HearingFormatView {
     public String idFolderCode;
 
     public Boolean canSave;
+
+    public Boolean hasHF;
+
+    public String lstArrangement;
 
 
     public String getNumberDate() {
@@ -142,14 +146,6 @@ public class HearingFormatView {
         this.imputedSLastName = imputedSLastName;
     }
 
-    public String getImputedBirthDate() {
-        return imputedBirthDate;
-    }
-
-    public void setImputedBirthDate(String imputedBirthDate) {
-        this.imputedBirthDate = imputedBirthDate;
-    }
-
     public String getImputedTel() {
         return imputedTel;
     }
@@ -190,28 +186,12 @@ public class HearingFormatView {
         this.hearingType = hearingType;
     }
 
-    public Date getImputationDate() {
-        return imputationDate;
-    }
-
-    public void setImputationDate(Date imputationDate) {
-        this.imputationDate = imputationDate;
-    }
-
     public String getLinkageRoom() {
         return linkageRoom;
     }
 
     public void setLinkageRoom(String linkageRoom) {
         this.linkageRoom = linkageRoom;
-    }
-
-    public Date getLinkageDate() {
-        return linkageDate;
-    }
-
-    public void setLinkageDate(Date linkageDate) {
-        this.linkageDate = linkageDate;
     }
 
     public Time getLinkageTime() {
@@ -260,5 +240,45 @@ public class HearingFormatView {
 
     public void setArrangementType(Integer arrangementType) {
         this.arrangementType = arrangementType;
+    }
+
+    public Boolean getHasHF() {
+        return hasHF;
+    }
+
+    public void setHasHF(Boolean hasHF) {
+        this.hasHF = hasHF;
+    }
+
+    public Date getImputedBirthDate() {
+        return imputedBirthDate;
+    }
+
+    public void setImputedBirthDate(Date imputedBirthDate) {
+        this.imputedBirthDate = imputedBirthDate;
+    }
+
+    public Date getImputationDate() {
+        return imputationDate;
+    }
+
+    public void setImputationDate(Date imputationDate) {
+        this.imputationDate = imputationDate;
+    }
+
+    public Date getLinkageDate() {
+        return linkageDate;
+    }
+
+    public void setLinkageDate(Date linkageDate) {
+        this.linkageDate = linkageDate;
+    }
+
+    public String getLstArrangement() {
+        return lstArrangement;
+    }
+
+    public void setLstArrangement(String lstArrangement) {
+        this.lstArrangement = lstArrangement;
     }
 }

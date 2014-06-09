@@ -12,7 +12,6 @@ import java.util.List;
 @Repository("qArrangementRepository")
 public interface ArrangementRepository extends JpaRepository<Arrangement, Long>{
 
-    @Query("SELECT arr FROM Arrangement arr WHERE arr.type =:typeId")
+    @Query("SELECT arr FROM Arrangement arr WHERE arr.type =:typeId and arr.isObsolete=false")
     List<Arrangement> findByType(@Param("typeId")Integer typeId);
-
 }

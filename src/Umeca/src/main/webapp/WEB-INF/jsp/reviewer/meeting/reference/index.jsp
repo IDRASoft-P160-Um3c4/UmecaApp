@@ -3,11 +3,11 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <script>
     window.upsertReference = function(id) {
-        window.showUpsertWithIdCase(id, "#angJsjqGridIdReference", "/reviewer/meeting/reference/upsert.html", "#GridIdReference",undefined, ${m.caseDetention.id});
+        window.showUpsertWithIdCase(id, "#angJsjqGridIdReference", "<c:url value='/reviewer/meeting/reference/upsert.html'/>", "#GridIdReference",undefined, ${m.caseDetention.id});
     };
 
     window.deleteReference = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdReference", "/reviewer/meeting/reference/delete.json", "#GridIdReference");
+        window.showObsolete(id, "#angJsjqGridIdReference", "<c:url value='/reviewer/meeting/reference/delete.json'/>", "#GridIdReference");
     };
 
     $(document).ready(function() {
