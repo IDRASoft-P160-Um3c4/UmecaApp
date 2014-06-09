@@ -19,7 +19,7 @@ public class LoginController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(ModelMap map){
-        return "index";
+        return "/index";
     }
 
     @RequestMapping(value = "loginAccount", method = RequestMethod.POST)

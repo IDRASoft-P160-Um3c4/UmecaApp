@@ -201,7 +201,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     }
 
     @Autowired
-    StatusMeetingRepository repositoryStMe;
+    StatusMeetingRepository statusMeetingRepository;
 
     @Override
     public void statusMeeting() {
@@ -211,9 +211,9 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
-            repositoryStMe.save(model);
+            statusMeetingRepository.save(model);
         }
-        repositoryStMe.flush();
+        statusMeetingRepository.flush();
     }
 
 
