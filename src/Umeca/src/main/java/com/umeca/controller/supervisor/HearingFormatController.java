@@ -97,7 +97,6 @@ public class HearingFormatController {
             }
 
             response.setHasError(false);
-            //response.setUrlToGo("/supervisor/hearingFormat.html?idFolder=" + caseDet.getIdFolder());
             response.setMessage(caseDet.getIdFolder());
 
         } catch (Exception e) {

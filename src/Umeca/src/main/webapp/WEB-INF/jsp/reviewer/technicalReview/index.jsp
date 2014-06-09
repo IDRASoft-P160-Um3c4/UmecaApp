@@ -20,17 +20,6 @@
             window.goToUrlMvcUrl(goTo);
         };
 
-
-        addTechnicalReview = function(id){
-            var goTo="<c:url value='/reviewer/technicalReview/technicalReview.html'/>"+"?id="+id;
-            window.goToUrlMvcUrl(goTo);
-        };
-
-        addTechnicalReview = function(id){
-            var goTo="<c:url value='/reviewer/technicalReview/technicalReview.html'/>"+"?id="+id;
-            window.goToUrlMvcUrl(goTo);
-        };
-
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/technicalReview/list.json' />',

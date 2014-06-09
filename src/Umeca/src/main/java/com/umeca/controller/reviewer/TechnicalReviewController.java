@@ -3,7 +3,6 @@ package com.umeca.controller.reviewer;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
-import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Questionary;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
@@ -91,7 +89,7 @@ public class TechnicalReviewController {
     @RequestMapping(value = "/reviewer/technicalReview/technicalReview", method = RequestMethod.GET)
     public ModelAndView technicalReview(Long id) {
 
-        ModelAndView model = new ModelAndView("reviewer/technicalReview/technicalReview");
+        ModelAndView model = new ModelAndView("/reviewer/technicalReview/technicalReview");
 
         try {
 
@@ -158,7 +156,7 @@ public class TechnicalReviewController {
             result.setCaseDetention(caseDetention);
             technicalReviewRepository.save(result);
             response.setHasError(false);
-            response.setUrlToGo("reviewer/technicalReview/index.html");
+            response.setUrlToGo("index.html");
         } catch (Exception ex) {
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo.");
