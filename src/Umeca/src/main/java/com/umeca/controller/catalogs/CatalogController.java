@@ -1,6 +1,6 @@
 package com.umeca.controller.catalogs;
 
-import com.umeca.model.ResponseMessageLocations;
+import com.umeca.model.ResponseMessageAddress;
 import com.umeca.service.catalog.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +21,14 @@ public class CatalogController {
 
     @RequestMapping(value = "/catalogs/locationsByZipCode", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseMessageLocations upsertPersonalData(@RequestParam String zipCode){
+    ResponseMessageAddress locationsByZipCode(@RequestParam String zipCode){
         return catalogService.findLocationByZipCode(zipCode);
+    }
+
+    @RequestMapping(value = "/catalogs/getStatesByCountry.json", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessageAddress getStatesByCountry(@RequestParam Long countryId){
+        return catalogService.getStatesByCountry(countryId);
     }
 
 }

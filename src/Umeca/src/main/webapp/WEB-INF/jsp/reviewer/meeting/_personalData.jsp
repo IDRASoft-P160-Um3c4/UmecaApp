@@ -173,71 +173,25 @@
                             <br/>
 
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="col-xs-5">
-                                        País:
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <div>
-                                            <select class="form-control">
-                                                <option value="00" selected="selected">--Selecciona--</option>
-                                                <option value="NV">Nevada</option>
-                                                <option value="NH">New Hampshire</option>
-                                                <option value="NJ">New Jersey</option>
-                                                <option value="NM">New Mexico</option>
-                                                <option value="NY">New York</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                <div class="col-xs-2 element-left col-xs-offset-1">
+                                    Pais:
                                 </div>
-                                <div class="col-xs-6">
-                                    <div class="col-xs-5">
-                                        Estado:
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <select class="form-control">
-                                            <option value="00" selected="selected">--Selecciona--</option>
-                                            <option value="NV">Nevada</option>
-                                            <option value="NH">New Hampshire</option>
-                                            <option value="NJ">New Jersey</option>
-                                            <option value="NM">New Mexico</option>
-                                            <option value="NY">New York</option>
-                                        </select>
-                                    </div>
+                                <div class="col-xs-3">
+                                    <input type="hidden" ng-update-hidden ng-model="countryId" name="leaveCountry.country.id" id="country"
+                                           ng-init='l.countryId = ${(m.imputed.birthCountry.id == null)? 'undefined':m.imputed.birthCountry.id}'>
+                                    <select class="form-control element-center" ng-model="country"
+                                            ng-options="e.name for e in listCountry"
+                                            url-request="/catalogs/getStatesByCountry.json"
+                                            ng-change="countryId = country.id;" ng-init='listCountry = ${lstCountry};'></select>
                                 </div>
-                            </div>
-                            <br/>
-
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="col-xs-5">
-                                        Municipio:
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <select class="form-control">
-                                            <option value="00" selected="selected">--Selecciona--</option>
-                                            <option value="NV">Nevada</option>
-                                            <option value="NH">New Hampshire</option>
-                                            <option value="NJ">New Jersey</option>
-                                            <option value="NM">New Mexico</option>
-                                            <option value="NY">New York</option>
-                                        </select>
-                                    </div>
+                                <div class="col-xs-2 element-right">
+                                    Estado:
                                 </div>
-                                <div class="col-xs-6">
-                                    <div class="col-xs-5">
-                                        Localidad:
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <select class="form-control">
-                                            <option value="00" selected="selected">--Selecciona--</option>
-                                            <option value="NV">Nevada</option>
-                                            <option value="NH">New Hampshire</option>
-                                            <option value="NJ">New Jersey</option>
-                                            <option value="NM">New Mexico</option>
-                                            <option value="NY">New York</option>
-                                        </select>
-                                    </div>
+                                <div class="col-xs-3">
+                                    <input class="form-control"
+                                           type="text" ng-model="l.state" id="imputed.birthPlace"
+                                           name="imputed.birthPlace"
+                                           ng-init='l.state = "${(m.imputed.birthPlace ==  null) ? "" : m.imputed.birthPlace}"};'>
                                 </div>
                             </div>
                             <br/>
@@ -246,12 +200,12 @@
                 </div>
             </div>
             <br/>
-       <!-- <div class="row">
+      <div class="row">
             <div class="col-xs-3 element-left">¿Padece alguna enfermedad o condición física?:</div>
             <div class="col-xs-9">
                 <div class="widget-main">
                     <select multiple="" class="width-90 chosen-select" ng-model="phyModel" data-placeholder="..."
-                            ng-init="lstPhysicalCondition = ${lstPhysicalCondition}; pCSelected = '${(physicalCondition == null) ? "    " : physicalCondition}'; selectedPhysicalCondition(lstPhysicalCondition,pCSelected);"
+                            ng-init='lstPhysicalCondition = ${lstPhysicalCondition}; pCSelected = ${(physicalCondition == null) ? '[]' : physicalCondition}; selectedPhysicalCondition(lstPhysicalCondition,pCSelected);'
                             name="physicalCondition" ng-options="phy as phy.name for phy in lstPhysicalCondition">
                     </select>
                 </div>
@@ -264,14 +218,14 @@
             <div class="col-xs-9">
                 <div class="widget-main">
                     <select multiple="" class="width-90 chosen-select" ng-model="activityModel" data-placeholder="..."
-                            ng-init='lstActivity = ${lstActivity}; activityList = "${(activity == null) ? '' : activity}"; selectedActivities(lstActivity,activityList);'
+                            ng-init='lstActivity = ${lstActivity}; activityList = ${(activity == null) ? '[]' : activity}; selectedActivities(lstActivity,activityList);'
                             name="activity" id="slctActivity"
                             ng-options="ac as ac.name for ac in lstActivity">
 
                     </select>
                 </div>
             </div>
-        </div>        -->
+        </div>
         <br/>
 
             <div class="row">
@@ -289,7 +243,7 @@
     <div class="col-xs-12">
         <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormPersonalData', '/reviewer/meeting/upsertPersonalData.json');">
+                          ng-click="submit('#FormPersonalData', '<c:url value="/reviewer/meeting/upsertPersonalData.json"/>');">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>

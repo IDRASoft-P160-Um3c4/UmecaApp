@@ -1,9 +1,11 @@
 package com.umeca.service.catalog;
 
 import com.google.gson.Gson;
-import com.umeca.model.ResponseMessageLocations;
+import com.umeca.model.ResponseMessageAddress;
 import com.umeca.model.catalog.Location;
+import com.umeca.model.catalog.State;
 import com.umeca.repository.catalog.LocationRepository;
+import com.umeca.repository.catalog.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +23,37 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Autowired
     LocationRepository locationRepository;
+    @Autowired
+    StateRepository stateRepository;
 
     @Override
-    public ResponseMessageLocations findLocationByZipCode(String zipCode) {
-        ResponseMessageLocations result = new ResponseMessageLocations();
+    public ResponseMessageAddress findLocationByZipCode(String zipCode) {
+        ResponseMessageAddress result = new ResponseMessageAddress();
         try{
             Gson gson = new Gson();
             List<Location> location = locationRepository.findLocationByZipCode(zipCode);
             result.setHasError(false);
             result.setMessage("Se ha buscado la información con éxito");
-            result.setLocations(gson.toJson(location));
+            result.setData(gson.toJson(location));
         }catch (Exception e){
             result.setHasError(true);
             result.setMessage("Se ha producido un error en la búsqueda del código postal");
+        }
+        return result;
+    }
+
+    @Override
+    public ResponseMessageAddress getStatesByCountry(Long countryId) {
+        ResponseMessageAddress result = new ResponseMessageAddress();
+        try{
+            Gson gson = new Gson();
+            List<State> states = stateRepository .getStatesByCountry(countryId);
+            result.setHasError(false);
+            result.setMessage("se ha buscado la información con éxito");
+            result.setData(gson.toJson(states));
+        }catch (Exception e){
+            result.setHasError(true);
+            result.setMessage("Ha ocurrido un error al obtener la información");
         }
         return result;
     }

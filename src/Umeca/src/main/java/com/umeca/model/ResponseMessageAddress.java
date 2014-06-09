@@ -7,18 +7,18 @@ package com.umeca.model;
  * Time: 05:33 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ResponseMessageLocations {
+public class ResponseMessageAddress {
     private boolean hasError;
     private String message;
-    private String locations;
+    private String data;
 
-    public ResponseMessageLocations(){
+    public ResponseMessageAddress(){
     }
 
-    public ResponseMessageLocations(boolean hasError, String message, String locations){
+    public ResponseMessageAddress(boolean hasError, String message, String data){
         this.hasError = hasError;
         this.message = message;
-        this.locations = locations;
+        this.data = data;
     }
 
     public boolean isHasError() {
@@ -37,11 +37,11 @@ public class ResponseMessageLocations {
         this.message = message;
     }
 
-    public String getLocations() {
-        return locations;
+    public String getData() {
+        return data;
     }
 
-    public void setLocations(String locations) {
-        this.locations = locations;
+    public void setData(String data) {
+        this.data = data;
     }
 }
