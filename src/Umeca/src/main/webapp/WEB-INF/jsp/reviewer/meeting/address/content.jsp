@@ -1,4 +1,13 @@
 <div class="row">
+    <input type="hidden" ng-update-hidden ng-model="id" name="idCase" id="idCase"
+           ng-init="idCase = ${(idCase == null) ? 0 : idCase};">
+    <input type="hidden" ng-update-hidden ng-model="d.typeId" name="registerType.id" id="typeId"
+           ng-init="a.typeId = ${typeId == null ? "undefined" : typeId};">
+    <input type="hidden" ng-update-hidden ng-model="d.belongId" name="belong.id" id="perId"
+           ng-init="a.belongId = ${belongId == null ? "undefined" : belongId};">
+    <input type="hidden" ng-update-hidden ng-model="id" name="id" id="id"
+           ng-init='id = "${(d.id == null)? '':d.id}"'>
+    <input type="hidden" ng-update-hidden ng-model="a.timeLive" name="timeLive" id="hdnTimeLive">
     <div class="col-xs-2">
         <i class="icon-remove-sign red link-image" style="display: none;"  onclick="verification(this)"></i>
         <a class="dropdown">
@@ -19,16 +28,15 @@
         <label for="cp">Código  postal:</label>
     </div>
     <div class="col-xs-3">
-        <input type="text" id="inputWarning" class="width-90" value="55569"/>
+        <input type="text" id="inputWarning" class="width-90" zip-search ng-model="zipCode" ng-init='zipCode = "${(zipCode == null) ? "" : zipCode}"'/>
     </div>
-    <div class="col-xs-2 col-xs-offset-1 element-right">
+    <div class="col-xs-2 col-xs-offset-1 element-right" ng-show="listLocation.length > 0">
         Elije:
     </div>
-    <div class="col-xs-3">
-        <select class="form-control element-center" ng-model="colonia" ng-init="Colonia Obrera">
-            <option value="Colonia Industrial">Colonia Industrial</option>
-            <option value="Colonia Obrera">Colonia Obrera</option>
-        </select>
+    <div class="col-xs-3" ng-show="listLocation.length > 0">
+        <select class="form-control element-center" ng-model="a.location"
+                ng-options="e.name for e in listLocation"
+                ng-change="a.locationId = a.location.id;"></select>
     </div>
 </div>
 <br/>
@@ -38,16 +46,15 @@
     </div>
     <div class="col-xs-3">
         <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-               data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
-               type="text" value="" readonly="readonly">
+               data-val-length-max="200" data-val-length-min="3" data-val-required="El estado es un campo requerido"
+               type="text" value="" readonly="readonly" ng-model="a.location.municipality.state.description">
     </div>
     <div class="col-xs-2 element-right col-xs-offset-1">
         Municipio:
     </div>
     <div class="col-xs-3">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-               data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
-               type="text" value="" readonly="readonly">
+        <input class="form-control" data-val  ="true" data-val-required="El Municipio es un campo requerido"
+        type="text" value="" readonly="readonly" ng-model = "a.location.municipality.name">
     </div>
 </div>
 <br/>
@@ -56,51 +63,51 @@
         Colonia:
     </div>
     <div class="col-xs-3">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-               data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
-               type="text" value="" ng-model="colonia" readonly="readonly">
+        <input class="form-control" data-val="true"  data-val-required="La colonia es un campo requerido"
+               type="text" value="" ng-model="a.location.name" readonly="readonly">
     </div>
     <div class="col-xs-1 element-right">
         No Ext
     </div>
     <div class="col-xs-2">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-               data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
-               type="text" value="">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 10 caracteres"
+               data-val-length-max="10" data-val-length-min="1" data-val-required="El número exterior es un campo requerido"
+               type="text" ng-init='a.noOut = "${(d.noOut == null) ? "" : d.noOut}"' ng-model="a.noOut" id="noOut" name="noOut">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="noOut" data-valmsg-replace="true"></span>
     </div>
     <div class="col-xs-1 element-right">
         No Int
     </div>
     <div class="col-xs-2">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-               data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
-               type="text" value="">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 10 caracteres"
+               data-val-length-max="10" data-val-length-min="1" ng-init='a.noIn = "${(d.noIn == null) ? "" : d.noIn}"' id="noIn" name="noIn"
+               type="text" value="" ng-model="a.noIn">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="noIn" data-valmsg-replace="true"></span>
     </div>
 </div>
 <br/>
 <div class="row">
     <div class="col-xs-2 element-right">
-        Propiedad:
+        ¿El domicilio es propio?:
     </div>
     <div class="col-xs-3">
-        <select class="form-control element-center">
-            <option value="0">Si</option>
-            <option value="1">No</option>
-        </select>
+        <select class="form-control element-center" ng-model="a.belong"
+                ng-options="e.name for e in listElection"
+                ng-change="a.belongId = a.belong.id;" ng-init='listElection = ${listElection};'></select>
     </div>
     <div class="col-xs-2 col-xs-offset-1 element-right">
         Tipo de domiclio:
     </div>
     <div class="col-xs-3">
-        <select class="form-control element-center" ng-model="typeDomicile" ng-init="typeDomicile=0">
-            <option value="0">Actual</option>
-            <option value="1">Secundario</option>
-            <option value="2">Anterior</option>
-        </select>
+        <select class="form-control element-center" ng-model="a.type"
+                ng-options="e.name for e in listRegisterType"
+                ng-change="a.typeId = a.type.id;" ng-init='listRegisterType= ${listRegisterType};'></select>
     </div>
     <br/>
     <br/>
-    <div class="row" ng-show="typeDomicile==2">
+    <div class="row" ng-show="a.typeId==3">
         <div class="col-xs-10 col-xs-offset-1">
             <div class="widget-box">
                 <div class="widget-header">
@@ -115,9 +122,15 @@
                                     Tiempo de residencia:
                                 </div>
                                 <div class="col-xs-7">
-                                    <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                                           data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido" id="name"
-                                           type="text" value="">
+                                    <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 30 caracteres"
+                                           data-val-length-max="30" data-val-length-min="1" data-val-required="El tiempo de residencia es un campo requerido" id="timeLiveD"
+                                           name="timeLive" ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'
+                                           type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-4">
+                                    <span class="field-validation-valid" data-valmsg-for="timeLive" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                             <br/>
@@ -126,7 +139,11 @@
                                     Motivo de la mudanza:
                                 </div>
                                 <div class="col-xs-9">
-                                    <textarea id="form-field-11" class="form-control"></textarea>
+                                    <textarea id="reasonChange" name="reasonChange" ng-model="a.reasonChange" ng-init='a.reasonChange = "${(d.reasonChange ==null) ? "" : d.reasonChange}"' class="form-control"
+                                              data-val="true" data-val-length="Debe tener al menos 1 y máximo 500 caracteres"
+                                              data-val-length-max="500" data-val-length-min="1" data-val-required="La razón de cambio es un campo requerido" ></textarea>
+                                    <br/>
+                                    <span class="field-validation-valid" data-valmsg-for="reasonChange" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                             <br/>
@@ -139,7 +156,7 @@
             </div>
         </div>
     </div>
-    <div class="row" ng-show="typeDomicile==0 || typeDomicile==1">
+    <div class="row" ng-show="a.typeId ==1 || a.typeId ==2">
         <div class="col-xs-10 col-xs-offset-1">
             <div class="widget-box">
                 <div class="widget-header">
@@ -155,9 +172,15 @@
                                     Tiempo de vivir en el domicilio:
                                 </div>
                                 <div class="col-xs-7">
-                                    <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                                           data-val-length-max="200" data-val-length-min="3" data-val-required="El Nombre es un campo requerido" id="name"
-                                           type="text" value="">
+                                    <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 30 caracteres"
+                                           data-val-length-max="30" data-val-length-min="1" data-val-required="El tiempo de residencia es un campo requerido" id="timeLive"
+                                           name="timeLive" ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'
+                                           type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-4">
+                                    <span class="field-validation-valid" data-valmsg-for="timeLive" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                             <br/>
@@ -166,7 +189,11 @@
                                     Descripción:
                                 </div>
                                 <div class="col-xs-9">
-                                    <textarea id="form-field-11" class="form-control"></textarea>
+                                    <textarea id="description" class="form-control" name="description" ng-model="a.description" ng-init='a.description = "${(d.description == null)? "" : d.description }"'
+                                              data-val="true" data-val-length="Debe tener al menos 1 y máximo 500 caracteres"
+                                              data-val-length-max="500" data-val-length-min="1" data-val-required="La descripción es un campo requerido"></textarea>
+                                    <br/>
+                                    <span class="field-validation-valid" data-valmsg-for="description" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                             <br/>

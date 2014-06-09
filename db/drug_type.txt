@@ -1,0 +1,14 @@
+id|name
+1|Alcohol
+2|Marihuana
+3|Cocaína
+4|Heroína
+5|Opiáceos
+6|PBC(Pasta básica de cocaína)
+7|Solventes
+8|Cemento
+9|LSD
+10|Anfetaminas
+11|Metanfetaminas
+12|Extasis
+13|Hongos

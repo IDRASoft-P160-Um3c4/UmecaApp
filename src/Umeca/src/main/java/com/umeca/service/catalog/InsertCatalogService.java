@@ -15,4 +15,15 @@ public interface InsertCatalogService {
     void questionary();
     void questionarySection();
     void question();
+    void physicalCondition();
+    void activity();
+    void maritalStatus();
+    void election();
+    void relationship();
+    void documentType();
+    void drugType();
+    void periodicity();
+    void dayWeek();
+    void schoolLevel();
+    void registerType();
 }

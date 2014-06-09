@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormCatId");
@@ -33,7 +34,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormCatId', '/reviewer/meeting/doNewMeeting.json');">
+                          ng-click="submit('#FormCatId', '<c:url value="/reviewer/meeting/doNewMeeting.json"/>');">
                           Continuar
                     </span>
 </div>

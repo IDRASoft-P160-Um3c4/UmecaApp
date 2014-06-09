@@ -45,8 +45,8 @@ public class Meeting {
     @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
     private List<Job> jobs;
 
-    @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
-    private List<School> schools;
+    @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
+    private School school;
 
     @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
     private List<Drug> drugs;
@@ -132,14 +132,6 @@ public class Meeting {
         this.jobs = jobs;
     }
 
-    public List<School> getSchools() {
-        return schools;
-    }
-
-    public void setSchools(List<School> schools) {
-        this.schools = schools;
-    }
-
     public List<Drug> getDrugs() {
         return drugs;
     }
@@ -186,5 +178,13 @@ public class Meeting {
 
     public void setStatus(StatusMeeting status) {
         this.status = status;
+    }
+
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
     }
 }

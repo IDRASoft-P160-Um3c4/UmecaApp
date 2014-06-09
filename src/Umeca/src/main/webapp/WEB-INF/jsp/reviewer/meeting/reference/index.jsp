@@ -3,32 +3,32 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <script>
     window.upsertReference = function(id) {
-        window.showUpsert(id, "#angJsjqGridIdReference", "/reviewer/meeting/reference/upsert.html", "#GridIdReference");
+        window.showUpsertWithIdCase(id, "#angJsjqGridIdReference", "<c:url value='/reviewer/meeting/reference/upsert.html'/>", "#GridIdReference",undefined, ${m.caseDetention.id});
     };
 
-    window.obsolete = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdReference", "/management/user/obsolete.json", "#GridIdReference");
+    window.deleteReference = function (id) {
+        window.showObsolete(id, "#angJsjqGridIdReference", "<c:url value='/reviewer/meeting/reference/delete.json'/>", "#GridIdReference");
     };
 
     $(document).ready(function() {
         jQuery("#GridIdReference").jqGrid({
-            url: '<c:url value='/reviewer/meeting/listReference.json' />',
+            url: '<c:url value='/reviewer/meeting/listReference.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Nombre','Relación','Edad','Teléfono', 'Acción'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
-                { name: 'referenceString', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'fullname', index: 'fullname', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'email', index: 'email', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'role', index: 'role', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'fullName', index: 'fulName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'relName', index: 'relName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'age', index: 'age', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'phone', index: 'phone', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
             pager: '#GridPagerReference',
-            sortname: 'username',
-            height: 450,
+            sortname: 'fullName',
+            height: 200,
             viewrecords: true,
             shrinkToFit: false,
             sortorder: "desc",
@@ -40,9 +40,9 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar referencia\" onclick=\"window.upsertReference('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.enable('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar referencia\" onclick=\"window.deleteReference('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                           $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },

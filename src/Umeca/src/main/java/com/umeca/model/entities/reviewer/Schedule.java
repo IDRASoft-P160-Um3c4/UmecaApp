@@ -15,6 +15,10 @@ import java.sql.Time;
 @Entity
 @Table(name="schedule")
 public class Schedule {
+
+    public Schedule() {
+    }
+
     @Id
     @GeneratedValue
     @Column(name="id_schedule")
@@ -24,11 +28,11 @@ public class Schedule {
     @JoinColumn(name="id_day", nullable = false)
     private DayWeek day;
 
-    @Column(name="start", nullable = true)
-    private Time start;
+    @Column(name="start", nullable = true, length = 5)
+    private String start;
 
-    @Column(name="end", nullable = true)
-    private Time end;
+    @Column(name="end", nullable = true, length = 5)
+    private String end;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_domicile", nullable = true)
@@ -41,6 +45,9 @@ public class Schedule {
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_school", nullable = true)
     private School school;
+
+    @Transient
+    private String $$hashKey;
 
     public Long getId() {
         return id;
@@ -56,22 +63,6 @@ public class Schedule {
 
     public void setDay(DayWeek day) {
         this.day = day;
-    }
-
-    public Time getStart() {
-        return start;
-    }
-
-    public void setStart(Time start) {
-        this.start = start;
-    }
-
-    public Time getEnd() {
-        return end;
-    }
-
-    public void setEnd(Time end) {
-        this.end = end;
     }
 
     public Domicile getDomicile() {
@@ -96,5 +87,29 @@ public class Schedule {
 
     public void setSchool(School school) {
         this.school = school;
+    }
+
+    public String get$$hashKey() {
+        return $$hashKey;
+    }
+
+    public void set$$hashKey(String $$hashKey) {
+        this.$$hashKey = $$hashKey;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
     }
 }

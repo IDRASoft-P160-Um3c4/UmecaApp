@@ -1,11 +1,12 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormCatId");
+        window.showModalFormDlg("#dlgUpModalId", "#FormSocialNetworkId");
     });
 </script>
 
 <div>
-    <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
+    <div id="dlgUpModalId" class="modal fade" ng-controller="socialNetworkController" ng-cloak>
         <div class="modal-dialog" style="width:800px">
             <div class="modal-content">
                 <div class="modal-header">
@@ -15,7 +16,7 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal" role="form">
+                    <form id="FormSocialNetworkId" name="FormSocialNetworkId" ng-submit="submit('#FormSocialNetworkId')" class="form-horizontal" role="form">
                         <br />
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/socialNetwork/content.jsp"%>
                     </form>
@@ -33,7 +34,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormCatId', '/reviewer/meeting/socialNetwork/doUpsert.json');">
+                          ng-click="submit('#FormSocialNetworkId', '<c:url value="/reviewer/meeting/socialNetwork/doUpsert.json?idCase=${idCase}"/>');">
                           Guardar
                     </span>
                 </div>

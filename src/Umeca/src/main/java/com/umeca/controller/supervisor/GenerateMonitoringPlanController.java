@@ -1,11 +1,15 @@
 package com.umeca.controller.supervisor;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.model.ResponseMessage;
+import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlanView;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
@@ -52,6 +57,9 @@ public class GenerateMonitoringPlanController {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("supervisorId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("status",
+                new ArrayList<String>(){{add(MonitoringConstants.STATUS_NEW);add(MonitoringConstants.STATUS_PENDING_CREATION);}},JqGridFilterModel.COMPARE_IN);
+        opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -81,6 +89,17 @@ public class GenerateMonitoringPlanController {
 
         return result;
 
+    }
+
+    @RequestMapping(value = "/supervisor/generateMonitoringPlan/generate", method = RequestMethod.GET)
+    public @ResponseBody ModelAndView generate(){
+        ModelAndView model = new ModelAndView("/supervisor/generateMonitoringPlan/generate");
+        //Gson gson = new Gson();
+        //String lstRoles = gson.toJson(new ResponseMessage());
+        //Case caseDetention = caseRepository.findOne(id);
+        //model.addObject("m",caseDetention.getMeeting());
+        //model.addObject("lstRoles", lstRoles);
+        return model;
     }
 
 }

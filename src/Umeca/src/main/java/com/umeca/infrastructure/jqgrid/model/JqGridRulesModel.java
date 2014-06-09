@@ -1,5 +1,7 @@
 package com.umeca.infrastructure.jqgrid.model;
 
+import java.util.List;
+
 /**
  * Project: Umeca
  * User: Israel
@@ -10,6 +12,7 @@ public class JqGridRulesModel {
     public String field;
     public String op;
     public String data;
+    public List<String> lstInOp;
 
     public JqGridRulesModel(){
 
@@ -18,6 +21,12 @@ public class JqGridRulesModel {
     public JqGridRulesModel(String field, String data, String op) {
         this.field = field;
         this.data = data;
+        this.op = op;
+    }
+
+    public JqGridRulesModel(String field, List<String> lstInOp, String op) {
+        this.field = field;
+        this.lstInOp = lstInOp;
         this.op = op;
     }
 
