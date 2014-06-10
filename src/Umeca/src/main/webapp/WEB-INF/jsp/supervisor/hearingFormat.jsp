@@ -260,6 +260,7 @@
 
 </div>
 
+<div id="divImputed">
 <div class="row">
     <br/>
     <label><b>Imputado</b></label>
@@ -273,7 +274,7 @@
         <label for="imputedName">Nombre(s)</label>
         <br/>
         <input id="imputedName" ng-model="m.imputedName" name="imputedName" type="text" class="input-xxlarge"
-               data-val="true"
+               data-val="true" ng-disabled="m.existImputed==true"
                data-val-required="Nombre es un campo requerido"/>
         <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedName"
@@ -285,7 +286,7 @@
         <label for="imputedFLastName">Apellido paterno</label>
         <br/>
         <input id="imputedFLastName" ng-model="m.imputedFLastName" name="imputedFLastName" type="text"
-               class="input-xxlarge" data-val="true"
+               class="input-xxlarge" data-val="true" ng-disabled="m.existImputed==true"
                data-val-required="Apellido paterno es un campo requerido"/>
         <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedFLastName"
@@ -298,7 +299,7 @@
         <label for="imputedSLastName">Apellido materno</label>
         <br/>
         <input id="imputedSLastName" ng-model="m.imputedSLastName" name="imputedSLastName" type="text"
-               class="input-xxlarge" data-val="true"
+               class="input-xxlarge" data-val="true" ng-disabled="m.existImputed==true"
                data-val-required="Apellido materno es un campo requerido"/>
         <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedSLastName"
@@ -320,7 +321,7 @@
                 <div class="input-group">
                     <input ng-class='m.errBth&&m.errBth!=""&&!m.impBthDay ? "form-control date-picker input-validation-error" : "form-control date-picker"'
                            id="imputedBirthDate" name="imputedBirthDate" type="text"
-                           data-date-format="dd/mm/yyyy"
+                           data-date-format="dd/mm/yyyy" ng-disabled="m.existImputed==true"
                            readonly ng-change="calcAge();" ng-model="m.impBthDay"/>
                                                 <span class="input-group-addon">
                                                     <i class="icon-calendar bigger-110"></i>
@@ -347,7 +348,7 @@
         <label for="imputedTel">Telefono(s)</label>
         <br/>
         <input id="imputedTel" ng-model="m.imputedTel" name="imputedTel" type="text" class="input-xxlarge"
-               data-val="true"
+               data-val="true" ng-disabled="m.existImputed==true"
                data-val-required="Telefono(s) es un campo requerido"/>
         <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedTel"
@@ -356,13 +357,13 @@
     </div>
 
 </div>
-
+</div>
 <div class="row">
     <br/>
     <label><b>Dirección</b></label>
     <%@ include file="/WEB-INF/jsp/supervisor/_addresHF.jsp" %>
 </div>
-
+</div>
 <div class="row">
     <br/>
     <label><b>Detalles</b></label>
