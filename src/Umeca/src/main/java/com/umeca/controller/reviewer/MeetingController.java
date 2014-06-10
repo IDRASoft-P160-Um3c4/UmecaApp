@@ -50,7 +50,7 @@ public class MeetingController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 return new ArrayList<Selection<?>>(){{
                     add(r.join("meeting").join("caseDetention").get("id"));
-                    add(r.get("rfc"));
+                    add(r.join("meeting").join("caseDetention").get("idFolder"));
                     add(r.get("name"));
                     add(r.get("lastNameP"));
                     add(r.get("lastNameM"));

@@ -20,9 +20,6 @@ public class Imputed { @Id
     @Column(name="id_imputed")
     private Long id;
 
-    @Column(name="rfc", length = 10, nullable = false)
-    private String rfc;
-
     @Column(name="name", length = 50, nullable = false)
     private String name;
 
@@ -127,14 +124,6 @@ public class Imputed { @Id
 
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
-    }
-
-    public String getRfc() {
-        return rfc;
-    }
-
-    public void setRfc(String rfc) {
-        this.rfc = rfc;
     }
 
     public Integer getYearsMaritalStatus() {

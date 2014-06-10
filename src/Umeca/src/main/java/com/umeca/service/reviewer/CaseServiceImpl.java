@@ -33,13 +33,10 @@ public class CaseServiceImpl implements CaseService {
 
         Case caseDet = new Case();
 
-        if (imputedRepository.countCaseSameRFC(imputed.getRfc()) > 0)
+        if (imputedRepository.findImputedRegister(imputed.getName(),imputed.getLastNameP(), imputed.getLastNameM(), imputed.getDateBirth()).size() > 0)
             caseDet.setRecidivist(true);
         else
             caseDet.setRecidivist(false);
-
-        imputed.setRfc("AAABBBCC"); //TODO REEMPLAZAR POR EL METODO QUE GENERA EL RFC
-
         Meeting meeting = new Meeting();
         StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
         meeting.setStatus(statusMeeting);
