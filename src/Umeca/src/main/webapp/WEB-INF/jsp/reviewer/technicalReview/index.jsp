@@ -57,13 +57,13 @@
 
                         switch (status[i]) {
                             case "VERIFICATION_COMPLETE_CASE":
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar opinión técnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar opini?n t?cnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
                                 break;
                             case "TECHNICAL_REVIEW_CASE":
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar opinión técnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar opini?n t?cnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 break;
                             default:
-                                be = "<a style=\"display:inline-block;\" title=\"Aún no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+                                be = "<a style=\"display:inline-block;\" title=\"A?n no cuenta con la verificaci?n completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
                                 break;
                         }
 
@@ -81,7 +81,7 @@
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                 edit: false, editicon: 'icon-pencil blue',
-                add: true, addfunc: window.upsert, addicon: 'icon-plus-sign purple',
+                add: false,
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
                 search: false});
