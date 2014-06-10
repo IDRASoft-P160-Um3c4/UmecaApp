@@ -83,6 +83,7 @@
         </div>
         <div class="col-xs-7">
             <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 2 número"
+                   data-val-regex-pattern="([0-9]+)" data-val-regex="La edad sólo puede contener números"
                    data-val-length-max="2" data-val-length-min="1" data-val-required="La edad es un campo requerido"
                    type="text" name="age" ng-init="age = person.age" value="{{age}}">
         </div>
