@@ -31,8 +31,8 @@
                             <div class="col-xs-8">
                                 <input class="form-control" data-val="true"
                                        data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
-                                       data-val-length-max="50" data-val-length-min="3" ng-init="name=''"
                                        data-val-required="El nombre es un campo requerido"
+                                       data-val-length-max="50" data-val-length-min="3" ng-init="name=''"
                                        id="name" name="name" ng-model="name"
                                        type="text"/>
                             </div>
