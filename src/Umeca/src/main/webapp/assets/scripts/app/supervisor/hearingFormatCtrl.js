@@ -11,6 +11,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
         $scope.lstArrangeShow = [];
         $scope.listLocation = [];
         $scope.a.location;
+        $scope.m.existImputed;
 
         $scope.validateSave = function () {
 
