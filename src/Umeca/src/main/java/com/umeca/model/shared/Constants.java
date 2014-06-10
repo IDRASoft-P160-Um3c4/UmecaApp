@@ -24,4 +24,13 @@ public class Constants {
     public static Long REGYSTER_TYPE_CURRENT = 1L;
     public static Long REGYSTER_TYPE_SECONDARY = 2L;
     public static Long REGYSTER_TYPE_PREVIOUS = 3L;
+
+    public static final String CASE_STATUS_VERIFICATION="VERIFICATION_COMPLETE_CASE";
+    public static final String CASE_STATUS_TECHNICAL_REVIEW="TECHNICAL_REVIEW_COMPLETE_CASE";
+
+    public static final String TECHNICAL_REVIEW_QUESTIONARY_CODE="TECHNICAL_REVIEW";
+
+    public static final Integer CONDITIONAL_REPRIEVE_HEARING= 1;
+    public static final Integer MEETING_HEARING= 2;
+
 }

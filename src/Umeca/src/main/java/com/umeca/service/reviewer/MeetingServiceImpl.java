@@ -87,6 +87,7 @@ public class MeetingServiceImpl implements MeetingService {
         Gson gson = new Gson();
         ////////////////////Personal data
         Case caseDetention = caseRepository.findOne(id);
+        model.addObject("idCase", caseDetention.getId());
         model.addObject("m", caseDetention.getMeeting());
         if (caseDetention.getMeeting().getSocialEnvironment() != null) {
             if (caseDetention.getMeeting().getSocialEnvironment().getActivities() != null) {
@@ -547,7 +548,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setMessage("Se ha guardado la información con éxito");
         } catch (Exception e) {
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al guardar su inormación. Intente más tarde.");
+            result.setMessage("Ha ocurrido un error al guardar su inormación. Intente más tarde."+e.getMessage());
         }
         return result;
     }
@@ -592,11 +593,16 @@ public class MeetingServiceImpl implements MeetingService {
             c.getMeeting().setLeaveCountry(leaveCountry);
             caseRepository.saveAndFlush(c);
             result.setHasError(false);
-            result.setMessage("Se ha guardado su información con éxito");
+            result.setMessage("Se ha guardado su información exitosamente");
         } catch (Exception e) {
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al guardar la información");
         }
         return result;
+    }
+
+    @Override
+    public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, Integer[] physicalCondition, Integer[] activity) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

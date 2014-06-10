@@ -3,7 +3,7 @@ app.directive('zipSearch', function ($http, $timeout) {
 
         var currentTimeout = null;
 
-        var urlRequest =  attr['urlRequest'];
+        var urlRequest = scope.url;;
 
         var ajaxConf = {
             method: 'POST',
@@ -32,7 +32,6 @@ app.directive('zipSearch', function ($http, $timeout) {
                         scope.listLocation = data.data;
                         scope.a.location =scope.listLocation[0];
                         scope.a.locationId = scope.a.location.id;
-                        //scope.selectedLocation = data.Locations[0];
 
                     });
             }, 200);

@@ -28,15 +28,20 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/zipSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/addressCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/leavingCountryCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/meetingCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/loadStatesDrct.js.js"></script>
-
+      <script>
+          window.cancelMeeting = function (){
+              window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/index.html'/>");
+          }
+      </script>
 
     <title>Entrevista</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content">
+<div class="container body-content" ng-controller="meetingController">
 
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos procesales</h2>
 
@@ -44,7 +49,7 @@
         <div class="col-sm-3">
             <h3 class="header smaller lighter blue">
                 <small>Número de caso:  </small>
-                &nbsp;${m.caseDetention.idString}
+                &nbsp;${m.caseDetention.idFolder}
             </h3>
         </div>
         <div class="col-sm-7 col-sm-offset-1">
@@ -135,8 +140,20 @@
                     <div id="leaveCountry" class="tab-pane">
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry.jsp"%>
                     </div>
+
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" onclick="window.cancelMeeting()">
+                        Regresar
+                    </span>
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="submit('#FormSchool , #FormPersonalData, #FormLeaveCountry','<c:url value="/reviewer/meeting/terminateMeeting.json?idCase=${idCase}"/>');">
+                          Terminar
+                    </span>
         </div>
     </div>
 

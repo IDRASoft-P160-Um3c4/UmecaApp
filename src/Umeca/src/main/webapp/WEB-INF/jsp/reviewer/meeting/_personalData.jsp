@@ -65,7 +65,8 @@
                     <div class="col-xs-9">
                         <div class="col-xs-10">
                             <input class="form-control" data-val="true" data-val-length="Debe tener 10 caracteres"
-                                   data-val-length-max="10" data-val-length-min="10"
+                                   data-val-length-max="10" data-val-length-min="10" data-val-regex-pattern="([0-9]+)"
+                                   data-val-regex="El celular sólo puede contener números"
                                    type="text" ng-model="celPhone"  id="celPhone" ng-init="celPhone= '${(m.imputed.celPhone == null) ? '': m.imputed.celPhone}'" name="imputed.celPhone">
                             <span class="field-validation-valid" data-valmsg-for="imputed.celPhone" data-valmsg-replace="true"></span>
                         </div>
@@ -119,7 +120,10 @@
                                 <div class="space-10"></div>
                                 <div class="widget-main">
                                     <input type="text" class="input-mini" id="spinnder1" value="${m.imputed.yearsMaritalStatus ==null ? '': m.imputed.yearsMaritalStatus}"
-                                           name="imputed.yearsMaritalStatus"/> Años
+                                           name="imputed.yearsMaritalStatus" id = "imputed.yearsMaritalStatus" data-val="true" data-val-regex-pattern="/^\d+$/"
+                                           data-val-regex="El celular sólo puede contener números"/> Años
+                                    <br/>
+                                    <span class="field-validation-valid" data-valmsg-for="imputed.yearsMaritalStatus" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                         </div>
@@ -144,14 +148,25 @@
                                     Total:
                                 </div>
                                 <div class="col-xs-3">
-                                    <input type="text" class="form-control" name="imputed.boys" value="${m.imputed.boys}"/>
+                                    <input type="text" class="form-control" name="imputed.boys" value="${m.imputed.boys}" data-val-regex-pattern="([0-9]+)"
+                                           data-val-regex="Sólo puede guardar números" data-val="true" data-val="true" id="imputed.boys"/>
                                 </div>
                                 <div class="col-xs-4 align-left">
                                     Dependientes económicos:
                                 </div>
                                 <div class="col-xs-2">
-                                    <input type="text" class="form-contro1" name="imputed.dependentBoys"
+                                    <input type="text" class="form-contro1" name="imputed.dependentBoys" data-val-regex-pattern="([0-9]+)"
+                                           data-val-regex="Sólo puede guardar números" id="imputed.dependentBoys" data-val="true"
                                            value="${m.imputed.dependentBoys == null ? '': m.imputed.dependentBoys}"/>
+
+                                </div>
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <div class="col-xs-4">
+                                    <span class="field-validation-valid" data-valmsg-for="imputed.boys" data-valmsg-replace="true"></span>
+                                </div>
+                                <div class="col-xs-4 col-xs-offset-2">
+                                    <span class="field-validation-valid" data-valmsg-for="imputed.dependentBoys" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                         </div>
@@ -189,9 +204,9 @@
                                 </div>
                                 <div class="col-xs-3">
                                     <input class="form-control"
-                                           type="text" ng-model="l.state" id="imputed.birthPlace"
+                                           type="text" ng-model="state" id="imputed.birthPlace"
                                            name="imputed.birthPlace"
-                                           ng-init='l.state = "${(m.imputed.birthPlace ==  null) ? "" : m.imputed.birthPlace}"};'>
+                                           ng-init='state = "${(m.imputed.birthPlace ==  null) ? "" : m.imputed.birthPlace}";'>
                                 </div>
                             </div>
                             <br/>

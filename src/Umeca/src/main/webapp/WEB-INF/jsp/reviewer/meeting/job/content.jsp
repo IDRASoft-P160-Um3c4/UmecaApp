@@ -188,7 +188,8 @@
                         </div>
                         <div class="col-xs-3">
                             <input class="form-control" data-val="true" data-val-length="Debe tener máximo 7 caracteres"  name="salaryWeek"
-                                   data-val-length-max="6" data-val-length-min="1" data-val-required="El salario semanal es un campo requerido"
+                                   data-val-length-max="7" data-val-length-min="1" data-val-required="El salario semanal es un campo requerido"
+                                   data-val-regex-pattern="([0-9]+(.[0-9])?)" data-val-regex="El salario sólo puede contener números y un punto"
                                    type="text" value="" ng-init='j.salaryWeek = ${(j.salaryWeek == null)? 0 : j.salaryWeek}' ng-model="j.salaryWeek">
                         </div>
                         <div class="row">

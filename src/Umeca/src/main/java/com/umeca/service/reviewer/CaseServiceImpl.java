@@ -29,26 +29,29 @@ public class CaseServiceImpl implements CaseService {
     CaseRepository caseRepository;
 
     @Override
-    public Case generateNewCase(Imputed imputed) { //equivalente al createMeeting
+    public Case generateNewCase(Imputed imputed, Integer type) { //equivalente al createMeeting
 
         Case caseDet = new Case();
-        Meeting meeting = new Meeting();
 
         if (imputedRepository.countCaseSameRFC(imputed.getRfc()) > 0)
             caseDet.setRecidivist(true);
         else
             caseDet.setRecidivist(false);
 
-        StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
-        meeting.setStatus(statusMeeting);
-
         imputed.setRfc("AAABBBCC"); //TODO REEMPLAZAR POR EL METODO QUE GENERA EL RFC
 
+        Meeting meeting = new Meeting();
+        StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
+        meeting.setStatus(statusMeeting);
         imputed.setMeeting(meeting);
         meeting.setImputed(imputed);
-
         meeting.setCaseDetention(caseDet);
-        caseDet.setMeeting(meeting);
+
+        if(type.equals(Constants.MEETING_HEARING)) {
+            caseDet.setMeeting(meeting);
+        }else{
+            caseDet.setConditionalMeeting(meeting);
+        }
 
         return caseDet;
     }

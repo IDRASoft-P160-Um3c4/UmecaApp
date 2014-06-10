@@ -55,4 +55,6 @@ public interface MeetingService {
     ResponseMessage deleteAddress(Long id);
 
     ResponseMessage upsertLeaveCountry(Long id, LeaveCountry leaveCountry);
+
+    ResponseMessage doTerminateMeeting(Meeting meeting, String sch, Integer[] physicalCondition, Integer[] activity);
 }

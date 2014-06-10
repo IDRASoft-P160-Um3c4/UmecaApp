@@ -10,16 +10,16 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "status_verification")
-public class StatusVerification {
+@Table(name = "status_case")
+public class StatusCase {
     @Id
-    @Column(name = "id_status")
+    @Column(name="id_status")
     private Long id;
 
-    @Column(name = "status", length = 255, nullable = false)
+    @Column(name="status", length=255, nullable=false)
     private String name;
 
-    @Column(name = "description", length = 255, nullable = false)
+    @Column(name="description", length=255, nullable=false)
     private String description;
 
     public Long getId() {
