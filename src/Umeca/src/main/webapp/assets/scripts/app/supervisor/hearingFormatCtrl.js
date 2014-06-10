@@ -239,10 +239,14 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
                 $("#FormFormatId :input").attr("disabled", false);
 
 
-            if ($scope.m.existImputed)
+            if ($scope.m.existImputed) {
                 $("#divImputed :input").attr("disabled", true);
-            else
+                $("#divAddr :input").attr("disabled", true);
+            }
+            else {
                 $("#divImputed :input").attr("disabled", false);
+                $("#divAddr :input").attr("disabled", false);
+            }
 
         }
 

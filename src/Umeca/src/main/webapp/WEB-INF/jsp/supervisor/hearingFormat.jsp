@@ -358,12 +358,12 @@
 
 </div>
 </div>
-<div class="row">
+<div id="divAddr" class="row">
     <br/>
     <label><b>Dirección</b></label>
     <%@ include file="/WEB-INF/jsp/supervisor/_addresHF.jsp" %>
 </div>
-</div>
+
 <div class="row">
     <br/>
     <label><b>Detalles</b></label>

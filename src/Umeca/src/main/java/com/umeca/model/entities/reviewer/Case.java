@@ -31,7 +31,7 @@ public class Case {
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Meeting meeting;
 
-    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "caseDetentionC", cascade = {CascadeType.ALL})
     private Meeting conditionalMeeting;
 
     @Column(name = "status_code") // agregar nullable = false cuando se corrija la insercion en la entrevista
