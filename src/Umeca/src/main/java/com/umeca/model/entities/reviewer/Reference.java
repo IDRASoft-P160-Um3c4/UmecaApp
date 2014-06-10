@@ -45,10 +45,10 @@ public class Reference implements EntityGrid{
     @JoinColumn(name="id_relationship", nullable = false)
     private Relationship relationship;
 
-    @Column(name="address", length = 250, nullable = true)
+    @Column(name="address", length = 250, nullable = false)
     private String address;
 
-    @Column(name="phone", length = 10, nullable =true)
+    @Column(name="phone", length = 20, nullable =false)
     private String phone;
 
     @ManyToOne(fetch=FetchType.LAZY)

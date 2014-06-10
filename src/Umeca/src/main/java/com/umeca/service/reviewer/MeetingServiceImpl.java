@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,10 +44,11 @@ public class MeetingServiceImpl implements MeetingService {
         Long result = null;
         try {
             Case caseDetention = new Case();
-            if (imputedRepository.countCaseSameRFC(imputed.getRfc()) > 0)
+            if (imputedRepository.findImputedRegister(imputed.getName(), imputed.getLastNameP(), imputed.getLastNameM(), imputed.getDateBirth()).size() > 0)
                 caseDetention.setRecidivist(true);
             else
                 caseDetention.setRecidivist(false);
+            caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention = caseRepository.save(caseDetention);
             Meeting meeting = new Meeting();
             meeting.setCaseDetention(caseDetention);
@@ -184,13 +187,13 @@ public class MeetingServiceImpl implements MeetingService {
             if (physicalCondition != null) {
                 socialEnvironment.setPhysicalConditions(new ArrayList<PhysicalCondition>());
                 for (int i = 0; i < physicalCondition.length; i++) {
-                    socialEnvironment.getPhysicalConditions().add(physicalConditionRepository.findOne(Long.valueOf(physicalCondition[i])));
+                    socialEnvironment.getPhysicalConditions().add(physicalConditionRepository.findOne((Long.valueOf(physicalCondition[i])+1)));
                 }
             }
             if (activity != null) {
                 socialEnvironment.setActivities(new ArrayList<Activity>());
                 for (int a = 0; a < activity.length; a++) {
-                    socialEnvironment.getActivities().add(activityRepository.findOne(Long.valueOf(activity[a])));
+                    socialEnvironment.getActivities().add(activityRepository.findOne((Long.valueOf(activity[a])+1)));
                 }
             }
             caseDetention.getMeeting().setSocialEnvironment(socialEnvironment);
@@ -603,6 +606,37 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, Integer[] physicalCondition, Integer[] activity) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+       //valida estado, estado civil, genero
+        //un domicilio actual
+        //una persona de red social
+        //una persona de referencia
+        //toda la seccion leving
+        return null;
+    }
+
+    @Override
+    public ResponseMessage validateCreateMeeting(Imputed imputed) {
+        if(imputed.getDateBirth()!=null){
+            Calendar dob = Calendar.getInstance();
+            dob.setTime(imputed.getDateBirth());
+            Calendar today = Calendar.getInstance();
+            int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+            if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
+                age--;
+            if(age<18){
+                return new ResponseMessage(true, "El imputado debe tener más de 18 años para continuar");
+            }
+        }else{
+            return new ResponseMessage(true, "Favor de ingresar la fecha de nacimiento del imputado.");
+        }
+        if(imputed.getMeeting()!=null && imputed.getMeeting().getCaseDetention()!=null && imputed.getMeeting().getCaseDetention().getIdFolder()!=null){
+            Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
+            if(c!=null){
+                return  new ResponseMessage(true,"El número de carpeta de investigación ya se encuentra registrado.");
+            }
+        }else{
+            return new ResponseMessage(true,"Favor de ingresar el número de carpeta de investigación para continuar");
+        }
+        return null;
     }
 }

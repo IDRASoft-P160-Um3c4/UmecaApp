@@ -46,7 +46,7 @@ public class Job implements EntityGrid{
     @Column(name="company", length = 150, nullable = false)
     private String company;
 
-    @Column(name = "phone", nullable = true, length = 30)
+    @Column(name = "phone", nullable = false, length = 20)
     private String phone;
 
     @Column(name="startPrev")
