@@ -94,7 +94,7 @@ public class MeetingController {
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if(field.equals("idCase")){
-                    return r.join("socialNetwork").join("meeting").join("caseDetention").get("id");
+                    return r.join("meeting").join("caseDetention").get("id");
                 }else if(field.equals("registerTypeString")){
                     return r.join("registerType").get("name");
                 }
@@ -249,6 +249,9 @@ public class MeetingController {
 
     @RequestMapping(value = "/reviewer/meeting/doNewMeeting", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed){
+        ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
+        if(validateCreate!=null)
+            return validateCreate;
         Long idCase = meetingService.createMeeting(imputed);
         ResponseMessage result = new ResponseMessage(false,"Se ha guardado exitosamente");
         result.setUrlToGo("meeting.html?id="+ idCase);

@@ -38,7 +38,7 @@ public class Imputed { @Id
     @Column(name="date_birth", nullable = false)
     private Date dateBirth;
 
-    @Column(name="cel_phone", length = 10, nullable = true)
+    @Column(name="cel_phone", length = 20, nullable = true)
     private String celPhone;
 
     @Column(name="years_marital_status", nullable = true)

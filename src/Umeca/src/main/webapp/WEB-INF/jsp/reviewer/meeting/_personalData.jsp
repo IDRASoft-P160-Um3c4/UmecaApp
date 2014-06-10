@@ -64,9 +64,8 @@
                     </div>
                     <div class="col-xs-9">
                         <div class="col-xs-10">
-                            <input class="form-control" data-val="true" data-val-length="Debe tener 10 caracteres"
-                                   data-val-length-max="10" data-val-length-min="10" data-val-regex-pattern="([0-9]+)"
-                                   data-val-regex="El celular sólo puede contener números"
+                            <input class="form-control" data-val="true" data-val-length="Debe tener mínimo 8 y máximo 20 caracteres"
+                                   data-val-length-max="20" data-val-length-min="8"
                                    type="text" ng-model="celPhone"  id="celPhone" ng-init="celPhone= '${(m.imputed.celPhone == null) ? '': m.imputed.celPhone}'" name="imputed.celPhone">
                             <span class="field-validation-valid" data-valmsg-for="imputed.celPhone" data-valmsg-replace="true"></span>
                         </div>
@@ -121,7 +120,9 @@
                                 <div class="widget-main">
                                     <input type="text" class="input-mini" id="spinnder1" value="${m.imputed.yearsMaritalStatus ==null ? '': m.imputed.yearsMaritalStatus}"
                                            name="imputed.yearsMaritalStatus" id = "imputed.yearsMaritalStatus" data-val="true" data-val-regex-pattern="/^\d+$/"
-                                           data-val-regex="El celular sólo puede contener números"/> Años
+                                           data-val-length="Debe tener mínimo 1 y máximo 3 caracteres"
+                                           data-val-length-max="3" data-val-length-min="1"   data-val-required="El número de años es un campo requerido"
+                                    data-val-regex="La cantidad de años sólo pueden ser números"/> Años
                                     <br/>
                                     <span class="field-validation-valid" data-valmsg-for="imputed.yearsMaritalStatus" data-valmsg-replace="true"></span>
                                 </div>
@@ -266,7 +267,7 @@
     </div>
 </div>
 <script>
-    $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+    $('.date-picker').datepicker({autoclose: true, endDate:new Date()}).next().on(ace.click_event, function () {
         $(this).prev().focus();
     });
 </script>

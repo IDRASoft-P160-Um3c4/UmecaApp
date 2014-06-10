@@ -40,8 +40,8 @@
             Teléfono:
         </div>
         <div class="col-xs-6">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y máximo 30 caracteres"
-                   data-val-length-max="30" data-val-length-min="8" data-val-required="El teléfono es un campo requerido"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y máximo 20 caracteres"
+                   data-val-length-max="20" data-val-length-min="8" data-val-required="El teléfono es un campo requerido"
                    type="text" value="" ng-model="j.phone" ng-init='j.phone = "${(j.phone == null)? "": j.phone}"' name="phone" id="phone">
         </div>
         <div class="col-xs-9 col-xs-offset-3">

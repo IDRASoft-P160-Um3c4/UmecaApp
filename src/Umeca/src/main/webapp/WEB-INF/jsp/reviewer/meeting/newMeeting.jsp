@@ -26,23 +26,6 @@
                         <br/>
                         <div class="row">
                             <div class="col-xs-4 element-left">
-                                RFC:
-                            </div>
-                            <div class="col-xs-8">
-                                <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener 10 caracteres"
-                                       data-val-length-max="10" data-val-length-min="10"
-                                       data-val-required="El RFC es un campo requerido" ng-init='rfc= ""'
-                                       id="rfc" name="rfc" readonly="readonly"
-                                       ng-model="rfc" type="text" />
-                            </div>
-                            <div class="col-xs-9 col-xs-offset-3">
-                                <span class="field-validation-valid" data-valmsg-for="rfc" data-valmsg-replace="true"></span>
-                            </div>
-                        </div>
-                        <br/>
-                        <div class="row">
-                            <div class="col-xs-4 element-left">
                                 Nombre:
                             </div>
                             <div class="col-xs-8">
@@ -51,7 +34,7 @@
                                        data-val-length-max="50" data-val-length-min="3" ng-init="name=''"
                                        data-val-required="El nombre es un campo requerido"
                                        id="name" name="name" ng-model="name"
-                                       type="text" rfc-calculated/>
+                                       type="text"/>
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
@@ -65,7 +48,7 @@
                             <div class="col-xs-8">
                                 <input class="form-control" data-val="true"
                                        data-val-length="Debe tener al menos 3 y mï¿½ximo 50 caracteres" ng-init="lastNameP=''"
-                                       data-val-length-max="50" data-val-length-min="3"  rfc-calculated
+                                       data-val-length-max="50" data-val-length-min="3"
                                        data-val-required="El apellido paterno es un campo requerido"
                                        id="lastNameP" name="lastNameP"
                                        type="text" ng-model="lastNameP"/>
@@ -83,7 +66,7 @@
                             <div class="col-xs-8">
                                 <input class="form-control" data-val="true"
                                        data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
-                                       data-val-length-max="50" data-val-length-min="3"          rfc-calculated
+                                       data-val-length-max="50" data-val-length-min="3"
                                        data-val-required="El apellido parterno es un campo requerido" ng-init="lastNameM=''"
                                        id="lastNameM" name="lastNameM"
                                        type="text" ng-model="lastNameM"/>
@@ -98,8 +81,8 @@
                                 Fecha de nacimiento:
                             </div>
                             <div class="col-xs-7">
-                                <div class="input-group" rfc-calculated>
-                                    <input class="form-control date-picker" readonly="readonly" type="text" data-date-format="yyyy/mm/dd"    rfc-calculated
+                                <div class="input-group">
+                                    <input class="form-control date-picker" readonly="readonly" type="text" data-date-format="yyyy/mm/dd"
                                             data-val="true" data-val-required="La fecha de nacimiento es un campo requerido" ng-init="dateBirth=''"
                                             id="dateBirth" name="dateBirth" ng-model="dateBirth"/>
 											<span class="input-group-addon">
@@ -117,9 +100,9 @@
                                Carpeta de investigación:
                             </div>
                             <div class="col-xs-7">
-                                    <input class="form-control" type="text"  rfc-calculated
+                                    <input class="form-control" type="text"
                                             data-val="true" data-val-required="La carpeta de investigación es un campo requerido" ng-init="m.idFolder=''"
-                                            id="caseDetention.idFolderidFolder" name="caseDetention.idFolder" ng-model="m.idFolder"/>
+                                            id="meeting.caseDetention.idFolder" name="meeting.caseDetention.idFolder" ng-model="m.idFolder"/>
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="caseDetention.idFolder" data-valmsg-replace="true"></span>
@@ -159,7 +142,7 @@
 </div>
 
 <script>
-    $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+    $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
         $(this).prev().focus();
     });
 </script>

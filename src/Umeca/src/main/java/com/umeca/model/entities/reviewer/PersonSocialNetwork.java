@@ -34,7 +34,7 @@ public class PersonSocialNetwork{
     @Column(name="age", nullable = false)
     private Integer age;
 
-    @Column(name="phone", nullable = false)
+    @Column(name="phone", nullable = false, length = 20)
     private String phone;
 
     @ManyToOne(fetch=FetchType.LAZY)
