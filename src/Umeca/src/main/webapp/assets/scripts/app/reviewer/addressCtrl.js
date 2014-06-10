@@ -1,4 +1,4 @@
-app.controller('addressController', function($scope, $timeout) {
+app.controller('addressController', function($scope, $timeout, $http) {
     $scope.a = {};
     $scope.listLocation = [];
     $scope.listElection = [];
@@ -43,8 +43,21 @@ app.controller('addressController', function($scope, $timeout) {
         }
 
         if($scope.zipCode != "" && $scope.zipCode!= undefined){
-         //   var urlRequest =  $scope.zipCode['urlRequest'];
-          //  alert("url - >" + urlRequest);
+            var ajaxConf = {
+                method: 'POST',
+                url: $scope.url
+            };
+            ajaxConf.params = {zipCode : $scope.zipCode};
+            $http(ajaxConf).success(function (data) {
+                    data.data=jQuery.parseJSON(data.data);
+                    if (data.data == undefined || data.data.length === 0) {
+                        $scope.clear();
+                        return;
+                    }
+                    $scope.listLocation = data.data;
+                    $scope.a.location =$scope.listLocation[0];
+                    $scope.a.locationId = $scope.a.location.id;
+                });
         }
     };
 

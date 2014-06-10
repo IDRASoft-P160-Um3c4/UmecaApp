@@ -25,7 +25,7 @@
         <div class="row">
             <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormSchool', '/reviewer/meeting/school/doUpsert.json');">
+                          ng-click="submit('#FormSchool', '<c:url value="/reviewer/meeting/school/doUpsert.json"/>');">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>

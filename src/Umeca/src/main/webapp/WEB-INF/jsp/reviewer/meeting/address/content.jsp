@@ -30,8 +30,9 @@
         <label for="cp">Código  postal:</label>
     </div>
     <div class="col-xs-3">
+        <input type="hidden" id="urlRequest" ng-model="url" ng-init="url = '<c:url value="/catalogs/locationsByZipCode.json"/>'">
         <input type="text" id="zipCode" class="form" zip-search ng-model="zipCode" ng-init='zipCode = "${(zipCode == null) ? "" : zipCode}"'
-               data-val="true"  data-val-required="El código postal es un campo requerido" name="zipCode" url-request='<c:url value="/catalogs/locationsByZipCode.json"/>'
+               data-val="true"  data-val-required="El código postal es un campo requerido" name="zipCode"
                data-val-length-max="6" data-val-length-min="1" data-val-length ="Debe tener al menos 1 y máximo 6 caracteres."/>
         <span class="field-validation-valid" data-valmsg-for="zipCode" data-valmsg-replace="true"></span>
     </div>

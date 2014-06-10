@@ -358,5 +358,10 @@ public class MeetingController {
                 return meetingService.doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(),sch);
     }
 
+    @RequestMapping(value = "/reviewer/meeting/terminateMeeting", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting,@RequestParam String sch, Integer[] physicalCondition, Integer[] activity){
+        return meetingService.doTerminateMeeting(meeting,sch,physicalCondition,activity);
+    }
+
 
 }

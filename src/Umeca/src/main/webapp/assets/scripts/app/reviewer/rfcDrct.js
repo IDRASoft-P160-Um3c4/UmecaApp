@@ -1,34 +1,27 @@
-app.directive('rfcCalculated', ['$document', function($document) {
-    return function(scope, element, attr) {
-     /*   element.on('blur', function(event) {
-            var rfc= "";
-            if(scope.m.name!=undefined)
-                rfc=scope.m.name;
-            if(scope.m.lastNameP !=undefined)
-                rfc=rfc+scope.m.lastNameP;
-            if(scope.m.lastNameM !=undefined)
-                rfc=rfc+scope.m.lastNameM;
-            if(scope.m.dateBirth !=undefined)
-                rfc = rfc+scope.m.dateBirth;
-            scope.m.rfc=rfc;
-            return scope;
-        });
-        element.on('mouseup', function(event) {
-            var rfc= "";
-            if(scope.m.name!=undefined)
-                rfc=scope.m.name;
-            if(scope.m.lastNameP !=undefined)
-                rfc=rfc+scope.m.lastNameP;
-            if(scope.m.lastNameM !=undefined)
-                rfc=rfc+scope.m.lastNameM;
-            if(scope.m.dateBirth !=undefined)
-            {
-                var dateBirth=scope.m.dateBirth;
-                dateBirth =dateBirth.replace(/-/gi,"");
-                rfc = rfc+(dateBirth);
+app.directive('rfcCalculated', function ($http, $timeout) {
+    return function (scope, elem, attr) {
+
+        var currentTimeout = null;
+
+
+        elem.on('keyup change blur click', function () {
+            if (scope.name == "" || scope.lastNameM == "" || scope.lastNameP == "" || scope.dateBirth=="")
+                return;
+            if (currentTimeout) {
+                $timeout.cancel(currentTimeout);
             }
-            scope.m.rfc=rfc.substr(0,10);
-            return scope;
-        });*/
+            currentTimeout = $timeout(function() {
+                var rfc = "";
+                var name=scope.name;
+                var lastNameP = scope.lastNameP;
+                var lastNameM = scope.lastNameM;
+                var birthDate  = scope.dateBirth;
+                var numbers ="";
+                var from = birthDate.split("/");
+                numbers = from[0].substring(2,4)+from[1]+from[2];
+                rfc = name.substring(0,2)+lastNameP.substring(0,1)+lastNameM.substring(0,1)+numbers ;
+                scope.rfc= rfc.toUpperCase();
+            }, 200);
+        });
     };
-}]);
+});
