@@ -17,9 +17,9 @@ import java.util.Date;
  */
 public class MeetingView implements EntityGrid {
 
-    public MeetingView(Long id, String rfc, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description, Long idStatus) {
+    public MeetingView(Long id, String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description, Long idStatus) {
         this.id = id;
-        this.rfc = rfc;
+        this.idFolder = idFolder;
         this.name = name;
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
@@ -44,7 +44,7 @@ public class MeetingView implements EntityGrid {
 
     private Long id;
 
-    private String rfc;
+    private String idFolder;
 
     private String name;
 
@@ -74,12 +74,12 @@ public class MeetingView implements EntityGrid {
         this.id = id;
     }
 
-    public String getRfc() {
-        return rfc;
+    public String getIdFolder() {
+        return idFolder;
     }
 
-    public void setRfc(String rfc) {
-        this.rfc = rfc;
+    public void setIdFolder(String idFolder) {
+        this.idFolder = idFolder;
     }
 
     public String getFullname() {

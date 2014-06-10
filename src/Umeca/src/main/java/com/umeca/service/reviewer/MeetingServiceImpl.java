@@ -177,7 +177,6 @@ public class MeetingServiceImpl implements MeetingService {
             imputed.setLastNameP(caseDetention.getMeeting().getImputed().getLastNameP());
             imputed.setLastNameM(caseDetention.getMeeting().getImputed().getLastNameM());
             imputed.setDateBirth(caseDetention.getMeeting().getImputed().getDateBirth());
-            imputed.setRfc(caseDetention.getMeeting().getImputed().getRfc());
             caseDetention.getMeeting().setImputed(imputed);
 
             if (imputed.getMaritalStatus() != null && imputed.getMaritalStatus().getId() != null) {
