@@ -226,10 +226,10 @@
 
     <div class="col-xs-6">
 
-        <label for="mpName">Nombre del Ministerio Público</label>
+        <label for="mpName">Nombre del Ministerio P?blico</label>
         <br/>
         <input id="mpName" ng-model="m.mpName" name="mpName" type="text" class="input-xxlarge" data-val="true"
-               data-val-required="Nombre del Ministerio Público es un campo requerido"/>
+               data-val-required="Nombre del Ministerio P?blico es un campo requerido"/>
         <br/>
             <span class="field-validation-valid" data-valmsg-for="mpName"
                   data-valmsg-replace="true"></span>
@@ -393,7 +393,7 @@
     <br/>
 
     <div class="col-xs-3 col-xs-offset-1">
-        <label>Control de detención</label>
+        <label>Control de detenci?n</label>
         <br/>
         <span ng-class='m.errCtrlDet&&m.errCtrlDet!=""? "field-validation-error" : "input-validation-valid"'>{{m.errCtrlDet}}</span>
 
@@ -412,7 +412,7 @@
     </div>
 
     <div class="col-xs-3 col-xs-offset-1">
-        <label>Ampliación del termino</label>
+        <label>Ampliaci?n del termino</label>
         <br/>
         <span ng-class='m.errExt&&m.errExt!=""? "field-validation-error" : "input-validation-valid"'>{{m.errExt}}</span>
 
@@ -461,7 +461,7 @@
     <div class="col-xs-5 col-xs-offset-1">
 
         <div class="row">
-            <label>Formulación de imputación</label>
+            <label>Formulaci?n de imputaci?n</label>
             <br/>
             <span ng-class='m.errFormImp&&m.errFormImp!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errFormImp}}</span>
 
@@ -509,7 +509,7 @@
     <div id="vincProcID" class="col-xs-5 col-xs-offset-1">
 
         <div class="row">
-            <label>Vinculación a proceso</label>
+            <label>Vinculaci?n a proceso</label>
             <br/>
             <span ng-class='m.errLinkProc&&m.errLinkProc!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errLinkProc}}</span>
 

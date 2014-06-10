@@ -41,7 +41,7 @@ public class MonitoringPlan {
     @JoinColumn(name="id_user_authorizer", nullable = true)
     private User authorizer;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", length = 100, nullable = false)
     private String status;
 
     public Long getId() {

@@ -17,6 +17,9 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/jquery.ui.touch-punch.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/fullcalendar.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/bootbox.min.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/generateMonitoringPlan/generateMonPlanCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/shared/upsertActivityEventController.js"></script>
     <script>
         jQuery(function($) {
             /* initialize the external events
@@ -41,11 +44,7 @@
             });
 
             /* initialize the calendar
-             -----------------------------------------------------------------*/
-            var date = new Date();
-            var d = date.getDate();
-            var m = date.getMonth();
-            var y = date.getFullYear();
+            -----------------------------------------------------------------*/
 
             var calendar = $('#calendar').fullCalendar({
                 buttonText: {
@@ -59,29 +58,6 @@
                     right: 'month,agendaWeek,agendaDay'
                 },
                 defaultView: 'agendaWeek',
-                events: [
-                    {
-                        title: 'Esta es una prueba del tamaño de la información',
-                        start: new Date(y, m, 1),
-                        className: 'label-success'
-                    },
-                    {
-                        title: 'Esta es una prueba del tamaño de la información',
-                        start: new Date(y, m, 1, 12, 0),
-                        className: 'label-success'
-                    },
-                    {
-                        title: 'Long Event',
-                        start: new Date(y, m, d-5),
-                        end: new Date(y, m, d-2),
-                        className: 'label-success'
-                    },
-                    {
-                        title: 'Some Event',
-                        start: new Date(y, m, d-3, 16, 0),
-                        allDay: false
-                    }]
-                ,
                 editable: true,
                 droppable: true, // this allows things to be dropped onto the calendar !!!
                 drop: function(date, allDay) { // this function is called when something is dropped
@@ -114,21 +90,25 @@
                 selectable: true,
                 selectHelper: true,
                 select: function(start, end, allDay) {
+                    var scope = angular.element($("#UpsertActivityEventDlgId")).scope();
+                    scope.showDlg({title:'Agregar actividad'});
 
-                    bootbox.prompt("New Event Title:", function(title) {
+                    /*
+                    bootbox.prompt("Nuevo evento:", function(title) {
                         if (title !== null) {
                             calendar.fullCalendar('renderEvent',
                                     {
                                         title: title,
                                         start: start,
                                         end: end,
-                                        allDay: allDay
+                                        allDay: allDay,
+                                        className: 'label-purple'
                                     },
                                     true // make the event "stick"
                             );
                         }
                     });
-
+                    */
 
                     calendar.fullCalendar('unselect');
 
@@ -195,12 +175,11 @@
             </h1>
         </div>
 
-        <div class="row">
+        <div class="row" ng-controller="generateMonPlanController">
             <div class="col-xs-12">
                 <div class="row">
-                    <div class="col-sm-9">
+                    <div class="col-xs-12">
                         <div class="space"></div>
-
                         <div id="calendar"></div>
                     </div>
                 </div>
@@ -208,7 +187,7 @@
         </div>
     </div>
 
-
+    <%@ include file="/WEB-INF/jsp/supervisor/shared/upsertActivity.jsp"%>
     <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
     <%@ include file="/WEB-INF/jsp/shared/footer.jsp"%>
 </div>

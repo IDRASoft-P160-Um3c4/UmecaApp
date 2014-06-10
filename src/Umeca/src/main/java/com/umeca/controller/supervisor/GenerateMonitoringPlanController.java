@@ -6,18 +6,18 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlanView;
 import com.umeca.model.shared.MonitoringConstants;
+import com.umeca.model.shared.SelectList;
+import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
@@ -91,11 +91,23 @@ public class GenerateMonitoringPlanController {
 
     }
 
+
+    @Autowired
+    private ArrangementRepository arrangementRepository;
+
+
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/generate", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView generate(){
+    public @ResponseBody ModelAndView generate(@RequestParam Long id){ //Id de MonitoringPlan
         ModelAndView model = new ModelAndView("/supervisor/generateMonitoringPlan/generate");
-        //Gson gson = new Gson();
-        //String lstRoles = gson.toJson(new ResponseMessage());
+        Gson gson = new Gson();
+        List<SelectList> lstGeneric = arrangementRepository.findLstArrangement(id);
+        String sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstArrangement", sLstGeneric);
+
+        lstGeneric = arrangementRepository.findLstArrangement(id);
+        sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstActivities", sLstGeneric);
+
         //Case caseDetention = caseRepository.findOne(id);
         //model.addObject("m",caseDetention.getMeeting());
         //model.addObject("lstRoles", lstRoles);
