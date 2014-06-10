@@ -94,7 +94,6 @@ public class TechnicalReviewController {
         try {
 
             Gson gson = new Gson();
-
             List<QuestionarySectionView> listaSecciones = new ArrayList<>();
 
             Questionary quest = questionaryRepository.findByCode(Constants.TECHNICAL_REVIEW_QUESTIONARY_CODE);
