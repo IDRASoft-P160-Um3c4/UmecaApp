@@ -2,12 +2,20 @@ package com.umeca.controller.supervisor;
 
 import com.google.gson.Gson;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.ResponseMessageAddress;
+import com.umeca.model.catalog.Election;
+import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Domicile;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.supervisor.ArrangementView;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.HearingFormatView;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.catalog.ArrangementRepository;
+import com.umeca.repository.catalog.ElectionRepository;
+import com.umeca.repository.catalog.RegisterTypeRepository;
+import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -25,11 +34,23 @@ public class HearingFormatController {
     @Autowired
     ArrangementRepository arrangementRepository;
 
+    @Qualifier("registerTypeRepository")
+    @Autowired
+    RegisterTypeRepository registerTypeRepository;
+
+    @Qualifier("electionRepository")
+    @Autowired
+    ElectionRepository electionRepository;
+
     @Autowired
     CaseService caseService;
 
     @Autowired
     HearingFormatService hearingFormatService;
+
+    @Autowired
+    CatalogService catalogService;
+
 
     @RequestMapping(value = "/supervisor/hearingFormat", method = RequestMethod.GET)
     public String hearingFormat() {
@@ -87,8 +108,33 @@ public class HearingFormatController {
                 imp.setLastNameM(result.getImputedSLastName());
                 imp.setCelPhone(result.getImputedTel());
                 imp.setDateBirth(result.getImputedBirthDate());
-                caseDet = caseService.generateNewCase(imp);
+
+                caseDet = caseService.generateNewCase(imp,result.getHearingType());
                 caseDet.setIdFolder(result.getIdFolderCode());
+
+                Domicile currDom = new Domicile();
+
+                currDom.setRegisterType(registerTypeRepository.findOne(Constants.REGYSTER_TYPE_CURRENT));
+                currDom.setBelong(electionRepository.findOne(Constants.ELECTION_NO));
+                currDom.setLocation(catalogService.findLocationById(result.getIdLocation()));
+
+                currDom.setStreet(result.getStreet());
+                currDom.setNoOut(result.getOutNum());
+                currDom.setNoIn(result.getInnNum());
+                currDom.setDomicile(currDom.toString());
+
+                if(result.getArrangementType().equals(Constants.MEETING_HEARING)) {
+                    currDom.setMeeting(caseDet.getMeeting());
+                    List<Domicile> lstDom = new ArrayList<>();
+                    lstDom.add(currDom);
+                    caseDet.getMeeting().setDomiciles(lstDom);
+                }else{
+                    currDom.setMeeting(caseDet.getConditionalMeeting());
+                    List<Domicile> lstDom = new ArrayList<>();
+                    lstDom.add(currDom);
+                    caseDet.getConditionalMeeting().setDomiciles(lstDom);
+
+                }
 
                 hearingFormat.setCaseDetention(caseDet);
                 caseDet.setHearingFormat(hearingFormat);

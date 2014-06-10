@@ -26,4 +26,6 @@ public interface InsertCatalogService {
     void dayWeek();
     void schoolLevel();
     void registerType();
+    void statusVerification();
+    void statusCase();
 }

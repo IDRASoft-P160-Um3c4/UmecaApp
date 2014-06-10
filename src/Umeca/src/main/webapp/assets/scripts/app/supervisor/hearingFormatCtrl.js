@@ -1,15 +1,16 @@
 app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
         $scope.m = {};
+        $scope.a = {};
         $scope.hasError;
+        $scope.MsgError;
         $scope.m.arrmntType;
-
         $scope.m.hasSearch = false;
-
         $scope.m.hasHF = false;
         $scope.m.canSave = true;
-//        $scope.m.errArrmntSel;
         $scope.lstArrangeShow = [];
+        $scope.listLocation = [];
+        $scope.a.location;
 
         $scope.validateSave = function () {
 
@@ -204,12 +205,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             }
         };
 
-        $scope.searchCase = function (idFolder) {
+        $scope.searchCase = function (idFolder, url1, url2) {
             var currentTimeout = null;
 
             var ajaxConf = {
                 method: 'POST',
-                url: '/supervisor/searchCase.json'
+                url: url1
             };
 
             ajaxConf.data = idFolder;
@@ -221,9 +222,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             currentTimeout = $timeout(function () {
                 $http(ajaxConf)
                     .success(function (data) {
-
                         $scope.fillFormat(data);
-                        $scope.searchArrangements(data.idFolderCode);
+                        $scope.searchArrangements(data.idFolderCode, url2);
                         $scope.m.hasSearch = true;
 
                     });
@@ -242,6 +242,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
         $scope.clAllForm = function () {
 
             $scope.m = {};
+            $scope.a = {};
             //Removes validation from input-fields
             $('.input-validation-error').addClass('input-validation-valid');
 
@@ -293,6 +294,15 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             $scope.m.imputedFLastName = data.imputedFLastName;
             $scope.m.imputedSLastName = data.imputedSLastName;
 
+            $scope.a.location = $.parseJSON(data.location);
+
+            $scope.zipCode = data.zipCode;
+            $scope.a.locationId = data.idLocation;
+            $scope.a.street = data.street;
+            $scope.a.outNum = data.outNum;
+            $scope.a.innNum = data.innNum;
+
+
             $scope.m.impBthDay = $scope.myFormatDate(data.imputedBirthDate);
 
             $scope.calcAge();
@@ -303,10 +313,13 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             $scope.m.ext = data.extension;
             $scope.m.hType = data.hearingType;
             $scope.m.impDate = $scope.myFormatDate(data.imputationDate);
-            $scope.m.linkageRoom = data.linkageRoom;
+
+            if (data.linkageRoom == null)
+                $scope.m.linkageRoom = "";
+            else
+                $scope.m.linkageRoom = data.linkageRoom;
+
             $scope.m.linkageDate = $scope.myFormatDate(data.linkageDate);
-
-
             $scope.m.linkageTime = data.linkageTime;
             $scope.m.canSave = data.canSave;
             $scope.m.hasHF = data.hasHF;
@@ -348,13 +361,13 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
         };
 
 
-        $scope.searchArrangements = function (idFolder) {
+        $scope.searchArrangements = function (idFolder, url) {
 
             var currentTimeout = null;
 
             var ajaxConf = {
                 method: 'POST',
-                url: '/supervisor/searchArrangements.json'
+                url: url
             };
 
             ajaxConf.data = $scope.m.idFolderParam;
@@ -408,11 +421,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             var hasDesc = false;
 
             if ($scope.m.hasHF == false) {
-                for (var i=0; i < $scope.m.lstArrangementShow.length ; i++) {
+                for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
 
                     if ($scope.m.lstArrangementShow[i].selVal == true) {
                         hasSel = true;
-                        if ($scope.m.lstArrangementShow[i].description != ""&&$scope.m.lstArrangementShow[i].description != undefined) {
+                        if ($scope.m.lstArrangementShow[i].description != "" && $scope.m.lstArrangementShow[i].description != undefined) {
                             hasDesc = true;
                         }
                         break;
@@ -423,13 +436,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
                     $scope.m.hasError = true;
                     $scope.m.errArrmntSel = "Debe seleccionar al menos una medida cautelar";
                     return;
-                }else
-                if (hasDesc == false) {
+                } else if (hasDesc == false) {
                     $scope.m.hasError = true;
                     $scope.m.errArrmntSel = "Debe indicar la descripción de cada medida cautelar seleccionada";
                     return;
-                }else
-                    $scope.m.errArrmntSel="";
+                } else
+                    $scope.m.errArrmntSel = "";
 
             }
         };

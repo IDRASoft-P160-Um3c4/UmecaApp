@@ -32,7 +32,6 @@ app.directive('zipSearch', function ($http, $timeout) {
                         scope.listLocation = data.data;
                         scope.a.location =scope.listLocation[0];
                         scope.a.locationId = scope.a.location.id;
-                        //scope.selectedLocation = data.Locations[0];
 
                     });
             }, 200);

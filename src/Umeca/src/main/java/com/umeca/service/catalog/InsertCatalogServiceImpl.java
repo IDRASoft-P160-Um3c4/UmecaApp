@@ -1,10 +1,13 @@
 package com.umeca.service.catalog;
 
 import com.umeca.infrastructure.ReaderFile;
+import com.umeca.infrastructure.extensions.IntegerExt;
 import com.umeca.infrastructure.extensions.LongExt;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
+import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
@@ -24,7 +27,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";//"C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";//"C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
 
 
     @Autowired
@@ -110,7 +113,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void questionarySection() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "questionary_section.txt","\\|", 7);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "questionary_section.txt","\\|", 8);
         for (String[] data : lstDta) {
             QuestionarySection model = new QuestionarySection();
             model.setId(Long.parseLong(data[0]));
@@ -131,6 +134,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
                 model.setQuestionary(q);
             }
 
+            model.setExtras(data[7]);
+
             repositoryQuSe.save(model);
         }
         repositoryQuSe.flush();
@@ -142,7 +147,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void question() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "question.txt","\\|", 6);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "question.txt","\\|", 7);
         for (String[] data : lstDta) {
             Question model = new Question();
             model.setId(Long.parseLong(data[0]));
@@ -161,6 +166,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
                 QuestionarySection qs = repositoryQuSe.findOne(id);
                 model.setSection(qs);
             }
+
+            model.setIndex(IntegerExt.TryParse(data[6]));
 
             repositoryQun.save(model);
         }
@@ -216,6 +223,38 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         repositoryStMe.flush();
     }
 
+    @Autowired
+    StatusCaseRepository repositoryStCase;
+
+    @Override
+    public void statusCase() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "status_case.txt","\\|", 3);
+        for (String[] data : lstDta) {
+            StatusCase model = new StatusCase();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            repositoryStCase.save(model);
+        }
+        repositoryStCase.flush();
+    }
+
+
+    @Autowired
+    StatusVerificationRepository repositoryStVer;
+
+    @Override
+    public void statusVerification() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "status_verification.txt","\\|", 3);
+        for (String[] data : lstDta) {
+            StatusVerification model = new StatusVerification();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            repositoryStVer.save(model);
+        }
+        repositoryStVer.flush();
+    }
 
     @Autowired
     ArrangementRepository repositoryArr;

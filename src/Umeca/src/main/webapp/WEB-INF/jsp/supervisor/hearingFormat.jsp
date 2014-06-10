@@ -5,6 +5,7 @@
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/hearingFormatCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/hiddenDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/zipSearchDrct.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
@@ -102,19 +103,27 @@
 <div class="row element-right">
     <div ng-show="(m.canSave==false&&m.hasHF==true)||m.hasSearch==false">
         <span class="btn btn-default btn-sm"
-              ng-click="returnUrl('/index.html')">
+              ng-click="returnUrl('<c:url value='/index.html'/>')">
                                 Regresar
                             </span>
     </div>
     <div ng-show="m.canSave==true&&m.hasHF==false&&m.hasSearch==true">
                             <span class="btn btn-default btn-sm"
-                                  ng-click="returnUrl('/index.html')">
+                                  ng-click="returnUrl('<c:url value='/index.html'/>')">
                                 Cancelar
                             </span>
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="submitReloadHF('#FormFormatId', '/supervisor/doUpsert.json',false,validateSave)">
+                                  ng-click="submitReloadHF('#FormFormatId', '<c:url value='/supervisor/doUpsert.json'/>',false,validateSave)">
                                   Guardar
                             </span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div ng-show="MsgError!=''" class="alert alert-danger element-center">
+            <span>{{MsgError}}</span>
+        </div>
     </div>
 </div>
 
@@ -130,6 +139,7 @@
     <br/>
 
     <div class="col-xs-3">
+
         <label>No. Carpeta:</label>
 
         <div class="input-group">
@@ -140,14 +150,15 @@
                    data-val-required="No. de carpeta es un campo requerido"/>
                                     <span class="input-group-btn">
                                         <button id="btnSearch" type="button" class="btn btn-purple btn-sm"
-                                                ng-click="searchCase(m.idFolderParam);">
+                                                ng-click="searchCase(m.idFolderParam,'<c:url value='/supervisor/searchCase.json'/>','<c:url value='/supervisor/searchArrangements.json'/>');">
                                             Buscar
                                             <i class="icon-search icon-on-right bigger-110"></i>
                                         </button>
                                     </span>
         </div>
-            <span class="field-validation-valid" data-valmsg-for="idFolderCode"
-                  data-valmsg-replace="true"></span>
+        <span class="field-validation-valid" data-valmsg-for="idFolderCode"
+              data-valmsg-replace="true"></span>
+
     </div>
 
     <div class="col-xs-6 col-xs-offset-3">
@@ -348,9 +359,8 @@
 
 <div class="row">
     <br/>
-
-    DIRECCIOOOON;
-
+    <label><b>Dirección</b></label>
+    <%@ include file="/WEB-INF/jsp/supervisor/_addresHF.jsp" %>
 </div>
 
 <div class="row">
@@ -517,12 +527,12 @@
             <div class="radio">
                 <label ng-click="clLinkProc();">
                     <input class="ace col-xs-1" name="vincProcessRadio" type="radio" value="1" ng-model="m.vincProcess"
-                           ng-checked="">
+                           ng-checked="m.linkageRoom!=''&&m.hasHF==true">
                     <span class="lbl col-xs-10">&nbsp;&nbsp;Si</span>
                 </label>
                 <label ng-click="clLinkProc();">
                     <input class="ace col-xs-1" name="vincProcessRadio" type="radio" value="2" ng-model="m.vincProcess"
-                           ng-checked="">
+                           ng-checked="m.linkageRoom==''&&m.hasHF==true">
                     <span class="lbl col-xs-10">&nbsp;&nbsp;No</span>
                 </label>
             </div>
@@ -612,11 +622,16 @@
                 <div class="col-xs-6 col-xs-offset-1">
                     <label for="room">Plazo</label>
                     <br/>
-                    <input id="terms" ng-model="m.terms" name="terms" type="text" class="input-xxlarge" data-val="true"
-                           data-val-required="Plazo es un campo requerido"/>
-                    <br/>
-            <span class="field-validation-valid" data-valmsg-for="terms"
-                  data-valmsg-replace="true"></span>
+
+                    <textarea class="form-control limited" name="terms" id="terms"
+                              ng-model="m.terms"
+                              maxlength="980"
+                              data-val="true"
+                              data-val-required="Plazo es un campo requerido">
+                        {{m.terms}}</textarea>
+                    <span class="field-validation-valid" data-valmsg-for="terms"
+                          data-valmsg-replace="true"></span>
+
                 </div>
             </div>
 
@@ -633,7 +648,7 @@
 
                     <div class="row" ng-repeat="arrangment in m.lstArrangementShow">
                         <div class="checkbox">
-                            <label>
+                            <label ng-click="validateArrangementSel();">
                                 <input class="ace" ng-disabled="m.hasHF==true"
                                        type="checkbox" ng-model="m.lstArrangementShow[$index].selVal">
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;{{arrangment.name}}</span>
@@ -641,18 +656,21 @@
                         </div>
                         <div class="col-xs-offset-1">
                             <textarea class="form-control limited" ng-disabled="m.hasHF==true"
+                                      ng-change="validateArrangementSel()"
                                       maxlength="980" ng-model="m.lstArrangementShow[$index].description"
                                       ng-show="m.lstArrangementShow[$index].selVal==true">{{m.lstArrangementShow[$index].description}}</textarea>
                         </div>
                     </div>
-
                 </div>
-
                 <br/>
 
             </div>
+
+            <br/>
+
         </div>
     </div>
+</div>
 
 </div>
 
