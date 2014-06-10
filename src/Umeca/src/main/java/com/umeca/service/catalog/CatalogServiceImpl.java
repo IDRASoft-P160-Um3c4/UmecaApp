@@ -43,6 +43,11 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
+    public Location findLocationById(Long idLocation){
+        return locationRepository.findOne(idLocation);
+    }
+
+    @Override
     public ResponseMessageAddress getStatesByCountry(Long countryId) {
         ResponseMessageAddress result = new ResponseMessageAddress();
         try{

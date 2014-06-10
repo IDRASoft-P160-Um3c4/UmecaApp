@@ -12,32 +12,35 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="case_detention")
+@Table(name = "case_detention")
 public class Case {
     @Id
     @GeneratedValue
-    @Column(name="id_case")
+    @Column(name = "id_case")
     private Long id;
 
-    @Column(name="id_folder", length = 15, nullable = true)
+    @Column(name = "id_folder", length = 15, nullable = true)
     private String idFolder;
 
-    @Column(name="id_mp", length = 15, nullable = true)
+    @Column(name = "id_mp", length = 15, nullable = true)
     private String idMP;
 
-    @Column(name="recidivist", nullable = false)
+    @Column(name = "recidivist", nullable = false)
     private Boolean recidivist;
 
-    @OneToOne(mappedBy="caseDetention", cascade={CascadeType.ALL})
+    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Meeting meeting;
+
+    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
+    private Meeting conditionalMeeting;
 
     @Column(name = "status_code") // agregar nullable = false cuando se corrija la insercion en la entrevista
     private String status;
 
-    @OneToOne(mappedBy="caseDetention", cascade={CascadeType.ALL})
+    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private TechnicalReview technicalReview;
 
-    @OneToOne(mappedBy="caseDetention", cascade={CascadeType.ALL})
+    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private HearingFormat hearingFormat;
 
 
@@ -85,7 +88,7 @@ public class Case {
     }
 
     public String getIdString() {
-        this.idString =  String.format("%010d", id);
+        this.idString = String.format("%010d", id);
         return idString;
     }
 
@@ -115,5 +118,13 @@ public class Case {
 
     public void setHearingFormat(HearingFormat hearingFormat) {
         this.hearingFormat = hearingFormat;
+    }
+
+    public Meeting getConditionalMeeting() {
+        return conditionalMeeting;
+    }
+
+    public void setConditionalMeeting(Meeting conditionalMeeting) {
+        this.conditionalMeeting = conditionalMeeting;
     }
 }

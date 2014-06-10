@@ -270,3 +270,8 @@ i.link-image {
 .nav-li-blue > a{
     background-color: #438eb9 !important;
 }
+
+.modal-showhigh {
+    width: 1050px !important;
+    padding: 0 5% !important;
+}

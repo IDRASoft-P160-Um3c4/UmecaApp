@@ -21,7 +21,7 @@
             url: '<c:url value='/reviewer/meeting/listAddress.json?idCase=${m.caseDetention.id}'/>',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Direccion','Tipo de domicilio','Tiempo de recidencia','Tipo de propiedad', 'Acción'],
+            colNames: ['ID', 'Direccion','Tipo de domicilio','Tiempo de recidencia','Tipo de propiedad', 'AcciÃ³n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'domicile', index: 'domicile', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

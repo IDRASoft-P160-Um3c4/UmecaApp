@@ -7,9 +7,9 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Questionary;
 import com.umeca.model.catalog.QuestionarySection;
-import com.umeca.model.entities.Constants;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.ForTechnicalReviewView;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
@@ -94,10 +94,9 @@ public class TechnicalReviewController {
         try {
 
             Gson gson = new Gson();
-
             List<QuestionarySectionView> listaSecciones = new ArrayList<>();
 
-            Questionary quest = questionaryRepository.findByCode(Constants.TECHNICAL_REVIEW_CODE);
+            Questionary quest = questionaryRepository.findByCode(Constants.TECHNICAL_REVIEW_QUESTIONARY_CODE);
 
             for (QuestionarySection padre : quest.getSections()) {
                 listaSecciones.add(technicalReviewService.getSections(padre));
@@ -152,7 +151,7 @@ public class TechnicalReviewController {
         try {
             result.setQuestionsSel(technicalReviewService.generateQuesRevRel(result, result.getTxtListQuest()));
             Case caseDetention = verificationRepository.findById(result.getIdVerification()).getCaseDetention();
-            caseDetention.setStatus(Constants.TECHNICAL_REVIEW_STATUS_CASE);
+            caseDetention.setStatus(Constants.CASE_STATUS_TECHNICAL_REVIEW);
             result.setCaseDetention(caseDetention);
             technicalReviewRepository.save(result);
             response.setHasError(false);

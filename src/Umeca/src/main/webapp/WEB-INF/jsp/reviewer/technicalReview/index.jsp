@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
+    <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/technicalReviewCtrl.js"></script>
 
     <title>Opinión técnica</title>
@@ -15,17 +15,17 @@
 
     <script>
 
-        addTechnicalReview = function(id){
-            var goTo="<c:url value='/reviewer/technicalReview/technicalReview.html'/>"+"?id="+id;
+        addTechnicalReview = function (id) {
+            var goTo = "<c:url value='/reviewer/technicalReview/technicalReview.html'/>" + "?id=" + id;
             window.goToUrlMvcUrl(goTo);
         };
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/technicalReview/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID','SHOW','No. Carpeta','No. M.P.','Imputado','Acción'],
+                colNames: ['ID', 'SHOW', 'No. Carpeta', 'No. M.P.', 'Imputado', 'Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'status', index: 'status', hidden: true },
@@ -46,7 +46,7 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-                   var status = $(this).jqGrid('getCol', 'status', false);
+                    var status = $(this).jqGrid('getCol', 'status', false);
 
 
                     for (var i = 0; i < ids.length; i++) {
@@ -55,14 +55,13 @@
                         var enabled = row.enabled;
                         var be;
 
-                     switch (status[i]){
-                            case "VERIF":
-                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar opinión técnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
-
-                            break;
-                            case "TEC_REV":
+                        switch (status[i]) {
+                            case "VERIFICATION_COMPLETE_CASE":
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar opinión técnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+                                break;
+                            case "TECHNICAL_REVIEW_CASE":
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar opinión técnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-                            break;
+                                break;
                             default:
                                 be = "<a style=\"display:inline-block;\" title=\"Aún no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
                                 break;
@@ -71,9 +70,9 @@
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },
-                loadComplete : function() {
+                loadComplete: function () {
                     var table = this;
-                    setTimeout(function(){
+                    setTimeout(function () {
                         updatePagerIcons(table);
                         enableTooltips(table);
                     }, 0);
@@ -81,9 +80,9 @@
             });
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
-                edit: false, editicon : 'icon-pencil blue',
-                add: true, addfunc: window.upsert, addicon : 'icon-plus-sign purple',
-                refresh: true, refreshicon : 'icon-refresh green',
+                edit: false, editicon: 'icon-pencil blue',
+                add: true, addfunc: window.upsert, addicon: 'icon-plus-sign purple',
+                refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
                 search: false});
 
@@ -105,13 +104,13 @@
         <div id="GridPager"></div>
         <div class="blocker" ng-show="working">
             <div>
-                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
+                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
             </div>
         </div>
     </div>
 
-    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
-    <%@ include file="/WEB-INF/jsp/shared/footer.jsp"%>
+    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
+    <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>
 
 </body>

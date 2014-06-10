@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.Location;
 import com.umeca.model.entities.reviewer.Case;
 
 import java.sql.Time;
@@ -65,6 +66,25 @@ public class HearingFormatView {
 
     public String lstArrangement;
 
+    public String zipCode;
+
+    public String stateName;
+
+    public String municipalityName;
+
+    public String locationName;
+
+    public String street;
+
+    public String innNum;
+
+    public String outNum;
+
+    public Long idLocation;
+
+    public String location;
+
+    public Boolean existImputed;
 
     public String getNumberDate() {
         return numberDate;
@@ -280,5 +300,85 @@ public class HearingFormatView {
 
     public void setLstArrangement(String lstArrangement) {
         this.lstArrangement = lstArrangement;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getMunicipalityName() {
+        return municipalityName;
+    }
+
+    public void setMunicipalityName(String municipalityName) {
+        this.municipalityName = municipalityName;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getInnNum() {
+        return innNum;
+    }
+
+    public void setInnNum(String innNum) {
+        this.innNum = innNum;
+    }
+
+    public String getOutNum() {
+        return outNum;
+    }
+
+    public void setOutNum(String outNum) {
+        this.outNum = outNum;
+    }
+
+    public Long getIdLocation() {
+        return idLocation;
+    }
+
+    public void setIdLocation(Long idLocation) {
+        this.idLocation = idLocation;
+    }
+
+    public Boolean getExistImputed() {
+        return existImputed;
+    }
+
+    public void setExistImputed(Boolean existImputed) {
+        this.existImputed = existImputed;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
