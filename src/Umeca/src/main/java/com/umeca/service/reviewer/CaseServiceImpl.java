@@ -33,12 +33,7 @@ public class CaseServiceImpl implements CaseService {
 
         Case caseDet = new Case();
 
-        if (imputedRepository.countCaseSameRFC(imputed.getRfc()) > 0)
-            caseDet.setRecidivist(true);
-        else
-            caseDet.setRecidivist(false);
-
-        imputed.setRfc("AAABBBCC"); //TODO REEMPLAZAR POR EL METODO QUE GENERA EL RFC
+        caseDet.setRecidivist(false);
 
         Meeting meeting = new Meeting();
         StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
@@ -47,9 +42,9 @@ public class CaseServiceImpl implements CaseService {
         meeting.setImputed(imputed);
         meeting.setCaseDetention(caseDet);
 
-        if(type.equals(Constants.MEETING_HEARING)) {
+        if (type.equals(Constants.MEETING_HEARING)) {
             caseDet.setMeeting(meeting);
-        }else{
+        } else {
             caseDet.setConditionalMeeting(meeting);
         }
 
