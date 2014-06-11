@@ -134,7 +134,7 @@
 
                 <div class="tab-content">
                     <div id="personalData" class="tab-pane in active">
-                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/_personalData.jsp"%>
+                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/_personalData.jsp"%>
                     </div>
                     <div id="address" class="tab-pane">
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/address/accordeon.jsp"%>
@@ -149,7 +149,7 @@
                          susustancias
                     </div>
                     <div id="leaveCountry" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/leave/leavingCountry.jsp"%>
+                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry.jsp"%>
                     </div>
                 </div>
             </div>
