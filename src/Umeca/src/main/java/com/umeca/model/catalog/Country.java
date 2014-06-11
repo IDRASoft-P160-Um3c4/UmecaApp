@@ -20,11 +20,17 @@ public class Country {
     @Column(name="Name", nullable = false, length = 50)
     private String name;
 
-    @Column(name="Abbreviation", nullable = false, length = 100)
-    private String abbreviation;
+    @Column(name="Alpha2", nullable = false, length = 2)
+    private String alpha2;
 
-    @Column(name="Description", nullable = false, length = 100)
-    private String description;
+    @Column(name="Alpha3", nullable = false, length = 3)
+    private String alpha3;
+
+    @Column(name="Latitude", nullable = false)
+    private Double latitude;
+
+    @Column(name="Longitude", nullable = false)
+    private Double longitude;
 
     public Long getId() {
         return id;
@@ -42,19 +48,35 @@ public class Country {
         this.name = name;
     }
 
-    public String getAbbreviation() {
-        return abbreviation;
+    public String getAlpha2() {
+        return alpha2;
     }
 
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
+    public void setAlpha2(String alpha2) {
+        this.alpha2 = alpha2;
     }
 
-    public String getDescription() {
-        return description;
+    public String getAlpha3() {
+        return alpha3;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAlpha3(String alpha3) {
+        this.alpha3 = alpha3;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }
