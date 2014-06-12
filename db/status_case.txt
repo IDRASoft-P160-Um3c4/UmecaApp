@@ -1,4 +1,5 @@
 id_status|status|description
-1|VERIFICATION_COMPLETE_CASE|Verificación finalizada
-2|TECHNICAL_REVIEW_COMPLETE_CASE|Opinión ténica finalizada
+1|ST_CASE_VERIFICATION_COMPLETE|Verificación finalizada
+2|ST_CASE_TECHNICAL_REVIEW_COMPLETE|Opinión ténica finalizada
 3|ST_CASE_MEETING|Entrevista de riesgos procesales
+4|ST_CASE_HEARING_FORMAT_END|Formato de audiencia finalizado.
