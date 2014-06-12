@@ -10,12 +10,12 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "supervision_activity")
-public class SupervisionActivity {
+@Table(name = "activity_goal")
+public class ActivityGoal {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_supervision_activity")
+    @Column(name = "id_activity_goal")
     private Long id;
 
     @Column(name = "name", length = 1000, nullable = false)

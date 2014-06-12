@@ -28,4 +28,7 @@ public interface InsertCatalogService {
     void registerType();
     void statusVerification();
     void statusCase();
+    void supervisionActivity();
+    void insertActivityGoal();
+    void insertAidSource();
 }

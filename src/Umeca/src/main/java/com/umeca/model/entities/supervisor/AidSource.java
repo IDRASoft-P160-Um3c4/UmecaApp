@@ -2,20 +2,13 @@ package com.umeca.model.entities.supervisor;
 
 import javax.persistence.*;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/10/14
- * Time: 4:36 PM
- */
-
 @Entity
-@Table(name = "supervision_activity")
-public class SupervisionActivity {
+@Table(name = "aid_source")
+public class AidSource {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_supervision_activity")
+    @Column(name = "id_aid_source")
     private Long id;
 
     @Column(name = "name", length = 1000, nullable = false)
