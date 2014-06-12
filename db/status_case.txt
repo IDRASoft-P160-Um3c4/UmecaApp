@@ -1,3 +1,4 @@
 id_status|status|description
 1|VERIFICATION_COMPLETE_CASE|Verificación finalizada
 2|TECHNICAL_REVIEW_COMPLETE_CASE|Opinión ténica finalizada
+3|ST_CASE_MEETING|Entrevista de riesgos procesales
