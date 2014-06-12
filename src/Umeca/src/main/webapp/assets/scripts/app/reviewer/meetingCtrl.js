@@ -11,11 +11,21 @@ app.controller('meetingController', function($scope, $timeout) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
+    $scope.validf = {};
 
     $scope.submit = function (formId, urlToPost, hasReturnId) {
-         if ($(formId).valid() == false) {
+        var forms = formId.split(",");
+        var val = true;
+        for(var i=0; i<forms.length; i++){
+            if($(forms[i]).valid() == false){
+                $scope.validf["form"+i] = true;
+                val  = false;
+            }else{
+                $scope.validf["form"+i] = false;
+            }
+        }
+         if (!val) {
             $scope.Invalid = true;
-
             return false;
         }
         $scope.WaitFor = true;
@@ -63,8 +73,7 @@ app.controller('meetingController', function($scope, $timeout) {
             if(resp.hasError===undefined){
                 resp=resp.responseMessage;}
             if (resp.hasError === false) {
-                $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                window.cancelMeeting();
                 return;
             }
 

@@ -48,7 +48,7 @@
         <div class="col-xs-4">
 
             <label for="state">Colonia</label>
-            <input class="form-control" type="text" value="" ng-model="a.location.name"
+            <input id="state" name="state" class="form-control" type="text" value="" ng-model="a.location.name"
                    readonly="readonly">
 
         </div>

@@ -1,0 +1,2 @@
+id_status|status|description
+1|VERIFICATION_COMPLETE|Finalizado

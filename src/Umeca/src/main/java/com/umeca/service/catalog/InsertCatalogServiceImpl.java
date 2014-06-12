@@ -35,7 +35,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     private String PATH = "C:\\Projects\\IDRASoft\\UmecaApp\\db\\";//"C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
 
-
     @Autowired
     RoleRepository repositoryRole;
 

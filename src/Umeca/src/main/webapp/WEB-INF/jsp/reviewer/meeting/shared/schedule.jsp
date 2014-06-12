@@ -1,8 +1,6 @@
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css" />
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
 
 <div class="row element-center" ng-controller="scheduleController">
@@ -20,7 +18,7 @@
     <div class="col-xs-3 element-center">
                     Inicio<br/>
         <div class="input-group bootstrap-timepicker">
-            <input id="timepickerStart" type="text" class="form-control" ng-model="s.start"/>
+            <input id="timepickerStart{{content}}" type="text" class="form-control tp" ng-model="s.start"/>
             <span class="input-group-addon">
 				<i class="icon-time bigger-60"></i>
 			</span>
@@ -29,7 +27,7 @@
     <div class="col-xs-3 element-center">
         Fin <br/>
         <div class="input-group bootstrap-timepicker">
-            <input id="timepickerEnd" type="text" class="form-control" ng-model="s.end"/>
+            <input id="timepickerEnd{{content}}" type="text" class="form-control tp" ng-model="s.end"/>
             <span class="input-group-addon">
 				<i class="icon-time  bigger-40"></i>
 			</span>
@@ -88,32 +86,3 @@
     </div>
     <br/>
 </div>
-<script>
-    $('#timepickerStart').timepicker({
-        minuteStep: 1,
-        showSeconds: false,
-        showMeridian: false
-    }).next().on(ace.click_event, function(){
-                $(this).prev().focus();
-            });$('#timepickerStart').timepicker({
-        minuteStep: 1,
-        showSeconds: true,
-        showMeridian: false
-    }).next().on(ace.click_event, function(){
-                $(this).prev().focus();
-            });
-
-    $('#timepickerEnd').timepicker({
-        minuteStep: 1,
-        showSeconds: false,
-        showMeridian: false
-    }).next().on(ace.click_event, function(){
-                $(this).prev().focus();
-            });$('#timepickerEnd').timepicker({
-        minuteStep: 1,
-        showSeconds: true,
-        showMeridian: false
-    }).next().on(ace.click_event, function(){
-                $(this).prev().focus();
-            });
-</script>

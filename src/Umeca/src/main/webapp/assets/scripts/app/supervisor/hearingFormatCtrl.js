@@ -11,6 +11,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
         $scope.lstArrangeShow = [];
         $scope.listLocation = [];
         $scope.a.location;
+        $scope.m.existImputed;
 
         $scope.validateSave = function () {
 
@@ -237,6 +238,16 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             else
                 $("#FormFormatId :input").attr("disabled", false);
 
+
+            if ($scope.m.existImputed) {
+                $("#divImputed :input").attr("disabled", true);
+                $("#divAddr :input").attr("disabled", true);
+            }
+            else {
+                $("#divImputed :input").attr("disabled", false);
+                $("#divAddr :input").attr("disabled", false);
+            }
+
         }
 
         $scope.clAllForm = function () {
@@ -324,6 +335,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             $scope.m.canSave = data.canSave;
             $scope.m.hasHF = data.hasHF;
             $scope.m.terms = data.terms;
+
+            $scope.m.existImputed=data.existImputed;
 
         };
 

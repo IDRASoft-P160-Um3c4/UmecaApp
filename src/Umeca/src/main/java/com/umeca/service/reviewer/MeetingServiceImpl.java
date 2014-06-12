@@ -9,6 +9,7 @@ import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.catalog.dto.SchoolLevelDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,10 +45,12 @@ public class MeetingServiceImpl implements MeetingService {
         Long result = null;
         try {
             Case caseDetention = new Case();
-            if (imputedRepository.countCaseSameRFC(imputed.getRfc()) > 0)
+            if (imputedRepository.findImputedRegister(imputed.getName(), imputed.getLastNameP(), imputed.getLastNameM(), imputed.getDateBirth()).size() > 0)
                 caseDetention.setRecidivist(true);
             else
                 caseDetention.setRecidivist(false);
+            caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
+            caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention = caseRepository.save(caseDetention);
             Meeting meeting = new Meeting();
             meeting.setCaseDetention(caseDetention);
@@ -174,7 +179,6 @@ public class MeetingServiceImpl implements MeetingService {
             imputed.setLastNameP(caseDetention.getMeeting().getImputed().getLastNameP());
             imputed.setLastNameM(caseDetention.getMeeting().getImputed().getLastNameM());
             imputed.setDateBirth(caseDetention.getMeeting().getImputed().getDateBirth());
-            imputed.setRfc(caseDetention.getMeeting().getImputed().getRfc());
             caseDetention.getMeeting().setImputed(imputed);
 
             if (imputed.getMaritalStatus() != null && imputed.getMaritalStatus().getId() != null) {
@@ -184,13 +188,13 @@ public class MeetingServiceImpl implements MeetingService {
             if (physicalCondition != null) {
                 socialEnvironment.setPhysicalConditions(new ArrayList<PhysicalCondition>());
                 for (int i = 0; i < physicalCondition.length; i++) {
-                    socialEnvironment.getPhysicalConditions().add(physicalConditionRepository.findOne(Long.valueOf(physicalCondition[i])));
+                    socialEnvironment.getPhysicalConditions().add(physicalConditionRepository.findOne((Long.valueOf(physicalCondition[i])+1)));
                 }
             }
             if (activity != null) {
                 socialEnvironment.setActivities(new ArrayList<Activity>());
                 for (int a = 0; a < activity.length; a++) {
-                    socialEnvironment.getActivities().add(activityRepository.findOne(Long.valueOf(activity[a])));
+                    socialEnvironment.getActivities().add(activityRepository.findOne((Long.valueOf(activity[a])+1)));
                 }
             }
             caseDetention.getMeeting().setSocialEnvironment(socialEnvironment);
@@ -601,8 +605,67 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+
     @Override
     public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, Integer[] physicalCondition, Integer[] activity) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        ResponseMessage result = new ResponseMessage();
+        try{
+            ResponseMessage aux = upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(),physicalCondition, activity);
+            if(aux.isHasError())
+                return aux;
+            aux = doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(),sch);
+            if(aux.isHasError())
+                return aux;
+            aux = upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
+            if(aux.isHasError())
+                return aux;
+            Case c = caseRepository.findOne(meeting.getCaseDetention().getId());
+            if((c.getMeeting().getReferences()!= null && c.getMeeting().getReferences().size()>0) ||(c.getMeeting().getSocialNetwork()!=null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork()!= null
+                    && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork().size()>0)){
+                c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
+                c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
+                caseRepository.save(c);
+                result.setHasError(false);
+                result.setMessage("Entrevista terminada con exito");
+                result.setUrlToGo("/index.html");
+            }else {
+                result.setHasError(true);
+                result.setMessage("Para terminar la entrevista debe agragar al menos una referencia perosnal o una persona de su red social.");
+            }
+
+        }catch (Exception e){
+            result.setHasError(true);
+            result.setMessage("Ha ocurrido un error al terminar la entrevista. Intente más tarde");
+        }
+        return result;
+    }
+
+
+    @Override
+    public ResponseMessage validateCreateMeeting(Imputed imputed) {
+        if(imputed.getDateBirth()!=null){
+            Calendar dob = Calendar.getInstance();
+            dob.setTime(imputed.getDateBirth());
+            Calendar today = Calendar.getInstance();
+            int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+            if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
+                age--;
+            if(age<18){
+                return new ResponseMessage(true, "El imputado debe tener más de 18 años para continuar");
+            }
+        }else{
+            return new ResponseMessage(true, "Favor de ingresar la fecha de nacimiento del imputado.");
+        }
+        if(imputed.getMeeting()!=null && imputed.getMeeting().getCaseDetention()!=null && imputed.getMeeting().getCaseDetention().getIdFolder()!=null){
+            Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
+            if(c!=null){
+                return  new ResponseMessage(true,"El número de carpeta de investigación ya se encuentra registrado.");
+            }
+        }else{
+            return new ResponseMessage(true,"Favor de ingresar el número de carpeta de investigación para continuar");
+        }
+        return null;
     }
 }

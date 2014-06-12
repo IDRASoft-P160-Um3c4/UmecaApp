@@ -10,6 +10,7 @@ import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.ForTechnicalReviewView;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
@@ -139,6 +140,9 @@ public class TechnicalReviewController {
         return model;
     }
 
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+
     @RequestMapping(value = "/reviewer/technicalReview/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -151,7 +155,7 @@ public class TechnicalReviewController {
         try {
             result.setQuestionsSel(technicalReviewService.generateQuesRevRel(result, result.getTxtListQuest()));
             Case caseDetention = verificationRepository.findById(result.getIdVerification()).getCaseDetention();
-            caseDetention.setStatus(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+            caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
             result.setCaseDetention(caseDetention);
             technicalReviewRepository.save(result);
             response.setHasError(false);

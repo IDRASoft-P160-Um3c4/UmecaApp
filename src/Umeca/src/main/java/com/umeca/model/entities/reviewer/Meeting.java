@@ -67,6 +67,8 @@ public class Meeting {
     @JoinColumn(name="id_status", nullable = false)
     private StatusMeeting status;
 
+    @Column(name="meeting_type")
+    private Integer meetingType;
 
     public Long getId() {
         return id;
@@ -186,5 +188,13 @@ public class Meeting {
 
     public void setSchool(School school) {
         this.school = school;
+    }
+
+    public Integer getMeetingType() {
+        return meetingType;
+    }
+
+    public void setMeetingType(Integer meetingType) {
+        this.meetingType = meetingType;
     }
 }

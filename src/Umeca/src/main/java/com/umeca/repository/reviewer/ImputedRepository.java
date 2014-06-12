@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,4 +23,7 @@ import java.util.List;
 public interface ImputedRepository extends JpaRepository<Imputed, Long>{
     @Query("SELECT COUNT(i) FROM Imputed i where rfc=:rfc")
     public Long countCaseSameRFC(@Param("rfc") String rfc);
+
+    @Query("select i from Imputed as i where name=:name and lastNameP = :lnP and lastNameM = :lnM and dateBirth = :db")
+    List<Imputed> findImputedRegister(@Param("name")String name, @Param("lnP")String lastNameP,@Param("lnM")String lastNameM,@Param("db") Date dateBirth);
 }

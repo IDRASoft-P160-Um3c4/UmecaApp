@@ -60,6 +60,8 @@ public class HearingFormatView {
 
     public String idFolderCode;
 
+    public String idJudicialFolderCode;
+
     public Boolean canSave;
 
     public Boolean hasHF;
@@ -380,5 +382,13 @@ public class HearingFormatView {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getIdJudicialFolderCode() {
+        return idJudicialFolderCode;
+    }
+
+    public void setIdJudicialFolderCode(String idJudicialFolderCode) {
+        this.idJudicialFolderCode = idJudicialFolderCode;
     }
 }

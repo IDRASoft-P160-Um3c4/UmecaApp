@@ -42,7 +42,7 @@ public class LeaveCountry {
     private Election familyAnotherCountry;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_communication_family", nullable = false)
+    @JoinColumn(name="id_communication_family", nullable = true)
     private Election communicationFamily;
 
     @ManyToOne(fetch=FetchType.LAZY)

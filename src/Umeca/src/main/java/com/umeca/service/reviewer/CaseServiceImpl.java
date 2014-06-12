@@ -6,6 +6,7 @@ import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.StatusMeetingRepository;
 import com.umeca.repository.reviewer.ImputedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,21 @@ public class CaseServiceImpl implements CaseService {
     @Autowired
     CaseRepository caseRepository;
 
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+
     @Override
-    public Case generateNewCase(Imputed imputed, Integer type) { //equivalente al createMeeting
+    public Case generateNewCase(Imputed imputed, Integer type) {
 
         Case caseDet = new Case();
 
-        if (imputedRepository.countCaseSameRFC(imputed.getRfc()) > 0)
+        if (imputedRepository.findImputedRegister(imputed.getName(),imputed.getLastNameP(), imputed.getLastNameM(), imputed.getDateBirth()).size() > 0)
             caseDet.setRecidivist(true);
         else
             caseDet.setRecidivist(false);
 
-        imputed.setRfc("AAABBBCC"); //TODO REEMPLAZAR POR EL METODO QUE GENERA EL RFC
+
+        caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
 
         Meeting meeting = new Meeting();
         StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
@@ -46,11 +51,10 @@ public class CaseServiceImpl implements CaseService {
         imputed.setMeeting(meeting);
         meeting.setImputed(imputed);
         meeting.setCaseDetention(caseDet);
+        meeting.setMeetingType(type);
 
         if(type.equals(Constants.MEETING_HEARING)) {
             caseDet.setMeeting(meeting);
-        }else{
-            caseDet.setConditionalMeeting(meeting);
         }
 
         return caseDet;

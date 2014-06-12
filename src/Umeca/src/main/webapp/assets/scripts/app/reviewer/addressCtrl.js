@@ -5,6 +5,7 @@ app.controller('addressController', function($scope, $timeout, $http) {
     $scope.listRegisterType = [];
     $scope.a.belong = 0;
     $scope.a.type=0;
+    $scope.content = "Address";
 
     $scope.init = function(){
         if($scope.listRegisterType === undefined || $scope.listRegisterType.length <= 0)

@@ -138,16 +138,19 @@
 <div class="row">
     <br/>
 
-    <div class="col-xs-3">
+    <div class="col-xs-6">
 
-        <label>No. Carpeta:</label>
+        <div class="row">
 
-        <div class="input-group">
-            <input id="idFolderParam" type="text" class="form-control search-query input-small"
-                   ng-model="m.idFolderParam"
-                   name="idFolderCode"
-                   placeholder="No. de carpeta..." data-val="true"
-                   data-val-required="No. de carpeta es un campo requerido"/>
+            <div class="col-xs-6">
+                <label>No. Carpeta de Investigación:</label>
+
+                <div class="input-group">
+                    <input id="idFolderParam" type="text" class="form-control search-query input-small"
+                           ng-model="m.idFolderParam"
+                           name="idFolderCode"
+                           placeholder="No. carpeta de investigación..." data-val="true"
+                           data-val-required="No. carpeta de investigación es un campo requerido"/>
                                     <span class="input-group-btn">
                                         <button id="btnSearch" type="button" class="btn btn-purple btn-sm"
                                                 ng-click="searchCase(m.idFolderParam,'<c:url value='/supervisor/searchCase.json'/>','<c:url value='/supervisor/searchArrangements.json'/>');">
@@ -155,13 +158,27 @@
                                             <i class="icon-search icon-on-right bigger-110"></i>
                                         </button>
                                     </span>
+                </div>
+                <span class="field-validation-valid" data-valmsg-for="idFolderCode"
+                      data-valmsg-replace="true"></span>
+            </div>
+
+            <div class="col-xs-6">
+                <label for="idJudicialFolderCode">No. Carpeta Judicial</label>
+                <br/>
+                <input id="idJudicialFolderCode" ng-model="m.numberDate" name="idJudicialFolderCode" type="text" class="input-large"
+                       data-val="true" placeholder="No. carpeta judicial..."
+                       data-val-required="No. de carpeta judicial es un campo requerido"/>
+                <br/>
+            <span class="field-validation-valid" data-valmsg-for="numberDate"
+                  data-valmsg-replace="true"></span>
+
+            </div>
         </div>
-        <span class="field-validation-valid" data-valmsg-for="idFolderCode"
-              data-valmsg-replace="true"></span>
 
     </div>
 
-    <div class="col-xs-6 col-xs-offset-3">
+    <div class="col-xs-6">
         <div class="col-xs-6">
             <label for="numberDate">Cita</label>
             <br/>
@@ -260,104 +277,105 @@
 
 </div>
 
-<div class="row">
-    <br/>
-    <label><b>Imputado</b></label>
-</div>
-
-
-<div class="row">
-
-    <div class="col-xs-4">
-
-        <label for="imputedName">Nombre(s)</label>
+<div id="divImputed">
+    <div class="row">
         <br/>
-        <input id="imputedName" ng-model="m.imputedName" name="imputedName" type="text" class="input-xxlarge"
-               data-val="true"
-               data-val-required="Nombre es un campo requerido"/>
-        <br/>
-            <span class="field-validation-valid" data-valmsg-for="imputedName"
-                  data-valmsg-replace="true"></span>
+        <label><b>Imputado</b></label>
     </div>
 
-    <div class="col-xs-4">
 
-        <label for="imputedFLastName">Apellido paterno</label>
-        <br/>
-        <input id="imputedFLastName" ng-model="m.imputedFLastName" name="imputedFLastName" type="text"
-               class="input-xxlarge" data-val="true"
-               data-val-required="Apellido paterno es un campo requerido"/>
-        <br/>
+    <div class="row">
+
+        <div class="col-xs-4">
+
+            <label for="imputedName">Nombre(s)</label>
+            <br/>
+            <input id="imputedName" ng-model="m.imputedName" name="imputedName" type="text" class="input-xxlarge"
+                   data-val="true" ng-disabled="m.existImputed==true"
+                   data-val-required="Nombre es un campo requerido"/>
+            <br/>
+            <span class="field-validation-valid" data-valmsg-for="imputedName"
+                  data-valmsg-replace="true"></span>
+        </div>
+
+        <div class="col-xs-4">
+
+            <label for="imputedFLastName">Apellido paterno</label>
+            <br/>
+            <input id="imputedFLastName" ng-model="m.imputedFLastName" name="imputedFLastName" type="text"
+                   class="input-xxlarge" data-val="true" ng-disabled="m.existImputed==true"
+                   data-val-required="Apellido paterno es un campo requerido"/>
+            <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedFLastName"
                   data-valmsg-replace="true"></span>
 
-    </div>
+        </div>
 
-    <div class="col-xs-4">
+        <div class="col-xs-4">
 
-        <label for="imputedSLastName">Apellido materno</label>
-        <br/>
-        <input id="imputedSLastName" ng-model="m.imputedSLastName" name="imputedSLastName" type="text"
-               class="input-xxlarge" data-val="true"
-               data-val-required="Apellido materno es un campo requerido"/>
-        <br/>
+            <label for="imputedSLastName">Apellido materno</label>
+            <br/>
+            <input id="imputedSLastName" ng-model="m.imputedSLastName" name="imputedSLastName" type="text"
+                   class="input-xxlarge" data-val="true" ng-disabled="m.existImputed==true"
+                   data-val-required="Apellido materno es un campo requerido"/>
+            <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedSLastName"
                   data-valmsg-replace="true"></span>
 
-    </div>
-
-</div>
-
-<div class="row">
-    <br/>
-
-    <div class="col-xs-4">
-
-        <label for="imputedBirthDate">Fecha de nacimiento:</label>
-
-        <div class="row">
-            <div class="col-xs-8 col-sm-11">
-                <div class="input-group">
-                    <input ng-class='m.errBth&&m.errBth!=""&&!m.impBthDay ? "form-control date-picker input-validation-error" : "form-control date-picker"'
-                           id="imputedBirthDate" name="imputedBirthDate" type="text"
-                           data-date-format="dd/mm/yyyy"
-                           readonly ng-change="calcAge();" ng-model="m.impBthDay"/>
-                                                <span class="input-group-addon">
-                                                    <i class="icon-calendar bigger-110"></i>
-                                                </span>
-                </div>
-                <span ng-class='m.errBth&&m.errBth!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errBth}}</span>
-            </div>
         </div>
 
     </div>
 
-    <div class="col-xs-4">
-
-        <label for="imputedAge">Edad</label>
+    <div class="row">
         <br/>
-        <input id="imputedAge" name="imputedAge" type="text" class="input-xxlarge" readonly ng-model="m.impAge"/>
-        <br/>
-        <span ng-class='m.errAge&&m.errAge!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errAge}}</span>
 
-    </div>
+        <div class="col-xs-4">
 
-    <div class="col-xs-4">
+            <label for="imputedBirthDate">Fecha de nacimiento:</label>
 
-        <label for="imputedTel">Telefono(s)</label>
-        <br/>
-        <input id="imputedTel" ng-model="m.imputedTel" name="imputedTel" type="text" class="input-xxlarge"
-               data-val="true"
-               data-val-required="Telefono(s) es un campo requerido"/>
-        <br/>
+            <div class="row">
+                <div class="col-xs-8 col-sm-11">
+                    <div class="input-group">
+                        <input ng-class='m.errBth&&m.errBth!=""&&!m.impBthDay ? "form-control date-picker input-validation-error" : "form-control date-picker"'
+                               id="imputedBirthDate" name="imputedBirthDate" type="text"
+                               data-date-format="dd/mm/yyyy" ng-disabled="m.existImputed==true"
+                               readonly ng-change="calcAge();" ng-model="m.impBthDay"/>
+                                                <span class="input-group-addon">
+                                                    <i class="icon-calendar bigger-110"></i>
+                                                </span>
+                    </div>
+                    <span ng-class='m.errBth&&m.errBth!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errBth}}</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-xs-4">
+
+            <label for="imputedAge">Edad</label>
+            <br/>
+            <input id="imputedAge" name="imputedAge" type="text" class="input-xxlarge" readonly ng-model="m.impAge"/>
+            <br/>
+            <span ng-class='m.errAge&&m.errAge!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errAge}}</span>
+
+        </div>
+
+        <div class="col-xs-4">
+
+            <label for="imputedTel">Telefono(s)</label>
+            <br/>
+            <input id="imputedTel" ng-model="m.imputedTel" name="imputedTel" type="text" class="input-xxlarge"
+                   data-val="true" ng-disabled="m.existImputed==true"
+                   data-val-required="Telefono(s) es un campo requerido"/>
+            <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedTel"
                   data-valmsg-replace="true"></span>
 
+        </div>
+
     </div>
-
 </div>
-
-<div class="row">
+<div id="divAddr" class="row">
     <br/>
     <label><b>Dirección</b></label>
     <%@ include file="/WEB-INF/jsp/supervisor/_addresHF.jsp" %>

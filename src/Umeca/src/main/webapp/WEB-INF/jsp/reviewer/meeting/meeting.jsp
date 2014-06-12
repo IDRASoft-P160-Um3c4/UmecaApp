@@ -48,13 +48,13 @@
     <div class="row">
         <div class="col-sm-3">
             <h3 class="header smaller lighter blue">
-                <small>Número de caso:  </small>
-                &nbsp;${m.caseDetention.idFolder}
+                <small>Número de carpeta <br/> de investigación:  </small>
+                &nbsp;&nbsp;&nbsp;&nbsp;${m.caseDetention.idFolder}
             </h3>
         </div>
         <div class="col-sm-7 col-sm-offset-1">
             <h3 class="header smaller lighter blue">
-                <small>Nombre del imputado:  </small>
+                <small><br/>Nombre del imputado:  </small>
                 &nbsp;${m.imputed.name} &nbsp; ${m.imputed.lastNameP} &nbsp; ${m.imputed.lastNameM}
             </h3>
         </div>
@@ -110,7 +110,9 @@
                     <li>
                         <a data-toggle="tab" href="#leaveCountry">
                             <i class="blue icon-globe  bigger-200"></i>
-                            Facilidad de <br/><div class="col-xs-offset-3">abandonar el país</div>
+                            Facilidad de &nbsp;&nbsp;&nbsp;&nbsp; <i class="icon-exclamation-sign red bigger-100" ng-show="validf['form2'] == true" ng-init="validf['form2'] = false"></i>
+                            <br/><div class="col-xs-offset-3">abandonar el país</div>
+
                         </a>
                     </li>
                 </ul>
@@ -142,6 +144,14 @@
                     </div>
 
                 </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-xs-12">
+            <div ng-show="MsgError" class="alert alert-danger element-center">
+                {{MsgError}}
             </div>
         </div>
     </div>
