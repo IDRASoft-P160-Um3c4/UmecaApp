@@ -31,12 +31,6 @@ public class Case {
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Meeting meeting;
 
-    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
-    private Meeting conditionalMeeting;
-
-    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
-    private Meeting encuadre;
-
     @Column(name = "status_code") // agregar nullable = false cuando se corrija la insercion en la entrevista
     private String status;
 
@@ -123,11 +117,4 @@ public class Case {
         this.hearingFormat = hearingFormat;
     }
 
-    public Meeting getConditionalMeeting() {
-        return conditionalMeeting;
-    }
-
-    public void setConditionalMeeting(Meeting conditionalMeeting) {
-        this.conditionalMeeting = conditionalMeeting;
-    }
 }

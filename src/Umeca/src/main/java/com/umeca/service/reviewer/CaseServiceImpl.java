@@ -43,13 +43,11 @@ public class CaseServiceImpl implements CaseService {
         imputed.setMeeting(meeting);
         meeting.setImputed(imputed);
         meeting.setCaseDetention(caseDet);
+        meeting.setMeetingType(type);
 
         if(type.equals(Constants.MEETING_HEARING)) {
             caseDet.setMeeting(meeting);
-        }else{
-            caseDet.setConditionalMeeting(meeting);
         }
-
 
         return caseDet;
     }

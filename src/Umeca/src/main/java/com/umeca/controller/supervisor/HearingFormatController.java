@@ -109,7 +109,7 @@ public class HearingFormatController {
                 imp.setCelPhone(result.getImputedTel());
                 imp.setDateBirth(result.getImputedBirthDate());
 
-                caseDet = caseService.generateNewCase(imp,result.getHearingType());
+                caseDet = caseService.generateNewCase(imp, result.getHearingType());
                 caseDet.setIdFolder(result.getIdFolderCode());
 
                 Domicile currDom = new Domicile();
@@ -123,18 +123,11 @@ public class HearingFormatController {
                 currDom.setNoIn(result.getInnNum());
                 currDom.setDomicile(currDom.toString());
 
-                if(result.getArrangementType().equals(Constants.MEETING_HEARING)) {
-                    currDom.setMeeting(caseDet.getMeeting());
-                    List<Domicile> lstDom = new ArrayList<>();
-                    lstDom.add(currDom);
-                    caseDet.getMeeting().setDomiciles(lstDom);
-                }else{
-                    currDom.setMeeting(caseDet.getConditionalMeeting());
-                    List<Domicile> lstDom = new ArrayList<>();
-                    lstDom.add(currDom);
-                    caseDet.getConditionalMeeting().setDomiciles(lstDom);
 
-                }
+                currDom.setMeeting(caseDet.getMeeting());
+                List<Domicile> lstDom = new ArrayList<>();
+                lstDom.add(currDom);
+                caseDet.getMeeting().setDomiciles(lstDom);
 
                 hearingFormat.setCaseDetention(caseDet);
                 caseDet.setHearingFormat(hearingFormat);
