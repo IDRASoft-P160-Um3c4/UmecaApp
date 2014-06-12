@@ -33,9 +33,5 @@ public class Constants {
     public static final Integer CONDITIONAL_REPRIEVE_HEARING= 1;
     public static final Integer MEETING_HEARING= 2;
 
-    public static final String MEETING_TYPE_NORMAL="";
-    public static final String MEETING_TYPE_COND="";
-    public static final String MEETING_TYPE_="";
-
-
+    public static String CASE_STATUS_MEETING = "ST_CASE_MEETING";
 }

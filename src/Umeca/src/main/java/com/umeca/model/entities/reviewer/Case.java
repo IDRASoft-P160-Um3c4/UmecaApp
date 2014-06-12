@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.supervisor.HearingFormat;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Case {
     @Column(name = "id_case")
     private Long id;
 
-    @Column(name = "id_folder", length = 15, nullable = true)
+    @Column(name = "id_folder", length = 15, nullable = false, unique = true)
     private String idFolder;
 
     @Column(name = "id_mp", length = 15, nullable = true)
@@ -31,8 +32,13 @@ public class Case {
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Meeting meeting;
 
-    @Column(name = "status_code") // agregar nullable = false cuando se corrija la insercion en la entrevista
-    private String status;
+    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
+    private Meeting conditionalMeeting;
+
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_status", nullable = false)
+    private StatusCase status;
 
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private TechnicalReview technicalReview;
@@ -93,11 +99,11 @@ public class Case {
         this.idString = idString;
     }
 
-    public String getStatus() {
+    public StatusCase getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusCase status) {
         this.status = status;
     }
 
@@ -117,4 +123,11 @@ public class Case {
         this.hearingFormat = hearingFormat;
     }
 
+    public Meeting getConditionalMeeting() {
+        return conditionalMeeting;
+    }
+
+    public void setConditionalMeeting(Meeting conditionalMeeting) {
+        this.conditionalMeeting = conditionalMeeting;
+    }
 }
