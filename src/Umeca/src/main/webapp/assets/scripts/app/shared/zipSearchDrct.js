@@ -3,7 +3,7 @@ app.directive('zipSearch', function ($http, $timeout) {
 
         var currentTimeout = null;
 
-        var urlRequest = scope.url;;
+        var urlRequest = attr['urlRequest'];
 
         var ajaxConf = {
             method: 'POST',
@@ -21,9 +21,11 @@ app.directive('zipSearch', function ($http, $timeout) {
             }
 
             currentTimeout = $timeout(function() {
-                $http(ajaxConf)
+
+               $http(ajaxConf)
                     .success(function (data) {
                         data.data=jQuery.parseJSON(data.data);
+
                         if (data.data == undefined || data.data.length === 0) {
                             scope.clear();
                             return;

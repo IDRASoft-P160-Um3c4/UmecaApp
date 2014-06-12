@@ -5,6 +5,7 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.ResponseMessageAddress;
 import com.umeca.model.catalog.Election;
 import com.umeca.model.catalog.RegisterType;
+import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Domicile;
 import com.umeca.model.entities.reviewer.Imputed;
@@ -12,6 +13,7 @@ import com.umeca.model.entities.supervisor.ArrangementView;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.HearingFormatView;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.ElectionRepository;
 import com.umeca.repository.catalog.RegisterTypeRepository;
@@ -50,6 +52,9 @@ public class HearingFormatController {
 
     @Autowired
     CatalogService catalogService;
+
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
 
 
     @RequestMapping(value = "/supervisor/hearingFormat", method = RequestMethod.GET)
@@ -97,10 +102,13 @@ public class HearingFormatController {
             HearingFormat hearingFormat;
             hearingFormat = hearingFormatService.fillHearingFormat(result);
 
-            if (caseDet != null) {
+            if (caseDet != null && caseDet.getHearingFormat() == null) {
+
+                caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
+                caseDet.setHearingFormat(hearingFormat);
                 hearingFormat.setCaseDetention(caseDet);
                 response = hearingFormatService.save(hearingFormat);
-            } else {
+            } else if (caseDet == null) {
 
                 Imputed imp = new Imputed();
                 imp.setName(result.getImputedName());
@@ -110,7 +118,9 @@ public class HearingFormatController {
                 imp.setDateBirth(result.getImputedBirthDate());
 
                 caseDet = caseService.generateNewCase(imp, result.getHearingType());
+                caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
                 caseDet.setIdFolder(result.getIdFolderCode());
+                caseDet.setIdMP(result.getIdJudicialFolderCode());
 
                 Domicile currDom = new Domicile();
 
@@ -122,7 +132,6 @@ public class HearingFormatController {
                 currDom.setNoOut(result.getOutNum());
                 currDom.setNoIn(result.getInnNum());
                 currDom.setDomicile(currDom.toString());
-
 
                 currDom.setMeeting(caseDet.getMeeting());
                 List<Domicile> lstDom = new ArrayList<>();

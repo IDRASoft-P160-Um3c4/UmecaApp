@@ -37,13 +37,10 @@ public class CaseServiceImpl implements CaseService {
 
         Case caseDet = new Case();
 
-        if (imputedRepository.findImputedRegister(imputed.getName(),imputed.getLastNameP(), imputed.getLastNameM(), imputed.getDateBirth()).size() > 0)
+        if (imputedRepository.findImputedRegister(imputed.getName(), imputed.getLastNameP(), imputed.getLastNameM(), imputed.getDateBirth()).size() > 0)
             caseDet.setRecidivist(true);
         else
             caseDet.setRecidivist(false);
-
-
-        caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
 
         Meeting meeting = new Meeting();
         StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
@@ -52,10 +49,7 @@ public class CaseServiceImpl implements CaseService {
         meeting.setImputed(imputed);
         meeting.setCaseDetention(caseDet);
         meeting.setMeetingType(type);
-
-        if(type.equals(Constants.MEETING_HEARING)) {
-            caseDet.setMeeting(meeting);
-        }
+        caseDet.setMeeting(meeting);
 
         return caseDet;
     }

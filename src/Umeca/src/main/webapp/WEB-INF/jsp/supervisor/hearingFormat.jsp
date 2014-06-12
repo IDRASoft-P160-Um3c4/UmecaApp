@@ -99,6 +99,10 @@
 <input type="hidden" name="arrangementType" value="{{m.arrmntType}}"/>
 <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
 
+<input type="hidden" id="url1" value="<c:url value='/supervisor/searchCase.json'/>"/>
+<input type="hidden" id="url2" value="<c:url value='/supervisor/searchArrangements.json'/>"/>
+
+
 <div class="row">
 <div class="row element-right">
     <div ng-show="(m.canSave==false&&m.hasHF==true)||m.hasSearch==false">
@@ -153,7 +157,7 @@
                            data-val-required="No. carpeta de investigación es un campo requerido"/>
                                     <span class="input-group-btn">
                                         <button id="btnSearch" type="button" class="btn btn-purple btn-sm"
-                                                ng-click="searchCase(m.idFolderParam,'<c:url value='/supervisor/searchCase.json'/>','<c:url value='/supervisor/searchArrangements.json'/>');">
+                                                ng-click="searchCase(m.idFolderParam);">
                                             Buscar
                                             <i class="icon-search icon-on-right bigger-110"></i>
                                         </button>
@@ -166,7 +170,7 @@
             <div class="col-xs-6">
                 <label for="idJudicialFolderCode">No. Carpeta Judicial</label>
                 <br/>
-                <input id="idJudicialFolderCode" ng-model="m.numberDate" name="idJudicialFolderCode" type="text" class="input-large"
+                <input id="idJudicialFolderCode" ng-model="m.judicialFolder" name="idJudicialFolderCode" type="text" class="input-large"
                        data-val="true" placeholder="No. carpeta judicial..."
                        data-val-required="No. de carpeta judicial es un campo requerido"/>
                 <br/>

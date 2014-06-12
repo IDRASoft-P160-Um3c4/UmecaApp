@@ -206,8 +206,13 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             }
         };
 
-        $scope.searchCase = function (idFolder, url1, url2) {
+        $scope.searchCase = function (idFolder) {
+
+
             var currentTimeout = null;
+
+            var url1 = $('#url1').attr("value");
+            var url2 = $('#url2').attr("value");
 
             var ajaxConf = {
                 method: 'POST',
@@ -223,6 +228,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             currentTimeout = $timeout(function () {
                 $http(ajaxConf)
                     .success(function (data) {
+
                         $scope.fillFormat(data);
                         $scope.searchArrangements(data.idFolderCode, url2);
                         $scope.m.hasSearch = true;
@@ -293,6 +299,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             $scope.clAllForm();
 
             $scope.m.idFolderParam = data.idFolderCode;
+            $scope.m.judicialFolder=data.idJudicialFolderCode;
             $scope.m.arrmntType = data.arrangementType;
             $scope.m.numberDate = data.numberDate;
             $scope.m.room = data.room;
