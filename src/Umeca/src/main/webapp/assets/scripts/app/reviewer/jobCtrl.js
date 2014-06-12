@@ -2,6 +2,7 @@ app.controller('jobController', function($scope, $timeout) {
     $scope.j = {};
     $scope.lstRegisterType = [];
     $scope.j.registerType = 0;
+    $scope.content = "Job";
 
     $scope.init = function(){
 

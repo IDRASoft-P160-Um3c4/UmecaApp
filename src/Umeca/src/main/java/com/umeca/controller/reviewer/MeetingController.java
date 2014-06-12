@@ -363,7 +363,7 @@ public class MeetingController {
 
     @RequestMapping(value = "/reviewer/meeting/terminateMeeting", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting,@RequestParam String sch, Integer[] physicalCondition, Integer[] activity){
-        return meetingService.doTerminateMeeting(meeting,sch,physicalCondition,activity);
+            return meetingService.doTerminateMeeting(meeting,sch,physicalCondition,activity);
     }
 
 

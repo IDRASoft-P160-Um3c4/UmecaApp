@@ -4,7 +4,22 @@ app.controller('scheduleController', function($scope, $timeout) {
     $scope.s.dayWeek = 0;
     $scope.listSchedule = [];
 
+
     $scope.init = function(){
+        $('#timepickerEnd'+$scope.content).timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false
+        }).next().on(ace.click_event, function(){
+                $(this).prev().focus();
+            });
+        $('#timepickerStart'+$scope.content).timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false
+        }).next().on(ace.click_event, function(){
+                $(this).prev().focus();
+            });
         if($scope.listSchedule == undefined){
             $scope.listSchedule = [];
         }

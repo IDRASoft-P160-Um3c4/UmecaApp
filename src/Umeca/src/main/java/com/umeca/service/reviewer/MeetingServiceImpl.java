@@ -9,6 +9,7 @@ import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.catalog.dto.SchoolLevelDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class MeetingServiceImpl implements MeetingService {
                 caseDetention.setRecidivist(true);
             else
                 caseDetention.setRecidivist(false);
+            caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention = caseRepository.save(caseDetention);
             Meeting meeting = new Meeting();
@@ -603,15 +605,43 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+
     @Override
     public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, Integer[] physicalCondition, Integer[] activity) {
-       //valida estado, estado civil, genero
-        //un domicilio actual
-        //una persona de red social
-        //una persona de referencia
-        //toda la seccion leving
-        return null;
+        ResponseMessage result = new ResponseMessage();
+        try{
+            ResponseMessage aux = upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(),physicalCondition, activity);
+            if(aux.isHasError())
+                return aux;
+            aux = doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(),sch);
+            if(aux.isHasError())
+                return aux;
+            aux = upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
+            if(aux.isHasError())
+                return aux;
+            Case c = caseRepository.findOne(meeting.getCaseDetention().getId());
+            if((c.getMeeting().getReferences()!= null && c.getMeeting().getReferences().size()>0) ||(c.getMeeting().getSocialNetwork()!=null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork()!= null
+                    && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork().size()>0)){
+                c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
+                c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
+                caseRepository.save(c);
+                result.setHasError(false);
+                result.setMessage("Entrevista terminada con exito");
+                result.setUrlToGo("/index.html");
+            }else {
+                result.setHasError(true);
+                result.setMessage("Para terminar la entrevista debe agragar al menos una referencia perosnal o una persona de su red social.");
+            }
+
+        }catch (Exception e){
+            result.setHasError(true);
+            result.setMessage("Ha ocurrido un error al terminar la entrevista. Intente más tarde");
+        }
+        return result;
     }
+
 
     @Override
     public ResponseMessage validateCreateMeeting(Imputed imputed) {

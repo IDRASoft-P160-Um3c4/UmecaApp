@@ -4,6 +4,7 @@ app.controller('schoolController', function($scope, $timeout) {
     $scope.lstGrade = [];
     $scope.school.grade = 0;
     $scope.school.level = 0;
+    $scope.content = "School";
 
     $scope.init = function(){
         if($scope.lstLevel === undefined || $scope.lstLevel.length <= 0)
