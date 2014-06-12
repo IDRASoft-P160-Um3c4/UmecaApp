@@ -13,7 +13,7 @@
                         <label for="selectArrangement" class="col-xs-3 control-label">Obligaciones procesales:</label>
                         <div class="col-xs-9">
                             <select class="form-control element-center" ng-model="m.arrangement" id="selectArrangement"
-                                    ng-options="e.name + ' | ' + e.description + ' (' + (e.totAct === undefined ? 0 : e.totAct)  + ' actividad(es))' for e in lstArrangement"
+                                    ng-options="e.name + ' | ' + e.description for e in lstArrangement"
                                     ng-change="m.arrangementId = m.arrangement.id"
                                     ng-init='lstArrangement = ${lstArrangement}; m.arrangement = lstArrangement[0];'>
                             </select>
@@ -25,7 +25,7 @@
                             <select class="form-control element-center" ng-model="m.activity" id="selectActivity"
                                     ng-options="e.name for e in lstActivities"
                                     ng-change="m.activityId = m.activity.id"
-                                    ng-init='lstActivities = [];'>
+                                    ng-init='lstActivities = ${lstActivities}; m.activity = lstActivities[0];'>
                             </select>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                             <select class="form-control element-center" ng-model="m.goal" id="selectGoal"
                                     ng-options="e.name for e in lstGoals"
                                     ng-change="m.goalId = m.goal.id"
-                                    ng-init='lstGoals = [];'>
+                                    ng-init='lstGoals = ${lstGoals}; m.goal = lstGoals[0];'>
                             </select>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                             <select class="form-control element-center" ng-model="m.source" id="selectSource"
                                     ng-options="e.name for e in lstSources"
                                     ng-change="m.sourceId = m.source.id"
-                                    ng-init='lstSources = [];'>
+                                    ng-init='lstSources = ${lstSources}; m.source = lstSources[0];'>
                             </select>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-10">
                                                         <div class="input-group">
-                                                            <input class="form-control date-picker" id="id-date-picker-start" type="text" data-date-format="dd-mm-yyyy" />
+                                                            <input class="form-control date-picker" id="id-date-picker-start" readonly="readonly" type="text" data-date-format="dd-mm-yyyy" />
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
 																	</span>
@@ -76,7 +76,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-10">
                                                         <div class="input-group">
-                                                            <input class="form-control date-picker" id="id-date-picker-end" type="text" data-date-format="dd-mm-yyyy" />
+                                                            <input class="form-control date-picker" id="id-date-picker-end" readonly="readonly" type="text" data-date-format="dd-mm-yyyy" />
                                                                 <span class="input-group-addon">
                                                                     <i class="icon-calendar bigger-110"></i>
                                                                 </span>
@@ -91,7 +91,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-10">
                                                         <div class="input-group bootstrap-timepicker">
-                                                            <input id="id-timepicker-start" type="text" class="form-control" />
+                                                            <input id="id-timepicker-start" type="text" readonly="readonly" class="form-control" />
 															<span class="input-group-addon">
 																<i class="icon-time bigger-110"></i>
 															</span>
@@ -104,7 +104,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-10">
                                                         <div class="input-group bootstrap-timepicker">
-                                                            <input id="id-timepicker-end" type="text" class="form-control" />
+                                                            <input id="id-timepicker-end" type="text" readonly="readonly" class="form-control" />
 															<span class="input-group-addon">
 																<i class="icon-time bigger-110"></i>
 															</span>
@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                         <br />
-                                        <div class="row">
+                                        <div class="row"  ng-show="isNew">
                                             <div class="col-xs-10 col-xs-offset-1 widget-container-span">
                                                 <div class="widget-box transparent">
                                                     <div class="widget-header">
@@ -127,7 +127,7 @@
                                                                 <div class="col-xs-8 col-xs-offset-1">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" ng-model="m.chkBusinessWeek" ng-change = "onBusinessWeek()"/>
                                                                             <span class="control-label"><strong>Toda la semana hábil</strong></span>
                                                                         </label>
                                                                     </div>
@@ -137,7 +137,7 @@
                                                                 <div class="col-xs-8 col-xs-offset-1">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" ng-model="m.chkWeek" ng-change = "onWeek()"/>
                                                                             <span class="control-label"><strong>Toda la semana</strong></span>
                                                                         </label>
                                                                     </div>
@@ -147,7 +147,7 @@
                                                                 <div class="col-xs-2 col-xs-offset-1">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[1]" />
                                                                             <span class="control-label">Lunes</span>
                                                                         </label>
                                                                     </div>
@@ -155,7 +155,7 @@
                                                                 <div class="col-xs-2">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[2]"/>
                                                                             <span class="control-label">Martes</span>
                                                                         </label>
                                                                     </div>
@@ -163,7 +163,7 @@
                                                                 <div class="col-xs-2">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[3]"/>
                                                                             <span class="control-label">Miércoles</span>
                                                                         </label>
                                                                     </div>
@@ -171,7 +171,7 @@
                                                                 <div class="col-xs-2">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[4]"/>
                                                                             <span class="control-label">Jueves</span>
                                                                         </label>
                                                                     </div>
@@ -179,7 +179,7 @@
                                                                 <div class="col-xs-2">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[5]"/>
                                                                             <span class="control-label">Viernes</span>
                                                                         </label>
                                                                     </div>
@@ -189,7 +189,7 @@
                                                                 <div class="col-xs-2 col-xs-offset-1">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[6]"/>
                                                                             <span class="control-label">Sábado</span>
                                                                         </label>
                                                                     </div>
@@ -197,7 +197,7 @@
                                                                 <div class="col-xs-2">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[0]"/>
                                                                             <span class="control-label">Domingo</span>
                                                                         </label>
                                                                     </div>
@@ -214,9 +214,16 @@
                         </div>
                     </div>
                 </form>
+                <br/>
+                <div class="row" ng-show="msgError">
+                    <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
+                        <span class="control-label element-center">{{msgError}}</span>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-primary" ng-click="save()">Guardar</button>
+                <button type="button" class="btn btn-default btn-danger" ng-show="!isNew"  ng-click="delete()">Eliminar</button>
                 <button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
             </div>
         </div>

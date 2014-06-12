@@ -6,12 +6,18 @@ import com.umeca.infrastructure.extensions.LongExt;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.supervisor.ActivityGoal;
+import com.umeca.model.entities.supervisor.AidSource;
+import com.umeca.model.entities.supervisor.SupervisionActivity;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.shared.QuestionaryRepository;
+import com.umeca.repository.supervisor.ActivityGoalRepository;
+import com.umeca.repository.supervisor.AidSourceRepository;
+import com.umeca.repository.supervisor.SupervisionActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +33,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";//"C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\IDRASoft\\UmecaApp\\db\\";//"C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
 
     @Autowired
     RoleRepository repositoryRole;
@@ -238,6 +244,54 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         repositoryStCase.flush();
     }
 
+
+    @Autowired
+    SupervisionActivityRepository supervisionActivityRepository;
+    @Override
+    public void supervisionActivity() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "supervision_activity.txt","\\|", 4);
+        for (String[] data : lstDta) {
+            SupervisionActivity model = new SupervisionActivity();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setObsolete(Boolean.parseBoolean(data[3]));
+            supervisionActivityRepository.save(model);
+        }
+        supervisionActivityRepository.flush();
+    }
+
+    @Autowired
+    ActivityGoalRepository activityGoalRepository;
+    @Override
+    public void insertActivityGoal() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity_goals.txt","\\|", 4);
+        for (String[] data : lstDta) {
+            ActivityGoal model = new ActivityGoal();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setObsolete(Boolean.parseBoolean(data[3]));
+            activityGoalRepository.save(model);
+        }
+        activityGoalRepository.flush();
+    }
+
+    @Autowired
+    AidSourceRepository aidSourceRepository;
+    @Override
+    public void insertAidSource() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "aid_source.txt","\\|", 4);
+        for (String[] data : lstDta) {
+            AidSource model = new AidSource();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setObsolete(Boolean.parseBoolean(data[3]));
+            aidSourceRepository.save(model);
+        }
+        aidSourceRepository.flush();
+    }
 
     @Autowired
     StatusVerificationRepository repositoryStVer;
