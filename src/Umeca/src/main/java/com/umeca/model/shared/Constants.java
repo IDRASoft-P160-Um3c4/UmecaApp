@@ -28,6 +28,9 @@ public class Constants {
     public static final String CASE_STATUS_VERIFICATION="VERIFICATION_COMPLETE_CASE";
     public static final String CASE_STATUS_TECHNICAL_REVIEW="TECHNICAL_REVIEW_COMPLETE_CASE";
 
+    public static final String CASE_STATUS_HEARING_FORMAT_END="HEARING_FORMAT_END_CASE";
+
+
     public static final String TECHNICAL_REVIEW_QUESTIONARY_CODE="TECHNICAL_REVIEW";
 
     public static final Integer CONDITIONAL_REPRIEVE_HEARING= 1;
