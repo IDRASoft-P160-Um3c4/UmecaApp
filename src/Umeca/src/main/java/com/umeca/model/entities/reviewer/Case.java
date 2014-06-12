@@ -20,7 +20,7 @@ public class Case {
     @Column(name = "id_case")
     private Long id;
 
-    @Column(name = "id_folder", length = 15, nullable = true, unique = true)
+    @Column(name = "id_folder", length = 15, nullable = false, unique = true)
     private String idFolder;
 
     @Column(name = "id_mp", length = 15, nullable = true)
