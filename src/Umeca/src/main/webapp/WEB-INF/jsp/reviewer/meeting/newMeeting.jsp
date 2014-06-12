@@ -100,12 +100,13 @@
                                Carpeta de investigación:
                             </div>
                             <div class="col-xs-7">
-                                    <input class="form-control" type="text"
+                                    <input class="form-control" type="text"    data-val-length="Debe tener al menos 1 y máximo 15 caracteres"
+                                           data-val-length-max="15" data-val-length-min="1"
                                             data-val="true" data-val-required="La carpeta de investigación es un campo requerido" ng-init="m.idFolder=''"
                                             id="meeting.caseDetention.idFolder" name="meeting.caseDetention.idFolder" ng-model="m.idFolder"/>
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
-                                <span class="field-validation-valid" data-valmsg-for="caseDetention.idFolder" data-valmsg-replace="true"></span>
+                                <span class="field-validation-valid" data-valmsg-for="meeting.caseDetention.idFolder" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <br/>
