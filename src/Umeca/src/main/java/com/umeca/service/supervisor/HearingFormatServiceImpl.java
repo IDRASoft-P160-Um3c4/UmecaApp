@@ -4,9 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
-import com.umeca.model.catalog.Location;
+import com.umeca.model.catalog.dto.LocationDto;
+import com.umeca.model.catalog.dto.MunicipalityDto;
+import com.umeca.model.catalog.dto.StateDto;
 import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.Domicile;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.catalog.ArrangementRepository;
@@ -122,9 +123,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     @Override
     public HearingFormatView fillForView(Case existCase, String idFolder) {
 
-        StateView sta = new StateView();
-        MunicipalityView mun = new MunicipalityView();
-        LocationView loc = new LocationView();
+        StateDto sta = new StateDto();
+        MunicipalityDto mun = new MunicipalityDto();
+        LocationDto loc = new LocationDto();
 
         HearingFormatView hearingFormatView = new HearingFormatView();
 
@@ -147,21 +148,21 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormatView.setImputedTel(existCase.getMeeting().getImputed().getCelPhone());
 
                 if (existCase.getMeeting().getDomiciles() != null && existCase.getMeeting().getDomiciles().size() > 0) {
-                    hearingFormatView.setZipCode(existCase.getMeeting().getDomiciles().get(0).getLocation().getZipCode());
+                    //hearingFormatView.setZipCode(existCase.getMeeting().getDomiciles().get(0).getLocation().getZipCode());
 
-                    sta.setDescription(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getState().getDescription());
+                   // sta.setDescription(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getState().getDescription());
 
-                    mun.setName(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getName());
-                    mun.setState(sta);
+                    //mun.setName(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getName());
+                   // mun.setState(sta);
 
-                    loc.setId(existCase.getMeeting().getDomiciles().get(0).getLocation().getId());
-                    loc.setName(existCase.getMeeting().getDomiciles().get(0).getLocation().getName());
-                    loc.setMunicipality(mun);
+                   // loc.setId(existCase.getMeeting().getDomiciles().get(0).getLocation().getId());
+                    //loc.setName(existCase.getMeeting().getDomiciles().get(0).getLocation().getName());
+                   // loc.setMunicipality(mun);
 
-                    hearingFormatView.setLocation(conv.toJson(loc));
+                    /*hearingFormatView.setLocation(conv.toJson(loc));
                     hearingFormatView.setStreet(existCase.getMeeting().getDomiciles().get(0).getStreet());
                     hearingFormatView.setOutNum(existCase.getMeeting().getDomiciles().get(0).getNoOut());
-                    hearingFormatView.setInnNum(existCase.getMeeting().getDomiciles().get(0).getNoIn());
+                    hearingFormatView.setInnNum(existCase.getMeeting().getDomiciles().get(0).getNoIn());*/
                 }
 
                 hearingFormatView.setExistImputed(true);
@@ -198,24 +199,24 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                         hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getDateBirth());
                         hearingFormatView.setImputedTel(existCase.getMeeting().getImputed().getCelPhone());
 
-                        if (existCase.getMeeting().getDomiciles() != null & existCase.getMeeting().getDomiciles().size() > 0) {
+                  /*      if (existCase.getMeeting().getDomiciles() != null & existCase.getMeeting().getDomiciles().size() > 0) {
 
                             hearingFormatView.setZipCode(existCase.getMeeting().getDomiciles().get(0).getLocation().getZipCode());
 
-                            sta.setDescription(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getState().getDescription());
+                         //   sta.setDescription(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getState().getDescription());
 
                             mun.setName(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getName());
-                            mun.setState(sta);
+                         //   mun.setState(sta);
 
                             loc.setId(existCase.getMeeting().getDomiciles().get(0).getLocation().getId());
                             loc.setName(existCase.getMeeting().getDomiciles().get(0).getLocation().getName());
-                            loc.setMunicipality(mun);
+                         //   loc.setMunicipality(mun);
 
                             hearingFormatView.setLocation(conv.toJson(loc));
                             hearingFormatView.setStreet(existCase.getMeeting().getDomiciles().get(0).getStreet());
                             hearingFormatView.setOutNum(existCase.getMeeting().getDomiciles().get(0).getNoOut());
                             hearingFormatView.setInnNum(existCase.getMeeting().getDomiciles().get(0).getNoIn());
-                        }
+                        }*/
                     } else if (existCase.getConditionalMeeting() != null) {
                         hearingFormatView.setImputedName(existCase.getConditionalMeeting().getImputed().getName());
                         hearingFormatView.setImputedFLastName(existCase.getConditionalMeeting().getImputed().getLastNameP());
@@ -225,22 +226,22 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
                         if (existCase.getConditionalMeeting().getDomiciles() != null && existCase.getConditionalMeeting().getDomiciles().size() > 0)
                         {
-                            hearingFormatView.setZipCode(existCase.getConditionalMeeting().getDomiciles().get(0).getLocation().getZipCode());
+                       /*     hearingFormatView.setZipCode(existCase.getConditionalMeeting().getDomiciles().get(0).getLocation().getZipCode());
 
-                            sta.setDescription(existCase.getConditionalMeeting().getDomiciles().get(0).getLocation().getMunicipality().getState().getDescription());
+                          //  sta.setDescription(existCase.getConditionalMeeting().getDomiciles().get(0).getLocation().getMunicipality().getState().getDescription());
 
                             mun.setName(existCase.getConditionalMeeting().getDomiciles().get(0).getLocation().getMunicipality().getName());
-                            mun.setState(sta);
+                          //  mun.setState(sta);
 
                             loc.setId(existCase.getConditionalMeeting().getDomiciles().get(0).getLocation().getId());
                             loc.setName(existCase.getConditionalMeeting().getDomiciles().get(0).getLocation().getName());
-                            loc.setMunicipality(mun);
+                          //  loc.setMunicipality(mun);
 
                             hearingFormatView.setLocation(conv.toJson(loc));
 
                             hearingFormatView.setStreet(existCase.getConditionalMeeting().getDomiciles().get(0).getStreet());
                             hearingFormatView.setOutNum(existCase.getConditionalMeeting().getDomiciles().get(0).getNoOut());
-                            hearingFormatView.setInnNum(existCase.getConditionalMeeting().getDomiciles().get(0).getNoIn());
+                            hearingFormatView.setInnNum(existCase.getConditionalMeeting().getDomiciles().get(0).getNoIn()); */
                         }
                     }
 
@@ -250,7 +251,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     hearingFormatView.setArrangementType(existCase.getHearingFormat().getOriginType());
                 }
 
-        return hearingFormatView;
+
+        //return hearingFormatView;
+
+        return new HearingFormatView();
     }
 
     public List<ArrangementView> getArrangmentLst(String folderId) {

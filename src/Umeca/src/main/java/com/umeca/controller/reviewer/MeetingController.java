@@ -10,11 +10,14 @@ import com.umeca.infrastructure.jqgrid.operation.JqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.View.DomicileView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.View.PersonSocialNetworkView;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,16 +43,26 @@ public class MeetingController {
     }
 
     @Autowired
+    SharedUserService userService;
+    @Autowired
     private  GenericJqGridPageSortFilter gridFilter;
                ////////////////////////////////Grids--------------------
     @RequestMapping(value = "/reviewer/meeting/list", method = RequestMethod.POST)
     public @ResponseBody JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
+        Long userId = userService.GetLoggedUserId();
 
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("statusCode",
+                new ArrayList<String>(){{add(Constants.S_MEETING_INCOMPLETE);add(Constants.S_MEETING_INCOMPLETE_LEGAL);}},JqGridFilterModel.COMPARE_IN);
+        opts.extraFilters.add(extraFilter);
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 return new ArrayList<Selection<?>>(){{
                     add(r.join("meeting").join("caseDetention").get("id"));
+                    add(r.join("meeting").join("status").get("name").alias("statusCode"));
                     add(r.join("meeting").join("caseDetention").get("idFolder"));
                     add(r.get("name"));
                     add(r.get("lastNameP"));
@@ -57,14 +70,16 @@ public class MeetingController {
                     add(r.get("dateBirth"));
                     add(r.get("gender"));
                     add(r.join("meeting").join("status").get("description"));
-                    add(r.join("meeting").join("status").get("id").alias("idStatus"));
+                    add(r.join("meeting").join("reviewer").get("id").alias("reviewerId"));
                 }};
             }
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                //if(field.equals("rfc"))
-                //    return r.get("rfc");
+                if(field.equals("statusCode"))
+                    return r.join("meeting").join("status").get("name");
+                if(field.equals("reviewerId"))
+                    return r.join("meeting").join("reviewer").get("id");
                 return null;
             }
         }, Imputed.class, MeetingView.class);
@@ -84,7 +99,7 @@ public class MeetingController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 return new ArrayList<Selection<?>>(){{
                     add(r.get("id"));
-                    add(r.get("domicile"));
+                    add(r.join("address").get("addressString"));
                     add(r.get("timeLive"));
                     add(r.join("registerType").get("name").alias("registerTypeString"));
                     add(r.join("belong").get("name").alias("belongString"));
@@ -364,6 +379,11 @@ public class MeetingController {
     @RequestMapping(value = "/reviewer/meeting/terminateMeeting", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting,@RequestParam String sch, Integer[] physicalCondition, Integer[] activity){
             return meetingService.doTerminateMeeting(meeting,sch,physicalCondition,activity);
+    }
+
+    @RequestMapping(value = "/reviewer/meeting/saveProceedingLegal", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage saveProceedingLegal(@ModelAttribute CriminalProceedingView cpv){
+            return meetingService.saveProceedingLegal(cpv);
     }
 
 

@@ -138,6 +138,12 @@ public class InsertCatalogController {
         return "Register Type OK!";
     }
 
+    @RequestMapping(value = "/catalogs/insertVerificationMethod", method = RequestMethod.GET)
+    public String insertVerificationMethod(){
+        service.verificationMethod();
+        return "Register Verification method OK!";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
@@ -161,6 +167,7 @@ public class InsertCatalogController {
         service.dayWeek();
         service.schoolLevel();
         service.registerType();
+        service.verificationMethod();
         return "insertCatalog OK!!";
     }
 }

@@ -1,6 +1,9 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.Relationship;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,18 +23,40 @@ public class SourceVerification {
     private Long id;
 
     @Column(name="name", length = 150, nullable = false)
-    private String name;
+    private String fullName;
 
-    //FIXME VERIFICAR SI ESTE CAMPO PUEDE SER CATÁLOGO
-    @Column(name = "type_source", length = 50, nullable = false)
-    private String typeSource;
+    @Column(name="age", nullable = false)
+    private Integer age;
 
-    @OneToMany(mappedBy="sourceVerification", cascade={CascadeType.ALL})
-    private List<DetailVerification> detailVerifications;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_relationship", nullable = false)
+    private Relationship relationship;
+
+    @Column(name="address", length = 250, nullable = false)
+    private String address;
+
+    @Column(name="phone", length = 20, nullable =false)
+    private String phone;
+
+    @Column(name="isAuthorized", nullable = false)
+    private Boolean isAuthorized;
+
+    @Column(name="date_complete", nullable = true)
+    private Date dateComplete;
+
+    @Column(name="dateAuthorized", nullable=true)
+    private Date dateAuthorized;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_verification_method", nullable = false)
+    private VerificationMethod verificationMethod;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_verification", nullable = false)
     private Verification verification;
+
+    @OneToMany(mappedBy="sourceVerification", cascade={CascadeType.ALL})
+    private List<MeetingSource> meetingSourceList;
 
     public Long getId() {
         return id;
@@ -41,28 +66,76 @@ public class SourceVerification {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getTypeSource() {
-        return typeSource;
+    public Integer getAge() {
+        return age;
     }
 
-    public void setTypeSource(String typeSource) {
-        this.typeSource = typeSource;
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
-    public List<DetailVerification> getDetailVerifications() {
-        return detailVerifications;
+    public Relationship getRelationship() {
+        return relationship;
     }
 
-    public void setDetailVerifications(List<DetailVerification> detailVerifications) {
-        this.detailVerifications = detailVerifications;
+    public void setRelationship(Relationship relationship) {
+        this.relationship = relationship;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Boolean getAuthorized() {
+        return isAuthorized;
+    }
+
+    public void setAuthorized(Boolean authorized) {
+        isAuthorized = authorized;
+    }
+
+    public Date getDateComplete() {
+        return dateComplete;
+    }
+
+    public void setDateComplete(Date dateComplete) {
+        this.dateComplete = dateComplete;
+    }
+
+    public Date getDateAuthorized() {
+        return dateAuthorized;
+    }
+
+    public void setDateAuthorized(Date dateAuthorized) {
+        this.dateAuthorized = dateAuthorized;
+    }
+
+    public VerificationMethod getVerificationMethod() {
+        return verificationMethod;
+    }
+
+    public void setVerificationMethod(VerificationMethod verificationMethod) {
+        this.verificationMethod = verificationMethod;
     }
 
     public Verification getVerification() {
@@ -71,5 +144,13 @@ public class SourceVerification {
 
     public void setVerification(Verification verification) {
         this.verification = verification;
+    }
+
+    public List<MeetingSource> getMeetingSourceList() {
+        return meetingSourceList;
+    }
+
+    public void setMeetingSourceList(List<MeetingSource> meetingSourceList) {
+        this.meetingSourceList = meetingSourceList;
     }
 }

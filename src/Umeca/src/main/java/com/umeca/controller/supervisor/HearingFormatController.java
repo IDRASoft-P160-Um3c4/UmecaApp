@@ -30,7 +30,7 @@ import java.util.List;
 @Controller
 public class HearingFormatController {
 
-    @Qualifier("qArrangementRepository")
+  /*  @Qualifier("qArrangementRepository")
     @Autowired
     ArrangementRepository arrangementRepository;
 
@@ -121,7 +121,7 @@ public class HearingFormatController {
                 currDom.setStreet(result.getStreet());
                 currDom.setNoOut(result.getOutNum());
                 currDom.setNoIn(result.getInnNum());
-                currDom.setDomicile(currDom.toString());
+                currDom.setAddressString(currDom.toString());
 
                 if(result.getArrangementType().equals(Constants.MEETING_HEARING)) {
                     currDom.setMeeting(caseDet.getMeeting());
@@ -156,6 +156,6 @@ public class HearingFormatController {
             return response;
         }
     }
-
+                  */
 
 }

@@ -4,6 +4,7 @@ import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.entities.account.User;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,8 +35,18 @@ public class Verification {
     @JoinColumn(name="id_status", nullable = false)
     private StatusVerification status;
 
+    @Column(name="date_complete")
+    private Date dateComplete;
+
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_meeting", nullable = false)
+    private Meeting meetingVerified;
+
     @OneToMany(mappedBy="verification", cascade={CascadeType.ALL})
     private List<SourceVerification> sourceVerifications;
+
+    @OneToMany(mappedBy="verification", cascade={CascadeType.ALL})
+    private List<FinalField> finalFieldList;
 
     public Long getId() {
         return id;
@@ -75,5 +86,21 @@ public class Verification {
 
     public void setSourceVerifications(List<SourceVerification> sourceVerifications) {
         this.sourceVerifications = sourceVerifications;
+    }
+
+    public Date getDateComplete() {
+        return dateComplete;
+    }
+
+    public void setDateComplete(Date dateComplete) {
+        this.dateComplete = dateComplete;
+    }
+
+    public Meeting getMeetingVerified() {
+        return meetingVerified;
+    }
+
+    public void setMeetingVerified(Meeting meetingVerified) {
+        this.meetingVerified = meetingVerified;
     }
 }

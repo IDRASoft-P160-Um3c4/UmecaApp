@@ -34,4 +34,6 @@ public class Constants {
     public static final Integer MEETING_HEARING= 2;
 
     public static String CASE_STATUS_MEETING = "ST_CASE_MEETING";
+    public static String CASE_STATUS_SOURCE_VALIDATION = "ST_CASE_SOURCE_VALIDATION";
+    public static final String ALPHA2_MEXICO = "MX";
 }

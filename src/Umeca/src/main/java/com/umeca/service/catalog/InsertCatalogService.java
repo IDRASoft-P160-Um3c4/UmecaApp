@@ -28,4 +28,5 @@ public interface InsertCatalogService {
     void registerType();
     void statusVerification();
     void statusCase();
+    void verificationMethod();
 }

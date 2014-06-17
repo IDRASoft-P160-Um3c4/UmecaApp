@@ -4,9 +4,9 @@ app.controller('leavingController', function($scope, $timeout) {
     $scope.listElection = [];
     $scope.listCountry = [];
     $scope.l.oc= 0;
+    $scope.l.country= 0;
     $scope.l.doc = 0;
-    $scope.l.cfId = 0;
-    $scope.l.cfId = 0;
+    $scope.l.cf = 0;
     $scope.country=0;
     $scope.state=0;
     $scope.m = {};

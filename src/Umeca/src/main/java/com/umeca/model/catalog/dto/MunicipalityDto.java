@@ -1,13 +1,21 @@
-package com.umeca.model.entities.supervisor;
+package com.umeca.model.catalog.dto;
+
+import com.umeca.model.catalog.Municipality;
 
 /**
  * Created by Vmware on 10/06/2014.
  */
-public class LocationView {
+public class MunicipalityDto {
 
     Long id;
     String name;
-    MunicipalityView municipality;
+
+    public MunicipalityDto munDto(Municipality municipality) {
+        this.id = municipality.getId();
+        this.name = municipality.getName();
+
+        return this;
+    }
 
     public Long getId() {
         return id;
@@ -23,13 +31,5 @@ public class LocationView {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public MunicipalityView getMunicipality() {
-        return municipality;
-    }
-
-    public void setMunicipality(MunicipalityView municipality) {
-        this.municipality = municipality;
     }
 }

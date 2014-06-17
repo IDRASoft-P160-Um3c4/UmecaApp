@@ -13,4 +13,7 @@ public interface LocationRepository extends JpaRepository<Location,Long> {
 
     @Query("select l from Location as l where zipCode = :zipCode")
     List<Location> findLocationByZipCode(@Param("zipCode") String zipCode);
+
+    @Query("select l from Location as l where l.municipality.id =:idMun")
+    List<Location> findLocationByMunId(@Param("idMun")Long idMun);
 }

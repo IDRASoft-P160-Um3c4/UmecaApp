@@ -16,8 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository("qCaseRepository")
 public interface CaseRepository extends JpaRepository<Case, Long>{
 
-    @Query("SELECT c FROM Case c WHERE c.id =:idCase")
-    Case findById(@Param("idCase")Long idCase);
 
     @Query("SELECT c FROM Case c WHERE c.idFolder =:idFolder")
     Case findByIdFolder(@Param("idFolder")String idFolder);

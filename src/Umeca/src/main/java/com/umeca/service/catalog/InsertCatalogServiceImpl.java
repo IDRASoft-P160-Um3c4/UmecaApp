@@ -6,6 +6,7 @@ import com.umeca.infrastructure.extensions.LongExt;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.VerificationMethod;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.RoleRepository;
@@ -237,6 +238,22 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             repositoryStCase.save(model);
         }
         repositoryStCase.flush();
+    }
+
+    @Autowired
+    VerificationMethodRepository verificationMethodRepository;
+    @Override
+    public void verificationMethod() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "verification_method.txt","\\|", 3);
+        for (String[] data : lstDta) {
+            VerificationMethod model = new VerificationMethod();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            Integer isObsolete = Integer.parseInt(data[2]);
+            model.setObsolete(isObsolete != 0);
+            verificationMethodRepository.save(model);
+        }
+        verificationMethodRepository.flush();
     }
 
 
