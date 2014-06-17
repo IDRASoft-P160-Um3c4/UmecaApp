@@ -6,7 +6,6 @@ import com.umeca.infrastructure.extensions.LongExt;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.VerificationMethod;
 import com.umeca.model.entities.supervisor.ActivityGoal;
 import com.umeca.model.entities.supervisor.AidSource;
 import com.umeca.model.entities.supervisor.SupervisionActivity;
@@ -245,25 +244,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         repositoryStCase.flush();
     }
 
-    @Autowired
-    VerificationMethodRepository verificationMethodRepository;
-    @Override
-    public void verificationMethod() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "verification_method.txt","\\|", 3);
-        for (String[] data : lstDta) {
-            VerificationMethod model = new VerificationMethod();
-            model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            Integer isObsolete = Integer.parseInt(data[2]);
-            model.setObsolete(isObsolete != 0);
-            verificationMethodRepository.save(model);
-        }
-        verificationMethodRepository.flush();
-    }
-
-
-    @Autowired
-    SupervisionActivityRepository supervisionActivityRepository;
     @Override
     public void supervisionActivity() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "supervision_activity.txt","\\|", 4);
@@ -277,6 +257,11 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         }
         supervisionActivityRepository.flush();
     }
+
+
+    @Autowired
+    SupervisionActivityRepository supervisionActivityRepository;
+
 
     @Autowired
     ActivityGoalRepository activityGoalRepository;
@@ -308,6 +293,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             aidSourceRepository.save(model);
         }
         aidSourceRepository.flush();
+    }
+
+    @Autowired
+    @Override
+    public void verificationMethod() {
+
     }
 
     @Autowired
