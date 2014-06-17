@@ -10,5 +10,7 @@ public class MonitoringConstants {
     public final static String STATUS_NEW ="NUEVO";
     public final static String STATUS_PENDING_CREATION ="EN PROCESO DE GENERAR";
     public final static String STATUS_PENDING_AUTHORIZATION ="EN PROCESO DE AUTORIZAR";
+    public final static String STATUS_AUTHORIZED ="AUTORIZADO";
+    public final static String STATUS_MONITORING ="EN PROCESO DE EJECUCIÓN";
 
 }

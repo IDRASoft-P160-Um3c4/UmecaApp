@@ -1,4 +1,4 @@
-id|name
+﻿id|name
 1|Laborales
 2|Escolares
 3|Religiosas

@@ -25,15 +25,16 @@ public class Constants {
     public static Long REGYSTER_TYPE_SECONDARY = 2L;
     public static Long REGYSTER_TYPE_PREVIOUS = 3L;
 
-    public static final String CASE_STATUS_VERIFICATION="VERIFICATION_COMPLETE_CASE";
-    public static final String CASE_STATUS_TECHNICAL_REVIEW="TECHNICAL_REVIEW_COMPLETE_CASE";
-
     public static final String TECHNICAL_REVIEW_QUESTIONARY_CODE="TECHNICAL_REVIEW";
-
     public static final Integer CONDITIONAL_REPRIEVE_HEARING= 1;
     public static final Integer MEETING_HEARING= 2;
 
+    //status del caso
     public static String CASE_STATUS_MEETING = "ST_CASE_MEETING";
     public static String CASE_STATUS_SOURCE_VALIDATION = "ST_CASE_SOURCE_VALIDATION";
     public static final String ALPHA2_MEXICO = "MX";
+    public static final String CASE_STATUS_HEARING_FORMAT_END="ST_CASE_HEARING_FORMAT_END";
+    public static final String CASE_STATUS_VERIFICATION_COMPLETE="ST_CASE_VERIFICATION_COMPLETE";
+    public static final String CASE_STATUS_TECHNICAL_REVIEW="ST_CASE_TECHNICAL_REVIEW_COMPLETE";
+
 }

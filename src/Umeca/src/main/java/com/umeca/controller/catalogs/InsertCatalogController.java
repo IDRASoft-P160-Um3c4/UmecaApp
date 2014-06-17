@@ -144,6 +144,24 @@ public class InsertCatalogController {
         return "Register Verification method OK!";
     }
 
+    @RequestMapping(value = "/catalogs/insertSupervisionActivity", method = RequestMethod.GET)
+    public String insertSupervisionActivity(){
+        service.supervisionActivity();
+        return "Supervision Activity OK!";
+    }
+
+    @RequestMapping(value = "/catalogs/insertActivityGoal", method = RequestMethod.GET)
+    public String insertActivityGoal(){
+        service.insertActivityGoal();
+        return "Activity Goal OK!";
+    }
+
+    @RequestMapping(value = "/catalogs/insertAidSource", method = RequestMethod.GET)
+    public String insertAidSource(){
+        service.insertAidSource();
+        return "Aid Source OK!";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
@@ -168,6 +186,9 @@ public class InsertCatalogController {
         service.schoolLevel();
         service.registerType();
         service.verificationMethod();
+        service.supervisionActivity();
+        service.insertActivityGoal();
+        service.insertAidSource();
         return "insertCatalog OK!!";
     }
 }

@@ -29,4 +29,7 @@ public interface InsertCatalogService {
     void statusVerification();
     void statusCase();
     void verificationMethod();
+    void supervisionActivity();
+    void insertActivityGoal();
+    void insertAidSource();
 }

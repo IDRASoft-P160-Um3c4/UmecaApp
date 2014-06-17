@@ -9,11 +9,16 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
+import com.umeca.model.entities.supervisor.MonitoringPlanInfo;
 import com.umeca.model.entities.supervisor.MonitoringPlanView;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.repository.supervisor.ActivityGoalRepository;
+import com.umeca.repository.supervisor.AidSourceRepository;
+import com.umeca.repository.supervisor.MonitoringPlanRepository;
+import com.umeca.repository.supervisor.SupervisionActivityRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -94,7 +99,14 @@ public class GenerateMonitoringPlanController {
 
     @Autowired
     private ArrangementRepository arrangementRepository;
-
+    @Autowired
+    private SupervisionActivityRepository supervisionActivityRepository;
+    @Autowired
+    private ActivityGoalRepository activityGoalRepository;
+    @Autowired
+    private AidSourceRepository aidSourceRepository;
+    @Autowired
+    private MonitoringPlanRepository monitoringPlanRepository;
 
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/generate", method = RequestMethod.GET)
     public @ResponseBody ModelAndView generate(@RequestParam Long id){ //Id de MonitoringPlan
@@ -104,13 +116,24 @@ public class GenerateMonitoringPlanController {
         String sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstArrangement", sLstGeneric);
 
-        lstGeneric = arrangementRepository.findLstArrangement(id);
+        lstGeneric = supervisionActivityRepository.findAllValid();
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstActivities", sLstGeneric);
 
-        //Case caseDetention = caseRepository.findOne(id);
-        //model.addObject("m",caseDetention.getMeeting());
-        //model.addObject("lstRoles", lstRoles);
+        lstGeneric = activityGoalRepository.findAllValid();
+        sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstGoals", sLstGeneric);
+
+        lstGeneric = aidSourceRepository.findAllValid();
+        sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstSources", sLstGeneric);
+
+        MonitoringPlanInfo mpi =  monitoringPlanRepository.getInfoById(id);
+        model.addObject("caseId",mpi.getIdCase());
+        model.addObject("folderId",mpi.getIdFolder());
+        model.addObject("personName",mpi.getPersonName());
+        model.addObject("monStatus",mpi.getPersonName());
+        model.addObject("monitoringPlanId",mpi.getIdMonitoringPlan());
         return model;
     }
 

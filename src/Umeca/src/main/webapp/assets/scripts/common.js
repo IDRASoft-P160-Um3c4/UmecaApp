@@ -135,3 +135,37 @@ function enableTooltips(table) {
     $('.navtable .ui-pg-button').tooltip({container:'body'});
     $(table).find('.ui-pg-div').tooltip({container:'body'});
 }
+
+window.getTimeFormat = function(dTime, showMeridian){
+    var hours = dTime.getHours(),
+        minutes = dTime.getMinutes(),
+        seconds = dTime.getSeconds(),
+        meridian = 'AM';
+
+    if (showMeridian) {
+        if (hours === 0) {
+            hours = 12;
+        } else if (hours >= 12) {
+            if (hours > 12) {
+                hours = hours - 12;
+            }
+            meridian = 'PM';
+        } else {
+            meridian = 'AM';
+        }
+    }
+
+    return hours + ":" + minutes + ":" + seconds + (showMeridian ? (" " + meridian) : "");
+}
+
+window.formatTime = function(sTime){
+
+    try{
+        var partT = sTime.split(":");
+        var hours = parseInt(partT[0], 10);
+        var minutes = parseInt(partT[1], 10);
+        return {hours:hours, minutes: minutes, seconds: 0, totSecs: (hours*3600 + minutes*60) };
+    }catch(e){
+        return {hours:0, minutes: 0, seconds: 0};
+    }
+}

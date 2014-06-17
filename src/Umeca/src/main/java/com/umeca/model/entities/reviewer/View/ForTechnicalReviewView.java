@@ -15,7 +15,6 @@ public class ForTechnicalReviewView implements EntityGrid{
     private String lastNameP;
     private String lastNameM;
     private String fullName;
-    private Boolean show=false;
 
     public ForTechnicalReviewView(Long id, String status, String idFolder, String idMP, String name, String lastNameP, String lastNameM) {
         this.id = id;
@@ -26,8 +25,6 @@ public class ForTechnicalReviewView implements EntityGrid{
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
         this.fullName = name+" "+lastNameP+" "+lastNameM;
-        if(status!=null && status.equals("VERIFICA"))
-            show=true;
     }
 
     public Long getId() {
@@ -94,11 +91,4 @@ public class ForTechnicalReviewView implements EntityGrid{
         this.fullName = fullName;
     }
 
-    public Boolean getShow() {
-        return show;
-    }
-
-    public void setShow(Boolean show) {
-        this.show = show;
-    }
 }

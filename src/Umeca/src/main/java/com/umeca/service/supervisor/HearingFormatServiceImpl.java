@@ -8,6 +8,7 @@ import com.umeca.model.catalog.dto.LocationDto;
 import com.umeca.model.catalog.dto.MunicipalityDto;
 import com.umeca.model.catalog.dto.StateDto;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Domicile;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.catalog.ArrangementRepository;
@@ -129,10 +130,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         HearingFormatView hearingFormatView = new HearingFormatView();
 
-        hearingFormatView.setIdFolderCode(idFolder);
+
         //caso1 no existe anda, viene de suspension condicional
         if (existCase == null) {
-
+            hearingFormatView.setIdFolderCode(idFolder);
             hearingFormatView.setExistImputed(false);
             hearingFormatView.setCanSave(true);
             hearingFormatView.setHasHF(false);
@@ -140,6 +141,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         } else//existe el caso pero no el formato, viene de meeting
             if (existCase != null && existCase.getHearingFormat() == null) {
+
+                hearingFormatView.setIdFolderCode(existCase.getIdFolder());
+                hearingFormatView.setIdJudicialFolderCode(existCase.getIdMP());
 
                 hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
                 hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
@@ -172,6 +176,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             } else //existe el caso y el formato, ya se ha guardado cualqueira de los 2 casos
                 if (existCase != null && existCase.getHearingFormat() != null) {
+
+                    hearingFormatView.setIdFolderCode(existCase.getIdFolder());
+                    hearingFormatView.setIdJudicialFolderCode(existCase.getIdMP());
 
                     hearingFormatView.setNumberDate(existCase.getHearingFormat().getNoDate());
                     hearingFormatView.setRoom(existCase.getHearingFormat().getRoom());
