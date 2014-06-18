@@ -79,7 +79,7 @@ public class VerificationServiceImpl implements VerificationService {
             if(psn.getLivingWith().getId().equals(Constants.ELECTION_YES)){
                 sv.setAddress(addressImputed);
             }else{
-                sv.setAddress(otherAddresSPN);
+                sv.setAddress(psn.getAddress());
             }
             sv.setRelationship(psn.getRelationship());
             sv.setVisible(Boolean.TRUE);

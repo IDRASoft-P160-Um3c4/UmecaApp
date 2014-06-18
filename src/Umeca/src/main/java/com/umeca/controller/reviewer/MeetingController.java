@@ -60,17 +60,20 @@ public class MeetingController {
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
+                final javax.persistence.criteria.Join<Meeting,Imputed> joinMee = r.join("meeting");
+                final javax.persistence.criteria.Join<Meeting,Imputed> joinMeSt = joinMee.join("status");
+                final javax.persistence.criteria.Join<Meeting,Case> joinCd = joinMee.join("caseDetention");
                 return new ArrayList<Selection<?>>(){{
-                    add(r.join("meeting").join("caseDetention").get("id"));
-                    add(r.join("meeting").join("status").get("name").alias("statusCode"));
-                    add(r.join("meeting").join("caseDetention").get("idFolder"));
+                    add(joinCd.get("id"));
+                    add(joinMeSt.get("name").alias("statusCode"));
+                    add(joinCd.get("idFolder"));
                     add(r.get("name"));
                     add(r.get("lastNameP"));
                     add(r.get("lastNameM"));
                     add(r.get("dateBirth"));
                     add(r.get("gender"));
-                    add(r.join("meeting").join("status").get("description"));
-                    add(r.join("meeting").join("reviewer").get("id").alias("reviewerId"));
+                    add(joinMeSt.get("description"));
+                    add(joinMee.join("reviewer").get("id").alias("reviewerId"));
                 }};
             }
 
@@ -231,14 +234,15 @@ public class MeetingController {
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
+                final javax.persistence.criteria.Join<Meeting,Case> joinRT = r.join("registerType");
                 return new ArrayList<Selection<?>>(){{
                     add(r.get("id"));
                     add(r.get("company"));
                     add(r.get("post"));
                     add(r.get("nameHead"));
                     add(r.get("phone"));
-                    add(r.join("registerType").get("name").alias("registerTypeString"));
-                    add(r.join("registerType").get("id").alias("registerTypeId"));
+                    add(joinRT.get("name").alias("registerTypeString"));
+                    add(joinRT.get("id").alias("registerTypeId"));
                 }};
             }
 
