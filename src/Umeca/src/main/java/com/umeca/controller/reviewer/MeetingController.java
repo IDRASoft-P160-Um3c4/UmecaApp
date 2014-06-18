@@ -99,7 +99,7 @@ public class MeetingController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 return new ArrayList<Selection<?>>(){{
                     add(r.get("id"));
-                    add(r.join("address").get("addressString"));
+                    add(r.join("address").get("addressString").alias("addressString"));
                     add(r.get("timeLive"));
                     add(r.join("registerType").get("name").alias("registerTypeString"));
                     add(r.join("belong").get("name").alias("belongString"));
