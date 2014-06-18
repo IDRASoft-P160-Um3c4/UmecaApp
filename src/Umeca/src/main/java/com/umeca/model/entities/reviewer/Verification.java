@@ -39,7 +39,7 @@ public class Verification {
     private Date dateComplete;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = false)
+    @JoinColumn(name="id_meeting", nullable = true)
     private Meeting meetingVerified;
 
     @OneToMany(mappedBy="verification", cascade={CascadeType.ALL})
@@ -47,6 +47,8 @@ public class Verification {
 
     @OneToMany(mappedBy="verification", cascade={CascadeType.ALL})
     private List<FinalField> finalFieldList;
+
+
 
     public Long getId() {
         return id;
@@ -103,4 +105,13 @@ public class Verification {
     public void setMeetingVerified(Meeting meetingVerified) {
         this.meetingVerified = meetingVerified;
     }
+
+    public List<FinalField> getFinalFieldList() {
+        return finalFieldList;
+    }
+
+    public void setFinalFieldList(List<FinalField> finalFieldList) {
+        this.finalFieldList = finalFieldList;
+    }
+
 }

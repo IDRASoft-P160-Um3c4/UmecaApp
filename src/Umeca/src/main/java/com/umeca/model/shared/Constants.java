@@ -10,6 +10,8 @@ package com.umeca.model.shared;
 public class Constants {
     public static final Long ELECTION_YES = 1L;
     public static final Long ELECTION_NO = 2L;
+    public static final String V_STATUS_NEW_SOURCE = "NEW_SOURCE";
+    public static final String V_STATUS_AUTHORIZED = "AUTHORIZED";
     public static String S_MEETING_INCOMPLETE="INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL="INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE="COMPLETE";

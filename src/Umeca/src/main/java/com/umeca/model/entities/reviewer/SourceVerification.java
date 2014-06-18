@@ -29,10 +29,10 @@ public class SourceVerification {
     private Integer age;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_relationship", nullable = false)
+    @JoinColumn(name="id_relationship", nullable = true)
     private Relationship relationship;
 
-    @Column(name="address", length = 250, nullable = false)
+    @Column(name="address", length = 500, nullable = false)
     private String address;
 
     @Column(name="phone", length = 20, nullable =false)
@@ -48,8 +48,11 @@ public class SourceVerification {
     private Date dateAuthorized;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_verification_method", nullable = false)
+    @JoinColumn(name="id_verification_method", nullable = true)
     private VerificationMethod verificationMethod;
+
+    @Column(name="visible")
+    private Boolean visible;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_verification", nullable = false)
@@ -152,5 +155,13 @@ public class SourceVerification {
 
     public void setMeetingSourceList(List<MeetingSource> meetingSourceList) {
         this.meetingSourceList = meetingSourceList;
+    }
+
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 }

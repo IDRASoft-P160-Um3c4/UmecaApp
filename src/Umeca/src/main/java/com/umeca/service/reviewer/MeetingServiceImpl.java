@@ -110,6 +110,10 @@ public class MeetingServiceImpl implements MeetingService {
     CurrentCriminalProceedingRepository currentCriminalProceedingRepository;
     @Autowired
     PreviousCriminalProceedingRepository previousCriminalProceedingRepository;
+    @Autowired
+    VerificationService verificationService;
+    @Autowired
+    VerificationRepository verificationRepository;
 
     @Transactional
     @Override
@@ -701,13 +705,8 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public ResponseMessage validateCreateMeeting(Imputed imputed) {
         if (imputed.getDateBirth() != null) {
-            Calendar dob = Calendar.getInstance();
-            dob.setTime(imputed.getDateBirth());
-            Calendar today = Calendar.getInstance();
-            int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-            if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
-                age--;
-            if (age < 18) {
+            Integer age = userService.calculateAge(imputed.getDateBirth());
+            if (age.compareTo(18) == -1) {
                 return new ResponseMessage(true, "El imputado debe tener más de 18 años para continuar");
             }
         } else {
@@ -771,9 +770,11 @@ public class MeetingServiceImpl implements MeetingService {
             StatusMeeting stm = statusMeetingRepository.findByCode(Constants.S_MEETING_COMPLETE);
             c.getMeeting().setStatus(stm);
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));
+            verificationService.createVerification(c);
+            //verificationRepository.save(c.getVerification());
+            //c.getVerification().setSourceVerifications(verificationService.convertAllInitSourcesVerif(c));
             caseRepository.save(c);
             caseRepository.saveAndFlush(c);
-
             result.setHasError(false);
             result.setMessage("Entrevista terminada con exito");
             result.setUrlToGo("/index.html");

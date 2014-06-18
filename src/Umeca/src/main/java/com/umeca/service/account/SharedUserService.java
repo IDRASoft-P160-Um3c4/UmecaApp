@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Project: Umeca
  * User: Israel
@@ -27,5 +30,15 @@ public class SharedUserService {
             System.out.println(ex.getMessage());
         }
         return -1L;
+    }
+
+    public Integer calculateAge(Date birthDate){
+        Calendar dob = Calendar.getInstance();
+        dob.setTime(birthDate);
+        Calendar today = Calendar.getInstance();
+        Integer age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
+            age--;
+        return age;
     }
 }
