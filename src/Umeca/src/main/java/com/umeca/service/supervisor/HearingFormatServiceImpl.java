@@ -145,7 +145,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         Case existCase = caseRepository.findOne(idCase);
         Integer meetType = existCase.getMeeting().getMeetingType();
 
-
         if(meetType.equals(HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE)) { //si el meeting fue creado como suspension condicional
 
             if (existCase.getHearingFormats() != null && existCase.getHearingFormats().size() > 0) { //busco si ya existe alguno y tomo la información, si no lleno
