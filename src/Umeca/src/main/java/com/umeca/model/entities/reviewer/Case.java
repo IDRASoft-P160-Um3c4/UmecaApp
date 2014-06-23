@@ -51,6 +51,9 @@ public class Case {
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private FolderConditionalReprieve folderConditionalReprieve;
 
+    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
+    private Verification verification;
+
     @Transient
     private String idString;
 
@@ -141,5 +144,13 @@ public class Case {
 
     public void setHearingFormats(List<HearingFormat> hearingFormats) {
         this.hearingFormats = hearingFormats;
+    }
+
+    public Verification getVerification() {
+        return verification;
+    }
+
+    public void setVerification(Verification verification) {
+        this.verification = verification;
     }
 }

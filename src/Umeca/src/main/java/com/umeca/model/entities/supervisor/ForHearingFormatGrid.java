@@ -1,6 +1,5 @@
 package com.umeca.model.entities.supervisor;
 
-import com.umeca.model.entities.Constants;
 import com.umeca.model.shared.EntityGrid;
 import com.umeca.model.shared.HearingFormatConstants;
 
@@ -30,6 +29,8 @@ public class ForHearingFormatGrid implements EntityGrid {
         sb.append(lastNP);
         sb.append(" ");
         sb.append(lastNM);
+
+
 
         this.fullName = sb.toString();
 
