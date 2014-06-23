@@ -10,6 +10,8 @@ package com.umeca.model.shared;
 public class Constants {
     public static final Long ELECTION_YES = 1L;
     public static final Long ELECTION_NO = 2L;
+    public static final String V_STATUS_NEW_SOURCE = "NEW_SOURCE";
+    public static final String V_STATUS_AUTHORIZED = "AUTHORIZED";
     public static String S_MEETING_INCOMPLETE="INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL="INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE="COMPLETE";
@@ -25,16 +27,18 @@ public class Constants {
     public static Long REGYSTER_TYPE_SECONDARY = 2L;
     public static Long REGYSTER_TYPE_PREVIOUS = 3L;
 
-    public static final String CASE_STATUS_VERIFICATION="VERIFICATION_COMPLETE_CASE";
-    public static final String CASE_STATUS_TECHNICAL_REVIEW="TECHNICAL_REVIEW_COMPLETE_CASE";
-
-    public static final String CASE_STATUS_HEARING_FORMAT_END="HEARING_FORMAT_END_CASE";
-
-
     public static final String TECHNICAL_REVIEW_QUESTIONARY_CODE="TECHNICAL_REVIEW";
 
-    public static final Integer CONDITIONAL_REPRIEVE_HEARING= 1;
-    public static final Integer MEETING_HEARING= 2;
-
+    //status del caso
     public static String CASE_STATUS_MEETING = "ST_CASE_MEETING";
+    public static String CASE_STATUS_SOURCE_VALIDATION = "ST_CASE_SOURCE_VALIDATION";
+    public static final String ALPHA2_MEXICO = "MX";
+    public static final String CASE_STATUS_HEARING_FORMAT_END="ST_CASE_HEARING_FORMAT_END";
+    public static final String CASE_STATUS_VERIFICATION_COMPLETE="ST_CASE_VERIFICATION_COMPLETE";
+    public static final String CASE_STATUS_TECHNICAL_REVIEW="ST_CASE_TECHNICAL_REVIEW_COMPLETE";
+
+    public static final String CASE_STATUS_FRAMING_MEETING_INCOMPLETE="ST_CASE_FRAMING_MEETING_INCOMPLETE";
+    public static final String CASE_STATUS_FRAMING_MEETING_COMPLETE="ST_CASE_FRAMING_MEETING_COMPLETE";
+    public static final String CASE_STATUS_CONDITIONAL_REPRIEVE="ST_CASE_CONDITIONAL_REPRIEVE";
+
 }

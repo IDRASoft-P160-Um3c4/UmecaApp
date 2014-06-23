@@ -32,13 +32,81 @@ public class PreviousCriminalProceeding {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_comply_measures", nullable = false)
-    private Election complyPrecautionaryMeasures;
+    private Election complyPM;
 
-    @Column(name = "source_information", length = 255, nullable = false)
-    private String sourceInformation;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_comply_SCPP", nullable = false)
+    private Election complyCSPP;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_comply_process_above", nullable = false)
+    private Election complyProcessAbove;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = false)
+    @JoinColumn(name="id_meeting", nullable = true)
     private Meeting meeting;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstProceeding() {
+        return firstProceeding;
+    }
+
+    public void setFirstProceeding(String firstProceeding) {
+        this.firstProceeding = firstProceeding;
+    }
+
+    public Integer getOpenProcessNumber() {
+        return openProcessNumber;
+    }
+
+    public void setOpenProcessNumber(Integer openProcessNumber) {
+        this.openProcessNumber = openProcessNumber;
+    }
+
+    public Integer getNumberConvictions() {
+        return numberConvictions;
+    }
+
+    public void setNumberConvictions(Integer numberConvictions) {
+        this.numberConvictions = numberConvictions;
+    }
+
+    public Election getComplyPM() {
+        return complyPM;
+    }
+
+    public void setComplyPM(Election complyPM) {
+        this.complyPM = complyPM;
+    }
+
+    public Election getComplyCSPP() {
+        return complyCSPP;
+    }
+
+    public void setComplyCSPP(Election complyCSPP) {
+        this.complyCSPP = complyCSPP;
+    }
+
+    public Election getComplyProcessAbove() {
+        return complyProcessAbove;
+    }
+
+    public void setComplyProcessAbove(Election complyProcessAbove) {
+        this.complyProcessAbove = complyProcessAbove;
+    }
+
+    public Meeting getMeeting() {
+        return meeting;
+    }
+
+    public void setMeeting(Meeting meeting) {
+        this.meeting = meeting;
+    }
 }

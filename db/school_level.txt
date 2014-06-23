@@ -1,5 +1,5 @@
 id|name
-1|Sin instrucción académica
+1|Sin instrucciÃ³n acadÃ©mica
 2|Primaria
 3|Secundaria
 4|Bachillerato

@@ -37,6 +37,8 @@ public class PersonSocialNetwork{
     @Column(name="phone", nullable = false, length = 20)
     private String phone;
 
+    @Column(name="address", nullable = true, length = 500)
+    private String address;
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_document_type", nullable = false)
     private DocumentType documentType;
@@ -124,5 +126,13 @@ public class PersonSocialNetwork{
 
     public void setLivingWith(Election livingWith) {
         this.livingWith = livingWith;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

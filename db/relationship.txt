@@ -1,4 +1,4 @@
-﻿id|name
+id|name
 1|Hermano
 2|Madre
 3|Hijo(a)

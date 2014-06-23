@@ -3,6 +3,7 @@ package com.umeca.model.entities.reviewer;
 import com.umeca.model.catalog.Election;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.RegisterType;
+import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
@@ -22,9 +23,9 @@ public class Domicile implements EntityGrid{
     public Domicile() {
     }
 
-    public Domicile(Long id,String domicile, String timeLive, String registerTypeString, String belongString) {
+    public Domicile(Long id,String addressString, String timeLive, String registerTypeString, String belongString) {
         this.id=id;
-        this.domicile = domicile;
+        this.addressString = addressString;
         this.timeLive = timeLive;
         this.registerTypeString = registerTypeString;
         this.belongString = belongString;
@@ -35,18 +36,9 @@ public class Domicile implements EntityGrid{
     @Column(name="id_domicile")
     private Long id;
 
-    @Column(name="street", length = 100, nullable = false)
-    private String street;
-
-    @Column(name="no_outside", length = 10, nullable = true)
-    private String noOut;
-
-    @Column(name="no_inside", length = 10, nullable = false)
-    private String noIn;
-
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_location", nullable = false)
-    private Location location;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_address", nullable = false)
+    private Address address;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_register_type", nullable = false)
@@ -72,8 +64,12 @@ public class Domicile implements EntityGrid{
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
 
-    @Column(name="domicile_string", nullable = false, length = 500)
-    private String domicile;
+    @Transient
+    private String addressString;
+
+    @ManyToOne
+    @JoinColumn(name = "id_framing_meeting")
+    FramingMeeting framingMeeting;
 
     @Transient
     private String registerTypeString;
@@ -89,36 +85,12 @@ public class Domicile implements EntityGrid{
         this.id = id;
     }
 
-    public String getStreet() {
-        return street;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getNoOut() {
-        return noOut;
-    }
-
-    public void setNoOut(String noOut) {
-        this.noOut = noOut;
-    }
-
-    public String getNoIn() {
-        return noIn;
-    }
-
-    public void setNoIn(String noIn) {
-        this.noIn = noIn;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public RegisterType getRegisterType() {
@@ -177,12 +149,12 @@ public class Domicile implements EntityGrid{
         this.belong = belong;
     }
 
-    public String getDomicile() {
-        return domicile;
+    public String getAddressString() {
+        return addressString;
     }
 
-    public void setDomicile(String domicile) {
-        this.domicile = domicile;
+    public void setAddressString(String addressString) {
+        this.addressString = addressString;
     }
 
     public String getRegisterTypeString() {
@@ -200,17 +172,4 @@ public class Domicile implements EntityGrid{
     public void setBelongString(String belongString) {
         this.belongString = belongString;
     }
-
-    @Override
-    public String toString() {
-        String result = "";
-        result = "Calle: "+street+" No Ext: "+noOut;
-        if(noIn != null && !noIn.equals("")){
-            result= result + " No Int:"+ noIn;
-        }
-        if(location!=null){
-            result = result + ","+location.getName()+". CP: "+location.getZipCode()+". "+location.getMunicipality().getName()+", "+location.getMunicipality().getState().getName()+".";
-        }
-        return  result;
-  }
 }

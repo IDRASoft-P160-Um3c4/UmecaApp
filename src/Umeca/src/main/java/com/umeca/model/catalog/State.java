@@ -19,7 +19,7 @@ public class State {
     @Column(name = "StateId")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "CountryId", nullable =false)
     private Country country;
 

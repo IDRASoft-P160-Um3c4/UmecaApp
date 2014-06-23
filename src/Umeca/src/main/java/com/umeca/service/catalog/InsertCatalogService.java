@@ -31,4 +31,5 @@ public interface InsertCatalogService {
     void supervisionActivity();
     void insertActivityGoal();
     void insertAidSource();
+    void verificationMethod();
 }

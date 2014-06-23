@@ -1,4 +1,4 @@
-﻿id|role|description
+id|role|description
 1|ROLE_ADMIN|Administrador
 2|ROLE_REVIEWER|Evaluador
 3|ROLE_EVALUATION_MANAGER|Coordinador de Evaluación

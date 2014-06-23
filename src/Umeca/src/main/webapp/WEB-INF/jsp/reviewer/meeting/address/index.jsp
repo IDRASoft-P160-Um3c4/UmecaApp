@@ -25,7 +25,7 @@
             colNames: ['ID', 'Direccion','Tipo de domicilio','Tiempo de recidencia','Tipo de propiedad', 'Acción'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
-                { name: 'domicile', index: 'domicile', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'addressString', index: 'addressString', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'timeLive', index: 'timeLive', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'registerTypeString', index: 'registerTypeString', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'belongString', index: 'belongString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

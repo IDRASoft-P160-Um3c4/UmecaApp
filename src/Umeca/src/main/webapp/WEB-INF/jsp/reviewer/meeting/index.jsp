@@ -51,7 +51,7 @@
                 url: '<c:url value='/reviewer/meeting/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID','Carpeta de Investigación','Nombre completo','Fecha de nacimiento','Género','Estatus','I d estatus','Acción'],
+                colNames: ['ID','Carpeta de Investigación','Nombre completo','Fecha de nacimiento','Género','Estatus','I d estatus','Status case','Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -59,7 +59,8 @@
                     { name: 'dateBirthString', index: 'dateBirthString', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'genderString', index: 'genderString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'description', index: 'description', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'idStatus', index: 'idStatus',hidden:true },
+                    { name: 'statusCode', index: 'statusCode',hidden:true },
+                    { name: 'reviewerId', index: 'reviewerId',hidden:true },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
@@ -77,12 +78,11 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
-                        var idStatus = row.idStatus;
-                        var idConstant = parseInt($("#hdnStatusLegal").val());
+                        var status = row.statusCode;
                         var be;
-                        if ( 2 == idStatus) {
+                        if ( status == 'INCOMPLETE_LEGAL') {
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Procesos legales usuario\" onclick=\"window.legal('" + cl + "');\"><i class=\"icon-legal\"></i></a>";
-                        }else{
+                        }else if(status == 'INCOMPLETE'){
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });

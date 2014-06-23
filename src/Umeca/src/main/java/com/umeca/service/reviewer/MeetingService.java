@@ -2,6 +2,7 @@ package com.umeca.service.reviewer;
 
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -59,4 +60,6 @@ public interface MeetingService {
     ResponseMessage doTerminateMeeting(Meeting meeting, String sch, Integer[] physicalCondition, Integer[] activity);
 
     ResponseMessage validateCreateMeeting(Imputed imputed);
+
+    ResponseMessage saveProceedingLegal(CriminalProceedingView cpv);
 }

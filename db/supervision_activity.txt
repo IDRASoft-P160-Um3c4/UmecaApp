@@ -1,4 +1,4 @@
-﻿id_supervision_activity|name|description|is_obsolete
+id_supervision_activity|name|description|is_obsolete
 1|Llamada telefónica|Llamada telefónica|0
 2|Revisión de carpeta judicial|Revisión de carpeta judicial|0
 3|Visita domiciliar|Visita domiciliar|0

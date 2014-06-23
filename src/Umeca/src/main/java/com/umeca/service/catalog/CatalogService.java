@@ -2,6 +2,7 @@ package com.umeca.service.catalog;
 
 import com.umeca.model.ResponseMessageAddress;
 import com.umeca.model.catalog.Location;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,4 +15,6 @@ public interface CatalogService {
     ResponseMessageAddress findLocationByZipCode(String zipCode);
     Location findLocationById(Long idLocation);
     ResponseMessageAddress getStatesByCountry(Long countryId);
+    ResponseMessageAddress findMunicipalityByIdState(Long idState);
+    ResponseMessageAddress findLocationByMunId(Long idMun);
 }

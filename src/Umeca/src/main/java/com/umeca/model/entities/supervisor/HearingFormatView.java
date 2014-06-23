@@ -14,7 +14,7 @@ public class HearingFormatView {
 
     private Integer arrangementType;
 
-    private String numberDate;
+    private Date appointmentDate;
 
     private String room;
 
@@ -88,12 +88,14 @@ public class HearingFormatView {
 
     public Boolean existImputed;
 
-    public String getNumberDate() {
-        return numberDate;
+    public String supervisorName;
+
+    public Date getAppointmentDate() {
+        return appointmentDate;
     }
 
-    public void setNumberDate(String numberDate) {
-        this.numberDate = numberDate;
+    public void setAppointmentDate(Date appointmentDate) {
+        this.appointmentDate = appointmentDate;
     }
 
     public String getRoom() {
@@ -390,5 +392,13 @@ public class HearingFormatView {
 
     public void setIdJudicialFolderCode(String idJudicialFolderCode) {
         this.idJudicialFolderCode = idJudicialFolderCode;
+    }
+
+    public String getSupervisorName() {
+        return supervisorName;
+    }
+
+    public void setSupervisorName(String supervisorName) {
+        this.supervisorName = supervisorName;
     }
 }

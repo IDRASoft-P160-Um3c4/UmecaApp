@@ -17,7 +17,7 @@ public class Municipality {
     @Column(name="MunicipalityId")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "StateId", nullable = false)
     private State state;
 

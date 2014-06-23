@@ -1,10 +1,12 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
 import javax.persistence.*;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,8 +18,8 @@ public class HearingFormat {
     @Column(name = "id_hearing_format")
     private Long id;
 
-    @Column(name = "no_date", length = 255, nullable = false)
-    private String noDate;
+    @Column(name = "appointment_date", nullable = false)
+    private Date appointmentDate;
 
     @Column(name = "register_timestamp", nullable = false)
     private Timestamp registerTimestamp;
@@ -40,7 +42,7 @@ public class HearingFormat {
     @Column(name = "defender_name", nullable = false)
     private String defenderName;
 
-    @Column(name = "crimes", length = 5000 , nullable = false)
+    @Column(name = "crimes", length = 5000, nullable = false)
     private String crimes;
 
     @Column(name = "additional_data", length = 5000, nullable = false)
@@ -55,15 +57,24 @@ public class HearingFormat {
     @OneToOne(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private HearingFormatSpecs hearingFormatSpecs;
 
-    @OneToMany(mappedBy = "hearingFormat",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<AssignedArrangement> assignedArrangements;
 
-    @OneToMany(mappedBy = "hearingFormat",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY)
     private List<ContactData> contacts;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_case", nullable = false)
     private Case caseDetention;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user")
+    private User supervisor;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_hearing_format_imputed")
+    private HearingFormatImputed hearingImputed;
+
 
     public Long getId() {
         return id;
@@ -73,12 +84,12 @@ public class HearingFormat {
         this.id = id;
     }
 
-    public String getNoDate() {
-        return noDate;
+    public Date getAppointmentDate() {
+        return appointmentDate;
     }
 
-    public void setNoDate(String noDate) {
-        this.noDate = noDate;
+    public void setAppointmentDate(Date appointmentDate) {
+        this.appointmentDate = appointmentDate;
     }
 
     public Timestamp getRegisterTimestamp() {
@@ -161,6 +172,14 @@ public class HearingFormat {
         this.terms = terms;
     }
 
+    public Integer getOriginType() {
+        return originType;
+    }
+
+    public void setOriginType(Integer originType) {
+        this.originType = originType;
+    }
+
     public HearingFormatSpecs getHearingFormatSpecs() {
         return hearingFormatSpecs;
     }
@@ -193,11 +212,19 @@ public class HearingFormat {
         this.caseDetention = caseDetention;
     }
 
-    public Integer getOriginType() {
-        return originType;
+    public User getSupervisor() {
+        return supervisor;
     }
 
-    public void setOriginType(Integer originType) {
-        this.originType = originType;
+    public void setSupervisor(User supervisor) {
+        this.supervisor = supervisor;
+    }
+
+    public HearingFormatImputed getHearingImputed() {
+        return hearingImputed;
+    }
+
+    public void setHearingImputed(HearingFormatImputed hearingImputed) {
+        this.hearingImputed = hearingImputed;
     }
 }

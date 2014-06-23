@@ -3,6 +3,7 @@ package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.DrugType;
 import com.umeca.model.catalog.Periodicity;
+import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.shared.EntityGrid;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -65,6 +66,11 @@ public class Drug implements EntityGrid{
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_framing_meeting")
+    private FramingMeeting framingMeeting;
+
 
     @Transient
     private String perName;

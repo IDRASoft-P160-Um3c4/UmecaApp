@@ -9,7 +9,10 @@ import javax.xml.ws.Response;
 public interface CaseService {
 
     Case findByIdFolder(String idFolder);
-    Case generateNewCase(Imputed imputed,Integer type);
+
+    Case generateNewCase(Imputed imputed, Integer type);
+
     Case save(Case caseDet);
 
+    ResponseMessage saveConditionaReprieveCase(Case caseDet);
 }
