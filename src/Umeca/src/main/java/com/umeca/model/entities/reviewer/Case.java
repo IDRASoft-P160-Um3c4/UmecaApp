@@ -54,6 +54,7 @@ public class Case {
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Verification verification;
 
+
     @Transient
     private String idString;
 
