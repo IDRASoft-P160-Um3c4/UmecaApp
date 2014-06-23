@@ -1,6 +1,5 @@
 package com.umeca.model.entities.supervisor;
 
-import com.umeca.model.entities.Constants;
 import com.umeca.model.shared.EntityGrid;
 import com.umeca.model.shared.HearingFormatConstants;
 
