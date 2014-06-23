@@ -33,7 +33,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";//"C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";//"C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
 
     @Autowired
     RoleRepository repositoryRole;
@@ -244,9 +244,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         repositoryStCase.flush();
     }
 
-
-    @Autowired
-    SupervisionActivityRepository supervisionActivityRepository;
     @Override
     public void supervisionActivity() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "supervision_activity.txt","\\|", 4);
@@ -260,6 +257,11 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         }
         supervisionActivityRepository.flush();
     }
+
+
+    @Autowired
+    SupervisionActivityRepository supervisionActivityRepository;
+
 
     @Autowired
     ActivityGoalRepository activityGoalRepository;
@@ -291,6 +293,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             aidSourceRepository.save(model);
         }
         aidSourceRepository.flush();
+    }
+
+    @Autowired
+    @Override
+    public void verificationMethod() {
+
     }
 
     @Autowired

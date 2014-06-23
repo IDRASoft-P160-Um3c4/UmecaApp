@@ -25,7 +25,7 @@
                                 <div class="radio">
                                     <label>
                                         <input class="ace" type="radio" ng-checked="gen==true" name="imputed.gender"
-                                               data-val-required="El género es un campo requerido" id="genero" value="true"
+                                               data-val-required="El g?nero es un campo requerido" id="genero" value="true"
                                                ng-model="gen">
                                         <span class="lbl">Femenino</span>
                                     </label>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-xs-9">
                         <div class="col-xs-10">
-                            <input class="form-control" data-val="true" data-val-length="Debe tener mínimo 8 y máximo 20 caracteres"
+                            <input class="form-control" data-val="true" data-val-length="Debe tener m?nimo 8 y m?ximo 20 caracteres"
                                    data-val-length-max="20" data-val-length-min="8"
                                    type="text" ng-model="celPhone"  id="celPhone" ng-init="celPhone= '${(m.imputed.celPhone == null) ? '': m.imputed.celPhone}'" name="imputed.celPhone">
                             <span class="field-validation-valid" data-valmsg-for="imputed.celPhone" data-valmsg-replace="true"></span>
@@ -119,7 +119,7 @@
                                 <div class="space-10"></div>
                                 <div class="widget-main">
                                     <input type="text" class="input-mini" id="spinnder1" value="${m.imputed.yearsMaritalStatus ==null ? '': m.imputed.yearsMaritalStatus}"
-                                           name="imputed.yearsMaritalStatus" id = "imputed.yearsMaritalStatus" data-val="true" data-val-regex-pattern="/^\d+$/"
+                                           name="imputed.yearsMaritalStatus" id = "imputed.yearsMaritalStatus" data-val="true" data-val-regex-pattern="([0-9]+)"
                                            data-val-length="Debe tener mínimo 1 y máximo 3 caracteres"
                                            data-val-length-max="3" data-val-length-min="1"   data-val-required="El número de años es un campo requerido"
                                     data-val-regex="La cantidad de años sólo pueden ser números"/> Años
@@ -157,7 +157,7 @@
                                 </div>
                                 <div class="col-xs-2">
                                     <input type="text" class="form-contro1" name="imputed.dependentBoys" data-val-regex-pattern="([0-9]+)"
-                                           data-val-regex="Sólo puede guardar números" id="imputed.dependentBoys" data-val="true"
+                                           data-val-regex="S?lo puede guardar números" id="imputed.dependentBoys" data-val="true"
                                            value="${m.imputed.dependentBoys == null ? '': m.imputed.dependentBoys}"/>
 
                                 </div>

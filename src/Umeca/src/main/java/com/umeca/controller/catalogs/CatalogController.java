@@ -19,11 +19,25 @@ public class CatalogController {
     @Autowired
     CatalogService catalogService;
 
-    @RequestMapping(value = "/catalogs/locationsByZipCode", method = RequestMethod.POST)
+    @RequestMapping(value = "/catalogs/address/locationsByZipCode", method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessageAddress locationsByZipCode(@RequestParam String zipCode){
         return catalogService.findLocationByZipCode(zipCode);
     }
+
+    @RequestMapping(value = "/catalogs/address/municipalityByStId", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessageAddress municipalityByState(@RequestParam Long idState){
+        return catalogService.findMunicipalityByIdState(idState);
+    }
+
+    @RequestMapping(value = "/catalogs/address/locationByMunId", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessageAddress locationByMunId(@RequestParam Long idMun){
+        return catalogService.findLocationByMunId(idMun);
+    }
+
+
 
     @RequestMapping(value = "/catalogs/getStatesByCountry.json", method = RequestMethod.POST)
     public @ResponseBody

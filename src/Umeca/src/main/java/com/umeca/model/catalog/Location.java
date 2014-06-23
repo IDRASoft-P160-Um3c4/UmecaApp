@@ -17,8 +17,8 @@ public class Location {
     @Column(name="LocationId")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="MunicipalityId", nullable = true)
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="MunicipalityId", nullable = false)
     private Municipality municipality;
 
     @Column(name = "Name", nullable = false, length = 50)

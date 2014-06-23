@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class MeetingView implements EntityGrid {
 
-    public MeetingView(Long id, String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description, Long idStatus) {
+    public MeetingView(Long id,String statusCode,  String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description,Long reviewerId) {
         this.id = id;
         this.idFolder = idFolder;
         this.name = name;
@@ -26,7 +26,9 @@ public class MeetingView implements EntityGrid {
         this.dateBirth = dateBirth;
         this.gender = gender;
         this.description = description;
-        this.idStatus= idStatus;
+        this.statusCode = statusCode;
+        this.reviewerId = reviewerId;
+        //this.statusCase = statusCase;
         createFullname();
         if(gender!=null){
         if(gender.equals(Constants.GENDER_FEMALE))
@@ -64,8 +66,9 @@ public class MeetingView implements EntityGrid {
 
     private String dateBirthString;
 
-    private Long idStatus;
+    private Long reviewerId;
 
+    private String statusCode;
     public Long getId() {
         return id;
     }
@@ -157,6 +160,14 @@ public class MeetingView implements EntityGrid {
         this.dateBirthString = dateBirthString;
     }
 
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+
     private void createFullname(){
         this.fullname="";
       if(this.name!=null )
@@ -167,11 +178,4 @@ public class MeetingView implements EntityGrid {
           this.fullname+=this.lastNameM;
     };
 
-    public Long getIdStatus() {
-        return idStatus;
-    }
-
-    public void setIdStatus(Long idStatus) {
-        this.idStatus = idStatus;
-    }
 }

@@ -22,6 +22,8 @@ app.controller('scheduleController', function($scope, $timeout) {
             });
         if($scope.listSchedule == undefined){
             $scope.listSchedule = [];
+        }else{
+            $scope.cleanArray();
         }
         if($scope.lstDayWeek === undefined || $scope.lstDayWeek.length <= 0)
             return;

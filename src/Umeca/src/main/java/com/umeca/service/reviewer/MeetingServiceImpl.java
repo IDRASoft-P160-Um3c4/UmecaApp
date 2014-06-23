@@ -1,24 +1,30 @@
-package com.umeca.service.reviewer;
+    package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.umeca.model.catalog.*;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.ElectionDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.catalog.dto.SchoolLevelDto;
+import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.catalog.AddressService;
+import com.umeca.service.catalog.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,7 +36,8 @@ import java.util.List;
  */
 @Service("meetingService")
 public class MeetingServiceImpl implements MeetingService {
-
+    @Autowired
+    SharedUserService userService;
     @Autowired
     private CaseRepository caseRepository;
     @Autowired
@@ -39,7 +46,76 @@ public class MeetingServiceImpl implements MeetingService {
     private MeetingRepository meetingRepository;
     @Autowired
     private StatusMeetingRepository statusMeetingRepository;
+    @Autowired
+    PhysicalConditionRepository physicalConditionRepository;
+    @Autowired
+    ActivityRepository activityRepository;
+    @Autowired
+    RelationshipRepository relationshipRepository;
+    @Autowired
+    ElectionRepository electionRepository;
+    @Autowired
+    DocumentTypeRepository documentTypeRepository;
+    @Autowired
+    DayWeekRepository dayWeekRepository;
+    @Autowired
+    SchoolLevelRepository schoolLevelRepository;
+    @Autowired
+    ScheduleService scheduleService;
+    @Autowired
+    CountryRepository countryRepository;
+    @Autowired
+    CatalogService catalogService;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    MaritalStatusRepository maritalStatusRepository;
+    @Autowired
+    PersonSocialNetworkRepository personSocialNetworkRepository;
+    @Autowired
+    SocialNetworkRepository socialNetworkRepository;
+    @Autowired
+    ReferenceRepository referenceRepository;
+    @Autowired
+    DrugTypeRepository drugTypeRepository;
+    @Autowired
+    PeriodicityRepository periodicityRepository;
+    @Autowired
+    DrugRepository drugRepository;
+    @Autowired
+    SchoolRepository schoolRepository;
+    @Autowired
+    ScheduleRepository scheduleRepository;
+    @Autowired
+    GradeRepository gradeRepository;
+    @Autowired
+    JobRepository jobRepository;
+    @Autowired
+    RegisterTypeRepository registerTypeRepository;
+    @Autowired
+    DomicileRepository domicileRepository;
+    @Autowired
+    LocationRepository locationRepository;
+    @Autowired
+    StateRepository stateRepository;
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+    @Autowired
+    LegalService legalService;
+    @Autowired
+    AddressRepository addressRepository;
+    @Autowired
+    AddressService addressService;
+    @Autowired
+    CurrentCriminalProceedingRepository currentCriminalProceedingRepository;
+    @Autowired
+    PreviousCriminalProceedingRepository previousCriminalProceedingRepository;
+    @Autowired
+    VerificationService verificationService;
+    @Autowired
+    VerificationRepository verificationRepository;
 
+    @Transactional
     @Override
     public Long createMeeting(Imputed imputed) {
         Long result = null;
@@ -61,6 +137,7 @@ public class MeetingServiceImpl implements MeetingService {
             StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
 
             meeting.setStatus(statusMeeting);
+            meeting.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
             meeting = meetingRepository.save(meeting);
             imputed.setMeeting(meeting);
             imputedRepository.save(imputed);
@@ -72,27 +149,10 @@ public class MeetingServiceImpl implements MeetingService {
         }
     }
 
-    @Autowired
-    PhysicalConditionRepository physicalConditionRepository;
-    @Autowired
-    ActivityRepository activityRepository;
-    @Autowired
-    RelationshipRepository relationshipRepository;
-    @Autowired
-    ElectionRepository electionRepository;
-    @Autowired
-    DocumentTypeRepository documentTypeRepository;
-    @Autowired
-    DayWeekRepository dayWeekRepository;
-    @Autowired
-    SchoolLevelRepository schoolLevelRepository;
-    @Autowired
-    ScheduleService scheduleService;
-    @Autowired
-    CountryRepository countryRepository;
-
     @Override
     public ModelAndView showMeeting(Long id) {
+        if (!validateMeetingUser(id))
+            return new ModelAndView("/reviewer/meeting/index");
         ModelAndView model = new ModelAndView("/reviewer/meeting/meeting");
         Gson gson = new Gson();
         ////////////////////Personal data
@@ -122,8 +182,8 @@ public class MeetingServiceImpl implements MeetingService {
         model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
         List<Election> lstElection = electionRepository.findAll();
         List<ElectionDto> lstElectionDto = new ArrayList<ElectionDto>();
-        for (Election e: lstElection){
-            ElectionDto edto= new ElectionDto();
+        for (Election e : lstElection) {
+            ElectionDto edto = new ElectionDto();
             lstElectionDto.add(edto.dtoElection(e));
         }
         model.addObject("listElection", gson.toJson(lstElectionDto));
@@ -136,8 +196,8 @@ public class MeetingServiceImpl implements MeetingService {
         model.addObject("lstLevel", gson.toJson(listDto));
         List<Country> listCountry = countryRepository.findAll();
         List<CountryDto> listCountryDto = new ArrayList<CountryDto>();
-        for(Country c: listCountry){
-            CountryDto cdto= new CountryDto();
+        for (Country c : listCountry) {
+            CountryDto cdto = new CountryDto();
             listCountryDto.add(cdto.dtoCountry(c));
         }
         model.addObject("lstCountry", gson.toJson(listCountryDto));
@@ -154,20 +214,36 @@ public class MeetingServiceImpl implements MeetingService {
         return model;
     }
 
-
     @Override
     public ModelAndView showLegalProcess(Long id) {
+        if (!validateMeetingUser(id))
+            return new ModelAndView("/reviewer/meeting/index");
         ModelAndView model = new ModelAndView("/reviewer/meeting/legal/index");
+        Case c = caseRepository.findOne(id);
+        model.addObject("idFolder", c.getIdFolder());
+        String fullName = c.getMeeting().getImputed().getName() + " " + c.getMeeting().getImputed().getLastNameP() + " " + c.getMeeting().getImputed().getLastNameM();
+        model.addObject("fullNameImputed", fullName);
+        model.addObject("idCase", id);
+        addressService.fillCatalogAddress(model);
         Gson gson = new Gson();
-        String lstRoles = gson.toJson(new ResponseMessage());
-        Case caseDetention = caseRepository.findOne(id);
-        model.addObject("m", caseDetention.getMeeting());
-        model.addObject("lstRoles", lstRoles);
+        List<Election> lstElection =   electionRepository.findAll();
+        List<ElectionDto> lstElectionDto = new ArrayList<ElectionDto>();
+        for (Election e : lstElection) {
+            ElectionDto edto = new ElectionDto();
+            lstElectionDto.add(edto.dtoElection(e));
+        }
+        model.addObject("listElection", gson.toJson(lstElectionDto));
+        List<Relationship> relationshipList= relationshipRepository.findAll();
+        List<CatalogDto> catalogDtoList = new ArrayList<>();
+        for(Relationship relationship: relationshipList){
+            CatalogDto cdto= new CatalogDto();
+            cdto.setId(relationship.getId());
+            cdto.setName(relationship.getName());
+            catalogDtoList.add(cdto);
+        }
+        model.addObject("listRelationship", gson.toJson(catalogDtoList));
         return model;
     }
-
-    @Autowired
-    MaritalStatusRepository maritalStatusRepository;
 
     @Override
     public ResponseMessage upsertPersonalData(Long idCase, Imputed imputed, SocialEnvironment socialEnvironment, Integer[] physicalCondition, Integer[] activity) {
@@ -193,13 +269,13 @@ public class MeetingServiceImpl implements MeetingService {
             if (physicalCondition != null) {
                 socialEnvironment.setPhysicalConditions(new ArrayList<PhysicalCondition>());
                 for (int i = 0; i < physicalCondition.length; i++) {
-                    socialEnvironment.getPhysicalConditions().add(physicalConditionRepository.findOne((Long.valueOf(physicalCondition[i])+1)));
+                    socialEnvironment.getPhysicalConditions().add(physicalConditionRepository.findOne((Long.valueOf(physicalCondition[i]) + 1)));
                 }
             }
             if (activity != null) {
                 socialEnvironment.setActivities(new ArrayList<Activity>());
                 for (int a = 0; a < activity.length; a++) {
-                    socialEnvironment.getActivities().add(activityRepository.findOne((Long.valueOf(activity[a])+1)));
+                    socialEnvironment.getActivities().add(activityRepository.findOne((Long.valueOf(activity[a]) + 1)));
                 }
             }
             caseDetention.getMeeting().setSocialEnvironment(socialEnvironment);
@@ -212,9 +288,6 @@ public class MeetingServiceImpl implements MeetingService {
         }
         return result;
     }
-
-    @Autowired
-    PersonSocialNetworkRepository personSocialNetworkRepository;
 
     @Override
     public ModelAndView upsertSocialNetwork(Long id, Long idCase) {
@@ -240,9 +313,7 @@ public class MeetingServiceImpl implements MeetingService {
         return model;
     }
 
-    @Autowired
-    SocialNetworkRepository socialNetworkRepository;
-
+    @Transactional
     @Override
     public ResponseMessage doUpsertSocialNetwork(PersonSocialNetwork person, Long idCase) {
         ResponseMessage result = new ResponseMessage();
@@ -271,6 +342,7 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
+    @Transactional
     @Override
     public ResponseMessage deleteSocialNetwork(Long id) {
         ResponseMessage result = new ResponseMessage();
@@ -284,9 +356,6 @@ public class MeetingServiceImpl implements MeetingService {
         }
         return result;
     }
-
-    @Autowired
-    ReferenceRepository referenceRepository;
 
     @Override
     public ModelAndView upsertReference(Long id, Long idCase) {
@@ -306,6 +375,7 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
+    @Transactional
     @Override
     public ResponseMessage doUpsertReference(Reference reference, Long idCase) {
         ResponseMessage result = new ResponseMessage();
@@ -327,6 +397,7 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
+    @Transactional
     @Override
     public ResponseMessage deleteReference(Long id) {
         ResponseMessage result = new ResponseMessage();
@@ -340,15 +411,6 @@ public class MeetingServiceImpl implements MeetingService {
         }
         return result;
     }
-
-    @Autowired
-    DrugTypeRepository drugTypeRepository;
-
-    @Autowired
-    PeriodicityRepository periodicityRepository;
-
-    @Autowired
-    DrugRepository drugRepository;
 
     @Override
     public ModelAndView upsertDrug(Long id, Long idCase) {
@@ -366,6 +428,7 @@ public class MeetingServiceImpl implements MeetingService {
         return model;
     }
 
+    @Transactional
     @Override
     public ResponseMessage doUpsertDrug(Drug drug, Long idCase) {
         ResponseMessage result = new ResponseMessage();
@@ -386,6 +449,7 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
+    @Transactional
     @Override
     public ResponseMessage deleteDrug(Long id) {
         ResponseMessage result = new ResponseMessage();
@@ -400,13 +464,7 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
-    @Autowired
-    SchoolRepository schoolRepository;
-    @Autowired
-    ScheduleRepository scheduleRepository;
-    @Autowired
-    GradeRepository gradeRepository;
-
+    @Transactional
     @Override
     public ResponseMessage doUpsertSchool(Long id, School school, String schedules) {
         ResponseMessage result = new ResponseMessage();
@@ -430,11 +488,6 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
-    @Autowired
-    JobRepository jobRepository;
-    @Autowired
-    RegisterTypeRepository registerTypeRepository;
-
     @Override
     public ModelAndView upsertJob(Long id, Long idCase) {
         ModelAndView model = new ModelAndView("/reviewer/meeting/job/upsert");
@@ -451,6 +504,7 @@ public class MeetingServiceImpl implements MeetingService {
         return model;
     }
 
+    @Transactional
     @Override
     public ResponseMessage doUpsertJob(Job job, Long idCase, String sch) {
         ResponseMessage result = new ResponseMessage();
@@ -461,7 +515,7 @@ public class MeetingServiceImpl implements MeetingService {
                     return validate;
                 }
             }
-            Case c = caseRepository.findById(idCase);
+            Case c = caseRepository.findOne(idCase);
             if (job.getId() != null && job.getId() == 0) {
                 job.setId(null);
             }
@@ -487,6 +541,7 @@ public class MeetingServiceImpl implements MeetingService {
         return null;
     }
 
+    @Transactional
     @Override
     public ResponseMessage deleteJob(Long id) {
         ResponseMessage result = new ResponseMessage();
@@ -501,9 +556,6 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
-    @Autowired
-    DomicileRepository domicileRepository;
-
     @Override
     public ModelAndView upsertAddress(Long id, Long idCase) {
         ModelAndView model = new ModelAndView("/reviewer/meeting/address/upsert");
@@ -513,13 +565,18 @@ public class MeetingServiceImpl implements MeetingService {
             model.addObject("listElection", gson.toJson(electionRepository.findAll()));
             model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
             model.addObject("idCase", idCase);
+            addressService.fillCatalogAddress(model);
             if (id != null && id != 0) {
+
                 Domicile domicile = domicileRepository.findOne(id);
                 model.addObject("d", domicile);
-                model.addObject("zipCode", domicile.getLocation().getZipCode());
+                if(domicile.getAddress()!=null){
+                    addressService.fillModelAddress(model,domicile.getAddress().getId());
+                }
                 model.addObject("belongId", domicile.getBelong().getId());
                 model.addObject("listSchedule", scheduleService.getSchedules(domicile.getId(), Domicile.class));
                 model.addObject("typeId", domicile.getRegisterType().getId());
+                addressService.fillCatalogAddress(model);
             }
         } catch (Exception e) {
 
@@ -527,9 +584,7 @@ public class MeetingServiceImpl implements MeetingService {
         return model;
     }
 
-    @Autowired
-    LocationRepository locationRepository;
-
+    @Transactional
     @Override
     public ResponseMessage doUpsertAddress(Domicile domicile, Long idCase, String sch) {
         ResponseMessage result = new ResponseMessage();
@@ -540,15 +595,19 @@ public class MeetingServiceImpl implements MeetingService {
                     return validate;
                 }
             }
-            Case c = caseRepository.findById(idCase);
+            Case c = caseRepository.findOne(idCase);
             if (domicile.getId() != null && domicile.getId() == 0) {
                 domicile.setId(null);
             }
             domicile.setMeeting(c.getMeeting());
             domicile.setBelong(electionRepository.findOne(domicile.getBelong().getId()));
             domicile.setRegisterType(registerTypeRepository.findOne(domicile.getRegisterType().getId()));
-            domicile.setLocation(locationRepository.findOne(domicile.getLocation().getId()));
-            domicile.setDomicile(domicile.toString());
+            if(domicile.getAddress()!=null && domicile.getAddress().getLocation()!=null && domicile.getAddress().getLocation().getId()!=null){
+                Long locationId = domicile.getAddress().getLocation().getId();
+                    domicile.getAddress().setLocation(locationRepository.findOne(locationId));
+                    domicile.getAddress().setAddressString(domicile.getAddress().toString());
+                    domicile.setAddress(addressRepository.save(domicile.getAddress()));
+            }
             Domicile newDomicile = domicileRepository.save(domicile);
             if (!newDomicile.getRegisterType().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
                 scheduleService.saveSchedules(sch, domicile.getId(), Domicile.class);
@@ -557,16 +616,20 @@ public class MeetingServiceImpl implements MeetingService {
             result.setMessage("Se ha guardado la información con éxito");
         } catch (Exception e) {
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al guardar su inormación. Intente más tarde."+e.getMessage());
+            result.setMessage("Ha ocurrido un error al guardar su inormación. Intente más tarde." + e.getMessage());
         }
         return result;
     }
 
+    @Transactional
     @Override
     public ResponseMessage deleteAddress(Long id) {
         ResponseMessage result = new ResponseMessage();
         try {
+            Domicile domicile = domicileRepository.findOne(id);
+            Long idAddress =  domicile.getAddress().getId();
             domicileRepository.delete(id);
+            addressRepository.delete(idAddress);
             result.setHasError(false);
             result.setMessage("Se ha eliminado el registro exitosamente");
         } catch (Exception e) {
@@ -576,9 +639,7 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
-    @Autowired
-    StateRepository stateRepository;
-
+    @Transactional
     @Override
     public ResponseMessage upsertLeaveCountry(Long id, LeaveCountry leaveCountry) {
         ResponseMessage result = new ResponseMessage();
@@ -588,15 +649,15 @@ public class MeetingServiceImpl implements MeetingService {
             leaveCountry.setOfficialDocumentation(electionRepository.findOne(leaveCountry.getOfficialDocumentation().getId()));
             Long family = leaveCountry.getFamilyAnotherCountry().getId();
             leaveCountry.setFamilyAnotherCountry(electionRepository.findOne(family));
-            if(family.equals(Constants.ELECTION_YES)){
-            leaveCountry.setCommunicationFamily(electionRepository.findOne(leaveCountry.getCommunicationFamily().getId()));
+            if (family.equals(Constants.ELECTION_YES)) {
+                leaveCountry.setCommunicationFamily(electionRepository.findOne(leaveCountry.getCommunicationFamily().getId()));
             }
             Long livedCountry = leaveCountry.getLivedCountry().getId();
             leaveCountry.setLivedCountry(electionRepository.findOne(livedCountry));
-            if(livedCountry!=null && livedCountry.equals(Constants.ELECTION_YES)){
+            if (livedCountry != null && livedCountry.equals(Constants.ELECTION_YES)) {
                 leaveCountry.setCountry(countryRepository.findOne(leaveCountry.getCountry().getId()));
             }
-            if(c.getMeeting().getLeaveCountry()!=null && c.getMeeting().getLeaveCountry().getId()!=null){
+            if (c.getMeeting().getLeaveCountry() != null && c.getMeeting().getLeaveCountry().getId() != null) {
                 leaveCountry.setId(c.getMeeting().getLeaveCountry().getId());
             }
             c.getMeeting().setLeaveCountry(leaveCountry);
@@ -610,37 +671,35 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
-    @Autowired
-    StatusCaseRepository statusCaseRepository;
-
+    @Transactional
     @Override
     public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, Integer[] physicalCondition, Integer[] activity) {
         ResponseMessage result = new ResponseMessage();
-        try{
-            ResponseMessage aux = upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(),physicalCondition, activity);
-            if(aux.isHasError())
+        try {
+            ResponseMessage aux = upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(), physicalCondition, activity);
+            if (aux.isHasError())
                 return aux;
-            aux = doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(),sch);
-            if(aux.isHasError())
+            aux = doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(), sch);
+            if (aux.isHasError())
                 return aux;
             aux = upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
-            if(aux.isHasError())
+            if (aux.isHasError())
                 return aux;
             Case c = caseRepository.findOne(meeting.getCaseDetention().getId());
-            if((c.getMeeting().getReferences()!= null && c.getMeeting().getReferences().size()>0) ||(c.getMeeting().getSocialNetwork()!=null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork()!= null
-                    && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork().size()>0)){
+            if ((c.getMeeting().getReferences() != null && c.getMeeting().getReferences().size() > 0) || (c.getMeeting().getSocialNetwork() != null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork() != null
+                    && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork().size() > 0)) {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
                 c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
                 caseRepository.save(c);
                 result.setHasError(false);
                 result.setMessage("Entrevista terminada con exito");
                 result.setUrlToGo("/index.html");
-            }else {
+            } else {
                 result.setHasError(true);
                 result.setMessage("Para terminar la entrevista debe agragar al menos una referencia perosnal o una persona de su red social.");
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al terminar la entrevista. Intente más tarde");
         }
@@ -650,27 +709,126 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     public ResponseMessage validateCreateMeeting(Imputed imputed) {
-        if(imputed.getDateBirth()!=null){
-            Calendar dob = Calendar.getInstance();
-            dob.setTime(imputed.getDateBirth());
-            Calendar today = Calendar.getInstance();
-            int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-            if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
-                age--;
-            if(age<18){
+        if (imputed.getDateBirth() != null) {
+            Integer age = userService.calculateAge(imputed.getDateBirth());
+            if (age.compareTo(18) == -1) {
                 return new ResponseMessage(true, "El imputado debe tener más de 18 años para continuar");
             }
-        }else{
+        } else {
             return new ResponseMessage(true, "Favor de ingresar la fecha de nacimiento del imputado.");
         }
-        if(imputed.getMeeting()!=null && imputed.getMeeting().getCaseDetention()!=null && imputed.getMeeting().getCaseDetention().getIdFolder()!=null){
+        if (imputed.getMeeting() != null && imputed.getMeeting().getCaseDetention() != null && imputed.getMeeting().getCaseDetention().getIdFolder() != null) {
             Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
-            if(c!=null){
-                return  new ResponseMessage(true,"El número de carpeta de investigación ya se encuentra registrado.");
+            if (c != null) {
+                return new ResponseMessage(true, "El número de carpeta de investigación ya se encuentra registrado.");
             }
-        }else{
-            return new ResponseMessage(true,"Favor de ingresar el número de carpeta de investigación para continuar");
+        } else {
+            return new ResponseMessage(true, "Favor de ingresar el número de carpeta de investigación para continuar");
         }
         return null;
     }
+
+    @Override
+    @Transactional
+    public ResponseMessage saveProceedingLegal(CriminalProceedingView cpv) {
+        ResponseMessage result = new ResponseMessage();
+        try {
+            List<String> validate = new ArrayList<>();
+            validate = validateProceedingLegal(cpv);
+            if (validate.size() > 0) {
+                Gson gson = new Gson();
+                result.setHasError(true);
+                result.setMessage(gson.toJson(validate));
+                return result;
+            }
+            Address av = new Address();
+            Long locationId = cpv.getDomicileVictim().getLocation().getId();
+            av.setLocation(locationRepository.findOne(locationId));
+            av.setStreet(cpv.getDomicileVictim().getStreet());
+            av.setInnNum(cpv.getDomicileVictim().getInnNum());
+            av.setOutNum(cpv.getDomicileVictim().getOutNum());
+            av.setAddressString(av.toString());
+            av = addressRepository.save(av);
+            Case c = caseRepository.findOne(cpv.getIdCase());
+            CurrentCriminalProceeding ccp = new CurrentCriminalProceeding();
+            ccp.setMeeting(c.getMeeting());
+            ccp.setBehaviorDetention(cpv.getBehaviorDetention());
+            ccp.setDomicileVictim(av);
+            ccp.setNameVictim(cpv.getNameVictim());
+            ccp.setCrimeList(legalService.generateCrime(cpv.getListCrime(), ccp));
+            if (cpv.getListCoDefendant() != null && !cpv.getListCoDefendant().equals("")) {
+                ccp.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccp));
+            }
+            ccp.setRelationshipVictim(relationshipRepository.findOne(cpv.getRelVictimId()));
+            ccp.setPlaceDetention(cpv.getPlaceDetention());
+            c.getMeeting().setCurrentCriminalProceeding(ccp);
+            //currentCriminalProceedingRepository.save(ccp);
+            PreviousCriminalProceeding pcp = new PreviousCriminalProceeding();
+            pcp.setFirstProceeding(cpv.getFirstProceeding());
+            pcp.setOpenProcessNumber(cpv.getOpenProcessNumber());
+            pcp.setNumberConvictions(cpv.getNumberConvictions());
+            pcp.setComplyPM(electionRepository.findOne(cpv.getComplyPMId()));
+            pcp.setComplyCSPP(electionRepository.findOne(cpv.getComplyCSPPId()));
+            pcp.setComplyProcessAbove(electionRepository.findOne(cpv.getComplyProcessAboveId()));
+            pcp.setMeeting(c.getMeeting());
+            c.getMeeting().setPreviousCriminalProceeding(pcp);
+            StatusMeeting stm = statusMeetingRepository.findByCode(Constants.S_MEETING_COMPLETE);
+            c.getMeeting().setStatus(stm);
+            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));
+            verificationService.createVerification(c);
+            //verificationRepository.save(c.getVerification());
+            //c.getVerification().setSourceVerifications(verificationService.convertAllInitSourcesVerif(c));
+            caseRepository.save(c);
+            caseRepository.saveAndFlush(c);
+            result.setHasError(false);
+            result.setMessage("Entrevista terminada con exito");
+            result.setUrlToGo("/index.html");
+        } catch (Exception e) {
+            result.setHasError(true);
+            result.setMessage("Ha ocurrido un error al guardar la información");
+        } finally {
+            return result;
+        }
+    }
+
+    public List<String> validateProceedingLegal(CriminalProceedingView cpv) {
+        List<String> messageError = new ArrayList<>();
+        if (cpv.getListCrime().trim().equals(""))
+            messageError.add("Debe agregar al menos un delito.");
+        if (cpv.getHaveCoDEfendant() && cpv.getListCoDefendant().trim().equals(""))
+            messageError.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
+        if (cpv.getPlaceDetention().trim().equals(""))
+            messageError.add("El lugar de detención es obligatorio");
+        if (cpv.getBehaviorDetention().trim().equals(""))
+            messageError.add("El comportamiento durante la detención es obligatorio");
+        if (cpv.getNameVictim().trim().equals(""))
+            messageError.add("El nombre completo de la victima es obligatorio");
+        if (cpv.getFirstProceeding().trim().equals(""))
+            messageError.add("El primer caso es obligatorio");
+        if (cpv.getOpenProcessNumber() == null)
+            messageError.add("El número de procesos abiertos es obligatorio");
+        if (cpv.getNumberConvictions() == null)
+            messageError.add("El número de sentencias condenatorioas es obligatorio");
+        messageError.addAll(addressService.validateAddress(cpv.getDomicileVictim()));
+        return messageError;
+    }
+
+
+    public boolean validateMeetingUser(Long idCase) {
+        Case c = caseRepository.findOne(idCase);
+        Long userMeeting = c.getMeeting().getReviewer().getId();
+        Long userLogged = userService.GetLoggedUserId();
+        if (userLogged != null && userMeeting.equals(userLogged)) {
+            return true;
+        }
+        return false;
+    }
+
+    public ResponseMessage messageValidateMeetingUser(Long idCase) {
+        if (!validateMeetingUser(idCase)) {
+            return new ResponseMessage(true, "Este usuario no tiene permiso para ver la información solicitada");
+        }
+        return null;
+    }
+
 }

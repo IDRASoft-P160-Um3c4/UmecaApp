@@ -123,5 +123,20 @@
         </div>
     </div>
 </div>
+    <br/>
+    <div class="row" ng-show="p.livId == 2">
+        <div class="col-xs-12">
+            <div class="col-xs-2 element-left">Dirección:</div>
+            <div class="col-xs-10">
+                <textarea id="address" class="form-control"  name="address"
+                          data-val="true" data-val-required="La dirección es un campo requerido"
+                          data-val-length="Debe tener al menos 6 y máximo 500 caracteres"
+                          data-val-length-max="500" data-val-length-min="6">{{p.address}}</textarea>
+            </div>
+        </div>
+        <div class="col-xs-10 col-xs-offset-2">
+            <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
+        </div>
+    </div>
 
     </div>
