@@ -135,6 +135,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     public HearingFormatView fillNewHearingFormatForView(Long idCase, Long idFormat) {
 
         HearingFormatView hearingFormatView = new HearingFormatView();
+
         //TODO si no hay hearing format debo buscar si el caso existe y si tiene una verificación para obtener los datos de ahi
 
         //TODO debo buscar si ya existe un hearing format para obtener los datos de ahi y crear el nuevo
@@ -142,7 +143,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         //TODO si no existe hearing format debo traer la información de meeting, ya que se creo el caso por suspensión condicional
 
         Case existCase = caseRepository.findOne(idCase);
-
         Integer meetType = existCase.getMeeting().getMeetingType();
 
 
