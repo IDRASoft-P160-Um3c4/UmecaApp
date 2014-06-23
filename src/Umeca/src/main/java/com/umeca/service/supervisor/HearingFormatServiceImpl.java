@@ -145,119 +145,21 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         Case existCase = caseRepository.findOne(idCase);
         Integer meetType = existCase.getMeeting().getMeetingType();
 
-        if(meetType.equals(HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE)) { //si el meeting fue creado como suspension condicional
+        if (meetType.equals(HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE)) { //si el meeting fue creado como suspension condicional
 
-            if (existCase.getHearingFormats() != null && existCase.getHearingFormats().size() > 0) { //busco si ya existe alguno y tomo la información, si no lleno
+            if (existCase.getHearingFormats() != null && existCase.getHearingFormats().size() > 0) { //busco si ya existe algun formato y tomo la información, si la obtengo de meeting
 
-
-
-            }
-        }
-
-
-/*
-        //caso1 no existe anda, viene de suspension condicional
-        if (existCase == null) {
-            hearingFormatView.setIdFolderCode(idFolder);
-            hearingFormatView.setExistImputed(false);
-            hearingFormatView.setCanSave(true);
-            hearingFormatView.setHasHF(false);
-            hearingFormatView.setArrangementType(Constants.CONDITIONAL_REPRIEVE_HEARING);
-
-        } else//existe el caso pero no el formato, viene de meeting
-            if (existCase != null && existCase.getHearingFormat() == null) {
-
-                hearingFormatView.setIdFolderCode(existCase.getIdFolder());
-                hearingFormatView.setIdJudicialFolderCode(existCase.getIdMP());
-
+            } else {
+                hearingFormatView.setIdFolder(existCase.getIdFolder());
+                hearingFormatView.setIdJudicial(existCase.getIdMP());
                 hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
                 hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
                 hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
                 hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getDateBirth());
-                hearingFormatView.setImputedTel(existCase.getMeeting().getImputed().getCelPhone());
+            }
+        }
 
-                if (existCase.getMeeting().getDomiciles() != null && existCase.getMeeting().getDomiciles().size() > 0) {
-                    hearingFormatView.setZipCode(existCase.getMeeting().getDomiciles().get(0).getLocation().getZipCode());
-
-                    sta.setDescription(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getState().getDescription());
-
-                    mun.setName(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getName());
-                    mun.setState(sta);
-
-                    loc.setId(existCase.getMeeting().getDomiciles().get(0).getLocation().getId());
-                    loc.setName(existCase.getMeeting().getDomiciles().get(0).getLocation().getName());
-                    loc.setMunicipality(mun);
-
-                    hearingFormatView.setLocation(conv.toJson(loc));
-                    hearingFormatView.setStreet(existCase.getMeeting().getDomiciles().get(0).getStreet());
-                    hearingFormatView.setOutNum(existCase.getMeeting().getDomiciles().get(0).getNoOut());
-                    hearingFormatView.setInnNum(existCase.getMeeting().getDomiciles().get(0).getNoIn());
-                }
-
-                hearingFormatView.setExistImputed(true);
-                hearingFormatView.setCanSave(true);
-                hearingFormatView.setHasHF(false);
-                hearingFormatView.setArrangementType(Constants.MEETING_HEARING);
-
-            } else //existe el caso y el formato, ya se ha guardado cualqueira de los 2 casos
-                if (existCase != null && existCase.getHearingFormat() != null) {
-
-                    hearingFormatView.setIdFolderCode(existCase.getIdFolder());
-                    hearingFormatView.setIdJudicialFolderCode(existCase.getIdMP());
-
-                    hearingFormatView.setNumberDate(existCase.getHearingFormat().getNoDate());
-                    hearingFormatView.setRoom(existCase.getHearingFormat().getRoom());
-                    hearingFormatView.setInitTime(existCase.getHearingFormat().getInitTime());
-                    hearingFormatView.setEndTime(existCase.getHearingFormat().getEndTime());
-                    hearingFormatView.setJudgeName(existCase.getHearingFormat().getJudgeName());
-                    hearingFormatView.setMpName(existCase.getHearingFormat().getMpName());
-                    hearingFormatView.setDefenderName(existCase.getHearingFormat().getDefenderName());
-                    hearingFormatView.setCrimes(existCase.getHearingFormat().getCrimes());
-                    hearingFormatView.setAdditionalData(existCase.getHearingFormat().getAdditionalData());
-                    hearingFormatView.setTerms(existCase.getHearingFormat().getTerms());
-
-                    hearingFormatView.setControlDetention(existCase.getHearingFormat().getHearingFormatSpecs().getControlDetention());
-                    hearingFormatView.setHearingType(existCase.getHearingFormat().getHearingFormatSpecs().getHearingType());
-                    hearingFormatView.setImputationDate(existCase.getHearingFormat().getHearingFormatSpecs().getImputationDate());
-                    hearingFormatView.setLinkageRoom(existCase.getHearingFormat().getHearingFormatSpecs().getLinkageRoom());
-                    hearingFormatView.setLinkageDate(existCase.getHearingFormat().getHearingFormatSpecs().getLinkageDate());
-                    hearingFormatView.setLinkageTime(existCase.getHearingFormat().getHearingFormatSpecs().getLinkageTime());
-                    hearingFormatView.setExtension(existCase.getHearingFormat().getHearingFormatSpecs().getExtension());
-
-                    if (existCase.getMeeting() != null) {
-                        hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
-                        hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
-                        hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
-                        hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getDateBirth());
-                        hearingFormatView.setImputedTel(existCase.getMeeting().getImputed().getCelPhone());
-
-                        if (existCase.getMeeting().getDomiciles() != null & existCase.getMeeting().getDomiciles().size() > 0) {
-
-                            hearingFormatView.setZipCode(existCase.getMeeting().getDomiciles().get(0).getLocation().getZipCode());
-
-                            sta.setDescription(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getState().getDescription());
-
-                            mun.setName(existCase.getMeeting().getDomiciles().get(0).getLocation().getMunicipality().getName());
-                            mun.setState(sta);
-
-                            loc.setId(existCase.getMeeting().getDomiciles().get(0).getLocation().getId());
-                            loc.setName(existCase.getMeeting().getDomiciles().get(0).getLocation().getName());
-                            loc.setMunicipality(mun);
-
-                            hearingFormatView.setLocation(conv.toJson(loc));
-                            hearingFormatView.setStreet(existCase.getMeeting().getDomiciles().get(0).getStreet());
-                            hearingFormatView.setOutNum(existCase.getMeeting().getDomiciles().get(0).getNoOut());
-                            hearingFormatView.setInnNum(existCase.getMeeting().getDomiciles().get(0).getNoIn());
-                        }
-                    }
-
-                    hearingFormatView.setExistImputed(true);
-                    hearingFormatView.setCanSave(false);
-                    hearingFormatView.setHasHF(true);
-                    hearingFormatView.setArrangementType(existCase.getHearingFormat().getOriginType());
-                }*/
-
-            return hearingFormatView;
+        return hearingFormatView;
     }
 
     /*

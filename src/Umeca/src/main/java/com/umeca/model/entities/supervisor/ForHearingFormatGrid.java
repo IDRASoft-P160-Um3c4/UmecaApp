@@ -30,6 +30,8 @@ public class ForHearingFormatGrid implements EntityGrid {
         sb.append(" ");
         sb.append(lastNM);
 
+
+
         this.fullName = sb.toString();
 
         if (hType.equals(HearingFormatConstants.HEARING_TYPE_MC))
