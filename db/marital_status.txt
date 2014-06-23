@@ -2,4 +2,4 @@ id|name
 1|Soltero
 2|Casado
 3|Divorciado
-4|Unión libre
+4|UniÃ³n libre

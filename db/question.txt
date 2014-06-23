@@ -1,4 +1,4 @@
-﻿id|is_obsolete|question|value|id_question_type|id_questionary_section|quest_index
+id|is_obsolete|question|value|id_question_type|id_questionary_section|quest_index
 1|false|Tiene más de dos años viviendo con su familia |padres| pareja o hijos).|3|1|6|1
 2|false|Tiene entre un año y dos viviendo con su familia |padres| pareja o hijos).|2|1|6|2
 3|false|Tiene menos de un año viviendo con su familia |padres| pareja| hijos).|1|1|6|3

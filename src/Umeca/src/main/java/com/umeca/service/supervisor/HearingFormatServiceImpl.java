@@ -135,8 +135,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     public HearingFormatView fillNewHearingFormatForView(Long idCase, Long idFormat) {
 
         HearingFormatView hearingFormatView = new HearingFormatView();
-
-
         //TODO si no hay hearing format debo buscar si el caso existe y si tiene una verificación para obtener los datos de ahi
 
         //TODO debo buscar si ya existe un hearing format para obtener los datos de ahi y crear el nuevo

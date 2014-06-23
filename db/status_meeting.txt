@@ -1,4 +1,4 @@
-﻿id_status|status|description
+id_status|status|description
 1|INCOMPLETE|Entrevista incompleta
 2|INCOMPLETE_LEGAL|Por agregar información legal
 3|COMPLETE|Finalizado
