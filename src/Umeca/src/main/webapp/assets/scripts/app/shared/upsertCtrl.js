@@ -106,10 +106,14 @@
         $scope.WaitFor = false;
 
         try {
+
             if (resp.hasError === undefined) {
+                alert("aa");
                 resp = resp.responseMessage;
             }
+
             if (resp.hasError === false) {
+                alert("bb");
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({ isCancel: false });
                 return;
@@ -119,11 +123,13 @@
             $scope.$apply();
 
         } catch (e) {
+            alert("cc");
             $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
         }
     };
 
     $scope.handleError = function () {
+        alert("dddddd");
         $scope.WaitFor = false;
         $scope.MsgError = "Error de red. Por favor intente más tarde.";
         $scope.$apply();

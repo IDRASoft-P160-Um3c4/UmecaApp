@@ -9,9 +9,13 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Domicile;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.repository.CaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
+import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +42,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     LocationRepository locationRepository;
 
     @Autowired
-    CaseService caseService;
+    CaseRepository caseRepository;
 
     @Autowired
     ArrangementRepository arrangementRepository;
@@ -46,8 +50,15 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     @Autowired
     CatalogService catalogService;
 
+    @Autowired
+    SharedUserService sharedUserService;
+
+    @Autowired
+    UserRepository userRepository;
+
     private Gson conv = new Gson();
 
+    /*
     @Transactional
     @Override
     public ResponseMessage save(HearingFormat hearingFormat) {
@@ -72,7 +83,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         HearingFormat hearingFormat = new HearingFormat();
 
-        hearingFormat.setNoDate(viewFormat.getNumberDate());
+        //hearingFormat.setNoDate(viewFormat.getNumberDate());
         hearingFormat.setRegisterTimestamp(new Timestamp(new Date().getTime()));
         hearingFormat.setRoom(viewFormat.getRoom());
         hearingFormat.setInitTime(viewFormat.getInitTime());
@@ -84,6 +95,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormat.setAdditionalData(viewFormat.getAdditionalData());
         hearingFormat.setTerms(viewFormat.getTerms());
         hearingFormat.setOriginType(viewFormat.getArrangementType());
+        hearingFormat.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
         HearingFormatSpecs hearingFormatSpecs = new HearingFormatSpecs();
         hearingFormatSpecs.setControlDetention(viewFormat.getControlDetention());
         hearingFormatSpecs.setImputationDate(viewFormat.getImputationDate());
@@ -117,18 +129,36 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormat.setHearingFormatSpecs(hearingFormatSpecs);
 
         return hearingFormat;
-    }
+    }*/
 
     @Override
-    public HearingFormatView fillForView(Case existCase, String idFolder) {
-
-        StateView sta = new StateView();
-        MunicipalityView mun = new MunicipalityView();
-        LocationView loc = new LocationView();
+    public HearingFormatView fillNewHearingFormatForView(Long idCase, Long idFormat) {
 
         HearingFormatView hearingFormatView = new HearingFormatView();
 
 
+        //TODO si no hay hearing format debo buscar si el caso existe y si tiene una verificación para obtener los datos de ahi
+
+        //TODO debo buscar si ya existe un hearing format para obtener los datos de ahi y crear el nuevo
+
+        //TODO si no existe hearing format debo traer la información de meeting, ya que se creo el caso por suspensión condicional
+
+        Case existCase = caseRepository.findOne(idCase);
+
+        Integer meetType = existCase.getMeeting().getMeetingType();
+
+
+        if(meetType.equals(HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE)) { //si el meeting fue creado como suspension condicional
+
+            if (existCase.getHearingFormats() != null && existCase.getHearingFormats().size() > 0) { //busco si ya existe alguno y tomo la información, si no lleno
+
+
+
+            }
+        }
+
+
+/*
         //caso1 no existe anda, viene de suspension condicional
         if (existCase == null) {
             hearingFormatView.setIdFolderCode(idFolder);
@@ -228,17 +258,37 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     hearingFormatView.setCanSave(false);
                     hearingFormatView.setHasHF(true);
                     hearingFormatView.setArrangementType(existCase.getHearingFormat().getOriginType());
-                }
+                }*/
 
-        return hearingFormatView;
+            return hearingFormatView;
     }
 
-    public List<ArrangementView> getArrangmentLst(String folderId) {
-
-        Case caseDet = caseService.findByIdFolder(folderId);
+    /*
+    public List<ArrangementView> getArrangmentLst(Integer idTipo) {
 
         List<ArrangementView> lstArrmntView = new ArrayList<>();
 
+        List<Arrangement> lstArrmnt = arrangementRepository.findByType(idTipo);
+        Collections.sort(lstArrmnt, Arrangement.arrangementComparator);
+
+        for (Arrangement arrmnt : lstArrmnt) {
+            ArrangementView arrV = new ArrangementView();
+            arrV.setId(arrmnt.getId());
+            arrV.setName(arrmnt.getDescription());
+            arrV.setSelVal(false);
+            lstArrmntView.add(arrV);
+        }
+
+        return lstArrmntView;
+    }
+
+
+    public List<ArrangementView> getArrangmentLst(String folderId) {
+
+        //Case caseDet = caseService.findByIdFolder(folderId);
+
+        List<ArrangementView> lstArrmntView = new ArrayList<>();
+/*
         Integer arrmntType = Constants.CONDITIONAL_REPRIEVE_HEARING;
 
         if (caseDet != null) {
@@ -272,5 +322,5 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         }
 
         return lstArrmntView;
-    }
+    }*/
 }

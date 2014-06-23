@@ -13,8 +13,14 @@ import java.util.List;
  */
 public interface HearingFormatService {
 
-    ResponseMessage save(HearingFormat hearingFormat);
+    /*ResponseMessage save(HearingFormat hearingFormat);
     HearingFormat fillHearingFormat(HearingFormatView viewFormat);
-    HearingFormatView fillForView(Case existCase,String idFolder);
+
+    HearingFormatView fillForView(Long idCase, Long idFormat);
+
+    //HearingFormatView fillForView(String idFolder);
     List<ArrangementView> getArrangmentLst(String folderId);
+    List<ArrangementView> getArrangmentLst(Integer tipo);*/
+
+    HearingFormatView fillNewHearingFormatForView(Long idCase, Long idFormat);
 }

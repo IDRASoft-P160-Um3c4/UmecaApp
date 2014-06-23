@@ -20,6 +20,10 @@
             window.goToUrlMvcUrl(goTo);
         };
 
+        genHtml = function (id) {
+            alert("reporte");
+        };
+
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/technicalReview/list.json' />',
@@ -62,6 +66,7 @@
                                 break;
                             case "ST_CASE_TECHNICAL_REVIEW_COMPLETE":
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar opinión técnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte\" onclick=\"genHtml('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                                 break;
                             default:
                                 be = "<a style=\"display:inline-block;\" title=\"Aún no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";

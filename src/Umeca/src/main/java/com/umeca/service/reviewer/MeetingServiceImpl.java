@@ -45,16 +45,21 @@ public class MeetingServiceImpl implements MeetingService {
         Long result = null;
         try {
             Case caseDetention = new Case();
+
             if (imputedRepository.findImputedRegister(imputed.getName(), imputed.getLastNameP(), imputed.getLastNameM(), imputed.getDateBirth()).size() > 0)
                 caseDetention.setRecidivist(true);
             else
                 caseDetention.setRecidivist(false);
+
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
+
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention = caseRepository.save(caseDetention);
             Meeting meeting = new Meeting();
             meeting.setCaseDetention(caseDetention);
+
             StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
+
             meeting.setStatus(statusMeeting);
             meeting = meetingRepository.save(meeting);
             imputed.setMeeting(meeting);

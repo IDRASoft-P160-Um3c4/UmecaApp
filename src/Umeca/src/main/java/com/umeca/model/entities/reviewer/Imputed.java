@@ -14,52 +14,53 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="imputed")
-public class Imputed { @Id
+@Table(name = "imputed")
+public class Imputed {
+    @Id
     @GeneratedValue
-    @Column(name="id_imputed")
+    @Column(name = "id_imputed")
     private Long id;
 
-    @Column(name="name", length = 50, nullable = false)
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name="lastname_p", length = 50, nullable = false)
+    @Column(name = "lastname_p", length = 50, nullable = false)
     private String lastNameP;
 
-    @Column(name="lastname_m", length = 50, nullable = false)
+    @Column(name = "lastname_m", length = 50, nullable = false)
     private String lastNameM;
 
-    @Column(name="gender", nullable = true)
+    @Column(name = "gender", nullable = true)
     private Boolean gender;
 
-    @Column(name="date_birth", nullable = false)
+    @Column(name = "date_birth", nullable = false)
     private Date dateBirth;
 
-    @Column(name="cel_phone", length = 20, nullable = true)
+    @Column(name = "cel_phone", length = 20, nullable = true)
     private String celPhone;
 
-    @Column(name="years_marital_status", nullable = true)
+    @Column(name = "years_marital_status", nullable = true)
     private Integer yearsMaritalStatus;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_marital_status", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_marital_status", nullable = true)
     private MaritalStatus maritalStatus;
 
-    @Column(name="boys", nullable = true)
+    @Column(name = "boys", nullable = true)
     private Integer boys;
 
-    @Column(name="dependent_boys", nullable = true)
+    @Column(name = "dependent_boys", nullable = true)
     private Integer dependentBoys;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_country", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_country", nullable = true)
     private Country birthCountry;
 
-    @Column(name="birth_place", nullable = true, length = 500)
+    @Column(name = "birth_place", nullable = true, length = 500)
     private String birthPlace;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_meeting", nullable = false)
     private Meeting meeting;
 
     public Long getId() {
