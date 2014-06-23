@@ -138,7 +138,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         //TODO si no hay hearing format debo buscar si el caso existe y si tiene una verificación para obtener los datos de ahi
 
-
         //TODO debo buscar si ya existe un hearing format para obtener los datos de ahi y crear el nuevo
 
         //TODO si no existe hearing format debo traer la información de meeting, ya que se creo el caso por suspensión condicional
