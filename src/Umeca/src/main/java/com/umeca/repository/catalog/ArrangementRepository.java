@@ -20,5 +20,4 @@ public interface ArrangementRepository extends JpaRepository<Arrangement, Long>{
             "WHERE mp.id =:id")
     List<SelectList> findLstArrangement(@Param("id")Long id);
 
-
 }

@@ -91,4 +91,12 @@ public class MonitoringPlan {
     public void setAuthorizer(User authorizer) {
         this.authorizer = authorizer;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

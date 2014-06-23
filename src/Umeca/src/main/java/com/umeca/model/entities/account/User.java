@@ -52,6 +52,14 @@ public class User implements EntityGrid {
     @JoinTable(name="user_role", joinColumns ={@JoinColumn(name = "id_user")}, inverseJoinColumns = {@JoinColumn(name = "id_role")})
     private List<Role> roles;
 
+    public User(){
+
+    }
+
+    public User(Long id, Boolean enabled){
+        this.id = id;
+        this.enabled = enabled;
+    }
 
     public Long getId() {
         return id;

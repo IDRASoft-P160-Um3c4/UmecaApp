@@ -85,6 +85,12 @@ window.showAction = function (id, divScope, urlToGo, jqGridToUse, title, message
         then(function () { $(jqGridToUse).trigger("reloadGrid"); });
 };
 
+window.showConfirmFull = function (id, divScope, urlToGo, jqGridToUse, title, message, type) {
+    var scope = angular.element($(divScope)).scope();
+    scope.doConfirmFull({ id: id }, urlToGo, title, message, type).
+        then(function () { $(jqGridToUse).trigger("reloadGrid"); });
+};
+
 window.showModalFormDlg = function (divModalid, formId) {
     var dlgCat = $(divModalid);
     dlgCat.modal('show');
@@ -168,4 +174,23 @@ window.formatTime = function(sTime){
     }catch(e){
         return {hours:0, minutes: 0, seconds: 0};
     }
+}
+
+window.formatDateTime = function(dt){
+    return dt.getFullYear() + '/' + (dt.getMonth() + 1) + '/' + dt.getDate() + '|' + dt.getHours() + ':' + dt.getMinutes();
+}
+
+
+//2014/MM/DD|14:15
+window.stringToDate = function(sDt){
+    var partDt = sDt.split("|");
+    var partD = partDt[0].split("/");
+    var partT = partDt[1].split(":");
+    var year = parseInt(partD[0]);
+    var month = parseInt(partD[1]);
+    var day = parseInt(partD[2]);
+    var hour = parseInt(partT[0]);
+    var minute = parseInt(partT[1]);
+
+    return new Date(year, month-1, day, hour, minute, 0, 0);
 }

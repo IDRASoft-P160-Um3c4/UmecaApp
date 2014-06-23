@@ -14,6 +14,7 @@ import java.util.Date;
 public class MonitoringPlanView implements EntityGrid{
 
     private Long id;
+    private Long hearingFormatId;
     private String idFolder;
     private String idMP;
     private String name;
@@ -26,8 +27,9 @@ public class MonitoringPlanView implements EntityGrid{
     private String supervisor;
 
 
-    public MonitoringPlanView(Long id, String idFolder, String idMP, String name, String lastNameP, String lastNameM, Date creationTime, String status, String supervisor) {
+    public MonitoringPlanView(Long id, Long hearingFormatId, String idFolder, String idMP, String name, String lastNameP, String lastNameM, Date creationTime, String status, String supervisor) {
         this.id = id;
+        this.hearingFormatId = hearingFormatId;
         this.idFolder = idFolder;
         this.idMP = idMP;
         this.name = name;
@@ -45,6 +47,14 @@ public class MonitoringPlanView implements EntityGrid{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getHearingFormatId() {
+        return hearingFormatId;
+    }
+
+    public void setHearingFormatId(Long hearingFormatId) {
+        this.hearingFormatId = hearingFormatId;
     }
 
     public String getIdFolder() {
