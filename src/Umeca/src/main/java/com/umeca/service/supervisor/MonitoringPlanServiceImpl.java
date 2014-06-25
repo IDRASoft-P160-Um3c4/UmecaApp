@@ -10,10 +10,12 @@ import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
+import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.LogChangeDataRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,6 +42,9 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
     @Autowired
     ArrangementRepository arRepository;
 
+    @Autowired
+    HearingFormatRepository hearingFormatRepository;
+
     @Override
     public boolean doUpsertDelete(MonitoringPlanRepository monitoringPlanRepository, ActivityMonitoringPlanRequest fullModel, User user, ResponseMessage response) {
         if(ValidatePlanMonitoring(monitoringPlanRepository, fullModel, user, response) == false)
@@ -52,7 +57,8 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         }
         actMpRepository.flush();
 
-        List<SelectList> lstArrangementSelected = arRepository.findLstArrangement(fullModel.getMonitoringPlanId());
+        List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(fullModel.getMonitoringPlanId(), new PageRequest(0,1));
+        List<SelectList> lstArrangementSelected = arRepository.findLstArrangement(lastHearingFormatId.get(0));
 
         Long idCase = fullModel.getCaseId();
         List<ActivityMonitoringPlanDto> lstActivitiesUpsert = fullModel.getLstActivitiesUpsert();
@@ -175,8 +181,12 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         supervisionActivity.setId(dto.getActivityMonId());
         activityMonitoringPlan.setSupervisionActivity(supervisionActivity);
 
-        activityMonitoringPlan.setEnd(dto.getEndCalendar());
-        activityMonitoringPlan.setStart(dto.getStartCalendar());
+        Calendar cal = dto.getEndCalendar();
+        activityMonitoringPlan.setEnd(cal);
+        activityMonitoringPlan.setSearchEnd((cal.get(Calendar.YEAR) * 100) + (cal.get(Calendar.MONTH) + 1));
+        cal = dto.getStartCalendar();
+        activityMonitoringPlan.setStart(cal);
+        activityMonitoringPlan.setSearchStart((cal.get(Calendar.YEAR) * 100) + (cal.get(Calendar.MONTH) + 1));
 
         if(isNew == true){
             Case caseDetention = new Case();

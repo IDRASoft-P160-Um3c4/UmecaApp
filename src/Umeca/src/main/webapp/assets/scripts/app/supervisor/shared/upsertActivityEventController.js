@@ -50,6 +50,9 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         $scope.isReadOnly = params.isReadOnly;
         $scope.activities = [];
         $scope.m.lstArrangements = {};
+        $scope.m.chkBusinessWeek = false;
+        $scope.m.chkWeek = false;
+
 
         if(params.isNew === false){
             $scope.fillFields(params.event);

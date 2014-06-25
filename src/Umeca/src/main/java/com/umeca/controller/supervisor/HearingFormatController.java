@@ -35,7 +35,7 @@ import java.util.List;
 @Controller
 public class HearingFormatController {
 
-  /*  @Qualifier("qArrangementRepository")
+  @Qualifier("qArrangementRepository")
     @Autowired
     ArrangementRepository arrangementRepository;
 

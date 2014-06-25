@@ -16,6 +16,9 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
 
     @Query("SELECT amp FROM ActivityMonitoringPlan amp WHERE amp.monitoringPlan.id =:monPlanId AND amp.status<>:status")
     List<ActivityMonitoringPlan> findValidActivitiesBy(@Param("monPlanId")Long monitoringPlanId, @Param("status")String status);
+
+    @Query("SELECT count(amp.id) FROM ActivityMonitoringPlan amp WHERE amp.monitoringPlan.id =:monPlanId AND amp.status NOT IN :lstStatus")
+    Long countValidActivities(@Param("monPlanId")Long monPlanId, @Param("lstStatus") List<String> lstStatus);
 }
 
 

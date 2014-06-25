@@ -36,8 +36,14 @@ public class ActivityMonitoringPlan {
     @Column(name = "start", nullable = false)
     private Calendar start;
 
+    @Column(name= "search_start", nullable = false)
+    private int searchStart;
+
     @Column(name = "end", nullable = false)
     private Calendar end;
+
+    @Column(name= "search_end", nullable = false)
+    private int searchEnd;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="activity_monitoring_plan_arrangement", joinColumns ={@JoinColumn(name = "id_activity_monitoring_plan")}, inverseJoinColumns = {@JoinColumn(name = "id_assigned_arrangement")})
@@ -184,5 +190,21 @@ public class ActivityMonitoringPlan {
 
     public void setAssignedArrangements(String assignedArrangements) {
         this.assignedArrangements = assignedArrangements;
+    }
+
+    public int getSearchStart() {
+        return searchStart;
+    }
+
+    public void setSearchStart(int searchStart) {
+        this.searchStart = searchStart;
+    }
+
+    public int getSearchEnd() {
+        return searchEnd;
+    }
+
+    public void setSearchEnd(int searchEnd) {
+        this.searchEnd = searchEnd;
     }
 }

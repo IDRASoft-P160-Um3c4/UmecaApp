@@ -162,6 +162,13 @@ public class InsertCatalogController {
         return "Aid Source OK!";
     }
 
+
+    @RequestMapping(value = "/catalogs/insertStatusCase", method = RequestMethod.GET)
+    public String insertStatusCase(){
+        service.statusCase();
+        return "Status Case OK!";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();

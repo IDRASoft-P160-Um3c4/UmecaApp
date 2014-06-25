@@ -165,7 +165,7 @@
                     today.setHours(0,0,0,0);
                     if(event.start < today){
                         revertFunc();
-                        scope.showMsg({title:"Plan de supervisión", msg:'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
+                        scope.showMsg({title:"Plan de seguimiento", msg:'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
                         return;
                     }
                     event.doTitle(true);
@@ -176,7 +176,7 @@
                     today.setHours(0,0,0,0);
                     if(event.start < today){
                         revertFunc();
-                        scope.showMsg({title:"Plan de supervisión", msg:'No es posible modificar una actividad a una fecha anterior a la fecha actual.', type: "danger"});
+                        scope.showMsg({title:"Plan de seguimiento", msg:'No es posible modificar una actividad a una fecha anterior a la fecha actual.', type: "danger"});
                         return;
                     }
                     event.doTitle(true);
@@ -186,7 +186,7 @@
                     var today = new Date();
                     today.setHours(0,0,0,0);
                     if(start < today){
-                        scope.showMsg({title:"Plan de supervisión", msg:'No es posible agregar una actividad con fecha anterior a la fecha actual.', type: "danger"});
+                        scope.showMsg({title:"Plan de seguimiento", msg:'No es posible agregar una actividad con fecha anterior a la fecha actual.', type: "danger"});
                         return;
                     }
 
@@ -205,7 +205,7 @@
                     var isReadOnly = false;
                     if(event.start < today){
                         isReadOnly = true;
-                        //scope.showMsg({title:"Plan de supervisión", msg:'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
+                        //scope.showMsg({title:"Plan de seguimiento", msg:'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
                         //return;
                     }
 
@@ -234,7 +234,7 @@
         });
     </script>
 
-    <title>Plan de Supervisión</title>
+    <title>Plan de seguimiento</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -243,7 +243,7 @@
     <div class="page-content">
         <div class="page-header">
             <h1 class="element-center">
-                <i class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Plan de supervisión (Calendario)
+                <i class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Plan de seguimiento (Calendario)
             </h1>
         </div>
         <div class="page-header">

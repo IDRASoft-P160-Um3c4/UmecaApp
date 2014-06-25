@@ -3,6 +3,7 @@ package com.umeca.model.entities.supervisor;
 import com.umeca.model.shared.EntityGrid;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -14,22 +15,25 @@ import java.util.Date;
 public class MonitoringPlanView implements EntityGrid{
 
     private Long id;
-    private Long hearingFormatId;
     private String idFolder;
     private String idMP;
     private String name;
     private String lastNameP;
     private String lastNameM;
     private String fullName;
-    private Date creationTime;
+    private Calendar creationTime;
     private String stCreationTime;
+    private Calendar generationTime;
+    private String stGenerationTime;
+    private Calendar authorizationTime;
+    private String stAuthorizationTime;
     private String status;
     private String supervisor;
 
 
-    public MonitoringPlanView(Long id, Long hearingFormatId, String idFolder, String idMP, String name, String lastNameP, String lastNameM, Date creationTime, String status, String supervisor) {
+    public MonitoringPlanView(Long id, String idFolder, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
+                              Calendar generationTime, Calendar authorizationTime, String status, String supervisor) {
         this.id = id;
-        this.hearingFormatId = hearingFormatId;
         this.idFolder = idFolder;
         this.idMP = idMP;
         this.name = name;
@@ -37,6 +41,8 @@ public class MonitoringPlanView implements EntityGrid{
         this.lastNameM = lastNameM;
         this.fullName = name + " " + lastNameP + " " + lastNameM;
         this.creationTime = creationTime;
+        this.generationTime = generationTime;
+        this.authorizationTime = authorizationTime;
         this.status = status;
         this.supervisor = supervisor;
     }
@@ -47,14 +53,6 @@ public class MonitoringPlanView implements EntityGrid{
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getHearingFormatId() {
-        return hearingFormatId;
-    }
-
-    public void setHearingFormatId(Long hearingFormatId) {
-        this.hearingFormatId = hearingFormatId;
     }
 
     public String getIdFolder() {
@@ -105,21 +103,61 @@ public class MonitoringPlanView implements EntityGrid{
         this.fullName = fullName;
     }
 
-    public Date getCreationTime() {
+    public Calendar getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Date creationTime) {
+    public void setCreationTime(Calendar creationTime) {
         this.creationTime = creationTime;
     }
 
     public String getStCreationTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        return sdf.format(creationTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String sValue = sdf.format(creationTime.getTime());
+        return sValue;
     }
 
     public void setStCreationTime(String stCreationTime) {
         this.stCreationTime = stCreationTime;
+    }
+
+    public Calendar getGenerationTime() {
+        return generationTime;
+    }
+
+    public void setGenerationTime(Calendar generationTime) {
+        this.generationTime = generationTime;
+    }
+
+    public String getStGenerationTime() {
+        if(generationTime == null)
+            return "";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        return sdf.format(generationTime.getTime());
+    }
+
+    public void setStGenerationTime(String stGenerationTime) {
+        this.stGenerationTime = stGenerationTime;
+    }
+
+    public Calendar getAuthorizationTime() {
+        return authorizationTime;
+    }
+
+    public void setAuthorizationTime(Calendar authorizationTime) {
+        this.authorizationTime = authorizationTime;
+    }
+
+    public String getStAuthorizationTime() {
+        if(authorizationTime == null)
+            return "";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        return sdf.format(authorizationTime.getTime());
+    }
+
+    public void setStAuthorizationTime(String stAuthorizationTime) {
+        this.stAuthorizationTime = stAuthorizationTime;
     }
 
     public String getStatus() {
