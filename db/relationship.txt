@@ -1,17 +1,17 @@
-id|name
-1|Hermano
-2|Madre
-3|Hijo(a)
-4|Primo(a)
-5|Tío(a)
-6|Amigo
-7|Vecino
-8|Desconocido
-9|Patrón
-10|Compañero de trabajo
-11|Padrino
-12|Empleado
-13|Pareja sentimental
-14|Esposa
-15|Suegra
-16|Familiar Político
+id|name|obsolete
+1|Hermano|0
+2|Madre|0
+3|Hijo(a)|0
+4|Primo(a)|0
+5|Tío(a)|0
+6|Amigo|0
+7|Vecino|0
+8|Desconocido|0
+9|Patrón|0
+10|Compañero de trabajo|0
+11|Padrino|0
+12|Empleado|0
+13|Pareja sentimental|0
+14|Esposa|0
+15|Suegra|0
+16|Familiar Político|0
