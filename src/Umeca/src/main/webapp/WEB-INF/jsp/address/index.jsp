@@ -95,35 +95,38 @@ margin-top: 0;
     <div class="row">
         <div class="col-xs-6">
             Calle <br/>
+            <input type="hidden" ng-model="street" name="{{nameAddress}}street" ng-update-hidden>
             <input class="form-control" data-val="true" data-val-required="La calle es un campo requerido"
                    data-val-length-max="100" data-val-length-min="1"
                    data-val-length="Debe tener al menos 1 y máximo 100 caracteres."
-                   type="text" value="" ng-model="street" name="{{nameAddress}}street" id="{{nameAddress}}street">
-                <span class="field-validation-valid" data-valmsg-for="{{nameAddress}}street"
+                   type="text" value="" ng-model="street" name="streetComponent" id="streetComponent">
+                <span class="field-validation-valid" data-valmsg-for="streetComponent"
                       data-valmsg-replace="true"></span>
         </div>
         <div class="col-xs-3">
             No Ext <br/>
+            <input type="hidden" ng-model="outNum" name="{{nameAddress}}outNum" ng-update-hidden>
             <input class="form-control" data-val="true"
                    data-val-length="Debe tener al menos 1 y máximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
                    data-val-required="El número exterior es un campo requerido"
                    type="text" ng-model="outNum"
-                   id="{{nameAddress}}outNum"
-                   name="{{nameAddress}}outNum">
-                <span class="field-validation-valid" data-valmsg-for="{{nameAddress}}outNum"
+                   id="outNumComponent"
+                   name="outNumComponent">
+                <span class="field-validation-valid" data-valmsg-for="outNumComponent"
                       data-valmsg-replace="true"></span>
         </div>
-        <div class="col-xs-2">
+        <div class="col-xs-3">
             No Int <br/>
+            <input type="hidden" ng-model="innNum" name="{{nameAddress}}innNum" ng-update-hidden>
             <input class="with-100" data-val="true"
                    data-val-length="Debe tener al menos 1 y máximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
                    data-val-required="El número interior es un campo requerido"
                    type="text" ng-model="innNum"
-                   id="{{nameAddress}}innNum"
-                   name="{{nameAddress}}innNum">
-                <span class="field-validation-valid" data-valmsg-for="{{nameAddress}}innNum"
+                   id="innNumComponent"
+                   name="innNumComponent">
+                <span class="field-validation-valid" data-valmsg-for="innNumComponent"
                       data-valmsg-replace="true"></span>
         </div>
     </div>

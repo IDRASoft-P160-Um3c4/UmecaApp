@@ -1,13 +1,13 @@
-CREATE TABLE IF NOT EXISTS CatCountry (
-	CountryId INTEGER AUTO_INCREMENT PRIMARY KEY,	
-	Name varchar(50) NOT NULL,
-	Alpha2 varchar(2) NOT NULL,
-	Alpha3 varchar(3) NOT NULL,
-	Latitude double NOT NULL,
-	Longitude double NOT NULL
+﻿CREATE TABLE IF NOT EXISTS cat_country(
+	id_country INTEGER AUTO_INCREMENT PRIMARY KEY,	
+	name varchar(50) NOT NULL,
+	alpha2 varchar(2) NOT NULL,
+	alpha3 varchar(3) NOT NULL,
+	latitude double NOT NULL,
+	longitude double NOT NULL
 ) ENGINE=InnoDB;
 
-INSERT INTO CatCountry (CountryId, Name, Alpha2,Alpha3,Latitude, Longitude) VALUES
+INSERT INTO cat_country (id_country, name, alpha2,alpha3,latitude, longitude) VALUES
 (1, 'Mexico', 'MX', 'MEX', 23, -102),
 (4, 'Afghanistan', 'AF', 'AFG', 33, 65),
 (8, 'Albania', 'AL', 'ALB', 41, 20),
