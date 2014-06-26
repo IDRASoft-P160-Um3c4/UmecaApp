@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.Location;
+import com.umeca.model.catalog.dto.LocationDto;
 import com.umeca.model.entities.reviewer.Case;
 
 import java.sql.Time;
@@ -73,6 +74,18 @@ public class HearingFormatView {
     private String terms;
 
     private String lstArrangement;
+
+    private String street;
+
+    private String outNum;
+
+    private String innNum;
+
+    private LocationDto location;
+
+    private Long idAddres;
+
+    private String lstContactData;
 
     public Long getIdCase() {
         return idCase;
@@ -320,5 +333,53 @@ public class HearingFormatView {
 
     public void setDisableAll(Boolean disableAll) {
         this.disableAll = disableAll;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getOutNum() {
+        return outNum;
+    }
+
+    public void setOutNum(String outNum) {
+        this.outNum = outNum;
+    }
+
+    public String getInnNum() {
+        return innNum;
+    }
+
+    public void setInnNum(String innNum) {
+        this.innNum = innNum;
+    }
+
+    public LocationDto getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationDto location) {
+        this.location = location;
+    }
+
+    public Long getIdAddres() {
+        return idAddres;
+    }
+
+    public void setIdAddres(Long idAddres) {
+        this.idAddres = idAddres;
+    }
+
+    public String getLstContactData() {
+        return lstContactData;
+    }
+
+    public void setLstContactData(String lstContactData) {
+        this.lstContactData = lstContactData;
     }
 }

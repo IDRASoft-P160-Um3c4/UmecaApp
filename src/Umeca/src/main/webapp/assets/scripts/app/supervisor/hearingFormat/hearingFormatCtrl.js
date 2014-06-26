@@ -1,12 +1,12 @@
 app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
         $scope.m = {};
+        $scope.a = {};
 
         $scope.m.errTime;
         $scope.hasError;
         $scope.MsgError;
-//        $scope.m.canSave = true;
-//        $scope.m.canEdit = true;
+        $scope.MsgErrorContact="";
 
         $scope.validateSave = function () {
 
@@ -114,40 +114,40 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             }
         };
 
-        $scope.clFormImp = function () {
+        $scope.addContact = function () {
 
+            if($scope.validateContact ())
+                return;
 
-            //   $("#divFormImp :input").addClass('input-validation-valid');
-            //    $("#divFormImp :input").removeClass('input-validation-error');
+            var jsonRow={"name":$scope.m.contactName,"phone":$scope.m.contactPhone,"address":$scope.m.contactAddress};
 
-            //    $('#divFormImp .field-validation-error').addClass('field-validation-valid');
-            //  $('#divFormImp .field-validation-error').removeClass('field-validation-error');
+            $scope.m.lstContactData.push(jsonRow);
 
-
-            //$('#divFormImp').children('.form-control ng-pristine ng-valid input-validation-error').addClass('input-validation-valid');
-
-            //$('#divFormImp.input-validation-error').removeClass('input-validation-error');
-
-            /*            $("#divFormImp :input").attr("class", "ace input-validation-valid");
-             $("#divFormImp").children(".field-validation-error").css("class", "field-validation-valid");
-
-
-
-             //            $("span.").attr("class", "field-validation-valid");
-             /*
-
-             $('.input-validation-error').addClass('input-validation-valid');
-
-             $('.input-validation-error').removeClass('input-validation-error');
-             //Removes validation message after input-fields
-             $('.field-validation-error').addClass('field-validation-valid');
-             $('.field-validation-error').removeClass('field-validation-error');
-             //Removes validation summary
-             $('.validation-summary-errors').addClass('validation-summary-valid');
-             $('.validation-summary-errors').removeClass('validation-summary-errors');
-             */
+            $scope.m.contactName="";
+            $scope.m.contactPhone="";
+            $scope.m.contactAddress="";
 
         };
+
+        $scope.validateContact = function () {
+
+            $scope.MsgErrorContact="";
+
+            if($scope.m.contactName==""||$scope.m.contactPhone==""||$scope.m.contactAddress==""||
+                !($scope.m.contactName)||!($scope.m.contactPhone)||!($scope.m.contactAddress)){
+                $scope.MsgErrorContact="Debe proporcionar todos los campos para agregar el contacto."
+                return true;
+            }
+
+            return false
+        };
+
+        $scope.removeContact = function (index) {
+            if($scope.m.canSave==true)
+                $scope.m.lstContactData.splice(index, 1);
+        };
+
+
 
         $scope.validateLinkProc = function () {
 
@@ -265,6 +265,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
             if(data.lstArrangement!=undefined)
                 $scope.m.lstArrangementShow= $.parseJSON(data.lstArrangement);
+
+            if(data.lstContactData!=undefined)
+                $scope.m.lstContactData= $.parseJSON(data.lstContactData);
+            else
+                $scope.m.lstContactData=[];
 
         };
 

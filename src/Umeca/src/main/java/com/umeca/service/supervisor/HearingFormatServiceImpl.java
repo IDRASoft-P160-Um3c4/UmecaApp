@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
+import com.umeca.model.catalog.dto.LocationDto;
+import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -55,25 +57,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
     private Gson conv = new Gson();
 
-    /*
-    @Transactional
-    @Override
-    public ResponseMessage save(HearingFormat hearingFormat) {
-
-        ResponseMessage response = new ResponseMessage();
-        try {
-            hearingFormatRepository.save(hearingFormat);
-            response.setHasError(false);
-        } catch (Exception e) {
-            System.out.println("error al guardar hearingFormat!\n");
-            System.out.println(e.getMessage());
-            response.setHasError(true);
-            response.setMessage(e.getMessage());
-        } finally {
-            return response;
-        }
-    }
-*/
     @Override
     public HearingFormat fillHearingFormat(HearingFormatView viewFormat) {
 
@@ -111,13 +94,23 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         if (hasFirstFH) {
             hearingFormat.setHearingImputed(lastHF.getHearingImputed());
         } else {
+
             HearingFormatImputed hearingImputed = new HearingFormatImputed();
+
             hearingImputed.setName(viewFormat.getImputedName());
             hearingImputed.setLastNameP(viewFormat.getImputedFLastName());
             hearingImputed.setLastNameM(viewFormat.getImputedSLastName());
             hearingImputed.setBirthDate(viewFormat.getImputedBirthDate());
             hearingImputed.setImputeTel(viewFormat.getImputedTel());
-            //TODO falta el domicilio
+
+            Address address = new Address();
+            address.setStreet(viewFormat.getStreet());
+            address.setOutNum(viewFormat.getOutNum());
+            address.setInnNum(viewFormat.getInnNum());
+            address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
+            address.setAddressString(address.toString());
+
+            hearingImputed.setAddress(address);
 
             hearingFormat.setHearingImputed(hearingImputed);
         }
@@ -159,10 +152,29 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormat.setAssignedArrangements(lstNewAssigArrmnt);
 
-        //todo falta la lista de contactos
+        List<ContactDataView> lstContactDataView;
 
-        return hearingFormat;
-    }
+        Type typeA = new TypeToken<List<ContactDataView>>() {
+        }.getType();
+
+        lstContactDataView = conv.fromJson(viewFormat.getLstContactData(), typeA);
+
+        List<ContactData> lstNewContactData = new ArrayList<>();
+
+        for (ContactDataView conV : lstContactDataView) {
+
+            ContactData contact = new ContactData();
+            contact.setNameTxt(conV.getName());
+            contact.setPhoneTxt(conV.getPhone());
+            contact.setAddressTxt(conV.getAddress());
+            contact.setHearingFormat(hearingFormat);
+            lstNewContactData.add(contact);
+        }
+
+        hearingFormat.setContacts(lstNewContactData);
+
+    return hearingFormat;
+}
 
     @Override
     public HearingFormatView fillNewHearingFormatForView(Long idCase) {
@@ -177,30 +189,14 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             if (existCase.getHearingFormats().size() > 1)//si hay mas de uno
                 Collections.sort(existCase.getHearingFormats(), HearingFormat.hearingFormatComparator); //los ordeno por su id
 
-
             hearingFormatView = this.fillExistHearingFormatForView(existCase.getHearingFormats().get(0).getId());
-
-            //existCase.getHearingFormats().get(0); //obtengo el primero
-
-            /* solo carga la información del imputado y del caso
-                hearingFormatView.setIdCase(existCase.getId());
-                hearingFormatView.setIdFolder(existCase.getHearingFormats().get(0).getIdFolder());
-                hearingFormatView.setIdJudicial(existCase.getHearingFormats().get(0).getIdJudicial());
-
-                hearingFormatView.setImputedName(existCase.getHearingFormats().get(0).getHearingImputed().getName());
-                hearingFormatView.setImputedFLastName(existCase.getHearingFormats().get(0).getHearingImputed().getLastNameP());
-                hearingFormatView.setImputedSLastName(existCase.getHearingFormats().get(0).getHearingImputed().getLastNameM());
-                hearingFormatView.setImputedBirthDate(existCase.getHearingFormats().get(0).getHearingImputed().getBirthDate());
-                hearingFormatView.setImputedTel(existCase.getHearingFormats().get(0).getHearingImputed().getImputeTel());
-            //todo falta el domicilio
-            */
 
             hearingFormatView.setCanSave(true);
             hearingFormatView.setCanEdit(true);
             hearingFormatView.setDisableAll(false);
 
-        } else {
-            //pregunto el tipo de meeting
+        } else {//si no existe un formato de audiencia anterior
+                //evaluo el origen del meeting
             if (meetType.equals(HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE)) { //si el meeting fue creado como suspension condicional
 
                 //obtengo los datos de meeting
@@ -211,8 +207,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
                 hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
                 hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getDateBirth());
-
-                //todo falta el domicilio
 
                 hearingFormatView.setCanSave(true);
                 hearingFormatView.setCanEdit(true);
@@ -232,8 +226,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         HearingFormatView hearingFormatView = new HearingFormatView();
 
         HearingFormat existHF = hearingFormatRepository.findOne(idFormat);
-
         hearingFormatView.setIdCase(existHF.getCaseDetention().getId());
+
         hearingFormatView.setCanSave(false);
         hearingFormatView.setCanEdit(false);
         hearingFormatView.setDisableAll(true);
@@ -253,7 +247,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setImputedSLastName(existHF.getHearingImputed().getLastNameM());
         hearingFormatView.setImputedBirthDate(existHF.getHearingImputed().getBirthDate());
         hearingFormatView.setImputedTel(existHF.getHearingImputed().getImputeTel());
-        //todo falta domicilio
+
+        hearingFormatView.setIdAddres(existHF.getHearingImputed().getAddress().getId());
 
         hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
         hearingFormatView.setExtension(existHF.getHearingFormatSpecs().getExtension());
@@ -270,8 +265,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setTerms(existHF.getTerms());
 
         hearingFormatView.setLstArrangement(conv.toJson(this.assignedArrangementForView(existHF.getAssignedArrangements())));
-
-        //todo falta la lista de contactos
+        hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
 
         return hearingFormatView;
     }
@@ -311,6 +305,21 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         return lstArrmntView;
     }
 
+    public List<ContactDataView> contactDataForView(List<ContactData> contacts) {
+
+        List<ContactDataView> lstContactView = new ArrayList<>();
+
+        for (ContactData contact : contacts) {
+            ContactDataView conV = new ContactDataView();
+            conV.setName(contact.getNameTxt());
+            conV.setPhone(contact.getPhoneTxt());
+            conV.setAddress(contact.getAddressTxt());
+            lstContactView.add(conV);
+        }
+
+        return lstContactView;
+    }
+
     @Override
     @Transactional
     public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
@@ -319,7 +328,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         try {
             hearingFormat = hearingFormatRepository.save(hearingFormat);
-
 
             sb.append(request.getContextPath());
             sb.append("/supervisor/hearingFormat/indexFormats.html?id=");

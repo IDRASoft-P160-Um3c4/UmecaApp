@@ -65,7 +65,7 @@ public class HearingFormat {
     @OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<AssignedArrangement> assignedArrangements;
 
-    @OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ContactData> contacts;
 
     @OneToOne(fetch = FetchType.LAZY)

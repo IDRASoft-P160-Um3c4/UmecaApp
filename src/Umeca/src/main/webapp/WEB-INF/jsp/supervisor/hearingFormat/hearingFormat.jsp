@@ -13,6 +13,10 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
     <script type="text/javascript">
         jQuery(function ($) {
             $('#id-disable-check').on('click', function () {
@@ -102,6 +106,7 @@
 
 <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
 <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
+<input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
 
 <div class="row">
     <div class="row element-right">
@@ -403,15 +408,15 @@
 
                 </div>
 
-                <div class="row">
-                    <br/>
-                    Campos de dirección en corrección...
-                    <br/>
+                <br/>
 
+                <div class="row">
+
+                    <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
 
                 </div>
 
-
+                <br/>
             </div>
         </div>
     </div>
@@ -779,6 +784,7 @@
         <div class="widget-header">Datos de contacto</div>
         <div class="widget-body">
             <br/>
+
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-1">
 
@@ -786,20 +792,16 @@
                         <label for="contactName">Nombre</label>
                         <br/>
                         <input id="contactName" type="text"
-                               class="input-xxlarge"/>
+                               class="input-xxlarge" ng-model="m.contactName"/>
                         <br/>
-                                        <span class="field-validation-valid" data-valmsg-for="contactName"
-                                              data-valmsg-replace="true"></span>
                     </div>
 
                     <div class="col-xs-3">
                         <label for="contactPhone">Teléfono:</label>
                         <br/>
                         <input id="contactPhone" type="text"
-                               class="input-xxlarge"/>
+                               class="input-xxlarge" ng-model="m.contactPhone"/>
                         <br/>
-                                        <span class="field-validation-valid" data-valmsg-for="contactPhone"
-                                              data-valmsg-replace="true"></span>
                     </div>
 
 
@@ -807,22 +809,73 @@
                         <label>Dirección</label>
                         <br/>
                         <textarea class="input-xxlarge form-control limited" id="contactAddress"
-                                  maxlength="980">
-                            </textarea>
+                                  maxlength="980" ng-model="m.contactAddress">
+                        </textarea>
                     </div>
 
                     <div class="col-xs-2 element-right">
                         <br/>
-                        <button type="button" class="btn btn-info">
+                        <button type="button" class="btn btn-info" ng-click="addContact();">
                             <i class="icon-plus bigger-110"></i>
                             Agregar
-                        </button>                    </div>
+                        </button>
+                    </div>
 
 
                 </div>
             </div>
             <br/>
-            Datos de contacto en corrección...
+
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <div ng-show="MsgErrorContact!=''" class="alert alert-danger element-center">
+                        <span>{{MsgErrorContact}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+
+                    <div class="widget-box">
+                        <div class="widget-header">Lista de contactos</div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead class="thin-border-bottom">
+                                    <tr>
+                                        <th class="element-center">Nombre</th>
+                                        <th class="element-center">Teléfono</th>
+                                        <th class="element-center">Dirección</th>
+                                        <th class="element-center">Quitar</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <div>
+                                        <tr ng-repeat="contact in m.lstContactData track by $index">
+                                            <td class="element-center">{{contact.name}}</td>
+                                            <td class="element-center">{{contact.phone}}</td>
+                                            <td class="element-center">{{contact.address}}</td>
+                                            <td class="element-center"><a href="javascript:;"
+                                                                          style="display:inline-block;"
+                                                                          title="Quitar de la lista"
+                                                                          ng-click="removeContact($index)"><span
+                                                    class="glyphicon glyphicon-minus blue"></span></a></td>
+                                        </tr>
+                                    </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <br/>
 
         </div>
     </div>

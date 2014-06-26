@@ -13,12 +13,10 @@ import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.repository.StatusCaseRepository;
-import com.umeca.repository.catalog.ArrangementRepository;
-import com.umeca.repository.catalog.ElectionRepository;
-import com.umeca.repository.catalog.MaritalStatusRepository;
-import com.umeca.repository.catalog.RegisterTypeRepository;
+import com.umeca.repository.catalog.*;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.supervisor.HearingFormatService;
@@ -64,6 +62,12 @@ public class HearingFormatController {
     @Autowired
     SharedUserService userService;
 
+    @Autowired
+    StateRepository stateRepository;
+
+    @Autowired
+    AddressService addressService;
+
     @RequestMapping(value = "/supervisor/hearingFormat/listCases", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -100,10 +104,10 @@ public class HearingFormatController {
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
-                    return r.join("caseDetention").get("idFolder");
+                    return r.get("idFolder");
 
                 if (field.equals("idMP"))
-                    return r.join("caseDetention").get("idMP");
+                    return r.get("idMP");
 
                 if (field.equals("statusName"))
                     return r.join("status").get("name");
@@ -184,6 +188,10 @@ public class HearingFormatController {
         HearingFormatView hfView = hearingFormatService.fillNewHearingFormatForView(idCase);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
+        model.addObject("listState",conv.toJson(stateRepository.findAll()));
+
+        if(hfView.getIdAddres()!=null)
+            addressService.fillModelAddress(model, hfView.getIdAddres());
 
         return model;
     }
@@ -197,6 +205,10 @@ public class HearingFormatController {
         HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
+        model.addObject("listState",conv.toJson(stateRepository.findAll()));
+
+        if(hfView.getIdAddres()!=null)
+            addressService.fillModelAddress(model, hfView.getIdAddres());
 
         return model;
     }
@@ -264,45 +276,5 @@ public class HearingFormatController {
         return hearingFormatService.save(hearingFormat, request);
 
     }
-
-//    @RequestMapping(value = "/supervisor/hearingFormat/searchArrangements", method = RequestMethod.POST)
-//    public
-//    @ResponseBody
-//    String searchArrangement(@RequestBody String folderId) {
-//
-//        Gson conv = new Gson();
-//        List<ArrangementView> lstArrangementView = hearingFormatService.getArrangmentLst(folderId);
-//        String jsonLst = conv.toJson(lstArrangementView);
-//
-//        return jsonLst;
-//    }
-
-    /*
-    @RequestMapping(value = "/supervisor/hearingFormat/hearingFormat", method = RequestMethod.GET)
-    public String hearingFormat() {
-
-        return "/supervisor/hearingFormat/hearingFormat";
-    }
-
-    @RequestMapping(value = "/supervisor/hearingFormat/searchCase", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    HearingFormatView searchCase(@RequestBody String idFolder) {
-
-        HearingFormatView hearingFormatView;
-
-        Case caseDet = caseService.findByIdFolder(idFolder);
-        hearingFormatView = hearingFormatService.fillForView(caseDet, idFolder);
-
-        return hearingFormatView;
-    }
-
-
-
-
-
-
-
-*/
 
 }
