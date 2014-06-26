@@ -116,4 +116,8 @@ public class CaseServiceImpl implements CaseService {
         return caseRepository.findByIdFolder(idFolder);
     }
 
+    @Override
+    public Case findById(Long id){
+        return caseRepository.findOne(id);
+    }
 }

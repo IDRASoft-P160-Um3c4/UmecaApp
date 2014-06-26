@@ -1,18 +1,12 @@
 app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
         $scope.m = {};
-        $scope.a = {};
 
+        $scope.m.errTime;
         $scope.hasError;
         $scope.MsgError;
-        $scope.m.arrmntType;
-        $scope.m.hasSearch = false;
-        $scope.m.hasHF = false;
-        $scope.m.canSave = true;
-        $scope.lstArrangeShow = [];
-        $scope.listLocation = [];
-        $scope.a.location;
-        $scope.m.existImputed;
+//        $scope.m.canSave = true;
+//        $scope.m.canEdit = true;
 
         $scope.validateSave = function () {
 
@@ -20,18 +14,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
             $scope.validateInitEnd();
             $scope.validateBthDay();
-
-            $scope.validateHType();
-            $scope.validateExtension();
-            $scope.validateCrtlDet();
-            $scope.validateFormImp();
-            $scope.validateLinkProc();
             $scope.validateArrangementSel();
 
             if ($scope.hasError == true)
                 return false;
-
             return true;
+
         };
 
         $scope.validateBthDay = function () {
@@ -57,29 +45,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
             if (Date.parse('01/01/2014 ' + $scope.m.initTime) >= Date.parse('01/01/2014 ' + $scope.m.endTime)) {
                 $scope.hasError = true;
-                $scope.m.errTime = "La hora de termino no puede ser menor/igual a la hora de inicio";
+                $scope.m.errTime = "La hora de término debe ser mayor a la hora de inicio";
                 return;
             }
             else
                 $scope.m.errTime = "";
-
-            if ($scope.m.initTime == "" || $scope.m.initTime == null) {
-                $scope.hasError = true;
-                $scope.m.errTimeIn = "Hora de inicio es un campo requerido";
-                return;
-            }
-            else
-                $scope.m.errTimeIn = "";
-
-
-            if ($scope.m.endTime == "" || $scope.m.endTime == null) {
-                $scope.hasError = true;
-                $scope.m.errTime = "Hora de termino es un campo requerido";
-                return;
-            }
-            else
-                $scope.m.errTime = "";
-
 
         };
 
@@ -93,11 +63,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             }
 
         };
-
-        $scope.clCrtlDet = function () {
-            $scope.m.errCtrlDet = "";
-        };
-
 
         $scope.validateExtension = function () {
 
@@ -151,11 +116,37 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
         $scope.clFormImp = function () {
 
-            if ($scope.m.canSave != false) {
-                $scope.m.errFormImp = "";
-                $scope.m.impDate = "";
-                $scope.m.errFormImpDate = "";
-            }
+
+            //   $("#divFormImp :input").addClass('input-validation-valid');
+            //    $("#divFormImp :input").removeClass('input-validation-error');
+
+            //    $('#divFormImp .field-validation-error').addClass('field-validation-valid');
+            //  $('#divFormImp .field-validation-error').removeClass('field-validation-error');
+
+
+            //$('#divFormImp').children('.form-control ng-pristine ng-valid input-validation-error').addClass('input-validation-valid');
+
+            //$('#divFormImp.input-validation-error').removeClass('input-validation-error');
+
+            /*            $("#divFormImp :input").attr("class", "ace input-validation-valid");
+             $("#divFormImp").children(".field-validation-error").css("class", "field-validation-valid");
+
+
+
+             //            $("span.").attr("class", "field-validation-valid");
+             /*
+
+             $('.input-validation-error').addClass('input-validation-valid');
+
+             $('.input-validation-error').removeClass('input-validation-error');
+             //Removes validation message after input-fields
+             $('.field-validation-error').addClass('field-validation-valid');
+             $('.field-validation-error').removeClass('field-validation-error');
+             //Removes validation summary
+             $('.validation-summary-errors').addClass('validation-summary-valid');
+             $('.validation-summary-errors').removeClass('validation-summary-errors');
+             */
+
         };
 
         $scope.validateLinkProc = function () {
@@ -196,89 +187,14 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             }
         };
 
-        $scope.clLinkProc = function () {
-
-            if ($scope.m.canSave != false) {
-                $scope.m.errLinkProc = "";
-                $scope.m.linkageRoom = "";
-                $scope.m.errLnkRoom = "";
-                $scope.m.linkageDate = "";
-                $scope.m.errLnkDt = "";
-                $scope.m.linkageTime = "";
-                $scope.m.errLnkTm = "";
-
-            }
-        };
-
-        $scope.searchCase = function (idFolder) {
-
-
-            var currentTimeout = null;
-
-            var url1 = $('#url1').attr("value");
-
-            var ajaxConf = {
-                method: 'POST',
-                url: url1
-            };
-
-            ajaxConf.data = idFolder;
-
-            if (currentTimeout) {
-                $timeout.cancel(currentTimeout);
-            }
-
-            currentTimeout = $timeout(function () {
-                $http(ajaxConf)
-                    .success(function (data) {
-                        $scope.fillFormat(data);
-                        $scope.m.hasSearch = true;
-                        $scope.disField($scope.m.hasHF);
-
-                        if ($scope.m.hasHF)
-                            $scope.searchArrangements(data.idFolder);
-                    }
-                )
-                ;
-            }, 200);
-        };
-
-        $scope.disField = function (val) {
-
-
-            if ($scope.m.existImputed) {
-                $("#divImputed :input").attr("disabled", true);
-                $("#divAddr :input").attr("disabled", true);
-            }
-            else {
-                $("#divImputed :input").attr("disabled", false);
-                $("#divAddr :input").attr("disabled", false);
-            }
+        $scope.disableView= function (val) {
 
             if (val)
                 $("#FormFormatId :input").attr("disabled", true);
             else
                 $("#FormFormatId :input").attr("disabled", false);
 
-
         }
-
-        $scope.clAllForm = function () {
-
-            $scope.m = {};
-            $scope.a = {};
-            //Removes validation from input-fields
-            $('.input-validation-error').addClass('input-validation-valid');
-
-            $('.input-validation-error').removeClass('input-validation-error');
-            //Removes validation message after input-fields
-            $('.field-validation-error').addClass('field-validation-valid');
-            $('.field-validation-error').removeClass('field-validation-error');
-            //Removes validation summary
-            $('.validation-summary-errors').addClass('validation-summary-valid');
-            $('.validation-summary-errors').removeClass('validation-summary-errors');
-        }
-
 
         $scope.myFormatDate = function (dateMil) {
 
@@ -303,54 +219,52 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
         $scope.fillFormat = function (data) {
 
-            $scope.clAllForm();
+            $scope.m.canSave = data.canSave;
+            $scope.m.canEdit = data.canEdit;
+            $scope.m.disableAll =  data.disableAll;
 
-            $scope.m.idFolderParam = data.idFolderCode;
-            $scope.m.judicialFolder = data.idJudicialFolderCode;
-            $scope.m.arrmntType = data.arrangementType;
-            $scope.m.numberDate = data.numberDate;
-            $scope.m.room = data.room;
+            //audiencia
+            $scope.m.idCase = data.idCase;
+            $scope.m.idFolder = data.idFolder;
+            $scope.m.idJudicial = data.idJudicial;
+            $scope.m.room=data.room;
+            $scope.m.appointmentDate=$scope.myFormatDate(data.appointmentDate);
             $scope.m.initTime = data.initTime;
             $scope.m.endTime = data.endTime;
-            $scope.m.judgeName = data.judgeName;
-            $scope.m.mpName = data.mpName;
+            $scope.m.judgeName =data.judgeName;
+            $scope.m.mpName= data.mpName;
             $scope.m.defenderName = data.defenderName;
+
+            //imputado
             $scope.m.imputedName = data.imputedName;
             $scope.m.imputedFLastName = data.imputedFLastName;
             $scope.m.imputedSLastName = data.imputedSLastName;
-
-            $scope.a.location = $.parseJSON(data.location);
-
-            $scope.zipCode = data.zipCode;
-            $scope.a.locationId = data.idLocation;
-            $scope.a.street = data.street;
-            $scope.a.outNum = data.outNum;
-            $scope.a.innNum = data.innNum;
-
-
             $scope.m.impBthDay = $scope.myFormatDate(data.imputedBirthDate);
-
             $scope.calcAge();
             $scope.m.imputedTel = data.imputedTel;
-            $scope.m.crimes = data.crimes;
-            $scope.m.addtionalData = data.additionalData;
+            //todo falta domicilio
+
+            $scope.m.crimes= data.crimes;
+            $scope.m.additionalData = data.additionalData;
+
+            //radios
             $scope.m.ctrlDet = data.controlDetention;
+
             $scope.m.ext = data.extension;
-            $scope.m.hType = data.hearingType;
+
+            $scope.m.formImp=data.impForm;
             $scope.m.impDate = $scope.myFormatDate(data.imputationDate);
 
-            if (data.linkageRoom == null)
-                $scope.m.linkageRoom = "";
-            else
-                $scope.m.linkageRoom = data.linkageRoom;
+            $scope.m.vincProcess = data.vincProcess;
+            $scope.m.linkageRoom=data.linkageRoom;
+            $scope.m.linkageDate=$scope.myFormatDate(data.linkageDate);
+            $scope.m.linkageTime=data.linkageTime;
+            $scope.m.hType=data.hearingType;
+            $scope.m.terms=data.terms;
+            //
 
-            $scope.m.linkageDate = $scope.myFormatDate(data.linkageDate);
-            $scope.m.linkageTime = data.linkageTime;
-            $scope.m.canSave = data.canSave;
-            $scope.m.hasHF = data.hasHF;
-            $scope.m.terms = data.terms;
-
-            $scope.m.existImputed = data.existImputed;
+            if(data.lstArrangement!=undefined)
+                $scope.m.lstArrangementShow= $.parseJSON(data.lstArrangement);
 
         };
 
@@ -375,7 +289,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
                     }
 
                     if (resp.hasError == false) {
-                        $scope.searchCase(resp.message);
+                        window.goToUrlMvcUrl(resp.urlToGo);
+                    }
+
+                    if (resp.hasError == true) {
+                        $scope.MsgError = resp.messgae;
                     }
                 })
                 .error(function () {
@@ -387,30 +305,22 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             return true;
         };
 
+        $scope.loadArrangements = function () {
 
-        $scope.searchArrangements = function (idTipo) {
+            if ((!$scope.m.hType) || $scope.m.hType == "" || $scope.m.disableAll == true)
+                return;
 
             var currentTimeout = null;
-
-            var urlCase = $('#url2').attr("value");
             var urlType = $('#url3').attr("value");
-
-            var val = parseInt(idTipo, 10)
 
             var ajaxConf;
 
             ajaxConf = {
                 method: 'POST',
-                data: idTipo
+                data: $scope.m.hType
             };
 
-
-            if (val > 0) {
-                ajaxConf.url = urlType;
-            } else {
-                ajaxConf.url = urlCase;
-            }
-
+            ajaxConf.url = urlType;
 
             if (currentTimeout) {
                 $timeout.cancel(currentTimeout);
@@ -422,7 +332,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
                         $scope.m.lstArrangementShow = data;
                     });
             }, 200);
-
         };
 
         $scope.calcAge = function () {
@@ -457,40 +366,42 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
         $scope.validateArrangementSel = function () {
 
-            var hasSel = false;
-            var hasDesc = false;
+            var noSel = 0;
+            var noDesc = 0;
 
-            if ($scope.m.hasHF == false) {
-                for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+            if (!$scope.m.lstArrangementShow||$scope.m.disableAll==true)
+                return;
 
-                    if ($scope.m.lstArrangementShow[i].selVal == true) {
-                        hasSel = true;
-                        if ($scope.m.lstArrangementShow[i].description != "" && $scope.m.lstArrangementShow[i].description != undefined) {
-                            hasDesc = true;
-                        }
-                        break;
+            for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+
+                if ($scope.m.lstArrangementShow[i].selVal == true) {
+                    noSel++;
+                    if ($scope.m.lstArrangementShow[i].description != "" && $scope.m.lstArrangementShow[i].description != undefined) {
+                        noDesc++;
                     }
+                } else {
+                    $scope.m.lstArrangementShow[i].description = "";
                 }
 
-                if (hasSel == false) {
-                    $scope.m.hasError = true;
-                    $scope.m.errArrmntSel = "Debe seleccionar al menos una medida cautelar";
-                    return;
-                } else if (hasDesc == false) {
-                    $scope.m.hasError = true;
-                    $scope.m.errArrmntSel = "Debe indicar la descripción de cada medida cautelar seleccionada";
-                    return;
-                } else
-                    $scope.m.errArrmntSel = "";
-
             }
+
+            if (noSel < 1) {
+                $scope.m.hasError = true;
+                $scope.m.errArrmntSel = "Debe seleccionar al menos una medida cautelar";
+                return;
+            } else if (noSel > noDesc) {
+                $scope.m.hasError = true;
+                $scope.m.errArrmntSel = "Debe indicar una descripción para cada medida cautelar seleccionada";
+                return;
+            } else
+                $scope.m.errArrmntSel = "";
+
+
         };
 
         $scope.init = function () {
-            /*$scope.m.errTime = "";
-            $scope.disField(true);
-            $("#idFolderParam").attr("disabled", false);
-            $("#btnSearch").attr("disabled", false);*/
+            $scope.fillFormat($scope.m);
+            $scope.disableView($scope.m.disableAll);
         };
 
         $timeout(function () {

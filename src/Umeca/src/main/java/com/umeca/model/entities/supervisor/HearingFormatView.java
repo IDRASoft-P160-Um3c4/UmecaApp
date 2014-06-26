@@ -12,6 +12,14 @@ public class HearingFormatView {
 
     }
 
+    private Long idCase;
+
+    private Boolean canSave;
+
+    private Boolean canEdit;
+
+    private Boolean disableAll;
+
     private String idFolder;
 
     private String idJudicial;
@@ -40,19 +48,15 @@ public class HearingFormatView {
 
     private String imputedTel;
 
-
-/*
-    private Integer arrangementType;
-
-    private String crimes;
-
-    private String additionalData;
-
     private Integer controlDetention;
 
-    private Integer hearingType;
+    private Integer extension;
+
+    private Integer impForm;
 
     private Date imputationDate;
+
+    private Integer vincProcess;
 
     private String linkageRoom;
 
@@ -60,39 +64,31 @@ public class HearingFormatView {
 
     private Time linkageTime;
 
+    private Integer hearingType;
+
+    private String additionalData;
+
+    private String crimes;
+
     private String terms;
 
-    private Integer extension;
+    private String lstArrangement;
 
+    public Long getIdCase() {
+        return idCase;
+    }
 
-    public Boolean canSave;
+    public void setIdCase(Long idCase) {
+        this.idCase = idCase;
+    }
 
-    public Boolean hasHF;
+    public Boolean getCanSave() {
+        return canSave;
+    }
 
-    public String lstArrangement;
-
-    public String zipCode;
-
-    public String stateName;
-
-    public String municipalityName;
-
-    public String locationName;
-
-    public String street;
-
-    public String innNum;
-
-    public String outNum;
-
-    public Long idLocation;
-
-    public String location;
-
-    public Boolean existImputed;
-
-    public String supervisorName;
-*/
+    public void setCanSave(Boolean canSave) {
+        this.canSave = canSave;
+    }
 
     public String getIdFolder() {
         return idFolder;
@@ -204,5 +200,125 @@ public class HearingFormatView {
 
     public void setImputedTel(String imputedTel) {
         this.imputedTel = imputedTel;
+    }
+
+    public Integer getControlDetention() {
+        return controlDetention;
+    }
+
+    public void setControlDetention(Integer controlDetention) {
+        this.controlDetention = controlDetention;
+    }
+
+    public Integer getExtension() {
+        return extension;
+    }
+
+    public void setExtension(Integer extension) {
+        this.extension = extension;
+    }
+
+    public Integer getImpForm() {
+        return impForm;
+    }
+
+    public void setImpForm(Integer impForm) {
+        this.impForm = impForm;
+    }
+
+    public Date getImputationDate() {
+        return imputationDate;
+    }
+
+    public void setImputationDate(Date imputationDate) {
+        this.imputationDate = imputationDate;
+    }
+
+    public Integer getVincProcess() {
+        return vincProcess;
+    }
+
+    public void setVincProcess(Integer vincProcess) {
+        this.vincProcess = vincProcess;
+    }
+
+    public String getLinkageRoom() {
+        return linkageRoom;
+    }
+
+    public void setLinkageRoom(String linkageRoom) {
+        this.linkageRoom = linkageRoom;
+    }
+
+    public Date getLinkageDate() {
+        return linkageDate;
+    }
+
+    public void setLinkageDate(Date linkageDate) {
+        this.linkageDate = linkageDate;
+    }
+
+    public Time getLinkageTime() {
+        return linkageTime;
+    }
+
+    public void setLinkageTime(Time linkageTime) {
+        this.linkageTime = linkageTime;
+    }
+
+    public Integer getHearingType() {
+        return hearingType;
+    }
+
+    public void setHearingType(Integer hearingType) {
+        this.hearingType = hearingType;
+    }
+
+    public String getAdditionalData() {
+        return additionalData;
+    }
+
+    public void setAdditionalData(String additionalData) {
+        this.additionalData = additionalData;
+    }
+
+    public String getTerms() {
+        return terms;
+    }
+
+    public void setTerms(String terms) {
+        this.terms = terms;
+    }
+
+    public String getLstArrangement() {
+        return lstArrangement;
+    }
+
+    public void setLstArrangement(String lstArrangement) {
+        this.lstArrangement = lstArrangement;
+    }
+
+    public String getCrimes() {
+        return crimes;
+    }
+
+    public void setCrimes(String crimes) {
+        this.crimes = crimes;
+    }
+
+    public Boolean getCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(Boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+    public Boolean getDisableAll() {
+        return disableAll;
+    }
+
+    public void setDisableAll(Boolean disableAll) {
+        this.disableAll = disableAll;
     }
 }
