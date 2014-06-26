@@ -6,7 +6,6 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.Domicile;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -155,7 +154,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
                 hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
                 hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
-                hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getDateBirth());
+                hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
             }
         }
 

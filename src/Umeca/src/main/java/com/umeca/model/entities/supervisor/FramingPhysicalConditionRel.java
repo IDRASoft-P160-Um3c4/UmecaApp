@@ -1,6 +1,5 @@
 package com.umeca.model.entities.supervisor;
 
-import com.umeca.model.catalog.PhysicalCondition;
 
 import javax.persistence.*;
 
@@ -20,9 +19,8 @@ public class FramingPhysicalConditionRel {
     @JoinColumn(name="id_framing_meeting")
     private FramingMeeting framingMeeting;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_physical_condition")
-    private PhysicalCondition physicalCondition;
+    @Transient
+    private String physicalCondition;
 
 
     public Long getId() {
@@ -41,11 +39,11 @@ public class FramingPhysicalConditionRel {
         this.framingMeeting = framingMeeting;
     }
 
-    public PhysicalCondition getPhysicalCondition() {
+    public String getPhysicalCondition() {
         return physicalCondition;
     }
 
-    public void setPhysicalCondition(PhysicalCondition physicalCondition) {
+    public void setPhysicalCondition(String physicalCondition) {
         this.physicalCondition = physicalCondition;
     }
 }

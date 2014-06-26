@@ -280,9 +280,9 @@
                        type="text" value="" ng-model="specification[activity.name]"
                        id="specification{{activity.name}}" name="specification{{activity.name}}"
                        ng-change="matchActivities()">
-                <br/>
                 <span class="field-validation-valid" data-valmsg-for="specification{{activity.name}}"
                       data-valmsg-replace="true"></span>
+                <br/>
             </div>
         </div>
     </div>

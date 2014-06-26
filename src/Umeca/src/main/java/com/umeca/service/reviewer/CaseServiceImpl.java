@@ -1,5 +1,6 @@
 package com.umeca.service.reviewer;
 
+import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;

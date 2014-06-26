@@ -1,7 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.Relationship;
-import com.umeca.model.entities.reviewer.Domicile;
+import com.umeca.model.entities.reviewer.ImputedHome;
 
 import javax.persistence.*;
 
@@ -26,7 +26,7 @@ public class FramingReference {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_domicile")
-    private Domicile domicile;
+    private ImputedHome imputedHome;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_framing_meeting")
@@ -64,12 +64,12 @@ public class FramingReference {
         this.relationship = relationship;
     }
 
-    public Domicile getDomicile() {
-        return domicile;
+    public ImputedHome getImputedHome() {
+        return imputedHome;
     }
 
-    public void setDomicile(Domicile domicile) {
-        this.domicile = domicile;
+    public void setImputedHome(ImputedHome imputedHome) {
+        this.imputedHome = imputedHome;
     }
 
     public FramingMeeting getFramingMeeting() {

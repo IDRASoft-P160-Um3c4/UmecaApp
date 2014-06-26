@@ -713,7 +713,7 @@ public class MeetingServiceImpl implements MeetingService {
             ((c.getMeeting().getSocialNetwork() != null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork() == null)
              ||(c.getMeeting().getSocialNetwork() != null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork()!= null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork().size() == 0)))) {
                 List<String> listMess = new ArrayList<>();
-                listMess.add("Para terminar la entrevista debe agragar al menos una referencia perosnal o una persona de su red social.");
+                listMess.add("Para terminar la entrevista debe agragar al menos una referencia personal o una persona de su red social.");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("reference",listMess));
             }
             if (validate.existsMessageProperties()) {

@@ -32,7 +32,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\Projects\\IDRASoft\\UmecaApp\\db\\";//"C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";//"C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
 
     @Autowired
     RoleRepository repositoryRole;
@@ -189,8 +189,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             Activity model = new Activity();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            model.setSpecification(Boolean.parseBoolean(data[2]));
-            model.setObsolete(Boolean.parseBoolean(data[3]));
+            model.setSpecification(data[2].equals("1"));
+            model.setObsolete(data[3].equals("1"));
             activityRepository.save(model);
         }
 
@@ -362,7 +362,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             Relationship model = new Relationship();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
-            model.setObsolete(Boolean.parseBoolean(data[2]));
+            model.setObsolete(data[2].equals("1"));
             relationshipRepository.save(model);
         }
         relationshipRepository.flush();
@@ -378,7 +378,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             DocumentType model = new DocumentType();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
-            model.setObsolete(Boolean.parseBoolean(data[2]));
+            model.setObsolete(data[2].equals("1"));
             documentTypeRepository.save(model);
         }
         documentTypeRepository.flush();
@@ -388,28 +388,29 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     DrugTypeRepository drugTypeRepository;
     @Override
     public void drugType() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "drug_type.txt","\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "drug_type.txt","\\|", 4);
         for (String[] data : lstDta) {
             DrugType model = new DrugType();
             model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);;
-            model.setObsolete(Boolean.parseBoolean(data[2]));
+            model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
             drugTypeRepository.save(model);
         }
         drugTypeRepository.flush();
-
     }
 
     @Autowired
     PeriodicityRepository periodicityRepository;
     @Override
     public void periodicity() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "periodicity.txt","\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "periodicity.txt","\\|", 4);
         for (String[] data : lstDta) {
             Periodicity model = new Periodicity();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
-            model.setObsolete(Boolean.parseBoolean(data[2]));
+            model.setSpecification(data[2].equals("1"));
+            model.setObsolete(data[3].equals("1"));
             periodicityRepository.save(model);
         }
         periodicityRepository.flush();
@@ -443,7 +444,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             AcademicLevel model = new AcademicLevel();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            model.setObsolete(Boolean.parseBoolean(data[2]));
+            model.setObsolete(data[2].equals("1"));
             academicLevelRepository.save(model);
         }
         List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "degree.txt","\\|", 4);
@@ -452,7 +453,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setAcademicLevel(academicLevelRepository.findOne(Long.parseLong(data[2])));
-            model.setObsolete(Boolean.parseBoolean(data[3]));
+            model.setObsolete(data[3].equals("1"));
             degreeRepository.save(model);
         }
         academicLevelRepository.flush();

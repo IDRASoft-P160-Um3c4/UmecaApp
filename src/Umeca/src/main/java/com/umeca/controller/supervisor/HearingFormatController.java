@@ -293,7 +293,7 @@ public class HearingFormatController {
                 currDom.setMeeting(caseDet.getMeeting());
                 List<Domicile> lstDom = new ArrayList<>();
                 lstDom.add(currDom);
-                caseDet.getMeeting().setDomiciles(lstDom);
+                caseDet.getMeeting().setImputedHomes(lstDom);
 
                 hearingFormat.setCaseDetention(caseDet);
                 caseDet.setHearingFormat(hearingFormat);
