@@ -17,13 +17,13 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="domicile")
-public class Domicile implements EntityGrid{
+@Table(name="imputed_home")
+public class ImputedHome implements EntityGrid{
 
-    public Domicile() {
+    public ImputedHome() {
     }
 
-    public Domicile(Long id,String addressString, String timeLive, String registerTypeString, String belongString) {
+    public ImputedHome(Long id, String addressString, String timeLive, String registerTypeString, String belongString) {
         this.id=id;
         this.addressString = addressString;
         this.timeLive = timeLive;
@@ -33,7 +33,7 @@ public class Domicile implements EntityGrid{
 
     @Id
     @GeneratedValue
-    @Column(name="id_domicile")
+    @Column(name="id_imputed_home")
     private Long id;
 
     @OneToOne(fetch=FetchType.LAZY)
@@ -57,7 +57,7 @@ public class Domicile implements EntityGrid{
     @Column(name="description", length = 500, nullable = true)
     private String description;
 
-    @OneToMany(mappedBy="domicile", cascade={CascadeType.ALL})
+    @OneToMany(mappedBy="imputedHome", cascade={CascadeType.ALL})
     private List<Schedule> schedule;
 
     @OneToOne(fetch=FetchType.LAZY)

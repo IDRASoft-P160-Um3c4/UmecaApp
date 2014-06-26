@@ -15,7 +15,6 @@ public interface InsertCatalogService {
     void questionary();
     void questionarySection();
     void question();
-    void physicalCondition();
     void activity();
     void maritalStatus();
     void election();
@@ -24,7 +23,7 @@ public interface InsertCatalogService {
     void drugType();
     void periodicity();
     void dayWeek();
-    void schoolLevel();
+    void academicDegree();
     void registerType();
     void statusVerification();
     void statusCase();

@@ -1,6 +1,5 @@
 package com.umeca.model.catalog;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -14,18 +13,21 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="grade")
-public class Grade {
+@Table(name="cat_degree")
+public class Degree {
     @Id
-    @Column(name="id_grade")
+    @Column(name="id_degree")
     private Long id;
 
-    @Column(name="grade", length=255, nullable=false)
+    @Column(name="degree", length=255, nullable=false)
     private String name;
 
+    @Column(name="is_obsolete")
+    private Boolean isObsolete;
+
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_school_level", nullable = true)
-    @Expose private SchoolLevel schoolLevel;
+    @JoinColumn(name="id_academic_level", nullable = true)
+    @Expose private AcademicLevel academicLevel;
 
     public Long getId() {
         return id;
@@ -44,12 +46,20 @@ public class Grade {
         this.name = name;
     }
 
-    @JsonIgnore
-    public SchoolLevel getSchoolLevel() {
-        return schoolLevel;
+    public Boolean getObsolete() {
+        return isObsolete;
     }
 
-    public void setSchoolLevel(SchoolLevel schoolLevel) {
-        this.schoolLevel = schoolLevel;
+    public void setObsolete(Boolean obsolete) {
+        isObsolete = obsolete;
+    }
+
+    @JsonIgnore
+    public AcademicLevel getAcademicLevel() {
+        return academicLevel;
+    }
+
+    public void setAcademicLevel(AcademicLevel academicLevel) {
+        this.academicLevel = academicLevel;
     }
 }

@@ -1,73 +1,73 @@
-	CREATE TABLE IF NOT EXISTS CatState (
-		StateId INTEGER AUTO_INCREMENT PRIMARY KEY,
-		CountryId INTEGER NOT NULL REFERENCES CatCountry(CountryId), 
-		Name varchar(50) NOT NULL,
-		Abbreviation varchar(100) NULL,
-		Description varchar(100) NULL
+Ôªø	CREATE TABLE IF NOT EXISTS cat_state (
+		id_state INTEGER AUTO_INCREMENT PRIMARY KEY,
+		id_country INTEGER NOT NULL REFERENCES CatCountry(id_country), 
+		name varchar(50) NOT NULL,
+		abbreviation varchar(100) NULL,
+		description varchar(100) NULL
 	) ENGINE=InnoDB;
 
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (1, 1, "Aguascalientes", "Agu", "Aguascalientes");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (1, 1, "Aguascalientes", "Agu", "Aguascalientes");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (2, 1, "Baja California", "Baj", "Baja California");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (2, 1, "Baja California", "Baj", "Baja California");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (3, 1, "Baja California Sur", "Baj", "Baja California Sur");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (3, 1, "Baja California Sur", "Baj", "Baja California Sur");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (4, 1, "Campeche", "Cam", "Campeche");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (4, 1, "Campeche", "Cam", "Campeche");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (5, 1, "Coahuila de Zaragoza", "Coa", "Coahuila de Zaragoza");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (5, 1, "Coahuila de Zaragoza", "Coa", "Coahuila de Zaragoza");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (6, 1, "Colima", "Col", "Colima");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (6, 1, "Colima", "Col", "Colima");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (7, 1, "Chiapas", "Chi", "Chiapas");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (7, 1, "Chiapas", "Chi", "Chiapas");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (8, 1, "Chihuahua", "Chi", "Chihuahua");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (8, 1, "Chihuahua", "Chi", "Chihuahua");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (9, 1, "Distrito Federal", "Dis", "Distrito Federal");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (9, 1, "Distrito Federal", "Dis", "Distrito Federal");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (10, 1, "Durando", "Dur", "Durando");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (10, 1, "Durando", "Dur", "Durando");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (11, 1, "Guanajuato", "Gua", "Guanajuato");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (11, 1, "Guanajuato", "Gua", "Guanajuato");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (12, 1, "Guerrero", "Gue", "Guerrero");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (12, 1, "Guerrero", "Gue", "Guerrero");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (13, 1, "Hidalgo", "Hid", "Hidalgo");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (13, 1, "Hidalgo", "Hid", "Hidalgo");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (14, 1, "Jalisco", "Jal", "Jalisco");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (14, 1, "Jalisco", "Jal", "Jalisco");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (15, 1, "MÈxico", "MÈx", "MÈxico");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (15, 1, "M√©xico", "M√©x", "M√©xico");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (16, 1, "Michoac·n de Ocampo", "Mic", "Michoac·n de Ocampo");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (16, 1, "Michoac√°n de Ocampo", "Mic", "Michoac√°n de Ocampo");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (17, 1, "Morelos", "Mor", "Morelos");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (17, 1, "Morelos", "Mor", "Morelos");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (18, 1, "Nayarit", "Nay", "Nayarit");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (18, 1, "Nayarit", "Nay", "Nayarit");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (19, 1, "Nuevo LeÛ", "Nue", "Nuevo LeÛ");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (19, 1, "Nuevo Le√≥n", "Nue", "Nuevo Le√≥n");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (20, 1, "Oaxaca", "Oax", "Oaxaca");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (20, 1, "Oaxaca", "Oax", "Oaxaca");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (21, 1, "Puebla", "Pue", "Puebla");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (21, 1, "Puebla", "Pue", "Puebla");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (22, 1, "QuerÈtaro", "Que", "QuerÈtaro");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (22, 1, "Quer√©taro", "Que", "Quer√©taro");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (23, 1, "Quintana Roo", "Qui", "Quintana Roo");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (23, 1, "Quintana Roo", "Qui", "Quintana Roo");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (24, 1, "San Luis PotosÌ", "Sa", "San Luis PotosÌ");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (24, 1, "San Luis Potos√≠", "Sa", "San Luis Potos√≠");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (25, 1, "Sinaloa", "Si", "Sinaloa");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (25, 1, "Sinaloa", "Si", "Sinaloa");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (26, 1, "Sonora", "So", "Sonora");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (26, 1, "Sonora", "So", "Sonora");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (27, 1, "Tabasco", "Tab", "Tabasco");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (27, 1, "Tabasco", "Tab", "Tabasco");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (28, 1, "Tamaulipas", "Tam", "Tamaulipas");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (28, 1, "Tamaulipas", "Tam", "Tamaulipas");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (29, 1, "Tlaxcala", "Tla", "Tlaxcala");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (29, 1, "Tlaxcala", "Tla", "Tlaxcala");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (30, 1, "Veracruz de Ignacio de la Llave", "Ver", "Veracruz de Ignacio de la Llave");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (30, 1, "Veracruz de Ignacio de la Llave", "Ver", "Veracruz de Ignacio de la Llave");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (31, 1, "Yucat·", "Yuc", "Yucat·");
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (31, 1, "Yucat√°n", "Yuc", "Yucat√°n");
 	
-	INSERT INTO CatState (StateId, CountryId, Name, Abbreviation, Description) VALUES (32, 1, "Zacatecas", "Zac", "Zacatecas");	
+	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (32, 1, "Zacatecas", "Zac", "Zacatecas");	
 
-	SELECT * FROM CatState;
+	SELECT * FROM cat_state;

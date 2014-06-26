@@ -1,6 +1,6 @@
 package com.umeca.model.catalog.dto;
 
-import com.umeca.model.catalog.Grade;
+import com.umeca.model.catalog.Degree;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,13 +9,13 @@ import com.umeca.model.catalog.Grade;
  * Time: 10:32 AM
  * To change this template use File | Settings | File Templates.
  */
-public class GradeDto {
+public class DegreeDto {
     private Long id;
     private String name;
 
-    public GradeDto dtoGrade(Grade grade){
-        this.id = grade.getId();
-        this.name=grade.getName();
+    public DegreeDto dtoGrade(Degree degree){
+        this.id = degree.getId();
+        this.name= degree.getName();
         return this;
     }
 

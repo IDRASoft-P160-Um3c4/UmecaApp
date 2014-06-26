@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "hearing_format")
-public class HearingFormat {
+public class HearingFormat{
 
     @Id
     @GeneratedValue

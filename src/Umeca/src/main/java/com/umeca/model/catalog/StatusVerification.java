@@ -10,7 +10,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "status_verification")
+@Table(name = "cat_status_verification")
 public class StatusVerification {
     @Id
     @Column(name = "id_status")

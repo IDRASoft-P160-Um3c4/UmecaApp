@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Entity
-@Table(name="question")
+@Table(name="cat_question")
 public class Question {
 
     @Id

@@ -1,5 +1,6 @@
 app.controller('personalDataController', function($scope, $timeout) {
     $scope.m = {};
+    $scope.specification = {};
     $scope.lstActivity = [];
     $scope.activityModel = [];
     $scope.activityList = [];
@@ -8,13 +9,14 @@ app.controller('personalDataController', function($scope, $timeout) {
     $scope.country=0;
     $scope.lstPhysicalCondition = [];
     $scope.pCSelected = [];
+    $scope.relActivities = [];
 
 
 
     $scope.init = function(){
             $(".chosen-select").chosen();
-            var dateBirth=$("#dateBirth").val();
-             $("#dateBirth").val(dateBirth.replace("00:00:00.0",""));
+            var birthDate=$("#birthDate").val();
+             $("#birthDate").val(birthDate.replace("00:00:00.0",""));
         if($scope.listCountry === undefined || $scope.listCountry.length <= 0)
             return;
 
@@ -37,66 +39,35 @@ app.controller('personalDataController', function($scope, $timeout) {
         $scope.init();
     }, 0)
 
-    $scope.selectedActivities = function(lstActivity,activityList){
+    $scope.selectedActivities = function(lstActivity,lstActivitySelect){
 
-        for(var i = 0 ; i <   activityList.length; i++){
+        for(var i = 0 ; i <   lstActivitySelect.length; i++){
             for(var j=0;j < lstActivity.length; j++){
-                if(lstActivity[j].id=== activityList[i]){
+                if(lstActivity[j].id === lstActivitySelect[i].id){
                     $scope.activityModel.push(lstActivity[j]);
+                    if(lstActivity[j].specification){
+                        $scope.specification[lstActivity[j].name]=lstActivitySelect[i].specification;
+                    }
                 }
             }
         }
 
     };
 
-    $scope.selectedPhysicalCondition = function(lstPhysicalCondition,pCSelected){
-
-        for(var i = 0 ; i <   pCSelected.length; i++){
-            for(var j=0;j < lstPhysicalCondition.length; j++){
-                if(lstPhysicalCondition[j].id=== pCSelected[i]){
-                    $scope.phyModel.push(lstPhysicalCondition[j]);
-                }
-            }
-        }
-
-    }
-
-
-    $scope.submit = function (formId, urlToPost, hasReturnId) {
-
-        if ($(formId).valid() == false) {
-            $scope.Invalid = true;
-            return false;
-        }
-        $scope.WaitFor = true;
-            $.post(urlToPost, $(formId).serialize())
-                .success($scope.handleSuccess)
-                .error($scope.handleError);
+    $scope.matchActivities = function(){
+        $scope.relActivities=[];
+      for(var i = 0 ; i< $scope.activityModel.length; i++){
+          var model = {};
+          model.activity= {};
+          model.activity.id =  $scope.activityModel[i].id;
+          if($scope.specification[$scope.activityModel[i].name] != undefined){
+              model.specification  =$scope.specification[$scope.activityModel[i].name];
+          }else{
+              model.specification = "";
+          }
+          $scope.relActivities.push(model);
+      }
+        $scope.activities =  JSON.stringify($scope.relActivities);
         return true;
-    };
-
-    $scope.handleSuccess = function (resp) {
-        $scope.WaitFor = false;
-
-        try {
-            if(resp.hasError===undefined){
-                resp=resp.responseMessage;}
-            if (resp.hasError === false) {
-                $scope.msgExito = resp.message;
-                $scope.$apply();
-                return;
-            }
-            $scope.msgError = resp.message;
-            $scope.$apply();
-
-        } catch (e) {
-            $scope.msgError = "Error inesperado de datos. Por favor intente más tarde.";
-        }
-    };
-
-    $scope.handleError = function () {
-        $scope.WaitFor = false;
-        $scope.MsgError = "Error de red. Por favor intente más tarde.";
-        $scope.$apply();
     };
 });

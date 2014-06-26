@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<div class="row element-center" ng-controller="schoolController">
+<div class="row element-center" ng-controller="upsertMeetingController">
     <div class="col-xs-12">
         <h2> <i class="orange icon-book  bigger-100">&nbsp;</i>Historia Escolar</h2>
         <br/>

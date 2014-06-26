@@ -11,9 +11,11 @@ import java.util.List;
 public class JqGridFilterModel
 {
     public static final String OPERATOR_AND = "and";
+    public static final String OPERATOR_OR = "or";
     public static final String COMPARE_EQUAL = "eq";
     public static final String COMPARE_IN = "in";
     public static final String COMPARE_NOT_IN = "not in";
+
 
     public String sidx;
     public String sord;

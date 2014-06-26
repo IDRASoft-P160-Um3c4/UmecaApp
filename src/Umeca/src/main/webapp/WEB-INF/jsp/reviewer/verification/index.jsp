@@ -19,9 +19,10 @@
 <div class="container body-content">
 
     <script>
-        window.upsert = function(id) {
-            window.goToUrlMvcUrl("/reviewer/verification/sources.html");
-            //window.showUpsert(id, "#angJsjqGridId", "/reviewer/meeting/newMeeting.html", "#GridId", "/reviewer/meeting/meeting.html");
+        window.viewSource = function(id) {
+            var params= [];
+            params["idParam"]=id;
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=idParam'/>",params);
         };
 
         window.obsolete = function (id) {
@@ -30,22 +31,23 @@
 
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/management/user/list.json' />',
+                url: '<c:url value='/reviewer/verification/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Caso','Nombre','Última modificacion', 'Estado', 'Acción'],
+                colNames: ['ID', 'Carpeta de <br/>investigación','Nombre','Género', 'Estatus','Estatus Description', 'Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'username', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullname', index: 'fullname', width: 400, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'email', index: 'email', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'role', index: 'role', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'fullname', index: 'fullname', width: 500, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'genderString', index: 'genderString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'statusDescription', index: 'statusDescription', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'statusCode', index: 'statusCode', hidden:true},
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 pager: '#GridPager',
-                sortname: 'username',
+                sortname: 'statusCode',
                 height: 450,
                 viewrecords: true,
                 shrinkToFit: false,
@@ -57,13 +59,13 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
-                        var enabled = row.enabled;
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                        var status = row.statusCode;
+                        var be = "";
 
-                        if (enabled == "true") {
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.enable('" + cl + "');\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
-                        }else{
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Habilitar usuario\" onclick=\"window.disable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
+                        if (status == "AUTHORIZED") {
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrevistar fuentes\" onclick=\"window.viewSource('" + cl + "');\"><span class=\"icon-group blue\"></span></a>";
+                        }else if(status == "MEETING_COMPLETE"){
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Verificatión final\" onclick=\"window.disable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
@@ -79,7 +81,7 @@
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                 edit: false, editicon : 'icon-notes blue',
-                add: true, addfunc: window.upsert, addicon : 'icon-group blue',
+                add: false,
                 refresh: true, refreshicon : 'icon-refresh green',
                 del: false,
                 search: false});

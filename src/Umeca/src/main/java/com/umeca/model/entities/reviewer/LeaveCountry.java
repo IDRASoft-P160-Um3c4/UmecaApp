@@ -3,8 +3,13 @@ package com.umeca.model.entities.reviewer;
 import com.umeca.model.catalog.Country;
 import com.umeca.model.catalog.Election;
 import com.umeca.model.catalog.State;
+import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
+import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -157,5 +162,41 @@ public class LeaveCountry {
 
     public void setMedia(String media) {
         this.media = media;
+    }
+
+    public void validateMeeting(TerminateMeetingMessageDto t) {
+        List<String> r=new ArrayList<>();
+        String e="entity";
+        if(officialDocumentation==null){
+            r.add(t.template.replace(e,"Si cuenta con documentación para salir del país"));
+        }
+        if(livedCountry==null){
+            r.add(t.template.replace(e,"Si ha vivido en otro país"));
+        }else if(livedCountry.getId()!=null && livedCountry.getId().equals(Constants.ELECTION_YES)){
+            if(timeAgo==null || (timeAgo!=null &&timeAgo.trim().equals(""))){
+                r.add(t.template.replace(e,"El timepo que ha vivido en otro país"));
+            }
+            if(reason==null || (reason!=null && reason.trim().equals(""))){
+                r.add(t.template.replace(e,"La razon por la que dejo de vivir en otro país"));
+            }
+            if(country==null){
+                r.add(t.template.replace(e,"El país donde ha vivido"));
+            }
+            if(state==null ||(state!=null && state.trim().equals(""))){
+                r.add(t.template.replace(e,"El estado donde ha vivido"));
+            }
+        }
+        if(familyAnotherCountry==null){
+            r.add(t.template.replace(e,"Si tiene familia en otro país"));
+        }else if(familyAnotherCountry.getId()!=null && familyAnotherCountry.getId().equals(Constants.ELECTION_YES)){
+            if(communicationFamily== null){
+                r.add(t.template.replace(e,"Si tiene comunicación con su familia"));
+            }else if (communicationFamily.getId()!=null && communicationFamily.getId().equals(Constants.ELECTION_YES)){
+                if(media==null ||(media!=null && media.trim().equals(""))){
+                    r.add(t.template.replace(e,"El medio de comunción con su familia"));
+                }
+            }
+        }
+        t.getGroupMessage().add(new GroupMessageMeetingDto("leavingCountry", r));
     }
 }

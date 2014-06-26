@@ -1,6 +1,5 @@
 package com.umeca.repository.catalog;
 
-        import com.umeca.model.catalog.PhysicalCondition;
         import com.umeca.model.catalog.StatusMeeting;
         import org.springframework.data.jpa.repository.JpaRepository;
         import org.springframework.data.jpa.repository.Query;

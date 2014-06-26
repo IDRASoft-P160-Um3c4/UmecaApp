@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Comparator;
 
 @Entity
-@Table(name="arrangement")
+@Table(name="cat_arrangement")
 public class Arrangement {
     @Id
     @GeneratedValue

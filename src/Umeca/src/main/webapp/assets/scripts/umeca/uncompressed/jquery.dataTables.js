@@ -7851,7 +7851,7 @@
 		 *          { "sTitle": "Browser" },
 		 *          { "sTitle": "Platform" },
 		 *          { "sTitle": "Version" },
-		 *          { "sTitle": "Grade" }
+		 *          { "sTitle": "Degree" }
 		 *        ]
 		 *      } );
 		 *    } );
@@ -7881,7 +7881,7 @@
 		 *          { "sTitle": "Browser",  "mData": "browser" },
 		 *          { "sTitle": "Platform", "mData": "platform" },
 		 *          { "sTitle": "Version",  "mData": "version" },
-		 *          { "sTitle": "Grade",    "mData": "grade" }
+		 *          { "sTitle": "Degree",    "mData": "grade" }
 		 *        ]
 		 *      } );
 		 *    } );

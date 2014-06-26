@@ -10,7 +10,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="document_type")
+@Table(name="cat_document_type")
 public class DocumentType {
     @Id
     @Column(name="id_document_type")
@@ -19,8 +19,11 @@ public class DocumentType {
     @Column(name="document_type", length=255, nullable=false)
     private String name;
 
-    @Transient
-    private String value;
+    @Column(name="is_obsolete")
+    private Boolean isObsolete;
+
+    @Column(name="specification")
+    private Boolean specification;
 
     public Long getId() {
         return id;
@@ -39,21 +42,19 @@ public class DocumentType {
         this.name = name;
     }
 
-    public String getValue() {
-
-        if(id == null)
-            return null;
-
-        value = id.toString();
-
-        return value;
+    public Boolean getSpecification() {
+        return specification;
     }
 
+    public void setSpecification(Boolean specification) {
+        this.specification = specification;
+    }
 
-    public void setValue(String value) {
+    public Boolean getObsolete() {
+        return isObsolete;
+    }
 
-       // id = Convert.ToLong(value);
-
-        this.value = value;
+    public void setObsolete(Boolean obsolete) {
+        isObsolete = obsolete;
     }
 }

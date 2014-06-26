@@ -17,6 +17,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
     @Query("select s from Schedule as s where s.job.id = :idJob")
     List<Schedule> getSchedulesJob(@Param("idJob")Long id);
 
-    @Query("select s from Schedule as s where s.domicile.id = :idDomicile")
-    List<Schedule> getSchedulesDomicile(@Param("idDomicile")Long id);
+    @Query("select s from Schedule as s where s.imputedHome.id = :idImputedHome")
+    List<Schedule> getSchedulesDomicile(@Param("idImputedHome")Long id);
 }

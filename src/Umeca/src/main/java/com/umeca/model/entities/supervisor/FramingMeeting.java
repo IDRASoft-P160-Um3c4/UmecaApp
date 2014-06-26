@@ -2,9 +2,8 @@ package com.umeca.model.entities.supervisor;
 
 
 import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.Domicile;
 import com.umeca.model.entities.reviewer.Drug;
-import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.reviewer.ImputedHome;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,7 +26,7 @@ public class FramingMeeting {
     private AdditionalFramingQuestions additionalFramingQuestions;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Domicile> domiciles;
+    private List<ImputedHome> imputedHomes;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingHousemate> housemates;
@@ -69,12 +68,12 @@ public class FramingMeeting {
         this.additionalFramingQuestions = additionalFramingQuestions;
     }
 
-    public List<Domicile> getDomiciles() {
-        return domiciles;
+    public List<ImputedHome> getImputedHomes() {
+        return imputedHomes;
     }
 
-    public void setDomiciles(List<Domicile> domiciles) {
-        this.domiciles = domiciles;
+    public void setImputedHomes(List<ImputedHome> imputedHomes) {
+        this.imputedHomes = imputedHomes;
     }
 
     public List<FramingHousemate> getHousemates() {

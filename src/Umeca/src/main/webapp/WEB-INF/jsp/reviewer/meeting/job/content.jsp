@@ -70,7 +70,7 @@
         </div>
         <div class="col-xs-6">
             <input type="hidden" ng-update-hidden ng-model="j.registerTypeId" name="registerType.id" id="registerTypeId"
-                   ng-init='j.registerTypeId = ${registerTypeId}'>
+                   ng-init='j.registerTypeId = ${(registerTypeId == null) ? "undefined" : registerTypeId}'>
             <select class="form-control element-center" ng-model="j.registerType"
                     ng-options="e.name for e in lstRegisterType" ng-init='lstRegisterType = ${lstRegisterType};'
                     ng-change="j.registerTypeId = j.registerType.id;"></select>
@@ -95,7 +95,7 @@
 <div class="row" ng-show="j.registerTypeId==3">
     <div class="widget-box">
         <div class="widget-header">
-            <h4>Trabajo Anterior</h4>
+            <h4>Trabajo {{j.registerType.name}}</h4>
         </div>
         <div class="widget-body">
             <br/>
@@ -158,7 +158,7 @@
 <div class="row" ng-show="j.registerTypeId == 1 || j.registerTypeId == 2">
     <div class="widget-box">
         <div class="widget-header">
-            <h4>Trabajo actual</h4>
+            <h4>Trabajo  {{j.registerType.name}}</h4>
         </div>
 
         <div class="widget-body">

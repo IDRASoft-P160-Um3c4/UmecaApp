@@ -10,7 +10,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="activity")
+@Table(name="cat_activity")
 public class Activity {
     @Id
     @Column(name="id_activity")
@@ -19,8 +19,11 @@ public class Activity {
     @Column(name="activity", length=255, nullable=false)
     private String name;
 
-    @Transient
-    private String value;
+    @Column(name="specification")
+    private Boolean specification;
+
+    @Column(name="is_obsolete")
+    private Boolean isObsolete;
 
     public Long getId() {
         return id;
@@ -39,22 +42,19 @@ public class Activity {
         this.name = name;
     }
 
-    public String getValue() {
-
-        if(id == null)
-            return null;
-
-        value = id.toString();
-
-        return value;
+    public Boolean getSpecification() {
+        return specification;
     }
 
-
-    public void setValue(String value) {
-
-        // id = Convert.ToLong(value);
-
-        this.value = value;
+    public void setSpecification(Boolean specification) {
+        this.specification = specification;
     }
 
+    public Boolean getObsolete() {
+        return isObsolete;
+    }
+
+    public void setObsolete(Boolean obsolete) {
+        isObsolete = obsolete;
+    }
 }

@@ -17,17 +17,6 @@
                 ng-init='lstDrugType = ${lstDrugType};'></select>
 
     </div>
-    <div class="col-xs-2" ng-show="d.typeId==6">
-        Especifíque:
-    </div>
-    <div ng-show="d.typeId==6" class="col-xs-4">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                                     data-val-length-max="200" data-val-length-min="3" data-val-required="La especificación es un campo requerido"
-                                     type="text" value="" ng-model="d.other" ng-init='d.other = "${(d.other == null) ? '' : d.other}"' id="other" name="other">
-        <br/>
-        <span class="field-validation-valid" data-valmsg-for="other" data-valmsg-replace="true"></span>
-    </div>
-
     <div class="col-xs-2">
         Periodicidad:
     </div>
@@ -36,6 +25,30 @@
                 ng-options="e.name for e in lstPeriodicity"
                 ng-change="d.perId = d.per.id"
                 ng-init='lstPeriodicity = ${lstPeriodicity};'></select>
+    </div>
+</div>
+<br/>
+<div class="row" ng-show="d.type.specification==true">
+    <div class="col-xs-2" ng-show="d.type.specification==true" >
+        Especifíque sustancia:
+    </div>
+    <div class="col-xs-4" ng-show="d.type.specification==true">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 100 caracteres"
+               data-val-length-max="100" data-val-length-min="3" data-val-required="La especificación es un campo requerido"
+               type="text" value="" ng-model="d.other" ng-init='d.other = "${(d.specificationType == null) ? '' : d.specificationType}"' id="specificationType" name="specificationType">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="specificationType" data-valmsg-replace="true"></span>
+    </div>
+    <div class="col-xs-2"   ng-show="d.per.specification==true">
+        Especifíque periodicidad:
+    </div>
+    <div class="col-xs-4" ng-show="d.per.specification==true">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 100 caracteres"
+               data-val-length-max="100" data-val-length-min="3" data-val-required="La especificación es un campo requerido"
+               type="text" value="" ng-model="d.specificationPeriodicity" ng-init='d.specificationPeriodicity = "${(d.specificationPeriodicity == null) ? '' : d.specificationPeriodicity}"'
+               id="specificationPeriodicity" name="specificationPeriodicity">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="specificationPeriodicity" data-valmsg-replace="true"></span>
     </div>
 </div>
 <br/>

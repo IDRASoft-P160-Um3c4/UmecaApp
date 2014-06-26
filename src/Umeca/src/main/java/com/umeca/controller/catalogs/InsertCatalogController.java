@@ -66,11 +66,6 @@ public class InsertCatalogController {
         return "Activity OK!";
     }
 
-    @RequestMapping(value="/catalogs/insertPhysicalCondition", method = RequestMethod.GET)
-    public String insertPhysicalCondition(){
-        service.physicalCondition();
-        return "Physical condition OK!";
-    }
 
     @RequestMapping(value="/catalogs/insertStatusMeeting", method = RequestMethod.GET)
     public String insertStatusMeeting(){
@@ -128,8 +123,8 @@ public class InsertCatalogController {
 
     @RequestMapping(value="/catalogs/insertSchoolLevel", method = RequestMethod.GET)
     public String insertSchoolLevel(){
-        service.schoolLevel();
-        return "School level OK!";
+        service.academicDegree();
+        return "Degree OK!";
     }
 
     @RequestMapping(value = "/catalogs/insertTypeRegister", method = RequestMethod.GET)
@@ -179,7 +174,6 @@ public class InsertCatalogController {
         service.questionarySection();
         service.question();
         service.activity();
-        service.physicalCondition();
         service.statusMeeting();
         service.statusVerification();
         service.statusCase();
@@ -190,7 +184,7 @@ public class InsertCatalogController {
         service.drugType();
         service.periodicity();
         service.dayWeek();
-        service.schoolLevel();
+        service.academicDegree();
         service.registerType();
         service.verificationMethod();
         service.supervisionActivity();

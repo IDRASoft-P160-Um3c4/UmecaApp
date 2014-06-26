@@ -18,9 +18,24 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/personalDataCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/socialNetworkCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/referenceCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/drugCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/scheduleCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/schoolCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/jobCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/addressCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/leavingCountryCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/meetingCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
 
     <script>
-        $(function() {
+       /* $(function() {
             var total = "";
             $(".form-control").each(function() {
                $( this ).attr('disabled','disabled');
@@ -58,6 +73,7 @@
             var scope = angular.element($("#divContent")).scope();
             scope.show(null,"/reviewer/verification/detailVerification.html");
         }
+        */
     </script>
     <title>Usuarios</title>
 
@@ -67,21 +83,8 @@
 <div class="container body-content">
 
     <h2 class="element-center"><i class="glyphicon icon-edit "></i>&nbsp;&nbsp;Verificación</h2>
+    <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp"%>
 
-    <div class="row"  ng-controller="modalDlgController" id="divContent">
-        <div class="col-sm-5">
-            <h3 class="header smaller lighter blue">
-                <small>Número de carpeta de investigación:  </small>
-                56-565L
-            </h3>
-        </div>
-        <div class="col-sm-5 col-sm-offset-1">
-            <h3 class="header smaller lighter blue">
-                <small>Nombre del imputado:  </small>
-                Nombre del Imputado
-            </h3>
-        </div>
-    </div>
     <div class="row">
         <div class="col-sm-12">
             <div class="tabbable tabs-left">
@@ -97,13 +100,6 @@
                         <a data-toggle="tab" href="#address">
                             <i class="green  icon-home  bigger-200"></i>
                             Domicilios
-                        </a>
-                    </li>
-
-                    <li>
-                        <a data-toggle="tab" href="#socialNetwork">
-                            <i class="blue icon-group bigger-200"></i>
-                            Red social
                         </a>
                     </li>
                     <li>
@@ -134,7 +130,16 @@
 
                 <div class="tab-content">
                     <div id="personalData" class="tab-pane in active">
-                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/_personalData.jsp"%>
+                        <div class="row center">
+                            <h2><i class="purple glyphicon glyphicon-user bigger-100"></i> &nbsp;Datos personales y entorno social</h2>
+                        </div>
+                        <br/>
+                        <div class="row">
+                                       <div class="col-xs-10 col-xs-offset-1">
+                                           <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/content.jsp"%>
+                                       </div>
+                        </div>
+
                     </div>
                     <div id="address" class="tab-pane">
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/address/accordeon.jsp"%>
@@ -143,13 +148,24 @@
                              historia laboral
                     </div>
                     <div id="academyHistory" class="tab-pane">
-                                historia escolar
+                        <h2> <i class="orange icon-book  bigger-100">&nbsp;</i>Historia Escolar</h2>
+                        <br/>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <%@ include file="/WEB-INF/jsp/reviewer/meeting/school/content.jsp"%>
+                            </div>
+                        </div>
+
                     </div>
                     <div id="drougs" class="tab-pane">
                          susustancias
                     </div>
                     <div id="leaveCountry" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry.jsp"%>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <%@ include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry/content.jsp"%>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

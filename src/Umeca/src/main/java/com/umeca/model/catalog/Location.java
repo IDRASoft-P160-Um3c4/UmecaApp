@@ -10,27 +10,27 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "CatLocation")
+@Table(name = "cat_location")
 public class Location {
     @Id
     @GeneratedValue
-    @Column(name="LocationId")
+    @Column(name="id_location")
     private Long id;
 
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="MunicipalityId", nullable = false)
+    @JoinColumn(name="id_municipality", nullable = false)
     private Municipality municipality;
 
-    @Column(name = "Name", nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "Abbreviation", nullable = false, length = 100)
+    @Column(name = "abbreviation", nullable = false, length = 100)
     private String abbreviation;
 
-    @Column(name = "Description", nullable = false, length = 100)
+    @Column(name = "description", nullable = false, length = 100)
     private String description;
 
-    @Column(name="ZipCode", nullable = false, length = 10)
+    @Column(name="zip_code", nullable = false, length = 10)
     private String zipCode;
 
     public Long getId() {

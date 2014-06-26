@@ -9,7 +9,6 @@ import com.umeca.model.entities.supervisor.ForFramingMeetingGrid;
 import com.umeca.model.entities.supervisor.FramingMeetingView;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.CountryRepository;
-import com.umeca.repository.catalog.PhysicalConditionRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.supervisor.FramingMeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +37,6 @@ public class FramingMeetingController {
     @Autowired
     private CountryRepository countryRepository;
 
-    @Autowired
-    private PhysicalConditionRepository physicalConditionRepository;
 
     @RequestMapping(value = "/supervisor/framingMeeting/index", method = RequestMethod.GET)
     public String index() {
@@ -93,7 +90,7 @@ public class FramingMeetingController {
 
 
         model.addObject("lstCountry", conv.toJson(countryRepository.findAll()));
-        model.addObject("lstPhysicalCondition",conv.toJson(physicalConditionRepository.findAll()));
+    //    model.addObject("lstPhysicalCondition",conv.toJson(physicalConditionRepository.findAll()));
 
         return model;
     }

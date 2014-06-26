@@ -83,15 +83,15 @@
                             <div class="col-xs-7">
                                 <div class="input-group">
                                     <input class="form-control date-picker" readonly="readonly" type="text" data-date-format="yyyy/mm/dd"
-                                            data-val="true" data-val-required="La fecha de nacimiento es un campo requerido" ng-init="dateBirth=''"
-                                            id="dateBirth" name="dateBirth" ng-model="dateBirth"/>
+                                            data-val="true" data-val-required="La fecha de nacimiento es un campo requerido" ng-init="birthDate=''"
+                                            id="birthDate" name="birthDate" ng-model="birthDate"/>
 											<span class="input-group-addon">
 														<i class="icon-calendar bigger-110" ></i>
 											</span>
                                 </div>
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
-                                <span class="field-validation-valid" data-valmsg-for="dateBirth" data-valmsg-replace="true"></span>
+                                <span class="field-validation-valid" data-valmsg-for="birthDate" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <br/>

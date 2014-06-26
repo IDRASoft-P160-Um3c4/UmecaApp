@@ -60,8 +60,11 @@ public class Drug implements EntityGrid{
     @Column(name="last_use", nullable = false)
     private Date lastUse;
 
-    @Column(name="other", nullable = true, length = 30)
-    private String other;
+    @Column(name="specification_type", nullable = true, length = 100)
+    private String specificationType;
+
+    @Column(name="specification_periodicity", nullable = true, length = 100)
+    private String specificationPeriodicity;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
@@ -154,11 +157,19 @@ public class Drug implements EntityGrid{
         this.drugName = drugName;
     }
 
-    public String getOther() {
-        return other;
+    public String getSpecificationType() {
+        return specificationType;
     }
 
-    public void setOther(String other) {
-        this.other = other;
+    public void setSpecificationType(String specificationType) {
+        this.specificationType = specificationType;
+    }
+
+    public String getSpecificationPeriodicity() {
+        return specificationPeriodicity;
+    }
+
+    public void setSpecificationPeriodicity(String specificationPeriodicity) {
+        this.specificationPeriodicity = specificationPeriodicity;
     }
 }

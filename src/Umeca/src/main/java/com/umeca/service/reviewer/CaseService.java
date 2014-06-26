@@ -15,6 +15,8 @@ public interface CaseService {
     Case generateNewCase(Imputed imputed, Integer type);
 
     Case save(Case caseDet);
+    Boolean validateStatus(Long idCase, String statusCase);
+    Boolean validateStatus(Long idCase, String statusCase, Class entityCase, String statusEntity);
 
     ResponseMessage saveConditionaReprieveCase(Case caseDet);
 }

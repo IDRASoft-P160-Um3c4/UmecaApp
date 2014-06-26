@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
-import com.umeca.model.catalog.PhysicalCondition;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
@@ -78,14 +77,15 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         pData.setGender(existCase.getMeeting().getImputed().getGender());
         pData.setMaritalStatus(existCase.getMeeting().getImputed().getMaritalStatus().getId());
         pData.setIdContry(existCase.getMeeting().getImputed().getBirthCountry().getId());
-        pData.setState(existCase.getMeeting().getImputed().getBirthPlace());
-        pData.setBrthDate(existCase.getMeeting().getImputed().getDateBirth());
+        pData.setState(existCase.getMeeting().getImputed().getBirthState());
+        pData.setBrthDate(existCase.getMeeting().getImputed().getBirthDate());
 
         List<Long> physCondSel = new ArrayList<>();
-
+           /*
         for (PhysicalCondition pC : existCase.getMeeting().getSocialEnvironment().getPhysicalConditions()) {
             physCondSel.add(pC.getId());
         }
+        */
 
         pData.setPhysicalConditionsSel(physCondSel);
 
