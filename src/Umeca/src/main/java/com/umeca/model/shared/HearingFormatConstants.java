@@ -18,6 +18,6 @@ public class HearingFormatConstants {
     public static final Integer EXTENSION_144= 2;
     public static final Integer EXTENSION_NO =3;
 
-    public static final String FOLDER_CONDITIONAL_REPRIEVE_PREFIX="CSPP-";
+    public static final String FOLDER_CONDITIONAL_REPRIEVE_PREFIX="C/SCPP/";
 
 }

@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name="contact_data")
 public class ContactData {
 
+
     @Id
     @GeneratedValue
     @Column(name = "id_contact_data")

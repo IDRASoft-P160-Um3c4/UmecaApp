@@ -10,6 +10,8 @@ public interface CaseService {
 
     Case findByIdFolder(String idFolder);
 
+    Case findById(Long id);
+
     Case generateNewCase(Imputed imputed, Integer type);
 
     Case save(Case caseDet);

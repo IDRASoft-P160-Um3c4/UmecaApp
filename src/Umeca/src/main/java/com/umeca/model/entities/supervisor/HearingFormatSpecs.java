@@ -40,9 +40,9 @@ public class HearingFormatSpecs {
     @Column(name = "hearing_type", nullable = false)
     private Integer hearingType;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    /*@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_hearing_format", nullable = false)
-    private HearingFormat hearingFormat;
+    private HearingFormat hearingFormat;*/
 
     public Long getId() {
         return id;
@@ -123,12 +123,12 @@ public class HearingFormatSpecs {
     public void setHearingType(Integer hearingType) {
         this.hearingType = hearingType;
     }
-
+/*
     public HearingFormat getHearingFormat() {
         return hearingFormat;
     }
 
     public void setHearingFormat(HearingFormat hearingFormat) {
         this.hearingFormat = hearingFormat;
-    }
+    }*/
 }

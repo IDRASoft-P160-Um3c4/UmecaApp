@@ -29,7 +29,7 @@
         };
 
         viewHearingFormat = function (id) {
-            var goTo = "<c:url value='/supervisor/hearingFormat/viewHearingFormat.html'/>" + "?idFormat="+id;
+            var goTo = "<c:url value='/supervisor/hearingFormat/viewHearingFormat.html'/>" + "?idFormat=" + id;
             window.goToUrlMvcUrl(goTo);
         };
 
@@ -63,22 +63,13 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-                    var folders = $(this).jqGrid('getCol', 'idFolder', false);
-                    var status = $(this).jqGrid('getCol', 'status', false);
 
                     for (var i = 0; i < ids.length; i++) {
 
-                        var cl = folders[i];
+                        var cl = ids[i];
                         var be;
-                        var idCase =${idCase};
 
-                        switch (status[i]) {
-
-                            case 'ST_CASE_VERIFICATION_COMPLETE':
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Gestionar formatos de audiencia\" onclick=\"viewHearingFormat('" + idCase + "','" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
-                                break;
-
-                        }
+                        be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formato de audiencia\" onclick=\"viewHearingFormat(   '" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

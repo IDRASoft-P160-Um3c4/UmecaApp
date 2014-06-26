@@ -48,8 +48,6 @@ public class Verification {
     @OneToMany(mappedBy="verification", cascade={CascadeType.ALL})
     private List<FinalField> finalFieldList;
 
-
-
     public Long getId() {
         return id;
     }
