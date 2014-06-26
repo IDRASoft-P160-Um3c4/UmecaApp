@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!--
 * Project: Umeca
-* User: Israel
 * Date: 4/30/14
 * Time: 9:53 AM
 -->
@@ -10,28 +9,30 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/trackMonitoringPlan/trackListMonPlanCtrl.js"></script>
     <title></title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
     <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
+
     <div class="container body-content">
 
         <script>
-            window.generate = function(id) {
+            window.track = function(id) {
                 var params= [];
                 params["idParam"]=id;
-                window.goToUrlMvcUrl("<c:url value='/supervisor/generateMonitoringPlan/generate.html?id=idParam' />",params);
+                window.goToUrlMvcUrl("<c:url value='/supervisor/trackMonitoringPlan/trackCalendar.html?id=idParam' />",params);
             };
 
-            window.preAuthorize = function(id){
-                window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/generateMonitoringPlan/preAuthorize.json' />", "#GridId",
-                        "Plan de seguimiento", "¿Está seguro de que desea solicitar la autorización del plan de seguimiento para este caso y formato de audiencia?", "warning");
+            window.preFinish = function(id){
+                //window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/trackMonitoringPlan/preAuthorize.json' />", "#GridId",
+                //        "Plan de seguimiento", "¿Está seguro de que desea solicitar la autorización del plan de seguimiento para este caso y formato de audiencia?", "warning");
             };
 
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
-                    url: '<c:url value='/supervisor/generateMonitoringPlan/list.json' />',
+                    url: '<c:url value='/supervisor/trackMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
                     colNames: ['ID', 'Carpeta investigación', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
@@ -65,16 +66,10 @@
                             var status = row.status;
                             var be = "";
 
-                            if (status === "NUEVO") {
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\Seguimiento al plan de \" onclick=\"window.track('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
+                            /*if (status === "NUEVO") {
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
-                            }else if (status === "EN PROCESO DE GENERAR" ) {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorización del plan de supervisión\" onclick=\"window.preAuthorize('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
-                            }
-
-                            if (status === "EN PROCESO DE GENERAR" || status === "AUTORIZADO" || status === "RECHAZADO AUTORIZAR" || status === "EN PROCESO DE EJECUCIÓN" || status === "RECHAZADO TERMINAR" ){
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-                            }
-
+                            }*/
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }
                     },
@@ -105,7 +100,18 @@
 
         </script>
 
-        <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Casos asignados</h2>
+        <div class="page-header">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Planes de seguimiento</h2>
+                </div>
+            </div>
+            <div class="row" ng-controller="trackListMonPlanCtrl">
+                <div class="col-xs-3 col-xs-offset-5">
+                    <div class="btn btn-success element-center" ng-click="trackAll()"><i class="glyphicon glyphicon-calendar"></i> &nbsp; Calendario completo</div>
+                </div>
+            </div>
+        </div>
 
         <div id="angJsjqGridId" ng-controller="modalDlgController">
             <table id="GridId" class="element-center" style="margin: auto"></table>

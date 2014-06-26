@@ -39,14 +39,14 @@ import java.util.List;
  */
 
 @Controller
-public class GenerateMonitoringPlanController {
+public class TrackMonitoringPlanController {
 
     @Autowired
     SharedLogExceptionService logException;
 
-    @RequestMapping(value = "/supervisor/generateMonitoringPlan/index", method = RequestMethod.GET)
+    @RequestMapping(value = "/supervisor/trackMonitoringPlan/index", method = RequestMethod.GET)
     public String index(){
-        return "/supervisor/generateMonitoringPlan/index";
+        return "/supervisor/trackMonitoringPlan/index";
     }
 
 
@@ -56,7 +56,7 @@ public class GenerateMonitoringPlanController {
     @Autowired
     private SharedUserService userService;
 
-    @RequestMapping(value = "/supervisor/generateMonitoringPlan/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/supervisor/trackMonitoringPlan/list", method = RequestMethod.POST)
     public @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
 
@@ -66,7 +66,8 @@ public class GenerateMonitoringPlanController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("supervisorId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("status",
-                new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);add(MonitoringConstants.STATUS_END);}},JqGridFilterModel.COMPARE_NOT_IN);
+                new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);add(MonitoringConstants.STATUS_AUTHORIZED);
+                    add(MonitoringConstants.STATUS_MONITORING);add(MonitoringConstants.STATUS_REJECTED_END);add(MonitoringConstants.STATUS_END);}},JqGridFilterModel.COMPARE_IN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -103,9 +104,7 @@ public class GenerateMonitoringPlanController {
                 return null;
             }
         }, MonitoringPlan.class, MonitoringPlanView.class);
-
         return result;
-
     }
 
 
@@ -125,9 +124,9 @@ public class GenerateMonitoringPlanController {
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
 
 
-    @RequestMapping(value = "/supervisor/generateMonitoringPlan/generate", method = RequestMethod.GET)
+    @RequestMapping(value = "/supervisor/trackMonitoringPlan/trackCalendar", method = RequestMethod.GET)
     public @ResponseBody ModelAndView generate(@RequestParam Long id){ //Id de MonitoringPlan
-        ModelAndView model = new ModelAndView("/supervisor/generateMonitoringPlan/generate");
+        ModelAndView model = new ModelAndView("/supervisor/trackMonitoringPlan/trackCalendar");
         Gson gson = new Gson();
 
         //Find last hearing format to get last assigned arrangements
@@ -164,45 +163,5 @@ public class GenerateMonitoringPlanController {
 
 
         return model;
-    }
-
-    @Autowired
-    SharedUserService sharedUserService;
-    @Autowired
-    MonitoringPlanService monitoringPlanService;
-
-    @RequestMapping(value = "/supervisor/generateMonitoringPlan/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsert(@RequestBody ActivityMonitoringPlanRequest model){
-        ResponseMessage response = new ResponseMessage();
-        response.setTitle("Plan de seguimiento");
-
-        try {
-            User user = new User();
-            if(sharedUserService.isValidUser(user, response) == false)
-                return response;
-
-            if(monitoringPlanService.doUpsertDelete(monitoringPlanRepository, model, user, response) == false)
-                return response;
-
-            if(model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0){
-                response.setMessage("No fue posible realizar la operación, revise que su información esté correcta o reinicie su navegador.");
-                response.setHasError(true);
-            }else{
-                Gson gson = new Gson();
-                response.setReturnData(gson.toJson(model.getLstActivitiesUpserted()));
-                response.setHasError(false);
-                response.setMessage("La operación se realizó de forma correcta." +
-                        (model.getActsIns() == 0 ? "" : ("<br/>" + model.getActsIns() + " actividad(es) fue(ron) insertada(s)")) +
-                        (model.getActsUpd() == 0 ? "" : ("<br/>" + model.getActsUpd() + " actividad(es) fue(ron) actualizada(s)")) +
-                        (model.getActsDel() == 0 ? "" : ("<br/>" + model.getActsDel() + " actividad(es) fue(ron) eliminada(s)")));
-            }
-
-            return response;
-        }catch (Exception ex){
-            logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
-            response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
-        }
-        return response;
     }
 }

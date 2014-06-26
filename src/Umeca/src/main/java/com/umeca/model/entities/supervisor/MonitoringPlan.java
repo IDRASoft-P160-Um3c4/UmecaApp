@@ -4,7 +4,7 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * Project: Umeca
@@ -30,16 +30,22 @@ public class MonitoringPlan {
     @JoinColumn(name="id_user_supervisor", nullable = false)
     private User supervisor;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_hearing_format", nullable = false)
-    private HearingFormat hearingFormat;
-
     @Column(name = "creation_time", nullable = false)
-    private Timestamp creationTime;
+    private Calendar creationTime;
+
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_user_generator", nullable = true)
+    private User generator;
+
+    @Column(name = "generation_time", nullable = true)
+    private Calendar generationTime;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_user_authorizer", nullable = true)
     private User authorizer;
+
+    @Column(name = "authorization_time", nullable = true)
+    private Calendar authorizationTime;
 
     @Column(name = "status", length = 100, nullable = false)
     private String status;
@@ -68,19 +74,11 @@ public class MonitoringPlan {
         this.supervisor = supervisor;
     }
 
-    public HearingFormat getHearingFormat() {
-        return hearingFormat;
-    }
-
-    public void setHearingFormat(HearingFormat hearingFormat) {
-        this.hearingFormat = hearingFormat;
-    }
-
-    public Timestamp getCreationTime() {
+    public Calendar getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
+    public void setCreationTime(Calendar creationTime) {
         this.creationTime = creationTime;
     }
 
@@ -90,5 +88,37 @@ public class MonitoringPlan {
 
     public void setAuthorizer(User authorizer) {
         this.authorizer = authorizer;
+    }
+
+    public User getGenerator() {
+        return generator;
+    }
+
+    public void setGenerator(User generator) {
+        this.generator = generator;
+    }
+
+    public Calendar getGenerationTime() {
+        return generationTime;
+    }
+
+    public void setGenerationTime(Calendar generationTime) {
+        this.generationTime = generationTime;
+    }
+
+    public Calendar getAuthorizationTime() {
+        return authorizationTime;
+    }
+
+    public void setAuthorizationTime(Calendar authorizationTime) {
+        this.authorizationTime = authorizationTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

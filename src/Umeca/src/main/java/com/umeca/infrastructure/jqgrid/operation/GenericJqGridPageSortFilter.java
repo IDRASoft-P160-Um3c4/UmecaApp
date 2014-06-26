@@ -121,6 +121,10 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                         Predicate pIn = exp.in(rule.lstInOp);
                         p.getExpressions().add(pIn);
                         break;
+                    case JqGridFilterModel.COMPARE_NOT_IN:
+                        Predicate pNotIn = cb.not(exp.in(rule.lstInOp));
+                        p.getExpressions().add(pNotIn);
+                        break;
                     default:
                         p.getExpressions().add(cb.like(cb.lower(exp), rule.data.trim().toLowerCase() + "%"));
                         break;

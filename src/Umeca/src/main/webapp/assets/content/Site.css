@@ -275,3 +275,12 @@ i.link-image {
     width: 1050px !important;
     padding: 0 5% !important;
 }
+
+.label-shadow {
+    background-color: #5bc0de;
+}
+
+.label-shadow[href]:hover,
+.label-shadow[href]:focus {
+    background-color: #31b0d5;
+}

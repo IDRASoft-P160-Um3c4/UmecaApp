@@ -1,11 +1,12 @@
 package com.umeca.repository.supervisor;
 
-import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.HearingFormat;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 /**
  * Project: Umeca
@@ -15,6 +16,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("qHearingFormatRepository")
 public interface HearingFormatRepository extends JpaRepository<HearingFormat, Long>{
+
+    @Query("SELECT hf.id FROM MonitoringPlan mp " +
+            "INNER JOIN mp.caseDetention.hearingFormats hf " +
+            "WHERE mp.id =:id ORDER BY hf.id DESC")
+    List<Long> getLastHearingFormatByMonPlan(@Param("id") Long id, Pageable pageable);
 }
 
 

@@ -27,9 +27,66 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/generateMonitoringPlan/generateMonPlanCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/shared/upsertActivityEventController.js"></script>
     <script>
+        var lstIdsToObjects = function(lstIds){
+            var lstObjects = {};
+            for(var i=0; i<lstIds.length; i++){
+                var id = lstIds[i];
+                lstObjects[id] = true;
+            }
+            return lstObjects;
+        };
+
+        var idToObject = function(id, lstCat){
+            for(var i=0; i<lstCat.length; i++){
+                var cat = lstCat[i];
+                if(cat.id == id){
+                    return cat;
+                }
+            }
+            return null;
+        };
+
+        var convertToEvents = function(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources){
+            var lstEvents = [];
+            for(var i=0; i<lstActivitiesMonPlan.length; i++){
+                var act = lstActivitiesMonPlan[i];
+                var event = {
+                    title: "",
+                    doTitle: function(isModified){
+                        this.title = (isModified === true ? "*" : "") + "Caso "
+                                + this.infoActivity.caseInfo.caseId + "  (" + this.infoActivity.caseInfo.folderId + ") Imputado: "
+                                + this.infoActivity.caseInfo.personName + " " + this.infoActivity.goal.name;
+                    },
+                    idActivity: act.activityId,
+                    start: window.stringToDate(act.start),
+                    end: window.stringToDate(act.end),
+                    allDay: false,
+                    isModified: false,
+                    className: 'label-info',
+                    infoActivity:{
+                        lstArrangements: lstIdsToObjects(act.lstArrangements),
+                        activity: idToObject(act.activityMonId, lstActivities),
+                        goal: idToObject(act.goalId, lstGoals),
+                        source: idToObject(act.sourceId, lstSources),
+                        caseInfo: caseInfo
+                    }
+                };
+                event.doTitle(false);
+                lstEvents.push(event);
+            }
+            return lstEvents;
+        }
+
         jQuery(function($) {
+            var lstActivitiesMonPlan = ${lstActivitiesMonPlan};
+            var lstArrangements = ${lstArrangements};
+            var lstActivities = ${lstActivities};
+            var lstGoals = ${lstGoals};
+            var lstSources = ${lstSources};
 
             var caseInfo = {caseId:"${caseId}", folderId: "${folderId}", personName: "${personName}", monStatus: "${monStatus}", monitoringPlanId: "${monitoringPlanId}"};
+            lstEventsAct = convertToEvents(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources);
+
 
             var date = new Date();
             $('#id-date-picker-start,#id-date-picker-end').datepicker({autoclose:true, startDate:new Date(date.getFullYear(), date.getMonth(), date.getDate()-1)}).next().on(ace.click_event, function(){
@@ -45,9 +102,13 @@
             });
 
             //Initilize angular scope and config
+
             var scope = angular.element($("#UpsertActivityEventDlgId")).scope();
+            var scopeMon = angular.element($("#GenerateMonPlanControllerId")).scope();
+
             scope.config({startDateId: "#id-date-picker-start", endDateId: "#id-date-picker-end",
-                    startTimeId: "#id-timepicker-start", endTimeId: "#id-timepicker-end", caseInfo: caseInfo});
+                startTimeId: "#id-timepicker-start", endTimeId: "#id-timepicker-end", caseInfo: caseInfo},
+                    lstArrangements, lstActivities, lstGoals, lstSources);
 
 
             /* initialize the external events
@@ -85,6 +146,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
+                events: lstEventsAct,
                 allDayText: 'Todo el día',
                 allDaySlot: false,
                 slotMinutes: 30,
@@ -98,56 +160,90 @@
                 editable: true,
                 selectable: true,
                 selectHelper: true,
+                eventResize: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+                    var today = new Date();
+                    today.setHours(0,0,0,0);
+                    if(event.start < today){
+                        revertFunc();
+                        scope.showMsg({title:"Plan de seguimiento", msg:'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
+                        return;
+                    }
+                    event.doTitle(true);
+                    event.isModified = true;
+                },
+                eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+                    var today = new Date();
+                    today.setHours(0,0,0,0);
+                    if(event.start < today){
+                        revertFunc();
+                        scope.showMsg({title:"Plan de seguimiento", msg:'No es posible modificar una actividad a una fecha anterior a la fecha actual.', type: "danger"});
+                        return;
+                    }
+                    event.doTitle(true);
+                    event.isModified = true;
+                },
                 select: function(start, end, allDay) {
                     var today = new Date();
                     today.setHours(0,0,0,0);
                     if(start < today){
-                        scope.showMsg({title:"Error al agregar una actividad", msg:'No es posible agregar una actividad con fecha anterior a la fecha actual.', type: "danger"});
+                        scope.showMsg({title:"Plan de seguimiento", msg:'No es posible agregar una actividad con fecha anterior a la fecha actual.', type: "danger"});
                         return;
                     }
 
                     scope.showDlg({title:'Agregar actividad', start: start, end: end, isNew: true})
-                            .then(function(activities){
-                                for(i=0; i<activities.length; i++){
-                                    calendar.fullCalendar('renderEvent', activities[i], true);
+                            .then(function(result){
+                                for(i=0; i<result.activities.length; i++){
+                                    calendar.fullCalendar('renderEvent', result.activities[i], true);
                                 }
                             });
                     calendar.fullCalendar('unselect');
                 }
                 ,
-                eventClick: function(calEvent, jsEvent, view) {
+                eventClick: function(event, jsEvent, view) {
+                    var today = new Date();
+                    today.setHours(0,0,0,0);
+                    var isReadOnly = false;
+                    if(event.start < today){
+                        isReadOnly = true;
+                        //scope.showMsg({title:"Plan de seguimiento", msg:'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
+                        //return;
+                    }
 
-                    scope.showDlg({title:'Modificar actividad', start: calEvent.start, end: calEvent.end, isNew: false})
-                            .then(function(activity, option){
-                                switch(option){
+                    scope.showDlg({title:'Modificar o eliminar actividad', start: event.start, end: event.end, isNew: false, event: event, isReadOnly: isReadOnly})
+                            .then(function(result){
+                                switch(result.option){
                                     case 'REMOVE':
                                         calendar.fullCalendar('removeEvents' , function(ev){
-                                            return (ev._id == calEvent._id);
+                                            return (ev._id == event._id);
                                         });
+                                        scopeMon.addActivityToDelete(event.idActivity);
                                         break;
                                     case 'UPDATE':
+                                        calendar.fullCalendar('updateEvent', event);
                                         break;
                                     default:
                                         break;
                                 }
                             });
-
                 }
 
             });
-        })
+
+            scopeMon.m = { calendar:calendar};
+
+        });
     </script>
 
-    <title>Plan de Supervisión</title>
+    <title>Plan de seguimiento</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content"  ng-controller="generateMonPlanController">
+<div class="container body-content"  ng-controller="generateMonPlanController" id="GenerateMonPlanControllerId">
     <div class="page-content">
         <div class="page-header">
             <h1 class="element-center">
-                <i class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Plan de supervisión (Calendario)
+                <i class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Plan de seguimiento (Calendario)
             </h1>
         </div>
         <div class="page-header">
@@ -157,6 +253,21 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
+                <div class="row">
+                    <div class="space"></div>
+                    <div class="col-xs-3 col-xs-offset-3 element-center">
+                        <div class="btn btn-success element-center" ng-disabled="waitFor==true" ng-click="returnToCases('<c:url value="/supervisor/generateMonitoringPlan/index.html" />')"><i class="glyphicon glyphicon-chevron-left"></i> &nbsp; Regresar</div>
+                    </div>
+                    <div class="col-xs-3 element-center">
+                        <div class="btn btn-primary element-center" ng-disabled="waitFor==true"
+                             ng-click="saveActivities('${caseId}', '${monitoringPlanId}', '<c:url value="/supervisor/generateMonitoringPlan/doUpsert.json" />')"><i class="glyphicon glyphicon-ok-circle"></i> &nbsp; Guardar</div>
+                    </div>
+                </div>
+                <div class="row" ng-show="msgError">
+                    <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
+                        <span class="control-label element-center">{{msgError}}</span>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="space"></div>

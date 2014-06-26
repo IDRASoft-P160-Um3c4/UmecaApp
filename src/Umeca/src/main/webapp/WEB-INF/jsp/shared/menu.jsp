@@ -30,14 +30,24 @@
                 </sec:authorize>
 
                 <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
+                    <li><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Formato de audiencia</a></li>
+                    <li><a href="<c:url value='/supervisor/hearingFormat.html' />"><i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Supervisor<b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Plan de seguimiento<b class="caret"></b> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Formato de audiencia</a></li>
-                            <li><a href="<c:url value='/supervisor/hearingFormat/newHearingFormat.html?idCase=1' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;FORMAAAA</a></li>
-                            <li><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Entevista de encuadre</a></li>
-                            <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar plan de supervisión</a></li>
-                            <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Seguimiento al plan de supervisión</a></li>
+                            <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar/Modificar</a></li>
+                            <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Dar seguimiento</a></li>
+                        </ul>
+                    </li>
+                </sec:authorize>
+
+                <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Planes de seguimiento<b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<c:url value='/supervisorManager/authorizeMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Autorizar</a></li>
+                            <li><a href="<c:url value='/supervisorManager/activeMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Activos</a></li>
+                            <li><a href="<c:url value='/supervisorManager/finishedMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrados</a></li>
                         </ul>
                     </li>
                 </sec:authorize>

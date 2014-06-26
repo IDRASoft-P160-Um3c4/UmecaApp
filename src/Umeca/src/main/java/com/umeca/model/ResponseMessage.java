@@ -6,6 +6,7 @@ public class ResponseMessage {
     private String message;
     private String urlToGo;
     private String title;
+    private Object returnData;
 
     public ResponseMessage(){
     }
@@ -45,5 +46,13 @@ public class ResponseMessage {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Object getReturnData() {
+        return returnData;
+    }
+
+    public void setReturnData(Object returnData) {
+        this.returnData = returnData;
     }
 }

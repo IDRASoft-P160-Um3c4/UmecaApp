@@ -9,23 +9,27 @@
             </div>
             <div class="modal-body">
                 <form id="activityArrangementForm" name="activityArrangementForm" class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label for="selectArrangement" class="col-xs-3 control-label">Obligaciones procesales:</label>
+                    <div class="row">
+                        <label class="col-xs-3 control-label">Obligaciones procesales:</label>
                         <div class="col-xs-9">
-                            <select class="form-control element-center" ng-model="m.arrangement" id="selectArrangement"
-                                    ng-options="e.name + ' | ' + e.description for e in lstArrangement"
-                                    ng-change="m.arrangementId = m.arrangement.id"
-                                    ng-init='lstArrangement = ${lstArrangement}; m.arrangement = lstArrangement[0];'>
-                            </select>
+                            <div class="row" ng-repeat="e in lstArrangements">
+                                <div class="col-xs-11 checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model = "m.lstArrangements[e.id]" ng-disabled = "isReadOnly" />
+                                        <span class="control-label">{{e.name}} | {{e.description}}</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <br/>
                     <div class="form-group">
                         <label for="selectActivity" class="col-xs-3 control-label">Actividad de supervisión:</label>
                         <div class="col-xs-9">
                             <select class="form-control element-center" ng-model="m.activity" id="selectActivity"
                                     ng-options="e.name for e in lstActivities"
                                     ng-change="m.activityId = m.activity.id"
-                                    ng-init='lstActivities = ${lstActivities}; m.activity = lstActivities[0];'>
+                                    ng-disabled = "isReadOnly">
                             </select>
                         </div>
                     </div>
@@ -35,7 +39,7 @@
                             <select class="form-control element-center" ng-model="m.goal" id="selectGoal"
                                     ng-options="e.name for e in lstGoals"
                                     ng-change="m.goalId = m.goal.id"
-                                    ng-init='lstGoals = ${lstGoals}; m.goal = lstGoals[0];'>
+                                    ng-disabled = "isReadOnly">
                             </select>
                         </div>
                     </div>
@@ -45,7 +49,7 @@
                             <select class="form-control element-center" ng-model="m.source" id="selectSource"
                                     ng-options="e.name for e in lstSources"
                                     ng-change="m.sourceId = m.source.id"
-                                    ng-init='lstSources = ${lstSources}; m.source = lstSources[0];'>
+                                    ng-disabled = "isReadOnly">
                             </select>
                         </div>
                     </div>
@@ -222,9 +226,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-primary" ng-click="save()">Guardar</button>
-                <button type="button" class="btn btn-default btn-danger" ng-show="!isNew"  ng-click="delete()">Eliminar</button>
-                <button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+                <button type="button" class="btn btn-default btn-primary" ng-show="isNew" ng-click="add()">Agregar</button>
+                <button type="button" class="btn btn-default btn-primary" ng-show="!isNew && !isReadOnly" ng-click="save()">Modificar</button>
+                <button type="button" class="btn btn-default btn-danger" ng-show="!isNew && !isReadOnly"  ng-click="delete()">Eliminar</button>
+                <button type="button" class="btn btn-default" ng-click="cancel()">{{(isReadOnly?'Regresar':'Cancelar')}}</button>
             </div>
         </div>
     </div>
