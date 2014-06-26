@@ -40,7 +40,7 @@ public class Meeting {
     private List<Reference> references;
 
     @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
-    private List<Domicile> domiciles;
+    private List<ImputedHome> imputedHomes;
 
     @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
     private List<Job> jobs;
@@ -63,7 +63,7 @@ public class Meeting {
     @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
     private  PreviousCriminalProceeding previousCriminalProceeding;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="id_status", nullable = false)
     private StatusMeeting status;
 
@@ -118,12 +118,12 @@ public class Meeting {
         this.references = references;
     }
 
-    public List<Domicile> getDomiciles() {
-        return domiciles;
+    public List<ImputedHome> getImputedHomes() {
+        return imputedHomes;
     }
 
-    public void setDomiciles(List<Domicile> domiciles) {
-        this.domiciles = domiciles;
+    public void setImputedHomes(List<ImputedHome> imputedHomes) {
+        this.imputedHomes = imputedHomes;
     }
 
     public List<Job> getJobs() {

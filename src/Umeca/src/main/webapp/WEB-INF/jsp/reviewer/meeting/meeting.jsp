@@ -32,6 +32,10 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/upsertMeetingCtrl.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+    </script>
+
       <script>
           window.cancelMeeting = function (){
               window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/index.html'/>");
@@ -46,7 +50,6 @@
 <div class="container body-content" ng-controller="meetingController">
 
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos procesales</h2>
-
     <div class="row">
         <div class="col-sm-3">
             <h3 class="header smaller lighter blue">
@@ -54,6 +57,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;${m.caseDetention.idFolder}
             </h3>
         </div>
+
         <div class="col-sm-7 col-sm-offset-1">
             <h3 class="header smaller lighter blue">
                 <small><br/>Nombre del imputado:  </small>
@@ -61,67 +65,150 @@
             </h3>
         </div>
     </div>
+
     <div class="row">
         <div class="col-sm-12">
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs" id="tabMeeting">
                     <li class="active">
                         <a data-toggle="tab" href="#personalData">
-                            <i class="purple glyphicon glyphicon-user bigger-200"></i>
-                            Datos personales y <br/>    <div class="col-xs-offset-3"> Entorno social</div>
+                            <div class="row">
+                            <div class="col-xs-10">
+                                <i class="purple glyphicon glyphicon-user bigger-200"></i>
+                                Datos personales y
+                                <br/>    <div class="col-xs-offset-3"> Entorno social</div>
+                            </div>
+                            <div class="col-xs-2" ng-show="listMsgError['personalData'].length > 0">
+                                <div class="tools">
+                                    <div class="inline position-relative">
+                                            <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle" data-toggle="dropdown"></i>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close" style="width: 400px; z-index: 100000; padding: 0 0;">
+                                                <div class="alert-danger element-center error-font">
+                                                    <div  ng-repeat ="msg in listMsgError['personalData']">
+                                                        <li>
+                                                        {{msg}}
+                                                        </li>
+
+                                                    </div>
+                                                </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                         </a>
                     </li>
 
                     <li>
-                        <a data-toggle="tab" href="#address">
+                        <a data-toggle="tab" href="#address" style="z-index: 0;">
                             <i class="green  icon-home  bigger-200"></i>
                             Domicilios
                         </a>
                     </li>
 
                     <li>
-                        <a data-toggle="tab" href="#socialNetwork">
+                        <a data-toggle="tab" href="#socialNetwork"  style="z-index: 0;">
                             <i class="blue icon-group bigger-200"></i>
                             Red social
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#personalReferences">
-                            <i class="red icon-list bigger-200"></i>
-                            Referencias personales
+                        <a data-toggle="tab" href="#personalReferences"  style="z-index: 1;">
+                            <div class="row">
+                                <div class="col-xs-10">
+                                    <i class="red icon-list bigger-200"></i>
+                                    Referencias personales
+                                </div>
+                                <div class="col-xs-2" ng-show="listMsgError['reference'].length > 0">
+                                    <div class="tools">
+                                        <div class="inline position-relative">
+                                            <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle" data-toggle="dropdown"></i>
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close" style="width: 400px; z-index: 100000; padding: 0 0;">
+                                                <div class="alert-danger element-center error-font">
+                                                    <div  ng-repeat ="msg in listMsgError['reference']">
+                                                        <li>
+                                                            {{msg}}
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#jobHistory">
+                        <a data-toggle="tab" href="#jobHistory"  style="z-index: 0;">
                             <i class="pink icon-briefcase  bigger-200"></i>
                             Historia laboral
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#school">
-                            <i class="orange icon-book  bigger-200"></i>
-                            Historia Escolar
+                        <a data-toggle="tab" href="#school"  style="z-index: 1;">
+                            <div class="row">
+                                <div class="col-xs-10">
+                                    <i class="orange icon-book  bigger-200"></i>
+                                    Historia Escolar
+                                </div>
+                                <div class="col-xs-2" ng-show="listMsgError['school'].length > 0">
+                                    <div class="tools">
+                                        <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle" data-toggle="dropdown"></i>
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close" style="width: 400px; z-index: 100000; padding: 0 0;">
+                                                <div class="alert-danger element-center error-font">
+                                                    <div  ng-repeat ="msg in listMsgError['school']">
+                                                        <li>
+                                                            {{msg}}
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#drugsSection">
+                        <a data-toggle="tab" href="#drugsSection" style="z-index: 0;">
                             <i class="green icon-warning-sign  bigger-200"></i>
                             Consumo de sustancias
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#leaveCountry">
-                            <i class="blue icon-globe  bigger-200"></i>
-                            Facilidad de &nbsp;&nbsp;&nbsp;&nbsp; <i class="icon-exclamation-sign red bigger-100" ng-show="validf['form2'] == true" ng-init="validf['form2'] = false"></i>
-                            <br/><div class="col-xs-offset-3">abandonar el país</div>
-
+                        <a data-toggle="tab" href="#leaveCountry" style="z-index: 0;">
+                            <div class="row">
+                                <div class="col-xs-10">
+                                    <i class="blue icon-globe  bigger-200"></i>
+                                    Facilidad de
+                                    <br/><div class="col-xs-offset-3">abandonar el país</div>
+                                </div>
+                                <div class="col-xs-2" ng-show="listMsgError['leavingCountry'].length > 0">
+                                    <div class="tools">
+                                        <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle" data-toggle="dropdown"></i>
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close" style="width: 400px; z-index: 100000; padding: 0 0;">
+                                                <div class="alert-danger element-center error-font">
+                                                    <div  ng-repeat ="msg in listMsgError['leavingCountry']">
+                                                        <li>
+                                                            {{msg}}
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </a>
                     </li>
                 </ul>
 
                 <div class="tab-content">
                     <div id="personalData" class="tab-pane in active">
-                      <%@ include file="/WEB-INF/jsp/reviewer/meeting/_personalData.jsp"%>
+                      <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/index.jsp"%>
                     </div>
                     <div id="address" class="tab-pane">
                       <%@ include file="/WEB-INF/jsp/reviewer/meeting/address/index.jsp"%>
@@ -142,7 +229,7 @@
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/drug/index.jsp"%>
                     </div>
                     <div id="leaveCountry" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry.jsp"%>
+                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry/index.jsp"%>
                     </div>
 
                 </div>
@@ -152,8 +239,11 @@
     <br/>
     <div class="row">
         <div class="col-xs-12">
-            <div ng-show="MsgError" class="alert alert-danger element-center">
-                {{MsgError}}
+            <div ng-show="listMsgErrorCon.length > 0" class="alert alert-danger element-center error-font">
+                <div  ng-repeat ="msg in listMsgErrorCon">
+                    {{msg}}
+                    <br/>
+                </div>
             </div>
         </div>
     </div>

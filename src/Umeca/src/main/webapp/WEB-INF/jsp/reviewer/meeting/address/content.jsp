@@ -59,7 +59,7 @@
         <div class="col-xs-10 col-xs-offset-1">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4>Domicilio Anterior</h4>
+                    <h4>Domicilio {{a.type.name}}</h4>
                 </div>
                 <div class="widget-body">
                     <br/>
@@ -108,7 +108,7 @@
         <div class="col-xs-10 col-xs-offset-1">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4>Domicilio actual/secundario</h4>
+                    <h4>Domicilio {{a.type.name}}</h4>
                 </div>
 
                 <div class="widget-body">
@@ -134,7 +134,7 @@
                             <br/>
                             <div class="row">
                                 <div class="col-xs-3">
-                                    Descripción:
+                                    Descripción de cómo llegar<br/>al domicilio:
                                 </div>
                                 <div class="col-xs-9">
                                     <textarea id="description" class="form-control" name="description" ng-model="a.description" ng-init='a.description = "${(d.description == null)? "" : d.description }"'

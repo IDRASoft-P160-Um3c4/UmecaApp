@@ -1,3 +1,13 @@
+//Data
+var cities = [
+    {
+        city : 'Cuernavaca, Morelos',
+        desc : 'Adolfo López Mateos 203A',
+        lat :  18.9245121,
+        long : -99.2326088
+    }
+];
+
 app.controller('addressComponentController', function ($scope, $timeout, $http) {
     $scope.listLocation = [];
     $scope.listState = [];
@@ -129,5 +139,45 @@ app.controller('addressComponentController', function ($scope, $timeout, $http) 
     $timeout(function () {
         $scope.init();
     }, 0);
+       ///////////////////////////////////////////////////maps
+
+    var mapOptions = {
+        zoom: 16,
+        center: new google.maps.LatLng(18.9245121,-99.2326088),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+
+    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+    $scope.markers = [];
+
+    var infoWindow = new google.maps.InfoWindow();
+
+    var createMarker = function (info){
+
+        var marker = new google.maps.Marker({
+            map: $scope.map,
+            position: new google.maps.LatLng(info.lat, info.long),
+            title: info.city
+        });
+        marker.content = '<div class="infoWindowContent">' + info.desc + '</div>';
+
+        google.maps.event.addListener(marker, 'click', function(){
+            infoWindow.setContent('<h6>' + marker.title + '</h6>' + marker.content);
+            infoWindow.open($scope.map, marker);
+        });
+
+        $scope.markers.push(marker);
+
+    }
+
+    for (i = 0; i < cities.length; i++){
+        createMarker(cities[i]);
+    }
+
+    $scope.openInfoWindow = function(e, selectedMarker){
+        e.preventDefault();
+        google.maps.event.trigger(selectedMarker, 'click');
+    }
 
 });

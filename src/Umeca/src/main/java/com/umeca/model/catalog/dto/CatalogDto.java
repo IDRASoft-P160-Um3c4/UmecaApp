@@ -12,6 +12,7 @@ import com.umeca.model.catalog.Election;
 public class CatalogDto {
     private Long id;
     private String name;
+    private Boolean specification;
 
     public Long getId() {
         return id;
@@ -27,5 +28,13 @@ public class CatalogDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(Boolean specification) {
+        this.specification = specification;
     }
 }

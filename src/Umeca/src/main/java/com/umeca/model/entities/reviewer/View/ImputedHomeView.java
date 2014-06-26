@@ -9,12 +9,12 @@ import com.umeca.model.shared.EntityGrid;
  * Time: 10:57 AM
  * To change this template use File | Settings | File Templates.
  */
-public class DomicileView implements EntityGrid {
+public class ImputedHomeView implements EntityGrid {
 
-    public DomicileView() {
+    public ImputedHomeView() {
     }
 
-    public DomicileView(Long id, String domicile, String registerType, String timeLive, String belong) {
+    public ImputedHomeView(Long id, String domicile, String registerType, String timeLive, String belong) {
         this.id = id;
         this.domicile = domicile;
         this.registerType = registerType;

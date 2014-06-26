@@ -1,7 +1,7 @@
 package com.umeca.model.catalog.dto;
 
-import com.umeca.model.catalog.Grade;
-import com.umeca.model.catalog.SchoolLevel;
+import com.umeca.model.catalog.AcademicLevel;
+import com.umeca.model.catalog.Degree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,20 +13,20 @@ import java.util.List;
  * Time: 10:30 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SchoolLevelDto {
+public class AcademicLevelDto {
     Long id;
     String name;
-    List<GradeDto> grades;
+    List<DegreeDto> degrees;
 
-    public SchoolLevelDto doDto(SchoolLevel s){
+    public AcademicLevelDto doDto(AcademicLevel s){
 
              this.id = s.getId();
              this.name = s.getName();
-             if (s.getGrades()!=null){
-                 grades = new ArrayList<GradeDto>();
-                     for(Grade g: s.getGrades()){
-                         GradeDto gradeDto = new GradeDto();
-                     grades.add(gradeDto.dtoGrade(g));
+             if (s.getDegrees()!=null){
+                 degrees = new ArrayList<DegreeDto>();
+                     for(Degree g: s.getDegrees()){
+                         DegreeDto degreeDto = new DegreeDto();
+                     degrees.add(degreeDto.dtoGrade(g));
                  }
              }
 
@@ -49,11 +49,11 @@ public class SchoolLevelDto {
         this.name = name;
     }
 
-    public List<GradeDto> getGrades() {
-        return grades;
+    public List<DegreeDto> getDegrees() {
+        return degrees;
     }
 
-    public void setGrades(List<GradeDto> grades) {
-        this.grades = grades;
+    public void setDegrees(List<DegreeDto> degrees) {
+        this.degrees = degrees;
     }
 }

@@ -3,7 +3,6 @@ package com.umeca.model.entities.reviewer;
 import com.umeca.model.catalog.DayWeek;
 
 import javax.persistence.*;
-import java.sql.Time;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,9 +23,8 @@ public class Schedule {
     @Column(name="id_schedule")
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_day", nullable = false)
-    private DayWeek day;
+    @Column(name="day", nullable = false, length = 50)
+    private String day;
 
     @Column(name="start", nullable = true, length = 5)
     private String start;
@@ -35,8 +33,8 @@ public class Schedule {
     private String end;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_domicile", nullable = true)
-    private Domicile domicile;
+    @JoinColumn(name="id_imputed_home", nullable = true)
+    private ImputedHome imputedHome;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_job", nullable = true)
@@ -57,20 +55,20 @@ public class Schedule {
         this.id = id;
     }
 
-    public DayWeek getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(DayWeek day) {
+    public void setDay(String day) {
         this.day = day;
     }
 
-    public Domicile getDomicile() {
-        return domicile;
+    public ImputedHome getImputedHome() {
+        return imputedHome;
     }
 
-    public void setDomicile(Domicile domicile) {
-        this.domicile = domicile;
+    public void setImputedHome(ImputedHome imputedHome) {
+        this.imputedHome = imputedHome;
     }
 
     public Job getJob() {

@@ -20,7 +20,7 @@ public class FieldVerification {
     @Column(name = "code")
     private String code;
 
-    @Column(name="isObsolete")
+    @Column(name="is_obsolete")
     private Boolean isObsolete;
 
     public Long getId() {

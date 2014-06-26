@@ -10,24 +10,24 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "CatMunicipality")
+@Table(name = "cat_municipality")
 public class Municipality {
     @Id
     @GeneratedValue
-    @Column(name="MunicipalityId")
+    @Column(name="id_municipality")
     private Long id;
 
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "StateId", nullable = false)
+    @JoinColumn(name = "id_state", nullable = false)
     private State state;
 
-    @Column(name = "Name", length = 50, nullable = false)
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name = "Abbreviation", length = 100, nullable = false)
+    @Column(name = "abbreviation", length = 100, nullable = false)
     private String abbreviation;
 
-    @Column(name = "Description", length = 100, nullable = false)
+    @Column(name = "description", length = 100, nullable = false)
     private String description;
 
     public Long getId() {

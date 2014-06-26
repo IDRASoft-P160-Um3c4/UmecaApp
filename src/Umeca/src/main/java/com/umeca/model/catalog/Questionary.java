@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="questionary")
+@Table(name="cat_questionary")
 public class Questionary {
 
     @Id

@@ -9,7 +9,6 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.supervisor.ActivityGoal;
 import com.umeca.model.entities.supervisor.AidSource;
 import com.umeca.model.entities.supervisor.SupervisionActivity;
-import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
@@ -179,32 +178,19 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         repositoryQun.flush();
     }
 
-    @Autowired
-    PhysicalConditionRepository physicalConditionRepository;
-    @Override
-    public void physicalCondition(){
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "physical_condition.txt","\\|", 2);
-
-        for (String[] data : lstDta) {
-            PhysicalCondition model = new PhysicalCondition();
-            model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            physicalConditionRepository.save(model);
-        }
-
-        physicalConditionRepository.flush();
-    }
 
     @Autowired
     ActivityRepository activityRepository;
     @Override
     public void activity() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity.txt","\\|", 4);
 
         for (String[] data : lstDta) {
             Activity model = new Activity();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
+            model.setSpecification(Boolean.parseBoolean(data[2]));
+            model.setObsolete(Boolean.parseBoolean(data[3]));
             activityRepository.save(model);
         }
 
@@ -371,11 +357,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void relationship() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt","\\|", 3);
         for (String[] data : lstDta) {
             Relationship model = new Relationship();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setObsolete(Boolean.parseBoolean(data[2]));
             relationshipRepository.save(model);
         }
         relationshipRepository.flush();
@@ -386,11 +373,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void documentType() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "document_type.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "document_type.txt","\\|", 3);
         for (String[] data : lstDta) {
             DocumentType model = new DocumentType();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setObsolete(Boolean.parseBoolean(data[2]));
             documentTypeRepository.save(model);
         }
         documentTypeRepository.flush();
@@ -400,11 +388,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     DrugTypeRepository drugTypeRepository;
     @Override
     public void drugType() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "drug_type.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "drug_type.txt","\\|", 3);
         for (String[] data : lstDta) {
             DrugType model = new DrugType();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setObsolete(Boolean.parseBoolean(data[2]));
             drugTypeRepository.save(model);
         }
         drugTypeRepository.flush();
@@ -415,11 +404,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     PeriodicityRepository periodicityRepository;
     @Override
     public void periodicity() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "periodicity.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "periodicity.txt","\\|", 3);
         for (String[] data : lstDta) {
             Periodicity model = new Periodicity();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setObsolete(Boolean.parseBoolean(data[2]));
             periodicityRepository.save(model);
         }
         periodicityRepository.flush();
@@ -441,29 +431,31 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     }
 
     @Autowired
-    SchoolLevelRepository schoolLevelRepository;
+    AcademicLevelRepository academicLevelRepository;
 
     @Autowired
-    GradeRepository gradeRepository;
+    DegreeRepository degreeRepository;
 
     @Override
-    public void schoolLevel() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "school_level.txt","\\|", 2);
+    public void academicDegree() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "academic_level.txt","\\|", 3);
         for (String[] data : lstDta) {
-            SchoolLevel model = new SchoolLevel();
+            AcademicLevel model = new AcademicLevel();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            schoolLevelRepository.save(model);
+            model.setObsolete(Boolean.parseBoolean(data[2]));
+            academicLevelRepository.save(model);
         }
-        List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "grade.txt","\\|", 3);
+        List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "degree.txt","\\|", 4);
         for (String[] data : lstDtaGrade) {
-            Grade model = new Grade();
+            Degree model = new Degree();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            model.setSchoolLevel(schoolLevelRepository.findOne(Long.parseLong(data[2])));
-            gradeRepository.save(model);
+            model.setAcademicLevel(academicLevelRepository.findOne(Long.parseLong(data[2])));
+            model.setObsolete(Boolean.parseBoolean(data[3]));
+            degreeRepository.save(model);
         }
-        schoolLevelRepository.flush();
+        academicLevelRepository.flush();
     }
 
     @Autowired

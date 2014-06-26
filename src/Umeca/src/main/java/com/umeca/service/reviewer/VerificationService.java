@@ -2,6 +2,7 @@ package com.umeca.service.reviewer;
 
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.SourceVerification;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -16,4 +17,8 @@ public interface VerificationService {
     void createVerification(Case c);
 
     List<SourceVerification> convertAllInitSourcesVerif(Case c);
+
+    ModelAndView showVerificationBySource(Long idCase, Long idSource);
+
+    void setImputedData(Long id, ModelAndView model);
 }

@@ -51,6 +51,9 @@ public class Reference implements EntityGrid{
     @Column(name="phone", length = 20, nullable =false)
     private String phone;
 
+    @Column(name="specification_document_type", length = 250, nullable = true)
+    private String specification;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_document_type", nullable = false)
     private DocumentType documentType;
@@ -133,5 +136,13 @@ public class Reference implements EntityGrid{
 
     public void setRelName(String relName) {
         this.relName = relName;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 }

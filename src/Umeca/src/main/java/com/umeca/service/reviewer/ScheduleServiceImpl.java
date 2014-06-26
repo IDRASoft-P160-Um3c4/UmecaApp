@@ -29,7 +29,7 @@ public class ScheduleServiceImpl implements ScheduleService {
    @Autowired
    JobRepository jobRepository;
   @Autowired
-  DomicileRepository domicileRepository;
+  ImputedHomeRepository imputedHomeRepository;
 
     @Override
     public Object getSchedules(Long id, Object classObjetc) {
@@ -42,9 +42,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         }else if(classObjetc.equals(Job.class)){
             Job j = jobRepository.findOne(id);
             listSchedule = scheduleRepository.getSchedulesJob(j.getId());
-        }else if(classObjetc.equals(Domicile.class)){
-            Domicile domicile = domicileRepository.findOne(id);
-            listSchedule = scheduleRepository.getSchedulesDomicile(domicile.getId());
+        }else if(classObjetc.equals(ImputedHome.class)){
+            ImputedHome imputedHome = imputedHomeRepository.findOne(id);
+            listSchedule = scheduleRepository.getSchedulesDomicile(imputedHome.getId());
         }
         List<ScheduleDto> listScheduleDto = new ArrayList<ScheduleDto>();
         if(listSchedule!=null && listSchedule.size()>0){
@@ -55,7 +55,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             Gson gson = new Gson();
             return gson.toJson(listScheduleDto);
         }else{
-            return "";
+            return "[]";
         }
     }
 
@@ -65,28 +65,35 @@ public class ScheduleServiceImpl implements ScheduleService {
         if(schedules != null && schedules!="[]"){
             try {
                 List<Schedule> listSchedules = gson.fromJson(schedules,new TypeToken<List<Schedule>>(){}.getType());
+                List<Schedule> listToDelete = new ArrayList<>();
                 if(classType == School.class){
                     Case c = caseRepository.findOne(id);
+                    listToDelete = scheduleRepository.getSchedulesSchool(c.getMeeting().getSchool().getId());
+
                     for(Schedule schedule: listSchedules){
                       schedule.setSchool(c.getMeeting().getSchool());
-                      scheduleRepository.save(schedule);
                     }
                 }
                 if(classType == Job.class){
                     Job job = jobRepository.findOne(id);
+                    listToDelete = scheduleRepository.getSchedulesJob(id);
                     for (Schedule schedule: listSchedules){
                         schedule.setJob(job);
-                        scheduleRepository.save(schedule);
                     }
                 }
-                if(classType == Domicile.class){
-                    Domicile domicile =  domicileRepository.findOne(id);
+                if(classType == ImputedHome.class){
+                    ImputedHome imputedHome =  imputedHomeRepository.findOne(id);
+                    listToDelete = scheduleRepository.getSchedulesDomicile(id);
                      for (Schedule schedule: listSchedules){
-                         schedule.setDomicile(domicile);
-                         scheduleRepository.save(schedule);
+                         schedule.setImputedHome(imputedHome);
                      }
                 }
+                if (listToDelete != null) {
+                    scheduleRepository.delete(listToDelete);
+                }
+                scheduleRepository.save(listSchedules);
             }catch (Exception e){
+                return false;
             }
             return true;
         }else{

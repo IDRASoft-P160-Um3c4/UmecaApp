@@ -32,9 +32,6 @@ public class Case {
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Meeting meeting;
 
-    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
-    private Meeting conditionalMeeting;
-
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_status", nullable = false)
     private StatusCase status;
@@ -123,14 +120,6 @@ public class Case {
 
     public void setHearingFormat(HearingFormat hearingFormat) {
         this.hearingFormat = hearingFormat;
-    }
-
-    public Meeting getConditionalMeeting() {
-        return conditionalMeeting;
-    }
-
-    public void setConditionalMeeting(Meeting conditionalMeeting) {
-        this.conditionalMeeting = conditionalMeeting;
     }
 
     public Verification getVerification() {
