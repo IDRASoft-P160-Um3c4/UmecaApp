@@ -12,9 +12,11 @@ public class HearingFormatView {
 
     }
 
-    private Integer arrangementType;
+    private String idFolder;
 
-    private String numberDate;
+    private String idJudicial;
+
+    private Date appointmentDate;
 
     private String room;
 
@@ -38,6 +40,10 @@ public class HearingFormatView {
 
     private String imputedTel;
 
+
+/*
+    private Integer arrangementType;
+
     private String crimes;
 
     private String additionalData;
@@ -58,9 +64,6 @@ public class HearingFormatView {
 
     private Integer extension;
 
-    public String idFolderCode;
-
-    public String idJudicialFolderCode;
 
     public Boolean canSave;
 
@@ -88,12 +91,31 @@ public class HearingFormatView {
 
     public Boolean existImputed;
 
-    public String getNumberDate() {
-        return numberDate;
+    public String supervisorName;
+*/
+
+    public String getIdFolder() {
+        return idFolder;
     }
 
-    public void setNumberDate(String numberDate) {
-        this.numberDate = numberDate;
+    public void setIdFolder(String idFolder) {
+        this.idFolder = idFolder;
+    }
+
+    public String getIdJudicial() {
+        return idJudicial;
+    }
+
+    public void setIdJudicial(String idJudicial) {
+        this.idJudicial = idJudicial;
+    }
+
+    public Date getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(Date appointmentDate) {
+        this.appointmentDate = appointmentDate;
     }
 
     public String getRoom() {
@@ -168,110 +190,6 @@ public class HearingFormatView {
         this.imputedSLastName = imputedSLastName;
     }
 
-    public String getImputedTel() {
-        return imputedTel;
-    }
-
-    public void setImputedTel(String imputedTel) {
-        this.imputedTel = imputedTel;
-    }
-
-    public String getCrimes() {
-        return crimes;
-    }
-
-    public void setCrimes(String crimes) {
-        this.crimes = crimes;
-    }
-
-    public String getAdditionalData() {
-        return additionalData;
-    }
-
-    public void setAdditionalData(String additionalData) {
-        this.additionalData = additionalData;
-    }
-
-    public Integer getControlDetention() {
-        return controlDetention;
-    }
-
-    public void setControlDetention(Integer controlDetention) {
-        this.controlDetention = controlDetention;
-    }
-
-    public Integer getHearingType() {
-        return hearingType;
-    }
-
-    public void setHearingType(Integer hearingType) {
-        this.hearingType = hearingType;
-    }
-
-    public String getLinkageRoom() {
-        return linkageRoom;
-    }
-
-    public void setLinkageRoom(String linkageRoom) {
-        this.linkageRoom = linkageRoom;
-    }
-
-    public Time getLinkageTime() {
-        return linkageTime;
-    }
-
-    public void setLinkageTime(Time linkageTime) {
-        this.linkageTime = linkageTime;
-    }
-
-    public String getTerms() {
-        return terms;
-    }
-
-    public void setTerms(String terms) {
-        this.terms = terms;
-    }
-
-    public Integer getExtension() {
-        return extension;
-    }
-
-    public void setExtension(Integer extension) {
-        this.extension = extension;
-    }
-
-    public String getIdFolderCode() {
-        return idFolderCode;
-    }
-
-    public void setIdFolderCode(String idFolderCode) {
-        this.idFolderCode = idFolderCode;
-    }
-
-    public Boolean getCanSave() {
-        return canSave;
-    }
-
-    public void setCanSave(Boolean canSave) {
-        this.canSave = canSave;
-    }
-
-    public Integer getArrangementType() {
-        return arrangementType;
-    }
-
-    public void setArrangementType(Integer arrangementType) {
-        this.arrangementType = arrangementType;
-    }
-
-    public Boolean getHasHF() {
-        return hasHF;
-    }
-
-    public void setHasHF(Boolean hasHF) {
-        this.hasHF = hasHF;
-    }
-
     public Date getImputedBirthDate() {
         return imputedBirthDate;
     }
@@ -280,115 +198,11 @@ public class HearingFormatView {
         this.imputedBirthDate = imputedBirthDate;
     }
 
-    public Date getImputationDate() {
-        return imputationDate;
+    public String getImputedTel() {
+        return imputedTel;
     }
 
-    public void setImputationDate(Date imputationDate) {
-        this.imputationDate = imputationDate;
-    }
-
-    public Date getLinkageDate() {
-        return linkageDate;
-    }
-
-    public void setLinkageDate(Date linkageDate) {
-        this.linkageDate = linkageDate;
-    }
-
-    public String getLstArrangement() {
-        return lstArrangement;
-    }
-
-    public void setLstArrangement(String lstArrangement) {
-        this.lstArrangement = lstArrangement;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getStateName() {
-        return stateName;
-    }
-
-    public void setStateName(String stateName) {
-        this.stateName = stateName;
-    }
-
-    public String getMunicipalityName() {
-        return municipalityName;
-    }
-
-    public void setMunicipalityName(String municipalityName) {
-        this.municipalityName = municipalityName;
-    }
-
-    public String getLocationName() {
-        return locationName;
-    }
-
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getInnNum() {
-        return innNum;
-    }
-
-    public void setInnNum(String innNum) {
-        this.innNum = innNum;
-    }
-
-    public String getOutNum() {
-        return outNum;
-    }
-
-    public void setOutNum(String outNum) {
-        this.outNum = outNum;
-    }
-
-    public Long getIdLocation() {
-        return idLocation;
-    }
-
-    public void setIdLocation(Long idLocation) {
-        this.idLocation = idLocation;
-    }
-
-    public Boolean getExistImputed() {
-        return existImputed;
-    }
-
-    public void setExistImputed(Boolean existImputed) {
-        this.existImputed = existImputed;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getIdJudicialFolderCode() {
-        return idJudicialFolderCode;
-    }
-
-    public void setIdJudicialFolderCode(String idJudicialFolderCode) {
-        this.idJudicialFolderCode = idJudicialFolderCode;
+    public void setImputedTel(String imputedTel) {
+        this.imputedTel = imputedTel;
     }
 }

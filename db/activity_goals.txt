@@ -1,4 +1,4 @@
-﻿id_activity_goal|name|description|is_obsolete
+id_activity_goal|name|description|is_obsolete
 1|Verificación|Verificación|0
 2|Recordatorio|Recordatorio|0
 3|Monitoreo|Monitoreo|0

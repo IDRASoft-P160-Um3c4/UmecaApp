@@ -1,9 +1,12 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.StatusCase;
+import com.umeca.model.entities.supervisor.FolderConditionalReprieve;
+import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,15 +35,21 @@ public class Case {
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Meeting meeting;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_status", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_status", nullable = false)
     private StatusCase status;
 
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private TechnicalReview technicalReview;
 
+    @OneToMany(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
+    private List<HearingFormat> hearingFormats;
+
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
-    private HearingFormat hearingFormat;
+    private FramingMeeting framingMeeting;
+
+    @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
+    private FolderConditionalReprieve folderConditionalReprieve;
 
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Verification verification;
@@ -114,12 +123,28 @@ public class Case {
         this.technicalReview = technicalReview;
     }
 
-    public HearingFormat getHearingFormat() {
-        return hearingFormat;
+    public FramingMeeting getFramingMeeting() {
+        return framingMeeting;
     }
 
-    public void setHearingFormat(HearingFormat hearingFormat) {
-        this.hearingFormat = hearingFormat;
+    public void setFramingMeeting(FramingMeeting framingMeeting) {
+        this.framingMeeting = framingMeeting;
+    }
+
+    public FolderConditionalReprieve getFolderConditionalReprieve() {
+        return folderConditionalReprieve;
+    }
+
+    public void setFolderConditionalReprieve(FolderConditionalReprieve folderConditionalReprieve) {
+        this.folderConditionalReprieve = folderConditionalReprieve;
+    }
+
+    public List<HearingFormat> getHearingFormats() {
+        return hearingFormats;
+    }
+
+    public void setHearingFormats(List<HearingFormat> hearingFormats) {
+        this.hearingFormats = hearingFormats;
     }
 
     public Verification getVerification() {

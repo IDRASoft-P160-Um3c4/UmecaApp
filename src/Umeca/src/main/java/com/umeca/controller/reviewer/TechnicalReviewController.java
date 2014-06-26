@@ -64,16 +64,21 @@ public class TechnicalReviewController {
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Case,Verification> joinCd = r.join("caseDetention");
+                final javax.persistence.criteria.Join<Meeting,Imputed> joinIm = joinCd.join("meeting").join("imputed");
+
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
-                    add(r.join("caseDetention").join("status").get("name"));
-                    add(r.join("caseDetention").get("idFolder"));
-                    add(r.join("caseDetention").get("idMP"));
-                    add(r.join("caseDetention").join("meeting").join("imputed").get("name"));
-                    add(r.join("caseDetention").join("meeting").join("imputed").get("lastNameP"));
-                    add(r.join("caseDetention").join("meeting").join("imputed").get("lastNameM"));
+                    add(joinCd.join("status").get("name"));
+                    add(joinCd.get("idFolder"));
+                    add(joinCd.join("caseDetention").get("idMP"));
+                    add(joinIm.get("name"));
+                    add(joinIm.get("lastNameP"));
+                    add(joinIm.get("lastNameM"));
                 }};
             }
+
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {

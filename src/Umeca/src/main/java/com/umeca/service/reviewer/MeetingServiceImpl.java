@@ -231,7 +231,7 @@ public class MeetingServiceImpl implements MeetingService {
             lstElectionDto.add(edto.dtoElection(e));
         }
         model.addObject("listElection", gson.toJson(lstElectionDto));
-        List<Relationship> relationshipList= relationshipRepository.findNotObsolete();
+        List<Relationship> relationshipList= relationshipRepository.findAll();
         List<CatalogDto> catalogDtoList = new ArrayList<>();
         for(Relationship relationship: relationshipList){
             CatalogDto cdto= new CatalogDto();

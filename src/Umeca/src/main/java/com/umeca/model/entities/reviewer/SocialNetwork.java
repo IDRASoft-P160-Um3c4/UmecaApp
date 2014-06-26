@@ -1,5 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.entities.supervisor.FramingMeeting;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -28,6 +30,11 @@ public class SocialNetwork {
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
+
+    @ManyToOne
+    @JoinColumn(name = "id_framing_meeting")
+    FramingMeeting framingMeeting;
+
 
     public Long getId() {
         return id;

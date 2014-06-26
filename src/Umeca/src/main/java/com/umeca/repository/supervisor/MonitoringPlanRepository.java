@@ -23,8 +23,17 @@ public interface MonitoringPlanRepository extends JpaRepository<MonitoringPlan, 
     @Query("SELECT new com.umeca.model.entities.supervisor.MonitoringPlanInfo(mp.id, cd.id, cd.idFolder, im.name, im.lastNameP, im.lastNameM, mp.status) FROM MonitoringPlan mp " +
             "INNER JOIN mp.caseDetention cd " +
             "INNER JOIN cd.meeting.imputed im " +
-            "WHERE mp.id =:idMonPlan")
-    MonitoringPlanInfo getInfoById(@Param("idMonPlan")Long idMonPlan);
+            "WHERE mp.id =:monPlanId")
+    MonitoringPlanInfo getInfoById(@Param("monPlanId")Long monPlanId);
+
+    @Query("SELECT count(mp) FROM MonitoringPlan mp WHERE mp.id =:monPlanId AND mp.supervisor.id =:userId AND mp.caseDetention.id =:caseId AND mp.status IN :lstStatus")
+    int isValidToUpsertDelete(@Param("userId")Long userId, @Param("caseId")Long caseId, @Param("monPlanId")Long monPlanId, @Param("lstStatus") List<String> lstStatus);
+
+    @Query("SELECT mp FROM MonitoringPlan mp WHERE mp.id =:monPlanId AND mp.supervisor.id =:userId AND mp.caseDetention.id =:caseId")
+    MonitoringPlan getStatus(@Param("userId")Long userId, @Param("caseId")Long caseId, @Param("monPlanId")Long monPlanId);
+
+    @Query("SELECT mp.id FROM MonitoringPlan mp WHERE mp.id =:monPlanId AND mp.status =:status AND mp.supervisor.id =:userId")
+    Long getIdByUser(@Param("monPlanId")Long monPlanId, @Param("status")String status, @Param("userId")Long userId);
 }
 
 

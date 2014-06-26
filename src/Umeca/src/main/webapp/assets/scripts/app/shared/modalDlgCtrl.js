@@ -44,6 +44,16 @@
             }, def.reject);
         return def.promise;
     };
+
+
+    $scope.doConfirmFull = function (data, urlToGo, title, message, type) {
+        var def = $q.defer();
+        sharedSvc.showConf({ title: title, message: message, type: type }).
+            then(function () {
+                $scope.doPost(data, urlToGo, def);
+            }, def.reject);
+        return def.promise;
+    };
     
     $scope.doCancelDocument = function (data, urlToGo, folio) {
         var def = $q.defer();

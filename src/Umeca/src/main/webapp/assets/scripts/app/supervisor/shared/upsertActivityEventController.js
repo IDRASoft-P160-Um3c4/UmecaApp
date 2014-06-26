@@ -4,16 +4,21 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
     var dlgMsgBox = $('#UpsertActivityEventDlgId');
     $scope.cfg = {};
     $scope.m = {};
+    $scope.m.lstArrangements = {};
 
-
-    $scope.config = function(cfg){
+    $scope.config = function(cfg,lstArrangements, lstActivities, lstGoals, lstSources){
         $scope.cfg = cfg;
-        //startDateId: "#id-date-picker-start", endDateId: "#id-date-picker-end",
-        //startTimeId: "#id-date-picker-start", endTimeId: "#id-date-picker-end"
+        $scope.lstArrangements = lstArrangements;
+        $scope.lstActivities = lstActivities;
+        $scope.lstGoals = lstGoals;
+        $scope.lstSources = lstSources;
+
+        if($scope.lstActivities.length > 0) $scope.m.activity = $scope.lstActivities[0];
+        if($scope.lstGoals.length > 0) $scope.m.goal = $scope.lstGoals[0];
+        if($scope.lstSources.length > 0) $scope.m.source = $scope.lstSources[0];
     };
 
     $scope.hideMsg = function (rMsg) {
-        th.respMsg = rMsg;
         dlgMsgBox.modal('hide');
     };
 
@@ -26,6 +31,15 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             })
     };
 
+    $scope.fillFields = function(event){
+        $scope.m.event = event;
+        $scope.m.lstArrangements = event.infoActivity.lstArrangements;
+        $scope.m.activity = event.infoActivity.activity;
+        $scope.m.goal = event.infoActivity.goal;
+        $scope.m.source = event.infoActivity.source;
+
+    };
+
     $scope.showDlg = function (params) {
         $scope.msgError = "";
         $scope.clearDaysOfWeek();
@@ -33,13 +47,25 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         $scope.startDt = params.start;
         $scope.endDt = params.end;
         $scope.isNew = params.isNew;
+        $scope.isReadOnly = params.isReadOnly;
+        $scope.activities = [];
+        $scope.m.lstArrangements = {};
+        $scope.m.chkBusinessWeek = false;
+        $scope.m.chkWeek = false;
+
+
+        if(params.isNew === false){
+            $scope.fillFields(params.event);
+        }
+        else{
+            $scope.m.event = undefined;
+        }
 
         $($scope.cfg.startDateId).datepicker('update', $scope.startDt);
         $($scope.cfg.endDateId).datepicker('update', $scope.endDt);
 
         $($scope.cfg.startTimeId).timepicker('setTime', window.getTimeFormat($scope.startDt, false));
         $($scope.cfg.endTimeId).timepicker('setTime', window.getTimeFormat($scope.endDt, false));
-
 
         $scope.m.daysOfWeek[$scope.startDt.getDay()] = true;
 
@@ -49,7 +75,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             dlgMsgBox.modal('show');
             dlgMsgBox.on('hidden.bs.modal', function () {
                 if ($scope.IsOk === true) {
-                    def.resolve($scope.activities);
+                    def.resolve({activities:$scope.activities, option:$scope.option, event:$scope.m.event});
                 }
                 else {
                     def.reject();
@@ -63,6 +89,20 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
     $scope.valid = function(){
         var isValid = false;
         $scope.msgError = "";
+
+        for(var key in $scope.m.lstArrangements){
+            if($scope.m.lstArrangements[key] === true){
+                isValid = true;
+                break;
+            }
+        }
+
+        if(isValid === false){
+            $scope.msgError = "Al menos debe seleccionar una obligación procesal";
+            return false;
+        }
+
+        isValid = false;
 
         for(var i=0; i<$scope.m.daysOfWeek.length; i++){
             if($scope.m.daysOfWeek[i]=== true){
@@ -79,54 +119,80 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         return true;
     };
 
-    $scope.generateActivities = function(){
-        var dateInit = $($scope.cfg.startDateId).data("datepicker").getDate();
-        var dateEnd = $($scope.cfg.endDateId).data("datepicker").getDate();
+    $scope.validateDates = function(d){
+        d.dateInit = $($scope.cfg.startDateId).data("datepicker").getDate();
+        d.dateEnd = $($scope.cfg.endDateId).data("datepicker").getDate();
 
-        dateInit.setHours(0,0,0,0);
-        dateEnd.setHours(23,59,59,999);
+        d.dateInit.setHours(0,0,0,0);
+        d.dateEnd.setHours(23,59,59,999);
 
-        if(dateEnd < dateInit){
+        if(d.dateEnd < d.dateInit){
             $scope.msgError = "La fecha final no puede ser menor a la fecha inicial";
             return false;
         }
 
-        var timeInit = window.formatTime($($scope.cfg.startTimeId).data("timepicker").getTime());
-        var timeEnd = window.formatTime($($scope.cfg.endTimeId).data("timepicker").getTime());
+        d.timeInit = window.formatTime($($scope.cfg.startTimeId).data("timepicker").getTime());
+        d.timeEnd = window.formatTime($($scope.cfg.endTimeId).data("timepicker").getTime());
 
-        if(timeEnd.totSecs <= timeInit.totSecs){
+        if(d.timeEnd.totSecs <= d.timeInit.totSecs){
             $scope.msgError = "El tiempo final no puede ser igual o menor al tiempo inicial";
             return false;
         }
 
+        return true;
+    };
+
+    $scope.generateActivities = function(){
+
+        var d = {};
+        if($scope.validateDates(d) === false)
+            return false;
+
+        var today = new Date();
+        today.setHours(0,0,0,0);
+
         $scope.activities = [];
 
-        var dateStepInit = new Date(dateInit);
-        var dateStepEnd = new Date(dateInit);
-        dateStepInit.setHours(timeInit.hours, timeInit.minutes, 0, 0);
-        dateStepEnd.setHours(timeEnd.hours, timeEnd.minutes, 0, 0);
+        var dateStepInit = new Date(d.dateInit);
+        var dateStepEnd = new Date(d.dateInit);
+        dateStepInit.setHours(d.timeInit.hours, d.timeInit.minutes, 0, 0);
+        dateStepEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
 
         var iCount = 0;
-        while(dateStepInit < dateEnd){
+        while(dateStepInit < d.dateEnd){
 
             if($scope.m.daysOfWeek[dateStepInit.getDay()] === true){
-                $scope.activities.push(
-                    {
-                        title: "Caso " + $scope.cfg.caseInfo.caseId + "  (" + $scope.cfg.caseInfo.folderId + ") Imputado: "
-                            + $scope.cfg.caseInfo.personName + " " + $scope.m.arrangement.name,
-                        start: dateStepInit,
-                        end: dateStepEnd,
-                        allDay: false,
-                        className: 'label-success',
-                        infoActivity:{
-                            arrangement: $scope.m.arrangement,
-                            activity: $scope.m.activity,
-                            goal: $scope.m.goal,
-                            source: $scope.m.source,
-                            caseInfo: $scope.cfg.caseInfo
-                        }
+
+                if(dateStepInit < today)
+                {
+                    $scope.msgError = "No es posible añadir actividades antes de la fecha actual";
+                    return false;
+                }
+
+                var eventAct = {
+                    title: "",
+                    doTitle: function(isModified){
+                        this.title = (isModified === true ? "*" : "") + "Caso "
+                            + this.infoActivity.caseInfo.caseId + "  (" + this.infoActivity.caseInfo.folderId + ") Imputado: "
+                            + this.infoActivity.caseInfo.personName + " " + this.infoActivity.goal.name;
+                    },
+                    idActivity: -1,
+                    start: dateStepInit,
+                    end: dateStepEnd,
+                    allDay: false,
+                    isModified: true,
+                    className: 'label-info',
+                    infoActivity:{
+                        lstArrangements: $scope.m.lstArrangements,
+                        activity: $scope.m.activity,
+                        goal: $scope.m.goal,
+                        source: $scope.m.source,
+                        caseInfo: $scope.cfg.caseInfo
                     }
-                );
+                };
+
+                eventAct.doTitle(true);
+                $scope.activities.push(eventAct);
 
                 if(++iCount > 100){
                     $scope.msgError = "No puede añadir más de 100 actividades";
@@ -136,8 +202,8 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
 
             dateStepInit = new Date(dateStepInit.getFullYear(), dateStepInit.getMonth(), dateStepInit.getDate() + 1);
             dateStepEnd = new Date(dateStepEnd.getFullYear(), dateStepEnd.getMonth(), dateStepEnd.getDate() + 1);
-            dateStepInit.setHours(timeInit.hours, timeInit.minutes, 0, 0);
-            dateStepEnd.setHours(timeEnd.hours, timeEnd.minutes, 0, 0);
+            dateStepInit.setHours(d.timeInit.hours, d.timeInit.minutes, 0, 0);
+            dateStepEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
         }
 
         if(iCount === 0){
@@ -148,7 +214,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         return true;
     };
 
-    $scope.save = function () {
+    $scope.add = function () {
 
         if($scope.valid() === false)
             return false;
@@ -157,13 +223,56 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             return false;
 
         $scope.IsOk = true;
-        $scope.hideMsg($scope);
+        $scope.hideMsg();
+    };
+
+    $scope.save = function(){
+        var today = new Date();
+        today.setHours(0,0,0,0);
+
+        var d = {};
+        if($scope.validateDates(d)===false)
+            return false;
+
+        if(d.dateInit < today){
+            $scope.msgError = "No es posible modificar la actividad ya que la fecha de inicio está definida antes de la fecha actual";
+            return false;
+        }
+
+        var dateInit = new Date(d.dateInit);
+        var dateEnd = new Date(d.dateEnd);
+        dateInit.setHours(d.timeInit.hours, d.timeInit.minutes, 0, 0);
+        dateEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
+
+        $scope.m.event.start = dateInit;
+        $scope.m.event.end = dateEnd;
+        $scope.m.event.isModified = true;
+
+        $scope.m.event.infoActivity = {
+            lstArrangements: $scope.m.lstArrangements,
+                activity: $scope.m.activity,
+                goal: $scope.m.goal,
+                source: $scope.m.source,
+                caseInfo: $scope.cfg.caseInfo
+        };
+
+        $scope.m.event.doTitle(true);
+
+        $scope.IsOk = true;
+        $scope.option = "UPDATE";
+        $scope.hideMsg();
+    };
+
+    $scope.delete = function(){
+        $scope.IsOk = true;
+        $scope.option = "REMOVE";
+        $scope.hideMsg();
     };
 
 
     $scope.cancel = function () {
         $scope.IsOk = false;
-        $scope.hideMsg($scope);
+        $scope.hideMsg();
     };
 
     $scope.onBusinessWeek = function(){

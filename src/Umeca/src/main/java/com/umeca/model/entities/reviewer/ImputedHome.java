@@ -3,6 +3,7 @@ package com.umeca.model.entities.reviewer;
 import com.umeca.model.catalog.Election;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.RegisterType;
+import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
@@ -65,6 +66,10 @@ public class ImputedHome implements EntityGrid{
 
     @Transient
     private String addressString;
+
+    @ManyToOne
+    @JoinColumn(name = "id_framing_meeting")
+    FramingMeeting framingMeeting;
 
     @Transient
     private String registerTypeString;

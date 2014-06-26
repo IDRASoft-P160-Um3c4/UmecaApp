@@ -25,4 +25,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
     @Query("SELECT u.id FROM User u WHERE u.username=:username")
     Long findIdByUsername(@Param("username")String username);
 
+    @Query("SELECT u.enabled FROM User u WHERE u.id=:id")
+    Boolean isEnabled(@Param("id") Long userId);
+
+    @Query("SELECT new com.umeca.model.entities.account.User(u.id, u.enabled) FROM User u WHERE u.username=:username")
+    User getInfoToValidate(@Param("username") String sUsername);
 }

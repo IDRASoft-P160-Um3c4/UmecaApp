@@ -24,20 +24,27 @@
                 window.goToUrlMvcUrl("<c:url value='/supervisor/generateMonitoringPlan/generate.html?id=idParam' />",params);
             };
 
+            window.preAuthorize = function(id){
+                window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/generateMonitoringPlan/preAuthorize.json' />", "#GridId",
+                        "Plan de seguimiento", "¿Está seguro de que desea solicitar la autorización del plan de seguimiento para este caso y formato de audiencia?", "warning");
+            };
+
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/supervisor/generateMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'No. Carpeta', 'No. M.P.','Imputado', 'Fecha asignación', 'Estatus', 'Asignado a', 'Acción'],
+                    colNames: ['ID', 'Carpeta investigación', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
-                        { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sortable: false, search: false },
-                        { name: 'idMP', index: 'idMP', width: 200, align: "center", sortable: false, search: false },
-                        { name: 'fullName', index: 'fullName', width: 300, align: "center", sortable: false, search: false },
-                        { name: 'stCreationTime', index: 'stCreationTime', width: 200, align: "center", sortable: true, search: false },
-                        { name: 'status', index: 'status', width: 200, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                        { name: 'supervisor', index: 'supervisor', width: 200, align: "center", sortable: false, search: false },
+                        { name: 'idFolder', index: 'idFolder', width: 160, align: "center", sortable: false, search: false },
+                        { name: 'idMP', index: 'idMP', width: 140, align: "center", sortable: false, search: false },
+                        { name: 'fullName', index: 'fullName', width: 220, align: "center", sortable: false, search: false },
+                        { name: 'stCreationTime', index: 'stCreationTime', width: 130, align: "center", sortable: true, search: false },
+                        { name: 'stGenerationTime', index: 'stGenerationTime', width: 130, align: "center", sortable: true, search: false },
+                        { name: 'stAuthorizationTime', index: 'stAuthorizationTime', width: 140, align: "center", sortable: true, search: false },
+                        { name: 'status', index: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                        { name: 'supervisor', index: 'supervisor', width: 130, align: "center", sortable: false, search: false },
                         { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                     ],
                     rowNum: 10,
@@ -58,10 +65,14 @@
                             var status = row.status;
                             var be = "";
 
-                            if (status === "NUEVO" || status === "EN PROCESO DE GENERAR" ) {
+                            if (status === "NUEVO") {
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
-                            }else{
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Habilitar usuario\" onclick=\"window.enable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok\"></span></a>";
+                            }else if (status === "EN PROCESO DE GENERAR" ) {
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorización del plan de supervisión\" onclick=\"window.preAuthorize('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                            }
+
+                            if (status === "EN PROCESO DE GENERAR" || status === "AUTORIZADO" || status === "RECHAZADO AUTORIZAR" || status === "EN PROCESO DE EJECUCIÓN" || status === "RECHAZADO TERMINAR" ){
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                             }
 
                             $(this).jqGrid('setRowData', ids[i], { Action: be });

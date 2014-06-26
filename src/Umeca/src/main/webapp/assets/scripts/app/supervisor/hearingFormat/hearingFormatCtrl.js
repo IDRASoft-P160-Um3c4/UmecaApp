@@ -2,6 +2,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
         $scope.m = {};
         $scope.a = {};
+
         $scope.hasError;
         $scope.MsgError;
         $scope.m.arrmntType;
@@ -122,7 +123,10 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             }
         };
 
-        $scope.clHType = function () {
+        $scope.clHType = function (idTipo) {
+
+            if (idTipo != undefined)
+                $scope.searchArrangements(idTipo);
             $scope.m.errHtype = "";
         };
 
@@ -212,7 +216,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             var currentTimeout = null;
 
             var url1 = $('#url1').attr("value");
-            var url2 = $('#url2').attr("value");
 
             var ajaxConf = {
                 method: 'POST',
@@ -228,21 +231,19 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             currentTimeout = $timeout(function () {
                 $http(ajaxConf)
                     .success(function (data) {
-
                         $scope.fillFormat(data);
-                        $scope.searchArrangements(data.idFolderCode, url2);
                         $scope.m.hasSearch = true;
+                        $scope.disField($scope.m.hasHF);
 
-                    });
+                        if ($scope.m.hasHF)
+                            $scope.searchArrangements(data.idFolder);
+                    }
+                )
+                ;
             }, 200);
         };
 
         $scope.disField = function (val) {
-
-            if (val)
-                $("#FormFormatId :input").attr("disabled", true);
-            else
-                $("#FormFormatId :input").attr("disabled", false);
 
 
             if ($scope.m.existImputed) {
@@ -253,6 +254,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
                 $("#divImputed :input").attr("disabled", false);
                 $("#divAddr :input").attr("disabled", false);
             }
+
+            if (val)
+                $("#FormFormatId :input").attr("disabled", true);
+            else
+                $("#FormFormatId :input").attr("disabled", false);
+
 
         }
 
@@ -299,7 +306,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             $scope.clAllForm();
 
             $scope.m.idFolderParam = data.idFolderCode;
-            $scope.m.judicialFolder=data.idJudicialFolderCode;
+            $scope.m.judicialFolder = data.idJudicialFolderCode;
             $scope.m.arrmntType = data.arrangementType;
             $scope.m.numberDate = data.numberDate;
             $scope.m.room = data.room;
@@ -343,7 +350,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             $scope.m.hasHF = data.hasHF;
             $scope.m.terms = data.terms;
 
-            $scope.m.existImputed=data.existImputed;
+            $scope.m.existImputed = data.existImputed;
 
         };
 
@@ -381,16 +388,29 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
         };
 
 
-        $scope.searchArrangements = function (idFolder, url) {
+        $scope.searchArrangements = function (idTipo) {
 
             var currentTimeout = null;
 
-            var ajaxConf = {
+            var urlCase = $('#url2').attr("value");
+            var urlType = $('#url3').attr("value");
+
+            var val = parseInt(idTipo, 10)
+
+            var ajaxConf;
+
+            ajaxConf = {
                 method: 'POST',
-                url: url
+                data: idTipo
             };
 
-            ajaxConf.data = $scope.m.idFolderParam;
+
+            if (val > 0) {
+                ajaxConf.url = urlType;
+            } else {
+                ajaxConf.url = urlCase;
+            }
+
 
             if (currentTimeout) {
                 $timeout.cancel(currentTimeout);
@@ -400,9 +420,9 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
                 $http(ajaxConf)
                     .success(function (data) {
                         $scope.m.lstArrangementShow = data;
-                        $scope.disField($scope.m.hasHF);
                     });
             }, 200);
+
         };
 
         $scope.calcAge = function () {
@@ -467,10 +487,10 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
         };
 
         $scope.init = function () {
-            $scope.m.errTime = "";
+            /*$scope.m.errTime = "";
             $scope.disField(true);
             $("#idFolderParam").attr("disabled", false);
-            $("#btnSearch").attr("disabled", false);
+            $("#btnSearch").attr("disabled", false);*/
         };
 
         $timeout(function () {

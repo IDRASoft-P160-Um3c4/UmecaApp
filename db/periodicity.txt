@@ -1,7 +1,7 @@
 id|name
 1|Diariamente
-2|Cada tercer día
+2|Cada tercer dÃ­a
 3|Cada fin de semana
-4|Cada quince días
+4|Cada quince dÃ­as
 5|Una vez al mes
 6|En reuniones sociales

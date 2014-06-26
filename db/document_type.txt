@@ -1,4 +1,4 @@
-﻿id|name
+id|name
 1|Credencial de Elector
 2|Licencia de Manejo
 3|Pasaporte
