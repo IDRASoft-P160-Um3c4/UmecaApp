@@ -95,7 +95,6 @@
                             Datos personales y <br/>    <div class="col-xs-offset-3"> Entorno social</div>
                         </a>
                     </li>
-
                     <li>
                         <a data-toggle="tab" href="#address">
                             <i class="green  icon-home  bigger-200"></i>
@@ -135,14 +134,13 @@
                         </div>
                         <br/>
                         <div class="row">
-                                       <div class="col-xs-10 col-xs-offset-1">
-                                           <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/content.jsp"%>
-                                       </div>
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/content.jsp"%>
+                            </div>
                         </div>
-
                     </div>
                     <div id="address" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/address/accordeon.jsp"%>
+                        <%@ include file="/WEB-INF/jsp/reviewer/verification/imputedHome/accordeon.jsp"%>
                     </div>
                     <div id="jobHistory" class="tab-pane">
                              historia laboral
