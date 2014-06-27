@@ -183,12 +183,14 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     ActivityRepository activityRepository;
     @Override
     public void activity() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity.txt","\\|", 4);
 
         for (String[] data : lstDta) {
             Activity model = new Activity();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
+            model.setSpecification(data[2].equals("1"));
+            model.setObsolete(data[3].equals("1"));
             activityRepository.save(model);
         }
 
@@ -356,11 +358,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void relationship() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt","\\|", 3);
         for (String[] data : lstDta) {
             Relationship model = new Relationship();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setObsolete(data[2].equals("1"));
             relationshipRepository.save(model);
         }
         relationshipRepository.flush();
@@ -371,11 +374,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void documentType() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "document_type.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "document_type.txt","\\|", 4);
         for (String[] data : lstDta) {
             DocumentType model = new DocumentType();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setSpecification(data[2].equals("1"));
+            model.setObsolete(data[3].equals("1"));
             documentTypeRepository.save(model);
         }
         documentTypeRepository.flush();
@@ -385,11 +390,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     DrugTypeRepository drugTypeRepository;
     @Override
     public void drugType() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "drug_type.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "drug_type.txt","\\|", 4);
         for (String[] data : lstDta) {
             DrugType model = new DrugType();
             model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);;
+            model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
             drugTypeRepository.save(model);
         }
         drugTypeRepository.flush();
@@ -400,11 +407,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     PeriodicityRepository periodicityRepository;
     @Override
     public void periodicity() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "periodicity.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "periodicity.txt","\\|", 4);
         for (String[] data : lstDta) {
             Periodicity model = new Periodicity();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setSpecification(data[2].equals("1"));
+            model.setObsolete(data[3].equals("1"));
             periodicityRepository.save(model);
         }
         periodicityRepository.flush();
