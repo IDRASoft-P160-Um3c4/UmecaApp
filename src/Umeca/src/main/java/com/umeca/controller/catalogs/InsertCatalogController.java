@@ -121,7 +121,7 @@ public class InsertCatalogController {
         return "Day Week OK!";
     }
 
-    @RequestMapping(value="/catalogs/insertSchoolLevel", method = RequestMethod.GET)
+    @RequestMapping(value="/catalogs/insertAcademicLevel", method = RequestMethod.GET)
     public String insertSchoolLevel(){
         service.academicDegree();
         return "Degree OK!";
