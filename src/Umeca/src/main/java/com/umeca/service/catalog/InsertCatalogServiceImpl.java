@@ -454,6 +454,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             Degree model = new Degree();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
             model.setAcademicLevel(academicLevelRepository.findOne(Long.parseLong(data[2])));
             degreeRepository.save(model);
         }
