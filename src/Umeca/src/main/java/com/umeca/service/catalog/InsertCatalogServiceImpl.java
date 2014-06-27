@@ -442,11 +442,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void academicDegree() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "academic_level.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "academic_level.txt","\\|", 3);
         for (String[] data : lstDta) {
             AcademicLevel model = new AcademicLevel();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
             academicLevelRepository.save(model);
         }
         List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "degree.txt","\\|", 4);
