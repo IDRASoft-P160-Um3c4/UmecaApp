@@ -12,6 +12,7 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.shared.SelectFilterFields;
@@ -226,10 +227,10 @@ public class HearingFormatController {
 
         ResponseMessage response = new ResponseMessage();
 
-        if (imputed.getDateBirth() != null) {
-            Integer age = userService.calculateAge(imputed.getDateBirth());
+        if (imputed.getBirthDate() != null) {
+            Integer age = userService.calculateAge(imputed.getBirthDate());
             if (age.compareTo(18) == -1) {
-                return new ResponseMessage(true, "El imputado debe tener más de 18 años para continuar");
+                return new ResponseMessage(true, "El imputado debe tener mï¿½s de 18 aï¿½os para continuar");
             }
         }
 
@@ -242,11 +243,11 @@ public class HearingFormatController {
             response = caseService.saveConditionaReprieveCase(caseDet);
 
         } catch (Exception ex) {
-            System.out.println("Error al guardar el caso de suspensión condicional de proceso!!!");
+            System.out.println("Error al guardar el caso de suspensiï¿½n condicional de proceso!!!");
             ex.printStackTrace();
             response.setHasError(true);
             response.setTitle("Formato de audiencia");
-            response.setMessage("Error al guardar el caso de suspensión condicional de proceso!!!");
+            response.setMessage("Error al guardar el caso de suspensiï¿½n condicional de proceso!!!");
 
         } finally {
             return response;
@@ -265,13 +266,15 @@ public class HearingFormatController {
         return jsonLst;
     }
 
+    @Autowired
+    CaseRepository caseRepository;
     @RequestMapping(value = "/supervisor/hearingFormat/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doUpsert(@ModelAttribute HearingFormatView result, HttpServletRequest request) {
 
         HearingFormat hearingFormat = hearingFormatService.fillHearingFormat(result);
-        hearingFormat.setCaseDetention(caseService.findById(result.getIdCase()));
+        hearingFormat.setCaseDetention(caseRepository.findOne(result.getIdCase()));
 
         return hearingFormatService.save(hearingFormat, request);
 

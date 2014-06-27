@@ -206,7 +206,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
                 hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
                 hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
-                hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getDateBirth());
+                hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
 
                 hearingFormatView.setCanSave(true);
                 hearingFormatView.setCanEdit(true);

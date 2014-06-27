@@ -180,22 +180,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     }
 
     @Autowired
-    PhysicalConditionRepository physicalConditionRepository;
-    @Override
-    public void physicalCondition(){
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "physical_condition.txt","\\|", 2);
-
-        for (String[] data : lstDta) {
-            PhysicalCondition model = new PhysicalCondition();
-            model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            physicalConditionRepository.save(model);
-        }
-
-        physicalConditionRepository.flush();
-    }
-
-    @Autowired
     ActivityRepository activityRepository;
     @Override
     public void activity() {
@@ -442,29 +426,29 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     }
 
     @Autowired
-    SchoolLevelRepository schoolLevelRepository;
+    AcademicLevelRepository academicLevelRepository;
 
     @Autowired
-    GradeRepository gradeRepository;
+    DegreeRepository degreeRepository;
 
     @Override
-    public void schoolLevel() {
+    public void academicDegree() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "school_level.txt","\\|", 2);
         for (String[] data : lstDta) {
-            SchoolLevel model = new SchoolLevel();
+            AcademicLevel model = new AcademicLevel();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            schoolLevelRepository.save(model);
+            academicLevelRepository.save(model);
         }
         List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "grade.txt","\\|", 3);
         for (String[] data : lstDtaGrade) {
-            Grade model = new Grade();
+            Degree model = new Degree();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            model.setSchoolLevel(schoolLevelRepository.findOne(Long.parseLong(data[2])));
-            gradeRepository.save(model);
+            model.setAcademicLevel(academicLevelRepository.findOne(Long.parseLong(data[2])));
+            degreeRepository.save(model);
         }
-        schoolLevelRepository.flush();
+        academicLevelRepository.flush();
     }
 
     @Autowired
