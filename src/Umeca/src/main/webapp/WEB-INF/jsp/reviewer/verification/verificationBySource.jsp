@@ -34,6 +34,11 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
 
+
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/test.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/verificationCtrl.js"></script>
     <script>
        /* $(function() {
             var total = "";
@@ -81,7 +86,7 @@
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 <div class="container body-content">
-
+ <div ng-controller="verificationController">
     <h2 class="element-center"><i class="glyphicon icon-edit "></i>&nbsp;&nbsp;Verificación</h2>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp"%>
 
@@ -140,7 +145,7 @@
                         </div>
                     </div>
                     <div id="address" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/reviewer/verification/imputedHome/accordeon.jsp"%>
+
                     </div>
                     <div id="jobHistory" class="tab-pane">
                              historia laboral
@@ -156,7 +161,7 @@
 
                     </div>
                     <div id="drougs" class="tab-pane">
-                         susustancias
+                        <%@ include file="/WEB-INF/jsp/reviewer/verification/drug/accordeon.jsp"%>
                     </div>
                     <div id="leaveCountry" class="tab-pane">
                         <div class="row">
@@ -169,9 +174,12 @@
             </div>
         </div>
     </div>
+ </div>
 
     <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
+    <%@ include file="/WEB-INF/jsp/reviewer/verification/detailVerification.jsp"%>
     <%@ include file="/WEB-INF/jsp/shared/footer.jsp"%>
+
 </div>
 
 </body>

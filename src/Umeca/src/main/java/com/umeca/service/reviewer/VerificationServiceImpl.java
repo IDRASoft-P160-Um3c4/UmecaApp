@@ -2,10 +2,13 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.dto.DrugDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.catalog.DrugTypeRepository;
+import com.umeca.repository.catalog.PeriodicityRepository;
 import com.umeca.repository.catalog.StatusVerificationRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +50,7 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
-    public  List<SourceVerification> convertAllInitSourcesVerif(Case c) {
+    public List<SourceVerification> convertAllInitSourcesVerif(Case c) {
         List<SourceVerification> svlist = new ArrayList<>();
         List<Reference> rlist = (c.getMeeting().getReferences() == null) ? new ArrayList<Reference>() : c.getMeeting().getReferences();
         for (Reference reference : rlist) {
@@ -66,22 +69,22 @@ public class VerificationServiceImpl implements VerificationService {
                 ? c.getMeeting().getSocialNetwork().getPeopleSocialNetwork() : new ArrayList<PersonSocialNetwork>();
         String addressImputed = "No se proporcionó dirección del imputado";
         String otherAddresSPN = "No proporcionado";
-        if(c.getMeeting().getImputedHomes()!=null){
-            for(ImputedHome d: c.getMeeting().getImputedHomes()){
-                if(d.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_CURRENT)){
-                    addressImputed =d.getAddress().getAddressString();
+        if (c.getMeeting().getImputedHomes() != null) {
+            for (ImputedHome d : c.getMeeting().getImputedHomes()) {
+                if (d.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_CURRENT)) {
+                    addressImputed = d.getAddress().getAddressString();
                     break;
                 }
             }
         }
-        for(PersonSocialNetwork psn: psnList){
+        for (PersonSocialNetwork psn : psnList) {
             SourceVerification sv = new SourceVerification();
             sv.setFullName(psn.getName());
             sv.setPhone(psn.getPhone());
             sv.setAge(psn.getAge());
-            if(psn.getLivingWith().getId().equals(Constants.ELECTION_YES)){
+            if (psn.getLivingWith().getId().equals(Constants.ELECTION_YES)) {
                 sv.setAddress(addressImputed);
-            }else{
+            } else {
                 sv.setAddress(psn.getAddress());
             }
             sv.setRelationship(psn.getRelationship());
@@ -92,11 +95,11 @@ public class VerificationServiceImpl implements VerificationService {
         }
         SourceVerification svImputed = new SourceVerification();
         Imputed i = c.getMeeting().getImputed();
-        String fullNameI = i.getName()+" "+i.getLastNameP()+" "+i.getLastNameM();
+        String fullNameI = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
         svImputed.setFullName(fullNameI);
-        String phone="No proporcionado";
-        if(i.getCelPhone()!= null && !i.getCelPhone().equals("")){
-            phone=i.getCelPhone();
+        String phone = "No proporcionado";
+        if (i.getCelPhone() != null && !i.getCelPhone().equals("")) {
+            phone = i.getCelPhone();
         }
         svImputed.setPhone(phone);
         svImputed.setAge(userService.calculateAge(i.getBirthDate()));
@@ -110,15 +113,29 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Autowired
     MeetingService meetingService;
+    @Autowired
+    DrugTypeRepository drugTypeRepository;
+    @Autowired
+    PeriodicityRepository periodicityRepository;
+
     @Override
     public ModelAndView showVerificationBySource(Long idCase, Long idSource) {
-        Gson gson= new Gson();
+        Gson gson = new Gson();
         ModelAndView model = new ModelAndView("/reviewer/verification/verificationBySource");
         setImputedData(idCase, model);
-        ModelAndView aux =  meetingService.showMeeting(idCase);
+        ModelAndView aux = meetingService.showMeeting(idCase);
         model.addAllObjects(aux.getModel());
         Case c = caseRepository.findOne(idCase);
-        //model.addObject("listImputedHome", gson.toJson(c.getMeeting().getImputedHomes()));
+        if (c.getMeeting().getDrugs() != null) {
+            model.addObject("lstDrugType", gson.toJson(drugTypeRepository.findNotObsolete()));
+            model.addObject("lstPeriodicity", gson.toJson(periodicityRepository.findNotObsolete()));
+            List<DrugDto> listDrug = new ArrayList<>();
+            for (Drug d : c.getMeeting().getDrugs()) {
+                listDrug.add(new DrugDto().dtoDrug(d));
+            }
+            model.addObject("listDrug", gson.toJson(listDrug));
+        }
+
         return model;
     }
 

@@ -3,7 +3,7 @@
     <div class="col-xs-6">
         <div class="row">
             <div class="col-xs-3 element-left">
-                <br/>Género:
+                <br/> <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i> Género:
             </div>
             <div class="col-xs-9">
                 <div class="row" ng-init="gen=${(m.imputed.gender == null) ? false: m.imputed.gender}">
@@ -34,6 +34,7 @@
 
         <div class="row">
             <div class="col-xs-6 element-left">
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i>
                 Fecha de nacimiento:
             </div>
             <div class="col-xs-6">
@@ -46,6 +47,7 @@
 
         <div class="row">
             <div class="col-xs-3 element-left">
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i>
                 Celular:
             </div>
             <div class="col-xs-9">
@@ -64,9 +66,15 @@
     </div>
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header"
+             <div class="widget-header"
                  ng-init="maritalStatus = ${m.imputed.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id}">
-                <h5>Estado civil</h5>
+                 <div class="col-xs-1">
+                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"></i>
+                 </div>
+                 <div class="col-xs-11">
+                     <h5>Estado civil</h5>
+                 </div>
+
             </div>
             <div class="widget-body">
                 <div class="row">
@@ -107,7 +115,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-xs-5" ng-show="maritalStatus ==2 || maritalStatus == 4">
+                    <div class="col-xs-5" ng-show="maritalStatus ==2 || maritalStatus == 4" ng-model="verifElem">
                         <div class="space-10"></div>
                         <div class="widget-main">
                             <input type="text" class="input-mini" id="spinnder1"
@@ -134,7 +142,12 @@
 <div class="col-xs-12">
     <div class="widget-box">
         <div class="widget-header">
+            <div class="col-xs-1">
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"></i>
+            </div>
+            <div class="col-xs-11">
             <h5>Hijos</h5>
+                </div>
         </div>
         <div class="widget-body">
             <br/>
@@ -183,7 +196,12 @@
     <div class="col-xs-12">
         <div class="widget-box">
             <div class="widget-header">
+                <div class="col-xs-1">
+                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"></i>
+                </div>
+                <div class="col-xs-11">
                 <h4>Lugar de nacimiento</h4>
+                    </div>
             </div>
 
             <div class="widget-body">
@@ -242,16 +260,20 @@
 <br/>
 
 <div class="row">
-    <div class="col-xs-3 element-left">¿Padece alguna enfermedad o condición física?:</div>
+    <div class="col-xs-3 element-left">
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i>
+        ¿Padece alguna enfermedad o condición física?:</div>
     <div class="col-xs-9">
         <textarea class="form-control"
                   name="socialEnvironment.physicalCondition">${m.socialEnvironment.physicalCondition}</textarea>
     </div>
 </div>
 <br/>
-
+<div>
 <div class="row">
-    <div class="col-xs-3 element-left">¿Qué actividades realiza?:</div>
+    <div class="col-xs-3 element-left">
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i>
+        ¿Qué actividades realiza?:</div>
     <div class="col-xs-9">
         <div class="widget-main">
             <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
@@ -287,10 +309,13 @@
         </div>
     </div>
 </div>
+    </div>
 <br/>
 
 <div class="row">
-    <div class="col-xs-3 element-left">Comentarios:</div>
+    <div class="col-xs-3 element-left">
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i>
+        Comentarios:</div>
     <div class="col-xs-9">
         <textarea class="form-control" name="socialEnvironment.comment">${m.socialEnvironment.comment}</textarea>
     </div>

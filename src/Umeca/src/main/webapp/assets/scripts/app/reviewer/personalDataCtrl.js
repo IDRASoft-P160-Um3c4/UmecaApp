@@ -1,4 +1,4 @@
-app.controller('personalDataController', function($scope, $timeout) {
+app.controller('personalDataController', function($scope, $timeout,$q) {
     $scope.m = {};
     $scope.specification = {};
     $scope.lstActivity = [];
@@ -10,6 +10,7 @@ app.controller('personalDataController', function($scope, $timeout) {
     $scope.lstPhysicalCondition = [];
     $scope.pCSelected = [];
     $scope.relActivities = [];
+    $scope.def= $q.defer();
 
 
 

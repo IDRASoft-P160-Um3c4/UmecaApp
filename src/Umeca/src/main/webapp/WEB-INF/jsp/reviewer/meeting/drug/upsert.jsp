@@ -42,11 +42,6 @@
         </div>
     </div>
 </div>
-<script>
-    $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
-        $(this).prev().focus();
-    });
-</script>
 
 
 

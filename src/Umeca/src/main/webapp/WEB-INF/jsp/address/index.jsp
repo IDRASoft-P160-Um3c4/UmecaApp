@@ -122,7 +122,6 @@ margin-top: 0;
             <input class="with-100" data-val="true"
                    data-val-length="Debe tener al menos 1 y máximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
-                   data-val-required="El número interior es un campo requerido"
                    type="text" ng-model="innNum"
                    id="innNumComponent"
                    name="innNumComponent">
