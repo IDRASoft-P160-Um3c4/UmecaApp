@@ -1,7 +1,11 @@
 <div ng-controller="schoolController">
     <div class="row">
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left"> Escuela:</div>
+            <div class="col-xs-2 element-left">
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                   ng-show="verification"></i>
+                Escuela:
+            </div>
             <div class="col-xs-10"><input class="form-control" data-val="true"
                                           data-val-length="Debe tener al menos 5 y m?ximo 200 caracteres"
                                           data-val-length-max="200" data-val-length-min="5"
@@ -19,7 +23,11 @@
 
     <div class="row">
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left"> Teléfono:</div>
+            <div class="col-xs-4 element-left">
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                   ng-show="verification"></i>
+                Teléfono:
+            </div>
             <div class="col-xs-8"><input class="form-control" data-val="true"
                                          data-val-length="Debe tener al menos 8 y máximo 25 caracteres"
                                          data-val-length-max="25" data-val-length-min="8"
@@ -35,7 +43,11 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">Dirección:</div>
+            <div class="col-xs-2 element-left">
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                   ng-show="verification"></i>
+                Dirección:
+            </div>
             <div class="col-xs-10"><textarea id="school.address" class="form-control" name="school.address"
                                              ng-model="school.address"
                                              ng-init='school.address = "${(m.school.address == null) ? "" : m.school.address}"'
@@ -55,6 +67,8 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4  element-left">
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                   ng-show="verification"></i>
                 Nivel:
             </div>
             <div class="col-xs-8">
@@ -80,9 +94,13 @@
     </div>
     <br/>
 
-    <div class="row schedule_visible"  ng-show="verification == false">
+    <div class="row schedule_visible">
         <div class="widget-box">
             <div class="widget-header">
+                <div class="col-xs-1">
+                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
+                       ng-show="verification"></i>
+                </div>
                 <h5><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h5>
             </div>
             <div class="widget-body">

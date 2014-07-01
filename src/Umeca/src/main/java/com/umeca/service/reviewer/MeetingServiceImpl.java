@@ -717,6 +717,9 @@ public class MeetingServiceImpl implements MeetingService {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("reference",listMess));
             }
             if (validate.existsMessageProperties()) {
+                List<String> listGeneral=new ArrayList<>();
+                listGeneral.add("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("general",listGeneral));
                 return new ResponseMessage(true,gson.toJson(validate));
             }
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));

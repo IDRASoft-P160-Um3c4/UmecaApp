@@ -6,6 +6,9 @@ app.controller('drugController', function($scope, $timeout) {
     $scope.d.per = 0;
 
     $scope.init = function(){
+        $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
         var lastUse=$("#lastUse").val();
         lastUse= lastUse.replace(/-/g,"/");
         $("#lastUse").val(lastUse.replace("00:00:00.0",""));

@@ -23,6 +23,8 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="col-xs-9 element-left">
+                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                       ng-show="verification"></i>
                     ¿El detenido cuenta con documentación oficial que facilite que abandone el país?:
                 </div>
                 <div class="col-xs-3">
@@ -34,49 +36,53 @@
         </div>
         <br/>
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="col-xs-9 element-left">
-                    ¿El detenido ha vivido en otro país?:
-                </div>
-                <div class="col-xs-3">
-                    <select class="form-control element-center" ng-model="l.oc"
-                            ng-options="e.name for e in listElection"
-                            ng-change="l.ocId = l.oc.id;" ng-init='listElection = ${listElection};'></select>
+        <div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-xs-9 element-left">
+                        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
+                           ng-show="verification"></i>
+                        ¿El detenido ha vivido en otro país?:
+                    </div>
+                    <div class="col-xs-3">
+                        <select class="form-control element-center" ng-model="l.oc"
+                                ng-options="e.name for e in listElection"
+                                ng-change="l.ocId = l.oc.id;" ng-init='listElection = ${listElection};'></select>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row" ng-show="l.ocId ==1">
-            <br/>
+            <div class="row" ng-show="l.ocId ==1">
+                <br/>
 
-            <div class="row">
-                <div class="col-xs-2 element-left col-xs-offset-1">
-                    País:
-                </div>
-                <div class="col-xs-3">
-                    <select class="form-control element-center" ng-model="country"
-                            ng-options="e.name for e in listCountry"
-                            url-request="/catalogs/getStatesByCountry.json"
-                            ng-change="countryId = country.id;" ng-init='listCountry = ${lstCountry};'></select>
-                </div>
-                <div class="col-xs-2 element-right">
-                    Estado:
-                </div>
-                <div class="col-xs-4">
-                    <input class="form-control" data-val="true"
-                           data-val-length="Debe tener al menos 3 y m?ximo 100 caracteres"
-                           data-val-length-max="100" data-val-length-min="3"
-                           data-val-required="El estado es un campo requerido"
-                           type="text" ng-model="l.state" id="leaveCountry.state"
-                           name="leaveCountry.state"
-                           ng-init='l.state = "${(m.leaveCountry.state ==  null) ? "" : m.leaveCountry.state}";'>
+                <div class="row">
+                    <div class="col-xs-2 element-left col-xs-offset-1">
+                        País:
+                    </div>
+                    <div class="col-xs-3">
+                        <select class="form-control element-center" ng-model="country"
+                                ng-options="e.name for e in listCountry"
+                                url-request="/catalogs/getStatesByCountry.json"
+                                ng-change="countryId = country.id;" ng-init='listCountry = ${lstCountry};'></select>
+                    </div>
+                    <div class="col-xs-2 element-right">
+                        Estado:
+                    </div>
+                    <div class="col-xs-4">
+                        <input class="form-control" data-val="true"
+                               data-val-length="Debe tener al menos 3 y m?ximo 100 caracteres"
+                               data-val-length-max="100" data-val-length-min="3"
+                               data-val-required="El estado es un campo requerido"
+                               type="text" ng-model="l.state" id="leaveCountry.state"
+                               name="leaveCountry.state"
+                               ng-init='l.state = "${(m.leaveCountry.state ==  null) ? "" : m.leaveCountry.state}";'>
                         <span class="field-validation-valid" data-valmsg-for="leaveCountry.state"
                               data-valmsg-replace="true"></span>
+                    </div>
                 </div>
-            </div>
-            <br/>
 
-            <div class="row">
+                <br/>
+            </div>
+            <div class="row"  ng-show="l.ocId ==1">
                 <div class="col-xs-3 element-right">
                     ¿Hace cuánto tiempo?:
                 </div>
@@ -107,7 +113,7 @@
             </div>
             <br/>
 
-            <div class="row">
+            <div class="row"  ng-show="l.ocId ==1">
                 <div class="col-xs-3 element-right">
                     Dirección:
                 </div>
@@ -129,44 +135,48 @@
     </div>
     <br/>
 
-    <div class="row">
+    <div>
+        <div class="row">
+            <br/>
+
+            <div class="col-xs-9 element-left">
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                   ng-show="verification"></i>
+                ¿El detenido cuenta con familiares y/o amigos cercanos en otro país?:
+            </div>
+            <div class="col-xs-3">
+                <select class="form-control element-center" ng-model="l.fac"
+                        ng-options="e.name for e in listElection"
+                        ng-change="l.facId = l.fac.id;" ng-init='listElection = ${listElection};'></select>
+            </div>
+
+        </div>
         <br/>
 
-        <div class="col-xs-9 element-left">
-            ¿El detenido cuenta con familiares y/o amigos cercanos en otro país?:
-        </div>
-        <div class="col-xs-3">
-            <select class="form-control element-center" ng-model="l.fac"
-                    ng-options="e.name for e in listElection"
-                    ng-change="l.facId = l.fac.id;" ng-init='listElection = ${listElection};'></select>
-        </div>
+        <div class="row" ng-show="l.facId ==1">
 
-    </div>
-    <br/>
-
-    <div class="row" ng-show="l.facId ==1">
-
-        <div class="col-xs-4 element-left">
-            ¿Mantiene comunicación con ellos?:
-        </div>
-        <div class="col-xs-2">
-            <select class="form-control element-center" ng-model="l.cf"
-                    ng-options="e.name for e in listElection"
-                    ng-change="l.cfId = l.cf.id;" ng-init='listElection = ${listElection};'></select>
-        </div>
-        <div class="col-xs-2 element-left" ng-show="l.cfId == 1">
-            ¿Por qué medio?:
-        </div>
-        <div class="col-xs-4" ng-show="l.cfId == 1">
-            <input class="form-control" data-val="true"
-                   data-val-length="Debe tener al menos 2 y m?ximo 50 caracteres"
-                   data-val-length-max="50" data-val-length-min="2"
-                   data-val-required="El medio es un campo requerido"
-                   type="text" value="" id="leaveCountry.media" name="leaveCountry.media" ng-model="l.media"
-                   ng-init='l.media = "${(m.leaveCountry.media == null) ? "":m.leaveCountry.media}";'>
+            <div class="col-xs-4 element-left">
+                ¿Mantiene comunicación con ellos?:
+            </div>
+            <div class="col-xs-2">
+                <select class="form-control element-center" ng-model="l.cf"
+                        ng-options="e.name for e in listElection"
+                        ng-change="l.cfId = l.cf.id;" ng-init='listElection = ${listElection};'></select>
+            </div>
+            <div class="col-xs-2 element-left" ng-show="l.cfId == 1">
+                ¿Por qué medio?:
+            </div>
+            <div class="col-xs-4" ng-show="l.cfId == 1">
+                <input class="form-control" data-val="true"
+                       data-val-length="Debe tener al menos 2 y m?ximo 50 caracteres"
+                       data-val-length-max="50" data-val-length-min="2"
+                       data-val-required="El medio es un campo requerido"
+                       type="text" value="" id="leaveCountry.media" name="leaveCountry.media" ng-model="l.media"
+                       ng-init='l.media = "${(m.leaveCountry.media == null) ? "":m.leaveCountry.media}";'>
                      <span class="field-validation-valid" data-valmsg-for="leaveCountry.media"
                            data-valmsg-replace="true"></span>
-        </div>
+            </div>
 
+        </div>
     </div>
 </div>
