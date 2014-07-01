@@ -59,7 +59,7 @@ public class FramingMeetingController {
                     add(r.join("meeting").join("imputed").get("name"));
                     add(r.join("meeting").join("imputed").get("lastNameP"));
                     add(r.join("meeting").join("imputed").get("lastNameM"));
-                    add(r.join("meeting").join("imputed").get("dateBirth"));
+                    add(r.join("meeting").join("imputed").get("birthDate"));
                 }};
             }
 

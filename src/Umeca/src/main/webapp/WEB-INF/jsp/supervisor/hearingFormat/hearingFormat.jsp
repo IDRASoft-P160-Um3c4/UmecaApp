@@ -2,10 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/hearingFormat/hearingFormatCtrl.js"></script>
+
+    <%@ include file="/WEB-INF/jsp/shared/headUm.jsp" %>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upsertCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/modalDlgCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/hiddenDrct.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/zipSearchDrct.js"></script>
+
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/hearingFormat/hearingFormatCtrl.js"></script>
+
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
@@ -88,7 +94,7 @@
     <title>Formato de audiencia</title>
 </head>
 
-<body scroll="no" ng-app="ptlUmc">
+<body scroll="no" ng-app="ptlUmc" ng-cloak>
 
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
@@ -107,6 +113,7 @@
 <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
 <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
 <input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
+
 
 <div class="row">
     <div class="row element-right">
@@ -150,17 +157,17 @@
     <div class="widget-body">
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
-                <br/>
 
+                <br/>
                 <div class="row">
 
                     <div class="col-xs-4">
-                        <label for="idFolder">Carpeta de investigaci髇</label>
+                        <label for="idFolder">Carpeta de investigaci贸n</label>
                         <br/>
                         <input id="idFolder" ng-model="m.idFolder" name="idFolder"
                                type="text" class="input-xxlarge" data-val="true"
                                ng-disabled="m.canEdit==false"
-                               data-val-required="Carpeta de investigaci髇 es un campo requerido"/>
+                               data-val-required="Carpeta de investigaci贸n es un campo requerido"/>
                         <br/>
                         <span class="field-validation-valid" data-valmsg-for="idFolder"
                               data-valmsg-replace="true"></span>
@@ -234,13 +241,13 @@
                     </div>
 
                     <div class="col-xs-4">
-                        <label for="endTime">Hora t閞mino audiencia</label>
+                        <label for="endTime">Hora t茅rmino audiencia</label>
 
                         <div class="input-group bootstrap-timepicker">
                             <input id="endTime" name="endTime"
                                    ng-change="validateInitEnd();" ng-model="m.endTime"
                                    readonly type="text" class="form-control" min-time="6:00am"
-                                   data-val="true" data-val-required="Hora de t閞mino es un campo requerido"/>
+                                   data-val="true" data-val-required="Hora de t茅rmino es un campo requerido"/>
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
                             <br/>
@@ -269,12 +276,12 @@
 
                     <div class="col-xs-4">
 
-                        <label for="mpName">Nombre del Ministerio P鷅lico</label>
+                        <label for="mpName">Nombre del Ministerio P煤blico</label>
                         <br/>
                         <input id="mpName" ng-model="m.mpName" name="mpName" type="text"
                                class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Nombre del Ministerio P鷅lico es un campo requerido"/>
+                               data-val-required="Nombre del Ministerio P煤blico es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="mpName"
                   data-valmsg-replace="true"></span>
@@ -455,7 +462,7 @@
 <div class="row">
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Control de detenci髇</div>
+            <div class="widget-header">Control de detenci贸n</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -488,9 +495,63 @@
         </div>
     </div>
 
+    <div id="divFormImp" class="col-xs-6">
+        <div class="widget-box">
+            <div class="widget-header">Formulaci贸n de imputaci贸n</div>
+            <div class="widget-body">
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-3">
+                        <br/>
+                         <span class="field-validation-valid" data-valmsg-for="impForm"
+                               data-valmsg-replace="true"></span>
+
+                        <div class="radio col-xs-7">
+                            <label>
+                                <input class="ace" name="impForm" type="radio" ng-model="m.formImp" value="1"
+                                       ng-checked="m.formImp==1" data-val="true"
+                                       data-val-required="Debe seleccionar un valor">
+                                <span class="lbl">&nbsp;&nbsp;Si</span>
+                            </label>
+                            <br/>
+                            <label>
+                                <input class="ace" name="impForm" type="radio" ng-model="m.formImp" value="2"
+                                       ng-checked="m.formImp==2">
+                                <span class="lbl">&nbsp;&nbsp;No</span>
+                            </label>
+                        </div>
+                        <br/>
+
+                        <div class="col-xs-7" >
+                            <label for="imputationDate">Fecha</label>
+
+                            <div class="input-group">
+                                <input class="form-control date-picker"
+                                       id="imputationDate" name="imputationDate" ng-model="m.impDate"
+                                       data-date-format="dd/mm/yyyy" type="text" readonly data-val="true"
+                                       data-val-required="Fecha es un campo requerido">
+                            <span class="input-group-addon">
+                                <i class="icon-calendar bigger-110"></i>
+                            </span>
+                            </div>
+                            <span class="field-validation-valid" data-valmsg-for="imputationDate"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+            </div>
+        </div>
+    </div>
+
+</div>
+<br/>
+
+
+<div class="row">
+
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Apliaci髇 del t閞mino</div>
+            <div class="widget-header">Ampliaci贸n del t茅rmino</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -524,62 +585,10 @@
             </div>
         </div>
     </div>
-</div>
-<br/>
-
-
-<div class="row">
-    <div id="divFormImp" class="col-xs-6">
-        <div class="widget-box">
-            <div class="widget-header">Formulaci髇 de imputaci髇</div>
-            <div class="widget-body">
-                <div class="row">
-                    <div class="col-xs-10 col-xs-offset-3">
-                        <br/>
-                         <span class="field-validation-valid" data-valmsg-for="impForm"
-                               data-valmsg-replace="true"></span>
-
-                        <div class="radio">
-                            <label>
-                                <input class="ace" name="impForm" type="radio" ng-model="m.formImp" value="1"
-                                       ng-checked="m.impDate!=''&&m.hasHF==true" data-val="true"
-                                       data-val-required="Debe seleccionar un valor">
-                                <span class="lbl">&nbsp;&nbsp;Si</span>
-                            </label>
-                            <br/>
-                            <label>
-                                <input class="ace" name="impForm" type="radio" ng-model="m.formImp" value="2"
-                                       ng-checked="m.impDate==''&&m.hasHF==true">
-                                <span class="lbl">&nbsp;&nbsp;No</span>
-                            </label>
-                        </div>
-                        <br/>
-
-                        <div class="col-xs-7">
-                            <label for="imputationDate">Fecha</label>
-
-                            <div class="input-group">
-                                <input class="form-control date-picker"
-                                       id="imputationDate" name="imputationDate" ng-model="m.impDate"
-                                       data-date-format="dd/mm/yyyy" type="text" readonly data-val="true"
-                                       data-val-required="Fecha es un campo requerido">
-                            <span class="input-group-addon">
-                                <i class="icon-calendar bigger-110"></i>
-                            </span>
-                            </div>
-                            <span class="field-validation-valid" data-valmsg-for="imputationDate"
-                                  data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-            </div>
-        </div>
-    </div>
 
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Vinculaci髇 a proceso</div>
+            <div class="widget-header">Vinculaci贸n a proceso</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -690,33 +699,57 @@
                                         <br/>
 
                                         <div class="element-left">
-                                        <span class="field-validation-valid" data-valmsg-for="hearingType"
+                                        <span class="field-validation-valid" data-valmsg-for="nationalArrangement"
                                               data-valmsg-replace="true"></span>
                                         </div>
+
                                         <div class="col-xs-3">
                                             <div class="radio">
                                                 <label ng-click="loadArrangements()">
-                                                    <input name="hearingType" class="ace" type="radio" value="1"
-                                                           ng-model="m.hType" ng-checked="m.hType==1" data-val="true"
+                                                    <input name="nationalArrangement" class="ace" type="radio"
+                                                           value="true"
+                                                           ng-model="m.nationalArrangement"
+                                                           ng-checked="m.nationalArrangement==true" data-val="true"
+                                                           data-val-required="Debe seleccionar un valor">
+                                                    <span class="lbl">&nbsp;&nbsp;Nacional</span>
+                                                </label>
+                                                <br/>
+                                                <label ng-click="loadArrangements()">
+                                                    <input name="nationalArrangement" class="ace" type="radio"
+                                                           value="false"
+                                                           ng-model="m.nationalArrangement"
+                                                           ng-checked="m.nationalArrangement==false" checked>
+                                                    <span class="lbl">&nbsp;&nbsp;Local</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-3">
+                                            <div class="radio">
+                                                <label ng-click="loadArrangements()">
+                                                    <input name="arrangementType" class="ace" type="radio" value="1"
+                                                           ng-model="m.arrType" ng-checked="m.arrType==1"
+                                                           data-val="true"
                                                            data-val-required="Debe seleccionar un valor">
                                                     <span class="lbl">&nbsp;&nbsp;SCPP</span>
                                                 </label>
                                                 <br/>
                                                 <label ng-click="loadArrangements()">
-                                                    <input name="hearingType" class="ace" type="radio" value="2"
-                                                           ng-model="m.hType" ng-checked="m.hType==2">
+                                                    <input name="arrangementType" class="ace" type="radio" value="2"
+                                                           ng-model="m.arrType" ng-checked="m.arrType==2">
                                                     <span class="lbl">&nbsp;&nbsp;MC</span>
                                                 </label>
                                             </div>
                                         </div>
 
-                                        <div ng-show="m.hType==1" class="col-xs-9">
+
+                                        <div ng-show="m.arrType==1" class="col-xs-6">
                                             <label>Plazo</label>
                                             <br/>
 
                                             <textarea class="form-control limited" name="terms"
                                                       ng-model="m.terms"
-                                                      ng-disabled='m.hType==2'
+                                                      ng-disabled='m.arrType==2'
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo es un campo requerido">
@@ -725,15 +758,15 @@
                                               data-valmsg-replace="true"></span>
                                         </div>
 
-                                        <div ng-show="m.hType==2" class="col-xs-9">
-                                            <label ng-show="m.hType==2">Plazo de investigaci髇</label>
+                                        <div ng-show="m.arrType==2" class="col-xs-6">
+                                            <label ng-show="m.arrType==2">Plazo de investigaci贸n</label>
                                             <br/>
                                             <textarea class="form-control limited" name="terms"
                                                       ng-model="m.terms"
-                                                      ng-disabled='m.hType==1'
+                                                      ng-disabled='m.arrType==1'
                                                       maxlength="980"
                                                       data-val="true"
-                                                      data-val-required="Plazo de investigaci髇 es un campo requerido">
+                                                      data-val-required="Plazo de investigaci贸n es un campo requerido">
                                                 {{m.terms}}</textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
@@ -797,7 +830,7 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <label for="contactPhone">Tel閒ono:</label>
+                        <label for="contactPhone">Tel茅fono:</label>
                         <br/>
                         <input id="contactPhone" type="text"
                                class="input-xxlarge" ng-model="m.contactPhone"/>
@@ -806,7 +839,7 @@
 
 
                     <div class="col-xs-4">
-                        <label>Direcci髇</label>
+                        <label>Direcci贸n</label>
                         <br/>
                         <textarea class="input-xxlarge form-control limited" id="contactAddress"
                                   maxlength="980" ng-model="m.contactAddress">
@@ -847,8 +880,8 @@
                                     <thead class="thin-border-bottom">
                                     <tr>
                                         <th class="element-center">Nombre</th>
-                                        <th class="element-center">Tel閒ono</th>
-                                        <th class="element-center">Direcci髇</th>
+                                        <th class="element-center">Tel茅fono</th>
+                                        <th class="element-center">Direcci贸n</th>
                                         <th class="element-center">Quitar</th>
                                     </tr>
                                     </thead>

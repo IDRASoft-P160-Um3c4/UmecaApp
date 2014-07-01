@@ -124,7 +124,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingSpecs.setLinkageRoom(viewFormat.getLinkageRoom());
         hearingSpecs.setLinkageDate(viewFormat.getLinkageDate());
         hearingSpecs.setLinkageTime(viewFormat.getLinkageTime());
-        hearingSpecs.setHearingType(viewFormat.getHearingType());
+        hearingSpecs.setArrangementType(viewFormat.getArrangementType());
+        hearingSpecs.setNationalArrangement(viewFormat.getNationalArrangement());
 
         hearingFormat.setHearingFormatSpecs(hearingSpecs);
 
@@ -259,7 +260,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setLinkageDate(existHF.getHearingFormatSpecs().getLinkageDate());
         hearingFormatView.setLinkageTime(existHF.getHearingFormatSpecs().getLinkageTime());
         hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
-        hearingFormatView.setHearingType(existHF.getHearingFormatSpecs().getHearingType());
+        hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
+        hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
         hearingFormatView.setAdditionalData(existHF.getAdditionalData());
         hearingFormatView.setCrimes(existHF.getCrimes());
         hearingFormatView.setTerms(existHF.getTerms());
@@ -271,11 +273,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     }
 
 
-    public List<ArrangementView> getArrangmentLst(Integer idTipo) {
+    public List<ArrangementView> getArrangmentLst(Boolean national,Integer idTipo) {
 
         List<ArrangementView> lstArrmntView = new ArrayList<>();
 
-        List<Arrangement> lstArrmnt = arrangementRepository.findByType(idTipo);
+        List<Arrangement> lstArrmnt = arrangementRepository.findByType(national,idTipo);
         Collections.sort(lstArrmnt, Arrangement.arrangementComparator);
 
         for (Arrangement arrmnt : lstArrmnt) {

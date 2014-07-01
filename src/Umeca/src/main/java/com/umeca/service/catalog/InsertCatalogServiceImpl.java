@@ -8,6 +8,7 @@ import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.supervisor.ActivityGoal;
 import com.umeca.model.entities.supervisor.AidSource;
+import com.umeca.model.entities.supervisor.HearingFormatType;
 import com.umeca.model.entities.supervisor.SupervisionActivity;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
@@ -17,6 +18,7 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.supervisor.ActivityGoalRepository;
 import com.umeca.repository.supervisor.AidSourceRepository;
+import com.umeca.repository.supervisor.HearingFormatTypeRepository;
 import com.umeca.repository.supervisor.SupervisionActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -306,7 +308,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void arrangement() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "arrangement.txt","\\|", 5);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "arrangement.txt","\\|", 6);
         for (String[] data : lstDta) {
             Arrangement model = new Arrangement();
             model.setId(Long.parseLong(data[0]));
@@ -314,6 +316,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             model.setType(Integer.parseInt(data[2]));
             model.setIndex(Integer.parseInt(data[3]));
             model.setIsObsolete(data[4].equals("1"));
+            model.setIsNational(data[5].equals("1"));
             repositoryArr.save(model);
         }
         repositoryArr.flush();
@@ -350,17 +353,17 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         electionRepository.flush();
     }
 
-
     @Autowired
     RelationshipRepository relationshipRepository;
 
     @Override
     public void relationship() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt","\\|", 3);
         for (String[] data : lstDta) {
             Relationship model = new Relationship();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setObsolete(data[2].equals("1"));
             relationshipRepository.save(model);
         }
         relationshipRepository.flush();
@@ -463,6 +466,25 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             registerTypeRepository.save(model);
         }
         registerTypeRepository.flush();
+    }
+
+
+    @Autowired
+    HearingFormatTypeRepository hearingFormatTypeRepository;
+    @Override
+    public void hearingFormatType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "hearing_format_type.txt","\\|", 4);
+
+        for (String[] data : lstDta) {
+            HearingFormatType model = new HearingFormatType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            hearingFormatTypeRepository.save(model);
+        }
+
+        hearingFormatTypeRepository.flush();
     }
 
 

@@ -21,7 +21,7 @@ public class Location {
     @JoinColumn(name="id_municipality", nullable = false)
     private Municipality municipality;
 
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
     @Column(name = "abbreviation", nullable = false, length = 100)

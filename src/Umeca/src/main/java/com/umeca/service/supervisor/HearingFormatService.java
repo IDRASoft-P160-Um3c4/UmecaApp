@@ -24,7 +24,7 @@ public interface HearingFormatService {
 
     HearingFormat fillHearingFormat(HearingFormatView viewFormat);
 
-    List<ArrangementView> getArrangmentLst(Integer tipo);
+    List<ArrangementView> getArrangmentLst(Boolean national, Integer tipo);
 
     HearingFormatView fillNewHearingFormatForView(Long idCase);
     HearingFormatView fillExistHearingFormatForView(Long idFormat);

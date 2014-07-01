@@ -66,7 +66,6 @@ public class InsertCatalogController {
         return "Activity OK!";
     }
 
-
     @RequestMapping(value="/catalogs/insertStatusMeeting", method = RequestMethod.GET)
     public String insertStatusMeeting(){
         service.statusMeeting();
@@ -164,6 +163,12 @@ public class InsertCatalogController {
         return "Status Case OK!";
     }
 
+    @RequestMapping(value = "/catalogs/insertHearingFormatType", method = RequestMethod.GET)
+    public String insertHearingFormatType(){
+        service.hearingFormatType();
+        return "Hearing Format Type OK!";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
@@ -190,6 +195,7 @@ public class InsertCatalogController {
         service.supervisionActivity();
         service.insertActivityGoal();
         service.insertAidSource();
+        service.hearingFormatType();
         return "insertCatalog OK!!";
     }
 }

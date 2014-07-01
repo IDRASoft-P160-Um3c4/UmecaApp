@@ -92,6 +92,12 @@
                     <li>
                         <a data-toggle="tab" href="#addtional">
                             <i class="red icon-list bigger-200"></i>
+                            Análiis de entorno
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#addtional">
+                            <i class="red icon-list bigger-200"></i>
                             Preguntas adicionales
                         </a>
                     </li>
