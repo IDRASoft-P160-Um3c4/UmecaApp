@@ -40,6 +40,10 @@ public class FramingMeeting {
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingPhysicalConditionRel> framingPhysicalConditionRel;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_process_accompaniment")
+    private ProcessAccompaniment processAccompaniment;
+
     @OneToOne
     @JoinColumn(name = "id_case")
     private Case caseDetention;
@@ -114,5 +118,13 @@ public class FramingMeeting {
 
     public void setCaseDetention(Case caseDetention) {
         this.caseDetention = caseDetention;
+    }
+
+    public ProcessAccompaniment getProcessAccompaniment() {
+        return processAccompaniment;
+    }
+
+    public void setProcessAccompaniment(ProcessAccompaniment processAccompaniment) {
+        this.processAccompaniment = processAccompaniment;
     }
 }
