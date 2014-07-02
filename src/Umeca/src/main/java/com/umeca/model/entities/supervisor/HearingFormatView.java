@@ -91,6 +91,8 @@ public class HearingFormatView {
 
     private String hearingFormatType;
 
+    private String userName;
+
     public Long getIdCase() {
         return idCase;
     }
@@ -401,5 +403,13 @@ public class HearingFormatView {
 
     public void setNationalArrangement(Boolean nationalArrangement) {
         this.nationalArrangement = nationalArrangement;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

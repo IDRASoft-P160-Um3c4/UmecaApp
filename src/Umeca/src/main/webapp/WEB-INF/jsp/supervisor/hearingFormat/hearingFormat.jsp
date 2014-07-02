@@ -116,7 +116,15 @@
 
 
 <div class="row">
-    <div class="row element-right">
+
+    <div class="col-xs-6">
+        <h3 class="header smaller lighter blue">
+            <small>Capturó:</small>
+            &nbsp;&nbsp;{{m.userName}}
+        </h3>
+    </div>
+
+    <div class="col-xs-6 element-right">
         <div ng-show="m.canSave==false">
         <span class="btn btn-default btn-sm"
               ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
@@ -159,15 +167,16 @@
             <div class="col-xs-10 col-xs-offset-1">
 
                 <br/>
+
                 <div class="row">
 
                     <div class="col-xs-4">
-                        <label for="idFolder">Carpeta de investigaciÃ³n</label>
+                        <label for="idFolder">Carpeta de investigación</label>
                         <br/>
                         <input id="idFolder" ng-model="m.idFolder" name="idFolder"
                                type="text" class="input-xxlarge" data-val="true"
                                ng-disabled="m.canEdit==false"
-                               data-val-required="Carpeta de investigaciÃ³n es un campo requerido"/>
+                               data-val-required="Carpeta de investigación es un campo requerido"/>
                         <br/>
                         <span class="field-validation-valid" data-valmsg-for="idFolder"
                               data-valmsg-replace="true"></span>
@@ -241,13 +250,13 @@
                     </div>
 
                     <div class="col-xs-4">
-                        <label for="endTime">Hora tÃ©rmino audiencia</label>
+                        <label for="endTime">Hora término audiencia</label>
 
                         <div class="input-group bootstrap-timepicker">
                             <input id="endTime" name="endTime"
                                    ng-change="validateInitEnd();" ng-model="m.endTime"
                                    readonly type="text" class="form-control" min-time="6:00am"
-                                   data-val="true" data-val-required="Hora de tÃ©rmino es un campo requerido"/>
+                                   data-val="true" data-val-required="Hora de término es un campo requerido"/>
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
                             <br/>
@@ -276,12 +285,12 @@
 
                     <div class="col-xs-4">
 
-                        <label for="mpName">Nombre del Ministerio PÃºblico</label>
+                        <label for="mpName">Nombre del Ministerio Público</label>
                         <br/>
                         <input id="mpName" ng-model="m.mpName" name="mpName" type="text"
                                class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Nombre del Ministerio PÃºblico es un campo requerido"/>
+                               data-val-required="Nombre del Ministerio Público es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="mpName"
                   data-valmsg-replace="true"></span>
@@ -462,7 +471,7 @@
 <div class="row">
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Control de detenciÃ³n</div>
+            <div class="widget-header">Control de detención</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -497,7 +506,7 @@
 
     <div id="divFormImp" class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">FormulaciÃ³n de imputaciÃ³n</div>
+            <div class="widget-header">Formulación de imputación</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -521,7 +530,7 @@
                         </div>
                         <br/>
 
-                        <div class="col-xs-7" >
+                        <div class="col-xs-7">
                             <label for="imputationDate">Fecha</label>
 
                             <div class="input-group">
@@ -551,7 +560,7 @@
 
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">AmpliaciÃ³n del tÃ©rmino</div>
+            <div class="widget-header">Ampliación del término</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -588,7 +597,7 @@
 
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">VinculaciÃ³n a proceso</div>
+            <div class="widget-header">Vinculación a proceso</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -759,14 +768,14 @@
                                         </div>
 
                                         <div ng-show="m.arrType==2" class="col-xs-6">
-                                            <label ng-show="m.arrType==2">Plazo de investigaciÃ³n</label>
+                                            <label ng-show="m.arrType==2">Plazo de investigación</label>
                                             <br/>
                                             <textarea class="form-control limited" name="terms"
                                                       ng-model="m.terms"
                                                       ng-disabled='m.arrType==1'
                                                       maxlength="980"
                                                       data-val="true"
-                                                      data-val-required="Plazo de investigaciÃ³n es un campo requerido">
+                                                      data-val-required="Plazo de investigación es un campo requerido">
                                                 {{m.terms}}</textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
@@ -830,7 +839,7 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <label for="contactPhone">TelÃ©fono:</label>
+                        <label for="contactPhone">Teléfono:</label>
                         <br/>
                         <input id="contactPhone" type="text"
                                class="input-xxlarge" ng-model="m.contactPhone"/>
@@ -839,7 +848,7 @@
 
 
                     <div class="col-xs-4">
-                        <label>DirecciÃ³n</label>
+                        <label>Dirección</label>
                         <br/>
                         <textarea class="input-xxlarge form-control limited" id="contactAddress"
                                   maxlength="980" ng-model="m.contactAddress">
@@ -880,8 +889,8 @@
                                     <thead class="thin-border-bottom">
                                     <tr>
                                         <th class="element-center">Nombre</th>
-                                        <th class="element-center">TelÃ©fono</th>
-                                        <th class="element-center">DirecciÃ³n</th>
+                                        <th class="element-center">Teléfono</th>
+                                        <th class="element-center">Dirección</th>
                                         <th class="element-center">Quitar</th>
                                     </tr>
                                     </thead>

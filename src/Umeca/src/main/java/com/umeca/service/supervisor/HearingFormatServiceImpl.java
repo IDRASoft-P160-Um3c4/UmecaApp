@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.catalog.dto.LocationDto;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.*;
@@ -209,6 +210,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
                 hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
 
+                User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
+                hearingFormatView.setUserName(us.getFullname());
+
                 hearingFormatView.setCanSave(true);
                 hearingFormatView.setCanEdit(true);
                 hearingFormatView.setDisableAll(false);
@@ -265,6 +269,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setAdditionalData(existHF.getAdditionalData());
         hearingFormatView.setCrimes(existHF.getCrimes());
         hearingFormatView.setTerms(existHF.getTerms());
+
+        hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
 
         hearingFormatView.setLstArrangement(conv.toJson(this.assignedArrangementForView(existHF.getAssignedArrangements())));
         hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));

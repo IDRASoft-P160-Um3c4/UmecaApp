@@ -239,6 +239,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             $scope.m.arrType = data.arrangementType;
             $scope.m.nationalArrangement = data.nationalArrangement;
             $scope.m.terms = data.terms;
+
+            $scope.m.userName = data.userName;
             //
 
             if (data.lstArrangement != undefined)
