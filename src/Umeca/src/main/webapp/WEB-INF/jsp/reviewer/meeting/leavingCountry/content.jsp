@@ -12,7 +12,9 @@
            ng-init='l.countryId = ${(m.leaveCountry.country.id == null)? 'undefined':m.leaveCountry.country.id}'>
 
     <div class="row">
-        <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el pa?s</h2>
+        <div class="center row">
+            <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el país</h2>
+        </div>
         <br/>
 
         <div ng-show="msgExito" class="alert alert-success element-center success-font">
@@ -23,8 +25,10 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="col-xs-9 element-left">
+                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('leaveCountry.officialDocumentation.id')"></i>
                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
-                       ng-show="verification"></i>
+                       ng-show="verification" code="officialDocumentation"></i>
+                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('leaveCountry.officialDocumentation.id')"></i>
                     ¿El detenido cuenta con documentación oficial que facilite que abandone el país?:
                 </div>
                 <div class="col-xs-3">
@@ -40,8 +44,10 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="col-xs-9 element-left">
+                        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('leaveCountry.livedCountry')"></i>
                         <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
-                           ng-show="verification"></i>
+                           ng-show="verification" code="leaveCountry.livedCountry"></i>
+                        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('leaveCountry.livedCountry')"></i>
                         ¿El detenido ha vivido en otro país?:
                     </div>
                     <div class="col-xs-3">
@@ -67,7 +73,7 @@
                     <div class="col-xs-2 element-right">
                         Estado:
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-3">
                         <input class="form-control" data-val="true"
                                data-val-length="Debe tener al menos 3 y m?ximo 100 caracteres"
                                data-val-length-max="100" data-val-length-min="3"
@@ -82,7 +88,7 @@
 
                 <br/>
             </div>
-            <div class="row"  ng-show="l.ocId ==1">
+            <div class="row" ng-show="l.ocId ==1">
                 <div class="col-xs-3 element-right">
                     ¿Hace cuánto tiempo?:
                 </div>
@@ -97,7 +103,7 @@
                         <span class="field-validation-valid" data-valmsg-for="leaveCountry.timeAgo"
                               data-valmsg-replace="true"></span>
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-2 element-right">
                     Motivo por el que ahora vive en México:
                 </div>
                 <div class="col-xs-4">
@@ -113,7 +119,7 @@
             </div>
             <br/>
 
-            <div class="row"  ng-show="l.ocId ==1">
+            <div class="row" ng-show="l.ocId ==1">
                 <div class="col-xs-3 element-right">
                     Dirección:
                 </div>
@@ -140,8 +146,10 @@
             <br/>
 
             <div class="col-xs-9 element-left">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('leaveCountry.familyAnotherCountry')"></i>
                 <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
-                   ng-show="verification"></i>
+                   ng-show="verification" code="leaveCountry.familyAnotherCountry"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('leaveCountry.familyAnotherCountry')"></i>
                 ¿El detenido cuenta con familiares y/o amigos cercanos en otro país?:
             </div>
             <div class="col-xs-3">

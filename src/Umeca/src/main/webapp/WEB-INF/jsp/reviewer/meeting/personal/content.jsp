@@ -3,7 +3,11 @@
     <div class="col-xs-6">
         <div class="row">
             <div class="col-xs-3 element-left">
-                <br/> <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i> Género:
+                <br/> <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('imputed.gender')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="imputed.gender"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('imputed.gender')"></i>
+                <i class="icon-list-alt icon-only bigger-120"  ng-click="doSelectSource('imputed.gender')" ng-show="selectSource"></i>
+                Género:
             </div>
             <div class="col-xs-9">
                 <div class="row" ng-init="gen=${(m.imputed.gender == null) ? false: m.imputed.gender}">
@@ -33,25 +37,28 @@
         <br/>
 
         <div class="row">
-            <div class="col-xs-6 element-left">
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i>
+            <div class="col-xs-5 element-left">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('imputed.birthDate')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="imputed.birthDate"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('imputed.birthDate')"></i>
+                <i class="icon-list-alt icon-only bigger-120"  ng-click="doSelectSource('imputed.birthDate')" ng-show="selectSource"></i>
                 Fecha de nacimiento:
             </div>
-            <div class="col-xs-6">
-                <div class="input-group">
-                    <input class="form-control" id="birthDate" readonly="readonly" value="${m.imputed.birthDate}">
-                </div>
+            <div class="col-xs-7">
+                <input class="form-control" id="birthDate" readonly="readonly" value="${m.imputed.birthDate}">
             </div>
         </div>
         <br/>
 
         <div class="row">
-            <div class="col-xs-3 element-left">
+            <div class="col-xs-5 element-left">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('imputed.phone')"></i>
                 <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120"  ng-show="verification"  ng-click="doConfirmVerifNotKnow('imputed.phone')"></i>
+                <i class="icon-list-alt icon-only bigger-120"  ng-click="doSelectSource('imputed.phone')" ng-show="selectSource"></i>
                 Celular:
             </div>
-            <div class="col-xs-9">
-                <div class="col-xs-10">
+            <div class="col-xs-7">
                     <input class="form-control" data-val="true"
                            data-val-length="Debe tener m?nimo 8 y m?ximo 20 caracteres"
                            data-val-length-max="20" data-val-length-min="8"
@@ -60,7 +67,6 @@
                            name="imputed.celPhone">
                     <span class="field-validation-valid" data-valmsg-for="imputed.celPhone"
                           data-valmsg-replace="true"></span>
-                </div>
             </div>
         </div>
     </div>
@@ -68,10 +74,12 @@
         <div class="widget-box">
              <div class="widget-header"
                  ng-init="maritalStatus = ${m.imputed.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id}">
-                 <div class="col-xs-1">
-                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"></i>
+                 <div class="col-xs-2" ng-show="verification">
+                     <i class="icon-ok-circle green  icon-only bigger-120"  ng-click="doConfirmVerifEqual('imputed.maritalStatus')"></i>
+                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" code="imputed.maritalStatus"></i>
+                     <i class="icon-ban-circle inverse icon-only bigger-120" ng-click="doConfirmVerifNotKnow('imputed.maritalStatus')"></i>
                  </div>
-                 <div class="col-xs-11">
+                 <div class="col-xs-9 element-left">
                      <h5>Estado civil</h5>
                  </div>
 
@@ -142,10 +150,12 @@
 <div class="col-xs-12">
     <div class="widget-box">
         <div class="widget-header">
-            <div class="col-xs-1">
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"></i>
+            <div class="col-xs-1"  ng-show="verification">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-click="doConfirmVerifEqual('imputed.boys')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" code="imputed.boys"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120"   ng-click="doConfirmVerifNotKnow('imputed.boys')"></i>
             </div>
-            <div class="col-xs-11">
+            <div class="col-xs-11 element-left">
             <h5>Hijos</h5>
                 </div>
         </div>
@@ -191,15 +201,23 @@
 </div>
 
 <br/>
+<div class="row">
 
+</div>
+     <br/>
 <div class="row">
     <div class="col-xs-12">
         <div class="widget-box">
             <div class="widget-header">
-                <div class="col-xs-1">
-                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"></i>
+                <div class="col-xs-1" ng-show="verification">
+                    <i class="icon-ok-circle green  icon-only bigger-120" ng-click="doConfirmVerifEqual('imputed.birthPlace')"></i>
+                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" code="imputed.birthPlace"></i>
+                    <i class="icon-ban-circle gray icon-only bigger-120"  ng-click="doConfirmVerifNotKnow('imputed.birthPlace')"></i>
                 </div>
-                <div class="col-xs-11">
+                <div class="col-xs-1" ng-show="selectSource == true">
+                    <i class="icon-list-alt icon-only bigger-120"  ng-click="doConfirmVerifNotKnow('imputed.birthPlace')"></i>
+                </div>
+                <div class="col-xs-10 element-left">
                 <h4>Lugar de nacimiento</h4>
                     </div>
             </div>
@@ -261,7 +279,9 @@
 
 <div class="row">
     <div class="col-xs-3 element-left">
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i>
+        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialEnvironment.physicalCondition')"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialEnvironment.physicalCondition"></i>
+        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialEnvironment.physicalCondition')"></i>
         ¿Padece alguna enfermedad o condición física?:</div>
     <div class="col-xs-9">
         <textarea class="form-control"
@@ -272,18 +292,17 @@
 <div>
 <div class="row">
     <div class="col-xs-3 element-left">
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i>
+        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialEnvironment.activities')"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialEnvironment.activities"></i>
+        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
         ¿Qué actividades realiza?:</div>
-    <div class="col-xs-9">
-        <div class="widget-main">
+    <div class="col-xs-9 element-left">
             <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
             <select multiple="" class="form-control chosen-select" ng-model="activityModel" data-placeholder="..."
                     ng-init='lstActivity = ${lstActivity}; lstActivitySelec = ${(activity == null) ? '[]' : activity}; selectedActivities(lstActivity,lstActivitySelec);'
                     id="slctActivity" ng-change="matchActivities()"
                     ng-options="ac as ac.name for ac in lstActivity">
             </select>
-
-        </div>
     </div>
 </div>
 <br/>
@@ -314,7 +333,9 @@
 
 <div class="row">
     <div class="col-xs-3 element-left">
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"></i>
+        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialEnvironment.comment')"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialEnvironment.comment"></i>
+        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialEnvironment.comment')"></i>
         Comentarios:</div>
     <div class="col-xs-9">
         <textarea class="form-control" name="socialEnvironment.comment">${m.socialEnvironment.comment}</textarea>

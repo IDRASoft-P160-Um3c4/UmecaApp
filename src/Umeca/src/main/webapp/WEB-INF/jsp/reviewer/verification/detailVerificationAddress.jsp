@@ -1,5 +1,5 @@
 <div>
-    <div id="dlgUpModalId" class="modal fade" ng-controller="upsertVerificationController" ng-cloak>
+    <div id="dlgUpModalIdAddress" class="modal fade" ng-controller="upsertVerificationController" ng-cloak>
         <div class="modal-dialog" style="width:800px">
             <div class="modal-content">
                 <div class="modal-header">
@@ -9,12 +9,13 @@
                     </div>
                 </div>
                 <div class="modal-body">
-
-                    <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal"
+                    <form id="FormCatIdAddress" name="FormCatIdAddress" ng-submit="submit('#FormCatIdAddress')" class="form-horizontal"
                           role="form">
 
                         <div id="divElementVerif" class="row">
-
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
+                            </div>
                         </div>
                         <br/>
 
@@ -33,7 +34,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormCatId', '/reviewer/meeting/doNewMeeting.json');">
+                          ng-click="submit('#FormCatIdAddress', '/reviewer/meeting/doNewMeeting.json');">
                           Guardar
                     </span>
                 </div>
@@ -41,6 +42,5 @@
         </div>
     </div>
 </div>
-
 
 

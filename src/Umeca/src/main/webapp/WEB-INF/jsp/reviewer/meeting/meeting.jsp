@@ -73,7 +73,7 @@
     <div class="col-sm-12">
         <div class="tabbable tabs-left">
             <ul class="nav nav-tabs" id="tabMeeting">
-                <li class="active">
+                <li class="active" id="liPersonalData">
                     <a data-toggle="tab" href="#personalData">
                         <div class="row">
                             <div class="col-xs-10">
@@ -87,7 +87,7 @@
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                                           data-toggle="dropdown"></i>
+                                           data-toggle="dropdown" ng-click="changeZIndex('liPersonalData');"></i>
 
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
@@ -107,20 +107,68 @@
                     </a>
                 </li>
 
-                <li>
-                    <a data-toggle="tab" href="#address" style="z-index: 0;">
-                        <i class="green  icon-home  bigger-200"></i>
-                        Domicilios
+                <li id="liImputedHome">
+                    <a data-toggle="tab" href="#address" >
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <i class="green  icon-home  bigger-200"></i>
+                                Domicilios
+                            </div>
+                            <div class="col-xs-2" ng-show="listMsgError['imputedHome'].length > 0">
+                                <div class="tools">
+                                    <div class="inline position-relative">
+                                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                                           data-toggle="dropdown" ng-click="changeZIndex('liImputedHome');"></i>
+
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                                            <div class="alert-danger element-center error-font">
+                                                <div ng-repeat="msg in listMsgError['imputedHome']">
+                                                    <li>
+                                                        {{msg}}
+                                                    </li>
+
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </a>
                 </li>
 
-                <li>
+                <li id="liSocialNetwork">
                     <a data-toggle="tab" href="#socialNetwork" style="z-index: 0;">
-                        <i class="blue icon-group bigger-200"></i>
-                        Red social
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <i class="blue icon-group bigger-200"></i>
+                                Red social
+                            </div>
+                            <div class="col-xs-2" ng-show="listMsgError['socialNetwork'].length > 0">
+                                <div class="tools">
+                                    <div class="inline position-relative">
+                                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                                           data-toggle="dropdown" ng-click="changeZIndex('liSocialNetwork');"></i>
+
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                                            <div class="alert-danger element-center error-font">
+                                                <div ng-repeat="msg in listMsgError['socialNetwork']">
+                                                    <li>
+                                                        {{msg}}
+                                                    </li>
+
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </a>
                 </li>
-                <li>
+                <li id="liReference">
                     <a data-toggle="tab" href="#personalReferences" style="z-index: 1;">
                         <div class="row">
                             <div class="col-xs-10">
@@ -131,7 +179,7 @@
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                                           data-toggle="dropdown"></i>
+                                           data-toggle="dropdown" ng-click="changeZIndex('liReference');"></i>
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">
@@ -148,13 +196,37 @@
                         </div>
                     </a>
                 </li>
-                <li>
+                <li id="liJob">
                     <a data-toggle="tab" href="#jobHistory" style="z-index: 0;">
-                        <i class="pink icon-briefcase  bigger-200"></i>
-                        Historia laboral
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <i class="pink icon-briefcase  bigger-200"></i>
+                                Historia laboral
+                            </div>
+                            <div class="col-xs-2" ng-show="listMsgError['job'].length > 0">
+                                <div class="tools">
+                                    <div class="inline position-relative">
+                                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                                           data-toggle="dropdown" ng-click="changeZIndex('liJob');"></i>
+
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                                            <div class="alert-danger element-center error-font">
+                                                <div ng-repeat="msg in listMsgError['job']">
+                                                    <li>
+                                                        {{msg}}
+                                                    </li>
+
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </a>
                 </li>
-                <li>
+                <li id="liSchool">
                     <a data-toggle="tab" href="#school" style="z-index: 1;">
                         <div class="row">
                             <div class="col-xs-10">
@@ -165,7 +237,7 @@
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                                           data-toggle="dropdown"></i>
+                                           data-toggle="dropdown" ng-click="changeZIndex('liSchool');"></i>
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">
@@ -182,13 +254,35 @@
                         </div>
                     </a>
                 </li>
-                <li>
+                <li id="liDrug">
                     <a data-toggle="tab" href="#drugsSection" style="z-index: 0;">
-                        <i class="green icon-warning-sign  bigger-200"></i>
-                        Consumo de sustancias
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <i class="green icon-warning-sign  bigger-200"></i>
+                                Consumo de sustancias
+                            </div>
+                            <div class="col-xs-2" ng-show="listMsgError['drug'].length > 0">
+                                <div class="tools">
+                                    <div class="inline position-relative">
+                                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                                           data-toggle="dropdown" ng-click="changeZIndex('liDrug');"></i>
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                                            <div class="alert-danger element-center error-font">
+                                                <div ng-repeat="msg in listMsgError['drug']">
+                                                    <li>
+                                                        {{msg}}
+                                                    </li>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </a>
                 </li>
-                <li>
+                <li id="liLeaveCountry">
                     <a data-toggle="tab" href="#leaveCountry" style="z-index: 0;">
                         <div class="row">
                             <div class="col-xs-10">
@@ -202,7 +296,7 @@
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                                           data-toggle="dropdown"></i>
+                                           data-toggle="dropdown" ng-click="changeZIndex('liLeaveCountry');"></i>
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">

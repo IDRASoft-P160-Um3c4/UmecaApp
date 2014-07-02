@@ -70,7 +70,7 @@
     </div>
     <div class="col-xs-4">
         <div class="input-group">
-            <input class="form-control date-picker" id="lastUse" data-val="true" type="text" data-date-format="yyyy/mm/dd" value="${d.lastUse}"
+            <input class="form-control date-picker" id="lastUse" data-val="true" type="text" data-date-format="yyyy/mm/dd" value="${d.lastUse}" readonly="readonly"
                    name="lastUse" data-val-required="La última fecha de consumo es un campo requerido"/>
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>

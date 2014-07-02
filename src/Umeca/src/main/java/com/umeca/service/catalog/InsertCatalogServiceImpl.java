@@ -355,6 +355,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         electionRepository.flush();
     }
 
+
     @Autowired
     RelationshipRepository relationshipRepository;
 

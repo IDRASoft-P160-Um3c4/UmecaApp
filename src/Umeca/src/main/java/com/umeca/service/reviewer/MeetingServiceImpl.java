@@ -240,7 +240,14 @@ public class MeetingServiceImpl implements MeetingService {
             catalogDtoList.add(cdto);
         }
         model.addObject("listRelationship", gson.toJson(catalogDtoList));
+        model.addObject("listLegalBefore",findLegalBefore(id,c.getMeeting().getImputed().getName(),c.getMeeting().getImputed().getLastNameP(),c.getMeeting().getImputed().getLastNameM()));
         return model;
+    }
+
+    String findLegalBefore(Long id, String name, String lastNameP, String lastNameM){
+        List<FindLegalBefore> list = caseRepository.findLegalBefore(id,name,lastNameP, lastNameM);
+        Gson gson = new Gson();
+        return gson.toJson(list);
     }
 
     @Override
@@ -257,6 +264,7 @@ public class MeetingServiceImpl implements MeetingService {
             caseDetention.getMeeting().getImputed().setBirthLocation(imputed.getBirthLocation());
             caseDetention.getMeeting().getImputed().setBirthMunicipality(imputed.getBirthMunicipality());
             caseDetention.getMeeting().getImputed().setBirthCountry(countryRepository.findOne(imputed.getBirthCountry().getId()));
+            caseDetention.getMeeting().getImputed().setYearsMaritalStatus(imputed.getYearsMaritalStatus());
             socialEnvironment.setMeeting(caseDetention.getMeeting());
             if (caseDetention.getMeeting().getSocialEnvironment() != null && caseDetention.getMeeting().getSocialEnvironment().getId() != null) {
                 socialEnvironment.setId(caseDetention.getMeeting().getSocialEnvironment().getId());
@@ -708,14 +716,7 @@ public class MeetingServiceImpl implements MeetingService {
             }
             c.getMeeting().getLeaveCountry().validateMeeting(validate);
             Gson gson = new Gson();
-            if ((c.getMeeting().getReferences()==null || (c.getMeeting().getReferences() != null && c.getMeeting().getReferences().size() == 0))
-             && (c.getMeeting().getSocialNetwork()==null ||
-            ((c.getMeeting().getSocialNetwork() != null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork() == null)
-             ||(c.getMeeting().getSocialNetwork() != null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork()!= null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork().size() == 0)))) {
-                List<String> listMess = new ArrayList<>();
-                listMess.add("Para terminar la entrevista debe agragar al menos una referencia personal o una persona de su red social.");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("reference",listMess));
-            }
+           c.getMeeting().validateMeeting(validate);
             if (validate.existsMessageProperties()) {
                 List<String> listGeneral=new ArrayList<>();
                 listGeneral.add("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección");

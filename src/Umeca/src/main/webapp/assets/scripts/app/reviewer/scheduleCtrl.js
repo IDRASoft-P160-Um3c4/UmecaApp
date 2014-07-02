@@ -21,7 +21,18 @@ app.controller('scheduleController', function($scope, $timeout) {
         if($scope.listSchedule == undefined){
             $scope.listSchedule = [];
         }else{
-            $scope.matchSchedule();
+            try{
+            if($scope.listSchedule[0].day== undefined){
+                $scope.listSchedule = JSON.parse($scope.listSchedule);
+            }
+            }catch(e){}finally{
+                $scope.matchSchedule();
+            }
+
+        }
+
+        if($scope.listSchedule.length == undefined){
+            alert($scope.listSchedule);
         }
 
     };
@@ -32,8 +43,8 @@ app.controller('scheduleController', function($scope, $timeout) {
     }, 0);
 
    $scope.addSchedule = function(){
-      if($scope.s.day==undefined ||  $scope.s.start == undefined || $scope.s.end == undefined){
-          $scope.msgError="Favor de seleccionar un día, una hora de incio y una hora de fin";
+      if($scope.s.day==undefined|| $scope.s.day.trim() == "" ||  $scope.s.start == undefined || $scope.s.end == undefined){
+          $scope.msgError="Favor de ingresar un día, una hora de incio y una hora de fin";
       }else{
           $scope.msgError="";
           var a ={};
