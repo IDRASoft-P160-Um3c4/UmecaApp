@@ -5,7 +5,7 @@ import com.umeca.model.shared.EntityGrid;
 /**
  * Created by Vmware on 22/05/2014.
  */
-public class ForTechnicalReviewView implements EntityGrid{
+public class ForTechnicalReviewGrid implements EntityGrid{
 
     private Long id;
     private String status;
@@ -16,7 +16,7 @@ public class ForTechnicalReviewView implements EntityGrid{
     private String lastNameM;
     private String fullName;
 
-    public ForTechnicalReviewView(Long id, String status, String idFolder, String idMP, String name, String lastNameP, String lastNameM) {
+    public ForTechnicalReviewGrid(Long id, String status, String idFolder, String idMP, String name, String lastNameP, String lastNameM) {
         this.id = id;
         this.status = status;
         this.idFolder = idFolder;

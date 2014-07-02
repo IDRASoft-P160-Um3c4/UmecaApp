@@ -80,6 +80,10 @@ public class HearingFormat{
     @JoinColumn(name = "id_hearing_format_imputed")
     private HearingFormatImputed hearingImputed;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_hearing_format_type")
+    private HearingFormatType hearingFormatType;
+
     @Transient
     public static final Comparator<HearingFormat> hearingFormatComparator= new Comparator<HearingFormat>() {
         @Override
@@ -87,7 +91,6 @@ public class HearingFormat{
             return  h1.getId().compareTo(h2.getId());
         }
     };
-
 
     public Long getId() {
         return id;

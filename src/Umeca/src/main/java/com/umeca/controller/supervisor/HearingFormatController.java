@@ -9,6 +9,7 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.reviewer.TechnicalReview;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -16,11 +17,21 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.repository.supervisor.HearingFormatTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.supervisor.HearingFormatService;
+import org.apache.poi.hpsf.CustomProperties;
+import org.apache.poi.hpsf.DocumentSummaryInformation;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.usermodel.CharacterRun;
+import org.apache.poi.hwpf.usermodel.Paragraph;
+import org.apache.poi.hwpf.usermodel.ParagraphProperties;
+import org.apache.poi.hwpf.usermodel.Range;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -31,6 +42,12 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.Document;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +85,9 @@ public class HearingFormatController {
 
     @Autowired
     AddressService addressService;
+
+    @Autowired
+    HearingFormatTypeRepository hearingFormatTypeRepository;
 
     @RequestMapping(value = "/supervisor/hearingFormat/listCases", method = RequestMethod.POST)
     public
@@ -149,7 +169,7 @@ public class HearingFormatController {
                     add(joinHImp.get("name"));
                     add(joinHImp.get("lastNameP"));
                     add(joinHImp.get("lastNameM"));
-                    add(joinSpecs.get("hearingType"));
+                    add(joinSpecs.get("arrangementType"));
                     add(joinSpecs.get("extension"));
                     add(joinSpecs.get("linkageProcess"));
 
@@ -189,7 +209,10 @@ public class HearingFormatController {
         HearingFormatView hfView = hearingFormatService.fillNewHearingFormatForView(idCase);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
+
         model.addObject("listState",conv.toJson(stateRepository.findAll()));
+
+        model.addObject("listHearingFormatType",conv.toJson(hearingFormatTypeRepository.findAllValid()));
 
         if(hfView.getIdAddres()!=null)
             addressService.fillModelAddress(model, hfView.getIdAddres());
@@ -230,7 +253,7 @@ public class HearingFormatController {
         if (imputed.getBirthDate() != null) {
             Integer age = userService.calculateAge(imputed.getBirthDate());
             if (age.compareTo(18) == -1) {
-                return new ResponseMessage(true, "El imputado debe tener m�s de 18 a�os para continuar");
+                return new ResponseMessage(true, "El imputado debe tener m?s de 18 a?os para continuar");
             }
         }
 
@@ -243,11 +266,11 @@ public class HearingFormatController {
             response = caseService.saveConditionaReprieveCase(caseDet);
 
         } catch (Exception ex) {
-            System.out.println("Error al guardar el caso de suspensi�n condicional de proceso!!!");
+            System.out.println("Error al guardar el caso de suspensi?n condicional de proceso!!!");
             ex.printStackTrace();
             response.setHasError(true);
             response.setTitle("Formato de audiencia");
-            response.setMessage("Error al guardar el caso de suspensi�n condicional de proceso!!!");
+            response.setMessage("Error al guardar el caso de suspensi?n condicional de proceso!!!");
 
         } finally {
             return response;
@@ -257,10 +280,10 @@ public class HearingFormatController {
     @RequestMapping(value = "/supervisor/hearingFormat/searchArrangementsByType", method = RequestMethod.POST)
     public
     @ResponseBody
-    String searchArrangement(@RequestBody Integer idTipo) {
+    String searchArrangement(@RequestParam (required = true)Boolean national,@RequestParam (required = true) Integer idTipo) {
 
         Gson conv = new Gson();
-        List<ArrangementView> lstArrangementView = hearingFormatService.getArrangmentLst(idTipo);
+        List<ArrangementView> lstArrangementView = hearingFormatService.getArrangmentLst(national,idTipo);
         String jsonLst = conv.toJson(lstArrangementView);
 
         return jsonLst;

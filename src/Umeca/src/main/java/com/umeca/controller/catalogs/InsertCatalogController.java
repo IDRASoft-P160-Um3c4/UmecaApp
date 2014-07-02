@@ -66,7 +66,6 @@ public class InsertCatalogController {
         return "Activity OK!";
     }
 
-
     @RequestMapping(value="/catalogs/insertStatusMeeting", method = RequestMethod.GET)
     public String insertStatusMeeting(){
         service.statusMeeting();
@@ -163,6 +162,12 @@ public class InsertCatalogController {
         service.statusCase();
         return "Status Case OK!";
     }
+
+    /*@RequestMapping(value = "/catalogs/insertHearingFormatType", method = RequestMethod.GET)
+    public String insertHearingFormatType(){ //NO APLICA PARA ESTA VERSIÓN
+        service.hearingFormatType();
+        return "Hearing Format Type OK!";
+    }*/
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){

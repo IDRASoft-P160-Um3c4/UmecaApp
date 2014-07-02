@@ -65,7 +65,9 @@ public class HearingFormatView {
 
     private Time linkageTime;
 
-    private Integer hearingType;
+    private Integer arrangementType;
+
+    private Boolean nationalArrangement;
 
     private String additionalData;
 
@@ -86,6 +88,8 @@ public class HearingFormatView {
     private Long idAddres;
 
     private String lstContactData;
+
+    private String hearingFormatType;
 
     public Long getIdCase() {
         return idCase;
@@ -279,12 +283,20 @@ public class HearingFormatView {
         this.linkageTime = linkageTime;
     }
 
-    public Integer getHearingType() {
-        return hearingType;
+    public Integer getArrangementType() {
+        return arrangementType;
     }
 
-    public void setHearingType(Integer hearingType) {
-        this.hearingType = hearingType;
+    public void setArrangementType(Integer arrangementType) {
+        this.arrangementType = arrangementType;
+    }
+
+    public String getHearingFormatType() {
+        return hearingFormatType;
+    }
+
+    public void setHearingFormatType(String hearingFormatType) {
+        this.hearingFormatType = hearingFormatType;
     }
 
     public String getAdditionalData() {
@@ -381,5 +393,13 @@ public class HearingFormatView {
 
     public void setLstContactData(String lstContactData) {
         this.lstContactData = lstContactData;
+    }
+
+    public Boolean getNationalArrangement() {
+        return nationalArrangement;
+    }
+
+    public void setNationalArrangement(Boolean nationalArrangement) {
+        this.nationalArrangement = nationalArrangement;
     }
 }

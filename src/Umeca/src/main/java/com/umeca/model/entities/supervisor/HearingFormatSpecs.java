@@ -37,12 +37,12 @@ public class HearingFormatSpecs {
     @Column(name = "linkage_time")
     private Time linkageTime;
 
-    @Column(name = "hearing_type", nullable = false)
-    private Integer hearingType;
+    @Column(name = "arrangement_type", nullable = false)
+    private Integer arrangementType;
 
-    /*@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_hearing_format", nullable = false)
-    private HearingFormat hearingFormat;*/
+    @Column(name = "national_arrangement", nullable = false)
+    private Boolean nationalArrangement;
+
 
     public Long getId() {
         return id;
@@ -116,19 +116,19 @@ public class HearingFormatSpecs {
         this.linkageTime = linkageTime;
     }
 
-    public Integer getHearingType() {
-        return hearingType;
+    public Integer getArrangementType() {
+        return arrangementType;
     }
 
-    public void setHearingType(Integer hearingType) {
-        this.hearingType = hearingType;
-    }
-/*
-    public HearingFormat getHearingFormat() {
-        return hearingFormat;
+    public void setArrangementType(Integer arrangementType) {
+        this.arrangementType = arrangementType;
     }
 
-    public void setHearingFormat(HearingFormat hearingFormat) {
-        this.hearingFormat = hearingFormat;
-    }*/
+    public Boolean getNationalArrangement() {
+        return nationalArrangement;
+    }
+
+    public void setNationalArrangement(Boolean nationalArrangement) {
+        this.nationalArrangement = nationalArrangement;
+    }
 }
