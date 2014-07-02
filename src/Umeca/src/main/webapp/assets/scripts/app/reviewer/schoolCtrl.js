@@ -5,7 +5,9 @@ app.controller('schoolController', function($scope, $timeout,$q) {
     $scope.school.degree = 0;
     $scope.school.level = 0;
     $scope.content = "School";
-    $scope.def= $q.defer();
+    $scope.Model = {};
+    $scope.Model.def= $q.defer();
+    $scope.Model.dlg="";
     $scope.init = function(){
         if($scope.lstLevel === undefined || $scope.lstLevel.length <= 0)
             return;

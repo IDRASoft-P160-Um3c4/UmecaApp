@@ -65,36 +65,37 @@ public class VerificationController {
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                final javax.persistence.criteria.Join<Case,Meeting> joinMee = r.join("meeting");
+
+                final javax.persistence.criteria.Join<Case,Verification> joinCase = r.join("caseDetention");
+                final javax.persistence.criteria.Join<Case,Meeting> joinMee = joinCase.join("meeting");
                 final javax.persistence.criteria.Join<Meeting,Imputed> joinIm = joinMee.join("imputed");
-                final javax.persistence.criteria.Join<Case,Verification> joinVer = r.join("verification");
-                final javax.persistence.criteria.Join<Verification,StatusVerification> joinStVer = joinVer.join("status");
+                final javax.persistence.criteria.Join<Verification,StatusVerification> joinStVer = r.join("status");
                 return new ArrayList<Selection<?>>(){{
-                    add(r.get("id"));
-                    add(r.get("idFolder"));
+                    add(joinCase.get("id"));
+                    add(joinCase.get("idFolder"));
                     add(joinIm.get("name"));
                     add(joinIm.get("lastNameP"));
                     add(joinIm.get("lastNameM"));
                     add(joinIm.get("gender"));
                     add(joinStVer.get("description").alias("statusDescription"));
                     add(joinStVer.get("name").alias("statusCode"));
-                    add(r.join("status").get("name").alias("statusCodeCase"));
-                    add(joinVer.get("reviewer").get("id").alias("reviewerId"));
+                    add(joinStVer.get("name").alias("statusCodeCase"));
+                    add(r.get("reviewer").get("id").alias("reviewerId"));
                 }};
             }
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if(field.equals("statusCode"))
-                    return r.join("verification").join("status").get("name");
+                    return r.join("status").get("name");
                 if(field.equals("statusDescription"))
-                    return r.join("verification").join("status").get("description");
+                    return r.join("status").get("description");
                 if(field.equals("reviewerId"))
-                    return r.join("verification").join("reviewer").get("id");
+                    return r.join("reviewer").get("id");
                 return null;
 
             }
-        }, Case.class, VerificationView.class);
+        }, Verification.class, VerificationView.class);
 
         return result;
 

@@ -1,12 +1,12 @@
 //Data
-var cities = [
+/*var cities = [
     {
         city : 'Cuernavaca, Morelos',
         desc : 'Adolfo López Mateos 203A',
         lat :  18.9245121,
         long : -99.2326088
     }
-];
+];*/
 
 app.controller('addressComponentController', function ($scope, $timeout, $http) {
     $scope.listLocation = [];
@@ -140,7 +140,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http) 
         $scope.init();
     }, 0);
        ///////////////////////////////////////////////////maps
-
+  /*
     var mapOptions = {
         zoom: 16,
         center: new google.maps.LatLng(18.9245121,-99.2326088),
@@ -179,5 +179,5 @@ app.controller('addressComponentController', function ($scope, $timeout, $http) 
         e.preventDefault();
         google.maps.event.trigger(selectedMarker, 'click');
     }
-
+               */
 });

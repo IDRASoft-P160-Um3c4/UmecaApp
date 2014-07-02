@@ -72,13 +72,13 @@
                                 <div class="col-xs-7">
                                     <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 30 caracteres"
                                            data-val-length-max="30" data-val-length-min="1" data-val-required="El tiempo de residencia es un campo requerido" id="timeLiveD"
-                                           ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'
+                                           ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'    name="timeLiveD"
                                            type="text">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-8 col-xs-offset-4">
-                                    <span class="field-validation-valid" data-valmsg-for="timeLive" data-valmsg-replace="true"></span>
+                                    <span class="field-validation-valid" data-valmsg-for="timeLiveD" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                             <br/>
@@ -121,14 +121,14 @@
                                 </div>
                                 <div class="col-xs-7">
                                     <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 30 caracteres"
-                                           data-val-length-max="30" data-val-length-min="1" data-val-required="El tiempo de residencia es un campo requerido" id="timeLive"
-                                           ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'
+                                           data-val-length-max="30" data-val-length-min="1" data-val-required="El tiempo de residencia es un campo requerido" id="timeLiveA"
+                                           ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'        name="timeLiveA"
                                            type="text">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-8 col-xs-offset-4">
-                                    <span class="field-validation-valid" data-valmsg-for="timeLive" data-valmsg-replace="true"></span>
+                                    <span class="field-validation-valid" data-valmsg-for="timeLiveA" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                             <br/>

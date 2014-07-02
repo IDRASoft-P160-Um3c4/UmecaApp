@@ -23,12 +23,12 @@ margin-top: 0;
     <div class="row element-left">
         <b>Dirección:</b>
     </div>
-    <br/>
+   <!-- <br/>
     <div class="row element-center">
         <div class="col-xs-10 col-xs-offset-1">
         <div id="map"></div>
             </div>
-    </div>
+    </div>-->
     <br/>
     <div class="row">
         <!-- se deben de ejecutar los metoeos del servicio para rellenar los catalogos necesarios y para cargar el modelo-->
