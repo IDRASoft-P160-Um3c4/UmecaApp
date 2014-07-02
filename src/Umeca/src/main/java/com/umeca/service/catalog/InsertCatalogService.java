@@ -31,5 +31,5 @@ public interface InsertCatalogService {
     void insertActivityGoal();
     void insertAidSource();
     void verificationMethod();
-    void hearingFormatType();
+    //void hearingFormatType(); NO APLICA PARA ESTA VERSIÓN
 }

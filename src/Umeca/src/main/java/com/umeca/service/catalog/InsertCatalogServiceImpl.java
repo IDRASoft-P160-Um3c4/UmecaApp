@@ -478,7 +478,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         registerTypeRepository.flush();
     }
 
-
+/* CATALOGO DE TIPO DE AUDIENCIA (FORMATO DE AUDIENCIA) NO APLICA PARA ESTA VERSIÓN
     @Autowired
     HearingFormatTypeRepository hearingFormatTypeRepository;
     @Override
@@ -496,6 +496,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
         hearingFormatTypeRepository.flush();
     }
-
+*/
 
 }

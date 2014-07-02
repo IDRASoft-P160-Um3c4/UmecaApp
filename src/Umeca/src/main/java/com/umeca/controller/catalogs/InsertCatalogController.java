@@ -163,11 +163,11 @@ public class InsertCatalogController {
         return "Status Case OK!";
     }
 
-    @RequestMapping(value = "/catalogs/insertHearingFormatType", method = RequestMethod.GET)
-    public String insertHearingFormatType(){
+    /*@RequestMapping(value = "/catalogs/insertHearingFormatType", method = RequestMethod.GET)
+    public String insertHearingFormatType(){ //NO APLICA PARA ESTA VERSIÓN
         service.hearingFormatType();
         return "Hearing Format Type OK!";
-    }
+    }*/
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
@@ -195,7 +195,6 @@ public class InsertCatalogController {
         service.supervisionActivity();
         service.insertActivityGoal();
         service.insertAidSource();
-        service.hearingFormatType();
         return "insertCatalog OK!!";
     }
 }
