@@ -10,26 +10,26 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="CatCountry")
+@Table(name="cat_country")
 public class Country {
     @Id
     @GeneratedValue
-    @Column(name = "CountryId")
+    @Column(name = "id_country")
     private Long id;
 
-    @Column(name="Name", nullable = false, length = 50)
+    @Column(name="name", nullable = false, length = 50)
     private String name;
 
-    @Column(name="Alpha2", nullable = false, length = 2)
+    @Column(name="alpha2", nullable = false, length = 2)
     private String alpha2;
 
-    @Column(name="Alpha3", nullable = false, length = 3)
+    @Column(name="alpha3", nullable = false, length = 3)
     private String alpha3;
 
-    @Column(name="Latitude")
+    @Column(name="latitude")
     private Long latitude;
 
-    @Column(name="Longitude")
+    @Column(name="longitude")
     private Long longitude;
 
     public Long getId() {

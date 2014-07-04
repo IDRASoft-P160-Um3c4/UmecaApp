@@ -10,7 +10,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="register_type")
+@Table(name="cat_register_type")
 public class RegisterType {
     public RegisterType() {
     }

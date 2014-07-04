@@ -31,7 +31,7 @@
 
                 <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
                     <li><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Formato de audiencia</a></li>
-                    <li><a href="<c:url value='/supervisor/hearingFormat.html' />"><i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre</a></li>
+                    <li><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Plan de seguimiento<b class="caret"></b> </a>
                         <ul class="dropdown-menu">

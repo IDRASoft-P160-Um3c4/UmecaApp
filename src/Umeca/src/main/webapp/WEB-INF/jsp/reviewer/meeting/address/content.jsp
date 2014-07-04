@@ -59,7 +59,7 @@
         <div class="col-xs-10 col-xs-offset-1">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4>Domicilio Anterior</h4>
+                    <h4>Domicilio {{a.type.name}}</h4>
                 </div>
                 <div class="widget-body">
                     <br/>
@@ -72,13 +72,13 @@
                                 <div class="col-xs-7">
                                     <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 30 caracteres"
                                            data-val-length-max="30" data-val-length-min="1" data-val-required="El tiempo de residencia es un campo requerido" id="timeLiveD"
-                                           ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'
+                                           ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'    name="timeLiveD"
                                            type="text">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-8 col-xs-offset-4">
-                                    <span class="field-validation-valid" data-valmsg-for="timeLive" data-valmsg-replace="true"></span>
+                                    <span class="field-validation-valid" data-valmsg-for="timeLiveD" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                             <br/>
@@ -108,7 +108,7 @@
         <div class="col-xs-10 col-xs-offset-1">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4>Domicilio actual/secundario</h4>
+                    <h4>Domicilio {{a.type.name}}</h4>
                 </div>
 
                 <div class="widget-body">
@@ -121,20 +121,20 @@
                                 </div>
                                 <div class="col-xs-7">
                                     <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 30 caracteres"
-                                           data-val-length-max="30" data-val-length-min="1" data-val-required="El tiempo de residencia es un campo requerido" id="timeLive"
-                                           ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'
+                                           data-val-length-max="30" data-val-length-min="1" data-val-required="El tiempo de residencia es un campo requerido" id="timeLiveA"
+                                           ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'        name="timeLiveA"
                                            type="text">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-8 col-xs-offset-4">
-                                    <span class="field-validation-valid" data-valmsg-for="timeLive" data-valmsg-replace="true"></span>
+                                    <span class="field-validation-valid" data-valmsg-for="timeLiveA" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                             <br/>
                             <div class="row">
                                 <div class="col-xs-3">
-                                    Descripción:
+                                    Descripción de cómo llegar<br/>al domicilio:
                                 </div>
                                 <div class="col-xs-9">
                                     <textarea id="description" class="form-control" name="description" ng-model="a.description" ng-init='a.description = "${(d.description == null)? "" : d.description }"'

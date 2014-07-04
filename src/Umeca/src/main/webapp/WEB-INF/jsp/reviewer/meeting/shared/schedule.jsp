@@ -5,15 +5,13 @@
 
 <div class="row element-center" ng-controller="scheduleController">
     <input type="hidden" ng-update-hidden ng-model="schString" name='sch'>
-    <input type="hidden" ng-update-hidden ng-init='listSchedule = ${(listSchedule == null) ? "undefined" : listSchedule};'>
-    <div class="col-xs-8 col-xs-offset-2">
+  <input type="hidden" ng-update-hidden ng-init='listSchedule = ${(listSchedule == null) ? '[]': listSchedule};'>
+    <div class="col-xs-10 col-xs-offset-1">
         <div class="row">
     <div class="col-xs-4 element-center">
-       Día<br/>
-        <select class="form-control element-center" ng-model="s.dayWeek"
-                ng-options="e.name for e in lstDayWeek"
-                ng-change="s.dayWeekId = s.dayWeek.id"
-                ng-init='lstDayWeek = ${lstDayWeek};'></select>
+       Día(s)<br/>
+        <input class="form-control" type="text" value=""
+               ng-model="s.day" ng-init='s.day= ""'>
     </div>
     <div class="col-xs-3 element-center">
                     Inicio<br/>
@@ -38,10 +36,10 @@
         <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addSchedule()"></i>
     </div>
     </div>
-        <div class="row" >
+        <div class="row">
         <div class="hr hr-6"></div>
         </div>
-        <div ng-show="msgError" class="alert alert-danger element-center error-font">
+        <div ng-show="msgError" class="alert-danger element-center">
             {{msgError}}
         </div>
         <div class="col-xs-12" ng-show="listSchedule.length==0">
@@ -49,9 +47,9 @@
             <br/>
             <br/>
         </div>
-        <div class="col-xs-9 col-xs-offset-3" ng-show ="listSchedule.length > 0">
+        <div class="col-xs-9 col-xs-offset-1" ng-show ="listSchedule.length > 0">
          <div class="row center">
-             <div class="col-xs-2">
+             <div class="col-xs-5">
                  <h5 class="smaller lighter blue">Día</h5>
                  <div class="hr hr-2"></div>
              </div>
@@ -63,14 +61,14 @@
                  <h5 class="smaller lighter blue">Fin</h5>
                  <div class="hr hr-2"></div>
              </div>
-             <div class="col-xs-3">
+             <div class="col-xs-2">
                  <h5 class="smaller lighter blue">Acciones</h5>
                  <div class="hr hr-2"></div>
              </div>
          </div>
             <div class="row center" ng-repeat ="sch in listSchedule">
-                <div class="col-xs-2">
-                    {{sch.day.name}}
+                <div class="col-xs-5">
+                    {{sch.day}}
                 </div>
                 <div class="col-xs-2">
                      {{sch.start}}
@@ -78,10 +76,11 @@
                 <div class="col-xs-2">
                     {{sch.end}}
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteSchedule($index)"></i>
                 </div>
             </div>
+            <br/>
          </div>
     </div>
     <br/>

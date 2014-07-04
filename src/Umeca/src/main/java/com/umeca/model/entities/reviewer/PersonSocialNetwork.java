@@ -43,6 +43,9 @@ public class PersonSocialNetwork{
     @JoinColumn(name="id_document_type", nullable = false)
     private DocumentType documentType;
 
+    @Column(name="specification_document_type", length = 250, nullable = true)
+    private String specification;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_dependent", nullable = false)
     private Election dependent;
@@ -134,5 +137,13 @@ public class PersonSocialNetwork{
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 }

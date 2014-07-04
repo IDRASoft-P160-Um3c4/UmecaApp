@@ -2,8 +2,12 @@ package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
+import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +44,7 @@ public class Meeting {
     private List<Reference> references;
 
     @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
-    private List<Domicile> domiciles;
+    private List<ImputedHome> imputedHomes;
 
     @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
     private List<Job> jobs;
@@ -63,7 +67,7 @@ public class Meeting {
     @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
     private  PreviousCriminalProceeding previousCriminalProceeding;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="id_status", nullable = false)
     private StatusMeeting status;
 
@@ -118,12 +122,12 @@ public class Meeting {
         this.references = references;
     }
 
-    public List<Domicile> getDomiciles() {
-        return domiciles;
+    public List<ImputedHome> getImputedHomes() {
+        return imputedHomes;
     }
 
-    public void setDomiciles(List<Domicile> domiciles) {
-        this.domiciles = domiciles;
+    public void setImputedHomes(List<ImputedHome> imputedHomes) {
+        this.imputedHomes = imputedHomes;
     }
 
     public List<Job> getJobs() {
@@ -196,5 +200,36 @@ public class Meeting {
 
     public void setMeetingType(Integer meetingType) {
         this.meetingType = meetingType;
+    }
+
+    public void validateMeeting(TerminateMeetingMessageDto t){
+        List<ImputedHome> imputedHomeList = getImputedHomes();
+        if(imputedHomeList== null || (imputedHomeList !=null && imputedHomeList.size()==0)){
+            List<String> result = new ArrayList<>();
+            result.add("Debe registrar al menos un domicilio del imputado.");
+            t.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome",result));
+        }
+        List<PersonSocialNetwork> listPS = getSocialNetwork()==null? new ArrayList<PersonSocialNetwork>() :getSocialNetwork().getPeopleSocialNetwork();
+        List<Reference> referenceList = getReferences();
+        if ((referenceList==null || (referenceList != null && referenceList.size() == 0)
+                && (listPS== null ||( listPS!= null && listPS.size()==0)))) {
+            List<String> listMess = new ArrayList<>();
+            listMess.add("Para terminar la entrevista debe agragar al menos una referencia personal o una persona de su red social.");
+            t.getGroupMessage().add(new GroupMessageMeetingDto("reference",listMess));
+            t.getGroupMessage().add(new GroupMessageMeetingDto("socialNetwork",listMess));
+        }
+
+        List<Job> jobList = getJobs();
+        if(jobList==null || (jobList!=null && jobList.size()==0)){
+            List<String> result = new ArrayList<>();
+            result.add("Debe agregar al menos un empleo del imputado.");
+            t.getGroupMessage().add(new GroupMessageMeetingDto("job",result));
+        }
+        List<Drug> drugsList= getDrugs();
+        if(drugsList==null || (drugsList!=null && drugsList.size()==0)){
+          List<String> result = new ArrayList<>();
+          result.add("Debe agregar al menos una sustancia que consume el imputado. (En caso de no consumir sustancias seleccione otro y especifique ninguna)");
+          t.getGroupMessage().add(new GroupMessageMeetingDto("drug",result));
+        }
     }
 }

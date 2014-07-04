@@ -10,7 +10,7 @@ public class ForHearingFormatGrid implements EntityGrid {
 
     private Long id;
     private String idFolder;
-    private String judicialFolder;
+    private String idMP;
     private String fullName;
     private String hearingType;
     private String extension;
@@ -18,10 +18,10 @@ public class ForHearingFormatGrid implements EntityGrid {
 
     private StringBuilder sb;
 
-    public ForHearingFormatGrid(Long id, String idFolder, String judicialFolder, String name, String lastNP, String lastNM, Integer hType, Integer ext, Integer pVinc) {
+    public ForHearingFormatGrid(Long id, String idFolder, String idMP, String name, String lastNP, String lastNM, Integer hType, Integer ext, Integer pVinc) {
         this.id = id;
         this.idFolder = idFolder;
-        this.judicialFolder = judicialFolder;
+        this.idMP = idMP;
 
         sb = new StringBuilder();
         sb.append(name);
@@ -60,12 +60,12 @@ public class ForHearingFormatGrid implements EntityGrid {
         this.id = id;
     }
 
-    public String getJudicialFolder() {
-        return judicialFolder;
+    public String getIdMP() {
+        return idMP;
     }
 
-    public void setJudicialFolder(String judicialFolder) {
-        this.judicialFolder = judicialFolder;
+    public void setIdMP(String idMP) {
+        this.idMP = idMP;
     }
 
     public String getFullName() {

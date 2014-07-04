@@ -66,12 +66,6 @@ public class InsertCatalogController {
         return "Activity OK!";
     }
 
-    @RequestMapping(value="/catalogs/insertPhysicalCondition", method = RequestMethod.GET)
-    public String insertPhysicalCondition(){
-        service.physicalCondition();
-        return "Physical condition OK!";
-    }
-
     @RequestMapping(value="/catalogs/insertStatusMeeting", method = RequestMethod.GET)
     public String insertStatusMeeting(){
         service.statusMeeting();
@@ -126,10 +120,10 @@ public class InsertCatalogController {
         return "Day Week OK!";
     }
 
-    @RequestMapping(value="/catalogs/insertSchoolLevel", method = RequestMethod.GET)
+    @RequestMapping(value="/catalogs/insertAcademicLevel", method = RequestMethod.GET)
     public String insertSchoolLevel(){
-        service.schoolLevel();
-        return "School level OK!";
+        service.academicDegree();
+        return "Degree OK!";
     }
 
     @RequestMapping(value = "/catalogs/insertTypeRegister", method = RequestMethod.GET)
@@ -169,6 +163,12 @@ public class InsertCatalogController {
         return "Status Case OK!";
     }
 
+    /*@RequestMapping(value = "/catalogs/insertHearingFormatType", method = RequestMethod.GET)
+    public String insertHearingFormatType(){ //NO APLICA PARA ESTA VERSIÓN
+        service.hearingFormatType();
+        return "Hearing Format Type OK!";
+    }*/
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
@@ -179,7 +179,6 @@ public class InsertCatalogController {
         service.questionarySection();
         service.question();
         service.activity();
-        service.physicalCondition();
         service.statusMeeting();
         service.statusVerification();
         service.statusCase();
@@ -190,7 +189,7 @@ public class InsertCatalogController {
         service.drugType();
         service.periodicity();
         service.dayWeek();
-        service.schoolLevel();
+        service.academicDegree();
         service.registerType();
         service.verificationMethod();
         service.supervisionActivity();

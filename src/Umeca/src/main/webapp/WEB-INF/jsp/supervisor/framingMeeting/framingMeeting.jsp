@@ -49,22 +49,29 @@
                 <ul class="nav nav-tabs" id="tabFramingMeeting">
 
                     <li class="active">
-                            <a data-toggle="tab" href="#personalData">
-                                <i class="purple glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
-                                Datos personales y entorno social
-                            </a>
+                        <a data-toggle="tab" href="#personalData">
+                            <i class="purple glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
+                            Datos personales y entorno social
+                        </a>
                     </li>
 
                     <li>
                         <a data-toggle="tab" href="#address">
-                            <i class="green  icon-home  bigger-200"/></i>
+                            <i class="green icon-home  bigger-200"/></i>
+                            Domicilios
+                        </a>
+                    </li>
+
+                    <li>
+                        <a data-toggle="tab" href="#accompaniment">
+                            <i class="red glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
                             Persona que acompañara durante <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;el proceso
                         </a>
                     </li>
 
                     <li>
-                        <a data-toggle="tab" href="#socialNetwork">
+                        <a data-toggle="tab" href="#houseMate">
                             <i class="blue icon-group bigger-200"></i>
                             Personas con las que vive
                         </a>
@@ -72,7 +79,7 @@
 
                     <li>
                         <a data-toggle="tab" href="#references">
-                            <i class=""></i>
+                            <i class="purple icon-list bigger-200"></i>
                             Referencias personales
                         </a>
                     </li>
@@ -90,7 +97,14 @@
                         </a>
                     </li>
                     <li>
+                        <a data-toggle="tab" href="#environmentAnalysis">
+                            <i class="blue icon-eye-open bigger-200"></i>
+                            Análisis de entorno
+                        </a>
+                    </li>
+                    <li>
                         <a data-toggle="tab" href="#addtional">
+
                             <i class="red icon-list bigger-200"></i>
                             Preguntas adicionales
                         </a>
@@ -102,28 +116,37 @@
                         <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_personalData.jsp" %>
                     </div>
 
-                    <div id="accompaniment" class="tab-pane in active">
-
+                    <div id="address" class="tab-pane">
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_address.jsp" %>
                     </div>
 
-                    <div id="socialNetwork" class="tab-pane">
+                    <div id="accompaniment" class="tab-pane">
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_proccessAccompaniment.jsp" %>
+                    </div>
 
+
+                    <div id="houseMate" class="tab-pane">
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_framingHousemate.jsp" %>
                     </div>
 
                     <div id="references" class="tab-pane">
-
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_framingReferences.jsp" %>
                     </div>
 
                     <div id="activities" class="tab-pane">
-
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_framingActivities.jsp" %>
                     </div>
 
                     <div id="drugs" class="tab-pane">
-
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_drugs.jsp" %>
                     </div>
 
-                    <div id="additional" class="tab-pane">
+                    <div id="environmentAnalysis" class="tab-pane">
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_environmentAnalysis.jsp" %>
+                    </div>
 
+                    <div id="addtional" class="tab-pane">
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_addtionalQuestions.jsp" %>
                     </div>
 
                 </div>

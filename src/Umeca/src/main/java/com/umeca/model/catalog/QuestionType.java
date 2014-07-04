@@ -3,7 +3,7 @@ package com.umeca.model.catalog;
 import javax.persistence.*;
 
 @Entity
-@Table(name="question_type")
+@Table(name="cat_question_type")
 public class QuestionType {
 
     @Id

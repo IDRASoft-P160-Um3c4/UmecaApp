@@ -11,25 +11,25 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name="CatState")
+@Table(name="cat_state")
 public class State {
 
     @Id
     @GeneratedValue
-    @Column(name = "StateId")
+    @Column(name = "id_state")
     private Long id;
 
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "CountryId", nullable =false)
+    @JoinColumn(name = "id_country", nullable =false)
     private Country country;
 
-    @Column(name = "Name", length = 50, nullable = false)
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name = "Abbreviation", length = 100, nullable = false)
+    @Column(name = "abbreviation", length = 100, nullable = false)
     private String abbreviation;
 
-    @Column(name = "Description", length = 100, nullable = false)
+    @Column(name = "description", length = 100, nullable = false)
     private String description;
 
     public Long getId() {

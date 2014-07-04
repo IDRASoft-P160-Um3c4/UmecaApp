@@ -1,7 +1,10 @@
 package com.umeca.model.entities.supervisor;
 
 
+import com.umeca.model.entities.reviewer.Address;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="hearing_format_imputed")
@@ -21,6 +24,15 @@ public class HearingFormatImputed {
     @Column(name="last_name_m")
     private String lastNameM;
 
+    @Column(name="birth_date")
+    private Date birthDate;
+
+    @Column(name="imputed_tel")
+    private String imputeTel;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="id_addres")
+    private Address address;
 
     public Long getId() {
         return id;
@@ -52,5 +64,29 @@ public class HearingFormatImputed {
 
     public void setLastNameM(String lastNameM) {
         this.lastNameM = lastNameM;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getImputeTel() {
+        return imputeTel;
+    }
+
+    public void setImputeTel(String imputeTel) {
+        this.imputeTel = imputeTel;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

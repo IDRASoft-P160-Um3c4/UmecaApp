@@ -21,7 +21,7 @@ public interface MeetingService {
 
     ModelAndView showLegalProcess(Long id);
 
-    ResponseMessage upsertPersonalData(Long idCase, Imputed imputed, SocialEnvironment socialEnvironment, Integer[] physicalCondition, Integer[] activity);
+    ResponseMessage upsertPersonalData(Long idCase, Imputed imputed, SocialEnvironment socialEnvironment, String activities);
 
     ModelAndView upsertSocialNetwork(Long id, Long idCase);
 
@@ -51,13 +51,13 @@ public interface MeetingService {
 
     ModelAndView upsertAddress(Long id, Long idCase);
 
-    ResponseMessage doUpsertAddress(Domicile domicile, Long idCase, String sch);
+    ResponseMessage doUpsertAddress(ImputedHome imputedHome, Long idCase, String sch);
 
     ResponseMessage deleteAddress(Long id);
 
     ResponseMessage upsertLeaveCountry(Long id, LeaveCountry leaveCountry);
 
-    ResponseMessage doTerminateMeeting(Meeting meeting, String sch, Integer[] physicalCondition, Integer[] activity);
+    ResponseMessage doTerminateMeeting(Meeting meeting, String sch,String activity);
 
     ResponseMessage validateCreateMeeting(Imputed imputed);
 

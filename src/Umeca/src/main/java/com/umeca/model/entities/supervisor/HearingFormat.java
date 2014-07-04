@@ -6,26 +6,33 @@ import com.umeca.model.entities.reviewer.Case;
 import javax.persistence.*;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "hearing_format")
-public class HearingFormat {
+public class HearingFormat{
 
     @Id
     @GeneratedValue
     @Column(name = "id_hearing_format")
     private Long id;
 
-    @Column(name = "appointment_date", nullable = false)
-    private Date appointmentDate;
-
     @Column(name = "register_timestamp", nullable = false)
     private Timestamp registerTimestamp;
 
+    @Column(name = "id_folder", nullable = false)
+    private String idFolder;
+
+    @Column(name = "id_judicial", nullable = false)
+    private String idJudicial;
+
     @Column(name = "room", nullable = false)
     private String room;
+
+    @Column(name = "appointment_date", nullable = false)
+    private Date appointmentDate;
 
     @Column(name = "init_time", nullable = false)
     private Time initTime;
@@ -51,16 +58,14 @@ public class HearingFormat {
     @Column(name = "terms", length = 1000, nullable = false)
     private String terms;
 
-    @Column(name = "origin_type", length = 1000, nullable = false)
-    private Integer originType;
-
-    @OneToOne(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="id_format_specs", nullable = false)
     private HearingFormatSpecs hearingFormatSpecs;
 
     @OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<AssignedArrangement> assignedArrangements;
 
-    @OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ContactData> contacts;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -75,6 +80,17 @@ public class HearingFormat {
     @JoinColumn(name = "id_hearing_format_imputed")
     private HearingFormatImputed hearingImputed;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_hearing_format_type")
+    private HearingFormatType hearingFormatType;
+
+    @Transient
+    public static final Comparator<HearingFormat> hearingFormatComparator= new Comparator<HearingFormat>() {
+        @Override
+        public int compare(HearingFormat h1, HearingFormat h2) {
+            return  h1.getId().compareTo(h2.getId());
+        }
+    };
 
     public Long getId() {
         return id;
@@ -82,14 +98,6 @@ public class HearingFormat {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(Date appointmentDate) {
-        this.appointmentDate = appointmentDate;
     }
 
     public Timestamp getRegisterTimestamp() {
@@ -100,12 +108,36 @@ public class HearingFormat {
         this.registerTimestamp = registerTimestamp;
     }
 
+    public String getIdFolder() {
+        return idFolder;
+    }
+
+    public void setIdFolder(String idFolder) {
+        this.idFolder = idFolder;
+    }
+
+    public String getIdJudicial() {
+        return idJudicial;
+    }
+
+    public void setIdJudicial(String idJudicial) {
+        this.idJudicial = idJudicial;
+    }
+
     public String getRoom() {
         return room;
     }
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public Date getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(Date appointmentDate) {
+        this.appointmentDate = appointmentDate;
     }
 
     public Time getInitTime() {
@@ -170,14 +202,6 @@ public class HearingFormat {
 
     public void setTerms(String terms) {
         this.terms = terms;
-    }
-
-    public Integer getOriginType() {
-        return originType;
-    }
-
-    public void setOriginType(Integer originType) {
-        this.originType = originType;
     }
 
     public HearingFormatSpecs getHearingFormatSpecs() {

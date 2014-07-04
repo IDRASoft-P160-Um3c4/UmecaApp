@@ -49,7 +49,7 @@ public class Job implements EntityGrid{
     @Column(name = "phone", nullable = false, length = 20)
     private String phone;
 
-    @Column(name="startPrev")
+    @Column(name="start_prev")
     private Date startPrev;
 
     @Column(name ="start")

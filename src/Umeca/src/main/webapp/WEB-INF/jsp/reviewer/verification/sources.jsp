@@ -11,7 +11,12 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
-    <title>Usuarios</title>
+    <title>Fuentes de verificación</title>
+    <style>
+        .ui-jqgrid tr.jqgrow td {
+            white-space: normal !important;
+        }
+    </style>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -19,34 +24,36 @@
 <div class="container body-content">
 
     <script>
-        window.upsert = function(id) {
-            window.goToUrlMvcUrl("/reviewer/verification/verificationBySource.html");
-            //window.showUpsert(id, "#angJsjqGridId", "/reviewer/meeting/newMeeting.html", "#GridId", "/reviewer/meeting/meeting.html");
-        };
-
-        window.obsolete = function (id) {
-            window.showObsolete(id, "#angJsjqGridId", "/management/user/obsolete.json", "#GridId");
+        window.meetingSource = function(id) {
+            var params= [];
+            params["idSourceParam"]=id;
+            params["idCaseParam"]=${idCase};
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/verificationBySource.html?idCase=idCaseParam&&idSource=idSourceParam'/>",params);
         };
 
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/management/user/list.json' />',
+                url: '<c:url value='/reviewer/verification/listSource.json?id=${idCase}' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Nombre', 'Dirección', 'Teléfono', 'Identificación', 'Acción'],
+                colNames: ['ID', 'Nombre','Edad', 'Parentesco', 'Dirección', 'Teléfono','Estatus','Complete','IdCase', 'Acción'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'username', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullname', index: 'fullname', width: 400, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'email', index: 'email', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'role', index: 'role', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'age', index: 'age', width: 80, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'relationshipString', index: 'relationshipString', width: 100, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'address', index: 'address', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'phone', index: 'phone', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'statusString', index: 'statusString', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'dateComplete', index: 'dateComplete',hidden:true},
+                    { name: 'idCase', index: 'idCase', hidden:true},
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 pager: '#GridPager',
-                sortname: 'username',
-                height: 450,
+                sortname: 'fullName',
+                height: 300,
                 viewrecords: true,
                 shrinkToFit: false,
                 sortorder: "desc",
@@ -57,13 +64,10 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
-                        var enabled = row.enabled;
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-
-                        if (enabled == "true") {
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.enable('" + cl + "');\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
-                        }else{
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Habilitar usuario\" onclick=\"window.disable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
+                        var dateComplete = row.dateComplete;
+                        var be="";
+                        if (dateComplete == "") {
+                            be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista\" onclick=\"window.meetingSource('" + cl + "');\"><span class=\"icon-edit blue\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
@@ -79,7 +83,7 @@
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                 edit: false, editicon : 'icon-notes blue',
-                add: true, addfunc: window.upsert, addicon : 'icon-edit blue',
+                add: false,
                 refresh: true, refreshicon : 'icon-refresh green',
                 del: false,
                 search: false});
@@ -96,7 +100,7 @@
     </script>
 
     <h2 class="element-center"><i class=" icon-group"></i>&nbsp;&nbsp;Fuentes de verificación</h2>
-
+    <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>
         <div id="GridPager"></div>

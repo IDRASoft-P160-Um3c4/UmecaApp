@@ -23,13 +23,17 @@
 
     <script>
 
+        returnHearing = function (url) {
+            window.goToUrlMvcUrl(url);
+        };
+
         addHearingFormat = function () {
             var goTo = "<c:url value='/supervisor/hearingFormat/newHearingFormat.html'/>" + "?idCase=" + ${idCase};
             window.goToUrlMvcUrl(goTo);
         };
 
         viewHearingFormat = function (id) {
-            var goTo = "<c:url value='/supervisor/hearingFormat/viewHearingFormat.html'/>" + "?idFormat="+id;
+            var goTo = "<c:url value='/supervisor/hearingFormat/viewHearingFormat.html'/>" + "?idFormat=" + id;
             window.goToUrlMvcUrl(goTo);
         };
 
@@ -63,22 +67,13 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-                    var folders = $(this).jqGrid('getCol', 'idFolder', false);
-                    var status = $(this).jqGrid('getCol', 'status', false);
 
                     for (var i = 0; i < ids.length; i++) {
 
-                        var cl = folders[i];
+                        var cl = ids[i];
                         var be;
-                        var idCase =${idCase};
 
-                        switch (status[i]) {
-
-                            case 'ST_CASE_VERIFICATION_COMPLETE':
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Gestionar formatos de audiencia\" onclick=\"viewHearingFormat('" + idCase + "','" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
-                                break;
-
-                        }
+                        be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formato de audiencia\" onclick=\"viewHearingFormat(   '" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
@@ -112,6 +107,15 @@
 
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Formatos de audiencia del caso
     </h2>
+    <br/>
+
+    <div class="col-xs-offset-1">
+    <span class="btn btn-default btn-sm"
+          onclick="returnHearing('<c:url value='/supervisor/hearingFormat/index.html'/>')">
+                                Regresar
+                            </span>
+    </div>
+
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

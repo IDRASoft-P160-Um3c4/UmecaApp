@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.Relationship;
+import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +16,28 @@ import java.util.List;
  */
 @Entity
 @Table(name="source_verification")
-public class SourceVerification {
+public class SourceVerification implements EntityGrid{
+
+    public SourceVerification() {
+    }
+
+    public SourceVerification(Long id,String fullName, Integer age, String relationshipString, String address, String phone, Boolean isAuthorized, Date dateComplete, Long idCase, Boolean visible) {
+        this.id =  id;
+        this.fullName = fullName;
+        this.age = age;
+        this.relationshipString = relationshipString;
+        this.address = address;
+        this.phone = phone;
+        this.isAuthorized = isAuthorized;
+        this.dateComplete = dateComplete;
+        if(dateComplete!=null){
+           this.statusString ="Entrevista Terminada";
+        }else{
+            this.statusString = "Entrevista Incompleta";
+        }
+        this.idCase = idCase;
+        this.visible = visible;
+    }
 
     @Id
     @GeneratedValue
@@ -32,6 +54,9 @@ public class SourceVerification {
     @JoinColumn(name="id_relationship", nullable = true)
     private Relationship relationship;
 
+    @Transient
+    private String relationshipString;
+
     @Column(name="address", length = 500, nullable = false)
     private String address;
 
@@ -44,8 +69,14 @@ public class SourceVerification {
     @Column(name="date_complete", nullable = true)
     private Date dateComplete;
 
+    @Transient
+    private String statusString;
+
     @Column(name="dateAuthorized", nullable=true)
     private Date dateAuthorized;
+
+    @Transient
+    private Long idCase;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_verification_method", nullable = true)
@@ -163,5 +194,30 @@ public class SourceVerification {
 
     public void setVisible(Boolean visible) {
         this.visible = visible;
+    }
+
+    public String getRelationshipString() {
+        return relationshipString;
+    }
+
+    public void setRelationshipString(String relationshipString) {
+        this.relationshipString = relationshipString;
+    }
+
+    public Long getIdCase() {
+        return idCase;
+    }
+
+    public void setIdCase(Long idCase) {
+        this.idCase = idCase;
+    }
+
+    public String getStatusString() {
+
+        return statusString;
+    }
+
+    public void setStatusString(String statusString) {
+        this.statusString = statusString;
     }
 }

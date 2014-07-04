@@ -35,7 +35,7 @@ public class PreviousCriminalProceeding {
     private Election complyPM;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_comply_SCPP", nullable = false)
+    @JoinColumn(name="id_comply_scpp", nullable = false)
     private Election complyCSPP;
 
     @ManyToOne(fetch=FetchType.LAZY)

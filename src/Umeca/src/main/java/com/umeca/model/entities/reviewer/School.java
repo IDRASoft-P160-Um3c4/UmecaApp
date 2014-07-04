@@ -1,10 +1,11 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalog.Grade;
-import com.umeca.model.catalog.RegisterType;
+import com.umeca.model.catalog.Degree;
+import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
+import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,12 +35,12 @@ public class School {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_grade", nullable = false)
-    private Grade grade;
+    private Degree degree;
 
     @OneToMany(mappedBy="school", cascade={CascadeType.ALL})
     private List<Schedule> schedule;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
 
@@ -67,12 +68,12 @@ public class School {
         this.phone = phone;
     }
 
-    public Grade getGrade() {
-        return grade;
+    public Degree getDegree() {
+        return degree;
     }
 
-    public void setGrade(Grade grade) {
-        this.grade = grade;
+    public void setDegree(Degree degree) {
+        this.degree = degree;
     }
 
     public List<Schedule> getSchedule() {
@@ -97,5 +98,23 @@ public class School {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void validateMeeting(TerminateMeetingMessageDto t) {
+        List<String> r = new ArrayList<>();
+        String e = "entity";
+        if(name==null ||(name!=null && name.trim().equals(""))){
+            r.add(t.template.replace(e,"La escuela"));
+        }
+        if(phone==null || (phone!=null && phone.trim().equals(""))){
+            r.add(t.template.replace(e,"El teléfono"));
+        }
+        if(address==null || (address!=null && address.trim().equals(""))){
+            r.add(t.template.replace(e,"La dirección"));
+        }
+        if(degree==null){
+            r.add(t.template.replace(e,"El grado escolar"));
+        }
+        t.getGroupMessage().add(new GroupMessageMeetingDto("school",r));
     }
 }

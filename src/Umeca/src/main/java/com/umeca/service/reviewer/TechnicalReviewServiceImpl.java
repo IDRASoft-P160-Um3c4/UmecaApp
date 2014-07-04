@@ -5,10 +5,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.catalog.Question;
 import com.umeca.model.catalog.QuestionarySection;
-import com.umeca.model.entities.reviewer.QuestionReviewRel;
-import com.umeca.model.entities.reviewer.QuestionView;
-import com.umeca.model.entities.reviewer.QuestionarySectionView;
-import com.umeca.model.entities.reviewer.TechnicalReview;
+import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
+import com.umeca.repository.reviewer.VerificationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -20,6 +20,9 @@ import java.util.Objects;
 @Service("technicalReviewService")
 public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
+    @Autowired
+    VerificationRepository verificationRepository;
+
     @Override
     public QuestionarySectionView getSections(QuestionarySection obj) {
 
@@ -29,7 +32,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         if (obj.getQuestions() != null && obj.getQuestions().size() > 0) {
 
-            Collections.sort(obj.getQuestions(),Question.questComparator);
+            Collections.sort(obj.getQuestions(), Question.questComparator);
 
             for (Question quest : obj.getQuestions()) {
                 QuestionView questionView = new QuestionView();
@@ -96,12 +99,56 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         List<Long> lstView = new ArrayList<>();
 
-        for(QuestionReviewRel quesSel : lstQuesSelPrev){
+        for (QuestionReviewRel quesSel : lstQuesSelPrev) {
             lstView.add(quesSel.getQuestion().getId());
         }
 
         return conv.toJson(lstView);
     }
 
+    public TechnicalReviewInfoFileView fillInfoFile(Long idVerification) {
+        TechnicalReviewInfoFileView file = new TechnicalReviewInfoFileView();
 
+        Verification ver = verificationRepository.findOne(idVerification);
+
+        Meeting meeting = ver.getCaseDetention().getMeeting();
+
+        file.setIdFolder(ver.getCaseDetention().getIdFolder());
+        file.setName(meeting.getImputed().getName());
+        file.setLastNameP(meeting.getImputed().getLastNameP());
+        file.setLastNameM(meeting.getImputed().getLastNameM());
+
+        file.setAddress(meeting.getImputedHomes().get(0).getAddress().getAddressString());
+
+        file.setVerifiedLastNameM(ver.getMeetingVerified().getImputed().getName());
+        file.setVerifiedLastNameP(ver.getMeetingVerified().getImputed().getLastNameP());
+        file.setVerifiedLastNameM(ver.getMeetingVerified().getImputed().getLastNameM());
+
+        List<String> sourcesTxt = new ArrayList<>();
+
+        for (SourceVerification source : ver.getSourceVerifications()) {
+            if (source.getVisible() == true && source.getAuthorized() == true) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(source.getFullName());
+                sb.append(" relación con el imputado ");
+                sb.append(source.getRelationship().getName());
+                sourcesTxt.add(sb.toString());
+            }
+        }
+
+        file.setSources(sourcesTxt);
+
+        List<String> questSelTxt = new ArrayList<>();
+
+        for (QuestionReviewRel rel : ver.getCaseDetention().getTechnicalReview().getQuestionsSel()) {
+            if (!questSelTxt.contains(rel.getQuestion().getQuestion()))
+                questSelTxt.add(rel.getQuestion().getQuestion());
+        }
+
+        file.setQuestSel(questSelTxt);
+
+        file.setComment(ver.getCaseDetention().getTechnicalReview().getComments());
+
+        return file;
+    }
 }

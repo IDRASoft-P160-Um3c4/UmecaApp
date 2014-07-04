@@ -8,6 +8,7 @@ import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.supervisor.ActivityGoal;
 import com.umeca.model.entities.supervisor.AidSource;
+import com.umeca.model.entities.supervisor.HearingFormatType;
 import com.umeca.model.entities.supervisor.SupervisionActivity;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
@@ -17,6 +18,7 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.supervisor.ActivityGoalRepository;
 import com.umeca.repository.supervisor.AidSourceRepository;
+import com.umeca.repository.supervisor.HearingFormatTypeRepository;
 import com.umeca.repository.supervisor.SupervisionActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\Projects\\IDRASoft\\UmecaApp\\db\\";//"C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";//"C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
 
     @Autowired
     RoleRepository repositoryRole;
@@ -180,31 +182,17 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     }
 
     @Autowired
-    PhysicalConditionRepository physicalConditionRepository;
-    @Override
-    public void physicalCondition(){
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "physical_condition.txt","\\|", 2);
-
-        for (String[] data : lstDta) {
-            PhysicalCondition model = new PhysicalCondition();
-            model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            physicalConditionRepository.save(model);
-        }
-
-        physicalConditionRepository.flush();
-    }
-
-    @Autowired
     ActivityRepository activityRepository;
     @Override
     public void activity() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity.txt","\\|", 4);
 
         for (String[] data : lstDta) {
             Activity model = new Activity();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
+            model.setSpecification(data[2].equals("1"));
+            model.setObsolete(data[3].equals("1"));
             activityRepository.save(model);
         }
 
@@ -322,7 +310,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void arrangement() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "arrangement.txt","\\|", 5);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "arrangement.txt","\\|", 6);
         for (String[] data : lstDta) {
             Arrangement model = new Arrangement();
             model.setId(Long.parseLong(data[0]));
@@ -330,6 +318,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             model.setType(Integer.parseInt(data[2]));
             model.setIndex(Integer.parseInt(data[3]));
             model.setIsObsolete(data[4].equals("1"));
+            model.setIsNational(data[5].equals("1"));
             repositoryArr.save(model);
         }
         repositoryArr.flush();
@@ -366,16 +355,18 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         electionRepository.flush();
     }
 
+
     @Autowired
     RelationshipRepository relationshipRepository;
 
     @Override
     public void relationship() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt","\\|", 3);
         for (String[] data : lstDta) {
             Relationship model = new Relationship();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setObsolete(data[2].equals("1"));
             relationshipRepository.save(model);
         }
         relationshipRepository.flush();
@@ -386,11 +377,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void documentType() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "document_type.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "document_type.txt","\\|", 4);
         for (String[] data : lstDta) {
             DocumentType model = new DocumentType();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setSpecification(data[2].equals("1"));
+            model.setObsolete(data[3].equals("1"));
             documentTypeRepository.save(model);
         }
         documentTypeRepository.flush();
@@ -400,11 +393,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     DrugTypeRepository drugTypeRepository;
     @Override
     public void drugType() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "drug_type.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "drug_type.txt","\\|", 4);
         for (String[] data : lstDta) {
             DrugType model = new DrugType();
             model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);;
+            model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
             drugTypeRepository.save(model);
         }
         drugTypeRepository.flush();
@@ -415,11 +410,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     PeriodicityRepository periodicityRepository;
     @Override
     public void periodicity() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "periodicity.txt","\\|", 2);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "periodicity.txt","\\|", 4);
         for (String[] data : lstDta) {
             Periodicity model = new Periodicity();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);;
+            model.setSpecification(data[2].equals("1"));
+            model.setObsolete(data[3].equals("1"));
             periodicityRepository.save(model);
         }
         periodicityRepository.flush();
@@ -441,29 +438,31 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     }
 
     @Autowired
-    SchoolLevelRepository schoolLevelRepository;
+    AcademicLevelRepository academicLevelRepository;
 
     @Autowired
-    GradeRepository gradeRepository;
+    DegreeRepository degreeRepository;
 
     @Override
-    public void schoolLevel() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "school_level.txt","\\|", 2);
+    public void academicDegree() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "academic_level.txt","\\|", 3);
         for (String[] data : lstDta) {
-            SchoolLevel model = new SchoolLevel();
+            AcademicLevel model = new AcademicLevel();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            schoolLevelRepository.save(model);
+            model.setObsolete(data[2].equals("1"));
+            academicLevelRepository.save(model);
         }
-        List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "grade.txt","\\|", 3);
+        List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "degree.txt","\\|", 4);
         for (String[] data : lstDtaGrade) {
-            Grade model = new Grade();
+            Degree model = new Degree();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            model.setSchoolLevel(schoolLevelRepository.findOne(Long.parseLong(data[2])));
-            gradeRepository.save(model);
+            model.setAcademicLevel(academicLevelRepository.findOne(Long.parseLong(data[2])));
+            model.setObsolete(data[3].equals("1"));
+            degreeRepository.save(model);
         }
-        schoolLevelRepository.flush();
+        academicLevelRepository.flush();
     }
 
     @Autowired
@@ -480,5 +479,24 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         registerTypeRepository.flush();
     }
 
+/* CATALOGO DE TIPO DE AUDIENCIA (FORMATO DE AUDIENCIA) NO APLICA PARA ESTA VERSIÓN
+    @Autowired
+    HearingFormatTypeRepository hearingFormatTypeRepository;
+    @Override
+    public void hearingFormatType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "hearing_format_type.txt","\\|", 4);
+
+        for (String[] data : lstDta) {
+            HearingFormatType model = new HearingFormatType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            hearingFormatTypeRepository.save(model);
+        }
+
+        hearingFormatTypeRepository.flush();
+    }
+*/
 
 }

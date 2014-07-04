@@ -84,7 +84,7 @@
                                 <div class="input-group">
                                     <input class="form-control date-picker" readonly="readonly" type="text" data-date-format="dd/mm/yyyy"
                                            data-val="true" data-val-required="La fecha de nacimiento es un campo requerido"
-                                           id="dateBirth" name="dateBirth" ng-model="dateBirth"/>
+                                           id="birthDate" name="birthDate" ng-model="birthDate"/>
 											<span class="input-group-addon">
 														<i class="icon-calendar bigger-110" ></i>
 											</span>
@@ -135,7 +135,9 @@
 </div>
 
 <script>
-    $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
+    var date=new Date();
+    date.setFullYear(date.getFullYear()-18);
+    $('.date-picker').datepicker({autoclose:true, endDate:date}).next().on(ace.click_event, function(){
         $(this).prev().focus();
     });
 </script>

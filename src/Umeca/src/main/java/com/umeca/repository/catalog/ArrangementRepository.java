@@ -12,8 +12,8 @@ import java.util.List;
 @Repository("qArrangementRepository")
 public interface ArrangementRepository extends JpaRepository<Arrangement, Long>{
 
-    @Query("SELECT arr FROM Arrangement arr WHERE arr.type =:typeId and arr.isObsolete=false")
-    List<Arrangement> findByType(@Param("typeId")Integer typeId);
+    @Query("SELECT arr FROM Arrangement arr WHERE arr.type =:typeId and arr.isNational=:isNational and arr.isObsolete=false")
+    List<Arrangement> findByType(@Param("isNational")Boolean national, @Param("typeId")Integer typeId);
 
     @Query("SELECT new com.umeca.model.shared.SelectList(aa.id, aa.arrangement.description, aa.description) FROM HearingFormat hf " +
             "INNER JOIN hf.assignedArrangements aa " +

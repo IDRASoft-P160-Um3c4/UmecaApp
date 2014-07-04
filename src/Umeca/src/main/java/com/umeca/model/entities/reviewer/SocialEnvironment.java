@@ -1,8 +1,5 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalog.Activity;
-import com.umeca.model.catalog.PhysicalCondition;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -22,13 +19,11 @@ public class SocialEnvironment {
     @Column(name="id_social_environment")
     private Long id;
 
-    @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="rel_social_environment_physical_condition", joinColumns={@JoinColumn(name="id_social_environment")}, inverseJoinColumns={@JoinColumn(name="id_physical_condition")})
-    private List<PhysicalCondition> physicalConditions;
+    @Column(name="physical_condition", nullable=true, length = 500)
+    private String physicalCondition;
 
-    @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="rel_social_environment_activity", joinColumns={@JoinColumn(name="id_social_environment")}, inverseJoinColumns={@JoinColumn(name="id_activity")})
-    private List<Activity> activities;
+    @OneToMany (mappedBy = "socialEnvironment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RelSocialEnvironmentActivity> relSocialEnvironmentActivities;
 
     @Column(name="comment", length = 1000, nullable = true)
     private String comment;
@@ -45,22 +40,6 @@ public class SocialEnvironment {
         this.id = id;
     }
 
-    public List<PhysicalCondition> getPhysicalConditions() {
-        return physicalConditions;
-    }
-
-    public void setPhysicalConditions(List<PhysicalCondition> physicalConditions) {
-        this.physicalConditions = physicalConditions;
-    }
-
-    public List<Activity> getActivities() {
-        return activities;
-    }
-
-    public void setActivities(List<Activity> activities) {
-        this.activities = activities;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -75,5 +54,21 @@ public class SocialEnvironment {
 
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
+    }
+
+    public String getPhysicalCondition() {
+        return physicalCondition;
+    }
+
+    public void setPhysicalCondition(String physicalCondition) {
+        this.physicalCondition = physicalCondition;
+    }
+
+    public List<RelSocialEnvironmentActivity> getRelSocialEnvironmentActivities() {
+        return relSocialEnvironmentActivities;
+    }
+
+    public void setRelSocialEnvironmentActivities(List<RelSocialEnvironmentActivity> relSocialEnvironmentActivities) {
+        this.relSocialEnvironmentActivities = relSocialEnvironmentActivities;
     }
 }

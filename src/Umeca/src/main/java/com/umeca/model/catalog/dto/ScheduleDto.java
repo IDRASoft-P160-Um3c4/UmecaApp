@@ -11,14 +11,13 @@ import com.umeca.model.entities.reviewer.Schedule;
  */
 public class ScheduleDto {
     private Long id;
-    private DayDto day;
+    private String day;
     private String start;
     private String end;
 
     public ScheduleDto dtoSchedule (Schedule schedule){
         this.id=schedule.getId();
-        DayDto dto= new DayDto();
-        this.day = dto.dtoDay(schedule.getDay());
+        this.day = schedule.getDay();
         this.start = schedule.getStart();
         this.end = schedule.getEnd();
         return this;
@@ -32,11 +31,11 @@ public class ScheduleDto {
         this.id = id;
     }
 
-    public DayDto getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(DayDto day) {
+    public void setDay(String day) {
         this.day = day;
     }
 

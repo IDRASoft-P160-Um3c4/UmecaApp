@@ -10,7 +10,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="election")
+@Table(name="cat_election")
 public class Election {
     public Election() {
     }
@@ -25,9 +25,6 @@ public class Election {
 
     @Column(name="election", length=255, nullable=false)
     private String name;
-
-    @Transient
-    private String value;
 
     public Long getId() {
         return id;
@@ -44,24 +41,6 @@ public class Election {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getValue() {
-
-        if(id == null)
-            return null;
-
-        value = id.toString();
-
-        return value;
-    }
-
-
-    public void setValue(String value) {
-
-      //  id = Convert.ToLong(value);
-
-        this.value = value;
     }
 
 }

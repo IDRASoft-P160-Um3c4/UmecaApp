@@ -86,6 +86,22 @@
     </div>
 </div>
 <br/>
+<div class="row" ng-show="r.doc.specification == true">
+    <div class="col-xs-6">
+        <div class="col-xs-4 element-left">
+            Especifíque:
+        </div>
+        <div class="col-xs-8">
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y máximo 255 caracteres"
+                   data-val-length-max="255" data-val-length-min="2" data-val-required="La especificación es un campo requerido"
+                   type="text" value="${r.specification}" ng-model="r.specification" ng-init='r.specification="${(r.specification == null) ? '':r.specification}"' id="specification" name="specification">
+        </div>
+        <div class="col-xs-9 col-xs-offset-3">
+            <span class="field-validation-valid" data-valmsg-for="specification" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+</div>
+<br/>
 <div class="row">
     <div class="col-xs-12">
         <div class="col-xs-2 element-left">Dirección:</div>

@@ -1,27 +1,20 @@
 package com.umeca.controller.reviewer;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
-import com.umeca.infrastructure.jqgrid.operation.JqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
-import com.umeca.model.entities.reviewer.View.DomicileView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.View.PersonSocialNetworkView;
 import com.umeca.model.shared.Constants;
-import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -70,7 +63,7 @@ public class MeetingController {
                     add(r.get("name"));
                     add(r.get("lastNameP"));
                     add(r.get("lastNameM"));
-                    add(r.get("dateBirth"));
+                    add(r.get("birthDate"));
                     add(r.get("gender"));
                     add(joinMeSt.get("description"));
                     add(joinMee.join("reviewer").get("id").alias("reviewerId"));
@@ -118,7 +111,7 @@ public class MeetingController {
                 }
                 return null;
             }
-        }, Domicile.class, Domicile.class);
+        }, ImputedHome.class, ImputedHome.class);
 
         return result;
 
@@ -294,8 +287,8 @@ public class MeetingController {
 
 
     @RequestMapping(value = "/reviewer/meeting/address/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsertAddress(@ModelAttribute Domicile domicile, @RequestParam Long idCase,@RequestParam(required = false) String sch){
-        return meetingService.doUpsertAddress(domicile, idCase, sch);
+    public @ResponseBody ResponseMessage doUpsertAddress(@ModelAttribute ImputedHome imputedHome, @RequestParam Long idCase,@RequestParam(required = false) String sch){
+        return meetingService.doUpsertAddress(imputedHome, idCase, sch);
     }
 
 
@@ -366,8 +359,8 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/reviewer/meeting/upsertPersonalData", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage upsertPersonalData(@ModelAttribute Meeting meeting, Integer[] physicalCondition, Integer[] activity){
-       return meetingService.upsertPersonalData(meeting.getCaseDetention().getId(),meeting.getImputed(), meeting.getSocialEnvironment(), physicalCondition,activity);
+    public @ResponseBody ResponseMessage upsertPersonalData(@ModelAttribute Meeting meeting,String activities){
+        return meetingService.upsertPersonalData(meeting.getCaseDetention().getId(),meeting.getImputed(), meeting.getSocialEnvironment(), activities);
     }
 
     @RequestMapping(value = "/reviewer/meeting/upsertLeaveCountry", method = RequestMethod.POST)
@@ -381,8 +374,8 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/reviewer/meeting/terminateMeeting", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting,@RequestParam String sch, Integer[] physicalCondition, Integer[] activity){
-            return meetingService.doTerminateMeeting(meeting,sch,physicalCondition,activity);
+    public @ResponseBody ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting,@RequestParam String sch, String activities){
+            return meetingService.doTerminateMeeting(meeting,sch,activities);
     }
 
     @RequestMapping(value = "/reviewer/meeting/saveProceedingLegal", method = RequestMethod.POST)

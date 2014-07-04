@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Comparator;
 
 @Entity
-@Table(name="arrangement")
+@Table(name="cat_arrangement")
 public class Arrangement {
     @Id
     @GeneratedValue
@@ -18,6 +18,9 @@ public class Arrangement {
 
     @Column(name = "type", nullable = false)
     private Integer type;
+
+    @Column(name = "is_national", nullable = false)
+    private Boolean isNational;
 
     @Column(name = "arrangement_index", nullable = false)
     private Integer index;
@@ -71,5 +74,13 @@ public class Arrangement {
 
     public void setIsObsolete(Boolean isObsolete) {
         this.isObsolete = isObsolete;
+    }
+
+    public Boolean getIsNational() {
+        return isNational;
+    }
+
+    public void setIsNational(Boolean isNational) {
+        this.isNational = isNational;
     }
 }

@@ -24,6 +24,6 @@ public interface ImputedRepository extends JpaRepository<Imputed, Long>{
     @Query("SELECT COUNT(i) FROM Imputed i where rfc=:rfc")
     public Long countCaseSameRFC(@Param("rfc") String rfc);
 
-    @Query("select i from Imputed as i where name=:name and lastNameP = :lnP and lastNameM = :lnM and dateBirth = :db")
-    List<Imputed> findImputedRegister(@Param("name")String name, @Param("lnP")String lastNameP,@Param("lnM")String lastNameM,@Param("db") Date dateBirth);
+    @Query("select i from Imputed as i where name=:name and lastNameP = :lnP and lastNameM = :lnM and birthDate = :db")
+    List<Imputed> findImputedRegister(@Param("name")String name, @Param("lnP")String lastNameP,@Param("lnM")String lastNameM,@Param("db") Date birthDate);
 }

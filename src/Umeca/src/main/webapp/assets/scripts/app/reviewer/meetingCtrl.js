@@ -1,5 +1,7 @@
 app.controller('meetingController', function($scope, $timeout) {
     $scope.model = {};
+    $scope.verification=false;
+    $scope.selectSource=false;
 
     $scope.init = function(){
     };
@@ -9,25 +11,26 @@ app.controller('meetingController', function($scope, $timeout) {
         $scope.init();
     }, 0);
     $scope.WaitFor = false;
-    $scope.MsgError = "";
+    $scope.listMsgErrorCon = [];
+    $scope.listMsgError ={};
     $scope.Model = {};
     $scope.validf = {};
 
+    $scope.changeZIndex = function(elementClick){
+        $("#liPersonalData").css("z-index","0");
+        $("#liImputedHome").css("z-index","0");
+        $("#liReference").css("z-index","0");
+        $("#liSocialNetwork").css("z-index","0");
+        $("#liJob").css("z-index","0");
+        $("#liSchool").css("z-index","0");
+        $("#liDrug").css("z-index","0");
+        $("#liLeaveCountry").css("z-index","0");
+        $("#"+elementClick).css("z-index","1");
+
+    }
+
     $scope.submit = function (formId, urlToPost, hasReturnId) {
-        var forms = formId.split(",");
-        var val = true;
-        for(var i=0; i<forms.length; i++){
-            if($(forms[i]).valid() == false){
-                $scope.validf["form"+i] = true;
-                val  = false;
-            }else{
-                $scope.validf["form"+i] = false;
-            }
-        }
-         if (!val) {
-            $scope.Invalid = true;
-            return false;
-        }
+        $scope.Invalid = true;
         $scope.WaitFor = true;
 
         if (hasReturnId === true) {
@@ -51,12 +54,9 @@ app.controller('meetingController', function($scope, $timeout) {
                 resp=resp.responseMessage;
             }
             if (resp.hasError === false) {
-                $rootScope.$broadcast("onLastId", resp.Id);
-                $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({ isCancel: false });
                 return;
             }
-
             $scope.MsgError = resp.message;
             $scope.$apply();
 
@@ -69,6 +69,7 @@ app.controller('meetingController', function($scope, $timeout) {
     $scope.handleSuccess = function (resp) {
         $scope.WaitFor = false;
 
+        $scope.listMsgError ={};
         try {
             if(resp.hasError===undefined){
                 resp=resp.responseMessage;}
@@ -76,8 +77,13 @@ app.controller('meetingController', function($scope, $timeout) {
                 window.cancelMeeting();
                 return;
             }
-
-            $scope.MsgError = resp.message;
+            var obj = JSON.parse(resp.message);
+            if(obj.groupMessage != undefined){
+                for(var i=0; i < obj.groupMessage.length; i++){
+                    var g1= obj.groupMessage[i];
+                    $scope.listMsgError[g1.section]=g1.messages;
+                }
+            }
             $scope.$apply();
 
         } catch (e) {

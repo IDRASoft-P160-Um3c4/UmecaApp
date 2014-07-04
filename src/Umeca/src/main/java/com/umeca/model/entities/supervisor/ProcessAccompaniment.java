@@ -1,9 +1,8 @@
 package com.umeca.model.entities.supervisor;
 
-
-import com.umeca.model.catalog.SchoolLevel;
-import com.umeca.model.entities.reviewer.Domicile;
+import com.umeca.model.catalog.AcademicLevel;
 import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.reviewer.ImputedHome;
 
 import javax.persistence.*;
 import java.util.List;
@@ -38,11 +37,11 @@ public class ProcessAccompaniment {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_domicile")
-    private Domicile domicile;
+    private ImputedHome domicile;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_school_level")
-    private SchoolLevel schoolLevel;
+    private AcademicLevel schoolLevel;
 
     public Long getId() {
         return id;
@@ -100,19 +99,19 @@ public class ProcessAccompaniment {
         this.occupation = occupation;
     }
 
-    public Domicile getDomicile() {
+    public ImputedHome getDomicile() {
         return domicile;
     }
 
-    public void setDomicile(Domicile domicile) {
+    public void setDomicile(ImputedHome domicile) {
         this.domicile = domicile;
     }
 
-    public SchoolLevel getSchoolLevel() {
+    public AcademicLevel getSchoolLevel() {
         return schoolLevel;
     }
 
-    public void setSchoolLevel(SchoolLevel schoolLevel) {
+    public void setSchoolLevel(AcademicLevel schoolLevel) {
         this.schoolLevel = schoolLevel;
     }
 }

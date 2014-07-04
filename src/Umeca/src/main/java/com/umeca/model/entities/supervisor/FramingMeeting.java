@@ -2,9 +2,8 @@ package com.umeca.model.entities.supervisor;
 
 
 import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.Domicile;
 import com.umeca.model.entities.reviewer.Drug;
-import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.reviewer.ImputedHome;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,7 +26,7 @@ public class FramingMeeting {
     private AdditionalFramingQuestions additionalFramingQuestions;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Domicile> domiciles;
+    private List<ImputedHome> imputedHomes;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingHousemate> housemates;
@@ -40,6 +39,10 @@ public class FramingMeeting {
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingPhysicalConditionRel> framingPhysicalConditionRel;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_process_accompaniment")
+    private ProcessAccompaniment processAccompaniment;
 
     @OneToOne
     @JoinColumn(name = "id_case")
@@ -69,12 +72,12 @@ public class FramingMeeting {
         this.additionalFramingQuestions = additionalFramingQuestions;
     }
 
-    public List<Domicile> getDomiciles() {
-        return domiciles;
+    public List<ImputedHome> getImputedHomes() {
+        return imputedHomes;
     }
 
-    public void setDomiciles(List<Domicile> domiciles) {
-        this.domiciles = domiciles;
+    public void setImputedHomes(List<ImputedHome> imputedHomes) {
+        this.imputedHomes = imputedHomes;
     }
 
     public List<FramingHousemate> getHousemates() {
@@ -115,5 +118,13 @@ public class FramingMeeting {
 
     public void setCaseDetention(Case caseDetention) {
         this.caseDetention = caseDetention;
+    }
+
+    public ProcessAccompaniment getProcessAccompaniment() {
+        return processAccompaniment;
+    }
+
+    public void setProcessAccompaniment(ProcessAccompaniment processAccompaniment) {
+        this.processAccompaniment = processAccompaniment;
     }
 }

@@ -3,11 +3,33 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
-
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
+<style>
+    #map {
+height:350px;
+width:600px;
+}
+.infoWindowContent {
+font-size:  10px !important;
+border-top: 1px solid #ccc;
+padding-top: 10px;
+}
+h2 {
+margin-bottom:0;
+margin-top: 0;
+}
+ </style>
 <div ng-controller="addressComponentController">
     <div class="row element-left">
         <b>Dirección:</b>
     </div>
+   <!-- <br/>
+    <div class="row element-center">
+        <div class="col-xs-10 col-xs-offset-1">
+        <div id="map"></div>
+            </div>
+    </div>-->
+    <br/>
     <div class="row">
         <!-- se deben de ejecutar los metoeos del servicio para rellenar los catalogos necesarios y para cargar el modelo-->
         <!--agregar en el controlador padre la variable nameAddress con lo que lleva el name menos las propiedades(incluyendo .)
@@ -73,35 +95,37 @@
     <div class="row">
         <div class="col-xs-6">
             Calle <br/>
+            <input type="hidden" ng-model="street" name="{{nameAddress}}street" ng-update-hidden>
             <input class="form-control" data-val="true" data-val-required="La calle es un campo requerido"
                    data-val-length-max="100" data-val-length-min="1"
                    data-val-length="Debe tener al menos 1 y máximo 100 caracteres."
-                   type="text" value="" ng-model="street" name="{{nameAddress}}street" id="{{nameAddress}}street">
-                <span class="field-validation-valid" data-valmsg-for="{{nameAddress}}street"
+                   type="text" value="" ng-model="street" name="streetComponent" id="streetComponent">
+                <span class="field-validation-valid" data-valmsg-for="streetComponent"
                       data-valmsg-replace="true"></span>
         </div>
         <div class="col-xs-3">
             No Ext <br/>
+            <input type="hidden" ng-model="outNum" name="{{nameAddress}}outNum" ng-update-hidden>
             <input class="form-control" data-val="true"
                    data-val-length="Debe tener al menos 1 y máximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
                    data-val-required="El número exterior es un campo requerido"
                    type="text" ng-model="outNum"
-                   id="{{nameAddress}}outNum"
-                   name="{{nameAddress}}outNum">
-                <span class="field-validation-valid" data-valmsg-for="{{nameAddress}}outNum"
+                   id="outNumComponent"
+                   name="outNumComponent">
+                <span class="field-validation-valid" data-valmsg-for="outNumComponent"
                       data-valmsg-replace="true"></span>
         </div>
-        <div class="col-xs-2">
+        <div class="col-xs-3">
             No Int <br/>
+            <input type="hidden" ng-model="innNum" name="{{nameAddress}}innNum" ng-update-hidden>
             <input class="with-100" data-val="true"
                    data-val-length="Debe tener al menos 1 y máximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
-                   data-val-required="El número interior es un campo requerido"
                    type="text" ng-model="innNum"
-                   id="{{nameAddress}}innNum"
-                   name="{{nameAddress}}innNum">
-                <span class="field-validation-valid" data-valmsg-for="{{nameAddress}}innNum"
+                   id="innNumComponent"
+                   name="innNumComponent">
+                <span class="field-validation-valid" data-valmsg-for="innNumComponent"
                       data-valmsg-replace="true"></span>
         </div>
     </div>

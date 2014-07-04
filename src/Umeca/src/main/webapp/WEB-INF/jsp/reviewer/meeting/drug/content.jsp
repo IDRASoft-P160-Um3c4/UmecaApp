@@ -7,6 +7,7 @@
            ng-init="d.perId = ${perId == null ? "undefined" : perId};">
     <input type="hidden" ng-update-hidden ng-model="id" name="id" id="id"
            ng-init='id = "${(d.id == null)? '':d.id}"'>
+
     <div class="col-xs-2">
         Sustancia:
     </div>
@@ -17,17 +18,6 @@
                 ng-init='lstDrugType = ${lstDrugType};'></select>
 
     </div>
-    <div class="col-xs-2" ng-show="d.typeId==6">
-        Especifíque:
-    </div>
-    <div ng-show="d.typeId==6" class="col-xs-4">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m?ximo 200 caracteres"
-                                     data-val-length-max="200" data-val-length-min="3" data-val-required="La especificación es un campo requerido"
-                                     type="text" value="" ng-model="d.other" ng-init='d.other = "${(d.other == null) ? '' : d.other}"' id="other" name="other">
-        <br/>
-        <span class="field-validation-valid" data-valmsg-for="other" data-valmsg-replace="true"></span>
-    </div>
-
     <div class="col-xs-2">
         Periodicidad:
     </div>
@@ -36,6 +26,30 @@
                 ng-options="e.name for e in lstPeriodicity"
                 ng-change="d.perId = d.per.id"
                 ng-init='lstPeriodicity = ${lstPeriodicity};'></select>
+    </div>
+</div>
+<br/>
+<div class="row" ng-show="d.type.specification==true">
+    <div class="col-xs-2" ng-show="d.type.specification==true" >
+        Especifíque sustancia:
+    </div>
+    <div class="col-xs-4" ng-show="d.type.specification==true">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 100 caracteres"
+               data-val-length-max="100" data-val-length-min="3" data-val-required="La especificación es un campo requerido"
+               type="text" value="" ng-model="d.other" ng-init='d.other = "${(d.specificationType == null) ? '' : d.specificationType}"' id="specificationType" name="specificationType">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="specificationType" data-valmsg-replace="true"></span>
+    </div>
+    <div class="col-xs-2"   ng-show="d.per.specification==true">
+        Especifíque periodicidad:
+    </div>
+    <div class="col-xs-4" ng-show="d.per.specification==true">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 100 caracteres"
+               data-val-length-max="100" data-val-length-min="3" data-val-required="La especificación es un campo requerido"
+               type="text" value="" ng-model="d.specificationPeriodicity" ng-init='d.specificationPeriodicity = "${(d.specificationPeriodicity == null) ? '' : d.specificationPeriodicity}"'
+               id="specificationPeriodicity" name="specificationPeriodicity">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="specificationPeriodicity" data-valmsg-replace="true"></span>
     </div>
 </div>
 <br/>
@@ -56,7 +70,7 @@
     </div>
     <div class="col-xs-4">
         <div class="input-group">
-            <input class="form-control date-picker" id="lastUse" data-val="true" type="text" data-date-format="yyyy/mm/dd" value="${d.lastUse}"
+            <input class="form-control date-picker" id="lastUse" data-val="true" type="text" data-date-format="yyyy/mm/dd" value="${d.lastUse}" readonly="readonly"
                    name="lastUse" data-val-required="La última fecha de consumo es un campo requerido"/>
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>

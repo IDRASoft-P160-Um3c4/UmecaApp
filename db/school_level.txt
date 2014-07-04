@@ -1,7 +1,0 @@
-id|name
-1|Sin instrucción académica
-2|Primaria
-3|Secundaria
-4|Bachillerato
-5|Licenciatura
-6|Postgrado

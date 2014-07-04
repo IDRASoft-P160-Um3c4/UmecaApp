@@ -1,14 +1,15 @@
-id|name
-1|Alcohol
-2|Marihuana
-3|CocaÌna
-4|HeroÌna
-5|Opi·ceos
-6|PBC(Pasta b·sica de cocaÌna)
-7|Solventes
-8|Cemento
-9|LSD
-10|Anfetaminas
-11|Metanfetaminas
-12|Extasis
-13|Hongos
+Ôªøid|name|isObsolete|specification
+1|Alcohol|0|0
+2|Marihuana|0|0
+3|Cocaca√≠na|0|0
+4|Hero√≠na|0|0
+5|Opi√°ceos|0|0
+6|PBC(Pasta b√°sica de coca√≠na)|0|0
+7|Solventes|0|1
+8|Cemento|0|1
+9|LSD|0|1
+10|Anfetaminas|0|1
+11|Metanfetaminas|0|1
+12|Extasis|0|1
+13|Hongos|0|1
+14|Otro|0|1
