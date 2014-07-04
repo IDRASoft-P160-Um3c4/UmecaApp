@@ -113,7 +113,7 @@
 
             if (resp.hasError === false) {
                 $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                $scope.Model.def.resolve({ isCancel: false, resp: resp });
                 return;
             }
 

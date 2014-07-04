@@ -20,4 +20,8 @@ public interface ArrangementRepository extends JpaRepository<Arrangement, Long>{
             "WHERE hf.id =:id")
     List<SelectList> findLstArrangement(@Param("id")Long id);
 
+    @Query("SELECT new com.umeca.model.shared.SelectList(laa.id, arr.description, laa.description) FROM ActivityMonitoringPlan amp " +
+            "INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.arrangement arr " +
+            "WHERE amp.id =:id")
+    List<SelectList> findArrangementById(@Param("id") Long id);
 }

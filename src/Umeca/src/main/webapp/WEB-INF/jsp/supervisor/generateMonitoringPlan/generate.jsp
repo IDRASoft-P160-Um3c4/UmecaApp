@@ -54,8 +54,8 @@
                     title: "",
                     doTitle: function(isModified){
                         this.title = (isModified === true ? "*" : "") + "Caso "
-                                + this.infoActivity.caseInfo.caseId + "  (" + this.infoActivity.caseInfo.folderId + ") Imputado: "
-                                + this.infoActivity.caseInfo.personName + " " + this.infoActivity.goal.name;
+                                + this.infoActivity.caseInfo.caseId + "  (" + this.infoActivity.caseInfo.mpId + ") Imputado: "
+                                + this.infoActivity.caseInfo.personName + " / " + this.infoActivity.activity.name + " / " + this.infoActivity.goal.name;
                     },
                     idActivity: act.activityId,
                     start: window.stringToDate(act.start),
@@ -84,7 +84,7 @@
             var lstGoals = ${lstGoals};
             var lstSources = ${lstSources};
 
-            var caseInfo = {caseId:"${caseId}", folderId: "${folderId}", personName: "${personName}", monStatus: "${monStatus}", monitoringPlanId: "${monitoringPlanId}"};
+            var caseInfo = {caseId:"${caseId}", mpId: "${mpId}", personName: "${personName}", monStatus: "${monStatus}", monitoringPlanId: "${monitoringPlanId}"};
             lstEventsAct = convertToEvents(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources);
 
 
@@ -247,8 +247,8 @@
             </h1>
         </div>
         <div class="page-header">
-            <h1 class="element-center" ng-init="caseId='${caseId}'; folderId='${folderId}'; personName='${personName}';">
-                Id. del caso: {{caseId}}, &nbsp;&nbsp; No. de carpeta: {{folderId}}, &nbsp;&nbsp; Imputado: {{personName}}
+            <h1 class="element-center" ng-init="caseId='${caseId}'; mpId='${mpId}'; personName='${personName}';">
+                Id. del caso: {{caseId}}, &nbsp;&nbsp; Carpeta judicial: {{mpId}}, &nbsp;&nbsp; Imputado: {{personName}}
             </h1>
         </div>
         <div class="row">

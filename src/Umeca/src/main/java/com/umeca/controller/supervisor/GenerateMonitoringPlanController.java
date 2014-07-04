@@ -16,6 +16,7 @@ import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
+import com.umeca.repository.supervisorManager.LogCommentMonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.MonitoringPlanService;
@@ -66,7 +67,8 @@ public class GenerateMonitoringPlanController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("supervisorId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("status",
-                new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);add(MonitoringConstants.STATUS_END);}},JqGridFilterModel.COMPARE_NOT_IN);
+                new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);add(MonitoringConstants.STATUS_PENDING_END);
+                    add(MonitoringConstants.STATUS_END);}},JqGridFilterModel.COMPARE_NOT_IN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -77,7 +79,7 @@ public class GenerateMonitoringPlanController {
 
                 return new ArrayList<Selection<?>>(){{
                     add(r.get("id"));
-                    add(joinCd.get("idFolder"));
+                    add(joinCd.get("id"));
                     add(joinCd.get("idMP"));
                     add(joinIm.get("name"));
                     add(joinIm.get("lastNameP"));
@@ -92,6 +94,8 @@ public class GenerateMonitoringPlanController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if(field.equals("caseId"))
+                    return r.join("caseDetention").get("id");
                 if(field.equals("stCreationTime"))
                     return r.get("creationTime");
                 if(field.equals("stGenerationTime"))
@@ -133,11 +137,11 @@ public class GenerateMonitoringPlanController {
         //Find last hearing format to get last assigned arrangements
         List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
 
-        List<SelectList> lstGeneric = arrangementRepository.findLstArrangement(lastHearingFormatId.get(0));
+            List<SelectList> lstGeneric = arrangementRepository.findLstArrangement(lastHearingFormatId.get(0));
         String sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstArrangements", sLstGeneric);
 
-        lstGeneric = supervisionActivityRepository.findAllValid();
+        lstGeneric = supervisionActivityRepository.findAllValidSl();
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstActivities", sLstGeneric);
 
@@ -151,7 +155,7 @@ public class GenerateMonitoringPlanController {
 
         MonitoringPlanInfo mpi =  monitoringPlanRepository.getInfoById(id);
         model.addObject("caseId",mpi.getIdCase());
-        model.addObject("folderId",mpi.getIdFolder());
+        model.addObject("mpId",mpi.getIdMP());
         model.addObject("personName",mpi.getPersonName());
         model.addObject("monStatus",mpi.getPersonName());
         model.addObject("monitoringPlanId",mpi.getIdMonitoringPlan());
@@ -161,7 +165,6 @@ public class GenerateMonitoringPlanController {
 
         sLstGeneric = gson.toJson(lstDtoActivities);
         model.addObject("lstActivitiesMonPlan",sLstGeneric);
-
 
         return model;
     }
@@ -201,8 +204,34 @@ public class GenerateMonitoringPlanController {
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         }
+        response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         return response;
     }
+
+    @Autowired
+    LogCommentMonitoringPlanRepository logCommentMonPlanRepository;
+
+    @RequestMapping(value = "/supervisor/generateMonitoringPlan/showRejectAuthMsg", method = RequestMethod.POST)
+    public @ResponseBody ModelAndView showRejectAuthMsg(@RequestParam Long id){ //Id de MonitoringPlan
+        ModelAndView model = new ModelAndView("/supervisor/shared/showMsg");
+        try {
+
+            List<String> lstComment = logCommentMonPlanRepository.getLastCommentByMonPlanIdAndType(id, MonitoringConstants.TYPE_COMMENT_AUTHORIZED, new PageRequest(0, 1));
+
+            model.addObject("type", "warning");
+            model.addObject("title", "Comentarios del rechazo");
+            model.addObject("subtitle", "Su plan de seguimiento fue rechazado debido a:");
+            model.addObject("body", lstComment.get(0));
+
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "showRejectAuthMsg", sharedUserService);
+            model.addObject("type", "warning");
+            model.addObject("title", "Comentarios del rechazo");
+            model.addObject("subtitle", "Su plan de seguimiento fue rechazado debido a:");
+            model.addObject("body", "Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        }
+        return model;
+    }
+
 }

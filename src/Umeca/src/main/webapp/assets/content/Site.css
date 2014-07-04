@@ -284,3 +284,15 @@ i.link-image {
 .label-shadow[href]:focus {
     background-color: #31b0d5;
 }
+
+.border-event-main{
+    border: 3px solid #ff7600 !important;
+}
+
+.color-warning{
+    color: #f0ad4e !important;
+}
+
+.color-danger{
+    color: #d9534f !important;
+}

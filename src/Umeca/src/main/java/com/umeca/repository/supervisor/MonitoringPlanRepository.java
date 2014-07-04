@@ -1,6 +1,7 @@
 package com.umeca.repository.supervisor;
 
 import com.umeca.model.entities.supervisor.ActivityGoal;
+import com.umeca.model.entities.supervisor.ActivityMonitoringPlanInfo;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlanInfo;
 import com.umeca.model.shared.SelectList;
@@ -20,7 +21,7 @@ import java.util.List;
 @Repository("qMonitoringPlanRepository")
 public interface MonitoringPlanRepository extends JpaRepository<MonitoringPlan, Long>{
 
-    @Query("SELECT new com.umeca.model.entities.supervisor.MonitoringPlanInfo(mp.id, cd.id, cd.idFolder, im.name, im.lastNameP, im.lastNameM, mp.status) FROM MonitoringPlan mp " +
+    @Query("SELECT new com.umeca.model.entities.supervisor.MonitoringPlanInfo(mp.id, cd.id, cd.idMP, im.name, im.lastNameP, im.lastNameM, mp.status) FROM MonitoringPlan mp " +
             "INNER JOIN mp.caseDetention cd " +
             "INNER JOIN cd.meeting.imputed im " +
             "WHERE mp.id =:monPlanId")
@@ -34,6 +35,10 @@ public interface MonitoringPlanRepository extends JpaRepository<MonitoringPlan, 
 
     @Query("SELECT mp.id FROM MonitoringPlan mp WHERE mp.id =:monPlanId AND mp.status =:status AND mp.supervisor.id =:userId")
     Long getIdByUser(@Param("monPlanId")Long monPlanId, @Param("status")String status, @Param("userId")Long userId);
+
+    @Query("SELECT mp.supervisor.id FROM MonitoringPlan mp WHERE mp.id =:monPlanId")
+    Long getUserIdByMonPlanId(@Param("monPlanId") Long monPlanId);
+
 }
 
 

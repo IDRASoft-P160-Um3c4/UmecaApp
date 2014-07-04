@@ -29,15 +29,19 @@
                         "Plan de seguimiento", "¿Está seguro de que desea solicitar la autorización del plan de seguimiento para este caso y formato de audiencia?", "warning");
             };
 
+            window.showRejectAuthMsg = function(id){
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisor/generateMonitoringPlan/showRejectAuthMsg.html' />', "#GridId");
+            }
+
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/supervisor/generateMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Carpeta investigación', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
-                        { name: 'idFolder', index: 'idFolder', width: 160, align: "center", sortable: false, search: false },
+                        { name: 'caseId', index: 'caseId', width: 65, align: "center", sortable: true, search: false },
                         { name: 'idMP', index: 'idMP', width: 140, align: "center", sortable: false, search: false },
                         { name: 'fullName', index: 'fullName', width: 220, align: "center", sortable: false, search: false },
                         { name: 'stCreationTime', index: 'stCreationTime', width: 130, align: "center", sortable: true, search: false },
@@ -70,10 +74,14 @@
                             }else if (status === "EN PROCESO DE GENERAR" ) {
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorización del plan de supervisión\" onclick=\"window.preAuthorize('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
                             }
+                            else if (status === "RECHAZADO AUTORIZAR"){
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de autorización\" onclick=\"window.showRejectAuthMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-warning\"></span></a>";
+                            }
 
                             if (status === "EN PROCESO DE GENERAR" || status === "AUTORIZADO" || status === "RECHAZADO AUTORIZAR" || status === "EN PROCESO DE EJECUCIÓN" || status === "RECHAZADO TERMINAR" ){
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                             }
+
 
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

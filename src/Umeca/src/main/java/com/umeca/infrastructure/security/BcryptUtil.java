@@ -14,4 +14,10 @@ public class BcryptUtil {
         String hashedPass = passwordEncoder.encode(plainText);
         return hashedPass;
     }
+
+    public static boolean match(String plain, String encode){
+        BCryptPasswordEncoder passwordEncoder =  new BCryptPasswordEncoder();
+        return passwordEncoder.matches(plain, encode);
+    }
+
 }

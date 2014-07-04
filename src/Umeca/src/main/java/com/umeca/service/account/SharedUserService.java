@@ -1,5 +1,6 @@
 package com.umeca.service.account;
 
+import com.umeca.infrastructure.security.BcryptUtil;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.repository.account.UserRepository;
@@ -72,5 +73,10 @@ public class SharedUserService {
         if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
             age--;
         return age;
+    }
+
+    public boolean isValidPasswordForUser(Long userId, String password) {
+        String encodePassword = userRepository.getEncodedPassword(userId);
+        return BcryptUtil.match(password, encodePassword);
     }
 }

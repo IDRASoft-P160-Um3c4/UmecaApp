@@ -45,7 +45,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Planes de seguimiento<b class="caret"></b> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<c:url value='/supervisorManager/authorizeMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Autorizar</a></li>
+                            <li><a href="<c:url value='/supervisorManager/authorizeMonitoringPlan/index.html' />">
+                                <i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Autorizar / &nbsp;&nbsp;<i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Rechazar</a></li>
                             <li><a href="<c:url value='/supervisorManager/activeMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Activos</a></li>
                             <li><a href="<c:url value='/supervisorManager/finishedMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrados</a></li>
                         </ul>

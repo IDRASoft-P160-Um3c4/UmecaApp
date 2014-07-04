@@ -30,4 +30,10 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     @Query("SELECT new com.umeca.model.entities.account.User(u.id, u.enabled) FROM User u WHERE u.username=:username")
     User getInfoToValidate(@Param("username") String sUsername);
+
+    @Query("SELECT COUNT(u.id) FROM User u WHERE u.username=:username AND u.password =:password")
+    Long isValidPassworForUsername(@Param("username")String username, @Param("password")String password);
+
+    @Query("SELECT u.password FROM User u WHERE u.id=:id")
+    String getEncodedPassword(@Param("id") Long userId);
 }

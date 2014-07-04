@@ -31,17 +31,23 @@ window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue)
 
 };*/
 
-window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue) {
+window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue, callback) {
     var scope = angular.element($(divScope)).scope();
     scope.show({ id: id }, urlToGo).
-        then(function () {
+        then(function (resp) {
 
             if(urlToContinue !== undefined){
                 window.goToUrlMvcUrl(urlToContinue);
                 return;
             }
 
-            $(jqGridToUse).trigger("reloadGrid");
+            if(jqGridToUse !== undefined)
+                $(jqGridToUse).trigger("reloadGrid");
+
+            if(callback !== undefined && resp !== undefined){
+                    callback(resp);
+            }
+
         });
 
 };

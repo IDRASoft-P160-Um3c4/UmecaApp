@@ -24,12 +24,14 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/trackMonitoringPlan/trackMonPlanCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/trackMonitoringPlan/monActivityCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upsertCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/modalDlgCtrl.js"></script>
     <script>
         jQuery(function($) {
 
-            /* initialize the calendar
-            -----------------------------------------------------------------*/
-
+            var monitoringPlanId = ${monitoringPlanId};
+            var scopeTrackMon = angular.element($("#TrackMonPlanControllerId")).scope();
             var calendar = $('#calendar').fullCalendar({
                 buttonText: {
                     prev: '<i class="icon-chevron-left"></i>',
@@ -52,7 +54,7 @@
                 maxTime: 24,
                 defaultView: 'agendaWeek',
                 editable: false,
-                selectable: true,
+                selectable: false,
                 selectHelper: false,
                 eventResize: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
                     revertFunc();
@@ -62,52 +64,32 @@
                     revertFunc();
                     return;
                 },
-                select: function(start, end, allDay) {
-                    /*var today = new Date();
-                    today.setHours(0,0,0,0);
-                    if(start < today){
-                        scope.showMsg({title:"Plan de seguimiento", msg:'No es posible agregar una actividad con fecha anterior a la fecha actual.', type: "danger"});
-                        return;
-                    }
-
-                    scope.showDlg({title:'Agregar actividad', start: start, end: end, isNew: true})
-                            .then(function(result){
-                                for(i=0; i<result.activities.length; i++){
-                                    calendar.fullCalendar('renderEvent', result.activities[i], true);
-                                }
-                            });
-                    calendar.fullCalendar('unselect');      */
-                }
-                ,
+                viewRender: function( view, element ){
+                    scopeTrackMon.loadActivities(monitoringPlanId, view.start, view.end, '<c:url value='${urlGetActivities}' />', monitoringPlanId);
+                },
                 eventClick: function(event, jsEvent, view) {
-                    /*var today = new Date();
-                    today.setHours(0,0,0,0);
-                    var isReadOnly = false;
-                    if(event.start < today){
-                        isReadOnly = true;
-                        //scope.showMsg({title:"Plan de seguimiento", msg:'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
-                        //return;
-                    }
+                    var ans = {};
+                    window.showUpsert(event.idActivity, "#angJsjqGridId", '<c:url value='${urlShowActivity}' />', undefined, undefined,
+                        function(ans){
+                            try{
+                                if(ans !== undefined && ans.resp !== undefined && ans.resp.hasError === false){
 
-                    scope.showDlg({title:'Modificar o eliminar actividad', start: event.start, end: event.end, isNew: false, event: event, isReadOnly: isReadOnly})
-                            .then(function(result){
-                                switch(result.option){
-                                    case 'REMOVE':
-                                        calendar.fullCalendar('removeEvents' , function(ev){
-                                            return (ev._id == event._id);
-                                        });
-                                        scopeMon.addActivityToDelete(event.idActivity);
-                                        break;
-                                    case 'UPDATE':
-                                        calendar.fullCalendar('updateEvent', event);
-                                        break;
-                                    default:
-                                        break;
+                                    if(ans.resp.returnData === "REALIZADA")
+                                        event.className = "label-success";
+                                    else
+                                        event.className = "label-grey";
+
+                                    calendar.fullCalendar('updateEvent', event);
                                 }
-                            });*/
+                            }catch(e){return;}
+
+                        });
                 }
 
             });
+
+            scopeTrackMon.m = { calendar:calendar};
+
         });
     </script>
 
@@ -123,16 +105,17 @@
                 <i class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Planes de seguimiento (Calendario)
             </h1>
         </div>
+        <div class="blocker" ng-show="workingTrack">
+            <div>
+                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
+            </div>
+        </div>
         <div class="row">
             <div class="col-xs-12">
                 <div class="row">
                     <div class="space"></div>
-                    <div class="col-xs-3 col-xs-offset-3 element-center">
-                        <div class="btn btn-success element-center" ng-disabled="waitFor==true" ng-click="returnToCases('<c:url value="/supervisor/generateMonitoringPlan/index.html" />')"><i class="glyphicon glyphicon-chevron-left"></i> &nbsp; Regresar</div>
-                    </div>
-                    <div class="col-xs-3 element-center">
-                        <div class="btn btn-primary element-center" ng-disabled="waitFor==true"
-                             ng-click="saveActivities('${caseId}', '${monitoringPlanId}', '<c:url value="/supervisor/generateMonitoringPlan/doUpsert.json" />')"><i class="glyphicon glyphicon-ok-circle"></i> &nbsp; Guardar</div>
+                    <div class="col-xs-4 col-xs-offset-4 element-center">
+                        <div class="btn btn-success element-center" ng-disabled="waitFor==true" ng-click="returnToCases('<c:url value="${urlReturn}" />')"><i class="glyphicon glyphicon-chevron-left"></i> &nbsp; Regresar</div>
                     </div>
                 </div>
                 <div class="row" ng-show="msgError">
@@ -149,10 +132,18 @@
             </div>
         </div>
     </div>
-
-    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
-    <%@ include file="/WEB-INF/jsp/shared/footer.jsp"%>
 </div>
+
+<div id="angJsjqGridId" ng-controller="modalDlgController">
+    <div class="blocker" ng-show="working">
+        <div>
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
+        </div>
+    </div>
+</div>
+
+<%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
+<%@ include file="/WEB-INF/jsp/shared/footer.jsp"%>
 
 </body>
 </html>

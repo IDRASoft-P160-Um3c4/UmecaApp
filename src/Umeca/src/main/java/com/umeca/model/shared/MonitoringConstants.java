@@ -13,6 +13,7 @@ public class MonitoringConstants {
     public final static String STATUS_AUTHORIZED ="AUTORIZADO";
     public final static String STATUS_REJECTED_AUTHORIZED ="RECHAZADO AUTORIZAR";
     public final static String STATUS_MONITORING ="EN PROCESO DE EJECUCIÓN";
+    public final static String STATUS_PENDING_END ="EN PROCESO DE TERMINAR";
     public final static String STATUS_REJECTED_END ="RECHAZADO TERMINAR";
     public final static String STATUS_END ="TERMINADO";
 
@@ -20,6 +21,10 @@ public class MonitoringConstants {
     public final static String STATUS_ACTIVITY_NEW = "NUEVA";
     public final static String STATUS_ACTIVITY_MODIFIED = "MODIFICADA";
     public final static String STATUS_ACTIVITY_DONE = "REALIZADA";
-    public final static String STATUS_ACTIVITY_FAILED = "NO EJECUTADA";
+    public final static String STATUS_ACTIVITY_FAILED = "NO REALIZADA";
     public final static String STATUS_ACTIVITY_DELETED = "ELIMINADA";
+
+    public final static String TYPE_COMMENT_AUTHORIZED = "AUTORIZAR";
+    public final static String TYPE_COMMENT_END = "TERMINAR";
+
 }

@@ -42,7 +42,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
         monPlan.setStatus(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
         monPlan.setGenerator(user);
-        monPlan.setCreationTime(Calendar.getInstance());
+        monPlan.setGenerationTime(Calendar.getInstance());
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlanId));

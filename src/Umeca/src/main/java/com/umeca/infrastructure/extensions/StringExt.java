@@ -10,4 +10,12 @@ public class StringExt {
     public static boolean isNullOrWhiteSpace(java.lang.String param) {
         return param == null || param.trim().length() == 0;
     }
+
+    public static String naOnEmpty(String supUserDone) {
+
+        if(isNullOrWhiteSpace(supUserDone))
+            return "NA";
+
+        return supUserDone;
+    }
 }

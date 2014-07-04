@@ -14,7 +14,6 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
     $scope.returnToCases = function(url){
         $scope.waitFor = true;
         window.goToUrlMvcUrl(url);
-
     }
 
     $scope.saveActivities = function(caseId, monPlanId, urlToPost){

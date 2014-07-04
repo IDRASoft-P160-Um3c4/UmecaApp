@@ -18,8 +18,11 @@ import java.util.List;
 @Repository("qSupervisionActivityRepository")
 public interface SupervisionActivityRepository extends JpaRepository<SupervisionActivity, Long>{
 
-    @Query("SELECT sa FROM SupervisionActivity sa WHERE sa.isObsolete=false")
-    List<SelectList> findAllValid();
+    @Query("SELECT new com.umeca.model.shared.SelectList(sa.id, sa.name) FROM SupervisionActivity sa WHERE sa.isObsolete=false")
+    List<SelectList> findAllValidSl();
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(sa.id, sa.name) FROM SupervisionActivity sa")
+    List<SelectList> findAllSl();
 }
 
 

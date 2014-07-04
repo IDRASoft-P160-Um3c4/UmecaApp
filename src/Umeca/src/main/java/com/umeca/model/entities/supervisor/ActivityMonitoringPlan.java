@@ -68,17 +68,34 @@ public class ActivityMonitoringPlan {
     @Column(name = "assigned_arrangements", nullable = false)
     private String assignedArrangements;
 
+    @Lob @Basic(fetch=FetchType.LAZY)
+    @Column(name = "assigned_arrangements_ids", nullable = false)
+    private String assignedArrangementsIds;
+
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_user_create", nullable = false)
     private User supervisorCreate;
+
+    @Column(name = "creation_time", nullable = false)
+    private Calendar creationTime;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_user_modify", nullable = true)
     private User supervisorModify;
 
+    @Column(name = "modify_time", nullable = true)
+    private Calendar modifyTime;
+
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_user_done", nullable = true)
     private User supervisorDone;
+
+    @Column(name = "done_time", nullable = true)
+    private Calendar doneTime;
+
+    @Lob @Basic(fetch=FetchType.LAZY)
+    @Column(name = "comments", nullable = true)
+    private String comments;
 
     public Long getId() {
         return id;
@@ -192,6 +209,14 @@ public class ActivityMonitoringPlan {
         this.assignedArrangements = assignedArrangements;
     }
 
+    public String getAssignedArrangementsIds() {
+        return assignedArrangementsIds;
+    }
+
+    public void setAssignedArrangementsIds(String assignedArrangementsIds) {
+        this.assignedArrangementsIds = assignedArrangementsIds;
+    }
+
     public int getSearchStart() {
         return searchStart;
     }
@@ -206,5 +231,37 @@ public class ActivityMonitoringPlan {
 
     public void setSearchEnd(int searchEnd) {
         this.searchEnd = searchEnd;
+    }
+
+    public Calendar getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Calendar creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public Calendar getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Calendar modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public Calendar getDoneTime() {
+        return doneTime;
+    }
+
+    public void setDoneTime(Calendar doneTime) {
+        this.doneTime = doneTime;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

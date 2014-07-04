@@ -15,6 +15,8 @@ import com.umeca.model.entities.account.UserView;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,11 @@ import java.util.List;
 @Controller
 @SuppressWarnings("unchecked")
 public class UserController {
+
+    @Autowired
+    SharedLogExceptionService logException;
+    @Autowired
+    SharedUserService sharedUserService;
 
     @RequestMapping(value = "/management/user/index", method = RequestMethod.GET)
     public String index(){
@@ -157,6 +164,7 @@ public class UserController {
             repositoryUser.save(model);
             response.setHasError(false);
         }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         }
@@ -178,6 +186,7 @@ public class UserController {
                 response.setUnique(true);
 
         }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "isUserAvailable", sharedUserService);
             response.setUnique(false);
         }
 
@@ -188,17 +197,17 @@ public class UserController {
     @RequestMapping(value = "/management/user/disable", method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage disable(@RequestParam Long id){
-        return EnableUser(id, false);
+        return enableUser(id, false);
     }
 
 
     @RequestMapping(value = "/management/user/enable", method = RequestMethod.POST)
     public @ResponseBody
     ResponseMessage enable(@RequestParam Long id){
-        return EnableUser(id, true);
+        return enableUser(id, true);
     }
 
-    private ResponseMessage EnableUser(Long id, boolean bIsEnabled) {
+    private ResponseMessage enableUser(Long id, boolean bIsEnabled) {
         ResponseMessage response = new ResponseMessage();
         try{
             User model = repositoryUser.findOne(id);
@@ -214,6 +223,7 @@ public class UserController {
             response.setHasError(false);
 
         }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "enableUser", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que el registro exista e intente de nuevo");
         }

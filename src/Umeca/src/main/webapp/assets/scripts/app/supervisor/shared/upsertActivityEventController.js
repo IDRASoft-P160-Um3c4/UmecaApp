@@ -173,8 +173,8 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                     title: "",
                     doTitle: function(isModified){
                         this.title = (isModified === true ? "*" : "") + "Caso "
-                            + this.infoActivity.caseInfo.caseId + "  (" + this.infoActivity.caseInfo.folderId + ") Imputado: "
-                            + this.infoActivity.caseInfo.personName + " " + this.infoActivity.goal.name;
+                            + this.infoActivity.caseInfo.caseId + "  (" + this.infoActivity.caseInfo.mpId + ") Imputado: "
+                            + this.infoActivity.caseInfo.personName + " / " + this.infoActivity.activity.name + " / " + this.infoActivity.goal.name;
                     },
                     idActivity: -1,
                     start: dateStepInit,

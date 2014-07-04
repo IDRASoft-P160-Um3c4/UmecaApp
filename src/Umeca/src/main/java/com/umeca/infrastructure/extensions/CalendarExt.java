@@ -42,7 +42,24 @@ public class CalendarExt {
     //2014/MM/DD|14:15
     public static String calendarToString(Calendar calendar) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd|HH:mm");
-        String sEnd = sdf.format(calendar.getTime());
-        return sEnd;
+        String sCalendar = sdf.format(calendar.getTime());
+        return sCalendar;
+    }
+
+    public static String calendarToDateString(Calendar calendar) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy|HH:mm");
+        String sCalendar = sdf.format(calendar.getTime());
+        return sCalendar;
+    }
+
+    public static String calendarToFormatString(Calendar calendar, String format) {
+
+        if(calendar == null){
+            return "NA";
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String sCalendar = sdf.format(calendar.getTime());
+        return sCalendar;
     }
 }
