@@ -24,6 +24,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
     <script type="text/javascript">
+
         jQuery(function ($) {
             $('#id-disable-check').on('click', function () {
                 var inp = $('#form-input-readonly').get(0);
@@ -97,7 +98,7 @@
 <body scroll="no" ng-app="ptlUmc" ng-cloak>
 
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
-
+<br/>
 <h2 class="element-center"><i class="icon-archive"></i>&nbsp;&nbsp;Formato de audiencia</h2>
 
 <form id="FormFormatId" name="FormFormatId" class="form-horizontal"
@@ -105,15 +106,14 @@
 <br/>
 
 <div class="container body-content" ng-controller="hearingFormatController" ng-init='m=${hfView}'>
+<%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp" %>
 
-<input type="hidden" id="url1" value="<c:url value='/supervisor/hearingFormat/searchCase.json'/>"/>
 <input type="hidden" id="url2" value="<c:url value='/supervisor/hearingFormat/searchArrangements.json'/>"/>
 <input type="hidden" id="url3" value="<c:url value='/supervisor/hearingFormat/searchArrangementsByType.json'/>"/>
 
 <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
 <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
 <input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
-
 
 <div class="row">
 
@@ -136,22 +136,27 @@
                                   ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
                                 Cancelar
                             </span>
+
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                                  ng-click="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">
+                                                  Guardar
+                                            </span>
+            <!-- <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                                   ng-click="submitReloadHF('#FormFormatId', '<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',false,validateSave)">
                                   Guardar
-                            </span>
+                            </span>-->
         </div>
     </div>
 </div>
 
-<div class="row">
+<!--<div class="row">
     <div class="col-xs-12">
         <div ng-show="MsgError!=''" class="alert alert-danger element-center">
             <span>{{MsgError}}</span>
         </div>
     </div>
 </div>
-
+-->
 <div class="row">
 <div class="widget-box">
 <div class="widget-header">Datos generales</div>
@@ -511,8 +516,11 @@
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
                         <br/>
+
+                        <div class="col-xs-12">
                          <span class="field-validation-valid" data-valmsg-for="impForm"
                                data-valmsg-replace="true"></span>
+                        </div>
 
                         <div class="radio col-xs-7">
                             <label>
@@ -691,7 +699,7 @@
 
 <br/>
 
-<div class="row">
+<div class="row" ng-show="m.vincProcess==1">
     <div class="widget-box">
         <div class="widget-header">Medidas cautelares</div>
         <div class="widget-body">
@@ -821,7 +829,7 @@
 
 <br/>
 
-<div class="row">
+<div class="row" ng-show="m.vincProcess==1">
     <div class="widget-box">
         <div class="widget-header">Datos de contacto</div>
         <div class="widget-body">
@@ -923,13 +931,11 @@
     </div>
 
 </div>
-
-
 <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
 <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
-
 </div>
 </div>
 </form>
+
 </body>
 </html>

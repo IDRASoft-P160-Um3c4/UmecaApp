@@ -109,13 +109,25 @@
     </h2>
     <br/>
 
-    <div class="col-xs-offset-1">
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 element-center">
+            <c:if test="${showErr == true}">
+                <div class="alert alert-danger element-center">
+                    <span>${msgError}</span>
+                </div>
+            </c:if>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
     <span class="btn btn-default btn-sm"
           onclick="returnHearing('<c:url value='/supervisor/hearingFormat/index.html'/>')">
                                 Regresar
                             </span>
+        </div>
     </div>
-
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

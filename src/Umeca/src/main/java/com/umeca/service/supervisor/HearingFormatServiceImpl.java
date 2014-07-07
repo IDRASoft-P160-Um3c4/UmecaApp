@@ -6,11 +6,12 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.catalog.dto.LocationDto;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.Address;
-import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
@@ -25,10 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service("hearingFormatService")
 public class HearingFormatServiceImpl implements HearingFormatService {
@@ -55,6 +53,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
 
     private Gson conv = new Gson();
 
@@ -125,58 +126,66 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingSpecs.setLinkageRoom(viewFormat.getLinkageRoom());
         hearingSpecs.setLinkageDate(viewFormat.getLinkageDate());
         hearingSpecs.setLinkageTime(viewFormat.getLinkageTime());
-        hearingSpecs.setArrangementType(viewFormat.getArrangementType());
-        hearingSpecs.setNationalArrangement(viewFormat.getNationalArrangement());
+
+        if (viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+
+            hearingSpecs.setArrangementType(viewFormat.getArrangementType());
+            hearingSpecs.setNationalArrangement(viewFormat.getNationalArrangement());
+            hearingFormat.setTerms(viewFormat.getTerms());
+
+
+            List<ArrangementView> lstAssignedArrnmtView;
+            Type type = new TypeToken<List<ArrangementView>>() {
+            }.getType();
+            lstAssignedArrnmtView = conv.fromJson(viewFormat.getLstArrangement(), type);
+
+            List<AssignedArrangement> lstNewAssigArrmnt = new ArrayList<>();
+
+            for (ArrangementView arrV : lstAssignedArrnmtView) {
+
+                if (arrV.getSelVal() == true) {
+                    AssignedArrangement assArrmnt = new AssignedArrangement();
+                    assArrmnt.setArrangement(arrangementRepository.findOne(arrV.getId()));
+                    assArrmnt.setDescription(arrV.getDescription());
+                    assArrmnt.setHearingFormat(hearingFormat);
+                    lstNewAssigArrmnt.add(assArrmnt);
+                }
+            }
+
+            hearingFormat.setAssignedArrangements(lstNewAssigArrmnt);
+
+            List<ContactDataView> lstContactDataView;
+
+            Type typeA = new TypeToken<List<ContactDataView>>() {
+            }.getType();
+
+            lstContactDataView = conv.fromJson(viewFormat.getLstContactData(), typeA);
+
+            List<ContactData> lstNewContactData = new ArrayList<>();
+
+            for (ContactDataView conV : lstContactDataView) {
+
+                ContactData contact = new ContactData();
+                contact.setNameTxt(conV.getName());
+                contact.setPhoneTxt(conV.getPhone());
+                contact.setAddressTxt(conV.getAddress());
+                contact.setHearingFormat(hearingFormat);
+                lstNewContactData.add(contact);
+            }
+
+            hearingFormat.setContacts(lstNewContactData);
+
+        }else{
+            hearingFormat.setConfirmComment(viewFormat.getConfirmComment());
+        }
 
         hearingFormat.setHearingFormatSpecs(hearingSpecs);
 
         hearingFormat.setAdditionalData(viewFormat.getAdditionalData());
         hearingFormat.setCrimes(viewFormat.getCrimes());
-        hearingFormat.setTerms(viewFormat.getTerms());
 
-        List<ArrangementView> lstAssignedArrnmtView;
-        Type type = new TypeToken<List<ArrangementView>>() {
-        }.getType();
-        lstAssignedArrnmtView = conv.fromJson(viewFormat.getLstArrangement(), type);
-
-        List<AssignedArrangement> lstNewAssigArrmnt = new ArrayList<>();
-
-        for (ArrangementView arrV : lstAssignedArrnmtView) {
-
-            if (arrV.getSelVal() == true) {
-                AssignedArrangement assArrmnt = new AssignedArrangement();
-                assArrmnt.setArrangement(arrangementRepository.findOne(arrV.getId()));
-                assArrmnt.setDescription(arrV.getDescription());
-                assArrmnt.setHearingFormat(hearingFormat);
-                lstNewAssigArrmnt.add(assArrmnt);
-            }
-        }
-
-        hearingFormat.setAssignedArrangements(lstNewAssigArrmnt);
-
-        List<ContactDataView> lstContactDataView;
-
-        Type typeA = new TypeToken<List<ContactDataView>>() {
-        }.getType();
-
-        lstContactDataView = conv.fromJson(viewFormat.getLstContactData(), typeA);
-
-        List<ContactData> lstNewContactData = new ArrayList<>();
-
-        for (ContactDataView conV : lstContactDataView) {
-
-            ContactData contact = new ContactData();
-            contact.setNameTxt(conV.getName());
-            contact.setPhoneTxt(conV.getPhone());
-            contact.setAddressTxt(conV.getAddress());
-            contact.setHearingFormat(hearingFormat);
-            lstNewContactData.add(contact);
-        }
-
-        hearingFormat.setContacts(lstNewContactData);
-
-    return hearingFormat;
-}
+        return hearingFormat;
+    }
 
     @Override
     public HearingFormatView fillNewHearingFormatForView(Long idCase) {
@@ -198,7 +207,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormatView.setDisableAll(false);
 
         } else {//si no existe un formato de audiencia anterior
-                //evaluo el origen del meeting
+            //evaluo el origen del meeting
             if (meetType.equals(HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE)) { //si el meeting fue creado como suspension condicional
 
                 //obtengo los datos de meeting
@@ -217,9 +226,37 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormatView.setCanEdit(true);
                 hearingFormatView.setDisableAll(false);
 
-            } else if (meetType.equals(HearingFormatConstants.MEETING_PROCEDURAL_RISK)) {//si el meeting fue creado normalmente
+            } else if (meetType.equals(HearingFormatConstants.MEETING_PROCEDURAL_RISK)) {//si el meeting fue creado normalmente y ya esta completo
 
-                //busco si tiene verificacion y obtengo los datos
+
+                hearingFormatView.setIdCase(existCase.getId());
+                hearingFormatView.setIdFolder(existCase.getIdFolder());
+                hearingFormatView.setIdJudicial(existCase.getIdMP());
+
+                Meeting verif = existCase.getVerification().getMeetingVerified();
+
+                if (verif.getImputed() != null) {
+                    hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
+                    hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
+                    hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
+                    hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
+                }
+
+                List<ImputedHome> homes = verif.getImputedHomes();
+
+                if (homes != null && homes.size() > 0) {
+                    Collections.sort(homes, ImputedHome.imputedHomeComparator);
+                }
+
+                hearingFormatView.setIdAddres(homes.get(0).getAddress().getId());
+
+                User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
+                hearingFormatView.setUserName(us.getFullname());
+
+                hearingFormatView.setCanSave(true);
+                hearingFormatView.setCanEdit(true);
+                hearingFormatView.setDisableAll(false);
+
             }
         }
 
@@ -264,26 +301,28 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setLinkageDate(existHF.getHearingFormatSpecs().getLinkageDate());
         hearingFormatView.setLinkageTime(existHF.getHearingFormatSpecs().getLinkageTime());
         hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
-        hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
-        hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
+
         hearingFormatView.setAdditionalData(existHF.getAdditionalData());
         hearingFormatView.setCrimes(existHF.getCrimes());
-        hearingFormatView.setTerms(existHF.getTerms());
-
         hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
 
-        hearingFormatView.setLstArrangement(conv.toJson(this.assignedArrangementForView(existHF.getAssignedArrangements())));
-        hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
+        if (existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+            hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
+            hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
+            hearingFormatView.setTerms(existHF.getTerms());
+            hearingFormatView.setLstArrangement(conv.toJson(this.assignedArrangementForView(existHF.getAssignedArrangements())));
+            hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
+        }
 
         return hearingFormatView;
     }
 
 
-    public List<ArrangementView> getArrangmentLst(Boolean national,Integer idTipo) {
+    public List<ArrangementView> getArrangmentLst(Boolean national, Integer idTipo) {
 
         List<ArrangementView> lstArrmntView = new ArrayList<>();
 
-        List<Arrangement> lstArrmnt = arrangementRepository.findByType(national,idTipo);
+        List<Arrangement> lstArrmnt = arrangementRepository.findByType(national, idTipo);
         Collections.sort(lstArrmnt, Arrangement.arrangementComparator);
 
         for (Arrangement arrmnt : lstArrmnt) {
@@ -335,6 +374,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         StringBuilder sb = new StringBuilder();
 
         try {
+
+            if (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO))
+                hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
+
             hearingFormat = hearingFormatRepository.save(hearingFormat);
 
             sb.append(request.getContextPath());
@@ -352,4 +395,14 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             return response;
         }
     }
+
+    @Override
+    public ResponseMessage validatePassCredential(String pass) {
+
+        if (!sharedUserService.isValidPasswordForUser(sharedUserService.GetLoggedUserId(), pass)) {
+            return new ResponseMessage(true, "El password es incorrecto, verfifique los datos.");
+        }
+        return null;
+    }
+
 }

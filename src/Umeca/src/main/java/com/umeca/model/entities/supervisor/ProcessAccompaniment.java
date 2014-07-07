@@ -31,6 +31,12 @@ public class ProcessAccompaniment {
     @Column(name="age")
     private String age;
 
+    @Column(name="phone")
+    private String phone;
+
+    @Column(name="cel_phone")
+    private String celphone;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_framing_occupation")
     private Occupation occupation;
@@ -113,5 +119,21 @@ public class ProcessAccompaniment {
 
     public void setSchoolLevel(AcademicLevel schoolLevel) {
         this.schoolLevel = schoolLevel;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCelphone() {
+        return celphone;
+    }
+
+    public void setCelphone(String celphone) {
+        this.celphone = celphone;
     }
 }

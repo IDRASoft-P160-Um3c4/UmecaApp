@@ -37,10 +37,10 @@ public class HearingFormatSpecs {
     @Column(name = "linkage_time")
     private Time linkageTime;
 
-    @Column(name = "arrangement_type", nullable = false)
+    @Column(name = "arrangement_type")
     private Integer arrangementType;
 
-    @Column(name = "national_arrangement", nullable = false)
+    @Column(name = "national_arrangement")
     private Boolean nationalArrangement;
 
 

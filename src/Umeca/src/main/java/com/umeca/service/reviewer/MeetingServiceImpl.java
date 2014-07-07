@@ -14,6 +14,7 @@ import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.RelActivitySocialEnvironmentDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -131,6 +132,7 @@ public class MeetingServiceImpl implements MeetingService {
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention = caseRepository.save(caseDetention);
             Meeting meeting = new Meeting();
+            meeting.setMeetingType(HearingFormatConstants.MEETING_PROCEDURAL_RISK);
             meeting.setCaseDetention(caseDetention);
             StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
             meeting.setStatus(statusMeeting);

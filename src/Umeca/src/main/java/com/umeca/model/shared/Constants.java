@@ -43,4 +43,6 @@ public class Constants {
     public static final String CASE_STATUS_FRAMING_MEETING_COMPLETE="ST_CASE_FRAMING_MEETING_COMPLETE";
     public static final String CASE_STATUS_CONDITIONAL_REPRIEVE="ST_CASE_CONDITIONAL_REPRIEVE";
 
+    public static final String CASE_STATUS_PRE_CLOSED="ST_CASE_PRE_CLOSED";
+
 }

@@ -55,8 +55,11 @@ public class HearingFormat{
     @Column(name = "additional_data", length = 5000, nullable = false)
     private String additionalData;
 
-    @Column(name = "terms", length = 1000, nullable = false)
+    @Column(name = "terms", length = 1000)
     private String terms;
+
+    @Column(name = "confirm_comment", length = 1000)
+    private String confirmComment;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="id_format_specs", nullable = false)
@@ -79,10 +82,6 @@ public class HearingFormat{
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_hearing_format_imputed")
     private HearingFormatImputed hearingImputed;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_hearing_format_type")
-    private HearingFormatType hearingFormatType;
 
     @Transient
     public static final Comparator<HearingFormat> hearingFormatComparator= new Comparator<HearingFormat>() {
@@ -250,5 +249,13 @@ public class HearingFormat{
 
     public void setHearingImputed(HearingFormatImputed hearingImputed) {
         this.hearingImputed = hearingImputed;
+    }
+
+    public String getConfirmComment() {
+        return confirmComment;
+    }
+
+    public void setConfirmComment(String confirmComment) {
+        this.confirmComment = confirmComment;
     }
 }

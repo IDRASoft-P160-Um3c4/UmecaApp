@@ -93,6 +93,10 @@ public class HearingFormatView {
 
     private String userName;
 
+    private String confirmComment;
+
+    private String credPass;
+
     public Long getIdCase() {
         return idCase;
     }
@@ -411,5 +415,21 @@ public class HearingFormatView {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getConfirmComment() {
+        return confirmComment;
+    }
+
+    public void setConfirmComment(String confirmComment) {
+        this.confirmComment = confirmComment;
+    }
+
+    public String getCredPass() {
+        return credPass;
+    }
+
+    public void setCredPass(String credPass) {
+        this.credPass = credPass;
     }
 }
