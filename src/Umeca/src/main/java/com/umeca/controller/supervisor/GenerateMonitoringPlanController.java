@@ -137,7 +137,7 @@ public class GenerateMonitoringPlanController {
         //Find last hearing format to get last assigned arrangements
         List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
 
-            List<SelectList> lstGeneric = arrangementRepository.findLstArrangement(lastHearingFormatId.get(0));
+        List<SelectList> lstGeneric = arrangementRepository.findLstArrangement(lastHearingFormatId.get(0));
         String sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstArrangements", sLstGeneric);
 
@@ -207,31 +207,6 @@ public class GenerateMonitoringPlanController {
         }
         response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         return response;
-    }
-
-    @Autowired
-    LogCommentMonitoringPlanRepository logCommentMonPlanRepository;
-
-    @RequestMapping(value = "/supervisor/generateMonitoringPlan/showRejectAuthMsg", method = RequestMethod.POST)
-    public @ResponseBody ModelAndView showRejectAuthMsg(@RequestParam Long id){ //Id de MonitoringPlan
-        ModelAndView model = new ModelAndView("/supervisor/shared/showMsg");
-        try {
-
-            List<String> lstComment = logCommentMonPlanRepository.getLastCommentByMonPlanIdAndType(id, MonitoringConstants.TYPE_COMMENT_AUTHORIZED, new PageRequest(0, 1));
-
-            model.addObject("type", "warning");
-            model.addObject("title", "Comentarios del rechazo");
-            model.addObject("subtitle", "Su plan de seguimiento fue rechazado debido a:");
-            model.addObject("body", lstComment.get(0));
-
-        }catch (Exception ex){
-            logException.Write(ex, this.getClass(), "showRejectAuthMsg", sharedUserService);
-            model.addObject("type", "warning");
-            model.addObject("title", "Comentarios del rechazo");
-            model.addObject("subtitle", "Su plan de seguimiento fue rechazado debido a:");
-            model.addObject("body", "Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
-        }
-        return model;
     }
 
 }

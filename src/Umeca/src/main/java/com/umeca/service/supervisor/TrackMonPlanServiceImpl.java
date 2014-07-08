@@ -111,21 +111,46 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
 
     @Override
     @Transactional
-    public void saveAuthRejectMonPlan(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan) {
+    public void saveAuthRejectMonPlan(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String statusAuth, String statusReject, String type) {
         LogCommentMonitoringPlan commentModel = new LogCommentMonitoringPlan();
         Calendar now = Calendar.getInstance();
-        String statusAction = (model.getAuthorized() == 1 ? MonitoringConstants.STATUS_AUTHORIZED : MonitoringConstants.STATUS_REJECTED_AUTHORIZED);
+        //String statusAction = (model.getAuthorized() == 1 ? MonitoringConstants.STATUS_AUTHORIZED : MonitoringConstants.STATUS_REJECTED_AUTHORIZED);
+        String statusAction = (model.getAuthorized() == 1 ? statusAuth : statusReject);
         commentModel.setComments(model.getComments());
         commentModel.setAction(statusAction);
         commentModel.setMonitoringPlan(monPlan);
         commentModel.setSenderUser(user);
         commentModel.setTimestamp(now);
-        commentModel.setType(MonitoringConstants.TYPE_COMMENT_AUTHORIZED);
+        //commentModel.setType(MonitoringConstants.TYPE_COMMENT_AUTHORIZED);
+        commentModel.setType(type);
 
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
         monPlan.setStatus(statusAction);
         monPlan.setAuthorizer(user);
         monPlan.setAuthorizationTime(now);
+        MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
+
+        logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
+        logCommentMonPlanRepository.save(commentModel);
+        monitoringPlanRepository.save(monPlan);
+    }
+
+
+    @Override
+    @Transactional
+    public void saveReqEndMonPlan(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan) {
+        LogCommentMonitoringPlan commentModel = new LogCommentMonitoringPlan();
+        Calendar now = Calendar.getInstance();
+
+        commentModel.setComments(model.getComments());
+        commentModel.setAction(MonitoringConstants.STATUS_PENDING_END);
+        commentModel.setMonitoringPlan(monPlan);
+        commentModel.setSenderUser(user);
+        commentModel.setTimestamp(now);
+        commentModel.setType(MonitoringConstants.TYPE_COMMENT_END);
+
+        MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
+        monPlan.setStatus(MonitoringConstants.STATUS_PENDING_END);
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));

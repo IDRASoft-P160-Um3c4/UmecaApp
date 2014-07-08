@@ -53,8 +53,6 @@ public class AuthorizeMonitoringPlanController {
     @RequestMapping(value = "/supervisorManager/authorizeMonitoringPlan/list", method = RequestMethod.POST)
     public @ResponseBody JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
 
-        Long userId = userService.GetLoggedUserId();
-
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("status",
                 new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);}},JqGridFilterModel.COMPARE_IN);
@@ -172,14 +170,12 @@ public class AuthorizeMonitoringPlanController {
         ModelAndView model = new ModelAndView("/supervisorManager/authorizeMonitoringPlan/authorizeRejectMonPlan");
 
         try{
-            MonitoringPlanInfo monPlanInfo = monitoringPlanRepository.getInfoById(id);
-
-            model.addObject("monPlanId", id);
-            model.addObject("caseId", monPlanInfo.getIdCase());
-            model.addObject("mpId", monPlanInfo.getIdMP());
-            model.addObject("fullName", monPlanInfo.getPersonName());
-            model.addObject("status", monPlanInfo.getMonStatus());
+            ActiveMonitoringPlanController.GetMonPlanInfo(id, model, monitoringPlanRepository);
             model.addObject("isAuthorized", 1);
+            model.addObject("isEnd", 0);
+            model.addObject("msgPlan", "el plan de seguimiento");
+            model.addObject("urlToGo", "/supervisorManager/authorizeMonitoringPlan/doAuthorizeRejectMonPlan.json");
+
 
             return model;
         }catch (Exception ex){
@@ -194,14 +190,11 @@ public class AuthorizeMonitoringPlanController {
         ModelAndView model = new ModelAndView("/supervisorManager/authorizeMonitoringPlan/authorizeRejectMonPlan");
 
         try{
-            MonitoringPlanInfo monPlanInfo = monitoringPlanRepository.getInfoById(id);
-
-            model.addObject("monPlanId", id);
-            model.addObject("caseId", monPlanInfo.getIdCase());
-            model.addObject("mpId", monPlanInfo.getIdMP());
-            model.addObject("fullName", monPlanInfo.getPersonName());
-            model.addObject("status", monPlanInfo.getMonStatus());
+            ActiveMonitoringPlanController.GetMonPlanInfo(id, model, monitoringPlanRepository);
             model.addObject("isAuthorized", 0);
+            model.addObject("isEnd", 0);
+            model.addObject("msgPlan", "el plan de seguimiento");
+            model.addObject("urlToGo", "/supervisorManager/authorizeMonitoringPlan/doAuthorizeRejectMonPlan.json");
 
             return model;
         }catch (Exception ex){
@@ -238,7 +231,8 @@ public class AuthorizeMonitoringPlanController {
                 return response;
             }
 
-            trackMonPlanService.saveAuthRejectMonPlan(model, user, monPlan);
+            trackMonPlanService.saveAuthRejectMonPlan(model, user, monPlan, MonitoringConstants.STATUS_AUTHORIZED,
+                    MonitoringConstants.STATUS_REJECTED_AUTHORIZED, MonitoringConstants.TYPE_COMMENT_AUTHORIZED);
 
             response.setHasError(false);
         }catch (Exception ex){
@@ -246,9 +240,6 @@ public class AuthorizeMonitoringPlanController {
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         }
-
         return response;
     }
-
-
 }

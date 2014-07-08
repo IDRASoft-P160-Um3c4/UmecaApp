@@ -37,6 +37,13 @@
                         <ul class="dropdown-menu">
                             <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar/Modificar</a></li>
                             <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Dar seguimiento</a></li>
+                            <li><a href="<c:url value='/supervisor/manageMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Manejar casos y planes</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Bitácoras<b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<c:url value='/supervisor/log/index.html' />"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bitácoras de supervisión y cumplimiento</a></li>
                         </ul>
                     </li>
                 </sec:authorize>
