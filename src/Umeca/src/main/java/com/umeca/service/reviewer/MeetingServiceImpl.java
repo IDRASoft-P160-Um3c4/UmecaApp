@@ -751,10 +751,10 @@ public class MeetingServiceImpl implements MeetingService {
             return new ResponseMessage(true, "Favor de ingresar la fecha de nacimiento del imputado.");
         }
         if (imputed.getMeeting() != null && imputed.getMeeting().getCaseDetention() != null && imputed.getMeeting().getCaseDetention().getIdFolder() != null) {
-            Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
+            /*Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             if (c != null) {
                 return new ResponseMessage(true, "El número de carpeta de investigación ya se encuentra registrado.");
-            }
+            }*/
         } else {
             return new ResponseMessage(true, "Favor de ingresar el número de carpeta de investigación para continuar");
         }

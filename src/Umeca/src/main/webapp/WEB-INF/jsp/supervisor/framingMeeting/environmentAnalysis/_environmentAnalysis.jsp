@@ -2,11 +2,15 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
-<div class="row">
+<div class="row" ng-controller="environmentAnalysisController">
+
+    <input type="hidden" id="loadSources" value="<c:url value='/supervisor/framingMeeting/loadExistSources.json'/>"/>
+    <input type="hidden" id="envIdCase" value="{{fm.objView.idCase}}"/>
+
     <div class="col-xs-10 col-xs-offset-1">
 
         <div class="row element-center">
-            <h2><i class="blue icon-eye-open bigger-100"></i> &nbsp;Analisis del entorno
+            <h2><i class="blue icon-eye-open bigger-100"></i> &nbsp;Analisis del entorno {{fm.objView.idCase}}
             </h2>
         </div>
 
@@ -18,9 +22,9 @@
 
         <div class="row">
 
-            <form id="FormPersonalData" name="FormPersonalData" ng-submit="submit('#FormPersonalData')"
-                  class="form-horizontal"
-                  role="form">
+            <form id="FormEnvironmentAnalisysId" name="FormEnvironmentAnalisysId" class="form-horizontal" role="form">
+
+                <input type="hidden" name="lstSelectedSources" value="{{lstSelectedSources}}">
 
                 <div class="row">
                     <br/>
@@ -31,6 +35,17 @@
                             <div class="widget-body">
                                 <div class="row">
                                     <div class="col-xs-10 col-xs-offset-1">
+                                        <br/>
+
+                                        <div class="row" ng-repeat="source in lstSources">
+                                                <label ng-click="selectSource(source.id);">
+                                                    <input class="ace"
+                                                           name="caseSources"
+                                                           type="checkbox"
+                                                           ng-checked="isChecked(question.questionId);">
+                                                    <span class="lbl">&nbsp;&nbsp;{{source.description}}</span>
+                                                </label>
+                                        </div>
                                         <br/>
                                     </div>
                                 </div>
@@ -94,7 +109,7 @@
     <div class="col-xs-12">
         <div class="modal-footer">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-              ng-click="submit('#FormPersonalData', '<c:url value="/reviewer/meeting/upsertPersonalData.json"/>');">
+              ng-click="submitIdCaseParam('#FormEnvironmentAnalisysId', '<c:url value="/supervisor/framingMeeting/environmentAnalysis/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>
               Guardar
         </span>

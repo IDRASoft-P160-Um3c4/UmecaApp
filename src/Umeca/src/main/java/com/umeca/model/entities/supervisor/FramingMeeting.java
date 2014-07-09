@@ -29,16 +29,20 @@ public class FramingMeeting {
     private List<ImputedHome> imputedHomes;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<FramingHousemate> housemates;
-
-    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingReference> references;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Drug> drugs;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<FramingPhysicalConditionRel> framingPhysicalConditionRel;
+    private List<FramingSelectedSourceRel> selectedSourcesRel;
+
+    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FramingSelectedRiskRel> selectedRisksRel;
+
+    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FramingSelectedThreatRel> selectedThreatsRel;
+
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_process_accompaniment")
@@ -80,14 +84,6 @@ public class FramingMeeting {
         this.imputedHomes = imputedHomes;
     }
 
-    public List<FramingHousemate> getHousemates() {
-        return housemates;
-    }
-
-    public void setHousemates(List<FramingHousemate> housemates) {
-        this.housemates = housemates;
-    }
-
     public List<FramingReference> getReferences() {
         return references;
     }
@@ -104,14 +100,6 @@ public class FramingMeeting {
         this.drugs = drugs;
     }
 
-    public List<FramingPhysicalConditionRel> getFramingPhysicalConditionRel() {
-        return framingPhysicalConditionRel;
-    }
-
-    public void setFramingPhysicalConditionRel(List<FramingPhysicalConditionRel> framingPhysicalConditionRel) {
-        this.framingPhysicalConditionRel = framingPhysicalConditionRel;
-    }
-
     public Case getCaseDetention() {
         return caseDetention;
     }
@@ -126,5 +114,29 @@ public class FramingMeeting {
 
     public void setProcessAccompaniment(ProcessAccompaniment processAccompaniment) {
         this.processAccompaniment = processAccompaniment;
+    }
+
+    public List<FramingSelectedSourceRel> getSelectedSourcesRel() {
+        return selectedSourcesRel;
+    }
+
+    public void setSelectedSourcesRel(List<FramingSelectedSourceRel> selectedSourcesRel) {
+        this.selectedSourcesRel = selectedSourcesRel;
+    }
+
+    public List<FramingSelectedRiskRel> getSelectedRisksRel() {
+        return selectedRisksRel;
+    }
+
+    public void setSelectedRisksRel(List<FramingSelectedRiskRel> selectedRisksRel) {
+        this.selectedRisksRel = selectedRisksRel;
+    }
+
+    public List<FramingSelectedThreatRel> getSelectedThreatsRel() {
+        return selectedThreatsRel;
+    }
+
+    public void setSelectedThreatsRel(List<FramingSelectedThreatRel> selectedThreatsRel) {
+        this.selectedThreatsRel = selectedThreatsRel;
     }
 }

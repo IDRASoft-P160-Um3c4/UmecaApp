@@ -15,7 +15,7 @@
     $(document).ready(function() {
 
         jQuery("#GridIdAddress").jqGrid({
-            url: '<c:url value='/reviewer/meeting/listAddress.json?idCase=${m.caseDetention.id}'/>',
+            //url: '<c:url value='/reviewer/meeting/listAddress.json?idCase=${m.caseDetention.id}'/>',
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Direccion','Tipo de domicilio','Tiempo de<br/> recidencia','Tipo de propiedad', 'Acci�n'],

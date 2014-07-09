@@ -1,6 +1,6 @@
 app.controller('framingMeetingController', function ($scope, $timeout, $http) {
 
-        $scope.m = {}
+        $scope.fm = {}
 
         $scope.successMsg;
         $scope.errorMsg = {}
