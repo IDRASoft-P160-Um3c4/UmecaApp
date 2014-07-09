@@ -47,12 +47,10 @@ public class TrackMonitoringPlanController {
     @Autowired
     SharedUserService sharedUserService;
 
-
     @RequestMapping(value = "/supervisor/trackMonitoringPlan/index", method = RequestMethod.GET)
     public String index(){
         return "/supervisor/trackMonitoringPlan/index";
     }
-
 
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;

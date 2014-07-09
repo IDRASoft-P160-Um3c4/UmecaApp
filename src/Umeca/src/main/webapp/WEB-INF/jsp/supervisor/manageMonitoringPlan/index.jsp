@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!--
-* Project: Umeca
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/trackMonitoringPlan/trackListMonPlanCtrl.js"></script>
     <title></title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -19,15 +13,24 @@
     <div class="container body-content">
 
         <script>
-            window.track = function(id) {
-                var params= [];
-                params["idParam"]=id;
-                window.goToUrlMvcUrl("<c:url value='/supervisor/trackMonitoringPlan/trackCalendar.html?id=idParam' />",params);
-            };
+
+            window.reqEndPlan = function(id){
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisor/manageMonitoringPlan/reqEndPlan.html' />', "#GridId");
+            }
+
+            window.showRejectAuthMsg = function(id){
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisor/manageMonitoringPlan/showRejectAuthMsg.html' />', "#GridId");
+            }
+
+            window.showRejectAuthEndMsg = function(id){
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisor/manageMonitoringPlan/showRejectAuthEndMsg.html' />', "#GridId");
+            }
+
+
 
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
-                    url: '<c:url value='/supervisor/trackMonitoringPlan/list.json' />',
+                    url: '<c:url value='/supervisor/manageMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
                     colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
@@ -61,7 +64,16 @@
                             var status = row.status;
                             var be = "";
 
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Seguimiento al plan\" onclick=\"window.track('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
+                            if (status === "RECHAZADO AUTORIZAR"){
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de autorización\" onclick=\"window.showRejectAuthMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-warning\"></span></a>";
+                            }else if(status === "RECHAZADO TERMINAR"){
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de finalización\" onclick=\"window.showRejectAuthEndMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-danger\"></span></a>";
+                            }
+
+                            if (status !== "RECHAZADO AUTORIZAR" && status !== "RECHAZADO TERMINAR" && status !== "EN PROCESO DE AUTORIZAR"  && status !== "EN PROCESO DE TERMINAR") {
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar finalización del plan de seguimiento\" onclick=\"window.reqEndPlan('" + cl + "');\"><span class=\"glyphicon glyphicon-off\"></span></a>";
+                            }
+
                             /*if (status === "NUEVO") {
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
                             }*/
@@ -98,12 +110,7 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-xs-12">
-                    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Planes de seguimiento</h2>
-                </div>
-            </div>
-            <div class="row" ng-controller="trackListMonPlanCtrl">
-                <div class="col-xs-3 col-xs-offset-5">
-                    <div class="btn btn-success element-center" ng-click="trackAll()"><i class="glyphicon glyphicon-calendar"></i> &nbsp; Calendario completo</div>
+                    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Casos y planes de seguimiento</h2>
                 </div>
             </div>
         </div>

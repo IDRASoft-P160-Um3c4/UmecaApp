@@ -8,23 +8,21 @@
 
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
-        <div class="modal-dialog" style="width:900px" ng-controller="authRejectController" ng-init="isAuthorized=${isAuthorized};isEnd=${isEnd};">
+        <div class="modal-dialog" style="width:900px" ng-init="countMiss=${countMiss}">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div  ng-class="(isAuthorized ? 'alert alert-info' : 'alert alert-warning')">
+                    <div  class="alert alert-info">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center" ng-show="isAuthorized"><i class="glyphicon glyphicon-saved"></i>&nbsp;&nbsp;Autorizar ${msgPlan}</h4>
-                        <h4 class="element-center" ng-show="!isAuthorized"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Rechazar ${msgPlan}</h4>
+                        <h4 class="element-center"><i class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Solicitud de finalización del plan de seguimiento</h4>
                     </div>
                 </div>
                 <div class="modal-body">
                     <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal"
                           role="form">
                         <input type="hidden" name="monPlanId" id="monPlanId" value="${monPlanId}" />
-                        <input type="hidden" name="authorized" id="authorized" value="${isAuthorized}" />
                         <div class="row">
                             <div class="col-xs-12">
-                                <div ng-class="(isAuthorized ? 'panel panel-primary' : 'panel panel-warning')">
+                                <div class="panel panel-primary">
                                     <div class="panel-heading">
                                         <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Información del caso
                                     </div>
@@ -81,17 +79,37 @@
                         <br/>
                         <div class="row">
                             <div class="col-xs-12">
-                                <div ng-class="(isAuthorized ? 'panel panel-primary' : 'panel panel-warning')">
+                                <div class='panel panel-primary'>
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Observaciones sobre ${msgPlan}
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Plan de seguimiento
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-xs-8 col-xs-offset-2 widget-container-span">
                                                 <div class="widget-box">
-                                                    <div class="widget-header widget-header-small"
-                                                         ng-class="(isAuthorized ? 'header-color-green' : 'header-color-orange')">
-                                                        <h6>Observaciones</h6>
+                                                    <div class="widget-header widget-header-small header-color-dark">
+                                                        <h6>Actividades</h6>
+                                                    </div>
+                                                    <div class="widget-body">
+                                                        <div class="widget-main padding-12">
+                                                            <p ng-show="countMiss>0" class="element-center">
+                                                                El plan de seguimiento tiene aún <strong>{{countMiss}}</strong> actividad(es) pendientes por concluir. <br/>
+                                                                Aún así, ¿desea soliticitar la finalización del plan de seguimiento?
+                                                            </p>
+                                                            <p ng-show="countMiss===0" class="element-center">
+                                                                El plan de seguimiento ya no tiene actividades pendientes por realizar. <br/>
+                                                                ¿Desea soliticitar la finalización del plan de seguimiento?
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-8 col-xs-offset-2 widget-container-span">
+                                                <div class="widget-box">
+                                                    <div class="widget-header widget-header-small header-color-dark">
+                                                        <h6>Comentarios</h6>
                                                     </div>
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">
@@ -104,8 +122,7 @@
                                         <div class="row" ng-show="m.comments">
                                             <div class="col-xs-8 col-xs-offset-2 widget-container-span">
                                                 <div class="widget-box">
-                                                    <div class="widget-header widget-header-small"
-                                                         ng-class="(isAuthorized ? 'header-color-green' : 'header-color-orange')">
+                                                    <div class="widget-header widget-header-small header-color-dark">
                                                         <h6>Ingrese su contraseña para validar su usuario</h6>
                                                     </div>
                                                     <div class="widget-body">
@@ -134,8 +151,8 @@
                 <div class="modal-footer" id="btn-act-footer">
                     <button class="btn btn-default btn-sm" ng-click="cancel()">Cancelar</button>
                         <button class="btn btn-default btn-primary btn-sm" ng-show = "m.password && m.comments"
-                              ng-click="submit('#FormCatId', '<c:url value='${urlToGo}' />')">
-                              Aceptar
+                              ng-click="submit('#FormCatId', '<c:url value='/supervisor/manageMonitoringPlan/doReqEndPlan.json' />')">
+                              Solicitar
                         </button>
                 </div>
             </div>

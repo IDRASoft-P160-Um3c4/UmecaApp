@@ -60,7 +60,9 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
             return false;
         }
 
-        Long countValidActivities = actMonPlanRepository.countValidActivities(monPlanId, new ArrayList<String>(){{add(MonitoringConstants.STATUS_ACTIVITY_DELETED);}});
+        Long countValidActivities = actMonPlanRepository.countActivitiesByStatus(monPlanId, new ArrayList<String>() {{
+            add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
+        }});
 
         if(countValidActivities == 0){
             message.setMessage("Al menos debe existir una actividad válida en el plan de seguimiento");

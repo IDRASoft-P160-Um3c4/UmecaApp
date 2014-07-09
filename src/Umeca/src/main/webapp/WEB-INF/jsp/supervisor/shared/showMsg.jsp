@@ -8,7 +8,7 @@
 
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
-        <div class="modal-dialog" style="width:900px">
+        <div class="modal-dialog" style="width:700px">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-${type}">

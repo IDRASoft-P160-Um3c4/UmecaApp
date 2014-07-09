@@ -123,7 +123,25 @@ window.goToUrlMvcUrl = function (url, params) {
         window.location.replace(url);
     } catch(e) {
         window.location = url;
-    } 
+    }
+};
+
+
+
+window.goToNewUrl = function (url, params, winOpts) {
+    for (var key in params) {
+        var param = params[key] || '';
+        url = url.replace(key, param);
+    }
+
+    try {
+        var defaults = {opts:"fullscreen=yes, top=0, left=0, width=1100, height=900"};
+        $.extends(defaults, winOpts);
+
+        window.open(url, "_blank", defaults.opts);
+    } catch(e) {
+        window.open(url);
+    }
 };
 
 //replace icons with FontAwesome icons like above
