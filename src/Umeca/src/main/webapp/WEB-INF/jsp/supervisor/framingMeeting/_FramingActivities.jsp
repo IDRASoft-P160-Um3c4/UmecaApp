@@ -7,7 +7,7 @@
 
         <div class="row element-center">
             <h2><i class="pink icon-briefcase  bigger-100"></i> &nbsp;Actividades que reliza
-                el imputado</h2>
+                el imputado </h2>
         </div>
 
         <div class="row">
@@ -24,7 +24,7 @@
 
 
                 <div class="widget-box">
-                    <div class="widget-header">Ocuuuuuuuuuuuupación</div>
+                    <div class="widget-header">Ocupación</div>
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
