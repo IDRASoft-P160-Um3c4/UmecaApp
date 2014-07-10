@@ -131,7 +131,7 @@
                     </div>
 
                     <div id="activities" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_framingActivitiesA.jsp" %>
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_framingActivities.jsp" %>
                     </div>
 
                     <div id="drugs" class="tab-pane">
