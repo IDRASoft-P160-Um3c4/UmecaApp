@@ -17,6 +17,9 @@
         </div>
 
         <div class="row">
+        </div>
+
+        <div class="row">
 
             <form id="FormPersonalData" name="FormPersonalData" ng-submit="submit('#FormPersonalData')"
                   class="form-horizontal"
@@ -73,7 +76,7 @@
                         <br/>
                     </div>
                 </div>
-<br/>
+                <br/>
 
                 <div class="widget-box">
                     <div class="widget-header">Actividades</div>
