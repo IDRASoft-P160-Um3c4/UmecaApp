@@ -162,8 +162,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         if(caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel()!=null&&caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel().size()>0){
             for(FramingSelectedSourceRel sel:caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel()){
-                sel.setFramingMeeting(null);
-                sel.setFramingReference(null);
                 framingSelectedSourceRelRepository.delete(sel);
             }
         }

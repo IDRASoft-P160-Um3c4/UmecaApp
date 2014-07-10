@@ -11,7 +11,7 @@ public class FramingSelectedSourceRel {
     @Column(name="id_framing_selected_sources_rel")
     public Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="id_framing_meeting")
     private FramingMeeting framingMeeting;
 

@@ -17,9 +17,6 @@
         </div>
 
         <div class="row">
-        </div>
-
-        <div class="row">
 
             <form id="FormPersonalData" name="FormPersonalData" ng-submit="submit('#FormPersonalData')"
                   class="form-horizontal"
@@ -27,7 +24,7 @@
 
 
                 <div class="widget-box">
-                    <div class="widget-header">Ocupación</div>
+                    <div class="widget-header">Ocuuuuuuuuuuuupación</div>
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
