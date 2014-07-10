@@ -169,6 +169,18 @@ public class InsertCatalogController {
         return "Hearing Format Type OK!";
     }*/
 
+    @RequestMapping(value = "/catalogs/insertFramingRisk", method = RequestMethod.GET)
+    public String insertFramingRisk(){
+        service.framingRisk();
+        return "Status Case OK!";
+    }
+
+    @RequestMapping(value = "/catalogs/insertFramingThreat", method = RequestMethod.GET)
+    public String insertFramingThreat(){
+        service.framingThreat();
+        return "Status Case OK!";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
@@ -195,6 +207,8 @@ public class InsertCatalogController {
         service.supervisionActivity();
         service.insertActivityGoal();
         service.insertAidSource();
+        service.framingRisk();
+        service.framingThreat();
         return "insertCatalog OK!!";
     }
 }

@@ -281,12 +281,9 @@ public class FramingMeetingController {
     @ResponseBody
     ResponseMessage environmentAnalysisDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute FramingEnvironmentAnalysisForView view) {
 
+        framingMeetingService.verifySelectedSources(idCase);
+
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
-        //todo eliminar las selecciones anteriores para sustituir por los nuevos valores
-        if(existFraming.getSelectedSourcesRel()!=null&&existFraming.getSelectedSourcesRel()!=null) {
-            existFraming.getSelectedSourcesRel().clear();
-            framingMeetingService.save(existFraming);
-        }
 
         existFraming.setSelectedSourcesRel((framingMeetingService.generateSourceRel(idCase,view.getLstSelectedSources())));
         framingMeetingService.save(existFraming);

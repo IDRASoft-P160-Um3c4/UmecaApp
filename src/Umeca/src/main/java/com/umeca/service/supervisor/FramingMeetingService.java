@@ -15,4 +15,5 @@ public interface FramingMeetingService {
     FramingMeetingView fillForView(Case existCase);
     List<FramingReferenceForView> loadExistSources(Long idCase);
     List<FramingSelectedSourceRel> generateSourceRel(Long idCase, String lstJson);
+    void verifySelectedSources(Long idCase);
 }

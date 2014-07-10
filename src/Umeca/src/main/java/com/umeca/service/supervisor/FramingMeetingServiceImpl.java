@@ -12,6 +12,7 @@ import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.supervisor.FramingMeetingRepository;
 import com.umeca.repository.supervisor.FramingReferenceRepository;
+import com.umeca.repository.supervisor.FramingSelectedSourceRelRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
@@ -39,6 +40,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     @Autowired
     FramingReferenceRepository framingReferenceRepository;
+
+    @Autowired
+    FramingSelectedSourceRelRepository framingSelectedSourceRelRepository;
 
     @Transactional
     @Override
@@ -151,5 +155,17 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
 
         return sourceRel;
+    }
+
+    @Transactional
+    public void verifySelectedSources(Long idCase) {
+
+        if(caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel()!=null&&caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel().size()>0){
+            for(FramingSelectedSourceRel sel:caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel()){
+                sel.setFramingMeeting(null);
+                sel.setFramingReference(null);
+                framingSelectedSourceRelRepository.delete(sel);
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ public class FramingSelectedSourceRel {
     @JoinColumn(name="id_framing_meeting")
     private FramingMeeting framingMeeting;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name="id_framing_reference")
     private FramingReference framingReference;
 

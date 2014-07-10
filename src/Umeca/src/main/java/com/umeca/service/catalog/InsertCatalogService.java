@@ -32,4 +32,6 @@ public interface InsertCatalogService {
     void insertAidSource();
     void verificationMethod();
     //void hearingFormatType(); NO APLICA PARA ESTA VERSIÓN
+    void framingThreat();
+    void framingRisk();
 }

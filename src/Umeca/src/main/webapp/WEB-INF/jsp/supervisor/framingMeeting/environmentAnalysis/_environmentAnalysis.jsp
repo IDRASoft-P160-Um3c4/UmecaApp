@@ -38,11 +38,10 @@
                                         <br/>
 
                                         <div class="row" ng-repeat="source in lstSources">
-                                                <label ng-click="selectSource(source.id);">
-                                                    <input class="ace"
-                                                           name="caseSources"
-                                                           type="checkbox"
-                                                           ng-checked="isChecked(question.questionId);">
+                                                <label>
+                                                    <input ng-click="selectSource(source.id);"
+                                                           class="ace"
+                                                           type="checkbox">
                                                     <span class="lbl">&nbsp;&nbsp;{{source.description}}</span>
                                                 </label>
                                         </div>
