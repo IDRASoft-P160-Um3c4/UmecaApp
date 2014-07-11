@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.AcademicLevel;
+import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.ImputedHome;
 
@@ -41,13 +42,9 @@ public class ProcessAccompaniment {
     @JoinColumn(name = "id_framing_occupation")
     private Occupation occupation;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_domicile")
-    private ImputedHome domicile;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_school_level")
-    private AcademicLevel schoolLevel;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="id_addres")
+    private Address address;
 
     public Long getId() {
         return id;
@@ -105,22 +102,6 @@ public class ProcessAccompaniment {
         this.occupation = occupation;
     }
 
-    public ImputedHome getDomicile() {
-        return domicile;
-    }
-
-    public void setDomicile(ImputedHome domicile) {
-        this.domicile = domicile;
-    }
-
-    public AcademicLevel getSchoolLevel() {
-        return schoolLevel;
-    }
-
-    public void setSchoolLevel(AcademicLevel schoolLevel) {
-        this.schoolLevel = schoolLevel;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -135,5 +116,13 @@ public class ProcessAccompaniment {
 
     public void setCelphone(String celphone) {
         this.celphone = celphone;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

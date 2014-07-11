@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.Relationship;
 import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
@@ -19,8 +20,9 @@ public class FramingReference implements EntityGrid {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "relationship")
-    private String relationship;
+    @OneToOne
+    @JoinColumn(name = "id_relationship")
+    private Relationship relationship;
 
     @Column(name = "address")
     private String address;
@@ -41,6 +43,12 @@ public class FramingReference implements EntityGrid {
     @Transient
     private Long idCase;
 
+    @Transient
+    private String relationshipName;
+
+    @Transient
+    private Long relationshipId;
+
     public FramingReference() {
 
     }
@@ -49,7 +57,7 @@ public class FramingReference implements EntityGrid {
 
         this.id = id;
         this.name = name;
-        this.relationship = relationship;
+        this.relationshipName = relationship;
 
         if (type.equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
             this.age = phone;
@@ -84,14 +92,6 @@ public class FramingReference implements EntityGrid {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getRelationship() {
-        return relationship;
-    }
-
-    public void setRelationship(String relationship) {
-        this.relationship = relationship;
     }
 
     public String getAddress() {
@@ -142,17 +142,27 @@ public class FramingReference implements EntityGrid {
         this.personType = personType;
     }
 
-    @Override
-    public String toString() {
-        String toStr="";
+    public Relationship getRelationship() {
+        return relationship;
+    }
 
-        if  (this.personType.equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)){
-            toStr=this.name+", parentesco "+this.relationship+", vive con el imputado.";
-        }
-        else if  (this.personType.equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
-            toStr = this.name + ", parentesco " + this.relationship + ", teléfono "+this.phone+", dirección "+this.address;
-        }
+    public void setRelationship(Relationship relationship) {
+        this.relationship = relationship;
+    }
 
-        return toStr;
+    public String getRelationshipName() {
+        return relationshipName;
+    }
+
+    public void setRelationshipName(String relationshipName) {
+        this.relationshipName = relationshipName;
+    }
+
+    public Long getRelationshipId() {
+        return relationshipId;
+    }
+
+    public void setRelationshipId(Long relationshipId) {
+        this.relationshipId = relationshipId;
     }
 }

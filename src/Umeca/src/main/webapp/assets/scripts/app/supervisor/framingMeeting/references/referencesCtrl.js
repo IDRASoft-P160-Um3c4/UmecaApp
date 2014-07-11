@@ -1,10 +1,10 @@
-app.controller('referencesController', function ($scope, $timeout) {
+app.controller('referencesController', function ($scope, $timeout, $rootScope) {
 
 
     $scope.refe = {};
 
     $scope.init = function () {
-
+        $scope.fillSelRelationship();
     };
 
     $timeout(function () {
@@ -14,6 +14,28 @@ app.controller('referencesController', function ($scope, $timeout) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
+
+    $scope.fillSelRelationship=function(){
+
+        if($scope.lstRelationship === undefined || $scope.lstRelationship.length <= 0)
+            return;
+
+        if($scope.refe.relationshipId === undefined){
+            $scope.refe.relationship = $scope.lstRelationship[0];
+            $scope.refe.relationshipId = $scope.refe.relationship.id;
+        }
+        else{
+            for(var i=0; i < $scope.lstRelationship.length; i++){
+                var rel = $scope.lstRelationship[i];
+
+                if(rel.id === $scope.refe.relationshipId){
+                    $scope.refe.relationship = rel;
+                    break;
+                }
+            }
+        }
+        
+    };
 
     $scope.submitIdCaseParam = function (formId, urlToPost, id) {
 
@@ -67,10 +89,13 @@ app.controller('referencesController', function ($scope, $timeout) {
             if (resp.hasError === false) {
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({ isCancel: false });
+                $rootScope.$broadcast("reloadEnvironment");
                 return;
             }
 
             $scope.MsgError = resp.message;
+
+
             $scope.$apply();
 
         } catch (e) {

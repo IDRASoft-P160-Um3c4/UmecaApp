@@ -20,6 +20,7 @@
                     <form id="FormReferencesId" name="FormReferencesId" class="form-horizontal" role="form">
                         <input type="hidden" name="id" value="{{refe.id}}">
                         <input type="hidden" name="personType" value="REFERENCE">
+                        <input type="hidden" name="relationshipId" value="{{refe.relationship.id}}">
                         <br/>
 
                         <div class="row">
@@ -48,17 +49,16 @@
                         <br/>
 
                         <div class="row">
-                            <div class="col-xs-6">
-                                <label>Parentesco</label>
+                            <div class="col-xs-4">
+
+                                <label>Parentesco:</label>
                                 <br/>
-                                <input id="relationship" ng-model="hm.relationship" name="relationship" type="text"
-                                       class="input-xxlarge" data-val="true"
-                                       data-val-required="Parentesco es un campo requerido"/>
-                                <br/>
-                                        <span class="field-validation-valid" data-valmsg-for="relationship"
-                                              data-valmsg-replace="true"></span>
+                                <select class="form-control element-center" ng-model="refe.relationship"
+                                        id="relationshipId" name="relationshipId"
+                                        ng-options="e.name for e in lstRelationship"
+                                        ng-init='lstRelationship = ${lstRelationship};'></select>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-8">
                                 <label>Dirección</label>
                                 <br/>
                                 <textarea class="input-xxlarge form-control limited" name="address"

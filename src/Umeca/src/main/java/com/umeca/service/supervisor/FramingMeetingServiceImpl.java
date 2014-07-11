@@ -3,29 +3,20 @@ package com.umeca.service.supervisor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.catalog.Arrangement;
+import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.*;
-import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
-import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
-import com.umeca.repository.supervisor.FramingMeetingRepository;
-import com.umeca.repository.supervisor.FramingReferenceRepository;
-import com.umeca.repository.supervisor.FramingSelectedSourceRelRepository;
-import com.umeca.repository.supervisor.HearingFormatRepository;
-import com.umeca.service.catalog.CatalogService;
-import com.umeca.service.reviewer.CaseService;
+import com.umeca.repository.catalog.RelationshipRepository;
+import com.umeca.repository.supervisor.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Service("framingMeetingService")
@@ -33,16 +24,25 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     @Qualifier("qFramingMeetingRepository")
     @Autowired
-    FramingMeetingRepository framingMeetingRepository;
+    private FramingMeetingRepository framingMeetingRepository;
 
     @Autowired
-    CaseRepository caseRepository;
+    private CaseRepository caseRepository;
 
     @Autowired
-    FramingReferenceRepository framingReferenceRepository;
+    private FramingReferenceRepository framingReferenceRepository;
 
     @Autowired
-    FramingSelectedSourceRelRepository framingSelectedSourceRelRepository;
+    private FramingSelectedSourceRelRepository framingSelectedSourceRelRepository;
+
+    @Autowired
+    private RelationshipRepository relationshipRepository;
+
+    @Autowired
+    private LocationRepository locationRepository;
+
+    @Autowired
+    private ProcessAccompanimentRepository processAccompanimentRepository;
 
     @Transactional
     @Override
@@ -120,15 +120,15 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Override
     public List<FramingReferenceForView> loadExistSources(Long idCase) {
 
-        List<FramingReferenceForView> lstView= new ArrayList<>();
+        List<FramingReferenceForView> lstView = new ArrayList<>();
 
         List<FramingReference> existSources = caseRepository.findOne(idCase).getFramingMeeting().getReferences();
 
-        for(FramingReference fr : existSources){
+        for (FramingReference fr : existSources) {
 
             FramingReferenceForView objView = new FramingReferenceForView();
             objView.setId(fr.getId());
-            objView.setDescription(fr.getName()+", "+fr.getRelationship());
+            objView.setDescription(fr.getName() + ", " + fr.getRelationship().getName());
             objView.setValSel(false);
             lstView.add(objView);
         }
@@ -136,18 +136,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         return lstView;
     }
 
-    public List<FramingSelectedSourceRel> generateSourceRel(Long idCase, String lstJson){
+    public List<FramingSelectedSourceRel> generateSourceRel(Long idCase, String lstJson) {
 
-        Type listType = new TypeToken<List<Long>>() {}.getType();
+        Type listType = new TypeToken<List<Long>>() {
+        }.getType();
 
         List<Long> ids = new Gson().fromJson(lstJson, listType);
 
-        FramingMeeting existFraming= caseRepository.findOne(idCase).getFramingMeeting();
+        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
 
 
-        List<FramingSelectedSourceRel> sourceRel= new ArrayList<>();
+        List<FramingSelectedSourceRel> sourceRel = new ArrayList<>();
 
-        for(Long currId : ids){
+        for (Long currId : ids) {
             FramingSelectedSourceRel rel = new FramingSelectedSourceRel();
             rel.setFramingMeeting(existFraming);
             rel.setFramingReference(framingReferenceRepository.findOne(currId));
@@ -158,12 +159,92 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     }
 
     @Transactional
-    public void verifySelectedSources(Long idCase) {
+    public ResponseMessage saveSelectedSource(Long idCase, String lstSourcesStr) {
 
-        if(caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel()!=null&&caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel().size()>0){
-            for(FramingSelectedSourceRel sel:caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel()){
-                framingSelectedSourceRelRepository.delete(sel);
+        try {
+            FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+
+            List<FramingSelectedSourceRel> lstExistSources = existFraming.getSelectedSourcesRel();
+
+            if (lstExistSources != null && lstExistSources.size() > 0) {
+                for (FramingSelectedSourceRel sel : lstExistSources) {
+                    framingSelectedSourceRelRepository.delete(sel);
+                }
             }
+
+            existFraming.setSelectedSourcesRel((this.generateSourceRel(idCase, lstSourcesStr)));
+            framingMeetingRepository.save(existFraming);
+            framingMeetingRepository.flush();
+
+            return new ResponseMessage(false, "Se ha guardado la información con exito.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
         }
     }
+
+    public ResponseMessage saveReference(Case existCase, FramingReference newReference) {
+
+        try {
+            newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
+            newReference.setFramingMeeting(existCase.getFramingMeeting());
+            framingReferenceRepository.save(newReference);
+            return new ResponseMessage(false, "Se ha guardado la información con exito.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
+        }
+
+    }
+
+    public ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase) {
+        ProcessAccompanimentForView view = new ProcessAccompanimentForView();
+
+
+        return view;
+    }
+
+    public ProcessAccompaniment fillProcessAccompaniment(ProcessAccompanimentForView view) {
+        ProcessAccompaniment processAccompaniment = new ProcessAccompaniment();
+
+        processAccompaniment.setName(view.getName());
+        processAccompaniment.setLastNameP(view.getLastNameP());
+        processAccompaniment.setLastNameM(view.getLastNameM());
+        processAccompaniment.setGender(view.getGender());
+        processAccompaniment.setAge(view.getAge());
+        processAccompaniment.setPhone(view.getPhone());
+        processAccompaniment.setCelphone(view.getCelphone());
+
+        Occupation occup = new Occupation();
+
+        occup.setName(view.getOccName());
+        occup.setPlace(view.getOccPlace());
+        occup.setPhone(view.getOccPhone());
+
+        processAccompaniment.setOccupation(occup);
+
+        Address address = new Address();
+        address.setStreet(view.getStreet());
+        address.setInnNum(view.getInnNum());
+        address.setOutNum(view.getOutNum());
+        address.setLocation(locationRepository.findOne(view.getLocation().getId()));
+        address.setAddressString(address.toString());
+
+        processAccompaniment.setAddress(address);
+
+        return processAccompaniment;
+    }
+
+    @Transactional
+    public ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment){
+        try{
+            processAccompanimentRepository.save(processAccompaniment);
+            return new ResponseMessage(false, "Se ha guardado la información con exito.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
+        }
+    }
+
+
 }

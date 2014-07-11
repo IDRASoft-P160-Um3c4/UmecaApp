@@ -27,7 +27,7 @@
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'age', index: 'age', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'relationship', index: 'relationship', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'relationshipName', index: 'relationshipName', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'occupation', index: 'occupation', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],

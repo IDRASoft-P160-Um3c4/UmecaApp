@@ -1,4 +1,4 @@
-app.controller('environmentAnalysisController', function ($scope, $timeout, $http) {
+app.controller('environmentAnalysisController', function ($scope, $timeout, $http, $rootScope) {
 
     $scope.envir = {};
 
@@ -6,6 +6,9 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     $scope.lstSelectedSources = [];
 
+    $scope.errorMsg ="";
+
+    $scope.successMsg="";
 
     $scope.selectSource = function (id) {
 
@@ -27,9 +30,13 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         return null;
     }
 
+    $rootScope.$on('reloadEnvironment', function() {
+        $scope.loadSources();
+    });
+
 
     $scope.loadSources = function () {
-
+        //alert("loadSource");
         var currentTimeout = null;
         var urlType = $('#loadSources').attr("value");
 
@@ -66,7 +73,6 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
     }, 0);
 
     $scope.WaitFor = false;
-    $scope.MsgError = "";
     $scope.Model = {};
 
     $scope.submitIdCaseParam = function (formId, urlToPost, id) {
@@ -88,7 +94,7 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         return true;
     };
 
-    $scope.handleSuccessWithId = function (resp) {
+      $scope.handleSuccess = function (resp) {
         $scope.WaitFor = false;
 
         try {
@@ -96,45 +102,22 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
                 resp = resp.responseMessage;
             }
             if (resp.hasError === false) {
-                $rootScope.$broadcast("onLastId", resp.Id);
-                $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                $scope.successMsg = resp.message;
+                $scope.$apply();
                 return;
             }
 
-            $scope.MsgError = resp.message;
+            $scope.errorMsg = resp.message;
             $scope.$apply();
 
         } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
-        }
-    };
-
-
-    $scope.handleSuccess = function (resp) {
-        $scope.WaitFor = false;
-
-        try {
-            if (resp.hasError === undefined) {
-                resp = resp.responseMessage;
-            }
-            if (resp.hasError === false) {
-                $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
-                return;
-            }
-
-            $scope.MsgError = resp.message;
-            $scope.$apply();
-
-        } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
+            $scope.errorMsg = "Error inesperado de datos. Por favor intente más tarde.";
         }
     };
 
     $scope.handleError = function () {
         $scope.WaitFor = false;
-        $scope.MsgError = "Error de red. Por favor intente más tarde.";
+        $scope.errorMsg = "Error de red. Por favor intente más tarde.";
         $scope.$apply();
     };
 

@@ -17,13 +17,15 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/housemate/housemateCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/references/referencesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/environmentAnalysis/environmentAnalysisCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/processAcompaniment/processAccompanimentCtrl.js"></script>
+
 
     <title>Entrevista de encuadre</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content" ng-controller="framingMeetingController" ng-init='fm.objView=${objView}'>
+<div class="container body-content" ng-controller="framingMeetingController" ng-init='fm.objView=${objView}' ng-cloak>
     <input type="hidden" name="idFolder" value="{{fm.objView.idFolder}}">
 
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
@@ -118,7 +120,7 @@
                     </div>
 
                     <div id="accompaniment" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_proccessAccompaniment.jsp" %>
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_processAccompaniment.jsp" %>
                     </div>
 
 

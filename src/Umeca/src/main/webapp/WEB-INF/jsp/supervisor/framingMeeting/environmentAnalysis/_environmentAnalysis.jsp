@@ -15,7 +15,10 @@
         </div>
 
         <div class="row">
-            <div ng-show="msgExito" class="col-xs-12 alert alert-success element-center success-font">
+            <div ng-show="errorMsg&&errorMsg!=''"class="alert alert-danger element-center">
+                {{errorMsg}}
+            </div>
+            <div ng-show="successMsg&&successMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
                 {{successMsg}}
             </div>
         </div>

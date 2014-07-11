@@ -1,10 +1,10 @@
-app.controller('housemateController', function ($scope, $timeout) {
+app.controller('housemateController', function ($scope, $timeout,$rootScope) {
 
 
     $scope.hm = {};
 
     $scope.init = function () {
-
+        $scope.fillSelRelationship();
     };
 
     $timeout(function () {
@@ -14,6 +14,28 @@ app.controller('housemateController', function ($scope, $timeout) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
+
+    $scope.fillSelRelationship = function () {
+
+        if ($scope.lstRelationship === undefined || $scope.lstRelationship.length <= 0)
+            return;
+
+        if ($scope.hm.relationshipId === undefined) {
+            $scope.hm.relationship = $scope.lstRelationship[0];
+            $scope.hm.relationshipId = $scope.hm.relationship.id;
+        }
+        else {
+            for (var i = 0; i < $scope.lstRelationship.length; i++) {
+                var rel = $scope.lstRelationship[i];
+
+                if (rel.id === $scope.hm.relationshipId) {
+                    $scope.hm.relationship = rel;
+                    break;
+                }
+            }
+        }
+
+    };
 
     $scope.submitIdCaseParam = function (formId, urlToPost, id) {
 
@@ -26,7 +48,7 @@ app.controller('housemateController', function ($scope, $timeout) {
         }
         $scope.WaitFor = true;
 
-        var url = urlToPost+id;
+        var url = urlToPost + id;
 
         $.post(url, $(formId).serialize())
             .success($scope.handleSuccess)
@@ -68,6 +90,7 @@ app.controller('housemateController', function ($scope, $timeout) {
             if (resp.hasError === false) {
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({ isCancel: false });
+                $rootScope.$broadcast("reloadEnvironment");
                 return;
             }
 
