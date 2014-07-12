@@ -27,4 +27,7 @@ public class MonitoringConstants {
     public final static String TYPE_COMMENT_AUTHORIZED = "AUTORIZAR";
     public final static String TYPE_COMMENT_END = "TERMINAR";
 
+    public static final int ACTIVITY_ARRANGEMENT_UNDEFINED = -1;
+    public static final int ACTIVITY_ARRANGEMENT_FAILED = 0;
+    public static final int ACTIVITY_ARRANGEMENT_DONE = 1;
 }

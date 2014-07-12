@@ -60,7 +60,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         actMpRepository.flush();
 
         List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(fullModel.getMonitoringPlanId(), new PageRequest(0,1));
-        List<SelectList> lstArrangementSelected = arRepository.findLstArrangement(lastHearingFormatId.get(0));
+        List<SelectList> lstArrangementSelected = arRepository.findLstArrangementByHearingFormatId(lastHearingFormatId.get(0));
 
         Long idCase = fullModel.getCaseId();
         List<ActivityMonitoringPlanDto> lstActivitiesUpsert = fullModel.getLstActivitiesUpsert();
@@ -162,13 +162,13 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         ActivityGoal activityGoal = new ActivityGoal();
         activityGoal.setId(dto.getGoalId());
         activityMonitoringPlan.setActivityGoal(activityGoal);
-        AidSource aidSource = new AidSource();
-        aidSource.setId(dto.getSourceId());
-        activityMonitoringPlan.setAidSource(aidSource);
+        FramingSelectedSourceRel framingSelectedSourceRel = new FramingSelectedSourceRel();
+        framingSelectedSourceRel.setId(dto.getSourceId());
+        activityMonitoringPlan.setFramingSelectedSourceRel(framingSelectedSourceRel);
 
         String sAssignedArrangements = null;
         String sAssignedArrangementsIds = null;
-        List<AssignedArrangement> lstAssignedArrangements = new ArrayList<>();
+        List<ActivityMonitoringPlanArrangement> lstAssignedArrangements = new ArrayList<>();
         for(Long idAssignedArr : dto.getLstArrangements()){
             for(int i=0; i<lstArrangementSelected.size(); i++){
                 SelectList slAa = lstArrangementSelected.get(i);
@@ -179,7 +179,11 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
                     sAssignedArrangementsIds = (sAssignedArrangementsIds == null ? idAssignedArr.toString() : sAssignedArrangementsIds + ", " + idAssignedArr.toString());
                     AssignedArrangement aa = new AssignedArrangement();
                     aa.setId(idAssignedArr);
-                    lstAssignedArrangements.add(aa);
+                    ActivityMonitoringPlanArrangement ampa = new ActivityMonitoringPlanArrangement();
+                    ampa.setActivityMonitoringPlan(activityMonitoringPlan);
+                    ampa.setAssignedArrangement(aa);
+                    ampa.setStatus(MonitoringConstants.ACTIVITY_ARRANGEMENT_UNDEFINED);
+                    lstAssignedArrangements.add(ampa);
                     break;
                 }
             }

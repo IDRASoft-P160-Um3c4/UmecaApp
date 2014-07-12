@@ -1,7 +1,5 @@
 package com.umeca.controller.supervisor;
 
-import com.google.gson.Gson;
-import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -13,8 +11,7 @@ import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.MonitoringConstants;
-import com.umeca.model.shared.SelectList;
-import com.umeca.repository.catalog.ArrangementRepository;
+import com.umeca.model.shared.OptionList;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
@@ -177,6 +174,15 @@ public class TrackMonitoringPlanController {
         try{
             String sCommentOk = model.getCommentsOk();
             String sCommentFail = model.getCommentsFail();
+
+            OptionList[] optLst = model.getArrOptArrangementsValues();
+
+            if(optLst == null){
+                response.setHasError(true);
+                response.setMessage("No existen estados para las obligaciones procesales");
+                return response;
+            }
+
             if((sCommentOk == null || sCommentOk.trim().isEmpty()) && (sCommentFail == null || sCommentFail.trim().isEmpty())){
                 response.setHasError(true);
                 response.setMessage("Debe elegir si la actividad fue realizada o no y debe escribir un comentario");
@@ -214,16 +220,62 @@ public class TrackMonitoringPlanController {
                 return response;
             }
 
+            boolean bIsFailed;
             String sComments;
             String sStatus;
             if(sCommentOk.trim().isEmpty() == false){
                 sComments = sCommentOk;
                 sStatus = MonitoringConstants.STATUS_ACTIVITY_DONE;
+                bIsFailed = false;
             }
             else{
                 sComments = sCommentFail;
                 sStatus = MonitoringConstants.STATUS_ACTIVITY_FAILED;
+                bIsFailed = true;
             }
+
+            List<ActivityMonitoringPlanArrangement> lstAssignedArrangement = activityMonitoringPlan.getLstAssignedArrangement();
+            boolean bHasValue;
+
+            if(bIsFailed){
+                for(ActivityMonitoringPlanArrangement ampa : lstAssignedArrangement){
+                    ampa.setStatus(MonitoringConstants.ACTIVITY_ARRANGEMENT_UNDEFINED);
+                }
+            }
+            else{
+                for(ActivityMonitoringPlanArrangement ampa : lstAssignedArrangement){
+                    Long assignedArrangementId = ampa.getAssignedArrangement().getId();
+                    bHasValue = false;
+                    for(OptionList optionList: optLst){
+                        if(assignedArrangementId == optionList.getId()){
+                            switch (Integer.parseInt(optionList.getValue())){
+                                case MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE:
+                                    ampa.setStatus(MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE);
+                                    break;
+                                case MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED:
+                                    ampa.setStatus(MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED);
+                                    break;
+                                case MonitoringConstants.ACTIVITY_ARRANGEMENT_UNDEFINED:
+                                    ampa.setStatus(MonitoringConstants.ACTIVITY_ARRANGEMENT_UNDEFINED);
+                                    break;
+                                default:
+                                    response.setHasError(true);
+                                    response.setMessage("Se ha asignado un valor no válido para el estado de las obligaciones procesales.");
+                                    return response;
+                            }
+                            bHasValue = true;
+                            break;
+                        }
+                    }
+
+                    if(bHasValue == false){
+                        response.setHasError(true);
+                        response.setMessage("No existe un valor asignado para el estado de las obligaciones procesales.");
+                        return response;
+                    }
+                }
+            }
+
 
             activityMonitoringPlan.setStatus(sStatus);
             activityMonitoringPlan.setComments(sComments);

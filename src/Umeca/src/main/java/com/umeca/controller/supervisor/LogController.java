@@ -12,9 +12,7 @@ import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.shared.SelectFilterFields;
-import com.umeca.repository.supervisor.ActivityGoalRepository;
-import com.umeca.repository.supervisor.FramingMeetingRepository;
-import com.umeca.repository.supervisor.HearingFormatRepository;
+import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,17 +95,25 @@ public class LogController {
     @Autowired
     private HearingFormatRepository hearingFormatRepository;
     @Autowired
-    private FramingMeetingRepository framingMeetingRepository;
-    @Autowired
     private ArrangementRepository arrangementRepository;
     @Autowired
     private ActivityGoalRepository activityGoalRepository;
+    @Autowired
+    private SupervisionActivityRepository supervisionActivityRepository;
+    @Autowired
+    private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
+    @Autowired
+    private MonitoringPlanRepository monitoringPlanRepository;
+    @Autowired
+    private FramingReferenceRepository framingReferenceRepository;
 
-    @RequestMapping(value = "/supervisor/log/supervisionLog", method = RequestMethod.POST)
+    @RequestMapping(value = "/supervisor/log/supervisionLog", method = RequestMethod.GET)
     public ModelAndView supervisionLog(@RequestParam Long id){
         ModelAndView model = new ModelAndView("/supervisor/log/supervisionLog");
 
         try{
+            Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
+
             //Find last hearing format to get last assigned arrangements
             List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
             Long lHearingFormatId = lastHearingFormatId.get(0);
@@ -123,18 +129,78 @@ public class LogController {
             model.addObject("moralName", slr.getMoralName());
             model.addObject("moralPhone", slr.getMoralPhone());
 
-
-            /*List<SelectList> lstGeneric = arrangementRepository.findLstArrangement(lHearingFormatId);
+            List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByCaseId(caseId);
             Gson gson = new Gson();
             String sLstGeneric = gson.toJson(lstGeneric);
-            model.addObject("lstAssignedArrangement", sLstGeneric);
-            lstGeneric = activityGoalRepository.findByHearingFormat(lHearingFormatId);
+            model.addObject("lstHfAssignedArrangement", sLstGeneric);
+
+            lstGeneric = supervisionActivityRepository.findByMonPlanId(id);
+            sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstActivities", sLstGeneric);
+
+            lstGeneric = activityGoalRepository.findByMonPlanId(id);
             sLstGeneric = gson.toJson(lstGeneric);
             model.addObject("lstGoals", sLstGeneric);
 
+            lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
+            sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstSources", sLstGeneric);
 
-            List<SelectList> lstGeneric = arrangementRepository.findLstArrangement(lHearingFormatId);
-            */
+            List<ActivityMonitoringPlanLog> lstActMonPlan = activityMonitoringPlanRepository.getListByMonPlanId(id);
+            sLstGeneric = gson.toJson(lstActMonPlan);
+            model.addObject("lstActMonPlan", sLstGeneric);
+
+            List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement = activityMonitoringPlanRepository.getListActMonPlanArrangementByMonPlanId(id);
+            sLstGeneric = gson.toJson(lstActMonPlanArrangement);
+            model.addObject("lstActMonPlanArrangement", sLstGeneric);
+
+            return model;
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "supervisionLog", userService);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/supervisor/log/accomplishmentLog", method = RequestMethod.GET)
+    public ModelAndView accomplishmentLog(@RequestParam Long id){
+        ModelAndView model = new ModelAndView("/supervisor/log/accomplishmentLog");
+
+        try{
+            Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
+
+            //Find last hearing format to get last assigned arrangements
+            List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
+            Long lHearingFormatId = lastHearingFormatId.get(0);
+            AccomplishmentLogReport alr = hearingFormatRepository.findSupervisionLogAccomplishmentById(lHearingFormatId);
+
+            model.addObject("imputedName", alr.getImputedName());
+            model.addObject("mpId", alr.getMpId());
+            model.addObject("address", alr.getAddress());
+
+            List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByCaseId(caseId);
+            Gson gson = new Gson();
+            String sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstHfAssignedArrangement", sLstGeneric);
+
+            lstGeneric = supervisionActivityRepository.findByMonPlanId(id);
+            sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstActivities", sLstGeneric);
+
+            lstGeneric = activityGoalRepository.findByMonPlanId(id);
+            sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstGoals", sLstGeneric);
+
+            lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
+            sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstSources", sLstGeneric);
+
+            List<ActivityMonitoringPlanLog> lstActMonPlan = activityMonitoringPlanRepository.getListAccomplishmentByMonPlanId(id);
+            sLstGeneric = gson.toJson(lstActMonPlan);
+            model.addObject("lstActMonPlan", sLstGeneric);
+
+            List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement = activityMonitoringPlanRepository.getListAccomplishmentActMonPlanArrangementByMonPlanId(id);
+            sLstGeneric = gson.toJson(lstActMonPlanArrangement);
+            model.addObject("lstActMonPlanArrangement", sLstGeneric);
 
             return model;
         }catch (Exception ex){

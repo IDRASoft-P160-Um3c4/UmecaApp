@@ -25,7 +25,7 @@ public class ActivityMonitoringPlanInfo {
 
     public ActivityMonitoringPlanInfo(Long activityMonitoringPlanId, Long monitoringPlanId, Long caseId, String mpId, String status, Calendar end,
                                       Calendar start, String supervisionActivityName,
-                                      String activityGoalName, String aidSourceName, String actStatus, String name, String lastNameP, String lastNameM,
+                                      String activityGoalName, String aidSourceName, String aidSourceRelationship, String actStatus, String name, String lastNameP, String lastNameM,
                                       String supUserDone, String comments, Calendar endDone){
 
         this.activityMonitoringPlanId = activityMonitoringPlanId;
@@ -37,7 +37,7 @@ public class ActivityMonitoringPlanInfo {
         this.start = start;
         this.supervisionActivityName = supervisionActivityName;
         this.activityGoalName = activityGoalName;
-        this.aidSourceName = aidSourceName;
+        this.aidSourceName = aidSourceRelationship + " / " + aidSourceName;
         this.actStatus = actStatus;
         this.personName = name + " " + lastNameP + " " + lastNameM;
         this.supUserDone = supUserDone;
