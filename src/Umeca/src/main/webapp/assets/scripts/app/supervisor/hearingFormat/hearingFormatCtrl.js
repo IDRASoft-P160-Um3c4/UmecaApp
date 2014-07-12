@@ -1,4 +1,4 @@
-app.controller('hearingFormatController', function ($scope, $timeout, $http, $q, sharedSvc) {
+app.controller('hearingFormatController', function ($scope, $timeout, $http, $q) {
 
         $scope.m = {};
         $scope.a = {};

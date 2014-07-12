@@ -6,13 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 5/20/14
- * Time: 4:01 PM
- */
-
 @Controller
 public class InsertCatalogController {
 

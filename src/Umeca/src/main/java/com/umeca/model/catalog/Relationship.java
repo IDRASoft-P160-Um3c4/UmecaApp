@@ -2,13 +2,6 @@ package com.umeca.model.catalog;
 
 import javax.persistence.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Desarrollo
- * Date: 8/05/14
- * Time: 01:28 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
 @Table(name="cat_relationship")
 public class Relationship {
@@ -26,11 +19,9 @@ public class Relationship {
         return id;
     }
 
-
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getName() {
         return name;

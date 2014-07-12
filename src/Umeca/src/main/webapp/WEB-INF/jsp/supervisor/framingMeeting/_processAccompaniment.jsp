@@ -2,7 +2,14 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
-<div class="row">
+<script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+
+<div class="row" ng-controller="processAcompanimentController">
+<input type="hidden" id="hidIdCaseProc" value="{{fm.objView.idCase}}"/>
+
 <div class="col-xs-10 col-xs-offset-1">
 
 <div class="row element-center">
@@ -11,18 +18,18 @@
 </div>
 
 <div class="row">
-    <div ng-show="msgExito" class="col-xs-12 alert alert-success element-center success-font">
-        {{successMsg}}
+    <div ng-show="paSuccessMsg&&paSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
+        {{paSuccessMsg}}
+    </div>
+    <div ng-show="paErrorMsg&&paErrorMsg!=''" class="alert alert-danger element-center error-font">
+        {{paErrorMsg}}
     </div>
 </div>
 
 <div class="row">
 
-<form id="FormProccessAccompaniment" name="FormProccessAccompaniment"
-      ng-submit="submit('#FormProccessAccompaniment')"
-      class="form-horizontal"
-      role="form">
-
+<form id="FormProccessAccompaniment" name="FormProccessAccompaniment" class="form-horizontal" role="form">
+<input type="hidden" id="hidUrlPA" value="<c:url value="/supervisor/framingMeeting/processAccompaniment/loadProcessAccompaniment.json"/>"/>
 <div class="widget-box">
     <div class="widget-header">Datos personales</div>
     <div class="widget-body">
@@ -32,38 +39,38 @@
                     <br/>
 
                     <div class="col-xs-4">
-                        <label for="accompName">Nombre</label>
+                        <label for="name">Nombre</label>
                         <br/>
-                        <input id="accompName" ng-model="m.accompName" name="accompName"
+                        <input id="name" ng-model="pa.name" name="name"
                                type="text" class="input-xxlarge"
                                data-val="true"
                                data-val-required="Nombre es un campo requerido"/>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompName"
+            <span class="field-validation-valid" data-valmsg-for="name"
                   data-valmsg-replace="true"></span>
                     </div>
 
                     <div class="col-xs-4">
-                        <label for="accompLastNameP">Apellido paterno</label>
+                        <label for="lastNameP">Apellido paterno</label>
                         <br/>
-                        <input id="accompLastNameP" ng-model="m.accompLastNameP" name="accompLastNameP"
+                        <input id="lastNameP" ng-model="pa.lastNameP" name="lastNameP"
                                type="text" class="input-xxlarge"
                                data-val="true"
                                data-val-required="Apellido paterno es un campo requerido"/>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompLastNameP"
+            <span class="field-validation-valid" data-valmsg-for="lastNameP"
                   data-valmsg-replace="true"></span>
                     </div>
 
                     <div class="col-xs-4">
-                        <label for="accompLastNameM">Apellido materno</label>
+                        <label for="lastNameM">Apellido materno</label>
                         <br/>
-                        <input id="accompLastNameM" ng-model="m.accompLastNameM" name="accompLastNameM"
+                        <input id="lastNameM" ng-model="pa.lastNameM" name="lastNameM"
                                type="text" class="input-xxlarge"
                                data-val="true"
                                data-val-required="Apellido materno es un campo requerido"/>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompLastNameM"
+            <span class="field-validation-valid" data-valmsg-for="lastNameM"
                   data-valmsg-replace="true"></span>
                     </div>
                 </div>
@@ -73,44 +80,45 @@
 
                     <div class="col-xs-4">
                         <label>Género</label>
-                        <br/>
-
                         <div class="radio">
                             <label>
                                 <input type="radio" class="ace" name="gender"
-                                       ng-model="m.objView.personalData.gender" value="true"/>
+                                       ng-model="pa.gender" value="1" data-val="true"
+                                       data-val-required="Debe seleccionar una opción"/>
                                 <span class="lbl">&nbsp;&nbsp;Femenino</span>
                             </label>
                             <br/>
                             <label>
                                 <input type="radio" class="ace" name="gender"
-                                       ng-model="m.objView.personalData.gender" value="false"/>
+                                       ng-model="pa.gender" value="2"/>
                                 <span class="lbl">&nbsp;&nbsp;Masculino</span>
                             </label>
+                            <br/>
+                             <span class="field-validation-valid" data-valmsg-for="gender"
+                                   data-valmsg-replace="true"></span>
                         </div>
                     </div>
 
                     <div class="col-xs-4">
-                        <label for="accompAge">Edad</label>
+                        <label for="age">Edad</label>
                         <br/>
-                        <input id="accompAge" ng-model="m.accompAge" name="accompAge"
+                        <input id="age" ng-model="pa.age" name="age"
                                type="text" class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Nombre es un campo requerido"/>
+                               data-val-required="Edad es un campo requerido"/>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompAge"
+            <span class="field-validation-valid" data-valmsg-for="age"
                   data-valmsg-replace="true"></span>
                     </div>
 
-                    <div class="col-xs-4">
-                        <label>Escolaridad</label>
-                        <br/>
-                        <select class="form-control element-center" ng-model="country"
-                                ng-options="e.name for e in lstCountry"
-                                url-request="/catalogs/getStatesByCountry.json"
-                                ng-change="countryId = country.id;"
-                                ng-init='lstCountry = ${lstCountry};'></select>
-                    </div>
+                    <%--<div class="col-xs-4">--%>
+                        <%--<label>Escolaridad</label>--%>
+                        <%--<br/>--%>
+                        <%--<select class="form-control element-center" ng-model="pa.academicLevel"--%>
+                                <%--ng-options="e.name for e in lstAcademicLevel"--%>
+                                <%--ng-init='lstAcademicLevel = ${lstAcademicLevel};'></select>--%>
+                        <%--<input type="hidden" name="academicLevelId" value="{{pa.academicLevel.id}}">--%>
+                    <%--</div>--%>
                 </div>
                 <br/>
             </div>
@@ -128,39 +136,39 @@
                     <br/>
 
                     <div class="col-xs-4">
-                        <label for="accompOccupation">Ocupación</label>
+                        <label for="occName">Ocupación</label>
                         <br/>
-                        <input id="accompOccupation" ng-model="m.accompOccupation"
-                               name="accompOccupation"
+                        <input id="occName" ng-model="pa.occName"
+                               name="occName"
                                type="text" class="input-xxlarge"
                                data-val="true"
                                data-val-required="Ocupación es un campo requerido"/>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompOccupation"
+            <span class="field-validation-valid" data-valmsg-for="occName"
                   data-valmsg-replace="true"></span>
                     </div>
                     <div class="col-xs-4">
-                        <label for="accompOccupationPlace">Lugar de ocupación</label>
+                        <label for="occPlace">Lugar de ocupación</label>
                         <br/>
-                        <input id="accompOccupationPlace" ng-model="m.accompOccupationPlace"
-                               name="accompOccupationPlace"
+                        <input id="occPlace" ng-model="pa.occPlace"
+                               name="occPlace"
                                type="text" class="input-xxlarge"
                                data-val="true"
                                data-val-required="Lugar de ocupación es un campo requerido"/>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompOccupationPlace"
+            <span class="field-validation-valid" data-valmsg-for="occPlace"
                   data-valmsg-replace="true"></span>
                     </div>
                     <div class="col-xs-4">
-                        <label for="accompOccupationPhone">Teléfono</label>
+                        <label for="occPhone">Teléfono</label>
                         <br/>
-                        <input id="accompOccupationPhone" ng-model="m.accompOccupationPhone"
-                               name="accompOccupationPhone"
+                        <input id="occPhone" ng-model="pa.occPhone"
+                               name="occPhone"
                                type="text" class="input-xxlarge"
                                data-val="true"
                                data-val-required="Teléfono es un campo requerido"/>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompOccupationPhone"
+            <span class="field-validation-valid" data-valmsg-for="occPhone"
                   data-valmsg-replace="true"></span>
                     </div>
                 </div>
@@ -182,11 +190,10 @@
                     <div class="col-xs-6">
                         <label>Parentesco:</label>
                         <br/>
-                        <select class="form-control element-center" ng-model="country"
-                                ng-options="e.name for e in lstCountry"
-                                url-request="/catalogs/getStatesByCountry.json"
-                                ng-change="countryId = country.id;"
-                                ng-init='lstCountry = ${lstCountry};'></select>
+                        <select class="form-control element-center" ng-model="pa.relationship"
+                                ng-options="e.name for e in lstRelationship"
+                                ng-init='lstRelationship = ${lstRelationship};'></select>
+                        <input type="hidden" name="relationshipId" value="{{pa.relationship.id}}">
                     </div>
                 </div>
             </div>
@@ -201,61 +208,39 @@
     <div class="widget-body">
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
-                <div class="row">
-<br/>
-                    <div class="col-xs-6">
-                        <label for="accompAddress">Domicilio</label>
-                        <br/>
-                        <input id="accompAddress" ng-model="m.accompAddress"
-                               name="accompAddress"
-                               type="text" class="input-xxlarge"
-                               data-val="true"
-                               data-val-required="Domicilio es un campo requerido"/>
-                        <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompAddress"
-                  data-valmsg-replace="true"></span>
-                    </div>
 
-                    <div class="col-xs-6">
-                        <label for="accompAddressRef">Referencias</label>
-                        <br/>
-                        <input id="accompAddressRef" ng-model="m.accompAddressRef"
-                               name="accompAddressRef"
-                               type="text" class="input-xxlarge"
-                               data-val="true"
-                               data-val-required="Referencias es un campo requerido"/>
-                        <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompAddressRef"
-                  data-valmsg-replace="true"></span>
-                    </div>
+                <div class="row">
+
+                    <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
 
                 </div>
+
                 <br/>
 
                 <div class="row">
                     <div class="col-xs-6">
-                        <label for="accompCel">Celular</label>
+                        <label for="celphone">Celular</label>
                         <br/>
-                        <input id="accompCel" ng-model="m.accompCel"
-                               name="accompCel"
+                        <input id="celphone" ng-model="pa.celphone"
+                               name="celphone"
                                type="text" class="input-xxlarge"
                                data-val="true"
                                data-val-required="Celular es un campo requerido"/>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompCel"
+            <span class="field-validation-valid" data-valmsg-for="celPhone"
                   data-valmsg-replace="true"></span>
                     </div>
 
                     <div class="col-xs-6">
-                        <label for="accompPhone">Teléfono fijo</label>
+                        <label for="phone">Teléfono fijo</label>
                         <br/>
-                        <input id="accompPhone" ng-model="m.accompPhone"
-                               name="accompPhone"
+                        <input id="phone" ng-model="pa.phone"
+                               name="phone"
                                type="text" class="input-xxlarge"
                                data-val="true"
                                data-val-required="Teléfono fijo es un campo requerido"/>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompPhone"
+            <span class="field-validation-valid" data-valmsg-for="phone"
                   data-valmsg-replace="true"></span>
                     </div>
                 </div>
@@ -270,16 +255,13 @@
 </div>
 <br/>
 
-<div ng-show="msgError" class="alert alert-danger element-center error-font">
-    {{errorMsg}}
-</div>
-
 </div>
 
 <div class="col-xs-12">
     <div class="modal-footer">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-              ng-click="submit('#FormPersonalData', '<c:url value="/reviewer/meeting/upsertPersonalData.json"/>');">
+              ng-click="submitIdCaseParam('#FormProccessAccompaniment', '<c:url value="/supervisor/framingMeeting/processAccompaniment/doUpsert.json?idCase="/>',fm.objView.idCase);">
+
             <span class="glyphicon glyphicon-cloud-upload"></span>
               Guardar
         </span>

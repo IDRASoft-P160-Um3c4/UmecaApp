@@ -40,40 +40,29 @@ import java.util.List;
 @Controller
 public class HearingFormatController {
 
-    @Qualifier("qArrangementRepository")
     @Autowired
-    ArrangementRepository arrangementRepository;
-
-    @Qualifier("registerTypeRepository")
-    @Autowired
-    RegisterTypeRepository registerTypeRepository;
+    private CaseService caseService;
 
     @Autowired
-    CaseService caseService;
+    private HearingFormatService hearingFormatService;
 
     @Autowired
-    HearingFormatService hearingFormatService;
-
-    @Autowired
-    CatalogService catalogService;
-
-    @Autowired
-    StatusCaseRepository statusCaseRepository;
+    private StatusCaseRepository statusCaseRepository;
 
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
 
     @Autowired
-    SharedUserService userService;
+    private SharedUserService userService;
 
     @Autowired
-    StateRepository stateRepository;
+    private StateRepository stateRepository;
 
     @Autowired
-    AddressService addressService;
+    private AddressService addressService;
 
     @Autowired
-    HearingFormatTypeRepository hearingFormatTypeRepository;
+    private HearingFormatTypeRepository hearingFormatTypeRepository;
 
     @RequestMapping(value = "/supervisor/hearingFormat/listCases", method = RequestMethod.POST)
     public
@@ -149,15 +138,12 @@ public class HearingFormatController {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
-                //final javax.persistence.criteria.Join<HearingFormat, Case> joinCase = r.join("caseDetention");
                 final javax.persistence.criteria.Join<HearingFormat, HearingFormatImputed> joinHImp = r.join("hearingImputed");
                 final javax.persistence.criteria.Join<HearingFormat, HearingFormatSpecs> joinSpecs = r.join("hearingFormatSpecs");
 
                 return new ArrayList<Selection<?>>() {{
 
                     add(r.get("id"));
-                    //add(joinCase.get("idFolder"));
-                    //add(joinCase.get("idMP"));
                     add(r.get("idFolder"));
                     add(r.get("idJudicial"));
                     add(joinHImp.get("name"));

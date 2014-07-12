@@ -13,10 +13,7 @@ public class AdditionalFramingQuestions {
     @Column(name = "id_additional_framing_questions")
     private Long id;
 
-    @Column(name = "activities", length = 5000)
-    private String activities;
-
-    @Column(name = "observations", length = 5000)
+    @Column(name = "observations", length = 500)
     private String observations;
 
     @Column(name = "addiction_treatment")
@@ -52,14 +49,6 @@ public class AdditionalFramingQuestions {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getActivities() {
-        return activities;
-    }
-
-    public void setActivities(String activities) {
-        this.activities = activities;
     }
 
     public String getObservations() {
@@ -102,6 +91,14 @@ public class AdditionalFramingQuestions {
         this.addictedAcquaintance = addictedAcquaintance;
     }
 
+    public Integer getObligationIssue() {
+        return obligationIssue;
+    }
+
+    public void setObligationIssue(Integer obligationIssue) {
+        this.obligationIssue = obligationIssue;
+    }
+
     public List<AddictedAcquaintanceRel> getAddictedAcquaintancesRel() {
         return addictedAcquaintancesRel;
     }
@@ -126,14 +123,6 @@ public class AdditionalFramingQuestions {
         this.relativesAbroadRel = relativesAbroadRel;
     }
 
-    public Integer getObligationIssue() {
-        return obligationIssue;
-    }
-
-    public void setObligationIssue(Integer obligationIssue) {
-        this.obligationIssue = obligationIssue;
-    }
-
     public List<ObligationIssues> getObligationIssues() {
         return obligationIssues;
     }
@@ -141,4 +130,5 @@ public class AdditionalFramingQuestions {
     public void setObligationIssues(List<ObligationIssues> obligationIssues) {
         this.obligationIssues = obligationIssues;
     }
+
 }

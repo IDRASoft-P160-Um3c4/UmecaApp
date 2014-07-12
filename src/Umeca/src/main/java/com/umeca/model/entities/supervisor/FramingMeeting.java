@@ -1,6 +1,5 @@
 package com.umeca.model.entities.supervisor;
 
-
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Drug;
 import com.umeca.model.entities.reviewer.ImputedHome;
@@ -16,6 +15,9 @@ public class FramingMeeting {
     @GeneratedValue
     @Column(name="id_framing_meeting")
     private Long id;
+
+    @Column(name="activities")
+    private String activities;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="id_framing_occupation")
@@ -42,7 +44,6 @@ public class FramingMeeting {
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingSelectedThreatRel> selectedThreatsRel;
-
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_process_accompaniment")
@@ -138,5 +139,13 @@ public class FramingMeeting {
 
     public void setSelectedThreatsRel(List<FramingSelectedThreatRel> selectedThreatsRel) {
         this.selectedThreatsRel = selectedThreatsRel;
+    }
+
+    public String getActivities() {
+        return activities;
+    }
+
+    public void setActivities(String activities) {
+        this.activities = activities;
     }
 }

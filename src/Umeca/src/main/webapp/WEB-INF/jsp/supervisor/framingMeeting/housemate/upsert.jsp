@@ -21,6 +21,7 @@
                     <form id="FormHousemateId" name="FormHousemateId" class="form-horizontal" role="form">
                         <input type="hidden" name="id" value="{{hm.id}}">
                         <input type="hidden" name="personType" value="HOUSEMATE">
+                        <input type="hidden" name="relationshipId" value="{{hm.relationship.id}}">
 
                         <br/>
 
@@ -50,17 +51,15 @@
                         <br/>
 
                         <div class="row">
-                            <div class="col-xs-6">
-                                <label>Parentesco</label>
+                            <div class="col-xs-4">
+
+                                <label>Parentesco:</label>
                                 <br/>
-                                <input id="relationship" ng-model="hm.relationship" name="relationship" type="text"
-                                       class="input-xxlarge" data-val="true"
-                                       data-val-required="Parentesco es un campo requerido"/>
-                                <br/>
-                                        <span class="field-validation-valid" data-valmsg-for="relationship"
-                                              data-valmsg-replace="true"></span>
+                                <select class="form-control element-center" ng-model="hm.relationship"
+                                        ng-options="e.name for e in lstRelationship"
+                                        ng-init='lstRelationship = ${lstRelationship};'></select>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-8">
                                 <label>Ocupación</label>
                                 <br/>
                                 <input id="occupation" ng-model="hm.occupation" name="occupation" type="text"
@@ -89,7 +88,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submitIdCaseParam('#FormHousemateId', '<c:url value="/supervisor/framingMeeting/housemate/doHousemateUpsert.json?idCase="/>',hm.idCase);">
+                          ng-click="submitIdCaseParam('#FormHousemateId', '<c:url value="/supervisor/framingMeeting/references/doReferenceUpsert.json?idCase="/>',hm.idCase);">
                           Guardar
                     </span>
                 </div>

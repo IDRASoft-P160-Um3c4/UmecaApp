@@ -2,7 +2,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
-<div class="row">
+<div class="row" ng-controller="framingActivitiesController">
     <div class="col-xs-10 col-xs-offset-1">
 
         <div class="row element-center">
@@ -11,20 +11,19 @@
         </div>
 
         <div class="row">
-            <div ng-show="msgExito" class="col-xs-12 alert alert-success element-center success-font">
-                {{successMsg}}
+            <div ng-show="actSuccessMsg&&actSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
+                {{actSuccessMsg}}
+            </div>
+            <div ng-show="actErrorMsg&&actErrorMsg!=''" class="alert alert-danger element-center error-font">
+                {{actErrorMsg}}
             </div>
         </div>
 
         <div class="row">
 
-            <form id="FormPersonalData" name="FormPersonalData" ng-submit="submit('#FormPersonalData')"
-                  class="form-horizontal"
-                  role="form">
-
-
+            <form id="FormFramingActivites" name="FormFramingActivites" class="form-horizontal" role="form">
                 <div class="widget-box">
-                    <div class="widget-header">Ocupaci贸n</div>
+                    <div class="widget-header">Ocupaci髇</div>
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
@@ -32,39 +31,39 @@
                                     <br/>
 
                                     <div class="col-xs-4">
-                                        <label for="accompOccupation">Ocupaci贸n</label>
+                                        <label for="occName">Ocupaci髇</label>
                                         <br/>
-                                        <input id="accompOccupation" ng-model="m.accompOccupation"
-                                               name="accompOccupation"
+                                        <input id="occName" ng-model="act.occName"
+                                               name="occName"
                                                type="text" class="input-xxlarge"
                                                data-val="true"
-                                               data-val-required="Ocupaci贸n es un campo requerido"/>
+                                               data-val-required="Ocupaci髇 es un campo requerido"/>
                                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompOccupation"
+            <span class="field-validation-valid" data-valmsg-for="occName"
                   data-valmsg-replace="true"></span>
                                     </div>
                                     <div class="col-xs-4">
-                                        <label for="accompOccupationPlace">Lugar de ocupaci贸n</label>
+                                        <label for="occPlace">Lugar de ocupaci髇</label>
                                         <br/>
-                                        <input id="accompOccupationPlace" ng-model="m.accompOccupationPlace"
-                                               name="accompOccupationPlace"
+                                        <input id="occPlace" ng-model="act.occPlace"
+                                               name="occPlace"
                                                type="text" class="input-xxlarge"
                                                data-val="true"
-                                               data-val-required="Lugar de ocupaci贸n es un campo requerido"/>
+                                               data-val-required="Lugar de ocupaci髇 es un campo requerido"/>
                                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompOccupationPlace"
+            <span class="field-validation-valid" data-valmsg-for="occPlace"
                   data-valmsg-replace="true"></span>
                                     </div>
                                     <div class="col-xs-4">
-                                        <label for="accompOccupationPhone">Tel茅fono</label>
+                                        <label for="occPhone">Tel閒ono</label>
                                         <br/>
-                                        <input id="accompOccupationPhone" ng-model="m.accompOccupationPhone"
-                                               name="accompOccupationPhone"
+                                        <input id="occPhone" ng-model="act.occPhone"
+                                               name="occPhone"
                                                type="text" class="input-xxlarge"
                                                data-val="true"
-                                               data-val-required="Tel茅fono es un campo requerido"/>
+                                               data-val-required="Tel閒ono es un campo requerido"/>
                                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="accompOccupationPhone"
+            <span class="field-validation-valid" data-valmsg-for="occPhone"
                   data-valmsg-replace="true"></span>
                                     </div>
                                 </div>
@@ -84,12 +83,12 @@
                                     <div>
                                         <label>Actividades que reliza el imputado</label>
                                         <br/>
-                                        <textarea class="input-xxlarge form-control limited" name="crimes"
-                                                  ng-model="m.crimes"
+                                        <textarea class="input-xxlarge form-control limited" name="activities"
+                                                  ng-model="act.activities"
                                                   maxlength="980" data-val="true"
-                                                  data-val-required="Instituci贸n es un campo requerido">
+                                                  data-val-required="Actividades es un campo requerido">
                                         </textarea>
-                                            <span class="field-validation-valid" data-valmsg-for="crimes"
+                                            <span class="field-validation-valid" data-valmsg-for="activities"
                                                   data-valmsg-replace="true"></span>
                                     </div>
                                 </div>
@@ -98,22 +97,15 @@
                         <br/>
                     </div>
                 </div>
-
-
             </form>
         </div>
         <br/>
-
-        <div ng-show="msgError" class="alert alert-danger element-center error-font">
-            {{errorMsg}}
-        </div>
-
     </div>
 
     <div class="col-xs-12">
         <div class="modal-footer">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-              ng-click="submit('#FormPersonalData', '<c:url value="/reviewer/meeting/upsertPersonalData.json"/>');">
+              ng-click="submitIdCaseParam('#FormFramingActivites', '<c:url value="/supervisor/framingMeeting/activities/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>
               Guardar
         </span>
@@ -121,12 +113,3 @@
     </div>
 
 </div>
-
-<script>
-    $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-        $(this).prev().focus();
-    });
-    $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function () {
-        $(this).next().focus();
-    });
-</script>
