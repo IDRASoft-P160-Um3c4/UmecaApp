@@ -296,3 +296,7 @@ i.link-image {
 .color-danger{
     color: #d9534f !important;
 }
+
+.two-lines{
+    min-height: 45px !important;
+}

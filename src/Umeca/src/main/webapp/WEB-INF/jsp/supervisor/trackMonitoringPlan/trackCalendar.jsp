@@ -27,6 +27,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/trackMonitoringPlan/monActivityCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upsertCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/modalDlgCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/hiddenDrct.js"></script>
     <script>
         jQuery(function($) {
 

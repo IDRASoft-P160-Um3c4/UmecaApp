@@ -1,5 +1,6 @@
 package com.umeca.service.supervisor;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.entities.account.User;
@@ -66,7 +67,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         model.addObject("status", actMonPlanInfo.getStatus());
 
         List<SelectList> lstArrangement = arrangementRepository.findArrangementById(id);
-
+        /*
         String sLstArrangement = null;
 
         for(SelectList sl : lstArrangement){
@@ -76,7 +77,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
             else{
                 sLstArrangement = sLstArrangement + " <br/> " + sl.getName() + " / " + sl.getDescription();
             }
-        }
+        }*/
 
         String status = actMonPlanInfo.getActStatus();
         boolean isReadOnly = true;
@@ -85,6 +86,8 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
             isReadOnly = false;
         }
 
+        Gson gson = new Gson();
+        String sLstArrangement = gson.toJson(lstArrangement);
         model.addObject("lstArrangements", sLstArrangement);
         model.addObject("actSup", actMonPlanInfo.getSupervisionActivityName());
         model.addObject("actGoal", actMonPlanInfo.getActivityGoalName());

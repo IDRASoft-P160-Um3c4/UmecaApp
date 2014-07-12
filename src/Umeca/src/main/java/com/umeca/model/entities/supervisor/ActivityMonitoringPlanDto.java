@@ -128,12 +128,12 @@ public class ActivityMonitoringPlanDto {
 
             dto.setActivityMonId(actMonPlan.getSupervisionActivity().getId());
             dto.setGoalId(actMonPlan.getActivityGoal().getId());
-            dto.setSourceId(actMonPlan.getAidSource().getId());
+            dto.setSourceId(actMonPlan.getFramingSelectedSourceRel().getId());
 
-            List<AssignedArrangement> lstAssArr = actMonPlan.getLstAssignedArrangement();
+            List<ActivityMonitoringPlanArrangement> lstAssArr = actMonPlan.getLstAssignedArrangement();
             List<Long> lstAssArrId = new ArrayList<>();
-            for(AssignedArrangement arr: lstAssArr){
-                lstAssArrId.add(arr.getId());
+            for(ActivityMonitoringPlanArrangement arr: lstAssArr){
+                lstAssArrId.add(arr.getAssignedArrangement().getId());
             }
             dto.setLstArrangements(lstAssArrId);
 

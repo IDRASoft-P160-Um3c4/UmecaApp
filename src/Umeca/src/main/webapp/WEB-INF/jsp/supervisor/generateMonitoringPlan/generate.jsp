@@ -264,6 +264,7 @@
                     </div>
                 </div>
                 <div class="row" ng-show="msgError">
+                    <br/>
                     <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
                         <span class="control-label element-center">{{msgError}}</span>
                     </div>
