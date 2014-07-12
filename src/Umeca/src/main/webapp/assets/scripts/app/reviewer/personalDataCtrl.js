@@ -6,7 +6,7 @@ app.controller('personalDataController', function($scope, $timeout,$q) {
     $scope.activityList = [];
     $scope.phyModel = [];
     $scope.listCountry = [];
-    $scope.country=0;
+    $scope.m.country=0;
     $scope.lstPhysicalCondition = [];
     $scope.pCSelected = [];
     $scope.relActivities = [];
@@ -21,16 +21,16 @@ app.controller('personalDataController', function($scope, $timeout,$q) {
         if($scope.listCountry === undefined || $scope.listCountry.length <= 0)
             return;
 
-        if($scope.countryId === undefined){
-            $scope.country = $scope.listCountry[0];
-            $scope.countryId = $scope.country.id;
+        if($scope.m.countryId === undefined){
+            $scope.m.country = $scope.listCountry[0];
+            $scope.m.countryId = $scope.m.country.id;
         }
         else{
             for(var i=0; i < $scope.listCountry.length; i++){
                 var country = $scope.listCountry[i];
 
-                if(country.id === $scope.countryId){
-                    $scope.country = country;
+                if(country.id === $scope.m.countryId){
+                    $scope.m.country = country;
                     break;
                 }
             }

@@ -61,7 +61,6 @@
                         var row = $(this).getRowData(cl);
                         var status = row.statusCode;
                         var be = "";
-
                         if (status == "AUTHORIZED") {
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrevistar fuentes\" onclick=\"window.viewSource('" + cl + "');\"><span class=\"icon-group blue\"></span></a>";
                         }else if(status == "MEETING_COMPLETE"){

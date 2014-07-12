@@ -1,0 +1,125 @@
+package com.umeca.model.entities.reviewer;
+
+import com.umeca.model.catalog.FieldVerification;
+import com.umeca.model.catalog.StatusFieldVerification;
+
+import javax.persistence.*;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: Desarrollo
+ * Date: 17/06/14
+ * Time: 04:34 PM
+ * To change this template use File | Settings | File Templates.
+ */
+@Entity
+@Table(name="field_meeting_source")
+public class FieldMeetingSource {
+
+    public FieldMeetingSource() {
+    }
+
+    public FieldMeetingSource(String value, String jsonValue) {
+        this.value = value;
+        this.jsonValue = jsonValue;
+    }
+
+    public FieldMeetingSource(String value, String jsonValue, Long idFieldList) {
+        this.value = value;
+        this.jsonValue = jsonValue;
+        this.idFieldList = idFieldList;
+    }
+
+    @Id
+    @GeneratedValue
+    @Column(name="id_field_meeting_source")
+    private Long id;
+
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_source_verification", nullable = true)
+    private SourceVerification sourceVerification;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_field", nullable = false)
+    private FieldVerification fieldVerification;
+
+    @Column(name="value", length = 1000, nullable = false)
+    private String value;
+
+    @Column(name="value_json", length = 1000, nullable = false)
+    private String jsonValue;
+
+    @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name="id_status", nullable = false)
+    private StatusFieldVerification statusFieldVerification;
+
+    @Column(name="is_final", nullable = true)
+    private Boolean isFinal;
+
+    @Column(name="id_filed_list", nullable = true)
+    private Long idFieldList;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public SourceVerification getSourceVerification() {
+        return sourceVerification;
+    }
+
+    public void setSourceVerification(SourceVerification sourceVerification) {
+        this.sourceVerification = sourceVerification;
+    }
+
+    public FieldVerification getFieldVerification() {
+        return fieldVerification;
+    }
+
+    public void setFieldVerification(FieldVerification fieldVerification) {
+        this.fieldVerification = fieldVerification;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public StatusFieldVerification getStatusFieldVerification() {
+        return statusFieldVerification;
+    }
+
+    public void setStatusFieldVerification(StatusFieldVerification statusFieldVerification) {
+        this.statusFieldVerification = statusFieldVerification;
+    }
+
+    public Boolean getFinal() {
+        return isFinal;
+    }
+
+    public void setFinal(Boolean aFinal) {
+        isFinal = aFinal;
+    }
+
+    public Long getIdFieldList() {
+        return idFieldList;
+    }
+
+    public void setIdFieldList(Long idFieldList) {
+        this.idFieldList = idFieldList;
+    }
+
+    public String getJsonValue() {
+        return jsonValue;
+    }
+
+    public void setJsonValue(String jsonValue) {
+        this.jsonValue = jsonValue;
+    }
+}

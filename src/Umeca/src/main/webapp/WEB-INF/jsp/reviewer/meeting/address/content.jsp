@@ -9,25 +9,6 @@
     <input type="hidden" ng-update-hidden ng-model="id" name="id" id="id"
            ng-init='id = "${(d.id == null)? '':d.id}"'>
     <input type="hidden" ng-update-hidden ng-model="a.timeLive" name="timeLive" id="hdnTimeLive">
-    <div class="col-xs-2 element-right">
-        <i class="icon-remove-sign red link-image" style="display: none;"  onclick="verification(this)"></i>
-        <a class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list-alt orange" style="display: none;"></i> </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <label for="r1"><input type="radio" name="radiocp" id="r1" onclick="checkSource()"> &nbsp;José Ramierez</label><br/>
-                        <label>&nbsp;<i class="icon-remove red"> &nbsp;</i>asldjkfas fasdlfkj sdlkfj aslkdf</label>
-                    <div class="hr hr-2"></div>
-                </li>
-                <li>
-                    <label for="r2"><input type="radio" name="radiocp" id="r2" onclick="checkSource()"> &nbsp;Carlos Gómez</label><br/>
-                    <label>&nbsp;<i class="icon-ok green"> &nbsp;</i>55569</label>
-                    <div class="hr hr-2"></div>
-                </li>
-            </ul>
-        </a>
-        <label for="cp">Código  postal:</label>
-    </div>
 </div>
 <br/>
 <div class="row">
@@ -50,8 +31,8 @@
     </div>
     <div class="col-xs-3">
         <select class="form-control element-center" ng-model="a.type"
-                ng-options="e.name for e in listRegisterType"
-                ng-change="a.typeId = a.type.id;" ng-init='listRegisterType= ${listRegisterType};'></select>
+                ng-options="e.name for e in listType"
+                ng-change="a.typeId = a.type.id;" ng-init='listType= ${listRegisterType};'></select>
     </div>
     <br/>
     <br/>
@@ -145,21 +126,21 @@
                                 </div>
                             </div>
                             <br/>
-                            <div class="row schedule_visible">
-                                <div class="widget-box">
-                                    <div class="widget-header">
-                                        <h5><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h5>
-                                    </div>
+                            <div class="row">
+                            <div class="col-xs-12" >
+                                <div class="widget-header header-color-blue">
+                                    <h5 class="bigger lighter">
+                                        <h6><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
+                                    </h5>
+                                </div>
 
-                                    <div class="widget-body">
-                                        <br/>
-                                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/schedule.jsp"%>
-                                    </div>
+                                <div class="widget-body">
+                                    <br/>
+                                    <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/schedule.jsp" %>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="hr hr-8"></div>
                             </div>
+                            <br/>
                         </div>
                     </div>
                 </div>

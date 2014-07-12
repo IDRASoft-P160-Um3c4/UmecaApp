@@ -102,20 +102,21 @@
     </div>
     <br/>
 
-    <div class="row schedule_visible">
-        <div class="widget-box">
-            <div class="widget-header">
-                <div class="col-xs-1">
-                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
-                       ng-show="verification"></i>
-                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('school.schedule')"></i>
-                </div>
-                <h5><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h5>
+    <div class="row" id="divSchedule">
+        <div class="row">
+        <div class="col-xs-12">
+            <div class="widget-header header-color-blue">
+                <h5 class="bigger lighter">
+                    <h6><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
+                </h5>
             </div>
+
             <div class="widget-body">
-                <br/><br/>
+                <br/>
                 <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/schedule.jsp" %>
             </div>
         </div>
+        </div>
+        <br/>
     </div>
 </div>

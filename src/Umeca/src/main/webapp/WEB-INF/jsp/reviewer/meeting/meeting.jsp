@@ -78,10 +78,9 @@
                         <div class="row">
                             <div class="col-xs-10">
                                 <i class="purple glyphicon glyphicon-user bigger-200"></i>
-                                Datos personales y
+                                Datos personales
                                 <br/>
-
-                                <div class="col-xs-offset-3"> Entorno social</div>
+                                <div class="col-xs-offset-3">y Entorno social</div>
                             </div>
                             <div class="col-xs-2" ng-show="listMsgError['personalData'].length > 0">
                                 <div class="tools">

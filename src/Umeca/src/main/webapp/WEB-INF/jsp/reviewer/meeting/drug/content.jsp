@@ -13,9 +13,9 @@
     </div>
     <div class="col-xs-4">
         <select class="form-control element-center" ng-model="d.type"
-                ng-options="e.name for e in lstDrugType"
+                ng-options="e.name for e in lstType"
                 ng-change="d.typeId = d.type.id"
-                ng-init='lstDrugType = ${lstDrugType};'></select>
+                ng-init='lstType = ${lstDrugType};'></select>
 
     </div>
     <div class="col-xs-2">
@@ -23,9 +23,9 @@
     </div>
     <div class="col-xs-4">
         <select class="form-control element-center" ng-model="d.per"
-                ng-options="e.name for e in lstPeriodicity"
+                ng-options="e.name for e in lstPer"
                 ng-change="d.perId = d.per.id"
-                ng-init='lstPeriodicity = ${lstPeriodicity};'></select>
+                ng-init='lstPer = ${lstPeriodicity};'></select>
     </div>
 </div>
 <br/>

@@ -163,6 +163,20 @@ public class InsertCatalogController {
         return "Status Case OK!";
     }
 
+
+    @RequestMapping(value = "/catalogs/fieldVerification", method = RequestMethod.GET)
+    public String fieldVerification(){
+        service.fieldVerification();
+        return "Field Verification OK!";
+    }
+
+    @RequestMapping(value = "/catalogs/statusFieldVerification", method = RequestMethod.GET)
+    public String statusFieldVerification(){
+        service.statusFieldVerification();
+        return "Status Field  Verification OK!";
+    }
+
+
     /*@RequestMapping(value = "/catalogs/insertHearingFormatType", method = RequestMethod.GET)
     public String insertHearingFormatType(){ //NO APLICA PARA ESTA VERSIÓN
         service.hearingFormatType();
@@ -195,6 +209,8 @@ public class InsertCatalogController {
         service.supervisionActivity();
         service.insertActivityGoal();
         service.insertAidSource();
+        service.fieldVerification();
+        service.statusFieldVerification();
         return "insertCatalog OK!!";
     }
 }

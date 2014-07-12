@@ -24,6 +24,18 @@
 <div class="container body-content">
 
     <script>
+        window.cancelShowSource = function(){
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html?id=${idCase}'/>");
+        }
+
+        window.addSources = function(){
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html?id=${idCase}'/>");
+        }
+
+        window.electionInformation = function(){
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/choiceInformation.html?idCase=${idCase}'/>");
+        }
+
         window.meetingSource = function(id) {
             var params= [];
             params["idSourceParam"]=id;
@@ -108,6 +120,19 @@
             <div>
                 Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" onclick="window.cancelShowSource()">
+                        Regresar
+                    </span>
+                    <span class="btn btn-primary btn-sm" ng-disabled = "${sourceAvailable}" onclick="window.addSources()">
+                        <span class="icon-group align-top bigger-125"></span> &nbsp;&nbsp;Agregar fuentes
+                    </span>
+                    <span class="btn btn-purple btn-primary btn-sm" ng-disabled="${sourceAvailable}" onclick="window.electionInformation()" >
+                          <span class="icon-list align-top bigger-125"></span>&nbsp;&nbsp;Iniciar elección de información
+                    </span>
         </div>
     </div>
 

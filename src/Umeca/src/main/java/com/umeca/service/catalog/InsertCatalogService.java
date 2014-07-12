@@ -31,5 +31,8 @@ public interface InsertCatalogService {
     void insertActivityGoal();
     void insertAidSource();
     void verificationMethod();
+    void fieldVerification();
+    void statusFieldVerification();
+
     //void hearingFormatType(); NO APLICA PARA ESTA VERSIÓN
 }

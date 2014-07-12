@@ -1,17 +1,17 @@
 package com.umeca.controller.reviewer;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.VerificationView;
+import com.umeca.model.entities.reviewer.dto.FieldVerified;
 import com.umeca.model.shared.Constants;
-import com.umeca.repository.CaseRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.CaseService;
@@ -24,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
-import java.lang.ref.ReferenceQueue;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +47,7 @@ public class VerificationController {
     @RequestMapping(value = "/reviewer/verification/index", method = RequestMethod.GET)
     public String index(){
         //caseService.validateStatus(3L,Constants.CASE_STATUS_VERIFICATION_COMPLETE,Meeting.class,Constants.S_MEETING_INCOMPLETE);
+        //verificationService.createAllFieldVerificationOfImputed(1L);
         return "/reviewer/verification/index";
     }
 
@@ -144,6 +144,7 @@ public class VerificationController {
     @RequestMapping(value = "/reviewer/verification/sources", method = RequestMethod.GET)
     public ModelAndView sources(@RequestParam(required = true) Long id){
         ModelAndView model = new ModelAndView("/reviewer/verification/sources");
+        verificationService.showButtonsSource(model,id);
         verificationService.setImputedData(id, model);
         return model;
     }
@@ -168,13 +169,44 @@ public class VerificationController {
         return "/reviewer/verification/checkSource";
     }
 
-    @RequestMapping(value = "/reviewer/verification/detailSource", method = RequestMethod.POST)
-    public ModelAndView detailSource(@RequestParam(required = false) Long id){
-        ModelAndView model = new ModelAndView("/reviewer/verification/detailSource");
 
+
+    @RequestMapping(value = "/reviewer/verification/saveFieldVerification", method = RequestMethod.POST)
+    public ResponseMessage detailSource(@RequestParam(required = true) String val, @RequestParam(required = true) Long idCase, @RequestParam(required = true) Long idSource,@RequestParam(required = false)Long idList){
         Gson gson = new Gson();
-        String lstRoles = gson.toJson(new ResponseMessage());
-        model.addObject("lstRoles", lstRoles);
-        return model;
+        List<FieldVerified> list = gson.fromJson(val,new TypeToken<List<FieldVerified>>(){}.getType());
+        ResponseMessage saveFieldVerified = verificationService.saveFieldVerifiedInocrrect(list, idCase, idSource,idList);
+            return saveFieldVerified;
     }
+
+    @RequestMapping(value = "/reviewer/verification/verifBySourceEqual", method = RequestMethod.POST)
+    public ResponseMessage detailSourceEqual(@RequestParam(required = true) String code, @RequestParam(required = true) Long idCase, @RequestParam(required = true) Long idSource,@RequestParam(required = false)Long idList){
+        ResponseMessage saveFieldEqual = verificationService.saveFieldVerifiedEqual(code, idCase, idSource,idList);
+        return saveFieldEqual;
+    }
+
+    @RequestMapping(value = "/reviewer/verification/verifBySourceNotKnow", method = RequestMethod.POST)
+    public ResponseMessage detailSourceNotKnow(@RequestParam(required = true) String code, @RequestParam(required = true) Long idCase, @RequestParam(required = true) Long idSource,@RequestParam(required = false)Long idList){
+        Gson gson = new Gson();
+        ResponseMessage saveFieldEqual = verificationService.saveFieldVerifiedNotKnow(code, idCase, idSource,idList);
+        return saveFieldEqual;
+    }
+
+    @RequestMapping(value = "/reviewer/verification/terminateMeetingSource", method = RequestMethod.POST)
+    public ResponseMessage terminateMeetingSource(@RequestParam(required = true) Long idCase, @RequestParam(required = true) Long idSource){
+        ResponseMessage result = verificationService.terminateMeetingSource(idCase,idSource);
+        return result;
+    }
+
+    @RequestMapping(value = "/reviewer/verification/choiceInformation", method = RequestMethod.GET)
+    public ModelAndView choiceInformation(@RequestParam(required = true) Long idCase){
+        return verificationService.showChoiceInformation(idCase);
+    }
+
+    @RequestMapping(value = "/reviewer/verification/showChoices", method = RequestMethod.POST)
+    public ModelAndView showChoice(@RequestParam(required = true) Long idCase,@RequestParam(required = true) String id,@RequestParam(required = false) Long idList){
+        return verificationService.showChoices(idCase,id,idList);
+    }
+
+
 }

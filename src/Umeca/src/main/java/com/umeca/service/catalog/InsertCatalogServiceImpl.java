@@ -35,7 +35,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\Projects\\IDRASoft\\UmecaApp\\db\\";//"C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
 
     @Autowired
     RoleRepository repositoryRole;
@@ -478,6 +478,43 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         }
         registerTypeRepository.flush();
     }
+
+    @Autowired
+    FieldVerificationRepository fieldVerificationRepository;
+    @Override
+    public void fieldVerification() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "field_verification.txt","\\|", 9);
+        for (String[] data : lstDta) {
+            FieldVerification model = new FieldVerification();
+            model.setId(Long.parseLong(data[0]));
+            model.setCode(data[1]);
+            model.setSection(data[2]);
+            model.setSectionCode(Integer.parseInt(data[3]));
+            model.setFieldName(data[4]);
+            model.setIndex(Integer.parseInt(data[5]));
+            model.setObsolete(data[6].equals("1"));
+            model.setIdSubsection(Integer.parseInt(data[7]));
+            model.setType(data[8]);
+            fieldVerificationRepository.save(model);
+        }
+        fieldVerificationRepository.flush();
+    }
+
+    @Autowired
+    StatusFieldVerificationRepository statusFieldVerificationRepository;
+    @Override
+    public void statusFieldVerification() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "status_field_verification.txt","\\|", 3);
+        for (String[] data : lstDta) {
+            StatusFieldVerification model = new StatusFieldVerification();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            statusFieldVerificationRepository.save(model);
+        }
+        statusFieldVerificationRepository.flush();
+    }
+
 
 /* CATALOGO DE TIPO DE AUDIENCIA (FORMATO DE AUDIENCIA) NO APLICA PARA ESTA VERSIÓN
     @Autowired

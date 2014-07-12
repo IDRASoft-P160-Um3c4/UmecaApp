@@ -3,6 +3,9 @@ package com.umeca.model.entities.reviewer.dto;
 import com.google.gson.Gson;
 import com.umeca.model.entities.reviewer.Job;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -19,10 +22,10 @@ public class JobDto
     private String nameHead;
     private String company;
     private String phone;
-    private Date startPrev;
-    private Date start;
+    private String startPrev;
+    private String start;
     private Float salaryWeek;
-    private Date end;
+    private String end;
     private String reasonChange;
     private String address;
     private Long registerTypeId;
@@ -34,13 +37,21 @@ public class JobDto
         this.nameHead = job.getNameHead();
         this.company = job.getCompany();
         this.phone = job.getPhone();
-        if(job.getStartPrev()!=null)
-            this.startPrev = job.getStartPrev();
-        if(job.getStart()!=null)
-            this.start = job.getStart();
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        if(job.getStartPrev()!=null){
+            date.setTime(job.getStartPrev().getTime());
+            this.startPrev = formatter.format(date);
+        }
+        if(job.getStart()!=null){
+            date.setTime(job.getStart().getTime());
+            this.start = formatter.format(date);
+        }
         this.salaryWeek = job.getSalaryWeek();
-        if(job.getEnd()!=null)
-            this.end = job.getEnd();
+        if(job.getEnd()!=null){
+            date.setTime(job.getEnd().getTime());
+            this.end = formatter.format(date);
+        }
         this.reasonChange = job.getReasonChange();
         this.address = job.getAddress();
         if(job.getRegisterType() !=null){
@@ -90,36 +101,12 @@ public class JobDto
         this.phone = phone;
     }
 
-    public Date getStartPrev() {
-        return startPrev;
-    }
-
-    public void setStartPrev(Date startPrev) {
-        this.startPrev = startPrev;
-    }
-
-    public Date getStart() {
-        return start;
-    }
-
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
     public Float getSalaryWeek() {
         return salaryWeek;
     }
 
     public void setSalaryWeek(Float salaryWeek) {
         this.salaryWeek = salaryWeek;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
     }
 
     public String getReasonChange() {
@@ -152,5 +139,29 @@ public class JobDto
 
     public void setSchedule(String schedule) {
         this.schedule = schedule;
+    }
+
+    public String getStartPrev() {
+        return startPrev;
+    }
+
+    public void setStartPrev(String startPrev) {
+        this.startPrev = startPrev;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
     }
 }

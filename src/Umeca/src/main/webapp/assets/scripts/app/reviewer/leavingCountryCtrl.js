@@ -1,6 +1,5 @@
 app.controller('leavingController', function($scope, $timeout,$q) {
     $scope.l = {};
-    $scope.listLocation = [];
     $scope.listElection = [];
     $scope.listCountry = [];
     $scope.l.oc= 0;
@@ -16,16 +15,16 @@ app.controller('leavingController', function($scope, $timeout,$q) {
         if($scope.listCountry === undefined || $scope.listCountry.length <= 0)
             return;
 
-        if($scope.countryId === undefined){
-            $scope.country = $scope.listCountry[0];
-            $scope.countryId = $scope.country.id;
+        if($scope.l.countryId === undefined){
+            $scope.l.country = $scope.listCountry[0];
+            $scope.l.countryId = $scope.l.country.id;
         }
         else{
             for(var i=0; i < $scope.listCountry.length; i++){
                 var country = $scope.listCountry[i];
 
-                if(country.id === $scope.countryId){
-                    $scope.country = country;
+                if(country.id === $scope.l.countryId){
+                    $scope.l.country = country;
                     break;
                 }
             }
