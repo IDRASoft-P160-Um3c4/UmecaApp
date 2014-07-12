@@ -66,7 +66,7 @@ app.controller("supervisionLogController", function($scope){
                 start: act.start,
                 end: act.end,
                 supActivity: (actSup === undefined ? "NA" : actSup.name),
-                aidSource: (aidSource === undefined ? "NA" : aidSource.description + " / " +  aidSource.name),
+                aidSource: (aidSource === undefined ? "NA" : aidSource.name + " / " + aidSource.description),
                 lstAssignedArrangements: lstAssignedArrangements,
                 status: act.status,
                 comments: comments
@@ -137,7 +137,7 @@ app.controller("supervisionLogController", function($scope){
                     start: act.start,
                     end: act.end,
                     supActivity: (actSup === undefined ? "NA" : actSup.name),
-                    aidSource: (aidSource === undefined ? "NA" : aidSource.description + " / " +  aidSource.name),
+                    aidSource: (aidSource === undefined ? "NA" : aidSource.name + " / " + aidSource.description),
                     lstAssignedArrangements: splitInfo.lstOk,
                     status: act.status,
                     comments: comments
@@ -151,7 +151,7 @@ app.controller("supervisionLogController", function($scope){
                     start: act.start,
                     end: act.end,
                     supActivity: (actSup === undefined ? "NA" : actSup.name),
-                    aidSource: (aidSource === undefined ? "NA" : aidSource.description + " / " +  aidSource.name),
+                    aidSource: (aidSource === undefined ? "NA" : aidSource.name + " / " + aidSource.description),
                     lstAssignedArrangements: splitInfo.lstFailed,
                     status: act.status,
                     comments: comments

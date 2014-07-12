@@ -33,10 +33,11 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
                                                           @Param("yearmonthEnd")int yearmonthEnd);
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanInfo(amp.id, mp.id, cd.id, cd.idMP, mp.status, " +
-            "amp.end, amp.start, sa.name, ag.name, fssr.name, fssr.relationship, amp.status, im.name, im.lastNameP, im.lastNameM, " +
+            "amp.end, amp.start, sa.name, ag.name, fssr.name, rs.name, amp.status, im.name, im.lastNameP, im.lastNameM, " +
             "sd.fullname, amp.comments, amp.doneTime) " +
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
-            "INNER JOIN amp.supervisionActivity sa INNER JOIN amp.activityGoal ag INNER JOIN amp.framingSelectedSourceRel.framingReference fssr LEFT JOIN amp.supervisorDone sd " +
+            "INNER JOIN amp.supervisionActivity sa INNER JOIN amp.activityGoal ag INNER JOIN amp.framingSelectedSourceRel.framingReference fssr " +
+            "INNER JOIN fssr.relationship rs LEFT JOIN amp.supervisorDone sd " +
             "WHERE amp.id =:actMonId")
     ActivityMonitoringPlanInfo getActivityInfo(@Param("actMonId")Long actMonId);
 

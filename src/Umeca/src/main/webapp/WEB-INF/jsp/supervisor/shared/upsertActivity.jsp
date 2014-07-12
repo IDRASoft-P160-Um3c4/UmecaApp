@@ -47,7 +47,7 @@
                         <label for="selectSource" class="col-xs-3 control-label">Fuentes:</label>
                         <div class="col-xs-9">
                             <select class="form-control element-center" ng-model="m.source" id="selectSource"
-                                    ng-options="(e.description + ' / ' + e.name) for e in lstSources"
+                                    ng-options="e.name for e in lstSources"
                                     ng-change="m.sourceId = m.source.id"
                                     ng-disabled = "isReadOnly">
                             </select>

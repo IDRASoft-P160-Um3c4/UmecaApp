@@ -20,7 +20,6 @@ public class FramingReference implements EntityGrid {
     @Column(name = "phone")
     private String phone;
 
-
     @OneToOne
     @JoinColumn(name = "id_relationship")
     private Relationship relationship;

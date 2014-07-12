@@ -83,7 +83,7 @@
                             <div class="profile-info-name"> FUENTES</div>
                             <div class="profile-info-value element-left">
                                 <div ng-repeat="i in lstSources"><i
-                                        class="icon-tasks blue"></i>&nbsp;&nbsp;{{i.description}} / {{i.name}}</span>
+                                        class="icon-tasks blue"></i>&nbsp;&nbsp;{{i.name}}</span>
                                 </div>
                             </div>
                         </div>
