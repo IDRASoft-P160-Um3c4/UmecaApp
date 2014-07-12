@@ -4,7 +4,7 @@
 
 <div class="row" ng-controller="environmentAnalysisController">
 
-    <input type="hidden" id="loadSources" value="<c:url value='/supervisor/framingMeeting/loadExistSources.json'/>"/>
+    <input type="hidden" id="loadEnvironmentAnalysis" value="<c:url value='/supervisor/framingMeeting/environmentAnalysis/loadEnvironmentAnalysis.json'/>"/>
     <input type="hidden" id="envIdCase" value="{{fm.objView.idCase}}"/>
 
     <div class="col-xs-10 col-xs-offset-1">
@@ -28,6 +28,9 @@
             <form id="FormEnvironmentAnalisysId" name="FormEnvironmentAnalisysId" class="form-horizontal" role="form">
 
                 <input type="hidden" name="lstSelectedSources" value="{{lstSelectedSources}}">
+                <input type="hidden" name="lstSelectedArrangement" value="{{lstSelectedArrangement}}">
+                <input type="hidden" name="lstSelectedRisk" value="{{lstSelectedRisk}}">
+                <input type="hidden" name="lstSelectedThreat" value="{{lstSelectedThreat}}">
 
                 <div class="row">
                     <br/>
@@ -42,9 +45,10 @@
 
                                         <div class="row" ng-repeat="source in lstSources">
                                                 <label>
-                                                    <input ng-click="selectSource(source.id);"
-                                                           class="ace"
-                                                           type="checkbox">
+                                                    <input id="chkSource_{{source.id}}"
+                                                           ng-checked='lstSelectedSources.indexOf(source.id)>=0'
+                                                            ng-click="selectSource(source.id);"
+                                                           class="ace" type="checkbox">
                                                     <span class="lbl">&nbsp;&nbsp;{{source.description}}</span>
                                                 </label>
                                         </div>
@@ -54,6 +58,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-xs-6">
                         <div class="widget-box">
                             <div class="widget-header">Medidas cautelares</div>
@@ -61,7 +66,16 @@
                                 <div class="row">
                                     <div class="col-xs-10 col-xs-offset-1">
                                         <br/>
+                                        <div class="row" ng-repeat="arrangement in lstArrangements">
+                                            <label>
+                                                <input ng-click="selectArrangement(arrangement.id);"
+                                                       class="ace"
+                                                       type="checkbox">
+                                                <span class="lbl">&nbsp;&nbsp;{{arrangement.description}}</span>
+                                            </label>
+                                        </div>
                                     </div>
+                                    <br/>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +84,6 @@
 
                 <div class="row">
                     <br/>
-
                     <div class="col-xs-6">
                         <div class="widget-box">
                             <div class="widget-header">Riesgos</div>
@@ -78,7 +91,16 @@
                                 <div class="row">
                                     <div class="col-xs-10 col-xs-offset-1">
                                         <br/>
+                                        <div class="row" ng-repeat="risk in lstRisk">
+                                            <label>
+                                                <input ng-click="selectRisk(risk.id);"
+                                                       class="ace"
+                                                       type="checkbox">
+                                                <span class="lbl">&nbsp;&nbsp;{{risk.description}}</span>
+                                            </label>
+                                        </div>
                                     </div>
+                                    <br/>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +113,16 @@
                                 <div class="row">
                                     <div class="col-xs-10 col-xs-offset-1">
                                         <br/>
+                                        <div class="row" ng-repeat="threat in lstThreat">
+                                            <label>
+                                                <input ng-click="selectThreat(threat.id);"
+                                                       class="ace"
+                                                       type="checkbox">
+                                                <span class="lbl">&nbsp;&nbsp;{{threat.description}}</span>
+                                            </label>
+                                        </div>
                                     </div>
+                                    <br/>
                                 </div>
                             </div>
                         </div>
@@ -101,10 +132,6 @@
             </form>
         </div>
         <br/>
-
-        <div ng-show="msgError" class="alert alert-danger element-center error-font">
-            {{errorMsg}}
-        </div>
 
     </div>
 

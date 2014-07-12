@@ -18,7 +18,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/references/referencesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/environmentAnalysis/environmentAnalysisCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/processAcompaniment/processAccompanimentCtrl.js"></script>
-
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/framingActivities/framingActivitiesCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/addtionalQuestions/additionalQuestionsCtrl.js"></script>
 
     <title>Entrevista de encuadre</title>
 </head>
@@ -105,7 +106,7 @@
                         <a data-toggle="tab" href="#addtional">
 
                             <i class="red icon-list bigger-200"></i>
-                            Preguntas adicionales
+                            Formulario de preguntas al supervisado
                         </a>
                     </li>
                 </ul>

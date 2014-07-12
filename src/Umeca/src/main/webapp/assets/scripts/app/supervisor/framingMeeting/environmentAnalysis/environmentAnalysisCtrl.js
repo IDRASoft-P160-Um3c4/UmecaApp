@@ -31,14 +31,42 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
     }
 
     $rootScope.$on('reloadEnvironment', function() {
-        $scope.loadSources();
+        $scope.loadEnvironmentAnalysis();
     });
 
+    $scope.fillEnvironmentAnalysis=function(data){
 
-    $scope.loadSources = function () {
-        //alert("loadSource");
+        //debugger;
+        $scope.lstSources = $.parseJSON(data.lstSources);
+        $scope.lstArrangement=$.parseJSON(data.lstArrangement);
+        $scope.lstRisk=$.parseJSON(data.lstRisk);
+        $scope.lstThreat=$.parseJSON(data.lstThreat);
+
+        $scope.lstSelectedSources= $.parseJSON(data.lstSelectedSources);/*
+        $scope.lstSelectedArrangement=data.lstSelectedArrangement;
+        $scope.lstSelectedRisk=data.lstSelectedRisk;
+        $scope.lstSelectedThreat=data.lstSelectedThreat;*/
+
+        //$scope.checkOptions();
+    };
+
+    $scope.verifyCheck=function(id){
+        alert($scope.lstSelectedSources.indexOf(id)>=0);
+    };
+
+    $scope.checkOptions= function(){
+
+        for(var i=0; i<$scope.lstSelectedSources.length; i++){
+
+        alert('#chkSource_'+$scope.lstSelectedSources[i]);
+
+            $('#chkSource_'+$scope.lstSelectedSources[i]).prop('checked', 'checked');
+        }
+    };
+
+    $scope.loadEnvironmentAnalysis= function () {
         var currentTimeout = null;
-        var urlType = $('#loadSources').attr("value");
+        var urlType = $('#loadEnvironmentAnalysis').attr("value");
 
         var ajaxConf;
 
@@ -59,13 +87,14 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         currentTimeout = $timeout(function () {
             $http(ajaxConf)
                 .success(function (data) {
-                    $scope.lstSources = data;
+                    $scope.fillEnvironmentAnalysis(data);
+
                 });
         }, 200);
     };
 
     $scope.init = function () {
-        $scope.loadSources();
+        $scope.loadEnvironmentAnalysis();
     };
 
     $timeout(function () {

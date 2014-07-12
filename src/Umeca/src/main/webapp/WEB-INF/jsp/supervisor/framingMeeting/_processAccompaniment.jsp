@@ -18,8 +18,11 @@
 </div>
 
 <div class="row">
-    <div ng-show="msgExito" class="col-xs-12 alert alert-success element-center success-font">
-        {{successMsg}}
+    <div ng-show="paSuccessMsg&&paSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
+        {{paSuccessMsg}}
+    </div>
+    <div ng-show="paErrorMsg&&paErrorMsg!=''" class="alert alert-danger element-center error-font">
+        {{paErrorMsg}}
     </div>
 </div>
 
@@ -108,14 +111,14 @@
                   data-valmsg-replace="true"></span>
                     </div>
 
-                    <div class="col-xs-4">
-                        <label>Escolaridad</label>
-                        <br/>
-                        <select class="form-control element-center" ng-model="pa.academicLevel"
-                                ng-options="e.name for e in lstAcademicLevel"
-                                ng-init='lstAcademicLevel = ${lstAcademicLevel};'></select>
-                        <input type="hidden" name="academicLevelId" value="{{pa.academicLevel.id}}">
-                    </div>
+                    <%--<div class="col-xs-4">--%>
+                        <%--<label>Escolaridad</label>--%>
+                        <%--<br/>--%>
+                        <%--<select class="form-control element-center" ng-model="pa.academicLevel"--%>
+                                <%--ng-options="e.name for e in lstAcademicLevel"--%>
+                                <%--ng-init='lstAcademicLevel = ${lstAcademicLevel};'></select>--%>
+                        <%--<input type="hidden" name="academicLevelId" value="{{pa.academicLevel.id}}">--%>
+                    <%--</div>--%>
                 </div>
                 <br/>
             </div>
@@ -251,10 +254,6 @@
 </form>
 </div>
 <br/>
-
-<div ng-show="msgError" class="alert alert-danger element-center error-font">
-    {{errorMsg}}
-</div>
 
 </div>
 

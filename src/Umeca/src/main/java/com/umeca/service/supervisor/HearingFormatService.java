@@ -3,6 +3,7 @@ package com.umeca.service.supervisor;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.ArrangementView;
+import com.umeca.model.entities.supervisor.AssignedArrangement;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.HearingFormatView;
 
@@ -25,4 +26,6 @@ public interface HearingFormatService {
     HearingFormatView fillExistHearingFormatForView(Long idFormat);
 
     ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request);
+
+    List<ArrangementView> assignedArrangementForView(List<AssignedArrangement> assignedArrangements);
 }

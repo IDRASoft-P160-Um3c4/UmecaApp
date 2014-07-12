@@ -17,8 +17,12 @@ import com.umeca.repository.catalog.RelationshipRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.FramingReferenceRepository;
+import com.umeca.repository.supervisor.FramingRiskRepository;
+import com.umeca.repository.supervisor.FramingThreatRepository;
+import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.supervisor.FramingMeetingService;
+import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +32,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -59,6 +64,9 @@ public class FramingMeetingController {
 
     @Autowired
     private AcademicLevelRepository academicLevelRepository;
+
+    @Autowired
+    private HearingFormatService hearingFormatService;
 
     @RequestMapping(value = "/supervisor/framingMeeting/index", method = RequestMethod.GET)
     public String index() {
@@ -118,8 +126,10 @@ public class FramingMeetingController {
         model.addObject("objView", conv.toJson(framingMeetingView));
         model.addObject("lstCountry", conv.toJson(countryRepository.findAll()));
         model.addObject("listState", conv.toJson(stateRepository.findAll()));
-        model.addObject("lstRelationship",conv.toJson(relationshipRepository.findAll()));
-        model.addObject("lstAcademicLevel",conv.toJson(academicLevelRepository.findAll()));
+        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findAll()));
+        //model.addObject("lstAcademicLevel",conv.toJson(academicLevelRepository.findAll()));nivel academico
+        //model.addObject("lstAcademicLevel",conv.toJson(academicLevelRepository.findAll()));grado
+        //model.addObject("lstArrangement", conv.toJson(relationshipRepository.findAll()));
 
         return model;
     }
@@ -258,15 +268,24 @@ public class FramingMeetingController {
         if (existCase == null)
             return new ResponseMessage(true, "Ocurrio un error al guardar la información. Intente mas tarde.");
 
-        return framingMeetingService.saveReference(existCase,framingReference);
+        return framingMeetingService.saveReference(existCase, framingReference);
     }
 
-    @RequestMapping(value = "/supervisor/framingMeeting/loadExistSources", method = RequestMethod.POST)
+    @RequestMapping(value = "/supervisor/framingMeeting/environmentAnalysis/loadEnvironmentAnalysis", method = RequestMethod.POST)
     public
     @ResponseBody
-    String loadExistSources(@RequestParam(required = true) Long idCase) {
+    FramingEnvironmentAnalysisForView loadExistSources(@RequestParam(required = true) Long idCase) {
+        FramingEnvironmentAnalysisForView view = framingMeetingService.loadEnvironmentAnalysis(idCase);
+        return view;
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/environmentAnalysis/loadArrangements", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String loadExistArrangements(@RequestParam(required = true) Long idCase) {
         Gson conv = new Gson();
-        return conv.toJson(framingMeetingService.loadExistSources(idCase));
+        List<HearingFormat> lstHearing = caseRepository.findOne(idCase).getHearingFormats();
+        return conv.toJson(hearingFormatService.assignedArrangementForView(lstHearing.get(lstHearing.size() - 1).getAssignedArrangements()));
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/environmentAnalysis/doUpsert", method = RequestMethod.POST)
@@ -284,11 +303,11 @@ public class FramingMeetingController {
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/processAccompaniment/doUpsert", method = RequestMethod.POST)
-     public
-     @ResponseBody
-     ResponseMessage processAccompanimentDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute ProcessAccompanimentForView view) {
+    public
+    @ResponseBody
+    ResponseMessage processAccompanimentDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute ProcessAccompanimentForView view) {
 
-        ProcessAccompaniment processAccompaniment=framingMeetingService.fillProcessAccompaniment(view);
+        ProcessAccompaniment processAccompaniment = framingMeetingService.fillProcessAccompaniment(view);
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
         existFraming.setProcessAccompaniment(processAccompaniment);
 
@@ -296,5 +315,29 @@ public class FramingMeetingController {
     }
 
 
+    @RequestMapping(value = "/supervisor/framingMeeting/activities/loadActivities", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    FramingActivitiesForView loadActivities(@RequestParam(required = true) Long idCase) {
 
+        return new FramingActivitiesForView();
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/activities/doUpsert", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage activitiesDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute FramingActivitiesForView view) {
+
+        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+        existFraming=framingMeetingService.setActivities(existFraming,view);
+        return framingMeetingService.save(existFraming);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/activities/loadRelativeAbroad", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String loadRelativeAbroad(@RequestParam(required = true) Long idCase) {
+        Gson conv = new Gson();
+        return conv.toJson(framingMeetingService.loadRelativeAbroad(idCase));
+    }
 }

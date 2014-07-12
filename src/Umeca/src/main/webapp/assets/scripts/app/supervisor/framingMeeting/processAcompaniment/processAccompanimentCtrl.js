@@ -3,6 +3,9 @@ app.controller('processAcompanimentController', function ($scope, $timeout, $htt
         $scope.pa = {};
         $scope.a = {};
 
+        $scope.paSuccessMsg="";
+        $scope.paErrorMsg="";
+
         $scope.lstRelationship={};
         $scope.lstAcademicLevel={};
 
@@ -99,22 +102,22 @@ app.controller('processAcompanimentController', function ($scope, $timeout, $htt
                     resp = resp.responseMessage;
                 }
                 if (resp.hasError === false) {
-                    $scope.successMsg = resp.message;
+                    $scope.paSuccessMsg = resp.message;
                     $scope.$apply();
                     return;
                 }
 
-                $scope.errorMsg = resp.message;
+                $scope.paErrorMsg = resp.message;
                 $scope.$apply();
 
             } catch (e) {
-                $scope.errorMsg = "Error inesperado de datos. Por favor intente más tarde.";
+                $scope.paErrorMsg = "Error inesperado de datos. Por favor intente más tarde.";
             }
         };
 
         $scope.handleError = function () {
             $scope.WaitFor = false;
-            $scope.errorMsg = "Error de red. Por favor intente más tarde.";
+            $scope.paErrorMsg = "Error de red. Por favor intente más tarde.";
             $scope.$apply();
         };
 

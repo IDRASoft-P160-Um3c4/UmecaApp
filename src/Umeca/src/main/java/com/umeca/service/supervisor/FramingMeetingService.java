@@ -20,4 +20,8 @@ public interface FramingMeetingService {
     ProcessAccompaniment fillProcessAccompaniment(ProcessAccompanimentForView view);
     ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase);
     ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment);
+    FramingMeeting setActivities(FramingMeeting existFraming,FramingActivitiesForView view);
+    List<RelativeAbroadView> loadRelativeAbroad(Long idCase);
+
+    FramingEnvironmentAnalysisForView loadEnvironmentAnalysis (Long idCase);
 }

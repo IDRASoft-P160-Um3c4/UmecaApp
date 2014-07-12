@@ -3,6 +3,7 @@ package com.umeca.service.supervisor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.Relationship;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.*;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service("framingMeetingService")
@@ -44,6 +46,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     private ProcessAccompanimentRepository processAccompanimentRepository;
 
+    @Autowired
+    private FramingRiskRepository framingRiskRepository;
+
+    @Autowired
+    private FramingThreatRepository framingThreatRepository;
+
     @Transactional
     @Override
     public ResponseMessage save(FramingMeeting framingMeeting) {
@@ -52,11 +60,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
             framingMeetingRepository.save(framingMeeting);
             response.setHasError(false);
+            response.setMessage("Se ha guardado la informaci髇 con exito.");
         } catch (Exception e) {
             System.out.println("Error al guardar framingMeeting!!!\n");
             System.out.println(e.getMessage());
             response.setHasError(true);
-            response.setMessage(e.getMessage());
+            response.setMessage("Ha ocurrido un error al guardar la informaci髇. Intente m醩 tarde");
         } finally {
             return response;
         }
@@ -176,10 +185,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             framingMeetingRepository.save(existFraming);
             framingMeetingRepository.flush();
 
-            return new ResponseMessage(false, "Se ha guardado la informaci贸n con exito.");
+            return new ResponseMessage(false, "Se ha guardado la informaci髇 con exito.");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci贸n. Intente m谩s tarde.");
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci髇. Intente m醩 tarde.");
         }
     }
 
@@ -189,10 +198,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
             newReference.setFramingMeeting(existCase.getFramingMeeting());
             framingReferenceRepository.save(newReference);
-            return new ResponseMessage(false, "Se ha guardado la informaci贸n con exito.");
+            return new ResponseMessage(false, "Se ha guardado la informaci髇 con exito.");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci贸n. Intente m谩s tarde.");
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci髇. Intente m醩 tarde.");
         }
 
     }
@@ -239,12 +248,113 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     public ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment){
         try{
             processAccompanimentRepository.save(processAccompaniment);
-            return new ResponseMessage(false, "Se ha guardado la informaci贸n con exito.");
+            return new ResponseMessage(false, "Se ha guardado la informaci髇 con exito.");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci贸n. Intente m谩s tarde.");
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci髇. Intente m醩 tarde.");
         }
     }
 
+    public FramingMeeting setActivities(FramingMeeting existFraming,FramingActivitiesForView view){
+
+        Occupation occ = existFraming.getOccupation();
+
+        if(occ==null)
+            occ = new Occupation();
+
+        occ.setName(view.getOccName());
+        occ.setPlace(view.getOccPlace());
+        occ.setPhone(view.getOccPhone());
+
+        existFraming.setOccupation(occ);
+        existFraming.setActivities(view.getActivities());
+
+        return existFraming;
+    }
+
+    public List<RelativeAbroadView> loadRelativeAbroad(Long idCase){
+
+        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+
+        List<RelativeAbroadView> lstView = new ArrayList<>();
+
+        AdditionalFramingQuestions addQuest = existFraming.getAdditionalFramingQuestions();
+
+        for(Relationship relShip :relationshipRepository.findAll()){
+            RelativeAbroadView vw = new RelativeAbroadView();
+            vw.setIdRelationship(relShip.getId());
+            vw.setName(relShip.getName());
+            vw.setSelVal(false);
+            vw.setAddress("");
+            lstView.add(vw);
+        }
+
+        if(addQuest!=null && addQuest.getRelativesAbroadRel()!=null&&addQuest.getRelativesAbroadRel().size()>0) {
+            for (RelativeAbroadView vw : lstView) {
+                for(RelativesAbroadRel rel : addQuest.getRelativesAbroadRel()){
+                    if(vw.getIdRelationship().equals(rel.getRelationship().getId())) {
+                        vw.setAddress(rel.getAddress());
+                        vw.setSelVal(true);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return lstView;
+    }
+
+    public FramingEnvironmentAnalysisForView loadEnvironmentAnalysis (Long idCase){
+        Gson conv = new Gson();
+        FramingEnvironmentAnalysisForView view = new FramingEnvironmentAnalysisForView();
+
+        view.setLstSources(conv.toJson(this.loadExistSources(idCase)));
+
+        List<FramingRisk> lstRisks = framingRiskRepository.findAll();
+        Collections.sort(lstRisks,FramingRisk.framingRiskComparator);
+
+        view.setLstRisk(conv.toJson(lstRisks));
+
+        List<FramingThreat> lstThreat = framingThreatRepository.findAll();
+        Collections.sort(lstThreat,FramingThreat.framingThreatComparator);
+
+        view.setLstThreat(conv.toJson(lstThreat));
+
+        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+
+        List<Long> lstSelectedSources = new ArrayList<>();
+
+        if(existFraming.getSelectedSourcesRel()!=null&&existFraming.getSelectedSourcesRel().size()>0) {
+            for(FramingSelectedSourceRel rel : existFraming.getSelectedSourcesRel()){
+                lstSelectedSources.add(rel.getFramingReference().getId());
+            }
+        }
+
+        view.setLstSelectedSources(conv.toJson(lstSelectedSources));
+
+        List<Long> lstSelectedRisk = new ArrayList<>();
+
+        if(existFraming.getSelectedRisksRel()!=null&&existFraming.getSelectedRisksRel().size()>0) {
+            for(FramingSelectedRiskRel rel : existFraming.getSelectedRisksRel()){
+                lstSelectedSources.add(rel.getFramingRisk().getId());
+            }
+        }
+
+        view.setLstSelectedRisk(conv.toJson(lstSelectedRisk));
+
+        List<Long> lstSelectedThreat = new ArrayList<>();
+
+        if(existFraming.getSelectedThreatsRel()!=null&&existFraming.getSelectedThreatsRel().size()>0) {
+            for(FramingSelectedThreatRel rel : existFraming.getSelectedThreatsRel()){
+                lstSelectedSources.add(rel.getFramingThreat().getId());
+            }
+        }
+
+        view.setLstSelectedRisk(conv.toJson(lstSelectedThreat));
+
+        //faltan las medidas cautelares
+
+        return  view;
+    }
 
 }
