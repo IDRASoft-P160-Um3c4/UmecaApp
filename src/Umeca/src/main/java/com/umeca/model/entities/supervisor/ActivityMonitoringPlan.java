@@ -45,9 +45,8 @@ public class ActivityMonitoringPlan {
     @Column(name= "search_end", nullable = false)
     private int searchEnd;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="activity_monitoring_plan_arrangement", joinColumns ={@JoinColumn(name = "id_activity_monitoring_plan")}, inverseJoinColumns = {@JoinColumn(name = "id_assigned_arrangement")})
-    private List<AssignedArrangement> lstAssignedArrangement;
+    @OneToMany(mappedBy = "activityMonitoringPlan", cascade = {CascadeType.ALL})
+    private List<ActivityMonitoringPlanArrangement> lstAssignedArrangement;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_supervision_activity", nullable = false)
@@ -58,8 +57,8 @@ public class ActivityMonitoringPlan {
     private ActivityGoal activityGoal;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_aid_source", nullable = false)
-    private AidSource aidSource;
+    @JoinColumn(name="id_framing_source", nullable = false)
+    private FramingSelectedSourceRel framingSelectedSourceRel;
 
     @Column(name = "status", length = 100, nullable = false)
     private String status;
@@ -137,11 +136,11 @@ public class ActivityMonitoringPlan {
         this.end = end;
     }
 
-    public List<AssignedArrangement> getLstAssignedArrangement() {
+    public List<ActivityMonitoringPlanArrangement> getLstAssignedArrangement() {
         return lstAssignedArrangement;
     }
 
-    public void setLstAssignedArrangement(List<AssignedArrangement> lstAssignedArrangement) {
+    public void setLstAssignedArrangement(List<ActivityMonitoringPlanArrangement> lstAssignedArrangement) {
         this.lstAssignedArrangement = lstAssignedArrangement;
     }
 
@@ -161,12 +160,12 @@ public class ActivityMonitoringPlan {
         this.activityGoal = activityGoal;
     }
 
-    public AidSource getAidSource() {
-        return aidSource;
+    public FramingSelectedSourceRel getFramingSelectedSourceRel() {
+        return framingSelectedSourceRel;
     }
 
-    public void setAidSource(AidSource aidSource) {
-        this.aidSource = aidSource;
+    public void setFramingSelectedSourceRel(FramingSelectedSourceRel framingSelectedSourceRel) {
+        this.framingSelectedSourceRel = framingSelectedSourceRel;
     }
 
     public String getStatus() {

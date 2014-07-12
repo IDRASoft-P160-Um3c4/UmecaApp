@@ -141,22 +141,10 @@
                                   ng-click="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">
                                                   Guardar
                                             </span>
-            <!-- <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="submitReloadHF('#FormFormatId', '<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',false,validateSave)">
-                                  Guardar
-                            </span>-->
         </div>
     </div>
 </div>
 
-<!--<div class="row">
-    <div class="col-xs-12">
-        <div ng-show="MsgError!=''" class="alert alert-danger element-center">
-            <span>{{MsgError}}</span>
-        </div>
-    </div>
-</div>
--->
 <div class="row">
 <div class="widget-box">
 <div class="widget-header">Datos generales</div>

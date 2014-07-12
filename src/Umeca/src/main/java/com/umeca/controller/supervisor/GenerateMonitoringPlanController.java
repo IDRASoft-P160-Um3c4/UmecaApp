@@ -16,7 +16,6 @@ import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
-import com.umeca.repository.supervisorManager.LogCommentMonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.MonitoringPlanService;
@@ -122,11 +121,12 @@ public class GenerateMonitoringPlanController {
     @Autowired
     private ActivityGoalRepository activityGoalRepository;
     @Autowired
-    private AidSourceRepository aidSourceRepository;
+    private FramingReferenceRepository framingReferenceRepository;
     @Autowired
     private MonitoringPlanRepository monitoringPlanRepository;
     @Autowired
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
+
 
 
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/generate", method = RequestMethod.GET)
@@ -134,10 +134,12 @@ public class GenerateMonitoringPlanController {
         ModelAndView model = new ModelAndView("/supervisor/generateMonitoringPlan/generate");
         Gson gson = new Gson();
 
+        Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
+
         //Find last hearing format to get last assigned arrangements
         List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
 
-        List<SelectList> lstGeneric = arrangementRepository.findLstArrangement(lastHearingFormatId.get(0));
+        List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByHearingFormatId(lastHearingFormatId.get(0));
         String sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstArrangements", sLstGeneric);
 
@@ -149,7 +151,7 @@ public class GenerateMonitoringPlanController {
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstGoals", sLstGeneric);
 
-        lstGeneric = aidSourceRepository.findAllValid();
+        lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstSources", sLstGeneric);
 

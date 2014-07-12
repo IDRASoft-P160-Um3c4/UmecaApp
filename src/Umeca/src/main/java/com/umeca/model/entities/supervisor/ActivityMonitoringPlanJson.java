@@ -154,7 +154,7 @@ public class ActivityMonitoringPlanJson {
         String assignedArrangements = model.getAssignedArrangements();
         Long supervisionActivityId = model.getSupervisionActivity().getId();
         Long activityGoalId = model.getActivityGoal().getId();
-        Long aidSourceId = model.getAidSource().getId();
+        Long framingSourceId = model.getFramingSelectedSourceRel().getId();
         String status = model.getStatus();
         Long supervisorCreateId = model.getSupervisorCreate().getId();
         Long supervisorModify = (model.getSupervisorModify() == null ? null : model.getSupervisorModify().getId());
@@ -162,7 +162,7 @@ public class ActivityMonitoringPlanJson {
 
 
         return new ActivityMonitoringPlanJson(id, caseId, monitoringPlanId, start, end, assignedArrangements,
-                supervisionActivityId, activityGoalId, aidSourceId, status,
+                supervisionActivityId, activityGoalId, framingSourceId, status,
                 supervisorCreateId, supervisorModify, supervisorDone);
     }
 }

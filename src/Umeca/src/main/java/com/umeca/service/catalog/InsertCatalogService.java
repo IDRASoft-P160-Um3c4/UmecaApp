@@ -35,4 +35,6 @@ public interface InsertCatalogService {
     void statusFieldVerification();
 
     //void hearingFormatType(); NO APLICA PARA ESTA VERSIÓN
+    void framingThreat();
+    void framingRisk();
 }

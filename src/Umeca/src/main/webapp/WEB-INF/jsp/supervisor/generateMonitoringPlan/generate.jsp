@@ -123,14 +123,14 @@
                 // store the Event Object in the DOM element so we can get to it later
                 $(this).data('eventObject', eventObject);
 
-                // make the event draggable using jQuery UI
-                $(this).draggable({
-                    zIndex: 999,
-                    revert: true,      // will cause the event to go back to its
-                    revertDuration: 0  //  original position after the drag
-                });
-
+            // make the event draggable using jQuery UI
+            $(this).draggable({
+                zIndex: 999,
+                revert: true,      // will cause the event to go back to its
+                revertDuration: 0  //  original position after the drag
             });
+
+        });
 
             /* initialize the calendar
             -----------------------------------------------------------------*/
@@ -147,7 +147,7 @@
                     right: 'month,agendaWeek,agendaDay'
                 },
                 events: lstEventsAct,
-                allDayText: 'Todo el día',
+                allDayText: 'Todo el dï¿½a',
                 allDaySlot: false,
                 slotMinutes: 30,
                 axisFormat: 'HH:mm',
@@ -264,6 +264,7 @@
                     </div>
                 </div>
                 <div class="row" ng-show="msgError">
+                    <br/>
                     <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
                         <span class="control-label element-center">{{msgError}}</span>
                     </div>

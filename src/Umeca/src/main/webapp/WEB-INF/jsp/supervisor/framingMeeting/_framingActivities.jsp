@@ -7,7 +7,7 @@
 
         <div class="row element-center">
             <h2><i class="pink icon-briefcase  bigger-100"></i> &nbsp;Actividades que reliza
-                el imputado</h2>
+                el imputado </h2>
         </div>
 
         <div class="row">
@@ -73,7 +73,7 @@
                         <br/>
                     </div>
                 </div>
-<br/>
+                <br/>
 
                 <div class="widget-box">
                     <div class="widget-header">Actividades</div>

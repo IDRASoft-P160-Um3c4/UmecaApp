@@ -263,9 +263,9 @@ public class HearingFormatController {
             }
         }
 
-        if (caseRepository.findByIdMP(idJudicial) != null) {
+        /*if (caseRepository.findByIdMP(idJudicial) != null) {
             return new ResponseMessage(true, "El número de Carpeta Judicial ya existe, verifique los datos.");
-        }
+        }*/
 
         try {
             Case caseDet;

@@ -7,9 +7,12 @@ import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.supervisor.FramingMeetingRepository;
+import com.umeca.repository.supervisor.FramingReferenceRepository;
+import com.umeca.repository.supervisor.FramingSelectedSourceRelRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
@@ -31,6 +34,15 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Qualifier("qFramingMeetingRepository")
     @Autowired
     FramingMeetingRepository framingMeetingRepository;
+
+    @Autowired
+    CaseRepository caseRepository;
+
+    @Autowired
+    FramingReferenceRepository framingReferenceRepository;
+
+    @Autowired
+    FramingSelectedSourceRelRepository framingSelectedSourceRelRepository;
 
     @Transactional
     @Override
@@ -99,9 +111,59 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         FramingMeetingView framingMeetingView = new FramingMeetingView();
 
         framingMeetingView.setIdFolder(existCase.getIdFolder());
+        framingMeetingView.setIdCase(existCase.getId());
         //framingMeetingView.setPersonalData(this.fillPersonalDataForView(existCase));
 
         return framingMeetingView;
     }
 
+    @Override
+    public List<FramingReferenceForView> loadExistSources(Long idCase) {
+
+        List<FramingReferenceForView> lstView= new ArrayList<>();
+
+        List<FramingReference> existSources = caseRepository.findOne(idCase).getFramingMeeting().getReferences();
+
+        for(FramingReference fr : existSources){
+
+            FramingReferenceForView objView = new FramingReferenceForView();
+            objView.setId(fr.getId());
+            objView.setDescription(fr.getName()+", "+fr.getRelationship());
+            objView.setValSel(false);
+            lstView.add(objView);
+        }
+
+        return lstView;
+    }
+
+    public List<FramingSelectedSourceRel> generateSourceRel(Long idCase, String lstJson){
+
+        Type listType = new TypeToken<List<Long>>() {}.getType();
+
+        List<Long> ids = new Gson().fromJson(lstJson, listType);
+
+        FramingMeeting existFraming= caseRepository.findOne(idCase).getFramingMeeting();
+
+
+        List<FramingSelectedSourceRel> sourceRel= new ArrayList<>();
+
+        for(Long currId : ids){
+            FramingSelectedSourceRel rel = new FramingSelectedSourceRel();
+            rel.setFramingMeeting(existFraming);
+            rel.setFramingReference(framingReferenceRepository.findOne(currId));
+            sourceRel.add(rel);
+        }
+
+        return sourceRel;
+    }
+
+    @Transactional
+    public void verifySelectedSources(Long idCase) {
+
+        if(caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel()!=null&&caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel().size()>0){
+            for(FramingSelectedSourceRel sel:caseRepository.findOne(idCase).getFramingMeeting().getSelectedSourcesRel()){
+                framingSelectedSourceRelRepository.delete(sel);
+            }
+        }
+    }
 }
