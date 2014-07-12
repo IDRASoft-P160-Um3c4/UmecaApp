@@ -692,6 +692,8 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
+    @Autowired
+    FieldMeetingSourceRepository fieldMeetingSourceRepository;
     @Transactional
     @Override
     public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, String activities) {
@@ -809,10 +811,12 @@ public class MeetingServiceImpl implements MeetingService {
             c.getMeeting().setStatus(stm);
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));
             verificationService.createVerification(c);
-            //verificationRepository.save(c.getVerification());
-            //c.getVerification().setSourceVerifications(verificationService.convertAllInitSourcesVerif(c));
             caseRepository.save(c);
             caseRepository.saveAndFlush(c);
+            List<FieldMeetingSource> listFS = verificationService.createAllFieldVerificationOfImputed(c.getId());
+            fieldMeetingSourceRepository.save(listFS);
+            //verificationRepository.save(c.getVerification());
+            //c.getVerification().setSourceVerifications(verificationService.convertAllInitSourcesVerif(c));
             result.setHasError(false);
             result.setMessage("Entrevista terminada con exito");
             result.setUrlToGo("/index.html");

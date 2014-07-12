@@ -1,7 +1,10 @@
 package com.umeca.service.reviewer;
 
+import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.FieldMeetingSource;
 import com.umeca.model.entities.reviewer.SourceVerification;
+import com.umeca.model.entities.reviewer.dto.FieldVerified;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -18,7 +21,24 @@ public interface VerificationService {
 
     List<SourceVerification> convertAllInitSourcesVerif(Case c);
 
+    void setImputedData(Long id, ModelAndView model);
+
+    ResponseMessage saveFieldVerifiedInocrrect(List<FieldVerified> list, Long idCase, Long idSource,Long idList);
+
+    ResponseMessage saveFieldVerifiedEqual(String code, Long idCase, Long idSource, Long idList);
+
+    List<FieldMeetingSource>  createAllFieldVerificationOfImputed(Long idCase);
+
+    ResponseMessage saveFieldVerifiedNotKnow(String code, Long idCase, Long idSource, Long idList);
+
+    ResponseMessage terminateMeetingSource(Long idCase, Long idSource);
+
+    void showButtonsSource(ModelAndView model, Long id);
+
+    ModelAndView showChoiceInformation(Long idCase);
+
     ModelAndView showVerificationBySource(Long idCase, Long idSource);
 
-    void setImputedData(Long id, ModelAndView model);
+
+    ModelAndView showChoices(Long idCase, String code, Long idList);
 }

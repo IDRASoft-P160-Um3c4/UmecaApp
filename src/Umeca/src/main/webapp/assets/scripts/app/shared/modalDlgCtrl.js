@@ -17,9 +17,11 @@
             data: data,
             success: function (resp) {
                 $(divToAppendId).empty().append(resp);
-                var scope = angular.element($(dlgUpsertId)).scope();
-                scope.Model.def = def;
-                scope.$apply();
+                if(dlgUpsertId != undefined){
+                    var scope = angular.element($(dlgUpsertId)).scope();
+                    scope.Model.def = def;
+                    scope.$apply();
+                }
                 $scope.$apply(function () { $scope.working = false; });
             },
             error: function() {

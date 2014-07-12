@@ -1,21 +1,21 @@
 app.controller('referenceController', function($scope, $timeout) {
     $scope.r = {};
-    $scope.lstRelationship = [];
-    $scope.lstDocumentType = [];
+    $scope.lstRel = [];
+    $scope.lstDoc = [];
     $scope.r.rel = 0;
     $scope.r.doc = 0;
 
     $scope.init = function(){
-        if($scope.lstRelationship === undefined || $scope.lstRelationship.length <= 0)
+        if($scope.lstRel === undefined || $scope.lstRel.length <= 0)
             return;
 
         if($scope.r.relId === undefined){
-            $scope.r.rel = $scope.lstRelationship[0];
+            $scope.r.rel = $scope.lstRel[0];
             $scope.r.relId = $scope.r.rel.id;
         }
         else{
-            for(var i=0; i < $scope.lstRelationship.length; i++){
-                var rel = $scope.lstRelationship[i];
+            for(var i=0; i < $scope.lstRel.length; i++){
+                var rel = $scope.lstRel[i];
 
                 if(rel.id === $scope.r.relId){
                     $scope.r.rel = rel;
@@ -23,16 +23,16 @@ app.controller('referenceController', function($scope, $timeout) {
                 }
             }
         }
-        if($scope.lstDocumentType === undefined || $scope.lstDocumentType.length <= 0)
+        if($scope.lstDoc === undefined || $scope.lstDoc.length <= 0)
             return;
 
         if($scope.r.docId === undefined){
-            $scope.r.doc = $scope.lstDocumentType[0];
+            $scope.r.doc = $scope.lstDoc[0];
             $scope.r.docId = $scope.r.doc.id;
         }
         else{
-            for(var i=0; i < $scope.lstDocumentType.length; i++){
-                var doc = $scope.lstDocumentType[i];
+            for(var i=0; i < $scope.lstDoc.length; i++){
+                var doc = $scope.lstDoc[i];
 
                 if(doc.id === $scope.r.docId){
                     $scope.r.doc = doc;

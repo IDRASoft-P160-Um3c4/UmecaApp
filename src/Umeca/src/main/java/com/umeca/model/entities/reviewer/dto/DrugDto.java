@@ -2,6 +2,9 @@ package com.umeca.model.entities.reviewer.dto;
 
 import com.umeca.model.entities.reviewer.Drug;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -14,23 +17,28 @@ import java.util.Date;
 public class DrugDto {
 
     private Long id;
-    private Long drugTypeId;
-    private Long periodicityId;
+    private Long typeId;
+    private Long perId;
     private String quantity;
-    private Date lastUse;
+    private String lastUse;
     private String specificationType;
     private String specificationPeriodicity;
 
     public DrugDto dtoDrug(Drug d){
         id= d.getId();
         if(d.getDrugType()!=null){
-            drugTypeId=d.getDrugType().getId();
+            typeId =d.getDrugType().getId();
         }
         if(d.getPeriodicity()!=null){
-            periodicityId = d.getPeriodicity().getId();
+            perId = d.getPeriodicity().getId();
         }
         quantity = d.getQuantity();
-        lastUse = d.getLastUse();
+        if(d.getLastUse()!=null){
+            Date date = Calendar.getInstance().getTime();
+            DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            date.setTime(d.getLastUse().getTime());
+            this.lastUse = formatter.format(date);
+        }
         specificationType = d.getSpecificationType();
         specificationPeriodicity =d.getSpecificationPeriodicity();
         return this;
@@ -44,20 +52,20 @@ public class DrugDto {
         this.id = id;
     }
 
-    public Long getDrugTypeId() {
-        return drugTypeId;
+    public Long getTypeId() {
+        return typeId;
     }
 
-    public void setDrugTypeId(Long drugTypeId) {
-        this.drugTypeId = drugTypeId;
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
     }
 
-    public Long getPeriodicityId() {
-        return periodicityId;
+    public Long getPerId() {
+        return perId;
     }
 
-    public void setPeriodicityId(Long periodicityId) {
-        this.periodicityId = periodicityId;
+    public void setPerId(Long perId) {
+        this.perId = perId;
     }
 
     public String getQuantity() {
@@ -68,11 +76,11 @@ public class DrugDto {
         this.quantity = quantity;
     }
 
-    public Date getLastUse() {
+    public String getLastUse() {
         return lastUse;
     }
 
-    public void setLastUse(Date lastUse) {
+    public void setLastUse(String lastUse) {
         this.lastUse = lastUse;
     }
 
