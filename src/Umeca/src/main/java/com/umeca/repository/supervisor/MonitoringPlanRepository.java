@@ -18,7 +18,7 @@ import java.util.List;
 @Repository("qMonitoringPlanRepository")
 public interface MonitoringPlanRepository extends JpaRepository<MonitoringPlan, Long>{
 
-    @Query("SELECT new com.umeca.model.entities.supervisor.MonitoringPlanInfo(mp.id, cd.id, cd.idMP, im.name, im.lastNameP, im.lastNameM, mp.status) FROM MonitoringPlan mp " +
+    @Query("SELECT new com.umeca.model.entities.supervisor.MonitoringPlanInfo(mp.id, cd.id, cd.idMP, im.name, im.lastNameP, im.lastNameM, mp.status, mp.supervisor.id) FROM MonitoringPlan mp " +
             "INNER JOIN mp.caseDetention cd " +
             "INNER JOIN cd.meeting.imputed im " +
             "WHERE mp.id =:monPlanId")

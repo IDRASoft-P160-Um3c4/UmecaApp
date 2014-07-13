@@ -53,4 +53,10 @@ public class Constants {
     public static String ST_FIELD_VERIF_IMPUTED = "IS_IMPUTED";
     public static final String CASE_STATUS_PRE_CLOSED="ST_CASE_PRE_CLOSED";
 
+    public static String ROLE_ADMIN = "ROLE_ADMIN";
+    public static String ROLE_REVIEWER = "ROLE_REVIEWER";
+    public static String ROLE_SUPERVISOR = "ROLE_SUPERVISOR";
+    public static String ROLE_SUPERVISOR_MANAGER = "ROLE_SUPERVISOR_MANAGER";
+    public static String ROLE_NOTUSE = "ROLE_NOTUSE";
+
 }

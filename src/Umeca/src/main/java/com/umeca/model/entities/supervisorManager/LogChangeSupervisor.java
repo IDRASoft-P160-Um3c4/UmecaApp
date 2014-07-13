@@ -1,39 +1,35 @@
 package com.umeca.model.entities.supervisorManager;
 
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisor.MonitoringPlan;
 
 import javax.persistence.*;
 import java.util.Calendar;
-import java.util.List;
 
 @Entity
-@Table(name = "log_comment_monitoring_plan")
-public class LogCommentMonitoringPlan {
+@Table(name = "log_change_supervisor")
+public class LogChangeSupervisor {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_log_comment_monitoring_plan", nullable = false)
+    @Column(name = "id_log_change_supervisor", nullable = false)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_monitoring_plan", nullable = false)
     private MonitoringPlan monitoringPlan;
 
-    @Column(name = "type", length = 100, nullable = false)
-    private String type;
-
-    @Column(name = "action", length = 100, nullable = false)
-    private String action;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_supervisor_old", nullable = false)
+    private User supervisorOld;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_sender_user", nullable = false)
-    private User senderUser;
+    @JoinColumn(name="id_supervisor_new", nullable = false)
+    private User supervisorNew;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_receive_user", nullable = true)
-    private User receiveUser;
+    @JoinColumn(name="id_supervisor_manager", nullable = false)
+    private User supervisorManager;
 
     @Column(name = "timestamp", nullable = false)
     private Calendar timestamp;
@@ -58,36 +54,28 @@ public class LogCommentMonitoringPlan {
         this.monitoringPlan = monitoringPlan;
     }
 
-    public String getType() {
-        return type;
+    public User getSupervisorOld() {
+        return supervisorOld;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setSupervisorOld(User supervisorOld) {
+        this.supervisorOld = supervisorOld;
     }
 
-    public String getAction() {
-        return action;
+    public User getSupervisorNew() {
+        return supervisorNew;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public void setSupervisorNew(User supervisorNew) {
+        this.supervisorNew = supervisorNew;
     }
 
-    public User getSenderUser() {
-        return senderUser;
+    public User getSupervisorManager() {
+        return supervisorManager;
     }
 
-    public void setSenderUser(User senderUser) {
-        this.senderUser = senderUser;
-    }
-
-    public User getReceiveUser() {
-        return receiveUser;
-    }
-
-    public void setReceiveUser(User receiveUser) {
-        this.receiveUser = receiveUser;
+    public void setSupervisorManager(User supervisorManager) {
+        this.supervisorManager = supervisorManager;
     }
 
     public Calendar getTimestamp() {

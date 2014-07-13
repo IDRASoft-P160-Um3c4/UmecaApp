@@ -1,5 +1,6 @@
 package com.umeca.controller.supervisorManager;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -13,7 +14,10 @@ import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlanInfo;
 import com.umeca.model.entities.supervisor.MonitoringPlanView;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
+import com.umeca.model.entities.supervisorManager.ChangeSupervisor;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
@@ -40,7 +44,7 @@ public class ActiveMonitoringPlanController {
 
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/index", method = RequestMethod.GET)
-    public String index(){
+    public String index() {
         return "/supervisorManager/activeMonitoringPlan/index";
     }
 
@@ -51,21 +55,24 @@ public class ActiveMonitoringPlanController {
     private SharedUserService userService;
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/list", method = RequestMethod.POST)
-    public @ResponseBody
-    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
+    public
+    @ResponseBody
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("status",
-                new ArrayList<String>(){{add(MonitoringConstants.STATUS_END);}},JqGridFilterModel.COMPARE_NOT_IN);
+                new ArrayList<String>() {{
+                    add(MonitoringConstants.STATUS_END);
+                }}, JqGridFilterModel.COMPARE_NOT_IN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                final javax.persistence.criteria.Join<MonitoringPlan,Case> joinCd = r.join("caseDetention");
-                final javax.persistence.criteria.Join<Meeting,Imputed> joinIm = joinCd.join("meeting").join("imputed");
+                final javax.persistence.criteria.Join<MonitoringPlan, Case> joinCd = r.join("caseDetention");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinIm = joinCd.join("meeting").join("imputed");
 
-                return new ArrayList<Selection<?>>(){{
+                return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(joinCd.get("id"));
                     add(joinCd.get("idMP"));
@@ -82,17 +89,17 @@ public class ActiveMonitoringPlanController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("caseId"))
+                if (field.equals("caseId"))
                     return r.join("caseDetention").get("id");
-                if(field.equals("idMP"))
+                if (field.equals("idMP"))
                     return r.join("caseDetention").get("idMP");
-                if(field.equals("stCreationTime"))
+                if (field.equals("stCreationTime"))
                     return r.get("creationTime");
-                if(field.equals("stGenerationTime"))
+                if (field.equals("stGenerationTime"))
                     return r.get("generationTime");
-                if(field.equals("stAuthorizationTime"))
+                if (field.equals("stAuthorizationTime"))
                     return r.get("authorizationTime");
-                if(field.equals("supervisor"))
+                if (field.equals("supervisor"))
                     return r.join("supervisor").get("username");
                 return null;
             }
@@ -106,17 +113,17 @@ public class ActiveMonitoringPlanController {
     MonitoringPlanRepository monitoringPlanRepository;
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/authorizeEnd", method = RequestMethod.POST)
-    public ModelAndView authorizeEnd(@RequestParam Long id){
+    public ModelAndView authorizeEnd(@RequestParam Long id) {
         ModelAndView model = new ModelAndView("/supervisorManager/authorizeMonitoringPlan/authorizeRejectMonPlan");
 
-        try{
+        try {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
             model.addObject("isAuthorized", 1);
             model.addObject("isEnd", 1);
             model.addObject("msgPlan", "finalización del plan de seguimiento");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectMonPlan.json");
             return model;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "authorizeEnd", sharedUserService);
             return null;
         }
@@ -124,17 +131,17 @@ public class ActiveMonitoringPlanController {
 
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/rejectEnd", method = RequestMethod.POST)
-    public ModelAndView rejectEnd(@RequestParam Long id){
+    public ModelAndView rejectEnd(@RequestParam Long id) {
         ModelAndView model = new ModelAndView("/supervisorManager/authorizeMonitoringPlan/authorizeRejectMonPlan");
 
-        try{
+        try {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
             model.addObject("isEnd", 1);
             model.addObject("isAuthorized", 0);
             model.addObject("msgPlan", "finalización del plan de seguimiento");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectMonPlan.json");
             return model;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "rejectEnd", sharedUserService);
             return null;
         }
@@ -153,30 +160,31 @@ public class ActiveMonitoringPlanController {
     TrackMonPlanService trackMonPlanService;
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectMonPlan", method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseMessage doAuthorizeRejectMonPlan(@ModelAttribute AuthorizeRejectMonPlan model){
+    public
+    @ResponseBody
+    ResponseMessage doAuthorizeRejectMonPlan(@ModelAttribute AuthorizeRejectMonPlan model) {
 
         ResponseMessage response = new ResponseMessage();
         response.setHasError(true);
 
-        try{
+        try {
             User user = new User();
-            if(sharedUserService.isValidUser(user, response) == false)
+            if (sharedUserService.isValidUser(user, response) == false)
                 return response;
 
-            if(sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false){
+            if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
                 response.setMessage("La contraseña no corresponde al usuario en sesión");
                 return response;
             }
 
             MonitoringPlan monPlan = monitoringPlanRepository.findOne(model.getMonPlanId());
 
-            if(monPlan == null){
+            if (monPlan == null) {
                 response.setMessage("No se encontró el plan de seguimiento. Por favor reinicie su navegador e intente de nuevo");
                 return response;
             }
 
-            if(monPlan.getStatus().equals(MonitoringConstants.STATUS_PENDING_END) == false){
+            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_PENDING_END) == false) {
                 response.setMessage("El plan de supervisión se encuentra en estado " + monPlan.getStatus() + ", por ello no puede ser autorizado");
                 return response;
             }
@@ -185,8 +193,75 @@ public class ActiveMonitoringPlanController {
                     MonitoringConstants.STATUS_REJECTED_END, MonitoringConstants.TYPE_COMMENT_END);
 
             response.setHasError(false);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doAuthorizeRejectMonPlan", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/changeSupervisor", method = RequestMethod.POST)
+    public ModelAndView changeSupervisor(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/supervisorManager/activeMonitoringPlan/changeSupervisor");
+
+        try {
+            MonitoringPlanInfo monPlanInfo = monitoringPlanRepository.getInfoById(id);
+            model.addObject("monPlanId", id);
+            model.addObject("caseId", monPlanInfo.getIdCase());
+            model.addObject("mpId", monPlanInfo.getIdMP());
+            model.addObject("fullName", monPlanInfo.getPersonName());
+            model.addObject("status", monPlanInfo.getMonStatus());
+
+            List<SelectList> lstUsers = sharedUserService.getLstValidUsersByRoleExceptUserId(Constants.ROLE_SUPERVISOR, monPlanInfo.getSupervisorId());
+            Gson gson = new Gson();
+            String sLstUsers = gson.toJson(lstUsers);
+            model.addObject("lstUsers", sLstUsers);
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "changeSupervisor", sharedUserService);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/doChangeSupervisor", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage doChangeSupervisor(@ModelAttribute ChangeSupervisor model) {
+
+        ResponseMessage response = new ResponseMessage();
+        response.setHasError(true);
+
+        try {
+            User user = new User();
+            if (sharedUserService.isValidUser(user, response) == false)
+                return response;
+
+            if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
+                response.setMessage("La contraseña no corresponde al usuario en sesión");
+                return response;
+            }
+
+            if (sharedUserService.isUserInRole(model.getSupervisorId(), Constants.ROLE_SUPERVISOR) == false) {
+                response.setMessage("El usuario al quien desea asignar el caso no tiene el perfil adecuado. Intente con otro usuario");
+                return response;
+            }
+
+            MonitoringPlan monPlan = monitoringPlanRepository.findOne(model.getMonPlanId());
+
+            if (monPlan == null) {
+                response.setMessage("No se encontró el plan de seguimiento. Por favor reinicie su navegador e intente de nuevo");
+                return response;
+            }
+
+            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END) == true) {
+                response.setMessage("El plan de supervisión se encuentra en estado " + monPlan.getStatus() + ", por ello ya no es posible cambiar de supervisor");
+                return response;
+            }
+
+            trackMonPlanService.saveChangeSupervisorMonPlan(model, user, monPlan);
+
+            response.setHasError(false);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doChangeSupervisor", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         }
