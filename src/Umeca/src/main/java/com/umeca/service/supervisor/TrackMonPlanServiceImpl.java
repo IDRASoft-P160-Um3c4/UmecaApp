@@ -7,11 +7,14 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.shared.LogChangeData;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
+import com.umeca.model.entities.supervisorManager.ChangeSupervisor;
+import com.umeca.model.entities.supervisorManager.LogChangeSupervisor;
 import com.umeca.model.entities.supervisorManager.LogCommentMonitoringPlan;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.supervisor.*;
+import com.umeca.repository.supervisorManager.LogChangeSupervisorRepository;
 import com.umeca.repository.supervisorManager.LogCommentMonitoringPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -135,6 +138,32 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         logCommentMonPlanRepository.save(commentModel);
+        monitoringPlanRepository.save(monPlan);
+    }
+
+    @Autowired
+    LogChangeSupervisorRepository logChangeSupervisorRepository;
+
+    @Override
+    @Transactional
+    public void saveChangeSupervisorMonPlan(ChangeSupervisor model, User user, MonitoringPlan monPlan) {
+        LogChangeSupervisor commentModel = new LogChangeSupervisor();
+        Calendar now = Calendar.getInstance();
+        commentModel.setComments(model.getComments());
+        commentModel.setMonitoringPlan(monPlan);
+        commentModel.setSupervisorOld(monPlan.getSupervisor());
+        commentModel.setSupervisorManager(user);
+        User userSupNew = new User();
+        userSupNew.setId(model.getSupervisorId());
+        commentModel.setSupervisorNew(userSupNew);
+        commentModel.setTimestamp(now);
+
+        MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
+        monPlan.setSupervisor(userSupNew);
+        MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
+
+        logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
+        logChangeSupervisorRepository.save(commentModel);
         monitoringPlanRepository.save(monPlan);
     }
 

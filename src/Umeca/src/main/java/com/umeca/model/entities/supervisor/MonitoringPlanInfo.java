@@ -12,6 +12,7 @@ public class MonitoringPlanInfo {
     private String idMP;
     private String personName;
     private String monStatus;
+    private Long supervisorId;
 
     public MonitoringPlanInfo(Long idMonitoringPlan, Long idCase, String idMP, String name, String lastNameP, String lastNameM, String status){
         this.idMonitoringPlan = idMonitoringPlan;
@@ -19,6 +20,15 @@ public class MonitoringPlanInfo {
         this.idMP = idMP;
         this.personName = name + " " + lastNameP + " " + lastNameM;
         this.monStatus = status;
+    }
+
+    public MonitoringPlanInfo(Long idMonitoringPlan, Long idCase, String idMP, String name, String lastNameP, String lastNameM, String status, Long supervisorId){
+        this.idMonitoringPlan = idMonitoringPlan;
+        this.idCase = idCase;
+        this.idMP = idMP;
+        this.personName = name + " " + lastNameP + " " + lastNameM;
+        this.monStatus = status;
+        this.supervisorId = supervisorId;
     }
 
     public Long getIdMonitoringPlan() {
@@ -59,5 +69,13 @@ public class MonitoringPlanInfo {
 
     public void setMonStatus(String monStatus) {
         this.monStatus = monStatus;
+    }
+
+    public Long getSupervisorId() {
+        return supervisorId;
+    }
+
+    public void setSupervisorId(Long supervisorId) {
+        this.supervisorId = supervisorId;
     }
 }

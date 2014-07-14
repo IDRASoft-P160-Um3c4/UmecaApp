@@ -61,8 +61,9 @@ window.showUpsertWithIdCase = function (id, divScope, urlToGo, jqGridToUse, urlT
                 window.goToUrlMvcUrl(urlToContinue);
                 return;
             }
-
-            $(jqGridToUse).trigger("reloadGrid");
+            if(jqGridToUse!=undefined){
+                $(jqGridToUse).trigger("reloadGrid");
+                }
         });
 
 };

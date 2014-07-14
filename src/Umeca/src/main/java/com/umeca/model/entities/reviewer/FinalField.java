@@ -22,7 +22,7 @@ public class FinalField {
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
-    private MeetingSource meetingSource;
+    private FieldMeetingSource fieldMeetingSource;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_verification", nullable = false)
@@ -44,12 +44,12 @@ public class FinalField {
         this.reason = reason;
     }
 
-    public MeetingSource getMeetingSource() {
-        return meetingSource;
+    public FieldMeetingSource getFieldMeetingSource() {
+        return fieldMeetingSource;
     }
 
-    public void setMeetingSource(MeetingSource meetingSource) {
-        this.meetingSource = meetingSource;
+    public void setFieldMeetingSource(FieldMeetingSource fieldMeetingSource) {
+        this.fieldMeetingSource = fieldMeetingSource;
     }
 
     public Verification getVerification() {

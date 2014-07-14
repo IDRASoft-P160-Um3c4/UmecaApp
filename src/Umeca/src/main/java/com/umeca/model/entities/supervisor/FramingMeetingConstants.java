@@ -5,8 +5,9 @@ package com.umeca.model.entities.supervisor;
  */
 public class FramingMeetingConstants {
 
-
     public static final String PERSON_TYPE_REFERENCE = "REFERENCE";
     public static final String PERSON_TYPE_HOUSEMATE = "HOUSEMATE";
+
+    public static final String PERSON_SAME_ADDRESS = "Vive con el imputado";
 
 }

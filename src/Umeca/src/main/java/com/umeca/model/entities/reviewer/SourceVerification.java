@@ -90,7 +90,7 @@ public class SourceVerification implements EntityGrid{
     private Verification verification;
 
     @OneToMany(mappedBy="sourceVerification", cascade={CascadeType.ALL})
-    private List<MeetingSource> meetingSourceList;
+    private List<FieldMeetingSource> fieldMeetingSourceList;
 
     public Long getId() {
         return id;
@@ -180,12 +180,12 @@ public class SourceVerification implements EntityGrid{
         this.verification = verification;
     }
 
-    public List<MeetingSource> getMeetingSourceList() {
-        return meetingSourceList;
+    public List<FieldMeetingSource> getFieldMeetingSourceList() {
+        return fieldMeetingSourceList;
     }
 
-    public void setMeetingSourceList(List<MeetingSource> meetingSourceList) {
-        this.meetingSourceList = meetingSourceList;
+    public void setFieldMeetingSourceList(List<FieldMeetingSource> fieldMeetingSourceList) {
+        this.fieldMeetingSourceList = fieldMeetingSourceList;
     }
 
     public Boolean getVisible() {

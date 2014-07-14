@@ -23,7 +23,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/socialNetworkCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/referenceCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/drugCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/scheduleCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/scheduleVerifCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/schoolCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/jobCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/addressCtrl.js"></script>
@@ -38,8 +38,11 @@
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ComponentVerificationDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifAddressCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifScheduleCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/verificationCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/AddressVerificationDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ScheduleVerificationDrct.js"></script>
 <style>
     body {
         font-size: 11px;
@@ -53,6 +56,7 @@
         window.cancelMeetingSource = function(){
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
         }
+
     </script>
     <title>Usuarios</title>
 
@@ -61,7 +65,7 @@
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 <div class="container body-content">
     <div ng-controller="verificationController">
-        <input type="hidden" ng-init="urlVerifTrue= '<c:url value="/reviewer/verification/verifBySourceTrue.json"/>'" ng-model="urlVerifTrue"
+        <input type="hidden" ng-init="urlVerifTrue= '<c:url value="/reviewer/verification/verifBySourceEqual.json"/>'" ng-model="urlVerifTrue"
                ng-update-hidden>
         <input type="hidden" ng-init="urlVerifNotKnow= '<c:url value="/reviewer/verification/verifBySourceNotKnow.json"/>'" ng-model="urlVerifTrue"
                ng-update-hidden>
@@ -192,9 +196,76 @@
                                     entorno social</h2>
                             </div>
                             <br/>
-
+                            <br/>
+                            <br/>
                             <div class="row">
                                 <div class="col-xs-10 col-xs-offset-1">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="col-xs-5">
+                                                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                   ng-click="doConfirmVerifEqual('imputed.name')"></i>
+                                                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                                                   ng-show="verification" code="imputed.name"></i>
+                                                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                   ng-click="doConfirmVerifNotKnow('imputed.name')"></i>
+                                                <i class="purple icon-list-alt icon-only bigger-120" onclick="window.showChoiceInformation('imputed.name');"
+                                                   ng-show="selectSource"></i>
+                                                Nombre:
+                                            </div>
+                                            <div class="col-xs-7">
+                                                <input class="form-control" type="text" value="${m.imputed.name}"
+                                                       name="imputed.name" data-val-required="El nombre es un campo requerido"
+                                                       data-val-length="Debe tener m?nimo 2 y m?ximo 50 caracteres"
+                                                       data-val-length-max="50" data-val-length-min="2"/>
+                                                 <span class="field-validation-valid" data-valmsg-for="imputed.name"
+                                                       data-valmsg-replace="true"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="col-xs-5">
+                                                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                   ng-click="doConfirmVerifEqual('imputed.lastNameP')"></i>
+                                                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                                                   ng-show="verification" code="imputed.lastNameP"></i>
+                                                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                   ng-click="doConfirmVerifNotKnow('imputed.lastNameP')"></i>
+                                                <i class="icon-list-alt icon-only bigger-120" ng-click="doSelectSource('imputed.lastNameP')"
+                                                   ng-show="selectSource"></i>
+                                                Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Paterno:
+                                            </div>
+                                            <div class="col-xs-7">
+                                                <input class="form-control" type="text" value="${m.imputed.lastNameP}"
+                                                       name="imputed.lastNameP" data-val-required="El nombre es un campo requerido"
+                                                       data-val-length="Debe tener m?nimo 2 y m?ximo 50 caracteres"
+                                                       data-val-length-max="50" data-val-length-min="2"/>
+                                                 <span class="field-validation-valid" data-valmsg-for="imputed.lastNameP"
+                                                       data-valmsg-replace="true"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="col-xs-5">
+                                                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                   ng-click="doConfirmVerifEqual('imputed.lastNameM')"></i>
+                                                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                                                   ng-show="verification" code="imputed.lastNameM"></i>
+                                                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                   ng-click="doConfirmVerifNotKnow('imputed.lastNameM')"></i>
+                                                <i class="icon-list-alt icon-only bigger-120" ng-click="doSelectSource('imputed.lastNameM')"
+                                                   ng-show="selectSource"></i>
+                                                Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Materno:
+                                            </div>
+                                            <div class="col-xs-7">
+                                                <input class="form-control" type="text" value="${m.imputed.lastNameM}"
+                                                       name="imputed.lastNameM" data-val-required="El nombre es un campo requerido"
+                                                       data-val-length="Debe tener m?nimo 2 y m?ximo 50 caracteres"
+                                                       data-val-length-max="50" data-val-length-min="2"/>
+                                                 <span class="field-validation-valid" data-valmsg-for="imputed.lastNameM"
+                                                       data-valmsg-replace="true"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
                                     <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/content.jsp" %>
                                 </div>
                             </div>
@@ -237,7 +308,7 @@
 
                             <div class="row">
                                 <div class="col-xs-10 col-xs-offset-1">
-                                    <%@ include file="/WEB-INF/jsp/reviewer/meeting/school/content.jsp" %>
+                                    <%@ include file="/WEB-INF/jsp/reviewer/verification/school/content.jsp" %>
                                 </div>
                             </div>
 
@@ -266,7 +337,7 @@
                         Regresar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormSchool , #FormPersonalData, #FormLeaveCountry','<c:url value="/reviewer/verification/terminateMeetingSource.json?idCase=${idCase}&&idSource=${idSource}"/>');">
+                          ng-click="terminateMeetingSource('<c:url value="/reviewer/verification/terminateMeetingSource.json?idCase=${idCase}&&idSource=${idSource}"/>');">
                           Terminar Entrevista
                     </span>
             </div>
@@ -276,6 +347,7 @@
     <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
     <%@ include file="/WEB-INF/jsp/reviewer/verification/detailVerification.jsp" %>
     <%@ include file="/WEB-INF/jsp/reviewer/verification/detailVerificationAddress.jsp" %>
+    <%@ include file="/WEB-INF/jsp/reviewer/verification/detailVerificationSchedule.jsp" %>
     <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 
 </div>

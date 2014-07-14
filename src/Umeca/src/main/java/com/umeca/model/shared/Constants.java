@@ -15,6 +15,7 @@ public class Constants {
     public static final String VERIFICATION_STATUS_MEETING_COMPLETE = "MEETING_COMPLETE";
     public static final Long MARITAL_UNION_FREE = 4L;
     public static final Long MARITAL_MARRIED = 2L;
+    public static final String VALUE_NOT_KNOW_SOURCE = "La fuente desconoce la información.";
     public static String S_MEETING_INCOMPLETE="INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL="INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE="COMPLETE";
@@ -43,6 +44,19 @@ public class Constants {
     public static final String CASE_STATUS_FRAMING_MEETING_COMPLETE="ST_CASE_FRAMING_MEETING_COMPLETE";
     public static final String CASE_STATUS_CONDITIONAL_REPRIEVE="ST_CASE_CONDITIONAL_REPRIEVE";
 
+    //sataus field verification
+    public static final String ST_FIELD_VERIF_DONTKNOW="DONT_KNOW";
+    public static final String ST_FIELD_VERIF_EQUALS="EQUALS";
+    public static final String ST_FIELD_VERIF_NOEQUALS="NO_EQUALS";
+    public static final String ST_FIELD_VERIF_UNABLE="UNABLE_VERIFICATION";
+
+    public static String ST_FIELD_VERIF_IMPUTED = "IS_IMPUTED";
     public static final String CASE_STATUS_PRE_CLOSED="ST_CASE_PRE_CLOSED";
+
+    public static String ROLE_ADMIN = "ROLE_ADMIN";
+    public static String ROLE_REVIEWER = "ROLE_REVIEWER";
+    public static String ROLE_SUPERVISOR = "ROLE_SUPERVISOR";
+    public static String ROLE_SUPERVISOR_MANAGER = "ROLE_SUPERVISOR_MANAGER";
+    public static String ROLE_NOTUSE = "ROLE_NOTUSE";
 
 }

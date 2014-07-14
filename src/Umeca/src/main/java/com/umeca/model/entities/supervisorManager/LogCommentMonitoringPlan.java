@@ -14,7 +14,7 @@ public class LogCommentMonitoringPlan {
 
     @Id
     @GeneratedValue
-    @Column(name = "log_comment_monitoring_plan", nullable = false)
+    @Column(name = "id_log_comment_monitoring_plan", nullable = false)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)

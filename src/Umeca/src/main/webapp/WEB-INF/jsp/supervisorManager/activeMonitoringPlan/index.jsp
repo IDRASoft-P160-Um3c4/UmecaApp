@@ -5,6 +5,7 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/authorizeMonitoringPlan/authRejectCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/activeMonitoringPlan/changeSupervisorCtrl.js"></script>
     <title>Planes de seguimiento</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -25,6 +26,10 @@
 
             window.rejectEnd = function(id){
                 window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisorManager/activeMonitoringPlan/rejectEnd.html' />', "#GridId");
+            };
+
+            window.changeSupervisor = function(id){
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisorManager/activeMonitoringPlan/changeSupervisor.html' />', "#GridId");
             };
 
             $(document).ready(function() {
@@ -63,6 +68,7 @@
                             var status = row.status;
                             var be = "";
 
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Cambiar supervisor del caso\" onclick=\"window.changeSupervisor('" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver plan de supervisión\" onclick=\"window.showCalendar('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
 
                             if (status === "EN PROCESO DE TERMINAR") {

@@ -211,11 +211,15 @@ public class Meeting {
         }
         List<PersonSocialNetwork> listPS = getSocialNetwork()==null? new ArrayList<PersonSocialNetwork>() :getSocialNetwork().getPeopleSocialNetwork();
         List<Reference> referenceList = getReferences();
-        if ((referenceList==null || (referenceList != null && referenceList.size() == 0)
-                && (listPS== null ||( listPS!= null && listPS.size()==0)))) {
+        if ((referenceList==null || (referenceList != null && referenceList.size() == 0))) {
             List<String> listMess = new ArrayList<>();
-            listMess.add("Para terminar la entrevista debe agragar al menos una referencia personal o una persona de su red social.");
+            listMess.add("Para terminar la entrevista debe agragar al menos una referencia personal.");
             t.getGroupMessage().add(new GroupMessageMeetingDto("reference",listMess));
+        }
+
+        if((listPS== null ||( listPS!= null && listPS.size()==0))){
+            List<String> listMess = new ArrayList<>();
+            listMess.add("Para terminar la entrrevista debe agregar al menos una persona en su red social.");
             t.getGroupMessage().add(new GroupMessageMeetingDto("socialNetwork",listMess));
         }
 

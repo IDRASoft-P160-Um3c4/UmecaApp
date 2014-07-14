@@ -5,6 +5,7 @@ import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.RequestActivities;
 import com.umeca.model.entities.supervisor.ResponseActivities;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
+import com.umeca.model.entities.supervisorManager.ChangeSupervisor;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -20,4 +21,5 @@ public interface TrackMonPlanService {
     void getActivityToShow(Long id, ModelAndView model);
     void saveReqEndMonPlan(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan);
     void saveAuthRejectMonPlan(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String statusAuth, String statusReject, String type);
+    void saveChangeSupervisorMonPlan(ChangeSupervisor model, User user, MonitoringPlan monPlan);
 }
