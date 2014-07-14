@@ -1,6 +1,7 @@
 package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.*;
@@ -17,18 +18,13 @@ import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
-import org.hibernate.collection.internal.PersistentBag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -224,6 +220,37 @@ public class VerificationServiceImpl implements VerificationService {
         Gson gson = new Gson();
         model.addObject("listChoice", gson.toJson(list));
         return model;
+    }
+
+    @Override
+    public ResponseMessage saveSchedule(Long idCase, Long idSource, Long idList, String schedule, String code) {
+        try{
+            Gson gson = new Gson();
+            Long idF ;
+            if( idList != null){
+                idF =fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase,idSource,code,idList);
+            }else{
+                idF =fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase,idSource,code);
+            }
+            FieldMeetingSource fms = new FieldMeetingSource();
+            fms.setId(idF);
+            fms.setStatusFieldVerification(statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_NOEQUALS));
+            fms.setSourceVerification(sourceVerificationRepository.findOne(idSource));
+            fms.setFieldVerification(fieldVerificationRepository.findByCode(code));
+            fms.setJsonValue(schedule);
+            List<Schedule> listSchedules = gson.fromJson(schedule,new TypeToken<List<Schedule>>(){}.getType());
+            String val="";
+            for(Schedule sch : listSchedules){
+                val +="Día(s): "+sch.getDay()+" Inicio: "+sch.getStart()+ "Fin: "+sch.getEnd()+"<br/>";
+            }
+            fms.setValue(val);
+            fms.setFinal(false);
+            fms.setIdFieldList(idList);
+            fieldMeetingSourceRepository.save(fms);
+            return new ResponseMessage(false, "Se ha guardado exitosamente el registro");
+        }catch (Exception e){
+         return new ResponseMessage(true, "Ha ocurrido un error al guardar la lista");
+        }
     }
 
     @Override
@@ -641,6 +668,11 @@ public class VerificationServiceImpl implements VerificationService {
                 for(ImputedHome ih: m.getImputedHomes()){
                     CatalogDto cDto = new CatalogDto();
                     switch(name[1]){
+                        case "address":
+                            AddressDto adDto = new AddressDto();
+                            adDto.addressDto(ih.getAddress());
+                            listFMS.add(new FieldMeetingSource(ih.getAddress().getAddressString(), gson.toJson(adDto),ih.getId()));
+                            break;
                         case "belong":
                             cDto.setId(ih.getBelong().getId());
                             cDto.setName(ih.getBelong().getName());
@@ -661,6 +693,12 @@ public class VerificationServiceImpl implements VerificationService {
                         case "description":
                             if(ih.getDescription()!=null && !ih.getDescription().equals(""))
                             listFMS.add(new FieldMeetingSource(ih.getDescription(), ih.getDescription(),ih.getId()));
+                            break;
+                        case "schedule":
+                            String s = (String)scheduleService.getSchedules(ih.getId(), ImputedHome.class);
+                            if(!s.equals("[]")){
+                                listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(ih.getId(),ImputedHome.class),s,ih.getId()));
+                            }
                             break;
                     }
                 }
@@ -788,6 +826,12 @@ public class VerificationServiceImpl implements VerificationService {
                             if(j.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS))
                                 listFMS.add(new FieldMeetingSource(j.getReasonChange(), j.getReasonChange(),j.getId()));
                             break;
+                        case "schedule":
+                            String s = (String)scheduleService.getSchedules(j.getId(), Job.class);
+                            if(!s.equals("[]")){
+                                listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(j.getId(),Job.class),s,j.getId()));
+                            }
+                            break;
                     }
                 }
                 break;
@@ -806,6 +850,12 @@ public class VerificationServiceImpl implements VerificationService {
                     case "degree":
                         String level = "Nivel: "+s.getDegree().getAcademicLevel().getName()+" Grado: "+s.getDegree().getName();
                         listFMS.add(new FieldMeetingSource(level, gson.toJson(new DegreeDto().dtoGrade(s.getDegree()))));
+                        break;
+                    case "schedule":
+                        String sc = (String)scheduleService.getSchedules(s.getId(), School.class);
+                        if(!s.equals("[]")){
+                            listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(s.getId(),ImputedHome.class),sc));
+                        }
                         break;
                 }
                 break;

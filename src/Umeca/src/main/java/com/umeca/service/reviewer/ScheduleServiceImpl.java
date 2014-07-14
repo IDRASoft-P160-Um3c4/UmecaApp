@@ -60,6 +60,31 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    public String getSchedulesVerificationValue(Long id, Object classObjetc) {
+        List<Schedule> listSchedule = new ArrayList<Schedule>();
+        String val ="";
+        if(classObjetc.equals(School.class)){
+            Case c = caseRepository.findOne(id);
+            if(c!=null && c.getMeeting()!=null && c.getMeeting().getSchool()!=null){
+                listSchedule = scheduleRepository.getSchedulesSchool(c.getMeeting().getSchool().getId());
+            }
+        }else if(classObjetc.equals(Job.class)){
+            Job j = jobRepository.findOne(id);
+            listSchedule = scheduleRepository.getSchedulesJob(j.getId());
+        }else if(classObjetc.equals(ImputedHome.class)){
+            ImputedHome imputedHome = imputedHomeRepository.findOne(id);
+            listSchedule = scheduleRepository.getSchedulesDomicile(imputedHome.getId());
+        }
+        List<ScheduleDto> listScheduleDto = new ArrayList<ScheduleDto>();
+        if(listSchedule!=null && listSchedule.size()>0){
+            for(Schedule s : listSchedule){
+              val +="Día(s): "+s.getDay()+" Inicio: "+s.getStart()+" Fin: "+s.getEnd()+"<br/>";
+            }
+        }
+        return val;
+    }
+
+    @Override
     public Boolean saveSchedules(String schedules, Long id, Class classType) {
         Gson gson = new Gson();
         if(schedules != null && schedules!="[]"){

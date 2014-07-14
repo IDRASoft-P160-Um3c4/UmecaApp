@@ -120,7 +120,7 @@
                         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                            ng-click="doConfirmVerifEqual('school.schedule')"></i>
                         <i class="icon-remove-circle red  icon-only bigger-120" verif-schedule level-child="5"
-                           ng-show="verification" code="school.schedule"></i>
+                           ng-show="verification"  id-code ="school.schedule" ></i>
                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                            ng-click="doConfirmVerifNotKnow('school.schedule')"></i>
                         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('school.schedule')"></i>

@@ -43,8 +43,7 @@ app.controller('scheduleVerifController', function($scope, $timeout, $rootScope)
         var abc = $scope.listSchedule;
 
         $scope.schString = JSON.stringify(abc);
-        /*for(var item in $scope.listSchedule){
-         delete item[$$hashKey];
-         } */
+        $rootScope.$broadcast('MatchScheduleList',$scope.schString);
+
     }
 });

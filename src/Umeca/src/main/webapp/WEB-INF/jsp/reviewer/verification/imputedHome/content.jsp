@@ -116,7 +116,7 @@
                                                 <h6> &nbsp;
                                                     <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('imputedHome.schedule',a.id)"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-schedule
-                                                       ng-show="verification" code ="address.schedule" id-element ="{{a.id}}"></i>
+                                                       ng-show="verification" id-code ="imputedHomes.schedule" id-element ="{{a.id}}"></i>
                                                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('imputedHome.schedule', a.id)"></i>
                                                     <i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
                                             </h5>

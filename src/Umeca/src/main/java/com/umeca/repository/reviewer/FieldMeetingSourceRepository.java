@@ -19,6 +19,13 @@ public interface FieldMeetingSourceRepository extends JpaRepository<FieldMeeting
             "where sv.id = :idSource and c.id=:idCase and fv.code = :code")
     Long getIdMeetingSourceByCode(@Param("idCase") Long idCase, @Param("idSource") Long idSource, @Param("code") String name);
 
+    @Query("select fms.id from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications as sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv "+
+            "where sv.id = :idSource and c.id=:idCase and fv.code = :code and fms.idFieldList=:idList")
+    Long getIdMeetingSourceByCodeWithIdList(@Param("idCase") Long idCase, @Param("idSource") Long idSource, @Param("code") String name, @Param("idList") Long idList);
+
     @Query("select fms from Case as c " +
             "INNER JOIN c.verification as v " +
             "INNER JOIN v.sourceVerifications as sv " +

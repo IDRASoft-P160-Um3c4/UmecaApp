@@ -208,5 +208,10 @@ public class VerificationController {
         return verificationService.showChoices(idCase,id,idList);
     }
 
+    @RequestMapping(value = "reviewer/verification/saveScheduleVerification", method = RequestMethod.POST)
+    public ResponseMessage saveScheduleVerification(@RequestParam(required = true) Long idCase,@RequestParam(required = true) String schedule,@RequestParam(required = false) Long idList,@RequestParam(required = true)Long idSource, @RequestParam(required = true) String code){
+        return verificationService.saveSchedule(idCase,idSource,idList,schedule, code);
+    }
+
 
 }

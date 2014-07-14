@@ -41,4 +41,7 @@ public interface VerificationService {
 
 
     ModelAndView showChoices(Long idCase, String code, Long idList);
+
+    ResponseMessage saveSchedule(Long idCase, Long idSource, Long idList, String schedule, String code);
+
 }
