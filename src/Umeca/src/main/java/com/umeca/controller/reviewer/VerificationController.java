@@ -213,5 +213,14 @@ public class VerificationController {
         return verificationService.saveSchedule(idCase,idSource,idList,schedule, code);
     }
 
+    @RequestMapping(value = "reviewer/verification/saveAddressVerification", method = RequestMethod.POST)
+    public ResponseMessage saveAddressVerification(@RequestParam(required = true) Long idCase,@ModelAttribute Address address,@RequestParam(required = false) Long idList,@RequestParam(required = true)Long idSource, @RequestParam(required = true) String code){
+        return verificationService.saveAddressVerification(idCase,idSource,idList,code,address);
+    }
+
+    @RequestMapping(value = "reviewer/verification/saveSelectChoice", method = RequestMethod.POST)
+    public ResponseMessage saveSelectChoice(@RequestParam(required = true) Long idCase,@RequestParam(required = false) Long idFieldMeeting,@RequestParam(required = true) String code,@RequestParam(required = false)Long idList){
+        return verificationService.saveSelectChoice(idCase,idFieldMeeting,code, idList);
+    }
 
 }

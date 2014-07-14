@@ -75,10 +75,9 @@ public class ScheduleServiceImpl implements ScheduleService {
             ImputedHome imputedHome = imputedHomeRepository.findOne(id);
             listSchedule = scheduleRepository.getSchedulesDomicile(imputedHome.getId());
         }
-        List<ScheduleDto> listScheduleDto = new ArrayList<ScheduleDto>();
         if(listSchedule!=null && listSchedule.size()>0){
             for(Schedule s : listSchedule){
-              val +="Día(s): "+s.getDay()+" Inicio: "+s.getStart()+" Fin: "+s.getEnd()+"<br/>";
+              val = val + "Día(s): "+s.getDay()+" Inicio: "+s.getStart()+" Fin: "+s.getEnd()+"<br/>";
             }
         }
         return val;

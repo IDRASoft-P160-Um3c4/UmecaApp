@@ -63,7 +63,7 @@
             if(id!=undefined){
                 data.idList = id;
             }
-            scope.show(data, urlToGo);
+            scope.show(data, urlToGo,undefined,undefined,true);
         };
 
     </script>
@@ -463,8 +463,8 @@
                         Regresar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="terminateMeetingSource('<c:url value="/reviewer/verification/terminateMeetingSource.json?idCase=${idCase}&&idSource=${idSource}"/>');">
-                          Terminar Entrevista
+                          ng-click="terminateVerification('<c:url value="/reviewer/verification/terminateVerification.json?idCase=${idCase}"/>');">
+                          Terminar Verificación
                     </span>
     </div>
 </div>

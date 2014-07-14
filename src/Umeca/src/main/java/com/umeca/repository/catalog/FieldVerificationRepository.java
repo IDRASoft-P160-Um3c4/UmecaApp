@@ -18,4 +18,7 @@ public interface FieldVerificationRepository extends JpaRepository<FieldVerifica
 
     @Query("select f from FieldVerification as f where f.isObsolete = false")
     List<FieldVerification> findValidFields();
+
+    @Query("select f.idSubsection from FieldVerification as f where f.code = :code")
+    Long getIdSubsectionByCode(@Param("code")String code);
 }

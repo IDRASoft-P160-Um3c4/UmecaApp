@@ -163,6 +163,8 @@ public class VerificationServiceImpl implements VerificationService {
     public ModelAndView showChoices(Long idCase, String code, Long idList) {
         ModelAndView model = new ModelAndView("/reviewer/verification/showChoices");
         model.addObject("idCase",idCase);
+        model.addObject("code",code);
+        model.addObject("idList",idList);
         List<Long> idAllSources = sourceVerificationRepository.getAllSourcesByCase(idCase);
         List<SearchToChoiceIds> idSources;
         if(idList==null){
@@ -201,9 +203,9 @@ public class VerificationServiceImpl implements VerificationService {
         }
         if(addUnable){
             FieldMeetingSource unableVerification = new FieldMeetingSource();
-            unableVerification.setId(-1L);
+
             SourceVerification aux= new SourceVerification();
-            aux.setFullName("No hay forma de verificar la información");
+            aux.setFullName(Constants.UNABLE_VERIF_TEXT);
             unableVerification.setSourceVerification(aux);
             unableVerification.setStatusFieldVerification(statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_UNABLE));
             unableVerification.setFieldVerification(fieldVerificationRepository.findByCode(code));
@@ -213,6 +215,9 @@ public class VerificationServiceImpl implements VerificationService {
             for(Long id:  idFields){
               FieldVerification fvSubsection = fieldVerificationRepository.findOne(id);
               fmsAuxSecond.addAll(getValueOfMeetingByCode(fvSubsection.getCode(),c.getMeeting(),unableVerification));
+            }
+            for(FieldMeetingSource f: fmsAuxSecond ){
+                f.setId(Long.valueOf(-1));
             }
             list.add(new ChoiceView().choiceDto(fmsAuxSecond));
         }
@@ -251,6 +256,82 @@ public class VerificationServiceImpl implements VerificationService {
         }catch (Exception e){
          return new ResponseMessage(true, "Ha ocurrido un error al guardar la lista");
         }
+    }
+
+    @Autowired
+    LocationRepository locationRepository;
+    @Override
+    public ResponseMessage saveAddressVerification(Long idCase, Long idSource, Long idList, String code, Address address) {
+        try{
+            Gson gson = new Gson();
+            Long idF ;
+            if( idList != null){
+                idF =fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase,idSource,code,idList);
+            }else{
+                idF =fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase,idSource,code);
+            }
+            FieldMeetingSource fms = new FieldMeetingSource();
+            fms.setId(idF);
+            fms.setStatusFieldVerification(statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_NOEQUALS));
+            fms.setSourceVerification(sourceVerificationRepository.findOne(idSource));
+            fms.setFieldVerification(fieldVerificationRepository.findByCode(code));
+            address.setLocation(locationRepository.findOne(address.getLocation().getId()));
+            fms.setValue(address.toString());
+            fms.setJsonValue(gson.toJson(new AddressDto().addressDto(address)));
+            fms.setFinal(false);
+            fms.setIdFieldList(idList);
+            fieldMeetingSourceRepository.save(fms);
+            return new ResponseMessage(false, "Se ha guardado exitosamente el registro");
+        }catch (Exception e){
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la lista");
+        }
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage saveSelectChoice(Long idCase, Long idFieldMeeting, String code, Long idList) {
+       try{
+           Long idSubsection = fieldVerificationRepository.getIdSubsectionByCode(code);
+
+           List<FieldMeetingSource> fieldMeetingSourceList = fieldMeetingSourceRepository.findListFinalByIdSubsection(idCase, idSubsection);
+           if(fieldMeetingSourceList.size()>0){
+            for (FieldMeetingSource fms :fieldMeetingSourceList){
+                   fms.setFinal(false);
+                }
+               fieldMeetingSourceRepository.save(fieldMeetingSourceList);
+           }
+
+         /* List<Long> listSub = fieldVerificationRepository.getListSubsectionByCode(code);
+           FieldMeetingSource template = new FieldMeetingSource();
+           if(idFieldMeeting.equals(-1)){
+               SourceVerification aux= new SourceVerification();
+               aux.setFullName(Constants.UNABLE_VERIF_TEXT);
+               template.setSourceVerification(aux);
+               template.setStatusFieldVerification(statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_UNABLE));
+               template.setFieldVerification(fieldVerificationRepository.findByCode(code));
+               Case c = caseRepository.findOne(idCase);
+               List<FieldMeetingSource> fmsAuxSecond= new ArrayList<>();
+               for(Long id:  listSub){
+                   FieldVerification fvSubsection = fieldVerificationRepository.findOne(id);
+                   fmsAuxSecond.addAll(getValueOfMeetingByCode(fvSubsection.getCode(),c.getMeeting(),template));
+               }
+               fieldMeetingSourceRepository.save(fmsAuxSecond);
+               return new ResponseMessage(false, "La selección se ha guardado exitosamente");
+           }else{
+               template = fieldMeetingSourceRepository.findOne(idFieldMeeting);
+               List<FieldMeetingSource> list = null;
+               if(template.getIdFieldList()!=null){
+                 list = = fieldMeetingSourceRepository.getGroupFieldMeeting(template.get)
+               }else{
+
+
+
+               }
+           }*/
+           return null;
+       }catch (Exception e){
+           return new ResponseMessage(true, "Ha ocurrido un error al guardar la selección");
+       }
     }
 
     @Override
@@ -446,7 +527,7 @@ public class VerificationServiceImpl implements VerificationService {
             }
             SourceVerification sv = sourceVerificationRepository.findOne(idSource);
             if(!sv.getVerification().getCaseDetention().getId().equals(idCase)){
-                return new ResponseMessage(true, "Esta fuente no pertenece al caso");
+                 return new ResponseMessage(true, "Esta fuente no pertenece al caso");
             }
             if(sv.getDateAuthorized()!= null){
                 return new ResponseMessage(true,"Esta entrevista ya fue terminada anteriormente");
@@ -528,17 +609,19 @@ public class VerificationServiceImpl implements VerificationService {
                 }else{
                     fms = fieldMeetingSourceRepository.findMeetingSourceByIdFieldVerificationWithoutId(idCase, idFv);
                 }
-                FieldMeetingSource fmsNew = new FieldMeetingSource();
-                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase,idSource, code);
-                fmsNew.setId(fieldMeetingSourceId);
-                fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource));
-                fmsNew.setFieldVerification(fieldVerificationRepository.findByCode(code));
-                fmsNew.setValue(fms.getValue());
-                fmsNew.setJsonValue(fms.getJsonValue());
-                fmsNew.setStatusFieldVerification(st);
-                fmsNew.setFinal(false);
-                fmsNew.setIdFieldList(idList);
-                result.add(fmsNew);
+                if(fms!=null){
+                    FieldMeetingSource fmsNew = new FieldMeetingSource();
+                    Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase,idSource, code);
+                    fmsNew.setId(fieldMeetingSourceId);
+                    fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource));
+                    fmsNew.setFieldVerification(fieldVerificationRepository.findOne(idFv));
+                    fmsNew.setValue(fms.getValue());
+                    fmsNew.setJsonValue(fms.getJsonValue());
+                    fmsNew.setStatusFieldVerification(st);
+                    fmsNew.setFinal(false);
+                    fmsNew.setIdFieldList(idList);
+                    result.add(fmsNew);
+                }
             }
            return result;
         } catch (Exception e) {
@@ -854,7 +937,7 @@ public class VerificationServiceImpl implements VerificationService {
                     case "schedule":
                         String sc = (String)scheduleService.getSchedules(s.getId(), School.class);
                         if(!s.equals("[]")){
-                            listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(s.getId(),ImputedHome.class),sc));
+                            listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(s.getId(),School.class),sc));
                         }
                         break;
                 }
