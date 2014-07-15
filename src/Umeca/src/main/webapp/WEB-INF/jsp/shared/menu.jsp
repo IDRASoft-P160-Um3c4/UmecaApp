@@ -11,7 +11,7 @@
                 </li>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administraci�n <b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administraci&oacute;n <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="<c:url value='/management/role/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Perfiles</a></li>
                             <li><a href="<c:url value='/management/user/index.html' />"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Usuarios</a></li>
@@ -23,16 +23,16 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Evaluador <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="<c:url value='/reviewer/meeting/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Entevista</a></li>
-                            <li><a href="<c:url value='/reviewer/verification/index.html' />"><i class="icon-check"></i>&nbsp;&nbsp;Verificaci�n</a></li>
-                            <li><a href="<c:url value='/reviewer/technicalReview/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Opini�n t�cnica</a></li>
+                            <li><a href="<c:url value='/reviewer/verification/index.html' />"><i class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a></li>
+                            <li><a href="<c:url value='/reviewer/technicalReview/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</a></li>
                         </ul>
                     </li>
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Coordinador de evaluación<b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Coordinador de evaluaci&oacute;n<b class="caret"></b> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<c:url value='/managereval/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Validar fuentes</a></li>
+                            <li><a href="<c:url value='/managereval/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Validar fuentes&nbsp;&nbsp;</a></li>
                         </ul>
                     </li>
                 </sec:authorize>

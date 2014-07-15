@@ -8,7 +8,7 @@
 <script>
     app.service('sharedSvc', function ($timeout, $q) {
 
-        //Dialogo para la espera de algún evento
+        //Dialogo para la espera de algï¿½n evento
         var dlgProcessing = $('#ProcessingDlgId');
         var th = this;
         this.cfgProc = { toProcessing: undefined, procCount: 0 };
@@ -31,7 +31,7 @@
             dlgProcessing.modal('hide');
         };
 
-        //Dialogo para mensajes con acciones de éxito, información, advertencia o error
+        //Dialogo para mensajes con acciones de ï¿½xito, informaciï¿½n, advertencia o error
         var dlgMsgBox = $('#MessageBoxDlgId');
 
         this.cfgMsg = { title: '', message: '', type: '' };
@@ -97,8 +97,13 @@
             $scope.IsOk = true;
             sharedSvc.hideMsg($scope);
         };
-    });
 
+        $scope.alert = function(title, message, type) {
+            $scope.Title = title;
+            $scope.Message = $sce.trustAsHtml(message);
+            $scope.Type = type;
+        };
+    });
 
     app.controller('confirmationController', function ($scope, $sce, sharedSvc) {
         $scope.sharedSvc = sharedSvc;
