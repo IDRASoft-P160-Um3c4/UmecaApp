@@ -13,6 +13,15 @@
     <div class="container body-content">
 
         <script>
+            window.changeSupervisor = function(id){
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisorManager/activeMonitoringPlan/changeSupervisor.html' />', "#GridId");
+            };
+
+            window.accomplishmentLog = function(id) {
+                var params= [];
+                params["idParam"]=id;
+                window.goToNewUrl("<c:url value='/supervisorManager/log/accomplishmentLog.html?id=idParam' />",params);
+            };
 
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
@@ -44,6 +53,15 @@
                     altRows: true,
                     gridComplete: function () {
                         var ids = $(this).jqGrid('getDataIDs');
+                        for (var i = 0; i < ids.length; i++) {
+                            var cl = ids[i];
+                            var row = $(this).getRowData(cl);
+
+                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de incumplimiento\" onclick=\"window.accomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
+                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bitácora de supervisión\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+
+                            $(this).jqGrid('setRowData', ids[i], { Action: be });
+                        }
                     },
                     loadComplete : function() {
                         var table = this;

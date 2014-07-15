@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
+import com.umeca.model.shared.Constants;
 
 import java.util.Calendar;
 
@@ -22,8 +23,8 @@ public class ActivityMonitoringPlanLog {
 
     public ActivityMonitoringPlanLog(Long id, Calendar start, Calendar end, String status, Long actSupervisionId, Long aidSourceId, String comments){
         this.id = id;
-        this.start = CalendarExt.calendarToFormatString(start, "dd/MM/yyyy HH:mm");
-        this.end = CalendarExt.calendarToFormatString(end, "dd/MM/yyyy HH:mm");
+        this.start = CalendarExt.calendarToFormatString(start, Constants.FORMAT_CALENDAR_I);
+        this.end = CalendarExt.calendarToFormatString(end, Constants.FORMAT_CALENDAR_I);
         this.status = status;
         this.actSupervisionId = actSupervisionId;
         this.aidSourceId = aidSourceId;

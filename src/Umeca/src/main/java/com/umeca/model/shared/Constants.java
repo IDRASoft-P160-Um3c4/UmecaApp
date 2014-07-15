@@ -59,4 +59,6 @@ public class Constants {
     public static String ROLE_SUPERVISOR_MANAGER = "ROLE_SUPERVISOR_MANAGER";
     public static String ROLE_NOTUSE = "ROLE_NOTUSE";
 
+    public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
+
 }

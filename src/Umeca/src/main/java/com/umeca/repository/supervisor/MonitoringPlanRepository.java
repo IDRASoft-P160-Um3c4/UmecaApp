@@ -38,6 +38,9 @@ public interface MonitoringPlanRepository extends JpaRepository<MonitoringPlan, 
 
     @Query("SELECT cd.id FROM MonitoringPlan mp INNER JOIN mp.caseDetention cd WHERE mp.id =:monPlanId")
     Long getCaseIdByMonPlan(@Param("monPlanId") Long monPlanId);
+
+    @Query("SELECT mp.id FROM MonitoringPlan mp WHERE mp.id =:monPlanId AND mp.status <>:status AND mp.supervisor.id =:userId")
+    Long getIdByUserAndNotStatus(@Param("monPlanId") Long monPlanId, @Param("status")String status, @Param("userId")Long userId);
 }
 
 

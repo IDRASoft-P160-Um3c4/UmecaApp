@@ -8,7 +8,7 @@
 
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
-        <div class="modal-dialog" style="width:900px" ng-controller="authRejectController" ng-init="isAuthorized=${isAuthorized};isEnd=${isEnd};">
+        <div class="modal-dialog" style="width:900px" ng-controller="authRejectController" ng-init="isAuthorized=${isAuthorized};">
             <div class="modal-content">
                 <div class="modal-header">
                     <div  ng-class="(isAuthorized ? 'alert alert-info' : 'alert alert-warning')">

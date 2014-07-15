@@ -8,60 +8,22 @@
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 <%@ include file="/WEB-INF/jsp/shared/login.jsp" %>
 
-<div class="container body-content">
+<sec:authorize access="isAnonymous()">
+    <%@ include file="/WEB-INF/jsp/shared/index.jsp" %>
+</sec:authorize>
+<sec:authorize access="hasRole('ROLE_SUPERVISOR')">
+    <%@ include file="/WEB-INF/jsp/supervisor/index.jsp" %>
+</sec:authorize>
+<sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
+    <%@ include file="/WEB-INF/jsp/supervisorManager/index.jsp" %>
+</sec:authorize>
 
-    <div class="jumbotron">
-        <h1>Sistema UMECA</h1>
-
-        <p class="lead">Pantallas inicial.</p>
-
-        <p><a href="/" class="btn btn-primary btn-large">Inicio &raquo;</a></p>
-    </div>
-
-
-    <div class="row">
-
-        <div class="col-xs-4">
-            <h2>Noticia 1</h2>
-
-            <p>
-                Bla bla bla
-            </p>
-
-            <p><a class="btn btn-default" href="/">Ir a &raquo;</a></p>
-        </div>
-
-        <div class="col-xs-4">
-            <h2>Noticia 1</h2>
-
-            <p>
-                Bla bla bla
-            </p>
-
-            <p><a class="btn btn-default" href="/">Ir a &raquo;</a></p>
-        </div>
-        <div class="col-xs-4">
-            <h2>Noticia 2</h2>
-
-            <p>
-                Bla bla bla
-            </p>
-
-            <p><a class="btn btn-default" href="/">Ir a &raquo;</a></p>
-        </div>
-        <div class="col-xs-4">
-            <h2>Noticia 3</h2>
-
-            <p>
-                Bla bla bla
-            </p>
-
-            <p><a class="btn btn-default" href="/">Ir a &raquo;</a></p>
-        </div>
+</div>
+<div class="row">
+    <div class="col-xs-8 col-xs-offset-2">
+        <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
     </div>
 </div>
-
-<%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </body>
 </html>
 

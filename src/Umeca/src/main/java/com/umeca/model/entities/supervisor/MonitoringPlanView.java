@@ -29,6 +29,7 @@ public class MonitoringPlanView implements EntityGrid{
     private String stAuthorizationTime;
     private String status;
     private String supervisor;
+    private String statusLog;
 
 
     public MonitoringPlanView(Long id, Long caseId, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
@@ -45,6 +46,12 @@ public class MonitoringPlanView implements EntityGrid{
         this.authorizationTime = authorizationTime;
         this.status = status;
         this.supervisor = supervisor;
+    }
+
+    public MonitoringPlanView(Long id, Long caseId, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
+                              Calendar generationTime, Calendar authorizationTime, String status, String supervisor, String statusLog) {
+        this(id, caseId, idMP, name, lastNameP, lastNameM, creationTime, generationTime, authorizationTime, status, supervisor);
+        this.statusLog = statusLog;
     }
 
     public Long getId() {
@@ -174,5 +181,13 @@ public class MonitoringPlanView implements EntityGrid{
 
     public void setSupervisor(String supervisor) {
         this.supervisor = supervisor;
+    }
+
+    public String getStatusLog() {
+        return statusLog;
+    }
+
+    public void setStatusLog(String statusLog) {
+        this.statusLog = statusLog;
     }
 }

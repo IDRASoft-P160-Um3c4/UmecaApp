@@ -5,11 +5,13 @@ import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.shared.LogChangeData;
+import com.umeca.model.entities.shared.LogCommentJson;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.entities.supervisorManager.ChangeSupervisor;
 import com.umeca.model.entities.supervisorManager.LogChangeSupervisor;
 import com.umeca.model.entities.supervisorManager.LogCommentMonitoringPlan;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
@@ -105,7 +107,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         model.addObject("isReadOnly", isReadOnly);
         model.addObject("actSupervisorDone", StringExt.naOnEmpty(actMonPlanInfo.getSupUserDone()));
         model.addObject("actComments", StringExt.naOnEmpty(actMonPlanInfo.getComments()));
-        model.addObject("actEndFullDate", CalendarExt.calendarToFormatString(actMonPlanInfo.getEndDone(), "dd/MM/yyyy HH:mm"));
+        model.addObject("actEndFullDate", CalendarExt.calendarToFormatString(actMonPlanInfo.getEndDone(), Constants.FORMAT_CALENDAR_I));
     }
 
     @Autowired
@@ -165,6 +167,36 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         logChangeSupervisorRepository.save(commentModel);
         monitoringPlanRepository.save(monPlan);
+    }
+
+
+    @Override
+    @Transactional
+    public void saveAuthRejectAccomplishment(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String type) {
+        LogCommentMonitoringPlan commentModel = new LogCommentMonitoringPlan();
+        Calendar now = Calendar.getInstance();
+        commentModel.setComments(model.getComments());
+
+        String sAction = (model.getAuthorized() == 1 ? MonitoringConstants.LOG_ACCOMPLISHMENT_AUTHORIZED : MonitoringConstants.LOG_ACCOMPLISHMENT_REJECTED);
+        commentModel.setAction(sAction);
+        commentModel.setMonitoringPlan(monPlan);
+        commentModel.setSenderUser(user);
+        commentModel.setTimestamp(now);
+        commentModel.setType(MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT);
+
+        LogCommentJson logJson = new LogCommentJson();
+        logJson.setAction(sAction);
+        logJson.setTimestampCalendar(now);
+        logJson.setType(MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT);
+
+        Gson json = new Gson();
+        MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
+        monPlan.setStatusLog(json.toJson(logJson));
+        MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
+
+        logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
+        monitoringPlanRepository.save(monPlan);
+        logCommentMonPlanRepository.save(commentModel);
     }
 
 

@@ -84,6 +84,7 @@ public class ActiveMonitoringPlanController {
                     add(r.get("authorizationTime"));
                     add(r.get("status"));
                     add(r.join("supervisor").get("username"));
+                    add(r.get("statusLog"));
                 }};
             }
 
@@ -119,7 +120,7 @@ public class ActiveMonitoringPlanController {
         try {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
             model.addObject("isAuthorized", 1);
-            model.addObject("isEnd", 1);
+            //model.addObject("isEnd", 1);
             model.addObject("msgPlan", "finalización del plan de seguimiento");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectMonPlan.json");
             return model;
@@ -136,13 +137,47 @@ public class ActiveMonitoringPlanController {
 
         try {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
-            model.addObject("isEnd", 1);
+            //model.addObject("isEnd", 1);
             model.addObject("isAuthorized", 0);
             model.addObject("msgPlan", "finalización del plan de seguimiento");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectMonPlan.json");
             return model;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "rejectEnd", sharedUserService);
+            return null;
+        }
+    }
+
+
+    @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/authorizeAccomplishment", method = RequestMethod.POST)
+    public ModelAndView authorizeAccomplishment(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/supervisorManager/authorizeMonitoringPlan/authorizeRejectMonPlan");
+
+        try {
+            GetMonPlanInfo(id, model, monitoringPlanRepository);
+            model.addObject("isAuthorized", 1);
+            model.addObject("msgPlan", "reporte de incumplimiento");
+            model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectAccomplishment.json");
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "authorizeAccomplishment", sharedUserService);
+            return null;
+        }
+    }
+
+
+    @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/rejectAccomplishment", method = RequestMethod.POST)
+    public ModelAndView rejectAccomplishment(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/supervisorManager/authorizeMonitoringPlan/authorizeRejectMonPlan");
+
+        try {
+            GetMonPlanInfo(id, model, monitoringPlanRepository);
+            model.addObject("isAuthorized", 0);
+            model.addObject("msgPlan", "reporte de incumplimiento");
+            model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectAccomplishment.json");
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "rejectAccomplishment", sharedUserService);
             return null;
         }
     }
@@ -158,6 +193,46 @@ public class ActiveMonitoringPlanController {
 
     @Autowired
     TrackMonPlanService trackMonPlanService;
+
+    @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectAccomplishment", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage doAuthorizeRejectAccomplishment(@ModelAttribute AuthorizeRejectMonPlan model) {
+
+        ResponseMessage response = new ResponseMessage();
+        response.setHasError(true);
+
+        try {
+            User user = new User();
+            if (sharedUserService.isValidUser(user, response) == false)
+                return response;
+
+            if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
+                response.setMessage("La contraseña no corresponde al usuario en sesión");
+                return response;
+            }
+
+            MonitoringPlan monPlan = monitoringPlanRepository.findOne(model.getMonPlanId());
+
+            if (monPlan == null) {
+                response.setMessage("No se encontró el plan de seguimiento. Por favor reinicie su navegador e intente de nuevo");
+                return response;
+            }
+
+            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END) == true) {
+                response.setMessage("El plan de supervisión se encuentra en estado " + monPlan.getStatus() + ", por ello no se puede realizar esta acción");
+                return response;
+            }
+
+            trackMonPlanService.saveAuthRejectAccomplishment(model, user, monPlan, MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT);
+
+            response.setHasError(false);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doAuthorizeRejectMonPlan", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        }
+        return response;
+    }
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectMonPlan", method = RequestMethod.POST)
     public

@@ -5,16 +5,20 @@ import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.model.ResponseMessage;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.supervisor.ManageMonitoringPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -71,6 +75,7 @@ public class LogController {
                     add(r.get("authorizationTime"));
                     add(r.get("status"));
                     add(r.join("supervisor").get("username"));
+                    add(r.get("statusLog"));
                 }};
             }
 
@@ -107,7 +112,7 @@ public class LogController {
     @Autowired
     private FramingReferenceRepository framingReferenceRepository;
 
-    @RequestMapping(value = "/supervisor/log/supervisionLog", method = RequestMethod.GET)
+    @RequestMapping(value = {"/supervisor/log/supervisionLog", "/supervisorManager/log/supervisionLog"}, method = RequestMethod.GET)
     public ModelAndView supervisionLog(@RequestParam Long id){
         ModelAndView model = new ModelAndView("/supervisor/log/supervisionLog");
 
@@ -161,7 +166,7 @@ public class LogController {
         }
     }
 
-    @RequestMapping(value = "/supervisor/log/accomplishmentLog", method = RequestMethod.GET)
+    @RequestMapping(value = {"/supervisor/log/accomplishmentLog", "/supervisorManager/log/accomplishmentLog"}, method = RequestMethod.GET)
     public ModelAndView accomplishmentLog(@RequestParam Long id){
         ModelAndView model = new ModelAndView("/supervisor/log/accomplishmentLog");
 
@@ -206,6 +211,38 @@ public class LogController {
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "supervisionLog", userService);
             return null;
+        }
+    }
+
+
+    @Autowired
+    ManageMonitoringPlanService manageMonitoringPlanService;
+
+    @RequestMapping(value = "/supervisor/log/requestAccomplishmentLog", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage requestAccomplishmentLog(@RequestParam Long id){ //Id de MonitoringPlan
+        ResponseMessage response = new ResponseMessage();
+
+        try{
+            response.setTitle("Reporte de incumplimiento");
+
+            User user = new User();
+            if(userService.isValidUser(user, response) == false)
+                return response;
+
+            if(manageMonitoringPlanService.requestAccomplishmentLog(id, user, MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT,
+                    "Solicitud de la autorización del reporte de incumplimiento por parte del usuario " + user.getUsername(), response) == false){
+                response.setHasError(true);
+                return response;
+            }
+
+            response.setHasError(false);
+            return response;
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "requestAccomplishmentLog", userService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            return response;
         }
     }
 }

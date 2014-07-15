@@ -18,6 +18,15 @@
                 window.goToNewUrl("<c:url value='/supervisor/log/accomplishmentLog.html?id=idParam' />",params);
             };
 
+            window.requestAccomplishmentLog = function(id) {
+                window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/log/requestAccomplishmentLog.json' />", "#GridId",
+                "Plan de seguimiento", "¿Está seguro de que desea solicitar la autorización del reporte de incumplimiento?", "warning");
+            };
+
+            window.showRejectAuthAccomplishmentMsg = function(id){
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisor/manageMonitoringPlan/showRejectAuthAccomplishmentMsg.html' />', "#GridId");
+            }
+
             window.supervisionLog = function(id) {
                 var params= [];
                 params["idParam"]=id;
@@ -29,7 +38,7 @@
                     url: '<c:url value='/supervisor/log/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', "Estatus bitácora", 'Acción'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', width: 65, align: "center", sortable: true, search: false },
@@ -40,7 +49,8 @@
                         { name: 'stAuthorizationTime', width: 140, align: "center", sortable: true, search: false },
                         { name: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                         { name: 'supervisor', width: 130, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] }},
-                        { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                        { name: 'statusLog', hidden: true },
+                        { name: 'Action', width: 90, align: "center", sortable: false, search: false }
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],
@@ -57,9 +67,21 @@
                         for (var i = 0; i < ids.length; i++) {
                             var cl = ids[i];
                             var row = $(this).getRowData(cl);
+                            var row = $(this).getRowData(cl);
+                            var statusLog = jQuery.parseJSON(row.statusLog);
                             var be = "";
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bitácora de cumplimiento\" onclick=\"window.accomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bitácora de supervisión\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+
+                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de incumplimiento\" onclick=\"window.accomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
+
+                            if(statusLog.action === "RECHAZAR REPORTE INCUMPLIMIENTO"){
+                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo del reporte de incumplimiento\" onclick=\"window.showRejectAuthAccomplishmentMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment green\"></span></a>";
+                            }
+
+                            if(statusLog.action !== "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO" && statusLog.action !== "AUTORIZAR REPORTE INCUMPLIMIENTO"){
+                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorización del reporte de incumplimiento\" onclick=\"window.requestAccomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                            }
+
+                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bitácora de supervisión\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

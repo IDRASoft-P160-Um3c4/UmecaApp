@@ -142,7 +142,6 @@ public class ManageMonitoringPlanController {
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
             return response;
         }
-
     }
 
     @Autowired
@@ -261,6 +260,28 @@ public class ManageMonitoringPlanController {
             model.addObject("type", "warning");
             model.addObject("title", "Comentarios del rechazo de la finalización");
             model.addObject("subtitle", "La finalización del plan de seguimiento fue rechazado debido a:");
+            model.addObject("body", "Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        }
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/manageMonitoringPlan/showRejectAuthAccomplishmentMsg", method = RequestMethod.POST)
+    public @ResponseBody ModelAndView showRejectAuthAccomplishmentMsg(@RequestParam Long id){ //Id de MonitoringPlan
+        ModelAndView model = new ModelAndView("/supervisor/shared/showMsg");
+        try {
+
+            List<String> lstComment = logCommentMonPlanRepository.getLastCommentByMonPlanIdAndType(id, MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT, new PageRequest(0, 1));
+
+            model.addObject("type", "warning");
+            model.addObject("title", "Comentarios del rechazo del reporte de incumplimiento");
+            model.addObject("subtitle", "El reporte de incumplimiento fue rechazado debido a:");
+            model.addObject("body", lstComment.get(0));
+
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "showRejectAuthMsg", sharedUserService);
+            model.addObject("type", "warning");
+            model.addObject("title", "Comentarios del rechazo del reporte de incumplimiento");
+            model.addObject("subtitle", "El reporte de incumplimiento fue rechazado debido a:");
             model.addObject("body", "Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         }
         return model;

@@ -25,9 +25,14 @@ public class MonitoringConstants {
     public final static String STATUS_ACTIVITY_DELETED = "ELIMINADA";
 
     public final static String TYPE_COMMENT_AUTHORIZED = "AUTORIZAR";
+    public final static String TYPE_COMMENT_LOG_ACCOMPLISHMENT = "REPORTE INCUMPLIMIENTO";
     public final static String TYPE_COMMENT_END = "TERMINAR";
 
     public static final int ACTIVITY_ARRANGEMENT_UNDEFINED = -1;
     public static final int ACTIVITY_ARRANGEMENT_FAILED = 0;
     public static final int ACTIVITY_ARRANGEMENT_DONE = 1;
+
+    public static final String LOG_PENDING_ACCOMPLISHMENT = "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO";
+    public static final String LOG_ACCOMPLISHMENT_AUTHORIZED = "AUTORIZAR REPORTE INCUMPLIMIENTO";
+    public static final String LOG_ACCOMPLISHMENT_REJECTED = "RECHAZAR REPORTE INCUMPLIMIENTO";
 }
