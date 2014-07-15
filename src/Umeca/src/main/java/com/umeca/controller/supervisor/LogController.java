@@ -185,7 +185,7 @@ public class LogController {
             List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByCaseId(caseId);
             Gson gson = new Gson();
             String sLstGeneric = gson.toJson(lstGeneric);
-            model.addObject("lstHfAssignedArrangement", sLstGeneric);
+            model.addObject("lstHfAssignedArrang ement", sLstGeneric);
 
             lstGeneric = supervisionActivityRepository.findByMonPlanId(id);
             sLstGeneric = gson.toJson(lstGeneric);

@@ -208,7 +208,7 @@
                                     <td>
                                         <table>
                                             <tr ng-repeat="i in a.lstAssignedArrangements">
-                                                <td class="col-xs-8 element-left">{{i.name}}</td>
+                                                <td class="col-xs-8 element-left">{{i.name}} / {{i.description}}</td>
                                                 <td class="col-xs-4 element-left">{{i.status}}</td>
                                             </tr>
                                         </table>
