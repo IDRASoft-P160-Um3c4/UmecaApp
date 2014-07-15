@@ -1,0 +1,23 @@
+id|name|idLevel|isObsolete
+1|No sabe leer ni escribir|1|0
+2|Sabe leer y escribir|1|0
+3|Primero|2|0
+4|Segundo|2|0
+5|Tercero|2|0
+6|Cuarto|2|0
+7|Quinto|2|0
+8|Sexto|2|0
+9|Terminado|2|0
+10|Primero|3|0
+11|Segundo|3|0
+12|Tercero|3|0
+13|Terminado|3|0
+14|Primero|4|0
+15|Segundo|4|0
+16|Tercero|4|0
+17|Terminado|4|0
+18|Primero|5|0
+19|Segundo|5|0
+20|Tercero|5|0
+21|Trunco|6|0
+22|Terminado|6|0
