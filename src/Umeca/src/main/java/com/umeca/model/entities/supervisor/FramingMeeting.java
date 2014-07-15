@@ -1,6 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
-
+import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Drug;
 import com.umeca.model.entities.reviewer.ImputedHome;
@@ -17,6 +17,13 @@ public class FramingMeeting {
     @Column(name="id_framing_meeting")
     private Long id;
 
+    @Column(name="activities")
+    private String activities;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="id_framing_imputed_personal_data")
+    private FramingImputedPersonalData personalData;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="id_framing_occupation")
     private Occupation occupation;
@@ -26,10 +33,7 @@ public class FramingMeeting {
     private AdditionalFramingQuestions additionalFramingQuestions;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ImputedHome> imputedHomes;
-
-    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<FramingHousemate> housemates;
+    private List<FramingAddress> framingAddresses;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingReference> references;
@@ -38,7 +42,17 @@ public class FramingMeeting {
     private List<Drug> drugs;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<FramingPhysicalConditionRel> framingPhysicalConditionRel;
+    private List<FramingSelectedSourceRel> selectedSourcesRel;
+
+    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FramingSelectedRiskRel> selectedRisksRel;
+
+    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FramingSelectedThreatRel> selectedThreatsRel;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_process_accompaniment")
+    private ProcessAccompaniment processAccompaniment;
 
     @OneToOne
     @JoinColumn(name = "id_case")
@@ -68,20 +82,12 @@ public class FramingMeeting {
         this.additionalFramingQuestions = additionalFramingQuestions;
     }
 
-    public List<ImputedHome> getImputedHomes() {
-        return imputedHomes;
+    public List<FramingAddress> getFramingAddresses() {
+        return framingAddresses;
     }
 
-    public void setImputedHomes(List<ImputedHome> imputedHomes) {
-        this.imputedHomes = imputedHomes;
-    }
-
-    public List<FramingHousemate> getHousemates() {
-        return housemates;
-    }
-
-    public void setHousemates(List<FramingHousemate> housemates) {
-        this.housemates = housemates;
+    public void setFramingAddresses(List<FramingAddress> framingAddresses) {
+        this.framingAddresses = framingAddresses;
     }
 
     public List<FramingReference> getReferences() {
@@ -100,19 +106,59 @@ public class FramingMeeting {
         this.drugs = drugs;
     }
 
-    public List<FramingPhysicalConditionRel> getFramingPhysicalConditionRel() {
-        return framingPhysicalConditionRel;
-    }
-
-    public void setFramingPhysicalConditionRel(List<FramingPhysicalConditionRel> framingPhysicalConditionRel) {
-        this.framingPhysicalConditionRel = framingPhysicalConditionRel;
-    }
-
     public Case getCaseDetention() {
         return caseDetention;
     }
 
     public void setCaseDetention(Case caseDetention) {
         this.caseDetention = caseDetention;
+    }
+
+    public ProcessAccompaniment getProcessAccompaniment() {
+        return processAccompaniment;
+    }
+
+    public void setProcessAccompaniment(ProcessAccompaniment processAccompaniment) {
+        this.processAccompaniment = processAccompaniment;
+    }
+
+    public List<FramingSelectedSourceRel> getSelectedSourcesRel() {
+        return selectedSourcesRel;
+    }
+
+    public void setSelectedSourcesRel(List<FramingSelectedSourceRel> selectedSourcesRel) {
+        this.selectedSourcesRel = selectedSourcesRel;
+    }
+
+    public List<FramingSelectedRiskRel> getSelectedRisksRel() {
+        return selectedRisksRel;
+    }
+
+    public void setSelectedRisksRel(List<FramingSelectedRiskRel> selectedRisksRel) {
+        this.selectedRisksRel = selectedRisksRel;
+    }
+
+    public List<FramingSelectedThreatRel> getSelectedThreatsRel() {
+        return selectedThreatsRel;
+    }
+
+    public void setSelectedThreatsRel(List<FramingSelectedThreatRel> selectedThreatsRel) {
+        this.selectedThreatsRel = selectedThreatsRel;
+    }
+
+    public String getActivities() {
+        return activities;
+    }
+
+    public void setActivities(String activities) {
+        this.activities = activities;
+    }
+
+    public FramingImputedPersonalData getPersonalData() {
+        return personalData;
+    }
+
+    public void setPersonalData(FramingImputedPersonalData personalData) {
+        this.personalData = personalData;
     }
 }

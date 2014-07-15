@@ -66,7 +66,8 @@ public class GenerateMonitoringPlanController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("supervisorId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("status",
-                new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);add(MonitoringConstants.STATUS_END);}},JqGridFilterModel.COMPARE_NOT_IN);
+                new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);add(MonitoringConstants.STATUS_PENDING_END);
+                    add(MonitoringConstants.STATUS_END);}},JqGridFilterModel.COMPARE_NOT_IN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -77,7 +78,7 @@ public class GenerateMonitoringPlanController {
 
                 return new ArrayList<Selection<?>>(){{
                     add(r.get("id"));
-                    add(joinCd.get("idFolder"));
+                    add(joinCd.get("id"));
                     add(joinCd.get("idMP"));
                     add(joinIm.get("name"));
                     add(joinIm.get("lastNameP"));
@@ -92,6 +93,8 @@ public class GenerateMonitoringPlanController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if(field.equals("caseId"))
+                    return r.join("caseDetention").get("id");
                 if(field.equals("stCreationTime"))
                     return r.get("creationTime");
                 if(field.equals("stGenerationTime"))
@@ -118,11 +121,12 @@ public class GenerateMonitoringPlanController {
     @Autowired
     private ActivityGoalRepository activityGoalRepository;
     @Autowired
-    private AidSourceRepository aidSourceRepository;
+    private FramingReferenceRepository framingReferenceRepository;
     @Autowired
     private MonitoringPlanRepository monitoringPlanRepository;
     @Autowired
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
+
 
 
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/generate", method = RequestMethod.GET)
@@ -130,14 +134,16 @@ public class GenerateMonitoringPlanController {
         ModelAndView model = new ModelAndView("/supervisor/generateMonitoringPlan/generate");
         Gson gson = new Gson();
 
+        Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
+
         //Find last hearing format to get last assigned arrangements
         List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
 
-        List<SelectList> lstGeneric = arrangementRepository.findLstArrangement(lastHearingFormatId.get(0));
+        List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByHearingFormatId(lastHearingFormatId.get(0));
         String sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstArrangements", sLstGeneric);
 
-        lstGeneric = supervisionActivityRepository.findAllValid();
+        lstGeneric = supervisionActivityRepository.findAllValidSl();
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstActivities", sLstGeneric);
 
@@ -145,13 +151,13 @@ public class GenerateMonitoringPlanController {
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstGoals", sLstGeneric);
 
-        lstGeneric = aidSourceRepository.findAllValid();
+        lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstSources", sLstGeneric);
 
         MonitoringPlanInfo mpi =  monitoringPlanRepository.getInfoById(id);
         model.addObject("caseId",mpi.getIdCase());
-        model.addObject("folderId",mpi.getIdFolder());
+        model.addObject("mpId",mpi.getIdMP());
         model.addObject("personName",mpi.getPersonName());
         model.addObject("monStatus",mpi.getPersonName());
         model.addObject("monitoringPlanId",mpi.getIdMonitoringPlan());
@@ -161,7 +167,6 @@ public class GenerateMonitoringPlanController {
 
         sLstGeneric = gson.toJson(lstDtoActivities);
         model.addObject("lstActivitiesMonPlan",sLstGeneric);
-
 
         return model;
     }
@@ -201,8 +206,9 @@ public class GenerateMonitoringPlanController {
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         }
+        response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         return response;
     }
+
 }

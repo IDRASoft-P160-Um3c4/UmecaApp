@@ -23,6 +23,12 @@ public class SelectList {
         this.description = description;
     }
 
+    public SelectList(Long id, String name, String description, String secDescription){
+        this.id = id;
+        this.name = description + " / " + name;
+        this.description = secDescription;
+    }
+
     public Long getId() {
         return id;
     }

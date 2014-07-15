@@ -6,13 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 5/20/14
- * Time: 4:01 PM
- */
-
 @Controller
 public class InsertCatalogController {
 
@@ -65,7 +58,6 @@ public class InsertCatalogController {
         service.activity();
         return "Activity OK!";
     }
-
 
     @RequestMapping(value="/catalogs/insertStatusMeeting", method = RequestMethod.GET)
     public String insertStatusMeeting(){
@@ -164,6 +156,38 @@ public class InsertCatalogController {
         return "Status Case OK!";
     }
 
+
+    @RequestMapping(value = "/catalogs/fieldVerification", method = RequestMethod.GET)
+    public String fieldVerification(){
+        service.fieldVerification();
+        return "Field Verification OK!";
+    }
+
+    @RequestMapping(value = "/catalogs/statusFieldVerification", method = RequestMethod.GET)
+    public String statusFieldVerification(){
+        service.statusFieldVerification();
+        return "Status Field  Verification OK!";
+    }
+
+
+    /*@RequestMapping(value = "/catalogs/insertHearingFormatType", method = RequestMethod.GET)
+    public String insertHearingFormatType(){ //NO APLICA PARA ESTA VERSIÓN
+        service.hearingFormatType();
+        return "Hearing Format Type OK!";
+    }*/
+
+    @RequestMapping(value = "/catalogs/insertFramingRisk", method = RequestMethod.GET)
+    public String insertFramingRisk(){
+        service.framingRisk();
+        return "Status Case OK!";
+    }
+
+    @RequestMapping(value = "/catalogs/insertFramingThreat", method = RequestMethod.GET)
+    public String insertFramingThreat(){
+        service.framingThreat();
+        return "Status Case OK!";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
@@ -190,6 +214,10 @@ public class InsertCatalogController {
         service.supervisionActivity();
         service.insertActivityGoal();
         service.insertAidSource();
+        service.fieldVerification();
+        service.statusFieldVerification();
+        service.framingRisk();
+        service.framingThreat();
         return "insertCatalog OK!!";
     }
 }

@@ -21,16 +21,16 @@
 
         <script>
             window.upsert = function(id) {
-                window.showUpsert(id, "#angJsjqGridId", "/management/user/upsert.html", "#GridId");
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/management/user/upsert.html' />', "#GridId");
             };
 
             window.disable = function (id) {
-                window.showAction(id, "#angJsjqGridId", "/management/user/disable.json", "#GridId", "Deshabilitar usuario", "¿Desea deshabilitar al usuario?", "warning");
+                window.showAction(id, "#angJsjqGridId", '<c:url value='/management/user/disable.json' />', "#GridId", "Deshabilitar usuario", "¿Desea deshabilitar al usuario?", "warning");
             };
 
 
             window.enable = function (id) {
-                window.showAction(id, "#angJsjqGridId", "/management/user/enable.json", "#GridId", "Habilitar usuario", "¿Desea habilitar al usuario?", "warning");
+                window.showAction(id, "#angJsjqGridId", '<c:url value='/management/user/enable.json' />', "#GridId", "Habilitar usuario", "¿Desea habilitar al usuario?", "warning");
             };
 
             $(document).ready(function() {

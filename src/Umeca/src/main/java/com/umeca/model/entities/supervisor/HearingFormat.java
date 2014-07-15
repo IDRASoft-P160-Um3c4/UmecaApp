@@ -55,8 +55,11 @@ public class HearingFormat{
     @Column(name = "additional_data", length = 5000, nullable = false)
     private String additionalData;
 
-    @Column(name = "terms", length = 1000, nullable = false)
+    @Column(name = "terms", length = 1000)
     private String terms;
+
+    @Column(name = "confirm_comment", length = 1000)
+    private String confirmComment;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="id_format_specs", nullable = false)
@@ -87,7 +90,6 @@ public class HearingFormat{
             return  h1.getId().compareTo(h2.getId());
         }
     };
-
 
     public Long getId() {
         return id;
@@ -247,5 +249,13 @@ public class HearingFormat{
 
     public void setHearingImputed(HearingFormatImputed hearingImputed) {
         this.hearingImputed = hearingImputed;
+    }
+
+    public String getConfirmComment() {
+        return confirmComment;
+    }
+
+    public void setConfirmComment(String confirmComment) {
+        this.confirmComment = confirmComment;
     }
 }

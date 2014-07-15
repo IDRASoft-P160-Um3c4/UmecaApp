@@ -14,8 +14,11 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
-import com.umeca.repository.catalog.*;
+import com.umeca.repository.catalog.ArrangementRepository;
+import com.umeca.repository.catalog.RegisterTypeRepository;
+import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.repository.supervisor.HearingFormatTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
@@ -37,37 +40,29 @@ import java.util.List;
 @Controller
 public class HearingFormatController {
 
-    @Qualifier("qArrangementRepository")
     @Autowired
-    ArrangementRepository arrangementRepository;
-
-    @Qualifier("registerTypeRepository")
-    @Autowired
-    RegisterTypeRepository registerTypeRepository;
+    private CaseService caseService;
 
     @Autowired
-    CaseService caseService;
+    private HearingFormatService hearingFormatService;
 
     @Autowired
-    HearingFormatService hearingFormatService;
-
-    @Autowired
-    CatalogService catalogService;
-
-    @Autowired
-    StatusCaseRepository statusCaseRepository;
+    private StatusCaseRepository statusCaseRepository;
 
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
 
     @Autowired
-    SharedUserService userService;
+    private SharedUserService userService;
 
     @Autowired
-    StateRepository stateRepository;
+    private StateRepository stateRepository;
 
     @Autowired
-    AddressService addressService;
+    private AddressService addressService;
+
+    @Autowired
+    private HearingFormatTypeRepository hearingFormatTypeRepository;
 
     @RequestMapping(value = "/supervisor/hearingFormat/listCases", method = RequestMethod.POST)
     public
@@ -76,10 +71,16 @@ public class HearingFormatController {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
-                new ArrayList<String>() {{
+                new ArrayList<String>() {{//TODO SE DEBEN AGREGAR LOS STATUS EN LOS CUALES SE PERMITE AGREGAR UN FORMATO DE AUDIENCIA
+                    /*8. Se puede generar un formato de audiencia para cualquier estado del proceso de supervisión y para los casos con entrevista verificada.
+                    (casos que se encuentren en entrevista de encuadre, que se encuentren en creación del plan de seguimiento,
+                    o que se encuentren en seguimiento al plan de supervisión), ya no se puede generar un formato de audiencia para los casos que se encuentren cerrados,
+                    o en autorización de cierre.*/
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
+                    add(Constants.CASE_STATUS_PRE_CLOSED);
+
                 }}, JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter);
@@ -137,19 +138,18 @@ public class HearingFormatController {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
-                final javax.persistence.criteria.Join<HearingFormat, Case> joinCase = r.join("caseDetention");
                 final javax.persistence.criteria.Join<HearingFormat, HearingFormatImputed> joinHImp = r.join("hearingImputed");
                 final javax.persistence.criteria.Join<HearingFormat, HearingFormatSpecs> joinSpecs = r.join("hearingFormatSpecs");
 
                 return new ArrayList<Selection<?>>() {{
 
                     add(r.get("id"));
-                    add(joinCase.get("idFolder"));
-                    add(joinCase.get("idMP"));
+                    add(r.get("idFolder"));
+                    add(r.get("idJudicial"));
                     add(joinHImp.get("name"));
                     add(joinHImp.get("lastNameP"));
                     add(joinHImp.get("lastNameM"));
-                    add(joinSpecs.get("hearingType"));
+                    add(joinSpecs.get("arrangementType"));
                     add(joinSpecs.get("extension"));
                     add(joinSpecs.get("linkageProcess"));
 
@@ -185,16 +185,31 @@ public class HearingFormatController {
     @RequestMapping(value = "/supervisor/hearingFormat/newHearingFormat", method = RequestMethod.GET)
     public ModelAndView newHearingFormat(@RequestParam(required = true) Long idCase) {
 
-        ModelAndView model = new ModelAndView("/supervisor/hearingFormat/hearingFormat");
-        HearingFormatView hfView = hearingFormatService.fillNewHearingFormatForView(idCase);
-        Gson conv = new Gson();
-        model.addObject("hfView", conv.toJson(hfView));
-        model.addObject("listState",conv.toJson(stateRepository.findAll()));
+        ModelAndView model = new ModelAndView();
 
-        if(hfView.getIdAddres()!=null)
-            addressService.fillModelAddress(model, hfView.getIdAddres());
+        if (caseRepository.findOne(idCase).getStatus().getName().equals(Constants.CASE_STATUS_PRE_CLOSED)) {
+            model.setViewName("/supervisor/hearingFormat/indexFormats");
+            model.addObject("idCase", idCase);
+            model.addObject("showErr",true);
+            model.addObject("msgError","No es posible agregar mas formatos, el caso se encuentra pre-cerrado.");
 
+        } else {
+            model.setViewName("/supervisor/hearingFormat/hearingFormat");
+            HearingFormatView hfView = hearingFormatService.fillNewHearingFormatForView(idCase);
+            Gson conv = new Gson();
+            model.addObject("hfView", conv.toJson(hfView));
+
+            model.addObject("listState", conv.toJson(stateRepository.findAll()));
+
+            model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
+
+            if (hfView.getIdAddres() != null)
+                addressService.fillModelAddress(model, hfView.getIdAddres());
+
+        }
         return model;
+
+
     }
 
 
@@ -206,9 +221,9 @@ public class HearingFormatController {
         HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
-        model.addObject("listState",conv.toJson(stateRepository.findAll()));
+        model.addObject("listState", conv.toJson(stateRepository.findAll()));
 
-        if(hfView.getIdAddres()!=null)
+        if (hfView.getIdAddres() != null)
             addressService.fillModelAddress(model, hfView.getIdAddres());
 
         return model;
@@ -230,9 +245,13 @@ public class HearingFormatController {
         if (imputed.getBirthDate() != null) {
             Integer age = userService.calculateAge(imputed.getBirthDate());
             if (age.compareTo(18) == -1) {
-                return new ResponseMessage(true, "El imputado debe tener mï¿½s de 18 aï¿½os para continuar");
+                return new ResponseMessage(true, "El imputado debe tener más de 18 años para continuar.");
             }
         }
+
+        /*if (caseRepository.findByIdMP(idJudicial) != null) {
+            return new ResponseMessage(true, "El número de Carpeta Judicial ya existe, verifique los datos.");
+        }*/
 
         try {
             Case caseDet;
@@ -243,11 +262,11 @@ public class HearingFormatController {
             response = caseService.saveConditionaReprieveCase(caseDet);
 
         } catch (Exception ex) {
-            System.out.println("Error al guardar el caso de suspensiï¿½n condicional de proceso!!!");
+            System.out.println("Error al guardar el caso de suspensi?n condicional de proceso!!!");
             ex.printStackTrace();
             response.setHasError(true);
             response.setTitle("Formato de audiencia");
-            response.setMessage("Error al guardar el caso de suspensiï¿½n condicional de proceso!!!");
+            response.setMessage("Error al guardar el caso de suspensi?n condicional de proceso!!!");
 
         } finally {
             return response;
@@ -257,10 +276,10 @@ public class HearingFormatController {
     @RequestMapping(value = "/supervisor/hearingFormat/searchArrangementsByType", method = RequestMethod.POST)
     public
     @ResponseBody
-    String searchArrangement(@RequestBody Integer idTipo) {
+    String searchArrangement(@RequestParam(required = true) Boolean national, @RequestParam(required = true) Integer idTipo) {
 
         Gson conv = new Gson();
-        List<ArrangementView> lstArrangementView = hearingFormatService.getArrangmentLst(idTipo);
+        List<ArrangementView> lstArrangementView = hearingFormatService.getArrangmentLst(national, idTipo);
         String jsonLst = conv.toJson(lstArrangementView);
 
         return jsonLst;
@@ -268,16 +287,23 @@ public class HearingFormatController {
 
     @Autowired
     CaseRepository caseRepository;
+
     @RequestMapping(value = "/supervisor/hearingFormat/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doUpsert(@ModelAttribute HearingFormatView result, HttpServletRequest request) {
 
+        if (result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
+            ResponseMessage resp = hearingFormatService.validatePassCredential(result.getCredPass());
+            if (resp != null)
+                return resp;
+        }
+
         HearingFormat hearingFormat = hearingFormatService.fillHearingFormat(result);
         hearingFormat.setCaseDetention(caseRepository.findOne(result.getIdCase()));
 
         return hearingFormatService.save(hearingFormat, request);
-
     }
+
 
 }

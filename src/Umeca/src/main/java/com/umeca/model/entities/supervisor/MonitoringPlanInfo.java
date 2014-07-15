@@ -9,16 +9,26 @@ package com.umeca.model.entities.supervisor;
 public class MonitoringPlanInfo {
     private Long idMonitoringPlan;
     private Long idCase;
-    private String idFolder;
+    private String idMP;
     private String personName;
     private String monStatus;
+    private Long supervisorId;
 
-    public MonitoringPlanInfo(Long idMonitoringPlan, Long idCase, String idFolder, String name, String lastNameP, String lastNameM, String status){
+    public MonitoringPlanInfo(Long idMonitoringPlan, Long idCase, String idMP, String name, String lastNameP, String lastNameM, String status){
         this.idMonitoringPlan = idMonitoringPlan;
         this.idCase = idCase;
-        this.idFolder = idFolder;
+        this.idMP = idMP;
         this.personName = name + " " + lastNameP + " " + lastNameM;
         this.monStatus = status;
+    }
+
+    public MonitoringPlanInfo(Long idMonitoringPlan, Long idCase, String idMP, String name, String lastNameP, String lastNameM, String status, Long supervisorId){
+        this.idMonitoringPlan = idMonitoringPlan;
+        this.idCase = idCase;
+        this.idMP = idMP;
+        this.personName = name + " " + lastNameP + " " + lastNameM;
+        this.monStatus = status;
+        this.supervisorId = supervisorId;
     }
 
     public Long getIdMonitoringPlan() {
@@ -37,12 +47,12 @@ public class MonitoringPlanInfo {
         this.idCase = idCase;
     }
 
-    public String getIdFolder() {
-        return idFolder;
+    public String getIdMP() {
+        return idMP;
     }
 
-    public void setIdFolder(String idFolder) {
-        this.idFolder = idFolder;
+    public void setIdMP(String idMP) {
+        this.idMP = idMP;
     }
 
     public String getPersonName() {
@@ -59,5 +69,13 @@ public class MonitoringPlanInfo {
 
     public void setMonStatus(String monStatus) {
         this.monStatus = monStatus;
+    }
+
+    public Long getSupervisorId() {
+        return supervisorId;
+    }
+
+    public void setSupervisorId(Long supervisorId) {
+        this.supervisorId = supervisorId;
     }
 }

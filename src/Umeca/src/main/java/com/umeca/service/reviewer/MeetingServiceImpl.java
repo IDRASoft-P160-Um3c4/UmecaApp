@@ -14,6 +14,7 @@ import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.RelActivitySocialEnvironmentDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -131,6 +132,7 @@ public class MeetingServiceImpl implements MeetingService {
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention = caseRepository.save(caseDetention);
             Meeting meeting = new Meeting();
+            meeting.setMeetingType(HearingFormatConstants.MEETING_PROCEDURAL_RISK);
             meeting.setCaseDetention(caseDetention);
             StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
             meeting.setStatus(statusMeeting);
@@ -240,7 +242,14 @@ public class MeetingServiceImpl implements MeetingService {
             catalogDtoList.add(cdto);
         }
         model.addObject("listRelationship", gson.toJson(catalogDtoList));
+        model.addObject("listLegalBefore",findLegalBefore(id,c.getMeeting().getImputed().getName(),c.getMeeting().getImputed().getLastNameP(),c.getMeeting().getImputed().getLastNameM()));
         return model;
+    }
+
+    String findLegalBefore(Long id, String name, String lastNameP, String lastNameM){
+        List<FindLegalBefore> list = caseRepository.findLegalBefore(id,name,lastNameP, lastNameM);
+        Gson gson = new Gson();
+        return gson.toJson(list);
     }
 
     @Override
@@ -257,6 +266,7 @@ public class MeetingServiceImpl implements MeetingService {
             caseDetention.getMeeting().getImputed().setBirthLocation(imputed.getBirthLocation());
             caseDetention.getMeeting().getImputed().setBirthMunicipality(imputed.getBirthMunicipality());
             caseDetention.getMeeting().getImputed().setBirthCountry(countryRepository.findOne(imputed.getBirthCountry().getId()));
+            caseDetention.getMeeting().getImputed().setYearsMaritalStatus(imputed.getYearsMaritalStatus());
             socialEnvironment.setMeeting(caseDetention.getMeeting());
             if (caseDetention.getMeeting().getSocialEnvironment() != null && caseDetention.getMeeting().getSocialEnvironment().getId() != null) {
                 socialEnvironment.setId(caseDetention.getMeeting().getSocialEnvironment().getId());
@@ -682,6 +692,8 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
+    @Autowired
+    FieldMeetingSourceRepository fieldMeetingSourceRepository;
     @Transactional
     @Override
     public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, String activities) {
@@ -708,14 +720,7 @@ public class MeetingServiceImpl implements MeetingService {
             }
             c.getMeeting().getLeaveCountry().validateMeeting(validate);
             Gson gson = new Gson();
-            if ((c.getMeeting().getReferences()==null || (c.getMeeting().getReferences() != null && c.getMeeting().getReferences().size() == 0))
-             && (c.getMeeting().getSocialNetwork()==null ||
-            ((c.getMeeting().getSocialNetwork() != null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork() == null)
-             ||(c.getMeeting().getSocialNetwork() != null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork()!= null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork().size() == 0)))) {
-                List<String> listMess = new ArrayList<>();
-                listMess.add("Para terminar la entrevista debe agragar al menos una referencia personal o una persona de su red social.");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("reference",listMess));
-            }
+           c.getMeeting().validateMeeting(validate);
             if (validate.existsMessageProperties()) {
                 List<String> listGeneral=new ArrayList<>();
                 listGeneral.add("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección");
@@ -748,10 +753,10 @@ public class MeetingServiceImpl implements MeetingService {
             return new ResponseMessage(true, "Favor de ingresar la fecha de nacimiento del imputado.");
         }
         if (imputed.getMeeting() != null && imputed.getMeeting().getCaseDetention() != null && imputed.getMeeting().getCaseDetention().getIdFolder() != null) {
-            Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
+            /*Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             if (c != null) {
                 return new ResponseMessage(true, "El número de carpeta de investigación ya se encuentra registrado.");
-            }
+            }*/
         } else {
             return new ResponseMessage(true, "Favor de ingresar el número de carpeta de investigación para continuar");
         }
@@ -806,10 +811,12 @@ public class MeetingServiceImpl implements MeetingService {
             c.getMeeting().setStatus(stm);
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));
             verificationService.createVerification(c);
-            //verificationRepository.save(c.getVerification());
-            //c.getVerification().setSourceVerifications(verificationService.convertAllInitSourcesVerif(c));
             caseRepository.save(c);
             caseRepository.saveAndFlush(c);
+            List<FieldMeetingSource> listFS = verificationService.createAllFieldVerificationOfImputed(c.getId());
+            fieldMeetingSourceRepository.save(listFS);
+            //verificationRepository.save(c.getVerification());
+            //c.getVerification().setSourceVerifications(verificationService.convertAllInitSourcesVerif(c));
             result.setHasError(false);
             result.setMessage("Entrevista terminada con exito");
             result.setUrlToGo("/index.html");

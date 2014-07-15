@@ -23,6 +23,10 @@
 
     <script>
 
+        returnHearing = function (url) {
+            window.goToUrlMvcUrl(url);
+        };
+
         addHearingFormat = function () {
             var goTo = "<c:url value='/supervisor/hearingFormat/newHearingFormat.html'/>" + "?idCase=" + ${idCase};
             window.goToUrlMvcUrl(goTo);
@@ -103,6 +107,27 @@
 
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Formatos de audiencia del caso
     </h2>
+    <br/>
+
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 element-center">
+            <c:if test="${showErr == true}">
+                <div class="alert alert-danger element-center">
+                    <span>${msgError}</span>
+                </div>
+            </c:if>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+    <span class="btn btn-default btn-sm"
+          onclick="returnHearing('<c:url value='/supervisor/hearingFormat/index.html'/>')">
+                                Regresar
+                            </span>
+        </div>
+    </div>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

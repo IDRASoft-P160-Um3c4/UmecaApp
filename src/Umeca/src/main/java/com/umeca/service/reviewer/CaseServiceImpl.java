@@ -175,9 +175,8 @@ public class CaseServiceImpl implements CaseService {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (InvocationTargetException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }finally {
-                return false;
             }
+            return false;
         }
     }
 

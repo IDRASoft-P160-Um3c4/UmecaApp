@@ -31,13 +31,17 @@ public class ForHearingFormatGrid implements EntityGrid {
         sb.append(lastNM);
 
 
-
         this.fullName = sb.toString();
 
-        if (hType.equals(HearingFormatConstants.HEARING_TYPE_MC))
-            hearingType = "MC";
-        if (hType.equals(HearingFormatConstants.HEARING_TYPE_SCP))
-            hearingType = "SCPP";
+        if (hType != null) {
+
+            if (hType.equals(HearingFormatConstants.HEARING_TYPE_MC))
+                hearingType = "MC";
+            if (hType.equals(HearingFormatConstants.HEARING_TYPE_SCP))
+                hearingType = "SCPP";
+        } else {
+            hearingType = "No aplica";
+        }
 
         if (pVinc.equals(HearingFormatConstants.PROCESS_VINC_NO))
             processVinc = "NO";

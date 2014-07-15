@@ -2,23 +2,23 @@ app.controller('addressController', function($scope, $timeout, $http) {
     $scope.a = {};
     $scope.listLocation = [];
     $scope.listElection = [];
-    $scope.listRegisterType = [];
+    $scope.listType = [];
     $scope.a.belong = 0;
     $scope.a.type=0;
     $scope.content = "Address";
     $scope.nameAddress = "address.";
 
     $scope.init = function(){
-        if($scope.listRegisterType === undefined || $scope.listRegisterType.length <= 0)
+        if($scope.listType === undefined || $scope.listType.length <= 0)
             return;
 
         if($scope.a.typeId === undefined){
-            $scope.a.type = $scope.listRegisterType[0];
+            $scope.a.type = $scope.listType[0];
             $scope.a.typeId = $scope.a.type.id;
         }
         else{
-            for(var i=0; i < $scope.listRegisterType.length; i++){
-                var type = $scope.listRegisterType[i];
+            for(var i=0; i < $scope.listType.length; i++){
+                var type = $scope.listType[i];
 
                 if(type.id === $scope.a.typeId){
                     $scope.a.type =type;

@@ -1,9 +1,16 @@
-<div ng-controller="personalDataController">
-    <div class="row">
+<div id="divPersonalController" ng-controller="personalDataController">
+<div class="row">
     <div class="col-xs-6">
         <div class="row">
             <div class="col-xs-3 element-left">
-                <br/>Género:
+                <br/> <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                         ng-click="doConfirmVerifEqual('imputed.gender')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                   ng-show="verification" code="imputed.gender"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                   ng-click="doConfirmVerifNotKnow('imputed.gender')"></i>
+                <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource"  ng-click="showChoices('imputed.gender')"></i>
+                Género:
             </div>
             <div class="col-xs-9">
                 <div class="row" ng-init="gen=${(m.imputed.gender == null) ? false: m.imputed.gender}">
@@ -21,7 +28,7 @@
                         <div class="radio">
                             <label>
                                 <input class="ace" type="radio" value="false" ng-model="gen" ng-checked="gen==false"
-                                       name="imputed.gender">
+                                                                      name="imputed.gender">
                                 <span class="lbl">Masculino</span>
                             </label>
                         </div>
@@ -32,33 +39,62 @@
         </div>
         <br/>
 
-        <div class="row">
-            <div class="col-xs-6 element-left">
+        <div class="row" ng-show="verification==false">
+            <div class="col-xs-5 element-left">
                 Fecha de nacimiento:
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-7">
+                <input class="form-control" id="birthDate" readonly="readonly" value="${m.imputed.birthDate}" disabled="disabled">
+            </div>
+        </div>
+        <div class="row" ng-show="verification == true">
+            <div class="col-xs-5 element-left">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                   ng-click="doConfirmVerifEqual('imputed.birthDate')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                   ng-show="verification" code="imputed.birthDate"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                   ng-click="doConfirmVerifNotKnow('imputed.birthDate')"></i>
+                <i class="purple icon-list icon-only bigger-120" onclick="window.showChoices('imputed.birthDate')"
+                        ng-show="selectSource"></i>
+                Fecha de nacimiento:
+            </div>
+            <div class="col-xs-7">
                 <div class="input-group">
-                    <input class="form-control" id="birthDate" readonly="readonly" value="${m.imputed.birthDate}">
+                    <input class="form-control date-picker" id="dateBirth"  type="text"  disabled="disabled"
+                           data-date-format="yyyy/mm/dd" value="${m.imputed.birthDate}" readonly="readonly"
+                           name="imputed.birthDate" data-val-required="La fecha de nacimiento es un campo requerido"/>
+																	<span class="input-group-addon">
+																		<i class="icon-calendar bigger-110"></i>
+																	</span>
                 </div>
+                 <span class="field-validation-valid" data-valmsg-for="imputed.yearsMaritalStatus"
+                       data-valmsg-replace="true"></span>
             </div>
         </div>
         <br/>
 
         <div class="row">
-            <div class="col-xs-3 element-left">
+            <div class="col-xs-5 element-left">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                   ng-click="doConfirmVerifEqual('imputed.celPhone')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                   ng-show="verification"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                   ng-click="doConfirmVerifNotKnow('imputed.celPhone')"></i>
+                <i class="purple icon-list icon-only bigger-120" ng-click="showChoices('imputed.celPhone')"
+                   ng-show="selectSource"></i>
                 Celular:
             </div>
-            <div class="col-xs-9">
-                <div class="col-xs-10">
-                    <input class="form-control" data-val="true"
-                           data-val-length="Debe tener m?nimo 8 y m?ximo 20 caracteres"
-                           data-val-length-max="20" data-val-length-min="8"
-                           type="text" ng-model="celPhone" id="celPhone"
-                           ng-init="celPhone= '${(m.imputed.celPhone == null) ? '': m.imputed.celPhone}'"
-                           name="imputed.celPhone">
+            <div class="col-xs-7">
+                <input class="form-control" data-val-required="El celular es un campo requerido"
+                       data-val-length="Debe tener m?nimo 8 y m?ximo 20 caracteres"
+                       data-val-length-max="20" data-val-length-min="8"
+                       type="text" ng-model="celPhone" id="celPhone"
+                       ng-init="celPhone= '${(m.imputed.celPhone == null) ? '': m.imputed.celPhone}'"
+                       name="imputed.celPhone">
                     <span class="field-validation-valid" data-valmsg-for="imputed.celPhone"
                           data-valmsg-replace="true"></span>
-                </div>
             </div>
         </div>
     </div>
@@ -66,7 +102,20 @@
         <div class="widget-box">
             <div class="widget-header"
                  ng-init="maritalStatus = ${m.imputed.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id}">
-                <h5>Estado civil</h5>
+                <div class="col-xs-2">
+                    <i class="icon-ok-circle green  icon-only bigger-120"  ng-show="verification"
+                       ng-click="doConfirmVerifEqual('imputed.maritalStatus.id')"></i>
+                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"
+                       code="imputed.maritalStatus.id"></i>
+                    <i class="icon-ban-circle inverse icon-only bigger-1 20"  ng-show="verification"
+                       ng-click="doConfirmVerifNotKnow('imputed.maritalStatus.id')"></i>
+                    <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.maritalStatus.id')"></i>
+                </div>
+
+                <div class="col-xs-9 element-left">
+                    <h5>Estado civil</h5>
+                </div>
+
             </div>
             <div class="widget-body">
                 <div class="row">
@@ -107,7 +156,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-xs-5" ng-show="maritalStatus ==2 || maritalStatus == 4">
+                    <div class="col-xs-5" ng-show="maritalStatus ==2 || maritalStatus == 4" ng-model="verifElem">
                         <div class="space-10"></div>
                         <div class="widget-main">
                             <input type="text" class="input-mini" id="spinnder1"
@@ -134,39 +183,46 @@
 <div class="col-xs-12">
     <div class="widget-box">
         <div class="widget-header">
-            <h5>Hijos</h5>
+            <div class="col-xs-1">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                   ng-click="doConfirmVerifEqual('imputed.boys')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
+                   code="imputed.boys"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                   ng-click="doConfirmVerifNotKnow('imputed.boys')"></i>
+                <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.boys')"></i>
+            </div>
+
+            <div class="col-xs-11 element-left">
+                <h5>Hijos</h5>
+            </div>
         </div>
         <div class="widget-body">
             <br/>
 
             <div class="row">
-                <div class="col-xs-10 col-xs-offset-1">
+                <div class="col-xs-12">
                     <div class="col-xs-1 align-left">
                         Total:
                     </div>
                     <div class="col-xs-3">
                         <input type="text" class="form-control" name="imputed.boys" value="${m.imputed.boys}"
                                data-val-regex-pattern="([0-9]+)"
+                               data-val-required="El total de hijos es un campo requerido"
                                data-val-regex="Sólo puede guardar números" data-val="true" data-val="true"
                                id="imputed.boys"/>
-                    </div>
-                    <div class="col-xs-4 align-left">
-                        Dependientes económicos:
-                    </div>
-                    <div class="col-xs-2">
-                        <input type="text" class="form-contro1" name="imputed.dependentBoys"
-                               data-val-regex-pattern="([0-9]+)"
-                               data-val-regex="S?lo puede guardar números" id="imputed.dependentBoys" data-val="true"
-                               value="${m.imputed.dependentBoys == null ? '': m.imputed.dependentBoys}"/>
-
-                    </div>
-                </div>
-                <div class="col-xs-10 col-xs-offset-1">
-                    <div class="col-xs-4">
                         <span class="field-validation-valid" data-valmsg-for="imputed.boys"
                               data-valmsg-replace="true"></span>
                     </div>
-                    <div class="col-xs-4 col-xs-offset-2">
+                    <div class="col-xs-3 align-right">
+                        Dependientes económicos:
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control" name="imputed.dependentBoys"
+                               data-val-regex-pattern="([0-9]+)"
+                               data-val-required="El total de depentdientes económicos es un campo requerido"
+                               data-val-regex="S?lo puede guardar números" id="imputed.dependentBoys" data-val="true"
+                               value="${m.imputed.dependentBoys == null ? '': m.imputed.dependentBoys}"/>
                         <span class="field-validation-valid" data-valmsg-for="imputed.dependentBoys"
                               data-valmsg-replace="true"></span>
                     </div>
@@ -180,10 +236,26 @@
 <br/>
 
 <div class="row">
+
+</div>
+<br/>
+
+<div class="row">
     <div class="col-xs-12">
         <div class="widget-box">
             <div class="widget-header">
-                <h4>Lugar de nacimiento</h4>
+                <div class="col-xs-1" >
+                    <i class="icon-ok-circle green  icon-only bigger-120"ng-show="verification"
+                       ng-click="doConfirmVerifEqual('imputed.birtCountry')"></i>
+                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"ng-show="verification"
+                       code="imputed.birthCountry"></i>
+                    <i class="icon-ban-circle gray icon-only bigger-120"ng-show="verification"
+                       ng-click="doConfirmVerifNotKnow('imputed.birthCountry')"></i>
+                    <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputed.birthCountry.id')"></i>
+                </div>
+                <div class="col-xs-10 element-left">
+                    <h4>Lugar de nacimiento</h4>
+                </div>
             </div>
 
             <div class="widget-body">
@@ -194,13 +266,13 @@
                         Pais:
                     </div>
                     <div class="col-xs-3">
-                        <input type="hidden" ng-update-hidden ng-model="countryId" name="imputed.birthCountry.id"
+                        <input type="hidden" ng-update-hidden ng-model="m.countryId" name="imputed.birthCountry.id"
                                id="country"
-                               ng-init='l.countryId = ${(m.imputed.birthCountry.id == null)? 'undefined':m.imputed.birthCountry.id}'>
-                        <select class="form-control element-center" ng-model="country"
+                               ng-init='m.countryId = ${(m.imputed.birthCountry.id == null)? 'undefined':m.imputed.birthCountry.id}'>
+                        <select class="form-control element-center" ng-model="m.country"
                                 ng-options="e.name for e in listCountry"
                                 url-request="/catalogs/getStatesByCountry.json"
-                                ng-change="countryId = country.id;" ng-init='listCountry = ${lstCountry};'></select>
+                                ng-change="m.countryId = m.country.id;" ng-init='listCountry = ${lstCountry};'></select>
                     </div>
                     <div class="col-xs-2 element-right">
                         Estado:
@@ -208,8 +280,10 @@
                     <div class="col-xs-3">
                         <input class="form-control"
                                type="text" ng-model="state" id="imputed.birthState"
-                               name="imputed.birthState"
+                               name="imputed.birthState" data-val-required="El estado es un campo requerido"
                                ng-init='state = "${(m.imputed.birthState ==  null) ? "" : m.imputed.birthState}";'>
+                         <span class="field-validation-valid" data-valmsg-for="imputed.birthState"
+                               data-valmsg-replace="true"></span>
                     </div>
                 </div>
                 <br/>
@@ -221,8 +295,10 @@
                     <div class="col-xs-3">
                         <input class="form-control"
                                type="text" ng-model="birthMunicipality" id="imputed.birthMunicipality"
-                               name="imputed.birthMunicipality"
+                               name="imputed.birthMunicipality" data-val-required="El municipio es un campo requerido"
                                ng-init='birthMunicipality = "${(m.imputed.birthMunicipality ==  null) ? "" : m.imputed.birthMunicipality}";'>
+                         <span class="field-validation-valid" data-valmsg-for="imputed.birthMunicipality"
+                               data-valmsg-replace="true"></span>
                     </div>
                     <div class="col-xs-2 element-right">
                         Localidad/Ciudad:
@@ -230,8 +306,10 @@
                     <div class="col-xs-3">
                         <input class="form-control"
                                type="text" ng-model="location" id="imputed.birthLocation"
-                               name="imputed.birthLocation"
+                               name="imputed.birthLocation" data-val-required="La localidad es un campo requerido"
                                ng-init='location = "${(m.imputed.birthLocation ==  null) ? "" : m.imputed.birthLocation}";'>
+                         <span class="field-validation-valid" data-valmsg-for="imputed.birthLocation"
+                               data-valmsg-replace="true"></span>
                     </div>
                 </div>
                 <br/>
@@ -242,47 +320,66 @@
 <br/>
 
 <div class="row">
-    <div class="col-xs-3 element-left">¿Padece alguna enfermedad o condición física?:</div>
+    <div class="col-xs-3 element-left">
+        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+           ng-click="doConfirmVerifEqual('socialEnvironment.physicalCondition')"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+           code="socialEnvironment.physicalCondition"></i>
+        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+           ng-click="doConfirmVerifNotKnow('socialEnvironment.physicalCondition')"></i>
+        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.physicalCondition')"></i>
+        ¿Padece alguna enfermedad o condición física?:
+    </div>
     <div class="col-xs-9">
         <textarea class="form-control"
+                  data-val-required="Si padece alguna enfermedad o condición física es un campo requerido"
                   name="socialEnvironment.physicalCondition">${m.socialEnvironment.physicalCondition}</textarea>
+                <span class="field-validation-valid" data-valmsg-for="socialEnvironment.physicalCondition"
+              data-valmsg-replace="true"></span>
     </div>
 </div>
 <br/>
 
-<div class="row">
-    <div class="col-xs-3 element-left">¿Qué actividades realiza?:</div>
-    <div class="col-xs-9">
-        <div class="widget-main">
+<div>
+    <div class="row">
+        <div class="col-xs-3 element-left">
+            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifEqual('socialEnvironment.activities')"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+               code="socialEnvironment.activities"></i>
+            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
+            ¿Qué actividades realiza?:
+        </div>
+        <div class="col-xs-9 element-left">
             <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
             <select multiple="" class="form-control chosen-select" ng-model="activityModel" data-placeholder="..."
                     ng-init='lstActivity = ${lstActivity}; lstActivitySelec = ${(activity == null) ? '[]' : activity}; selectedActivities(lstActivity,lstActivitySelec);'
                     id="slctActivity" ng-change="matchActivities()"
                     ng-options="ac as ac.name for ac in lstActivity">
             </select>
-
         </div>
     </div>
-</div>
-<br/>
+    <br/>
 
-<div class="row">
-    <div ng-repeat="activity in activityModel">
-        <div ng-show="activity.specification==true">
-            <div class="col-xs-3">
-                Especifíque activiades {{activity.name}}:
-            </div>
-            <div class="col-xs-9">
-                <input class="form-control" data-val="true"
-                       data-val-length="Debe tener al menos 3 y máximo 255 caracteres"
-                       data-val-length-max="255" data-val-length-min="3"
-                       data-val-required="La especificación de actividades {{activity.name}} es un campo requerido"
-                       type="text" value="" ng-model="specification[activity.name]"
-                       id="specification{{activity.name}}" name="specification{{activity.name}}"
-                       ng-change="matchActivities()">
+    <div class="row">
+        <div ng-repeat="activity in activityModel">
+            <div ng-show="activity.specification==true">
+                <div class="col-xs-3">
+                    Especifíque activiades {{activity.name}}:
+                </div>
+                <div class="col-xs-9">
+                    <input class="form-control" data-val="true"
+                           data-val-length="Debe tener al menos 3 y máximo 255 caracteres"
+                           data-val-length-max="255" data-val-length-min="3"
+                           data-val-required="La especificación de actividades {{activity.name}} es un campo requerido"
+                           type="text" value="" ng-model="specification[activity.name]"
+                           id="specification{{activity.name}}" name="specification{{activity.name}}"
+                           ng-change="matchActivities()"><br/>
                 <span class="field-validation-valid" data-valmsg-for="specification{{activity.name}}"
                       data-valmsg-replace="true"></span>
-                <br/>
+                    <br/>
+                </div>
             </div>
         </div>
     </div>
@@ -290,14 +387,26 @@
 <br/>
 
 <div class="row">
-    <div class="col-xs-3 element-left">Comentarios:</div>
+    <div class="col-xs-3 element-left">
+        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+           ng-click="doConfirmVerifEqual('socialEnvironment.comment')"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+           code="socialEnvironment.comment"></i>
+        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+           ng-click="doConfirmVerifNotKnow('socialEnvironment.comment')"></i>
+        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.comment')"></i>
+        Comentarios:
+    </div>
     <div class="col-xs-9">
-        <textarea class="form-control" name="socialEnvironment.comment">${m.socialEnvironment.comment}</textarea>
+        <textarea class="form-control" name="socialEnvironment.comment"
+                  data-val-required="Los comentarios es un campo requerido">${m.socialEnvironment.comment}</textarea>
+         <span class="field-validation-valid" data-valmsg-for="socialEnvironment.comment"
+               data-valmsg-replace="true"></span>
     </div>
 </div>
 </div>
 <script>
-    $('.date-picker').datepicker({autoclose: true, endDate:new Date()}).next().on(ace.click_event, function () {
+    $('.date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
         $(this).prev().focus();
     });
 </script>

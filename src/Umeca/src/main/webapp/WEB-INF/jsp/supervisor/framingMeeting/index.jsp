@@ -62,13 +62,11 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-                    var folders = $(this).jqGrid('getCol', 'idFolder', false);
                     var status = $(this).jqGrid('getCol', 'codeStatus', false);
-
 
                     for (var i = 0; i < ids.length; i++) {
 
-                        var cl = folders[i];
+                        var cl = ids[i];
                         var be;
 
                         switch (status[i]) {

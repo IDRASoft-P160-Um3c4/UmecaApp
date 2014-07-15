@@ -214,7 +214,7 @@ public class Imputed { @Id
             result.add(t.template.replace(e,"El estado civil"));
         }else if((maritalStatus.getId().equals(Constants.MARITAL_MARRIED) || maritalStatus.getId().equals(Constants.MARITAL_UNION_FREE))
                 && yearsMaritalStatus==null){
-            result.add(t.template.replace(e,"El número de años"));
+            result.add(t.template.replace(e,"El número de años en el estado civil"));
         }
         if(boys==null){
             result.add(t.template.replace(e,"El total de hijos"));

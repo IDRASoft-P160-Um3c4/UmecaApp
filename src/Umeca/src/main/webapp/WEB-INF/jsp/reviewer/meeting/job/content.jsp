@@ -107,7 +107,7 @@
                         </div>
                         <div class="col-xs-3">
                             <div class="input-group">
-                                <input class="form-control date-picker" id="jdpStart" type="text" data-date-format="yyyy/mm/dd" value="${j.startPrev}"
+                                <input class="form-control date-picker" id="jdpStart" type="text" data-date-format="yyyy/mm/dd" value="${j.startPrev}" readonly="readonly"
                                        data-val="true" data-val-required="La fecha de inicio es un campo requerido" name="startPrev"/> <span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
 																	</span>
@@ -123,7 +123,7 @@
                         </div>
                         <div class="col-xs-3">
                             <div class="input-group">
-                                <input class="form-control date-picker" id="jdbEnd" type="text" data-date-format="yyyy/mm/dd"  value='${j.end}'
+                                <input class="form-control date-picker" id="jdbEnd" type="text" data-date-format="yyyy/mm/dd"  value='${j.end}' readonly="readonly"
                                        data-val="true" data-val-required="La fecha de fin es un campo requerido" name="end"/>
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
@@ -171,7 +171,7 @@
                         </div>
                         <div class="col-xs-3">
                             <div class="input-group">
-                                <input class="form-control date-picker" id="jdpStartCurrent" type="text" data-date-format="yyyy/mm/dd"  value='${j.start}'
+                                <input class="form-control date-picker" id="jdpStartCurrent" type="text" data-date-format="yyyy/mm/dd"  value='${j.start}'  readonly="readonly"
                                        data-val="true" data-val-required="La fecha de inicio es un campo requerido" name="start"/>
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
@@ -199,21 +199,21 @@
                         </div>
                     </div>
                     <br/>
-                    <div class="row schedule_visible" >
-                        <div class="widget-box">
-                            <div class="widget-header">
-                                <h5><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h5>
-                            </div>
+                    <div class="row">
+                    <div class="col-xs-12">
+                        <div class="widget-header header-color-blue">
+                            <h5 class="bigger lighter">
+                                <h6><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
+                            </h5>
+                        </div>
 
-                            <div class="widget-body">
-                                <br/>
-                                <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/schedule.jsp"%>
-                            </div>
+                        <div class="widget-body">
+                            <br/>
+                            <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/schedule.jsp" %>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="hr hr-8"></div>
                     </div>
+                    <br/>
                 </div>
             </div>
         </div>

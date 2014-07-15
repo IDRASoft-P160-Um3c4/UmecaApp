@@ -5,6 +5,7 @@ import com.umeca.model.entities.supervisor.SupervisionActivity;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,8 +19,16 @@ import java.util.List;
 @Repository("qActivityGoalRepository")
 public interface ActivityGoalRepository extends JpaRepository<ActivityGoal, Long>{
 
-    @Query("SELECT ag FROM ActivityGoal ag WHERE ag.isObsolete=false")
+    @Query("SELECT new com.umeca.model.shared.SelectList(ag.id, ag.name) FROM ActivityGoal ag WHERE ag.isObsolete=false")
     List<SelectList> findAllValid();
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(ag.id, ag.name) FROM ActivityGoal ag")
+    List<SelectList> findAllSl();
+
+    @Query("SELECT DISTINCT new com.umeca.model.shared.SelectList(ag.id, ag.name) FROM ActivityMonitoringPlan amp " +
+            "INNER JOIN amp.monitoringPlan mp INNER JOIN amp.activityGoal ag " +
+            "WHERE mp.id =:id")
+    List<SelectList> findByMonPlanId(@Param("id") Long id);
 }
 
 

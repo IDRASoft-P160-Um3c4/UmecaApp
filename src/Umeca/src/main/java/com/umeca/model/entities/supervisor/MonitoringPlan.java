@@ -50,6 +50,11 @@ public class MonitoringPlan {
     @Column(name = "status", length = 100, nullable = false)
     private String status;
 
+    @Lob @Basic(fetch=FetchType.LAZY)
+    @Column(name = "status_log", nullable = true)
+    private String statusLog;
+
+
     public Long getId() {
         return id;
     }
@@ -120,5 +125,13 @@ public class MonitoringPlan {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getStatusLog() {
+        return statusLog;
+    }
+
+    public void setStatusLog(String statusLog) {
+        this.statusLog = statusLog;
     }
 }

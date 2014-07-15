@@ -2,10 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/hearingFormat/hearingFormatCtrl.js"></script>
+
+    <%@ include file="/WEB-INF/jsp/shared/headUm.jsp" %>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upsertCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/modalDlgCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/hiddenDrct.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/zipSearchDrct.js"></script>
+
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/hearingFormat/hearingFormatCtrl.js"></script>
+
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
@@ -18,6 +24,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
     <script type="text/javascript">
+
         jQuery(function ($) {
             $('#id-disable-check').on('click', function () {
                 var inp = $('#form-input-readonly').get(0);
@@ -88,10 +95,10 @@
     <title>Formato de audiencia</title>
 </head>
 
-<body scroll="no" ng-app="ptlUmc">
+<body scroll="no" ng-app="ptlUmc" ng-cloak>
 
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
-
+<br/>
 <h2 class="element-center"><i class="icon-archive"></i>&nbsp;&nbsp;Formato de audiencia</h2>
 
 <form id="FormFormatId" name="FormFormatId" class="form-horizontal"
@@ -99,8 +106,8 @@
 <br/>
 
 <div class="container body-content" ng-controller="hearingFormatController" ng-init='m=${hfView}'>
+<%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp" %>
 
-<input type="hidden" id="url1" value="<c:url value='/supervisor/hearingFormat/searchCase.json'/>"/>
 <input type="hidden" id="url2" value="<c:url value='/supervisor/hearingFormat/searchArrangements.json'/>"/>
 <input type="hidden" id="url3" value="<c:url value='/supervisor/hearingFormat/searchArrangementsByType.json'/>"/>
 
@@ -109,7 +116,15 @@
 <input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
 
 <div class="row">
-    <div class="row element-right">
+
+    <div class="col-xs-6">
+        <h3 class="header smaller lighter blue">
+            <small>Capturó:</small>
+            &nbsp;&nbsp;{{m.userName}}
+        </h3>
+    </div>
+
+    <div class="col-xs-6 element-right">
         <div ng-show="m.canSave==false">
         <span class="btn btn-default btn-sm"
               ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
@@ -121,18 +136,11 @@
                                   ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
                                 Cancelar
                             </span>
-                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="submitReloadHF('#FormFormatId', '<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',false,validateSave)">
-                                  Guardar
-                            </span>
-        </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <div ng-show="MsgError!=''" class="alert alert-danger element-center">
-            <span>{{MsgError}}</span>
+                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                                  ng-click="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">
+                                                  Guardar
+                                            </span>
         </div>
     </div>
 </div>
@@ -150,6 +158,7 @@
     <div class="widget-body">
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
+
                 <br/>
 
                 <div class="row">
@@ -488,9 +497,66 @@
         </div>
     </div>
 
+    <div id="divFormImp" class="col-xs-6">
+        <div class="widget-box">
+            <div class="widget-header">Formulación de imputación</div>
+            <div class="widget-body">
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-3">
+                        <br/>
+
+                        <div class="col-xs-12">
+                         <span class="field-validation-valid" data-valmsg-for="impForm"
+                               data-valmsg-replace="true"></span>
+                        </div>
+
+                        <div class="radio col-xs-7">
+                            <label>
+                                <input class="ace" name="impForm" type="radio" ng-model="m.formImp" value="1"
+                                       ng-checked="m.formImp==1" data-val="true"
+                                       data-val-required="Debe seleccionar un valor">
+                                <span class="lbl">&nbsp;&nbsp;Si</span>
+                            </label>
+                            <br/>
+                            <label>
+                                <input class="ace" name="impForm" type="radio" ng-model="m.formImp" value="2"
+                                       ng-checked="m.formImp==2">
+                                <span class="lbl">&nbsp;&nbsp;No</span>
+                            </label>
+                        </div>
+                        <br/>
+
+                        <div class="col-xs-7">
+                            <label for="imputationDate">Fecha</label>
+
+                            <div class="input-group">
+                                <input class="form-control date-picker"
+                                       id="imputationDate" name="imputationDate" ng-model="m.impDate"
+                                       data-date-format="dd/mm/yyyy" type="text" readonly data-val="true"
+                                       data-val-required="Fecha es un campo requerido">
+                            <span class="input-group-addon">
+                                <i class="icon-calendar bigger-110"></i>
+                            </span>
+                            </div>
+                            <span class="field-validation-valid" data-valmsg-for="imputationDate"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+            </div>
+        </div>
+    </div>
+
+</div>
+<br/>
+
+
+<div class="row">
+
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Apliación del término</div>
+            <div class="widget-header">Ampliación del término</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -521,58 +587,6 @@
                         <br/>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<br/>
-
-
-<div class="row">
-    <div id="divFormImp" class="col-xs-6">
-        <div class="widget-box">
-            <div class="widget-header">Formulación de imputación</div>
-            <div class="widget-body">
-                <div class="row">
-                    <div class="col-xs-10 col-xs-offset-3">
-                        <br/>
-                         <span class="field-validation-valid" data-valmsg-for="impForm"
-                               data-valmsg-replace="true"></span>
-
-                        <div class="radio">
-                            <label>
-                                <input class="ace" name="impForm" type="radio" ng-model="m.formImp" value="1"
-                                       ng-checked="m.impDate!=''&&m.hasHF==true" data-val="true"
-                                       data-val-required="Debe seleccionar un valor">
-                                <span class="lbl">&nbsp;&nbsp;Si</span>
-                            </label>
-                            <br/>
-                            <label>
-                                <input class="ace" name="impForm" type="radio" ng-model="m.formImp" value="2"
-                                       ng-checked="m.impDate==''&&m.hasHF==true">
-                                <span class="lbl">&nbsp;&nbsp;No</span>
-                            </label>
-                        </div>
-                        <br/>
-
-                        <div class="col-xs-7">
-                            <label for="imputationDate">Fecha</label>
-
-                            <div class="input-group">
-                                <input class="form-control date-picker"
-                                       id="imputationDate" name="imputationDate" ng-model="m.impDate"
-                                       data-date-format="dd/mm/yyyy" type="text" readonly data-val="true"
-                                       data-val-required="Fecha es un campo requerido">
-                            <span class="input-group-addon">
-                                <i class="icon-calendar bigger-110"></i>
-                            </span>
-                            </div>
-                            <span class="field-validation-valid" data-valmsg-for="imputationDate"
-                                  data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                </div>
-                <br/>
             </div>
         </div>
     </div>
@@ -673,7 +687,7 @@
 
 <br/>
 
-<div class="row">
+<div class="row" ng-show="m.vincProcess==1">
     <div class="widget-box">
         <div class="widget-header">Medidas cautelares</div>
         <div class="widget-body">
@@ -690,33 +704,57 @@
                                         <br/>
 
                                         <div class="element-left">
-                                        <span class="field-validation-valid" data-valmsg-for="hearingType"
+                                        <span class="field-validation-valid" data-valmsg-for="nationalArrangement"
                                               data-valmsg-replace="true"></span>
                                         </div>
+
                                         <div class="col-xs-3">
                                             <div class="radio">
                                                 <label ng-click="loadArrangements()">
-                                                    <input name="hearingType" class="ace" type="radio" value="1"
-                                                           ng-model="m.hType" ng-checked="m.hType==1" data-val="true"
+                                                    <input name="nationalArrangement" class="ace" type="radio"
+                                                           value="true"
+                                                           ng-model="m.nationalArrangement"
+                                                           ng-checked="m.nationalArrangement==true" data-val="true"
+                                                           data-val-required="Debe seleccionar un valor">
+                                                    <span class="lbl">&nbsp;&nbsp;Nacional</span>
+                                                </label>
+                                                <br/>
+                                                <label ng-click="loadArrangements()">
+                                                    <input name="nationalArrangement" class="ace" type="radio"
+                                                           value="false"
+                                                           ng-model="m.nationalArrangement"
+                                                           ng-checked="m.nationalArrangement==false" checked>
+                                                    <span class="lbl">&nbsp;&nbsp;Local</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-3">
+                                            <div class="radio">
+                                                <label ng-click="loadArrangements()">
+                                                    <input name="arrangementType" class="ace" type="radio" value="1"
+                                                           ng-model="m.arrType" ng-checked="m.arrType==1"
+                                                           data-val="true"
                                                            data-val-required="Debe seleccionar un valor">
                                                     <span class="lbl">&nbsp;&nbsp;SCPP</span>
                                                 </label>
                                                 <br/>
                                                 <label ng-click="loadArrangements()">
-                                                    <input name="hearingType" class="ace" type="radio" value="2"
-                                                           ng-model="m.hType" ng-checked="m.hType==2">
+                                                    <input name="arrangementType" class="ace" type="radio" value="2"
+                                                           ng-model="m.arrType" ng-checked="m.arrType==2">
                                                     <span class="lbl">&nbsp;&nbsp;MC</span>
                                                 </label>
                                             </div>
                                         </div>
 
-                                        <div ng-show="m.hType==1" class="col-xs-9">
+
+                                        <div ng-show="m.arrType==1" class="col-xs-6">
                                             <label>Plazo</label>
                                             <br/>
 
                                             <textarea class="form-control limited" name="terms"
                                                       ng-model="m.terms"
-                                                      ng-disabled='m.hType==2'
+                                                      ng-disabled='m.arrType==2'
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo es un campo requerido">
@@ -725,12 +763,12 @@
                                               data-valmsg-replace="true"></span>
                                         </div>
 
-                                        <div ng-show="m.hType==2" class="col-xs-9">
-                                            <label ng-show="m.hType==2">Plazo de investigación</label>
+                                        <div ng-show="m.arrType==2" class="col-xs-6">
+                                            <label ng-show="m.arrType==2">Plazo de investigación</label>
                                             <br/>
                                             <textarea class="form-control limited" name="terms"
                                                       ng-model="m.terms"
-                                                      ng-disabled='m.hType==1'
+                                                      ng-disabled='m.arrType==1'
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo de investigación es un campo requerido">
@@ -779,7 +817,7 @@
 
 <br/>
 
-<div class="row">
+<div class="row" ng-show="m.vincProcess==1">
     <div class="widget-box">
         <div class="widget-header">Datos de contacto</div>
         <div class="widget-body">
@@ -881,13 +919,11 @@
     </div>
 
 </div>
-
-
 <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
 <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
-
 </div>
 </div>
 </form>
+
 </body>
 </html>

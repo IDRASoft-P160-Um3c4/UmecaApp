@@ -1,24 +1,27 @@
 app.controller('drugController', function($scope, $timeout) {
     $scope.d = {};
-    $scope.lstDrugType = [];
-    $scope.lstPeriodicity = [];
+    $scope.lstType = [];
+    $scope.lstPer = [];
     $scope.d.type = 0;
     $scope.d.per = 0;
 
     $scope.init = function(){
+        $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
         var lastUse=$("#lastUse").val();
         lastUse= lastUse.replace(/-/g,"/");
         $("#lastUse").val(lastUse.replace("00:00:00.0",""));
-        if($scope.lstDrugType === undefined || $scope.lstDrugType.length <= 0)
+        if($scope.lstType === undefined || $scope.lstType.length <= 0)
             return;
 
         if($scope.d.typeId === undefined){
-            $scope.d.type = $scope.lstDrugType[0];
+            $scope.d.type = $scope.lstType[0];
             $scope.d.typeId = $scope.d.type.id;
         }
         else{
-            for(var i=0; i < $scope.lstDrugType.length; i++){
-                var type = $scope.lstDrugType[i];
+            for(var i=0; i < $scope.lstType.length; i++){
+                var type = $scope.lstType[i];
 
                 if(type.id === $scope.d.typeId){
                     $scope.d.type = type;
@@ -26,16 +29,16 @@ app.controller('drugController', function($scope, $timeout) {
                 }
             }
         }
-        if($scope.lstPeriodicity === undefined || $scope.lstPeriodicity.length <= 0)
+        if($scope.lstPer === undefined || $scope.lstPer.length <= 0)
             return;
 
         if($scope.d.perId === undefined){
-            $scope.d.per = $scope.lstPeriodicity[0];
+            $scope.d.per = $scope.lstPer[0];
             $scope.d.perId = $scope.d.per.id;
         }
         else{
-            for(var i=0; i < $scope.lstPeriodicity.length; i++){
-                var per = $scope.lstPeriodicity[i];
+            for(var i=0; i < $scope.lstPer.length; i++){
+                var per = $scope.lstPer[i];
 
                 if(per.id === $scope.d.perId){
                     $scope.d.per = per;
@@ -43,8 +46,6 @@ app.controller('drugController', function($scope, $timeout) {
                 }
             }
         }
-
-
     };
 
 

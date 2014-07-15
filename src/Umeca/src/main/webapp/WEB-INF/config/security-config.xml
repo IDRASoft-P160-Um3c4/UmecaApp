@@ -15,6 +15,7 @@
         <intercept-url pattern="/managereval/**" access="hasRole('ROLE_EVALUATION_MANAGER')" />
         <intercept-url pattern="/reviewer/**" access="hasRole('ROLE_REVIEWER')" />
         <intercept-url pattern="/supervisor/**" access="hasRole('ROLE_SUPERVISOR')" />
+        <intercept-url pattern="/supervisorManager/**" access="hasRole('ROLE_SUPERVISOR_MANAGER')" />
         <intercept-url pattern="/**" access="hasRole('ROLE_NOTUSE')" />
         <form-login login-page="/index.html"
                     authentication-success-handler-ref="ajaxAuthenticationSuccessHandler"

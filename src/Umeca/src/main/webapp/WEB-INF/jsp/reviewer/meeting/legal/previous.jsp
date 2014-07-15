@@ -71,6 +71,56 @@
                     ng-init='listElection = ${listElection};'></select>
         </div>
     </div>
+        <br/>
+        <div class="row">
+            <input type="hidden" ng-model="listLegalBefore" ng-init='listLegalBefore = ${listLegalBefore};' ng-update-hidden/>
+            <div class="col-xs-12" ng-show="listLegalBefore.length == 0">
+                <div class="alert-info element-center info-font">
+                    No se encontraron procesos para el imputado ${fullNameImputed}.
+                </div>
+            </div>
+            <div class="col-xs-12" ng-show="listLegalBefore.length > 0">
+
+
+                        <div class="widget-header header-color-blue">
+                            <h5 class="bigger lighter">
+                                Procesos legales anteriores
+                            </h5>
+                        </div>
+
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead class="thin-border-bottom">
+                                    <tr>
+                                        <th>
+                                            Carpeta Judicial
+                                        </th>
+
+                                        <th>
+                                            Carpeta de investigación
+                                        </th>
+                                        <th>Estatus del caso</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr ng-repeat="case in listLegalBefore">
+                                        <td class="">{{case.idMP}}</td>
+                                        <td>
+                                          {{case.idFolder}}
+                                        </td>
+
+                                        <td>
+                                            {{case.statusCase}}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+            </div>
+        </div>
     </div>
 </div>
     </form>

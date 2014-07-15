@@ -15,7 +15,7 @@ import java.util.Date;
 public class MonitoringPlanView implements EntityGrid{
 
     private Long id;
-    private String idFolder;
+    private Long caseId;
     private String idMP;
     private String name;
     private String lastNameP;
@@ -29,12 +29,13 @@ public class MonitoringPlanView implements EntityGrid{
     private String stAuthorizationTime;
     private String status;
     private String supervisor;
+    private String statusLog;
 
 
-    public MonitoringPlanView(Long id, String idFolder, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
+    public MonitoringPlanView(Long id, Long caseId, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
                               Calendar generationTime, Calendar authorizationTime, String status, String supervisor) {
         this.id = id;
-        this.idFolder = idFolder;
+        this.caseId = caseId;
         this.idMP = idMP;
         this.name = name;
         this.lastNameP = lastNameP;
@@ -47,6 +48,12 @@ public class MonitoringPlanView implements EntityGrid{
         this.supervisor = supervisor;
     }
 
+    public MonitoringPlanView(Long id, Long caseId, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
+                              Calendar generationTime, Calendar authorizationTime, String status, String supervisor, String statusLog) {
+        this(id, caseId, idMP, name, lastNameP, lastNameM, creationTime, generationTime, authorizationTime, status, supervisor);
+        this.statusLog = statusLog;
+    }
+
     public Long getId() {
         return id;
     }
@@ -55,12 +62,12 @@ public class MonitoringPlanView implements EntityGrid{
         this.id = id;
     }
 
-    public String getIdFolder() {
-        return idFolder;
+    public Long getCaseId() {
+        return caseId;
     }
 
-    public void setIdFolder(String idFolder) {
-        this.idFolder = idFolder;
+    public void setCaseId(Long caseId) {
+        this.caseId = caseId;
     }
 
     public String getIdMP() {
@@ -174,5 +181,13 @@ public class MonitoringPlanView implements EntityGrid{
 
     public void setSupervisor(String supervisor) {
         this.supervisor = supervisor;
+    }
+
+    public String getStatusLog() {
+        return statusLog;
+    }
+
+    public void setStatusLog(String statusLog) {
+        this.statusLog = statusLog;
     }
 }

@@ -1,8 +1,8 @@
 app.controller('socialNetworkController', function($scope, $timeout) {
     $scope.p = {};
-    $scope.lstRelationship = [];
-    $scope.lstDocumentType = [];
-    $scope.lstLiving = [];
+    $scope.lstRel = [];
+    $scope.lstDoc = [];
+    $scope.lstLiv = [];
     $scope.lstDep = [];
     $scope.p.rel = 0;
     $scope.p.doc = 0;
@@ -11,16 +11,16 @@ app.controller('socialNetworkController', function($scope, $timeout) {
 
 
     $scope.init = function(){
-        if($scope.lstRelationship === undefined || $scope.lstRelationship.length <= 0)
+        if($scope.lstRel === undefined || $scope.lstRel.length <= 0)
             return;
 
         if($scope.p.relId === undefined){
-            $scope.p.rel = $scope.lstRelationship[0];
+            $scope.p.rel = $scope.lstRel[0];
             $scope.p.relId = $scope.p.rel.id;
         }
         else{
-            for(var i=0; i < $scope.lstRelationship.length; i++){
-                var rel = $scope.lstRelationship[i];
+            for(var i=0; i < $scope.lstRel.length; i++){
+                var rel = $scope.lstRel[i];
 
                 if(rel.id === $scope.p.relId){
                     $scope.p.rel = rel;
@@ -28,16 +28,16 @@ app.controller('socialNetworkController', function($scope, $timeout) {
                 }
             }
         }
-        if($scope.lstDocumentType === undefined || $scope.lstDocumentType.length <= 0)
+        if($scope.lstDoc === undefined || $scope.lstDoc.length <= 0)
             return;
 
         if($scope.p.docId === undefined){
-            $scope.p.doc = $scope.lstDocumentType[0];
+            $scope.p.doc = $scope.lstDoc[0];
             $scope.p.docId = $scope.p.doc.id;
         }
         else{
-            for(var i=0; i < $scope.lstDocumentType.length; i++){
-                var doc = $scope.lstDocumentType[i];
+            for(var i=0; i < $scope.lstDoc.length; i++){
+                var doc = $scope.lstDoc[i];
 
                 if(doc.id === $scope.p.docId){
                     $scope.p.doc = doc;
@@ -45,16 +45,16 @@ app.controller('socialNetworkController', function($scope, $timeout) {
                 }
             }
         }
-        if($scope.lstLiving === undefined || $scope.lstLiving.length <= 0)
+        if($scope.lstLiv === undefined || $scope.lstLiv.length <= 0)
             return;
 
         if($scope.p.livId === undefined){
-            $scope.p.liv = $scope.lstLiving[0];
+            $scope.p.liv = $scope.lstLiv[0];
             $scope.p.livId = $scope.p.liv.id;
         }
         else{
-            for(var i=0; i < $scope.lstLiving.length; i++){
-                var liv = $scope.lstLiving[i];
+            for(var i=0; i < $scope.lstLiv.length; i++){
+                var liv = $scope.lstLiv[i];
 
                 if(liv.id === $scope.p.livId){
                     $scope.p.liv = liv;

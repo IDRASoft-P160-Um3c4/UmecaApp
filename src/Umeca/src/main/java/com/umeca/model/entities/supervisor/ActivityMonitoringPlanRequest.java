@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ActivityMonitoringPlanRequest {
@@ -14,6 +15,7 @@ public class ActivityMonitoringPlanRequest {
     private long actsIns;
     private long actsUpd;
     private long actsDel;
+    private Calendar now;
 
     public ActivityMonitoringPlanRequest(){
         lstActivitiesDel = new ArrayList<>();
@@ -108,4 +110,11 @@ public class ActivityMonitoringPlanRequest {
         this.actsDel++;
     }
 
+    public void setNow(Calendar now) {
+        this.now = now;
+    }
+
+    public Calendar getNow() {
+        return now;
+    }
 }

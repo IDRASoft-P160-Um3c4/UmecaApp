@@ -1,21 +1,14 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.Election;
-import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
+import java.util.Comparator;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Desarrollo
- * Date: 8/05/14
- * Time: 04:54 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
 @Table(name="imputed_home")
 public class ImputedHome implements EntityGrid{
@@ -76,6 +69,14 @@ public class ImputedHome implements EntityGrid{
 
     @Transient
     private String belongString;
+
+    @Transient
+    public static final Comparator<ImputedHome> imputedHomeComparator= new Comparator<ImputedHome>() {
+        @Override
+        public int compare(ImputedHome h1, ImputedHome h2) {
+            return  h1.getRegisterType().getName().compareTo(h2.getRegisterType().getName());
+        }
+    };
 
     public Long getId() {
         return id;
@@ -171,5 +172,13 @@ public class ImputedHome implements EntityGrid{
 
     public void setBelongString(String belongString) {
         this.belongString = belongString;
+    }
+
+    public FramingMeeting getFramingMeeting() {
+        return framingMeeting;
+    }
+
+    public void setFramingMeeting(FramingMeeting framingMeeting) {
+        this.framingMeeting = framingMeeting;
     }
 }

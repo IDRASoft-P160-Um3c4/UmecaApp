@@ -1,6 +1,7 @@
 app.controller('meetingController', function($scope, $timeout) {
     $scope.model = {};
     $scope.verification=false;
+    $scope.selectSource=false;
 
     $scope.init = function(){
     };
@@ -14,6 +15,19 @@ app.controller('meetingController', function($scope, $timeout) {
     $scope.listMsgError ={};
     $scope.Model = {};
     $scope.validf = {};
+
+    $scope.changeZIndex = function(elementClick){
+        $("#liPersonalData").css("z-index","0");
+        $("#liImputedHome").css("z-index","0");
+        $("#liReference").css("z-index","0");
+        $("#liSocialNetwork").css("z-index","0");
+        $("#liJob").css("z-index","0");
+        $("#liSchool").css("z-index","0");
+        $("#liDrug").css("z-index","0");
+        $("#liLeaveCountry").css("z-index","0");
+        $("#"+elementClick).css("z-index","1");
+
+    };
 
     $scope.submit = function (formId, urlToPost, hasReturnId) {
         $scope.Invalid = true;

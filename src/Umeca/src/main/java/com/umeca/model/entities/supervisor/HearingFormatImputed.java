@@ -89,4 +89,8 @@ public class HearingFormatImputed {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public String getFullname(){
+        return name + " " + lastNameP + " " + lastNameM;
+    }
 }

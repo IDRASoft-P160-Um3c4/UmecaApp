@@ -1,6 +1,8 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.AcademicLevel;
+import com.umeca.model.catalog.Relationship;
+import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.ImputedHome;
 
@@ -31,17 +33,26 @@ public class ProcessAccompaniment {
     @Column(name="age")
     private String age;
 
+    @Column(name="phone")
+    private String phone;
+
+    @Column(name="cel_phone")
+    private String celphone;
+
+    @Column(name="degree")
+    private String degree;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_framing_occupation")
     private Occupation occupation;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_domicile")
-    private ImputedHome domicile;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="id_addres")
+    private Address address;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_school_level")
-    private AcademicLevel schoolLevel;
+    @OneToOne
+    @JoinColumn(name = "id_relationship")
+    private Relationship relationship;
 
     public Long getId() {
         return id;
@@ -99,19 +110,43 @@ public class ProcessAccompaniment {
         this.occupation = occupation;
     }
 
-    public ImputedHome getDomicile() {
-        return domicile;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setDomicile(ImputedHome domicile) {
-        this.domicile = domicile;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public AcademicLevel getSchoolLevel() {
-        return schoolLevel;
+    public String getCelphone() {
+        return celphone;
     }
 
-    public void setSchoolLevel(AcademicLevel schoolLevel) {
-        this.schoolLevel = schoolLevel;
+    public void setCelphone(String celphone) {
+        this.celphone = celphone;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public Relationship getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(Relationship relationship) {
+        this.relationship = relationship;
     }
 }

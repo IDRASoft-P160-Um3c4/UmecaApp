@@ -5,30 +5,46 @@ import java.util.List;
 
 public class FramingPersonalDataView {
 
-    private String fullName;
-    private Boolean gender;
+    private String name;
+    private String lastNameP;
+    private String lastNameM;
+    private Integer gender;
     private Long maritalStatus;
-    private Integer maritalStatusYears;
+    private String maritalStatusYears;
+    private Long birthCountryId;
+    private String birthState;
+    private Date birthDate;
+    private String physicalCondition;
 
-    private Long idContry;
-    private String state;
-    private Date brthDate;
-
-    private List<Long> physicalConditionsSel;
-
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Boolean getGender() {
+    public String getLastNameP() {
+        return lastNameP;
+    }
+
+    public void setLastNameP(String lastNameP) {
+        this.lastNameP = lastNameP;
+    }
+
+    public String getLastNameM() {
+        return lastNameM;
+    }
+
+    public void setLastNameM(String lastNameM) {
+        this.lastNameM = lastNameM;
+    }
+
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(Boolean gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 
@@ -40,45 +56,43 @@ public class FramingPersonalDataView {
         this.maritalStatus = maritalStatus;
     }
 
-    public Integer getMaritalStatusYears() {
+    public String getMaritalStatusYears() {
         return maritalStatusYears;
     }
 
-    public void setMaritalStatusYears(Integer maritalStatusYears) {
+    public void setMaritalStatusYears(String maritalStatusYears) {
         this.maritalStatusYears = maritalStatusYears;
     }
 
-    public Long getIdContry() {
-        return idContry;
+    public Long getBirthCountryId() {
+        return birthCountryId;
     }
 
-    public void setIdContry(Long idContry) {
-        this.idContry = idContry;
+    public void setBirthCountryId(Long birthCountryId) {
+        this.birthCountryId = birthCountryId;
     }
 
-    public String getState() {
-        return state;
+    public String getBirthState() {
+        return birthState;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setBirthState(String birthState) {
+        this.birthState = birthState;
     }
 
-    public List<Long> getPhysicalConditionsSel() {
-        return physicalConditionsSel;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setPhysicalConditionsSel(List<Long> physicalConditionsSel) {
-        this.physicalConditionsSel = physicalConditionsSel;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public Date getBrthDate() {
-        return brthDate;
+    public String getPhysicalCondition() {
+        return physicalCondition;
     }
 
-    public void setBrthDate(Date brthDate) {
-        this.brthDate = brthDate;
+    public void setPhysicalCondition(String physicalCondition) {
+        this.physicalCondition = physicalCondition;
     }
-
 }
-

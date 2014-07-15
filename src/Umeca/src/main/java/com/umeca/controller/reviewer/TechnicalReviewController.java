@@ -8,7 +8,9 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Questionary;
 import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.*;
-import com.umeca.model.entities.reviewer.View.ForTechnicalReviewView;
+import com.umeca.model.entities.reviewer.View.ForTechnicalReviewGrid;
+import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
+import com.umeca.model.entities.supervisor.HearingFormatView;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
@@ -19,14 +21,13 @@ import com.umeca.service.reviewer.TechnicalReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,14 +66,14 @@ public class TechnicalReviewController {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
-                final javax.persistence.criteria.Join<Case,Verification> joinCd = r.join("caseDetention");
-                final javax.persistence.criteria.Join<Meeting,Imputed> joinIm = joinCd.join("meeting").join("imputed");
+                final javax.persistence.criteria.Join<Verification, Case> joinCd = r.join("caseDetention");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinIm = r.join("meetingVerified").join("imputed");
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(joinCd.join("status").get("name"));
                     add(joinCd.get("idFolder"));
-                    add(joinCd.join("caseDetention").get("idMP"));
+                    add(joinCd.get("idMP"));
                     add(joinIm.get("name"));
                     add(joinIm.get("lastNameP"));
                     add(joinIm.get("lastNameM"));
@@ -87,7 +88,7 @@ public class TechnicalReviewController {
 
                 return null;
             }
-        }, Verification.class, ForTechnicalReviewView.class);
+        }, Verification.class, ForTechnicalReviewGrid.class);
 
         return result;
     }
@@ -114,11 +115,11 @@ public class TechnicalReviewController {
             Case caseDet = verification.getCaseDetention();
             TechnicalReview tecRev_prev = caseDet.getTechnicalReview();
             Imputed imputed = caseDet.getMeeting().getImputed();
-            String fullname = imputed.getName()+" "+imputed.getLastNameP()+" "+imputed.getLastNameM();
+            String fullname = imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM();
 
             System.out.println(caseDet.getIdFolder());
             model.addObject("idVerification", verification.getId());
-            model.addObject("imputedFullName",fullname);
+            model.addObject("imputedFullName", fullname);
             model.addObject("foldId", verification.getCaseDetention().getIdFolder());
 
             if (tecRev_prev != null) {
@@ -172,5 +173,22 @@ public class TechnicalReviewController {
 
         return response;
     }
+
+    @RequestMapping(value = "/reviewer/technicalReview/generateFile", method = RequestMethod.GET)
+    public ModelAndView generateFile(@RequestParam(required = true) Long id, HttpServletResponse response) {
+
+        ModelAndView model = new ModelAndView("/reviewer/technicalReview/infoFile");
+
+        TechnicalReviewInfoFileView dataFile = technicalReviewService.fillInfoFile(id);
+
+        model.addObject("data",dataFile);
+        response.setContentType("application/force-download");
+        response.setHeader("Content-Disposition","attachment; filename=\"datos_opinion_tecnica.doc\"");
+
+
+
+            return model;
+    }
+
 
 }

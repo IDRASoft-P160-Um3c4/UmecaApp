@@ -25,20 +25,15 @@
                 window.goToUrlMvcUrl("<c:url value='/supervisor/trackMonitoringPlan/trackCalendar.html?id=idParam' />",params);
             };
 
-            window.preFinish = function(id){
-                //window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/trackMonitoringPlan/preAuthorize.json' />", "#GridId",
-                //        "Plan de seguimiento", "¿Está seguro de que desea solicitar la autorización del plan de seguimiento para este caso y formato de audiencia?", "warning");
-            };
-
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/supervisor/trackMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Carpeta investigación', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
-                        { name: 'idFolder', index: 'idFolder', width: 160, align: "center", sortable: false, search: false },
+                        { name: 'caseId', index: 'caseId', width: 65, align: "center", sortable: true, search: false },
                         { name: 'idMP', index: 'idMP', width: 140, align: "center", sortable: false, search: false },
                         { name: 'fullName', index: 'fullName', width: 220, align: "center", sortable: false, search: false },
                         { name: 'stCreationTime', index: 'stCreationTime', width: 130, align: "center", sortable: true, search: false },
@@ -66,7 +61,7 @@
                             var status = row.status;
                             var be = "";
 
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\Seguimiento al plan de \" onclick=\"window.track('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Seguimiento al plan\" onclick=\"window.track('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
                             /*if (status === "NUEVO") {
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
                             }*/

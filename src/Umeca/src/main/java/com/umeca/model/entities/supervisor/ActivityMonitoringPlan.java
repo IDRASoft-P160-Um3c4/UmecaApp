@@ -45,9 +45,8 @@ public class ActivityMonitoringPlan {
     @Column(name= "search_end", nullable = false)
     private int searchEnd;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="activity_monitoring_plan_arrangement", joinColumns ={@JoinColumn(name = "id_activity_monitoring_plan")}, inverseJoinColumns = {@JoinColumn(name = "id_assigned_arrangement")})
-    private List<AssignedArrangement> lstAssignedArrangement;
+    @OneToMany(mappedBy = "activityMonitoringPlan", cascade = {CascadeType.ALL})
+    private List<ActivityMonitoringPlanArrangement> lstAssignedArrangement;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_supervision_activity", nullable = false)
@@ -58,8 +57,8 @@ public class ActivityMonitoringPlan {
     private ActivityGoal activityGoal;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_aid_source", nullable = false)
-    private AidSource aidSource;
+    @JoinColumn(name="id_framing_source", nullable = false)
+    private FramingSelectedSourceRel framingSelectedSourceRel;
 
     @Column(name = "status", length = 100, nullable = false)
     private String status;
@@ -68,17 +67,34 @@ public class ActivityMonitoringPlan {
     @Column(name = "assigned_arrangements", nullable = false)
     private String assignedArrangements;
 
+    @Lob @Basic(fetch=FetchType.LAZY)
+    @Column(name = "assigned_arrangements_ids", nullable = false)
+    private String assignedArrangementsIds;
+
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_user_create", nullable = false)
     private User supervisorCreate;
+
+    @Column(name = "creation_time", nullable = false)
+    private Calendar creationTime;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_user_modify", nullable = true)
     private User supervisorModify;
 
+    @Column(name = "modify_time", nullable = true)
+    private Calendar modifyTime;
+
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_user_done", nullable = true)
     private User supervisorDone;
+
+    @Column(name = "done_time", nullable = true)
+    private Calendar doneTime;
+
+    @Lob @Basic(fetch=FetchType.LAZY)
+    @Column(name = "comments", nullable = true)
+    private String comments;
 
     public Long getId() {
         return id;
@@ -120,11 +136,11 @@ public class ActivityMonitoringPlan {
         this.end = end;
     }
 
-    public List<AssignedArrangement> getLstAssignedArrangement() {
+    public List<ActivityMonitoringPlanArrangement> getLstAssignedArrangement() {
         return lstAssignedArrangement;
     }
 
-    public void setLstAssignedArrangement(List<AssignedArrangement> lstAssignedArrangement) {
+    public void setLstAssignedArrangement(List<ActivityMonitoringPlanArrangement> lstAssignedArrangement) {
         this.lstAssignedArrangement = lstAssignedArrangement;
     }
 
@@ -144,12 +160,12 @@ public class ActivityMonitoringPlan {
         this.activityGoal = activityGoal;
     }
 
-    public AidSource getAidSource() {
-        return aidSource;
+    public FramingSelectedSourceRel getFramingSelectedSourceRel() {
+        return framingSelectedSourceRel;
     }
 
-    public void setAidSource(AidSource aidSource) {
-        this.aidSource = aidSource;
+    public void setFramingSelectedSourceRel(FramingSelectedSourceRel framingSelectedSourceRel) {
+        this.framingSelectedSourceRel = framingSelectedSourceRel;
     }
 
     public String getStatus() {
@@ -192,6 +208,14 @@ public class ActivityMonitoringPlan {
         this.assignedArrangements = assignedArrangements;
     }
 
+    public String getAssignedArrangementsIds() {
+        return assignedArrangementsIds;
+    }
+
+    public void setAssignedArrangementsIds(String assignedArrangementsIds) {
+        this.assignedArrangementsIds = assignedArrangementsIds;
+    }
+
     public int getSearchStart() {
         return searchStart;
     }
@@ -206,5 +230,37 @@ public class ActivityMonitoringPlan {
 
     public void setSearchEnd(int searchEnd) {
         this.searchEnd = searchEnd;
+    }
+
+    public Calendar getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Calendar creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public Calendar getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Calendar modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public Calendar getDoneTime() {
+        return doneTime;
+    }
+
+    public void setDoneTime(Calendar doneTime) {
+        this.doneTime = doneTime;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

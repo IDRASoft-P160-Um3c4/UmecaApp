@@ -135,7 +135,9 @@
 </div>
 
 <script>
-    $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
+    var date=new Date();
+    date.setFullYear(date.getFullYear()-18);
+    $('.date-picker').datepicker({autoclose:true, endDate:date}).next().on(ace.click_event, function(){
         $(this).prev().focus();
     });
 </script>

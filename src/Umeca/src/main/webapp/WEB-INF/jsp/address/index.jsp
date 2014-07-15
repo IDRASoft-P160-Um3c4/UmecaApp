@@ -3,7 +3,6 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
 <style>
     #map {
 height:350px;
@@ -21,14 +20,14 @@ margin-top: 0;
  </style>
 <div ng-controller="addressComponentController">
     <div class="row element-left">
-        <b>Dirección:</b>
+        <b>Direcciï¿½n:</b>
     </div>
-    <br/>
+   <!-- <br/>
     <div class="row element-center">
         <div class="col-xs-10 col-xs-offset-1">
         <div id="map"></div>
             </div>
-    </div>
+    </div>-->
     <br/>
     <div class="row">
         <!-- se deben de ejecutar los metoeos del servicio para rellenar los catalogos necesarios y para cargar el modelo-->
@@ -38,13 +37,13 @@ margin-top: 0;
             <input type="hidden" ng-init='model = ${(address == null) ? '""' : address}'>
             <input type="hidden" ng-model="id" ng-init="id" name="{{nameAddress}}id" ng-update-hidden>
             <input type="hidden" ng-init="urlZipCode = '<c:url value="/catalogs/address/locationsByZipCode.json"/>'" ng-model="urlZipCode">
-            <label for="zipCode">Código postal:</label>
+            <label for="zipCode">Cï¿½digo postal:</label>
             <input type="text" id="zipCode" name="zipCode" class="input-xxlarge" zip-search ng-model="zipCode"
-                   data-val="true" data-val-required="El código postal es un campo requerido"
+                   data-val="true" data-val-required="El cï¿½digo postal es un campo requerido"
                    placeholder="Escriba su C.P. para buscar.."
                    url-request='<c:url value="/catalogs/address/locationsByZipCode.json"/>'
                    data-val-length-max="6" data-val-length-min="1"
-                   data-val-length="Debe tener al menos 1 y máximo 6 caracteres."/>
+                   data-val-length="Debe tener al menos 1 y mï¿½ximo 6 caracteres."/>
             <br>
             <span class="field-validation-valid" data-valmsg-for="zipCode" data-valmsg-replace="true"></span>
         </div>
@@ -98,7 +97,7 @@ margin-top: 0;
             <input type="hidden" ng-model="street" name="{{nameAddress}}street" ng-update-hidden>
             <input class="form-control" data-val="true" data-val-required="La calle es un campo requerido"
                    data-val-length-max="100" data-val-length-min="1"
-                   data-val-length="Debe tener al menos 1 y máximo 100 caracteres."
+                   data-val-length="Debe tener al menos 1 y mï¿½ximo 100 caracteres."
                    type="text" value="" ng-model="street" name="streetComponent" id="streetComponent">
                 <span class="field-validation-valid" data-valmsg-for="streetComponent"
                       data-valmsg-replace="true"></span>
@@ -107,9 +106,9 @@ margin-top: 0;
             No Ext <br/>
             <input type="hidden" ng-model="outNum" name="{{nameAddress}}outNum" ng-update-hidden>
             <input class="form-control" data-val="true"
-                   data-val-length="Debe tener al menos 1 y máximo 10 caracteres"
+                   data-val-length="Debe tener al menos 1 y mï¿½ximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
-                   data-val-required="El número exterior es un campo requerido"
+                   data-val-required="El nï¿½mero exterior es un campo requerido"
                    type="text" ng-model="outNum"
                    id="outNumComponent"
                    name="outNumComponent">
@@ -120,9 +119,8 @@ margin-top: 0;
             No Int <br/>
             <input type="hidden" ng-model="innNum" name="{{nameAddress}}innNum" ng-update-hidden>
             <input class="with-100" data-val="true"
-                   data-val-length="Debe tener al menos 1 y máximo 10 caracteres"
+                   data-val-length="Debe tener al menos 1 y mï¿½ximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
-                   data-val-required="El número interior es un campo requerido"
                    type="text" ng-model="innNum"
                    id="innNumComponent"
                    name="innNumComponent">

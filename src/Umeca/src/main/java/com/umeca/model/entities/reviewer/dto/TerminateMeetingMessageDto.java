@@ -14,6 +14,7 @@ public class TerminateMeetingMessageDto {
 
     List<GroupMessageMeetingDto> groupMessage;
     public final String template = "entity es un campo requerido." ;
+    public final String templateVerification = "La verificación de  es requerida." ;
 
     public TerminateMeetingMessageDto() {
         groupMessage = new ArrayList<>();

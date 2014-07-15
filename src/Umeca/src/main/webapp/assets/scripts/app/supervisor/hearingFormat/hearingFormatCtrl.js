@@ -1,4 +1,4 @@
-app.controller('hearingFormatController', function ($scope, $timeout, $http) {
+app.controller('hearingFormatController', function ($scope, $timeout, $http, $q) {
 
         $scope.m = {};
         $scope.a = {};
@@ -6,7 +6,36 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
         $scope.m.errTime;
         $scope.hasError;
         $scope.MsgError;
-        $scope.MsgErrorContact="";
+        $scope.MsgErrorContact = "";
+
+        /***/
+
+        var dlgConfirmAction = $('#divConfirm');
+
+        $scope.showDlg = function () {
+            var def = $q.defer();
+
+            $timeout(function () {
+                dlgConfirmAction.modal('show');
+                dlgConfirmAction.on('hidden.bs.modal', function () {
+                    if ($scope.IsOk === true) {
+
+                    }
+                    else {
+
+                    }
+                });
+            }, 1);
+
+            return def.promise;
+        }
+
+        $scope.hideDlg = function () {
+            dlgConfirmAction.modal('hide');
+        }
+
+        /***/
+
 
         $scope.validateSave = function () {
 
@@ -15,6 +44,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             $scope.validateInitEnd();
             $scope.validateBthDay();
             $scope.validateArrangementSel();
+            $scope.validateLstContact();
 
             if ($scope.hasError == true)
                 return false;
@@ -75,27 +105,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
         };
 
-        $scope.clExtension = function () {
-            $scope.m.errExt = "";
-        };
-
-        $scope.validateHType = function () {
-            if (!$scope.m.hType) {
-                $scope.hasError = true;
-                $scope.m.errHtype = "Debe seleccionar una opción";
-            } else {
-                $scope.clHType();
-            }
-        };
-
-        $scope.clHType = function (idTipo) {
-
-            if (idTipo != undefined)
-                $scope.searchArrangements(idTipo);
-            $scope.m.errHtype = "";
-        };
-
-
         $scope.validateFormImp = function () {
 
             if (!$scope.m.formImp) {
@@ -116,26 +125,26 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
         $scope.addContact = function () {
 
-            if($scope.validateContact ())
+            if ($scope.validateContact())
                 return;
 
-            var jsonRow={"name":$scope.m.contactName,"phone":$scope.m.contactPhone,"address":$scope.m.contactAddress};
+            var jsonRow = {"name": $scope.m.contactName, "phone": $scope.m.contactPhone, "address": $scope.m.contactAddress};
 
             $scope.m.lstContactData.push(jsonRow);
 
-            $scope.m.contactName="";
-            $scope.m.contactPhone="";
-            $scope.m.contactAddress="";
+            $scope.m.contactName = "";
+            $scope.m.contactPhone = "";
+            $scope.m.contactAddress = "";
+            $scope.MsgErrorContact = "";
 
         };
 
         $scope.validateContact = function () {
 
-            $scope.MsgErrorContact="";
+            $scope.MsgErrorContact = "";
 
-            if($scope.m.contactName==""||$scope.m.contactPhone==""||$scope.m.contactAddress==""||
-                !($scope.m.contactName)||!($scope.m.contactPhone)||!($scope.m.contactAddress)){
-                $scope.MsgErrorContact="Debe proporcionar todos los campos para agregar el contacto."
+            if ($scope.m.contactName == "" || $scope.m.contactPhone == "" || $scope.m.contactAddress == "" || !($scope.m.contactName) || !($scope.m.contactPhone) || !($scope.m.contactAddress)) {
+                $scope.MsgErrorContact = "Debe proporcionar todos los campos para agregar el contacto."
                 return true;
             }
 
@@ -143,11 +152,19 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
         };
 
         $scope.removeContact = function (index) {
-            if($scope.m.canSave==true)
+            if ($scope.m.canSave == true)
                 $scope.m.lstContactData.splice(index, 1);
         };
 
-
+        $scope.validateLstContact = function () {
+            if ($scope.m.lstContactData == undefined || $scope.m.lstContactData.length < 1 && $scope.m.vincProcess == 1) {
+                $scope.hasError = true;
+                $scope.MsgErrorContact = "Debe registrar al menos un dato de contacto."
+                return;
+            }
+            $scope.hasError = false;
+            $scope.MsgErrorContact = "";
+        };
 
         $scope.validateLinkProc = function () {
 
@@ -187,7 +204,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             }
         };
 
-        $scope.disableView= function (val) {
+        $scope.disableView = function (val) {
 
             if (val)
                 $("#FormFormatId :input").attr("disabled", true);
@@ -221,18 +238,18 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
             $scope.m.canSave = data.canSave;
             $scope.m.canEdit = data.canEdit;
-            $scope.m.disableAll =  data.disableAll;
+            $scope.m.disableAll = data.disableAll;
 
             //audiencia
             $scope.m.idCase = data.idCase;
             $scope.m.idFolder = data.idFolder;
             $scope.m.idJudicial = data.idJudicial;
-            $scope.m.room=data.room;
-            $scope.m.appointmentDate=$scope.myFormatDate(data.appointmentDate);
+            $scope.m.room = data.room;
+            $scope.m.appointmentDate = $scope.myFormatDate(data.appointmentDate);
             $scope.m.initTime = data.initTime;
             $scope.m.endTime = data.endTime;
-            $scope.m.judgeName =data.judgeName;
-            $scope.m.mpName= data.mpName;
+            $scope.m.judgeName = data.judgeName;
+            $scope.m.mpName = data.mpName;
             $scope.m.defenderName = data.defenderName;
 
             //imputado
@@ -242,9 +259,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             $scope.m.impBthDay = $scope.myFormatDate(data.imputedBirthDate);
             $scope.calcAge();
             $scope.m.imputedTel = data.imputedTel;
-            //todo falta domicilio
 
-            $scope.m.crimes= data.crimes;
+            $scope.m.crimes = data.crimes;
             $scope.m.additionalData = data.additionalData;
 
             //radios
@@ -252,35 +268,55 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
             $scope.m.ext = data.extension;
 
-            $scope.m.formImp=data.impForm;
+            $scope.m.formImp = data.impForm;
             $scope.m.impDate = $scope.myFormatDate(data.imputationDate);
 
             $scope.m.vincProcess = data.vincProcess;
-            $scope.m.linkageRoom=data.linkageRoom;
-            $scope.m.linkageDate=$scope.myFormatDate(data.linkageDate);
-            $scope.m.linkageTime=data.linkageTime;
-            $scope.m.hType=data.hearingType;
-            $scope.m.terms=data.terms;
+            $scope.m.linkageRoom = data.linkageRoom;
+            $scope.m.linkageDate = $scope.myFormatDate(data.linkageDate);
+            $scope.m.linkageTime = data.linkageTime;
+            $scope.m.arrType = data.arrangementType;
+            $scope.m.nationalArrangement = data.nationalArrangement;
+            $scope.m.terms = data.terms;
+
+            $scope.m.userName = data.userName;
             //
 
-            if(data.lstArrangement!=undefined)
-                $scope.m.lstArrangementShow= $.parseJSON(data.lstArrangement);
+            if (data.lstArrangement != undefined)
+                $scope.m.lstArrangementShow = $.parseJSON(data.lstArrangement);
 
-            if(data.lstContactData!=undefined)
-                $scope.m.lstContactData= $.parseJSON(data.lstContactData);
+            if (data.lstContactData != undefined)
+                $scope.m.lstContactData = $.parseJSON(data.lstContactData);
             else
-                $scope.m.lstContactData=[];
+                $scope.m.lstContactData = [];
 
         };
 
-        $scope.submitReloadHF = function (formId, urlToPost, hasReturnId, validate) {
+
+        $scope.saveHF = function (formId, urlToPost, validate) {
+            if (validate != undefined)
+                stVal = validate();
+
+            if ($(formId).valid() == false || stVal == false) {
+                $scope.Invalid = true;
+                return false;
+            }
+
+            if ($scope.m.vincProcess == 1)
+                $scope.submitReloadHF(formId, urlToPost, $scope.validateConfirm)
+            else
+                $scope.showDlg();
+        };
+
+
+        $scope.submitReloadHF = function (formId, urlToPost, validate) {
 
             var stVal = true;
 
             if (validate != undefined)
                 stVal = validate();
 
-            if ($(formId).valid() == false || stVal == false) {
+            if (stVal == false) {
                 $scope.Invalid = true;
                 return false;
             }
@@ -298,7 +334,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
                     }
 
                     if (resp.hasError == true) {
-                        $scope.MsgError = resp.messgae;
+                        $scope.MsgError = resp.message;
+                        $scope.$apply();
                     }
                 })
                 .error(function () {
@@ -312,8 +349,9 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
 
         $scope.loadArrangements = function () {
 
-            if ((!$scope.m.hType) || $scope.m.hType == "" || $scope.m.disableAll == true)
+            if ((!$scope.m.arrType) || $scope.m.arrType == "" || $scope.m.disableAll == true) {
                 return;
+            }
 
             var currentTimeout = null;
             var urlType = $('#url3').attr("value");
@@ -321,8 +359,10 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             var ajaxConf;
 
             ajaxConf = {
-                method: 'POST',
-                data: $scope.m.hType
+                method: "POST",
+                params: {national: $scope.m.nationalArrangement, idTipo: $scope.m.arrType},
+                dataType: "json",
+                contentType: "application/json"
             };
 
             ajaxConf.url = urlType;
@@ -350,7 +390,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
                 var dtBthObj;
 
                 if (arrBth.length > 0)
-                    dtBthObj = new Date(arrBth[2], arrBth[1], arrBth[0]);
+                    dtBthObj = new Date(parseInt(arrBth[2]), parseInt(arrBth[1]) - 1, parseInt(arrBth[0]));
                 else
                     dtBthObj = new Date($scope.m.impBthDay);
 
@@ -374,7 +414,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http) {
             var noSel = 0;
             var noDesc = 0;
 
-            if (!$scope.m.lstArrangementShow||$scope.m.disableAll==true)
+            if (!$scope.m.lstArrangementShow || $scope.m.disableAll == true)
                 return;
 
             for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {

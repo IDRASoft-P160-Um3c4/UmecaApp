@@ -1,7 +1,9 @@
 package com.umeca.service.account;
 
+import com.umeca.infrastructure.security.BcryptUtil;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Project: Umeca
@@ -72,5 +75,23 @@ public class SharedUserService {
         if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
             age--;
         return age;
+    }
+
+    public boolean isValidPasswordForUser(Long userId, String password) {
+        String encodePassword = userRepository.getEncodedPassword(userId);
+        return BcryptUtil.match(password, encodePassword);
+    }
+
+    public List<SelectList> getLstValidUsersByRole(String sRole) {
+        return userRepository.getLstValidUsersByRole(sRole);
+    }
+
+    public List<SelectList> getLstValidUsersByRoleExceptUserId(String sRole, Long supervisorId) {
+        return userRepository.getLstValidUsersByRoleExceptUserId(supervisorId, sRole);
+    }
+
+    public boolean isUserInRole(Long supervisorId, String sRole) {
+        return (userRepository.isUserInRole(supervisorId, sRole) > 0);
+
     }
 }

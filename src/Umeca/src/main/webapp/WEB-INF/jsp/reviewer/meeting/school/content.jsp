@@ -1,7 +1,13 @@
 <div ng-controller="schoolController">
     <div class="row">
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left"> Escuela:</div>
+            <div class="col-xs-2 element-left">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('school.name')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                   ng-show="verification" code="school.name"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('school.name')"></i>
+                Escuela:
+            </div>
             <div class="col-xs-10"><input class="form-control" data-val="true"
                                           data-val-length="Debe tener al menos 5 y m?ximo 200 caracteres"
                                           data-val-length-max="200" data-val-length-min="5"
@@ -19,7 +25,13 @@
 
     <div class="row">
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left"> Teléfono:</div>
+            <div class="col-xs-4 element-left">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('school.phone')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                   ng-show="verification" code="school.phone"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('school.phone')"></i>
+                Teléfono:
+            </div>
             <div class="col-xs-8"><input class="form-control" data-val="true"
                                          data-val-length="Debe tener al menos 8 y máximo 25 caracteres"
                                          data-val-length-max="25" data-val-length-min="8"
@@ -35,7 +47,13 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">Dirección:</div>
+            <div class="col-xs-2 element-left">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('school.address')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                   ng-show="verification"  code="school.address"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('school.address')"></i>
+                Dirección:
+            </div>
             <div class="col-xs-10"><textarea id="school.address" class="form-control" name="school.address"
                                              ng-model="school.address"
                                              ng-init='school.address = "${(m.school.address == null) ? "" : m.school.address}"'
@@ -55,6 +73,10 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4  element-left">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('school.degree')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                   ng-show="verification" code ="school.degree"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('school.degree')"></i>
                 Nivel:
             </div>
             <div class="col-xs-8">
@@ -80,15 +102,21 @@
     </div>
     <br/>
 
-    <div class="row schedule_visible"  ng-show="verification == false">
-        <div class="widget-box">
-            <div class="widget-header">
-                <h5><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h5>
+    <div class="row" id="divSchedule">
+        <div class="row">
+        <div class="col-xs-12">
+            <div class="widget-header header-color-blue">
+                <h5 class="bigger lighter">
+                    <h6><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
+                </h5>
             </div>
+
             <div class="widget-body">
-                <br/><br/>
+                <br/>
                 <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/schedule.jsp" %>
             </div>
         </div>
+        </div>
+        <br/>
     </div>
 </div>

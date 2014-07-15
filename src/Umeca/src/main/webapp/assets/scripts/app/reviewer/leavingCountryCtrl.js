@@ -1,6 +1,5 @@
-app.controller('leavingController', function($scope, $timeout) {
+app.controller('leavingController', function($scope, $timeout,$q) {
     $scope.l = {};
-    $scope.listLocation = [];
     $scope.listElection = [];
     $scope.listCountry = [];
     $scope.l.oc= 0;
@@ -10,21 +9,22 @@ app.controller('leavingController', function($scope, $timeout) {
     $scope.country=0;
     $scope.state=0;
     $scope.m = {};
-
+    $scope.Model = {};
+    $scope.def= $q.defer();
     $scope.init = function(){
         if($scope.listCountry === undefined || $scope.listCountry.length <= 0)
             return;
 
-        if($scope.countryId === undefined){
-            $scope.country = $scope.listCountry[0];
-            $scope.countryId = $scope.country.id;
+        if($scope.l.countryId === undefined){
+            $scope.l.country = $scope.listCountry[0];
+            $scope.l.countryId = $scope.l.country.id;
         }
         else{
             for(var i=0; i < $scope.listCountry.length; i++){
                 var country = $scope.listCountry[i];
 
-                if(country.id === $scope.countryId){
-                    $scope.country = country;
+                if(country.id === $scope.l.countryId){
+                    $scope.l.country = country;
                     break;
                 }
             }
@@ -97,91 +97,5 @@ app.controller('leavingController', function($scope, $timeout) {
     $timeout(function() {
         $scope.init();
     }, 0);
-    $scope.WaitFor = false;
-    $scope.MsgError = "";
-    $scope.Model = {};
 
-    $scope.submit = function (formId, urlToPost, hasReturnId) {
-         if ($(formId).valid() == false) {
-            $scope.Invalid = true;
-
-            return false;
-        }
-        $scope.WaitFor = true;
-
-        if (hasReturnId === true) {
-            $.post(urlToPost, $(formId).serialize())
-                .success($scope.handleSuccessWithId)
-                .error($scope.handleError);
-        }
-        else {
-            $.post(urlToPost, $(formId).serialize())
-                .success($scope.handleSuccess)
-                .error($scope.handleError);
-        }
-        return true;
-    };
-
-    $scope.handleSuccessWithId = function (resp) {
-        $scope.WaitFor = false;
-
-        try {
-            if(resp.hasError===undefined){
-                resp=resp.responseMessage;
-            }
-            if (resp.hasError === false) {
-                $rootScope.$broadcast("onLastId", resp.Id);
-                $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
-                return;
-            }
-
-            $scope.MsgError = resp.message;
-            $scope.$apply();
-
-        } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
-        }
-    };
-
-
-    $scope.handleSuccess = function (resp) {
-        $scope.WaitFor = false;
-
-        try {
-            if(resp.hasError===undefined){
-                resp=resp.responseMessage;}
-            if (resp.hasError === false) {
-                $scope.msgExito = resp.message;
-                $scope.$apply();
-                return;
-            }
-            $scope.msgError = resp.message;
-            $scope.$apply();
-
-        } catch (e) {
-            $scope.msgError = "Error inesperado de datos. Por favor intente más tarde.";
-        }
-    };
-
-    $scope.handleError = function () {
-        $scope.WaitFor = false;
-        $scope.MsgError = "Error de red. Por favor intente más tarde.";
-        $scope.$apply();
-    };
-
-    $scope.cancel = function () {
-        $scope.Model.dlg.modal('hide');
-        $scope.Model.def.reject({ isCancel: true });
-    };
-
-    $scope.setDlg = function (dlg, urlToSubmit) {
-        $scope.Model.dlg = dlg;
-        $scope.Model.url = urlToSubmit;
-
-        dlg.on('hidden.bs.modal', function () {
-            dlg.data('modal', null);
-            dlg.replaceWith("");
-        });
-    };
 });

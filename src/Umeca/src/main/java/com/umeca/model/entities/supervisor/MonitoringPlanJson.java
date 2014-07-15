@@ -17,9 +17,10 @@ public class MonitoringPlanJson {
     private Long authorizerId;
     private Calendar authorizationTime;
     private String status;
+    private String statusLog;
 
     private MonitoringPlanJson(Long id, Long caseId, Long userId, Calendar creationTime, Long generatorId, Calendar generationTime, Long authorizerId,
-                               Calendar authorizationTime, String status){
+                               Calendar authorizationTime, String status, String statusLog){
 
         this.id = id;
         this.caseId = caseId;
@@ -30,7 +31,7 @@ public class MonitoringPlanJson {
         this.authorizerId = authorizerId;
         this.authorizationTime = authorizationTime;
         this.status = status;
-
+        this.statusLog = statusLog;
     }
 
     public Long getId() {
@@ -105,6 +106,13 @@ public class MonitoringPlanJson {
         this.status = status;
     }
 
+    public String getStatusLog() {
+        return statusLog;
+    }
+
+    public void setStatusLog(String statusLog) {
+        this.statusLog = statusLog;
+    }
 
     public static MonitoringPlanJson convertToJson(MonitoringPlan monPlan) {
         Long id = monPlan.getId();
@@ -118,8 +126,7 @@ public class MonitoringPlanJson {
         Long authorizerId = (user == null ? null : user.getId());
         Calendar authorizationTime = monPlan.getAuthorizationTime();
         String status = monPlan.getStatus();
-        return new MonitoringPlanJson(id, caseId, userId, creationTime, generatorId, generationTime, authorizerId, authorizationTime, status);
+        String statusLog = monPlan.getStatusLog();
+        return new MonitoringPlanJson(id, caseId, userId, creationTime, generatorId, generationTime, authorizerId, authorizationTime, status, statusLog);
     }
-
-
 }

@@ -41,9 +41,9 @@
         </div>
         <div class="col-xs-8">
             <select class="form-control element-center" ng-model="p.rel"
-                    ng-options="e.name for e in lstRelationship"
+                    ng-options="e.name for e in lstRel"
                     ng-change="p.relId = p.rel.id"
-                    ng-init='lstRelationship = ${lstRelationship};'></select>
+                    ng-init='lstRel = ${lstRelationship};'></select>
         </div>
         <div class="col-xs-9 col-xs-offset-3">
             <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
@@ -72,9 +72,9 @@
         </div>
         <div class="col-xs-8">
             <select class="form-control element-center" ng-model="p.doc"
-                    ng-options="e.name for e in lstDocumentType"
+                    ng-options="e.name for e in lstDoc"
                     ng-change="p.docId = p.doc.id"
-                    ng-init='lstDocumentType = ${lstDocumentType};'></select>
+                    ng-init='lstDoc = ${lstDocumentType};'></select>
         </div>
     </div>
     <div class="col-xs-5">
@@ -116,9 +116,9 @@
         </div>
         <div class="col-xs-8">
             <select class="form-control element-center" ng-model="p.liv"
-                    ng-options="e.name for e in lstLiving"
+                    ng-options="e.name for e in lstLiv"
                     ng-change="p.livId = p.liv.id"
-                    ng-init='lstLiving = ${lstElection};'></select>
+                    ng-init='lstLiv = ${lstElection};'></select>
         </div>
         <div class="col-xs-9 col-xs-offset-3">
             <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>

@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    padding-left: 18px;
+    padding-right: 18px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -283,4 +285,20 @@ i.link-image {
 .label-shadow[href]:hover,
 .label-shadow[href]:focus {
     background-color: #31b0d5;
+}
+
+.border-event-main{
+    border: 3px solid #ff7600 !important;
+}
+
+.color-warning{
+    color: #f0ad4e !important;
+}
+
+.color-danger{
+    color: #d9534f !important;
+}
+
+.two-lines{
+    min-height: 45px !important;
 }

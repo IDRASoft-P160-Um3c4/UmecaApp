@@ -50,6 +50,8 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         if(ValidatePlanMonitoring(monitoringPlanRepository, fullModel, user, response) == false)
             return false;
 
+        fullModel.setNow(Calendar.getInstance());
+
         //First set status to delete for all activities
         List<Long> lstActivitiesDel = fullModel.getLstActivitiesDel();
         for(Long id : lstActivitiesDel){
@@ -58,7 +60,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         actMpRepository.flush();
 
         List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(fullModel.getMonitoringPlanId(), new PageRequest(0,1));
-        List<SelectList> lstArrangementSelected = arRepository.findLstArrangement(lastHearingFormatId.get(0));
+        List<SelectList> lstArrangementSelected = arRepository.findLstArrangementByHearingFormatId(lastHearingFormatId.get(0));
 
         Long idCase = fullModel.getCaseId();
         List<ActivityMonitoringPlanDto> lstActivitiesUpsert = fullModel.getLstActivitiesUpsert();
@@ -113,7 +115,12 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
 
     private void create(ActivityMonitoringPlanDto dto, ActivityMonitoringPlanRepository actMpRepository, User user, ActivityMonitoringPlanRequest fullModel,
                         List<SelectList> lstArrangementSelected) {
-        DtoToModelAndSave(dto, actMpRepository, user, fullModel, new ActivityMonitoringPlan(), lstArrangementSelected, true);
+
+        ActivityMonitoringPlan activityMonitoringPlan = new ActivityMonitoringPlan();
+        activityMonitoringPlan.setSupervisorCreate(user);
+        activityMonitoringPlan.setCreationTime(fullModel.getNow());
+
+        DtoToModelAndSave(dto, actMpRepository, user, fullModel, activityMonitoringPlan, lstArrangementSelected, true);
         fullModel.addActsIns();
     }
 
@@ -131,6 +138,9 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         //Validate dates of saved activity before change something...
         if(validateDates(activityMonitoringPlan.getStart(), activityMonitoringPlan.getEnd()) == false)
             return;
+
+        activityMonitoringPlan.setSupervisorModify(user);
+        activityMonitoringPlan.setModifyTime(fullModel.getNow());
 
         DtoToModelAndSave(dto, actMpRepository, user, fullModel, activityMonitoringPlan, lstArrangementSelected, false);
         fullModel.addActsUpd();
@@ -152,12 +162,13 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         ActivityGoal activityGoal = new ActivityGoal();
         activityGoal.setId(dto.getGoalId());
         activityMonitoringPlan.setActivityGoal(activityGoal);
-        AidSource aidSource = new AidSource();
-        aidSource.setId(dto.getSourceId());
-        activityMonitoringPlan.setAidSource(aidSource);
+        FramingSelectedSourceRel framingSelectedSourceRel = new FramingSelectedSourceRel();
+        framingSelectedSourceRel.setId(dto.getSourceId());
+        activityMonitoringPlan.setFramingSelectedSourceRel(framingSelectedSourceRel);
 
         String sAssignedArrangements = null;
-        List<AssignedArrangement> lstAssignedArrangements = new ArrayList<>();
+        String sAssignedArrangementsIds = null;
+        List<ActivityMonitoringPlanArrangement> lstAssignedArrangements = new ArrayList<>();
         for(Long idAssignedArr : dto.getLstArrangements()){
             for(int i=0; i<lstArrangementSelected.size(); i++){
                 SelectList slAa = lstArrangementSelected.get(i);
@@ -165,9 +176,14 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
                 if(slAa.getId() == idAssignedArr)
                 {
                     sAssignedArrangements = (sAssignedArrangements == null ? slAa.getName() : sAssignedArrangements + ", " + slAa.getName());
+                    sAssignedArrangementsIds = (sAssignedArrangementsIds == null ? idAssignedArr.toString() : sAssignedArrangementsIds + ", " + idAssignedArr.toString());
                     AssignedArrangement aa = new AssignedArrangement();
                     aa.setId(idAssignedArr);
-                    lstAssignedArrangements.add(aa);
+                    ActivityMonitoringPlanArrangement ampa = new ActivityMonitoringPlanArrangement();
+                    ampa.setActivityMonitoringPlan(activityMonitoringPlan);
+                    ampa.setAssignedArrangement(aa);
+                    ampa.setStatus(MonitoringConstants.ACTIVITY_ARRANGEMENT_UNDEFINED);
+                    lstAssignedArrangements.add(ampa);
                     break;
                 }
             }
@@ -175,7 +191,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
 
         activityMonitoringPlan.setLstAssignedArrangement(lstAssignedArrangements);
         activityMonitoringPlan.setAssignedArrangements(sAssignedArrangements);
-
+        activityMonitoringPlan.setAssignedArrangementsIds(sAssignedArrangementsIds);
 
         SupervisionActivity supervisionActivity = new SupervisionActivity();
         supervisionActivity.setId(dto.getActivityMonId());
@@ -218,12 +234,20 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         String status = monitoringPlan.getStatus();
 
         fullModel.setMonitoringPlanStatus(status);
-        if(status != null && (status.equals(MonitoringConstants.STATUS_NEW) || status.equals(MonitoringConstants.STATUS_PENDING_CREATION) || status.equals(MonitoringConstants.STATUS_AUTHORIZED))){
-            if(status.equals(MonitoringConstants.STATUS_NEW)){
+        if(status != null && (status.equals(MonitoringConstants.STATUS_NEW) || status.equals(MonitoringConstants.STATUS_PENDING_CREATION) ||
+                status.equals(MonitoringConstants.STATUS_AUTHORIZED) || status.equals(MonitoringConstants.STATUS_REJECTED_AUTHORIZED) ||
+                status.equals(MonitoringConstants.STATUS_MONITORING) || status.equals(MonitoringConstants.STATUS_REJECTED_END))){
+
+            if(status.equals(MonitoringConstants.STATUS_NEW) || status.equals(MonitoringConstants.STATUS_REJECTED_AUTHORIZED)){
                 monitoringPlan.setStatus(MonitoringConstants.STATUS_PENDING_CREATION);
                 monitoringPlanRepository.save(monitoringPlan);
                 monitoringPlanRepository.flush();
+            }else if(status.equals(MonitoringConstants.STATUS_REJECTED_END)){
+                monitoringPlan.setStatus(MonitoringConstants.STATUS_MONITORING);
+                monitoringPlanRepository.save(monitoringPlan);
+                monitoringPlanRepository.flush();
             }
+
             return true;
         }
 

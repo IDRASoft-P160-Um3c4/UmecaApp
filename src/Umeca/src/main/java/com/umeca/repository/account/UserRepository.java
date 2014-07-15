@@ -1,11 +1,14 @@
 package com.umeca.repository.account;
 
 import com.umeca.model.entities.account.User;
+import com.umeca.model.shared.SelectList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Project: Umeca
@@ -30,4 +33,21 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     @Query("SELECT new com.umeca.model.entities.account.User(u.id, u.enabled) FROM User u WHERE u.username=:username")
     User getInfoToValidate(@Param("username") String sUsername);
+
+    @Query("SELECT COUNT(u.id) FROM User u WHERE u.username=:username AND u.password =:password")
+    Long isValidPassworForUsername(@Param("username")String username, @Param("password")String password);
+
+    @Query("SELECT u.password FROM User u WHERE u.id=:id")
+    String getEncodedPassword(@Param("id") Long userId);
+
+    @Query("SELECT DISTINCT new com.umeca.model.shared.SelectList(u.id, u.username, u.fullname) FROM User u " +
+            "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true")
+    List<SelectList> getLstValidUsersByRole(@Param("sRole") String sRole);
+
+    @Query("SELECT DISTINCT new com.umeca.model.shared.SelectList(u.id, u.username, u.fullname) FROM User u " +
+            "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true AND u.id <> :userId")
+    List<SelectList> getLstValidUsersByRoleExceptUserId(@Param("userId") Long userId, @Param("sRole") String sRole);
+
+    @Query("SELECT COUNT(u.id) FROM User u INNER JOIN u.roles r WHERE u.id=:userId AND r.role =:sRole")
+    Long isUserInRole(@Param("userId") Long userId, @Param("sRole") String sRole);
 }

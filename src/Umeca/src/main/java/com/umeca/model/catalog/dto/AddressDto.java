@@ -16,6 +16,8 @@ public class AddressDto {
     private String outNum;
     private String innNum;
     private String zipCode;
+    private Long idCase;
+    private LocationDto location;
 
     public AddressDto addressDto(Address address){
         this.id = address.getId();
@@ -65,5 +67,21 @@ public class AddressDto {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public Long getIdCase() {
+        return idCase;
+    }
+
+    public void setIdCase(Long idCase) {
+        this.idCase = idCase;
+    }
+
+    public LocationDto getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationDto location) {
+        this.location = location;
     }
 }

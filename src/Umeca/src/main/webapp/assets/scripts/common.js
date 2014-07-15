@@ -31,17 +31,23 @@ window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue)
 
 };*/
 
-window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue) {
+window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue, callback) {
     var scope = angular.element($(divScope)).scope();
     scope.show({ id: id }, urlToGo).
-        then(function () {
+        then(function (resp) {
 
             if(urlToContinue !== undefined){
                 window.goToUrlMvcUrl(urlToContinue);
                 return;
             }
 
-            $(jqGridToUse).trigger("reloadGrid");
+            if(jqGridToUse !== undefined)
+                $(jqGridToUse).trigger("reloadGrid");
+
+            if(callback !== undefined && resp !== undefined){
+                    callback(resp);
+            }
+
         });
 
 };
@@ -55,8 +61,9 @@ window.showUpsertWithIdCase = function (id, divScope, urlToGo, jqGridToUse, urlT
                 window.goToUrlMvcUrl(urlToContinue);
                 return;
             }
-
-            $(jqGridToUse).trigger("reloadGrid");
+            if(jqGridToUse!=undefined){
+                $(jqGridToUse).trigger("reloadGrid");
+                }
         });
 
 };
@@ -117,7 +124,25 @@ window.goToUrlMvcUrl = function (url, params) {
         window.location.replace(url);
     } catch(e) {
         window.location = url;
-    } 
+    }
+};
+
+
+
+window.goToNewUrl = function (url, params, winOpts) {
+    for (var key in params) {
+        var param = params[key] || '';
+        url = url.replace(key, param);
+    }
+
+    try {
+        var defaults = {opts:"fullscreen=yes, top=0, left=0, width=1100, height=900"};
+        $.extends(defaults, winOpts);
+
+        window.open(url, "_blank", defaults.opts);
+    } catch(e) {
+        window.open(url);
+    }
 };
 
 //replace icons with FontAwesome icons like above
