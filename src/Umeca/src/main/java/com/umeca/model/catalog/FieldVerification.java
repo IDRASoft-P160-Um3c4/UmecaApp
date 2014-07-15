@@ -17,7 +17,7 @@ public class FieldVerification {
     @Column(name="id_field_verification")
     private Long id;
 
-    @Column(name = "code", length = 500,unique = true)
+    @Column(name = "code", length = 255,unique = true)
     private String code;
 
     @Column(name="section")

@@ -338,7 +338,7 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     public ModelAndView showChoiceInformation(Long idCase) {
-        ModelAndView model = new ModelAndView("/reviewer/verification/choiceInformation");
+        ModelAndView model = new ModelAndView("/reviewer/verification/choiceInfo rmation");
         setImputedData(idCase, model);
         feelMeeting(model,idCase);
         return model;
