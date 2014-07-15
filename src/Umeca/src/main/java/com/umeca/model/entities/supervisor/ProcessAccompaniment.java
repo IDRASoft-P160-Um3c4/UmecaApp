@@ -38,6 +38,9 @@ public class ProcessAccompaniment {
     @Column(name="cel_phone")
     private String celphone;
 
+    @Column(name="degree")
+    private String degree;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_framing_occupation")
     private Occupation occupation;
@@ -124,5 +127,13 @@ public class ProcessAccompaniment {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 }

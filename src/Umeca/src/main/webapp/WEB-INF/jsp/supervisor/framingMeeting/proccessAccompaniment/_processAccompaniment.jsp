@@ -16,7 +16,7 @@
     <h2><i class="red glyphicon glyphicon-user bigger-100 element-center"></i> &nbsp;Persona que acompaña
         durante el proceso</h2>
 </div>
-
+<br/>
 <div class="row">
     <div ng-show="paSuccessMsg&&paSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
         {{paSuccessMsg}}
@@ -29,7 +29,9 @@
 <div class="row">
 
 <form id="FormProccessAccompaniment" name="FormProccessAccompaniment" class="form-horizontal" role="form">
-<input type="hidden" id="hidUrlPA" value="<c:url value="/supervisor/framingMeeting/processAccompaniment/loadProcessAccompaniment.json"/>"/>
+<input type="hidden" id="hidUrlPA"
+       value="<c:url value="/supervisor/framingMeeting/processAccompaniment/loadProcessAccompaniment.json"/>"/>
+
 <div class="widget-box">
     <div class="widget-header">Datos personales</div>
     <div class="widget-body">
@@ -80,6 +82,7 @@
 
                     <div class="col-xs-4">
                         <label>Género</label>
+
                         <div class="radio">
                             <label>
                                 <input type="radio" class="ace" name="gender"
@@ -111,14 +114,17 @@
                   data-valmsg-replace="true"></span>
                     </div>
 
-                    <%--<div class="col-xs-4">--%>
-                        <%--<label>Escolaridad</label>--%>
-                        <%--<br/>--%>
-                        <%--<select class="form-control element-center" ng-model="pa.academicLevel"--%>
-                                <%--ng-options="e.name for e in lstAcademicLevel"--%>
-                                <%--ng-init='lstAcademicLevel = ${lstAcademicLevel};'></select>--%>
-                        <%--<input type="hidden" name="academicLevelId" value="{{pa.academicLevel.id}}">--%>
-                    <%--</div>--%>
+                    <div class="col-xs-4">
+                        <label for="degree">Escolaridad</label>
+                        <br/>
+                        <input id="degree" ng-model="pa.degree" name="degree"
+                               type="text" class="input-xxlarge"
+                               data-val="true"
+                               data-val-required="Escolaridad es un campo requerido"/>
+                        <br/>
+            <span class="field-validation-valid" data-valmsg-for="degree"
+                  data-valmsg-replace="true"></span>
+                    </div>
                 </div>
                 <br/>
             </div>
@@ -227,7 +233,7 @@
                                data-val="true"
                                data-val-required="Celular es un campo requerido"/>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="celPhone"
+            <span class="field-validation-valid" data-valmsg-for="celphone"
                   data-valmsg-replace="true"></span>
                     </div>
 

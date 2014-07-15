@@ -14,4 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 public interface ScheduleService {
     Object getSchedules(Long id, Object classObjetc);
     Boolean saveSchedules(String schedules, Long id, Class classType);
+
+    String getSchedulesVerificationValue(Long id, Object classObjetc);
 }

@@ -19,7 +19,7 @@
 <br/>
 <div class="row">
     <div class="col-xs-3 element-right">
-        ¿El domicilio es propio?:
+        ?El domicilio es propio?:
     </div>
     <div class="col-xs-2">
         <select class="form-control element-center" ng-model="a.belong"
@@ -51,7 +51,7 @@
                                     Tiempo de residencia:
                                 </div>
                                 <div class="col-xs-7">
-                                    <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 30 caracteres"
+                                    <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m?ximo 30 caracteres"
                                            data-val-length-max="30" data-val-length-min="1" data-val-required="El tiempo de residencia es un campo requerido" id="timeLiveD"
                                            ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'    name="timeLiveD"
                                            type="text">
@@ -69,8 +69,8 @@
                                 </div>
                                 <div class="col-xs-9">
                                     <textarea id="reasonChange" name="reasonChange" ng-model="a.reasonChange" ng-init='a.reasonChange = "${(d.reasonChange ==null) ? "" : d.reasonChange}"' class="form-control"
-                                              data-val="true" data-val-length="Debe tener al menos 1 y máximo 500 caracteres"
-                                              data-val-length-max="500" data-val-length-min="1" data-val-required="La razón de cambio es un campo requerido" ></textarea>
+                                              data-val="true" data-val-length="Debe tener al menos 1 y m?ximo 500 caracteres"
+                                              data-val-length-max="500" data-val-length-min="1" data-val-required="La raz?n de cambio es un campo requerido" ></textarea>
                                     <br/>
                                     <span class="field-validation-valid" data-valmsg-for="reasonChange" data-valmsg-replace="true"></span>
                                 </div>
@@ -101,7 +101,7 @@
                                     Tiempo de vivir en el domicilio:
                                 </div>
                                 <div class="col-xs-7">
-                                    <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 30 caracteres"
+                                    <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m?ximo 30 caracteres"
                                            data-val-length-max="30" data-val-length-min="1" data-val-required="El tiempo de residencia es un campo requerido" id="timeLiveA"
                                            ng-model="a.timeLive" ng-init='a.timeLive = "${(d.timeLive == null) ? "" : d.timeLive}"'        name="timeLiveA"
                                            type="text">
@@ -115,12 +115,12 @@
                             <br/>
                             <div class="row">
                                 <div class="col-xs-3">
-                                    Descripción de cómo llegar<br/>al domicilio:
+                                    Descripci?n de c?mo llegar<br/>al domicilio:
                                 </div>
                                 <div class="col-xs-9">
                                     <textarea id="description" class="form-control" name="description" ng-model="a.description" ng-init='a.description = "${(d.description == null)? "" : d.description }"'
-                                              data-val="true" data-val-length="Debe tener al menos 1 y máximo 500 caracteres"
-                                              data-val-length-max="500" data-val-length-min="1" data-val-required="La descripción es un campo requerido"></textarea>
+                                              data-val="true" data-val-length="Debe tener al menos 1 y m?ximo 500 caracteres"
+                                              data-val-length-max="500" data-val-length-min="1" data-val-required="La descripci?n es un campo requerido"></textarea>
                                     <br/>
                                     <span class="field-validation-valid" data-valmsg-for="description" data-valmsg-replace="true"></span>
                                 </div>

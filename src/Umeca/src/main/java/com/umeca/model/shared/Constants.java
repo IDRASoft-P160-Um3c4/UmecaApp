@@ -16,6 +16,7 @@ public class Constants {
     public static final Long MARITAL_UNION_FREE = 4L;
     public static final Long MARITAL_MARRIED = 2L;
     public static final String VALUE_NOT_KNOW_SOURCE = "La fuente desconoce la información.";
+    public static final String UNABLE_VERIF_TEXT = "No hay forma de verificar la información";
     public static String S_MEETING_INCOMPLETE="INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL="INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE="COMPLETE";

@@ -9,7 +9,7 @@
             <h2><i class="pink icon-briefcase  bigger-100"></i> &nbsp;Actividades que reliza
                 el imputado </h2>
         </div>
-
+<br/>
         <div class="row">
             <div ng-show="actSuccessMsg&&actSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
                 {{actSuccessMsg}}

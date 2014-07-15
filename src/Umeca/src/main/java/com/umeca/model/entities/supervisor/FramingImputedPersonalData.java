@@ -1,20 +1,58 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.Country;
+import com.umeca.model.catalog.MaritalStatus;
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
-public class FramingPersonalDataView {
+@Entity
+@Table(name="framing_imputed_personal_data")
+public class FramingImputedPersonalData {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id_framing_imputed_personal_data")
+    private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "last_name_p")
     private String lastNameP;
+
+    @Column(name = "last_name_m")
     private String lastNameM;
+
+    @Column(name = "gender")
     private Integer gender;
-    private Long maritalStatus;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_marital_status")
+    private MaritalStatus maritalStatus;
+
+    @Column(name = "marital_status_years")
     private String maritalStatusYears;
-    private Long birthCountryId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_country")
+    private Country birthCountry;
+
+    @Column(name = "birth_state")
     private String birthState;
+
+    @Column(name = "birth_date")
     private Date birthDate;
+
+    @Column(name = "physical_condition")
     private String physicalCondition;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -48,11 +86,11 @@ public class FramingPersonalDataView {
         this.gender = gender;
     }
 
-    public Long getMaritalStatus() {
+    public MaritalStatus getMaritalStatus() {
         return maritalStatus;
     }
 
-    public void setMaritalStatus(Long maritalStatus) {
+    public void setMaritalStatus(MaritalStatus maritalStatus) {
         this.maritalStatus = maritalStatus;
     }
 
@@ -64,12 +102,12 @@ public class FramingPersonalDataView {
         this.maritalStatusYears = maritalStatusYears;
     }
 
-    public Long getBirthCountryId() {
-        return birthCountryId;
+    public Country getBirthCountry() {
+        return birthCountry;
     }
 
-    public void setBirthCountryId(Long birthCountryId) {
-        this.birthCountryId = birthCountryId;
+    public void setBirthCountry(Country birthCountry) {
+        this.birthCountry = birthCountry;
     }
 
     public String getBirthState() {

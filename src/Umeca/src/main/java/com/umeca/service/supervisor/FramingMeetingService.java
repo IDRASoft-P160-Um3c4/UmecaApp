@@ -1,6 +1,8 @@
 package com.umeca.service.supervisor;
 
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.dto.AddressDto;
+import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.*;
 
@@ -15,7 +17,7 @@ public interface FramingMeetingService {
     FramingMeetingView fillForView(Case existCase);
     List<FramingReferenceForView> loadExistSources(Long idCase);
     List<FramingSelectedSourceRel> generateSourceRel(Long idCase, String lstJson);
-    ResponseMessage saveSelectedSource(Long idCase, String lstSourcesStr);
+    ResponseMessage saveSelectedItems(Long idCase, FramingEnvironmentAnalysisForView view);
     ResponseMessage saveReference(Case existCase, FramingReference newReference);
     ProcessAccompaniment fillProcessAccompaniment(ProcessAccompanimentForView view);
     ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase);
@@ -24,4 +26,7 @@ public interface FramingMeetingService {
     List<RelativeAbroadView> loadRelativeAbroad(Long idCase);
 
     FramingEnvironmentAnalysisForView loadEnvironmentAnalysis (Long idCase);
+    FramingImputedPersonalData fillPersonalData(Long idCase, FramingPersonalDataView view);
+    FramingPersonalDataView fillPersonalDataForView(Long idCase);
+    ResponseMessage saveFramingAddress(Long idCase, AddressDto view);
 }

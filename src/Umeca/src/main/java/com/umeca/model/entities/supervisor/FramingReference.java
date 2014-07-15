@@ -50,7 +50,6 @@ public class FramingReference implements EntityGrid {
     private Long relationshipId;
 
     public FramingReference() {
-
     }
 
     public FramingReference(Long id, String name, String phone, String relationship, String address, String type) {

@@ -1,4 +1,4 @@
-app.controller('verificationAddressController', function($scope, $timeout, $q,sharedSvc) {
+app.controller('verificationAddressController', function($scope, $timeout, $q, $rootScope) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
@@ -7,11 +7,6 @@ app.controller('verificationAddressController', function($scope, $timeout, $q,sh
     $scope.init = function(){
 
       };
-
-
-    $timeout(function() {
-        $scope.init();
-    }, 0);
 
     $scope.enableProperties = function () {
 
@@ -45,6 +40,19 @@ app.controller('verificationAddressController', function($scope, $timeout, $q,sh
         });
     };
 
+    $timeout(function() {
+        $scope.init();
+    }, 0);
+
+
+    $rootScope.$on('SetIdList', function (event,idList) {
+        $scope.idList=idList;
+    });
+
+    $rootScope.$on('SetCodeAddress', function (event,code) {
+        $scope.code=code;
+    });
+
     $scope.submit = function (formId) {
         if ($(formId).valid() == false) {
             $scope.Invalid = true;
@@ -54,7 +62,7 @@ app.controller('verificationAddressController', function($scope, $timeout, $q,sh
         $scope.WaitFor = true;
 
         var formSerialize = $(formId).serialize();
-        var content = formSerialize + "&&idCase=" + $scope.idCase + "&&idSource=" + $scope.idSource;
+        var content = formSerialize + "&&idCase=" + $scope.idCase + "&&idSource=" + $scope.idSource + "&&code="+ $scope.code+"&&idList="+$scope.idList;
         $scope.WaitFor = true;
         $.post($scope.urlToGoSaveAddress, content)
             .success($scope.handleSuccess)
