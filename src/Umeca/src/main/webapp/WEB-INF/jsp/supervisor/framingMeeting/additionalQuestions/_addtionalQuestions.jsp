@@ -9,7 +9,7 @@
     <h2><i class="red icon-list bigger-100"></i> &nbsp;Preguntas adicionales
     </h2>
 </div>
-
+<br/>
 <div class="row">
     <div ng-show="aqSuccessMsg&&aqSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
         {{aqSuccessMsg}}

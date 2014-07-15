@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Drug;
 import com.umeca.model.entities.reviewer.ImputedHome;
@@ -20,6 +21,10 @@ public class FramingMeeting {
     private String activities;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="id_framing_imputed_personal_data")
+    private FramingImputedPersonalData personalData;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="id_framing_occupation")
     private Occupation occupation;
 
@@ -28,7 +33,7 @@ public class FramingMeeting {
     private AdditionalFramingQuestions additionalFramingQuestions;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ImputedHome> imputedHomes;
+    private List<FramingAddress> framingAddresses;
 
     @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingReference> references;
@@ -77,12 +82,12 @@ public class FramingMeeting {
         this.additionalFramingQuestions = additionalFramingQuestions;
     }
 
-    public List<ImputedHome> getImputedHomes() {
-        return imputedHomes;
+    public List<FramingAddress> getFramingAddresses() {
+        return framingAddresses;
     }
 
-    public void setImputedHomes(List<ImputedHome> imputedHomes) {
-        this.imputedHomes = imputedHomes;
+    public void setFramingAddresses(List<FramingAddress> framingAddresses) {
+        this.framingAddresses = framingAddresses;
     }
 
     public List<FramingReference> getReferences() {
@@ -147,5 +152,13 @@ public class FramingMeeting {
 
     public void setActivities(String activities) {
         this.activities = activities;
+    }
+
+    public FramingImputedPersonalData getPersonalData() {
+        return personalData;
+    }
+
+    public void setPersonalData(FramingImputedPersonalData personalData) {
+        this.personalData = personalData;
     }
 }

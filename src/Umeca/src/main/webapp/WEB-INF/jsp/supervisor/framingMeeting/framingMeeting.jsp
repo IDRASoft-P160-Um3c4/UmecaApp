@@ -20,6 +20,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/processAcompaniment/processAccompanimentCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/framingActivities/framingActivitiesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/addtionalQuestions/additionalQuestionsCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/personalData/personalDataCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/address/addressCtrl.js"></script>
 
     <title>Entrevista de encuadre</title>
 </head>
@@ -28,6 +30,7 @@
 
 <div class="container body-content" ng-controller="framingMeetingController" ng-init='fm.objView=${objView}' ng-cloak>
     <input type="hidden" name="idFolder" value="{{fm.objView.idFolder}}">
+    <br/>
 
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
 
@@ -117,11 +120,11 @@
                     </div>
 
                     <div id="address" class="tab-pane">
-                       <%--<%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_address.jsp" %>--%>
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/framingAddress/_framingAddress.jsp" %>
                     </div>
 
                     <div id="accompaniment" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_processAccompaniment.jsp" %>
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/proccessAccompaniment/_processAccompaniment.jsp" %>
                     </div>
 
 
@@ -134,7 +137,7 @@
                     </div>
 
                     <div id="activities" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_framingActivities.jsp" %>
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/framingActivities/_framingActivities.jsp" %>
                     </div>
 
                     <div id="drugs" class="tab-pane">
@@ -142,11 +145,12 @@
                     </div>
 
                     <div id="environmentAnalysis" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/environmentAnalysis/_environmentAnalysis.jsp" %>
+                        <%@ include
+                                file="/WEB-INF/jsp/supervisor/framingMeeting/environmentAnalysis/_environmentAnalysis.jsp" %>
                     </div>
 
                     <div id="addtional" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_addtionalQuestions.jsp" %>
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/additionalQuestions/_addtionalQuestions.jsp" %>
                     </div>
 
                 </div>
