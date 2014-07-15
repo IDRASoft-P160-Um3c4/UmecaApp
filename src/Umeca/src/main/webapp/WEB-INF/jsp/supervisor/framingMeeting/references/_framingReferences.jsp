@@ -4,11 +4,6 @@
 
 <script>
 
-    /*
-     window.deleteJob = function (id) {
-     window.showObsolete(id, "#angJsjqGridIdJob", "<c:url value='/reviewer/meeting/job/delete.json'/>", "#GridIdJob");
-     };*/
-
     $(document).ready(function() {
 
         var urlGridReferences = $('#urlGridReferences').attr("value");
@@ -18,11 +13,15 @@
             window.showUpsertWithIdCase(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/references/upsert.html'/>", "#GridReferences",undefined, idCase);
         };
 
+        deleteReference = function (id) {
+            window.showObsolete(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridReferences");
+        };
+
         jQuery("#GridReferences").jqGrid({
             url: urlGridReferences,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Teléfono','Parentesco','Dirección','Acción'],
+            colNames: ['ID', 'Nombre','Telï¿½fono','Parentesco','Direcciï¿½n','Acciï¿½n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -47,9 +46,9 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"upsertReference('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"deleteReference('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                     $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },

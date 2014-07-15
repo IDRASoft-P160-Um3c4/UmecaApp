@@ -28,7 +28,7 @@
                             <div class="col-xs-8">
                                 <label>Nombre</label>
                                 <br/>
-                                <input id="name" ng-model="hm.name" name="name" type="text"
+                                <input id="name" ng-model="refe.name" name="name" type="text"
                                        class="input-xxlarge" data-val="true"
                                        data-val-required="Nombre es un campo requerido"/>
                                 <br/>

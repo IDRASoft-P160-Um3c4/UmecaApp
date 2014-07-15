@@ -36,7 +36,7 @@ public class FramingReference implements EntityGrid {
     @Column(name = "person_type")
     private String personType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_framing_meeting")
     private FramingMeeting framingMeeting;
 
