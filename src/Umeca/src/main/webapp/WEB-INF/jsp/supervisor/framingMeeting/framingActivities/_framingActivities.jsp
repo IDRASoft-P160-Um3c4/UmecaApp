@@ -3,6 +3,12 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
 <div class="row" ng-controller="framingActivitiesController">
+    <input type="hidden" id="hidUrlAct"
+           value="<c:url value="/supervisor/framingMeeting/framingActivities/loadAFramingActivities.json"/>"/>
+
+    <input type="hidden" id="hidIdCaseAct" value="{{fm.objView.idCase}}"/>
+
+
     <div class="col-xs-10 col-xs-offset-1">
 
         <div class="row element-center">
@@ -23,7 +29,7 @@
 
             <form id="FormFramingActivites" name="FormFramingActivites" class="form-horizontal" role="form">
                 <div class="widget-box">
-                    <div class="widget-header">Ocupación</div>
+                    <div class="widget-header">Ocupaciï¿½n</div>
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
@@ -31,37 +37,37 @@
                                     <br/>
 
                                     <div class="col-xs-4">
-                                        <label for="occName">Ocupación</label>
+                                        <label for="occName">Ocupaciï¿½n</label>
                                         <br/>
                                         <input id="occName" ng-model="act.occName"
                                                name="occName"
                                                type="text" class="input-xxlarge"
                                                data-val="true"
-                                               data-val-required="Ocupación es un campo requerido"/>
+                                               data-val-required="Ocupaciï¿½n es un campo requerido"/>
                                         <br/>
             <span class="field-validation-valid" data-valmsg-for="occName"
                   data-valmsg-replace="true"></span>
                                     </div>
                                     <div class="col-xs-4">
-                                        <label for="occPlace">Lugar de ocupación</label>
+                                        <label for="occPlace">Lugar de ocupaciï¿½n</label>
                                         <br/>
                                         <input id="occPlace" ng-model="act.occPlace"
                                                name="occPlace"
                                                type="text" class="input-xxlarge"
                                                data-val="true"
-                                               data-val-required="Lugar de ocupación es un campo requerido"/>
+                                               data-val-required="Lugar de ocupaciï¿½n es un campo requerido"/>
                                         <br/>
             <span class="field-validation-valid" data-valmsg-for="occPlace"
                   data-valmsg-replace="true"></span>
                                     </div>
                                     <div class="col-xs-4">
-                                        <label for="occPhone">Teléfono</label>
+                                        <label for="occPhone">Telï¿½fono</label>
                                         <br/>
                                         <input id="occPhone" ng-model="act.occPhone"
                                                name="occPhone"
                                                type="text" class="input-xxlarge"
                                                data-val="true"
-                                               data-val-required="Teléfono es un campo requerido"/>
+                                               data-val-required="Telï¿½fono es un campo requerido"/>
                                         <br/>
             <span class="field-validation-valid" data-valmsg-for="occPhone"
                   data-valmsg-replace="true"></span>

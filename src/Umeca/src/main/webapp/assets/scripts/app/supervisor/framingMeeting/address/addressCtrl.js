@@ -1,6 +1,7 @@
 app.controller('addressFMController', function ($scope, $timeout, $http, $rootScope) {
 
     $scope.fa = {};
+    $scope.a={};
 
     $scope.loadAddress = function () {
 

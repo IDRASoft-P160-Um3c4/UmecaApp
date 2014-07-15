@@ -15,14 +15,20 @@
         var idCase = $('#hidIdCaseAdd').attr("value");
 
         upsertAddress = function(id) {
-            window.showUpsertWithIdCase(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/upsert.html'/>", "#GridHouseMate",undefined, idCase);
+            window.showUpsertWithIdCase(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/upsert.html'/>", "#GridAddress",undefined, idCase);
         };
+
+
+         deleteAddress = function (id) {
+         window.showObsolete(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/delete.json'/>", "#GridAddress");
+         };
+
 
         jQuery("#GridAddress").jqGrid({
             url: urlGridAddress,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Dirección','Acción'],
+            colNames: ['ID', 'Direcciï¿½n','Acciï¿½n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'fullAddress', index: 'fullAddress', width: 600, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -44,9 +50,9 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar domicilio\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar domicilio\" onclick=\"upsertAddress('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar domicilio\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar domicilio\" onclick=\"deleteAddress('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                     $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },

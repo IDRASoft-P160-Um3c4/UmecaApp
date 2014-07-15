@@ -1,3 +1,4 @@
+
 package com.umeca.controller.supervisor;
 
 import com.google.gson.Gson;
@@ -265,32 +266,23 @@ public class FramingMeetingController {
 
         Gson conv = new Gson();
 
-        Address address = new Address();
+        Address address;
 
-        if(id!=null)
+        if (id != null) {
             address = addressRepository.findOne(id);
+            addressService.fillModelAddress(model, address.getId());
+        } else {
+            address = new Address();
+        }
+
 
         AddressDto addDto = new AddressDto();
-        addDto.addressDto(address);
-
+        //addDto.addressDto(address);
         addDto.setIdCase(idCase);
 
-        model.addObject("addObj",conv.toJson(addDto));
-        model.addObject("listState",conv.toJson(stateRepository.findAll()));
-        model.addObject("idCaseAdd",idCase);
-
-        //AddressDto addressDto = new AddressDto();
-
-        /*FramingReference housemate = new FramingReference();
-        Gson conv = new Gson();
-
-        if (id != null)
-            housemate = framingReferenceRepository.findOne(id);
-
-        housemate.setIdCase(idCase);
-
-        model.addObject("housemate", conv.toJson(housemate));
-        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findAll()));*/
+        model.addObject("addObj", conv.toJson(addDto));
+        model.addObject("listState", conv.toJson(stateRepository.findAll()));
+        model.addObject("idCaseAdd", idCase);
 
         return model;
     }
@@ -300,15 +292,18 @@ public class FramingMeetingController {
 
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/housemate/upsert");
 
-        FramingReference housemate = new FramingReference();
+        FramingReferenceDto housemate;
         Gson conv = new Gson();
 
         if (id != null)
-            housemate = framingReferenceRepository.findOne(id);
+            housemate = new FramingReferenceDto(framingReferenceRepository.findOne(id));
+        else
+            housemate = new FramingReferenceDto();
 
         housemate.setIdCase(idCase);
 
         model.addObject("housemate", conv.toJson(housemate));
+
         model.addObject("lstRelationship", conv.toJson(relationshipRepository.findAll()));
 
         return model;
@@ -319,7 +314,7 @@ public class FramingMeetingController {
     @ResponseBody
     ResponseMessage doAddressUpsert(@RequestParam Long idCase, @ModelAttribute AddressDto view) {
 
-        return framingMeetingService.saveFramingAddress(idCase,view);
+        return framingMeetingService.saveFramingAddress(idCase, view);
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/references/upsert", method = RequestMethod.POST)
@@ -327,15 +322,18 @@ public class FramingMeetingController {
 
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/references/upsert");
 
-        FramingReference reference = new FramingReference();
+        FramingReferenceDto housemate;
         Gson conv = new Gson();
 
         if (id != null)
-            reference = framingReferenceRepository.findOne(id);
+            housemate = new FramingReferenceDto(framingReferenceRepository.findOne(id));
+        else
+            housemate = new FramingReferenceDto();
 
-        reference.setIdCase(idCase);
+        housemate.setIdCase(idCase);
 
-        model.addObject("reference", conv.toJson(reference));
+        model.addObject("reference", conv.toJson(housemate));
+
         model.addObject("lstRelationship", conv.toJson(relationshipRepository.findAll()));
 
         return model;
@@ -352,6 +350,20 @@ public class FramingMeetingController {
             return new ResponseMessage(true, "Ocurrio un error al guardar la información. Intente mas tarde.");
 
         return framingMeetingService.saveReference(existCase, framingReference);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/address/delete", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage deleteAddress(@RequestParam Long id) {
+        return framingMeetingService.deleteFramingAddress(id);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/reference/delete", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage deleteReference(@RequestParam Long id) {
+        return framingMeetingService.deleteReference(id);
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/environmentAnalysis/loadEnvironmentAnalysis", method = RequestMethod.POST)
@@ -382,6 +394,7 @@ public class FramingMeetingController {
     public
     @ResponseBody
     ProcessAccompanimentForView loadProcessAccompaniment(@RequestParam(required = true) Long idCase) {
+
         return framingMeetingService.fillProcessAccompanimentForView(idCase);
     }
 
@@ -390,7 +403,7 @@ public class FramingMeetingController {
     @ResponseBody
     ResponseMessage processAccompanimentDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute ProcessAccompanimentForView view) {
 
-        ProcessAccompaniment processAccompaniment = framingMeetingService.fillProcessAccompaniment(view);
+        ProcessAccompaniment processAccompaniment = framingMeetingService.fillProcessAccompaniment(idCase,view);
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
         existFraming.setProcessAccompaniment(processAccompaniment);
 
@@ -398,12 +411,12 @@ public class FramingMeetingController {
     }
 
 
-    @RequestMapping(value = "/supervisor/framingMeeting/activities/loadActivities", method = RequestMethod.POST)
+    @RequestMapping(value = "/supervisor/framingMeeting/framingActivities/loadAFramingActivities", method = RequestMethod.POST)
     public
     @ResponseBody
     FramingActivitiesForView loadActivities(@RequestParam(required = true) Long idCase) {
 
-        return new FramingActivitiesForView();
+        return framingMeetingService.fillActivitiesForView(idCase);
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/activities/doUpsert", method = RequestMethod.POST)
@@ -412,7 +425,7 @@ public class FramingMeetingController {
     ResponseMessage activitiesDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute FramingActivitiesForView view) {
 
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
-        existFraming=framingMeetingService.setActivities(existFraming,view);
+        existFraming = framingMeetingService.setActivities(existFraming, view);
         return framingMeetingService.save(existFraming);
     }
 
@@ -436,7 +449,7 @@ public class FramingMeetingController {
     @ResponseBody
     ResponseMessage personalDataDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute FramingPersonalDataView view) {
 
-        FramingImputedPersonalData personalData = framingMeetingService.fillPersonalData(idCase,view);
+        FramingImputedPersonalData personalData = framingMeetingService.fillPersonalData(idCase, view);
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
         existFraming.setPersonalData(personalData);
 

@@ -1,15 +1,14 @@
-app.controller('processAcompanimentController', function ($scope, $timeout, $http, $q) {
+app.controller('processAcompanimentController', function ($scope, $rootScope, $timeout, $http, $q) {
 
         $scope.pa = {};
         $scope.a = {};
 
-        $scope.paSuccessMsg="";
-        $scope.paErrorMsg="";
+        $scope.paSuccessMsg = "";
+        $scope.paErrorMsg = "";
 
-        $scope.lstRelationship={};
-        $scope.lstAcademicLevel={};
+        $scope.lstRelationship = {};
 
-        $scope.fillRelationship= function () {
+        $scope.fillRelationship = function () {
 
             if ($scope.lstRelationship != undefined && $scope.lstRelationship.length > 0)
                 if ($scope.pa.relationshipId === undefined) {
@@ -17,6 +16,7 @@ app.controller('processAcompanimentController', function ($scope, $timeout, $htt
                     $scope.pa.relationshipId = $scope.pa.relationship.id;
                 }
                 else {
+
                     for (var i = 0; i < $scope.lstRelationship.length; i++) {
                         var rel = $scope.lstRelationship[i];
                         if (rel.id === $scope.pa.relationshipId) {
@@ -28,20 +28,19 @@ app.controller('processAcompanimentController', function ($scope, $timeout, $htt
         };
 
 
-
-        $scope.loadProcessAccompaniment= function () {
+        $scope.loadProcessAccompaniment = function () {
 
             var currentTimeout = null;
             var ajaxConf;
 
-            var url= $('#hidUrlPA').attr("value");
-            var idCase= $('#hidIdCaseProc').attr("value");
+            var url = $('#hidUrlPA').attr("value");
+            var idCase = $('#hidIdCaseProc').attr("value");
 
             ajaxConf = {
                 method: "POST",
                 params: {idCase: idCase}/*,
-                dataType: "json",
-                contentType: "application/json"*/
+                 dataType: "json",
+                 contentType: "application/json"*/
             };
 
             ajaxConf.url = url;
@@ -58,14 +57,29 @@ app.controller('processAcompanimentController', function ($scope, $timeout, $htt
             }, 200);
         };
 
-        $scope.fillAccompaniment=function(data){
-           // $scope.pa = data;
+        $scope.fillAccompaniment = function (data) {
+
+            $scope.pa.name=data.name;
+            $scope.pa.lastNameP=data.lastNameP;
+            $scope.pa.lastNameM=data.lastNameM;
+            $scope.pa.gender=data.gender;
+            $scope.pa.age=data.age;
+            $scope.pa.phone=data.phone;
+            $scope.pa.celphone=data.celphone;
+            $scope.pa.occName=data.occName;
+            $scope.pa.occPlace=data.occPlace;
+            $scope.pa.occPhone=data.occPhone;
+            $scope.pa.degree=data.degree;
+            $scope.pa.relationshipId=data.relationshipId;
+            $scope.fillRelationship();
+
+
+            $rootScope.$broadcast("setAddress", data.address);
         };
 
         $scope.init = function () {
             $scope.loadProcessAccompaniment();
             $scope.fillRelationship();
-            //$scope.fillSelect($scope.pa.academicLevelId,$scope.pa.academiLevel,$scope.lstAcademicLevel);
         };
 
         $timeout(function () {

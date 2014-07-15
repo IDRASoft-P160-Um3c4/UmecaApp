@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.AcademicLevel;
+import com.umeca.model.catalog.Relationship;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.ImputedHome;
@@ -48,6 +49,10 @@ public class ProcessAccompaniment {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="id_addres")
     private Address address;
+
+    @OneToOne
+    @JoinColumn(name = "id_relationship")
+    private Relationship relationship;
 
     public Long getId() {
         return id;
@@ -135,5 +140,13 @@ public class ProcessAccompaniment {
 
     public void setDegree(String degree) {
         this.degree = degree;
+    }
+
+    public Relationship getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(Relationship relationship) {
+        this.relationship = relationship;
     }
 }

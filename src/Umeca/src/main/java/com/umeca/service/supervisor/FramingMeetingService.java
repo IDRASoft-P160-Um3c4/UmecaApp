@@ -19,14 +19,18 @@ public interface FramingMeetingService {
     List<FramingSelectedSourceRel> generateSourceRel(Long idCase, String lstJson);
     ResponseMessage saveSelectedItems(Long idCase, FramingEnvironmentAnalysisForView view);
     ResponseMessage saveReference(Case existCase, FramingReference newReference);
-    ProcessAccompaniment fillProcessAccompaniment(ProcessAccompanimentForView view);
+    ProcessAccompaniment fillProcessAccompaniment(Long idCase, ProcessAccompanimentForView view);
     ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase);
     ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment);
     FramingMeeting setActivities(FramingMeeting existFraming,FramingActivitiesForView view);
     List<RelativeAbroadView> loadRelativeAbroad(Long idCase);
 
+    ResponseMessage deleteReference(Long id);
+
     FramingEnvironmentAnalysisForView loadEnvironmentAnalysis (Long idCase);
     FramingImputedPersonalData fillPersonalData(Long idCase, FramingPersonalDataView view);
     FramingPersonalDataView fillPersonalDataForView(Long idCase);
     ResponseMessage saveFramingAddress(Long idCase, AddressDto view);
+    ResponseMessage deleteFramingAddress(Long id);
+    FramingActivitiesForView fillActivitiesForView(Long idCase);
 }
