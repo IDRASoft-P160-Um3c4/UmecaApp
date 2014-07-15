@@ -36,7 +36,7 @@ public class ProcessAccompanimentForView {
 
     private Long idAddres;
 
-    private Long academicLevelId;
+    private String degree;
 
     public Long getIdCase() {
         return idCase;
@@ -142,14 +142,6 @@ public class ProcessAccompanimentForView {
         this.idAddres = idAddres;
     }
 
-    public Long getAcademicLevelId() {
-        return academicLevelId;
-    }
-
-    public void setAcademicLevelId(Long academicLevelId) {
-        this.academicLevelId = academicLevelId;
-    }
-
     public String getOccName() {
         return occName;
     }
@@ -172,5 +164,13 @@ public class ProcessAccompanimentForView {
 
     public void setOccPhone(String occPhone) {
         this.occPhone = occPhone;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 }

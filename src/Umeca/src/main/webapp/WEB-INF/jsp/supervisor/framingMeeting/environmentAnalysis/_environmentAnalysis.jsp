@@ -93,7 +93,9 @@
                                         <br/>
                                         <div class="row" ng-repeat="risk in lstRisk">
                                             <label>
-                                                <input ng-click="selectRisk(risk.id);"
+                                                <input id="chkRisk_{{risk.id}}"
+                                                        ng-click="selectRisk(risk.id);"
+                                                        ng-checked='lstSelectedRisk.indexOf(risk.id)>=0'
                                                        class="ace"
                                                        type="checkbox">
                                                 <span class="lbl">&nbsp;&nbsp;{{risk.description}}</span>
@@ -115,7 +117,9 @@
                                         <br/>
                                         <div class="row" ng-repeat="threat in lstThreat">
                                             <label>
-                                                <input ng-click="selectThreat(threat.id);"
+                                                <input id="chkThreat_{{threat.id}}"
+                                                        ng-click="selectThreat(threat.id);"
+                                                        ng-checked='lstSelectedThreat.indexOf(threat.id)>=0'
                                                        class="ace"
                                                        type="checkbox">
                                                 <span class="lbl">&nbsp;&nbsp;{{threat.description}}</span>

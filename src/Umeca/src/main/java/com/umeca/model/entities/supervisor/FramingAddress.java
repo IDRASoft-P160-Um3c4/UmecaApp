@@ -1,23 +1,26 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.entities.reviewer.Address;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="framing_selected_risk_rel")
-public class FramingSelectedRiskRel {
+@Table(name = "framing_address")
+public class FramingAddress {
 
     @Id
     @GeneratedValue
-    @Column(name="id_framing_selected_risk_rel")
+    @Column(name = "id_framing_address")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_framing_meeting")
     private FramingMeeting framingMeeting;
 
-    @OneToOne
-    @JoinColumn(name="id_framing_risk")
-    private FramingRisk framingRisk;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="id_address")
+    private Address address;
+
 
     public Long getId() {
         return id;
@@ -35,11 +38,12 @@ public class FramingSelectedRiskRel {
         this.framingMeeting = framingMeeting;
     }
 
-    public FramingRisk getFramingRisk() {
-        return framingRisk;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setFramingRisk(FramingRisk framingRisk) {
-        this.framingRisk = framingRisk;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }
+

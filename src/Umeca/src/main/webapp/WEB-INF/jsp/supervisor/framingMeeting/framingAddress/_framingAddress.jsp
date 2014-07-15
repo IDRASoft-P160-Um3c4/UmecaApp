@@ -4,33 +4,34 @@
 
 <script>
 
-    /*window.upsertAddress = function(id) {
-        window.showUpsertWithIdCase(id, "#angJsjqGridIdAddress", "<c:url value='/reviewer/meeting/address/upsert.html'/>", "#GridIdAddress",undefined, ${m.caseDetention.id});
-    };
-
-    window.deleteAddress = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdAddress", "<c:url value='/reviewer/meeting/address/delete.json'/>", "#GridIdAddress");
+    /*
+    window.deleteJob = function (id) {
+        window.showObsolete(id, "#angJsjqGridIdJob", "<c:url value='/reviewer/meeting/job/delete.json'/>", "#GridIdJob");
     };*/
 
     $(document).ready(function() {
 
-        jQuery("#GridIdAddress").jqGrid({
-            //url: '<c:url value='/reviewer/meeting/listAddress.json?idCase=${m.caseDetention.id}'/>',
+        var urlGridAddress= $('#urlGridAddress').attr("value");
+        var idCase = $('#hidIdCaseAdd').attr("value");
+
+        upsertAddress = function(id) {
+            window.showUpsertWithIdCase(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/upsert.html'/>", "#GridHouseMate",undefined, idCase);
+        };
+
+        jQuery("#GridAddress").jqGrid({
+            url: urlGridAddress,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Direccion','Tipo de domicilio','Tiempo de<br/> recidencia','Tipo de propiedad', 'Acciï¿½n'],
+            colNames: ['ID', 'Dirección','Acción'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
-                { name: 'addressString', index: 'addressString', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'timeLive', index: 'timeLive', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'registerTypeString', index: 'registerTypeString', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'belongString', index: 'belongString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'fullAddress', index: 'fullAddress', width: 600, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
             pager: '#GridPagerAddress',
-            sortname: 'registerTypeString',
+            sortname: 'fullAddress',
             height: 200,
             viewrecords: true,
             shrinkToFit: false,
@@ -43,9 +44,9 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar domicilio\" onclick=\"window.upsertAddress('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar domicilio\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar domicilio\" onclick=\"window.deleteAddress('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar domicilio\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                     $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },
@@ -58,14 +59,14 @@
             }
         });
 
-        jQuery("#GridIdAddress").jqGrid('navGrid', '#GridPagerAddress', {
+        jQuery("#GridAddress").jqGrid('navGrid', '#GridPagerAddress', {
             edit: false, editicon : 'icon-pencil blue',
-            add: true, addfunc: window.upsertAddress, addicon : 'icon-plus-sign purple',
+            add: true, addfunc: upsertAddress, addicon : 'icon-plus-sign purple',
             refresh: true, refreshicon : 'icon-refresh green',
             del: false,
             search: false});
 
-        jQuery("#GridIdAddress").jqGrid('filterToolbar', {
+        jQuery("#GridAddress").jqGrid('filterToolbar', {
             stringResult: true,
             searchOperators: true,
             searchOnEnter: true,
@@ -77,11 +78,15 @@
 </script>
 
 <div class="row element-center">
+
+    <input type="hidden" id="hidIdCaseAdd" value="{{fm.objView.idCase}}"/>
+    <input type="hidden" id="urlGridAddress" value="listAddress.json?idCase={{fm.objView.idCase}}"/>
+
     <div class="col-xs-12">
-        <h2> <i class="green  icon-home  bigger-100"></i>&nbsp;Domicilios</h2>
+        <h2> <i class="blue icon-group bigger-100">&nbsp;</i>Domicilios</h2>
         <br/>
         <div id="angJsjqGridIdAddress" ng-controller="modalDlgController">
-            <table id="GridIdAddress" class="element-center" style="margin: auto"></table>
+            <table id="GridAddress" class="element-center" style="margin: auto"></table>
             <div id="GridPagerAddress"></div>
             <div class="blocker" ng-show="working">
                 <div>

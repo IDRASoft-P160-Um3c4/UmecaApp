@@ -6,6 +6,14 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     $scope.lstSelectedSources = [];
 
+    $scope.lstRisk = {};
+
+    $scope.lstSelectedRisk = [];
+
+    $scope.lstThreat = {};
+
+    $scope.lstSelectedThreat = [];
+
     $scope.errorMsg ="";
 
     $scope.successMsg="";
@@ -22,9 +30,49 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     };
 
+    $scope.selectRisk = function (id) {
+
+        var idx = $scope.findRisk(id);
+
+        if (idx != null) {
+            $scope.lstSelectedRisk.splice(idx, 1);
+        } else {
+            $scope.lstSelectedRisk.push(id);
+        }
+
+    };
+
+    $scope.selectThreat = function (id) {
+
+        var idx = $scope.findThreat(id);
+
+        if (idx != null) {
+            $scope.lstSelectedThreat.splice(idx, 1);
+        } else {
+            $scope.lstSelectedThreat.push(id);
+        }
+
+    };
+
     $scope.findSource = function (id) {
         for (var i = 0; i < $scope.lstSelectedSources.length; i++) {
             if ($scope.lstSelectedSources[i] == id)
+                return i;
+        }
+        return null;
+    }
+
+    $scope.findRisk = function (id) {
+        for (var i = 0; i < $scope.lstSelectedRisk.length; i++) {
+            if ($scope.lstSelectedRisk[i] == id)
+                return i;
+        }
+        return null;
+    }
+
+    $scope.findThreat = function (id) {
+        for (var i = 0; i < $scope.lstSelectedThreat.length; i++) {
+            if ($scope.lstSelectedThreat[i] == id)
                 return i;
         }
         return null;
@@ -42,26 +90,10 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         $scope.lstRisk=$.parseJSON(data.lstRisk);
         $scope.lstThreat=$.parseJSON(data.lstThreat);
 
-        $scope.lstSelectedSources= $.parseJSON(data.lstSelectedSources);/*
-        $scope.lstSelectedArrangement=data.lstSelectedArrangement;
-        $scope.lstSelectedRisk=data.lstSelectedRisk;
-        $scope.lstSelectedThreat=data.lstSelectedThreat;*/
-
-        //$scope.checkOptions();
-    };
-
-    $scope.verifyCheck=function(id){
-        alert($scope.lstSelectedSources.indexOf(id)>=0);
-    };
-
-    $scope.checkOptions= function(){
-
-        for(var i=0; i<$scope.lstSelectedSources.length; i++){
-
-        alert('#chkSource_'+$scope.lstSelectedSources[i]);
-
-            $('#chkSource_'+$scope.lstSelectedSources[i]).prop('checked', 'checked');
-        }
+        $scope.lstSelectedSources= $.parseJSON(data.lstSelectedSources);
+        //$scope.lstSelectedArrangement=data.lstSelectedArrangement;
+        $scope.lstSelectedRisk=$.parseJSON(data.lstSelectedRisk);
+        $scope.lstSelectedThreat=$.parseJSON(data.lstSelectedThreat);
     };
 
     $scope.loadEnvironmentAnalysis= function () {

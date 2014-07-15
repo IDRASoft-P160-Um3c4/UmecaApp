@@ -11,11 +11,11 @@ public class FramingSelectedThreatRel {
     @Column(name="id_framing_selected_threat_rel")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="id_framing_meeting")
     private FramingMeeting framingMeeting;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name="id_framing_threat")
     private FramingThreat framingThreat;
 
