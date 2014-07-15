@@ -46,7 +46,7 @@ public class FramingReferenceDto {
     }
 
     public void setRelationshipId(Long relationshipId) {
-        this.relationshipId = relationshipId;
+        this.relationshipId =  relationshipId;
     }
 
     public String getAddress() {
