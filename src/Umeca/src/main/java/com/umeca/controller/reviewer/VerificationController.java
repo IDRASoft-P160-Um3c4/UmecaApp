@@ -219,8 +219,16 @@ public class VerificationController {
     }
 
     @RequestMapping(value = "reviewer/verification/saveSelectChoice", method = RequestMethod.POST)
-    public ResponseMessage saveSelectChoice(@RequestParam(required = true) Long idCase,@RequestParam(required = false) Long idFieldMeeting,@RequestParam(required = true) String code,@RequestParam(required = false)Long idList){
-        return verificationService.saveSelectChoice(idCase,idFieldMeeting,code, idList);
+    public ResponseMessage saveSelectChoice(@RequestParam(required = true) Long idCase,@RequestParam(required = false) Long idFieldMeeting,@RequestParam(required = true) String code,@RequestParam(required = false)Long idList,@RequestParam(required = true) String reason){
+        if(idFieldMeeting==null){
+            return new ResponseMessage(true,"Debe seleccionar una opción válida.");
+        }
+        return verificationService.saveSelectChoice(idCase,idFieldMeeting,code, idList,reason);
+    }
+
+    @RequestMapping(value = "reviewer/verification/terminateVerification", method = RequestMethod.POST)
+    public ResponseMessage terminateVerification(@RequestParam(required = true) Long idCase){
+        return verificationService.terminateVerification(idCase);
     }
 
 }

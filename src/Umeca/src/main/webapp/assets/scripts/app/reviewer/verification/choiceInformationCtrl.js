@@ -50,28 +50,59 @@ app.controller('choiceInformationController', function($scope, $timeout, $q,shar
                 }
             } ;
 
-
-    $scope.submit = function (formId, urlToPost, hasReturnId) {
-
-        if ($(formId).valid() == false) {
-            $scope.Invalid = true;
-            return false;
-        }
-
+    $scope.terminateVerification = function(urlTerminate){
         $scope.WaitFor = true;
 
-        if (hasReturnId === true) {
-            $.post(urlToPost, $(formId).serialize())
-                .success($scope.handleSuccessWithId)
-                .error($scope.handleError);
-        }
-        else {
-            $.post(urlToPost, $(formId).serialize())
-                .success($scope.handleSuccess)
-                .error($scope.handleError);
-        }
-        return true;
+        $.post(urlTerminate)
+            .success($scope.handleSuccessWithId)
+            .error($scope.handleError);
     };
+
+    $scope.changeZIndex = function(elementClick){
+        $("#liImputed").css("z-index","0");
+        $("#liImputedHome").css("z-index","0");
+        $("#liReference").css("z-index","0");
+        $("#liSocialNetwork").css("z-index","0");
+        $("#liJob").css("z-index","0");
+        $("#liSchool").css("z-index","0");
+        $("#liDrug").css("z-index","0");
+        $("#liLeaveCountry").css("z-index","0");
+        $("#"+elementClick).css("z-index","1");
+
+    };
+
+
+    $scope.handleSuccess = function (resp) {
+        $scope.WaitFor = false;
+
+        $scope.listMsgError ={};
+        try {
+            if(resp.hasError===undefined){
+                resp=resp.responseMessage;}
+            if (resp.hasError === false) {
+                window.cancelMeeting();
+                return;
+            }
+            var obj = JSON.parse(resp.message);
+            if(obj.groupMessage != undefined){
+                for(var i=0; i < obj.groupMessage.length; i++){
+                    var g1= obj.groupMessage[i];
+                    $scope.listMsgError[g1.section]=g1.messages;
+                }
+            }
+            $scope.$apply();
+
+        } catch (e) {
+            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
+        }
+    };
+
+    $scope.handleError = function () {
+        $scope.WaitFor = false;
+        $scope.MsgError = "Error de red. Por favor intente más tarde.";
+        $scope.$apply();
+    };
+
 
     $scope.setDlg = function (dlg, urlToSubmit) {
         $scope.Model.dlg = dlg;

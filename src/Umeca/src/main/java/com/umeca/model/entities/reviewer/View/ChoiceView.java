@@ -23,7 +23,8 @@ public class ChoiceView {
         FieldMeetingSource template = list.get(0);
         id = template.getId();
         status = template.getStatusFieldVerification().getName();
-        nameSource = template.getSourceVerification().getFullName();
+        if(template.getSourceVerification()!=null)
+            nameSource = template.getSourceVerification().getFullName();
         values = new ArrayList<>();
         isFinal = template.getFinal();
         for(FieldMeetingSource fms : list){

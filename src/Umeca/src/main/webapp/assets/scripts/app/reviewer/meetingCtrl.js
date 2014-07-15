@@ -27,7 +27,7 @@ app.controller('meetingController', function($scope, $timeout) {
         $("#liLeaveCountry").css("z-index","0");
         $("#"+elementClick).css("z-index","1");
 
-    }
+    };
 
     $scope.submit = function (formId, urlToPost, hasReturnId) {
         $scope.Invalid = true;

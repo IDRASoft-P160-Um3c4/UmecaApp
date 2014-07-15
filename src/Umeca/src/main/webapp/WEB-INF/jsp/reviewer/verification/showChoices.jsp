@@ -10,7 +10,7 @@
             <div class="modal-content">
                <!-- <div class="modal-header">
                     <div class="alert alert-danger ">
-                        <h4 class="element-center">&nbsp;&nbsp;Información recolectada</h4>
+                        <h4 class="element-center">&nbsp;&nbsp;Informaciï¿½n recolectada</h4>
                     </div>
                 </div>    -->
                 <div class="modal-body">
@@ -20,9 +20,9 @@
                             <div class="col-xs-12 widget-container-span">
                                 <div class="widget-box">
                                     <div class="widget-header widget-header-small header-color-blue3" ng-init='codeField = ${code}; idList = ${idList};'>
-                                        <input type="hidden" ng-update-hidden ng-model="codeField" name="code"/>
-                                        <input type="hidden" ng-update-hidden ng-model="idList" name="idList"/>
-                                        <h6 class="smaller">Elije la información final para el campo o sección</h6>
+                                        <input type="hidden" name="code" value="${code}"/>
+                                        <input type="hidden" name="idList" value="${idList}"/>
+                                        <h6 class="smaller">Elije la informaciï¿½n final para el campo o secciï¿½n</h6>
                                     </div>
                                             <table class=" widget-body table table-striped table-bordered table-hover" ng-init='listChoice = ${listChoice};'>
                                                 <tbody>
@@ -52,13 +52,13 @@
                                             </table>
                                 </div>
                                 <br/>
-                                <div class="row" ng-show="Model.rdoField != '' && Model.rdoField != undefined ">
+                                <div class="row">
                                     <div class="col-xs-3 element-left">
-                                        Razón por la que se elije este campo o sección:
+                                        Razï¿½n por la que se elije este campo o secciï¿½n:
                                     </div>
                                     <div class="col-xs-9">
                                         <textarea class="form-control" name="reason"  data-val="true"
-                                         data-val-required="La razón por la que se elije el campo o sección es un campo requerido"></textarea>
+                                         data-val-required="La razï¿½n por la que se elije el campo o secciï¿½n es un campo requerido"></textarea>
                                          <span class="field-validation-valid" data-valmsg-for="reason" data-valmsg-replace="true"></span>
                                     </div>
                                 </div>

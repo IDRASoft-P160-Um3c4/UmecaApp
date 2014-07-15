@@ -79,7 +79,7 @@
        ng-model="urlShowChoices"
        ng-update-hidden>
 
-<h2 class="element-center"><i class="glyphicon icon-edit "></i>&nbsp;&nbsp;Entrevista de verificación</h2>
+<h2 class="element-center"><i class="glyphicon icon-edit "></i>&nbsp;&nbsp;Entrevista de verificaciï¿½n</h2>
 <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
 <br/>
 
@@ -101,12 +101,12 @@
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liPersonalData');"></i>
+                           data-toggle="dropdown" ng-click="changeZIndex('liImputed');"></i>
 
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['personalData']">
+                                <div ng-repeat="msg in listMsgError['imputed']">
                                     <li>
                                         {{msg}}
                                     </li>
@@ -302,7 +302,7 @@
                 Facilidad de
                 <br/>
 
-                <div class="col-xs-offset-3">abandonar el país</div>
+                <div class="col-xs-offset-3">abandonar el paï¿½s</div>
             </div>
             <div class="col-xs-2" ng-show="listMsgError['leavingCountry'].length > 0">
                 <div class="tools">
@@ -458,13 +458,25 @@
 </div>
 </div>
 <div class="row">
+    <div class="col-xs-12">
+        <div ng-show="listMsgError['general'].length > 0" class="alert alert-danger element-center error-font">
+            <div ng-repeat="msg in listMsgError['general']">
+                <li>
+                    {{msg}}
+                </li>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
     <div class="modal-footer">
-                    <span class="btn btn-default btn-sm" onclick="window.cancelMeetingSource()">
+                    <span class="btn btn-default btn-sm" onclick="window.cancelChoiceInformation()">
                         Regresar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="terminateVerification('<c:url value="/reviewer/verification/terminateVerification.json?idCase=${idCase}"/>');">
-                          Terminar Verificación
+                          Terminar Verificaciï¿½n
                     </span>
     </div>
 </div>

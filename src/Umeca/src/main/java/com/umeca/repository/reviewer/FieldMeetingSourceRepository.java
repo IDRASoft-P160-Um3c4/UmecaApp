@@ -58,13 +58,13 @@ public interface FieldMeetingSourceRepository extends JpaRepository<FieldMeeting
 
     @Query("select fms from FieldMeetingSource fms " +
             "INNER JOIN fms.fieldVerification as fv " +
-            "WHERE fms.sourceVerification.id = :idSource and fv.idSubsection= :idSubsection")
-    List<FieldMeetingSource> getGroupFieldMeeting(@Param("idSource")Long idSource,@Param("idSubsection") Integer idSubsection);
+            "WHERE fms.sourceVerification.id = :idSource and fv.idSubsection= :idSubsection AND fms.statusFieldVerification.name <> :status")
+    List<FieldMeetingSource> getGroupFieldMeeting(@Param("idSource") Long idSource, @Param("idSubsection") Integer idSubsection,@Param("status") String stFieldVerifUnable);
 
     @Query("select fms from FieldMeetingSource fms " +
             "INNER JOIN fms.fieldVerification as fv " +
-            "WHERE fms.sourceVerification.id = :idSource and fv.idSubsection= :idSubsection and fms.idFieldList=:idList")
-    List<FieldMeetingSource> getGroupFieldMeetingWithIdList(@Param("idSource")Long idSource,@Param("idSubsection") Integer idSubsection,@Param("idList") Long idList);
+            "WHERE fms.sourceVerification.id = :idSource and fv.idSubsection= :idSubsection and fms.idFieldList=:idList  AND fms.statusFieldVerification.name <> :status")
+    List<FieldMeetingSource> getGroupFieldMeetingWithIdList(@Param("idSource")Long idSource,@Param("idSubsection") Integer idSubsection,@Param("idList") Long idList, @Param("status")String status);
 
 
     @Query("select fms from Case as c " +
@@ -72,5 +72,33 @@ public interface FieldMeetingSourceRepository extends JpaRepository<FieldMeeting
             "INNER JOIN sv.fieldMeetingSourceList as fms " +
             "INNER JOIN fms.fieldVerification as fv " +
             "where c.id=:idCase and fv.idSubsection = :idSubsection and fms.isFinal=true")
-    List<FieldMeetingSource> findListFinalByIdSubsection(@Param("idCase")Long idCase,@Param("idSubsection") Long idSubsection);
+    List<FieldMeetingSource> findListFinalByIdSubsection(@Param("idCase")Long idCase,@Param("idSubsection") Integer idSubsection);
+
+    @Query("select fms from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "INNER JOIN fms.statusFieldVerification as st " +
+            "WHERE c.id =:idCase and fv.idSubsection=:idSubsection and st.name=:status")
+    List<FieldMeetingSource> getExistUnableFieldMeeting(@Param("idSubsection")Integer idSubsection,@Param("idCase") Long idCase,@Param("status")String code);
+
+    @Query("select fms from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "INNER JOIN fms.statusFieldVerification as st " +
+            "WHERE c.id =:idCase and fv.idSubsection=:idSubsection and st.name=:status and fms.idFieldList=:idList")
+    List<FieldMeetingSource> getExistUnableFieldMeetingWithIdList(@Param("idSubsection")Integer idSubsection,@Param("idList") Long idList,@Param("idCase") Long idCase,@Param("status") String status);
+
+    @Query("select distinct (fv.idSubsection) from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "INNER JOIN fms.statusFieldVerification as st " +
+            " where sv.id =:idImputed and st.name <> :status and c.id=:idCase and fv.idSubsection  not in (select distinct (fva.idSubsection) from Case as ca " +
+                "INNER JOIN ca.verification.sourceVerifications sva " +
+                "INNER JOIN sva.fieldMeetingSourceList as fmsa " +
+                "INNER JOIN fmsa.fieldVerification as fva " +
+                "where fmsa.isFinal = true and ca.id=:idCase )")
+    List<Integer> getIdsSubsectionMessing(@Param("idCase")Long idCase,@Param("idImputed") Long idImputed,@Param("status")String status);
 }

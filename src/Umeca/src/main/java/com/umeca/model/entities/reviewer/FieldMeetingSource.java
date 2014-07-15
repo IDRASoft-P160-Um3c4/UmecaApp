@@ -49,7 +49,7 @@ public class FieldMeetingSource {
     @Column(name="value_json", length = 1000, nullable = false)
     private String jsonValue;
 
-    @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
+    @ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name="id_status", nullable = false)
     private StatusFieldVerification statusFieldVerification;
 
@@ -58,6 +58,9 @@ public class FieldMeetingSource {
 
     @Column(name="id_filed_list", nullable = true)
     private Long idFieldList;
+
+    @Column(name="reason", length = 500, nullable = true)
+    private String reason;
 
     public Long getId() {
         return id;
@@ -121,5 +124,13 @@ public class FieldMeetingSource {
 
     public void setJsonValue(String jsonValue) {
         this.jsonValue = jsonValue;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 }
