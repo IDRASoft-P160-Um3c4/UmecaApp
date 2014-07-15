@@ -50,6 +50,29 @@ app.controller('choiceInformationController', function($scope, $timeout, $q,shar
                 }
             } ;
 
+
+    $scope.submit = function (formId, urlToPost, hasReturnId) {
+
+        if ($(formId).valid() == false) {
+            $scope.Invalid = true;
+            return false;
+        }
+
+        $scope.WaitFor = true;
+
+        if (hasReturnId === true) {
+            $.post(urlToPost, $(formId).serialize())
+                .success($scope.handleSuccessWithId)
+                .error($scope.handleError);
+        }
+        else {
+            $.post(urlToPost, $(formId).serialize())
+                .success($scope.handleSuccess)
+                .error($scope.handleError);
+        }
+        return true;
+    };
+
     $scope.setDlg = function (dlg, urlToSubmit) {
         $scope.Model.dlg = dlg;
         $scope.Model.url = urlToSubmit;

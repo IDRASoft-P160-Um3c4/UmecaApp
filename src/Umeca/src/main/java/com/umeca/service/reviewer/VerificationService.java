@@ -1,6 +1,7 @@
 package com.umeca.service.reviewer;
 
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.FieldMeetingSource;
 import com.umeca.model.entities.reviewer.SourceVerification;
@@ -41,4 +42,10 @@ public interface VerificationService {
 
 
     ModelAndView showChoices(Long idCase, String code, Long idList);
+
+    ResponseMessage saveSchedule(Long idCase, Long idSource, Long idList, String schedule, String code);
+
+    ResponseMessage saveAddressVerification(Long idCase, Long idSource, Long idList, String code, Address address);
+
+    ResponseMessage saveSelectChoice(Long idCase, Long idFieldMeeting, String code, Long idList);
 }

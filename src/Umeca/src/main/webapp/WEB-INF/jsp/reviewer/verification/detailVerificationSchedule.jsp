@@ -72,7 +72,7 @@
                     </span>
                     <input type="hidden" ng-init="urlToGoSaveSchedule = '<c:url value="/reviewer/verification/saveScheduleVerification.json"/>'" ng-model="urlToGoSaveSchedule">
                     <span class="btn btn-danger btn-danger btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormCatIdSchedule', '/reviewer/meeting/doNewMeeting.json');">
+                          ng-click="submit('#FormCatIdSchedule')">
                           Guardar
                     </span>
                 </div>

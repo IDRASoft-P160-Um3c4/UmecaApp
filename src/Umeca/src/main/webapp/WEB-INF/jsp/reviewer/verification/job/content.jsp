@@ -253,9 +253,9 @@
                                            ng-click="doConfirmVerifEqual('jobs.schedule', j.id)"></i>
                                         <i class="icon-remove-circle red  icon-only bigger-120" verif-schedule
                                            level-child="5"
-                                           ng-show="verification" code="jobs.schedule" id-element="{{j.id}}"></i>
+                                           ng-show="verification"  id-code ="jobs.schedule"  id-element="{{j.id}}"></i>
                                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                                           ng-click="doConfirmVerifNotKnow('jobs.schecdule', j.id)"></i>
+                                           ng-click="doConfirmVerifNotKnow('jobs.schedule', j.id)"></i>
                                         <i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
                                 </div>
 

@@ -19,14 +19,16 @@
                         <div class="row">
                             <div class="col-xs-12 widget-container-span">
                                 <div class="widget-box">
-                                    <div class="widget-header widget-header-small header-color-blue3">
+                                    <div class="widget-header widget-header-small header-color-blue3" ng-init='codeField = ${code}; idList = ${idList};'>
+                                        <input type="hidden" ng-update-hidden ng-model="codeField" name="code"/>
+                                        <input type="hidden" ng-update-hidden ng-model="idList" name="idList"/>
                                         <h6 class="smaller">Elije la información final para el campo o sección</h6>
                                     </div>
                                             <table class=" widget-body table table-striped table-bordered table-hover" ng-init='listChoice = ${listChoice};'>
                                                 <tbody>
                                                     <tr ng-repeat ="opc in listChoice">
-                                                        <td style="width: 20px;"><input class="" type="radio" value="false" ng-model="election" ng-checked="opc.isFinal"
-                                                                     name="idFieldMeeting" ng-disabled="opc.status=='NOT_FOUND'">
+                                                        <td style="width: 20px;"><input class="" type="radio"  ng-model="Model.rdoField" ng-value="opc.id"
+                                                                     name="idFieldMeeting" ng-disabled="opc.status=='NOT_FOUND'" ng-checked="opc.isFinal">
                                                         </td>
                                                         <td style="width: 15px;">
                                                             <i class="icon-ok green  icon-only bigger-120" ng-show="opc.status == 'EQUALS' "></i>
@@ -40,18 +42,18 @@
                                                          <b> {{opc.nameSource}}</b>
                                                         </td>
                                                         <td>
-                                                            <div ng-repeat="value in opc.values">
-                                                                <h6><small>{{value}}</small></h6>
+                                                            <div ng-repeat="v in opc.values">
+                                                                <h6><small>{{v}}</small></h6>
                                                             </div>
+
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                 </div>
                                 <br/>
-                                <div class="row" ng-show="election!=''">
+                                <div class="row" ng-show="Model.rdoField != '' && Model.rdoField != undefined ">
                                     <div class="col-xs-3 element-left">
-                                        -{{election}}-
                                         Razón por la que se elije este campo o sección:
                                     </div>
                                     <div class="col-xs-9">
@@ -77,8 +79,8 @@
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
-                    <span class="btn btn-danger btn-danger btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormChoices','<c:url value="/reviewer/verification/saveAddressVerification.json?idCase=${idCase}"/>');">
+                    <span class="btn btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="submit('#FormChoices','<c:url value="/reviewer/verification/saveSelectChoice.json?idCase=${idCase}"/>');">
                           Guardar
                     </span>
                 </div>

@@ -8,7 +8,7 @@
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('imputedHomes.address',a.id);"></i>
         <i class="icon-remove-circle red  icon-only bigger-120" verif-address level-child="6" ng-show="verification"
-           code="imputedHomes.address" id-element="{{a.id}}"></i>
+           id-code="imputedHomes.address" id-element="{{a.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('imputedHomes.address',a.id);"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputedHomes.address',a.id)"></i>
@@ -44,11 +44,11 @@
 <div class="row removeClassHide" >
     <div class="col-xs-3 element-right">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-           ng-click="doConfirmVerifEqual('imputedHomes.registerType',a.id);"></i>
+           ng-click="doConfirmVerifEqual('imputedHomes.registerType.id',a.id);"></i>
         <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
-           code="imputedHomes.address" id-element="{{a.id}}"></i>
+           code="imputedHomes.registerType.id" id-element="{{a.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-           ng-click="doConfirmVerifNotKnow('imputedHomes.address',a.id);"></i>
+           ng-click="doConfirmVerifNotKnow('imputedHomes.registerType.id',a.id);"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputedHomes.registerType.id',a.id)"></i>
         Tipo de domiclio:
     </div>
@@ -110,14 +110,15 @@
                                 <br/>
 
                                 <div class="row">
-                                    <div class="col-xs-12" ng-init='schListIH = pastToJson(listImputedHome[$index].schedule);' ng-show="verification">
+                                    <div class="col-xs-12" ng-init='schListIH = pastToJson(listImputedHome[$index].schedule);' ng-show="verification || showChoices">
                                         <div class="widget-header header-color-blue">
                                             <h5 class="bigger lighter">
                                                 <h6> &nbsp;
-                                                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('imputedHome.schedule',a.id)"></i>
+                                                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('imputedHomes.schedule',a.id)"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-schedule
-                                                       ng-show="verification" code ="address.schedule" id-element ="{{a.id}}"></i>
-                                                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('imputedHome.schedule', a.id)"></i>
+                                                       ng-show="verification" id-code ="imputedHomes.schedule" id-element ="{{a.id}}"></i>
+                                                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('imputedHomes.schedule', a.id)"></i>
+                                                    <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputedHomes.schedule',a.id)"></i>
                                                     <i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
                                             </h5>
                                         </div>

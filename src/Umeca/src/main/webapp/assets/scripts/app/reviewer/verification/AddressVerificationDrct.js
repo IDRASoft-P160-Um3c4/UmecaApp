@@ -1,9 +1,13 @@
-app.directive('verifAddress', function ($http, $timeout) {
+app.directive('verifAddress', function ($http, $rootScope) {
     return function (scope, elem, attr) {
 
         var currentTimeout = null;
 
         elem.on('click', function () {
+            var idList = scope.$eval(attr.idElement);
+            $rootScope.$broadcast('SetIdList',idList);
+            var code = attr.idCode;
+            $rootScope.$broadcast('SetCodeAddress',code);
             var divModValid ="#dlgUpModalIdAddress";
             var scopeNew = angular.element(divModValid).scope();
             scopeNew.Model.def = scope.def;

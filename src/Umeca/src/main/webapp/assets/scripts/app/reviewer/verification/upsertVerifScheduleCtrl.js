@@ -1,4 +1,4 @@
-app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,sharedSvc) {
+app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$rootScope) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
@@ -51,9 +51,11 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,sh
         }
 
         $scope.WaitFor = true;
-
+        if($scope.idList==undefined){
+            $scope.idList = "";
+        }
         var formSerialize = $(formId).serialize();
-        var content = formSerialize + "&&idCase=" + $scope.idCase + "&&idSource=" + $scope.idSource;
+        var content = formSerialize + "&&idCase=" + $scope.idCase + "&&idSource=" + $scope.idSource+"&&schedule="+$scope.schString+"&&code="+$scope.code+"&&idList="+$scope.idList;
         $scope.WaitFor = true;
         $.post($scope.urlToGoSaveSchedule, content)
             .success($scope.handleSuccess)
@@ -62,6 +64,13 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,sh
     };
 
 
+    $rootScope.$on('SetIdList', function (event,idList) {
+        $scope.idList=idList;
+    });
+
+    $rootScope.$on('SetCodeSchedule', function (event,code) {
+        $scope.code=code;
+    });
     $scope.handleSuccess = function (resp) {
         $scope.WaitFor = false;
         $scope.MsgError = "";
@@ -92,6 +101,10 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,sh
         $scope.MsgError = "Error de red. Por favor intente más tarde.";
         $scope.$apply();
     };
+
+    $rootScope.$on('MatchScheduleList', function (event,list) {
+        $scope.schString=list;
+    });
 
     $scope.cancel = function () {
         $scope.MsgError = "";

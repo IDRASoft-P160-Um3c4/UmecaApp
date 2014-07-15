@@ -9,7 +9,7 @@
                    ng-show="verification" code="imputed.gender"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('imputed.gender')"></i>
-                <i class="purple icon-list icon-only bigger-120" onclick="window.showChoices('imputed.gender')"></i>
+                <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource"  ng-click="showChoices('imputed.gender')"></i>
                 Género:
             </div>
             <div class="col-xs-9">
@@ -104,11 +104,11 @@
                  ng-init="maritalStatus = ${m.imputed.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id}">
                 <div class="col-xs-2">
                     <i class="icon-ok-circle green  icon-only bigger-120"  ng-show="verification"
-                       ng-click="doConfirmVerifEqual('imputed.maritalStatus')"></i>
+                       ng-click="doConfirmVerifEqual('imputed.maritalStatus.id')"></i>
                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"
-                       code="imputed.maritalStatus"></i>
+                       code="imputed.maritalStatus.id"></i>
                     <i class="icon-ban-circle inverse icon-only bigger-1 20"  ng-show="verification"
-                       ng-click="doConfirmVerifNotKnow('imputed.maritalStatus')"></i>
+                       ng-click="doConfirmVerifNotKnow('imputed.maritalStatus.id')"></i>
                     <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.maritalStatus.id')"></i>
                 </div>
 

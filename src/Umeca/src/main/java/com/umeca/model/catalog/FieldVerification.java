@@ -38,7 +38,7 @@ public class FieldVerification {
     @Column(name="id_subsection")
     private Integer idSubsection;
 
-    @Column(name="type")
+    @Column(name="type_field")
     private String type;
 
     public Long getId() {

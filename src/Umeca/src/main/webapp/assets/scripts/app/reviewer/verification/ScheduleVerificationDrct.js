@@ -1,9 +1,13 @@
-app.directive('verifSchedule', function ($http, $timeout) {
+app.directive('verifSchedule', function ($http, $rootScope) {
     return function (scope, elem, attr) {
 
         var currentTimeout = null;
 
         elem.on('click', function () {
+            var idList = scope.$eval(attr.idElement);
+            $rootScope.$broadcast('SetIdList',idList);
+            var code = attr.idCode;
+            $rootScope.$broadcast('SetCodeSchedule',code);
             var divModValid ="#dlgUpModalIdSchedule";
             var scopeNew = angular.element(divModValid).scope();
             scopeNew.Model.def = scope.def;
