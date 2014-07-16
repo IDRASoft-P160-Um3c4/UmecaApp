@@ -50,4 +50,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     @Query("SELECT COUNT(u.id) FROM User u INNER JOIN u.roles r WHERE u.id=:userId AND r.role =:sRole")
     Long isUserInRole(@Param("userId") Long userId, @Param("sRole") String sRole);
+
+    @Query("SELECT r.role FROM User u INNER JOIN u.roles r WHERE u.id=:userId")
+    List<String> getLstRolesByUserId(@Param("userId") Long userId);
 }

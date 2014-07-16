@@ -1,4 +1,4 @@
-<div id="notifications-tab" class="tab-pane" ng-init ='lstNotification = ${lstNotification}; '>
+<div id="notifications-tab" class="tab-pane active" ng-init ='lstNotification = ${lstNotification}; '>
     <div class="clearfix">
         <div class="comments">
             <div class="itemdiv commentdiv" ng-repeat="n in lstNotification">
@@ -23,15 +23,15 @@
                                 : (n.action === 'SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO' || n.action === 'EN PROCESO DE TERMINAR' ? 'color-warning' : 'green'))">&nbsp;({{n.action}})</span><br/>
                             <span>
                             Caso {{n.caseId}} (<strong>{{n.mpId}}</strong>) Imputado: <strong>{{n.personName}}</strong> <br/></span>
-                            <div class="font-size-sm">
-                                <span>{{n.comments}}</span>
-                            </div>
+                        <div class="font-size-sm">
+                            <span>{{n.comments}}</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="tools">
                     <div class="action-buttons bigger-125">
-                        <a href="#">
+                        <a href="#" ng-click="deleteMsg(n.id, '<c:url value='${urlToGo}' />');">
                             <i class="icon-trash red" title="Eliminar mensaje"></i>
                         </a>
                     </div>
