@@ -67,13 +67,12 @@ public class Drug implements EntityGrid{
     private String specificationPeriodicity;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = false)
+    @JoinColumn(name="id_meeting", nullable = true)
     private Meeting meeting;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="id_framing_meeting")
     private FramingMeeting framingMeeting;
-
 
     @Transient
     private String perName;
@@ -171,5 +170,13 @@ public class Drug implements EntityGrid{
 
     public void setSpecificationPeriodicity(String specificationPeriodicity) {
         this.specificationPeriodicity = specificationPeriodicity;
+    }
+
+    public FramingMeeting getFramingMeeting() {
+        return framingMeeting;
+    }
+
+    public void setFramingMeeting(FramingMeeting framingMeeting) {
+        this.framingMeeting = framingMeeting;
     }
 }

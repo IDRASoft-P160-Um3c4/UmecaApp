@@ -1,17 +1,17 @@
 package com.umeca.model.entities.supervisor;
 
 public class RelativeAbroadView {
-    private Long idRelationship;
+    private Long relationshipId;
     private String name;
-    private String address;
+    private String description;
     private Boolean selVal;
 
-    public Long getIdRelationship() {
-        return idRelationship;
+    public Long getRelationshipId() {
+        return relationshipId;
     }
 
-    public void setIdRelationship(Long idRelationship) {
-        this.idRelationship = idRelationship;
+    public void setRelationshipId(Long relationshipId) {
+        this.relationshipId = relationshipId;
     }
 
     public String getName() {
@@ -22,12 +22,12 @@ public class RelativeAbroadView {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Boolean getSelVal() {

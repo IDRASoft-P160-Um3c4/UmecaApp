@@ -43,7 +43,6 @@
                     <div class="col-xs-4">
                         <label for="name">Nombre</label>
                         <br/>
-                        {{pa.name}}
                         <input id="name" ng-model="pa.name" name="name"
                                type="text" class="input-xxlarge"
                                data-val="true"

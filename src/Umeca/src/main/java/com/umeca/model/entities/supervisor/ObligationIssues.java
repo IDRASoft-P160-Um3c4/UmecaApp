@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.catalog.Relationship;
 
 import javax.persistence.*;
@@ -17,8 +18,9 @@ public class ObligationIssues {
     @JoinColumn(name = "id_additional_framing_question")
     private AdditionalFramingQuestions additionalFramingQuestions;
 
-    @Column(name = "arrangement_name")
-    private String arrangementName;
+    @OneToOne
+    @JoinColumn(name = "id_arrangement")
+    private Arrangement arrangement;
 
     @Column(name = "cause")
     private String cause;
@@ -39,12 +41,12 @@ public class ObligationIssues {
         this.additionalFramingQuestions = additionalFramingQuestions;
     }
 
-    public String getArrangementName() {
-        return arrangementName;
+    public Arrangement getArrangement() {
+        return arrangement;
     }
 
-    public void setArrangementName(String arrangementName) {
-        this.arrangementName = arrangementName;
+    public void setArrangement(Arrangement arrangement) {
+        this.arrangement = arrangement;
     }
 
     public String getCause() {

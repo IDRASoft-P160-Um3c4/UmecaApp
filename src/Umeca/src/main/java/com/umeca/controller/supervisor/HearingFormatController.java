@@ -76,6 +76,8 @@ public class HearingFormatController {
                     (casos que se encuentren en entrevista de encuadre, que se encuentren en creación del plan de seguimiento,
                     o que se encuentren en seguimiento al plan de supervisión), ya no se puede generar un formato de audiencia para los casos que se encuentren cerrados,
                     o en autorización de cierre.*/
+                    //add(Constants.CASE_STATUS_FRAMING_COMPLETE);
+                    add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);

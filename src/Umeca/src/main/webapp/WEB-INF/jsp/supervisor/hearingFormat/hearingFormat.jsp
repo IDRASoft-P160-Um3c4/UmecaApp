@@ -600,7 +600,6 @@
                         <br/>
                          <span class="field-validation-valid" data-valmsg-for="vincProcess"
                                data-valmsg-replace="true"></span>
-
                         <div class="radio">
                             <label>
                                 <input class="ace" name="vincProcess" type="radio" value="1"

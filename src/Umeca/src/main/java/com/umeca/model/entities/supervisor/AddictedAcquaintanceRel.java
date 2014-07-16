@@ -13,11 +13,11 @@ public class AddictedAcquaintanceRel {
     @Column(name="id_addicted_acquaintance_rel")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_additional_framing_question")
     private AdditionalFramingQuestions additionalFramingQuestions;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "id_relationship")
     private Relationship relationship;
 

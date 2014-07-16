@@ -22,6 +22,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/addtionalQuestions/additionalQuestionsCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/personalData/personalDataCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/address/addressCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/drugs/drugsCtrl.js"></script>
 
     <title>Entrevista de encuadre</title>
 </head>
@@ -141,7 +142,7 @@
                     </div>
 
                     <div id="drugs" class="tab-pane">
-                        <%--<%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/_drugs.jsp" %>--%>
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/drugs/_drugs.jsp"%>
                     </div>
 
                     <div id="environmentAnalysis" class="tab-pane">
