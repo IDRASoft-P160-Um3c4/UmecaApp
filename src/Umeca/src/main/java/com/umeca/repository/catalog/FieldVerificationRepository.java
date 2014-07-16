@@ -40,11 +40,21 @@ public interface FieldVerificationRepository extends JpaRepository<FieldVerifica
             "and fv.indexField =(select min(f.indexField) from FieldVerification as f where f.idSubsection=:idSubsection)")
     List<FieldVerification> getFieldVerificationMinByIdSubsection(@Param("idSubsection") Integer idSubsection);
 
-    @Query("select distinct (fv.idSubsection) from FieldVerification as fv " +
-            "where fv.sectionCode = :sectionCode")
-    List<Integer> getSubsectionsBySectionCode(@Param("sectionCode") Integer i);
+    @Query("select distinct (fv.idSubsection) from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications as sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv "+
+            "where fv.sectionCode = :sectionCode and c.id=:idCase")
+    List<Integer> getSubsectionsBySectionCode(@Param("sectionCode") Integer i,@Param("idCase") Long idCase);
 
     @Query("select fv from FieldVerification as fv " +
             "where fv.idSubsection = :idSubsection order by fv.indexField")
     List<FieldVerification> getMinFieldByIdSubsection(@Param("idSubsection")Integer idSubsection);
+
+    @Query("select distinct (fv.idSubsection) from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications as sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv "+
+            "where fv.sectionCode = :sectionCode and c.id=:idCase and fms.idFieldList=:idList")
+    List<Integer> getSubsectionsBySectionCodeWithIdList(@Param("sectionCode") Integer i,@Param("idCase") Long idCase,@Param("idList") Long idList);
 }

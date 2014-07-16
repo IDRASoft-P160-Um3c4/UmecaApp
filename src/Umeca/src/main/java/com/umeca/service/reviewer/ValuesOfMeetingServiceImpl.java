@@ -986,6 +986,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     }.getType());
                                     ih.setSchedule(listSchedules);
                                     for (Schedule schedule : listSchedules) {
+                                        schedule.setId(null);
                                         schedule.setImputedHome(ih);
                                     }
                                     break;
@@ -1010,6 +1011,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     if (!existS) {
                         PersonSocialNetwork psn = new PersonSocialNetwork();
                         psn.setIdAux(fms.getIdFieldList());
+                        psn.setSocialNetwork(meeting.getSocialNetwork());
                         meeting.getSocialNetwork().getPeopleSocialNetwork().add(psn);
                     }
                     for (PersonSocialNetwork psn : meeting.getSocialNetwork().getPeopleSocialNetwork()) {
@@ -1195,10 +1197,11 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     j.setReasonChange(fms.getJsonValue());
                                     break;
                                 case "schedule":
-                                    List<Schedule> listSchedules = gson.fromJson(fms.getJsonValue(), new TypeToken<List<Schedule>>() {
+                                   List<Schedule> listSchedules = gson.fromJson(fms.getJsonValue(), new TypeToken<List<Schedule>>() {
                                     }.getType());
                                     j.setSchedule(listSchedules);
                                     for (Schedule schedule : listSchedules) {
+                                        schedule.setId(null);
                                         schedule.setJob(j);
                                     }
                                     break;
@@ -1233,6 +1236,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             }.getType());
                             meeting.getSchool().setSchedule(listSchedules);
                             for (Schedule schedule : listSchedules) {
+                                schedule.setId(null);
                                 schedule.setSchool(meeting.getSchool());
                             }
                             break;

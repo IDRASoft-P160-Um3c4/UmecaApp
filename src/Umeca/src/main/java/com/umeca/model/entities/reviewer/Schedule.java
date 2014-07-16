@@ -32,15 +32,15 @@ public class Schedule {
     @Column(name="end", nullable = true, length = 5)
     private String end;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY, cascade ={CascadeType.ALL})
     @JoinColumn(name="id_imputed_home", nullable = true)
     private ImputedHome imputedHome;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY, cascade ={CascadeType.ALL})
     @JoinColumn(name="id_job", nullable = true)
     private Job job;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="id_school", nullable = true)
     private School school;
 

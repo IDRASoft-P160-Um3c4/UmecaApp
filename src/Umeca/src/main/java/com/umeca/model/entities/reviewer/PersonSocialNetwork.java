@@ -54,7 +54,7 @@ public class PersonSocialNetwork{
     @JoinColumn(name="id_living_with", nullable = false)
     private Election livingWith;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
     @JoinColumn(name="id_social_network", nullable = false)
     private SocialNetwork socialNetwork;
 

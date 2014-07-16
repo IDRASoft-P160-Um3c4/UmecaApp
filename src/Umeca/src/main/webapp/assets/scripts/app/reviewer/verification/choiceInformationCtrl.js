@@ -80,7 +80,7 @@ app.controller('choiceInformationController', function($scope, $timeout, $q,shar
             if(resp.hasError===undefined){
                 resp=resp.responseMessage;}
             if (resp.hasError === false) {
-                window.cancelMeeting();
+                window.terminateVerification();
                 return;
             }
             var obj = JSON.parse(resp.message);

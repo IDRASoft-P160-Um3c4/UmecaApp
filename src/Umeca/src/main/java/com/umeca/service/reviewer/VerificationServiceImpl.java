@@ -394,11 +394,12 @@ public class VerificationServiceImpl implements VerificationService {
                 List<String> r = new ArrayList<>();
                 String e = "entity";
                 String f ="field";
-                List<Integer> subsections=fieldVerificationRepository.getSubsectionsBySectionCode(i+1);
+                List<Integer> subsections;
                 if(idsList.size()>0 && idsList.get(0)!=null){ //have list
                     int index = 0;
                     for(Long idList : idsList){
                         index++;
+                        subsections=fieldVerificationRepository.getSubsectionsBySectionCodeWithIdList(i+1,idCase,idList);
                         for(Integer idSubsection: subsections){
                             List<FieldVerification> fvs = fieldVerificationRepository.getMinFieldByIdSubsection(idSubsection);
                             if(fvs.size()>0){
@@ -412,6 +413,7 @@ public class VerificationServiceImpl implements VerificationService {
                         }
                     }
                 }else{
+                    subsections=fieldVerificationRepository.getSubsectionsBySectionCode(i+1,idCase);
                     for(Integer idSubsection: subsections){
                         List<FieldVerification> fvs = fieldVerificationRepository.getMinFieldByIdSubsection(idSubsection);
                         if(fvs.size()>0){
@@ -436,6 +438,7 @@ public class VerificationServiceImpl implements VerificationService {
                 valuesOfMeetingService.createMeetingVirified(idCase, caseDetention.getVerification());
                 for (ImputedHome imputedHome : caseDetention.getVerification().getMeetingVerified().getImputedHomes()) {
                     imputedHome.setAddress(addressRepository.save(imputedHome.getAddress()));
+
                 }
                 caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_VERIFICATION_COMPLETE));
                 caseDetention.getVerification().setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_COMPLETE));

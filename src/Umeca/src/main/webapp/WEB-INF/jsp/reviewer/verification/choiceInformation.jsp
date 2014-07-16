@@ -53,6 +53,10 @@
         window.cancelChoiceInformation = function () {
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
         }
+
+        window.terminateVerification = function () {
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html'/>");
+        }
         window.showChoices = function (code,id) {
             var  divScope=  "#divChoiceInformation";
             var urlToGo = "<c:url value='/reviewer/verification/showChoices.html'/>";
