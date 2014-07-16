@@ -556,7 +556,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             model.setSection(data[2]);
             model.setSectionCode(Integer.parseInt(data[3]));
             model.setFieldName(data[4]);
-            model.setIndex(Integer.parseInt(data[5]));
+            model.setIndexField(Integer.parseInt(data[5]));
             model.setObsolete(data[6].equals("1"));
             model.setIdSubsection(Integer.parseInt(data[7]));
             model.setType(data[8]);

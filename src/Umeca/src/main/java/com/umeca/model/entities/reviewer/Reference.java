@@ -65,6 +65,9 @@ public class Reference implements EntityGrid{
     @Transient
     private String relName;
 
+    @Transient
+    private Long idAux;
+
     public Long getId() {
         return id;
     }
@@ -144,5 +147,13 @@ public class Reference implements EntityGrid{
 
     public void setSpecification(String specification) {
         this.specification = specification;
+    }
+
+    public Long getIdAux() {
+        return idAux;
+    }
+
+    public void setIdAux(Long idAux) {
+        this.idAux = idAux;
     }
 }

@@ -12,6 +12,7 @@ public class Constants {
     public static final Long ELECTION_NO = 2L;
     public static final String VERIFICATION_STATUS_NEW_SOURCE = "NEW_SOURCE";
     public static final String VERIFICATION_STATUS_AUTHORIZED = "AUTHORIZED";
+    public static final String VERIFICATION_STATUS_COMPLETE = "VERIFICATION_COMPLETE";
     public static final String VERIFICATION_STATUS_MEETING_COMPLETE = "MEETING_COMPLETE";
     public static final Long MARITAL_UNION_FREE = 4L;
     public static final Long MARITAL_MARRIED = 2L;
@@ -20,6 +21,8 @@ public class Constants {
     public static String S_MEETING_INCOMPLETE="INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL="INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE="COMPLETE";
+    public static String S_MEETING_COMPLETE_VERIFICATION="COMPLETE_VERIFICATION";
+
 
     public static Boolean GENDER_FEMALE = true;
     public static Boolean GENDER_MALE = false;
@@ -61,5 +64,8 @@ public class Constants {
     public static String ROLE_NOTUSE = "ROLE_NOTUSE";
 
     public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
+    public static String FORMAT_VERIFICATION_DATE = "yyyy-MM-dd hh:mm:ss.S";
+
+
 
 }

@@ -54,7 +54,7 @@ app.controller('choiceInformationController', function($scope, $timeout, $q,shar
         $scope.WaitFor = true;
 
         $.post(urlTerminate)
-            .success($scope.handleSuccessWithId)
+            .success($scope.handleSuccess)
             .error($scope.handleError);
     };
 
@@ -115,3 +115,4 @@ app.controller('choiceInformationController', function($scope, $timeout, $q,shar
     };
 
 });
+

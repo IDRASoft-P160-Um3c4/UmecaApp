@@ -1,4 +1,5 @@
 package com.umeca.repository.reviewer;
+import com.umeca.model.catalog.FieldVerification;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.FieldMeetingSource;
 import com.umeca.model.entities.reviewer.SourceVerification;
@@ -90,15 +91,50 @@ public interface FieldMeetingSourceRepository extends JpaRepository<FieldMeeting
             "WHERE c.id =:idCase and fv.idSubsection=:idSubsection and st.name=:status and fms.idFieldList=:idList")
     List<FieldMeetingSource> getExistUnableFieldMeetingWithIdList(@Param("idSubsection")Integer idSubsection,@Param("idList") Long idList,@Param("idCase") Long idCase,@Param("status") String status);
 
-    @Query("select distinct (fv.idSubsection) from Case as c " +
+    @Query("select fv from Case as c " +
             "INNER JOIN c.verification.sourceVerifications sv " +
             "INNER JOIN sv.fieldMeetingSourceList as fms " +
             "INNER JOIN fms.fieldVerification as fv " +
             "INNER JOIN fms.statusFieldVerification as st " +
-            " where sv.id =:idImputed and st.name <> :status and c.id=:idCase and fv.idSubsection  not in (select distinct (fva.idSubsection) from Case as ca " +
-                "INNER JOIN ca.verification.sourceVerifications sva " +
-                "INNER JOIN sva.fieldMeetingSourceList as fmsa " +
-                "INNER JOIN fmsa.fieldVerification as fva " +
-                "where fmsa.isFinal = true and ca.id=:idCase )")
-    List<Integer> getIdsSubsectionMessing(@Param("idCase")Long idCase,@Param("idImputed") Long idImputed,@Param("status")String status);
+            " where sv.id =:idImputed and st.name <> :status and c.id=:idCase and fms.id  not in (:list)")
+    List<FieldVerification> getIdsSubsectionMessing(@Param("idCase")Long idCase,@Param("idImputed") Long idImputed,@Param("status")String status,@Param("list") List<Long> list);
+
+    @Query("select fms from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "WHERE c.id =:idCase and fms.isFinal = true")
+    List<FieldMeetingSource> getAllFinalByIdCase(@Param("idCase")Long idCase);
+
+    @Query("select fms from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "where c.id=:idCase and fv.idSubsection = :idSubsection and fms.isFinal=true and fms.idFieldList =:idList")
+    List<FieldMeetingSource> findListFinalByIdSubsectionWithIdList(@Param("idCase")Long idCase,@Param("idSubsection") Integer idSubsection,@Param("idList") Long idList);
+
+    @Query("select distinct (fms.idFieldList) from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "WHERE c.id =:idCase and fms.fieldVerification.sectionCode=:sectionCode")
+    List<Long> getIdsListBySectionCode(@Param("sectionCode")Integer i,@Param("idCase") Long idCase);
+
+    @Query("select distinct (fms.idFieldList) from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "WHERE c.id =:idCase and fms.fieldVerification.sectionCode=:sectionCode and sv.id=:idSource")
+    List<Long> getIdsListOfSectionCodeOfSource(@Param("sectionCode")Integer i,@Param("idCase") Long idCase,@Param("idSource")Long idSource);
+
+    @Query("select fms.id from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "where c.id = :idCase and fv.code= :code and fms.idFieldList=:idList and fms.isFinal=true")
+    List<Long> getIdFieldMSFinalByCaseCodeIdList(@Param("idCase")Long idCase,@Param("idList") Long idList,@Param("code") String code);
+
+    @Query("select fms.id from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "where c.id = :idCase and fv.code=:code and fms.isFinal=true")
+    List<Long> getIdFieldMSFinalByCaseCode(@Param("idCase")Long idCase,@Param("code") String code);
 }

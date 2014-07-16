@@ -59,6 +59,8 @@ public class PersonSocialNetwork{
     private SocialNetwork socialNetwork;
 
 
+    @Transient
+    private Long idAux;
     public Long getId() {
         return id;
     }
@@ -145,5 +147,13 @@ public class PersonSocialNetwork{
 
     public void setSpecification(String specification) {
         this.specification = specification;
+    }
+
+    public Long getIdAux() {
+        return idAux;
+    }
+
+    public void setIdAux(Long idAux) {
+        this.idAux = idAux;
     }
 }
