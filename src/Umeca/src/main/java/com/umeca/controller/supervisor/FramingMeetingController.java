@@ -120,7 +120,11 @@ public class FramingMeetingController {
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
-                    return r.join("caseDetention").get("idFolder");
+                    return r.get("idFolder");
+
+                if (field.equals("statusName"))
+                    return r.join("status").get("name");
+
                 return null;
             }
         }, Case.class, ForFramingMeetingGrid.class);

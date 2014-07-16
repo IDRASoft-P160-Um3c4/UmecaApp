@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Relationship;
-import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
@@ -17,7 +16,6 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.supervisor.*;
-import com.umeca.service.catalog.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
