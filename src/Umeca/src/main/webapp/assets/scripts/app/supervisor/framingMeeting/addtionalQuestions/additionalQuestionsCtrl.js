@@ -50,14 +50,35 @@ app.controller('additionalQuestionsController', function ($scope, $timeout, $htt
         $scope.selectedAddictedAcquaintances = $.parseJSON(data.selectedAddictedAcquaintances);
         $scope.selectedObligationIssues = $.parseJSON(data.selectedObligationIssues);
         $scope.selectedRelativesAbroad = $.parseJSON(data.selectedRelativesAbroad);
+
     }
+
+    $scope.validateSelAddAqc = function () {
+
+        var noSel = 0;
+        if ($scope.aq.addictedAcquaintance==1) {
+            $scope.errorSelAddAcq = "";
+            for (var i = 0; i < $scope.selectedAddictedAcquaintances.length; i++) {
+
+                if ($scope.selectedAddictedAcquaintances[i].selVal == true) {
+                    noSel++;
+                }
+            }
+
+            if(noSel<=0) {
+                $scope.errorSelAddAcq = "Debe seleccionar al menos una opción"
+                return false;
+            }
+        }
+        return true;
+    };
 
     $scope.validateRelAbroad = function () {
 
         var noSel = 0;
         var noDesc = 0;
 
-        if ($scope.aq.relativeAbroad) {
+        if ($scope.aq.relativeAbroad == 1) {
             for (var i = 0; i < $scope.selectedRelativesAbroad.length; i++) {
 
                 if ($scope.selectedRelativesAbroad[i].selVal == true) {
@@ -120,8 +141,7 @@ app.controller('additionalQuestionsController', function ($scope, $timeout, $htt
     };
 
     $scope.validateLst = function () {
-
-        if ($scope.validateRelAbroad() == true && $scope.validateOblIssues() == true)
+        if ($scope.validateSelAddAqc()==true && $scope.validateRelAbroad() == true && $scope.validateOblIssues() == true)
             return true;
         return false;
     };

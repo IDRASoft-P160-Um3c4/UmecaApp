@@ -48,6 +48,18 @@
     </div>
 
     <div class="row">
+        <div ng-show="FMsuccessMsg&&FMsuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
+            {{FMsuccessMsg}}
+        </div>
+        <div ng-show="FMerrorMsg&&FMerrorMsg!=''" class="alert alert-danger element-center error-font">
+            {{FMerrorMsg}}
+        </div>
+        <div ng-show="FMerrorMsgLst&&FMerrorMsgLst.length>0" class="alert alert-danger element-center error-font">
+            <span ng-repeat="error in FMerrorMsgLst track by $index">{{error}}<br/></span>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-sm-12">
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs" id="tabFramingMeeting">
@@ -77,7 +89,7 @@
                     <li>
                         <a data-toggle="tab" href="#houseMate">
                             <i class="blue icon-group bigger-200"></i>
-                            Personas con las que vive
+                            Personas que viven con el imputado
                         </a>
                     </li>
 
@@ -158,6 +170,18 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="row">
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" ng-click="returnIdx();">
+                        Regresar
+                    </span>
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="doTerminate();">
+                          Terminar
+                    </span>
+        </div>
     </div>
 
     <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>

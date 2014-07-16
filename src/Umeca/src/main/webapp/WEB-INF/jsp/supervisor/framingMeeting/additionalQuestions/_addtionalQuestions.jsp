@@ -67,7 +67,8 @@
                   maxlength="980" data-val="true"
                   data-val-required="Institución es un campo requerido">{{aq.addictionTreatmentInstitute}}
         </textarea>
-                                            <span class="field-validation-valid" data-valmsg-for="crimes"
+                                            <span class="field-validation-valid"
+                                                  data-valmsg-for="addictionTreatmentInstitute"
                                                   data-valmsg-replace="true"></span>
     </div>
     <br/>
@@ -102,10 +103,12 @@
     <input type="hidden" name="selectedAddictedAcquaintances" value="{{selectedAddictedAcquaintances}}">
   <span class="field-validation-valid" data-valmsg-for="addictedAcquaintance"
         data-valmsg-replace="true"></span>
+
     <div class="radio">
         <label>
             <input type="radio" class="ace" name="addictedAcquaintance"
-                   ng-model="aq.addictedAcquaintance" value="1" data-val="true" data-val-required="Debe seleccionar un valor"/>
+                   ng-model="aq.addictedAcquaintance" value="1" data-val="true"
+                   data-val-required="Debe seleccionar un valor"/>
             <span class="lbl">&nbsp;&nbsp;Si</span>
         </label>
         <br/>
@@ -121,9 +124,9 @@
         <label>¿Que parentesco tienes con ellos?</label>
         <br/>
 
-        <div ng-show="errorAcq&&errorAcq!=''"
-             class="field-validation-error col-xs-10 col-xs-offset-1">
-            <span>Debe seleccionar al menos una opción</span>
+        <div ng-show="errorSelAddAcq&&errorSelAddAcq!=''"
+             class="field-validation-error col-xs-10">
+            <span>{{errorSelAddAcq}}</span>
         </div>
         <br/>
 
@@ -147,10 +150,12 @@
     <br/>
  <span class="field-validation-valid" data-valmsg-for="relativeAbroad"
        data-valmsg-replace="true"></span>
+
     <div class="radio">
         <label>
             <input type="radio" class="ace" name="relativeAbroad"
-                   ng-model="aq.relativeAbroad" value="1" data-val="true" data-val-required="Debe seleccionar un valor"/>
+                   ng-model="aq.relativeAbroad" value="1" data-val="true"
+                   data-val-required="Debe seleccionar un valor"/>
             <span class="lbl">&nbsp;&nbsp;Si</span>
         </label>
         <br/>
@@ -167,10 +172,14 @@
         <br/>
         <input type="hidden" name="selectedRelativesAbroad" value="{{selectedRelativesAbroad}}">
 
+        <div ng-show="errorSelRelAbroad&&errorSelRelAbroad!=''"
+             class="field-validation-error col-xs-10">
+            <span>{{errorSelRelAbroad}}</span>
+        </div>
         <div class="row" ng-repeat="relativeAbroad in selectedRelativesAbroad">
             <div class="col-xs-10 col-xs-offset-1">
-                <div>
-                    <label>
+                <div class="checkbox">
+                    <label ng-click="validateRelAbroad();">
                         <input class="ace"
                                ng-model="selectedRelativesAbroad[$index].selVal"
                                type="checkbox">
@@ -180,10 +189,11 @@
                 <div class="col-xs-offset-1" ng-show="selectedRelativesAbroad[$index].selVal==true">
                     <label>¿Dónde vive?</label>
                     <textarea class="form-control limited"
-                              maxlength="980"
+                              maxlength="980" ng-blur="validateRelAbroad();"
                               ng-model="selectedRelativesAbroad[$index].description"
                             >{{selectedRelativesAbroad[$index].description}}</textarea>
                 </div>
+
             </div>
         </div>
     </div>
@@ -196,10 +206,12 @@
     <br/>
  <span class="field-validation-valid" data-valmsg-for="obligationIssue"
        data-valmsg-replace="true"></span>
+
     <div class="radio">
         <label>
             <input type="radio" class="ace" name="obligationIssue"
-                   ng-model="aq.obligationIssue" value="1" data-val="true" data-val-required="Debe seleccionar un valor"/>
+                   ng-model="aq.obligationIssue" value="1" data-val="true"
+                   data-val-required="Debe seleccionar un valor"/>
             <span class="lbl">&nbsp;&nbsp;Si</span>
         </label>
         <br/>
@@ -216,10 +228,14 @@
         <br/>
         <input type="hidden" name="selectedObligationIssues" value="{{selectedObligationIssues}}">
 
+        <div ng-show="errorSelObligIssues&&errorSelObligIssues!=''"
+             class="field-validation-error col-xs-10">
+            <span>{{errorSelObligIssues}}</span>
+        </div>
         <div class="row" ng-repeat="obliIssue in selectedObligationIssues">
             <div class="col-xs-10 col-xs-offset-1">
-                <div>
-                    <label>
+                <div class="checkbox">
+                    <label ng-click="validateOblIssues();">
                         <input class="ace"
                                ng-model="selectedObligationIssues[$index].selVal"
                                type="checkbox">
@@ -231,6 +247,7 @@
                     <textarea class="form-control limited"
                               maxlength="980"
                               ng-model="selectedObligationIssues[$index].description"
+                              ng-blur="validateOblIssues();"
                             >{{selectedObligationIssues[$index].description}}</textarea>
                 </div>
             </div>

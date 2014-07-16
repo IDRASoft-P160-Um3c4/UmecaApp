@@ -547,7 +547,13 @@ public class FramingMeetingController {
         return framingMeetingService.fillAddtionalQuestionsForView(idCase);
     }
 
+    @RequestMapping(value = "/supervisor/framingMeeting/doTerminate", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseMessage doTerminate(@RequestParam(required = true) Long idCase) {
 
+        return framingMeetingService.doTerminate(idCase);
+    }
 
 
 }

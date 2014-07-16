@@ -40,4 +40,6 @@ public interface FramingMeetingService {
     AdditionalQuestionsForView fillAddtionalQuestionsForView(Long idCase);
 
     ResponseMessage saveAddQuest(Long idCase, AdditionalQuestionsForView view);
+
+    ResponseMessage doTerminate(Long idCase);
 }

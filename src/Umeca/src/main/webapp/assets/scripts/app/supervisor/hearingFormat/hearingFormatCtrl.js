@@ -34,9 +34,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q)
             dlgConfirmAction.modal('hide');
         }
 
-        /***/
-
-
         $scope.validateSave = function () {
 
             $scope.hasError = false;
