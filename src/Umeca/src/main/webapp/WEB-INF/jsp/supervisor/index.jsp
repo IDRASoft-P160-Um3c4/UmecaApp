@@ -9,13 +9,13 @@
 <div class="widget-header">
     <h4 class="lighter smaller">
         <i class="icon-rss orange"></i>
-        Pizarra de información
+        Pizarra de información (Top 10)
     </h4>
 
     <div class="widget-toolbar no-border">
         <ul class="nav nav-tabs" id="recent-tab">
             <li class="active">
-                <a data-toggle="tab" href="#tasks-tab">Actividades</a>
+                <a data-toggle="tab" href="#tasks-tab">Actividades ${act}</a>
             </li>
 
             <li>
