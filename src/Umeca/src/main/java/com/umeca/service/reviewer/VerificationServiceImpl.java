@@ -386,9 +386,9 @@ public class VerificationServiceImpl implements VerificationService {
             Gson gson = new Gson();
             TerminateMeetingMessageDto v = new TerminateMeetingMessageDto();
             SourceVerification imputed = sourceVerificationRepository.findSourceImputed(idCase);
-            String[] tabs = {"imputed", "imputedHome",  "socialNetwork","reference", "job", "school", "drug", "leaveCountry"};
-            String[] entities = {"imputed", "Domicilio", "Persona","Referencia", "Trabajo", "school", "Sustancia", "leaveCountry"};
-            String[] names = {"imputed.", "imputedHomes.",  "socialNetwork.","references.", "jobs.", "school.", "drugs.", "leaveCountry."};
+            String[] tabs = Constants.TABS_MEETING;
+            String[] entities = Constants.ENTITIES_MEETING;
+            String[] names = Constants.NAMES_MEETING;
             for(int i=0;i<names.length;i++){  //0,5,7
                 List<Long> idsList = fieldMeetingSourceRepository.getIdsListOfSectionCodeOfSource((i + 1), idCase, imputed.getId());
                 List<String> r = new ArrayList<>();

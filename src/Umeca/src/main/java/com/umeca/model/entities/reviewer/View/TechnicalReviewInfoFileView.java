@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TechnicalReviewInfoFileView {
@@ -9,12 +10,14 @@ public class TechnicalReviewInfoFileView {
     private String lastNameM;
     private String idFolder;
     private String address;
-    private String verifiedName;
-    private String verifiedLastNameP;
-    private String verifiedLastNameM;
     private List<String> questSel;
     private List<String> sources;
     private String comment;
+    private List<Section> sections;
+
+    public TechnicalReviewInfoFileView() {
+        sections = new ArrayList<>();
+    }
 
     public String getName() {
         return name;
@@ -64,29 +67,6 @@ public class TechnicalReviewInfoFileView {
         this.sources = sources;
     }
 
-    public String getVerifiedName() {
-        return verifiedName;
-    }
-
-    public void setVerifiedName(String verifiedName) {
-        this.verifiedName = verifiedName;
-    }
-
-    public String getVerifiedLastNameP() {
-        return verifiedLastNameP;
-    }
-
-    public void setVerifiedLastNameP(String verifiedLastNameP) {
-        this.verifiedLastNameP = verifiedLastNameP;
-    }
-
-    public String getVerifiedLastNameM() {
-        return verifiedLastNameM;
-    }
-
-    public void setVerifiedLastNameM(String verifiedLastNameM) {
-        this.verifiedLastNameM = verifiedLastNameM;
-    }
 
     public List<String> getQuestSel() {
         return questSel;
@@ -102,5 +82,13 @@ public class TechnicalReviewInfoFileView {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
     }
 }

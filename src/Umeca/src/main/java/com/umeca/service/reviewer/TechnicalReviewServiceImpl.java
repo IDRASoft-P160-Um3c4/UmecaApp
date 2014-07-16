@@ -6,7 +6,10 @@ import com.google.gson.reflect.TypeToken;
 import com.umeca.model.catalog.Question;
 import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.View.Section;
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
+import com.umeca.model.shared.Constants;
+import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -106,6 +109,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         return conv.toJson(lstView);
     }
 
+    @Autowired
+    FieldMeetingSourceRepository fieldMeetingSourceRepository;
+
     public TechnicalReviewInfoFileView fillInfoFile(Long idVerification) {
         TechnicalReviewInfoFileView file = new TechnicalReviewInfoFileView();
 
@@ -120,9 +126,23 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         file.setAddress(meeting.getImputedHomes().get(0).getAddress().getAddressString());
 
-        file.setVerifiedLastNameM(ver.getMeetingVerified().getImputed().getName());
-        file.setVerifiedLastNameP(ver.getMeetingVerified().getImputed().getLastNameP());
-        file.setVerifiedLastNameM(ver.getMeetingVerified().getImputed().getLastNameM());
+        for(int i=0; i< Constants.NAMES_MEETING.length;i++){
+            List<FieldMeetingSource> listFMS = fieldMeetingSourceRepository.getAllFinalByIdCaseAndSectionCode(ver.getCaseDetention().getId(), (i + 1));
+            if(listFMS.size()>0 && listFMS.get(0)!=null){
+                Section section = new Section(listFMS.get(0).getFieldVerification().getSection());
+                for(FieldMeetingSource fms: listFMS){
+                    String mesage = fms.getFieldVerification().getFieldName()+": ";
+                    if(fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)){
+                        section.getValues().add(mesage+Constants.UNABLE_VERIF_TEXT_DOC);
+                    }else{
+                        section.getValues().add(mesage+fms.getValue());
+                    }
+                }
+                file.getSections().add(section);
+            }
+        }
+
+
 
         List<String> sourcesTxt = new ArrayList<>();
 

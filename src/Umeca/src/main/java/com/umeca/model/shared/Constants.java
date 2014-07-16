@@ -17,6 +17,10 @@ public class Constants {
     public static final Long MARITAL_MARRIED = 2L;
     public static final String VALUE_NOT_KNOW_SOURCE = "La fuente desconoce la información.";
     public static final String UNABLE_VERIF_TEXT = "No hay forma de verificar la información";
+    public static final String UNABLE_VERIF_TEXT_DOC = "No fue posible verificar.";
+    public static final String[] TABS_MEETING ={"imputed", "imputedHome",  "socialNetwork","reference", "job", "school", "drug", "leaveCountry"};
+    public static final String[] ENTITIES_MEETING = {"imputed", "Domicilio", "Persona","Referencia", "Trabajo", "school", "Sustancia", "leaveCountry"};
+    public static final String[] NAMES_MEETING = {"imputed.", "imputedHomes.",  "socialNetwork.","references.", "jobs.", "school.", "drugs.", "leaveCountry."};
     public static String S_MEETING_INCOMPLETE="INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL="INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE="COMPLETE";

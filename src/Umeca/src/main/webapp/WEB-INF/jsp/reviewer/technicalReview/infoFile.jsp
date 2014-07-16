@@ -31,6 +31,30 @@
 <br/>
 <b>Apellido Materno:</b> ${data.lastNameM}
 <br/>
+<br/>
+<b>Resultado de verificación:</b>
+<br/>
+<br/>
+<table>
+<c:forEach var="section" items="${data.sections}">
+    <tr>
+        <td>${section.name}</td>
+        <td>
+    <table>
+            <c:forEach var="value" items="${section.values}">
+                <tr>
+                    <td>${value}</td>
+                </tr>
+            </c:forEach>
+        <tr>
+            <td><br/><br/></td>
+        </tr>
+    </table>
+        </td>
+    </tr>
+</c:forEach>
+</table>
+<br/>
 <h4>VALORACIÓN DE RIESGOS:</h4>
 <b>Comentarios:</b>
 ${data.comment}
