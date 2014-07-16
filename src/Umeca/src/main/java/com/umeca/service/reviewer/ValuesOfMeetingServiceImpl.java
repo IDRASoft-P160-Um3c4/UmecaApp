@@ -845,7 +845,6 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
         List<FieldMeetingSource> listFMS = fieldMeetingSourceRepository.getAllFinalByIdCase(idCase);
         for (FieldMeetingSource fms : listFMS) {
             String[] name = fms.getFieldVerification().getCode().split("\\.");
-            System.out.println("codigo" + fms.getFieldVerification().getCode());
             Gson gson = new Gson();
             switch (name[0]) {
                 case "imputed":
@@ -1357,7 +1356,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     break;
             }
         }      ///end fill meeting verification
-        meeting.setCaseDetention(verification.getCaseDetention());
+        //meeting.setCaseDetention(verification.getCaseDetention());
         meeting.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_COMPLETE_VERIFICATION));
         verification.setMeetingVerified(meeting);
         //set status meeting y meetingtype

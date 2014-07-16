@@ -31,7 +31,7 @@ public class Meeting {
     private User reviewer;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_case")
+    @JoinColumn(name="id_case",nullable = true)
     private Case caseDetention;
 
     @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
