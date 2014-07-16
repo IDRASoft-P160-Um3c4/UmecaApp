@@ -882,6 +882,7 @@ public class VerificationServiceImpl implements VerificationService {
         if (name[name.length - 1].equals("id")) {
             idCat = Long.parseLong(value);
         }
+        CatalogDto ca=new CatalogDto();
         Gson gson = new Gson();
         switch (fv.getType()) {
             case "Country":
@@ -891,8 +892,10 @@ public class VerificationServiceImpl implements VerificationService {
                 break;
             case "MaritalStatus":
                 MaritalStatus m = maritalStatusRepository.findOne(idCat);
+                ca.setId(m.getId());
+                ca.setName(m.getName());
                 fms.setValue(m.getName());
-                fms.setJsonValue(gson.toJson(m));
+                fms.setJsonValue(gson.toJson(ca));
                 break;
             case "Election":
                 Election e = electionRepository.findOne(idCat);
@@ -904,28 +907,38 @@ public class VerificationServiceImpl implements VerificationService {
                 break;
             case "RegisterType":
                 RegisterType r = registerTypeRepository.findOne(idCat);
+                ca.setId(r.getId());
+                ca.setName(r.getName());
                 fms.setValue(r.getName());
-                fms.setJsonValue(gson.toJson(r));
+                fms.setJsonValue(gson.toJson(ca));
                 break;
             case "Relationship":
                 Relationship rel = relationshipRepository.findOne(idCat);
+                ca.setName(rel.getName());
+                ca.setId(rel.getId());
                 fms.setValue(rel.getName());
-                fms.setJsonValue(gson.toJson(rel));
+                fms.setJsonValue(gson.toJson(ca));
                 break;
             case "DocumentType":
                 DocumentType doc = documentTypeRepository.findOne(idCat);
+                ca.setId(doc.getId());
+                ca.setName(doc.getName());
                 fms.setValue(doc.getName());
-                fms.setJsonValue(gson.toJson(doc));
+                fms.setJsonValue(gson.toJson(ca));
                 break;
             case "DrugType":
                 DrugType dt = drugTypeRepository.findOne(idCat);
+                ca.setName(dt.getName());
+                ca.setId(dt.getId());
                 fms.setValue(dt.getName());
-                fms.setJsonValue(gson.toJson(dt));
+                fms.setJsonValue(gson.toJson(ca));
                 break;
             case "Periodicity":
                 Periodicity p = periodicityRepository.findOne(idCat);
+                ca.setName(p.getName());
+                ca.setId(p.getId());
                 fms.setValue(p.getName());
-                fms.setJsonValue(gson.toJson(p));
+                fms.setJsonValue(gson.toJson(ca));
                 break;
             case "Degree":
                 Degree degree = degreeRepository.findOne(idCat);
