@@ -3,12 +3,6 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
 <script>
-
-    /*
-    window.deleteJob = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdJob", "<c:url value='/reviewer/meeting/job/delete.json'/>", "#GridIdJob");
-    };*/
-
     $(document).ready(function() {
 
         var urlGridHousemate = $('#urlGridHousemate').attr("value");
@@ -18,11 +12,15 @@
             window.showUpsertWithIdCase(id, "#angJsjqGridIdHouseMate", "<c:url value='/supervisor/framingMeeting/housemate/upsert.html'/>", "#GridHouseMate",undefined, idCase);
         };
 
+        deleteHousemate = function (id) {
+            window.showObsolete(id, "#angJsjqGridIdHouseMate", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridHouseMate");
+        };
+
         jQuery("#GridHouseMate").jqGrid({
             url: urlGridHousemate,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Edad','Parentesco','Ocupación','Acción'],
+            colNames: ['ID', 'Nombre','Edad','Parentesco','Ocupaciï¿½n','Acciï¿½n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -47,9 +45,9 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar referencia\" onclick=\"window.upsertHousemate('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar referencia\" onclick=\"window.deleteHousemate('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                     $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },

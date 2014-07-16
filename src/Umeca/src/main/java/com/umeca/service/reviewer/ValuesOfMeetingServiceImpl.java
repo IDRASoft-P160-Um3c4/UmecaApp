@@ -82,7 +82,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         listFMS.add(new FieldMeetingSource(cdto.getName(), gson.toJson(cdto)));
                         break;
                     case "yearsMaritalStatus":
-                        listFMS.add(new FieldMeetingSource(imputed.getYearsMaritalStatus().toString(), imputed.getYearsMaritalStatus().toString()));
+                        if(imputed.getYearsMaritalStatus()!=null) {
+                            listFMS.add(new FieldMeetingSource(imputed.getYearsMaritalStatus().toString(), imputed.getYearsMaritalStatus().toString()));
+                        }
                         break;
                     case "boys":
                         listFMS.add(new FieldMeetingSource(imputed.getBoys().toString(), imputed.getBoys().toString()));

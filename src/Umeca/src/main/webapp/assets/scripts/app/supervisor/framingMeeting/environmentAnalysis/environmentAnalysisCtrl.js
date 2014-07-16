@@ -2,6 +2,10 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     $scope.envir = {};
 
+    $scope.errorSources = "";
+    $scope.errorRisks = "";
+    $scope.errorThreats = "";
+
     $scope.lstSources = {};
 
     $scope.lstSelectedSources = [];
@@ -14,9 +18,9 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     $scope.lstSelectedThreat = [];
 
-    $scope.errorMsg ="";
+    $scope.errorMsg = "";
 
-    $scope.successMsg="";
+    $scope.successMsg = "";
 
     $scope.selectSource = function (id) {
 
@@ -78,25 +82,23 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         return null;
     }
 
-    $rootScope.$on('reloadEnvironment', function() {
+    $rootScope.$on('reloadEnvironment', function () {
         $scope.loadEnvironmentAnalysis();
     });
 
-    $scope.fillEnvironmentAnalysis=function(data){
+    $scope.fillEnvironmentAnalysis = function (data) {
 
-        //debugger;
         $scope.lstSources = $.parseJSON(data.lstSources);
-        $scope.lstArrangement=$.parseJSON(data.lstArrangement);
-        $scope.lstRisk=$.parseJSON(data.lstRisk);
-        $scope.lstThreat=$.parseJSON(data.lstThreat);
+        $scope.lstRisk = $.parseJSON(data.lstRisk);
+        $scope.lstThreat = $.parseJSON(data.lstThreat);
 
-        $scope.lstSelectedSources= $.parseJSON(data.lstSelectedSources);
-        //$scope.lstSelectedArrangement=data.lstSelectedArrangement;
-        $scope.lstSelectedRisk=$.parseJSON(data.lstSelectedRisk);
-        $scope.lstSelectedThreat=$.parseJSON(data.lstSelectedThreat);
+        $scope.lstSelectedSources = $.parseJSON(data.lstSelectedSources);
+        $scope.lstSelectedArrangement=$.parseJSON(data.lstSelectedArrangement);
+        $scope.lstSelectedRisk = $.parseJSON(data.lstSelectedRisk);
+        $scope.lstSelectedThreat = $.parseJSON(data.lstSelectedThreat);
     };
 
-    $scope.loadEnvironmentAnalysis= function () {
+    $scope.loadEnvironmentAnalysis = function () {
         var currentTimeout = null;
         var urlType = $('#loadEnvironmentAnalysis').attr("value");
 
@@ -136,9 +138,37 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
     $scope.WaitFor = false;
     $scope.Model = {};
 
+
+    $scope.validateSel = function () {
+
+        $scope.errorThreats="";
+        $scope.errorSources="";
+        $scope.errorRisks ="";
+
+        if ($scope.lstSelectedSources == undefined || $scope.lstSelectedSources.length <= 0)
+            $scope.errorSources = "Debe seleccionar al menos un vinculo";
+
+        if ($scope.lstSelectedRisk == undefined || $scope.lstSelectedRisk.length <= 0)
+            $scope.errorRisks = "Debe seleccionar al menos un riesgo";
+
+        if ($scope.lstSelectedThreat == undefined || $scope.lstSelectedThreat.length <= 0)
+            $scope.errorThreats = "Debe seleccionar al menos una amenaza";
+
+        if($scope.errorSources!=""||$scope.errorRisks!=""||$scope.errorThreats!="")
+            return false;
+
+        return true;
+
+    }
+
     $scope.submitIdCaseParam = function (formId, urlToPost, id) {
 
         $(formId).validate();
+
+        if ($scope.validateSel() == false) {
+            $scope.Invalid = true;
+            return false;
+        }
 
         if ($(formId).valid() == false) {
             $scope.Invalid = true;
@@ -155,7 +185,7 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         return true;
     };
 
-      $scope.handleSuccess = function (resp) {
+    $scope.handleSuccess = function (resp) {
         $scope.WaitFor = false;
 
         try {

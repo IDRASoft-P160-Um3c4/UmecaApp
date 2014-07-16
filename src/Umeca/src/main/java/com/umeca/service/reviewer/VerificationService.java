@@ -47,5 +47,8 @@ public interface VerificationService {
 
     ResponseMessage saveAddressVerification(Long idCase, Long idSource, Long idList, String code, Address address);
 
-    ResponseMessage saveSelectChoice(Long idCase, Long idFieldMeeting, String code, Long idList);
+    ResponseMessage saveSelectChoice(Long idCase, Long idFieldMeeting, String code, Long idList, String reason);
+
+    ResponseMessage terminateVerification(Long idCase);
+
 }

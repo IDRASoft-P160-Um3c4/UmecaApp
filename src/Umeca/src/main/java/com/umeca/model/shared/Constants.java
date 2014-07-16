@@ -44,6 +44,8 @@ public class Constants {
     public static final String CASE_STATUS_FRAMING_MEETING_INCOMPLETE="ST_CASE_FRAMING_MEETING_INCOMPLETE";
     public static final String CASE_STATUS_FRAMING_MEETING_COMPLETE="ST_CASE_FRAMING_MEETING_COMPLETE";
     public static final String CASE_STATUS_CONDITIONAL_REPRIEVE="ST_CASE_CONDITIONAL_REPRIEVE";
+    public static final String CASE_STATUS_FRAMING_INCOMPLETE="ST_CASE_FRAMING_INCOMPLETE";
+    public static final String CASE_STATUS_FRAMING_COMPLETE="ST_CASE_FRAMING_COMPLETE";
 
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW="DONT_KNOW";

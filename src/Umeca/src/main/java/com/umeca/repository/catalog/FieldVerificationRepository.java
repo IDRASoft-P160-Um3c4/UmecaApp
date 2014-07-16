@@ -10,6 +10,7 @@ import java.util.List;
 @Repository("fieldVerificationRepository")
 public interface FieldVerificationRepository extends JpaRepository<FieldVerification,Long> {
 
+
     @Query("select f from FieldVerification as f where f.code=:code")
     FieldVerification findByCode(@Param("code")String name);
 
@@ -20,5 +21,8 @@ public interface FieldVerificationRepository extends JpaRepository<FieldVerifica
     List<FieldVerification> findValidFields();
 
     @Query("select f.idSubsection from FieldVerification as f where f.code = :code")
-    Long getIdSubsectionByCode(@Param("code")String code);
+    Integer getIdSubsectionByCode(@Param("code")String code);
+
+    @Query("select f from FieldVerification as f where  f.idSubsection in :idSubsectionLists")
+    List<FieldVerification> getListByClass(@Param("idSubsectionLists") List<Integer> idSubsectionLists);
 }

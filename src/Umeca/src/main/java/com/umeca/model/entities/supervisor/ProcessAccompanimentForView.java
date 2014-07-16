@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.LocationDto;
 
 public class ProcessAccompanimentForView {
@@ -34,7 +35,11 @@ public class ProcessAccompanimentForView {
 
     private LocationDto location;
 
+    private Long relationshipId;
+
     private Long idAddres;
+
+    private String address;
 
     private String degree;
 
@@ -172,5 +177,21 @@ public class ProcessAccompanimentForView {
 
     public void setDegree(String degree) {
         this.degree = degree;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Long getRelationshipId() {
+        return relationshipId;
+    }
+
+    public void setRelationshipId(Long relationshipId) {
+        this.relationshipId = relationshipId;
     }
 }

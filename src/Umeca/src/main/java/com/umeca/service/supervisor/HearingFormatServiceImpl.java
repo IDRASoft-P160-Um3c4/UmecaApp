@@ -375,8 +375,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         try {
 
+            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
+
             if (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO))
                 hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
+
 
             hearingFormat = hearingFormatRepository.save(hearingFormat);
 

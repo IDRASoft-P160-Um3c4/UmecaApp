@@ -6,7 +6,7 @@ app.controller('framingActivitiesController', function ($scope, $timeout, $http)
     $scope.actSuccessMsg="";
 
     $scope.init = function () {
-
+        $scope.loadFramingActivities();
     };
 
     $timeout(function () {
@@ -15,6 +15,44 @@ app.controller('framingActivitiesController', function ($scope, $timeout, $http)
 
     $scope.WaitFor = false;
     $scope.Model = {};
+
+    $scope.loadFramingActivities = function () {
+
+        var currentTimeout = null;
+        var ajaxConf;
+
+        var url = $('#hidUrlAct').attr("value");
+        var idCase = $('#hidIdCaseAct').attr("value");
+
+        ajaxConf = {
+            method: "POST",
+            params: {idCase: idCase}/*,
+             dataType: "json",
+             contentType: "application/json"*/
+        };
+
+        ajaxConf.url = url;
+
+        if (currentTimeout) {
+            $timeout.cancel(currentTimeout);
+        }
+
+        currentTimeout = $timeout(function () {
+            $http(ajaxConf)
+                .success(function (data) {
+                    $scope.fillActivities(data);
+                });
+        }, 200);
+    };
+
+
+    $scope.fillActivities = function (data) {
+        $scope.act.occName=data.occName;
+        $scope.act.occPlace=data.occPlace;
+        $scope.act.occPhone=data.occPhone;
+        $scope.act.activities=data.activities;
+    };
+
 
     $scope.submitIdCaseParam = function (formId, urlToPost, id) {
 

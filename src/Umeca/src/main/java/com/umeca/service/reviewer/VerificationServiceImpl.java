@@ -2,6 +2,7 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.*;
@@ -56,7 +57,6 @@ public class VerificationServiceImpl implements VerificationService {
         verification.setCaseDetention(c);
         verification.setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_NEW_SOURCE));
         verification.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
-        //TODO agregar la entrevista verificada como la incial.
         c.setVerification(verification);
         c.getVerification().setSourceVerifications(convertAllInitSourcesVerif(c));
     }
@@ -176,23 +176,41 @@ public class VerificationServiceImpl implements VerificationService {
         }
         idAux = idSources;
         List<ChoiceView> list = new ArrayList<>();
+        List<Long> listAdded=new ArrayList<>();
         Boolean addUnable = true;
         for(SearchToChoiceIds e: idSources){
             if(idAllSources.contains(e.getIdSource())){
                 idAllSources.remove(idAllSources.indexOf(e.getIdSource()));
             }
-            List<FieldMeetingSource> result = new ArrayList<>();
-            if(idList==null){
-                result = fieldMeetingSourceRepository.getGroupFieldMeeting(e.getIdSource(), e.getIdSubsection());
-            }else{
-                result = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(e.getIdSource(),e.getIdSubsection(),idList);
-            }
-            if(result!=null){
-                list.add(new ChoiceView().choiceDto(result));
-                if(result.size()>0 && result.get(0).getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)){
-                    addUnable = false;
+            if(!listAdded.contains(e.getIdSource())) {
+                List<FieldMeetingSource> result = new ArrayList<>();
+                if (idList == null) {
+                    result = fieldMeetingSourceRepository.getGroupFieldMeeting(e.getIdSource(), e.getIdSubsection(),Constants.ST_FIELD_VERIF_UNABLE);
+                } else {
+                    result = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(e.getIdSource(), e.getIdSubsection(), idList,Constants.ST_FIELD_VERIF_UNABLE);
                 }
+                if (result != null) {
+                    //for(FieldMeetingSource fAux: result){
+                      //  if(!fAux.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)){
+                        //    List<FieldMeetingSource> a = new ArrayList<>();
+                          //  a.add(fAux);
+                            list.add(new ChoiceView().choiceDto(result));
+                       // }
+                    //}
+                }
+                listAdded.add(e.getIdSource());
             }
+        }
+        List<FieldMeetingSource> resultAux;
+        Integer idSubsection= fieldVerificationRepository.getIdSubsectionByCode(code);
+        if(idList==null){
+            resultAux = fieldMeetingSourceRepository.getExistUnableFieldMeeting(idSubsection,idCase,Constants.ST_FIELD_VERIF_UNABLE);
+        }else{
+            resultAux = fieldMeetingSourceRepository.getExistUnableFieldMeetingWithIdList(idSubsection,idList,idCase,Constants.ST_FIELD_VERIF_UNABLE);
+        }
+        if(resultAux!=null && resultAux.size()>0){
+            addUnable=false;
+            list.add(new ChoiceView().choiceDto(resultAux));
         }
         for(Long id: idAllSources){
             SourceVerification sv = sourceVerificationRepository.findOne(id);
@@ -291,9 +309,9 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Transactional
     @Override
-    public ResponseMessage saveSelectChoice(Long idCase, Long idFieldMeeting, String code, Long idList) {
+    public ResponseMessage saveSelectChoice(Long idCase, Long idFieldMeeting, String code, Long idList, String reason) {
        try{
-           Long idSubsection = fieldVerificationRepository.getIdSubsectionByCode(code);
+           Integer idSubsection = fieldVerificationRepository.getIdSubsectionByCode(code);
 
            List<FieldMeetingSource> fieldMeetingSourceList = fieldMeetingSourceRepository.findListFinalByIdSubsection(idCase, idSubsection);
            if(fieldMeetingSourceList.size()>0){
@@ -302,38 +320,68 @@ public class VerificationServiceImpl implements VerificationService {
                 }
                fieldMeetingSourceRepository.save(fieldMeetingSourceList);
            }
-
-         /* List<Long> listSub = fieldVerificationRepository.getListSubsectionByCode(code);
            FieldMeetingSource template = new FieldMeetingSource();
-           if(idFieldMeeting.equals(-1)){
-               SourceVerification aux= new SourceVerification();
-               aux.setFullName(Constants.UNABLE_VERIF_TEXT);
-               template.setSourceVerification(aux);
+           List<FieldMeetingSource> fmsAuxSecond= new ArrayList<>();
+           if(idFieldMeeting.equals(-1L)){
                template.setStatusFieldVerification(statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_UNABLE));
-               template.setFieldVerification(fieldVerificationRepository.findByCode(code));
+                template.setSourceVerification(sourceVerificationRepository.findSourceImputed(idCase));
                Case c = caseRepository.findOne(idCase);
-               List<FieldMeetingSource> fmsAuxSecond= new ArrayList<>();
-               for(Long id:  listSub){
-                   FieldVerification fvSubsection = fieldVerificationRepository.findOne(id);
-                   fmsAuxSecond.addAll(getValueOfMeetingByCode(fvSubsection.getCode(),c.getMeeting(),template));
+               List<Long> idFields = fieldVerificationRepository.getListSubsectionByCode(code);
+
+               for(Long id:  idFields){
+                   FieldVerification fv = fieldVerificationRepository.findOne(id);
+                   template.setFieldVerification(fv);
+                   fmsAuxSecond.addAll(valuesOfMeetingService.getValueByCode(fv.getCode(),c.getMeeting(),template,idList));
                }
-               fieldMeetingSourceRepository.save(fmsAuxSecond);
-               return new ResponseMessage(false, "La selección se ha guardado exitosamente");
            }else{
                template = fieldMeetingSourceRepository.findOne(idFieldMeeting);
-               List<FieldMeetingSource> list = null;
-               if(template.getIdFieldList()!=null){
-                 list = = fieldMeetingSourceRepository.getGroupFieldMeeting(template.get)
-               }else{
+               fmsAuxSecond = fieldMeetingSourceRepository.getGroupFieldMeeting(template.getSourceVerification().getId(),template.getFieldVerification().getIdSubsection(),Constants.ST_FIELD_VERIF_UNABLE);
+           }
 
-
-
-               }
-           }*/
-           return null;
+           for(FieldMeetingSource fms: fmsAuxSecond){
+               //fms.setId(template.getId());
+               fms.setSourceVerification(template.getSourceVerification());
+               fms.setStatusFieldVerification(template.getStatusFieldVerification());
+               fms.setFinal(true);
+               fms.setIdFieldList(idList);
+               fms.setReason(reason);
+           }
+           fieldMeetingSourceRepository.save(fmsAuxSecond);
+           return new ResponseMessage(false, "Se ha guardado la selección con éxito.");
        }catch (Exception e){
            return new ResponseMessage(true, "Ha ocurrido un error al guardar la selección");
        }
+    }
+
+    @Override
+    public ResponseMessage terminateVerification(Long idCase) {
+        try {
+            Gson gson = new Gson();
+            TerminateMeetingMessageDto v= new TerminateMeetingMessageDto();
+            SourceVerification imputed = sourceVerificationRepository.findSourceImputed(idCase);
+            List<Integer> idsSubsectionMessing = fieldMeetingSourceRepository.getIdsSubsectionMessing(idCase,imputed.getId(),Constants.ST_FIELD_VERIF_UNABLE);
+            String[] tabs = {"imputed","imputedHome","reference","socialNetwork","job","school","drug","leaveCountry"};
+            for(int i = 0; i<tabs.length;i++){
+                //FIXME agregar el like de la consulta con tab[i]
+                List<FieldVerification> fieldVerificationList = fieldVerificationRepository.getListByClass( idsSubsectionMessing);
+                List<String> r=new ArrayList<>();
+                String e="entity";
+                for(FieldVerification fv : fieldVerificationList){
+                    r.add(v.templateVerification.replace(e,fv.getFieldName()));
+                }
+                v.getGroupMessage().add(new GroupMessageMeetingDto(tabs[i],r));
+            }
+            if (v.existsMessageProperties()) {
+                List<String> listGeneral=new ArrayList<>();
+               listGeneral.add("No se puede terminar la verificación puesto que falta por verificar campos y/o secciones, para más detalles revise los mensajes de cada sección");
+                v.getGroupMessage().add(new GroupMessageMeetingDto("general",listGeneral));
+                return new ResponseMessage(true,gson.toJson(v));
+            }else{
+                return new ResponseMessage(false, "Se ha terminado con exito la verificación");
+            }
+        }catch (Exception e){
+         return  new ResponseMessage(true,"Ha ocurrido un error al terminar la verificación");
+        }
     }
 
     @Override
