@@ -88,14 +88,12 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     $scope.fillEnvironmentAnalysis = function (data) {
 
-        //debugger;
         $scope.lstSources = $.parseJSON(data.lstSources);
-        $scope.lstArrangement = $.parseJSON(data.lstArrangement);
         $scope.lstRisk = $.parseJSON(data.lstRisk);
         $scope.lstThreat = $.parseJSON(data.lstThreat);
 
         $scope.lstSelectedSources = $.parseJSON(data.lstSelectedSources);
-        //$scope.lstSelectedArrangement=data.lstSelectedArrangement;
+        $scope.lstSelectedArrangement=$.parseJSON(data.lstSelectedArrangement);
         $scope.lstSelectedRisk = $.parseJSON(data.lstSelectedRisk);
         $scope.lstSelectedThreat = $.parseJSON(data.lstSelectedThreat);
     };
@@ -156,7 +154,7 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         if ($scope.lstSelectedThreat == undefined || $scope.lstSelectedThreat.length <= 0)
             $scope.errorThreats = "Debe seleccionar al menos una amenaza";
 
-        if($scope.errorThreats!=""||$scope.errorSources!=""||$scope.errorRisks!=""||$scope.errorRisks)
+        if($scope.errorSources!=""||$scope.errorRisks!=""||$scope.errorThreats!="")
             return false;
 
         return true;

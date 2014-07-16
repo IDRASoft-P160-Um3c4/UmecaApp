@@ -42,6 +42,13 @@ public class LogCommentMonitoringPlan {
     @Column(name = "comments", nullable = false)
     private String comments;
 
+    @Column(name = "is_obsolete", nullable = false)
+    private Boolean isObsolete;
+
+    public LogCommentMonitoringPlan() {
+        isObsolete = false;
+    }
+
     public Long getId() {
         return id;
     }
@@ -104,5 +111,13 @@ public class LogCommentMonitoringPlan {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Boolean getObsolete() {
+        return isObsolete;
+    }
+
+    public void setObsolete(Boolean obsolete) {
+        isObsolete = obsolete;
     }
 }

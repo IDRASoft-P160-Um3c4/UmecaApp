@@ -7,15 +7,15 @@ import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Drug;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
-import com.umeca.repository.catalog.CountryRepository;
-import com.umeca.repository.catalog.LocationRepository;
-import com.umeca.repository.catalog.MaritalStatusRepository;
-import com.umeca.repository.catalog.RelationshipRepository;
+import com.umeca.repository.StatusCaseRepository;
+import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
+import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.supervisor.*;
-import com.umeca.service.catalog.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Qualifier("qFramingMeetingRepository")
     @Autowired
     private FramingMeetingRepository framingMeetingRepository;
+
+    @Autowired
+    private StatusCaseRepository statusCaseRepository;
 
     @Autowired
     private CaseRepository caseRepository;
@@ -75,6 +78,30 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private DrugTypeRepository drugTypeRepository;
+
+    @Autowired
+    private PeriodicityRepository periodicityRepository;
+
+    @Autowired
+    private DrugRepository drugRepository;
+
+    @Autowired
+    private RelativeAbroadRelRepository relativesAbroadRelRepository;
+
+    @Autowired
+    private AddictedAcquaintanceRelRepository addictedAcquaintanceRelRepository;
+
+    @Autowired
+    private AdditionalFramingQuestionsRepository additionalFramingQuestionsRepository;
+
+    @Autowired
+    private ArrangementRepository arrangementRepository;
+
+    @Autowired
+    private ObligationIssuesRepository obligationIssuesRepository;
+
     @Transactional
     @Override
     public ResponseMessage save(FramingMeeting framingMeeting) {
@@ -83,12 +110,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
             framingMeetingRepository.save(framingMeeting);
             response.setHasError(false);
-            response.setMessage("Se ha guardado la informaciï¿½n con exito.");
+            response.setMessage("Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
-            System.out.println("Error al guardar framingMeeting!!!\n");
+            System.out.println("Error al guardar framingMeeting!!!");
             System.out.println(e.getMessage());
             response.setHasError(true);
-            response.setMessage("Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde");
+            response.setMessage("Ha ocurrido un error al guardar la informaci?n. Intente más tarde");
         } finally {
             return response;
         }
@@ -281,10 +308,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existFraming = framingMeetingRepository.save(existFraming);
             framingMeetingRepository.flush();
 
-            return new ResponseMessage(false, "Se ha guardado la informaciï¿½n con exito.");
+            return new ResponseMessage(false, "Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde.");
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
         }
     }
 
@@ -294,10 +321,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
             newReference.setFramingMeeting(existCase.getFramingMeeting());
             framingReferenceRepository.save(newReference);
-            return new ResponseMessage(false, "Se ha guardado la informaciï¿½n con exito.");
+            return new ResponseMessage(false, "Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde.");
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
         }
 
     }
@@ -382,10 +409,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     public ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment) {
         try {
             processAccompanimentRepository.save(processAccompaniment);
-            return new ResponseMessage(false, "Se ha guardado la informaciï¿½n con exito.");
+            return new ResponseMessage(false, "Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde.");
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
         }
     }
 
@@ -404,38 +431,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         existFraming.setActivities(view.getActivities());
 
         return existFraming;
-    }
-
-    public List<RelativeAbroadView> loadRelativeAbroad(Long idCase) {
-
-        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
-
-        List<RelativeAbroadView> lstView = new ArrayList<>();
-
-        AdditionalFramingQuestions addQuest = existFraming.getAdditionalFramingQuestions();
-
-        for (Relationship relShip : relationshipRepository.findAll()) {
-            RelativeAbroadView vw = new RelativeAbroadView();
-            vw.setIdRelationship(relShip.getId());
-            vw.setName(relShip.getName());
-            vw.setSelVal(false);
-            vw.setAddress("");
-            lstView.add(vw);
-        }
-
-        if (addQuest != null && addQuest.getRelativesAbroadRel() != null && addQuest.getRelativesAbroadRel().size() > 0) {
-            for (RelativeAbroadView vw : lstView) {
-                for (RelativesAbroadRel rel : addQuest.getRelativesAbroadRel()) {
-                    if (vw.getIdRelationship().equals(rel.getRelationship().getId())) {
-                        vw.setAddress(rel.getAddress());
-                        vw.setSelVal(true);
-                        break;
-                    }
-                }
-            }
-        }
-
-        return lstView;
     }
 
     public FramingEnvironmentAnalysisForView loadEnvironmentAnalysis(Long idCase) {//todo
@@ -483,10 +478,25 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 lstSelectedThreat.add(rel.getFramingThreat().getId());
             }
         }
-
         view.setLstSelectedThreat(conv.toJson(lstSelectedThreat));
 
-        //todo faltan las medidas cautelares
+        List<HearingFormat> lstFormats = caseRepository.findOne(idCase).getHearingFormats();
+        Collections.sort(lstFormats, HearingFormat.hearingFormatComparator);
+        HearingFormat lastFormat = lstFormats.get(lstFormats.size() - 1);
+
+        List<String> lstAssArrg = new ArrayList<>();
+
+        if (lastFormat.getAssignedArrangements() != null && lastFormat.getAssignedArrangements().size() > 0) {
+            for (AssignedArrangement rel : lastFormat.getAssignedArrangements()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(rel.getArrangement().getDescription());
+                sb.append(", ");
+                sb.append(rel.getDescription());
+                lstAssArrg.add(sb.toString());
+            }
+        }
+
+        view.setLstSelectedArrangement(conv.toJson(lstAssArrg));
 
         return view;
     }
@@ -537,10 +547,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             framingAddress.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
             framingAddressRepository.save(framingAddress);
 
-            return new ResponseMessage(false, "Se ha guardado la informaciï¿½n con ï¿½xito.");
+            return new ResponseMessage(false, "Se ha guardado la informaci?n con ?xito.");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde.");
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
         }
     }
 
@@ -550,10 +560,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             framingAddressRepository.delete(id);
 
-            return new ResponseMessage(false, "Se ha eliminado el registro con ï¿½xito.");
+            return new ResponseMessage(false, "Se ha eliminado el registro con éxito.");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde.");
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
         }
     }
 
@@ -562,14 +572,400 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
 
             if (framingSelectedSourceRelRepository.findSourceRelByIdSource(id) != null)
-                return new ResponseMessage(true, "No se puede eliminar la informaciÃ³n. El registro ha sido seleccionado en la secciÃ³n AnÃ¡lisis del entorno.");
+                return new ResponseMessage(true, "No se puede eliminar la información. El registro ha sido seleccionado en la sección Análisis del entorno.");
 
             framingReferenceRepository.delete(id);
 
-            return new ResponseMessage(false, "Se ha eliminado el registro con ï¿½xito.");
+            return new ResponseMessage(false, "Se ha eliminado el registro con éxito.");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde.");
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
+        }
+    }
+
+    @Transactional
+    public ResponseMessage doUpsertDrug(Drug drug, Long idCase) {
+        ResponseMessage result = new ResponseMessage();
+        try {
+            drug.setDrugType(drugTypeRepository.findOne(drug.getDrugType().getId()));
+            drug.setPeriodicity(periodicityRepository.findOne(drug.getPeriodicity().getId()));
+            drug.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
+            if (drug.getId() != null && drug.getId() == 0) {
+                drug.setId(null);
+            }
+            drugRepository.save(drug);
+            result.setHasError(false);
+            result.setMessage("Se ha guardado la información con éxito");
+        } catch (Exception e) {
+            result.setHasError(true);
+            result.setMessage("Ocurrio un error al guardar la información. Inténte más tarde.");
+        }
+        return result;
+    }
+
+    @Transactional
+    public ResponseMessage deleteDrug(Long id) {
+        ResponseMessage result = new ResponseMessage();
+        try {
+            drugRepository.delete(drugRepository.findOne(id));
+            result.setHasError(false);
+            result.setMessage("Se elimino la sustancia con éxito");
+        } catch (Exception e) {
+            result.setHasError(true);
+            result.setMessage("Ocurrio un error al eliminar la sustancia. Inténte más tarde");
+        }
+        return result;
+    }
+
+    public AdditionalQuestionsForView fillAddtionalQuestionsForView(Long idCase) {
+
+        Gson conv = new Gson();
+
+        AdditionalFramingQuestions existQuest = caseRepository.findOne(idCase).getFramingMeeting().getAdditionalFramingQuestions();
+
+        AdditionalQuestionsForView view = new AdditionalQuestionsForView();
+
+        if (existQuest != null) {
+
+            view.setObservations(existQuest.getObservations());
+            view.setAddictionTreatment(existQuest.getAddictionTreatment());
+            view.setAddictionTreatmentInstitute(existQuest.getAddictionTreatmentInstitute());
+            view.setAddictionTreatmentDate(existQuest.getAddictionTreatmentDate());
+            view.setAddictedAcquaintance(existQuest.getAddictedAcquaintance());
+            view.setRelativeAbroad(existQuest.getRelativeAbroad());
+            view.setObligationIssue(existQuest.getObligationIssue());
+            view.setSelectedObligationIssues(conv.toJson(this.loadAssArrangements(idCase)));
+        }
+
+        view.setSelectedRelativesAbroad(conv.toJson(this.loadRelativeAbroad(idCase)));
+        view.setSelectedAddictedAcquaintances(conv.toJson(this.loadAddictedAcquaintance(idCase)));
+        view.setSelectedObligationIssues(conv.toJson(this.loadAssArrangements(idCase)));
+
+        return view;
+    }
+
+    private List<RelativeAbroadView> loadAssArrangements(Long idCase) {
+
+        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+        AdditionalFramingQuestions addQuest = existFraming.getAdditionalFramingQuestions();
+
+        List<HearingFormat> lstFormats = caseRepository.findOne(idCase).getHearingFormats();
+        Collections.sort(lstFormats, HearingFormat.hearingFormatComparator);
+
+        HearingFormat lastFormat = lstFormats.get(lstFormats.size() - 1);
+
+        List<RelativeAbroadView> lstAssArrg = new ArrayList<>();
+
+        if (lastFormat.getAssignedArrangements() != null && lastFormat.getAssignedArrangements().size() > 0) {
+            for (AssignedArrangement rel : lastFormat.getAssignedArrangements()) {
+                RelativeAbroadView item = new RelativeAbroadView();
+
+                item.setRelationshipId(rel.getArrangement().getId());
+                item.setName(rel.getArrangement().getDescription() + ", " + rel.getDescription());
+                item.setRelationshipId(rel.getArrangement().getId());
+                item.setDescription("");
+                item.setSelVal(false);
+                lstAssArrg.add(item);
+            }
+        }
+
+        if (addQuest != null && addQuest.getObligationIssues() != null && addQuest.getObligationIssues().size() > 0) {
+            for (RelativeAbroadView vw : lstAssArrg) {
+                for (ObligationIssues rel : addQuest.getObligationIssues()) {
+                    if (vw.getRelationshipId().equals(rel.getArrangement().getId())) {
+                        vw.setDescription(rel.getCause());
+                        vw.setSelVal(true);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return lstAssArrg;
+    }
+
+    private List<RelativeAbroadView> loadRelativeAbroad(Long idCase) {
+
+        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+
+        List<RelativeAbroadView> lstView = new ArrayList<>();
+
+        AdditionalFramingQuestions addQuest = existFraming.getAdditionalFramingQuestions();
+
+        for (Relationship relShip : relationshipRepository.findAll()) {
+            RelativeAbroadView vw = new RelativeAbroadView();
+            vw.setRelationshipId(relShip.getId());
+            vw.setName(relShip.getName());
+            vw.setSelVal(false);
+            vw.setDescription("");
+            lstView.add(vw);
+        }
+
+        if (addQuest != null && addQuest.getRelativesAbroadRel() != null && addQuest.getRelativesAbroadRel().size() > 0) {
+            for (RelativeAbroadView vw : lstView) {
+                for (RelativesAbroadRel rel : addQuest.getRelativesAbroadRel()) {
+                    if (vw.getRelationshipId().equals(rel.getRelationship().getId())) {
+                        vw.setDescription(rel.getAddress());
+                        vw.setSelVal(true);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return lstView;
+    }
+
+    private List<RelativeAbroadView> loadAddictedAcquaintance(Long idCase) {
+
+        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+
+        List<RelativeAbroadView> lstView = new ArrayList<>();
+
+        AdditionalFramingQuestions addQuest = existFraming.getAdditionalFramingQuestions();
+
+        for (Relationship relShip : relationshipRepository.findAll()) {
+            RelativeAbroadView vw = new RelativeAbroadView();
+            vw.setRelationshipId(relShip.getId());
+            vw.setName(relShip.getName());
+            vw.setSelVal(false);
+            lstView.add(vw);
+        }
+
+        if (addQuest != null && addQuest.getAddictedAcquaintancesRel() != null && addQuest.getAddictedAcquaintancesRel().size() > 0) {
+            for (RelativeAbroadView vw : lstView) {
+                for (AddictedAcquaintanceRel rel : addQuest.getAddictedAcquaintancesRel()) {
+                    if (vw.getRelationshipId().equals(rel.getRelationship().getId())) {
+                        vw.setSelVal(true);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return lstView;
+    }
+
+    private List<AddictedAcquaintanceRel> generateAddAqRel(AdditionalFramingQuestions existAQ, String lstStr) {
+
+        List<AddictedAcquaintanceRel> newRel = new ArrayList<>();
+
+        Type listType = new TypeToken<List<RelativeAbroadView>>() {
+        }.getType();
+
+        List<RelativeAbroadView> viewLst = new Gson().fromJson(lstStr, listType);
+
+        for (RelativeAbroadView act : viewLst) {
+            if (act.getSelVal() == true) {
+                AddictedAcquaintanceRel rel = new AddictedAcquaintanceRel();
+                rel.setAdditionalFramingQuestions(existAQ);
+                rel.setRelationship(relationshipRepository.findOne(act.getRelationshipId()));
+                newRel.add(rel);
+            }
+        }
+
+        return newRel;
+    }
+
+    private List<ObligationIssues> generateObligationIssuesRel(AdditionalFramingQuestions existAQ, String lstStr) {
+
+        List<ObligationIssues> newRel = new ArrayList<>();
+
+        Type listType = new TypeToken<List<RelativeAbroadView>>() {
+        }.getType();
+
+        List<RelativeAbroadView> viewLst = new Gson().fromJson(lstStr, listType);
+
+        for (RelativeAbroadView act : viewLst) {
+            if (act.getSelVal() == true) {
+                ObligationIssues rel = new ObligationIssues();
+                rel.setAdditionalFramingQuestions(existAQ);
+                rel.setArrangement(arrangementRepository.findOne(act.getRelationshipId()));
+                rel.setCause(act.getDescription());
+                newRel.add(rel);
+            }
+        }
+
+        return newRel;
+    }
+
+    private List<RelativesAbroadRel> generateRelativeAbroadRel(AdditionalFramingQuestions existAQ, String lstStr) {
+
+        List<RelativesAbroadRel> newRel = new ArrayList<>();
+
+        Type listType = new TypeToken<List<RelativeAbroadView>>() {
+        }.getType();
+
+        List<RelativeAbroadView> viewLst = new Gson().fromJson(lstStr, listType);
+
+        for (RelativeAbroadView act : viewLst) {
+            if (act.getSelVal() == true) {
+                RelativesAbroadRel rel = new RelativesAbroadRel();
+                rel.setAdditionalFramingQuestions(existAQ);
+                rel.setAddress(act.getDescription());
+                rel.setRelationship(relationshipRepository.findOne(act.getRelationshipId()));
+                newRel.add(rel);
+            }
+        }
+
+        return newRel;
+
+    }
+
+    @Transactional
+    public ResponseMessage saveAddQuest(Long idCase, AdditionalQuestionsForView view) {
+
+        try {
+            FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+            AdditionalFramingQuestions addQuest = existFraming.getAdditionalFramingQuestions();
+
+            if (addQuest == null) {
+                addQuest = new AdditionalFramingQuestions();
+            }
+
+            addQuest.setObservations(view.getObservations());
+            addQuest.setAddictionTreatment(view.getAddictionTreatment());
+            addQuest.setAddictionTreatmentInstitute(view.getAddictionTreatmentInstitute());
+            addQuest.setAddictionTreatmentDate(view.getAddictionTreatmentDate());
+            addQuest.setAddictedAcquaintance(view.getAddictedAcquaintance());
+            addQuest.setRelativeAbroad(view.getRelativeAbroad());
+            addQuest.setObligationIssue(view.getObligationIssue());
+
+            if (addQuest.getAddictedAcquaintancesRel() != null) {
+
+                List<AddictedAcquaintanceRel> addAqRel = existFraming.getAdditionalFramingQuestions().getAddictedAcquaintancesRel();
+
+                for (AddictedAcquaintanceRel rel : addAqRel) {
+                    addictedAcquaintanceRelRepository.delete(rel);
+                }
+            }
+            addQuest.setAddictedAcquaintancesRel(this.generateAddAqRel(addQuest, view.getSelectedAddictedAcquaintances()));
+
+
+            if (addQuest.getRelativesAbroadRel() != null) {
+
+                List<RelativesAbroadRel> addAqRel = existFraming.getAdditionalFramingQuestions().getRelativesAbroadRel();
+
+                for (RelativesAbroadRel rel : addAqRel) {
+                    relativesAbroadRelRepository.delete(rel);
+                }
+            }
+            addQuest.setRelativesAbroadRel(this.generateRelativeAbroadRel(addQuest, view.getSelectedRelativesAbroad()));
+
+            if (addQuest.getObligationIssues() != null) {
+
+                List<ObligationIssues> addOblIss = existFraming.getAdditionalFramingQuestions().getObligationIssues();
+
+                for (ObligationIssues rel : addOblIss) {
+                    obligationIssuesRepository.delete(rel);
+                }
+            }
+            addQuest.setObligationIssues(this.generateObligationIssuesRel(addQuest, view.getSelectedObligationIssues()));
+
+            existFraming.setAdditionalFramingQuestions(addQuest);
+
+            this.save(existFraming);
+
+            return new ResponseMessage(false, "Se ha guardado la información con éxito.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
+        }
+
+    }
+
+    public ResponseMessage doTerminate(Long idCase) {
+
+        StringBuilder sb = new StringBuilder();
+        try {
+            FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+
+            if (existFraming.getPersonalData() == null)
+                if (sb.toString().equals(""))
+                    sb.append("Debe proporcionar la información faltante para la sección \"Datos personales y entorno social\".");
+                else
+                    sb.append("|Debe proporcionar la información faltante para la sección \"Datos personales y entorno social\".");
+
+            if (existFraming.getFramingAddresses() == null || !(existFraming.getFramingAddresses().size() > 0))
+                if (sb.toString().equals(""))
+                    sb.append("Debe registrar al menos un registro en la sección \"Domicilios\".");
+                else
+                    sb.append("|Debe registrar al menos un registro en la sección \"Domicilios\".");
+
+            if (existFraming.getProcessAccompaniment() == null)
+                if (sb.toString().equals(""))
+                    sb.append("Debe proporcionar la información faltante para la sección \"Persona que acompaña en el proceso\".");
+                else
+                    sb.append("|Debe proporcionar la información faltante para la sección \"Persona que acompaña en el proceso\".");
+
+
+            if (existFraming.getReferences() != null&&existFraming.getReferences().size()>0) {
+                int noHousemate = 0, noReferences = 0;
+
+                for (FramingReference fr : existFraming.getReferences()) {
+                    if (fr.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
+                        noHousemate++;
+                    if (fr.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
+                        noReferences++;
+                }
+
+                if (noHousemate == 0)
+                    if (sb.toString().equals(""))
+                        sb.append("Debe registrar al menos una registro en en la sección \"Personas que viven con el imputado\".");
+                    else
+                        sb.append("|Debe registrar al menos una registro en en la sección \"Personas que viven con el imputado\".");
+                if (noReferences == 0)
+                    if (sb.toString().equals(""))
+                        sb.append("Debe registrar al menos una registro en en la sección \"Referencias personales\".");
+                    else
+                        sb.append("|Debe registrar al menos una registro en en la sección \"Referencias personales\".");
+
+            } else {
+
+                if (sb.toString().equals(""))
+                    sb.append("Debe registrar al menos una registro en en la sección \"Personas que viven con el imputado\".");
+                else
+                    sb.append("|Debe registrar al menos una registro en en la sección \"Personas que viven con el imputado\".");
+
+                sb.append("|Debe registrar al menos una registro en en la sección \"Referencias personales\".");
+            }
+
+
+            if (existFraming.getOccupation() == null && existFraming.getActivities() == null)
+                if (sb.toString().equals(""))
+                    sb.append("Debe proporcionar la información faltante para la sección \"Actividades que realiza el imputado\".");
+                else
+                    sb.append("|Debe proporcionar la información faltante para la sección \"Actividades que realiza el imputado\".");
+            if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0))
+                if (sb.toString().equals(""))
+                    sb.append("Debe registrar al menos una registro en en la sección \"Consumo de substancias\".");
+                else
+                    sb.append("|Debe registrar al menos una registro en en la sección \"Consumo de substancias\".");
+            if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
+                    existFraming.getSelectedRisksRel() == null || !(existFraming.getSelectedRisksRel().size() > 0) ||
+                    existFraming.getSelectedThreatsRel() == null || !(existFraming.getSelectedThreatsRel().size() > 0))
+                if (sb.toString().equals(""))
+                    sb.append("Debe proporcionar la información faltante para la sección \"Anáisis del entorno\".");
+                else
+                    sb.append("|Debe proporcionar la información faltante para la sección \"Anáisis del entorno\".");
+            if (existFraming.getAdditionalFramingQuestions() == null)
+                if (sb.toString().equals(""))
+                    sb.append("Debe proporcionar la información faltante para la sección \"Formulario de preguntas al supervisado\".");
+                else
+                    sb.append("|Debe proporcionar la información faltante para la sección \"Formulario de preguntas al supervisado\".");
+            if (!sb.toString().equals("")) {
+                return new ResponseMessage(true, sb.toString());
+            }
+
+            Case existCase = caseRepository.findOne(idCase);
+            existCase.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_COMPLETE));
+            caseRepository.save(existCase);
+            return new ResponseMessage(false, "Se ha guardado la información con exito");
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseMessage(false, "Ha ocurrido un error al guardar la información. Intente más tarde.");
         }
     }
 

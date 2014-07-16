@@ -7,20 +7,19 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.catalog.AcademicLevel;
-import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Drug;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
-import com.umeca.repository.catalog.AcademicLevelRepository;
-import com.umeca.repository.catalog.CountryRepository;
-import com.umeca.repository.catalog.RelationshipRepository;
-import com.umeca.repository.catalog.StateRepository;
+import com.umeca.repository.StatusCaseRepository;
+import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
+import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.shared.SelectFilterFields;
-import com.umeca.repository.supervisor.*;
+import com.umeca.repository.supervisor.FramingReferenceRepository;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.supervisor.FramingMeetingService;
 import com.umeca.service.supervisor.HearingFormatService;
@@ -33,7 +32,6 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -64,16 +62,22 @@ public class FramingMeetingController {
     private AddressService addressService;
 
     @Autowired
-    private FramingAddressRepository framingAddressRepository;
-
-    @Autowired
-    private AcademicLevelRepository academicLevelRepository;
-
-    @Autowired
     private HearingFormatService hearingFormatService;
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private DrugTypeRepository drugTypeRepository;
+
+    @Autowired
+    private PeriodicityRepository periodicityRepository;
+
+    @Autowired
+    private DrugRepository drugRepository;
+
+    @Autowired
+    private StatusCaseRepository statusCaseRepository;
 
     @RequestMapping(value = "/supervisor/framingMeeting/index", method = RequestMethod.GET)
     public String index() {
@@ -85,7 +89,18 @@ public class FramingMeetingController {
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
+                new ArrayList<String>() {{
+                    add(Constants.CASE_STATUS_HEARING_FORMAT_END);
+                    add(Constants.CASE_STATUS_FRAMING_COMPLETE);
+                    add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 return new ArrayList<Selection<?>>() {{
@@ -103,7 +118,11 @@ public class FramingMeetingController {
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
-                    return r.join("caseDetention").get("idFolder");
+                    return r.get("idFolder");
+
+                if (field.equals("statusName"))
+                    return r.join("status").get("name");
+
                 return null;
             }
         }, Case.class, ForFramingMeetingGrid.class);
@@ -121,9 +140,9 @@ public class FramingMeetingController {
         if (caseDet.getFramingMeeting() == null) {
             FramingMeeting framingMeeting = new FramingMeeting();
             caseDet.setFramingMeeting(framingMeeting);
+            caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_INCOMPLETE));
             framingMeeting.setCaseDetention(caseDet);
             framingMeetingService.save(framingMeeting);
-
         }
 
         FramingMeetingView framingMeetingView = framingMeetingService.fillForView(caseDet);
@@ -259,6 +278,40 @@ public class FramingMeetingController {
         return result;
     }
 
+    @RequestMapping(value = "/supervisor/framingMeeting/listDrug", method = RequestMethod.POST)
+    public @ResponseBody JqGridResultModel listDrug(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase){
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                return new ArrayList<Selection<?>>(){{
+                    add(r.get("id"));
+                    add(r.join("periodicity").get("name").alias("perName"));
+                    add(r.get("lastUse"));
+                    add(r.join("drugType").get("name").alias("drugName"));
+                    add(r.get("quantity"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if(field.equals("idCase")){
+                    return r.join("framingMeeting").join("caseDetention").get("id");
+                }else if(field.equals("drugName")){
+                    return r.join("drugType").get("name");
+                }
+                return null;
+            }
+        }, Drug.class, Drug.class);
+
+        return result;
+
+    }
+
     @RequestMapping(value = "/supervisor/framingMeeting/address/upsert", method = RequestMethod.POST)
     public ModelAndView showAddressUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
 
@@ -275,16 +328,41 @@ public class FramingMeetingController {
             address = new Address();
         }
 
-
         AddressDto addDto = new AddressDto();
-        //addDto.addressDto(address);
         addDto.setIdCase(idCase);
-
         model.addObject("addObj", conv.toJson(addDto));
         model.addObject("listState", conv.toJson(stateRepository.findAll()));
         model.addObject("idCaseAdd", idCase);
 
         return model;
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/drugs/upsert", method = RequestMethod.POST)
+    public ModelAndView showDrugUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
+
+        ModelAndView model = new ModelAndView("/supervisor/framingMeeting/drugs/upsert");
+        Gson gson = new Gson();
+        model.addObject("lstDrugType", gson.toJson(drugTypeRepository.findNotObsolete()));
+        model.addObject("lstPeriodicity", gson.toJson(periodicityRepository.findNotObsolete()));
+        if (id != null && id != 0) {
+            Drug d = drugRepository.findOne(id);
+            model.addObject("d", d);
+            model.addObject("typeId", d.getDrugType().getId());
+            model.addObject("perId", d.getPeriodicity().getId());
+        }
+        model.addObject("idCase", idCase);
+        return model;
+
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/drugs/doUpsert", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage doUpsertDrug(@ModelAttribute Drug drug, @RequestParam Long idCase){
+        return framingMeetingService.doUpsertDrug(drug, idCase);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/drugs/delete", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage doDeleteDrug(@RequestParam Long id){
+        return framingMeetingService.deleteDrug(id);
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/housemate/upsert", method = RequestMethod.POST)
@@ -429,12 +507,21 @@ public class FramingMeetingController {
         return framingMeetingService.save(existFraming);
     }
 
-    @RequestMapping(value = "/supervisor/framingMeeting/activities/loadRelativeAbroad", method = RequestMethod.GET)
+    @RequestMapping(value = "/supervisor/framingMeeting/additionalQuestions/loadAdditionalQuestion", method = RequestMethod.GET)
     public
     @ResponseBody
     String loadRelativeAbroad(@RequestParam(required = true) Long idCase) {
         Gson conv = new Gson();
-        return conv.toJson(framingMeetingService.loadRelativeAbroad(idCase));
+
+        AdditionalQuestionsForView addQuest = framingMeetingService.fillAddtionalQuestionsForView(idCase);
+        return conv.toJson(addQuest);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/additionalQuestions/doUpsert", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage additionalQuestions(@RequestParam(required = true) Long idCase, @ModelAttribute AdditionalQuestionsForView view) {
+        return framingMeetingService.saveAddQuest(idCase,view);
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/personalData/loadPersonalData", method = RequestMethod.POST)
@@ -455,6 +542,19 @@ public class FramingMeetingController {
 
         return framingMeetingService.save(existFraming);
 
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/additionalQuestion/loadAddtionalQuestion", method = RequestMethod.POST)
+    public AdditionalQuestionsForView loadAdditionalQuestion(@RequestParam(required = false) Long idCase) {
+        return framingMeetingService.fillAddtionalQuestionsForView(idCase);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/doTerminate", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseMessage doTerminate(@RequestParam(required = true) Long idCase) {
+
+        return framingMeetingService.doTerminate(idCase);
     }
 
 

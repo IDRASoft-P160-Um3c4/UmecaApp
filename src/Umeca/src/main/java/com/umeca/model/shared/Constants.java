@@ -12,7 +12,6 @@ public class Constants {
     public static final Long ELECTION_NO = 2L;
     public static final String VERIFICATION_STATUS_NEW_SOURCE = "NEW_SOURCE";
     public static final String VERIFICATION_STATUS_AUTHORIZED = "AUTHORIZED";
-    public static final String VERIFICATION_STATUS_COMPLETE = "VERIFICATION_COMPLETE";
     public static final String VERIFICATION_STATUS_MEETING_COMPLETE = "MEETING_COMPLETE";
     public static final Long MARITAL_UNION_FREE = 4L;
     public static final Long MARITAL_MARRIED = 2L;
@@ -23,21 +22,20 @@ public class Constants {
     public static String S_MEETING_COMPLETE="COMPLETE";
     public static String S_MEETING_COMPLETE_VERIFICATION="COMPLETE_VERIFICATION";
 
-
     public static Boolean GENDER_FEMALE = true;
     public static Boolean GENDER_MALE = false;
 
-    public static Long REGYSTER_TYPE_CURRENT = 1L;
-    public static Long REGYSTER_TYPE_SECONDARY = 2L;
-    public static Long REGYSTER_TYPE_PREVIOUS = 3L;
+    public static final Long REGYSTER_TYPE_CURRENT = 1L;
+    public static final Long REGYSTER_TYPE_SECONDARY = 2L;
+    public static final Long REGYSTER_TYPE_PREVIOUS = 3L;
 
     public static final String TECHNICAL_REVIEW_QUESTIONARY_CODE="TECHNICAL_REVIEW";
     public static final Integer CONDITIONAL_REPRIEVE_HEARING= 1;
     public static final Integer MEETING_HEARING= 2;
 
     //status del caso
-    public static String CASE_STATUS_MEETING = "ST_CASE_MEETING";
-    public static String CASE_STATUS_SOURCE_VALIDATION = "ST_CASE_SOURCE_VALIDATION";
+    public static final String CASE_STATUS_MEETING = "ST_CASE_MEETING";
+    public static final String CASE_STATUS_SOURCE_VALIDATION = "ST_CASE_SOURCE_VALIDATION";
     public static final String ALPHA2_MEXICO = "MX";
     public static final String CASE_STATUS_HEARING_FORMAT_END="ST_CASE_HEARING_FORMAT_END";
     public static final String CASE_STATUS_VERIFICATION_COMPLETE="ST_CASE_VERIFICATION_COMPLETE";
@@ -47,6 +45,8 @@ public class Constants {
     public static final String CASE_STATUS_FRAMING_MEETING_INCOMPLETE="ST_CASE_FRAMING_MEETING_INCOMPLETE";
     public static final String CASE_STATUS_FRAMING_MEETING_COMPLETE="ST_CASE_FRAMING_MEETING_COMPLETE";
     public static final String CASE_STATUS_CONDITIONAL_REPRIEVE="ST_CASE_CONDITIONAL_REPRIEVE";
+    public static final String CASE_STATUS_FRAMING_INCOMPLETE="ST_CASE_FRAMING_INCOMPLETE";
+    public static final String CASE_STATUS_FRAMING_COMPLETE="ST_CASE_FRAMING_COMPLETE";
 
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW="DONT_KNOW";
@@ -54,14 +54,15 @@ public class Constants {
     public static final String ST_FIELD_VERIF_NOEQUALS="NO_EQUALS";
     public static final String ST_FIELD_VERIF_UNABLE="UNABLE_VERIFICATION";
 
-    public static String ST_FIELD_VERIF_IMPUTED = "IS_IMPUTED";
+    public static final String ST_FIELD_VERIF_IMPUTED = "IS_IMPUTED";
     public static final String CASE_STATUS_PRE_CLOSED="ST_CASE_PRE_CLOSED";
 
-    public static String ROLE_ADMIN = "ROLE_ADMIN";
-    public static String ROLE_REVIEWER = "ROLE_REVIEWER";
-    public static String ROLE_SUPERVISOR = "ROLE_SUPERVISOR";
-    public static String ROLE_SUPERVISOR_MANAGER = "ROLE_SUPERVISOR_MANAGER";
-    public static String ROLE_NOTUSE = "ROLE_NOTUSE";
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_REVIEWER = "ROLE_REVIEWER";
+    public static final String ROLE_SUPERVISOR = "ROLE_SUPERVISOR";
+    public static final String ROLE_SUPERVISOR_MANAGER = "ROLE_SUPERVISOR_MANAGER";
+    public static final String ROLE_NOTUSE = "ROLE_NOTUSE";
+    public static final String ROLE_ANONYMOUS = "ANONYMOUS";
 
     public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
     public static String FORMAT_VERIFICATION_DATE = "yyyy-MM-dd hh:mm:ss.S";

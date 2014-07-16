@@ -67,17 +67,21 @@
                         for (var i = 0; i < ids.length; i++) {
                             var cl = ids[i];
                             var row = $(this).getRowData(cl);
-                            var row = $(this).getRowData(cl);
-                            var statusLog = jQuery.parseJSON(row.statusLog);
+                            var statusLog = undefined;
+                            try{
+                                if(row.statusLog !== undefined && row.statusLog !== null && row.statusLog !== "")
+                                    statusLog = jQuery.parseJSON(row.statusLog);
+                            }catch(ex){}
+
                             var be = "";
 
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de incumplimiento\" onclick=\"window.accomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
 
-                            if(statusLog.action === "RECHAZAR REPORTE INCUMPLIMIENTO"){
+                            if(statusLog !== undefined && statusLog.action === "RECHAZADO REPORTE INCUMPLIMIENTO"){
                                 be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo del reporte de incumplimiento\" onclick=\"window.showRejectAuthAccomplishmentMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment green\"></span></a>";
                             }
 
-                            if(statusLog.action !== "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO" && statusLog.action !== "AUTORIZAR REPORTE INCUMPLIMIENTO"){
+                            if(statusLog === undefined || (statusLog.action !== "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO" && statusLog.action !== "AUTORIZAR REPORTE INCUMPLIMIENTO")){
                                 be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorización del reporte de incumplimiento\" onclick=\"window.requestAccomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
                             }
 

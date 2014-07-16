@@ -302,3 +302,7 @@ i.link-image {
 .two-lines{
     min-height: 45px !important;
 }
+
+.font-size-sm{
+    font-size: 0.9em;
+}
