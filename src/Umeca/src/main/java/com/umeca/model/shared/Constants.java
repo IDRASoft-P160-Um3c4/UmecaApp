@@ -68,5 +68,5 @@ public class Constants {
     public static String FORMAT_VERIFICATION_DATE = "yyyy-MM-dd hh:mm:ss.S";
 
 
-
+    public static String VERIFICATION_STATUS_COMPLETE="VERIFICATION_COMPLETE";
 }
