@@ -32,9 +32,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by dcortesr on 25/06/14.
- */
 @Controller
 public class ManagerevalController {
     @Autowired

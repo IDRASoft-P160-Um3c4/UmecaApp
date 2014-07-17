@@ -33,7 +33,7 @@
                     type: "POST",
                     data: JSON.stringify(vS),
                     success: function(r) {
-                        t.alert("Validaciones de fuentes", "Se han actualizado los datos correctamente.", "info");
+                        t.alert("Validaciones de fuentes", "Se han actualizado los datos correctamente. ", "info");
                         $(subGrid).trigger("reloadGrid");
                     },
                     error: function(e) {
@@ -62,7 +62,7 @@
 
             $(document).ready(function() {
                 $("#GridId").jqGrid({
-                    url: '/managereval/list.json',
+                    url: '<c:url value='/managereval/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
                     colNames: ['ID','Carpeta de Investigaci&oacute;n','Nombre completo', 'Crimen', 'Acci&oacute;n'],
@@ -161,8 +161,8 @@
                 });
 
                 $("#GridId").jqGrid('navGrid', '#GridPager', {
-                    edit: false, editicon : 'icon-pencil blue',
-                    add: true, addfunc: window.newMeeting, addicon : 'icon-plus-sign purple',
+                    edit: false,
+                    add: false,
                     refresh: true, refreshicon : 'icon-refresh green',
                     del: false,
                     search: false});
@@ -184,7 +184,7 @@
         <div id="GridPager"></div>
         <div class="blocker" ng-show="working">
                 <div>
-                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
+                    Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
                 </div>
         </div>
         </div>
