@@ -668,8 +668,11 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         try {
             Case c = caseRepository.findOne(id);
-            LeaveCountry l = new LeaveCountry();
-            l.setMeeting(c.getMeeting());
+            LeaveCountry l = c.getMeeting().getLeaveCountry();
+            if(l==null){
+                l = new LeaveCountry();
+                c.getMeeting().setLeaveCountry(l);
+            }
             l.setOfficialDocumentation(electionRepository.findOne(leaveCountry.getOfficialDocumentation().getId()));
             Long family = leaveCountry.getFamilyAnotherCountry().getId();
             l.setFamilyAnotherCountry(electionRepository.findOne(family));
@@ -681,10 +684,6 @@ public class MeetingServiceImpl implements MeetingService {
             if (livedCountry != null && livedCountry.equals(Constants.ELECTION_YES)) {
                 l.setCountry(countryRepository.findOne(leaveCountry.getCountry().getId()));
             }
-            if (c.getMeeting().getLeaveCountry() != null && c.getMeeting().getLeaveCountry().getId() != null) {
-                l.setId(c.getMeeting().getLeaveCountry().getId());
-            }
-            c.getMeeting().setLeaveCountry(l);
             caseRepository.saveAndFlush(c);
             result.setHasError(false);
             result.setMessage("Se ha guardado su información exitosamente");
