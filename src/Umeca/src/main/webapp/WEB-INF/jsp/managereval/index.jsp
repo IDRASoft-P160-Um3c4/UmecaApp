@@ -5,7 +5,7 @@
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/uniqueDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
-    <title>Aprobación de fuentes a verificar </title>
+    <title>Aprobación de fuentes a verificar</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
     <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -33,7 +33,7 @@
                     type: "POST",
                     data: JSON.stringify(vS),
                     success: function(r) {
-                        t.alert("Validaciones de fuentes", "Se han actualizado los datos correctamente.", "info");
+                        t.alert("Validaciones de fuentes", "Se han actualizado los datos correctamente. ", "info");
                         $(subGrid).trigger("reloadGrid");
                     },
                     error: function(e) {
@@ -184,7 +184,7 @@
         <div id="GridPager"></div>
         <div class="blocker" ng-show="working">
                 <div>
-                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
+                    Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
                 </div>
         </div>
         </div>
