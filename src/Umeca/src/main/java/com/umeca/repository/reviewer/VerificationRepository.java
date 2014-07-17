@@ -18,6 +18,8 @@ public interface VerificationRepository extends JpaRepository<Verification, Long
     @Query("SELECT v FROM Verification v WHERE v.id =:idVerification")
     Verification findById(@Param("idVerification")Long idVerification);
 
+    @Query("SELECT V FROM Verification V WHERE V.caseDetention.id =:idCase")
+    Verification findByCase(@Param("idCase") Long idCase);
 }
 
 

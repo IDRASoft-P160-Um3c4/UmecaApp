@@ -10,13 +10,16 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.shared.CommentRequest;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.MainPageService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ManageMonitoringPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -245,4 +248,40 @@ public class LogController {
             return response;
         }
     }
+
+    @Autowired
+    MainPageService mainPageService;
+
+    @RequestMapping(value = {"/supervisorManager/log/deleteComment","/supervisor/log/deleteComment"}, method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage deleteComment(@RequestBody CommentRequest model){
+        ResponseMessage response = new ResponseMessage();
+        response.setTitle("Eliminar comentarios");
+        response.setHasError(true);
+
+        try {
+            User user = new User();
+            if(userService.isValidUser(user, response) == false)
+                return response;
+
+            List<String> lstRole = userService.getLstRolesByUserId(user.getId());
+
+            if(lstRole == null || lstRole.size() == 0){
+                response.setMessage("Usted no tiene los permisos para realizar esta operación");
+                return response;
+            }
+
+            if(mainPageService.deleteComment(lstRole.get(0), model, user, response) == false)
+                return response;
+
+            response.setReturnData(model.getId());
+            response.setHasError(false);
+            return response;
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "deleteComment", userService);
+            response.setHasError(true);
+        }
+        response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        return response;
+    }
+
 }

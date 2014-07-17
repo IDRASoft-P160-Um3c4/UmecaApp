@@ -5,7 +5,7 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/authorizeMonitoringPlan/authRejectCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/activeMonitoringPlan/changeSupervisorCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/authorizeMonitoringPlan/authRejectCtrl.js"></script>
     <title>Planes de seguimiento</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">

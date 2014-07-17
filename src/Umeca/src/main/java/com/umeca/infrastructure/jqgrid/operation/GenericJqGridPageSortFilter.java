@@ -3,6 +3,7 @@ package com.umeca.infrastructure.jqgrid.operation;
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.infrastructure.jqgrid.mapper.JqgridObjectMapper;
 import com.umeca.infrastructure.jqgrid.model.*;
+import com.umeca.model.managereval.ManagerevalView;
 import com.umeca.model.shared.EntityGrid;
 import com.umeca.repository.shared.SelectFilterFields;
 import org.springframework.stereotype.Repository;
@@ -55,10 +56,24 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
         List<JqGridRowsModel> rows = new ArrayList<>();
 
         for(EntityGrid entity : lstEnt){
+            boolean cn = false;
             JqGridRowsModel row = new JqGridRowsModel();
             row.setId(entity.getId());
             row.setCell(entity);
-            rows.add(row);
+            for (JqGridRowsModel rs : rows){
+                if (rs.getId() == row.getId()){
+                    cn = true;
+                    if (vClass.getName() == ManagerevalView.class.getName()){
+                        ManagerevalView mev = (ManagerevalView)entity;
+                        ManagerevalView rsv = (ManagerevalView)rs.getCell();
+                        rsv.setCrime(rsv.getCrime() + ", " + mev.getCrime());
+                    }
+                    break;
+                }
+            }
+
+            if (!cn)
+                rows.add(row);
         }
 
         result.setTotal((int)(totalRecords / numRows) + 1);

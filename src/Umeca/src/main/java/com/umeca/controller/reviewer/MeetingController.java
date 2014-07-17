@@ -151,7 +151,7 @@ public class MeetingController {
 
     }
 
-  @RequestMapping(value = "/reviewer/meeting/listReference", method = RequestMethod.POST)
+  @RequestMapping(value = {"/reviewer/meeting/listReference"}, method = RequestMethod.POST)
     public @ResponseBody JqGridResultModel listReference(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase){
 
       opts.extraFilters = new ArrayList<>();
