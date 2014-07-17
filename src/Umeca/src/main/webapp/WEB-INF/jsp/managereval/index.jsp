@@ -62,7 +62,7 @@
 
             $(document).ready(function() {
                 $("#GridId").jqGrid({
-                    url: '/managereval/list.json',
+                    url: '<c:url value='/managereval/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
                     colNames: ['ID','Carpeta de Investigaci&oacute;n','Nombre completo', 'Crimen', 'Acci&oacute;n'],
@@ -161,7 +161,7 @@
                 });
 
                 $("#GridId").jqGrid('navGrid', '#GridPager', {
-                    edit: false, 
+                    edit: false,
                     add: false,
                     refresh: true, refreshicon : 'icon-refresh green',
                     del: false,
