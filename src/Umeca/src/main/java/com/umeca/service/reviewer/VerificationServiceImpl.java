@@ -59,6 +59,7 @@ public class VerificationServiceImpl implements VerificationService {
         verification.setCaseDetention(c);
         verification.setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_NEW_SOURCE));
         verification.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
+        verification.setDateCreate(new Date());
         c.setVerification(verification);
         c.getVerification().setSourceVerifications(convertAllInitSourcesVerif(c));
     }

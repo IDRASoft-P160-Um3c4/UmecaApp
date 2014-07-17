@@ -42,7 +42,7 @@ public class LogController {
     private SharedUserService userService;
 
 
-    @RequestMapping(value = "/supervisor/log/index", method = RequestMethod.GET)
+    @RequestMapping(value = "/supervisor/log /index", method = RequestMethod.GET)
     public String index(){
         return "/supervisor/log/index";
     }

@@ -39,10 +39,14 @@ public class MainPageServiceImpl implements MainPageService {
                 constructSupervisorManagerMainPage(model, userId);
                 return model;
 
+            case Constants.ROLE_REVIEWER:
+                constructReviewerMainPage(model, userId);
+
             default:
                 return model;
         }
     }
+
 
     @Override
     public boolean deleteComment(String sRole, CommentRequest model, User user, ResponseMessage response) {
@@ -107,6 +111,11 @@ public class MainPageServiceImpl implements MainPageService {
         model.addObject("lstNotification",sLstGeneric);
         model.addObject("urlToGo", "/supervisorManager/log/deleteComment.json");
     }
+
+    private void constructReviewerMainPage(ModelAndView model, Long userId) {
+
+    }
+
 
     @Autowired
     ActivityMonitoringPlanRepository activityMonitoringPlanRepository;

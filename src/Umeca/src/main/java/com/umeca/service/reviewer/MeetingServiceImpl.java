@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -137,6 +138,7 @@ public class MeetingServiceImpl implements MeetingService {
             StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
             meeting.setStatus(statusMeeting);
             meeting.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
+            meeting.setDateCreate(new Date());
             meeting = meetingRepository.save(meeting);
             imputed.setMeeting(meeting);
             imputedRepository.save(imputed);
@@ -666,22 +668,23 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         try {
             Case c = caseRepository.findOne(id);
-            leaveCountry.setMeeting(c.getMeeting());
-            leaveCountry.setOfficialDocumentation(electionRepository.findOne(leaveCountry.getOfficialDocumentation().getId()));
+            LeaveCountry l = new LeaveCountry();
+            l.setMeeting(c.getMeeting());
+            l.setOfficialDocumentation(electionRepository.findOne(leaveCountry.getOfficialDocumentation().getId()));
             Long family = leaveCountry.getFamilyAnotherCountry().getId();
-            leaveCountry.setFamilyAnotherCountry(electionRepository.findOne(family));
+            l.setFamilyAnotherCountry(electionRepository.findOne(family));
             if (family.equals(Constants.ELECTION_YES)) {
-                leaveCountry.setCommunicationFamily(electionRepository.findOne(leaveCountry.getCommunicationFamily().getId()));
+                l.setCommunicationFamily(electionRepository.findOne(leaveCountry.getCommunicationFamily().getId()));
             }
             Long livedCountry = leaveCountry.getLivedCountry().getId();
-            leaveCountry.setLivedCountry(electionRepository.findOne(livedCountry));
+            l.setLivedCountry(electionRepository.findOne(livedCountry));
             if (livedCountry != null && livedCountry.equals(Constants.ELECTION_YES)) {
-                leaveCountry.setCountry(countryRepository.findOne(leaveCountry.getCountry().getId()));
+                l.setCountry(countryRepository.findOne(leaveCountry.getCountry().getId()));
             }
             if (c.getMeeting().getLeaveCountry() != null && c.getMeeting().getLeaveCountry().getId() != null) {
-                leaveCountry.setId(c.getMeeting().getLeaveCountry().getId());
+                l.setId(c.getMeeting().getLeaveCountry().getId());
             }
-            c.getMeeting().setLeaveCountry(leaveCountry);
+            c.getMeeting().setLeaveCountry(l);
             caseRepository.saveAndFlush(c);
             result.setHasError(false);
             result.setMessage("Se ha guardado su información exitosamente");

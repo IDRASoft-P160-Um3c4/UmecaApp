@@ -19,14 +19,9 @@
                     </li>
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_REVIEWER')">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Evaluador <b class="caret"></b> </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="<c:url value='/reviewer/meeting/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Entevista</a></li>
-                            <li><a href="<c:url value='/reviewer/verification/index.html' />"><i class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a></li>
-                            <li><a href="<c:url value='/reviewer/technicalReview/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="<c:url value='/reviewer/meeting/index.html' />"><i class="glyphicon icon-comments-alt"></i>&nbsp;&nbsp;Entevista</a></li>
+                    <li><a href="<c:url value='/reviewer/verification/index.html' />"><i class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a></li>
+                    <li><a href="<c:url value='/reviewer/technicalReview/index.html' />"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</a></li>
                 </sec:authorize>
 
                 <sec:authorize access="hasRole('ROLE_SUPERVISOR')">

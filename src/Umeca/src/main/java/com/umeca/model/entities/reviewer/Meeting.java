@@ -8,6 +8,7 @@ import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,6 +74,11 @@ public class Meeting {
 
     @Column(name="meeting_type")
     private Integer meetingType;
+
+    @Basic(optional = false)
+    @Column(name = "date_create", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreate;
 
     public Long getId() {
         return id;
@@ -200,6 +206,14 @@ public class Meeting {
 
     public void setMeetingType(Integer meetingType) {
         this.meetingType = meetingType;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
     public void validateMeeting(TerminateMeetingMessageDto t){

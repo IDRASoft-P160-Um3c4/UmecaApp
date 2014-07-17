@@ -842,6 +842,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
     @Override
     public void createMeetingVirified(Long idCase, Verification verification) {
         Meeting meeting = new Meeting();
+        meeting.setDateCreate(new Date());
         List<FieldMeetingSource> listFMS = fieldMeetingSourceRepository.getAllFinalByIdCase(idCase);
         for (FieldMeetingSource fms : listFMS) {
             String[] name = fms.getFieldVerification().getCode().split("\\.");

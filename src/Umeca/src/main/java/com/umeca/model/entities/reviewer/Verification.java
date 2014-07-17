@@ -48,6 +48,11 @@ public class Verification {
     @OneToMany(mappedBy="verification", cascade={CascadeType.ALL})
     private List<FinalField> finalFieldList;
 
+    @Basic(optional = false)
+    @Column(name = "date_create", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreate;
+
     public Long getId() {
         return id;
     }
@@ -112,4 +117,11 @@ public class Verification {
         this.finalFieldList = finalFieldList;
     }
 
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
 }
