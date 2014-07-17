@@ -5,7 +5,7 @@
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/uniqueDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
-    <title>Aprobación de fuentes a verificar</title>
+    <title>Aprobación de fuentes a verificar </title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
     <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
