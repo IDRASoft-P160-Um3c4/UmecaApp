@@ -28,7 +28,7 @@
                                                 <tbody>
                                                     <tr ng-repeat ="opc in listChoice">
                                                         <td style="width: 20px;"><input class="" type="radio"  ng-model="Model.rdoField" ng-value="opc.id"
-                                                                     name="idFieldMeeting" ng-disabled="opc.status=='NOT_FOUND'" ng-checked="opc.isFinal">
+                                                                     name="idFieldMeeting" ng-disabled="opc.status=='NOT_FOUND'||opc.status=='DONT_KNOW'" ng-checked="opc.isFinal">
                                                         </td>
                                                         <td style="width: 15px;">
                                                             <i class="icon-ok green  icon-only bigger-120" ng-show="opc.status == 'EQUALS' "></i>

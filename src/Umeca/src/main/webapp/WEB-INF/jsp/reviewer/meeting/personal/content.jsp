@@ -47,7 +47,7 @@
                 <input class="form-control" id="birthDate" readonly="readonly" value="${m.imputed.birthDate}" disabled="disabled">
             </div>
         </div>
-        <div class="row" ng-show="verification == true">
+        <div class="row" ng-show="verification == true || selectSource==true">
             <div class="col-xs-5 element-left">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifEqual('imputed.birthDate')"></i>

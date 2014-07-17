@@ -138,6 +138,43 @@ public class VerificationController {
 
     }
 
+    @RequestMapping(value = "/reviewer/verification/listSourceAdd", method = RequestMethod.POST)
+    public @ResponseBody JqGridResultModel listSourceAdd(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long id){
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", id.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        opts.extraFilters.add(new JqGridRulesModel("isAuthorized","0 ", JqGridFilterModel.COMPARE_EQUAL));
+        opts.extraFilters.add(new JqGridRulesModel("visible", "1", JqGridFilterModel.COMPARE_EQUAL));
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                return new ArrayList<Selection<?>>(){{
+                    add(r.get("id"));
+                    add(r.get("fullName"));
+                    add(r.get("age"));
+                    add(r.join("relationship").get("name").alias("relationshipString"));
+                    add(r.get("address"));
+                    add(r.get("phone"));
+                    add(r.get("isAuthorized"));
+                    add(r.get("dateComplete"));
+                    add(r.join("verification").join("caseDetention").get("id").alias("idCase"));
+                    add(r.get("visible"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if(field.equals("idCase")){
+                    return r.join("verification").join("caseDetention").get("id");
+                }
+                return null;
+            }
+        }, SourceVerification.class, SourceVerification.class);
+
+        return result;
+
+    }
+
 
     @Autowired
     VerificationService verificationService;
@@ -146,6 +183,13 @@ public class VerificationController {
         ModelAndView model = new ModelAndView("/reviewer/verification/sources");
         verificationService.showButtonsSource(model,id);
         verificationService.setImputedData(id, model);
+        return model;
+    }
+
+    @RequestMapping(value = "/reviewer/verification/addSources/index", method = RequestMethod.GET)
+    public ModelAndView addSources(@RequestParam(required = true) Long id){
+        ModelAndView model = new ModelAndView("/reviewer/verification/addSources/index");
+        model.addObject("idCase", id);
         return model;
     }
 
@@ -229,6 +273,24 @@ public class VerificationController {
     @RequestMapping(value = "reviewer/verification/terminateVerification", method = RequestMethod.POST)
     public ResponseMessage terminateVerification(@RequestParam(required = true) Long idCase){
         return verificationService.terminateVerification(idCase);
+    }
+
+    @RequestMapping(value = "reviewer/verification/addSource/doUpsert", method = RequestMethod.POST)
+    public ResponseMessage doUpsertSources(@RequestParam(required = true) Long idCase, @ModelAttribute SourceVerification sv){
+             return verificationService.doUpsertSources(idCase, sv);
+    }
+
+
+
+    @RequestMapping(value = "reviewer/verification/addSource/terminate", method = RequestMethod.POST)
+    public ResponseMessage terminateAddSource(@RequestParam(required = true) Long idCase){
+             return verificationService.terminateAddSource(idCase);
+    }
+
+
+    @RequestMapping(value = "reviewer/verification/source/upsert", method = RequestMethod.POST)
+    public ModelAndView upsertSource(@RequestParam(required = true) Long idCase, @RequestParam(required = false) Long id){
+     return verificationService.upsertSource(idCase, id);
     }
 
 }

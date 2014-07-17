@@ -26,4 +26,7 @@ public interface SourceVerificationRepository extends JpaRepository<SourceVerifi
             "INNER JOIN c.verification.sourceVerifications sv " +
             "where c.id = :idCase")
     List<Long> getAllSourcesByCase(@Param("idCase")Long idCase);
+
+    @Query("select s.id from SourceVerification as s where s.verification.caseDetention.id =:idCase and s.visible = false")
+    Long findIdSourceImputed(Long idCase);
 }

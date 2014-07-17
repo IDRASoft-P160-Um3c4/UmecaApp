@@ -1,281 +1,45 @@
-<div id="notifications-tab" class="tab-pane">
-<div class="clearfix">
-<div class="itemdiv memberdiv">
-    <div class="user">
-        <img alt="Bob Doe's avatar" src="assets/avatars/user.jpg"/>
-    </div>
+<div id="notifications-tab" class="tab-pane" ng-init ='lstNotification = ${lstNotification}; '>
+    <div class="clearfix">
+        <div class="comments">
+            <div class="itemdiv commentdiv" ng-repeat="n in lstNotification">
+                <div class="user">
+                    <img class="nav-user-photo" src="<c:url value='/assets/avatars/avatar0.png' />" alt="{{n.senderUser}}" />
+                </div>
 
-    <div class="body">
-        <div class="name">
-            <a href="#">Bob Doe</a>
-        </div>
+                <div class="body">
+                    <div class="name">
+                        <span class="blue">{{n.senderUser}}</span>
+                    </div>
 
-        <div class="time">
-            <i class="icon-time"></i>
-            <span class="green">20 min</span>
-        </div>
+                    <div class="time">
+                        <i class="icon-time"></i>
+                        <span class="blue">{{n.timestamp}}</span>
+                    </div>
 
-        <div>
-            <span class="label label-warning label-sm">pending</span>
+                    <div class="text">
+                        <i class="icon-quote-left"></i>
+                        <span class="lbl"><strong>{{(n.type === 'AUTORIZAR'?'PLAN DE SEGUIMIENTO':(n.type === 'REPORTE INCUMPLIMIENTO'?'REPORTE DE INCUMPLIMIENTO':'TERMINO DEL PLAN DE SEGUIMIENTO'))}}</strong></span>
+                            <span ng-class="(n.action === 'RECHAZADO AUTORIZAR' || n.action === 'RECHAZADO REPORTE INCUMPLIMIENTO' ||  n.action === 'RECHAZADO TERMINAR' ? 'red'
+                                : (n.action === 'SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO' || n.action === 'EN PROCESO DE TERMINAR' ? 'color-warning' : 'green'))">&nbsp;({{n.action}})</span><br/>
+                            <span>
+                            Caso {{n.caseId}} (<strong>{{n.mpId}}</strong>) Imputado: <strong>{{n.personName}}</strong> <br/></span>
+                            <div class="font-size-sm">
+                                <span>{{n.comments}}</span>
+                            </div>
+                    </div>
+                </div>
 
-            <div class="inline position-relative">
-                <button class="btn btn-minier bigger btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-angle-down icon-only bigger-120"></i>
-                </button>
-
-                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                    <li>
-                        <a href="#" class="tooltip-success" data-rel="tooltip" title="Approve">
-																							<span class="green">
-																								<i class="icon-ok bigger-110"></i>
-																							</span>
+                <div class="tools">
+                    <div class="action-buttons bigger-125">
+                        <a href="#">
+                            <i class="icon-trash red" title="Eliminar mensaje"></i>
                         </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="tooltip-warning" data-rel="tooltip" title="Reject">
-																							<span class="orange">
-																								<i class="icon-remove bigger-110"></i>
-																							</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-																							<span class="red">
-																								<i class="icon-trash bigger-110"></i>
-																							</span>
-                        </a>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="hr hr-double hr8"></div>
     </div>
 </div>
-
-<div class="itemdiv memberdiv">
-    <div class="user">
-        <img alt="Joe Doe's avatar" src="assets/avatars/avatar2.png"/>
-    </div>
-
-    <div class="body">
-        <div class="name">
-            <a href="#">Joe Doe</a>
-        </div>
-
-        <div class="time">
-            <i class="icon-time"></i>
-            <span class="green">1 hour</span>
-        </div>
-
-        <div>
-            <span class="label label-warning label-sm">pending</span>
-
-            <div class="inline position-relative">
-                <button class="btn btn-minier bigger btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-angle-down icon-only bigger-120"></i>
-                </button>
-
-                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                    <li>
-                        <a href="#" class="tooltip-success" data-rel="tooltip" title="Approve">
-																							<span class="green">
-																								<i class="icon-ok bigger-110"></i>
-																							</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="tooltip-warning" data-rel="tooltip" title="Reject">
-																							<span class="orange">
-																								<i class="icon-remove bigger-110"></i>
-																							</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-																							<span class="red">
-																								<i class="icon-trash bigger-110"></i>
-																							</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="itemdiv memberdiv">
-    <div class="user">
-        <img alt="Jim Doe's avatar" src="assets/avatars/avatar.png"/>
-    </div>
-
-    <div class="body">
-        <div class="name">
-            <a href="#">Jim Doe</a>
-        </div>
-
-        <div class="time">
-            <i class="icon-time"></i>
-            <span class="green">2 hour</span>
-        </div>
-
-        <div>
-            <span class="label label-warning label-sm">pending</span>
-
-            <div class="inline position-relative">
-                <button class="btn btn-minier bigger btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-angle-down icon-only bigger-120"></i>
-                </button>
-
-                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                    <li>
-                        <a href="#" class="tooltip-success" data-rel="tooltip" title="Approve">
-																							<span class="green">
-																								<i class="icon-ok bigger-110"></i>
-																							</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="tooltip-warning" data-rel="tooltip" title="Reject">
-																							<span class="orange">
-																								<i class="icon-remove bigger-110"></i>
-																							</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-																							<span class="red">
-																								<i class="icon-trash bigger-110"></i>
-																							</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="itemdiv memberdiv">
-    <div class="user">
-        <img alt="Alex Doe's avatar" src="assets/avatars/avatar5.png"/>
-    </div>
-
-    <div class="body">
-        <div class="name">
-            <a href="#">Alex Doe</a>
-        </div>
-
-        <div class="time">
-            <i class="icon-time"></i>
-            <span class="green">3 hour</span>
-        </div>
-
-        <div>
-            <span class="label label-danger label-sm">blocked</span>
-        </div>
-    </div>
-</div>
-
-<div class="itemdiv memberdiv">
-    <div class="user">
-        <img alt="Bob Doe's avatar" src="assets/avatars/avatar2.png"/>
-    </div>
-
-    <div class="body">
-        <div class="name">
-            <a href="#">Bob Doe</a>
-        </div>
-
-        <div class="time">
-            <i class="icon-time"></i>
-            <span class="green">6 hour</span>
-        </div>
-
-        <div>
-            <span class="label label-success label-sm arrowed-in">approved</span>
-        </div>
-    </div>
-</div>
-
-<div class="itemdiv memberdiv">
-    <div class="user">
-        <img alt="Susan's avatar" src="assets/avatars/avatar3.png"/>
-    </div>
-
-    <div class="body">
-        <div class="name">
-            <a href="#">Susan</a>
-        </div>
-
-        <div class="time">
-            <i class="icon-time"></i>
-            <span class="green">yesterday</span>
-        </div>
-
-        <div>
-            <span class="label label-success label-sm arrowed-in">approved</span>
-        </div>
-    </div>
-</div>
-
-<div class="itemdiv memberdiv">
-    <div class="user">
-        <img alt="Phil Doe's avatar" src="assets/avatars/avatar4.png"/>
-    </div>
-
-    <div class="body">
-        <div class="name">
-            <a href="#">Phil Doe</a>
-        </div>
-
-        <div class="time">
-            <i class="icon-time"></i>
-            <span class="green">2 days ago</span>
-        </div>
-
-        <div>
-            <span class="label label-info label-sm arrowed-in arrowed-in-right">online</span>
-        </div>
-    </div>
-</div>
-
-<div class="itemdiv memberdiv">
-    <div class="user">
-        <img alt="Alexa Doe's avatar" src="assets/avatars/avatar1.png"/>
-    </div>
-
-    <div class="body">
-        <div class="name">
-            <a href="#">Alexa Doe</a>
-        </div>
-
-        <div class="time">
-            <i class="icon-time"></i>
-            <span class="green">3 days ago</span>
-        </div>
-
-        <div>
-            <span class="label label-success label-sm arrowed-in">approved</span>
-        </div>
-    </div>
-</div>
-</div>
-
-<div class="center">
-    <i class="icon-group icon-2x green"></i>
-
-    &nbsp;
-    <a href="#">
-        See all members &nbsp;
-        <i class="icon-arrow-right"></i>
-    </a>
-</div>
-
-<div class="hr hr-double hr8"></div>
-</div>
-<!-- member-tab -->
 

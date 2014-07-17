@@ -20,7 +20,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http,$
         $scope.zipCode = "";
     }
     $scope.init = function () {
-        if ($scope.mode&&$scope.model.zipCode != undefined) {
+        if ($scope.model&&$scope.model.zipCode != undefined) {
             $scope.id = $scope.model.id;
             $scope.zipCode = $scope.model.zipCode;
             $scope.street = $scope.model.street;

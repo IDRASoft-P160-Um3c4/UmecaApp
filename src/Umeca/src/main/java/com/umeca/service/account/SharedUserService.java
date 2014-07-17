@@ -25,6 +25,7 @@ public class SharedUserService {
 
     @Autowired
     private UserRepository userRepository;
+    private List<String> lstRolesByUserId;
 
     public Long GetLoggedUserId(){
         try {
@@ -93,5 +94,9 @@ public class SharedUserService {
     public boolean isUserInRole(Long supervisorId, String sRole) {
         return (userRepository.isUserInRole(supervisorId, sRole) > 0);
 
+    }
+
+    public List<String> getLstRolesByUserId(Long userId) {
+        return userRepository.getLstRolesByUserId(userId);
     }
 }

@@ -30,7 +30,7 @@ public class FieldVerification {
     private String fieldName;
 
     @Column(name="index_field")
-    private Integer index;
+    private Integer indexField;
 
     @Column(name="is_obsolete")
     private Boolean isObsolete;
@@ -81,12 +81,12 @@ public class FieldVerification {
         this.fieldName = fieldName;
     }
 
-    public Integer getIndex() {
-        return index;
+    public Integer getIndexField() {
+        return indexField;
     }
 
-    public void setIndex(Integer index) {
-        this.index = index;
+    public void setIndexField(Integer indexField) {
+        this.indexField = indexField;
     }
 
     public Integer getSectionCode() {

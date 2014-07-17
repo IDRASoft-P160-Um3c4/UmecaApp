@@ -4,7 +4,7 @@
 3|imputed.lastNameM|Datos personales y entorno social|1|Apellido Materno|3|0|3|String
 4|imputed.birthDate|Datos personales y entorno social|1|Fecha de nacimiento|4|0|4|Date
 5|imputed.gender|Datos personales y entorno social|1|Género|5|0|5|Boolean
-6|imputed.phone|Datos personales y entorno social|1|Celular|6|0|6|String
+6|imputed.celPhone|Datos personales y entorno social|1|Celular|6|0|6|String
 7|imputed.maritalStatus.id|Datos personales y entorno social|1|Estado civil|7|0|7|MaritalStatus
 8|imputed.yearsMaritalStatus|Datos personales y entorno social|1|Años de duración|8|0|7|Integer
 9|imputed.boys|Datos personales y entorno social|1|Total de hijos|10|0|8|Integer

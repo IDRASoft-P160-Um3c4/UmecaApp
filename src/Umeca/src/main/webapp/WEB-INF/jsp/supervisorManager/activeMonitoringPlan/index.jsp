@@ -92,7 +92,12 @@
                             var cl = ids[i];
                             var row = $(this).getRowData(cl);
                             var status = row.status;
-                            var statusLog = jQuery.parseJSON(row.statusLog);
+                            var statusLog = undefined;
+
+                            try{
+                                statusLog = jQuery.parseJSON(row.statusLog);
+                            }catch(ex){}
+
                             var be = "";
 
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Cambiar supervisor del caso\" onclick=\"window.changeSupervisor('" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
@@ -100,7 +105,7 @@
 
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de incumplimiento\" onclick=\"window.accomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
 
-                            if(statusLog.action === "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO"){
+                            if(statusLog !== undefined && statusLog.action === "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO"){
                                 be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar reporte de incumplimiento\" onclick=\"window.rejectAccomplishment('" + cl + "');\"><span class=\"glyphicon glyphicon-remove-circle\"></span></a>";
                                 be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar reporte de incumplimiento\" onclick=\"window.authorizeAccomplishment('" + cl + "');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
                             }

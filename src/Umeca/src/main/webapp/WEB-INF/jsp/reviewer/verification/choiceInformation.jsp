@@ -53,6 +53,10 @@
         window.cancelChoiceInformation = function () {
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
         }
+
+        window.terminateVerification = function () {
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html'/>");
+        }
         window.showChoices = function (code,id) {
             var  divScope=  "#divChoiceInformation";
             var urlToGo = "<c:url value='/reviewer/verification/showChoices.html'/>";
@@ -87,7 +91,7 @@
 <div class="col-sm-12">
 <div class="tabbable tabs-left">
 <ul class="nav nav-tabs" id="tabMeeting">
-<li class="active">
+<li class="active" id="liImputed">
     <a data-toggle="tab" href="#personalData">
         <div class="row">
             <div class="col-xs-10">
@@ -97,7 +101,7 @@
 
                 <div class="col-xs-offset-3">y Entorno social</div>
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['personalData'].length > 0">
+            <div class="col-xs-2" ng-show="listMsgError['imputed'].length > 0">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -106,7 +110,7 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['imputed']">
+                                <div ng-repeat="msg in listMsgError['imputed'] track by $index">
                                     <li>
                                         {{msg}}
                                     </li>
@@ -120,7 +124,7 @@
         </div>
     </a>
 </li>
-<li>
+<li id="liImputedHome">
     <a data-toggle="tab" href="#address">
         <div class="row">
             <div class="col-xs-10">
@@ -136,7 +140,7 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['imputedHome']">
+                                <div ng-repeat="msg in listMsgError['imputedHome'] track by $index">
                                     <li>
                                         {{msg}}
                                     </li>
@@ -150,7 +154,7 @@
         </div>
     </a>
 </li>
-<li>
+<li id="liSocialNetwork">
     <a data-toggle="tab" href="#socialNetwork">
         <div class="row">
             <div class="col-xs-10">
@@ -166,7 +170,7 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['socialNetwork']">
+                                <div ng-repeat="msg in listMsgError['socialNetwork'] track by $index">
                                     <li>
                                         {{msg}}
                                     </li>
@@ -180,7 +184,7 @@
         </div>
     </a>
 </li>
-<li>
+<li id="liReference">
     <a data-toggle="tab" href="#reference">
         <div class="row">
             <div class="col-xs-10">
@@ -195,7 +199,7 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['reference']">
+                                <div ng-repeat="msg in listMsgError['reference'] track by $index">
                                     <li>
                                         {{msg}}
                                     </li>
@@ -208,7 +212,7 @@
         </div>
     </a>
 </li>
-<li>
+<li id="liJob">
     <a data-toggle="tab" href="#jobHistory">
         <div class="row">
             <div class="col-xs-10">
@@ -224,7 +228,7 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['job']">
+                                <div ng-repeat="msg in listMsgError['job'] track by $index">
                                     <li>
                                         {{msg}}
                                     </li>
@@ -238,7 +242,7 @@
         </div>
     </a>
 </li>
-<li>
+<li id="liSchool">
     <a data-toggle="tab" href="#academyHistory">
         <div class="row">
             <div class="col-xs-10">
@@ -253,7 +257,7 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['school']">
+                                <div ng-repeat="msg in listMsgError['school'] track by $index">
                                     <li>
                                         {{msg}}
                                     </li>
@@ -266,7 +270,7 @@
         </div>
     </a>
 </li>
-<li>
+<li id="liDrug">
     <a data-toggle="tab" href="#drougs">
         <div class="row">
             <div class="col-xs-10">
@@ -281,7 +285,7 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['drug']">
+                                <div ng-repeat="msg in listMsgError['drug'] track by $index">
                                     <li>
                                         {{msg}}
                                     </li>
@@ -294,7 +298,7 @@
         </div>
     </a>
 </li>
-<li>
+<li id="liLeaveCountry">
     <a data-toggle="tab" href="#leaveCountry">
         <div class="row">
             <div class="col-xs-10">
@@ -304,7 +308,7 @@
 
                 <div class="col-xs-offset-3">abandonar el pa�s</div>
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['leavingCountry'].length > 0">
+            <div class="col-xs-2" ng-show="listMsgError['leaveCountry'].length > 0">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
@@ -312,7 +316,7 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['leavingCountry']">
+                                <div ng-repeat="msg in listMsgError['leaveCountry'] track by $index">
                                     <li>
                                         {{msg}}
                                     </li>
@@ -457,6 +461,7 @@
 </div>
 </div>
 </div>
+<br/>
 <div class="row">
     <div class="col-xs-12">
         <div ng-show="listMsgError['general'].length > 0" class="alert alert-danger element-center error-font">

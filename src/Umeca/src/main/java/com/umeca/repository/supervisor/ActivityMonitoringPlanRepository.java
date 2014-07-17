@@ -1,11 +1,16 @@
 package com.umeca.repository.supervisor;
 
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.SelectList;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Repository("qActivityMonitoringPlanRepository")
@@ -26,7 +31,8 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanResponse(amp.id, mp.id, cd.id, cd.idMP," +
             "amp.end, amp.start, amp.supervisionActivity.id, amp.activityGoal.id, amp.status, im.name, im.lastNameP, im.lastNameM)" +
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
-            "WHERE mp.supervisor.id =:userId AND mp.status IN :lstStatus " +
+            "INNER JOIN mp.supervisor s " +
+            "WHERE s.id =:userId AND mp.status IN :lstStatus " +
             "AND amp.status NOT IN :lstActStatus AND (amp.searchStart =:yearmonthStart OR amp.searchEnd =:yearmonthStart OR amp.searchStart =:yearmonthEnd OR amp.searchEnd =:yearmonthEnd)")
     List<ActivityMonitoringPlanResponse> getAllActivities(@Param("userId")Long userId, @Param("lstStatus") List<String> lstStatus,
                                                           @Param("lstActStatus") List<String> lstActStatus, @Param("yearmonthStart")int yearmonthStart,
@@ -65,6 +71,28 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa " +
             "WHERE mp.id =:monPlanId  AND (laa.status = 0 OR laa.status = 1) ORDER BY amp.id ")
     List<ActivityMonitoringPlanArrangementLog> getListAccomplishmentActMonPlanArrangementByMonPlanId(@Param("monPlanId")Long monPlanId);
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanNotice(amp.id, cd.id, cd.idMP," +
+            "amp.end, amp.start, sa.name, ag.name, im.name, im.lastNameP, im.lastNameM)" +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
+            "INNER JOIN amp.supervisionActivity sa INNER JOIN amp.activityGoal ag INNER JOIN mp.supervisor s " +
+            "WHERE s.id =:userId AND amp.start < :today AND mp.status NOT IN :lstStatus " +
+            "AND amp.status IN :lstActStatus " +
+            "ORDER BY amp.start ASC")
+    List<ActivityMonitoringPlanNotice> getLstActivitiesBeforeTodayByUserId(@Param("userId") Long userId, @Param("lstStatus") ArrayList<String> lstStatus,
+                                                                           @Param("lstActStatus") ArrayList<String> lstActStatus,
+                                                                           @Param("today") Calendar today, Pageable pageable);
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanNotice(amp.id, cd.id, cd.idMP," +
+            "amp.end, amp.start, sa.name, ag.name, im.name, im.lastNameP, im.lastNameM)" +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
+            "INNER JOIN amp.supervisionActivity sa INNER JOIN amp.activityGoal ag INNER JOIN mp.supervisor s " +
+            "WHERE s.id =:userId AND mp.status NOT IN :lstStatus " +
+            "AND amp.status IN :lstActStatus AND amp.start >= :today AND  amp.end < :tomorrow " +
+            "ORDER BY amp.start ASC")
+    List<ActivityMonitoringPlanNotice> getLstActivitiesByUserIdAndDates(@Param("userId")Long userId, @Param("lstStatus") ArrayList<String> lstStatus,
+                                                                        @Param("lstActStatus") ArrayList<String> lstActStatus,
+                                                                        @Param("today") Calendar today, @Param("tomorrow") Calendar tomorrow, Pageable pageable);
 }
 
 

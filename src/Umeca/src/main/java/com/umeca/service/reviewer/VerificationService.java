@@ -51,4 +51,9 @@ public interface VerificationService {
 
     ResponseMessage terminateVerification(Long idCase);
 
+    ModelAndView upsertSource(Long idCase, Long id);
+
+    ResponseMessage doUpsertSources(Long idCase, SourceVerification sv);
+
+    ResponseMessage terminateAddSource(Long idCase);
 }

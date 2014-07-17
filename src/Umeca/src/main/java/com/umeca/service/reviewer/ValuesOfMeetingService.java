@@ -22,4 +22,5 @@ public interface ValuesOfMeetingService {
 
     List<FieldMeetingSource> getValueByCode(String code, Meeting m, FieldMeetingSource template, Long idList);
 
+    void createMeetingVirified(Long idCase, Verification verification);
 }

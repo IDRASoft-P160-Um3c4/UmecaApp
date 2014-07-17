@@ -2,27 +2,14 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http) {
 
         $scope.fm = {}
 
-        $scope.successMsg;
-        $scope.errorMsg = {}
+        $scope.FMsuccessMsg = "";
+        $scope.FMerrorMsg = "";
+
+        $scope.FMerrorMsgLst = "";
 
         $scope.returnIdx = function () {
-            window.goToUrlMvcUrl("<c:url value='/supervisor/framingFormat/index.html'/>");
-        }
-
-        /*personalData*/
-        $scope.selectedPhysicalCondition = function (lstPhysicalCondition, pCSelected) {
-
-            for (var i = 0; i < pCSelected.length; i++) {
-                for (var j = 0; j < lstPhysicalCondition.length; j++) {
-                    if (lstPhysicalCondition[j].id === pCSelected[i]) {
-                        $scope.phyModel.push(lstPhysicalCondition[j]);
-                    }
-                }
-            }
-
-        }
-        /*personalData*/
-
+            window.goToUrlMvcUrl('index.html');
+        };
 
         $scope.init = function () {
 
@@ -31,6 +18,41 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http) {
         $timeout(function () {
             $scope.init();
         }, 0);
+
+        $scope.doTerminate = function () {
+            var currentTimeout = null;
+            ;
+            var url = "doTerminate.json";
+            var idCase = $scope.fm.objView.idCase;
+            var ajaxConf;
+
+            ajaxConf = {
+                method: "GET",
+                params: {idCase: idCase}
+            };
+
+            ajaxConf.url = url;
+
+            if (currentTimeout) {
+                $timeout.cancel(currentTimeout);
+            }
+
+            currentTimeout = $timeout(function () {
+                $http(ajaxConf)
+                    .success(function (data) {
+
+                        var resp = data.responseMesage;
+
+                        if (data.hasError == true) {
+                            //$scope.FMerrorMsg = data.message;
+                            $scope.FMerrorMsgLst = data.message.split('|');
+                        }
+                        else
+                            $scope.returnIdx();
+                    });
+            }, 200);
+        };
+
 
     }
 )

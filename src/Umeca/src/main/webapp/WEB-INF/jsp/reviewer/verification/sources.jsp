@@ -25,11 +25,11 @@
 
     <script>
         window.cancelShowSource = function(){
-            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html?id=${idCase}'/>");
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html'/>");
         }
 
         window.addSources = function(){
-            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html?id=${idCase}'/>");
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/addSources/index.html?id=${idCase}'/>");
         }
 
         window.electionInformation = function(){
