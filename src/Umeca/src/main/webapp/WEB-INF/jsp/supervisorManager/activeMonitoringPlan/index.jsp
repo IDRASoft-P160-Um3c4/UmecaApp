@@ -134,7 +134,6 @@
                     add: false,
                     refresh: true, refreshicon : 'icon-refresh green',
                     del: false,
-                    excel:true, exceltext:'Excel',
                     search: false});
 
                 jQuery("#GridId").jqGrid('filterToolbar', {

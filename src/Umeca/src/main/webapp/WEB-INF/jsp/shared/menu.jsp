@@ -28,7 +28,7 @@
                         </ul>
                     </li>
                 </sec:authorize>
-                
+
                 <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
                     <li><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Formato de audiencia</a></li>
                     <li><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre</a></li>
@@ -41,9 +41,18 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Bit�coras<b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Bit&aacute;coras<b class="caret"></b> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<c:url value='/supervisor/log/index.html' />"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bit�coras de supervisi�n y cumplimiento</a></li>
+                            <li><a href="<c:url value='/supervisor/log/index.html' />"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bit&aacute;coras de supervisi&oacute;n y cumplimiento</a></li>
+                        </ul>
+                    </li>
+                </sec:authorize>
+
+                <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Supervisi&oacute;n de Evaluadores<b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<c:url value='/managereval/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Entevista</a></li>
                         </ul>
                     </li>
                 </sec:authorize>
