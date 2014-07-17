@@ -54,11 +54,13 @@ public class PersonSocialNetwork{
     @JoinColumn(name="id_living_with", nullable = false)
     private Election livingWith;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
     @JoinColumn(name="id_social_network", nullable = false)
     private SocialNetwork socialNetwork;
 
 
+    @Transient
+    private Long idAux;
     public Long getId() {
         return id;
     }
@@ -145,5 +147,13 @@ public class PersonSocialNetwork{
 
     public void setSpecification(String specification) {
         this.specification = specification;
+    }
+
+    public Long getIdAux() {
+        return idAux;
+    }
+
+    public void setIdAux(Long idAux) {
+        this.idAux = idAux;
     }
 }

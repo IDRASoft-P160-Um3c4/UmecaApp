@@ -29,7 +29,7 @@ public class ImputedHome implements EntityGrid{
     @Column(name="id_imputed_home")
     private Long id;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="id_address", nullable = false)
     private Address address;
 
@@ -69,6 +69,9 @@ public class ImputedHome implements EntityGrid{
 
     @Transient
     private String belongString;
+
+    @Transient
+    private Long idAux;
 
     @Transient
     public static final Comparator<ImputedHome> imputedHomeComparator= new Comparator<ImputedHome>() {
@@ -180,5 +183,13 @@ public class ImputedHome implements EntityGrid{
 
     public void setFramingMeeting(FramingMeeting framingMeeting) {
         this.framingMeeting = framingMeeting;
+    }
+
+    public Long getIdAux() {
+        return idAux;
+    }
+
+    public void setIdAux(Long idAux) {
+        this.idAux = idAux;
     }
 }

@@ -38,7 +38,7 @@ public class Verification {
     @Column(name="date_complete")
     private Date dateComplete;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="id_meeting", nullable = true)
     private Meeting meetingVerified;
 

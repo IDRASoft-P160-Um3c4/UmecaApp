@@ -39,6 +39,17 @@ public class SourceVerification implements EntityGrid{
         this.visible = visible;
     }
 
+    public SourceVerification(Long id,String fullName, String relationshipString, String phone, String address, Long idVerificationMethod, Boolean isAuthorized, Long idCase) {
+        this.id =  id;
+        this.fullName = fullName;
+        this.relationshipString = relationshipString;
+        this.address = address;
+        this.phone = phone;
+        this.idVerificationMethod = idVerificationMethod;
+        this.isAuthorized = isAuthorized;
+        this.idCase = idCase;
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "id_source_verification")
@@ -81,6 +92,17 @@ public class SourceVerification implements EntityGrid{
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_verification_method", nullable = true)
     private VerificationMethod verificationMethod;
+
+    public Long getIdVerificationMethod() {
+        return idVerificationMethod;
+    }
+
+    public void setIdVerificationMethod(Long idVerificationMethod) {
+        this.idVerificationMethod = idVerificationMethod;
+    }
+
+    @Transient
+    private Long idVerificationMethod;
 
     @Column(name="visible")
     private Boolean visible;

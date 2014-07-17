@@ -29,7 +29,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";//"C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";//"C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
 
     @Autowired
     RoleRepository repositoryRole;
@@ -556,7 +556,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             model.setSection(data[2]);
             model.setSectionCode(Integer.parseInt(data[3]));
             model.setFieldName(data[4]);
-            model.setIndex(Integer.parseInt(data[5]));
+            model.setIndexField(Integer.parseInt(data[5]));
             model.setObsolete(data[6].equals("1"));
             model.setIdSubsection(Integer.parseInt(data[7]));
             model.setType(data[8]);

@@ -84,6 +84,9 @@ public class Job implements EntityGrid{
     @Transient
     private Long registerTypeId;
 
+    @Transient
+    private Long idAux;
+
     public Long getId() {
         return id;
     }
@@ -210,5 +213,13 @@ public class Job implements EntityGrid{
 
     public void setStartPrev(Date startPrev) {
         this.startPrev = startPrev;
+    }
+
+    public Long getIdAux() {
+        return idAux;
+    }
+
+    public void setIdAux(Long idAux) {
+        this.idAux = idAux;
     }
 }

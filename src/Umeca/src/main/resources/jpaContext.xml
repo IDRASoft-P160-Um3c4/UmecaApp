@@ -34,7 +34,6 @@
 			</map>
 		</property>
 	</bean>
-
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
@@ -57,7 +56,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true" />
 		<property name="username" value="root" />
-        <property name="password" value="admin" />
+        <property name="password" value="Admin123@.." />
 	</bean>
 
 </beans>

@@ -11,7 +11,7 @@
                 </li>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administración <b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Administraci&oacute;n <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="<c:url value='/management/role/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Perfiles</a></li>
                             <li><a href="<c:url value='/management/user/index.html' />"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Usuarios</a></li>
@@ -23,12 +23,12 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Evaluador <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="<c:url value='/reviewer/meeting/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Entevista</a></li>
-                            <li><a href="<c:url value='/reviewer/verification/index.html' />"><i class="icon-check"></i>&nbsp;&nbsp;Verificación</a></li>
-                            <li><a href="<c:url value='/reviewer/technicalReview/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Opinión técnica</a></li>
+                            <li><a href="<c:url value='/reviewer/verification/index.html' />"><i class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a></li>
+                            <li><a href="<c:url value='/reviewer/technicalReview/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</a></li>
                         </ul>
                     </li>
                 </sec:authorize>
-
+                
                 <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
                     <li><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Formato de audiencia</a></li>
                     <li><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre</a></li>
@@ -41,9 +41,9 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Bitácoras<b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Bitï¿½coras<b class="caret"></b> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<c:url value='/supervisor/log/index.html' />"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bitácoras de supervisión y cumplimiento</a></li>
+                            <li><a href="<c:url value='/supervisor/log/index.html' />"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bitï¿½coras de supervisiï¿½n y cumplimiento</a></li>
                         </ul>
                     </li>
                 </sec:authorize>
@@ -62,7 +62,6 @@
 
             </ul>
             <ul class="nav ace-nav navbar-right">
-
                 <sec:authorize access="isAnonymous()">
                     <li  class="nav-li-blue">
                         <a href="javascript:void(0)" ng-click="linkLogin()"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Ingresar</a>
@@ -76,10 +75,8 @@
 									<small>Bienvenido,</small>
 									<%=SecurityContextHolder.getContext().getAuthentication().getName()%>
 								</span>
-
                             <i class="icon-caret-down"></i>
                         </a>
-
                         <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                             <li>
                                 <a href="<c:url value='/j_spring_security_logout'/>">

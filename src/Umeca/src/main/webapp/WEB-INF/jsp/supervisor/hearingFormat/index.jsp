@@ -43,7 +43,7 @@
                 url: '<c:url value='/supervisor/hearingFormat/listCases.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigación','Carpeta Judicial','Nombre completo', 'Estatus', 'Acción'],
+                colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaciï¿½n','Carpeta Judicial','Nombre completo', 'Estatus', 'Acciï¿½n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'status', index: 'status', hidden: true },

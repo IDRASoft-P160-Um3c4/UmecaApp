@@ -11,6 +11,7 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/sourceCtrl.js"></script>
     <title>Fuentes de verificación</title>
     <style>
         .ui-jqgrid tr.jqgrow td {
@@ -24,28 +25,18 @@
 <div class="container body-content">
 
     <script>
-        window.cancelShowSource = function(){
+
+        window.upsertSource = function(id) {
+            window.showUpsertWithIdCase(id, "#angJsjqGridId", "<c:url value='/reviewer/verification/source/upsert.html'/>", "#GridId",undefined, ${idCase});
+        };
+
+        window.terminateSuccess = function(){
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html'/>");
         }
 
-        window.addSources = function(){
-            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/addSources/index.html?id=${idCase}'/>");
-        }
-
-        window.electionInformation = function(){
-            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/choiceInformation.html?idCase=${idCase}'/>");
-        }
-
-        window.meetingSource = function(id) {
-            var params= [];
-            params["idSourceParam"]=id;
-            params["idCaseParam"]=${idCase};
-            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/verificationBySource.html?idCase=idCaseParam&&idSource=idSourceParam'/>",params);
-        };
-
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/reviewer/verification/listSource.json?id=${idCase}' />',
+                url: '<c:url value='/reviewer/verification/listSourceAdd.json?id=${idCase}' />',
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Nombre','Edad', 'Parentesco', 'Dirección', 'Teléfono','Estatus','Complete','IdCase', 'Acción'],
@@ -79,7 +70,7 @@
                         var dateComplete = row.dateComplete;
                         var be="";
                         if (dateComplete == "") {
-                            be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista\" onclick=\"window.meetingSource('" + cl + "');\"><span class=\"icon-edit blue\"></span></a>";
+                            be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar fuente\" onclick=\"window.upsertSource('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
@@ -95,7 +86,7 @@
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                 edit: false, editicon : 'icon-notes blue',
-                add: false,
+                add: true, addfunc: window.upsertSource, addicon : 'icon-plus-sign purple',
                 refresh: true, refreshicon : 'icon-refresh green',
                 del: false,
                 search: false});
@@ -122,16 +113,22 @@
             </div>
         </div>
     </div>
+    <br/>
     <div class="row">
+        <div class="col-xs-12">
+            <div ng-show="MsgError" class="alert alert-danger element-center">
+                {{MsgError}}
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row" ng-controller="addSourcesController">
         <div class="modal-footer">
                     <span class="btn btn-default btn-sm" onclick="window.cancelShowSource()">
                         Regresar
                     </span>
-                    <span class="btn btn-primary btn-sm" ng-disabled = "${sourceAvailable}" onclick="window.addSources()">
-                        <span class="icon-group align-top bigger-125"></span> &nbsp;&nbsp;Agregar fuentes
-                    </span>
-                    <span class="btn btn-purple btn-primary btn-sm" ng-disabled="${sourceAvailable}" onclick="window.electionInformation()" >
-                          <span class="icon-list align-top bigger-125"></span>&nbsp;&nbsp;Iniciar elección de información
+                    <span class="btn btn-primary btn-sm" ng-click="terminateAddSource('<c:url value="/reviewer/verification/addSource/terminate.json?idCase=${idCase}"/>');" ng-disabled="WaitFor == true">
+                        <span class="icon-group align-top- bigger-125"></span> &nbsp;&nbsp;Finalizar agregado de fuentes
                     </span>
         </div>
     </div>

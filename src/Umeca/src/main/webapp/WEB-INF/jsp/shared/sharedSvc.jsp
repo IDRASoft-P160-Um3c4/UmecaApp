@@ -97,8 +97,13 @@
             $scope.IsOk = true;
             sharedSvc.hideMsg($scope);
         };
-    });
 
+        $scope.alert = function(title, message, type) {
+            $scope.Title = title;
+            $scope.Message = $sce.trustAsHtml(message);
+            $scope.Type = type;
+        };
+    });
 
     app.controller('confirmationController', function ($scope, $sce, sharedSvc) {
         $scope.sharedSvc = sharedSvc;
