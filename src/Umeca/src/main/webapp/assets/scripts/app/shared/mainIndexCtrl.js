@@ -1,11 +1,14 @@
-app.controller("mainIndexController", function($scope, sharedSvc){
+app.controller("mainIndexController", function ($scope, sharedSvc) {
 
-    $scope.deleteMsg = function(id, urlToGo){
+    $scope.deleteMsg = function (id, urlToGo) {
         sharedSvc.showConf({ title: "Confirmar eliminación", message: "¿Desea eliminar el mensaje de confirmación?", type: "warning" })
-            .then($scope.doDeleteMsg(id, urlToGo));
+            .then(function () {
+                $scope.doDeleteMsg(id, urlToGo);
+            });
     }
 
-    $scope.doDeleteMsg = function(id, urlToPost){
+    $scope.doDeleteMsg = function (id, urlToPost) {
+
         $.ajax({
             url: urlToPost,
             type: "POST",
@@ -17,37 +20,42 @@ app.controller("mainIndexController", function($scope, sharedSvc){
         });
     }
 
-    $scope.handleSuccess = function(data){
-       /* try{
-            $scope.workingTrack = false;
-            $scope.$apply();
-            if(data.hasError === true){
-                sharedSvc.showMsg({title: "Planes de seguimiento",message: data.message,type: "danger"});
+    $scope.handleSuccess = function (data) {
+        try {
+            if (data.hasError === true) {
+                sharedSvc.showMsg({
+                    title: data.title,
+                    message: "Se presentó el siguiente error: " + data.message,
+                    type: "danger"
+                });
                 return;
             }
 
-            var info = $scope.processActivities(data);
-            $scope.m.calendar.fullCalendar('removeEvents');
+            for(var i=0; i<$scope.lstNotification.length; i++){
+                var notif = $scope.lstNotification[i];
 
-            for(i=0; i<info.length; i++){
-                $scope.m.calendar.fullCalendar('renderEvent', info[i], true);
+                if(notif.id == data.returnData){
+                    $scope.lstNotification.splice(i, 1);
+                    $scope.$apply();
+                    return;
+                }
             }
-            $scope.m.calendar.fullCalendar('unselect');
-        }catch(ex){
+
+        } catch (ex) {
             sharedSvc.showMsg({
                 title: "Error de red",
                 message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
                 type: "danger"
             });
-        }*/
+        }
     }
 
-    $scope.handleError = function(data){
-       /* $scope.workingTrack = false;
+    $scope.handleError = function (data) {
+        $scope.workingTrack = false;
         sharedSvc.showMsg({
             title: "Error de red",
             message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
             type: "danger"
-        });*/
+        });
     }
 });

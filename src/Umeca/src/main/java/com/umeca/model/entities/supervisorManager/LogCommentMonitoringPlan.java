@@ -1,12 +1,10 @@
 package com.umeca.model.entities.supervisorManager;
 
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.*;
 
 import javax.persistence.*;
 import java.util.Calendar;
-import java.util.List;
 
 @Entity
 @Table(name = "log_comment_monitoring_plan")
@@ -41,6 +39,13 @@ public class LogCommentMonitoringPlan {
     @Lob @Basic(fetch=FetchType.LAZY)
     @Column(name = "comments", nullable = false)
     private String comments;
+
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_set_obsolete_user", nullable = true)
+    private User obsoleteUser;
+
+    @Column(name = "timestamp_obsolete", nullable = true)
+    private Calendar timestampObsolete;
 
     @Column(name = "is_obsolete", nullable = false)
     private Boolean isObsolete;
@@ -119,5 +124,21 @@ public class LogCommentMonitoringPlan {
 
     public void setObsolete(Boolean obsolete) {
         isObsolete = obsolete;
+    }
+
+    public User getObsoleteUser() {
+        return obsoleteUser;
+    }
+
+    public void setObsoleteUser(User obsoleteUser) {
+        this.obsoleteUser = obsoleteUser;
+    }
+
+    public Calendar getTimestampObsolete() {
+        return timestampObsolete;
+    }
+
+    public void setTimestampObsolete(Calendar timestampObsolete) {
+        this.timestampObsolete = timestampObsolete;
     }
 }

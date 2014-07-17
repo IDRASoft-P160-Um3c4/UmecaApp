@@ -31,6 +31,16 @@ public interface LogCommentMonitoringPlanRepository extends JpaRepository<LogCom
             "INNER JOIN lcmp.senderUser su LEFT JOIN lcmp.receiveUser ru " +
             "WHERE su.id <>:userId AND lcmp.isObsolete = false ORDER BY lcmp.id DESC")
     List<CommentMonitoringPlanNotice> getEnabledCommentsByManagerSupId(@Param("userId")Long userId);
+
+    @Query("SELECT lcmp FROM LogCommentMonitoringPlan lcmp " +
+            "INNER JOIN lcmp.monitoringPlan.supervisor s " +
+            "WHERE lcmp.id =:id AND s.id =:userId")
+    LogCommentMonitoringPlan getCommentByCommentIdAndUserId(@Param("id")Long id, @Param("userId")Long userId);
+
+    @Query("SELECT lcmp FROM LogCommentMonitoringPlan lcmp " +
+            "INNER JOIN lcmp.senderUser su " +
+            "WHERE lcmp.id =:id AND su.id <>:userId")
+    LogCommentMonitoringPlan getCommentByCommentIdAndNotSenderUserId(@Param("id")Long id, @Param("userId")Long userId);
 }
 
 
