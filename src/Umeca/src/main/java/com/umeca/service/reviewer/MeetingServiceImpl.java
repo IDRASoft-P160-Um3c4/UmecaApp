@@ -668,10 +668,12 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         try {
             Case c = caseRepository.findOne(id);
+            Meeting m = c.getMeeting();
             LeaveCountry l = c.getMeeting().getLeaveCountry();
             if(l==null){
                 l = new LeaveCountry();
                 c.getMeeting().setLeaveCountry(l);
+                l.setMeeting(m);
             }
             l.setOfficialDocumentation(electionRepository.findOne(leaveCountry.getOfficialDocumentation().getId()));
             Long family = leaveCountry.getFamilyAnotherCountry().getId();
