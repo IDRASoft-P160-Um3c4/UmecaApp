@@ -72,7 +72,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    MaritalStatusRepository maritalStatusRepository;
+    MaritalStatusRepository  maritalStatusRepository;
     @Autowired
     PersonSocialNetworkRepository personSocialNetworkRepository;
     @Autowired
@@ -684,6 +684,11 @@ public class MeetingServiceImpl implements MeetingService {
             if (livedCountry != null && livedCountry.equals(Constants.ELECTION_YES)) {
                 l.setCountry(countryRepository.findOne(leaveCountry.getCountry().getId()));
             }
+            l.setState(leaveCountry.getState());
+            l.setTimeAgo(leaveCountry.getTimeAgo());
+            l.setReason(leaveCountry.getReason());
+            l.setAddress(leaveCountry.getAddress());
+            l.setMedia(leaveCountry.getMedia());
             caseRepository.saveAndFlush(c);
             result.setHasError(false);
             result.setMessage("Se ha guardado su información exitosamente");
