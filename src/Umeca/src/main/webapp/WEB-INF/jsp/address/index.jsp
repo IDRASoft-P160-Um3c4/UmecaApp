@@ -27,11 +27,11 @@ margin-top: 0;
         <b>Direcci�n:</b>
     </div>
    <br/>
-    <div class="row element-center">
+    <!--<div class="row element-center">
         <div class="col-xs-10 col-xs-offset-1">
         <map id="map" ></map>
             </div>
-    </div>
+    </div>-->
     <br/>
     <div class="row">
         <!-- se deben de ejecutar los metoeos del servicio para rellenar los catalogos necesarios y para cargar el modelo-->
