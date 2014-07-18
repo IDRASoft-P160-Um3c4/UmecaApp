@@ -99,6 +99,7 @@
 
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 <br/>
+
 <h2 class="element-center"><i class="icon-archive"></i>&nbsp;&nbsp;Formato de audiencia</h2>
 
 <form id="FormFormatId" name="FormFormatId" class="form-horizontal"
@@ -108,7 +109,6 @@
 <div class="container body-content" ng-controller="hearingFormatController" ng-init='m=${hfView}'>
 <%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp" %>
 
-<input type="hidden" id="url2" value="<c:url value='/supervisor/hearingFormat/searchArrangements.json'/>"/>
 <input type="hidden" id="url3" value="<c:url value='/supervisor/hearingFormat/searchArrangementsByType.json'/>"/>
 
 <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
@@ -600,6 +600,7 @@
                         <br/>
                          <span class="field-validation-valid" data-valmsg-for="vincProcess"
                                data-valmsg-replace="true"></span>
+
                         <div class="radio">
                             <label>
                                 <input class="ace" name="vincProcess" type="radio" value="1"
@@ -917,6 +918,20 @@
         </div>
     </div>
 
+</div>
+
+<div class="row element-right">
+    <div ng-show="m.canSave==true">
+                            <span class="btn btn-default btn-sm"
+                                  ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
+                                Cancelar
+                            </span>
+
+                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                                  ng-click="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">
+                                                  Guardar
+                                            </span>
+    </div>
 </div>
 <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
 <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>

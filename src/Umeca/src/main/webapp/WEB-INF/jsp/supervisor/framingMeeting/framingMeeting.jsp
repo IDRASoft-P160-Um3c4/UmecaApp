@@ -125,6 +125,13 @@
                             Formulario de preguntas al supervisado
                         </a>
                     </li>
+                    <li>
+                        <a data-toggle="tab" href="#fingerTab">
+
+                            <i class="icon-edit bigger-200"></i>
+                            Enrolamiento
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="tab-content">
@@ -164,6 +171,10 @@
 
                     <div id="addtional" class="tab-pane">
                         <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/additionalQuestions/_addtionalQuestions.jsp" %>
+                    </div>
+
+                    <div id="fingerTab" class="tab-pane">
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/fingerPrinting/index.jsp" %>
                     </div>
 
                 </div>
