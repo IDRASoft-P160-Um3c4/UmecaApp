@@ -1,18 +1,22 @@
 //Data
-/*var cities = [
+var cities = [
     {
         city : 'Cuernavaca, Morelos',
         desc : 'Adolfo López Mateos 203A',
         lat :  18.9245121,
         long : -99.2326088
     }
-];*/
+];
 
 app.controller('addressComponentController', function ($scope, $timeout, $http,$rootScope) {
     $scope.listLocation = [];
     $scope.listState = [];
     $scope.listMunicipality = [];
     $scope.model = {};
+
+    $scope.map =  null;
+    $scope.markers = [];
+    $scope.infoWindow = null;
 
 
     $scope.clear = function () {
@@ -133,6 +137,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http,$
 
             }
         }
+       // $scope.initMaps();
     };
 
     $rootScope.$on('setAddress', function(ev,model) {
@@ -141,24 +146,31 @@ app.controller('addressComponentController', function ($scope, $timeout, $http,$
     });
 
 
+    $scope.initMaps = function(){
+        $scope.map= new google.maps.Map(document.getElementById('map'), $scope.mapOptions);
+        for (var i = 0; i < cities.length; i++){
+            $scope.createMarker(cities[i]);
+        }
+        $scope.infoWindow = new google.maps.InfoWindow();
+        google.maps.event.trigger(map, 'resize');
+        $scope.map.setCenter(center);
+        $scope.map.setZoom( $scope.map.getZoom() );
+    }
+
+
     $timeout(function () {
         $scope.init();
     }, 0);
-       ///////////////////////////////////////////////////maps
-  /*
-    var mapOptions = {
+
+    $scope.mapOptions = {
         zoom: 16,
         center: new google.maps.LatLng(18.9245121,-99.2326088),
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
 
-    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-    $scope.markers = [];
 
-    var infoWindow = new google.maps.InfoWindow();
-
-    var createMarker = function (info){
+    $scope.createMarker= function (info){
 
         var marker = new google.maps.Marker({
             map: $scope.map,
@@ -168,21 +180,19 @@ app.controller('addressComponentController', function ($scope, $timeout, $http,$
         marker.content = '<div class="infoWindowContent">' + info.desc + '</div>';
 
         google.maps.event.addListener(marker, 'click', function(){
-            infoWindow.setContent('<h6>' + marker.title + '</h6>' + marker.content);
-            infoWindow.open($scope.map, marker);
+            $scope.infoWindow.setContent('<h6>' + marker.title + '</h6>' + marker.content);
+            $scope.infoWindow.open($scope.map, marker);
         });
 
         $scope.markers.push(marker);
 
     }
 
-    for (i = 0; i < cities.length; i++){
-        createMarker(cities[i]);
-    }
 
-    $scope.openInfoWindow = function(e, selectedMarker){
+
+   $scope.openInfoWindow = function(e, selectedMarker){
         e.preventDefault();
         google.maps.event.trigger(selectedMarker, 'click');
-    }
-               */
+    };
+
 });

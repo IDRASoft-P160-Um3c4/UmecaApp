@@ -29,7 +29,7 @@ public class ImputedHome implements EntityGrid{
     @Column(name="id_imputed_home")
     private Long id;
 
-    @OneToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_address", nullable = false)
     private Address address;
 

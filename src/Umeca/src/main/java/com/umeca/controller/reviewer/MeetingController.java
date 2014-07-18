@@ -375,7 +375,16 @@ public class MeetingController {
 
     @RequestMapping(value = "/reviewer/meeting/terminateMeeting", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting,@RequestParam String sch, String activities){
-            return meetingService.doTerminateMeeting(meeting,sch,activities);
+        ResponseMessage aux =  meetingService.upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(), activities);
+        if (aux.isHasError())
+            return aux;
+        aux = meetingService.doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(), sch);
+        if (aux.isHasError())
+            return aux;
+        aux= meetingService.upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
+        if(aux.isHasError())
+            return aux;
+        return meetingService.doTerminateMeeting(meeting,sch,activities);
     }
 
     @RequestMapping(value = "/reviewer/meeting/saveProceedingLegal", method = RequestMethod.POST)

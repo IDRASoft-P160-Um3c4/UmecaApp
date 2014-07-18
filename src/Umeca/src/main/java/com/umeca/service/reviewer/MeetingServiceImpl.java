@@ -489,16 +489,18 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         try {
             Case caseDetention = caseRepository.findOne(id);
-            if (caseDetention.getMeeting().getSchool() != null) {
-                caseDetention.getMeeting().getSchool().setName(school.getName());
-                caseDetention.getMeeting().getSchool().setAddress(school.getAddress());
-                caseDetention.getMeeting().getSchool().setPhone(school.getPhone());
-                caseDetention.getMeeting().getSchool().setDegree(degreeRepository.findOne(school.getDegree().getId()));
+            School s = caseDetention.getMeeting().getSchool();
+            if (s != null) {
+                s.setName(school.getName());
+                s.setAddress(school.getAddress());
+                s.setPhone(school.getPhone());
+                s.setDegree(degreeRepository.findOne(school.getDegree().getId()));
             }else{
                 Degree degree = degreeRepository.findOne(school.getDegree().getId());
                 school.setDegree(degree);
-                caseDetention.getMeeting().setSchool(school);
-                school.setMeeting(caseDetention.getMeeting());
+                Meeting m = caseDetention.getMeeting();
+                m.setSchool(school);
+                school.setMeeting(m);
             }
             caseRepository.save(caseDetention);
             scheduleService.saveSchedules(schedules, id, School.class);
@@ -708,15 +710,6 @@ public class MeetingServiceImpl implements MeetingService {
     public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, String activities) {
         ResponseMessage result = new ResponseMessage();
         try {
-            ResponseMessage aux =  upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(), activities);
-            if (aux.isHasError())
-                return aux;
-            aux = doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(), sch);
-            if (aux.isHasError())
-                return aux;
-            aux = upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
-            if (aux.isHasError())
-                return aux;
             Case c = caseRepository.findOne(meeting.getCaseDetention().getId());
             TerminateMeetingMessageDto validate= new TerminateMeetingMessageDto();
             c.getMeeting().getImputed().validateMeeting(validate);

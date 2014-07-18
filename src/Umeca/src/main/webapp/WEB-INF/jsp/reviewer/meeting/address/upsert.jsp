@@ -3,6 +3,7 @@
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormAddressId");
     });
+
 </script>
 
 <div>

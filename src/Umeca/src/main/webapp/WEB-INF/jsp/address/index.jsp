@@ -3,6 +3,7 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+
 <style>
     #map {
 height:350px;
@@ -17,17 +18,20 @@ h2 {
 margin-bottom:0;
 margin-top: 0;
 }
+
+
+
  </style>
 <div ng-controller="addressComponentController">
     <div class="row element-left">
         <b>Direcci�n:</b>
     </div>
-   <!-- <br/>
+   <br/>
     <div class="row element-center">
         <div class="col-xs-10 col-xs-offset-1">
-        <div id="map"></div>
+        <map id="map" ></map>
             </div>
-    </div>-->
+    </div>
     <br/>
     <div class="row">
         <!-- se deben de ejecutar los metoeos del servicio para rellenar los catalogos necesarios y para cargar el modelo-->
