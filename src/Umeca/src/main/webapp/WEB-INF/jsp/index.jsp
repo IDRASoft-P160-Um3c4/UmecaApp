@@ -14,6 +14,9 @@
     <sec:authorize access="isAnonymous()">
         <%@ include file="/WEB-INF/jsp/shared/index.jsp" %>
     </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_REVIEWER')">
+        <%@ include file="/WEB-INF/jsp/reviewer/index.jsp" %>
+    </sec:authorize>
     <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
         <%@ include file="/WEB-INF/jsp/supervisor/index.jsp" %>
     </sec:authorize>

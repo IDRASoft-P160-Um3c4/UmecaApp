@@ -23,6 +23,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,6 +64,7 @@ public class CaseServiceImpl implements CaseService {
         Meeting meeting = new Meeting();
         StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
         meeting.setStatus(statusMeeting);
+        meeting.setDateCreate(new Date());
         imputed.setMeeting(meeting);
         meeting.setImputed(imputed);
         meeting.setCaseDetention(caseDet);
