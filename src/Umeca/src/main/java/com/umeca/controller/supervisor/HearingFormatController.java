@@ -201,7 +201,7 @@ public class HearingFormatController {
             Gson conv = new Gson();
             model.addObject("hfView", conv.toJson(hfView));
 
-            model.addObject("listState", conv.toJson(stateRepository.findAll()));
+            model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
 
             model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
 
@@ -223,7 +223,7 @@ public class HearingFormatController {
         HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
-        model.addObject("listState", conv.toJson(stateRepository.findAll()));
+        model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
 
         if (hfView.getIdAddres() != null)
             addressService.fillModelAddress(model, hfView.getIdAddres());

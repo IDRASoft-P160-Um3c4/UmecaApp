@@ -11,9 +11,10 @@ import java.util.List;
 @Repository("stateRepository")
 public interface StateRepository extends JpaRepository<State,Long> {
 
-    @Query("select s from State as s where country.id = :countryId")
+    @Query("select s from State as s where country.id = :countryId order by s.name")
     List<State> getStatesByCountry(@Param("countryId") Long countryId);
 
-    @Query("select s from State as s where country.alpha2 = :code")
+    @Query("select s from State as s where country.alpha2 = :code order by s.name")
     List<State> findStatesByCountryAlpha2(@Param("code")String code);
+
 }

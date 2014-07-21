@@ -58,4 +58,27 @@ app.controller("mainIndexController", function ($scope, sharedSvc) {
             type: "danger"
         });
     }
+
+    $scope.myFormatDate = function (dateMil) {
+
+        var strDt = "";
+        var date;
+
+        if (dateMil && dateMil != "null") {
+
+            date = new Date(dateMil);
+
+            var dd, mm, yyyy;
+
+            dd = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+            mm = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+            yyyy = date.getFullYear();
+
+            strDt = dd + "/" + mm + "/" + yyyy;
+        }
+
+        return strDt;
+    };
+
+
 });

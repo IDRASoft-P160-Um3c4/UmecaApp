@@ -73,4 +73,7 @@ public class Constants {
 
 
     public static String VERIFICATION_STATUS_COMPLETE="VERIFICATION_COMPLETE";
+
+    public static String STR_REVIEWER_NOTIF_NO_SOURCES="NO_SOURCES";
+    public static String STR_REVIEWER_NOTIF_SOURCES_NO_MEETING="SOURCES_NO_MEETING";
 }

@@ -107,7 +107,7 @@ public class SourceVerification implements EntityGrid{
     @Column(name="visible")
     private Boolean visible;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_verification", nullable = false)
     private Verification verification;
 

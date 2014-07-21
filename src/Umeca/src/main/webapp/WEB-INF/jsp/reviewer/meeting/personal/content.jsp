@@ -10,7 +10,7 @@
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('imputed.gender')"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource"  ng-click="showChoices('imputed.gender')"></i>
-                Género:
+                Gï¿½nero:
             </div>
             <div class="col-xs-9">
                 <div class="row" ng-init="gen=${(m.imputed.gender == null) ? false: m.imputed.gender}">
@@ -152,7 +152,15 @@
                             <label>
                                 <input name="imputed.maritalStatus.id" type="radio" class="ace" ng-model="maritalStatus"
                                        value="4"/>
-                                <span class="lbl">Unión libre</span>
+                                <span class="lbl">Uniï¿½n libre</span>
+                            </label>
+                        </div>
+
+                        <div class="radio element-left">
+                            <label>
+                                <input name="imputed.maritalStatus.id" type="radio" class="ace" ng-model="maritalStatus"
+                                       value="5"/>
+                                <span class="lbl">Viudo</span>
                             </label>
                         </div>
                     </div>
@@ -163,10 +171,10 @@
                                    value="${m.imputed.yearsMaritalStatus ==null ? '': m.imputed.yearsMaritalStatus}"
                                    name="imputed.yearsMaritalStatus" id="imputed.yearsMaritalStatus" data-val="true"
                                    data-val-regex-pattern="([0-9]+)"
-                                   data-val-length="Debe tener mínimo 1 y máximo 3 caracteres"
+                                   data-val-length="Debe tener mï¿½nimo 1 y mï¿½ximo 3 caracteres"
                                    data-val-length-max="3" data-val-length-min="1"
-                                   data-val-required="El número de años es un campo requerido"
-                                   data-val-regex="La cantidad de años sólo pueden ser números"/> Años
+                                   data-val-required="El nï¿½mero de aï¿½os es un campo requerido"
+                                   data-val-regex="La cantidad de aï¿½os sï¿½lo pueden ser nï¿½meros"/> Aï¿½os
                             <br/>
                             <span class="field-validation-valid" data-valmsg-for="imputed.yearsMaritalStatus"
                                   data-valmsg-replace="true"></span>
@@ -209,19 +217,20 @@
                         <input type="text" class="form-control" name="imputed.boys" value="${m.imputed.boys}"
                                data-val-regex-pattern="([0-9]+)"
                                data-val-required="El total de hijos es un campo requerido"
-                               data-val-regex="Sólo puede guardar números" data-val="true" data-val="true"
+                               data-val-regex="Sï¿½lo puede guardar nï¿½meros" data-val="true" data-val="true"
                                id="imputed.boys"/>
                         <span class="field-validation-valid" data-valmsg-for="imputed.boys"
                               data-valmsg-replace="true"></span>
                     </div>
                     <div class="col-xs-3 align-right">
-                        Dependientes económicos:
+                        Menores de 18 aÃ±os:
+                        <%--Dependientes econï¿½micos:--%>
                     </div>
                     <div class="col-xs-5">
                         <input type="text" class="form-control" name="imputed.dependentBoys"
                                data-val-regex-pattern="([0-9]+)"
-                               data-val-required="El total de depentdientes económicos es un campo requerido"
-                               data-val-regex="S?lo puede guardar números" id="imputed.dependentBoys" data-val="true"
+                               data-val-required="El total de dependientes econï¿½micos es un campo requerido"
+                               data-val-regex="S?lo puede guardar nï¿½meros" id="imputed.dependentBoys" data-val="true"
                                value="${m.imputed.dependentBoys == null ? '': m.imputed.dependentBoys}"/>
                         <span class="field-validation-valid" data-valmsg-for="imputed.dependentBoys"
                               data-valmsg-replace="true"></span>
@@ -328,11 +337,11 @@
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('socialEnvironment.physicalCondition')"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.physicalCondition')"></i>
-        ¿Padece alguna enfermedad o condición física?:
+        ï¿½Padece alguna enfermedad o condiciï¿½n fï¿½sica?:
     </div>
     <div class="col-xs-9">
         <textarea class="form-control"
-                  data-val-required="Si padece alguna enfermedad o condición física es un campo requerido"
+                  data-val-required="Si padece alguna enfermedad o condiciï¿½n fï¿½sica es un campo requerido"
                   name="socialEnvironment.physicalCondition">${m.socialEnvironment.physicalCondition}</textarea>
                 <span class="field-validation-valid" data-valmsg-for="socialEnvironment.physicalCondition"
               data-valmsg-replace="true"></span>
@@ -349,7 +358,7 @@
                code="socialEnvironment.activities"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
-            ¿Qué actividades realiza?:
+            ï¿½Quï¿½ actividades realiza?:
         </div>
         <div class="col-xs-9 element-left">
             <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
@@ -366,13 +375,13 @@
         <div ng-repeat="activity in activityModel">
             <div ng-show="activity.specification==true">
                 <div class="col-xs-3">
-                    Especifíque activiades {{activity.name}}:
+                    Especifï¿½que activiades {{activity.name}}:
                 </div>
                 <div class="col-xs-9">
                     <input class="form-control" data-val="true"
-                           data-val-length="Debe tener al menos 3 y máximo 255 caracteres"
+                           data-val-length="Debe tener al menos 3 y mï¿½ximo 255 caracteres"
                            data-val-length-max="255" data-val-length-min="3"
-                           data-val-required="La especificación de actividades {{activity.name}} es un campo requerido"
+                           data-val-required="La especificaciï¿½n de actividades {{activity.name}} es un campo requerido"
                            type="text" value="" ng-model="specification[activity.name]"
                            id="specification{{activity.name}}" name="specification{{activity.name}}"
                            ng-change="matchActivities()"><br/>

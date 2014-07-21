@@ -14,7 +14,7 @@
             <div class="widget-header">
 
                 <input type="hidden" ng-update-hidden ng-model="haveCoDependant" name='haveCoDEfendant'>
-                <h5>&nbsp;<input type="checkbox" ng-model="haveCoDependant" ng-init="haveCoDependant = false">&nbsp;Detención de coimputados</h5>
+                <h5>&nbsp;<input type="checkbox" ng-model="haveCoDependant" ng-init="haveCoDependant = false">&nbsp;Detenciï¿½n de coimputados</h5>
             </div>
             <div class="widget-body" ng-show="haveCoDependant == true">
                 <div class="row">
@@ -29,21 +29,21 @@
         <br/>
         <div class="widget-box">
             <div class="widget-header">
-                <h5>&nbsp;Información de la victima</h5>
+                <h5>&nbsp;Informaciï¿½n de la victima</h5>
             </div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
                        <br/>
                         <div class="col-xs-8 element-left">
-                            Nombre Completo<br/>
+                            Nombre completo<br/>
                             <input type="text" class="form-control" ng-model="m.fullName" id="nameVictim" name="nameVictim"
-                                   data-val="true"  data-val-required="El nombre del coimputado es un campo requerido"
-                                   data-val-length-max="300" data-val-length-min="3" data-val-length ="Debe tener al menos 3 y máximo 300 caracteres."/>
+                                   data-val="true"  data-val-required="El nombre de la victima es un campo requerido"
+                                   data-val-length-max="300" data-val-length-min="3" data-val-length ="Debe tener al menos 3 y mï¿½ximo 300 caracteres."/>
                             <span class="field-validation-valid" data-valmsg-for="nameVictim" data-valmsg-replace="true"></span>
                         </div>
                         <div class="col-xs-4 element-left">
-                            Relación <br/>
+                            Relaciï¿½n <br/>
                             <input type="hidden" ng-model="m.relId" ng-update-hidden name="relVictimId">
                             <select class="form-control element-center" ng-model="m.rel"
                                     ng-options="e.name for e in lstRelationship"
@@ -61,21 +61,21 @@
         </div>
         <br/>
         <div class="row">
-            <div class="col-xs-3 element-left">Comportamiento antes de detención:</div>
+            <div class="col-xs-3 element-left">Comportamiento antes de detenciï¿½n:</div>
             <div class="col-xs-9">
                 <textarea class="form-control" name="behaviorDetention" id="behaviorDetention" ng-model="m.behaviorDetention"
                           data-val="true"  data-val-required="El comportamiento es un campo requerido"
-                          data-val-length-max="500" data-val-length-min="5" data-val-length ="Debe tener al menos 5 y máximo 500 caracteres."></textarea>
+                          data-val-length-max="500" data-val-length-min="5" data-val-length ="Debe tener al menos 5 y mï¿½ximo 500 caracteres."></textarea>
                 <span class="field-validation-valid" data-valmsg-for="behaviorDetention" data-valmsg-replace="true"></span>
             </div>
         </div>
         <br/>
         <div class="row">
-            <div class="col-xs-3 element-left">Lugar de detención:</div>
+            <div class="col-xs-3 element-left">Lugar de detenciï¿½n:</div>
             <div class="col-xs-9">
                 <textarea class="form-control" name="placeDetention"  ng-model="m.placeDetention" id="placeDetention"
-                          data-val="true"  data-val-required="El lugar de detención es un campo requerido"
-                          data-val-length-max="255" data-val-length-min="5" data-val-length ="Debe tener al menos 5 y máximo 255 caracteres."></textarea>
+                          data-val="true"  data-val-required="El lugar de detenciï¿½n es un campo requerido"
+                          data-val-length-max="255" data-val-length-min="5" data-val-length ="Debe tener al menos 5 y mï¿½ximo 255 caracteres."></textarea>
                 <span class="field-validation-valid" data-valmsg-for="placeDetention" data-valmsg-replace="true"></span>
             </div>
         </div>

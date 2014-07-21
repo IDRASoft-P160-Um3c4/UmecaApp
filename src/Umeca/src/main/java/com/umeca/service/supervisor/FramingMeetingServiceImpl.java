@@ -439,13 +439,13 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         view.setLstSources(conv.toJson(this.loadExistSources(idCase)));
 
-        List<FramingRisk> lstRisks = framingRiskRepository.findAll();
-        Collections.sort(lstRisks, FramingRisk.framingRiskComparator);
+        List<FramingRisk> lstRisks = framingRiskRepository.findNoObsolete();
+        //Collections.sort(lstRisks, FramingRisk.framingRiskComparator);
 
         view.setLstRisk(conv.toJson(lstRisks));
 
         List<FramingThreat> lstThreat = framingThreatRepository.findAll();
-        Collections.sort(lstThreat, FramingThreat.framingThreatComparator);
+        //Collections.sort(lstThreat, FramingThreat.framingThreatComparator);
 
         view.setLstThreat(conv.toJson(lstThreat));
 
@@ -724,7 +724,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         AdditionalFramingQuestions addQuest = existFraming.getAdditionalFramingQuestions();
 
-        for (Relationship relShip : relationshipRepository.findAll()) {
+        for (Relationship relShip : relationshipRepository.findNotObsolete()) {
             RelativeAbroadView vw = new RelativeAbroadView();
             vw.setRelationshipId(relShip.getId());
             vw.setName(relShip.getName());
