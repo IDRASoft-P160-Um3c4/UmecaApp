@@ -44,32 +44,32 @@ app.directive('map', function () {
         replace: true,
         template: '<div></div>',
         link: function($scope, element, attrs) {
-            var center = new google.maps.LatLng(18.9245121,-99.2326088);
+            $scope.center = new google.maps.LatLng(18.9245121,-99.2326088);
 
-            var map_options = {
+            $scope.map_options = {
                 zoom: 14,
                 center: new google.maps.LatLng(18.9245121,-99.2326088),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
             // create map
-            var map = new google.maps.Map(document.getElementById(attrs.id), map_options);
+            $scope.map = new google.maps.Map(document.getElementById(attrs.id),$scope.map_options);
 
             // configure marker
-            var marker_options = {
-                map: map,
-                position: center
+            $scope.marker_options = {
+                map: $scope.map,
+                position: $scope.center
             };
 
             // create marker
-            var marker = new google.maps.Marker(marker_options);
+            $scope.marker = new google.maps.Marker($scope.marker_options);
 
             $scope.$watch('selected', function () {
 
                 window.setTimeout(function(){
 
-                    google.maps.event.trigger(map, 'resize');
-                    google.maps.map.setCenter(center);
+                    google.maps.event.trigger($scope.map, 'resize');
+                    $scope.map.setCenter($scope.center);
                 },100);
 
             });

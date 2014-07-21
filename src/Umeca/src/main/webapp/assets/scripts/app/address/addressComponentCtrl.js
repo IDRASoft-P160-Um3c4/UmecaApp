@@ -146,7 +146,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http,$
     });
 
 
-    $scope.initMaps = function(){
+/*    $scope.initMaps = function(){
         $scope.map= new google.maps.Map(document.getElementById('map'), $scope.mapOptions);
         for (var i = 0; i < cities.length; i++){
             $scope.createMarker(cities[i]);
@@ -155,22 +155,22 @@ app.controller('addressComponentController', function ($scope, $timeout, $http,$
         google.maps.event.trigger(map, 'resize');
         $scope.map.setCenter(center);
         $scope.map.setZoom( $scope.map.getZoom() );
-    }
+    }]*/
 
 
     $timeout(function () {
         $scope.init();
     }, 0);
 
-    $scope.mapOptions = {
+  /*  $scope.mapOptions = {
         zoom: 16,
         center: new google.maps.LatLng(18.9245121,-99.2326088),
         mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
+    }*/
 
 
 
-    $scope.createMarker= function (info){
+ /*   $scope.createMarker= function (info){
 
         var marker = new google.maps.Marker({
             map: $scope.map,
@@ -194,5 +194,5 @@ app.controller('addressComponentController', function ($scope, $timeout, $http,$
         e.preventDefault();
         google.maps.event.trigger(selectedMarker, 'click');
     };
-
+                 */
 });
