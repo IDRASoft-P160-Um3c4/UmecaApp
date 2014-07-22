@@ -36,7 +36,7 @@ public class LeaveCountry {
     @JoinColumn(name="id_lived_country", nullable = false)
     private Election livedCountry;
 
-    @Column(name = "time_ago", length = 25, nullable = true)
+    @Column(name = "time_ago", length = 250, nullable = true)
     private String timeAgo;
 
     @Column(name="reason", length = 500, nullable = true)

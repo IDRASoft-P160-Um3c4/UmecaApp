@@ -61,7 +61,7 @@ public class ManagerevalController {
     @ModelAttribute("verifySources")
     public String getVerifySources() {
         Gson gson = new Gson();
-        return gson.toJson(verificationMethod.findAll());
+        return gson.toJson(verificationMethod.findNoObsolete());
     }
 
     @RequestMapping(value = "/managereval/save", method = RequestMethod.POST)

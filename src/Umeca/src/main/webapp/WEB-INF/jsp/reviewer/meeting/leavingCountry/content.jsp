@@ -2,7 +2,7 @@
     <input type="hidden" value="${m.caseDetention.id}" name="caseDetention.id">
     <div class="row">
         <div class="center row">
-            <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el país</h2>
+            <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el paï¿½s</h2>
         </div>
         <br/>
 
@@ -21,7 +21,7 @@
                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                        ng-click="doConfirmVerifNotKnow('leaveCountry.officialDocumentation.id')"></i>
                     <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('leaveCountry.officialDocumentation.id')"></i>
-                    ¿El detenido cuenta con documentación oficial que facilite que abandone el país?:
+                    ï¿½El detenido cuenta con documentaciï¿½n oficial que facilite que abandone el paï¿½s?:
                 </div>
                 <div class="col-xs-3">
                     <input type="hidden" ng-update-hidden ng-model="l.docId" name="leaveCountry.officialDocumentation.id" id="doc"
@@ -45,7 +45,7 @@
                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                            ng-click="doConfirmVerifNotKnow('leaveCountry.livedCountry')"></i>
                         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('leaveCountry.livedCountry.id')"></i>
-                        ¿El detenido ha vivido en otro país?:
+                        ï¿½El detenido ha vivido en otro paï¿½s?:
                     </div>
                     <div class="col-xs-3">
                         <input type="hidden" ng-update-hidden ng-model="l.ocId" name="leaveCountry.livedCountry.id" id="oc"
@@ -61,7 +61,7 @@
 
                 <div class="row">
                     <div class="col-xs-2 element-left col-xs-offset-1">
-                        País:
+                        Paï¿½s:
                     </div>
                     <div class="col-xs-3">
                         <input type="hidden" ng-update-hidden ng-model="l.countryId" name="leaveCountry.country.id" id="country"
@@ -91,12 +91,12 @@
             </div>
             <div class="row" ng-show="l.ocId ==1">
                 <div class="col-xs-3 element-right">
-                    ¿Hace cuánto tiempo?:
+                    ï¿½Hace cuï¿½nto tiempo?:
                 </div>
                 <div class="col-xs-3">
                     <input class="form-control" data-val="true"
-                           data-val-length="Debe tener al menos 3 y m?ximo 25 caracteres"
-                           data-val-length-max="25" data-val-length-min="3"
+                           data-val-length="Debe tener al menos 3 y m?ximo 250 caracteres"
+                           data-val-length-max="250" data-val-length-min="3"
                            data-val-required="El tiempo es un campo requerido"
                            type="text" ng-model="l.timeAgo" id="leaveCountry.timeAgo"
                            name="leaveCountry.timeAgo"
@@ -105,7 +105,7 @@
                               data-valmsg-replace="true"></span>
                 </div>
                 <div class="col-xs-2 element-right">
-                    Motivo por el que ahora vive en México:
+                    Motivo por el que ahora vive en Mï¿½xico:
                 </div>
                 <div class="col-xs-4">
                     <textarea id="leaveCountry.reason" class="form-control" data-val="true"
@@ -122,7 +122,7 @@
 
             <div class="row" ng-show="l.ocId ==1">
                 <div class="col-xs-3 element-right">
-                    Dirección:
+                    Direcciï¿½n:
                 </div>
                 <div class="col-xs-9">
                     <textarea ng-model="l.address"
@@ -153,7 +153,7 @@
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('leaveCountry.familyAnotherCountry')"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('leaveCountry.familyAnotherCountry.id')"></i>
-                ¿El detenido cuenta con familiares y/o amigos cercanos en otro país?:
+                ï¿½El detenido cuenta con familiares y/o amigos cercanos en otro paï¿½s?:
             </div>
             <div class="col-xs-3">
                 <input type="hidden" ng-update-hidden ng-model="l.facId" name="leaveCountry.familyAnotherCountry.id" id="fac"
@@ -169,7 +169,7 @@
         <div class="row" ng-show="l.facId ==1">
 
             <div class="col-xs-4 element-left">
-                ¿Mantiene comunicación con ellos?:
+                ï¿½Mantiene comunicaciï¿½n con ellos?:
             </div>
             <div class="col-xs-2">
                 <input type="hidden" ng-update-hidden ng-model="l.cfId" name="leaveCountry.communicationFamily.id" id="cf"
@@ -179,7 +179,7 @@
                         ng-change="l.cfId = l.cf.id;" ng-init='listElection = ${listElection};'></select>
             </div>
             <div class="col-xs-2 element-left" ng-show="l.cfId == 1">
-                ¿Por qué medio?:
+                ï¿½Por quï¿½ medio?:
             </div>
             <div class="col-xs-4" ng-show="l.cfId == 1">
                 <input class="form-control" data-val="true"

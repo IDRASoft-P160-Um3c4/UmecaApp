@@ -555,7 +555,7 @@ public class VerificationServiceImpl implements VerificationService {
             listDto.add(dtoLevel.doDto(s));
         }
         model.addObject("lstLevel", gson.toJson(listDto));
-        List<Country> listCountry = countryRepository.findAll();
+        List<Country> listCountry = countryRepository.findAllOrderByName();
         List<CountryDto> listCountryDto = new ArrayList<CountryDto>();
         for (Country co : listCountry) {
             CountryDto cdto = new CountryDto();
@@ -582,7 +582,7 @@ public class VerificationServiceImpl implements VerificationService {
             model.addObject("listDrug", gson.toJson(listDrug));
         }
         List<CatalogDto> catalogDtoList = new ArrayList<>();
-        for (RegisterType rt : registerTypeRepository.findAll()) {
+        for (RegisterType rt : registerTypeRepository.findAllOrderByName()) {
             CatalogDto cDto = new CatalogDto();
             cDto.setId(rt.getId());
             cDto.setName(rt.getName());

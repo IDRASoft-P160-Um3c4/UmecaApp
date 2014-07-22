@@ -150,9 +150,9 @@ public class FramingMeetingController {
         Gson conv = new Gson();
 
         model.addObject("objView", conv.toJson(framingMeetingView));
-        model.addObject("lstCountry", conv.toJson(countryRepository.findAll()));
-        model.addObject("listState", conv.toJson(stateRepository.findAll()));
-        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findAll()));
+        model.addObject("lstCountry", conv.toJson(countryRepository.findAllOrderByName()));
+        model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
+        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findNotObsolete()));
         return model;
     }
 
@@ -331,7 +331,7 @@ public class FramingMeetingController {
         AddressDto addDto = new AddressDto();
         addDto.setIdCase(idCase);
         model.addObject("addObj", conv.toJson(addDto));
-        model.addObject("listState", conv.toJson(stateRepository.findAll()));
+        model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
         model.addObject("idCaseAdd", idCase);
 
         return model;
@@ -382,7 +382,7 @@ public class FramingMeetingController {
 
         model.addObject("housemate", conv.toJson(housemate));
 
-        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findAll()));
+        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findNotObsolete()));
 
         return model;
     }
@@ -412,7 +412,7 @@ public class FramingMeetingController {
 
         model.addObject("reference", conv.toJson(housemate));
 
-        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findAll()));
+        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findNotObsolete()));
 
         return model;
     }

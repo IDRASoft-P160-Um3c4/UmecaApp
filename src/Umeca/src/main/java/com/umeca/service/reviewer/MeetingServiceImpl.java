@@ -199,7 +199,7 @@ public class MeetingServiceImpl implements MeetingService {
             listDto.add(dtoLevel.doDto(s));
         }
         model.addObject("lstLevel", gson.toJson(listDto));
-        List<Country> listCountry = countryRepository.findAll();
+        List<Country> listCountry = countryRepository.findAllOrderByName();
         List<CountryDto> listCountryDto = new ArrayList<CountryDto>();
         for (Country c : listCountry) {
             CountryDto cdto = new CountryDto();
@@ -238,7 +238,7 @@ public class MeetingServiceImpl implements MeetingService {
             lstElectionDto.add(edto.dtoElection(e));
         }
         model.addObject("listElection", gson.toJson(lstElectionDto));
-        List<Relationship> relationshipList= relationshipRepository.findAll();
+        List<Relationship> relationshipList= relationshipRepository.findNotObsolete();
         List<CatalogDto> catalogDtoList = new ArrayList<>();
         for(Relationship relationship: relationshipList){
             CatalogDto cdto= new CatalogDto();
@@ -554,7 +554,7 @@ public class MeetingServiceImpl implements MeetingService {
     public ModelAndView upsertJob(Long id, Long idCase) {
         ModelAndView model = new ModelAndView("/reviewer/meeting/job/upsert");
         Gson gson = new Gson();
-        model.addObject("lstRegisterType", gson.toJson(registerTypeRepository.findAll()));
+        model.addObject("lstRegisterType", gson.toJson(registerTypeRepository.findAllOrderByName()));
         model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
         if (id != null && id != 0) {
             Job j = jobRepository.findOne(id);
@@ -636,7 +636,7 @@ public class MeetingServiceImpl implements MeetingService {
         ModelAndView model = new ModelAndView("/reviewer/meeting/address/upsert");
         try {
             Gson gson = new Gson();
-            model.addObject("listRegisterType", gson.toJson(registerTypeRepository.findAll()));
+            model.addObject("listRegisterType", gson.toJson(registerTypeRepository.findAllOrderByName()));
             model.addObject("listElection", gson.toJson(electionRepository.findAll()));
             model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
             model.addObject("idCase", idCase);
