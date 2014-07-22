@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class LogNotificationDto {
 
-    private Long notificationId;
+    private Long id;
     private String idFolder;
     private String imputedName;
     private String senderUser;
@@ -22,7 +22,7 @@ public class LogNotificationDto {
     }
 
     public LogNotificationDto(Long notificationId, String title, String message, Calendar dateNotif) {
-        this.notificationId = notificationId;
+        this.id = notificationId;
         this.title = title;
         this.message = message;
         this.dateNotif=dateNotif;
@@ -69,12 +69,12 @@ public class LogNotificationDto {
         }
     };
 
-    public Long getNotificationId() {
-        return notificationId;
+    public Long getId() {
+        return id;
     }
 
-    public void setNotificationId(Long notificationId) {
-        this.notificationId = notificationId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getIdFolder() {

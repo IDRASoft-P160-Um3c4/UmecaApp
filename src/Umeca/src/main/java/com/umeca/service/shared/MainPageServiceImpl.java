@@ -156,7 +156,7 @@ public class MainPageServiceImpl implements MainPageService {
         model.addObject("lstActivities", conv.toJson(lstActivities));
         model.addObject("lstNotification", conv.toJson(lstNotif));
 
-        model.addObject("urlToGo", "/reviewer/log/deleteNotification.json");
+        model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
 
     }
 
