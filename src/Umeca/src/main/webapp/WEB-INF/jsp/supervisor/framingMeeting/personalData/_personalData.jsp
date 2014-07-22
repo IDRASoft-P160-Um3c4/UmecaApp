@@ -242,7 +242,7 @@
                                   ng-model="pd.physicalCondition"
                                   maxlength="980" data-val="true"
                                   data-val-required="Enfermedad o condición física es un campo requerido">
-                            {{pd.physicalCondition}}</textarea>
+                            </textarea>
         <span class="field-validation-valid" data-valmsg-for="physicalCondition"
               data-valmsg-replace="true"></span>
 

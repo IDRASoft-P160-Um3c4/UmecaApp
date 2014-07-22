@@ -12,7 +12,7 @@
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('imputedHomes.address',a.id);"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputedHomes.address',a.id)"></i>
-        Dirección
+        Direcciï¿½n
     </div>
     <div class="col-xs-9">
         {{a.addressString}}
@@ -29,7 +29,7 @@
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('imputedHomes.address',a.id);"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputedHomes.belong.id',a.id)"></i>
-        ¿El domicilio es propio?:
+        ï¿½El domicilio es propio?:
     </div>
     <div class="col-xs-2">
         <input type="hidden" ng-model="a.belongId" ng-update-hidden name="imputedHomes.belong.id">
@@ -67,7 +67,7 @@
             <div class="widget-header">
                 <div class="row">
                         <h4 ng-show="verification ==true">Domicilio {{a.type.name}}</h4>
-                        <h4 ng-show="verification == false">Especificación del domicilio</h4>
+                        <h4 ng-show="verification == false">Especificaciï¿½n del domicilio</h4>
                 </div>
             </div>
             <div class="widget-body">
@@ -81,7 +81,7 @@
                                     </div>
                                     <div class="col-xs-7">
                                         <input class="form-control" data-val="true"
-                                               data-val-length="Debe tener al menos 1 y máximo 30 caracteres"
+                                               data-val-length="Debe tener al menos 1 y mï¿½ximo 30 caracteres"
                                                data-val-length-max="30" data-val-length-min="1" name="imputedHomes.timeLive"
                                                data-val-required="El tiempo de residencia es un campo requerido"
                                                id="timeLive" value="{{a.timeLive}}" type="text">
@@ -93,15 +93,16 @@
 
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        Descripción de cómo llegar<br/>al domicilio:
+                                        Descripciï¿½n de cï¿½mo llegar<br/>al domicilio:
                                     </div>
                                     <div class="col-xs-9">
                                         <textarea id="description" class="form-control"
                                                   name="imputedHomes.description"
                                                   data-val="true"
-                                                  data-val-length="Debe tener al menos 1 y máximo 500 caracteres"
+                                                  ng-model="a.description"
+                                                  data-val-length="Debe tener al menos 1 y mï¿½ximo 500 caracteres"
                                                   data-val-length-max="500" data-val-length-min="1"
-                                                  data-val-required="La descripción es un campo requerido">{{a.description}}</textarea>
+                                                  data-val-required="La descripciï¿½n es un campo requerido"></textarea>
                                                         <span class="field-validation-valid"
                                                               data-valmsg-for="description"
                                                               data-valmsg-replace="true"></span>
@@ -129,7 +130,7 @@
                                                     <thead class="thin-border-bottom">
                                                     <tr>
                                                         <th class="element-center">
-                                                            Día(s)
+                                                            Dï¿½a(s)
                                                         </th>
                                                         <th class="element-center">
                                                             Hora de inicio
@@ -173,7 +174,7 @@
             <div class="widget-header">
                 <div class="row">
                         <h4 ng-show="verification ==true">Domicilio {{a.type.name}}</h4>
-                        <h4 ng-show="verification == false">Especificación del domicilio</h4>
+                        <h4 ng-show="verification == false">Especificaciï¿½n del domicilio</h4>
                 </div>
             </div>
             <div class="widget-body">
@@ -187,7 +188,7 @@
                             </div>
                             <div class="col-xs-7">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 1 y máximo 30 caracteres"
+                                       data-val-length="Debe tener al menos 1 y mï¿½ximo 30 caracteres"
                                        data-val-length-max="30" data-val-length-min="1"
                                        data-val-required="El tiempo de residencia es un campo requerido"
                                        id="timeLiveD" name="imputedHomes.timeLive"
@@ -207,9 +208,10 @@
                                 <textarea id="reasonChange" name="imputedHomes.reasonChange"
                                           class="form-control"
                                           data-val="true"
-                                          data-val-length="Debe tener al menos 1 y máximo 500 caracteres"
+                                          ng-model="a.reasonChange"
+                                          data-val-length="Debe tener al menos 1 y mï¿½ximo 500 caracteres"
                                           data-val-length-max="500" data-val-length-min="1"
-                                          data-val-required="La razón de cambio es un campo requerido">{{a.reasonChange}}</textarea>
+                                          data-val-required="La razï¿½n de cambio es un campo requerido"></textarea>
                                 <span class="field-validation-valid" data-valmsg-for="reasonChange"
                                       data-valmsg-replace="true"></span>
                             </div>

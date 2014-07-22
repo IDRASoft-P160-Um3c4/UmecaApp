@@ -9,7 +9,7 @@
             Nombre:
         </div>
         <div class="col-xs-10">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y máximo 150 caracteres"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y mï¿½ximo 150 caracteres"
                    data-val-length-max="150" data-val-length-min="6" data-val-required="El nombre es un campo requerido" id="fullName"
                    type="text"  name="references.fullName" value="{{r.fullName}}">
                 <span class="field-validation-valid" data-valmsg-for="fullName" data-valmsg-replace="true"></span>
@@ -43,11 +43,11 @@
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.phone" id-element="{{r.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.phone',r.id);"></i>
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.phone',r.id)"></i>
-            Teléfono:
+            Telï¿½fono:
         </div>
         <div class="col-xs-7">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y máximo 20 caracteres"
-                   data-val-length-max="20" data-val-length-min="8" data-val-required="El teléfono es un campo requerido" id="phone"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y mï¿½ximo 20 caracteres"
+                   data-val-length-max="20" data-val-length-min="8" data-val-required="El telï¿½fono es un campo requerido" id="phone"
                    type="text" name="references.phone" value="{{r.phone}}">
             <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
         </div>
@@ -61,7 +61,7 @@
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.documentType.id" id-element="{{r.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.documentType.id',r.id);"></i>
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.documentType.id',r.id)"></i>
-            Identificación prensentada:
+            Identificaciï¿½n prensentada:
         </div>
         <div class="col-xs-8">
             <input type="hidden" ng-model="r.docId" ng-update-hidden name="references.documentType.id">
@@ -73,11 +73,11 @@
             <br/>
         </div>
                 <div class="col-xs-4 element-left" ng-show="r.doc.specification == true">
-                    Especifíque:
+                    Especifï¿½que:
                 </div>
                 <div class="col-xs-8" ng-show="r.doc.specification == true">
-                    <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y máximo 255 caracteres"
-                           data-val-length-max="255" data-val-length-min="2" data-val-required="La especificación es un campo requerido"
+                    <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y mï¿½ximo 255 caracteres"
+                           data-val-length-max="255" data-val-length-min="2" data-val-required="La especificaciï¿½n es un campo requerido"
                            type="text"  id="specification" name="references.specification" value="{{r.specification}}">
                     <span class="field-validation-valid" data-valmsg-for="specification" data-valmsg-replace="true"></span>
                 </div>
@@ -93,9 +93,9 @@
             Edad:
         </div>
         <div class="col-xs-7">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1y máximo 2 caracteres"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1y mï¿½ximo 2 caracteres"
                    data-val-length-max="2" data-val-length-min="1" data-val-required="La edad es un campo requerido"
-                   data-val-regex-pattern="([0-9]+)" data-val-regex="La edad sólo puede contener números"
+                   data-val-regex-pattern="([0-9]+)" data-val-regex="La edad sï¿½lo puede contener nï¿½meros"
                    type="text" id="age" name="references.age" value="{{r.age}}">
             <span class="field-validation-valid" data-valmsg-for="age" data-valmsg-replace="true"></span>
         </div>
@@ -110,12 +110,13 @@
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.address" id-element="{{r.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.address',r.id);"></i>
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.address',r.id)"></i>
-            Dirección:</div>
+            Direcciï¿½n:</div>
         <div class="col-xs-10">
             <textarea id="address" class="form-control"  name="references.address"
-                      data-val="true" data-val-required="La dirección es un campo requerido"
-                      data-val-length="Debe tener al menos 6 y máximo 500 caracteres"
-                      data-val-length-max="500" data-val-length-min="6">{{r.address}}</textarea>
+                      data-val="true" data-val-required="La direcciï¿½n es un campo requerido"
+                      data-val-length="Debe tener al menos 6 y mï¿½ximo 500 caracteres"
+                      ng-model="r.address"
+                      data-val-length-max="500" data-val-length-min="6"></textarea>
             <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
         </div>
     </div>

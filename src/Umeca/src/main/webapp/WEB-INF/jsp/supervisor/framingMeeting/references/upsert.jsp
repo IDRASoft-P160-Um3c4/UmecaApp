@@ -65,7 +65,7 @@
                                           ng-model="refe.address"
                                           maxlength="980" data-val="true"
                                           data-val-required="Dirección adicionales es un campo requerido">
-                                    {{refe.address}}</textarea>
+                                    </textarea>
                                 <span class="field-validation-valid" data-valmsg-for="address"
                                       data-valmsg-replace="true"></span>
                             </div>

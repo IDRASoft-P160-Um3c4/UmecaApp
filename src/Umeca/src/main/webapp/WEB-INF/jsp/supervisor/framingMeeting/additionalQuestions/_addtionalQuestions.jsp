@@ -65,7 +65,7 @@
         <textarea class="input-xxlarge form-control limited" name="addictionTreatmentInstitute"
                   ng-model="aq.addictionTreatmentInstitute"
                   maxlength="980" data-val="true"
-                  data-val-required="Institución es un campo requerido">{{aq.addictionTreatmentInstitute}}
+                  data-val-required="Institución es un campo requerido">
         </textarea>
                                             <span class="field-validation-valid"
                                                   data-valmsg-for="addictionTreatmentInstitute"
@@ -191,7 +191,7 @@
                     <textarea class="form-control limited"
                               maxlength="980" ng-blur="validateRelAbroad();"
                               ng-model="selectedRelativesAbroad[$index].description"
-                            >{{selectedRelativesAbroad[$index].description}}</textarea>
+                            ></textarea>
                 </div>
 
             </div>
@@ -248,7 +248,7 @@
                               maxlength="980"
                               ng-model="selectedObligationIssues[$index].description"
                               ng-blur="validateOblIssues();"
-                            >{{selectedObligationIssues[$index].description}}</textarea>
+                            ></textarea>
                 </div>
             </div>
         </div>
@@ -264,7 +264,7 @@
         <textarea class="input-xxlarge form-control limited" name="observations"
                   ng-model="aq.observations"
                   maxlength="980" data-val="true"
-                  data-val-required="Comentarios es un campo requerido">{{observations}}
+                  data-val-required="Comentarios es un campo requerido">
         </textarea>
                                             <span class="field-validation-valid" data-valmsg-for="observations"
                                                   data-valmsg-replace="true"></span>
