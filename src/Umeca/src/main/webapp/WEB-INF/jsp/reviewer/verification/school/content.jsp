@@ -75,13 +75,13 @@
             </div>
     </div>
     <br/>
-
+       <div>
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4  element-left">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifEqual('school.degree.id')"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
                    ng-show="verification" code="school.degree.id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('school.degree.id')"></i>
@@ -109,6 +109,28 @@
             </div>
         </div>
     </div>
+           <div class="row" ng-show="school.levelId == 7">
+               <br/>
+               <div class="col-xs-12">
+                   <div class="col-xs-2  element-left">
+                       <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('school.degree')"></i>
+                       <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                          ng-show="verification" code ="school.degree"></i>
+                       <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('school.degree')"></i>
+                       Especifíque:
+                   </div>
+                   <div class="col-xs-8">
+                       <input class="form-control" data-val="true"
+                              data-val-length="Debe tener al menos 1 y máximo 300 caracteres"
+                              data-val-length-max="300" data-val-length-min="1"
+                              data-val-required="La especificación  es un campo requerido" type="text" value=""
+                              ng-model="school.specification" id="school.specification" name="school.specification"
+                              ng-init='school.specification = "${(m.school.specification == null) ? '' : m.school.specification}"'>
+                       <span class="field-validation-valid" data-valmsg-for="school.specification" data-valmsg-replace="true"></span>
+                   </div>
+               </div>
+           </div>
+       </div>
     <br/>
 
     <div class="row">

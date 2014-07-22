@@ -22,7 +22,7 @@ public class Job implements EntityGrid{
     public Job() {
     }
 
-    public Job(Long id,String post, String nameHead, String company, String phone, String registerTypeString, Long registerTypeId) {
+    public Job(Long id,String company, String post, String nameHead, String phone, String registerTypeString, Long registerTypeId) {
         this.id= id;
         this.post = post;
         this.nameHead = nameHead;

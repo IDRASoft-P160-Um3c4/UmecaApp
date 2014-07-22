@@ -28,7 +28,7 @@
                 { name: 'addressString', index: 'addressString', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'timeLive', index: 'timeLive', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'registerTypeString', index: 'registerTypeString', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'belongString', index: 'belongString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'belongString', index: 'belongString', width: 150, align: "center", search: false},
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
@@ -58,7 +58,7 @@
                 setTimeout(function(){
                     updatePagerIcons(table);
                     enableTooltips(table);
-                }, 0);
+                }, 5);
             }
         });
 

@@ -109,6 +109,8 @@ public class MeetingController {
                     return r.join("meeting").join("caseDetention").get("id");
                 }else if(field.equals("registerTypeString")){
                     return r.join("registerType").get("name");
+                }else if(field.equals("addressString")){
+                    return r.join("address").get("addressString");
                 }
                 return null;
             }
@@ -142,6 +144,8 @@ public class MeetingController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if(field.equals("idCase")){
                     return r.join("socialNetwork").join("meeting").join("caseDetention").get("id");
+                }else if(field.equals("relName")){
+                    return r.join("relationship").get("name");
                 }
 
                 return null;
@@ -175,6 +179,8 @@ public class MeetingController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if(field.equals("idCase")){
                     return r.join("meeting").join("caseDetention").get("id");
+                }else if(field.equals("relName")){
+                    return r.join("relationship").get("name");
                 }
 
                 return null;
@@ -246,6 +252,8 @@ public class MeetingController {
                     return r.join("meeting").join("caseDetention").get("id");
                 }else if(field.equals("registerTypeId")){
                     return r.join("registerType").get("id");
+                }else if(field.equals("registerTypeString")){
+                    return r.join("registerType").get("name");
                 }
                     return null;
                 }

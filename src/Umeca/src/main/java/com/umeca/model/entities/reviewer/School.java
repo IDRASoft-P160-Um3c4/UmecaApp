@@ -40,6 +40,9 @@ public class School {
     @OneToMany(mappedBy="school", cascade={CascadeType.ALL})
     private List<Schedule> schedule;
 
+    @Column(name = "specification",length = 300)
+    private String specification;
+
     @OneToOne(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
@@ -98,6 +101,14 @@ public class School {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 
     public void validateMeeting(TerminateMeetingMessageDto t) {

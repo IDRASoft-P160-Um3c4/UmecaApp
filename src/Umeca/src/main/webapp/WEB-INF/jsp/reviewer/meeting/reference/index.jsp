@@ -18,10 +18,10 @@
             colNames: ['ID', 'Nombre','Relación','Edad','Teléfono', 'Acción'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
-                { name: 'fullName', index: 'fulName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'fullName', index: 'fullName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'relName', index: 'relName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'age', index: 'age', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'phone', index: 'phone', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'age', index: 'age', width: 160, align: "center", sorttype: 'string', search: false },
+                { name: 'phone', index: 'phone', width: 150, align: "center", search: false  },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
