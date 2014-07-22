@@ -8,7 +8,7 @@
 7|imputed.maritalStatus.id|Datos personales y entorno social|1|Estado civil|7|0|7|MaritalStatus
 8|imputed.yearsMaritalStatus|Datos personales y entorno social|1|Años de duración|8|0|7|Integer
 9|imputed.boys|Datos personales y entorno social|1|Total de hijos|10|0|8|Integer
-10|imputed.dependentBoys|Datos personales y entorno social|1|Total de dependientes económicos|10|0|8|Integer
+10|imputed.dependentBoys|Datos personales y entorno social|1|Menores de 18 años|10|0|8|Integer
 11|imputed.birthCountry.id|Datos personales y entorno social|1|País de nacimiento|11|0|9|Country
 12|imputed.birthState|Datos personales y entorno social|1|Estado de nacimiento|12|0|9|String
 13|imputed.birthMunicipality|Datos personales y entorno social|1|Municipio de nacimiento|13|0|9|String

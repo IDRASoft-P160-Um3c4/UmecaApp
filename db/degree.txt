@@ -19,5 +19,12 @@ id|name|idLevel|isObsolete
 18|Primero|5|0
 19|Segundo|5|0
 20|Tercero|5|0
-21|Trunco|6|0
-22|Terminado|6|0
+21|Cuarto|5|0
+22|Quinto|5|0
+23|Sexto|5|0
+24|Septimo|5|0
+25|Octavo|5|0
+26|Noveno|5|0
+27|Décimo|5|0
+28|Trunco|6|0
+29|Terminado|6|0

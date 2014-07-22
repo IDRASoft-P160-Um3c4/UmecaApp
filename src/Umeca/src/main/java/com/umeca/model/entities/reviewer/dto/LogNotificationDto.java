@@ -19,6 +19,13 @@ public class LogNotificationDto {
     public LogNotificationDto() {
     }
 
+    public LogNotificationDto(Long notificationId, String title, String message, Date orderDate) {
+        this.notificationId = notificationId;
+        this.title = title;
+        this.message = message;
+        this.orderDate = orderDate;
+    }
+
     public LogNotificationDto(String idFolder, String imputedName, String status, Date orderDate) {
 
         this.idFolder=idFolder;

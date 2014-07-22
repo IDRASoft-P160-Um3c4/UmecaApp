@@ -28,8 +28,15 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="tools">
+                    <div class="action-buttons bigger-125">
+                        <a href="#" ng-click="deleteMsg(n.id, '<c:url value='${urlToGo}' />');">
+                            <i class="icon-trash red" title="Eliminar notificación"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
+
             <div ng-show="{{lstNotification.length==0}}">
                 <ul class="item-list">
                     <li class="item-green clearfix">
