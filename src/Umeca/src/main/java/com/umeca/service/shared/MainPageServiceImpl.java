@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.LogNotificationReviewer;
 import com.umeca.model.entities.reviewer.dto.LogNotificationDto;
 import com.umeca.model.entities.shared.CommentRequest;
 import com.umeca.model.entities.supervisor.ActivityMonitoringPlanNotice;
@@ -14,6 +15,7 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
+import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.repository.supervisorManager.LogCommentMonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class MainPageServiceImpl implements MainPageService {
 
     @Autowired
     SharedUserService sharedUserService;
+
+    @Autowired
+    LogNotificationReviewerRepository logNotificationReviewerRepository;
 
     @Override
     public ModelAndView generatePage(String sRole, ModelAndView model, Long userId) {
@@ -125,9 +130,9 @@ public class MainPageServiceImpl implements MainPageService {
 
         List<LogNotificationDto> lstB = caseRepository.getMeetingIncompleteInfo(sharedUserService.GetLoggedUserId(), Constants.S_MEETING_INCOMPLETE_LEGAL, Constants.CASE_STATUS_MEETING, new PageRequest(0, 5));
 
-        List<LogNotificationDto> lstC = caseRepository.getMissingSourcesInfo(sharedUserService.GetLoggedUserId(), Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 5));
+        //List<LogNotificationDto> lstC = caseRepository.getMissingSourcesInfo(sharedUserService.GetLoggedUserId(), Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 5));
 
-        List<LogNotificationDto> lstD = caseRepository.getAddMissingSourcesMeetingInfo(sharedUserService.GetLoggedUserId(), Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 5));
+        //List<LogNotificationDto> lstD = caseRepository.getAddMissingSourcesMeetingInfo(sharedUserService.GetLoggedUserId(), Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 5));
 
         List<LogNotificationDto> lstActivities = new ArrayList<>();
 
@@ -136,12 +141,7 @@ public class MainPageServiceImpl implements MainPageService {
 
         Collections.sort(lstActivities,LogNotificationDto.dateSorter);
 
-        List<LogNotificationDto> lstNotif = new ArrayList<>();
-
-        lstNotif.addAll(lstC);
-        lstNotif.addAll(lstD);
-
-        Collections.sort(lstNotif,LogNotificationDto.dateSorter);
+        List<LogNotificationReviewer> lstNotif = logNotificationReviewerRepository.getReviewerNotifications(sharedUserService.GetLoggedUserId());
 
         Gson conv = new Gson();
 

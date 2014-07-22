@@ -14,29 +14,27 @@ public class LogNotificationReviewer {
     @Column(name = "id_log_notification_reviewer", nullable = false)
     private Long id;
 
-    @Column(name = "message", length = 100)
+    @Column(name = "subject", length = 100)
+    private String subject;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "message", nullable = false)
     private String message;
 
-    @Lob @Basic(fetch=FetchType.LAZY)
-    @Column(name = "comments", nullable = false)
-    private String comments;
-
-    @Column(name = "type", length = 100)
-    private String type;
-
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_sender_user", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_sender_user", nullable = false)
     private User senderUser;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_receive_user", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_receive_user", nullable = false)
     private User receiveUser;
 
     @Column(name = "timestamp", nullable = false)
     private Calendar timestamp;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_set_obsolete_user", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_set_obsolete_user", nullable = true)
     private User obsoleteUser;
 
     @Column(name = "timestamp_obsolete", nullable = true)
@@ -46,7 +44,7 @@ public class LogNotificationReviewer {
     private Boolean isObsolete;
 
     public LogNotificationReviewer() {
-        this.isObsolete=false;
+        this.isObsolete = false;
         this.timestamp = Calendar.getInstance();
     }
 
@@ -58,6 +56,14 @@ public class LogNotificationReviewer {
         this.id = id;
     }
 
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -66,36 +72,12 @@ public class LogNotificationReviewer {
         this.message = message;
     }
 
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public User getSenderUser() {
         return senderUser;
     }
 
     public void setSenderUser(User senderUser) {
         this.senderUser = senderUser;
-    }
-
-    public User getReceiveUser() {
-        return receiveUser;
-    }
-
-    public void setReceiveUser(User receiveUser) {
-        this.receiveUser = receiveUser;
     }
 
     public Calendar getTimestamp() {
@@ -128,5 +110,13 @@ public class LogNotificationReviewer {
 
     public void setIsObsolete(Boolean isObsolete) {
         this.isObsolete = isObsolete;
+    }
+
+    public User getReceiveUser() {
+        return receiveUser;
+    }
+
+    public void setReceiveUser(User receiveUser) {
+        this.receiveUser = receiveUser;
     }
 }

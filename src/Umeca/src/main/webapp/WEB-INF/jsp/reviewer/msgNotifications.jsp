@@ -14,12 +14,12 @@
                             <div class="col-xs-9">
                                 <label class="inline">
                                     <i class="glyphicon glyphicon-paperclip green"></i> &nbsp;&nbsp;
-                                <span class="lbl"><strong>{{n.title}}</strong><br/>
+                                <span class="lbl"><strong>{{n.subject}}</strong><br/>
                                     </span>
                                 </label>
                             </div>
                             <div class="col-xs-1 col-xs-offset-1">
-                                {{myFormatDate(n.orderDate)}}
+                                <%--{{myFormatDate(n.timestamp)}}--%>
                             </div>
                         </div>
 
