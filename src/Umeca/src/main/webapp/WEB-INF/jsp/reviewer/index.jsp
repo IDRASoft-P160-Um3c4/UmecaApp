@@ -19,15 +19,15 @@
             </li>
 
             <li>
-                <a data-toggle="tab" href="#notifications-tab">Notificaciones
-                    &nbsp;&nbsp;<span ng-show="{{lstNotification.length>0}}" class="badge badge-danger">{{lstNotification.length}}</span>
+                <a data-toggle="tab" ng-show="{{lstNotification.length>0}}" href="#notifications-tab">Notificaciones
+                    &nbsp;&nbsp;<span class="badge badge-danger">{{lstNotification.length}}</span>
+                </a>
+                <a data-toggle="tab" ng-show="{{lstNotification.length<=0}}" href="#notifications-tab">Notificaciones
                 </a>
             </li>
         </ul>
     </div>
 </div>
-
-
 
 <div class="widget-body">
 <div class="widget-main padding-4">

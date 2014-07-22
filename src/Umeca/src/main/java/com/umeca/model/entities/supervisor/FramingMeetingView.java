@@ -5,6 +5,7 @@ public class FramingMeetingView {
     private String idFolder;
     private Long idCase;
     private FramingPersonalDataView personalData;
+    private Boolean canTerminate;
 
     public String getIdFolder() {
         return idFolder;
@@ -28,5 +29,13 @@ public class FramingMeetingView {
 
     public void setIdCase(Long idCase) {
         this.idCase = idCase;
+    }
+
+    public Boolean getCanTerminate() {
+        return canTerminate;
+    }
+
+    public void setCanTerminate(Boolean canTerminate) {
+        this.canTerminate = canTerminate;
     }
 }

@@ -72,16 +72,10 @@ public class HearingFormatController {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{//TODO SE DEBEN AGREGAR LOS STATUS EN LOS CUALES SE PERMITE AGREGAR UN FORMATO DE AUDIENCIA
-                    /*8. Se puede generar un formato de audiencia para cualquier estado del proceso de supervisión y para los casos con entrevista verificada.
-                    (casos que se encuentren en entrevista de encuadre, que se encuentren en creación del plan de seguimiento,
-                    o que se encuentren en seguimiento al plan de supervisión), ya no se puede generar un formato de audiencia para los casos que se encuentren cerrados,
-                    o en autorización de cierre.*/
-                    //add(Constants.CASE_STATUS_FRAMING_COMPLETE);
-                    add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
-                    add(Constants.CASE_STATUS_PRE_CLOSED);
 
                 }}, JqGridFilterModel.COMPARE_IN
         );

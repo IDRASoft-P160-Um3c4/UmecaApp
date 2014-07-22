@@ -36,7 +36,7 @@
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content" ng-controller="framingMeetingController" ng-init='fm.objView=${objView}' ng-cloak>
+<div class="container body-content" id="divFM" ng-controller="framingMeetingController" ng-init='fm.objView=${objView}' ng-cloak>
     <input type="hidden" name="idFolder" value="{{fm.objView.idFolder}}">
     <br/>
 
@@ -193,13 +193,18 @@
     </div>
 
     <div class="row">
-        <div class="modal-footer">
+        <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
                     <span class="btn btn-default btn-sm" ng-click="returnIdx();">
                         Regresar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="doTerminate();">
                           Terminar
+                    </span>
+        </div>
+        <div class="modal-footer" ng-show="fm.objView.canTerminate==false">
+                    <span class="btn btn-default btn-sm" ng-click="returnIdx();">
+                        Regresar
                     </span>
         </div>
     </div>

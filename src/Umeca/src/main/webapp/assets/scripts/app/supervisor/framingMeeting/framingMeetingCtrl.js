@@ -7,12 +7,23 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http,$ro
 
         $scope.FMerrorMsgLst = "";
 
+        $scope.disableView = function () {
+
+            if ($scope.fm.objView.canTerminate==false) {
+                $("#divFM :input").attr("disabled", true);
+            }
+            else {
+                $("#divFM :input").attr("disabled", false);
+            }
+
+        };
+
         $scope.returnIdx = function () {
             window.goToUrlMvcUrl('index.html');
         };
 
         $scope.init = function () {
-
+            $scope.disableView();
         };
 
         $timeout(function () {

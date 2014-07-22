@@ -7,10 +7,7 @@ import com.umeca.service.shared.MainPageService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,10 +23,10 @@ public class LogControllerReviewer {
     SharedLogExceptionService logException;
 
 
-    @RequestMapping(value = "/reviewer/log/deleteNotification", method = RequestMethod.POST)
+    @RequestMapping(value = "/reviewer/log/deleteNotification", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseMessage deleteNotification(@RequestBody Long idNotif) {
+    ResponseMessage deleteNotification(@RequestParam Long id) {
         ResponseMessage response = new ResponseMessage();
         response.setTitle("Eliminar notificación");
         response.setHasError(true);
@@ -46,9 +43,9 @@ public class LogControllerReviewer {
                 return response;
             }
 
-            mainPageService.doDeleteNotificationReviewer(idNotif);
+            mainPageService.doDeleteNotificationReviewer(id);
 
-            response.setReturnData(idNotif);
+            response.setReturnData(id);
             response.setHasError(false);
             return response;
         } catch (Exception ex) {

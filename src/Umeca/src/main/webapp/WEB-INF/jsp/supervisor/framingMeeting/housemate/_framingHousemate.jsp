@@ -8,11 +8,15 @@
         var urlGridHousemate = $('#urlGridHousemate').attr("value");
         var idCase = $('#hidIdCase').attr("value");
 
+        var canTerminate = $('#canTerminateHousemate').attr("value");
+
         upsertHousemate = function(id) {
+            if(canTerminate==true)
             window.showUpsertWithIdCase(id, "#angJsjqGridIdHouseMate", "<c:url value='/supervisor/framingMeeting/housemate/upsert.html'/>", "#GridHouseMate",undefined, idCase);
         };
 
         deleteHousemate = function (id) {
+            if(canTerminate==true)
             window.showObsolete(id, "#angJsjqGridIdHouseMate", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridHouseMate");
         };
 
@@ -82,6 +86,7 @@
 
     <input type="hidden" id="hidIdCase" value="{{fm.objView.idCase}}"/>
     <input type="hidden" id="urlGridHousemate" value="listHousemate.json?idCase={{fm.objView.idCase}}"/>
+    <input type="hidden" id="canTerminateHousemate" value="{{fm.objView.canTerminate}}"/>
 
     <div class="col-xs-12">
         <h2> <i class="blue icon-group bigger-100">&nbsp;</i>Personas con las que vive</h2>

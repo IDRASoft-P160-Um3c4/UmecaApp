@@ -7,12 +7,15 @@
 
         var urlGridDrugs = $('#urlGridDrugs').attr("value");
         var idCase = $('#hidIdCaseDrugs').attr("value");
+        var canTerminate = $('#canTerminateDrugs').attr("value");
 
         upsertDrug = function (id) {
+            if(canTerminate==true)
             window.showUpsertWithIdCase(id, "#angJsjqGridIdDrug", "<c:url value='/supervisor/framingMeeting/drugs/upsert.html'/>", "#GridIdDrug", undefined, idCase);
         }
 
         deleteDrug = function (id) {
+            if(canTerminate==true)
             window.showObsolete(id, "#angJsjqGridIdDrug", "<c:url value='/supervisor/framingMeeting/drugs/delete.json'/>", "#GridIdDrug");
         };
 
@@ -81,6 +84,7 @@
 <div class="row element-center">
     <input type="hidden" id="hidIdCaseDrugs" value="{{fm.objView.idCase}}"/>
     <input type="hidden" id="urlGridDrugs" value="listDrug.json?idCase={{fm.objView.idCase}}"/>
+    <input type="hidden" id="canTerminateDrugs" value="fm.objView.canTerminate"/>
 
     <div class="col-xs-12">
         <h2><i class="green icon-warning-sign  bigger-100">&nbsp;</i>Consumo de sustancias</h2>
