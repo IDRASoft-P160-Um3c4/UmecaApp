@@ -45,7 +45,7 @@
 
     <title>Entrevista</title>
 </head>
-<body scroll="no" ng-app="ptlUmc">
+<body scroll="no" ng-app="ptlUmc" ng-cloak>
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
 <div class="container body-content" ng-controller="meetingController">

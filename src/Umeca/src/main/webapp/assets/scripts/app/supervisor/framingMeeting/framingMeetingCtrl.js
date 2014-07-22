@@ -1,4 +1,4 @@
-app.controller('framingMeetingController', function ($scope, $timeout, $http) {
+app.controller('framingMeetingController', function ($scope, $timeout, $http,$rootScope) {
 
         $scope.fm = {}
 
@@ -18,6 +18,14 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http) {
         $timeout(function () {
             $scope.init();
         }, 0);
+
+
+        $scope.resizeMap = function(){
+           $timeout(function () {
+                 $rootScope.$broadcast("resizeMap");
+            }, 10);
+
+        };
 
         $scope.doTerminate = function () {
             var currentTimeout = null;

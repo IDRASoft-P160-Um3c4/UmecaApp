@@ -23,6 +23,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+    </script>
     <script type="text/javascript">
 
         jQuery(function ($) {
@@ -441,7 +443,7 @@
                   ng-model="m.crimes"
                   maxlength="980" data-val="true"
                   data-val-required="Delito(s) adicionales es un campo requerido">
-            </textarea>
+            {{m.crimes}}</textarea>
         <span class="field-validation-valid" data-valmsg-for="crimes"
               data-valmsg-replace="true"></span>
     </div>
@@ -453,7 +455,7 @@
                   ng-model="m.additionalData"
                   maxlength="980" data-val="true"
                   data-val-required="Datos adicionales es un campo requerido">
-            </textarea>
+            {{m.additionalData}}</textarea>
         <span class="field-validation-valid" data-valmsg-for="additionalData"
               data-valmsg-replace="true"></span>
     </div>
@@ -758,7 +760,7 @@
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo es un campo requerido">
-                                                </textarea>
+                                                {{m.terms}}</textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
                                         </div>
@@ -772,7 +774,7 @@
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo de investigaci�n es un campo requerido">
-                                                </textarea>
+                                                {{m.terms}}</textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
                                         </div>
@@ -798,7 +800,7 @@
                                                           ng-blur="validateArrangementSel()"
                                                           maxlength="980"
                                                           ng-model="m.lstArrangementShow[$index].description"
-                                                          ng-show="m.lstArrangementShow[$index].selVal==true"></textarea>
+                                                          ng-show="m.lstArrangementShow[$index].selVal==true">{{m.lstArrangementShow[$index].description}}</textarea>
                                             </div>
                                         </div>
                                     </div>

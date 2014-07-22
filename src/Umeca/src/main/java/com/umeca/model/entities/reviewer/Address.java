@@ -33,6 +33,12 @@ public class Address implements EntityGrid{
     @JoinColumn(name="id_location", nullable = false)
     private Location location;
 
+    @Column(name="lat")
+    private String lat;
+
+    @Column(name="lng")
+    private String lng;
+
     @Column(name="address_string", nullable = false, length = 500)
     private String addressString;
 
@@ -82,6 +88,22 @@ public class Address implements EntityGrid{
 
     public void setAddressString(String addressString) {
         this.addressString = addressString;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
     @Override

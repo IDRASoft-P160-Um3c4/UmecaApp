@@ -34,7 +34,7 @@ public class AddressServiceImpl implements AddressService {
     public List<String> validateAddress(Address model) {
         List<String> msgList= new ArrayList<>();
         if(model==null){
-            msgList.add("Kos datos del domicilio son obligatorios");
+            msgList.add("Los datos del domicilio son obligatorios");
             return msgList;
         }
         if(model.getOutNum()==null){
