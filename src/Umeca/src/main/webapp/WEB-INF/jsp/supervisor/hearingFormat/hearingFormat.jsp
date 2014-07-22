@@ -443,7 +443,7 @@
                   ng-model="m.crimes"
                   maxlength="980" data-val="true"
                   data-val-required="Delito(s) adicionales es un campo requerido">
-            {{m.crimes}}</textarea>
+            </textarea>
         <span class="field-validation-valid" data-valmsg-for="crimes"
               data-valmsg-replace="true"></span>
     </div>
@@ -455,7 +455,7 @@
                   ng-model="m.additionalData"
                   maxlength="980" data-val="true"
                   data-val-required="Datos adicionales es un campo requerido">
-            {{m.additionalData}}</textarea>
+            </textarea>
         <span class="field-validation-valid" data-valmsg-for="additionalData"
               data-valmsg-replace="true"></span>
     </div>
@@ -760,7 +760,7 @@
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo es un campo requerido">
-                                                {{m.terms}}</textarea>
+                                                </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
                                         </div>
@@ -774,7 +774,7 @@
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo de investigaci�n es un campo requerido">
-                                                {{m.terms}}</textarea>
+                                                </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
                                         </div>
@@ -800,7 +800,7 @@
                                                           ng-blur="validateArrangementSel()"
                                                           maxlength="980"
                                                           ng-model="m.lstArrangementShow[$index].description"
-                                                          ng-show="m.lstArrangementShow[$index].selVal==true">{{m.lstArrangementShow[$index].description}}</textarea>
+                                                          ng-show="m.lstArrangementShow[$index].selVal==true"></textarea>
                                             </div>
                                         </div>
                                     </div>
