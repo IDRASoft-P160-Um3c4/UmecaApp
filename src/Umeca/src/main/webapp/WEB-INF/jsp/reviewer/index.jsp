@@ -12,7 +12,7 @@
         Pizarra de información (Top 10)
     </h4>
 
-    <div class="widget-toolbar no-border" ng-init='lstActivities = ${lstActivities}; lstNotification = ${caca};'>
+    <div class="widget-toolbar no-border" ng-init='lstActivities = ${lstActivities}; lstNotification = ${lstNotification};'>
         <ul class="nav nav-tabs" id="recent-tab">
             <li class="active">
                 <a data-toggle="tab" href="#tasks-tab">Actividades ${act}</a>

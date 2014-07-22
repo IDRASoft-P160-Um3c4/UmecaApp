@@ -154,7 +154,7 @@ public class MainPageServiceImpl implements MainPageService {
         Gson conv = new Gson();
 
         model.addObject("lstActivities", conv.toJson(lstActivities));
-        model.addObject("caca", conv.toJson(lstNotif));
+        model.addObject("lstNotification", conv.toJson(lstNotif));
 
         model.addObject("urlToGo", "/reviewer/log/deleteNotification.json");
 

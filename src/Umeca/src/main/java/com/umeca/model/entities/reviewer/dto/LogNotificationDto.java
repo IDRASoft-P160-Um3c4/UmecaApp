@@ -3,6 +3,7 @@ package com.umeca.model.entities.reviewer.dto;
 import com.umeca.model.shared.Constants;
 
 import javax.persistence.Transient;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -15,15 +16,16 @@ public class LogNotificationDto {
     private String title;
     private String message;
     private Date orderDate;
+    private Calendar dateNotif;
 
     public LogNotificationDto() {
     }
 
-    public LogNotificationDto(Long notificationId, String title, String message, Date orderDate) {
+    public LogNotificationDto(Long notificationId, String title, String message, Calendar dateNotif) {
         this.notificationId = notificationId;
         this.title = title;
         this.message = message;
-        this.orderDate = orderDate;
+        this.dateNotif=dateNotif;
     }
 
     public LogNotificationDto(String idFolder, String imputedName, String status, Date orderDate) {
@@ -121,5 +123,17 @@ public class LogNotificationDto {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public Calendar getDateNotif() {
+        return dateNotif;
+    }
+
+    public void setDateNotif(Calendar dateNotif) {
+        this.dateNotif = dateNotif;
+    }
+
+    public static Comparator<LogNotificationDto> getDateSorter() {
+        return dateSorter;
     }
 }
