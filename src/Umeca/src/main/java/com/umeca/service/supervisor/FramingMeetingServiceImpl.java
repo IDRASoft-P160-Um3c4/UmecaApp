@@ -179,6 +179,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         framingMeetingView.setIdFolder(existCase.getIdFolder());
         framingMeetingView.setIdCase(existCase.getId());
+        framingMeetingView.setCanTerminate(true);
+        System.out.println(existCase.getStatus().getName());
+        System.out.println(Constants.CASE_STATUS_FRAMING_MEETING_COMPLETE);
+        if(existCase.getStatus().getName().equals(Constants.CASE_STATUS_FRAMING_MEETING_COMPLETE))
+            framingMeetingView.setCanTerminate(false);
+
 
         return framingMeetingView;
     }

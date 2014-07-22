@@ -7,6 +7,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
@@ -103,22 +104,27 @@ public class FramingMeetingController {
 
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
+                final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
+
+
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
-                    add(r.join("status").get("name"));
-                    add(r.join("status").get("description"));
-                    add(r.get("idFolder"));
-                    add(r.join("meeting").join("imputed").get("name"));
-                    add(r.join("meeting").join("imputed").get("lastNameP"));
-                    add(r.join("meeting").join("imputed").get("lastNameM"));
-                    add(r.join("meeting").join("imputed").get("birthDate"));
+                    add(joinSt.get("name"));
+                    add(joinSt.get("description"));
+                    add(r.get("idMP"));
+                    add(joinM.get("name"));
+                    add(joinM.get("lastNameP"));
+                    add(joinM.get("lastNameM"));
+                    add(joinM.get("birthDate"));
                 }};
             }
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if (field.equals("idFolder"))
-                    return r.get("idFolder");
+                if (field.equals("idMP"))
+                    return r.get("idMP");
 
                 if (field.equals("statusName"))
                     return r.join("status").get("name");

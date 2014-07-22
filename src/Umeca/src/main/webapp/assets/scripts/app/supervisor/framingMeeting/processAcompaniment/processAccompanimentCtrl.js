@@ -77,6 +77,10 @@ app.controller('processAcompanimentController', function ($scope, $rootScope, $t
 
         };
 
+        $scope.init=function(){
+
+            $scope.loadProcessAccompaniment();
+        };
 
         $timeout(function () {
             $scope.init();
@@ -84,12 +88,6 @@ app.controller('processAcompanimentController', function ($scope, $rootScope, $t
 
         $scope.WaitFor = false;
         $scope.Model = {};
-
-        $rootScope.$on('listo', function (ev, model) {
-            alert(45);
-            $scope.loadProcessAccompaniment();
-            $scope.fillRelationship();
-        });
 
         $scope.submitIdCaseParam = function (formId, urlToPost, id) {
 

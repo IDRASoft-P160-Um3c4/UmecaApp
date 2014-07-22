@@ -4,24 +4,27 @@
 
 <script>
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         var urlGridReferences = $('#urlGridReferences').attr("value");
         var idCase = $('#hidIdCase').attr("value");
+        var canTerminate = $('#canTerminateRef').attr("value");
 
-        upsertReference = function(id) {
-            window.showUpsertWithIdCase(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/references/upsert.html'/>", "#GridReferences",undefined, idCase);
+        upsertReference = function (id) {
+            if (canTerminate == true)
+                window.showUpsertWithIdCase(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/references/upsert.html'/>", "#GridReferences", undefined, idCase);
         };
 
         deleteReference = function (id) {
-            window.showObsolete(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridReferences");
+            if (canTerminate == true)
+                window.showObsolete(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridReferences");
         };
 
         jQuery("#GridReferences").jqGrid({
             url: urlGridReferences,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Tel�fono','Parentesco','Direcci�n','Acci�n'],
+            colNames: ['ID', 'Nombre', 'Tel�fono', 'Parentesco', 'Direcci�n', 'Acci�n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -52,9 +55,9 @@
                     $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },
-            loadComplete : function() {
+            loadComplete: function () {
                 var table = this;
-                setTimeout(function(){
+                setTimeout(function () {
                     updatePagerIcons(table);
                     enableTooltips(table);
                 }, 0);
@@ -62,9 +65,9 @@
         });
 
         jQuery("#GridReferences").jqGrid('navGrid', '#GridPagerReferences', {
-            edit: false, editicon : 'icon-pencil blue',
-            add: true, addfunc: upsertReference, addicon : 'icon-plus-sign purple',
-            refresh: true, refreshicon : 'icon-refresh green',
+            edit: false, editicon: 'icon-pencil blue',
+            add: true, addfunc: upsertReference, addicon: 'icon-plus-sign purple',
+            refresh: true, refreshicon: 'icon-refresh green',
             del: false,
             search: false});
 
@@ -83,16 +86,18 @@
 
     <input type="hidden" id="hidIdCase" value="{{fm.objView.idCase}}"/>
     <input type="hidden" id="urlGridReferences" value="listReferences.json?idCase={{fm.objView.idCase}}"/>
+    <input type="hidden" id="canTerminateRef" value="{{fm.objView.canTerminate}}"/>
 
     <div class="col-xs-12">
-        <h2> <i class="blue icon-group bigger-100">&nbsp;</i>Referencias personales</h2>
+        <h2><i class="blue icon-group bigger-100">&nbsp;</i>Referencias personales</h2>
         <br/>
+
         <div id="angJsjqGridIdReferences" ng-controller="modalDlgController">
             <table id="GridReferences" class="element-center" style="margin: auto"></table>
             <div id="GridPagerReferences"></div>
             <div class="blocker" ng-show="working">
                 <div>
-                    Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
+                    Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
                 </div>
             </div>
         </div>
