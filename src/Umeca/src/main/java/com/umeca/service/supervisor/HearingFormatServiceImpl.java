@@ -109,6 +109,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             address.setStreet(viewFormat.getStreet());
             address.setOutNum(viewFormat.getOutNum());
             address.setInnNum(viewFormat.getInnNum());
+            address.setLat(viewFormat.getLat());
+            address.setLng(viewFormat.getLng());
             address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
             address.setAddressString(address.toString());
 

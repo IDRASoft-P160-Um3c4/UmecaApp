@@ -2,10 +2,9 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
-<script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
-<script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
-<script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
-<script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+<%--<script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>--%>
 
 <div class="row" ng-controller="processAcompanimentController">
 <input type="hidden" id="hidIdCaseProc" value="{{fm.objView.idCase}}"/>
@@ -218,7 +217,7 @@
 
                 <div class="row">
 
-                    <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
+                    <%@ include file="/WEB-INF/jsp/address/indexAux.jsp" %>
 
                 </div>
 

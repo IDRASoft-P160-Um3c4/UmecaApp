@@ -13,6 +13,7 @@ import com.umeca.model.shared.Constants;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
+import com.umeca.service.reviewer.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -368,22 +369,21 @@ public class MeetingController {
        return meetingService.upsertLeaveCountry(meeting.getCaseDetention().getId(),meeting.getLeaveCountry());
     }
 
+    @Autowired
+    ScheduleService scheduleService;
     @RequestMapping(value = "/reviewer/meeting/school/doUpsert", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage upsertSchool(@ModelAttribute Meeting meeting,@RequestParam String sch){
-                return meetingService.doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(),sch);
+        try{
+           ResponseMessage result = meetingService.doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(),sch);
+                return  result;
+         }catch (Exception e){
+            return  new ResponseMessage(true, "Ha ocurrido un error al guardar la historia escolar.");
+        }
+
     }
 
     @RequestMapping(value = "/reviewer/meeting/terminateMeeting", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting,@RequestParam String sch, String activities){
-        ResponseMessage aux =  meetingService.upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(), activities);
-        if (aux.isHasError())
-            return aux;
-        aux = meetingService.doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(), sch);
-        if (aux.isHasError())
-            return aux;
-        aux= meetingService.upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
-        if(aux.isHasError())
-            return aux;
         return meetingService.doTerminateMeeting(meeting,sch,activities);
     }
 

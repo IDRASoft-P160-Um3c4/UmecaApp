@@ -23,6 +23,13 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/personalData/personalDataCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/address/addressCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/drugs/drugsCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+    </script>
+
 
     <title>Entrevista de encuadre</title>
 </head>
@@ -36,11 +43,11 @@
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
 
 
-    <div class="row">
+    <div class="row" >
         <div class="col-xs-4">
 
             <h3 class="header smaller lighter blue">
-                <small>Número de carpeta <br/> de investigación:</small>
+                <small>Nï¿½mero de carpeta <br/> de investigaciï¿½n:</small>
                 &nbsp;&nbsp;&nbsp;&nbsp;{{fm.objView.idFolder}}
             </h3>
         </div>
@@ -64,7 +71,7 @@
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs" id="tabFramingMeeting">
 
-                    <li class="active">
+                    <li  class="active">
                         <a data-toggle="tab" href="#personalData">
                             <i class="purple glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
                             Datos personales y entorno social
@@ -79,17 +86,19 @@
                     </li>
 
                     <li>
-                        <a data-toggle="tab" href="#accompaniment">
+                        <a data-toggle="tab" href="#accompaniment"  ng-click="resizeMap()">
                             <i class="red glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
-                            Persona que acompañara durante <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Persona que acompaï¿½ara durante <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;el proceso
                         </a>
                     </li>
 
-                    <li>
-                        <a data-toggle="tab" href="#houseMate">
+                    <li >
+                        <a data-toggle="tab" href="#houseMate" >
+                            <div class="row">
                             <i class="blue icon-group bigger-200"></i>
                             Personas que viven con el imputado
+                            </div>
                         </a>
                     </li>
 
@@ -115,7 +124,7 @@
                     <li>
                         <a data-toggle="tab" href="#environmentAnalysis">
                             <i class="blue icon-eye-open bigger-200"></i>
-                            Análisis de entorno
+                            Anï¿½lisis de entorno
                         </a>
                     </li>
                     <li>
@@ -135,7 +144,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="personalData" class="tab-pane in active">
+                    <div id="personalData" class="tab-pane  in active">
                         <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/personalData/_personalData.jsp" %>
                     </div>
 

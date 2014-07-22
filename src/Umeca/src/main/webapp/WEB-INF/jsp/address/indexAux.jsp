@@ -2,7 +2,7 @@
 
 
 <style>
-    #map {
+    #mapAux {
 height:350px;
 width:600px;
 }
@@ -26,11 +26,11 @@ margin-top: 0;
    <br/>
     <div class="row element-center">
         <div class="col-xs-10 col-xs-offset-1 element-left">
-            <span class="label label-lg label-info arrowed-right">Da click en el mapa para guardar el punto de la direcciÃ³n</span>
+            <span class="label label-lg label-info arrowed-right">Da click en el mapa para guardar el punto de la dirección</span>
         </div>
         <div class="col-xs-10 col-xs-offset-1">
-            <map id="map"></map>
-            </div>
+            <map id="mapAux"></map>
+        </div>
     </div>
     <br/>
     <div class="row">

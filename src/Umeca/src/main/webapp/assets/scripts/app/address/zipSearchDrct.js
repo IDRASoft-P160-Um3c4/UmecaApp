@@ -77,11 +77,17 @@ app.directive('zipSearch', function ($http, $timeout) {
                                             }
                                         });
                                 });
+
                             scope.listLocation = data.data;
                             scope.location =scope.listLocation[0];
                             scope.locationId = scope.location.id;
                     });
+
             }, 200);
+
+            scope.refreshMap();
+
+
         });
     };
 });

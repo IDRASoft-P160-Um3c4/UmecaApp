@@ -16,6 +16,8 @@ public class AddressDto {
     private String outNum;
     private String innNum;
     private String zipCode;
+    private String lat;
+    private String lng;
     private Long idCase;
     private LocationDto location;
 
@@ -24,6 +26,8 @@ public class AddressDto {
         this.street = address.getStreet();
         this.outNum = address.getOutNum();
         this.innNum = address.getInnNum();
+        this.lat = address.getLat();
+        this.lng = address.getLng();
         if(address.getLocation()!=null){
             this.zipCode = address.getLocation().getZipCode();
         }
@@ -83,5 +87,21 @@ public class AddressDto {
 
     public void setLocation(LocationDto location) {
         this.location = location;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 }
