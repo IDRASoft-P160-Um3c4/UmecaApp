@@ -5,6 +5,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
@@ -32,61 +33,82 @@ public class MeetingController {
     private MeetingService meetingService;
 
     @RequestMapping(value = "/reviewer/meeting/index", method = RequestMethod.GET)
-       public String index(){
+    public String index() {
         return "/reviewer/meeting/index";
     }
 
     @Autowired
     SharedUserService userService;
     @Autowired
-    private  GenericJqGridPageSortFilter gridFilter;
-               ////////////////////////////////Grids--------------------
+    private GenericJqGridPageSortFilter gridFilter;
+
     @RequestMapping(value = "/reviewer/meeting/list", method = RequestMethod.POST)
-    public @ResponseBody JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
+    public
+    @ResponseBody
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
         Long userId = userService.GetLoggedUserId();
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
+
         extraFilter = new JqGridRulesModel("statusCode",
-                new ArrayList<String>(){{add(Constants.S_MEETING_INCOMPLETE);add(Constants.S_MEETING_INCOMPLETE_LEGAL);}},JqGridFilterModel.COMPARE_IN);
+                new ArrayList<String>() {{
+                    add(Constants.S_MEETING_INCOMPLETE);
+                    add(Constants.S_MEETING_INCOMPLETE_LEGAL);
+                }}
+                , JqGridFilterModel.COMPARE_IN
+        );
+
         opts.extraFilters.add(extraFilter);
+
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                final javax.persistence.criteria.Join<Meeting,Imputed> joinMee = r.join("meeting");
-                final javax.persistence.criteria.Join<Meeting,Imputed> joinMeSt = joinMee.join("status");
-                final javax.persistence.criteria.Join<Meeting,Case> joinCd = joinMee.join("caseDetention");
-                return new ArrayList<Selection<?>>(){{
-                    add(joinCd.get("id"));
-                    add(joinMeSt.get("name").alias("statusCode"));
-                    add(joinCd.get("idFolder"));
-                    add(r.get("name"));
-                    add(r.get("lastNameP"));
-                    add(r.get("lastNameM"));
-                    add(r.get("birthDate"));
-                    add(r.get("gender"));
-                    add(joinMeSt.get("description"));
-                    add(joinMee.join("reviewer").get("id").alias("reviewerId"));
+
+                final javax.persistence.criteria.Join<Case, Meeting> joinM = r.join("meeting");
+                final javax.persistence.criteria.Join<Meeting, StatusMeeting> joinSM = joinM.join("status");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinImp = joinM.join("imputed");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinUsr = joinM.join("reviewer");
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(joinSM.get("name").alias("statusCode"));
+                    add(r.get("idFolder"));
+                    add(joinImp.get("name"));
+                    add(joinImp.get("lastNameP"));
+                    add(joinImp.get("lastNameM"));
+                    add(joinImp.get("birthDate"));
+                    add(joinImp.get("gender"));
+                    add(joinSM.get("description"));
+                    add(joinUsr.get("id").alias("reviewerId"));
                 }};
             }
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("statusCode"))
+                if (field.equals("statusCode"))
                     return r.join("meeting").join("status").get("name");
-                if(field.equals("reviewerId"))
+                else if (field.equals("reviewerId"))
                     return r.join("meeting").join("reviewer").get("id");
-                return null;
+                if (field.equals("idFolder"))
+                return r.get("idFolder");
+                else
+                if (field.equals("fullname"))
+                    return r.join("meeting").join("imputed").get("name");
+                else
+                    return null;
             }
-        }, Imputed.class, MeetingView.class);
+        }, Case.class, MeetingView.class);
 
         return result;
 
     }
 
     @RequestMapping(value = "/reviewer/meeting/listAddress", method = RequestMethod.POST)
-    public @ResponseBody JqGridResultModel listAddress(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase){
+    public
+    @ResponseBody
+    JqGridResultModel listAddress(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase) {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
@@ -94,7 +116,7 @@ public class MeetingController {
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                return new ArrayList<Selection<?>>(){{
+                return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.join("address").get("addressString").alias("addressString"));
                     add(r.get("timeLive"));
@@ -105,11 +127,11 @@ public class MeetingController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("idCase")){
+                if (field.equals("idCase")) {
                     return r.join("meeting").join("caseDetention").get("id");
-                }else if(field.equals("registerTypeString")){
+                } else if (field.equals("registerTypeString")) {
                     return r.join("registerType").get("name");
-                }else if(field.equals("addressString")){
+                } else if (field.equals("addressString")) {
                     return r.join("address").get("addressString");
                 }
                 return null;
@@ -121,17 +143,19 @@ public class MeetingController {
     }
 
 
-  @RequestMapping(value = "/reviewer/meeting/listSocialNetwork", method = RequestMethod.POST)
-    public @ResponseBody JqGridResultModel listSocialNetwork(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase){
+    @RequestMapping(value = "/reviewer/meeting/listSocialNetwork", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listSocialNetwork(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase) {
 
-      opts.extraFilters = new ArrayList<>();
-      JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
-      opts.extraFilters.add(extraFilter);
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                return new ArrayList<Selection<?>>(){{
+                return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.get("name"));
                     add(r.join("relationship").get("name").alias("relName"));
@@ -142,9 +166,9 @@ public class MeetingController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("idCase")){
+                if (field.equals("idCase")) {
                     return r.join("socialNetwork").join("meeting").join("caseDetention").get("id");
-                }else if(field.equals("relName")){
+                } else if (field.equals("relName")) {
                     return r.join("relationship").get("name");
                 }
 
@@ -156,17 +180,19 @@ public class MeetingController {
 
     }
 
-  @RequestMapping(value = {"/reviewer/meeting/listReference"}, method = RequestMethod.POST)
-    public @ResponseBody JqGridResultModel listReference(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase){
+    @RequestMapping(value = {"/reviewer/meeting/listReference"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listReference(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase) {
 
-      opts.extraFilters = new ArrayList<>();
-      JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
-      opts.extraFilters.add(extraFilter);
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                return new ArrayList<Selection<?>>(){{
+                return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.get("fullName"));
                     add(r.join("relationship").get("name").alias("relName"));
@@ -177,9 +203,9 @@ public class MeetingController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("idCase")){
+                if (field.equals("idCase")) {
                     return r.join("meeting").join("caseDetention").get("id");
-                }else if(field.equals("relName")){
+                } else if (field.equals("relName")) {
                     return r.join("relationship").get("name");
                 }
 
@@ -192,16 +218,18 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/reviewer/meeting/listDrug", method = RequestMethod.POST)
-    public @ResponseBody JqGridResultModel listDrug(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase){
+    public
+    @ResponseBody
+    JqGridResultModel listDrug(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase) {
 
-      opts.extraFilters = new ArrayList<>();
-      JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
-      opts.extraFilters.add(extraFilter);
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                return new ArrayList<Selection<?>>(){{
+                return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.join("periodicity").get("name").alias("perName"));
                     add(r.get("lastUse"));
@@ -212,30 +240,33 @@ public class MeetingController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("idCase")){
+                if (field.equals("idCase")) {
                     return r.join("meeting").join("caseDetention").get("id");
-                }else if(field.equals("drugName")){
+                } else if (field.equals("drugName")) {
                     return r.join("drugType").get("name");
                 }
-                    return null;
-                }
+                return null;
+            }
         }, Drug.class, Drug.class);
 
         return result;
 
     }
-    @RequestMapping(value = "/reviewer/meeting/listJob", method = RequestMethod.POST)
-    public @ResponseBody JqGridResultModel listJob(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase){
 
-      opts.extraFilters = new ArrayList<>();
-      JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
-      opts.extraFilters.add(extraFilter);
+    @RequestMapping(value = "/reviewer/meeting/listJob", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listJob(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                final javax.persistence.criteria.Join<Meeting,Case> joinRT = r.join("registerType");
-                return new ArrayList<Selection<?>>(){{
+                final javax.persistence.criteria.Join<Meeting, Case> joinRT = r.join("registerType");
+                return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.get("company"));
                     add(r.get("post"));
@@ -248,15 +279,15 @@ public class MeetingController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("idCase")){
+                if (field.equals("idCase")) {
                     return r.join("meeting").join("caseDetention").get("id");
-                }else if(field.equals("registerTypeId")){
+                } else if (field.equals("registerTypeId")) {
                     return r.join("registerType").get("id");
-                }else if(field.equals("registerTypeString")){
+                } else if (field.equals("registerTypeString")) {
                     return r.join("registerType").get("name");
                 }
-                    return null;
-                }
+                return null;
+            }
         }, Job.class, Job.class);
 
         return result;
@@ -264,140 +295,177 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/reviewer/meeting/newMeeting", method = RequestMethod.POST)
-    public String newMeeting(){
-            return "/reviewer/meeting/newMeeting";
+    public String newMeeting() {
+        return "/reviewer/meeting/newMeeting";
     }
 
     @RequestMapping(value = "/reviewer/meeting/doNewMeeting", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed){
+    public
+    @ResponseBody
+    ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed) {
         ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
-        if(validateCreate!=null)
+        if (validateCreate != null)
             return validateCreate;
         Long idCase = meetingService.createMeeting(imputed);
-        ResponseMessage result = new ResponseMessage(false,"Se ha guardado exitosamente");
-        result.setUrlToGo("meeting.html?id="+ idCase);
+        ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
+        result.setUrlToGo("meeting.html?id=" + idCase);
         return result;
     }
 
     @RequestMapping(value = "/reviewer/meeting/meeting", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView meeting(@RequestParam(required = true) Long id){
+    public
+    @ResponseBody
+    ModelAndView meeting(@RequestParam(required = true) Long id) {
         return meetingService.showMeeting(id);
     }
 
     @RequestMapping(value = "/reviewer/meeting/legal/index", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView legal(@RequestParam(required = true) Long id){
+    public
+    @ResponseBody
+    ModelAndView legal(@RequestParam(required = true) Long id) {
         return meetingService.showLegalProcess(id);
     }
 
     @RequestMapping(value = "/reviewer/meeting/address/upsert", method = RequestMethod.POST)
-    public ModelAndView upsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase){
-        return meetingService.upsertAddress(id,idCase);
+    public ModelAndView upsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
+        return meetingService.upsertAddress(id, idCase);
     }
 
 
     @RequestMapping(value = "/reviewer/meeting/address/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsertAddress(@ModelAttribute ImputedHome imputedHome, @RequestParam Long idCase,@RequestParam(required = false) String sch){
+    public
+    @ResponseBody
+    ResponseMessage doUpsertAddress(@ModelAttribute ImputedHome imputedHome, @RequestParam Long idCase, @RequestParam(required = false) String sch) {
         return meetingService.doUpsertAddress(imputedHome, idCase, sch);
     }
 
 
     @RequestMapping(value = "/reviewer/meeting/address/delete", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doDeleteAddress(@RequestParam Long id){
+    public
+    @ResponseBody
+    ResponseMessage doDeleteAddress(@RequestParam Long id) {
         return meetingService.deleteAddress(id);
     }
 
     @RequestMapping(value = "/reviewer/meeting/socialNetwork/upsert", method = RequestMethod.POST)
-    public ModelAndView upsertSocialNetwork(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase){
+    public ModelAndView upsertSocialNetwork(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
         return meetingService.upsertSocialNetwork(id, idCase);
     }
 
     @RequestMapping(value = "/reviewer/meeting/socialNetwork/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsertSocialNewtork(@ModelAttribute PersonSocialNetwork person, @RequestParam Long idCase){
+    public
+    @ResponseBody
+    ResponseMessage doUpsertSocialNewtork(@ModelAttribute PersonSocialNetwork person, @RequestParam Long idCase) {
         return meetingService.doUpsertSocialNetwork(person, idCase);
     }
 
     @RequestMapping(value = "/reviewer/meeting/socialNetwork/delete", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doDeleteSocialNewtork(@RequestParam Long id){
+    public
+    @ResponseBody
+    ResponseMessage doDeleteSocialNewtork(@RequestParam Long id) {
         return meetingService.deleteSocialNetwork(id);
     }
 
     @RequestMapping(value = "/reviewer/meeting/drug/upsert", method = RequestMethod.POST)
-    public ModelAndView upsertDrug(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase){
+    public ModelAndView upsertDrug(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
 
         return meetingService.upsertDrug(id, idCase);
     }
 
     @RequestMapping(value = "/reviewer/meeting/drug/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doDrugNewtork(@ModelAttribute Drug drug, @RequestParam Long idCase){
+    public
+    @ResponseBody
+    ResponseMessage doDrugNewtork(@ModelAttribute Drug drug, @RequestParam Long idCase) {
         return meetingService.doUpsertDrug(drug, idCase);
     }
 
     @RequestMapping(value = "/reviewer/meeting/drug/delete", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doDeleteDrug(@RequestParam Long id){
+    public
+    @ResponseBody
+    ResponseMessage doDeleteDrug(@RequestParam Long id) {
         return meetingService.deleteDrug(id);
     }
 
     @RequestMapping(value = "/reviewer/meeting/job/upsert", method = RequestMethod.POST)
-    public ModelAndView upsertJob(@RequestParam(required = false) Long id,@RequestParam Long idCase){
-        return meetingService.upsertJob(id,idCase);
+    public ModelAndView upsertJob(@RequestParam(required = false) Long id, @RequestParam Long idCase) {
+        return meetingService.upsertJob(id, idCase);
     }
 
     @RequestMapping(value = "/reviewer/meeting/job/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsertJob(@ModelAttribute Job job, @RequestParam Long idCase,@RequestParam(required = false) String sch){
+    public
+    @ResponseBody
+    ResponseMessage doUpsertJob(@ModelAttribute Job job, @RequestParam Long idCase, @RequestParam(required = false) String sch) {
         return meetingService.doUpsertJob(job, idCase, sch);
     }
 
     @RequestMapping(value = "/reviewer/meeting/job/delete", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doDeleteJob(@RequestParam Long id){
+    public
+    @ResponseBody
+    ResponseMessage doDeleteJob(@RequestParam Long id) {
         return meetingService.deleteJob(id);
     }
 
     @RequestMapping(value = "/reviewer/meeting/reference/upsert", method = RequestMethod.POST)
-    public ModelAndView upsertReference(@RequestParam(required = false) Long id,@RequestParam Long idCase){
+    public ModelAndView upsertReference(@RequestParam(required = false) Long id, @RequestParam Long idCase) {
         return meetingService.upsertReference(id, idCase);
     }
 
     @RequestMapping(value = "/reviewer/meeting/reference/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsertReference(@ModelAttribute Reference reference, @RequestParam Long idCase){
+    public
+    @ResponseBody
+    ResponseMessage doUpsertReference(@ModelAttribute Reference reference, @RequestParam Long idCase) {
         return meetingService.doUpsertReference(reference, idCase);
     }
 
     @RequestMapping(value = "/reviewer/meeting/reference/delete", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doDeleteReference(@RequestParam Long id){
+    public
+    @ResponseBody
+    ResponseMessage doDeleteReference(@RequestParam Long id) {
         return meetingService.deleteReference(id);
     }
 
     @RequestMapping(value = "/reviewer/meeting/upsertPersonalData", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage upsertPersonalData(@ModelAttribute Meeting meeting,String activities){
-        return meetingService.upsertPersonalData(meeting.getCaseDetention().getId(),meeting.getImputed(), meeting.getSocialEnvironment(), activities);
+    public
+    @ResponseBody
+    ResponseMessage upsertPersonalData(@ModelAttribute Meeting meeting, String activities) {
+        return meetingService.upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(), activities);
     }
 
     @RequestMapping(value = "/reviewer/meeting/upsertLeaveCountry", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage upsertLeaveCountry(@ModelAttribute Meeting meeting){
-       return meetingService.upsertLeaveCountry(meeting.getCaseDetention().getId(),meeting.getLeaveCountry());
+    public
+    @ResponseBody
+    ResponseMessage upsertLeaveCountry(@ModelAttribute Meeting meeting) {
+        return meetingService.upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
     }
 
     @Autowired
     ScheduleService scheduleService;
+
     @RequestMapping(value = "/reviewer/meeting/school/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage upsertSchool(@ModelAttribute Meeting meeting,@RequestParam String sch){
-        try{
-           ResponseMessage result = meetingService.doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(),sch);
-                return  result;
-         }catch (Exception e){
-            return  new ResponseMessage(true, "Ha ocurrido un error al guardar la historia escolar.");
+    public
+    @ResponseBody
+    ResponseMessage upsertSchool(@ModelAttribute Meeting meeting, @RequestParam String sch) {
+        try {
+            ResponseMessage result = meetingService.doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(), sch);
+            return result;
+        } catch (Exception e) {
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la historia escolar.");
         }
 
     }
 
     @RequestMapping(value = "/reviewer/meeting/terminateMeeting", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting,@RequestParam String sch, String activities){
-        return meetingService.doTerminateMeeting(meeting,sch,activities);
+    public
+    @ResponseBody
+    ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting, @RequestParam String sch, String activities) {
+        return meetingService.doTerminateMeeting(meeting, sch, activities);
     }
 
     @RequestMapping(value = "/reviewer/meeting/saveProceedingLegal", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage saveProceedingLegal(@ModelAttribute CriminalProceedingView cpv){
-            return meetingService.saveProceedingLegal(cpv);
+    public
+    @ResponseBody
+    ResponseMessage saveProceedingLegal(@ModelAttribute CriminalProceedingView cpv) {
+        return meetingService.saveProceedingLegal(cpv);
     }
 
 
