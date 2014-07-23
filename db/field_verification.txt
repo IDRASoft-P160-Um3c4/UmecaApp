@@ -54,8 +54,7 @@
 53|school.phone|Historia escolar|6|Teléfono|2|0|34|String
 54|school.address|Historia escolar|6|Dirección|3|0|35|String
 55|school.degree.id|Historia escolar|6|Nivel escolar|4|0|36|Degree
-56|school.schedule|Historia escolar|6|Disponibilidad|5|0|38|Schedule
-73|school.specification|Historia escolar|6|Especificación|87|0|36|String
+56|school.schedule|Historia escolar|6|Disponibilidad|5|0|37|Schedule
 57|drugs.drugType.id|Sustancias|7|Tipo de sustancia|1|0|38|DrugType
 58|drugs.specificationType|Sustancias|7|Especificación de la sustancia|2|0|38|String
 59|drugs.periodicity.id|Sustancias|7|Periodicidad|3|0|39|Periodicity
@@ -72,3 +71,4 @@
 70|leaveCountry.familyAnotherCountry.id|Facilidad de abandonar el país|8|El imputado cuenta con familiares y/o amigos cercanos en otro país|8|0|44|Election
 71|leaveCountry.communicationFamily.id|Facilidad de abandonar el país|8|Mantiene comunicación con ellos|9|0|44|Election
 72|leaveCountry.media|Facilidad de abandonar el país|8|Medio de comunicación|10|0|44|String
+73|school.specification|Historia escolar|6|Especificación|6|0|36|String

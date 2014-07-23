@@ -704,7 +704,7 @@ public class VerificationServiceImpl implements VerificationService {
             if (!sv.getVerification().getCaseDetention().getId().equals(idCase)) {
                 return new ResponseMessage(true, "Esta fuente no pertenece al caso");
             }
-            if (sv.getDateAuthorized() != null) {
+            if (sv.getDateComplete() != null) {
                 return new ResponseMessage(true, "Esta entrevista ya fue terminada anteriormente");
             }
             sv.setDateComplete(new Date());
