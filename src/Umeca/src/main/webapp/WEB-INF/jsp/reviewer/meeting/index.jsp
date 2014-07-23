@@ -51,7 +51,7 @@
                 url: '<c:url value='/reviewer/meeting/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID','Carpeta de Investigaci&acute;n','Nombre completo','Fecha de nacimiento','G&eacute;nero','Estatus','Id estatus','Status case','Acci&oacute;n'],
+                colNames: ['ID','Carpeta de Investigaci&oacute;n','Nombre completo','Fecha de nacimiento','G&eacute;nero','Estatus','Id estatus','Status case','Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -115,7 +115,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevistas de evaluaci�n de riesgos procesales</h2>
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevistas de evaluaci&oacute;n de riesgos procesales</h2>
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>
         <div id="GridPager"></div>

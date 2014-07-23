@@ -17,10 +17,10 @@ public class ForFramingMeetingGrid implements EntityGrid {
     private String fullName;
     private Date brthDate;
     private String brthDateTxt;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    //    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
-
-    public ForFramingMeetingGrid(Long id, String codeStatus, String descStatus,String idMP, String name, String lastNameP, String lastNameM, Date brthDate) {
+    public ForFramingMeetingGrid(Long id, String codeStatus, String descStatus, String idMP, String name, String lastNameP, String lastNameM, Date brthDate) {
         this.id = id;
         this.codeStatus = codeStatus;
         this.descStatus = descStatus;
@@ -52,20 +52,20 @@ public class ForFramingMeetingGrid implements EntityGrid {
                 strBld.append(0);
                 strBld.append(mnth);
                 arrDt[1] = strBld.toString();
-            }else
-                arrDt[1]=Integer.toString(mnth);
+            } else
+                arrDt[1] = Integer.toString(mnth);
 
-            strBld= new StringBuilder();
+            strBld = new StringBuilder();
             strBld.append(arrDt[0]);
             strBld.append("/");
             strBld.append(arrDt[1]);
             strBld.append("/");
             strBld.append(arrDt[2]);
 
-            }catch(Exception e){
-                System.out.println("FramingMeeting_Constructor: Error al parsear la fecha de nacimiento!!!");
-            }
+        } catch (Exception e) {
+            System.out.println("FramingMeeting_Constructor: Error al parsear la fecha de nacimiento!!!");
         }
+    }
 
     public Long getId() {
         return id;

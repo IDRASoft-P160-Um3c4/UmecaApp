@@ -6,6 +6,7 @@ import com.umeca.model.entities.reviewer.Case;
 import javax.persistence.*;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ public class HearingFormat{
     private Long id;
 
     @Column(name = "register_timestamp", nullable = false)
-    private Timestamp registerTimestamp;
+    private Calendar registerTime;
 
     @Column(name = "id_folder", nullable = false)
     private String idFolder;
@@ -99,12 +100,12 @@ public class HearingFormat{
         this.id = id;
     }
 
-    public Timestamp getRegisterTimestamp() {
-        return registerTimestamp;
+    public Calendar getRegisterTime() {
+        return registerTime;
     }
 
-    public void setRegisterTimestamp(Timestamp registerTimestamp) {
-        this.registerTimestamp = registerTimestamp;
+    public void setRegisterTime(Calendar registerTime) {
+        this.registerTime = registerTime;
     }
 
     public String getIdFolder() {

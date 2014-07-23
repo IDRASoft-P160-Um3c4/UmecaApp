@@ -148,6 +148,7 @@ public class HearingFormatController {
                     add(joinSpecs.get("arrangementType"));
                     add(joinSpecs.get("extension"));
                     add(joinSpecs.get("linkageProcess"));
+                    add(r.get("registerTime"));
 
                 }};
             }

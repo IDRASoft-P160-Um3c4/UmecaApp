@@ -227,7 +227,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 mm = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
                 yyyy = date.getFullYear();
 
-                strDt = dd + "/" + mm + "/" + yyyy;
+                strDt = yyyy + "/" + mm + "/" + dd;
             }
 
             return strDt;
@@ -381,7 +381,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         $scope.calcAge = function () {
 
-            //dd/mm/yyyy o en milisegundos
+            //yyyy/mm/dd o en milisegundos
             if ($scope.m.impBthDay != null && $scope.m.impBthDay != "") {
 
                 var arrBth = [];
@@ -390,7 +390,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 var dtBthObj;
 
                 if (arrBth.length > 0)
-                    dtBthObj = new Date(parseInt(arrBth[2]), parseInt(arrBth[1]) - 1, parseInt(arrBth[0]));
+                    dtBthObj = new Date(parseInt(arrBth[0]), parseInt(arrBth[1]) - 1,parseInt(arrBth[2]));
                 else
                     dtBthObj = new Date($scope.m.impBthDay);
 

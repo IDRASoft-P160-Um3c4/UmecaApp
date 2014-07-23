@@ -20,6 +20,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,17 +64,18 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         HearingFormat hearingFormat = new HearingFormat();
 
-        hearingFormat.setRegisterTimestamp(new Timestamp(new Date().getTime()));
+        hearingFormat.setRegisterTime(Calendar.getInstance());
         hearingFormat.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
 
         Boolean hasFirstFH = false;
         HearingFormat lastHF = null;
         Case existCase = caseRepository.findOne(viewFormat.getIdCase());
 
-        if (existCase.getHearingFormats().size() > 0) {
+        List<HearingFormat> existFormats = hearingFormatRepository.findLastHearingFormatByCaseId(existCase.getId(), new PageRequest(0, 1));
+
+        if (existFormats != null && existFormats.size() > 0) {
             hasFirstFH = true;
-            Collections.sort(existCase.getHearingFormats(), HearingFormat.hearingFormatComparator);
-            lastHF = existCase.getHearingFormats().get(0);
+            lastHF = existFormats.get(0);
         }
 
         if (hasFirstFH) {
@@ -176,7 +178,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             hearingFormat.setContacts(lstNewContactData);
 
-        }else{
+        } else {
             hearingFormat.setConfirmComment(viewFormat.getConfirmComment());
         }
 
@@ -196,12 +198,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         Case existCase = caseRepository.findOne(idCase);
         Integer meetType = existCase.getMeeting().getMeetingType();
 
-        if (existCase.getHearingFormats() != null && existCase.getHearingFormats().size() > 0) {//busco si ya existe algun formato
+        List<HearingFormat> existFormats = hearingFormatRepository.findLastHearingFormatByCaseId(idCase, new PageRequest(0, 1));
 
-            if (existCase.getHearingFormats().size() > 1)//si hay mas de uno
-                Collections.sort(existCase.getHearingFormats(), HearingFormat.hearingFormatComparator); //los ordeno por su id
+        if (existFormats != null && existFormats.size() > 0) {//busco si ya existe algun formato
 
-            hearingFormatView = this.fillExistHearingFormatForView(existCase.getHearingFormats().get(0).getId());
+            hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId());
 
             hearingFormatView.setCanSave(true);
             hearingFormatView.setCanEdit(true);

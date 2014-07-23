@@ -16,7 +16,14 @@ app.controller('leavingController', function($scope, $timeout,$q) {
             return;
 
         if($scope.l.countryId === undefined){
-            $scope.l.country = $scope.listCountry[0];
+
+            for (var i = 0; i < $scope.listCountry.length; i++) {
+                if ($scope.listCountry[i].id == 1) {//para seleccionar Mexico por default
+                    $scope.l.country = $scope.listCountry[i];
+                    break;
+                }
+            }
+
             $scope.l.countryId = $scope.l.country.id;
         }
         else{
