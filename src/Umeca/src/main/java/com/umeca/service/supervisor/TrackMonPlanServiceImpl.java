@@ -10,14 +10,14 @@ import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.entities.supervisorManager.ChangeSupervisor;
 import com.umeca.model.entities.supervisorManager.LogChangeSupervisor;
-import com.umeca.model.entities.supervisorManager.LogCommentMonitoringPlan;
+import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogChangeSupervisorRepository;
-import com.umeca.repository.supervisorManager.LogCommentMonitoringPlanRepository;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,7 +111,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
     }
 
     @Autowired
-    LogCommentMonitoringPlanRepository logCommentMonPlanRepository;
+    LogCommentRepository logCommentRepository;
     @Autowired
     MonitoringPlanRepository monitoringPlanRepository;
     @Autowired
@@ -120,13 +120,14 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
     @Override
     @Transactional
     public void saveAuthRejectMonPlan(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String statusAuth, String statusReject, String type) {
-        LogCommentMonitoringPlan commentModel = new LogCommentMonitoringPlan();
+        LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
         //String statusAction = (model.getAuthorized() == 1 ? MonitoringConstants.STATUS_AUTHORIZED : MonitoringConstants.STATUS_REJECTED_AUTHORIZED);
         String statusAction = (model.getAuthorized() == 1 ? statusAuth : statusReject);
         commentModel.setComments(model.getComments());
         commentModel.setAction(statusAction);
         commentModel.setMonitoringPlan(monPlan);
+        commentModel.setCaseDetention(monPlan.getCaseDetention());
         commentModel.setSenderUser(user);
         commentModel.setTimestamp(now);
         //commentModel.setType(MonitoringConstants.TYPE_COMMENT_AUTHORIZED);
@@ -139,7 +140,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
-        logCommentMonPlanRepository.save(commentModel);
+        logCommentRepository.save(commentModel);
         monitoringPlanRepository.save(monPlan);
     }
 
@@ -173,13 +174,14 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
     @Override
     @Transactional
     public void saveAuthRejectAccomplishment(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String type) {
-        LogCommentMonitoringPlan commentModel = new LogCommentMonitoringPlan();
+        LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
         commentModel.setComments(model.getComments());
 
         String sAction = (model.getAuthorized() == 1 ? MonitoringConstants.LOG_ACCOMPLISHMENT_AUTHORIZED : MonitoringConstants.LOG_ACCOMPLISHMENT_REJECTED);
         commentModel.setAction(sAction);
         commentModel.setMonitoringPlan(monPlan);
+        commentModel.setCaseDetention(monPlan.getCaseDetention());
         commentModel.setSenderUser(user);
         commentModel.setTimestamp(now);
         commentModel.setType(MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT);
@@ -196,29 +198,30 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         monitoringPlanRepository.save(monPlan);
-        logCommentMonPlanRepository.save(commentModel);
+        logCommentRepository.save(commentModel);
     }
 
 
     @Override
     @Transactional
     public void saveReqEndMonPlan(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan) {
-        LogCommentMonitoringPlan commentModel = new LogCommentMonitoringPlan();
+        LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
 
         commentModel.setComments(model.getComments());
         commentModel.setAction(MonitoringConstants.STATUS_PENDING_END);
         commentModel.setMonitoringPlan(monPlan);
+        commentModel.setCaseDetention(monPlan.getCaseDetention());
         commentModel.setSenderUser(user);
         commentModel.setTimestamp(now);
-        commentModel.setType(MonitoringConstants.TYPE_COMMENT_END);
+        commentModel.setType(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END);
 
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
         monPlan.setStatus(MonitoringConstants.STATUS_PENDING_END);
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
-        logCommentMonPlanRepository.save(commentModel);
+        logCommentRepository.save(commentModel);
         monitoringPlanRepository.save(monPlan);
     }
 }

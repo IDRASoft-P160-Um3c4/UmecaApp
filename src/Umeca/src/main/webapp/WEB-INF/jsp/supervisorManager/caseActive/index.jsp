@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.umeca.model.shared.Constants" %>
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <html>
-
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/authorizeMonitoringPlan/authRejectCtrl.js"></script>
     <title>Casos activos</title>
 </head>
 
@@ -63,8 +56,8 @@
                         var be;
                         switch (status[i]) {
                             case 'ST_CASE_PRE_CLOSED':
-                                be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar el cierre del caso\" onclick=\"authCloseCase('" + cl + "');\"><span class=\"glyphicon glyphicon-check\"></span></a>";
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar el cierre del caso\" onclick=\"rejectCloseCase('" + cl + "');\"><span class=\"glyphicon glyphicon-remove color-danger\"></span></a>";
+                                be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar el cierre del caso\" onclick=\"window.authCloseCase('" + cl + "');\"><span class=\"glyphicon glyphicon-check\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar el cierre del caso\" onclick=\"window.rejectCloseCase('" + cl + "');\"><span class=\"glyphicon glyphicon-remove color-danger\"></span></a>";
                                 break;
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });

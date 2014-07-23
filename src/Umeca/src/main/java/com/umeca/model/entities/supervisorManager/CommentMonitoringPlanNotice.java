@@ -1,11 +1,9 @@
 package com.umeca.model.entities.supervisorManager;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
-import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.MonitoringConstants;
 
-import javax.persistence.*;
 import java.util.Calendar;
 
 public class CommentMonitoringPlanNotice {
@@ -20,6 +18,7 @@ public class CommentMonitoringPlanNotice {
     private Long caseId;
     private String mpId;
     private String personName;
+    private String typeName;
 
     public CommentMonitoringPlanNotice(Long id, String type, String action, String senderUser, String receiveUser, Calendar timestamp, String comments,
                                        Long caseId, String mpId, String name, String lastP, String lastM) {
@@ -113,5 +112,20 @@ public class CommentMonitoringPlanNotice {
 
     public void setPersonName(String personName) {
         this.personName = personName;
+    }
+
+    public String getTypeName() {
+        switch (type){
+            case MonitoringConstants.TYPE_COMMENT_AUTHORIZED:
+                return "PLAN DE SEGUIMIENTO";
+            case MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT:
+                return "REPORTE DE INCUMPLIMIENTO";
+            case MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END:
+                return "TERMINACIÓN DEL PLAN DE SEGUIMIENTO";
+            case MonitoringConstants.TYPE_COMMENT_CASE_END:
+                return "TERMINACIÓN DEL CASO";
+            default:
+                return "NA";
+        }
     }
 }

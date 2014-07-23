@@ -20,7 +20,7 @@
                 <div class="modal-body">
                     <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal"
                           role="form">
-                        <input type="hidden" name="monPlanId" id="monPlanId" value="${monPlanId}" />
+                        <input type="hidden" name="caseId" id="caseId" value="${caseId}" />
                         <input type="hidden" name="authorized" id="authorized" value="${isAuthorized}" />
                         <div class="row">
                             <div class="col-xs-12">
@@ -52,6 +52,29 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="profile-user-info profile-user-info-striped">
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> C. investigaci&oacute;n  </div>
+                                                        <div class="profile-info-value">
+                                                            <span id="folderId">${folderId}&nbsp;</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="profile-user-info profile-user-info-striped">
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Supervisor </div>
+                                                        <div class="profile-info-value">
+                                                            <span id="supervisor">${supervisor}&nbsp;</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="row">
                                             <div class="col-xs-6">
                                                 <div class="profile-user-info profile-user-info-striped">

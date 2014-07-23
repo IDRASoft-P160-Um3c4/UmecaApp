@@ -17,7 +17,7 @@ import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
-import com.umeca.repository.supervisorManager.LogCommentMonitoringPlanRepository;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ManageMonitoringPlanService;
@@ -219,7 +219,7 @@ public class ManageMonitoringPlanController {
     }
 
     @Autowired
-    LogCommentMonitoringPlanRepository logCommentMonPlanRepository;
+    LogCommentRepository logCommentMonPlanRepository;
 
     @RequestMapping(value = "/supervisor/manageMonitoringPlan/showRejectAuthMsg", method = RequestMethod.POST)
     public @ResponseBody ModelAndView showRejectAuthMsg(@RequestParam Long id){ //Id de MonitoringPlan
@@ -248,7 +248,7 @@ public class ManageMonitoringPlanController {
         ModelAndView model = new ModelAndView("/supervisor/shared/showMsg");
         try {
 
-            List<String> lstComment = logCommentMonPlanRepository.getLastCommentByMonPlanIdAndType(id, MonitoringConstants.TYPE_COMMENT_END, new PageRequest(0, 1));
+            List<String> lstComment = logCommentMonPlanRepository.getLastCommentByMonPlanIdAndType(id, MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END, new PageRequest(0, 1));
 
             model.addObject("type", "warning");
             model.addObject("title", "Comentarios del rechazo de la finalización");
