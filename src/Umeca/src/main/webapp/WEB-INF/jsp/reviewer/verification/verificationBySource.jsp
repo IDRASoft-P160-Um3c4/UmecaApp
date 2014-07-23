@@ -29,12 +29,6 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/addressCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/leavingCountryCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/meetingCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
-
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ComponentVerificationDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifCtrl.js"></script>
@@ -43,7 +37,17 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/verificationCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/AddressVerificationDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ScheduleVerificationDrct.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/upsertMeetingCtrl.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+    </script>
+
 <style>
+
     body {
         font-size: 11px;
     }

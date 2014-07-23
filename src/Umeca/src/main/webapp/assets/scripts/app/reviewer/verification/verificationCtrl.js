@@ -96,6 +96,9 @@ app.controller('verificationController', function($scope, $timeout, $q,sharedSvc
             url: urlToGo,
             data: data,
             success: function (resp) {
+                if (resp.hasError === undefined) {
+                    resp = resp.responseMessage;
+                }
                 if (resp.hasError === true) {
                     sharedSvc.showMsg(
                         {

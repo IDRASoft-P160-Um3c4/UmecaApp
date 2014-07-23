@@ -83,7 +83,7 @@
        ng-model="urlShowChoices"
        ng-update-hidden>
 
-<h2 class="element-center"><i class="glyphicon icon-edit "></i>&nbsp;&nbsp;Entrevista de verificaci�n</h2>
+<h2 class="element-center"><i class="glyphicon icon-list"></i>&nbsp;&nbsp;Elecci&oacute;n de informaci&oacute;n</h2>
 <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
 <br/>
 

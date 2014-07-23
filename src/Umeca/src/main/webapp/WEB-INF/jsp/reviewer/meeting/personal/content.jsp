@@ -287,7 +287,7 @@
                     </div>
                     <div class="col-xs-3">
                         <input class="form-control"
-                               type="text" ng-model="state" id="imputed.birthState"
+                               type="text" ng-model="state" id="imputed.birthState"   data-val="true"
                                name="imputed.birthState" data-val-required="El estado es un campo requerido"
                                ng-init='state = "${(m.imputed.birthState ==  null) ? "" : m.imputed.birthState}";'>
                          <span class="field-validation-valid" data-valmsg-for="imputed.birthState"
@@ -302,7 +302,7 @@
                     </div>
                     <div class="col-xs-3">
                         <input class="form-control"
-                               type="text" ng-model="birthMunicipality" id="imputed.birthMunicipality"
+                               type="text" ng-model="birthMunicipality" id="imputed.birthMunicipality"    data-val="true"
                                name="imputed.birthMunicipality" data-val-required="El municipio es un campo requerido"
                                ng-init='birthMunicipality = "${(m.imputed.birthMunicipality ==  null) ? "" : m.imputed.birthMunicipality}";'>
                          <span class="field-validation-valid" data-valmsg-for="imputed.birthMunicipality"
@@ -314,7 +314,7 @@
                     <div class="col-xs-3">
                         <input class="form-control"
                                type="text" ng-model="location" id="imputed.birthLocation"
-                               name="imputed.birthLocation" data-val-required="La localidad es un campo requerido"
+                               name="imputed.birthLocation" data-val-required="La localidad es un campo requerido"   data-val="true"
                                ng-init='location = "${(m.imputed.birthLocation ==  null) ? "" : m.imputed.birthLocation}";'>
                          <span class="field-validation-valid" data-valmsg-for="imputed.birthLocation"
                                data-valmsg-replace="true"></span>

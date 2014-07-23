@@ -113,10 +113,6 @@
                <br/>
                <div class="col-xs-12">
                    <div class="col-xs-2  element-left">
-                       <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('school.degree')"></i>
-                       <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
-                          ng-show="verification" code ="school.degree"></i>
-                       <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('school.degree')"></i>
                        Especif&iacute;que:
                    </div>
                    <div class="col-xs-8">
