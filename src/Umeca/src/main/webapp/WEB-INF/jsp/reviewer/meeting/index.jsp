@@ -51,7 +51,7 @@
                 url: '<c:url value='/reviewer/meeting/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID','Carpeta de Investigaci�n','Nombre completo','Fecha de nacimiento','G�nero','Estatus','Id estatus','Status case','Acci&oacute;n'],
+                colNames: ['ID','Carpeta de Investigaci&acute;n','Nombre completo','Fecha de nacimiento','G&eacute;nero','Estatus','Id estatus','Status case','Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
