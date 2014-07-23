@@ -69,6 +69,10 @@
             var psEqual = vars[i].split("=");
             var e = {};
             e.name = psEqual[0];
+            if(psEqual[0]=="imputedHomes.timeLive1"){
+                e.name = "imputedHomes.timeLive";
+            }
+
             e.value = psEqual[1];
 
             var allElement = $("[name='" + psEqual[0] + "']");

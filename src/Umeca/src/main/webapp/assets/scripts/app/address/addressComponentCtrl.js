@@ -171,6 +171,11 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
         $scope.lat = point.k;
         $scope.lng = point.B;
         $scope.markers.push(marker);
+        try{
+        $scope.$apply();
+        }catch (e){
+
+        }
     };
 
     $scope.refreshMap = function () {
@@ -185,8 +190,8 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                     var lat = data.results[0].geometry.location.lat;
                     var lng = data.results[0].geometry.location.lng;
                     $scope.point = new google.maps.LatLng(lat, lng);
-                    google.maps.event.trigger($scope.map, 'resize');
                     $scope.map.setCenter($scope.point);
+                    google.maps.event.trigger($scope.map, 'resize');
                     //$scope.addMarker($scope.point);
                 } catch (e) {
 

@@ -859,7 +859,7 @@ public class VerificationServiceImpl implements VerificationService {
             List<FieldMeetingSource> listFieldVerficiation = new ArrayList<>();
             for (FieldVerified field : list) {
                 FieldMeetingSource fms = new FieldMeetingSource();
-                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, list.get(0).getName());
+                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, field.getName());
                 fms.setId(fieldMeetingSourceId);
                 FieldVerification fv = fieldVerificationRepository.findByCode(field.getName());
                 fms.setFieldVerification(fv);
@@ -892,8 +892,10 @@ public class VerificationServiceImpl implements VerificationService {
         switch (fv.getType()) {
             case "Country":
                 Country c = countryRepository.findOne(idCat);
+                ca.setId(c.getId());
+                ca.setName(c.getName());
                 fms.setValue(c.getName());
-                fms.setJsonValue(gson.toJson(c));
+                fms.setJsonValue(gson.toJson(ca));
                 break;
             case "MaritalStatus":
                 MaritalStatus m = maritalStatusRepository.findOne(idCat);
@@ -963,7 +965,7 @@ public class VerificationServiceImpl implements VerificationService {
                     valueString = value;
                 } finally {
                     fms.setValue(valueString);
-                    fms.setValue(valueJson);
+                    fms.setJsonValue(valueJson);
                 }
                 break;
             case "Boolean":

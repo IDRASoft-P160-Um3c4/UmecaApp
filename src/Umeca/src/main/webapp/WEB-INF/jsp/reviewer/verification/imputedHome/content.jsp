@@ -82,7 +82,7 @@
                                     <div class="col-xs-7">
                                         <input class="form-control" data-val="true"
                                                data-val-length="Debe tener al menos 1 y m&aacute;ximo 30 caracteres"
-                                               data-val-length-max="30" data-val-length-min="1" name="imputedHomes.timeLive"
+                                               data-val-length-max="30" data-val-length-min="1" name="imputedHomes.timeLive1"
                                                data-val-required="El tiempo de residencia es un campo requerido"
                                                id="timeLive" value="{{a.timeLive}}" type="text">
                                         <span class="field-validation-valid" data-valmsg-for="timeLive"

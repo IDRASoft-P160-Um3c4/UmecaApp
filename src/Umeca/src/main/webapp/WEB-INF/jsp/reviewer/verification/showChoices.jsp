@@ -22,7 +22,7 @@
                                     <div class="widget-header widget-header-small header-color-blue3" ng-init='codeField = ${code}; idList = ${idList};'>
                                         <input type="hidden" name="code" value="${code}"/>
                                         <input type="hidden" name="idList" value="${idList}"/>
-                                        <h6 class="smaller">Elije la informaci&oacute;n final para el campo o secci&oacute;n</h6>
+                                        <h6 class="smaller">Elige la informaci&oacute;n final para el campo o secci&oacute;n</h6>
                                     </div>
                                             <table class=" widget-body table table-striped table-bordered table-hover" ng-init='listChoice = ${listChoice};'>
                                                 <tbody>
@@ -39,7 +39,8 @@
                                                             <i class="blue icon-question-sign  icon-only bigger-120" ng-show="opc.status == 'UNABLE_VERIFICATION' "></i>
                                                         </td>
                                                         <td>
-                                                         <b> {{opc.nameSource}}</b>
+                                                         <b> <label ng-show="opc.status != 'UNABLE_VERIFICATION' ">{{opc.nameSource}}</label>
+                                                             <label ng-show="opc.status == 'UNABLE_VERIFICATION' ">No hay forma de verificar la informaci&oacute;n</label></b>
                                                         </td>
                                                         <td>
                                                             <div ng-repeat="v in opc.values">
