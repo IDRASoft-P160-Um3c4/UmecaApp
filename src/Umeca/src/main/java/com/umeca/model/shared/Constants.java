@@ -60,6 +60,7 @@ public class Constants {
 
     public static final String ST_FIELD_VERIF_IMPUTED = "IS_IMPUTED";
     public static final String CASE_STATUS_PRE_CLOSED="ST_CASE_PRE_CLOSED";
+    public static final String CASE_STATUS_CLOSED="ST_CASE_CLOSED";
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_REVIEWER = "ROLE_REVIEWER";
