@@ -44,7 +44,7 @@
                 url: '<c:url value='/supervisor/hearingFormat/listFormats.json' />' + '?id=' +${idCase},
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Carpeta <br/>de Investigación' , 'Carpeta Judicial', 'Nombre completo', 'Audiencia', 'Ampliación <br/>de plazo', 'Vinculación <br/>a proceso', 'Acción'],
+                colNames: ['ID', 'Carpeta <br/>de Investigaci&oacute;n' , 'Carpeta Judicial', 'Nombre completo', 'Audiencia', 'Ampliaci&oacute;n <br/>de plazo', 'Vinculaci&oacute;n <br/>a proceso', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

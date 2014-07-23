@@ -6,7 +6,7 @@
     <%@ include file="/WEB-INF/jsp/shared/headUm.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/log/supervisionLogCtrl.js"></script>
 
-    <title>Bitácora de supervisión</title>
+    <title>Bit&aacute;cora de supervisi&oacute;n</title>
 </head>
 <body scroll="no" ng-app="ptlUmc" style="width: 1100px; margin: auto" class="element-center">
 
@@ -73,7 +73,7 @@
 
     <div class="panel panel-default panel-primary">
         <div class="panel-heading">
-            <span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;FUENTES Y MEDIOS DE VERIFICACIÓN UTILIZADAS
+            <span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;FUENTES Y MEDIOS DE VERIFICACI&Oacute;N UTILIZADAS
         </div>
         <div class="panel-body">
             <div class="row">
@@ -94,14 +94,14 @@
     </div>
     <div class="panel panel-default panel-primary">
         <div class="panel-heading">
-            <span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;ACTIVIDADES DE SUPERVISIÓN
+            <span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;ACTIVIDADES DE SUPERVISI&Oacute;N
         </div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="profile-user-info profile-user-info-striped">
                         <div class="profile-info-row two-lines">
-                            <div class="profile-info-name"> ACTIVIDADES DE SUPERVISIÓN</div>
+                            <div class="profile-info-name"> ACTIVIDADES DE SUPERVISI&Oacute;N</div>
                             <div class="profile-info-value element-left">
                                 <div ng-repeat="i in lstActivities"><i
                                         class="icon-tasks blue"></i>&nbsp;&nbsp;{{i.name}}</span>
@@ -133,11 +133,11 @@
 
                                     <th class="col-xs-2 element-center">
                                         <i class="icon-caret-right blue"></i>
-                                        DESCRIPCIÓN
+                                        DESCRIPCI&Oacute;N
                                     </th>
                                     <th class="col-xs-2 element-center">
                                         <i class="icon-caret-right blue"></i>
-                                        FUENTE DE CONTACTO Y DATO DE LOCALIZACIÓN
+                                        FUENTE DE CONTACTO Y DATO DE LOCALIZACI&Oacute;N
                                     </th>
                                     <th class="col-xs-4 element-center">
                                         <i class="icon-caret-right blue"></i>
@@ -187,11 +187,11 @@
 
                                     <th class="col-xs-2 element-center">
                                         <i class="icon-caret-right blue"></i>
-                                        DESCRIPCIÓN
+                                        DESCRIPCI&Oacute;N
                                     </th>
                                     <th class="col-xs-2 element-center">
                                         <i class="icon-caret-right blue"></i>
-                                        FUENTE DE CONTACTO Y DATO DE LOCALIZACIÓN
+                                        FUENTE DE CONTACTO Y DATO DE LOCALIZACI&Oacute;N
                                     </th>
                                     <th class="col-xs-4 element-center">
                                         <i class="icon-caret-right blue"></i>

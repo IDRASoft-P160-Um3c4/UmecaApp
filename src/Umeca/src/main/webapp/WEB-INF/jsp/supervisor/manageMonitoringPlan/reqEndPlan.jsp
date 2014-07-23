@@ -13,7 +13,7 @@
                 <div class="modal-header">
                     <div  class="alert alert-info">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center"><i class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Solicitud de finalización del plan de seguimiento</h4>
+                        <h4 class="element-center"><i class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Solicitud de finalizaci&oacute;n del plan de seguimiento</h4>
                     </div>
                 </div>
                 <div class="modal-body">
@@ -24,7 +24,7 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Información del caso
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Informaci&oacute;n del caso
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -93,12 +93,12 @@
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">
                                                             <p ng-show="countMiss>0" class="element-center">
-                                                                El plan de seguimiento tiene aún <strong>{{countMiss}}</strong> actividad(es) pendientes por concluir. <br/>
-                                                                Aún así, ¿desea soliticitar la finalización del plan de seguimiento?
+                                                                El plan de seguimiento tiene a&uacute;n <strong>{{countMiss}}</strong> actividad(es) pendientes por concluir. <br/>
+                                                                A&uacute;n as&iacute;, &iquest;desea soliticitar la finalizaci&oacute;n del plan de seguimiento?
                                                             </p>
                                                             <p ng-show="countMiss===0" class="element-center">
                                                                 El plan de seguimiento ya no tiene actividades pendientes por realizar. <br/>
-                                                                ¿Desea soliticitar la finalización del plan de seguimiento?
+                                                                &iquest;Desea soliticitar la finalizaci&oacute;n del plan de seguimiento?
                                                             </p>
                                                         </div>
                                                     </div>
@@ -123,7 +123,7 @@
                                             <div class="col-xs-8 col-xs-offset-2 widget-container-span">
                                                 <div class="widget-box">
                                                     <div class="widget-header widget-header-small header-color-dark">
-                                                        <h6>Ingrese su contraseña para validar su usuario</h6>
+                                                        <h6>Ingrese su contrase&ntilde;a para validar su usuario</h6>
                                                     </div>
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">

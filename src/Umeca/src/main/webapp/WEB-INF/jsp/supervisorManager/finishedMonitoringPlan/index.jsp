@@ -28,7 +28,7 @@
                     url: '<c:url value='/supervisorManager/finishedMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', width: 65, align: "center", sortable: true, search: false },
@@ -58,7 +58,7 @@
                             var row = $(this).getRowData(cl);
 
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de incumplimiento\" onclick=\"window.accomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
-                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bitácora de supervisión\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&iacute;cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

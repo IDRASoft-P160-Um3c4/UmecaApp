@@ -26,7 +26,7 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Información
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Informaci&oacute;n
                                         general del caso
                                     </div>
                                     <div class="panel-body">
@@ -126,7 +126,7 @@
                                         <div class="row" ng-show="m.comments">
                                             <div class="col-xs-6 col-xs-offset-3">
                                                 <div class="form-group">
-                                                    <input type="checkbox" ng-model="m.isAccepted" /> ¿Usted acepta cambiar de supervisor para este caso?
+                                                    <input type="checkbox" ng-model="m.isAccepted" /> &iquest;Usted acepta cambiar de supervisor para este caso?
                                                 </div>
                                             </div>
                                         </div>
@@ -134,7 +134,7 @@
                                             <div class="col-xs-8 col-xs-offset-2 widget-container-span">
                                                 <div class="widget-box">
                                                     <div class="widget-header widget-header-small header-color-orange">
-                                                        <h6>Ingrese su contraseña para validar su usuario</h6>
+                                                        <h6>Ingrese su contrase&ntilde;a para validar su usuario</h6>
                                                     </div>
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">

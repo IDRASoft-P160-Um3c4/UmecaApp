@@ -26,7 +26,7 @@
                             <div class="col-xs-12">
                                 <div ng-class="(isAuthorized ? 'panel panel-primary' : 'panel panel-warning')">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Información del caso
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Informaci&oacute;n del caso
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -106,7 +106,7 @@
                                                 <div class="widget-box">
                                                     <div class="widget-header widget-header-small"
                                                          ng-class="(isAuthorized ? 'header-color-green' : 'header-color-orange')">
-                                                        <h6>Ingrese su contraseña para validar su usuario</h6>
+                                                        <h6>Ingrese su contrase&ntilde;a para validar su usuario</h6>
                                                     </div>
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">
