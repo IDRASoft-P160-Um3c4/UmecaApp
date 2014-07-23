@@ -16,7 +16,7 @@
             url: '<c:url value='/reviewer/meeting/listDrug.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Sustancia','Periodicidad','Cantidad','Último consumo', 'Acción'],
+            colNames: ['ID', 'Sustancia','Periodicidad','Cantidad','&Uacute;ltimo consumo', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'drugName', index: 'drugName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

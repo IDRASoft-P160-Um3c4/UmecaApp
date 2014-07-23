@@ -36,7 +36,7 @@
 <br/>
 
 <div class="row">
-    <label>¿Se encuentra en algun tipo de tratamiento de adicciones?</label>
+    <label>&iquest;Se encuentra en algun tipo de tratamiento de adicciones?</label>
     <br/>
     <span class="field-validation-valid" data-valmsg-for="addictionTreatment"
           data-valmsg-replace="true"></span>
@@ -60,12 +60,12 @@
 
 <div class="row">
     <div class="col-xs-8" ng-show='aq.addictionTreatment==1'>
-        <label>¿En que institución?</label>
+        <label>&iquest;En que instituci&oacute;n?</label>
         <br/>
         <textarea class="input-xxlarge form-control limited" name="addictionTreatmentInstitute"
                   ng-model="aq.addictionTreatmentInstitute"
                   maxlength="980" data-val="true"
-                  data-val-required="Institución es un campo requerido">
+                  data-val-required="Instituci&oacute;n es un campo requerido">
         </textarea>
                                             <span class="field-validation-valid"
                                                   data-valmsg-for="addictionTreatmentInstitute"
@@ -74,7 +74,7 @@
     <br/>
 
     <div class="col-xs-4" ng-show='aq.addictionTreatment==1'>
-        <label for="addictionTreatmentDate">¿Desde cuando?</label>
+        <label for="addictionTreatmentDate">&iquest;Desde cu&aacute;ndo?</label>
         <br/>
 
         <div class="input-group">
@@ -98,7 +98,7 @@
 <br/>
 
 <div class="row">
-    <label>¿Tus familiares y/o amigos consumen substancias adictivas?</label>
+    <label>&iquest;Tus familiares y/o amigos consumen substancias adictivas?</label>
     <br/>
     <input type="hidden" name="selectedAddictedAcquaintances" value="{{selectedAddictedAcquaintances}}">
   <span class="field-validation-valid" data-valmsg-for="addictedAcquaintance"
@@ -121,7 +121,7 @@
     <br/>
 
     <div ng-show="aq.addictedAcquaintance==1">
-        <label>¿Que parentesco tienes con ellos?</label>
+        <label>&iquest;Que parentesco tienes con ellos?</label>
         <br/>
 
         <div ng-show="errorSelAddAcq&&errorSelAddAcq!=''"
@@ -146,7 +146,7 @@
 <br/>
 
 <div class="row">
-    <label>¿Cuenta con familiares en el extranjero?</label>
+    <label>&iquest;Cuenta con familiares en el extranjero?</label>
     <br/>
  <span class="field-validation-valid" data-valmsg-for="relativeAbroad"
        data-valmsg-replace="true"></span>
@@ -168,7 +168,7 @@
     <br/>
 
     <div ng-show="aq.relativeAbroad==1">
-        <label>¿Que parentesco tienes con ellos?</label>
+        <label>&iquest;Que parentesco tienes con ellos?</label>
         <br/>
         <input type="hidden" name="selectedRelativesAbroad" value="{{selectedRelativesAbroad}}">
 
@@ -188,7 +188,7 @@
                     </label>
                 </div>
                 <div class="col-xs-offset-1" ng-show="selectedRelativesAbroad[$index].selVal==true">
-                    <label>¿Dónde vive?</label>
+                    <label>&iquest;D&oacute;nde vive?</label>
                     <textarea class="form-control limited"
                               maxlength="980" ng-blur="validateRelAbroad();"
                               ng-model="selectedRelativesAbroad[$index].description"
@@ -204,7 +204,7 @@
 <br/>
 
 <div class="row">
-    <label>¿Consideras que alguna de las obligaciones impuestas será difícil de cumplir?</label>
+    <label>&iquest;Consideras que alguna de las obligaciones impuestas ser&aacute; dif&iacute;cil de cumplir?</label>
     <br/>
  <span class="field-validation-valid" data-valmsg-for="obligationIssue"
        data-valmsg-replace="true"></span>
@@ -226,7 +226,7 @@
     <br/>
 
     <div ng-show="aq.obligationIssue==1">
-        <label>¿Cuales?</label>
+        <label>&iquest;Cu&aacute;les?</label>
         <br/>
         <input type="hidden" name="selectedObligationIssues" value="{{selectedObligationIssues}}">
 

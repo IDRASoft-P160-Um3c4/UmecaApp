@@ -24,7 +24,7 @@
             url: urlGridReferences,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre', 'Tel�fono', 'Parentesco', 'Direcci�n', 'Acci�n'],
+            colNames: ['ID', 'Nombre', 'Tel&eacute;fono', 'Parentesco', 'Direcci&oacute;n', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

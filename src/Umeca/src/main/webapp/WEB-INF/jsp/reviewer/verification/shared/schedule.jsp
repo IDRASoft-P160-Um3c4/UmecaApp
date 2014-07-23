@@ -7,7 +7,7 @@
         <div class="col-xs-10 col-xs-offset-1">
             <div class="row">
                 <div class="col-xs-4 element-center">
-                    Día(s)<br/>
+                    D&iacute;a(s)<br/>
                     <input class="form-control" type="text" value=""
                            ng-model="s.day" ng-init='s.day= ""'>
                 </div>

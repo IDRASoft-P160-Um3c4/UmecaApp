@@ -11,7 +11,7 @@
     <div class="col-xs-10 col-xs-offset-1">
 
         <div class="row element-center">
-            <h2><i class="blue icon-eye-open bigger-100"></i> &nbsp;Analisis del entorno
+            <h2><i class="blue icon-eye-open bigger-100"></i> &nbsp;An&aacute;lisis del entorno
             </h2>
         </div>
 
@@ -38,7 +38,7 @@
 
                     <div class="col-xs-6">
                         <div class="widget-box">
-                            <div class="widget-header">Vinculos</div>
+                            <div class="widget-header">V&iacute;nculos</div>
                             <div class="widget-body">
 
                                 <div class="row">

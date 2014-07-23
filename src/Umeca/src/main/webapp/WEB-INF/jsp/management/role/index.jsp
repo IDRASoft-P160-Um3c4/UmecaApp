@@ -23,7 +23,7 @@
                     url: "<c:url value='/management/role/list.json' />",
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Nombre', 'Descripción'],
+                    colNames: ['ID', 'Nombre', 'Descripci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'role', index: 'role', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

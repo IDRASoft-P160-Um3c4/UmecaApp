@@ -20,7 +20,7 @@
                         <br />
                         <div class="row">
                             <div class="col-xs-12">
-                                <label>Ingrese la información requerida para poder generar un nuevo número de expediente:</label>
+                                <label>Ingrese la informaci&oacute;n requerida para poder generar un nuevo n&uacute;mero de expediente:</label>
                             </div>
                         </div>
                         <br/>
@@ -97,7 +97,7 @@
                         <br/>
                         <div class="row">
                             <div class="col-xs-5 element-left">
-                               Carpeta de investigación:
+                               Carpeta de investigaci&oacute;n:
                             </div>
                             <div class="col-xs-7">
                                     <input class="form-control" type="text"    data-val-length="Debe tener al menos 1 y máximo 15 caracteres"
@@ -114,7 +114,7 @@
                             <div class="col-xs-12 element-center">
                                 <span class="label label-pink label-lg arrowed-right">
                                     <i class="icon-warning-sign bigger-120"></i>&nbsp;
-                                    Estos datos no podrán ser modificados durante la entrevista.
+                                    Estos datos no podr&aacute;n ser modificados durante la entrevista.
                                 </span>
                             </div>
                         </div>

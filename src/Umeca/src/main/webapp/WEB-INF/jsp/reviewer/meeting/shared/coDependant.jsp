@@ -9,7 +9,7 @@
         <input type="text" class="form-control" ng-model="c.fullName"/>
     </div>
     <div class="col-xs-4 element-center">
-        Relación <br/>
+        Relaci&oacute;n <br/>
         <select class="form-control element-center" ng-model="c.rel"
                 ng-options="e.name for e in listRelationship"
                 ng-change="c.relId = c.rel.id"
@@ -34,7 +34,7 @@
                  <div class="hr hr-2"></div>
              </div>
              <div class="col-xs-3">
-                 <h5 class="smaller lighter blue">Relación</h5>
+                 <h5 class="smaller lighter blue">Relaci&oacute;n</h5>
                  <div class="hr hr-2"></div>
              </div>
              <div class="col-xs-3">

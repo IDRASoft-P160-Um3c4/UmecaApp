@@ -12,7 +12,7 @@
         <input type="text" class="form-control" ng-model="c.name"/>
     </div>
     <div class="col-xs-4 element-center">
-       Art�culo<br/>
+       Art&iacute;culo<br/>
             <input type="text" class="form-control" ng-model="c.article"/>
     </div>
     <div class="col-xs-2 element-center">

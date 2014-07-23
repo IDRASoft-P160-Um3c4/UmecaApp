@@ -47,7 +47,7 @@
         <div class="col-xs-4">
 
             <h3 class="header smaller lighter blue">
-                <small>N�mero de carpeta <br/> de investigaci�n:</small>
+                <small>N&uacute;mero de carpeta <br/> de investigaci&oacute;n:</small>
                 &nbsp;&nbsp;&nbsp;&nbsp;{{fm.objView.idFolder}}
             </h3>
         </div>
@@ -88,7 +88,7 @@
                     <li>
                         <a data-toggle="tab" href="#accompaniment"  ng-click="resizeMap()">
                             <i class="red glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
-                            Persona que acompa�ara durante <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Persona que acompa&ntilde;ara durante <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;el proceso
                         </a>
                     </li>
@@ -124,7 +124,7 @@
                     <li>
                         <a data-toggle="tab" href="#environmentAnalysis">
                             <i class="blue icon-eye-open bigger-200"></i>
-                            An�lisis de entorno
+                            An&aacute;lisis de entorno
                         </a>
                     </li>
                     <li>

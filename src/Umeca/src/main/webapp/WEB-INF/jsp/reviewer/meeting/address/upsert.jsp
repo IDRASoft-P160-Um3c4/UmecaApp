@@ -18,7 +18,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="FormAddressId" name="FormAddressId" class="form-horizontal" role="form">
-                        Ingrese su código postal para obtnener automáticamente su información
+                        Ingrese su c&oacute;digo postal para obtnener automáticamente su información
                         <br/>
                         <br/>
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/address/content.jsp"%>

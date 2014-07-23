@@ -16,7 +16,7 @@
             url: '<c:url value='/reviewer/meeting/listJob.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Empresa','Puesto','Patrón','Teléfono','Tipo','TipoId','Acción'],
+            colNames: ['ID', 'Empresa','Puesto','Patrón','Tel&eacute;fono','Tipo','TipoId','Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'company', index: 'company', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

@@ -60,11 +60,11 @@
                                         ng-init='lstRelationship = ${lstRelationship};'></select>
                             </div>
                             <div class="col-xs-8">
-                                <label>Ocupación</label>
+                                <label>Ocupaci&oacute;n</label>
                                 <br/>
                                 <input id="occupation" ng-model="hm.occupation" name="occupation" type="text"
                                        class="input-xxlarge" data-val="true"
-                                       data-val-required="Ocupación es un campo requerido"/>
+                                       data-val-required="Ocupaci&oacute;n es un campo requerido"/>
                                 <br/>
                                         <span class="field-validation-valid" data-valmsg-for="occupation"
                                               data-valmsg-replace="true"></span>

@@ -31,21 +31,21 @@
 <br/>
 <div class="row" ng-show="d.type.specification==true">
     <div class="col-xs-2" ng-show="d.type.specification==true" >
-        Especifíque sustancia:
+        Especif&iacute;que sustancia:
     </div>
     <div class="col-xs-4" ng-show="d.type.specification==true">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 100 caracteres"
-               data-val-length-max="100" data-val-length-min="3" data-val-required="La especificación es un campo requerido"
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 100 caracteres"
+               data-val-length-max="100" data-val-length-min="3" data-val-required="La especificaci&oacute;n es un campo requerido"
                type="text" value="" ng-model="d.other" ng-init='d.other = "${(d.specificationType == null) ? '' : d.specificationType}"' id="specificationType" name="specificationType">
         <br/>
         <span class="field-validation-valid" data-valmsg-for="specificationType" data-valmsg-replace="true"></span>
     </div>
     <div class="col-xs-2"   ng-show="d.per.specification==true">
-        Especifíque periodicidad:
+        Especif&iacute;que periodicidad:
     </div>
     <div class="col-xs-4" ng-show="d.per.specification==true">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 100 caracteres"
-               data-val-length-max="100" data-val-length-min="3" data-val-required="La especificación es un campo requerido"
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 100 caracteres"
+               data-val-length-max="100" data-val-length-min="3" data-val-required="La especificaci&oacute;n es un campo requerido"
                type="text" value="" ng-model="d.specificationPeriodicity" ng-init='d.specificationPeriodicity = "${(d.specificationPeriodicity == null) ? '' : d.specificationPeriodicity}"'
                id="specificationPeriodicity" name="specificationPeriodicity">
         <br/>
@@ -58,7 +58,7 @@
         Cantidad:
     </div>
     <div class="col-xs-4">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y máximo 25 caracteres"
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y m&aacute;ximo 25 caracteres"
                data-val-length-max="25" data-val-length-min="2" data-val-required="La cantidad es un campo requerido"
                type="text"  ng-model="d.quantity" ng-init='d.quantity="${(d.quantity == null) ? '' : d.quantity}";' name="quantity" id="quantity">
         <br/>
@@ -66,12 +66,12 @@
     </div>
 
     <div class="col-xs-2">
-        Último consumo:
+        &Uacute;ltimo consumo:
     </div>
     <div class="col-xs-4">
         <div class="input-group">
             <input class="form-control date-picker" id="lastUse" data-val="true" type="text" data-date-format="yyyy/mm/dd" value="${d.lastUse}" readonly="readonly"
-                   name="lastUse" data-val-required="La última fecha de consumo es un campo requerido"/>
+                   name="lastUse" data-val-required="La &uacute;ltima fecha de consumo es un campo requerido"/>
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
 																	</span>

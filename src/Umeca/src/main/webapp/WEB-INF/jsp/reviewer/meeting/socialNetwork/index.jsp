@@ -16,7 +16,7 @@
             url: '<c:url value='/reviewer/meeting/listSocialNetwork.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Relación','Edad','Teléfono', 'Acción'],
+            colNames: ['ID', 'Nombre','Relación','Edad','Tel&eacute;fono', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
