@@ -16,11 +16,13 @@ import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.FramingReferenceRepository;
+import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.supervisor.FramingMeetingService;
 import com.umeca.service.supervisor.HearingFormatService;
@@ -79,6 +81,12 @@ public class FramingMeetingController {
 
     @Autowired
     private StatusCaseRepository statusCaseRepository;
+
+    @Autowired
+    private SharedUserService sharedUserService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping(value = "/supervisor/framingMeeting/index", method = RequestMethod.GET)
     public String index() {
@@ -146,6 +154,7 @@ public class FramingMeetingController {
         if (caseDet.getFramingMeeting() == null) {
             FramingMeeting framingMeeting = new FramingMeeting();
             framingMeeting.setIsTerminated(false);
+            framingMeeting.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
             caseDet.setFramingMeeting(framingMeeting);
             caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_INCOMPLETE));
             framingMeeting.setCaseDetention(caseDet);
