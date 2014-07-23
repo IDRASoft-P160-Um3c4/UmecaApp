@@ -520,6 +520,7 @@ public class VerificationServiceImpl implements VerificationService {
         Case c = caseRepository.findOne(idCase);
         model.addObject("idCase", idCase);
         model.addObject("m", c.getMeeting());
+        model.addObject("age", userService.calculateAge(c.getMeeting().getImputed().getBirthDate()));
         if (c.getMeeting().getSocialEnvironment() != null) {
             if (c.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities() != null) {
                 List<RelActivitySocialEnvironmentDto> listRel = new ArrayList<>();

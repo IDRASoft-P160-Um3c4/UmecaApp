@@ -28,3 +28,4 @@ id|name|idLevel|isObsolete
 27|Décimo|5|0
 28|Trunco|6|0
 29|Terminado|6|0
+30|Otro|7|0

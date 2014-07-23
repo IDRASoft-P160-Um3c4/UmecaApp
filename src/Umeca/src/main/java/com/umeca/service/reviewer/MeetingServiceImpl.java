@@ -163,6 +163,7 @@ public class MeetingServiceImpl implements MeetingService {
         Case caseDetention = caseRepository.findOne(id);
         model.addObject("idCase", caseDetention.getId());
         model.addObject("m", caseDetention.getMeeting());
+        model.addObject("age",userService.calculateAge(caseDetention.getMeeting().getImputed().getBirthDate()));
         if (caseDetention.getMeeting().getSocialEnvironment() != null) {
             if (caseDetention.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities() != null) {
                 List<RelActivitySocialEnvironmentDto> listRel = new ArrayList<>();
@@ -226,8 +227,10 @@ public class MeetingServiceImpl implements MeetingService {
         ModelAndView model = new ModelAndView("/reviewer/meeting/legal/index");
         Case c = caseRepository.findOne(id);
         model.addObject("idFolder", c.getIdFolder());
-        String fullName = c.getMeeting().getImputed().getName() + " " + c.getMeeting().getImputed().getLastNameP() + " " + c.getMeeting().getImputed().getLastNameM();
+        Imputed i= c.getMeeting().getImputed();
+        String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
         model.addObject("fullNameImputed", fullName);
+        model.addObject("age",userService.calculateAge(i.getBirthDate()));
         model.addObject("idCase", id);
         addressService.fillCatalogAddress(model);
         Gson gson = new Gson();
@@ -539,6 +542,7 @@ public class MeetingServiceImpl implements MeetingService {
             s.setName(school.getName());
             s.setAddress(school.getAddress());
             s.setPhone(school.getPhone());
+            s.setSpecification(school.getSpecification());
             s.setDegree(degreeRepository.findOne(school.getDegree().getId()));
         }else{
             Degree degree = degreeRepository.findOne(school.getDegree().getId());
@@ -854,10 +858,13 @@ public class MeetingServiceImpl implements MeetingService {
     public ResponseMessage saveProceedingLegal(CriminalProceedingView cpv) {
         ResponseMessage result = new ResponseMessage();
         try {
-            List<String> validate = new ArrayList<>();
-            validate = validateProceedingLegal(cpv);
-            if (validate.size() > 0) {
+           TerminateMeetingMessageDto validate =new TerminateMeetingMessageDto();
+            validateProceedingLegal(cpv,validate);
+            if (validate.existsMessageProperties()) {
                 Gson gson = new Gson();
+                List<String> listGeneral=new ArrayList<>();
+                listGeneral.add("No se puede guardar la información legal puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("general",listGeneral));
                 result.setHasError(true);
                 result.setMessage(gson.toJson(validate));
                 return result;
@@ -914,25 +921,29 @@ public class MeetingServiceImpl implements MeetingService {
         }
     }
 
-    public List<String> validateProceedingLegal(CriminalProceedingView cpv) {
+    public List<String> validateProceedingLegal(CriminalProceedingView cpv, TerminateMeetingMessageDto v) {
+        List<String> current = new ArrayList<>(), previous = new ArrayList<>();
+        String e = "entity";
         List<String> messageError = new ArrayList<>();
         if (cpv.getListCrime().trim().equals(""))
-            messageError.add("Debe agregar al menos un delito.");
+            current.add("Debe agregar al menos un delito.");
         if (cpv.getHaveCoDEfendant() && cpv.getListCoDefendant().trim().equals(""))
-            messageError.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
+            current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
         if (cpv.getPlaceDetention().trim().equals(""))
-            messageError.add("El lugar de detención es obligatorio");
+            current.add(v.template.replace(e,"El lugar de detención"));
         if (cpv.getBehaviorDetention().trim().equals(""))
-            messageError.add("El comportamiento durante la detención es obligatorio");
+            current.add(v.template.replace(e,"El comportamiento durante la detención"));
         if (cpv.getNameVictim().trim().equals(""))
-            messageError.add("El nombre completo de la victima es obligatorio");
+            current.add(v.template.replace(e,"El nombre completo de la víctima"));
         if (cpv.getFirstProceeding().trim().equals(""))
-            messageError.add("El primer caso es obligatorio");
+            previous.add(v.template.replace(e,"El primer caso "));
         if (cpv.getOpenProcessNumber() == null)
-            messageError.add("El número de procesos abiertos es obligatorio");
+            previous.add(v.template.replace(e,"El número de procesos abiertos"));
         if (cpv.getNumberConvictions() == null)
-            messageError.add("El número de sentencias condenatorioas es obligatorio");
-        messageError.addAll(addressService.validateAddress(cpv.getDomicileVictim()));
+            previous.add(v.template.replace(e,"El número de sentencias condenatorias"));
+        current.addAll(addressService.validateAddress(cpv.getDomicileVictim()));
+        v.getGroupMessage().add(new GroupMessageMeetingDto("legalActual",current));
+        v.getGroupMessage().add(new GroupMessageMeetingDto("legalPrevious",previous));
         return messageError;
     }
 

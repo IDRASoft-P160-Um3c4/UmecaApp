@@ -69,9 +69,17 @@ app.controller('proceedingLegalController', function($scope, $timeout) {
         return true;
     };
 
+    $scope.changeZIndex = function(elementClick){
+        $("#liLegalPrevious").css("z-index","0");
+        $("#liLegalActual").css("z-index","0");
+        $("#"+elementClick).css("z-index","1");
+
+    };
+
     $scope.handleSuccess = function (resp) {
         $scope.WaitFor = false;
 
+        $scope.listMsgError ={};
         try {
             if(resp.hasError===undefined){
                 resp=resp.responseMessage;}
@@ -79,10 +87,14 @@ app.controller('proceedingLegalController', function($scope, $timeout) {
                 window.cancelLegal();
                 return;
             }
-
-            $scope.listMsgErrorCon = jQuery.parseJSON(resp.message);
+            var obj = JSON.parse(resp.message);
+            if(obj.groupMessage != undefined){
+                for(var i=0; i < obj.groupMessage.length; i++){
+                    var g1= obj.groupMessage[i];
+                    $scope.listMsgError[g1.section]=g1.messages;
+                }
+            }
             $scope.$apply();
-
         } catch (e) {
             $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
         }

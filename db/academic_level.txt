@@ -5,3 +5,4 @@ id|name|isObsolete
 4|Bachillerato|0
 5|Licenciatura|0
 6|Postgrado|0
+7|Otro|0

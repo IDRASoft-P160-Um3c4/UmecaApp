@@ -20,10 +20,10 @@
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'company', index: 'company', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'post', index: 'post', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'nameHead', index: 'nameHead', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'phone', index: 'phone', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'registerTypeString', index: 'registerTypeString', hidden: true, width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'post', index: 'post', width: 150, align: "center", sorttype: 'string',search: false },
+                { name: 'nameHead', index: 'nameHead', width: 160, align: "center", search: false },
+                { name: 'phone', index: 'phone', width: 150, align: "center", search: false },
+                { name: 'registerTypeString', index: 'registerTypeString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'registerTypeId', index: 'registerTypeId', hidden: true},
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
