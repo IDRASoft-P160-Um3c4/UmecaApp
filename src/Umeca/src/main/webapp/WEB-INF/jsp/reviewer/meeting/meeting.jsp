@@ -56,7 +56,7 @@
 <div class="row">
     <div class="col-sm-3">
         <h3 class="header smaller lighter blue">
-            <small>Carpeta de investigación:  </small>
+            <small>Carpeta de investigaci&oacute;n:  </small>
             &nbsp;${m.caseDetention.idFolder}
         </h3>
     </div>
@@ -294,7 +294,7 @@
                                 Facilidad de
                                 <br/>
 
-                                <div class="col-xs-offset-3">abandonar el país</div>
+                                <div class="col-xs-offset-3">abandonar el pa&iacute;s</div>
                             </div>
                             <div class="col-xs-2" ng-show="listMsgError['leavingCountry'].length > 0">
                                 <div class="tools">

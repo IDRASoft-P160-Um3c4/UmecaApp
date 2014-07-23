@@ -21,12 +21,12 @@ margin-top: 0;
  </style>
 <div ng-controller="addressComponentController">
     <div class="row element-left">
-        <b>Direcci�n:</b>
+        <b>Direcci&oacute;n:</b>
     </div>
    <br/>
     <div class="row element-center">
         <div class="col-xs-10 col-xs-offset-1 element-left">
-            <span class="label label-lg label-info arrowed-right">Da click en el mapa para guardar el punto de la dirección</span>
+            <span class="label label-lg label-info arrowed-right">Da click en el mapa para guardar el punto de la direcci&oacute;n</span>
         </div>
         <div class="col-xs-10 col-xs-offset-1">
             <map id="map"></map>
@@ -41,13 +41,13 @@ margin-top: 0;
             <input type="hidden" ng-init='model = ${(address == null) ? '""' : address}'>
             <input type="hidden" ng-model="id" ng-init="id" name="{{nameAddress}}id" ng-update-hidden>
             <input type="hidden" ng-init="urlZipCode = '<c:url value="/catalogs/address/locationsByZipCode.json"/>'" ng-model="urlZipCode">
-            <label for="zipCode">C�digo postal:</label>
+            <label for="zipCode">C&oacute;digo postal:</label>
             <input type="text" id="zipCode" name="zipCode" class="input-xxlarge" zip-search ng-model="zipCode"
-                   data-val="true" data-val-required="El c�digo postal es un campo requerido"
+                   data-val="true" data-val-required="El c&oacute;digo postal es un campo requerido"
                    placeholder="Escriba su C.P. para buscar.."
                    url-request='<c:url value="/catalogs/address/locationsByZipCode.json"/>'
                    data-val-length-max="6" data-val-length-min="1"
-                   data-val-length="Debe tener al menos 1 y m�ximo 6 caracteres."/>
+                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 6 caracteres."/>
             <br>
             <span class="field-validation-valid" data-valmsg-for="zipCode" data-valmsg-replace="true"></span>
         </div>
@@ -103,7 +103,7 @@ margin-top: 0;
             <input type="hidden" ng-model="street" name="{{nameAddress}}street" ng-update-hidden>
             <input class="form-control" data-val="true" data-val-required="La calle es un campo requerido"
                    data-val-length-max="100" data-val-length-min="1"
-                   data-val-length="Debe tener al menos 1 y m�ximo 100 caracteres."
+                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 100 caracteres."
                    type="text" value="" ng-model="street" name="streetComponent" id="streetComponent">
                 <span class="field-validation-valid" data-valmsg-for="streetComponent"
                       data-valmsg-replace="true"></span>
@@ -112,9 +112,9 @@ margin-top: 0;
             No Ext <br/>
             <input type="hidden" ng-model="outNum" name="{{nameAddress}}outNum" ng-update-hidden>
             <input class="form-control" data-val="true"
-                   data-val-length="Debe tener al menos 1 y m�ximo 10 caracteres"
+                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
-                   data-val-required="El n�mero exterior es un campo requerido"
+                   data-val-required="El n&uacute;mero exterior es un campo requerido"
                    type="text" ng-model="outNum"
                    id="outNumComponent"
                    name="outNumComponent">
@@ -125,7 +125,7 @@ margin-top: 0;
             No Int <br/>
             <input type="hidden" ng-model="innNum" name="{{nameAddress}}innNum" ng-update-hidden>
             <input class="with-100" data-val="true"
-                   data-val-length="Debe tener al menos 1 y m�ximo 10 caracteres"
+                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
                    type="text" ng-model="innNum"
                    id="innNumComponent"

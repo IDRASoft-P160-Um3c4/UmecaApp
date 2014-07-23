@@ -3,13 +3,13 @@
     <div class="col-xs-11">
         <div class="col-xs-4">
             <br/>
-            <label for="zipCode">C�digo postal:</label>
+            <label for="zipCode">C&oacute;digo postal:</label>
             <input type="hidden" id="urlRequest" ng-model="url" ng-init="url = '<c:url value="/catalogs/locationsByZipCode.json"/>'">
             <input type="text" id="zipCode" name="zipCode" class="input-xxlarge" zip-search ng-model="zipCode"
-                   data-val="true" data-val-required="El c�digo postal es un campo requerido"
+                   data-val="true" data-val-required="El c&oacute;digo postal es un campo requerido"
                    placeholder="Escriba su C.P. para buscar.."
                    data-val-length-max="6" data-val-length-min="1"
-                   data-val-length="Debe tener al menos 1 y m�ximo 6 caracteres."/>
+                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 6 caracteres."/>
             <br>
             <span class="field-validation-valid" data-valmsg-for="zipCode" data-valmsg-replace="true"></span>
         </div>
@@ -76,7 +76,7 @@
             <input class="form-control" data-val="true"
                    data-val-length="Debe tener al menos 1 y m?ximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
-                   data-val-required="El n�mero exterior es un campo requerido"
+                   data-val-required="El n&oacute;mero exterior es un campo requerido"
                    type="text" ng-model="a.outNum"
                    id="outNum"
                    name="outNum">
@@ -88,7 +88,7 @@
             <input class="form-control" data-val="true"
                    data-val-length="Debe tener al menos 1 y m?ximo 10 caracteres"
                    data-val-length-max="10" data-val-length-min="1"
-                   data-val-required="El n�mero interior es un campo requerido"
+                   data-val-required="El n&oacute;mero interior es un campo requerido"
                    type="text" ng-model="a.innNum"
                    id="innNum"
                    name="innNum">

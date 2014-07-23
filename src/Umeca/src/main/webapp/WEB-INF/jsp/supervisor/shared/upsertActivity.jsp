@@ -24,7 +24,7 @@
                     </div>
                     <br/>
                     <div class="form-group">
-                        <label for="selectActivity" class="col-xs-3 control-label">Actividad de supervisión:</label>
+                        <label for="selectActivity" class="col-xs-3 control-label">Actividad de supervisi&oacute;n:</label>
                         <div class="col-xs-9">
                             <select class="form-control element-center" ng-model="m.activity" id="selectActivity"
                                     ng-options="e.name for e in lstActivities"
@@ -122,7 +122,7 @@
                                             <div class="col-xs-10 col-xs-offset-1 widget-container-span">
                                                 <div class="widget-box transparent">
                                                     <div class="widget-header">
-                                                        <h6 class="lighter">Elige la periodicidad por día(s) de la semana</h6>
+                                                        <h6 class="lighter">Elige la periodicidad por d&iacute;a(s) de la semana</h6>
                                                     </div>
 
                                                     <div class="widget-body">
@@ -132,7 +132,7 @@
                                                                     <div class="checkbox">
                                                                         <label>
                                                                             <input type="checkbox" ng-model="m.chkBusinessWeek" ng-change = "onBusinessWeek()"/>
-                                                                            <span class="control-label"><strong>Toda la semana hábil</strong></span>
+                                                                            <span class="control-label"><strong>Toda la semana h&aacute;bil</strong></span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -168,7 +168,7 @@
                                                                     <div class="checkbox">
                                                                         <label>
                                                                             <input type="checkbox" ng-model = "m.daysOfWeek[3]"/>
-                                                                            <span class="control-label">Miércoles</span>
+                                                                            <span class="control-label">Mi&iacute;rcoles</span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -194,7 +194,7 @@
                                                                     <div class="checkbox">
                                                                         <label>
                                                                             <input type="checkbox" ng-model = "m.daysOfWeek[6]"/>
-                                                                            <span class="control-label">Sábado</span>
+                                                                            <span class="control-label">S&aacute;bado</span>
                                                                         </label>
                                                                     </div>
                                                                 </div>

@@ -12,7 +12,7 @@
 <div class="col-xs-10 col-xs-offset-1">
 
 <div class="row element-center">
-    <h2><i class="red glyphicon glyphicon-user bigger-100 element-center"></i> &nbsp;Persona que acompa�a
+    <h2><i class="red glyphicon glyphicon-user bigger-100 element-center"></i> &nbsp;Persona que acompa&ntilde;a
         durante el proceso</h2>
 </div>
 <br/>
@@ -81,13 +81,13 @@
                 <div class="row">
 
                     <div class="col-xs-4">
-                        <label>G�nero</label>
+                        <label>G&eacute;nero</label>
 
                         <div class="radio">
                             <label>
                                 <input type="radio" class="ace" name="gender"
                                        ng-model="pa.gender" value="1" data-val="true"
-                                       data-val-required="Debe seleccionar una opci�n"/>
+                                       data-val-required="Debe seleccionar una opci&oacute;n"/>
                                 <span class="lbl">&nbsp;&nbsp;Femenino</span>
                             </label>
                             <br/>
@@ -134,7 +134,7 @@
 <br/>
 
 <div class="widget-box">
-    <div class="widget-header">Ocupaci�n</div>
+    <div class="widget-header">Ocupaci&oacute;n</div>
     <div class="widget-body">
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
@@ -142,37 +142,37 @@
                     <br/>
 
                     <div class="col-xs-4">
-                        <label for="occName">Ocupaci�n</label>
+                        <label for="occName">Ocupaci&oacute;n</label>
                         <br/>
                         <input id="occName" ng-model="pa.occName"
                                name="occName"
                                type="text" class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Ocupaci�n es un campo requerido"/>
+                               data-val-required="Ocupaci&oacute;n es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="occName"
                   data-valmsg-replace="true"></span>
                     </div>
                     <div class="col-xs-4">
-                        <label for="occPlace">Lugar de ocupaci�n</label>
+                        <label for="occPlace">Lugar de ocupaci&oacute;n</label>
                         <br/>
                         <input id="occPlace" ng-model="pa.occPlace"
                                name="occPlace"
                                type="text" class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Lugar de ocupaci�n es un campo requerido"/>
+                               data-val-required="Lugar de ocupaci&oacute;n es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="occPlace"
                   data-valmsg-replace="true"></span>
                     </div>
                     <div class="col-xs-4">
-                        <label for="occPhone">Tel�fono</label>
+                        <label for="occPhone">Tel&eacute;fono</label>
                         <br/>
                         <input id="occPhone" ng-model="pa.occPhone"
                                name="occPhone"
                                type="text" class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Tel�fono es un campo requerido"/>
+                               data-val-required="Tel&eacute;fono es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="occPhone"
                   data-valmsg-replace="true"></span>
@@ -238,13 +238,13 @@
                     </div>
 
                     <div class="col-xs-6">
-                        <label for="phone">Tel�fono fijo</label>
+                        <label for="phone">Tel&eacute;fono fijo</label>
                         <br/>
                         <input id="phone" ng-model="pa.phone"
                                name="phone"
                                type="text" class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Tel�fono fijo es un campo requerido"/>
+                               data-val-required="Tel&eacute;fono fijo es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="phone"
                   data-valmsg-replace="true"></span>

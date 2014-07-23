@@ -20,7 +20,7 @@
                         <br />
                         <div class="row">
                             <div class="col-xs-12">
-                                <label>Ingrese la información requerida para generar un nuevo caso por Suspensión Condicional de Proceso.</label>
+                                <label>Ingrese la informaci&oacute;n requerida para generar un nuevo caso por Suspensi&oacute;n Condicional de Proceso.</label>
                             </div>
                         </div>
                         <br/>
@@ -30,7 +30,7 @@
                             </div>
                             <div class="col-xs-8">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
+                                       data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                        data-val-required="El nombre es un campo requerido"
                                        data-val-length-max="50" data-val-length-min="3"
                                        id="name" name="name" ng-model="name"
@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-xs-8">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
+                                       data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3"
                                        data-val-required="El apellido paterno es un campo requerido"
                                        id="lastNameP" name="lastNameP"
@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-xs-8">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
+                                       data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3"
                                        data-val-required="El apellido parterno es un campo requerido"
                                        id="lastNameM" name="lastNameM"
@@ -100,7 +100,7 @@
                                 Carpeta judicial:
                             </div>
                             <div class="col-xs-7">
-                                <input class="form-control" type="text"    data-val-length="Debe tener al menos 1 y máximo 15 caracteres"
+                                <input class="form-control" type="text"    data-val-length="Debe tener al menos 1 y m&aacute;ximo 15 caracteres"
                                        data-val-length-max="15" data-val-length-min="1"
                                        data-val="true" data-val-required="Carpeta judicial es un campo requerido"
                                        id="idJudicial" name="idJudicial" ng-model="m.idJudicial"/>

@@ -6,7 +6,7 @@
                 <div class="widget-header widget-header-large">
                     <h1 class="grey lighter pull-left position-relative">
                         <i class="icon-leaf green"></i>
-                        Sistema de gestión de casos <strong>UMECA</strong>
+                        Sistema de gesti&oacute;n de casos <strong>UMECA</strong>
                     </h1>
                 </div>
 
@@ -17,18 +17,18 @@
                             <div class="col-xs-10">
                                 <div class="row">
                                     <div class="col-xs-11 label label-lg label-info arrowed-in arrowed-right">
-                                        <b>Información</b>
+                                        <b>Informaci&oacute;n</b>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <ul class="list-unstyled spaced">
                                         <li>
                                             <i class="icon-caret-right blue"></i>
-                                            <span style="font-size: 16px; text-align: justify"> Unidad de Medidas Cautelares <strong>(UMECA)</strong> creada bajo el patrocinio del Programa de Apoyo en Seguridad y Justicia MSI/USAID México y la asistencia técnica del Instituto de Justicia Procesal Penal de Open Society Justice Initiative se inspira en la metodología utilizada para la pionera Unidad de Medidas Cautelares para Adolescentes , fundada en febrero de 2011 también con la asistencia técnica del propio Instituto de Justicia Procesal Penal.</span>
+                                            <span style="font-size: 16px; text-align: justify"> Unidad de Medidas Cautelares <strong>(UMECA)</strong> creada bajo el patrocinio del Programa de Apoyo en Seguridad y Justicia MSI/USAID Mï¿½xico y la asistencia tï¿½cnica del Instituto de Justicia Procesal Penal de Open Society Justice Initiative se inspira en la metodologï¿½a utilizada para la pionera Unidad de Medidas Cautelares para Adolescentes , fundada en febrero de 2011 tambiï¿½n con la asistencia tï¿½cnica del propio Instituto de Justicia Procesal Penal.</span>
                                         </li>
                                         <li>
                                             <i class="icon-caret-right blue"></i>
-                                            Versión <b class="red">1.0</b>
+                                            Versi&oacute;n <b class="red">1.0</b>
                                         </li>
                                     </ul>
                                 </div>

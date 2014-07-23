@@ -121,7 +121,7 @@
 
     <div class="col-xs-6">
         <h3 class="header smaller lighter blue">
-            <small>Captur�:</small>
+            <small>Captur&aacute;:</small>
             &nbsp;&nbsp;{{m.userName}}
         </h3>
     </div>
@@ -175,12 +175,12 @@
                 <div class="row">
 
                     <div class="col-xs-4">
-                        <label for="idFolder">Carpeta de investigaci�n</label>
+                        <label for="idFolder">Carpeta de investigaci&oacute;n</label>
                         <br/>
                         <input id="idFolder" ng-model="m.idFolder" name="idFolder"
                                type="text" class="input-xxlarge" data-val="true"
                                ng-disabled="m.canEdit==false"
-                               data-val-required="Carpeta de investigaci�n es un campo requerido"/>
+                               data-val-required="Carpeta de investigaci&oacute;n es un campo requerido"/>
                         <br/>
                         <span class="field-validation-valid" data-valmsg-for="idFolder"
                               data-valmsg-replace="true"></span>
@@ -254,13 +254,13 @@
                     </div>
 
                     <div class="col-xs-4">
-                        <label for="endTime">Hora t�rmino audiencia</label>
+                        <label for="endTime">Hora t&eacute;rmino audiencia</label>
 
                         <div class="input-group bootstrap-timepicker">
                             <input id="endTime" name="endTime"
                                    ng-change="validateInitEnd();" ng-model="m.endTime"
                                    readonly type="text" class="form-control" min-time="6:00am"
-                                   data-val="true" data-val-required="Hora de t�rmino es un campo requerido"/>
+                                   data-val="true" data-val-required="Hora de t&eacute;rmino es un campo requerido"/>
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
                             <br/>
@@ -289,7 +289,7 @@
 
                     <div class="col-xs-4">
 
-                        <label for="mpName">Nombre del Ministerio P�blico</label>
+                        <label for="mpName">Nombre del Ministerio P&uacute;blico</label>
                         <br/>
                         <input id="mpName" ng-model="m.mpName" name="mpName" type="text"
                                class="input-xxlarge"
@@ -414,12 +414,12 @@
 
                     <div class="col-xs-4">
 
-                        <label for="imputedTel">Telefono(s)</label>
+                        <label for="imputedTel">Tel&eacute;fono(s)</label>
                         <br/>
                         <input id="imputedTel" ng-model="m.imputedTel" name="imputedTel" type="text"
                                class="input-xxlarge"
                                data-val="true" ng-disabled="m.canEdit==false"
-                               data-val-required="Telefono(s) es un campo requerido"/>
+                               data-val-required="Tel&eacute;fono(s) es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedTel"
                   data-valmsg-replace="true"></span>
@@ -475,7 +475,7 @@
 <div class="row">
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Control de detenci�n</div>
+            <div class="widget-header">Control de detenci&oacute;n</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -510,7 +510,7 @@
 
     <div id="divFormImp" class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Formulaci�n de imputaci�n</div>
+            <div class="widget-header">Formulaci&oacute;n de imputaci&oacute;n</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -567,7 +567,7 @@
 
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Ampliaci�n del t�rmino</div>
+            <div class="widget-header">Ampliaci&oacute;n del t&eacute;rmino</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -604,7 +604,7 @@
 
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Vinculaci�n a proceso</div>
+            <div class="widget-header">Vinculaci&oacute;n a proceso</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -775,14 +775,14 @@
                                         </div>
 
                                         <div ng-show="m.arrType==2" class="col-xs-6">
-                                            <label ng-show="m.arrType==2">Plazo de investigaci�n</label>
+                                            <label ng-show="m.arrType==2">Plazo de investigaci&oacute;n</label>
                                             <br/>
                                             <textarea class="form-control limited" name="terms"
                                                       ng-model="m.terms"
                                                       ng-disabled='m.arrType==1'
                                                       maxlength="980"
                                                       data-val="true"
-                                                      data-val-required="Plazo de investigaci�n es un campo requerido">
+                                                      data-val-required="Plazo de investigaci&oacute;n es un campo requerido">
                                                 </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
@@ -846,7 +846,7 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <label for="contactPhone">Tel�fono:</label>
+                        <label for="contactPhone">Tel&eacute;fono:</label>
                         <br/>
                         <input id="contactPhone" type="text"
                                class="input-xxlarge" ng-model="m.contactPhone"/>
@@ -855,7 +855,7 @@
 
 
                     <div class="col-xs-4">
-                        <label>Direcci�n</label>
+                        <label>Direcci&oacute;n</label>
                         <br/>
                         <textarea class="input-xxlarge form-control limited" id="contactAddress"
                                   maxlength="980" ng-model="m.contactAddress">
@@ -896,8 +896,8 @@
                                     <thead class="thin-border-bottom">
                                     <tr>
                                         <th class="element-center">Nombre</th>
-                                        <th class="element-center">Tel�fono</th>
-                                        <th class="element-center">Direcci�n</th>
+                                        <th class="element-center">Tel&eacute;fono</th>
+                                        <th class="element-center">Direcci&oacute;n</th>
                                         <th class="element-center">Quitar</th>
                                     </tr>
                                     </thead>

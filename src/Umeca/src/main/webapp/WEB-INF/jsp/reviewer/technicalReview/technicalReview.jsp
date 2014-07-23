@@ -6,14 +6,14 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/technicalReviewCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/hiddenDrct.js"></script>
 
-    <title>Opinión técnica</title>
+    <title>Opini&oacute;n t&eacute;cnica</title>
 </head>
 
 <body scroll="no" ng-app="ptlUmc">
 
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<h2 class="element-center"><i class="icon-archive"></i>&nbsp;&nbsp;Opinión técnica</h2>
+<h2 class="element-center"><i class="icon-archive"></i>&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</h2>
 
 
 <form id="FormTecRevId" name="FormTecRevId" class="form-horizontal"
@@ -207,7 +207,7 @@
                                                 <i class="icon-link"></i>
                                                 Riesgo alto!
                                             </strong>
-                                            Libertad muy difícil de cumplir.
+                                            Libertad muy dif&iacute;cil de cumplir.
                                             <br>
                                         </div>
                                     </div>
@@ -223,8 +223,8 @@
                                                 <i class="icon-warning-sign"></i>
                                                 Riesgo medio!
                                             </strong>
-                                            Se puede recomendar combinación de medidas cautelares en
-                                            libertad bajo niveles de supervisión.
+                                            Se puede recomendar combinaci&oacute;n de medidas cautelares en
+                                            libertad bajo niveles de supervisi&oacute;n.
                                             <br>
                                         </div>
                                     </div>
@@ -239,8 +239,8 @@
                                                 <i class="icon-tags"></i>
                                                 Riesgo bajo!
                                             </strong>
-                                            Se puede recomendar combinación de medidas cautelares en
-                                            libertad bajo niveles de supervisión.
+                                            Se puede recomendar combinaci&oacute;n de medidas cautelares en
+                                            libertad bajo niveles de supervisi&oacute;n.
                                             <br>
                                         </div>
                                     </div>
@@ -252,10 +252,10 @@
 
                                             <strong>
                                                 <i class="icon-unlink"></i>
-                                                Riesgo mínimo!
+                                                Riesgo m&iacute;nimo!
                                             </strong>
-                                            Se puede recomendar combinación de medidas cautelares en
-                                            libertad bajo niveles de supervisión.
+                                            Se puede recomendar combinaci&oacute;n de medidas cautelares en
+                                            libertad bajo niveles de supervisi&oacute;n.
                                             <br>
                                         </div>
                                     </div>

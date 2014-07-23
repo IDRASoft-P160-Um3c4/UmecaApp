@@ -11,7 +11,7 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
-    <title>Fuentes de verificación</title>
+    <title>Fuentes de verificaci&oacute;n</title>
     <style>
         .ui-jqgrid tr.jqgrow td {
             white-space: normal !important;
@@ -48,7 +48,7 @@
                 url: '<c:url value='/reviewer/verification/listSource.json?id=${idCase}' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Nombre','Edad', 'Parentesco', 'Dirección', 'Teléfono','Estatus','Complete','IdCase', 'Acción'],
+                colNames: ['ID', 'Nombre','Edad', 'Parentesco', 'Direcci&oacute;n', 'Tel&eacute;fono','Estatus','Complete','IdCase', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -111,7 +111,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class=" icon-group"></i>&nbsp;&nbsp;Fuentes de verificación</h2>
+    <h2 class="element-center"><i class=" icon-group"></i>&nbsp;&nbsp;Fuentes de verificaci&oacute;n</h2>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>
@@ -131,7 +131,7 @@
                         <span class="icon-group align-top bigger-125"></span> &nbsp;&nbsp;Agregar fuentes
                     </span>
                     <span class="btn btn-purple btn-primary btn-sm" ng-disabled="${sourceAvailable}" onclick="window.electionInformation()" >
-                          <span class="icon-list align-top bigger-125"></span>&nbsp;&nbsp;Iniciar elección de información
+                          <span class="icon-list align-top bigger-125"></span>&nbsp;&nbsp;Iniciar elecci&oacute;n de informaci&oacute;n
                     </span>
         </div>
     </div>

@@ -48,7 +48,7 @@
 
             window.requestAccomplishmentLog = function(id) {
                 window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/log/requestAccomplishmentLog.json' />", "#GridId",
-                        "Plan de seguimiento", "¿Está seguro de que desea solicitar la autorización del reporte de incumplimiento?", "warning");
+                        "Plan de seguimiento", "ï¿½Estï¿½ seguro de que desea solicitar la autorizaciï¿½n del reporte de incumplimiento?", "warning");
             };
 
             window.supervisionLog = function(id) {
@@ -62,7 +62,7 @@
                     url: '<c:url value='/supervisorManager/activeMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', "Estatus bitácora", 'Acción'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', "Estatus bitï¿½cora", 'Acciï¿½n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', width: 65, align: "center", sortable: true, search: false },
@@ -101,7 +101,7 @@
                             var be = "";
 
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Cambiar supervisor del caso\" onclick=\"window.changeSupervisor('" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
-                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver plan de supervisión\" onclick=\"window.showCalendar('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
+                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver plan de supervisiï¿½n\" onclick=\"window.showCalendar('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
 
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de incumplimiento\" onclick=\"window.accomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
 
@@ -110,11 +110,11 @@
                                 be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar reporte de incumplimiento\" onclick=\"window.authorizeAccomplishment('" + cl + "');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
                             }
 
-                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bitácora de supervisión\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bitï¿½cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
                             if (status === "EN PROCESO DE TERMINAR") {
-                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar termino del plan de supervisión\" onclick=\"window.rejectEnd('" + cl + "');\"><span class=\"glyphicon glyphicon-remove-circle red\"></span></a>";
-                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar termino del plan de supervisión\" onclick=\"window.authorizeEnd('" + cl + "');\"><span class=\"glyphicon glyphicon-ok-circle green\"></span></a>";
+                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar termino del plan de supervisi&oacute;n\" onclick=\"window.rejectEnd('" + cl + "');\"><span class=\"glyphicon glyphicon-remove-circle red\"></span></a>";
+                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar termino del plan de supervisi&oacute;n\" onclick=\"window.authorizeEnd('" + cl + "');\"><span class=\"glyphicon glyphicon-ok-circle green\"></span></a>";
                             }
 
                             $(this).jqGrid('setRowData', ids[i], { Action: be });

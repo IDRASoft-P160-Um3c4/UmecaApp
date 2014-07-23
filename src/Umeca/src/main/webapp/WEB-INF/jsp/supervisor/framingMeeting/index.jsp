@@ -40,7 +40,7 @@
                 url: '<c:url value='/supervisor/framingMeeting/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento', 'Estatus', 'Acción'],
+                colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento', 'Estatus', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'codeStatus', index: 'codeStatus', hidden: true },
@@ -81,7 +81,7 @@
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 break;
                             default://ban-circle
-                                be = "<a style=\"display:inline-block;\" title=\"Aún no cuenta con el formato de audiencia\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+                                be = "<a style=\"display:inline-block;\" title=\"Aï¿½n no cuenta con el formato de audiencia\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
                                 break;
                         }
 
