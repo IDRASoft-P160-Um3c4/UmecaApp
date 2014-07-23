@@ -1,4 +1,4 @@
-app.controller('hearingFormatController', function ($scope, $timeout, $http, $q) {
+app.controller('hearingFormatController', function ($scope, $timeout, $http, $q, $sce) {
 
         $scope.m = {};
         $scope.a = {};
@@ -43,10 +43,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q)
             $scope.validateArrangementSel();
             $scope.validateLstContact();
 
-            if ($scope.hasError == true)
+            if ($scope.hasError == true) {
+                $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
                 return false;
-            return true;
+            }
 
+            return true;
         };
 
         $scope.validateBthDay = function () {
@@ -292,10 +294,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q)
 
         $scope.saveHF = function (formId, urlToPost, validate) {
             if (validate != undefined)
-                stVal = validate();
+                var stVal = validate();
 
             if ($(formId).valid() == false || stVal == false) {
                 $scope.Invalid = true;
+                $scope.MsgError= $sce.trustAsHtml("No es posible guardar. Debe proporcionar toda la informaci&oacute;n requerida.");
                 return false;
             }
 

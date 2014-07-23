@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Drug;
@@ -57,6 +58,13 @@ public class FramingMeeting {
     @OneToOne
     @JoinColumn(name = "id_case")
     private Case caseDetention;
+
+    @Column(name="is_terminated")
+    private Boolean isTerminated;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user")
+    private User supervisor;
 
     public Long getId() {
         return id;
@@ -160,5 +168,21 @@ public class FramingMeeting {
 
     public void setPersonalData(FramingImputedPersonalData personalData) {
         this.personalData = personalData;
+    }
+
+    public Boolean getIsTerminated() {
+        return isTerminated;
+    }
+
+    public void setIsTerminated(Boolean isTerminated) {
+        this.isTerminated = isTerminated;
+    }
+
+    public User getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(User supervisor) {
+        this.supervisor = supervisor;
     }
 }

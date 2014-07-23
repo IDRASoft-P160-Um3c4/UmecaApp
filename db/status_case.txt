@@ -9,5 +9,3 @@
 8|ST_CASE_CONDITIONAL_REPRIEVE|Nuevo caso por suspensión condicional de proceso.
 9|ST_CASE_VERIFICATION|En verificación
 10|ST_CASE_PRE_CLOSED|Pre-cerrado.
-11|ST_CASE_FRAMING_INCOMPLETE|Entrevista de encuadre incompleta.
-12|ST_CASE_FRAMING_COMPLETE|Entrevista de encuadre completa.
