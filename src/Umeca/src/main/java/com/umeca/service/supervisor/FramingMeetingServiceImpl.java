@@ -5,9 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.AddressDto;
-import com.umeca.model.entities.reviewer.Address;
-import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.Drug;
+import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
@@ -133,22 +131,65 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     public FramingPersonalDataView fillPersonalDataForView(Long idCase) {
 
         FramingPersonalDataView view = new FramingPersonalDataView();
-        FramingMeeting existFramning = caseRepository.findOne(idCase).getFramingMeeting();
+        Case existCase = caseRepository.findOne(idCase);
+        Verification existVer = existCase.getVerification();
+        FramingMeeting existFraming = existCase.getFramingMeeting();
 
-        if (existFramning.getPersonalData() != null) {
-            view.setName(existFramning.getPersonalData().getName());
-            view.setLastNameP(existFramning.getPersonalData().getLastNameP());
-            view.setLastNameM(existFramning.getPersonalData().getLastNameM());
-            view.setGender(existFramning.getPersonalData().getGender());
-            view.setMaritalStatus(existFramning.getPersonalData().getMaritalStatus().getId());
-            view.setMaritalStatusYears(existFramning.getPersonalData().getMaritalStatusYears());
-            view.setBirthCountryId(existFramning.getPersonalData().getBirthCountry().getId());
-            view.setBirthState(existFramning.getPersonalData().getBirthState());
-            view.setBirthDate(existFramning.getPersonalData().getBirthDate());
-            view.setPhysicalCondition(existFramning.getPersonalData().getPhysicalCondition());
+        if (existFraming.getPersonalData() != null) {
+
+            view.setName(existFraming.getPersonalData().getName());
+            view.setLastNameP(existFraming.getPersonalData().getLastNameP());
+            view.setLastNameM(existFraming.getPersonalData().getLastNameM());
+            view.setGender(existFraming.getPersonalData().getGender());
+            view.setMaritalStatus(existFraming.getPersonalData().getMaritalStatus().getId());
+            view.setMaritalStatusYears(existFraming.getPersonalData().getMaritalStatusYears());
+            view.setBirthCountryId(existFraming.getPersonalData().getBirthCountry().getId());
+            view.setBirthState(existFraming.getPersonalData().getBirthState());
+            view.setBirthDate(existFraming.getPersonalData().getBirthDate());
+            view.setPhysicalCondition(existFraming.getPersonalData().getPhysicalCondition());
+
+            return view;
         }
 
-        return view;
+        if (existVer != null && existVer.getStatus().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
+            Meeting existVerifMeet = existVer.getMeetingVerified();
+
+            view.setName(existVerifMeet.getImputed().getName());
+            view.setLastNameP(existVerifMeet.getImputed().getLastNameP());
+            view.setLastNameM(existVerifMeet.getImputed().getLastNameM());
+
+            if (existVerifMeet.getImputed().getGender() == true)
+                view.setGender(1);
+            else
+                view.setGender(2);
+
+            view.setMaritalStatus(existVerifMeet.getImputed().getMaritalStatus().getId());
+            view.setMaritalStatusYears(existVerifMeet.getImputed().getYearsMaritalStatus().toString());
+            view.setBirthCountryId(existVerifMeet.getImputed().getBirthCountry().getId());
+            view.setBirthState(existVerifMeet.getImputed().getBirthState());
+            view.setBirthDate(existVerifMeet.getImputed().getBirthDate());
+            view.setPhysicalCondition(existVerifMeet.getSocialEnvironment().getPhysicalCondition());
+
+            return view;
+        }
+
+        List<HearingFormat> formats = existCase.getHearingFormats();
+
+        if (formats != null && formats.size() > 0) {
+
+            Collections.sort(formats, HearingFormat.hearingFormatComparator);
+
+            HearingFormat lasF = formats.get(0);
+
+            view.setName(lasF.getHearingImputed().getName());
+            view.setLastNameP(lasF.getHearingImputed().getLastNameP());
+            view.setLastNameM(lasF.getHearingImputed().getLastNameM());
+            view.setBirthDate(lasF.getHearingImputed().getBirthDate());
+
+            return view;
+        }
+
+        return new FramingPersonalDataView();
     }
 
     public FramingImputedPersonalData fillPersonalData(Long idCase, FramingPersonalDataView view) {
@@ -180,11 +221,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         framingMeetingView.setIdFolder(existCase.getIdFolder());
         framingMeetingView.setIdCase(existCase.getId());
         framingMeetingView.setCanTerminate(true);
-        System.out.println(existCase.getStatus().getName());
-        System.out.println(Constants.CASE_STATUS_FRAMING_MEETING_COMPLETE);
-        if(existCase.getStatus().getName().equals(Constants.CASE_STATUS_FRAMING_MEETING_COMPLETE))
-            framingMeetingView.setCanTerminate(false);
 
+        if (existCase.getFramingMeeting().getIsTerminated() == true)
+            framingMeetingView.setCanTerminate(false);
 
         return framingMeetingView;
     }
@@ -906,7 +945,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     sb.append("|Debe proporcionar la información faltante para la sección \"Persona que acompaña en el proceso\".");
 
 
-            if (existFraming.getReferences() != null&&existFraming.getReferences().size()>0) {
+            if (existFraming.getReferences() != null && existFraming.getReferences().size() > 0) {
                 int noHousemate = 0, noReferences = 0;
 
                 for (FramingReference fr : existFraming.getReferences()) {
@@ -966,10 +1005,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             Case existCase = caseRepository.findOne(idCase);
             existCase.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_COMPLETE));
+            existCase.getFramingMeeting().setIsTerminated(true);
             caseRepository.save(existCase);
             return new ResponseMessage(false, "Se ha guardado la información con exito");
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseMessage(false, "Ha ocurrido un error al guardar la información. Intente más tarde.");
         }

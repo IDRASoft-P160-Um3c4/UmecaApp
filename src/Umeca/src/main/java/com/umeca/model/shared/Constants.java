@@ -46,11 +46,9 @@ public class Constants {
     public static final String CASE_STATUS_TECHNICAL_REVIEW="ST_CASE_TECHNICAL_REVIEW_COMPLETE";
     public static final String CASE_STATUS_VERIFICATION = "ST_CASE_VERIFICATION";
 
-    public static final String CASE_STATUS_FRAMING_MEETING_INCOMPLETE="ST_CASE_FRAMING_MEETING_INCOMPLETE";
-    public static final String CASE_STATUS_FRAMING_MEETING_COMPLETE="ST_CASE_FRAMING_MEETING_COMPLETE";
     public static final String CASE_STATUS_CONDITIONAL_REPRIEVE="ST_CASE_CONDITIONAL_REPRIEVE";
-    public static final String CASE_STATUS_FRAMING_INCOMPLETE="ST_CASE_FRAMING_INCOMPLETE";
-    public static final String CASE_STATUS_FRAMING_COMPLETE="ST_CASE_FRAMING_COMPLETE";
+    public static final String CASE_STATUS_FRAMING_INCOMPLETE="ST_CASE_FRAMING_MEETING_INCOMPLETE";
+    public static final String CASE_STATUS_FRAMING_COMPLETE="ST_CASE_FRAMING_MEETING_COMPLETE";
 
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW="DONT_KNOW";
@@ -60,6 +58,7 @@ public class Constants {
 
     public static final String ST_FIELD_VERIF_IMPUTED = "IS_IMPUTED";
     public static final String CASE_STATUS_PRE_CLOSED="ST_CASE_PRE_CLOSED";
+    public static final String CASE_STATUS_CLOSED="ST_CASE_CLOSED";
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_REVIEWER = "ROLE_REVIEWER";

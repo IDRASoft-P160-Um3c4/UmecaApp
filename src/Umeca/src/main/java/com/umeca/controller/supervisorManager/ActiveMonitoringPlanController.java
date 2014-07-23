@@ -51,9 +51,6 @@ public class ActiveMonitoringPlanController {
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
 
-    @Autowired
-    private SharedUserService userService;
-
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/list", method = RequestMethod.POST)
     public
     @ResponseBody
