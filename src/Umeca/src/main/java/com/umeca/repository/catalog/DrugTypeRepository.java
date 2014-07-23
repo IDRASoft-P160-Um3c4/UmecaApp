@@ -10,7 +10,7 @@ import java.util.List;
 @Repository("drugTypeRepository")
 public interface DrugTypeRepository extends JpaRepository<DrugType,Long> {
 
-    @Query("select d from DrugType as d where isObsolete=false")
+    @Query("select d from DrugType as d where d.isObsolete=false order by d.name")
     List<DrugType> findNotObsolete();
 
 }

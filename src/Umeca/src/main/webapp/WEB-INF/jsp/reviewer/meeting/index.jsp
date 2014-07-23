@@ -56,11 +56,11 @@
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullname', index: 'fullname', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'dateBirthString', index: 'dateBirthString', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'genderString', index: 'genderString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'description', index: 'description', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'statusCode', index: 'statusCode',hidden:true },
-                    { name: 'reviewerId', index: 'reviewerId',hidden:true },
+                    { name: 'dateBirthString', index: 'dateBirthString', width: 160, align: "center", sortable: false, search: false },
+                    { name: 'genderString', index: 'genderString', width: 150, align: "center", sortable: false, search: false},
+                    { name: 'description', index: 'description', width: 250, align: "center", sortable: false, search: false},
+                    { name: 'statusCode', index: 'statusCode', hidden: true },
+                    { name: 'reviewerId', index: 'reviewerId', hidden: true },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
@@ -115,7 +115,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevistas de evaluaci&oacute;n de riesgos procesales</h2>
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevistas de evaluaci�n de riesgos procesales</h2>
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>
         <div id="GridPager"></div>

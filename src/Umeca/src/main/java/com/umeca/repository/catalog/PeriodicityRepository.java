@@ -10,6 +10,6 @@ import java.util.List;
 @Repository("periodicityRepository")
 public interface PeriodicityRepository extends JpaRepository<Periodicity,Long> {
 
-    @Query("select p from Periodicity as p where p.isObsolete=false")
+    @Query("select p from Periodicity as p where p.isObsolete=false order by p.name")
     List<Periodicity> findNotObsolete();
 }

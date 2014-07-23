@@ -1,10 +1,10 @@
 package com.umeca.model.entities.shared;
 
-import com.umeca.model.entities.supervisorManager.LogCommentMonitoringPlan;
+import com.umeca.model.entities.supervisorManager.LogComment;
 
 public class CommentRequest {
     private Long id;
-    private LogCommentMonitoringPlan logCommentMonitoringPlan;
+    private LogComment logComment;
 
     public Long getId() {
         return id;
@@ -14,11 +14,11 @@ public class CommentRequest {
         this.id = id;
     }
 
-    public LogCommentMonitoringPlan getLogCommentMonitoringPlan() {
-        return logCommentMonitoringPlan;
+    public LogComment getLogComment() {
+        return logComment;
     }
 
-    public void setLogCommentMonitoringPlan(LogCommentMonitoringPlan logCommentMonitoringPlan) {
-        this.logCommentMonitoringPlan = logCommentMonitoringPlan;
+    public void setLogComment(LogComment logComment) {
+        this.logComment = logComment;
     }
 }

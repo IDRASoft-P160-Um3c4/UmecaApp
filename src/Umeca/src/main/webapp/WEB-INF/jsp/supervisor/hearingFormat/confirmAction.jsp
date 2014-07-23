@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="row" ng-show="m.confirmComment.length>0">
-                            <label for="credPass">Password</label>
+                            <label for="credPass">Contraseña</label>
                             <br/>
                             <input id="credPass" ng-model="m.credPass" name="credPass"
                                    type="password" data-val="true" class="input-xlarge"

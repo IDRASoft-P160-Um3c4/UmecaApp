@@ -16,16 +16,17 @@ id|name|idLevel|isObsolete
 15|Segundo|4|0
 16|Tercero|4|0
 17|Terminado|4|0
-18|Primero|5|0
-19|Segundo|5|0
-20|Tercero|5|0
-21|Cuarto|5|0
-22|Quinto|5|0
-23|Sexto|5|0
-24|Septimo|5|0
-25|Octavo|5|0
-26|Noveno|5|0
-27|Décimo|5|0
-28|Trunco|6|0
-29|Terminado|6|0
-30|Otro|7|0
+18|Primer semestre|5|0
+19|Segundo semestre|5|0
+20|Tercer semestre|5|0
+21|Cuarto semestre|5|0
+22|Quinto semestre|5|0
+23|Sexto semestre|5|0
+24|Séptimo semestre|5|0
+25|Octavo semestre|5|0
+26|Noveno semestre|5|0
+27|Décimo semestre|5|0
+28|Terminado|5|0
+29|Trunco|6|0
+30|Terminado|6|0
+31|Otro|7|0

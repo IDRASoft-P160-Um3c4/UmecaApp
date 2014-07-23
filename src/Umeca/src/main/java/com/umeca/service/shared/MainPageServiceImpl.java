@@ -10,14 +10,14 @@ import com.umeca.model.entities.reviewer.dto.LogNotificationDto;
 import com.umeca.model.entities.shared.CommentRequest;
 import com.umeca.model.entities.supervisor.ActivityMonitoringPlanNotice;
 import com.umeca.model.entities.supervisorManager.CommentMonitoringPlanNotice;
-import com.umeca.model.entities.supervisorManager.LogCommentMonitoringPlan;
+import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
-import com.umeca.repository.supervisorManager.LogCommentMonitoringPlanRepository;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +31,7 @@ import java.util.*;
 public class MainPageServiceImpl implements MainPageService {
 
     @Autowired
-    LogCommentMonitoringPlanRepository logCommentMonitoringPlanRepository;
+    LogCommentRepository logCommentRepository;
 
     @Autowired
     CaseRepository caseRepository;
@@ -90,40 +90,40 @@ public class MainPageServiceImpl implements MainPageService {
 
 
     private void doDeleteComment(CommentRequest model, User user) {
-        LogCommentMonitoringPlan logCommentMonitoringPlan = model.getLogCommentMonitoringPlan();
-        logCommentMonitoringPlan.setObsoleteUser(user);
-        logCommentMonitoringPlan.setTimestampObsolete(Calendar.getInstance());
-        logCommentMonitoringPlan.setObsolete(true);
-        logCommentMonitoringPlanRepository.save(logCommentMonitoringPlan);
+        LogComment logComment = model.getLogComment();
+        logComment.setObsoleteUser(user);
+        logComment.setTimestampObsolete(Calendar.getInstance());
+        logComment.setObsolete(true);
+        logCommentRepository.save(logComment);
     }
 
     private boolean validateManagerSupervisorComment(CommentRequest model, User user, ResponseMessage response) {
-        LogCommentMonitoringPlan logCommentMonitoringPlan = logCommentMonitoringPlanRepository.getCommentByCommentIdAndNotSenderUserId(model.getId(), user.getId());
+        LogComment logComment = logCommentRepository.getCommentByCommentIdAndNotSenderUserId(model.getId(), user.getId());
 
-        if (logCommentMonitoringPlan == null) {
+        if (logComment == null) {
             response.setMessage("Usted ya no es el propietario de este mensaje. Por favor contacte a su coordinador de supervisores");
             return false;
         }
 
-        model.setLogCommentMonitoringPlan(logCommentMonitoringPlan);
+        model.setLogComment(logComment);
         return true;
     }
 
     private boolean validateSupervisorComment(CommentRequest model, User user, ResponseMessage response) {
-        LogCommentMonitoringPlan logCommentMonitoringPlan = logCommentMonitoringPlanRepository.getCommentByCommentIdAndUserId(model.getId(), user.getId());
+        LogComment logComment = logCommentRepository.getCommentByCommentIdAndUserId(model.getId(), user.getId());
 
-        if (logCommentMonitoringPlan == null) {
+        if (logComment == null) {
             response.setMessage("Usted ya no es el propietario de este mensaje. Por favor contacte a su coordinador de supervisores");
             return false;
         }
 
-        model.setLogCommentMonitoringPlan(logCommentMonitoringPlan);
+        model.setLogComment(logComment);
         return true;
     }
 
     private void constructSupervisorManagerMainPage(ModelAndView model, Long userId) {
         Gson json = new Gson();
-        List<CommentMonitoringPlanNotice> lstGen = logCommentMonitoringPlanRepository.getEnabledCommentsByManagerSupId(userId);
+        List<CommentMonitoringPlanNotice> lstGen = logCommentRepository.getEnabledCommentsByManagerSupId(userId);
         String sLstGeneric = json.toJson(lstGen);
         model.addObject("lstNotification", sLstGeneric);
         model.addObject("urlToGo", "/supervisorManager/log/deleteComment.json");
@@ -209,9 +209,9 @@ public class MainPageServiceImpl implements MainPageService {
         sLstGeneric = json.toJson(lstGeneric);
         model.addObject("lstActivitiesNew", sLstGeneric);
 
-        List<CommentMonitoringPlanNotice> lstGen = logCommentMonitoringPlanRepository.getEnabledCommentsByUserId(userId);
-        sLstGeneric = json.toJson(lstGen);
+        List<CommentMonitoringPlanNotice> lstGen = logCommentRepository.getEnabledCommentsByUserId(userId);
 
+        sLstGeneric = json.toJson(lstGen);
         model.addObject("lstNotification", sLstGeneric);
         model.addObject("urlToGo", "/supervisor/log/deleteComment.json");
     }

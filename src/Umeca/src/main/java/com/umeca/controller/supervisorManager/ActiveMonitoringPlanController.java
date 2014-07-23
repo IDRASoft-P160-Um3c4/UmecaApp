@@ -262,7 +262,7 @@ public class ActiveMonitoringPlanController {
             }
 
             trackMonPlanService.saveAuthRejectMonPlan(model, user, monPlan, MonitoringConstants.STATUS_END,
-                    MonitoringConstants.STATUS_REJECTED_END, MonitoringConstants.TYPE_COMMENT_END);
+                    MonitoringConstants.STATUS_REJECTED_END, MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END);
 
             response.setHasError(false);
         } catch (Exception ex) {

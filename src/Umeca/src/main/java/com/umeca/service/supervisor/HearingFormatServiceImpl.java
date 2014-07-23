@@ -35,7 +35,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     @Autowired
     HearingFormatRepository hearingFormatRepository;
 
-    @Qualifier("locationRepository")
     @Autowired
     LocationRepository locationRepository;
 

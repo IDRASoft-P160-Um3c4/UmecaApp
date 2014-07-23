@@ -109,7 +109,8 @@
 <br/>
 
 <div class="container body-content" ng-controller="hearingFormatController" ng-init='m=${hfView}'>
-<%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp" %>
+
+<%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp"%>
 
 <input type="hidden" id="url3" value="<c:url value='/supervisor/hearingFormat/searchArrangementsByType.json'/>"/>
 

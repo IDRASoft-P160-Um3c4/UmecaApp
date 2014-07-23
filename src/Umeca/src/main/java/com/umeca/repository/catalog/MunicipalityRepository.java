@@ -11,6 +11,6 @@ import java.util.List;
 @Repository("municipalityRepository")
 public interface MunicipalityRepository extends JpaRepository<Municipality,Long> {
 
-    @Query("select m from Municipality as m where m.state.id=:idState")
+    @Query("select m from Municipality as m where m.state.id=:idState order by m.name")
     List<Municipality> findByIdState(@Param("idState")Long idState);
 }

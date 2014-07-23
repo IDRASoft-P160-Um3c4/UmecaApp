@@ -26,7 +26,8 @@ public class MonitoringConstants {
 
     public final static String TYPE_COMMENT_AUTHORIZED = "AUTORIZAR";
     public final static String TYPE_COMMENT_LOG_ACCOMPLISHMENT = "REPORTE INCUMPLIMIENTO";
-    public final static String TYPE_COMMENT_END = "TERMINAR";
+    public final static String TYPE_COMMENT_MONITORING_PLAN_END = "TERMINAR PLAN";
+    public final static String TYPE_COMMENT_CASE_END = "TERMINAR CASO";
 
     public static final int ACTIVITY_ARRANGEMENT_UNDEFINED = -1;
     public static final int ACTIVITY_ARRANGEMENT_FAILED = 0;
@@ -35,4 +36,5 @@ public class MonitoringConstants {
     public static final String LOG_PENDING_ACCOMPLISHMENT = "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO";
     public static final String LOG_ACCOMPLISHMENT_AUTHORIZED = "AUTORIZAR REPORTE INCUMPLIMIENTO";
     public static final String LOG_ACCOMPLISHMENT_REJECTED = "RECHAZADO REPORTE INCUMPLIMIENTO";
+
 }
