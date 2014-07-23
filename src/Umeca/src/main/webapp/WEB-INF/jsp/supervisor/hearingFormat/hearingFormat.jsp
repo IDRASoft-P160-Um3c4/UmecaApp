@@ -148,6 +148,15 @@
 </div>
 
 <div class="row">
+    <div class="col-xs-12">
+        <div ng-show="MsgError&&MsgError!=''" class="alert alert-danger element-center">
+            <%--{{MsgError}}--%>
+            <p ng-bind-html="MsgError"></p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
 <div class="widget-box">
 <div class="widget-header">Datos generales</div>
 <div class="widget-body">
@@ -920,6 +929,14 @@
         </div>
     </div>
 
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div ng-show="MsgError&&MsgError!=''" class="alert alert-danger element-center">
+            <p ng-bind-html="MsgError"></p>
+        </div>
+    </div>
 </div>
 
 <div class="row element-right">

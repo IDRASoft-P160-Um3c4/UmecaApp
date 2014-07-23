@@ -145,6 +145,7 @@ public class FramingMeetingController {
 
         if (caseDet.getFramingMeeting() == null) {
             FramingMeeting framingMeeting = new FramingMeeting();
+            framingMeeting.setIsTerminated(false);
             caseDet.setFramingMeeting(framingMeeting);
             caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_INCOMPLETE));
             framingMeeting.setCaseDetention(caseDet);

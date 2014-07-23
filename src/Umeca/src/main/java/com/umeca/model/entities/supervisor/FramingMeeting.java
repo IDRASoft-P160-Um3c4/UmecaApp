@@ -58,6 +58,9 @@ public class FramingMeeting {
     @JoinColumn(name = "id_case")
     private Case caseDetention;
 
+    @Column(name="is_terminated")
+    private Boolean isTerminated;
+
     public Long getId() {
         return id;
     }
@@ -160,5 +163,13 @@ public class FramingMeeting {
 
     public void setPersonalData(FramingImputedPersonalData personalData) {
         this.personalData = personalData;
+    }
+
+    public Boolean getIsTerminated() {
+        return isTerminated;
+    }
+
+    public void setIsTerminated(Boolean isTerminated) {
+        this.isTerminated = isTerminated;
     }
 }
