@@ -1,10 +1,19 @@
 package com.umeca.model.entities.supervisorManager;
 
 public class AuthorizeRejectMonPlan {
+    private Long caseId;
     private Long monPlanId;
     private Integer authorized;
     private String comments;
     private String password;
+
+    public Long getCaseId() {
+        return caseId;
+    }
+
+    public void setCaseId(Long caseId) {
+        this.caseId = caseId;
+    }
 
     public Long getMonPlanId() {
         return monPlanId;

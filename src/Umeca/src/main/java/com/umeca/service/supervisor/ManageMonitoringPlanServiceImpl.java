@@ -8,12 +8,12 @@ import com.umeca.model.entities.shared.LogCommentJson;
 import com.umeca.model.entities.supervisor.ActivityMonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlanJson;
-import com.umeca.model.entities.supervisorManager.LogCommentMonitoringPlan;
+import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.LogChangeDataRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
-import com.umeca.repository.supervisorManager.LogCommentMonitoringPlanRepository;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +55,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     }
 
     @Autowired
-    LogCommentMonitoringPlanRepository logCommentMonPlanRepository;
+    LogCommentRepository logCommentMonPlanRepository;
 
     @Override
     public boolean requestAccomplishmentLog(Long monPlanId, User user, String sAction, String sComments, ResponseMessage message) {
@@ -65,10 +65,11 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
 
         MonitoringPlan monPlan = monPlanRepository.findOne(monPlanId);
 
-        LogCommentMonitoringPlan commentModel = new LogCommentMonitoringPlan();
+        LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
         commentModel.setComments(sComments);
         commentModel.setAction(sAction);
+        commentModel.setCaseDetention(monPlan.getCaseDetention());
         commentModel.setMonitoringPlan(monPlan);
         commentModel.setSenderUser(user);
         commentModel.setTimestamp(now);

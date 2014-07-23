@@ -16,6 +16,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository("statusCaseRepository")
 public interface StatusCaseRepository extends JpaRepository<StatusCase,Long> {
-    @Query("SELECT s from StatusCase s where status=:code")
+    @Query("SELECT s from StatusCase s where s.name=:code")
     public StatusCase findByCode(@Param("code") String code);
 }
