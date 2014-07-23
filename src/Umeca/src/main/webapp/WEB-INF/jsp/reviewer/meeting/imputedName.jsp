@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-sm-3">
             <h3 class="header smaller lighter blue">
-                <small>Carpeta de investigación:  </small>
+                <small>Carpeta de investigaci&oacute;n:  </small>
                 &nbsp;${idFolder}
             </h3>
         </div>

@@ -25,12 +25,12 @@
             };
 
             window.disable = function (id) {
-                window.showAction(id, "#angJsjqGridId", '<c:url value='/management/user/disable.json' />', "#GridId", "Deshabilitar usuario", "¿Desea deshabilitar al usuario?", "warning");
+                window.showAction(id, "#angJsjqGridId", '<c:url value='/management/user/disable.json' />', "#GridId", "Deshabilitar usuario", "ï¿½Desea deshabilitar al usuario?", "warning");
             };
 
 
             window.enable = function (id) {
-                window.showAction(id, "#angJsjqGridId", '<c:url value='/management/user/enable.json' />', "#GridId", "Habilitar usuario", "¿Desea habilitar al usuario?", "warning");
+                window.showAction(id, "#angJsjqGridId", '<c:url value='/management/user/enable.json' />', "#GridId", "Habilitar usuario", "ï¿½Desea habilitar al usuario?", "warning");
             };
 
             $(document).ready(function() {
@@ -38,7 +38,7 @@
                     url: '<c:url value='/management/user/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Usuario','Nombre completo','Correo electrónico','Perfil', 'Habilitado', 'Acción'],
+                    colNames: ['ID', 'Usuario','Nombre completo','Correo electr&oacute;nico','Perfil', 'Habilitado', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'username', index: 'username', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

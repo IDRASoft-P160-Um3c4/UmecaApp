@@ -12,15 +12,7 @@
 
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
-    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
-    <title>Casos para entrevista de encuadre</title>
+    <title>Casos activos</title>
 </head>
 
 <body scroll="no" ng-app="ptlUmc">
@@ -30,14 +22,10 @@
 
     <script>
 
-        addFramingMeeting = function (id) {
-            var goTo = "<c:url value='/supervisor/framingMeeting/framingMeeting.html'/>" + "?id=" + id;
-            window.goToUrlMvcUrl(goTo);
-        };
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/supervisor/framingMeeting/list.json' />',
+                url: '<c:url value='/supervisorManager/caseClosed/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento', 'Estatus', 'Acci&oacute;n'],
@@ -60,34 +48,6 @@
                 sortorder: "desc",
                 caption: "&nbsp;",
                 altRows: true,
-                gridComplete: function () {
-                    var ids = $(this).jqGrid('getDataIDs');
-                    var status = $(this).jqGrid('getCol', 'codeStatus', false);
-
-                    for (var i = 0; i < ids.length; i++) {
-
-                        var cl = ids[i];
-                        var be;
-
-                        switch (status[i]) {
-
-                            case 'ST_CASE_HEARING_FORMAT_END':
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
-                                break;
-                            case 'ST_CASE_FRAMING_INCOMPLETE':
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-                                break;
-                            case 'ST_CASE_FRAMING_COMPLETE':
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-                                break;
-                            default://ban-circle
-                                be = "<a style=\"display:inline-block;\" title=\"A�n no cuenta con el formato de audiencia\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
-                                break;
-                        }
-
-                        $(this).jqGrid('setRowData', ids[i], { Action: be });
-                    }
-                },
                 loadComplete: function () {
                     var table = this;
                     setTimeout(function () {
@@ -115,7 +75,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Casos para entrevista de encuadre
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Casos cerrados
     </h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">

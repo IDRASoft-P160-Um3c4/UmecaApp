@@ -32,7 +32,7 @@
                     url: '<c:url value='/supervisorManager/authorizeMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', width: 65, align: "center", sortable: true, search: false },
@@ -62,9 +62,9 @@
                             var row = $(this).getRowData(cl);
                             var be = "";
 
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver plan de supervisión\" onclick=\"window.showCalendar('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar plan de supervisión\" onclick=\"window.reject('" + cl + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar plan de supervisión\" onclick=\"window.authorize('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver plan de supervisi&oacute;n\" onclick=\"window.showCalendar('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar plan de supervisi&oacute;n\" onclick=\"window.reject('" + cl + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar plan de supervisi&oacute;n\" onclick=\"window.authorize('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
 
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }
@@ -96,7 +96,7 @@
 
         </script>
 
-        <h2 class="element-center"><i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Planes de seguimiento en espera de autorización</h2>
+        <h2 class="element-center"><i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Planes de seguimiento en espera de autorizaci&oacute;n</h2>
 
         <div id="angJsjqGridId" ng-controller="modalDlgController">
             <table id="GridId" class="element-center" style="margin: auto"></table>

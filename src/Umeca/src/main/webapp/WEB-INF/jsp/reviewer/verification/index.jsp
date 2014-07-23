@@ -34,7 +34,7 @@
                 url: '<c:url value='/reviewer/verification/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Carpeta de <br/>investigación','Nombre','Género', 'Estatus','Estatus Description', 'Acción'],
+                colNames: ['ID', 'Carpeta de <br/>investigaci&oacute;n','Nombre','G&eacute;nero', 'Estatus','Estatus Description', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

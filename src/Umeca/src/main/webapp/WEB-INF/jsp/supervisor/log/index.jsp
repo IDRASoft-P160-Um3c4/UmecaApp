@@ -4,7 +4,7 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
-    <title>Bitácoras de supervisión y cumplimiento</title>
+    <title>Bit&aacute;coras de supervisi&oacute;n y cumplimiento</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
     <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -20,7 +20,7 @@
 
             window.requestAccomplishmentLog = function(id) {
                 window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/log/requestAccomplishmentLog.json' />", "#GridId",
-                "Plan de seguimiento", "¿Está seguro de que desea solicitar la autorización del reporte de incumplimiento?", "warning");
+                "Plan de seguimiento", "&iquest;Est&aacute; seguro de que desea solicitar la autorizaci&oacute;n del reporte de incumplimiento?", "warning");
             };
 
             window.showRejectAuthAccomplishmentMsg = function(id){
@@ -38,7 +38,7 @@
                     url: '<c:url value='/supervisor/log/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', "Estatus bitácora", 'Acción'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', "Estatus bit&aacute;cora", 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', width: 65, align: "center", sortable: true, search: false },
@@ -82,10 +82,10 @@
                             }
 
                             if(statusLog === undefined || (statusLog.action !== "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO" && statusLog.action !== "AUTORIZAR REPORTE INCUMPLIMIENTO")){
-                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorización del reporte de incumplimiento\" onclick=\"window.requestAccomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorizaci&oacute;n del reporte de incumplimiento\" onclick=\"window.requestAccomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
                             }
 
-                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bitácora de supervisión\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&aacute;cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

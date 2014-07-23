@@ -36,7 +36,7 @@
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input name="j_password" class="form-control" id="j_password" type="password" placeholder="Contraseña" ng-model="m.password" data-val-required="No ha ingresado la contraseña" data-val="true">
+                                <input name="j_password" class="form-control" id="j_password" type="password" placeholder="Contrase&ntilde;a" ng-model="m.password" data-val-required="No ha ingresado la contrase&ntilde;a" data-val="true">
                             </div>
                             <div class="input-group error-font">
                                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="Password"></span>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="login('#loginForm', 'Error de red. Intente más tarde', '<c:url value="/j_spring_security_check" />')">Ingresar</button>
+                    <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="login('#loginForm', 'Error de red. Intente mï¿½s tarde', '<c:url value="/j_spring_security_check" />')">Ingresar</button>
                 </div>
             </div>
         </div>

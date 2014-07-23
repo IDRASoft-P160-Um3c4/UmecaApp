@@ -24,7 +24,7 @@
             url: urlGridHousemate,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Edad','Parentesco','Ocupaci�n','Acci�n'],
+            colNames: ['ID', 'Nombre','Edad','Parentesco','Ocupaci&oacute;n','Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

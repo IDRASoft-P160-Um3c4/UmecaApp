@@ -15,7 +15,7 @@
                 <div class="modal-header">
                     <div class="alert alert-success ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center">&nbsp;&nbsp;Verificación</h4>
+                        <h4 class="element-center">&nbsp;&nbsp;Verificaci&oacute;n</h4>
                     </div>
                 </div>
                 <div class="modal-body">
@@ -23,7 +23,7 @@
                         <br />
                         <div class="row">
                             <div class="col-xs-3">
-                                Razón de veracidad:
+                                Raz&oacute;n de veracidad:
                             </div>
                             <div class="col-xs-9">
                                 <textarea id="form-field-11" class="form-control"></textarea>

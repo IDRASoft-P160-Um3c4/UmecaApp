@@ -1,5 +1,6 @@
 package com.umeca.repository;
 
+import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.FindLegalBefore;
@@ -91,5 +92,12 @@ public interface CaseRepository extends JpaRepository<Case, Long>{
             "     and sv.dateComplete is null and sCase.id=vCase.id) is null " +
             "order by c.meeting.dateCreate asc")
     List<LogNotificationDto> getAddMissingSourcesMeetingInfo(@Param("idUser")Long idUser,@Param("verifSt")String strMeetingSt ,@Param("caseSt")String strCaseSt, Pageable pageable);
+
+
+    @Query("select  new com.umeca.model.dto.CaseInfo(c.id, c.idMP, c.idFolder, i.name, i.lastNameP, i.lastNameM, s.description) from Case as c " +
+            "INNER JOIN c.status as s " +
+            "INNER JOIN c.meeting.imputed as i " +
+            "WHERE c.id = :idCase")
+    CaseInfo getInfoById(@Param("idCase") Long idCase);
 
 }

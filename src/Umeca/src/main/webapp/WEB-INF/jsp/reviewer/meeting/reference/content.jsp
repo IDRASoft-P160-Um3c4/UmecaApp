@@ -12,8 +12,8 @@
             Nombre:
         </div>
         <div class="col-xs-10">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y máximo 150 caracteres"
-                   data-val-length-max="150" data-val-length-min="6" data-val-required="El nombre es un campo requerido" id="fullName"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m&aacute;ximo 150 caracteres"
+                    data-val-length-max="150" data-val-length-min="6" data-val-required="El nombre es un campo requerido" id="fullName"
                    type="text" value="${r.fullName}" ng-model="r.fullName" ng-init='r.fullName="${(r.fullName)==null ? '' : r.fullName}";' name="fullName">
         </div>
         <div class="row">
@@ -42,11 +42,11 @@
     </div>
     <div class="col-xs-5">
         <div class="col-xs-4 element-left">
-            Teléfono:
+            Tel&eacute;fono:
         </div>
         <div class="col-xs-7">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y máximo 20 caracteres"
-                   data-val-length-max="20" data-val-length-min="8" data-val-required="El teléfono es un campo requerido" id="phone"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y m&aacute;ximo 20 caracteres"
+                   data-val-length-max="20" data-val-length-min="8" data-val-required="El tel&eacute;fono es un campo requerido" id="phone"
                    type="text" value="${r.phone}" ng-model="r.phone" ng-init='r.phone="${(r.phone == null) ? '' : r.phone}"' name="phone">
         </div>
         <div class="col-xs-9 col-xs-offset-3">
@@ -75,9 +75,9 @@
             Edad:
         </div>
         <div class="col-xs-7">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1y máximo 2 caracteres"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1y m&aacute;ximo 2 caracteres"
                    data-val-length-max="2" data-val-length-min="1" data-val-required="La edad es un campo requerido"
-                   data-val-regex-pattern="([0-9]+)" data-val-regex="La edad sólo puede contener números"
+                   data-val-regex-pattern="([0-9]+)" data-val-regex="La edad s&oacute;lo puede contener n&uacute;meros"
                    type="text" value="${r.age}" ng-model="r.age" ng-init='r.age="${(r.age == null) ? '':r.age}"' id="age" name="age">
         </div>
         <div class="col-xs-9 col-xs-offset-3">
@@ -89,11 +89,11 @@
 <div class="row" ng-show="r.doc.specification == true">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
-            Especifíque:
+            Especif&iacute;que:
         </div>
         <div class="col-xs-8">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y máximo 255 caracteres"
-                   data-val-length-max="255" data-val-length-min="2" data-val-required="La especificación es un campo requerido"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                   data-val-length-max="255" data-val-length-min="2" data-val-required="La especificaci&oacute;n es un campo requerido"
                    type="text" value="${r.specification}" ng-model="r.specification" ng-init='r.specification="${(r.specification == null) ? '':r.specification}"' id="specification" name="specification">
         </div>
         <div class="col-xs-9 col-xs-offset-3">
@@ -104,11 +104,11 @@
 <br/>
 <div class="row">
     <div class="col-xs-12">
-        <div class="col-xs-2 element-left">Dirección:</div>
+        <div class="col-xs-2 element-left">Direcci&oacute;n:</div>
         <div class="col-xs-10">
             <textarea id="address" class="form-control"  name="address"
-                      data-val="true" data-val-required="La dirección es un campo requerido"
-                      data-val-length="Debe tener al menos 6 y máximo 500 caracteres"
+                      data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
+                      data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
                       data-val-length-max="500" data-val-length-min="6">${r.address}</textarea>
         </div>
     </div>

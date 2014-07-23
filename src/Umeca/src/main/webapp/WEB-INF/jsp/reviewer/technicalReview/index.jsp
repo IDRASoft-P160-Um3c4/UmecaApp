@@ -30,7 +30,7 @@
                 url: '<c:url value='/reviewer/technicalReview/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'SHOW', 'No. Carpeta', 'No. M.P.', 'Imputado', 'Acción'],
+                colNames: ['ID', 'SHOW', 'No. Carpeta', 'No. M.P.', 'Imputado', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'status', index: 'status', hidden: true },

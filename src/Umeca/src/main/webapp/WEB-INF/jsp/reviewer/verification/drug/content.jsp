@@ -17,12 +17,12 @@
 
     </div>
     <div class="col-xs-2" ng-show="d.type.specification==true">
-        Especifíque sustancia:
+        Especif&iacute;que sustancia:
     </div>
     <div class="col-xs-4" ng-show="d.type.specification==true">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 100 caracteres"
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 100 caracteres"
                data-val-length-max="100" data-val-length-min="3"
-               data-val-required="La especificación es un campo requerido"
+               data-val-required="La especificaci&oacute;n es un campo requerido"
                type="text"  value="{{d.specificationType}}" id="specificationType" name="drugs.specificationType">
         <span class="field-validation-valid" data-valmsg-for="specificationType" data-valmsg-replace="true"></span>
     </div>
@@ -46,12 +46,12 @@
                 ng-init='lstPer = ${lstPeriodicity};'></select>
     </div>
     <div class="col-xs-2" ng-show="d.per.specification==true">
-        Especifíque periodicidad:
+        Especif&iacute;que periodicidad:
     </div>
     <div class="col-xs-4" ng-show="d.per.specification==true">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 100 caracteres"
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 100 caracteres"
                data-val-length-max="100" data-val-length-min="3"
-               data-val-required="La especificación es un campo requerido"
+               data-val-required="La especificaci&oacute;n es un campo requerido"
                type="text" value="{{d.specificationPeriodicity}}"
                id="specificationPeriodicity" name="drugs.specificationPeriodicity">
 
@@ -71,7 +71,7 @@
             Cantidad:
         </div>
         <div class="col-xs-4">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y máximo 25 caracteres"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y m&aacute;ximo 25 caracteres"
                    data-val-length-max="25" data-val-length-min="2"
                    data-val-required="La cantidad es un campo requerido"
                    type="text" value="{{d.quantity}}" name="drugs.quantity" id="quantity">
@@ -84,13 +84,13 @@
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.lastUse" id-element="{{d.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.lastUse',d.id);"></i>
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('drugs.lastUse',d.id)"></i>
-            Último consumo:
+            &Uacute;ltimo consumo:
         </div>
         <div class="col-xs-4">
             <div class="input-group">
                 <input class="form-control date-picker" id="lastUse" data-val="true" type="text"
                        data-date-format="yyyy/mm/dd" value="{{d.lastUse}}"                      readonly="readonly"
-                       name="drugs.lastUse" data-val-required="La última fecha de consumo es un campo requrido"/>
+                       name="drugs.lastUse" data-val-required="La &uacute;ltima fecha de consumo es un campo requrido"/>
 				<span class="input-group-addon">
                     <i class="icon-calendar bigger-110"></i>
 				</span>

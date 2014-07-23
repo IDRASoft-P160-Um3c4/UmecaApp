@@ -3,7 +3,7 @@
 <div id="tasks-tab" class="tab-pane active">
     <h4 class="smaller lighter green" ng-show="lstActivitiesNew.length > 0">
         <i class="icon-list"></i>
-        Actividades por hacer el día de hoy
+        Actividades por hacer el d&iacute;a de hoy
     </h4>
 
     <ul id="tasksToday" class="item-list">
@@ -19,7 +19,7 @@
     <div class="space-14" ></div>
     <h4 class="smaller lighter color-danger" ng-show="lstActivitiesOld.length > 0">
         <i class="icon-list"></i>
-        Actividades pendientes de días pasados
+        Actividades pendientes de d&iacute;as pasados
     </h4>
 
     <ul id="tasksOld" class="item-list">

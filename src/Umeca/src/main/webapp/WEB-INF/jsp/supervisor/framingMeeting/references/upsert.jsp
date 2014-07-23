@@ -36,11 +36,11 @@
                                               data-valmsg-replace="true"></span>
                             </div>
                             <div class="col-xs-4">
-                                <label>Teléfono</label>
+                                <label>Tel&eacute;fono</label>
                                 <br/>
                                 <input id="phone" ng-model="refe.phone" name="phone" type="text"
                                        class="input-xxlarge" data-val="true"
-                                       data-val-required="Teléfono es un campo requerido"/>
+                                       data-val-required="Tel&eacute;fono es un campo requerido"/>
                                 <br/>
                                         <span class="field-validation-valid" data-valmsg-for="age"
                                               data-valmsg-replace="true"></span>
@@ -59,12 +59,12 @@
                                         ng-init='lstRelationship = ${lstRelationship};'></select>
                             </div>
                             <div class="col-xs-8">
-                                <label>Dirección</label>
+                                <label>Direcci&oacute;n</label>
                                 <br/>
                                 <textarea class="input-xxlarge form-control limited" name="address"
                                           ng-model="refe.address"
                                           maxlength="980" data-val="true"
-                                          data-val-required="Dirección adicionales es un campo requerido">
+                                          data-val-required="Direcci&oacute;n es un campo requerido">
                                     </textarea>
                                 <span class="field-validation-valid" data-valmsg-for="address"
                                       data-valmsg-replace="true"></span>

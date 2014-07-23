@@ -51,6 +51,9 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
 
         Long numRows = opts.getRows() > 0 ? opts.getRows() : 1l;
         TypedQuery<V> tqData = entityManager.createQuery(cq);
+        tqData.setFirstResult((opts.getPage()-1) * opts.getRows());
+        tqData.setMaxResults(opts.getRows());
+
         List<V> lstEnt = tqData.getResultList();
 
         List<JqGridRowsModel> rows = new ArrayList<>();
@@ -97,6 +100,8 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
         CriteriaQuery<Long> cq = cqCount.select(cb.count(r));
         buildQuery(cb, cq, r, opts, selFil);
         TypedQuery<Long> tqCount = entityManager.createQuery(cq);
+        //tqCount.setFirstResult(opts.getPage() * opts.getRows());
+        //tqCount.setMaxResults(opts.getRows());
         return tqCount.getSingleResult();
     }
 
