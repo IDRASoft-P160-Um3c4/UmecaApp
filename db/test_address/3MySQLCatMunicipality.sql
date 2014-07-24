@@ -1,3 +1,4 @@
+use sgumeca;
 
 	CREATE TABLE IF NOT EXISTS cat_municipality (
 		id_municipality INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -18,17 +19,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (5, 1, "Calvillo", "Calvillo", "Calvillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (6, 1, "Cosío", "Cosío", "Cosío");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (6, 1, "Cosï¿½o", "Cosï¿½o", "Cosï¿½o");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (7, 1, "Jesús María", "Jesús María", "Jesús María");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (7, 1, "Jesï¿½s Marï¿½a", "Jesï¿½s Marï¿½a", "Jesï¿½s Marï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (8, 1, "Pabellón de Arteaga", "Pabellón de Art", "Pabellón de Arteaga");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (8, 1, "Pabellï¿½n de Arteaga", "Pabellï¿½n de Art", "Pabellï¿½n de Arteaga");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (9, 1, "Rincón de Romos", "Rincón de Romos", "Rincón de Romos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (9, 1, "Rincï¿½n de Romos", "Rincï¿½n de Romos", "Rincï¿½n de Romos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (10, 1, "San José de Gracia", "San José de Gra", "San José de Gracia");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (10, 1, "San Josï¿½ de Gracia", "San Josï¿½ de Gra", "San Josï¿½ de Gracia");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (11, 1, "Tepezalá", "Tepezalá", "Tepezalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (11, 1, "Tepezalï¿½", "Tepezalï¿½", "Tepezalï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (12, 2, "Ensenada", "Ensenada", "Ensenada");
 	
@@ -40,9 +41,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (16, 2, "Playas de Rosarito", "Playas de Rosar", "Playas de Rosarito");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (17, 3, "Comondú", "Comondú", "Comondú");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (17, 3, "Comondï¿½", "Comondï¿½", "Comondï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (18, 3, "Mulegé", "Mulegé", "Mulegé");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (18, 3, "Mulegï¿½", "Mulegï¿½", "Mulegï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (19, 3, "Poblado comunal", "Poblado comunal", "Poblado comunal");
 	
@@ -54,7 +55,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (23, 3, "Loreto", "Loreto", "Loreto");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (24, 4, "Calkiní", "Calkiní", "Calkiní");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (24, 4, "Calkinï¿½", "Calkinï¿½", "Calkinï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (25, 4, "Calakmul", "Calakmul", "Calakmul");
 	
@@ -64,17 +65,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (28, 4, "Carmen", "Carmen", "Carmen");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (29, 4, "Champotón", "Champotón", "Champotón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (29, 4, "Champotï¿½n", "Champotï¿½n", "Champotï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (30, 4, "Hecelchakán", "Hecelchakán", "Hecelchakán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (30, 4, "Hecelchakï¿½n", "Hecelchakï¿½n", "Hecelchakï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (31, 4, "Hopelchén", "Hopelchén", "Hopelchén");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (31, 4, "Hopelchï¿½n", "Hopelchï¿½n", "Hopelchï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (32, 4, "Palizada", "Palizada", "Palizada");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (33, 4, "Tenabo", "Tenabo", "Tenabo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (34, 4, "Escárcega", "Escárcega", "Escárcega");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (34, 4, "Escï¿½rcega", "Escï¿½rcega", "Escï¿½rcega");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (35, 5, "Abasolo", "Abasolo", "Abasolo");
 	
@@ -88,9 +89,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (40, 5, "Hidalgo", "Hidalgo", "Hidalgo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (41, 5, "Jiménez", "Jiménez", "Jiménez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (41, 5, "Jimï¿½nez", "Jimï¿½nez", "Jimï¿½nez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (42, 5, "Juárez", "Juárez", "Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (42, 5, "Juï¿½rez", "Juï¿½rez", "Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (43, 5, "Lamadrid", "Lamadrid", "Lamadrid");
 	
@@ -100,9 +101,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (46, 5, "Morelos", "Morelos", "Morelos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (47, 5, "Acuña", "Acuña", "Acuña");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (47, 5, "Acuï¿½a", "Acuï¿½a", "Acuï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (48, 5, "Múzquiz", "Múzquiz", "Múzquiz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (48, 5, "Mï¿½zquiz", "Mï¿½zquiz", "Mï¿½zquiz");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (49, 5, "Fraccionamiento", "Fraccionamiento", "Fraccionamiento");
 	
@@ -136,11 +137,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (64, 5, "Sierra Mojada", "Sierra Mojada", "Sierra Mojada");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (65, 5, "Torreón", "Torreón", "Torreón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (65, 5, "Torreï¿½n", "Torreï¿½n", "Torreï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (66, 5, "Viesca", "Viesca", "Viesca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (67, 5, "Villa Unión", "Villa Unión", "Villa Unión");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (67, 5, "Villa Uniï¿½n", "Villa Uniï¿½n", "Villa Uniï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (68, 5, "Zaragoza", "Zaragoza", "Zaragoza");
 	
@@ -148,49 +149,49 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (70, 5, "Candela", "Candela", "Candela");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (71, 5, "Castaños", "Castaños", "Castaños");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (71, 5, "Castaï¿½os", "Castaï¿½os", "Castaï¿½os");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (72, 5, "Cuatro Ciénegas", "Cuatro Ciénegas", "Cuatro Ciénegas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (72, 5, "Cuatro Ciï¿½negas", "Cuatro Ciï¿½negas", "Cuatro Ciï¿½negas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (73, 5, "Escobedo", "Escobedo", "Escobedo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (74, 5, "Francisco I. Madero", "Francisco I. Ma", "Francisco I. Madero");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (75, 6, "Armería", "Armería", "Armería");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (75, 6, "Armerï¿½a", "Armerï¿½a", "Armerï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (76, 6, "Villa de Álvarez", "Villa de Álvare", "Villa de Álvarez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (76, 6, "Villa de ï¿½lvarez", "Villa de ï¿½lvare", "Villa de ï¿½lvarez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (77, 6, "Colima", "Colima", "Colima");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (78, 6, "Comala", "Comala", "Comala");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (79, 6, "Coquimatlán", "Coquimatlán", "Coquimatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (79, 6, "Coquimatlï¿½n", "Coquimatlï¿½n", "Coquimatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (80, 6, "Cuauhtémoc", "Cuauhtémoc", "Cuauhtémoc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (80, 6, "Cuauhtï¿½moc", "Cuauhtï¿½moc", "Cuauhtï¿½moc");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (81, 6, "Ixtlahuacán", "Ixtlahuacán", "Ixtlahuacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (81, 6, "Ixtlahuacï¿½n", "Ixtlahuacï¿½n", "Ixtlahuacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (82, 6, "Manzanillo", "Manzanillo", "Manzanillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (83, 6, "Minatitlán", "Minatitlán", "Minatitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (83, 6, "Minatitlï¿½n", "Minatitlï¿½n", "Minatitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (84, 6, "Tecomán", "Tecomán", "Tecomán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (84, 6, "Tecomï¿½n", "Tecomï¿½n", "Tecomï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (85, 7, "Acacoyagua", "Acacoyagua", "Acacoyagua");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (86, 7, "Bejucal de Ocampo", "Bejucal de Ocam", "Bejucal de Ocampo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (87, 7, "Tumbalá", "Tumbalá", "Tumbalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (87, 7, "Tumbalï¿½", "Tumbalï¿½", "Tumbalï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (88, 7, "Tuxtla Gutiérrez", "Tuxtla Gutiérre", "Tuxtla Gutiérrez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (88, 7, "Tuxtla Gutiï¿½rrez", "Tuxtla Gutiï¿½rre", "Tuxtla Gutiï¿½rrez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (89, 7, "Tuxtla Chico", "Tuxtla Chico", "Tuxtla Chico");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (90, 7, "Tuzantán", "Tuzantán", "Tuzantán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (90, 7, "Tuzantï¿½n", "Tuzantï¿½n", "Tuzantï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (91, 7, "Tzimol", "Tzimol", "Tzimol");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (92, 7, "Unión Juárez", "Unión Juárez", "Unión Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (92, 7, "Uniï¿½n Juï¿½rez", "Uniï¿½n Juï¿½rez", "Uniï¿½n Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (93, 7, "Venustiano Carranza", "Venustiano Carr", "Venustiano Carranza");
 	
@@ -198,53 +199,53 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (95, 7, "Villaflores", "Villaflores", "Villaflores");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (96, 7, "Yajalón", "Yajalón", "Yajalón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (96, 7, "Yajalï¿½n", "Yajalï¿½n", "Yajalï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (97, 7, "Bella Vista", "Bella Vista", "Bella Vista");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (98, 7, "San Lucas", "San Lucas", "San Lucas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (99, 7, "Zinacantán", "Zinacantán", "Zinacantán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (99, 7, "Zinacantï¿½n", "Zinacantï¿½n", "Zinacantï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (100, 7, "San Juan Cancuc", "San Juan Cancuc", "San Juan Cancuc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (101, 7, "Aldama", "Aldama", "Aldama");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (102, 7, "Benemérito de las Américas", "Benemérito de l", "Benemérito de las Américas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (102, 7, "Benemï¿½rito de las Amï¿½ricas", "Benemï¿½rito de l", "Benemï¿½rito de las Amï¿½ricas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (103, 7, "Maravilla Tenejapa", "Maravilla Tenej", "Maravilla Tenejapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (104, 7, "Marqués de Comillas", "Marqués de Comi", "Marqués de Comillas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (104, 7, "Marquï¿½s de Comillas", "Marquï¿½s de Comi", "Marquï¿½s de Comillas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (105, 7, "Montecristo de Guerrero", "Montecristo de ", "Montecristo de Guerrero");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (106, 7, "San Andrés Duraznal", "San Andrés Dura", "San Andrés Duraznal");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (106, 7, "San Andrï¿½s Duraznal", "San Andrï¿½s Dura", "San Andrï¿½s Duraznal");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (107, 7, "Santiago el Pinar", "Santiago el Pin", "Santiago el Pinar");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (108, 7, "Berriozábal", "Berriozábal", "Berriozábal");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (108, 7, "Berriozï¿½bal", "Berriozï¿½bal", "Berriozï¿½bal");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (109, 7, "Bochil", "Bochil", "Bochil");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (110, 7, "El Bosque", "El Bosque", "El Bosque");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (111, 7, "Cacahoatán", "Cacahoatán", "Cacahoatán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (111, 7, "Cacahoatï¿½n", "Cacahoatï¿½n", "Cacahoatï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (112, 7, "Catazajá", "Catazajá", "Catazajá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (112, 7, "Catazajï¿½", "Catazajï¿½", "Catazajï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (113, 7, "Cintalapa", "Cintalapa", "Cintalapa");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (114, 7, "Coapilla", "Coapilla", "Coapilla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (115, 7, "Comitán de Domínguez", "Comitán de Domí", "Comitán de Domínguez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (115, 7, "Comitï¿½n de Domï¿½nguez", "Comitï¿½n de Domï¿½", "Comitï¿½n de Domï¿½nguez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (116, 7, "Acala", "Acala", "Acala");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (117, 7, "La Concordia", "La Concordia", "La Concordia");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (118, 7, "Copainalá", "Copainalá", "Copainalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (118, 7, "Copainalï¿½", "Copainalï¿½", "Copainalï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (119, 7, "Chalchihuitán", "Chalchihuitán", "Chalchihuitán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (119, 7, "Chalchihuitï¿½n", "Chalchihuitï¿½n", "Chalchihuitï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (120, 7, "Chamula", "Chamula", "Chamula");
 	
@@ -252,25 +253,25 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (122, 7, "Chapultenango", "Chapultenango", "Chapultenango");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (123, 7, "Chenalhó", "Chenalhó", "Chenalhó");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (123, 7, "Chenalhï¿½", "Chenalhï¿½", "Chenalhï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (124, 7, "Chiapa de Corzo", "Chiapa de Corzo", "Chiapa de Corzo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (125, 7, "Chiapilla", "Chiapilla", "Chiapilla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (126, 7, "Chicoasén", "Chicoasén", "Chicoasén");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (126, 7, "Chicoasï¿½n", "Chicoasï¿½n", "Chicoasï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (127, 7, "Acapetahua", "Acapetahua", "Acapetahua");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (128, 7, "Chicomuselo", "Chicomuselo", "Chicomuselo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (129, 7, "Chilón", "Chilón", "Chilón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (129, 7, "Chilï¿½n", "Chilï¿½n", "Chilï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (130, 7, "Unidad habitacional", "Unidad habitaci", "Unidad habitacional");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (131, 7, "Escuintla", "Escuintla", "Escuintla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (132, 7, "Francisco León", "Francisco León", "Francisco León");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (132, 7, "Francisco Leï¿½n", "Francisco Leï¿½n", "Francisco Leï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (133, 7, "Frontera Comalapa", "Frontera Comala", "Frontera Comalapa");
 	
@@ -278,11 +279,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (135, 7, "La Grandeza", "La Grandeza", "La Grandeza");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (136, 7, "Huehuetán", "Huehuetán", "Huehuetán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (136, 7, "Huehuetï¿½n", "Huehuetï¿½n", "Huehuetï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (137, 7, "Huixtán", "Huixtán", "Huixtán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (137, 7, "Huixtï¿½n", "Huixtï¿½n", "Huixtï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (138, 7, "Huitiupán", "Huitiupán", "Huitiupán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (138, 7, "Huitiupï¿½n", "Huitiupï¿½n", "Huitiupï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (139, 7, "Altamirano", "Altamirano", "Altamirano");
 	
@@ -290,9 +291,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (141, 7, "La Independencia", "La Independenci", "La Independencia");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (142, 7, "Ixhuatán", "Ixhuatán", "Ixhuatán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (142, 7, "Ixhuatï¿½n", "Ixhuatï¿½n", "Ixhuatï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (143, 7, "Ixtacomitán", "Ixtacomitán", "Ixtacomitán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (143, 7, "Ixtacomitï¿½n", "Ixtacomitï¿½n", "Ixtacomitï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (144, 7, "Ixtapa", "Ixtapa", "Ixtapa");
 	
@@ -302,11 +303,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (147, 7, "Jitotol", "Jitotol", "Jitotol");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (148, 7, "Juárez", "Juárez", "Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (148, 7, "Juï¿½rez", "Juï¿½rez", "Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (149, 7, "Larráinzar", "Larráinzar", "Larráinzar");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (149, 7, "Larrï¿½inzar", "Larrï¿½inzar", "Larrï¿½inzar");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (150, 7, "Amatán", "Amatán", "Amatán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (150, 7, "Amatï¿½n", "Amatï¿½n", "Amatï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (151, 7, "La Libertad", "La Libertad", "La Libertad");
 	
@@ -316,7 +317,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (154, 7, "Mazapa de Madero", "Mazapa de Mader", "Mazapa de Madero");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (155, 7, "Mazatán", "Mazatán", "Mazatán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (155, 7, "Mazatï¿½n", "Mazatï¿½n", "Mazatï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (156, 7, "Metapa", "Metapa", "Metapa");
 	
@@ -324,7 +325,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (158, 7, "Motozintla", "Motozintla", "Motozintla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (159, 7, "Nicolás Ruíz", "Nicolás Ruíz", "Nicolás Ruíz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (159, 7, "Nicolï¿½s Ruï¿½z", "Nicolï¿½s Ruï¿½z", "Nicolï¿½s Ruï¿½z");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (160, 7, "Ocosingo", "Ocosingo", "Ocosingo");
 	
@@ -334,7 +335,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (163, 7, "Ocozocoautla de Espinosa", "Ocozocoautla de", "Ocozocoautla de Espinosa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (164, 7, "Ostuacán", "Ostuacán", "Ostuacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (164, 7, "Ostuacï¿½n", "Ostuacï¿½n", "Ostuacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (165, 7, "Osumacinta", "Osumacinta", "Osumacinta");
 	
@@ -342,7 +343,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (167, 7, "Palenque", "Palenque", "Palenque");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (168, 7, "Pantelhó", "Pantelhó", "Pantelhó");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (168, 7, "Pantelhï¿½", "Pantelhï¿½", "Pantelhï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (169, 7, "Pantepec", "Pantepec", "Pantepec");
 	
@@ -354,11 +355,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (173, 7, "El Porvenir", "El Porvenir", "El Porvenir");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (174, 7, "Villa Comaltitlán", "Villa Comaltitl", "Villa Comaltitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (174, 7, "Villa Comaltitlï¿½n", "Villa Comaltitl", "Villa Comaltitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (175, 7, "Pueblo Nuevo Solistahuacán", "Pueblo Nuevo So", "Pueblo Nuevo Solistahuacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (175, 7, "Pueblo Nuevo Solistahuacï¿½n", "Pueblo Nuevo So", "Pueblo Nuevo Solistahuacï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (176, 7, "Rayón", "Rayón", "Rayón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (176, 7, "Rayï¿½n", "Rayï¿½n", "Rayï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (177, 7, "Reforma", "Reforma", "Reforma");
 	
@@ -368,7 +369,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (180, 7, "Salto de Agua", "Salto de Agua", "Salto de Agua");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (181, 7, "San Cristóbal de las Casas", "San Cristóbal d", "San Cristóbal de las Casas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (181, 7, "San Cristï¿½bal de las Casas", "San Cristï¿½bal d", "San Cristï¿½bal de las Casas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (182, 7, "San Fernando", "San Fernando", "San Fernando");
 	
@@ -378,13 +379,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (185, 7, "Simojovel", "Simojovel", "Simojovel");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (186, 7, "Sitalá", "Sitalá", "Sitalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (186, 7, "Sitalï¿½", "Sitalï¿½", "Sitalï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (187, 7, "Socoltenango", "Socoltenango", "Socoltenango");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (188, 7, "Solosuchiapa", "Solosuchiapa", "Solosuchiapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (189, 7, "Soyaló", "Soyaló", "Soyaló");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (189, 7, "Soyalï¿½", "Soyalï¿½", "Soyalï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (190, 7, "Suchiapa", "Suchiapa", "Suchiapa");
 	
@@ -400,7 +401,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (196, 7, "Tapilula", "Tapilula", "Tapilula");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (197, 7, "Tecpatán", "Tecpatán", "Tecpatán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (197, 7, "Tecpatï¿½n", "Tecpatï¿½n", "Tecpatï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (198, 7, "Tenejapa", "Tenejapa", "Tenejapa");
 	
@@ -408,7 +409,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (200, 7, "Tila", "Tila", "Tila");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (201, 7, "Tonalá", "Tonalá", "Tonalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (201, 7, "Tonalï¿½", "Tonalï¿½", "Tonalï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (202, 7, "Totolapa", "Totolapa", "Totolapa");
 	
@@ -420,7 +421,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (206, 8, "Camargo", "Camargo", "Camargo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (207, 8, "Carichí", "Carichí", "Carichí");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (207, 8, "Carichï¿½", "Carichï¿½", "Carichï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (208, 8, "Casas Grandes", "Casas Grandes", "Casas Grandes");
 	
@@ -430,7 +431,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (211, 8, "La Cruz", "La Cruz", "La Cruz");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (212, 8, "Cuauhtémoc", "Cuauhtémoc", "Cuauhtémoc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (212, 8, "Cuauhtï¿½moc", "Cuauhtï¿½moc", "Cuauhtï¿½moc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (213, 8, "Cusihuiriachi", "Cusihuiriachi", "Cusihuiriachi");
 	
@@ -438,19 +439,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (215, 8, "Aldama", "Aldama", "Aldama");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (216, 8, "Chínipas", "Chínipas", "Chínipas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (216, 8, "Chï¿½nipas", "Chï¿½nipas", "Chï¿½nipas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (217, 8, "Delicias", "Delicias", "Delicias");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (218, 8, "Fraccionamiento", "Fraccionamiento", "Fraccionamiento");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (219, 8, "Dr. Belisario Domínguez", "Dr. Belisario D", "Dr. Belisario Domínguez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (219, 8, "Dr. Belisario Domï¿½nguez", "Dr. Belisario D", "Dr. Belisario Domï¿½nguez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (220, 8, "Galeana", "Galeana", "Galeana");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (221, 8, "Santa Isabel", "Santa Isabel", "Santa Isabel");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (222, 8, "Gómez Farías", "Gómez Farías", "Gómez Farías");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (222, 8, "Gï¿½mez Farï¿½as", "Gï¿½mez Farï¿½as", "Gï¿½mez Farï¿½as");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (223, 8, "Gran Morelos", "Gran Morelos", "Gran Morelos");
 	
@@ -460,7 +461,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (226, 8, "Guadalupe y Calvo", "Guadalupe y Cal", "Guadalupe y Calvo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (227, 8, "Ranchería", "Ranchería", "Ranchería");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (227, 8, "Rancherï¿½a", "Rancherï¿½a", "Rancherï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (228, 8, "Allende", "Allende", "Allende");
 	
@@ -476,21 +477,21 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (234, 8, "Hidalgo del Parral", "Hidalgo del Par", "Hidalgo del Parral");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (235, 8, "Huejotitán", "Huejotitán", "Huejotitán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (235, 8, "Huejotitï¿½n", "Huejotitï¿½n", "Huejotitï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (236, 8, "Ignacio Zaragoza", "Ignacio Zaragoz", "Ignacio Zaragoza");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (237, 8, "Janos", "Janos", "Janos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (238, 8, "Jiménez", "Jiménez", "Jiménez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (238, 8, "Jimï¿½nez", "Jimï¿½nez", "Jimï¿½nez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (239, 8, "Juárez", "Juárez", "Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (239, 8, "Juï¿½rez", "Juï¿½rez", "Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (240, 8, "Julimes", "Julimes", "Julimes");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (241, 8, "López", "López", "López");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (241, 8, "Lï¿½pez", "Lï¿½pez", "Lï¿½pez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (242, 8, "Aquiles Serdán", "Aquiles Serdán", "Aquiles Serdán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (242, 8, "Aquiles Serdï¿½n", "Aquiles Serdï¿½n", "Aquiles Serdï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (243, 8, "Madera", "Madera", "Madera");
 	
@@ -498,7 +499,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (245, 8, "Manuel Benavides", "Manuel Benavide", "Manuel Benavides");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (246, 8, "Matachí", "Matachí", "Matachí");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (246, 8, "Matachï¿½", "Matachï¿½", "Matachï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (247, 8, "Matamoros", "Matamoros", "Matamoros");
 	
@@ -512,7 +513,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (252, 8, "Nonoava", "Nonoava", "Nonoava");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (253, 8, "Ascensión", "Ascensión", "Ascensión");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (253, 8, "Ascensiï¿½n", "Ascensiï¿½n", "Ascensiï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (254, 8, "Nuevo Casas Grandes", "Nuevo Casas Gra", "Nuevo Casas Grandes");
 	
@@ -534,15 +535,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (263, 8, "San Francisco del Oro", "San Francisco d", "San Francisco del Oro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (264, 8, "Bachíniva", "Bachíniva", "Bachíniva");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (264, 8, "Bachï¿½niva", "Bachï¿½niva", "Bachï¿½niva");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (265, 8, "Santa Bárbara", "Santa Bárbara", "Santa Bárbara");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (265, 8, "Santa Bï¿½rbara", "Santa Bï¿½rbara", "Santa Bï¿½rbara");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (266, 8, "Satevó", "Satevó", "Satevó");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (266, 8, "Satevï¿½", "Satevï¿½", "Satevï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (267, 8, "Saucillo", "Saucillo", "Saucillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (268, 8, "Temósachic", "Temósachic", "Temósachic");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (268, 8, "Temï¿½sachic", "Temï¿½sachic", "Temï¿½sachic");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (269, 8, "El Tule", "El Tule", "El Tule");
 	
@@ -562,17 +563,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (277, 8, "Colonia", "Colonia", "Colonia");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (278, 9, "Álvaro Obregón", "Álvaro Obregón", "Álvaro Obregón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (278, 9, "ï¿½lvaro Obregï¿½n", "ï¿½lvaro Obregï¿½n", "ï¿½lvaro Obregï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (279, 9, "Tláhuac", "Tláhuac", "Tláhuac");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (279, 9, "Tlï¿½huac", "Tlï¿½huac", "Tlï¿½huac");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (280, 9, "Tlalpan", "Tlalpan", "Tlalpan");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (281, 9, "Xochimilco", "Xochimilco", "Xochimilco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (282, 9, "Benito Juárez", "Benito Juárez", "Benito Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (282, 9, "Benito Juï¿½rez", "Benito Juï¿½rez", "Benito Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (283, 9, "Cuauhtémoc", "Cuauhtémoc", "Cuauhtémoc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (283, 9, "Cuauhtï¿½moc", "Cuauhtï¿½moc", "Cuauhtï¿½moc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (284, 9, "Miguel Hidalgo", "Miguel Hidalgo", "Miguel Hidalgo");
 	
@@ -580,7 +581,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (286, 9, "Azcapotzalco", "Azcapotzalco", "Azcapotzalco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (287, 9, "Coyoacán", "Coyoacán", "Coyoacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (287, 9, "Coyoacï¿½n", "Coyoacï¿½n", "Coyoacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (288, 9, "Cuajimalpa de Morelos", "Cuajimalpa de M", "Cuajimalpa de Morelos");
 	
@@ -594,15 +595,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (293, 9, "Milpa Alta", "Milpa Alta", "Milpa Alta");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (294, 10, "Canatlán", "Canatlán", "Canatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (294, 10, "Canatlï¿½n", "Canatlï¿½n", "Canatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (295, 10, "Hidalgo", "Hidalgo", "Hidalgo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (296, 10, "Indé", "Indé", "Indé");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (296, 10, "Indï¿½", "Indï¿½", "Indï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (297, 10, "Lerdo", "Lerdo", "Lerdo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (298, 10, "Mapimí", "Mapimí", "Mapimí");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (298, 10, "Mapimï¿½", "Mapimï¿½", "Mapimï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (299, 10, "Mezquital", "Mezquital", "Mezquital");
 	
@@ -614,13 +615,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (303, 10, "El Oro", "El Oro", "El Oro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (304, 10, "Otáez", "Otáez", "Otáez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (304, 10, "Otï¿½ez", "Otï¿½ez", "Otï¿½ez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (305, 10, "Canelas", "Canelas", "Canelas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (306, 10, "Pánuco de Coronado", "Pánuco de Coron", "Pánuco de Coronado");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (306, 10, "Pï¿½nuco de Coronado", "Pï¿½nuco de Coron", "Pï¿½nuco de Coronado");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (307, 10, "Peñón Blanco", "Peñón Blanco", "Peñón Blanco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (307, 10, "Peï¿½ï¿½n Blanco", "Peï¿½ï¿½n Blanco", "Peï¿½ï¿½n Blanco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (308, 10, "Poanas", "Poanas", "Poanas");
 	
@@ -634,7 +635,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (313, 10, "San Juan de Guadalupe", "San Juan de Gua", "San Juan de Guadalupe");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (314, 10, "San Juan del Río", "San Juan del Rí", "San Juan del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (314, 10, "San Juan del Rï¿½o", "San Juan del Rï¿½", "San Juan del Rï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (315, 10, "San Luis del Cordero", "San Luis del Co", "San Luis del Cordero");
 	
@@ -646,7 +647,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (319, 10, "Santiago Papasquiaro", "Santiago Papasq", "Santiago Papasquiaro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (320, 10, "Súchil", "Súchil", "Súchil");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (320, 10, "Sï¿½chil", "Sï¿½chil", "Sï¿½chil");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (321, 10, "Tamazula", "Tamazula", "Tamazula");
 	
@@ -660,19 +661,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (326, 10, "Nuevo Ideal", "Nuevo Ideal", "Nuevo Ideal");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (327, 10, "Cuencamé", "Cuencamé", "Cuencamé");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (327, 10, "Cuencamï¿½", "Cuencamï¿½", "Cuencamï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (328, 10, "Durango", "Durango", "Durango");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (329, 10, "General Simón Bolívar", "General Simón B", "General Simón Bolívar");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (329, 10, "General Simï¿½n Bolï¿½var", "General Simï¿½n B", "General Simï¿½n Bolï¿½var");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (330, 10, "Gómez Palacio", "Gómez Palacio", "Gómez Palacio");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (330, 10, "Gï¿½mez Palacio", "Gï¿½mez Palacio", "Gï¿½mez Palacio");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (331, 10, "Guadalupe Victoria", "Guadalupe Victo", "Guadalupe Victoria");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (332, 10, "Colonia", "Colonia", "Colonia");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (333, 10, "Guanaceví", "Guanaceví", "Guanaceví");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (333, 10, "Guanacevï¿½", "Guanacevï¿½", "Guanacevï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (334, 11, "Abasolo", "Abasolo", "Abasolo");
 	
@@ -680,7 +681,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (336, 11, "Cortazar", "Cortazar", "Cortazar");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (337, 11, "Cuerámaro", "Cuerámaro", "Cuerámaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (337, 11, "Cuerï¿½maro", "Cuerï¿½maro", "Cuerï¿½maro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (338, 11, "Doctor Mora", "Doctor Mora", "Doctor Mora");
 	
@@ -688,27 +689,27 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (340, 11, "Guanajuato", "Guanajuato", "Guanajuato");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (341, 11, "Huanímaro", "Huanímaro", "Huanímaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (341, 11, "Huanï¿½maro", "Huanï¿½maro", "Huanï¿½maro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (342, 11, "Irapuato", "Irapuato", "Irapuato");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (343, 11, "Jaral del Progreso", "Jaral del Progr", "Jaral del Progreso");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (344, 11, "Jerécuaro", "Jerécuaro", "Jerécuaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (344, 11, "Jerï¿½cuaro", "Jerï¿½cuaro", "Jerï¿½cuaro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (345, 11, "Acámbaro", "Acámbaro", "Acámbaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (345, 11, "Acï¿½mbaro", "Acï¿½mbaro", "Acï¿½mbaro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (346, 11, "León", "León", "León");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (346, 11, "Leï¿½n", "Leï¿½n", "Leï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (347, 11, "Moroleón", "Moroleón", "Moroleón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (347, 11, "Moroleï¿½n", "Moroleï¿½n", "Moroleï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (348, 11, "Ocampo", "Ocampo", "Ocampo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (349, 11, "Pénjamo", "Pénjamo", "Pénjamo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (349, 11, "Pï¿½njamo", "Pï¿½njamo", "Pï¿½njamo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (350, 11, "Pueblo Nuevo", "Pueblo Nuevo", "Pueblo Nuevo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (351, 11, "Purísima del Rincón", "Purísima del Ri", "Purísima del Rincón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (351, 11, "Purï¿½sima del Rincï¿½n", "Purï¿½sima del Ri", "Purï¿½sima del Rincï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (352, 11, "Romita", "Romita", "Romita");
 	
@@ -716,15 +717,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (354, 11, "Salvatierra", "Salvatierra", "Salvatierra");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (355, 11, "San Diego de la Unión", "San Diego de la", "San Diego de la Unión");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (355, 11, "San Diego de la Uniï¿½n", "San Diego de la", "San Diego de la Uniï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (356, 11, "San Miguel de Allende", "San Miguel de A", "San Miguel de Allende");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (357, 11, "San Felipe", "San Felipe", "San Felipe");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (358, 11, "San Francisco del Rincón", "San Francisco d", "San Francisco del Rincón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (358, 11, "San Francisco del Rincï¿½n", "San Francisco d", "San Francisco del Rincï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (359, 11, "San José Iturbide", "San José Iturbi", "San José Iturbide");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (359, 11, "San Josï¿½ Iturbide", "San Josï¿½ Iturbi", "San Josï¿½ Iturbide");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (360, 11, "San Luis de la Paz", "San Luis de la ", "San Luis de la Paz");
 	
@@ -732,7 +733,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (362, 11, "Santa Cruz de Juventino Rosas", "Santa Cruz de J", "Santa Cruz de Juventino Rosas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (363, 11, "Santiago Maravatío", "Santiago Marava", "Santiago Maravatío");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (363, 11, "Santiago Maravatï¿½o", "Santiago Marava", "Santiago Maravatï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (364, 11, "Silao de la Victoria", "Silao de la Vic", "Silao de la Victoria");
 	
@@ -750,9 +751,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (371, 11, "Victoria", "Victoria", "Victoria");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (372, 11, "Villagrán", "Villagrán", "Villagrán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (372, 11, "Villagrï¿½n", "Villagrï¿½n", "Villagrï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (373, 11, "Xichú", "Xichú", "Xichú");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (373, 11, "Xichï¿½", "Xichï¿½", "Xichï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (374, 11, "Yuriria", "Yuriria", "Yuriria");
 	
@@ -766,21 +767,21 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (379, 11, "Comonfort", "Comonfort", "Comonfort");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (380, 12, "Acapulco de Juárez", "Acapulco de Juá", "Acapulco de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (380, 12, "Acapulco de Juï¿½rez", "Acapulco de Juï¿½", "Acapulco de Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (381, 12, "Atlixtac", "Atlixtac", "Atlixtac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (382, 12, "Atoyac de Álvarez", "Atoyac de Álvar", "Atoyac de Álvarez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (382, 12, "Atoyac de ï¿½lvarez", "Atoyac de ï¿½lvar", "Atoyac de ï¿½lvarez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (383, 12, "Ayutla de los Libres", "Ayutla de los L", "Ayutla de los Libres");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (384, 12, "Azoyú", "Azoyú", "Azoyú");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (384, 12, "Azoyï¿½", "Azoyï¿½", "Azoyï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (385, 12, "Benito Juárez", "Benito Juárez", "Benito Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (385, 12, "Benito Juï¿½rez", "Benito Juï¿½rez", "Benito Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (386, 12, "Buenavista de Cuéllar", "Buenavista de C", "Buenavista de Cuéllar");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (386, 12, "Buenavista de Cuï¿½llar", "Buenavista de C", "Buenavista de Cuï¿½llar");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (387, 12, "Coahuayutla de José María Izazaga", "Coahuayutla de ", "Coahuayutla de José María Izazaga");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (387, 12, "Coahuayutla de Josï¿½ Marï¿½a Izazaga", "Coahuayutla de ", "Coahuayutla de Josï¿½ Marï¿½a Izazaga");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (388, 12, "Cocula", "Cocula", "Cocula");
 	
@@ -792,25 +793,25 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (392, 12, "Copanatoyac", "Copanatoyac", "Copanatoyac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (393, 12, "Coyuca de Benítez", "Coyuca de Benít", "Coyuca de Benítez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (393, 12, "Coyuca de Benï¿½tez", "Coyuca de Benï¿½t", "Coyuca de Benï¿½tez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (394, 12, "Coyuca de Catalán", "Coyuca de Catal", "Coyuca de Catalán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (394, 12, "Coyuca de Catalï¿½n", "Coyuca de Catal", "Coyuca de Catalï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (395, 12, "Cuajinicuilapa", "Cuajinicuilapa", "Cuajinicuilapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (396, 12, "Cualác", "Cualác", "Cualác");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (396, 12, "Cualï¿½c", "Cualï¿½c", "Cualï¿½c");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (397, 12, "Cuautepec", "Cuautepec", "Cuautepec");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (398, 12, "Cuetzala del Progreso", "Cuetzala del Pr", "Cuetzala del Progreso");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (399, 12, "Cutzamala de Pinzón", "Cutzamala de Pi", "Cutzamala de Pinzón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (399, 12, "Cutzamala de Pinzï¿½n", "Cutzamala de Pi", "Cutzamala de Pinzï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (400, 12, "Chilapa de Álvarez", "Chilapa de Álva", "Chilapa de Álvarez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (400, 12, "Chilapa de ï¿½lvarez", "Chilapa de ï¿½lva", "Chilapa de ï¿½lvarez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (401, 12, "Chilpancingo de los Bravo", "Chilpancingo de", "Chilpancingo de los Bravo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (402, 12, "Ajuchitlán del Progreso", "Ajuchitlán del ", "Ajuchitlán del Progreso");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (402, 12, "Ajuchitlï¿½n del Progreso", "Ajuchitlï¿½n del ", "Ajuchitlï¿½n del Progreso");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (403, 12, "Florencio Villarreal", "Florencio Villa", "Florencio Villarreal");
 	
@@ -818,7 +819,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (405, 12, "General Heliodoro Castillo", "General Heliodo", "General Heliodoro Castillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (406, 12, "Huamuxtitlán", "Huamuxtitlán", "Huamuxtitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (406, 12, "Huamuxtitlï¿½n", "Huamuxtitlï¿½n", "Huamuxtitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (407, 12, "Huitzuco de los Figueroa", "Huitzuco de los", "Huitzuco de los Figueroa");
 	
@@ -826,7 +827,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (409, 12, "Igualapa", "Igualapa", "Igualapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (410, 12, "Ixcateopan de Cuauhtémoc", "Ixcateopan de C", "Ixcateopan de Cuauhtémoc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (410, 12, "Ixcateopan de Cuauhtï¿½moc", "Ixcateopan de C", "Ixcateopan de Cuauhtï¿½moc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (411, 12, "Zihuatanejo de Azueta", "Zihuatanejo de ", "Zihuatanejo de Azueta");
 	
@@ -838,19 +839,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (415, 12, "Malinaltepec", "Malinaltepec", "Malinaltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (416, 12, "Mártir de Cuilapan", "Mártir de Cuila", "Mártir de Cuilapan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (416, 12, "Mï¿½rtir de Cuilapan", "Mï¿½rtir de Cuila", "Mï¿½rtir de Cuilapan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (417, 12, "Metlatónoc", "Metlatónoc", "Metlatónoc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (417, 12, "Metlatï¿½noc", "Metlatï¿½noc", "Metlatï¿½noc");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (418, 12, "Mochitlán", "Mochitlán", "Mochitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (418, 12, "Mochitlï¿½n", "Mochitlï¿½n", "Mochitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (419, 12, "Olinalá", "Olinalá", "Olinalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (419, 12, "Olinalï¿½", "Olinalï¿½", "Olinalï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (420, 12, "Ometepec", "Ometepec", "Ometepec");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (421, 12, "Pedro Ascencio Alquisiras", "Pedro Ascencio ", "Pedro Ascencio Alquisiras");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (422, 12, "Petatlán", "Petatlán", "Petatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (422, 12, "Petatlï¿½n", "Petatlï¿½n", "Petatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (423, 12, "Pilcaya", "Pilcaya", "Pilcaya");
 	
@@ -860,17 +861,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (426, 12, "Quechultenango", "Quechultenango", "Quechultenango");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (427, 12, "San Luis Acatlán", "San Luis Acatlá", "San Luis Acatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (427, 12, "San Luis Acatlï¿½n", "San Luis Acatlï¿½", "San Luis Acatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (428, 12, "San Marcos", "San Marcos", "San Marcos");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (429, 12, "San Miguel Totolapan", "San Miguel Toto", "San Miguel Totolapan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (430, 12, "Taxco de Alarcón", "Taxco de Alarcó", "Taxco de Alarcón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (430, 12, "Taxco de Alarcï¿½n", "Taxco de Alarcï¿½", "Taxco de Alarcï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (431, 12, "Tecoanapa", "Tecoanapa", "Tecoanapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (432, 12, "Técpan de Galeana", "Técpan de Galea", "Técpan de Galeana");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (432, 12, "Tï¿½cpan de Galeana", "Tï¿½cpan de Galea", "Tï¿½cpan de Galeana");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (433, 12, "Teloloapan", "Teloloapan", "Teloloapan");
 	
@@ -894,19 +895,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (443, 12, "Tlapehuala", "Tlapehuala", "Tlapehuala");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (444, 12, "La Unión de Isidoro Montes de Oca", "La Unión de Isi", "La Unión de Isidoro Montes de Oca");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (444, 12, "La Uniï¿½n de Isidoro Montes de Oca", "La Uniï¿½n de Isi", "La Uniï¿½n de Isidoro Montes de Oca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (445, 12, "Xalpatláhuac", "Xalpatláhuac", "Xalpatláhuac");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (445, 12, "Xalpatlï¿½huac", "Xalpatlï¿½huac", "Xalpatlï¿½huac");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (446, 12, "Arcelia", "Arcelia", "Arcelia");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (447, 12, "Xochihuehuetlán", "Xochihuehuetlán", "Xochihuehuetlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (447, 12, "Xochihuehuetlï¿½n", "Xochihuehuetlï¿½n", "Xochihuehuetlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (448, 12, "Xochistlahuaca", "Xochistlahuaca", "Xochistlahuaca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (449, 12, "Zapotitlán Tablas", "Zapotitlán Tabl", "Zapotitlán Tablas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (449, 12, "Zapotitlï¿½n Tablas", "Zapotitlï¿½n Tabl", "Zapotitlï¿½n Tablas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (450, 12, "Zirándaro", "Zirándaro", "Zirándaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (450, 12, "Zirï¿½ndaro", "Zirï¿½ndaro", "Zirï¿½ndaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (451, 12, "Zitlala", "Zitlala", "Zitlala");
 	
@@ -918,17 +919,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (455, 12, "Cochoapa el Grande", "Cochoapa el Gra", "Cochoapa el Grande");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (456, 12, "José Joaquín de Herrera", "José Joaquín de", "José Joaquín de Herrera");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (456, 12, "Josï¿½ Joaquï¿½n de Herrera", "Josï¿½ Joaquï¿½n de", "Josï¿½ Joaquï¿½n de Herrera");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (457, 12, "Atenango del Río", "Atenango del Rí", "Atenango del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (457, 12, "Atenango del Rï¿½o", "Atenango del Rï¿½", "Atenango del Rï¿½o");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (458, 12, "Juchitán", "Juchitán", "Juchitán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (458, 12, "Juchitï¿½n", "Juchitï¿½n", "Juchitï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (459, 12, "Iliatenco", "Iliatenco", "Iliatenco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (460, 12, "Atlamajalcingo del Monte", "Atlamajalcingo ", "Atlamajalcingo del Monte");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (461, 13, "Acatlán", "Acatlán", "Acatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (461, 13, "Acatlï¿½n", "Acatlï¿½n", "Acatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (462, 13, "Atitalaquia", "Atitalaquia", "Atitalaquia");
 	
@@ -946,13 +947,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (469, 13, "Chapantongo", "Chapantongo", "Chapantongo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (470, 13, "Chapulhuacán", "Chapulhuacán", "Chapulhuacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (470, 13, "Chapulhuacï¿½n", "Chapulhuacï¿½n", "Chapulhuacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (471, 13, "Chilcuautla", "Chilcuautla", "Chilcuautla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (472, 13, "Acaxochitlán", "Acaxochitlán", "Acaxochitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (472, 13, "Acaxochitlï¿½n", "Acaxochitlï¿½n", "Acaxochitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (473, 13, "Eloxochitlán", "Eloxochitlán", "Eloxochitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (473, 13, "Eloxochitlï¿½n", "Eloxochitlï¿½n", "Eloxochitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (474, 13, "Emiliano Zapata", "Emiliano Zapata", "Emiliano Zapata");
 	
@@ -978,17 +979,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (485, 13, "Jacala de Ledezma", "Jacala de Ledez", "Jacala de Ledezma");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (486, 13, "Jaltocán", "Jaltocán", "Jaltocán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (486, 13, "Jaltocï¿½n", "Jaltocï¿½n", "Jaltocï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (487, 13, "Juárez Hidalgo", "Juárez Hidalgo", "Juárez Hidalgo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (487, 13, "Juï¿½rez Hidalgo", "Juï¿½rez Hidalgo", "Juï¿½rez Hidalgo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (488, 13, "Lolotla", "Lolotla", "Lolotla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (489, 13, "Metepec", "Metepec", "Metepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (490, 13, "San Agustín Metzquititlán", "San Agustín Met", "San Agustín Metzquititlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (490, 13, "San Agustï¿½n Metzquititlï¿½n", "San Agustï¿½n Met", "San Agustï¿½n Metzquititlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (491, 13, "Metztitlán", "Metztitlán", "Metztitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (491, 13, "Metztitlï¿½n", "Metztitlï¿½n", "Metztitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (492, 13, "Mineral del Chico", "Mineral del Chi", "Mineral del Chico");
 	
@@ -996,19 +997,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (494, 13, "Agua Blanca de Iturbide", "Agua Blanca de ", "Agua Blanca de Iturbide");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (495, 13, "La Misión", "La Misión", "La Misión");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (495, 13, "La Misiï¿½n", "La Misiï¿½n", "La Misiï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (496, 13, "Mixquiahuala de Juárez", "Mixquiahuala de", "Mixquiahuala de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (496, 13, "Mixquiahuala de Juï¿½rez", "Mixquiahuala de", "Mixquiahuala de Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (497, 13, "Molango de Escamilla", "Molango de Esca", "Molango de Escamilla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (498, 13, "Nicolás Flores", "Nicolás Flores", "Nicolás Flores");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (498, 13, "Nicolï¿½s Flores", "Nicolï¿½s Flores", "Nicolï¿½s Flores");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (499, 13, "Nopala de Villagrán", "Nopala de Villa", "Nopala de Villagrán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (499, 13, "Nopala de Villagrï¿½n", "Nopala de Villa", "Nopala de Villagrï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (500, 13, "Omitlán de Juárez", "Omitlán de Juár", "Omitlán de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (500, 13, "Omitlï¿½n de Juï¿½rez", "Omitlï¿½n de Juï¿½r", "Omitlï¿½n de Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (501, 13, "San Felipe Orizatlán", "San Felipe Oriz", "San Felipe Orizatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (501, 13, "San Felipe Orizatlï¿½n", "San Felipe Oriz", "San Felipe Orizatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (502, 13, "Pacula", "Pacula", "Pacula");
 	
@@ -1018,11 +1019,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (505, 13, "Ajacuba", "Ajacuba", "Ajacuba");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (506, 13, "Progreso de Obregón", "Progreso de Obr", "Progreso de Obregón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (506, 13, "Progreso de Obregï¿½n", "Progreso de Obr", "Progreso de Obregï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (507, 13, "Mineral de la Reforma", "Mineral de la R", "Mineral de la Reforma");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (508, 13, "San Agustín Tlaxiaca", "San Agustín Tla", "San Agustín Tlaxiaca");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (508, 13, "San Agustï¿½n Tlaxiaca", "San Agustï¿½n Tla", "San Agustï¿½n Tlaxiaca");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (509, 13, "San Bartolo Tutotepec", "San Bartolo Tut", "San Bartolo Tutotepec");
 	
@@ -1044,11 +1045,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (518, 13, "Tepeapulco", "Tepeapulco", "Tepeapulco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (519, 13, "Tepehuacán de Guerrero", "Tepehuacán de G", "Tepehuacán de Guerrero");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (519, 13, "Tepehuacï¿½n de Guerrero", "Tepehuacï¿½n de G", "Tepehuacï¿½n de Guerrero");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (520, 13, "Tepeji del Río de Ocampo", "Tepeji del Río ", "Tepeji del Río de Ocampo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (520, 13, "Tepeji del Rï¿½o de Ocampo", "Tepeji del Rï¿½o ", "Tepeji del Rï¿½o de Ocampo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (521, 13, "Tepetitlán", "Tepetitlán", "Tepetitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (521, 13, "Tepetitlï¿½n", "Tepetitlï¿½n", "Tepetitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (522, 13, "Tetepango", "Tetepango", "Tetepango");
 	
@@ -1080,19 +1081,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (536, 13, "Xochiatipan", "Xochiatipan", "Xochiatipan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (537, 13, "Xochicoatlán", "Xochicoatlán", "Xochicoatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (537, 13, "Xochicoatlï¿½n", "Xochicoatlï¿½n", "Xochicoatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (538, 13, "Apan", "Apan", "Apan");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (539, 13, "Yahualica", "Yahualica", "Yahualica");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (540, 13, "Zacualtipán de Ángeles", "Zacualtipán de ", "Zacualtipán de Ángeles");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (540, 13, "Zacualtipï¿½n de ï¿½ngeles", "Zacualtipï¿½n de ", "Zacualtipï¿½n de ï¿½ngeles");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (541, 13, "Zapotlán de Juárez", "Zapotlán de Juá", "Zapotlán de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (541, 13, "Zapotlï¿½n de Juï¿½rez", "Zapotlï¿½n de Juï¿½", "Zapotlï¿½n de Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (542, 13, "Zempoala", "Zempoala", "Zempoala");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (543, 13, "Zimapán", "Zimapán", "Zimapán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (543, 13, "Zimapï¿½n", "Zimapï¿½n", "Zimapï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (544, 13, "El Arenal", "El Arenal", "El Arenal");
 	
@@ -1100,9 +1101,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (546, 14, "Atemajac de Brizuela", "Atemajac de Bri", "Atemajac de Brizuela");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (547, 14, "Tomatlán", "Tomatlán", "Tomatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (547, 14, "Tomatlï¿½n", "Tomatlï¿½n", "Tomatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (548, 14, "Tonalá", "Tonalá", "Tonalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (548, 14, "Tonalï¿½", "Tonalï¿½", "Tonalï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (549, 14, "Tonaya", "Tonaya", "Tonaya");
 	
@@ -1110,7 +1111,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (551, 14, "Totatiche", "Totatiche", "Totatiche");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (552, 14, "Tototlán", "Tototlán", "Tototlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (552, 14, "Tototlï¿½n", "Tototlï¿½n", "Tototlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (553, 14, "Tuxcacuesco", "Tuxcacuesco", "Tuxcacuesco");
 	
@@ -1118,15 +1119,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (555, 14, "Tuxpan", "Tuxpan", "Tuxpan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (556, 14, "Unión de San Antonio", "Unión de San An", "Unión de San Antonio");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (556, 14, "Uniï¿½n de San Antonio", "Uniï¿½n de San An", "Uniï¿½n de San Antonio");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (557, 14, "Atengo", "Atengo", "Atengo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (558, 14, "Unión de Tula", "Unión de Tula", "Unión de Tula");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (558, 14, "Uniï¿½n de Tula", "Uniï¿½n de Tula", "Uniï¿½n de Tula");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (559, 14, "Valle de Guadalupe", "Valle de Guadal", "Valle de Guadalupe");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (560, 14, "Valle de Juárez", "Valle de Juárez", "Valle de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (560, 14, "Valle de Juï¿½rez", "Valle de Juï¿½rez", "Valle de Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (561, 14, "San Gabriel", "San Gabriel", "San Gabriel");
 	
@@ -1136,9 +1137,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (564, 14, "Villa Hidalgo", "Villa Hidalgo", "Villa Hidalgo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (565, 14, "Cañadas de Obregón", "Cañadas de Obre", "Cañadas de Obregón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (565, 14, "Caï¿½adas de Obregï¿½n", "Caï¿½adas de Obre", "Caï¿½adas de Obregï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (566, 14, "Yahualica de González Gallo", "Yahualica de ", "Yahualica de González Gallo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (566, 14, "Yahualica de Gonzï¿½lez Gallo", "Yahualica de ", "Yahualica de Gonzï¿½lez Gallo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (567, 14, "Zacoalco de Torres", "Zacoalco de Tor", "Zacoalco de Torres");
 	
@@ -1148,9 +1149,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (570, 14, "Zapotiltic", "Zapotiltic", "Zapotiltic");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (571, 14, "Zapotitlán de Vadillo", "Zapotitlán de V", "Zapotitlán de Vadillo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (571, 14, "Zapotitlï¿½n de Vadillo", "Zapotitlï¿½n de V", "Zapotitlï¿½n de Vadillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (572, 14, "Zapotlán del Rey", "Zapotlán del Re", "Zapotlán del Rey");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (572, 14, "Zapotlï¿½n del Rey", "Zapotlï¿½n del Re", "Zapotlï¿½n del Rey");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (573, 14, "Zapotlanejo", "Zapotlanejo", "Zapotlanejo");
 	
@@ -1160,17 +1161,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (576, 14, "Atoyac", "Atoyac", "Atoyac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (577, 14, "Autlán de Navarro", "Autlán de Navar", "Autlán de Navarro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (577, 14, "Autlï¿½n de Navarro", "Autlï¿½n de Navar", "Autlï¿½n de Navarro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (578, 14, "Ayotlán", "Ayotlán", "Ayotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (578, 14, "Ayotlï¿½n", "Ayotlï¿½n", "Ayotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (579, 14, "Ayutla", "Ayutla", "Ayutla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (580, 14, "La Barca", "La Barca", "La Barca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (581, 14, "Bolaños", "Bolaños", "Bolaños");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (581, 14, "Bolaï¿½os", "Bolaï¿½os", "Bolaï¿½os");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (582, 14, "Acatlán de Juárez", "Acatlán de Juár", "Acatlán de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (582, 14, "Acatlï¿½n de Juï¿½rez", "Acatlï¿½n de Juï¿½r", "Acatlï¿½n de Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (583, 14, "Cabo Corrientes", "Cabo Corrientes", "Cabo Corrientes");
 	
@@ -1178,39 +1179,39 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (585, 14, "Fraccionamiento", "Fraccionamiento", "Fraccionamiento");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (586, 14, "Cihuatlán", "Cihuatlán", "Cihuatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (586, 14, "Cihuatlï¿½n", "Cihuatlï¿½n", "Cihuatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (587, 14, "Zapotlán el Grande", "Zapotlán el Gra", "Zapotlán el Grande");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (587, 14, "Zapotlï¿½n el Grande", "Zapotlï¿½n el Gra", "Zapotlï¿½n el Grande");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (588, 14, "Cocula", "Cocula", "Cocula");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (589, 14, "Colotlán", "Colotlán", "Colotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (589, 14, "Colotlï¿½n", "Colotlï¿½n", "Colotlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (590, 14, "Concepción de Buenos Aires", "Concepción de B", "Concepción de Buenos Aires");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (590, 14, "Concepciï¿½n de Buenos Aires", "Concepciï¿½n de B", "Concepciï¿½n de Buenos Aires");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (591, 14, "Cuautitlán de García Barragán", "Cuautitlán de G", "Cuautitlán de García Barragán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (591, 14, "Cuautitlï¿½n de Garcï¿½a Barragï¿½n", "Cuautitlï¿½n de G", "Cuautitlï¿½n de Garcï¿½a Barragï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (592, 14, "Cuautla", "Cuautla", "Cuautla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (593, 14, "Cuquío", "Cuquío", "Cuquío");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (593, 14, "Cuquï¿½o", "Cuquï¿½o", "Cuquï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (594, 14, "Ahualulco de Mercado", "Ahualulco de Me", "Ahualulco de Mercado");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (595, 14, "Chapala", "Chapala", "Chapala");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (596, 14, "Chimaltitán", "Chimaltitán", "Chimaltitán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (596, 14, "Chimaltitï¿½n", "Chimaltitï¿½n", "Chimaltitï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (597, 14, "Unidad habitacional", "Unidad habitaci", "Unidad habitacional");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (598, 14, "Chiquilistlán", "Chiquilistlán", "Chiquilistlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (598, 14, "Chiquilistlï¿½n", "Chiquilistlï¿½n", "Chiquilistlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (599, 14, "Degollado", "Degollado", "Degollado");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (600, 14, "Ejutla", "Ejutla", "Ejutla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (601, 14, "Encarnación de Díaz", "Encarnación de ", "Encarnación de Díaz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (601, 14, "Encarnaciï¿½n de Dï¿½az", "Encarnaciï¿½n de ", "Encarnaciï¿½n de Dï¿½az");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (602, 14, "Etzatlán", "Etzatlán", "Etzatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (602, 14, "Etzatlï¿½n", "Etzatlï¿½n", "Etzatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (603, 14, "El Grullo", "El Grullo", "El Grullo");
 	
@@ -1222,39 +1223,39 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (607, 14, "Hostotipaquillo", "Hostotipaquillo", "Hostotipaquillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (608, 14, "Huejúcar", "Huejúcar", "Huejúcar");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (608, 14, "Huejï¿½car", "Huejï¿½car", "Huejï¿½car");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (609, 14, "Huejuquilla el Alto", "Huejuquilla el ", "Huejuquilla el Alto");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (610, 14, "La Huerta", "La Huerta", "La Huerta");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (611, 14, "Ixtlahuacán de los Membrillos", "Ixtlahuacán de ", "Ixtlahuacán de los Membrillos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (611, 14, "Ixtlahuacï¿½n de los Membrillos", "Ixtlahuacï¿½n de ", "Ixtlahuacï¿½n de los Membrillos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (612, 14, "Ixtlahuacán del Río", "Ixtlahuacán del", "Ixtlahuacán del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (612, 14, "Ixtlahuacï¿½n del Rï¿½o", "Ixtlahuacï¿½n del", "Ixtlahuacï¿½n del Rï¿½o");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (613, 14, "Jalostotitlán", "Jalostotitlán", "Jalostotitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (613, 14, "Jalostotitlï¿½n", "Jalostotitlï¿½n", "Jalostotitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (614, 14, "Jamay", "Jamay", "Jamay");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (615, 14, "Jesús María", "Jesús María", "Jesús María");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (615, 14, "Jesï¿½s Marï¿½a", "Jesï¿½s Marï¿½a", "Jesï¿½s Marï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (616, 14, "Jilotlán de los Dolores", "Jilotlán de los", "Jilotlán de los Dolores");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (616, 14, "Jilotlï¿½n de los Dolores", "Jilotlï¿½n de los", "Jilotlï¿½n de los Dolores");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (617, 14, "Amatitán", "Amatitán", "Amatitán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (617, 14, "Amatitï¿½n", "Amatitï¿½n", "Amatitï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (618, 14, "Jocotepec", "Jocotepec", "Jocotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (619, 14, "Juanacatlán", "Juanacatlán", "Juanacatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (619, 14, "Juanacatlï¿½n", "Juanacatlï¿½n", "Juanacatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (620, 14, "Juchitlán", "Juchitlán", "Juchitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (620, 14, "Juchitlï¿½n", "Juchitlï¿½n", "Juchitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (621, 14, "Lagos de Moreno", "Lagos de Moreno", "Lagos de Moreno");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (622, 14, "El Limón", "El Limón", "El Limón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (622, 14, "El Limï¿½n", "El Limï¿½n", "El Limï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (623, 14, "Magdalena", "Magdalena", "Magdalena");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (624, 14, "Santa María del Oro", "Santa María del", "Santa María del Oro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (624, 14, "Santa Marï¿½a del Oro", "Santa Marï¿½a del", "Santa Marï¿½a del Oro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (625, 14, "La Manzanilla de la Paz", "La Manzanilla d", "La Manzanilla de la Paz");
 	
@@ -1264,23 +1265,23 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (628, 14, "Ameca", "Ameca", "Ameca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (629, 14, "Mexticacán", "Mexticacán", "Mexticacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (629, 14, "Mexticacï¿½n", "Mexticacï¿½n", "Mexticacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (630, 14, "Mezquitic", "Mezquitic", "Mezquitic");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (631, 14, "Mixtlán", "Mixtlán", "Mixtlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (631, 14, "Mixtlï¿½n", "Mixtlï¿½n", "Mixtlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (632, 14, "Ocotlán", "Ocotlán", "Ocotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (632, 14, "Ocotlï¿½n", "Ocotlï¿½n", "Ocotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (633, 14, "Ojuelos de Jalisco", "Ojuelos de Jali", "Ojuelos de Jalisco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (634, 14, "Pihuamo", "Pihuamo", "Pihuamo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (635, 14, "Poncitlán", "Poncitlán", "Poncitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (635, 14, "Poncitlï¿½n", "Poncitlï¿½n", "Poncitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (636, 14, "Puerto Vallarta", "Puerto Vallarta", "Puerto Vallarta");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (637, 14, "Villa Purificación", "Villa Purificac", "Villa Purificación");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (637, 14, "Villa Purificaciï¿½n", "Villa Purificac", "Villa Purificaciï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (638, 14, "Quitupan", "Quitupan", "Quitupan");
 	
@@ -1288,29 +1289,29 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (640, 14, "El Salto", "El Salto", "El Salto");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (641, 14, "San Cristóbal de la Barranca", "San Cristóbal d", "San Cristóbal de la Barranca");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (641, 14, "San Cristï¿½bal de la Barranca", "San Cristï¿½bal d", "San Cristï¿½bal de la Barranca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (642, 14, "San Diego de Alejandría", "San Diego de Al", "San Diego de Alejandría");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (642, 14, "San Diego de Alejandrï¿½a", "San Diego de Al", "San Diego de Alejandrï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (643, 14, "San Juan de los Lagos", "San Juan de los", "San Juan de los Lagos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (644, 14, "San Julián", "San Julián", "San Julián");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (644, 14, "San Juliï¿½n", "San Juliï¿½n", "San Juliï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (645, 14, "San Marcos", "San Marcos", "San Marcos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (646, 14, "San Martín de Bolaños", "San Martín de B", "San Martín de Bolaños");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (646, 14, "San Martï¿½n de Bolaï¿½os", "San Martï¿½n de B", "San Martï¿½n de Bolaï¿½os");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (647, 14, "San Martín Hidalgo", "San Martín Hida", "San Martín Hidalgo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (647, 14, "San Martï¿½n Hidalgo", "San Martï¿½n Hida", "San Martï¿½n Hidalgo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (648, 14, "San Miguel el Alto", "San Miguel el A", "San Miguel el Alto");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (649, 14, "Gómez Farías", "Gómez Farías", "Gómez Farías");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (649, 14, "Gï¿½mez Farï¿½as", "Gï¿½mez Farï¿½as", "Gï¿½mez Farï¿½as");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (650, 14, "Arandas", "Arandas", "Arandas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (651, 14, "San Sebastián del Oeste", "San Sebastián d", "San Sebastián del Oeste");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (651, 14, "San Sebastiï¿½n del Oeste", "San Sebastiï¿½n d", "San Sebastiï¿½n del Oeste");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (652, 14, "Santa María de los Ángeles", "Santa María de ", "Santa María de los Ángeles");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (652, 14, "Santa Marï¿½a de los ï¿½ngeles", "Santa Marï¿½a de ", "Santa Marï¿½a de los ï¿½ngeles");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (653, 14, "Sayula", "Sayula", "Sayula");
 	
@@ -1322,35 +1323,35 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (657, 14, "Tapalpa", "Tapalpa", "Tapalpa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (658, 14, "Tecalitlán", "Tecalitlán", "Tecalitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (658, 14, "Tecalitlï¿½n", "Tecalitlï¿½n", "Tecalitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (659, 14, "Tecolotlán", "Tecolotlán", "Tecolotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (659, 14, "Tecolotlï¿½n", "Tecolotlï¿½n", "Tecolotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (660, 14, "Techaluta de Montenegro", "Techaluta de Mo", "Techaluta de Montenegro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (661, 14, "El Arenal", "El Arenal", "El Arenal");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (662, 14, "Tenamaxtlán", "Tenamaxtlán", "Tenamaxtlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (662, 14, "Tenamaxtlï¿½n", "Tenamaxtlï¿½n", "Tenamaxtlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (663, 14, "Teocaltiche", "Teocaltiche", "Teocaltiche");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (664, 14, "Teocuitatlán de Corona", "Teocuitatlán de", "Teocuitatlán de Corona");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (664, 14, "Teocuitatlï¿½n de Corona", "Teocuitatlï¿½n de", "Teocuitatlï¿½n de Corona");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (665, 14, "Tepatitlán de Morelos", "Tepatitlán de M", "Tepatitlán de Morelos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (665, 14, "Tepatitlï¿½n de Morelos", "Tepatitlï¿½n de M", "Tepatitlï¿½n de Morelos");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (666, 14, "Tequila", "Tequila", "Tequila");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (667, 14, "Teuchitlán", "Teuchitlán", "Teuchitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (667, 14, "Teuchitlï¿½n", "Teuchitlï¿½n", "Teuchitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (668, 14, "Tizapán el Alto", "Tizapán el Alto", "Tizapán el Alto");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (668, 14, "Tizapï¿½n el Alto", "Tizapï¿½n el Alto", "Tizapï¿½n el Alto");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (669, 14, "Tlajomulco de Zúñiga", "Tlajomulco de Z", "Tlajomulco de Zúñiga");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (669, 14, "Tlajomulco de Zï¿½ï¿½iga", "Tlajomulco de Z", "Tlajomulco de Zï¿½ï¿½iga");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (670, 14, "San Pedro Tlaquepaque", "San Pedro Tlaqu", "San Pedro Tlaquepaque");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (671, 14, "Tolimán", "Tolimán", "Tolimán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (671, 14, "Tolimï¿½n", "Tolimï¿½n", "Tolimï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (672, 15, "Acambay de Ruíz Castañeda", "Acambay de Ruíz", "Acambay de Ruíz Castañeda");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (672, 15, "Acambay de Ruï¿½z Castaï¿½eda", "Acambay de Ruï¿½z", "Acambay de Ruï¿½z Castaï¿½eda");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (673, 15, "Apaxco", "Apaxco", "Apaxco");
 	
@@ -1372,7 +1373,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (682, 15, "Tultepec", "Tultepec", "Tultepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (683, 15, "Tultitlán", "Tultitlán", "Tultitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (683, 15, "Tultitlï¿½n", "Tultitlï¿½n", "Tultitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (684, 15, "Atenco", "Atenco", "Atenco");
 	
@@ -1380,13 +1381,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (686, 15, "Villa de Allende", "Villa de Allend", "Villa de Allende");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (687, 15, "Villa del Carbón", "Villa del Carbó", "Villa del Carbón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (687, 15, "Villa del Carbï¿½n", "Villa del Carbï¿½", "Villa del Carbï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (688, 15, "Villa Guerrero", "Villa Guerrero", "Villa Guerrero");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (689, 15, "Villa Victoria", "Villa Victoria", "Villa Victoria");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (690, 15, "Xonacatlán", "Xonacatlán", "Xonacatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (690, 15, "Xonacatlï¿½n", "Xonacatlï¿½n", "Xonacatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (691, 15, "Zacazonapan", "Zacazonapan", "Zacazonapan");
 	
@@ -1394,23 +1395,23 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (693, 15, "Zinacantepec", "Zinacantepec", "Zinacantepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (694, 15, "Zumpahuacán", "Zumpahuacán", "Zumpahuacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (694, 15, "Zumpahuacï¿½n", "Zumpahuacï¿½n", "Zumpahuacï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (695, 15, "Atizapán", "Atizapán", "Atizapán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (695, 15, "Atizapï¿½n", "Atizapï¿½n", "Atizapï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (696, 15, "Zumpango", "Zumpango", "Zumpango");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (697, 15, "Cuautitlán Izcalli", "Cuautitlán Izca", "Cuautitlán Izcalli");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (697, 15, "Cuautitlï¿½n Izcalli", "Cuautitlï¿½n Izca", "Cuautitlï¿½n Izcalli");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (698, 15, "Valle de Chalco Solidaridad", "Valle de Chalco", "Valle de Chalco Solidaridad");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (699, 15, "Luvianos", "Luvianos", "Luvianos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (700, 15, "San José del Rincón", "San José del Ri", "San José del Rincón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (700, 15, "San Josï¿½ del Rincï¿½n", "San Josï¿½ del Ri", "San Josï¿½ del Rincï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (701, 15, "Tonanitla", "Tonanitla", "Tonanitla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (702, 15, "Atizapán de Zaragoza", "Atizapán de Zar", "Atizapán de Zaragoza");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (702, 15, "Atizapï¿½n de Zaragoza", "Atizapï¿½n de Zar", "Atizapï¿½n de Zaragoza");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (703, 15, "Atlacomulco", "Atlacomulco", "Atlacomulco");
 	
@@ -1428,15 +1429,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (710, 15, "Acolman", "Acolman", "Acolman");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (711, 15, "Coacalco de Berriozábal", "Coacalco de Ber", "Coacalco de Berriozábal");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (711, 15, "Coacalco de Berriozï¿½bal", "Coacalco de Ber", "Coacalco de Berriozï¿½bal");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (712, 15, "Coatepec Harinas", "Coatepec Harina", "Coatepec Harinas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (713, 15, "Cocotitlán", "Cocotitlán", "Cocotitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (713, 15, "Cocotitlï¿½n", "Cocotitlï¿½n", "Cocotitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (714, 15, "Coyotepec", "Coyotepec", "Coyotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (715, 15, "Cuautitlán", "Cuautitlán", "Cuautitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (715, 15, "Cuautitlï¿½n", "Cuautitlï¿½n", "Cuautitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (716, 15, "Chalco", "Chalco", "Chalco");
 	
@@ -1452,7 +1453,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (722, 15, "Chiconcuac", "Chiconcuac", "Chiconcuac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (723, 15, "Chimalhuacán", "Chimalhuacán", "Chimalhuacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (723, 15, "Chimalhuacï¿½n", "Chimalhuacï¿½n", "Chimalhuacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (724, 15, "Donato Guerra", "Donato Guerra", "Donato Guerra");
 	
@@ -1488,11 +1489,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (740, 15, "Jiquipilco", "Jiquipilco", "Jiquipilco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (741, 15, "Jocotitlán", "Jocotitlán", "Jocotitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (741, 15, "Jocotitlï¿½n", "Jocotitlï¿½n", "Jocotitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (742, 15, "Joquicingo", "Joquicingo", "Joquicingo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (743, 15, "Almoloya de Juárez", "Almoloya de Juá", "Almoloya de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (743, 15, "Almoloya de Juï¿½rez", "Almoloya de Juï¿½", "Almoloya de Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (744, 15, "Juchitepec", "Juchitepec", "Juchitepec");
 	
@@ -1510,15 +1511,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (751, 15, " III", " III", " III");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (752, 15, "Naucalpan de Juárez", "Naucalpan de Ju", "Naucalpan de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (752, 15, "Naucalpan de Juï¿½rez", "Naucalpan de Ju", "Naucalpan de Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (753, 15, "Nezahualcóyotl", "Nezahualcóyotl", "Nezahualcóyotl");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (753, 15, "Nezahualcï¿½yotl", "Nezahualcï¿½yotl", "Nezahualcï¿½yotl");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (754, 15, "Nextlalpan", "Nextlalpan", "Nextlalpan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (755, 15, "Almoloya del Río", "Almoloya del Rí", "Almoloya del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (755, 15, "Almoloya del Rï¿½o", "Almoloya del Rï¿½", "Almoloya del Rï¿½o");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (756, 15, "Nicolás Romero", "Nicolás Romero", "Nicolás Romero");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (756, 15, "Nicolï¿½s Romero", "Nicolï¿½s Romero", "Nicolï¿½s Romero");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (757, 15, "Nopaltepec", "Nopaltepec", "Nopaltepec");
 	
@@ -1542,29 +1543,29 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (767, 15, "La Paz", "La Paz", "La Paz");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (768, 15, "Polotitlán", "Polotitlán", "Polotitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (768, 15, "Polotitlï¿½n", "Polotitlï¿½n", "Polotitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (769, 15, "Rayón", "Rayón", "Rayón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (769, 15, "Rayï¿½n", "Rayï¿½n", "Rayï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (770, 15, "San Antonio la Isla", "San Antonio la ", "San Antonio la Isla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (771, 15, "San Felipe del Progreso", "San Felipe del ", "San Felipe del Progreso");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (772, 15, "San Martín de las Pirámides", "San Martín de l", "San Martín de las Pirámides");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (772, 15, "San Martï¿½n de las Pirï¿½mides", "San Martï¿½n de l", "San Martï¿½n de las Pirï¿½mides");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (773, 15, "San Mateo Atenco", "San Mateo Atenc", "San Mateo Atenco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (774, 15, "San Simón de Guerrero", "San Simón de Gu", "San Simón de Guerrero");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (774, 15, "San Simï¿½n de Guerrero", "San Simï¿½n de Gu", "San Simï¿½n de Guerrero");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (775, 15, "Santo Tomás", "Santo Tomás", "Santo Tomás");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (775, 15, "Santo Tomï¿½s", "Santo Tomï¿½s", "Santo Tomï¿½s");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (776, 15, "Soyaniquilpan de Juárez", "Soyaniquilpan d", "Soyaniquilpan de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (776, 15, "Soyaniquilpan de Juï¿½rez", "Soyaniquilpan d", "Soyaniquilpan de Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (777, 15, "Amatepec", "Amatepec", "Amatepec");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (778, 15, "Sultepec", "Sultepec", "Sultepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (779, 15, "Tecámac", "Tecámac", "Tecámac");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (779, 15, "Tecï¿½mac", "Tecï¿½mac", "Tecï¿½mac");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (780, 15, "Tejupilco", "Tejupilco", "Tejupilco");
 	
@@ -1590,17 +1591,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (791, 15, "Teoloyucan", "Teoloyucan", "Teoloyucan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (792, 15, "Teotihuacán", "Teotihuacán", "Teotihuacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (792, 15, "Teotihuacï¿½n", "Teotihuacï¿½n", "Teotihuacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (793, 15, "Tepetlaoxtoc", "Tepetlaoxtoc", "Tepetlaoxtoc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (794, 15, "Tepetlixpa", "Tepetlixpa", "Tepetlixpa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (795, 15, "Tepotzotlán", "Tepotzotlán", "Tepotzotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (795, 15, "Tepotzotlï¿½n", "Tepotzotlï¿½n", "Tepotzotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (796, 15, "Tequixquiac", "Tequixquiac", "Tequixquiac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (797, 15, "Texcaltitlán", "Texcaltitlán", "Texcaltitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (797, 15, "Texcaltitlï¿½n", "Texcaltitlï¿½n", "Texcaltitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (798, 15, "Texcalyacac", "Texcalyacac", "Texcalyacac");
 	
@@ -1622,37 +1623,37 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (807, 16, "Vista Hermosa", "Vista Hermosa", "Vista Hermosa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (808, 16, "Yurécuaro", "Yurécuaro", "Yurécuaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (808, 16, "Yurï¿½cuaro", "Yurï¿½cuaro", "Yurï¿½cuaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (809, 16, "Zacapu", "Zacapu", "Zacapu");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (810, 16, "Zamora", "Zamora", "Zamora");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (811, 16, "Zináparo", "Zináparo", "Zináparo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (811, 16, "Zinï¿½paro", "Zinï¿½paro", "Zinï¿½paro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (812, 16, "Briseñas", "Briseñas", "Briseñas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (812, 16, "Briseï¿½as", "Briseï¿½as", "Briseï¿½as");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (813, 16, "Zinapécuaro", "Zinapécuaro", "Zinapécuaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (813, 16, "Zinapï¿½cuaro", "Zinapï¿½cuaro", "Zinapï¿½cuaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (814, 16, "Ziracuaretiro", "Ziracuaretiro", "Ziracuaretiro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (815, 16, "Zitácuaro", "Zitácuaro", "Zitácuaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (815, 16, "Zitï¿½cuaro", "Zitï¿½cuaro", "Zitï¿½cuaro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (816, 16, "José Sixto Verduzco", "José Sixto Verd", "José Sixto Verduzco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (816, 16, "Josï¿½ Sixto Verduzco", "Josï¿½ Sixto Verd", "Josï¿½ Sixto Verduzco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (817, 16, "Buenavista", "Buenavista", "Buenavista");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (818, 16, "Carácuaro", "Carácuaro", "Carácuaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (818, 16, "Carï¿½cuaro", "Carï¿½cuaro", "Carï¿½cuaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (819, 16, "Coahuayana", "Coahuayana", "Coahuayana");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (820, 16, "Coalcomán de Vázquez Pallares", "Coalcomán de Vá", "Coalcomán de Vázquez Pallares");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (820, 16, "Coalcomï¿½n de Vï¿½zquez Pallares", "Coalcomï¿½n de Vï¿½", "Coalcomï¿½n de Vï¿½zquez Pallares");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (821, 16, "Coeneo", "Coeneo", "Coeneo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (822, 16, "Contepec", "Contepec", "Contepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (823, 16, "Copándaro", "Copándaro", "Copándaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (823, 16, "Copï¿½ndaro", "Copï¿½ndaro", "Copï¿½ndaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (824, 16, "Cotija", "Cotija", "Cotija");
 	
@@ -1668,25 +1669,25 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (830, 16, "Chavinda", "Chavinda", "Chavinda");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (831, 16, "Cherán", "Cherán", "Cherán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (831, 16, "Cherï¿½n", "Cherï¿½n", "Cherï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (832, 16, "Chilchota", "Chilchota", "Chilchota");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (833, 16, "Chinicuila", "Chinicuila", "Chinicuila");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (834, 16, "Chucándiro", "Chucándiro", "Chucándiro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (834, 16, "Chucï¿½ndiro", "Chucï¿½ndiro", "Chucï¿½ndiro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (835, 16, "Churintzio", "Churintzio", "Churintzio");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (836, 16, "Churumuco", "Churumuco", "Churumuco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (837, 16, "Álvaro Obregón", "Álvaro Obregón", "Álvaro Obregón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (837, 16, "ï¿½lvaro Obregï¿½n", "ï¿½lvaro Obregï¿½n", "ï¿½lvaro Obregï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (838, 16, "Ecuandureo", "Ecuandureo", "Ecuandureo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (839, 16, "Epitacio Huerta", "Epitacio Huerta", "Epitacio Huerta");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (840, 16, "Erongarícuaro", "Erongarícuaro", "Erongarícuaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (840, 16, "Erongarï¿½cuaro", "Erongarï¿½cuaro", "Erongarï¿½cuaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (841, 16, "Gabriel Zamora", "Gabriel Zamora", "Gabriel Zamora");
 	
@@ -1708,15 +1709,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (850, 16, "Irimbo", "Irimbo", "Irimbo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (851, 16, "Ixtlán", "Ixtlán", "Ixtlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (851, 16, "Ixtlï¿½n", "Ixtlï¿½n", "Ixtlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (852, 16, "Jacona", "Jacona", "Jacona");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (853, 16, "Jiménez", "Jiménez", "Jiménez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (853, 16, "Jimï¿½nez", "Jimï¿½nez", "Jimï¿½nez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (854, 16, "Jiquilpan", "Jiquilpan", "Jiquilpan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (855, 16, "Juárez", "Juárez", "Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (855, 16, "Juï¿½rez", "Juï¿½rez", "Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (856, 16, "Jungapeo", "Jungapeo", "Jungapeo");
 	
@@ -1726,59 +1727,59 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (859, 16, "Angangueo", "Angangueo", "Angangueo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (860, 16, "Maravatío", "Maravatío", "Maravatío");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (860, 16, "Maravatï¿½o", "Maravatï¿½o", "Maravatï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (861, 16, "Marcos Castellanos", "Marcos Castella", "Marcos Castellanos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (862, 16, "Lázaro Cárdenas", "Lázaro Cárdenas", "Lázaro Cárdenas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (862, 16, "Lï¿½zaro Cï¿½rdenas", "Lï¿½zaro Cï¿½rdenas", "Lï¿½zaro Cï¿½rdenas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (863, 16, "Morelia", "Morelia", "Morelia");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (864, 16, "Morelos", "Morelos", "Morelos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (865, 16, "Múgica", "Múgica", "Múgica");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (865, 16, "Mï¿½gica", "Mï¿½gica", "Mï¿½gica");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (866, 16, "Nahuatzen", "Nahuatzen", "Nahuatzen");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (867, 16, "Nocupétaro", "Nocupétaro", "Nocupétaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (867, 16, "Nocupï¿½taro", "Nocupï¿½taro", "Nocupï¿½taro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (868, 16, "Nuevo Parangaricutiro", "Nuevo Parangari", "Nuevo Parangaricutiro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (869, 16, "Nuevo Urecho", "Nuevo Urecho", "Nuevo Urecho");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (870, 16, "Apatzingán", "Apatzingán", "Apatzingán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (870, 16, "Apatzingï¿½n", "Apatzingï¿½n", "Apatzingï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (871, 16, "Numarán", "Numarán", "Numarán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (871, 16, "Numarï¿½n", "Numarï¿½n", "Numarï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (872, 16, "Ocampo", "Ocampo", "Ocampo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (873, 16, "Pajacuarán", "Pajacuarán", "Pajacuarán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (873, 16, "Pajacuarï¿½n", "Pajacuarï¿½n", "Pajacuarï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (874, 16, "Panindícuaro", "Panindícuaro", "Panindícuaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (874, 16, "Panindï¿½cuaro", "Panindï¿½cuaro", "Panindï¿½cuaro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (875, 16, "Parácuaro", "Parácuaro", "Parácuaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (875, 16, "Parï¿½cuaro", "Parï¿½cuaro", "Parï¿½cuaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (876, 16, "Paracho", "Paracho", "Paracho");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (877, 16, "Pátzcuaro", "Pátzcuaro", "Pátzcuaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (877, 16, "Pï¿½tzcuaro", "Pï¿½tzcuaro", "Pï¿½tzcuaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (878, 16, "Penjamillo", "Penjamillo", "Penjamillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (879, 16, "Peribán", "Peribán", "Peribán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (879, 16, "Peribï¿½n", "Peribï¿½n", "Peribï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (880, 16, "La Piedad", "La Piedad", "La Piedad");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (881, 16, "Aporo", "Aporo", "Aporo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (882, 16, "Purépero", "Purépero", "Purépero");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (882, 16, "Purï¿½pero", "Purï¿½pero", "Purï¿½pero");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (883, 16, "Puruándiro", "Puruándiro", "Puruándiro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (883, 16, "Puruï¿½ndiro", "Puruï¿½ndiro", "Puruï¿½ndiro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (884, 16, "Queréndaro", "Queréndaro", "Queréndaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (884, 16, "Querï¿½ndaro", "Querï¿½ndaro", "Querï¿½ndaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (885, 16, "Quiroga", "Quiroga", "Quiroga");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (886, 16, "Cojumatlán de Régules", "Cojumatlán de R", "Cojumatlán de Régules");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (886, 16, "Cojumatlï¿½n de Rï¿½gules", "Cojumatlï¿½n de R", "Cojumatlï¿½n de Rï¿½gules");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (887, 16, "Los Reyes", "Los Reyes", "Los Reyes");
 	
@@ -1796,19 +1797,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (894, 16, "Susupuato", "Susupuato", "Susupuato");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (895, 16, "Tacámbaro", "Tacámbaro", "Tacámbaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (895, 16, "Tacï¿½mbaro", "Tacï¿½mbaro", "Tacï¿½mbaro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (896, 16, "Tancítaro", "Tancítaro", "Tancítaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (896, 16, "Tancï¿½taro", "Tancï¿½taro", "Tancï¿½taro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (897, 16, "Tangamandapio", "Tangamandapio", "Tangamandapio");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (898, 16, "Tangancícuaro", "Tangancícuaro", "Tangancícuaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (898, 16, "Tangancï¿½cuaro", "Tangancï¿½cuaro", "Tangancï¿½cuaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (899, 16, "Tanhuato", "Tanhuato", "Tanhuato");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (900, 16, "Taretan", "Taretan", "Taretan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (901, 16, "Tarímbaro", "Tarímbaro", "Tarímbaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (901, 16, "Tarï¿½mbaro", "Tarï¿½mbaro", "Tarï¿½mbaro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (902, 16, "Tepalcatepec", "Tepalcatepec", "Tepalcatepec");
 	
@@ -1816,9 +1817,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (904, 16, "Tingambato", "Tingambato", "Tingambato");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (905, 16, "Tingüindín", "Tingüindín", "Tingüindín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (905, 16, "Tingï¿½indï¿½n", "Tingï¿½indï¿½n", "Tingï¿½indï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (906, 16, "Tiquicheo de Nicolás Romero", "Tiquicheo de Ni", "Tiquicheo de Nicolás Romero");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (906, 16, "Tiquicheo de Nicolï¿½s Romero", "Tiquicheo de Ni", "Tiquicheo de Nicolï¿½s Romero");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (907, 16, "Tlalpujahua", "Tlalpujahua", "Tlalpujahua");
 	
@@ -1826,7 +1827,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (909, 16, "Tocumbo", "Tocumbo", "Tocumbo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (910, 16, "Tumbiscatío", "Tumbiscatío", "Tumbiscatío");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (910, 16, "Tumbiscatï¿½o", "Tumbiscatï¿½o", "Tumbiscatï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (911, 16, "Turicato", "Turicato", "Turicato");
 	
@@ -1846,7 +1847,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (919, 17, "Mazatepec", "Mazatepec", "Mazatepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (920, 17, "Miacatlán", "Miacatlán", "Miacatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (920, 17, "Miacatlï¿½n", "Miacatlï¿½n", "Miacatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (921, 17, "Ocuituco", "Ocuituco", "Ocuituco");
 	
@@ -1858,15 +1859,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (925, 17, "Atlatlahucan", "Atlatlahucan", "Atlatlahucan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (926, 17, "Tepoztlán", "Tepoztlán", "Tepoztlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (926, 17, "Tepoztlï¿½n", "Tepoztlï¿½n", "Tepoztlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (927, 17, "Tetecala", "Tetecala", "Tetecala");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (928, 17, "Tetela del Volcán", "Tetela del Volc", "Tetela del Volcán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (928, 17, "Tetela del Volcï¿½n", "Tetela del Volc", "Tetela del Volcï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (929, 17, "Tlalnepantla", "Tlalnepantla", "Tlalnepantla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (930, 17, "Tlaltizapán de Zapata", "Tlaltizapán de ", "Tlaltizapán de Zapata");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (930, 17, "Tlaltizapï¿½n de Zapata", "Tlaltizapï¿½n de ", "Tlaltizapï¿½n de Zapata");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (931, 17, "Tlaquiltenango", "Tlaquiltenango", "Tlaquiltenango");
 	
@@ -1890,7 +1891,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (941, 17, "Ayala", "Ayala", "Ayala");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (942, 17, "Coatlán del Río", "Coatlán del Río", "Coatlán del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (942, 17, "Coatlï¿½n del Rï¿½o", "Coatlï¿½n del Rï¿½o", "Coatlï¿½n del Rï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (943, 17, "Cuautla", "Cuautla", "Cuautla");
 	
@@ -1906,13 +1907,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (949, 18, "Rosamorada", "Rosamorada", "Rosamorada");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (950, 18, "Ruíz", "Ruíz", "Ruíz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (950, 18, "Ruï¿½z", "Ruï¿½z", "Ruï¿½z");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (951, 18, "San Blas", "San Blas", "San Blas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (952, 18, "San Pedro Lagunillas", "San Pedro Lagun", "San Pedro Lagunillas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (953, 18, "Santa María del Oro", "Santa María del", "Santa María del Oro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (953, 18, "Santa Marï¿½a del Oro", "Santa Marï¿½a del", "Santa Marï¿½a del Oro");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (954, 18, "Santiago Ixcuintla", "Santiago Ixcuin", "Santiago Ixcuintla");
 	
@@ -1924,17 +1925,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (958, 18, "La Yesca", "La Yesca", "La Yesca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (959, 18, "Ahuacatlán", "Ahuacatlán", "Ahuacatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (959, 18, "Ahuacatlï¿½n", "Ahuacatlï¿½n", "Ahuacatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (960, 18, "Bahía de Banderas", "Bahía de Bander", "Bahía de Banderas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (960, 18, "Bahï¿½a de Banderas", "Bahï¿½a de Bander", "Bahï¿½a de Banderas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (961, 18, "Amatlán de Cañas", "Amatlán de Caña", "Amatlán de Cañas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (961, 18, "Amatlï¿½n de Caï¿½as", "Amatlï¿½n de Caï¿½a", "Amatlï¿½n de Caï¿½as");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (962, 18, "Compostela", "Compostela", "Compostela");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (963, 18, "Huajicori", "Huajicori", "Huajicori");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (964, 18, "Ixtlán del Río", "Ixtlán del Río", "Ixtlán del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (964, 18, "Ixtlï¿½n del Rï¿½o", "Ixtlï¿½n del Rï¿½o", "Ixtlï¿½n del Rï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (965, 18, "Jala", "Jala", "Jala");
 	
@@ -1948,7 +1949,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (970, 19, "Cerralvo", "Cerralvo", "Cerralvo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (971, 19, "Ciénega de Flores", "Ciénega de Flor", "Ciénega de Flores");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (971, 19, "Ciï¿½nega de Flores", "Ciï¿½nega de Flor", "Ciï¿½nega de Flores");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (972, 19, "China", "China", "China");
 	
@@ -1956,13 +1957,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (974, 19, "Doctor Coss", "Doctor Coss", "Doctor Coss");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (975, 19, "Doctor González", "Doctor González", "Doctor González");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (975, 19, "Doctor Gonzï¿½lez", "Doctor Gonzï¿½lez", "Doctor Gonzï¿½lez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (976, 19, "Galeana", "Galeana", "Galeana");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (977, 19, "García", "García", "García");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (977, 19, "Garcï¿½a", "Garcï¿½a", "Garcï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (978, 19, "San Pedro Garza García", "San Pedro Garza", "San Pedro Garza García");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (978, 19, "San Pedro Garza Garcï¿½a", "San Pedro Garza", "San Pedro Garza Garcï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (979, 19, "Agualeguas", "Agualeguas", "Agualeguas");
 	
@@ -1972,9 +1973,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (982, 19, "General Escobedo", "General Escobed", "General Escobedo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (983, 19, "General Terán", "General Terán", "General Terán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (983, 19, "General Terï¿½n", "General Terï¿½n", "General Terï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (984, 19, "General Treviño", "General Treviño", "General Treviño");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (984, 19, "General Treviï¿½o", "General Treviï¿½o", "General Treviï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (985, 19, "General Zaragoza", "General Zaragoz", "General Zaragoza");
 	
@@ -1994,13 +1995,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (993, 19, "Residencial", "Residencial", "Residencial");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (994, 19, "Juárez", "Juárez", "Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (994, 19, "Juï¿½rez", "Juï¿½rez", "Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (995, 19, "Lampazos de Naranjo", "Lampazos de Nar", "Lampazos de Naranjo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (996, 19, "Linares", "Linares", "Linares");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (997, 19, "Marín", "Marín", "Marín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (997, 19, "Marï¿½n", "Marï¿½n", "Marï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (998, 19, "Melchor Ocampo", "Melchor Ocampo", "Melchor Ocampo");
 	
@@ -2014,9 +2015,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1003, 19, "Allende", "Allende", "Allende");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1004, 19, "Parás", "Parás", "Parás");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1004, 19, "Parï¿½s", "Parï¿½s", "Parï¿½s");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1005, 19, "Pesquería", "Pesquería", "Pesquería");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1005, 19, "Pesquerï¿½a", "Pesquerï¿½a", "Pesquerï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1006, 19, "Los Ramones", "Los Ramones", "Los Ramones");
 	
@@ -2026,7 +2027,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1009, 19, "Salinas Victoria", "Salinas Victori", "Salinas Victoria");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1010, 19, "San Nicolás de los Garza", "San Nicolás de ", "San Nicolás de los Garza");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1010, 19, "San Nicolï¿½s de los Garza", "San Nicolï¿½s de ", "San Nicolï¿½s de los Garza");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1011, 19, "Hidalgo", "Hidalgo", "Hidalgo");
 	
@@ -2034,7 +2035,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1013, 19, "Santiago", "Santiago", "Santiago");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1014, 19, "Anáhuac", "Anáhuac", "Anáhuac");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1014, 19, "Anï¿½huac", "Anï¿½huac", "Anï¿½huac");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1015, 19, "Vallecillo", "Vallecillo", "Vallecillo");
 	
@@ -2050,7 +2051,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1021, 19, "Bustamante", "Bustamante", "Bustamante");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1022, 19, "Cadereyta Jiménez", "Cadereyta Jimén", "Cadereyta Jiménez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1022, 19, "Cadereyta Jimï¿½nez", "Cadereyta Jimï¿½n", "Cadereyta Jimï¿½nez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1023, 19, "Colonia", "Colonia", "Colonia");
 	
@@ -2058,11 +2059,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1025, 20, "El Barrio de la Soledad", "El Barrio de la", "El Barrio de la Soledad");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1026, 20, "San Andrés Yaá", "San Andrés Yaá", "San Andrés Yaá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1026, 20, "San Andrï¿½s Yaï¿½", "San Andrï¿½s Yaï¿½", "San Andrï¿½s Yaï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1027, 20, "San Andrés Zabache", "San Andrés Zaba", "San Andrés Zabache");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1027, 20, "San Andrï¿½s Zabache", "San Andrï¿½s Zaba", "San Andrï¿½s Zabache");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1028, 20, "San Andrés Zautla", "San Andrés Zaut", "San Andrés Zautla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1028, 20, "San Andrï¿½s Zautla", "San Andrï¿½s Zaut", "San Andrï¿½s Zautla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1029, 20, "San Antonino Castillo Velasco", "San Antonino Ca", "San Antonino Castillo Velasco");
 	
@@ -2076,15 +2077,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1034, 20, "San Antonio Huitepec", "San Antonio Hui", "San Antonio Huitepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1035, 20, "San Antonio Nanahuatípam", "San Antonio Nan", "San Antonio Nanahuatípam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1035, 20, "San Antonio Nanahuatï¿½pam", "San Antonio Nan", "San Antonio Nanahuatï¿½pam");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1036, 20, "Calihualá", "Calihualá", "Calihualá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1036, 20, "Calihualï¿½", "Calihualï¿½", "Calihualï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1037, 20, "San Antonio Sinicahua", "San Antonio Sin", "San Antonio Sinicahua");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1038, 20, "San Antonio Tepetlapa", "San Antonio Tep", "San Antonio Tepetlapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1039, 20, "San Baltazar Chichicápam", "San Baltazar Ch", "San Baltazar Chichicápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1039, 20, "San Baltazar Chichicï¿½pam", "San Baltazar Ch", "San Baltazar Chichicï¿½pam");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1040, 20, "San Baltazar Loxicha", "San Baltazar Lo", "San Baltazar Loxicha");
 	
@@ -2092,17 +2093,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1042, 20, "San Bartolo Coyotepec", "San Bartolo Coy", "San Bartolo Coyotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1043, 20, "San Bartolomé Ayautla", "San Bartolomé A", "San Bartolomé Ayautla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1043, 20, "San Bartolomï¿½ Ayautla", "San Bartolomï¿½ A", "San Bartolomï¿½ Ayautla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1044, 20, "San Bartolomé Loxicha", "San Bartolomé L", "San Bartolomé Loxicha");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1044, 20, "San Bartolomï¿½ Loxicha", "San Bartolomï¿½ L", "San Bartolomï¿½ Loxicha");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1045, 20, "San Bartolomé Quialana", "San Bartolomé Q", "San Bartolomé Quialana");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1045, 20, "San Bartolomï¿½ Quialana", "San Bartolomï¿½ Q", "San Bartolomï¿½ Quialana");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1046, 20, "San Bartolomé Yucuañe", "San Bartolomé Y", "San Bartolomé Yucuañe");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1046, 20, "San Bartolomï¿½ Yucuaï¿½e", "San Bartolomï¿½ Y", "San Bartolomï¿½ Yucuaï¿½e");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1047, 20, "Candelaria Loxicha", "Candelaria Loxi", "Candelaria Loxicha");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1048, 20, "San Bartolomé Zoogocho", "San Bartolomé Z", "San Bartolomé Zoogocho");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1048, 20, "San Bartolomï¿½ Zoogocho", "San Bartolomï¿½ Z", "San Bartolomï¿½ Zoogocho");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1049, 20, "San Bartolo Soyaltepec", "San Bartolo Soy", "San Bartolo Soyaltepec");
 	
@@ -2114,31 +2115,31 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1053, 20, "San Carlos Yautepec", "San Carlos Yaut", "San Carlos Yautepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1054, 20, "San Cristóbal Amatlán", "San Cristóbal A", "San Cristóbal Amatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1054, 20, "San Cristï¿½bal Amatlï¿½n", "San Cristï¿½bal A", "San Cristï¿½bal Amatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1055, 20, "San Cristóbal Amoltepec", "San Cristóbal A", "San Cristóbal Amoltepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1055, 20, "San Cristï¿½bal Amoltepec", "San Cristï¿½bal A", "San Cristï¿½bal Amoltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1056, 20, "San Cristóbal Lachirioag", "San Cristóbal L", "San Cristóbal Lachirioag");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1056, 20, "San Cristï¿½bal Lachirioag", "San Cristï¿½bal L", "San Cristï¿½bal Lachirioag");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1057, 20, "San Cristóbal Suchixtlahuaca", "San Cristóbal S", "San Cristóbal Suchixtlahuaca");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1057, 20, "San Cristï¿½bal Suchixtlahuaca", "San Cristï¿½bal S", "San Cristï¿½bal Suchixtlahuaca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1058, 20, "Ciénega de Zimatlán", "Ciénega de Zima", "Ciénega de Zimatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1058, 20, "Ciï¿½nega de Zimatlï¿½n", "Ciï¿½nega de Zima", "Ciï¿½nega de Zimatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1059, 20, "San Dionisio del Mar", "San Dionisio de", "San Dionisio del Mar");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1060, 20, "San Dionisio Ocotepec", "San Dionisio Oc", "San Dionisio Ocotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1061, 20, "San Dionisio Ocotlán", "San Dionisio Oc", "San Dionisio Ocotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1061, 20, "San Dionisio Ocotlï¿½n", "San Dionisio Oc", "San Dionisio Ocotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1062, 20, "San Esteban Atatlahuca", "San Esteban Ata", "San Esteban Atatlahuca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1063, 20, "San Felipe Jalapa de Díaz", "San Felipe Jala", "San Felipe Jalapa de Díaz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1063, 20, "San Felipe Jalapa de Dï¿½az", "San Felipe Jala", "San Felipe Jalapa de Dï¿½az");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1064, 20, "San Felipe Tejalápam", "San Felipe Teja", "San Felipe Tejalápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1064, 20, "San Felipe Tejalï¿½pam", "San Felipe Teja", "San Felipe Tejalï¿½pam");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1065, 20, "San Felipe Usila", "San Felipe Usil", "San Felipe Usila");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1066, 20, "San Francisco Cahuacuá", "San Francisco C", "San Francisco Cahuacuá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1066, 20, "San Francisco Cahuacuï¿½", "San Francisco C", "San Francisco Cahuacuï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1067, 20, "San Francisco Cajonos", "San Francisco C", "San Francisco Cajonos");
 	
@@ -2146,21 +2147,21 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1069, 20, "Ciudad Ixtepec", "Ciudad Ixtepec", "Ciudad Ixtepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1070, 20, "San Francisco Chindúa", "San Francisco C", "San Francisco Chindúa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1070, 20, "San Francisco Chindï¿½a", "San Francisco C", "San Francisco Chindï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1071, 20, "San Francisco del Mar", "San Francisco d", "San Francisco del Mar");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1072, 20, "San Francisco Huehuetlán", "San Francisco H", "San Francisco Huehuetlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1072, 20, "San Francisco Huehuetlï¿½n", "San Francisco H", "San Francisco Huehuetlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1073, 20, "San Francisco Ixhuatán", "San Francisco I", "San Francisco Ixhuatán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1073, 20, "San Francisco Ixhuatï¿½n", "San Francisco I", "San Francisco Ixhuatï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1074, 20, "San Francisco Jaltepetongo", "San Francisco J", "San Francisco Jaltepetongo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1075, 20, "San Francisco Lachigoló", "San Francisco L", "San Francisco Lachigoló");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1075, 20, "San Francisco Lachigolï¿½", "San Francisco L", "San Francisco Lachigolï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1076, 20, "San Francisco Logueche", "San Francisco L", "San Francisco Logueche");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1077, 20, "San Francisco Nuxaño", "San Francisco ", "San Francisco Nuxaño");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1077, 20, "San Francisco Nuxaï¿½o", "San Francisco ", "San Francisco Nuxaï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1078, 20, "San Francisco Ozolotepec", "San Francisco O", "San Francisco Ozolotepec");
 	
@@ -2176,7 +2177,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1084, 20, "San Gabriel Mixtepec", "San Gabriel Mix", "San Gabriel Mixtepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1085, 20, "San Ildefonso Amatlán", "San Ildefonso A", "San Ildefonso Amatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1085, 20, "San Ildefonso Amatlï¿½n", "San Ildefonso A", "San Ildefonso Amatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1086, 20, "San Ildefonso Sola", "San Ildefonso S", "San Ildefonso Sola");
 	
@@ -2186,53 +2187,53 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1089, 20, "San Jacinto Tlacotepec", "San Jacinto Tla", "San Jacinto Tlacotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1090, 20, "San Jerónimo Coatlán", "San Jerónimo Co", "San Jerónimo Coatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1090, 20, "San Jerï¿½nimo Coatlï¿½n", "San Jerï¿½nimo Co", "San Jerï¿½nimo Coatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1091, 20, "Coicoyán de las Flores", "Coicoyán de las", "Coicoyán de las Flores");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1091, 20, "Coicoyï¿½n de las Flores", "Coicoyï¿½n de las", "Coicoyï¿½n de las Flores");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1092, 20, "San Jerónimo Silacayoapilla", "San Jerónimo Si", "San Jerónimo Silacayoapilla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1092, 20, "San Jerï¿½nimo Silacayoapilla", "San Jerï¿½nimo Si", "San Jerï¿½nimo Silacayoapilla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1093, 20, "San Jerónimo Sosola", "San Jerónimo So", "San Jerónimo Sosola");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1093, 20, "San Jerï¿½nimo Sosola", "San Jerï¿½nimo So", "San Jerï¿½nimo Sosola");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1094, 20, "San Jerónimo Taviche", "San Jerónimo Ta", "San Jerónimo Taviche");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1094, 20, "San Jerï¿½nimo Taviche", "San Jerï¿½nimo Ta", "San Jerï¿½nimo Taviche");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1095, 20, "San Jerónimo Tecóatl", "San Jerónimo Te", "San Jerónimo Tecóatl");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1095, 20, "San Jerï¿½nimo Tecï¿½atl", "San Jerï¿½nimo Te", "San Jerï¿½nimo Tecï¿½atl");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1096, 20, "San Jorge Nuchita", "San Jorge Nuchi", "San Jorge Nuchita");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1097, 20, "San José Ayuquila", "San José Ayuqui", "San José Ayuquila");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1097, 20, "San Josï¿½ Ayuquila", "San Josï¿½ Ayuqui", "San Josï¿½ Ayuquila");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1098, 20, "San José Chiltepec", "San José Chilte", "San José Chiltepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1098, 20, "San Josï¿½ Chiltepec", "San Josï¿½ Chilte", "San Josï¿½ Chiltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1099, 20, "San José del Peñasco", "San José del Pe", "San José del Peñasco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1099, 20, "San Josï¿½ del Peï¿½asco", "San Josï¿½ del Pe", "San Josï¿½ del Peï¿½asco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1100, 20, "San José Estancia Grande", "San José Estanc", "San José Estancia Grande");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1100, 20, "San Josï¿½ Estancia Grande", "San Josï¿½ Estanc", "San Josï¿½ Estancia Grande");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1101, 20, "San José Independencia", "San José Indepe", "San José Independencia");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1101, 20, "San Josï¿½ Independencia", "San Josï¿½ Indepe", "San Josï¿½ Independencia");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1102, 20, "La Compañía", "La Compañía", "La Compañía");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1102, 20, "La Compaï¿½ï¿½a", "La Compaï¿½ï¿½a", "La Compaï¿½ï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1103, 20, "San José Lachiguiri", "San José Lachig", "San José Lachiguiri");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1103, 20, "San Josï¿½ Lachiguiri", "San Josï¿½ Lachig", "San Josï¿½ Lachiguiri");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1104, 20, "San José Tenango", "San José Tenang", "San José Tenango");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1104, 20, "San Josï¿½ Tenango", "San Josï¿½ Tenang", "San Josï¿½ Tenango");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1105, 20, "San Juan Achiutla", "San Juan Achiut", "San Juan Achiutla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1106, 20, "San Juan Atepec", "San Juan Atepec", "San Juan Atepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1107, 20, "Ánimas Trujano", "Ánimas Trujano", "Ánimas Trujano");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1107, 20, "ï¿½nimas Trujano", "ï¿½nimas Trujano", "ï¿½nimas Trujano");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1108, 20, "San Juan Bautista Atatlahuca", "San Juan Bautis", "San Juan Bautista Atatlahuca");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1109, 20, "San Juan Bautista Coixtlahuaca", "San Juan Bautis", "San Juan Bautista Coixtlahuaca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1110, 20, "San Juan Bautista Cuicatlán", "San Juan Bautis", "San Juan Bautista Cuicatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1110, 20, "San Juan Bautista Cuicatlï¿½n", "San Juan Bautis", "San Juan Bautista Cuicatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1111, 20, "San Juan Bautista Guelache", "San Juan Bautis", "San Juan Bautista Guelache");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1112, 20, "San Juan Bautista Jayacatlán", "San Juan Bautis", "San Juan Bautista Jayacatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1112, 20, "San Juan Bautista Jayacatlï¿½n", "San Juan Bautis", "San Juan Bautista Jayacatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1113, 20, "Concepción Buenavista", "Concepción Buen", "Concepción Buenavista");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1113, 20, "Concepciï¿½n Buenavista", "Concepciï¿½n Buen", "Concepciï¿½n Buenavista");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1114, 20, "San Juan Bautista Lo de Soto", "San Juan Bautis", "San Juan Bautista Lo de Soto");
 	
@@ -2248,35 +2249,35 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1120, 20, "San Juan Cieneguilla", "San Juan Cieneg", "San Juan Cieneguilla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1121, 20, "San Juan Coatzóspam", "San Juan Coatzó", "San Juan Coatzóspam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1121, 20, "San Juan Coatzï¿½spam", "San Juan Coatzï¿½", "San Juan Coatzï¿½spam");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1122, 20, "San Juan Colorado", "San Juan Colora", "San Juan Colorado");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1123, 20, "San Juan Comaltepec", "San Juan Comalt", "San Juan Comaltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1124, 20, "Concepción Pápalo", "Concepción Pápa", "Concepción Pápalo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1124, 20, "Concepciï¿½n Pï¿½palo", "Concepciï¿½n Pï¿½pa", "Concepciï¿½n Pï¿½palo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1125, 20, "San Juan Cotzocón", "San Juan Cotzoc", "San Juan Cotzocón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1125, 20, "San Juan Cotzocï¿½n", "San Juan Cotzoc", "San Juan Cotzocï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1126, 20, "San Juan Chicomezúchil", "San Juan Chicom", "San Juan Chicomezúchil");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1126, 20, "San Juan Chicomezï¿½chil", "San Juan Chicom", "San Juan Chicomezï¿½chil");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1127, 20, "San Juan Chilateca", "San Juan Chilat", "San Juan Chilateca");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1128, 20, "San Juan del Estado", "San Juan del Es", "San Juan del Estado");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1129, 20, "San Juan del Río", "San Juan del Rí", "San Juan del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1129, 20, "San Juan del Rï¿½o", "San Juan del Rï¿½", "San Juan del Rï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1130, 20, "San Juan Diuxi", "San Juan Diuxi", "San Juan Diuxi");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1131, 20, "San Juan Evangelista Analco", "San Juan Evange", "San Juan Evangelista Analco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1132, 20, "San Juan Guelavía", "San Juan Guelav", "San Juan Guelavía");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1132, 20, "San Juan Guelavï¿½a", "San Juan Guelav", "San Juan Guelavï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1133, 20, "San Juan Guichicovi", "San Juan Guichi", "San Juan Guichicovi");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1134, 20, "San Juan Ihualtepec", "San Juan Ihualt", "San Juan Ihualtepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1135, 20, "Acatlán de Pérez Figueroa", "Acatlán de Pére", "Acatlán de Pérez Figueroa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1135, 20, "Acatlï¿½n de Pï¿½rez Figueroa", "Acatlï¿½n de Pï¿½re", "Acatlï¿½n de Pï¿½rez Figueroa");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1136, 20, "Constancia del Rosario", "Constancia del ", "Constancia del Rosario");
 	
@@ -2292,9 +2293,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1142, 20, "San Juan Lalana", "San Juan Lalana", "San Juan Lalana");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1143, 20, "San Juan de los Cués", "San Juan de los", "San Juan de los Cués");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1143, 20, "San Juan de los Cuï¿½s", "San Juan de los", "San Juan de los Cuï¿½s");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1144, 20, "San Juan Mazatlán", "San Juan Mazatl", "San Juan Mazatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1144, 20, "San Juan Mazatlï¿½n", "San Juan Mazatl", "San Juan Mazatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1145, 20, "San Juan Mixtepec -Dto. 08 -", "San Juan Mixtep", "San Juan Mixtepec -Dto. 08 -");
 	
@@ -2304,7 +2305,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1148, 20, "Fraccionamiento", "Fraccionamiento", "Fraccionamiento");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1149, 20, "San Juan Ñumí", "San Juan Ñumí", "San Juan Ñumí");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1149, 20, "San Juan ï¿½umï¿½", "San Juan ï¿½umï¿½", "San Juan ï¿½umï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1150, 20, "San Juan Ozolotepec", "San Juan Ozolot", "San Juan Ozolotepec");
 	
@@ -2316,7 +2317,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1154, 20, "San Juan Sayultepec", "San Juan Sayult", "San Juan Sayultepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1155, 20, "San Juan Tabaá", "San Juan Tabaá", "San Juan Tabaá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1155, 20, "San Juan Tabaï¿½", "San Juan Tabaï¿½", "San Juan Tabaï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1156, 20, "San Juan Tamazola", "San Juan Tamazo", "San Juan Tamazola");
 	
@@ -2330,7 +2331,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1161, 20, "San Juan Teposcolula", "San Juan Teposc", "San Juan Teposcolula");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1162, 20, "San Juan Yaeé", "San Juan Yaeé", "San Juan Yaeé");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1162, 20, "San Juan Yaeï¿½", "San Juan Yaeï¿½", "San Juan Yaeï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1163, 20, "San Juan Yatzona", "San Juan Yatzon", "San Juan Yatzona");
 	
@@ -2344,63 +2345,63 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1168, 20, "San Lorenzo Cuaunecuiltitla", "San Lorenzo Cua", "San Lorenzo Cuaunecuiltitla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1169, 20, "San Lorenzo Texmelúcan", "San Lorenzo Tex", "San Lorenzo Texmelúcan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1169, 20, "San Lorenzo Texmelï¿½can", "San Lorenzo Tex", "San Lorenzo Texmelï¿½can");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1170, 20, "Cuilápam de Guerrero", "Cuilápam de Gue", "Cuilápam de Guerrero");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1170, 20, "Cuilï¿½pam de Guerrero", "Cuilï¿½pam de Gue", "Cuilï¿½pam de Guerrero");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1171, 20, "San Lorenzo Victoria", "San Lorenzo Vic", "San Lorenzo Victoria");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1172, 20, "San Lucas Camotlán", "San Lucas Camot", "San Lucas Camotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1172, 20, "San Lucas Camotlï¿½n", "San Lucas Camot", "San Lucas Camotlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1173, 20, "San Lucas Ojitlán", "San Lucas Ojitl", "San Lucas Ojitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1173, 20, "San Lucas Ojitlï¿½n", "San Lucas Ojitl", "San Lucas Ojitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1174, 20, "San Lucas Quiaviní", "San Lucas Quiav", "San Lucas Quiaviní");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1174, 20, "San Lucas Quiavinï¿½", "San Lucas Quiav", "San Lucas Quiavinï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1175, 20, "San Lucas Zoquiápam", "San Lucas Zoqui", "San Lucas Zoquiápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1175, 20, "San Lucas Zoquiï¿½pam", "San Lucas Zoqui", "San Lucas Zoquiï¿½pam");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1176, 20, "San Luis Amatlán", "San Luis Amatlá", "San Luis Amatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1176, 20, "San Luis Amatlï¿½n", "San Luis Amatlï¿½", "San Luis Amatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1177, 20, "San Marcial Ozolotepec", "San Marcial Ozo", "San Marcial Ozolotepec");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1178, 20, "San Marcos Arteaga", "San Marcos Arte", "San Marcos Arteaga");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1179, 20, "San Martín de los Cansecos", "San Martín de l", "San Martín de los Cansecos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1179, 20, "San Martï¿½n de los Cansecos", "San Martï¿½n de l", "San Martï¿½n de los Cansecos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1180, 20, "San Martín Huamelúlpam", "San Martín Huam", "San Martín Huamelúlpam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1180, 20, "San Martï¿½n Huamelï¿½lpam", "San Martï¿½n Huam", "San Martï¿½n Huamelï¿½lpam");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1181, 20, "Cuyamecalco Villa de Zaragoza", "Cuyamecalco Vil", "Cuyamecalco Villa de Zaragoza");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1182, 20, "San Martín Itunyoso", "San Martín Itun", "San Martín Itunyoso");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1182, 20, "San Martï¿½n Itunyoso", "San Martï¿½n Itun", "San Martï¿½n Itunyoso");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1183, 20, "San Martín Lachilá", "San Martín Lach", "San Martín Lachilá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1183, 20, "San Martï¿½n Lachilï¿½", "San Martï¿½n Lach", "San Martï¿½n Lachilï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1184, 20, "San Martín Peras", "San Martín Pera", "San Martín Peras");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1184, 20, "San Martï¿½n Peras", "San Martï¿½n Pera", "San Martï¿½n Peras");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1185, 20, "San Martín Tilcajete", "San Martín Tilc", "San Martín Tilcajete");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1185, 20, "San Martï¿½n Tilcajete", "San Martï¿½n Tilc", "San Martï¿½n Tilcajete");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1186, 20, "San Martín Toxpalan", "San Martín Toxp", "San Martín Toxpalan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1186, 20, "San Martï¿½n Toxpalan", "San Martï¿½n Toxp", "San Martï¿½n Toxpalan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1187, 20, "San Martín Zacatepec", "San Martín Zaca", "San Martín Zacatepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1187, 20, "San Martï¿½n Zacatepec", "San Martï¿½n Zaca", "San Martï¿½n Zacatepec");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1188, 20, "San Mateo Cajonos", "San Mateo Cajon", "San Mateo Cajonos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1189, 20, "Capulálpam de Méndez", "Capulálpam de M", "Capulálpam de Méndez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1189, 20, "Capulï¿½lpam de Mï¿½ndez", "Capulï¿½lpam de M", "Capulï¿½lpam de Mï¿½ndez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1190, 20, "San Mateo del Mar", "San Mateo del M", "San Mateo del Mar");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1191, 20, "San Mateo Yoloxochitlán", "San Mateo Yolox", "San Mateo Yoloxochitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1191, 20, "San Mateo Yoloxochitlï¿½n", "San Mateo Yolox", "San Mateo Yoloxochitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1192, 20, "Chahuites", "Chahuites", "Chahuites");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1193, 20, "San Mateo Etlatongo", "San Mateo Etlat", "San Mateo Etlatongo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1194, 20, "San Mateo Nejápam", "San Mateo Nejáp", "San Mateo Nejápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1194, 20, "San Mateo Nejï¿½pam", "San Mateo Nejï¿½p", "San Mateo Nejï¿½pam");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1195, 20, "San Mateo Peñasco", "San Mateo Peñas", "San Mateo Peñasco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1195, 20, "San Mateo Peï¿½asco", "San Mateo Peï¿½as", "San Mateo Peï¿½asco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1196, 20, "San Mateo Piñas", "San Mateo Piñas", "San Mateo Piñas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1196, 20, "San Mateo Piï¿½as", "San Mateo Piï¿½as", "San Mateo Piï¿½as");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1197, 20, "San Mateo Río Hondo", "San Mateo Río H", "San Mateo Río Hondo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1197, 20, "San Mateo Rï¿½o Hondo", "San Mateo Rï¿½o H", "San Mateo Rï¿½o Hondo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1198, 20, "San Mateo Sindihui", "San Mateo Sindi", "San Mateo Sindihui");
 	
@@ -2410,17 +2411,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1201, 20, "San Miguel Achiutla", "San Miguel Achi", "San Miguel Achiutla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1202, 20, "San Miguel Ahuehuetitlán", "San Miguel Ahue", "San Miguel Ahuehuetitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1202, 20, "San Miguel Ahuehuetitlï¿½n", "San Miguel Ahue", "San Miguel Ahuehuetitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1203, 20, "Chalcatongo de Hidalgo", "Chalcatongo de ", "Chalcatongo de Hidalgo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1204, 20, "San Miguel Aloápam", "San Miguel Aloá", "San Miguel Aloápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1204, 20, "San Miguel Aloï¿½pam", "San Miguel Aloï¿½", "San Miguel Aloï¿½pam");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1205, 20, "San Miguel Amatitlán", "San Miguel Amat", "San Miguel Amatitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1205, 20, "San Miguel Amatitlï¿½n", "San Miguel Amat", "San Miguel Amatitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1206, 20, "San Miguel Amatlán", "San Miguel Amat", "San Miguel Amatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1206, 20, "San Miguel Amatlï¿½n", "San Miguel Amat", "San Miguel Amatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1207, 20, "San Miguel Coatlán", "San Miguel Coat", "San Miguel Coatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1207, 20, "San Miguel Coatlï¿½n", "San Miguel Coat", "San Miguel Coatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1208, 20, "San Miguel Chicahua", "San Miguel Chic", "San Miguel Chicahua");
 	
@@ -2428,13 +2429,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1210, 20, "San Miguel del Puerto", "San Miguel del ", "San Miguel del Puerto");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1211, 20, "San Miguel del Río", "San Miguel del ", "San Miguel del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1211, 20, "San Miguel del Rï¿½o", "San Miguel del ", "San Miguel del Rï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1212, 20, "San Miguel Ejutla", "San Miguel Ejut", "San Miguel Ejutla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1213, 20, "San Miguel el Grande", "San Miguel el G", "San Miguel el Grande");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1214, 20, "Chiquihuitlán de Benito Juárez", "Chiquihuitlán d", "Chiquihuitlán de Benito Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1214, 20, "Chiquihuitlï¿½n de Benito Juï¿½rez", "Chiquihuitlï¿½n d", "Chiquihuitlï¿½n de Benito Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1215, 20, "San Miguel Huautla", "San Miguel Huau", "San Miguel Huautla");
 	
@@ -2462,13 +2463,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1227, 20, "Villa Talea de Castro", "Villa Talea de ", "Villa Talea de Castro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1228, 20, "San Miguel Tecomatlán", "San Miguel Teco", "San Miguel Tecomatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1228, 20, "San Miguel Tecomatlï¿½n", "San Miguel Teco", "San Miguel Tecomatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1229, 20, "San Miguel Tenango", "San Miguel Tena", "San Miguel Tenango");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1230, 20, "San Miguel Tequixtepec", "San Miguel Tequ", "San Miguel Tequixtepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1231, 20, "San Miguel Tilquiápam", "San Miguel Tilq", "San Miguel Tilquiápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1231, 20, "San Miguel Tilquiï¿½pam", "San Miguel Tilq", "San Miguel Tilquiï¿½pam");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1232, 20, "San Miguel Tlacamama", "San Miguel Tlac", "San Miguel Tlacamama");
 	
@@ -2478,13 +2479,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1235, 20, "San Miguel Yotao", "San Miguel Yota", "San Miguel Yotao");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1236, 20, "San Nicolás", "San Nicolás", "San Nicolás");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1236, 20, "San Nicolï¿½s", "San Nicolï¿½s", "San Nicolï¿½s");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1237, 20, "Eloxochitlán de Flores Magón", "Eloxochitlán de", "Eloxochitlán de Flores Magón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1237, 20, "Eloxochitlï¿½n de Flores Magï¿½n", "Eloxochitlï¿½n de", "Eloxochitlï¿½n de Flores Magï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1238, 20, "San Nicolás Hidalgo", "San Nicolás Hid", "San Nicolás Hidalgo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1238, 20, "San Nicolï¿½s Hidalgo", "San Nicolï¿½s Hid", "San Nicolï¿½s Hidalgo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1239, 20, "San Pablo Coatlán", "San Pablo Coatl", "San Pablo Coatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1239, 20, "San Pablo Coatlï¿½n", "San Pablo Coatl", "San Pablo Coatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1240, 20, "San Pablo Cuatro Venados", "San Pablo Cuatr", "San Pablo Cuatro Venados");
 	
@@ -2502,19 +2503,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1247, 20, "San Pablo Yaganiza", "San Pablo Yagan", "San Pablo Yaganiza");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1248, 20, "Asunción Cacalotepec", "Asunción Cacalo", "Asunción Cacalotepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1248, 20, "Asunciï¿½n Cacalotepec", "Asunciï¿½n Cacalo", "Asunciï¿½n Cacalotepec");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1249, 20, "El Espinal", "El Espinal", "El Espinal");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1250, 20, "San Pedro Amuzgos", "San Pedro Amuzg", "San Pedro Amuzgos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1251, 20, "San Pedro Apóstol", "San Pedro Apóst", "San Pedro Apóstol");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1251, 20, "San Pedro Apï¿½stol", "San Pedro Apï¿½st", "San Pedro Apï¿½stol");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1252, 20, "San Pedro Atoyac", "San Pedro Atoya", "San Pedro Atoyac");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1253, 20, "San Pedro Cajonos", "San Pedro Cajon", "San Pedro Cajonos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1254, 20, "San Pedro Coxcaltepec Cántaros", "San Pedro Coxca", "San Pedro Coxcaltepec Cántaros");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1254, 20, "San Pedro Coxcaltepec Cï¿½ntaros", "San Pedro Coxca", "San Pedro Coxcaltepec Cï¿½ntaros");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1255, 20, "San Pedro Comitancillo", "San Pedro Comit", "San Pedro Comitancillo");
 	
@@ -2524,25 +2525,25 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1258, 20, "San Pedro Huilotepec", "San Pedro Huilo", "San Pedro Huilotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1259, 20, "San Pedro Ixcatlán", "San Pedro Ixcat", "San Pedro Ixcatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1259, 20, "San Pedro Ixcatlï¿½n", "San Pedro Ixcat", "San Pedro Ixcatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1260, 20, "Tamazulápam del Espíritu Santo", "Tamazulápam del", "Tamazulápam del Espíritu Santo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1260, 20, "Tamazulï¿½pam del Espï¿½ritu Santo", "Tamazulï¿½pam del", "Tamazulï¿½pam del Espï¿½ritu Santo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1261, 20, "San Pedro Ixtlahuaca", "San Pedro Ixtla", "San Pedro Ixtlahuaca");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1262, 20, "San Pedro Jaltepetongo", "San Pedro Jalte", "San Pedro Jaltepetongo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1263, 20, "San Pedro Jicayán", "San Pedro Jicay", "San Pedro Jicayán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1263, 20, "San Pedro Jicayï¿½n", "San Pedro Jicay", "San Pedro Jicayï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1264, 20, "San Pedro Jocotipac", "San Pedro Jocot", "San Pedro Jocotipac");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1265, 20, "San Pedro Juchatengo", "San Pedro Jucha", "San Pedro Juchatengo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1266, 20, "San Pedro Mártir", "San Pedro Márti", "San Pedro Mártir");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1266, 20, "San Pedro Mï¿½rtir", "San Pedro Mï¿½rti", "San Pedro Mï¿½rtir");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1267, 20, "San Pedro Mártir Quiechapa", "San Pedro Márti", "San Pedro Mártir Quiechapa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1267, 20, "San Pedro Mï¿½rtir Quiechapa", "San Pedro Mï¿½rti", "San Pedro Mï¿½rtir Quiechapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1268, 20, "San Pedro Mártir Yucuxaco", "San Pedro Márti", "San Pedro Mártir Yucuxaco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1268, 20, "San Pedro Mï¿½rtir Yucuxaco", "San Pedro Mï¿½rti", "San Pedro Mï¿½rtir Yucuxaco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1269, 20, "San Pedro Mixtepec -Dto. 22 -", "San Pedro Mixte", "San Pedro Mixtepec -Dto. 22 -");
 	
@@ -2562,7 +2563,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1277, 20, "San Pedro Quiatoni", "San Pedro Quiat", "San Pedro Quiatoni");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1278, 20, "San Pedro Sochiápam", "San Pedro Sochi", "San Pedro Sochiápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1278, 20, "San Pedro Sochiï¿½pam", "San Pedro Sochi", "San Pedro Sochiï¿½pam");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1279, 20, "San Pedro Tapanatepec", "San Pedro Tapan", "San Pedro Tapanatepec");
 	
@@ -2574,17 +2575,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1283, 20, "San Pedro Teutila", "San Pedro Teuti", "San Pedro Teutila");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1284, 20, "San Pedro Tidaá", "San Pedro Tidaá", "San Pedro Tidaá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1284, 20, "San Pedro Tidaï¿½", "San Pedro Tidaï¿½", "San Pedro Tidaï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1285, 20, "San Pedro Topiltepec", "San Pedro Topil", "San Pedro Topiltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1286, 20, "San Pedro Totolápam", "San Pedro Totol", "San Pedro Totolápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1286, 20, "San Pedro Totolï¿½pam", "San Pedro Totol", "San Pedro Totolï¿½pam");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1287, 20, "Villa de Tututepec de Melchor Ocampo", "Villa de Tutute", "Villa de Tututepec de Melchor Ocampo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1288, 20, "San Pedro Yaneri", "San Pedro Yaner", "San Pedro Yaneri");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1289, 20, "San Pedro Yólox", "San Pedro Yólox", "San Pedro Yólox");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1289, 20, "San Pedro Yï¿½lox", "San Pedro Yï¿½lox", "San Pedro Yï¿½lox");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1290, 20, "San Pedro y San Pablo Ayutla", "San Pedro y San", "San Pedro y San Pablo Ayutla");
 	
@@ -2592,7 +2593,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1292, 20, "San Pedro y San Pablo Teposcolula", "San Pedro y San", "San Pedro y San Pablo Teposcolula");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1293, 20, "Guadalupe de Ramírez", "Guadalupe de Ra", "Guadalupe de Ramírez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1293, 20, "Guadalupe de Ramï¿½rez", "Guadalupe de Ra", "Guadalupe de Ramï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1294, 20, "San Pedro y San Pablo Tequixtepec", "San Pedro y San", "San Pedro y San Pablo Tequixtepec");
 	
@@ -2600,33 +2601,33 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1296, 20, "San Raymundo Jalpan", "San Raymundo Ja", "San Raymundo Jalpan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1297, 20, "San Sebastián Abasolo", "San Sebastián A", "San Sebastián Abasolo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1297, 20, "San Sebastiï¿½n Abasolo", "San Sebastiï¿½n A", "San Sebastiï¿½n Abasolo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1298, 20, "San Sebastián Coatlán", "San Sebastián C", "San Sebastián Coatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1298, 20, "San Sebastiï¿½n Coatlï¿½n", "San Sebastiï¿½n C", "San Sebastiï¿½n Coatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1299, 20, "San Sebastián Ixcapa", "San Sebastián I", "San Sebastián Ixcapa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1299, 20, "San Sebastiï¿½n Ixcapa", "San Sebastiï¿½n I", "San Sebastiï¿½n Ixcapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1300, 20, "San Sebastián Nicananduta", "San Sebastián ", "San Sebastián Nicananduta");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1300, 20, "San Sebastiï¿½n Nicananduta", "San Sebastiï¿½n ", "San Sebastiï¿½n Nicananduta");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1301, 20, "San Sebastián Río Hondo", "San Sebastián R", "San Sebastián Río Hondo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1301, 20, "San Sebastiï¿½n Rï¿½o Hondo", "San Sebastiï¿½n R", "San Sebastiï¿½n Rï¿½o Hondo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1302, 20, "San Sebastián Tecomaxtlahuaca", "San Sebastián T", "San Sebastián Tecomaxtlahuaca");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1302, 20, "San Sebastiï¿½n Tecomaxtlahuaca", "San Sebastiï¿½n T", "San Sebastiï¿½n Tecomaxtlahuaca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1303, 20, "San Sebastián Teitipac", "San Sebastián T", "San Sebastián Teitipac");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1303, 20, "San Sebastiï¿½n Teitipac", "San Sebastiï¿½n T", "San Sebastiï¿½n Teitipac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1304, 20, "Guelatao de Juárez", "Guelatao de Juá", "Guelatao de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1304, 20, "Guelatao de Juï¿½rez", "Guelatao de Juï¿½", "Guelatao de Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1305, 20, "San Sebastián Tutla", "San Sebastián T", "San Sebastián Tutla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1305, 20, "San Sebastiï¿½n Tutla", "San Sebastiï¿½n T", "San Sebastiï¿½n Tutla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1306, 20, "San Simón Almolongas", "San Simón Almol", "San Simón Almolongas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1306, 20, "San Simï¿½n Almolongas", "San Simï¿½n Almol", "San Simï¿½n Almolongas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1307, 20, "San Simón Zahuatlán", "San Simón Zahua", "San Simón Zahuatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1307, 20, "San Simï¿½n Zahuatlï¿½n", "San Simï¿½n Zahua", "San Simï¿½n Zahuatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1308, 20, "Santa Ana", "Santa Ana", "Santa Ana");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1309, 20, "Santa Ana Ateixtlahuaca", "Santa Ana Ateix", "Santa Ana Ateixtlahuaca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1310, 20, "Santa Ana Cuauhtémoc", "Santa Ana Cuauh", "Santa Ana Cuauhtémoc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1310, 20, "Santa Ana Cuauhtï¿½moc", "Santa Ana Cuauh", "Santa Ana Cuauhtï¿½moc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1311, 20, "Santa Ana del Valle", "Santa Ana del V", "Santa Ana del Valle");
 	
@@ -2640,7 +2641,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1316, 20, "Santa Ana Zegache", "Santa Ana Zegac", "Santa Ana Zegache");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1317, 20, "Santa Catalina Quierí", "Santa Catalina ", "Santa Catalina Quierí");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1317, 20, "Santa Catalina Quierï¿½", "Santa Catalina ", "Santa Catalina Quierï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1318, 20, "Santa Catarina Cuixtla", "Santa Catarina ", "Santa Catarina Cuixtla");
 	
@@ -2652,19 +2653,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1322, 20, "Santa Catarina Loxicha", "Santa Catarina ", "Santa Catarina Loxicha");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1323, 20, "Santa Catarina Mechoacán", "Santa Catarina ", "Santa Catarina Mechoacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1323, 20, "Santa Catarina Mechoacï¿½n", "Santa Catarina ", "Santa Catarina Mechoacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1324, 20, "Santa Catarina Minas", "Santa Catarina ", "Santa Catarina Minas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1325, 20, "Santa Catarina Quiané", "Santa Catarina ", "Santa Catarina Quiané");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1325, 20, "Santa Catarina Quianï¿½", "Santa Catarina ", "Santa Catarina Quianï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1326, 20, "Mesones Hidalgo", "Mesones Hidalgo", "Mesones Hidalgo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1327, 20, "Santa Catarina Tayata", "Santa Catarina ", "Santa Catarina Tayata");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1328, 20, "Santa Catarina Ticuá", "Santa Catarina ", "Santa Catarina Ticuá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1328, 20, "Santa Catarina Ticuï¿½", "Santa Catarina ", "Santa Catarina Ticuï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1329, 20, "Santa Catarina Yosonotú", "Santa Catarina ", "Santa Catarina Yosonotú");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1329, 20, "Santa Catarina Yosonotï¿½", "Santa Catarina ", "Santa Catarina Yosonotï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1330, 20, "Santa Catarina Zapoquila", "Santa Catarina ", "Santa Catarina Zapoquila");
 	
@@ -2692,149 +2693,149 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1342, 20, "Santa Cruz Xitla", "Santa Cruz Xitl", "Santa Cruz Xitla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1343, 20, "Santa Cruz Xoxocotlán", "Santa Cruz Xoxo", "Santa Cruz Xoxocotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1343, 20, "Santa Cruz Xoxocotlï¿½n", "Santa Cruz Xoxo", "Santa Cruz Xoxocotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1344, 20, "Santa Cruz Zenzontepec", "Santa Cruz Zenz", "Santa Cruz Zenzontepec");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1345, 20, "Santa Gertrudis", "Santa Gertrudis", "Santa Gertrudis");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1346, 20, "Santa Inés del Monte", "Santa Inés del ", "Santa Inés del Monte");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1346, 20, "Santa Inï¿½s del Monte", "Santa Inï¿½s del ", "Santa Inï¿½s del Monte");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1347, 20, "Santa Inés Yatzeche", "Santa Inés Yatz", "Santa Inés Yatzeche");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1347, 20, "Santa Inï¿½s Yatzeche", "Santa Inï¿½s Yatz", "Santa Inï¿½s Yatzeche");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1348, 20, "Heroica Ciudad de Huajuapan de León", "Heroica Ciudad ", "Heroica Ciudad de Huajuapan de León");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1348, 20, "Heroica Ciudad de Huajuapan de Leï¿½n", "Heroica Ciudad ", "Heroica Ciudad de Huajuapan de Leï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1349, 20, "Santa Lucía del Camino", "Santa Lucía del", "Santa Lucía del Camino");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1349, 20, "Santa Lucï¿½a del Camino", "Santa Lucï¿½a del", "Santa Lucï¿½a del Camino");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1350, 20, "Santa Lucía Miahuatlán", "Santa Lucía Mia", "Santa Lucía Miahuatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1350, 20, "Santa Lucï¿½a Miahuatlï¿½n", "Santa Lucï¿½a Mia", "Santa Lucï¿½a Miahuatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1351, 20, "Santa Lucía Monteverde", "Santa Lucía Mon", "Santa Lucía Monteverde");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1351, 20, "Santa Lucï¿½a Monteverde", "Santa Lucï¿½a Mon", "Santa Lucï¿½a Monteverde");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1352, 20, "Santa Lucía Ocotlán", "Santa Lucía Oco", "Santa Lucía Ocotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1352, 20, "Santa Lucï¿½a Ocotlï¿½n", "Santa Lucï¿½a Oco", "Santa Lucï¿½a Ocotlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1353, 20, "Santa María Alotepec", "Santa María Alo", "Santa María Alotepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1353, 20, "Santa Marï¿½a Alotepec", "Santa Marï¿½a Alo", "Santa Marï¿½a Alotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1354, 20, "Santa María Apazco", "Santa María Apa", "Santa María Apazco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1354, 20, "Santa Marï¿½a Apazco", "Santa Marï¿½a Apa", "Santa Marï¿½a Apazco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1355, 20, "Santa María la Asunción", "Santa María la ", "Santa María la Asunción");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1355, 20, "Santa Marï¿½a la Asunciï¿½n", "Santa Marï¿½a la ", "Santa Marï¿½a la Asunciï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1356, 20, "Heroica Ciudad de Tlaxiaco", "Heroica Ciudad ", "Heroica Ciudad de Tlaxiaco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1357, 20, "Ayoquezco de Aldama", "Ayoquezco de Al", "Ayoquezco de Aldama");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1358, 20, "Santa María Atzompa", "Santa María Atz", "Santa María Atzompa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1358, 20, "Santa Marï¿½a Atzompa", "Santa Marï¿½a Atz", "Santa Marï¿½a Atzompa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1359, 20, "Asunción Cuyotepeji", "Asunción Cuyote", "Asunción Cuyotepeji");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1359, 20, "Asunciï¿½n Cuyotepeji", "Asunciï¿½n Cuyote", "Asunciï¿½n Cuyotepeji");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1360, 20, "Huautepec", "Huautepec", "Huautepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1361, 20, "Santa María Camotlán", "Santa María Cam", "Santa María Camotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1361, 20, "Santa Marï¿½a Camotlï¿½n", "Santa Marï¿½a Cam", "Santa Marï¿½a Camotlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1362, 20, "Santa María Colotepec", "Santa María Col", "Santa María Colotepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1362, 20, "Santa Marï¿½a Colotepec", "Santa Marï¿½a Col", "Santa Marï¿½a Colotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1363, 20, "Santa María Cortijo", "Santa María Cor", "Santa María Cortijo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1363, 20, "Santa Marï¿½a Cortijo", "Santa Marï¿½a Cor", "Santa Marï¿½a Cortijo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1364, 20, "Santa María Coyotepec", "Santa María Coy", "Santa María Coyotepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1364, 20, "Santa Marï¿½a Coyotepec", "Santa Marï¿½a Coy", "Santa Marï¿½a Coyotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1365, 20, "Santa María Chachoápam", "Santa María Cha", "Santa María Chachoápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1365, 20, "Santa Marï¿½a Chachoï¿½pam", "Santa Marï¿½a Cha", "Santa Marï¿½a Chachoï¿½pam");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1366, 20, "Villa de Chilapa de Díaz", "Villa de Chilap", "Villa de Chilapa de Díaz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1366, 20, "Villa de Chilapa de Dï¿½az", "Villa de Chilap", "Villa de Chilapa de Dï¿½az");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1367, 20, "Santa María Chilchotla", "Santa María Chi", "Santa María Chilchotla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1367, 20, "Santa Marï¿½a Chilchotla", "Santa Marï¿½a Chi", "Santa Marï¿½a Chilchotla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1368, 20, "Santa María Chimalapa", "Santa María Chi", "Santa María Chimalapa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1368, 20, "Santa Marï¿½a Chimalapa", "Santa Marï¿½a Chi", "Santa Marï¿½a Chimalapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1369, 20, "Santa María del Rosario", "Santa María del", "Santa María del Rosario");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1369, 20, "Santa Marï¿½a del Rosario", "Santa Marï¿½a del", "Santa Marï¿½a del Rosario");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1370, 20, "Santa María del Tule", "Santa María del", "Santa María del Tule");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1370, 20, "Santa Marï¿½a del Tule", "Santa Marï¿½a del", "Santa Marï¿½a del Tule");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1371, 20, "Huautla de Jiménez", "Huautla de Jimé", "Huautla de Jiménez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1371, 20, "Huautla de Jimï¿½nez", "Huautla de Jimï¿½", "Huautla de Jimï¿½nez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1372, 20, "Santa María Ecatepec", "Santa María Eca", "Santa María Ecatepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1372, 20, "Santa Marï¿½a Ecatepec", "Santa Marï¿½a Eca", "Santa Marï¿½a Ecatepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1373, 20, "Santa María Guelacé", "Santa María Gue", "Santa María Guelacé");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1373, 20, "Santa Marï¿½a Guelacï¿½", "Santa Marï¿½a Gue", "Santa Marï¿½a Guelacï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1374, 20, "Santa María Guienagati", "Santa María Gui", "Santa María Guienagati");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1374, 20, "Santa Marï¿½a Guienagati", "Santa Marï¿½a Gui", "Santa Marï¿½a Guienagati");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1375, 20, "Santa María Huatulco", "Santa María Hua", "Santa María Huatulco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1375, 20, "Santa Marï¿½a Huatulco", "Santa Marï¿½a Hua", "Santa Marï¿½a Huatulco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1376, 20, "Santa María Huazolotitlán", "Santa María Hua", "Santa María Huazolotitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1376, 20, "Santa Marï¿½a Huazolotitlï¿½n", "Santa Marï¿½a Hua", "Santa Marï¿½a Huazolotitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1377, 20, "Santa María Ipalapa", "Santa María Ipa", "Santa María Ipalapa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1377, 20, "Santa Marï¿½a Ipalapa", "Santa Marï¿½a Ipa", "Santa Marï¿½a Ipalapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1378, 20, "Santa María Ixcatlán", "Santa María Ixc", "Santa María Ixcatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1378, 20, "Santa Marï¿½a Ixcatlï¿½n", "Santa Marï¿½a Ixc", "Santa Marï¿½a Ixcatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1379, 20, "Santa María Jacatepec", "Santa María Jac", "Santa María Jacatepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1379, 20, "Santa Marï¿½a Jacatepec", "Santa Marï¿½a Jac", "Santa Marï¿½a Jacatepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1380, 20, "Santa María Jalapa del Marqués", "Santa María Jal", "Santa María Jalapa del Marqués");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1380, 20, "Santa Marï¿½a Jalapa del Marquï¿½s", "Santa Marï¿½a Jal", "Santa Marï¿½a Jalapa del Marquï¿½s");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1381, 20, "Santa María Jaltianguis", "Santa María Jal", "Santa María Jaltianguis");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1381, 20, "Santa Marï¿½a Jaltianguis", "Santa Marï¿½a Jal", "Santa Marï¿½a Jaltianguis");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1382, 20, "Ixtlán de Juárez", "Ixtlán de Juáre", "Ixtlán de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1382, 20, "Ixtlï¿½n de Juï¿½rez", "Ixtlï¿½n de Juï¿½re", "Ixtlï¿½n de Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1383, 20, "Santa María Lachixío", "Santa María Lac", "Santa María Lachixío");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1383, 20, "Santa Marï¿½a Lachixï¿½o", "Santa Marï¿½a Lac", "Santa Marï¿½a Lachixï¿½o");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1384, 20, "Santa María Mixtequilla", "Santa María Mix", "Santa María Mixtequilla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1384, 20, "Santa Marï¿½a Mixtequilla", "Santa Marï¿½a Mix", "Santa Marï¿½a Mixtequilla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1385, 20, "Santa María Nativitas", "Santa María Nat", "Santa María Nativitas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1385, 20, "Santa Marï¿½a Nativitas", "Santa Marï¿½a Nat", "Santa Marï¿½a Nativitas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1386, 20, "Santa María Nduayaco", "Santa María Ndu", "Santa María Nduayaco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1386, 20, "Santa Marï¿½a Nduayaco", "Santa Marï¿½a Ndu", "Santa Marï¿½a Nduayaco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1387, 20, "Santa María Ozolotepec", "Santa María Ozo", "Santa María Ozolotepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1387, 20, "Santa Marï¿½a Ozolotepec", "Santa Marï¿½a Ozo", "Santa Marï¿½a Ozolotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1388, 20, "Santa María Pápalo", "Santa María Páp", "Santa María Pápalo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1388, 20, "Santa Marï¿½a Pï¿½palo", "Santa Marï¿½a Pï¿½p", "Santa Marï¿½a Pï¿½palo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1389, 20, "Santa María Peñoles", "Santa María Peñ", "Santa María Peñoles");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1389, 20, "Santa Marï¿½a Peï¿½oles", "Santa Marï¿½a Peï¿½", "Santa Marï¿½a Peï¿½oles");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1390, 20, "Santa María Petapa", "Santa María Pet", "Santa María Petapa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1390, 20, "Santa Marï¿½a Petapa", "Santa Marï¿½a Pet", "Santa Marï¿½a Petapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1391, 20, "Santa María Quiegolani", "Santa María Qui", "Santa María Quiegolani");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1391, 20, "Santa Marï¿½a Quiegolani", "Santa Marï¿½a Qui", "Santa Marï¿½a Quiegolani");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1392, 20, "Santa María Sola", "Santa María Sol", "Santa María Sola");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1392, 20, "Santa Marï¿½a Sola", "Santa Marï¿½a Sol", "Santa Marï¿½a Sola");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1393, 20, "Heroica Ciudad de Juchitán de Zaragoza", "Heroica Ciudad ", "Heroica Ciudad de Juchitán de Zaragoza");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1393, 20, "Heroica Ciudad de Juchitï¿½n de Zaragoza", "Heroica Ciudad ", "Heroica Ciudad de Juchitï¿½n de Zaragoza");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1394, 20, "Santa María Tataltepec", "Santa María Tat", "Santa María Tataltepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1394, 20, "Santa Marï¿½a Tataltepec", "Santa Marï¿½a Tat", "Santa Marï¿½a Tataltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1395, 20, "Santa María Tecomavaca", "Santa María Tec", "Santa María Tecomavaca");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1395, 20, "Santa Marï¿½a Tecomavaca", "Santa Marï¿½a Tec", "Santa Marï¿½a Tecomavaca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1396, 20, "Santa María Temaxcalapa", "Santa María Tem", "Santa María Temaxcalapa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1396, 20, "Santa Marï¿½a Temaxcalapa", "Santa Marï¿½a Tem", "Santa Marï¿½a Temaxcalapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1397, 20, "Santa María Temaxcaltepec", "Santa María Tem", "Santa María Temaxcaltepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1397, 20, "Santa Marï¿½a Temaxcaltepec", "Santa Marï¿½a Tem", "Santa Marï¿½a Temaxcaltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1398, 20, "Santa María Teopoxco", "Santa María Teo", "Santa María Teopoxco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1398, 20, "Santa Marï¿½a Teopoxco", "Santa Marï¿½a Teo", "Santa Marï¿½a Teopoxco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1399, 20, "Santa María Tepantlali", "Santa María Tep", "Santa María Tepantlali");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1399, 20, "Santa Marï¿½a Tepantlali", "Santa Marï¿½a Tep", "Santa Marï¿½a Tepantlali");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1400, 20, "Santa María Texcatitlán", "Santa María Tex", "Santa María Texcatitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1400, 20, "Santa Marï¿½a Texcatitlï¿½n", "Santa Marï¿½a Tex", "Santa Marï¿½a Texcatitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1401, 20, "Santa María Tlahuitoltepec", "Santa María Tla", "Santa María Tlahuitoltepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1401, 20, "Santa Marï¿½a Tlahuitoltepec", "Santa Marï¿½a Tla", "Santa Marï¿½a Tlahuitoltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1402, 20, "Santa María Tlalixtac", "Santa María Tla", "Santa María Tlalixtac");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1402, 20, "Santa Marï¿½a Tlalixtac", "Santa Marï¿½a Tla", "Santa Marï¿½a Tlalixtac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1403, 20, "Santa María Tonameca", "Santa María Ton", "Santa María Tonameca");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1403, 20, "Santa Marï¿½a Tonameca", "Santa Marï¿½a Ton", "Santa Marï¿½a Tonameca");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1404, 20, "Loma Bonita", "Loma Bonita", "Loma Bonita");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1405, 20, "Santa María Totolapilla", "Santa María Tot", "Santa María Totolapilla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1405, 20, "Santa Marï¿½a Totolapilla", "Santa Marï¿½a Tot", "Santa Marï¿½a Totolapilla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1406, 20, "Santa María Xadani", "Santa María Xad", "Santa María Xadani");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1406, 20, "Santa Marï¿½a Xadani", "Santa Marï¿½a Xad", "Santa Marï¿½a Xadani");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1407, 20, "Santa María Yalina", "Santa María Yal", "Santa María Yalina");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1407, 20, "Santa Marï¿½a Yalina", "Santa Marï¿½a Yal", "Santa Marï¿½a Yalina");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1408, 20, "Santa María Yavesía", "Santa María Yav", "Santa María Yavesía");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1408, 20, "Santa Marï¿½a Yavesï¿½a", "Santa Marï¿½a Yav", "Santa Marï¿½a Yavesï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1409, 20, "Santa María Yolotepec", "Santa María Yol", "Santa María Yolotepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1409, 20, "Santa Marï¿½a Yolotepec", "Santa Marï¿½a Yol", "Santa Marï¿½a Yolotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1410, 20, "Santa María Yosoyúa", "Santa María Yos", "Santa María Yosoyúa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1410, 20, "Santa Marï¿½a Yosoyï¿½a", "Santa Marï¿½a Yos", "Santa Marï¿½a Yosoyï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1411, 20, "Santa María Yucuhiti", "Santa María Yuc", "Santa María Yucuhiti");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1411, 20, "Santa Marï¿½a Yucuhiti", "Santa Marï¿½a Yuc", "Santa Marï¿½a Yucuhiti");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1412, 20, "Santa María Zacatepec", "Santa María Zac", "Santa María Zacatepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1412, 20, "Santa Marï¿½a Zacatepec", "Santa Marï¿½a Zac", "Santa Marï¿½a Zacatepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1413, 20, "Santa María Zaniza", "Santa María Zan", "Santa María Zaniza");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1413, 20, "Santa Marï¿½a Zaniza", "Santa Marï¿½a Zan", "Santa Marï¿½a Zaniza");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1414, 20, "Santa María Zoquitlán", "Santa María Zoq", "Santa María Zoquitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1414, 20, "Santa Marï¿½a Zoquitlï¿½n", "Santa Marï¿½a Zoq", "Santa Marï¿½a Zoquitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1415, 20, "Magdalena Apasco", "Magdalena Apasc", "Magdalena Apasco");
 	
@@ -2842,17 +2843,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1417, 20, "Santiago Apoala", "Santiago Apoala", "Santiago Apoala");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1418, 20, "Santiago Apóstol", "Santiago Apósto", "Santiago Apóstol");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1418, 20, "Santiago Apï¿½stol", "Santiago Apï¿½sto", "Santiago Apï¿½stol");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1419, 20, "Santiago Astata", "Santiago Astata", "Santiago Astata");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1420, 20, "Santiago Atitlán", "Santiago Atitlá", "Santiago Atitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1420, 20, "Santiago Atitlï¿½n", "Santiago Atitlï¿½", "Santiago Atitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1421, 20, "Santiago Ayuquililla", "Santiago Ayuqui", "Santiago Ayuquililla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1422, 20, "Santiago Cacaloxtepec", "Santiago Cacalo", "Santiago Cacaloxtepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1423, 20, "Santiago Camotlán", "Santiago Camotl", "Santiago Camotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1423, 20, "Santiago Camotlï¿½n", "Santiago Camotl", "Santiago Camotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1424, 20, "Santiago Comaltepec", "Santiago Comalt", "Santiago Comaltepec");
 	
@@ -2860,15 +2861,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1426, 20, "Magdalena Jaltepec", "Magdalena Jalte", "Magdalena Jaltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1427, 20, "Santiago Choápam", "Santiago Choápa", "Santiago Choápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1427, 20, "Santiago Choï¿½pam", "Santiago Choï¿½pa", "Santiago Choï¿½pam");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1428, 20, "Santiago del Río", "Santiago del Rí", "Santiago del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1428, 20, "Santiago del Rï¿½o", "Santiago del Rï¿½", "Santiago del Rï¿½o");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1429, 20, "Santiago Huajolotitlán", "Santiago Huajol", "Santiago Huajolotitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1429, 20, "Santiago Huajolotitlï¿½n", "Santiago Huajol", "Santiago Huajolotitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1430, 20, "Santiago Huauclilla", "Santiago Huaucl", "Santiago Huauclilla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1431, 20, "Santiago Ihuitlán Plumas", "Santiago Ihuitl", "Santiago Ihuitlán Plumas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1431, 20, "Santiago Ihuitlï¿½n Plumas", "Santiago Ihuitl", "Santiago Ihuitlï¿½n Plumas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1432, 20, "Santiago Ixcuintepec", "Santiago Ixcuin", "Santiago Ixcuintepec");
 	
@@ -2880,7 +2881,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1436, 20, "Santiago Juxtlahuaca", "Santiago Juxtla", "Santiago Juxtlahuaca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1437, 20, "Santa Magdalena Jicotlán", "Santa Magdalena", "Santa Magdalena Jicotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1437, 20, "Santa Magdalena Jicotlï¿½n", "Santa Magdalena", "Santa Magdalena Jicotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1438, 20, "Santiago Lachiguiri", "Santiago Lachig", "Santiago Lachiguiri");
 	
@@ -2892,7 +2893,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1442, 20, "Santiago Llano Grande", "Santiago Llano ", "Santiago Llano Grande");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1443, 20, "Santiago Matatlán", "Santiago Matatl", "Santiago Matatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1443, 20, "Santiago Matatlï¿½n", "Santiago Matatl", "Santiago Matatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1444, 20, "Santiago Miltepec", "Santiago Miltep", "Santiago Miltepec");
 	
@@ -2906,7 +2907,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1449, 20, "Santiago Nundiche", "Santiago Nundic", "Santiago Nundiche");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1450, 20, "Santiago Nuyoó", "Santiago Nuyoó", "Santiago Nuyoó");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1450, 20, "Santiago Nuyoï¿½", "Santiago Nuyoï¿½", "Santiago Nuyoï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1451, 20, "Santiago Pinotepa Nacional", "Santiago Pinote", "Santiago Pinotepa Nacional");
 	
@@ -2916,7 +2917,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1454, 20, "Santiago Tapextla", "Santiago Tapext", "Santiago Tapextla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1455, 20, "Villa Tejúpam de la Unión", "Villa Tejúpam d", "Villa Tejúpam de la Unión");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1455, 20, "Villa Tejï¿½pam de la Uniï¿½n", "Villa Tejï¿½pam d", "Villa Tejï¿½pam de la Uniï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1456, 20, "Santiago Tenango", "Santiago Tenang", "Santiago Tenango");
 	
@@ -2924,11 +2925,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1458, 20, "Santiago Tetepec", "Santiago Tetepe", "Santiago Tetepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1459, 20, "Magdalena Ocotlán", "Magdalena Ocotl", "Magdalena Ocotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1459, 20, "Magdalena Ocotlï¿½n", "Magdalena Ocotl", "Magdalena Ocotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1460, 20, "Santiago Texcalcingo", "Santiago Texcal", "Santiago Texcalcingo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1461, 20, "Santiago Textitlán", "Santiago Textit", "Santiago Textitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1461, 20, "Santiago Textitlï¿½n", "Santiago Textit", "Santiago Textitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1462, 20, "Santiago Tilantongo", "Santiago Tilant", "Santiago Tilantongo");
 	
@@ -2938,19 +2939,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1465, 20, "Santiago Xanica", "Santiago Xanica", "Santiago Xanica");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1466, 20, "Santiago Xiacuí", "Santiago Xiacuí", "Santiago Xiacuí");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1466, 20, "Santiago Xiacuï¿½", "Santiago Xiacuï¿½", "Santiago Xiacuï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1467, 20, "Santiago Yaitepec", "Santiago Yaitep", "Santiago Yaitepec");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1468, 20, "Santiago Yaveo", "Santiago Yaveo", "Santiago Yaveo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1469, 20, "Santiago Yolomécatl", "Santiago Yolomé", "Santiago Yolomécatl");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1469, 20, "Santiago Yolomï¿½catl", "Santiago Yolomï¿½", "Santiago Yolomï¿½catl");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1470, 20, "Asunción Ixtaltepec", "Asunción Ixtalt", "Asunción Ixtaltepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1470, 20, "Asunciï¿½n Ixtaltepec", "Asunciï¿½n Ixtalt", "Asunciï¿½n Ixtaltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1471, 20, "Magdalena Peñasco", "Magdalena Peñas", "Magdalena Peñasco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1471, 20, "Magdalena Peï¿½asco", "Magdalena Peï¿½as", "Magdalena Peï¿½asco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1472, 20, "Santiago Yosondúa", "Santiago Yosond", "Santiago Yosondúa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1472, 20, "Santiago Yosondï¿½a", "Santiago Yosond", "Santiago Yosondï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1473, 20, "Santiago Yucuyachi", "Santiago Yucuya", "Santiago Yucuyachi");
 	
@@ -2958,7 +2959,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1475, 20, "Santiago Zoochila", "Santiago Zoochi", "Santiago Zoochila");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1476, 20, "Nuevo Zoquiápam", "Nuevo Zoquiápam", "Nuevo Zoquiápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1476, 20, "Nuevo Zoquiï¿½pam", "Nuevo Zoquiï¿½pam", "Nuevo Zoquiï¿½pam");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1477, 20, "Santo Domingo Ingenio", "Santo Domingo I", "Santo Domingo Ingenio");
 	
@@ -2966,15 +2967,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1479, 20, "Santo Domingo Armenta", "Santo Domingo A", "Santo Domingo Armenta");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1480, 20, "Santo Domingo Chihuitán", "Santo Domingo C", "Santo Domingo Chihuitán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1480, 20, "Santo Domingo Chihuitï¿½n", "Santo Domingo C", "Santo Domingo Chihuitï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1481, 20, "Santo Domingo de Morelos", "Santo Domingo d", "Santo Domingo de Morelos");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1482, 20, "Magdalena Teitipac", "Magdalena Teiti", "Magdalena Teitipac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1483, 20, "Santo Domingo Ixcatlán", "Santo Domingo I", "Santo Domingo Ixcatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1483, 20, "Santo Domingo Ixcatlï¿½n", "Santo Domingo I", "Santo Domingo Ixcatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1484, 20, "Santo Domingo Nuxaá", "Santo Domingo ", "Santo Domingo Nuxaá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1484, 20, "Santo Domingo Nuxaï¿½", "Santo Domingo ", "Santo Domingo Nuxaï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1485, 20, "Santo Domingo Ozolotepec", "Santo Domingo O", "Santo Domingo Ozolotepec");
 	
@@ -2988,19 +2989,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1490, 20, "Santo Domingo Tepuxtepec", "Santo Domingo T", "Santo Domingo Tepuxtepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1491, 20, "Santo Domingo Tlatayápam", "Santo Domingo T", "Santo Domingo Tlatayápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1491, 20, "Santo Domingo Tlatayï¿½pam", "Santo Domingo T", "Santo Domingo Tlatayï¿½pam");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1492, 20, "Santo Domingo Tomaltepec", "Santo Domingo T", "Santo Domingo Tomaltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1493, 20, "Magdalena Tequisistlán", "Magdalena Tequi", "Magdalena Tequisistlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1493, 20, "Magdalena Tequisistlï¿½n", "Magdalena Tequi", "Magdalena Tequisistlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1494, 20, "Santo Domingo Tonalá", "Santo Domingo T", "Santo Domingo Tonalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1494, 20, "Santo Domingo Tonalï¿½", "Santo Domingo T", "Santo Domingo Tonalï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1495, 20, "Santo Domingo Tonaltepec", "Santo Domingo T", "Santo Domingo Tonaltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1496, 20, "Santo Domingo Xagacía", "Santo Domingo X", "Santo Domingo Xagacía");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1496, 20, "Santo Domingo Xagacï¿½a", "Santo Domingo X", "Santo Domingo Xagacï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1497, 20, "Santo Domingo Yanhuitlán", "Santo Domingo Y", "Santo Domingo Yanhuitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1497, 20, "Santo Domingo Yanhuitlï¿½n", "Santo Domingo Y", "Santo Domingo Yanhuitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1498, 20, "Santo Domingo Yodohino", "Santo Domingo Y", "Santo Domingo Yodohino");
 	
@@ -3008,59 +3009,59 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1500, 20, "Santos Reyes Nopala", "Santos Reyes No", "Santos Reyes Nopala");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1501, 20, "Santos Reyes Pápalo", "Santos Reyes Pá", "Santos Reyes Pápalo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1501, 20, "Santos Reyes Pï¿½palo", "Santos Reyes Pï¿½", "Santos Reyes Pï¿½palo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1502, 20, "Santos Reyes Tepejillo", "Santos Reyes Te", "Santos Reyes Tepejillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1503, 20, "Santos Reyes Yucuná", "Santos Reyes Yu", "Santos Reyes Yucuná");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1503, 20, "Santos Reyes Yucunï¿½", "Santos Reyes Yu", "Santos Reyes Yucunï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1504, 20, "Magdalena Tlacotepec", "Magdalena Tlaco", "Magdalena Tlacotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1505, 20, "Santo Tomás Jalieza", "Santo Tomás Jal", "Santo Tomás Jalieza");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1505, 20, "Santo Tomï¿½s Jalieza", "Santo Tomï¿½s Jal", "Santo Tomï¿½s Jalieza");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1506, 20, "Santo Tomás Mazaltepec", "Santo Tomás Maz", "Santo Tomás Mazaltepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1506, 20, "Santo Tomï¿½s Mazaltepec", "Santo Tomï¿½s Maz", "Santo Tomï¿½s Mazaltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1507, 20, "Santo Tomás Ocotepec", "Santo Tomás Oco", "Santo Tomás Ocotepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1507, 20, "Santo Tomï¿½s Ocotepec", "Santo Tomï¿½s Oco", "Santo Tomï¿½s Ocotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1508, 20, "Santo Tomás Tamazulapan", "Santo Tomás Tam", "Santo Tomás Tamazulapan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1508, 20, "Santo Tomï¿½s Tamazulapan", "Santo Tomï¿½s Tam", "Santo Tomï¿½s Tamazulapan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1509, 20, "San Vicente Coatlán", "San Vicente Coa", "San Vicente Coatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1509, 20, "San Vicente Coatlï¿½n", "San Vicente Coa", "San Vicente Coatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1510, 20, "San Vicente Lachixío", "San Vicente Lac", "San Vicente Lachixío");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1510, 20, "San Vicente Lachixï¿½o", "San Vicente Lac", "San Vicente Lachixï¿½o");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1511, 20, "San Vicente Nuñú", "San Vicente Nuñ", "San Vicente Nuñú");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1511, 20, "San Vicente Nuï¿½ï¿½", "San Vicente Nuï¿½", "San Vicente Nuï¿½ï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1512, 20, "Silacayoápam", "Silacayoápam", "Silacayoápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1512, 20, "Silacayoï¿½pam", "Silacayoï¿½pam", "Silacayoï¿½pam");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1513, 20, "Sitio de Xitlapehua", "Sitio de Xitlap", "Sitio de Xitlapehua");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1514, 20, "Soledad Etla", "Soledad Etla", "Soledad Etla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1515, 20, "Magdalena Zahuatlán", "Magdalena Zahua", "Magdalena Zahuatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1515, 20, "Magdalena Zahuatlï¿½n", "Magdalena Zahua", "Magdalena Zahuatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1516, 20, "Villa de Tamazulápam del Progreso", "Villa de Tamazu", "Villa de Tamazulápam del Progreso");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1516, 20, "Villa de Tamazulï¿½pam del Progreso", "Villa de Tamazu", "Villa de Tamazulï¿½pam del Progreso");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1517, 20, "Tanetze de Zaragoza", "Tanetze de Zara", "Tanetze de Zaragoza");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1518, 20, "Taniche", "Taniche", "Taniche");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1519, 20, "Tataltepec de Valdés", "Tataltepec de V", "Tataltepec de Valdés");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1519, 20, "Tataltepec de Valdï¿½s", "Tataltepec de V", "Tataltepec de Valdï¿½s");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1520, 20, "Teococuilco de Marcos Pérez", "Teococuilco de ", "Teococuilco de Marcos Pérez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1520, 20, "Teococuilco de Marcos Pï¿½rez", "Teococuilco de ", "Teococuilco de Marcos Pï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1521, 20, "Teotitlán de Flores Magón", "Teotitlán de Fl", "Teotitlán de Flores Magón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1521, 20, "Teotitlï¿½n de Flores Magï¿½n", "Teotitlï¿½n de Fl", "Teotitlï¿½n de Flores Magï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1522, 20, "Teotitlán del Valle", "Teotitlán del V", "Teotitlán del Valle");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1522, 20, "Teotitlï¿½n del Valle", "Teotitlï¿½n del V", "Teotitlï¿½n del Valle");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1523, 20, "Teotongo", "Teotongo", "Teotongo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1524, 20, "Tepelmeme Villa de Morelos", "Tepelmeme Villa", "Tepelmeme Villa de Morelos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1525, 20, "Tezoatlán de Segura y Luna", "Tezoatlán de Se", "Tezoatlán de Segura y Luna");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1525, 20, "Tezoatlï¿½n de Segura y Luna", "Tezoatlï¿½n de Se", "Tezoatlï¿½n de Segura y Luna");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1526, 20, "Mariscala de Juárez", "Mariscala de Ju", "Mariscala de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1526, 20, "Mariscala de Juï¿½rez", "Mariscala de Ju", "Mariscala de Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1527, 20, "San Jerónimo Tlacochahuaya", "San Jerónimo Tl", "San Jerónimo Tlacochahuaya");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1527, 20, "San Jerï¿½nimo Tlacochahuaya", "San Jerï¿½nimo Tl", "San Jerï¿½nimo Tlacochahuaya");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1528, 20, "Tlacolula de Matamoros", "Tlacolula de Ma", "Tlacolula de Matamoros");
 	
@@ -3074,19 +3075,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1533, 20, "La Trinidad Vista Hermosa", "La Trinidad Vis", "La Trinidad Vista Hermosa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1534, 20, "Unión Hidalgo", "Unión Hidalgo", "Unión Hidalgo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1534, 20, "Uniï¿½n Hidalgo", "Uniï¿½n Hidalgo", "Uniï¿½n Hidalgo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1535, 20, "Valerio Trujano", "Valerio Trujano", "Valerio Trujano");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1536, 20, "San Juan Bautista Valle Nacional", "San Juan Bautis", "San Juan Bautista Valle Nacional");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1537, 20, "Mártires de Tacubaya", "Mártires de Tac", "Mártires de Tacubaya");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1537, 20, "Mï¿½rtires de Tacubaya", "Mï¿½rtires de Tac", "Mï¿½rtires de Tacubaya");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1538, 20, "Villa Díaz Ordaz", "Villa Díaz Orda", "Villa Díaz Ordaz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1538, 20, "Villa Dï¿½az Ordaz", "Villa Dï¿½az Orda", "Villa Dï¿½az Ordaz");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1539, 20, "Yaxe", "Yaxe", "Yaxe");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1540, 20, "Magdalena Yodocono de Porfirio Díaz", "Magdalena Yodoc", "Magdalena Yodocono de Porfirio Díaz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1540, 20, "Magdalena Yodocono de Porfirio Dï¿½az", "Magdalena Yodoc", "Magdalena Yodocono de Porfirio Dï¿½az");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1541, 20, "Yogana", "Yogana", "Yogana");
 	
@@ -3096,23 +3097,23 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1544, 20, "San Mateo Yucutindoo", "San Mateo Yucut", "San Mateo Yucutindoo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1545, 20, "Zapotitlán Lagunas", "Zapotitlán Lagu", "Zapotitlán Lagunas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1545, 20, "Zapotitlï¿½n Lagunas", "Zapotitlï¿½n Lagu", "Zapotitlï¿½n Lagunas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1546, 20, "Zapotitlán Palmas", "Zapotitlán Palm", "Zapotitlán Palmas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1546, 20, "Zapotitlï¿½n Palmas", "Zapotitlï¿½n Palm", "Zapotitlï¿½n Palmas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1547, 20, "Santa Inés de Zaragoza", "Santa Inés de Z", "Santa Inés de Zaragoza");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1547, 20, "Santa Inï¿½s de Zaragoza", "Santa Inï¿½s de Z", "Santa Inï¿½s de Zaragoza");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1548, 20, "Matías Romero Avendaño", "Matías Romero A", "Matías Romero Avendaño");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1548, 20, "Matï¿½as Romero Avendaï¿½o", "Matï¿½as Romero A", "Matï¿½as Romero Avendaï¿½o");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1549, 20, "Zimatlán de Álvarez", "Zimatlán de Álv", "Zimatlán de Álvarez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1549, 20, "Zimatlï¿½n de ï¿½lvarez", "Zimatlï¿½n de ï¿½lv", "Zimatlï¿½n de ï¿½lvarez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1550, 20, "Mazatlán Villa de Flores", "Mazatlán Villa ", "Mazatlán Villa de Flores");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1550, 20, "Mazatlï¿½n Villa de Flores", "Mazatlï¿½n Villa ", "Mazatlï¿½n Villa de Flores");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1551, 20, "Miahuatlán de Porfirio Díaz", "Miahuatlán de P", "Miahuatlán de Porfirio Díaz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1551, 20, "Miahuatlï¿½n de Porfirio Dï¿½az", "Miahuatlï¿½n de P", "Miahuatlï¿½n de Porfirio Dï¿½az");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1552, 20, "Asunción Nochixtlán", "Asunción Nochix", "Asunción Nochixtlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1552, 20, "Asunciï¿½n Nochixtlï¿½n", "Asunciï¿½n Nochix", "Asunciï¿½n Nochixtlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1553, 20, "Mixistlán de la Reforma", "Mixistlán de la", "Mixistlán de la Reforma");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1553, 20, "Mixistlï¿½n de la Reforma", "Mixistlï¿½n de la", "Mixistlï¿½n de la Reforma");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1554, 20, "Monjas", "Monjas", "Monjas");
 	
@@ -3126,19 +3127,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1559, 20, "Santiago Niltepec", "Santiago Niltep", "Santiago Niltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1560, 20, "Oaxaca de Juárez", "Oaxaca de Juáre", "Oaxaca de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1560, 20, "Oaxaca de Juï¿½rez", "Oaxaca de Juï¿½re", "Oaxaca de Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1561, 20, "Ocotlán de Morelos", "Ocotlán de More", "Ocotlán de Morelos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1561, 20, "Ocotlï¿½n de Morelos", "Ocotlï¿½n de More", "Ocotlï¿½n de Morelos");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1562, 20, "La Pe", "La Pe", "La Pe");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1563, 20, "Asunción Ocotlán", "Asunción Ocotlá", "Asunción Ocotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1563, 20, "Asunciï¿½n Ocotlï¿½n", "Asunciï¿½n Ocotlï¿½", "Asunciï¿½n Ocotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1564, 20, "Pinotepa de Don Luis", "Pinotepa de Don", "Pinotepa de Don Luis");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1565, 20, "Pluma Hidalgo", "Pluma Hidalgo", "Pluma Hidalgo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1566, 20, "San José del Progreso", "San José del Pr", "San José del Progreso");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1566, 20, "San Josï¿½ del Progreso", "San Josï¿½ del Pr", "San Josï¿½ del Progreso");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1567, 20, "Putla Villa de Guerrero", "Putla Villa de ", "Putla Villa de Guerrero");
 	
@@ -3150,53 +3151,53 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1571, 20, "Reyes Etla", "Reyes Etla", "Reyes Etla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1572, 20, "Rojas de Cuauhtémoc", "Rojas de Cuauht", "Rojas de Cuauhtémoc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1572, 20, "Rojas de Cuauhtï¿½moc", "Rojas de Cuauht", "Rojas de Cuauhtï¿½moc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1573, 20, "Salina Cruz", "Salina Cruz", "Salina Cruz");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1574, 20, "Asunción Tlacolulita", "Asunción Tlacol", "Asunción Tlacolulita");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1574, 20, "Asunciï¿½n Tlacolulita", "Asunciï¿½n Tlacol", "Asunciï¿½n Tlacolulita");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1575, 20, "San Agustín Amatengo", "San Agustín Ama", "San Agustín Amatengo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1575, 20, "San Agustï¿½n Amatengo", "San Agustï¿½n Ama", "San Agustï¿½n Amatengo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1576, 20, "San Agustín Atenango", "San Agustín Ate", "San Agustín Atenango");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1576, 20, "San Agustï¿½n Atenango", "San Agustï¿½n Ate", "San Agustï¿½n Atenango");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1577, 20, "San Agustín Chayuco", "San Agustín Cha", "San Agustín Chayuco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1577, 20, "San Agustï¿½n Chayuco", "San Agustï¿½n Cha", "San Agustï¿½n Chayuco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1578, 20, "San Agustín de las Juntas", "San Agustín de ", "San Agustín de las Juntas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1578, 20, "San Agustï¿½n de las Juntas", "San Agustï¿½n de ", "San Agustï¿½n de las Juntas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1579, 20, "San Agustín Etla", "San Agustín Etl", "San Agustín Etla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1579, 20, "San Agustï¿½n Etla", "San Agustï¿½n Etl", "San Agustï¿½n Etla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1580, 20, "San Agustín Loxicha", "San Agustín Lox", "San Agustín Loxicha");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1580, 20, "San Agustï¿½n Loxicha", "San Agustï¿½n Lox", "San Agustï¿½n Loxicha");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1581, 20, "San Agustín Tlacotepec", "San Agustín Tla", "San Agustín Tlacotepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1581, 20, "San Agustï¿½n Tlacotepec", "San Agustï¿½n Tla", "San Agustï¿½n Tlacotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1582, 20, "San Agustín Yatareni", "San Agustín Yat", "San Agustín Yatareni");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1582, 20, "San Agustï¿½n Yatareni", "San Agustï¿½n Yat", "San Agustï¿½n Yatareni");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1583, 20, "San Andrés Cabecera Nueva", "San Andrés Cabe", "San Andrés Cabecera Nueva");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1583, 20, "San Andrï¿½s Cabecera Nueva", "San Andrï¿½s Cabe", "San Andrï¿½s Cabecera Nueva");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1584, 20, "San Andrés Dinicuiti", "San Andrés Dini", "San Andrés Dinicuiti");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1584, 20, "San Andrï¿½s Dinicuiti", "San Andrï¿½s Dini", "San Andrï¿½s Dinicuiti");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1585, 20, "Ayotzintepec", "Ayotzintepec", "Ayotzintepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1586, 20, "San Andrés Huaxpaltepec", "San Andrés Huax", "San Andrés Huaxpaltepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1586, 20, "San Andrï¿½s Huaxpaltepec", "San Andrï¿½s Huax", "San Andrï¿½s Huaxpaltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1587, 20, "San Andrés Huayápam", "San Andrés Huay", "San Andrés Huayápam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1587, 20, "San Andrï¿½s Huayï¿½pam", "San Andrï¿½s Huay", "San Andrï¿½s Huayï¿½pam");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1588, 20, "San Andrés Ixtlahuaca", "San Andrés Ixtl", "San Andrés Ixtlahuaca");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1588, 20, "San Andrï¿½s Ixtlahuaca", "San Andrï¿½s Ixtl", "San Andrï¿½s Ixtlahuaca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1589, 20, "San Andrés Lagunas", "San Andrés Lagu", "San Andrés Lagunas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1589, 20, "San Andrï¿½s Lagunas", "San Andrï¿½s Lagu", "San Andrï¿½s Lagunas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1590, 20, "San Andrés Nuxiño", "San Andrés Nuxi", "San Andrés Nuxiño");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1590, 20, "San Andrï¿½s Nuxiï¿½o", "San Andrï¿½s Nuxi", "San Andrï¿½s Nuxiï¿½o");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1591, 20, "San Andrés Paxtlán", "San Andrés Paxt", "San Andrés Paxtlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1591, 20, "San Andrï¿½s Paxtlï¿½n", "San Andrï¿½s Paxt", "San Andrï¿½s Paxtlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1592, 20, "San Andrés Sinaxtla", "San Andrés Sina", "San Andrés Sinaxtla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1592, 20, "San Andrï¿½s Sinaxtla", "San Andrï¿½s Sina", "San Andrï¿½s Sinaxtla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1593, 20, "San Andrés Solaga", "San Andrés Sola", "San Andrés Solaga");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1593, 20, "San Andrï¿½s Solaga", "San Andrï¿½s Sola", "San Andrï¿½s Solaga");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1594, 20, "San Andrés Teotilálpam", "San Andrés Teot", "San Andrés Teotilálpam");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1594, 20, "San Andrï¿½s Teotilï¿½lpam", "San Andrï¿½s Teot", "San Andrï¿½s Teotilï¿½lpam");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1595, 20, "San Andrés Tepetlapa", "San Andrés Tepe", "San Andrés Tepetlapa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1595, 20, "San Andrï¿½s Tepetlapa", "San Andrï¿½s Tepe", "San Andrï¿½s Tepetlapa");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1596, 21, "Acajete", "Acajete", "Acajete");
 	
@@ -3208,7 +3209,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1600, 21, "Nealtican", "Nealtican", "Nealtican");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1601, 21, "Nicolás Bravo", "Nicolás Bravo", "Nicolás Bravo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1601, 21, "Nicolï¿½s Bravo", "Nicolï¿½s Bravo", "Nicolï¿½s Bravo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1602, 21, "Nopalucan", "Nopalucan", "Nopalucan");
 	
@@ -3220,7 +3221,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1606, 21, "Oriental", "Oriental", "Oriental");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1607, 21, "Pahuatlán", "Pahuatlán", "Pahuatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1607, 21, "Pahuatlï¿½n", "Pahuatlï¿½n", "Pahuatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1608, 21, "Albino Zertuche", "Albino Zertuche", "Albino Zertuche");
 	
@@ -3236,35 +3237,35 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1614, 21, "Quecholac", "Quecholac", "Quecholac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1615, 21, "Quimixtlán", "Quimixtlán", "Quimixtlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1615, 21, "Quimixtlï¿½n", "Quimixtlï¿½n", "Quimixtlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1616, 21, "Rafael Lara Grajales", "Rafael Lara Gra", "Rafael Lara Grajales");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1617, 21, "Los Reyes de Juárez", "Los Reyes de Ju", "Los Reyes de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1617, 21, "Los Reyes de Juï¿½rez", "Los Reyes de Ju", "Los Reyes de Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1618, 21, "San Andrés Cholula", "San Andrés Chol", "San Andrés Cholula");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1618, 21, "San Andrï¿½s Cholula", "San Andrï¿½s Chol", "San Andrï¿½s Cholula");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1619, 21, "Aljojuca", "Aljojuca", "Aljojuca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1620, 21, "San Antonio Cañada", "San Antonio Cañ", "San Antonio Cañada");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1620, 21, "San Antonio Caï¿½ada", "San Antonio Caï¿½", "San Antonio Caï¿½ada");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1621, 21, "San Diego la Mesa Tochimiltzingo", "San Diego la Me", "San Diego la Mesa Tochimiltzingo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1622, 21, "San Felipe Teotlalcingo", "San Felipe Teot", "San Felipe Teotlalcingo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1623, 21, "San Felipe Tepatlán", "San Felipe Tepa", "San Felipe Tepatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1623, 21, "San Felipe Tepatlï¿½n", "San Felipe Tepa", "San Felipe Tepatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1624, 21, "San Gabriel Chilac", "San Gabriel Chi", "San Gabriel Chilac");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1625, 21, "San Gregorio Atzompa", "San Gregorio At", "San Gregorio Atzompa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1626, 21, "San Jerónimo Tecuanipan", "San Jerónimo Te", "San Jerónimo Tecuanipan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1626, 21, "San Jerï¿½nimo Tecuanipan", "San Jerï¿½nimo Te", "San Jerï¿½nimo Tecuanipan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1627, 21, "San Jerónimo Xayacatlán", "San Jerónimo Xa", "San Jerónimo Xayacatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1627, 21, "San Jerï¿½nimo Xayacatlï¿½n", "San Jerï¿½nimo Xa", "San Jerï¿½nimo Xayacatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1628, 21, "San José Chiapa", "San José Chiapa", "San José Chiapa");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1628, 21, "San Josï¿½ Chiapa", "San Josï¿½ Chiapa", "San Josï¿½ Chiapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1629, 21, "San José Miahuatlán", "San José Miahua", "San José Miahuatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1629, 21, "San Josï¿½ Miahuatlï¿½n", "San Josï¿½ Miahua", "San Josï¿½ Miahuatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1630, 21, "Altepexi", "Altepexi", "Altepexi");
 	
@@ -3272,23 +3273,23 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1632, 21, "San Juan Atzompa", "San Juan Atzomp", "San Juan Atzompa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1633, 21, "San Martín Texmelucan", "San Martín Texm", "San Martín Texmelucan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1633, 21, "San Martï¿½n Texmelucan", "San Martï¿½n Texm", "San Martï¿½n Texmelucan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1634, 21, "San Martín Totoltepec", "San Martín Toto", "San Martín Totoltepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1634, 21, "San Martï¿½n Totoltepec", "San Martï¿½n Toto", "San Martï¿½n Totoltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1635, 21, "San Matías Tlalancaleca", "San Matías Tlal", "San Matías Tlalancaleca");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1635, 21, "San Matï¿½as Tlalancaleca", "San Matï¿½as Tlal", "San Matï¿½as Tlalancaleca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1636, 21, "San Miguel Ixitlán", "San Miguel Ixit", "San Miguel Ixitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1636, 21, "San Miguel Ixitlï¿½n", "San Miguel Ixit", "San Miguel Ixitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1637, 21, "San Miguel Xoxtla", "San Miguel Xoxt", "San Miguel Xoxtla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1638, 21, "San Nicolás Buenos Aires", "San Nicolás Bue", "San Nicolás Buenos Aires");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1638, 21, "San Nicolï¿½s Buenos Aires", "San Nicolï¿½s Bue", "San Nicolï¿½s Buenos Aires");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1639, 21, "San Nicolás de los Ranchos", "San Nicolás de ", "San Nicolás de los Ranchos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1639, 21, "San Nicolï¿½s de los Ranchos", "San Nicolï¿½s de ", "San Nicolï¿½s de los Ranchos");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1640, 21, "San Pablo Anicano", "San Pablo Anica", "San Pablo Anicano");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1641, 21, "Amixtlán", "Amixtlán", "Amixtlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1641, 21, "Amixtlï¿½n", "Amixtlï¿½n", "Amixtlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1642, 21, "San Pedro Cholula", "San Pedro Cholu", "San Pedro Cholula");
 	
@@ -3300,21 +3301,21 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1646, 21, "San Salvador Huixcolotla", "San Salvador Hu", "San Salvador Huixcolotla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1647, 21, "San Sebastián Tlacotepec", "San Sebastián T", "San Sebastián Tlacotepec");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1647, 21, "San Sebastiï¿½n Tlacotepec", "San Sebastiï¿½n T", "San Sebastiï¿½n Tlacotepec");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1648, 21, "Santa Catarina Tlaltempan", "Santa Catarina ", "Santa Catarina Tlaltempan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1649, 21, "Santa Inés Ahuatempan", "Santa Inés Ahua", "Santa Inés Ahuatempan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1649, 21, "Santa Inï¿½s Ahuatempan", "Santa Inï¿½s Ahua", "Santa Inï¿½s Ahuatempan");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1650, 21, "Santa Isabel Cholula", "Santa Isabel Ch", "Santa Isabel Cholula");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1651, 21, "Santiago Miahuatlán", "Santiago Miahua", "Santiago Miahuatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1651, 21, "Santiago Miahuatlï¿½n", "Santiago Miahua", "Santiago Miahuatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1652, 21, "Amozoc", "Amozoc", "Amozoc");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1653, 21, "Huehuetlán el Grande", "Huehuetlán el G", "Huehuetlán el Grande");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1653, 21, "Huehuetlï¿½n el Grande", "Huehuetlï¿½n el G", "Huehuetlï¿½n el Grande");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1654, 21, "Santo Tomás Hueyotlipan", "Santo Tomás Hue", "Santo Tomás Hueyotlipan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1654, 21, "Santo Tomï¿½s Hueyotlipan", "Santo Tomï¿½s Hue", "Santo Tomï¿½s Hueyotlipan");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1655, 21, "Soltepec", "Soltepec", "Soltepec");
 	
@@ -3322,23 +3323,23 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1657, 21, "Tecamachalco", "Tecamachalco", "Tecamachalco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1658, 21, "Tecomatlán", "Tecomatlán", "Tecomatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1658, 21, "Tecomatlï¿½n", "Tecomatlï¿½n", "Tecomatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1659, 21, "Tehuacán", "Tehuacán", "Tehuacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1659, 21, "Tehuacï¿½n", "Tehuacï¿½n", "Tehuacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1660, 21, "Tehuitzingo", "Tehuitzingo", "Tehuitzingo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1661, 21, "Tenampulco", "Tenampulco", "Tenampulco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1662, 21, "Teopantlán", "Teopantlán", "Teopantlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1662, 21, "Teopantlï¿½n", "Teopantlï¿½n", "Teopantlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1663, 21, "Aquixtla", "Aquixtla", "Aquixtla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1664, 21, "Teotlalco", "Teotlalco", "Teotlalco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1665, 21, "Tepanco de López", "Tepanco de Lópe", "Tepanco de López");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1665, 21, "Tepanco de Lï¿½pez", "Tepanco de Lï¿½pe", "Tepanco de Lï¿½pez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1666, 21, "Tepango de Rodríguez", "Tepango de Rodr", "Tepango de Rodríguez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1666, 21, "Tepango de Rodrï¿½guez", "Tepango de Rodr", "Tepango de Rodrï¿½guez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1667, 21, "Tepatlaxco de Hidalgo", "Tepatlaxco de H", "Tepatlaxco de Hidalgo");
 	
@@ -3352,25 +3353,25 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1672, 21, "Tepexco", "Tepexco", "Tepexco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1673, 21, "Tepexi de Rodríguez", "Tepexi de Rodrí", "Tepexi de Rodríguez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1673, 21, "Tepexi de Rodrï¿½guez", "Tepexi de Rodrï¿½", "Tepexi de Rodrï¿½guez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1674, 21, "Atempan", "Atempan", "Atempan");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1675, 21, "Tepeyahualco", "Tepeyahualco", "Tepeyahualco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1676, 21, "Tepeyahualco de Cuauhtémoc", "Tepeyahualco de", "Tepeyahualco de Cuauhtémoc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1676, 21, "Tepeyahualco de Cuauhtï¿½moc", "Tepeyahualco de", "Tepeyahualco de Cuauhtï¿½moc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1677, 21, "Tetela de Ocampo", "Tetela de Ocamp", "Tetela de Ocampo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1678, 21, "Teteles de Avila Castillo", "Teteles de Avil", "Teteles de Avila Castillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1679, 21, "Teziutlán", "Teziutlán", "Teziutlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1679, 21, "Teziutlï¿½n", "Teziutlï¿½n", "Teziutlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1680, 21, "Tianguismanalco", "Tianguismanalco", "Tianguismanalco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1681, 21, "Tilapa", "Tilapa", "Tilapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1682, 21, "Tlacotepec de Benito Juárez", "Tlacotepec de B", "Tlacotepec de Benito Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1682, 21, "Tlacotepec de Benito Juï¿½rez", "Tlacotepec de B", "Tlacotepec de Benito Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1683, 21, "Tlacuilotepec", "Tlacuilotepec", "Tlacuilotepec");
 	
@@ -3388,7 +3389,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1690, 21, "Tlapacoya", "Tlapacoya", "Tlapacoya");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1691, 21, "Tlapanalá", "Tlapanalá", "Tlapanalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1691, 21, "Tlapanalï¿½", "Tlapanalï¿½", "Tlapanalï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1692, 21, "Tlatlauquitepec", "Tlatlauquitepec", "Tlatlauquitepec");
 	
@@ -3412,11 +3413,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1702, 21, "Vicente Guerrero", "Vicente Guerrer", "Vicente Guerrero");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1703, 21, "Xayacatlán de Bravo", "Xayacatlán de B", "Xayacatlán de Bravo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1703, 21, "Xayacatlï¿½n de Bravo", "Xayacatlï¿½n de B", "Xayacatlï¿½n de Bravo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1704, 21, "Xicotepec", "Xicotepec", "Xicotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1705, 21, "Xicotlán", "Xicotlán", "Xicotlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1705, 21, "Xicotlï¿½n", "Xicotlï¿½n", "Xicotlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1706, 21, "Xiutetelco", "Xiutetelco", "Xiutetelco");
 	
@@ -3428,11 +3429,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1710, 21, "Xochiltepec", "Xochiltepec", "Xochiltepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1711, 21, "Xochitlán de Vicente Suárez", "Xochitlán de Vi", "Xochitlán de Vicente Suárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1711, 21, "Xochitlï¿½n de Vicente Suï¿½rez", "Xochitlï¿½n de Vi", "Xochitlï¿½n de Vicente Suï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1712, 21, "Xochitlán Todos Santos", "Xochitlán Todos", "Xochitlán Todos Santos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1712, 21, "Xochitlï¿½n Todos Santos", "Xochitlï¿½n Todos", "Xochitlï¿½n Todos Santos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1713, 21, "Yaonáhuac", "Yaonáhuac", "Yaonáhuac");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1713, 21, "Yaonï¿½huac", "Yaonï¿½huac", "Yaonï¿½huac");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1714, 21, "Yehualtepec", "Yehualtepec", "Yehualtepec");
 	
@@ -3440,13 +3441,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1716, 21, "Zacapoaxtla", "Zacapoaxtla", "Zacapoaxtla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1717, 21, "Zacatlán", "Zacatlán", "Zacatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1717, 21, "Zacatlï¿½n", "Zacatlï¿½n", "Zacatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1718, 21, "Zapotitlán", "Zapotitlán", "Zapotitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1718, 21, "Zapotitlï¿½n", "Zapotitlï¿½n", "Zapotitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1719, 21, "Atzala", "Atzala", "Atzala");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1720, 21, "Zapotitlán de Méndez", "Zapotitlán de M", "Zapotitlán de Méndez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1720, 21, "Zapotitlï¿½n de Mï¿½ndez", "Zapotitlï¿½n de M", "Zapotitlï¿½n de Mï¿½ndez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1721, 21, "Zaragoza", "Zaragoza", "Zaragoza");
 	
@@ -3460,9 +3461,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1726, 21, "Zoquiapan", "Zoquiapan", "Zoquiapan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1727, 21, "Zoquitlán", "Zoquitlán", "Zoquitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1727, 21, "Zoquitlï¿½n", "Zoquitlï¿½n", "Zoquitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1728, 21, "Atzitzihuacán", "Atzitzihuacán", "Atzitzihuacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1728, 21, "Atzitzihuacï¿½n", "Atzitzihuacï¿½n", "Atzitzihuacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1729, 21, "Atzitzintla", "Atzitzintla", "Atzitzintla");
 	
@@ -3478,7 +3479,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1735, 21, "Caxhuacan", "Caxhuacan", "Caxhuacan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1736, 21, "Acatlán", "Acatlán", "Acatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1736, 21, "Acatlï¿½n", "Acatlï¿½n", "Acatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1737, 21, "Coatepec", "Coatepec", "Coatepec");
 	
@@ -3490,7 +3491,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1741, 21, "Coronango", "Coronango", "Coronango");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1742, 21, "Coxcatlán", "Coxcatlán", "Coxcatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1742, 21, "Coxcatlï¿½n", "Coxcatlï¿½n", "Coxcatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1743, 21, "Coyomeapan", "Coyomeapan", "Coyomeapan");
 	
@@ -3502,7 +3503,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1747, 21, "Acatzingo", "Acatzingo", "Acatzingo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1748, 21, "Cuautinchán", "Cuautinchán", "Cuautinchán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1748, 21, "Cuautinchï¿½n", "Cuautinchï¿½n", "Cuautinchï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1749, 21, "Cuautlancingo", "Cuautlancingo", "Cuautlancingo");
 	
@@ -3528,7 +3529,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1760, 21, "Chietla", "Chietla", "Chietla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1761, 21, "Chigmecatitlán", "Chigmecatitlán", "Chigmecatitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1761, 21, "Chigmecatitlï¿½n", "Chigmecatitlï¿½n", "Chigmecatitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1762, 21, "Chignahuapan", "Chignahuapan", "Chignahuapan");
 	
@@ -3544,19 +3545,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1768, 21, "Chinantla", "Chinantla", "Chinantla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1769, 21, "Ahuacatlán", "Ahuacatlán", "Ahuacatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1769, 21, "Ahuacatlï¿½n", "Ahuacatlï¿½n", "Ahuacatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1770, 21, "Domingo Arenas", "Domingo Arenas", "Domingo Arenas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1771, 21, "Eloxochitlán", "Eloxochitlán", "Eloxochitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1771, 21, "Eloxochitlï¿½n", "Eloxochitlï¿½n", "Eloxochitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1772, 21, "Epatlán", "Epatlán", "Epatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1772, 21, "Epatlï¿½n", "Epatlï¿½n", "Epatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1773, 21, "Esperanza", "Esperanza", "Esperanza");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1774, 21, "Francisco Z. Mena", "Francisco Z. Me", "Francisco Z. Mena");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1775, 21, "General Felipe Ángeles", "General Felipe ", "General Felipe Ángeles");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1775, 21, "General Felipe ï¿½ngeles", "General Felipe ", "General Felipe ï¿½ngeles");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1776, 21, "Guadalupe", "Guadalupe", "Guadalupe");
 	
@@ -3566,7 +3567,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1779, 21, "Huaquechula", "Huaquechula", "Huaquechula");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1780, 21, "Ahuatlán", "Ahuatlán", "Ahuatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1780, 21, "Ahuatlï¿½n", "Ahuatlï¿½n", "Ahuatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1781, 21, "Huatlatlauca", "Huatlatlauca", "Huatlatlauca");
 	
@@ -3574,7 +3575,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1783, 21, "Huehuetla", "Huehuetla", "Huehuetla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1784, 21, "Huehuetlán el Chico", "Huehuetlán el C", "Huehuetlán el Chico");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1784, 21, "Huehuetlï¿½n el Chico", "Huehuetlï¿½n el C", "Huehuetlï¿½n el Chico");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1785, 21, "Huejotzingo", "Huejotzingo", "Huejotzingo");
 	
@@ -3584,7 +3585,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1788, 21, "Hueytlalpan", "Hueytlalpan", "Hueytlalpan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1789, 21, "Huitzilan de Serdán", "Huitzilan de Se", "Huitzilan de Serdán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1789, 21, "Huitzilan de Serdï¿½n", "Huitzilan de Se", "Huitzilan de Serdï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1790, 21, "Huitziltepec", "Huitziltepec", "Huitziltepec");
 	
@@ -3596,11 +3597,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1794, 21, "Ixcaquixtla", "Ixcaquixtla", "Ixcaquixtla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1795, 21, "Ixtacamaxtitlán", "Ixtacamaxtitlán", "Ixtacamaxtitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1795, 21, "Ixtacamaxtitlï¿½n", "Ixtacamaxtitlï¿½n", "Ixtacamaxtitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1796, 21, "Ixtepec", "Ixtepec", "Ixtepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1797, 21, "Izúcar de Matamoros", "Izúcar de Matam", "Izúcar de Matamoros");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1797, 21, "Izï¿½car de Matamoros", "Izï¿½car de Matam", "Izï¿½car de Matamoros");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1798, 21, "Jalpan", "Jalpan", "Jalpan");
 	
@@ -3616,7 +3617,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1804, 21, "Juan Galindo", "Juan Galindo", "Juan Galindo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1805, 21, "Juan N. Méndez", "Juan N. Méndez", "Juan N. Méndez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1805, 21, "Juan N. Mï¿½ndez", "Juan N. Mï¿½ndez", "Juan N. Mï¿½ndez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1806, 21, "Lafragua", "Lafragua", "Lafragua");
 	
@@ -3624,33 +3625,33 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1808, 21, "La Magdalena Tlatlauquitepec", "La Magdalena Tl", "La Magdalena Tlatlauquitepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1809, 21, "Mazapiltepec de Juárez", "Mazapiltepec de", "Mazapiltepec de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1809, 21, "Mazapiltepec de Juï¿½rez", "Mazapiltepec de", "Mazapiltepec de Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1810, 21, "Mixtla", "Mixtla", "Mixtla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1811, 21, "Molcaxac", "Molcaxac", "Molcaxac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1812, 21, "Cañada Morelos", "Cañada Morelos", "Cañada Morelos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1812, 21, "Caï¿½ada Morelos", "Caï¿½ada Morelos", "Caï¿½ada Morelos");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1813, 22, "Amealco de Bonfil", "Amealco de Bonf", "Amealco de Bonfil");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1814, 22, "Landa de Matamoros", "Landa de Matamo", "Landa de Matamoros");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1815, 22, "El Marqués", "El Marqués", "El Marqués");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1815, 22, "El Marquï¿½s", "El Marquï¿½s", "El Marquï¿½s");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1816, 22, "Pedro Escobedo", "Pedro Escobedo", "Pedro Escobedo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1817, 22, "Peñamiller", "Peñamiller", "Peñamiller");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1817, 22, "Peï¿½amiller", "Peï¿½amiller", "Peï¿½amiller");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1818, 22, "Querétaro", "Querétaro", "Querétaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1818, 22, "Querï¿½taro", "Querï¿½taro", "Querï¿½taro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1819, 22, "San Joaquín", "San Joaquín", "San Joaquín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1819, 22, "San Joaquï¿½n", "San Joaquï¿½n", "San Joaquï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1820, 22, "San Juan del Río", "San Juan del Rí", "San Juan del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1820, 22, "San Juan del Rï¿½o", "San Juan del Rï¿½", "San Juan del Rï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1821, 22, "Tequisquiapan", "Tequisquiapan", "Tequisquiapan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1822, 22, "Tolimán", "Tolimán", "Tolimán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1822, 22, "Tolimï¿½n", "Tolimï¿½n", "Tolimï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1823, 22, "Pinal de Amoles", "Pinal de Amoles", "Pinal de Amoles");
 	
@@ -3658,7 +3659,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1825, 22, "Cadereyta de Montes", "Cadereyta de Mo", "Cadereyta de Montes");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1826, 22, "Colón", "Colón", "Colón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1826, 22, "Colï¿½n", "Colï¿½n", "Colï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1827, 22, "Corregidora", "Corregidora", "Corregidora");
 	
@@ -3674,17 +3675,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1833, 23, "Felipe Carrillo Puerto", "Felipe Carrillo", "Felipe Carrillo Puerto");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1834, 23, "Ranchería", "Ranchería", "Ranchería");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1834, 23, "Rancherï¿½a", "Rancherï¿½a", "Rancherï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1835, 23, "Isla Mujeres", "Isla Mujeres", "Isla Mujeres");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1836, 23, "Othón P. Blanco", "Othón P. Blanco", "Othón P. Blanco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1836, 23, "Othï¿½n P. Blanco", "Othï¿½n P. Blanco", "Othï¿½n P. Blanco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1837, 23, "Benito Juárez", "Benito Juárez", "Benito Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1837, 23, "Benito Juï¿½rez", "Benito Juï¿½rez", "Benito Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1838, 23, "José María Morelos", "José María More", "José María Morelos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1838, 23, "Josï¿½ Marï¿½a Morelos", "Josï¿½ Marï¿½a More", "Josï¿½ Marï¿½a Morelos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1839, 23, "Lázaro Cárdenas", "Lázaro Cárdenas", "Lázaro Cárdenas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1839, 23, "Lï¿½zaro Cï¿½rdenas", "Lï¿½zaro Cï¿½rdenas", "Lï¿½zaro Cï¿½rdenas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1840, 23, "Solidaridad", "Solidaridad", "Solidaridad");
 	
@@ -3692,23 +3693,23 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1842, 24, "Ahualulco", "Ahualulco", "Ahualulco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1843, 24, "Ciudad del Maíz", "Ciudad del Maíz", "Ciudad del Maíz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1843, 24, "Ciudad del Maï¿½z", "Ciudad del Maï¿½z", "Ciudad del Maï¿½z");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1844, 24, "Ciudad Fernández", "Ciudad Fernánde", "Ciudad Fernández");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1844, 24, "Ciudad Fernï¿½ndez", "Ciudad Fernï¿½nde", "Ciudad Fernï¿½ndez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1845, 24, "Tancanhuitz", "Tancanhuitz", "Tancanhuitz");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1846, 24, "Ciudad Valles", "Ciudad Valles", "Ciudad Valles");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1847, 24, "Coxcatlán", "Coxcatlán", "Coxcatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1847, 24, "Coxcatlï¿½n", "Coxcatlï¿½n", "Coxcatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1848, 24, "Charcas", "Charcas", "Charcas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1849, 24, "Ebano", "Ebano", "Ebano");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1850, 24, "Guadalcázar", "Guadalcázar", "Guadalcázar");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1850, 24, "Guadalcï¿½zar", "Guadalcï¿½zar", "Guadalcï¿½zar");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1851, 24, "Huehuetlán", "Huehuetlán", "Huehuetlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1851, 24, "Huehuetlï¿½n", "Huehuetlï¿½n", "Huehuetlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1852, 24, "Lagunillas", "Lagunillas", "Lagunillas");
 	
@@ -3720,7 +3721,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1856, 24, "Moctezuma", "Moctezuma", "Moctezuma");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1857, 24, "Rayón", "Rayón", "Rayón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1857, 24, "Rayï¿½n", "Rayï¿½n", "Rayï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1858, 24, "Rioverde", "Rioverde", "Rioverde");
 	
@@ -3730,39 +3731,39 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1861, 24, "San Ciro de Acosta", "San Ciro de Aco", "San Ciro de Acosta");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1862, 24, "San Luis Potosí", "San Luis Potosí", "San Luis Potosí");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1862, 24, "San Luis Potosï¿½", "San Luis Potosï¿½", "San Luis Potosï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1863, 24, "San Martín Chalchicuautla", "San Martín Chal", "San Martín Chalchicuautla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1863, 24, "San Martï¿½n Chalchicuautla", "San Martï¿½n Chal", "San Martï¿½n Chalchicuautla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1864, 24, "Aquismón", "Aquismón", "Aquismón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1864, 24, "Aquismï¿½n", "Aquismï¿½n", "Aquismï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1865, 24, "San Nicolás Tolentino", "San Nicolás Tol", "San Nicolás Tolentino");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1865, 24, "San Nicolï¿½s Tolentino", "San Nicolï¿½s Tol", "San Nicolï¿½s Tolentino");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1866, 24, "Santa Catarina", "Santa Catarina", "Santa Catarina");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1867, 24, "Santa María del Río", "Santa María del", "Santa María del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1867, 24, "Santa Marï¿½a del Rï¿½o", "Santa Marï¿½a del", "Santa Marï¿½a del Rï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1868, 24, "Santo Domingo", "Santo Domingo", "Santo Domingo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1869, 24, "San Vicente Tancuayalab", "San Vicente Tan", "San Vicente Tancuayalab");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1870, 24, "Soledad de Graciano Sánchez", "Soledad de Grac", "Soledad de Graciano Sánchez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1870, 24, "Soledad de Graciano Sï¿½nchez", "Soledad de Grac", "Soledad de Graciano Sï¿½nchez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1871, 24, "Tamasopo", "Tamasopo", "Tamasopo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1872, 24, "Tamazunchale", "Tamazunchale", "Tamazunchale");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1873, 24, "Tampacán", "Tampacán", "Tampacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1873, 24, "Tampacï¿½n", "Tampacï¿½n", "Tampacï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1874, 24, "Tampamolón Corona", "Tampamolón Coro", "Tampamolón Corona");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1874, 24, "Tampamolï¿½n Corona", "Tampamolï¿½n Coro", "Tampamolï¿½n Corona");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1875, 24, "Armadillo de los Infante", "Armadillo de lo", "Armadillo de los Infante");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1876, 24, "Tamuín", "Tamuín", "Tamuín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1876, 24, "Tamuï¿½n", "Tamuï¿½n", "Tamuï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1877, 24, "Tanlajás", "Tanlajás", "Tanlajás");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1877, 24, "Tanlajï¿½s", "Tanlajï¿½s", "Tanlajï¿½s");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1878, 24, "Tanquián de Escobedo", "Tanquián de Esc", "Tanquián de Escobedo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1878, 24, "Tanquiï¿½n de Escobedo", "Tanquiï¿½n de Esc", "Tanquiï¿½n de Escobedo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1879, 24, "Tierra Nueva", "Tierra Nueva", "Tierra Nueva");
 	
@@ -3778,13 +3779,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1885, 24, "Villa de Ramos", "Villa de Ramos", "Villa de Ramos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1886, 24, "Cárdenas", "Cárdenas", "Cárdenas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1886, 24, "Cï¿½rdenas", "Cï¿½rdenas", "Cï¿½rdenas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1887, 24, "Villa de Reyes", "Villa de Reyes", "Villa de Reyes");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1888, 24, "Villa Hidalgo", "Villa Hidalgo", "Villa Hidalgo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1889, 24, "Villa Juárez", "Villa Juárez", "Villa Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1889, 24, "Villa Juï¿½rez", "Villa Juï¿½rez", "Villa Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1890, 24, "Axtla de Terrazas", "Axtla de Terraz", "Axtla de Terrazas");
 	
@@ -3812,7 +3813,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1902, 25, "Guasave", "Guasave", "Guasave");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1903, 25, "Mazatlán", "Mazatlán", "Mazatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1903, 25, "Mazatlï¿½n", "Mazatlï¿½n", "Mazatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1904, 25, "Mocorito", "Mocorito", "Mocorito");
 	
@@ -3832,9 +3833,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1912, 25, "Concordia", "Concordia", "Concordia");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1913, 25, "Cosalá", "Cosalá", "Cosalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1913, 25, "Cosalï¿½", "Cosalï¿½", "Cosalï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1914, 25, "Culiacán", "Culiacán", "Culiacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1914, 25, "Culiacï¿½n", "Culiacï¿½n", "Culiacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1915, 25, "Choix", "Choix", "Choix");
 	
@@ -3848,15 +3849,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1920, 26, "Bacoachi", "Bacoachi", "Bacoachi");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1921, 26, "Bácum", "Bácum", "Bácum");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1921, 26, "Bï¿½cum", "Bï¿½cum", "Bï¿½cum");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1922, 26, "Banámichi", "Banámichi", "Banámichi");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1922, 26, "Banï¿½michi", "Banï¿½michi", "Banï¿½michi");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1923, 26, "Baviácora", "Baviácora", "Baviácora");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1923, 26, "Baviï¿½cora", "Baviï¿½cora", "Baviï¿½cora");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1924, 26, "Bavispe", "Bavispe", "Bavispe");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1925, 26, "Benjamín Hill", "Benjamín Hill", "Benjamín Hill");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1925, 26, "Benjamï¿½n Hill", "Benjamï¿½n Hill", "Benjamï¿½n Hill");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1926, 26, "Caborca", "Caborca", "Caborca");
 	
@@ -3866,7 +3867,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1929, 26, "Agua Prieta", "Agua Prieta", "Agua Prieta");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1930, 26, "Carbó", "Carbó", "Carbó");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1930, 26, "Carbï¿½", "Carbï¿½", "Carbï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1931, 26, "La Colorada", "La Colorada", "La Colorada");
 	
@@ -3886,7 +3887,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1939, 26, "Guaymas", "Guaymas", "Guaymas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1940, 26, "Ranchería", "Ranchería", "Ranchería");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1940, 26, "Rancherï¿½a", "Rancherï¿½a", "Rancherï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1941, 26, "Alamos", "Alamos", "Alamos");
 	
@@ -3894,17 +3895,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1943, 26, "Huachinera", "Huachinera", "Huachinera");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1944, 26, "Huásabas", "Huásabas", "Huásabas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1944, 26, "Huï¿½sabas", "Huï¿½sabas", "Huï¿½sabas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1945, 26, "Huatabampo", "Huatabampo", "Huatabampo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1946, 26, "Huépac", "Huépac", "Huépac");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1946, 26, "Huï¿½pac", "Huï¿½pac", "Huï¿½pac");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1947, 26, "Imuris", "Imuris", "Imuris");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1948, 26, "Magdalena", "Magdalena", "Magdalena");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1949, 26, "Mazatán", "Mazatán", "Mazatán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1949, 26, "Mazatï¿½n", "Mazatï¿½n", "Mazatï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1950, 26, "Moctezuma", "Moctezuma", "Moctezuma");
 	
@@ -3912,9 +3913,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1952, 26, "Altar", "Altar", "Altar");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1953, 26, "Nácori Chico", "Nácori Chico", "Nácori Chico");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1953, 26, "Nï¿½cori Chico", "Nï¿½cori Chico", "Nï¿½cori Chico");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1954, 26, "Nacozari de García", "Nacozari de Gar", "Nacozari de García");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1954, 26, "Nacozari de Garcï¿½a", "Nacozari de Gar", "Nacozari de Garcï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1955, 26, "Navojoa", "Navojoa", "Navojoa");
 	
@@ -3928,23 +3929,23 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1960, 26, "Pitiquito", "Pitiquito", "Pitiquito");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1961, 26, "Puerto Peñasco", "Puerto Peñasco", "Puerto Peñasco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1961, 26, "Puerto Peï¿½asco", "Puerto Peï¿½asco", "Puerto Peï¿½asco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1962, 26, "Quiriego", "Quiriego", "Quiriego");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1963, 26, "Arivechi", "Arivechi", "Arivechi");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1964, 26, "Rayón", "Rayón", "Rayón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1964, 26, "Rayï¿½n", "Rayï¿½n", "Rayï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1965, 26, "Rosario", "Rosario", "Rosario");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1966, 26, "Sahuaripa", "Sahuaripa", "Sahuaripa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1967, 26, "San Felipe de Jesús", "San Felipe de J", "San Felipe de Jesús");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1967, 26, "San Felipe de Jesï¿½s", "San Felipe de J", "San Felipe de Jesï¿½s");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1968, 26, "San Javier", "San Javier", "San Javier");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1969, 26, "San Luis Río Colorado", "San Luis Río Co", "San Luis Río Colorado");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1969, 26, "San Luis Rï¿½o Colorado", "San Luis Rï¿½o Co", "San Luis Rï¿½o Colorado");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1970, 26, "San Miguel de Horcasitas", "San Miguel de H", "San Miguel de Horcasitas");
 	
@@ -3956,7 +3957,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1974, 26, "Arizpe", "Arizpe", "Arizpe");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1975, 26, "Sáric", "Sáric", "Sáric");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1975, 26, "Sï¿½ric", "Sï¿½ric", "Sï¿½ric");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1976, 26, "Soyopa", "Soyopa", "Soyopa");
 	
@@ -3974,17 +3975,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1983, 26, "Villa Pesqueira", "Villa Pesqueira", "Villa Pesqueira");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1984, 26, "Yécora", "Yécora", "Yécora");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1984, 26, "Yï¿½cora", "Yï¿½cora", "Yï¿½cora");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1985, 26, "Atil", "Atil", "Atil");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1986, 26, "General Plutarco Elías Calles", "General Plutarc", "General Plutarco Elías Calles");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1986, 26, "General Plutarco Elï¿½as Calles", "General Plutarc", "General Plutarco Elï¿½as Calles");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1987, 26, "Benito Juárez", "Benito Juárez", "Benito Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1987, 26, "Benito Juï¿½rez", "Benito Juï¿½rez", "Benito Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1988, 26, "San Ignacio Río Muerto", "San Ignacio Río", "San Ignacio Río Muerto");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1988, 26, "San Ignacio Rï¿½o Muerto", "San Ignacio Rï¿½o", "San Ignacio Rï¿½o Muerto");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1989, 26, "Bacadéhuachi", "Bacadéhuachi", "Bacadéhuachi");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1989, 26, "Bacadï¿½huachi", "Bacadï¿½huachi", "Bacadï¿½huachi");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1990, 26, " IV", " IV", " IV");
 	
@@ -3992,9 +3993,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1992, 26, "Bacanora", "Bacanora", "Bacanora");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1993, 27, "Balancán", "Balancán", "Balancán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1993, 27, "Balancï¿½n", "Balancï¿½n", "Balancï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1994, 27, "Jalpa de Méndez", "Jalpa de Méndez", "Jalpa de Méndez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1994, 27, "Jalpa de Mï¿½ndez", "Jalpa de Mï¿½ndez", "Jalpa de Mï¿½ndez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1995, 27, "Jonuta", "Jonuta", "Jonuta");
 	
@@ -4002,7 +4003,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1997, 27, "Nacajuca", "Nacajuca", "Nacajuca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1998, 27, "Paraíso", "Paraíso", "Paraíso");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1998, 27, "Paraï¿½so", "Paraï¿½so", "Paraï¿½so");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1999, 27, "Tacotalpa", "Tacotalpa", "Tacotalpa");
 	
@@ -4010,9 +4011,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2001, 27, "Tenosique", "Tenosique", "Tenosique");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2002, 27, "Cárdenas", "Cárdenas", "Cárdenas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2002, 27, "Cï¿½rdenas", "Cï¿½rdenas", "Cï¿½rdenas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2003, 27, "Ranchería", "Ranchería", "Ranchería");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2003, 27, "Rancherï¿½a", "Rancherï¿½a", "Rancherï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2004, 27, "Centla", "Centla", "Centla");
 	
@@ -4020,7 +4021,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2006, 27, "Comalcalco", "Comalcalco", "Comalcalco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2007, 27, "Cunduacán", "Cunduacán", "Cunduacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2007, 27, "Cunduacï¿½n", "Cunduacï¿½n", "Cunduacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2008, 27, "Emiliano Zapata", "Emiliano Zapata", "Emiliano Zapata");
 	
@@ -4032,21 +4033,21 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2012, 28, "Cruillas", "Cruillas", "Cruillas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2013, 28, "Gómez Farías", "Gómez Farías", "Gómez Farías");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2013, 28, "Gï¿½mez Farï¿½as", "Gï¿½mez Farï¿½as", "Gï¿½mez Farï¿½as");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2014, 28, "González", "González", "González");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2014, 28, "Gonzï¿½lez", "Gonzï¿½lez", "Gonzï¿½lez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2015, 28, "Güémez", "Güémez", "Güémez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2015, 28, "Gï¿½ï¿½mez", "Gï¿½ï¿½mez", "Gï¿½ï¿½mez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2016, 28, "Guerrero", "Guerrero", "Guerrero");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2017, 28, "Gustavo Díaz Ordaz", "Gustavo Díaz Or", "Gustavo Díaz Ordaz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2017, 28, "Gustavo Dï¿½az Ordaz", "Gustavo Dï¿½az Or", "Gustavo Dï¿½az Ordaz");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2018, 28, "Hidalgo", "Hidalgo", "Hidalgo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2019, 28, "Jaumave", "Jaumave", "Jaumave");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2020, 28, "Jiménez", "Jiménez", "Jiménez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2020, 28, "Jimï¿½nez", "Jimï¿½nez", "Jimï¿½nez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2021, 28, "Llera", "Llera", "Llera");
 	
@@ -4060,11 +4061,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2026, 28, "Matamoros", "Matamoros", "Matamoros");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2027, 28, "Méndez", "Méndez", "Méndez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2027, 28, "Mï¿½ndez", "Mï¿½ndez", "Mï¿½ndez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2028, 28, "Mier", "Mier", "Mier");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2029, 28, "Miguel Alemán", "Miguel Alemán", "Miguel Alemán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2029, 28, "Miguel Alemï¿½n", "Miguel Alemï¿½n", "Miguel Alemï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2030, 28, "Miquihuana", "Miquihuana", "Miquihuana");
 	
@@ -4084,13 +4085,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2038, 28, "Reynosa", "Reynosa", "Reynosa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2039, 28, "Río Bravo", "Río Bravo", "Río Bravo");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2039, 28, "Rï¿½o Bravo", "Rï¿½o Bravo", "Rï¿½o Bravo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2040, 28, "San Carlos", "San Carlos", "San Carlos");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2041, 28, "San Fernando", "San Fernando", "San Fernando");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2042, 28, "San Nicolás", "San Nicolás", "San Nicolás");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2042, 28, "San Nicolï¿½s", "San Nicolï¿½s", "San Nicolï¿½s");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2043, 28, "Soto la Marina", "Soto la Marina", "Soto la Marina");
 	
@@ -4104,9 +4105,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2048, 28, "Victoria", "Victoria", "Victoria");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2049, 28, "Villagrán", "Villagrán", "Villagrán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2049, 28, "Villagrï¿½n", "Villagrï¿½n", "Villagrï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2050, 28, "Xicoténcatl", "Xicoténcatl", "Xicoténcatl");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2050, 28, "Xicotï¿½ncatl", "Xicotï¿½ncatl", "Xicotï¿½ncatl");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2051, 28, "Burgos", "Burgos", "Burgos");
 	
@@ -4124,9 +4125,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2058, 29, "Chiautempan", "Chiautempan", "Chiautempan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2059, 29, "Muñoz de Domingo Arenas", "Muñoz de Doming", "Muñoz de Domingo Arenas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2059, 29, "Muï¿½oz de Domingo Arenas", "Muï¿½oz de Doming", "Muï¿½oz de Domingo Arenas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2060, 29, "Españita", "Españita", "Españita");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2060, 29, "Espaï¿½ita", "Espaï¿½ita", "Espaï¿½ita");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2061, 29, "Huamantla", "Huamantla", "Huamantla");
 	
@@ -4136,21 +4137,21 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2064, 29, "Ixtenco", "Ixtenco", "Ixtenco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2065, 29, "Mazatecochco de José María Morelos", "Mazatecochco de", "Mazatecochco de José María Morelos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2065, 29, "Mazatecochco de Josï¿½ Marï¿½a Morelos", "Mazatecochco de", "Mazatecochco de Josï¿½ Marï¿½a Morelos");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2066, 29, "Contla de Juan Cuamatzi", "Contla de Juan ", "Contla de Juan Cuamatzi");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2067, 29, "Tepetitla de Lardizábal", "Tepetitla de La", "Tepetitla de Lardizábal");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2067, 29, "Tepetitla de Lardizï¿½bal", "Tepetitla de La", "Tepetitla de Lardizï¿½bal");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2068, 29, "Apetatitlán de Antonio Carvajal", "Apetatitlán de ", "Apetatitlán de Antonio Carvajal");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2068, 29, "Apetatitlï¿½n de Antonio Carvajal", "Apetatitlï¿½n de ", "Apetatitlï¿½n de Antonio Carvajal");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2069, 29, "Sanctórum de Lázaro Cárdenas", "Sanctórum de Lá", "Sanctórum de Lázaro Cárdenas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2069, 29, "Sanctï¿½rum de Lï¿½zaro Cï¿½rdenas", "Sanctï¿½rum de Lï¿½", "Sanctï¿½rum de Lï¿½zaro Cï¿½rdenas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2070, 29, "Nanacamilpa de Mariano Arista", "Nanacamilpa de ", "Nanacamilpa de Mariano Arista");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2071, 29, "Acuamanala de Miguel Hidalgo", "Acuamanala de M", "Acuamanala de Miguel Hidalgo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2072, 29, "Natívitas", "Natívitas", "Natívitas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2072, 29, "Natï¿½vitas", "Natï¿½vitas", "Natï¿½vitas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2073, 29, "Panotla", "Panotla", "Panotla");
 	
@@ -4176,11 +4177,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2084, 29, "Tlaxco", "Tlaxco", "Tlaxco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2085, 29, "Tocatlán", "Tocatlán", "Tocatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2085, 29, "Tocatlï¿½n", "Tocatlï¿½n", "Tocatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2086, 29, "Totolac", "Totolac", "Totolac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2087, 29, "Ziltlaltépec de Trinidad Sánchez Santos", "Ziltlaltépec de", "Ziltlaltépec de Trinidad Sánchez Santos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2087, 29, "Ziltlaltï¿½pec de Trinidad Sï¿½nchez Santos", "Ziltlaltï¿½pec de", "Ziltlaltï¿½pec de Trinidad Sï¿½nchez Santos");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2088, 29, "Tzompantepec", "Tzompantepec", "Tzompantepec");
 	
@@ -4190,7 +4191,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2091, 29, "Xaltocan", "Xaltocan", "Xaltocan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2092, 29, "Papalotla de Xicohténcatl", "Papalotla de Xi", "Papalotla de Xicohténcatl");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2092, 29, "Papalotla de Xicohtï¿½ncatl", "Papalotla de Xi", "Papalotla de Xicohtï¿½ncatl");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2093, 29, "Xicohtzinco", "Xicohtzinco", "Xicohtzinco");
 	
@@ -4198,23 +4199,23 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2095, 29, "Zacatelco", "Zacatelco", "Zacatelco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2096, 29, "Benito Juárez", "Benito Juárez", "Benito Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2096, 29, "Benito Juï¿½rez", "Benito Juï¿½rez", "Benito Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2097, 29, "Emiliano Zapata", "Emiliano Zapata", "Emiliano Zapata");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2098, 29, "Lázaro Cárdenas", "Lázaro Cárdenas", "Lázaro Cárdenas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2098, 29, "Lï¿½zaro Cï¿½rdenas", "Lï¿½zaro Cï¿½rdenas", "Lï¿½zaro Cï¿½rdenas");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2099, 29, "La Magdalena Tlaltelulco", "La Magdalena Tl", "La Magdalena Tlaltelulco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2100, 29, "San Damián Texóloc", "San Damián Texó", "San Damián Texóloc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2100, 29, "San Damiï¿½n Texï¿½loc", "San Damiï¿½n Texï¿½", "San Damiï¿½n Texï¿½loc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2101, 29, "Apizaco", "Apizaco", "Apizaco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2102, 29, "San Francisco Tetlanohcan", "San Francisco T", "San Francisco Tetlanohcan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2103, 29, "San Jerónimo Zacualpan", "San Jerónimo Za", "San Jerónimo Zacualpan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2103, 29, "San Jerï¿½nimo Zacualpan", "San Jerï¿½nimo Za", "San Jerï¿½nimo Zacualpan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2104, 29, "San José Teacalco", "San José Teacal", "San José Teacalco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2104, 29, "San Josï¿½ Teacalco", "San Josï¿½ Teacal", "San Josï¿½ Teacalco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2105, 29, "San Juan Huactzinco", "San Juan Huactz", "San Juan Huactzinco");
 	
@@ -4248,19 +4249,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2120, 30, "Mariano Escobedo", "Mariano Escobed", "Mariano Escobedo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2121, 30, "Martínez de la Torre", "Martínez de la ", "Martínez de la Torre");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2121, 30, "Martï¿½nez de la Torre", "Martï¿½nez de la ", "Martï¿½nez de la Torre");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2122, 30, "Mecatlán", "Mecatlán", "Mecatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2122, 30, "Mecatlï¿½n", "Mecatlï¿½n", "Mecatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2123, 30, "Mecayapan", "Mecayapan", "Mecayapan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2124, 30, "Medellín", "Medellín", "Medellín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2124, 30, "Medellï¿½n", "Medellï¿½n", "Medellï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2125, 30, "Miahuatlán", "Miahuatlán", "Miahuatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2125, 30, "Miahuatlï¿½n", "Miahuatlï¿½n", "Miahuatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2126, 30, "Las Minas", "Las Minas", "Las Minas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2127, 30, "Minatitlán", "Minatitlán", "Minatitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2127, 30, "Minatitlï¿½n", "Minatitlï¿½n", "Minatitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2128, 30, "Misantla", "Misantla", "Misantla");
 	
@@ -4268,7 +4269,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2130, 30, "Mixtla de Altamirano", "Mixtla de Altam", "Mixtla de Altamirano");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2131, 30, "Moloacán", "Moloacán", "Moloacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2131, 30, "Moloacï¿½n", "Moloacï¿½n", "Moloacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2132, 30, "Naolinco", "Naolinco", "Naolinco");
 	
@@ -4284,17 +4285,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2138, 30, "Orizaba", "Orizaba", "Orizaba");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2139, 30, "Otatitlán", "Otatitlán", "Otatitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2139, 30, "Otatitlï¿½n", "Otatitlï¿½n", "Otatitlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2140, 30, "Amatitlán", "Amatitlán", "Amatitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2140, 30, "Amatitlï¿½n", "Amatitlï¿½n", "Amatitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2141, 30, "Oteapan", "Oteapan", "Oteapan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2142, 30, "Ozuluama de Mascareñas", "Ozuluama de Mas", "Ozuluama de Mascareñas");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2142, 30, "Ozuluama de Mascareï¿½as", "Ozuluama de Mas", "Ozuluama de Mascareï¿½as");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2143, 30, "Pajapan", "Pajapan", "Pajapan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2144, 30, "Pánuco", "Pánuco", "Pánuco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2144, 30, "Pï¿½nuco", "Pï¿½nuco", "Pï¿½nuco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2145, 30, "Papantla", "Papantla", "Papantla");
 	
@@ -4306,15 +4307,15 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2149, 30, "Perote", "Perote", "Perote");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2150, 30, "Platón Sánchez", "Platón Sánchez", "Platón Sánchez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2150, 30, "Platï¿½n Sï¿½nchez", "Platï¿½n Sï¿½nchez", "Platï¿½n Sï¿½nchez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2151, 30, "Naranjos Amatlán", "Naranjos Amatlá", "Naranjos Amatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2151, 30, "Naranjos Amatlï¿½n", "Naranjos Amatlï¿½", "Naranjos Amatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2152, 30, "Playa Vicente", "Playa Vicente", "Playa Vicente");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2153, 30, "Poza Rica de Hidalgo", "Poza Rica de Hi", "Poza Rica de Hidalgo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2154, 30, "Las Vigas de Ramírez", "Las Vigas de Ra", "Las Vigas de Ramírez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2154, 30, "Las Vigas de Ramï¿½rez", "Las Vigas de Ra", "Las Vigas de Ramï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2155, 30, "Pueblo Viejo", "Pueblo Viejo", "Pueblo Viejo");
 	
@@ -4326,21 +4327,21 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2159, 30, "Los Reyes", "Los Reyes", "Los Reyes");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2160, 30, "Río Blanco", "Río Blanco", "Río Blanco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2160, 30, "Rï¿½o Blanco", "Rï¿½o Blanco", "Rï¿½o Blanco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2161, 30, "Saltabarranca", "Saltabarranca", "Saltabarranca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2162, 30, "Amatlán de los Reyes", "Amatlán de los ", "Amatlán de los Reyes");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2162, 30, "Amatlï¿½n de los Reyes", "Amatlï¿½n de los ", "Amatlï¿½n de los Reyes");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2163, 30, "San Andrés Tenejapan", "San Andrés Tene", "San Andrés Tenejapan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2163, 30, "San Andrï¿½s Tenejapan", "San Andrï¿½s Tene", "San Andrï¿½s Tenejapan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2164, 30, "San Andrés Tuxtla", "San Andrés Tuxt", "San Andrés Tuxtla");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2164, 30, "San Andrï¿½s Tuxtla", "San Andrï¿½s Tuxt", "San Andrï¿½s Tuxtla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2165, 30, "San Juan Evangelista", "San Juan Evange", "San Juan Evangelista");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2166, 30, "Santiago Tuxtla", "Santiago Tuxtla", "Santiago Tuxtla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2167, 30, "Sayula de Alemán", "Sayula de Alemá", "Sayula de Alemán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2167, 30, "Sayula de Alemï¿½n", "Sayula de Alemï¿½", "Sayula de Alemï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2168, 30, "Soconusco", "Soconusco", "Soconusco");
 	
@@ -4354,7 +4355,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2173, 30, "Angel R. Cabada", "Angel R. Cabada", "Angel R. Cabada");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2174, 30, "Tamalín", "Tamalín", "Tamalín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2174, 30, "Tamalï¿½n", "Tamalï¿½n", "Tamalï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2175, 30, "Tamiahua", "Tamiahua", "Tamiahua");
 	
@@ -4376,31 +4377,31 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2184, 30, "La Antigua", "La Antigua", "La Antigua");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2185, 30, "Álamo Temapache", "Álamo Temapache", "Álamo Temapache");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2185, 30, "ï¿½lamo Temapache", "ï¿½lamo Temapache", "ï¿½lamo Temapache");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2186, 30, "Tempoal", "Tempoal", "Tempoal");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2187, 30, "Tenampa", "Tenampa", "Tenampa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2188, 30, "Tenochtitlán", "Tenochtitlán", "Tenochtitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2188, 30, "Tenochtitlï¿½n", "Tenochtitlï¿½n", "Tenochtitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2189, 30, "Teocelo", "Teocelo", "Teocelo");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2190, 30, "Tepatlaxco", "Tepatlaxco", "Tepatlaxco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2191, 30, "Tepetlán", "Tepetlán", "Tepetlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2191, 30, "Tepetlï¿½n", "Tepetlï¿½n", "Tepetlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2192, 30, "Tepetzintla", "Tepetzintla", "Tepetzintla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2193, 30, "Tequila", "Tequila", "Tequila");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2194, 30, "José Azueta", "José Azueta", "José Azueta");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2194, 30, "Josï¿½ Azueta", "Josï¿½ Azueta", "Josï¿½ Azueta");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2195, 30, "Apazapan", "Apazapan", "Apazapan");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2196, 30, "Texcatepec", "Texcatepec", "Texcatepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2197, 30, "Texhuacán", "Texhuacán", "Texhuacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2197, 30, "Texhuacï¿½n", "Texhuacï¿½n", "Texhuacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2198, 30, "Texistepec", "Texistepec", "Texistepec");
 	
@@ -4408,7 +4409,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2200, 30, "Tierra Blanca", "Tierra Blanca", "Tierra Blanca");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2201, 30, "Tihuatlán", "Tihuatlán", "Tihuatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2201, 30, "Tihuatlï¿½n", "Tihuatlï¿½n", "Tihuatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2202, 30, "Tlacojalpan", "Tlacojalpan", "Tlacojalpan");
 	
@@ -4416,7 +4417,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2204, 30, "Tlacotalpan", "Tlacotalpan", "Tlacotalpan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2205, 30, "Tlacotepec de Mejía", "Tlacotepec de M", "Tlacotepec de Mejía");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2205, 30, "Tlacotepec de Mejï¿½a", "Tlacotepec de M", "Tlacotepec de Mejï¿½a");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2206, 30, "Aquila", "Aquila", "Aquila");
 	
@@ -4432,9 +4433,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2212, 30, "Tlilapan", "Tlilapan", "Tlilapan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2213, 30, "Tomatlán", "Tomatlán", "Tomatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2213, 30, "Tomatlï¿½n", "Tomatlï¿½n", "Tomatlï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2214, 30, "Tonayán", "Tonayán", "Tonayán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2214, 30, "Tonayï¿½n", "Tonayï¿½n", "Tonayï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2215, 30, "Totutla", "Totutla", "Totutla");
 	
@@ -4444,7 +4445,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2218, 30, "Tuxtilla", "Tuxtilla", "Tuxtilla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2219, 30, "Ursulo Galván", "Ursulo Galván", "Ursulo Galván");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2219, 30, "Ursulo Galvï¿½n", "Ursulo Galvï¿½n", "Ursulo Galvï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2220, 30, "Vega de Alatorre", "Vega de Alatorr", "Vega de Alatorre");
 	
@@ -4462,7 +4463,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2227, 30, "Zaragoza", "Zaragoza", "Zaragoza");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2228, 30, "Acatlán", "Acatlán", "Acatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2228, 30, "Acatlï¿½n", "Acatlï¿½n", "Acatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2229, 30, "Atlahuilco", "Atlahuilco", "Atlahuilco");
 	
@@ -4470,7 +4471,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2231, 30, "Zongolica", "Zongolica", "Zongolica");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2232, 30, "Zontecomatlán de López y Fuentes", "Zontecomatlán d", "Zontecomatlán de López y Fuentes");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2232, 30, "Zontecomatlï¿½n de Lï¿½pez y Fuentes", "Zontecomatlï¿½n d", "Zontecomatlï¿½n de Lï¿½pez y Fuentes");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2233, 30, "Zozocolco de Hidalgo", "Zozocolco de Hi", "Zozocolco de Hidalgo");
 	
@@ -4478,13 +4479,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2235, 30, "El Higo", "El Higo", "El Higo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2236, 30, "Nanchital de Lázaro Cárdenas del Río", "Nanchital de Lá", "Nanchital de Lázaro Cárdenas del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2236, 30, "Nanchital de Lï¿½zaro Cï¿½rdenas del Rï¿½o", "Nanchital de Lï¿½", "Nanchital de Lï¿½zaro Cï¿½rdenas del Rï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2237, 30, "Tres Valles", "Tres Valles", "Tres Valles");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2238, 30, "Carlos A. Carrillo", "Carlos A. Carri", "Carlos A. Carrillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2239, 30, "Tatahuicapan de Juárez", "Tatahuicapan de", "Tatahuicapan de Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2239, 30, "Tatahuicapan de Juï¿½rez", "Tatahuicapan de", "Tatahuicapan de Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2240, 30, "Atoyac", "Atoyac", "Atoyac");
 	
@@ -4506,9 +4507,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2249, 30, "Banderilla", "Banderilla", "Banderilla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2250, 30, "Benito Juárez", "Benito Juárez", "Benito Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2250, 30, "Benito Juï¿½rez", "Benito Juï¿½rez", "Benito Juï¿½rez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2251, 30, "Boca del Río", "Boca del Río", "Boca del Río");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2251, 30, "Boca del Rï¿½o", "Boca del Rï¿½o", "Boca del Rï¿½o");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2252, 30, "Calcahualco", "Calcahualco", "Calcahualco");
 	
@@ -4524,11 +4525,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2258, 30, "Cerro Azul", "Cerro Azul", "Cerro Azul");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2259, 30, "Citlaltépetl", "Citlaltépetl", "Citlaltépetl");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2259, 30, "Citlaltï¿½petl", "Citlaltï¿½petl", "Citlaltï¿½petl");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2260, 30, "Coacoatzintla", "Coacoatzintla", "Coacoatzintla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2261, 30, "Coahuitlán", "Coahuitlán", "Coahuitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2261, 30, "Coahuitlï¿½n", "Coahuitlï¿½n", "Coahuitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2262, 30, "Coatepec", "Coatepec", "Coatepec");
 	
@@ -4544,11 +4545,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2268, 30, "Comapa", "Comapa", "Comapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2269, 30, "Córdoba", "Córdoba", "Córdoba");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2269, 30, "Cï¿½rdoba", "Cï¿½rdoba", "Cï¿½rdoba");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2270, 30, "Cosamaloapan de Carpio", "Cosamaloapan de", "Cosamaloapan de Carpio");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2271, 30, "Cosautlán de Carvajal", "Cosautlán de Ca", "Cosautlán de Carvajal");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2271, 30, "Cosautlï¿½n de Carvajal", "Cosautlï¿½n de Ca", "Cosautlï¿½n de Carvajal");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2272, 30, "Coscomatepec", "Coscomatepec", "Coscomatepec");
 	
@@ -4564,7 +4565,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2278, 30, "Cuichapa", "Cuichapa", "Cuichapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2279, 30, "Cuitláhuac", "Cuitláhuac", "Cuitláhuac");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2279, 30, "Cuitlï¿½huac", "Cuitlï¿½huac", "Cuitlï¿½huac");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2280, 30, "Chacaltianguis", "Chacaltianguis", "Chacaltianguis");
 	
@@ -4584,11 +4585,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2288, 30, "Las Choapas", "Las Choapas", "Las Choapas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2289, 30, "Chocamán", "Chocamán", "Chocamán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2289, 30, "Chocamï¿½n", "Chocamï¿½n", "Chocamï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2290, 30, "Chontla", "Chontla", "Chontla");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2291, 30, "Chumatlán", "Chumatlán", "Chumatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2291, 30, "Chumatlï¿½n", "Chumatlï¿½n", "Chumatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2292, 30, "Emiliano Zapata", "Emiliano Zapata", "Emiliano Zapata");
 	
@@ -4596,13 +4597,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2294, 30, "Filomeno Mata", "Filomeno Mata", "Filomeno Mata");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2295, 30, "Fortín", "Fortín", "Fortín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2295, 30, "Fortï¿½n", "Fortï¿½n", "Fortï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2296, 30, "Gutiérrez Zamora", "Gutiérrez Zamor", "Gutiérrez Zamora");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2296, 30, "Gutiï¿½rrez Zamora", "Gutiï¿½rrez Zamor", "Gutiï¿½rrez Zamora");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2297, 30, "Camarón de Tejeda", "Camarón de Teje", "Camarón de Tejeda");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2297, 30, "Camarï¿½n de Tejeda", "Camarï¿½n de Teje", "Camarï¿½n de Tejeda");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2298, 30, "Hidalgotitlán", "Hidalgotitlán", "Hidalgotitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2298, 30, "Hidalgotitlï¿½n", "Hidalgotitlï¿½n", "Hidalgotitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2299, 30, "Huatusco", "Huatusco", "Huatusco");
 	
@@ -4610,31 +4611,31 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2301, 30, "Hueyapan de Ocampo", "Hueyapan de Oca", "Hueyapan de Ocampo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2302, 30, "Huiloapan de Cuauhtémoc", "Huiloapan de Cu", "Huiloapan de Cuauhtémoc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2302, 30, "Huiloapan de Cuauhtï¿½moc", "Huiloapan de Cu", "Huiloapan de Cuauhtï¿½moc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2303, 30, "Ignacio de la Llave", "Ignacio de la L", "Ignacio de la Llave");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2304, 30, "Ilamatlán", "Ilamatlán", "Ilamatlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2304, 30, "Ilamatlï¿½n", "Ilamatlï¿½n", "Ilamatlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2305, 30, "Isla", "Isla", "Isla");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2306, 30, "Ixcatepec", "Ixcatepec", "Ixcatepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2307, 30, "Ixhuacán de los Reyes", "Ixhuacán de los", "Ixhuacán de los Reyes");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2307, 30, "Ixhuacï¿½n de los Reyes", "Ixhuacï¿½n de los", "Ixhuacï¿½n de los Reyes");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2308, 30, "Alpatláhuac", "Alpatláhuac", "Alpatláhuac");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2308, 30, "Alpatlï¿½huac", "Alpatlï¿½huac", "Alpatlï¿½huac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2309, 30, "Ixhuatlán del Café", "Ixhuatlán del C", "Ixhuatlán del Café");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2309, 30, "Ixhuatlï¿½n del Cafï¿½", "Ixhuatlï¿½n del C", "Ixhuatlï¿½n del Cafï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2310, 30, "Ixhuatlancillo", "Ixhuatlancillo", "Ixhuatlancillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2311, 30, "Ixhuatlán del Sureste", "Ixhuatlán del S", "Ixhuatlán del Sureste");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2311, 30, "Ixhuatlï¿½n del Sureste", "Ixhuatlï¿½n del S", "Ixhuatlï¿½n del Sureste");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2312, 30, "Ixhuatlán de Madero", "Ixhuatlán de Ma", "Ixhuatlán de Madero");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2312, 30, "Ixhuatlï¿½n de Madero", "Ixhuatlï¿½n de Ma", "Ixhuatlï¿½n de Madero");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2313, 30, "Ixmatlahuacan", "Ixmatlahuacan", "Ixmatlahuacan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2314, 30, "Ixtaczoquitlán", "Ixtaczoquitlán", "Ixtaczoquitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2314, 30, "Ixtaczoquitlï¿½n", "Ixtaczoquitlï¿½n", "Ixtaczoquitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2315, 30, "Jalacingo", "Jalacingo", "Jalacingo");
 	
@@ -4642,19 +4643,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2317, 30, "Jalcomulco", "Jalcomulco", "Jalcomulco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2318, 30, "Jáltipan", "Jáltipan", "Jáltipan");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2318, 30, "Jï¿½ltipan", "Jï¿½ltipan", "Jï¿½ltipan");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2319, 30, "Alto Lucero de Gutiérrez Barrios", "Alto Lucero de ", "Alto Lucero de Gutiérrez Barrios");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2319, 30, "Alto Lucero de Gutiï¿½rrez Barrios", "Alto Lucero de ", "Alto Lucero de Gutiï¿½rrez Barrios");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2320, 30, "Jamapa", "Jamapa", "Jamapa");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2321, 30, "Jesús Carranza", "Jesús Carranza", "Jesús Carranza");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2321, 30, "Jesï¿½s Carranza", "Jesï¿½s Carranza", "Jesï¿½s Carranza");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2322, 30, "Xico", "Xico", "Xico");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2323, 30, "Jilotepec", "Jilotepec", "Jilotepec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2324, 30, "Juan Rodríguez Clara", "Juan Rodríguez ", "Juan Rodríguez Clara");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2324, 30, "Juan Rodrï¿½guez Clara", "Juan Rodrï¿½guez ", "Juan Rodrï¿½guez Clara");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2325, 30, "Juchique de Ferrer", "Juchique de Fer", "Juchique de Ferrer");
 	
@@ -4666,25 +4667,25 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2329, 30, "Maltrata", "Maltrata", "Maltrata");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2330, 31, "Abalá", "Abalá", "Abalá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2330, 31, "Abalï¿½", "Abalï¿½", "Abalï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2331, 31, "Cantamayec", "Cantamayec", "Cantamayec");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2332, 31, "Ucú", "Ucú", "Ucú");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2332, 31, "Ucï¿½", "Ucï¿½", "Ucï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2333, 31, "Umán", "Umán", "Umán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2333, 31, "Umï¿½n", "Umï¿½n", "Umï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2334, 31, "Valladolid", "Valladolid", "Valladolid");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2335, 31, "Xocchel", "Xocchel", "Xocchel");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2336, 31, "Yaxcabá", "Yaxcabá", "Yaxcabá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2336, 31, "Yaxcabï¿½", "Yaxcabï¿½", "Yaxcabï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2337, 31, "Yaxkukul", "Yaxkukul", "Yaxkukul");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2338, 31, "Yobaín", "Yobaín", "Yobaín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2338, 31, "Yobaï¿½n", "Yobaï¿½n", "Yobaï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2339, 31, "Celestún", "Celestún", "Celestún");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2339, 31, "Celestï¿½n", "Celestï¿½n", "Celestï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2340, 31, "Cenotillo", "Cenotillo", "Cenotillo");
 	
@@ -4692,9 +4693,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2342, 31, "Cuncunul", "Cuncunul", "Cuncunul");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2343, 31, "Cuzamá", "Cuzamá", "Cuzamá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2343, 31, "Cuzamï¿½", "Cuzamï¿½", "Cuzamï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2344, 31, "Chacsinkín", "Chacsinkín", "Chacsinkín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2344, 31, "Chacsinkï¿½n", "Chacsinkï¿½n", "Chacsinkï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2345, 31, "Chankom", "Chankom", "Chankom");
 	
@@ -4706,43 +4707,43 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2349, 31, "Chicxulub Pueblo", "Chicxulub Puebl", "Chicxulub Pueblo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2350, 31, "Chichimilá", "Chichimilá", "Chichimilá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2350, 31, "Chichimilï¿½", "Chichimilï¿½", "Chichimilï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2351, 31, "Chikindzonot", "Chikindzonot", "Chikindzonot");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2352, 31, "Chocholá", "Chocholá", "Chocholá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2352, 31, "Chocholï¿½", "Chocholï¿½", "Chocholï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2353, 31, "Chumayel", "Chumayel", "Chumayel");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2354, 31, "Dzán", "Dzán", "Dzán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2354, 31, "Dzï¿½n", "Dzï¿½n", "Dzï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2355, 31, "Dzemul", "Dzemul", "Dzemul");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2356, 31, "Dzidzantún", "Dzidzantún", "Dzidzantún");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2356, 31, "Dzidzantï¿½n", "Dzidzantï¿½n", "Dzidzantï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2357, 31, "Dzilam de Bravo", "Dzilam de Bravo", "Dzilam de Bravo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2358, 31, "Dzilam González", "Dzilam González", "Dzilam González");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2358, 31, "Dzilam Gonzï¿½lez", "Dzilam Gonzï¿½lez", "Dzilam Gonzï¿½lez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2359, 31, "Akil", "Akil", "Akil");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2360, 31, "Dzitás", "Dzitás", "Dzitás");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2360, 31, "Dzitï¿½s", "Dzitï¿½s", "Dzitï¿½s");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2361, 31, "Dzoncauich", "Dzoncauich", "Dzoncauich");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2362, 31, "Espita", "Espita", "Espita");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2363, 31, "Halachó", "Halachó", "Halachó");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2363, 31, "Halachï¿½", "Halachï¿½", "Halachï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2364, 31, "Hocabá", "Hocabá", "Hocabá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2364, 31, "Hocabï¿½", "Hocabï¿½", "Hocabï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2365, 31, "Hoctún", "Hoctún", "Hoctún");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2365, 31, "Hoctï¿½n", "Hoctï¿½n", "Hoctï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2366, 31, "Homún", "Homún", "Homún");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2366, 31, "Homï¿½n", "Homï¿½n", "Homï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2367, 31, "Huhí", "Huhí", "Huhí");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2367, 31, "Huhï¿½", "Huhï¿½", "Huhï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2368, 31, "Hunucmá", "Hunucmá", "Hunucmá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2368, 31, "Hunucmï¿½", "Hunucmï¿½", "Hunucmï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2369, 31, "Ixil", "Ixil", "Ixil");
 	
@@ -4750,7 +4751,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2371, 31, "Izamal", "Izamal", "Izamal");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2372, 31, "Kanasín", "Kanasín", "Kanasín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2372, 31, "Kanasï¿½n", "Kanasï¿½n", "Kanasï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2373, 31, "Kantunil", "Kantunil", "Kantunil");
 	
@@ -4758,21 +4759,21 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2375, 31, "Kinchil", "Kinchil", "Kinchil");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2376, 31, "Kopomá", "Kopomá", "Kopomá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2376, 31, "Kopomï¿½", "Kopomï¿½", "Kopomï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2377, 31, "Mama", "Mama", "Mama");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2378, 31, "Maní", "Maní", "Maní");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2378, 31, "Manï¿½", "Manï¿½", "Manï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2379, 31, "Maxcanú", "Maxcanú", "Maxcanú");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2379, 31, "Maxcanï¿½", "Maxcanï¿½", "Maxcanï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2380, 31, "Mayapán", "Mayapán", "Mayapán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2380, 31, "Mayapï¿½n", "Mayapï¿½n", "Mayapï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2381, 31, "Bokobá", "Bokobá", "Bokobá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2381, 31, "Bokobï¿½", "Bokobï¿½", "Bokobï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2382, 31, "Mérida", "Mérida", "Mérida");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2382, 31, "Mï¿½rida", "Mï¿½rida", "Mï¿½rida");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2383, 31, "Mocochá", "Mocochá", "Mocochá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2383, 31, "Mocochï¿½", "Mocochï¿½", "Mocochï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2384, 31, "Motul", "Motul", "Motul");
 	
@@ -4780,11 +4781,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2386, 31, "Muxupip", "Muxupip", "Muxupip");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2387, 31, "Opichén", "Opichén", "Opichén");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2387, 31, "Opichï¿½n", "Opichï¿½n", "Opichï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2388, 31, "Oxkutzcab", "Oxkutzcab", "Oxkutzcab");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2389, 31, "Panabá", "Panabá", "Panabá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2389, 31, "Panabï¿½", "Panabï¿½", "Panabï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2390, 31, "Peto", "Peto", "Peto");
 	
@@ -4794,7 +4795,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2393, 31, "Quintana Roo", "Quintana Roo", "Quintana Roo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2394, 31, "Río Lagartos", "Río Lagartos", "Río Lagartos");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2394, 31, "Rï¿½o Lagartos", "Rï¿½o Lagartos", "Rï¿½o Lagartos");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2395, 31, "Sacalum", "Sacalum", "Sacalum");
 	
@@ -4806,21 +4807,21 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2399, 31, "Santa Elena", "Santa Elena", "Santa Elena");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2400, 31, "Seyé", "Seyé", "Seyé");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2400, 31, "Seyï¿½", "Seyï¿½", "Seyï¿½");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2401, 31, "Sinanché", "Sinanché", "Sinanché");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2401, 31, "Sinanchï¿½", "Sinanchï¿½", "Sinanchï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2402, 31, "Sotuta", "Sotuta", "Sotuta");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2403, 31, "Cacalchén", "Cacalchén", "Cacalchén");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2403, 31, "Cacalchï¿½n", "Cacalchï¿½n", "Cacalchï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2404, 31, "Sucilá", "Sucilá", "Sucilá");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2404, 31, "Sucilï¿½", "Sucilï¿½", "Sucilï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2405, 31, "Sudzal", "Sudzal", "Sudzal");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2406, 31, "Suma", "Suma", "Suma");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2407, 31, "Tahdziú", "Tahdziú", "Tahdziú");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2407, 31, "Tahdziï¿½", "Tahdziï¿½", "Tahdziï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2408, 31, "Tahmek", "Tahmek", "Tahmek");
 	
@@ -4830,7 +4831,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2411, 31, "Tekal de Venegas", "Tekal de Venega", "Tekal de Venegas");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2412, 31, "Tekantó", "Tekantó", "Tekantó");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2412, 31, "Tekantï¿½", "Tekantï¿½", "Tekantï¿½");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2413, 31, "Tekax", "Tekax", "Tekax");
 	
@@ -4846,9 +4847,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2419, 31, "Temax", "Temax", "Temax");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2420, 31, "Temozón", "Temozón", "Temozón");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2420, 31, "Temozï¿½n", "Temozï¿½n", "Temozï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2421, 31, "Tepakán", "Tepakán", "Tepakán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2421, 31, "Tepakï¿½n", "Tepakï¿½n", "Tepakï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2422, 31, "Tetiz", "Tetiz", "Tetiz");
 	
@@ -4868,11 +4869,11 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2430, 31, "Tixmehuac", "Tixmehuac", "Tixmehuac");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2431, 31, "Tixpéhual", "Tixpéhual", "Tixpéhual");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2431, 31, "Tixpï¿½hual", "Tixpï¿½hual", "Tixpï¿½hual");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2432, 31, "Tizimín", "Tizimín", "Tizimín");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2432, 31, "Tizimï¿½n", "Tizimï¿½n", "Tizimï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2433, 31, "Tunkás", "Tunkás", "Tunkás");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2433, 31, "Tunkï¿½s", "Tunkï¿½s", "Tunkï¿½s");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2434, 31, "Tzucacab", "Tzucacab", "Tzucacab");
 	
@@ -4882,17 +4883,17 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2437, 32, "Fresnillo", "Fresnillo", "Fresnillo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2438, 32, "Trinidad García de la Cadena", "Trinidad García", "Trinidad García de la Cadena");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2438, 32, "Trinidad Garcï¿½a de la Cadena", "Trinidad Garcï¿½a", "Trinidad Garcï¿½a de la Cadena");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2439, 32, "Genaro Codina", "Genaro Codina", "Genaro Codina");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2440, 32, "General Enrique Estrada", "General Enrique", "General Enrique Estrada");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2441, 32, "General Francisco R. Murguía", "General Francis", "General Francisco R. Murguía");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2441, 32, "General Francisco R. Murguï¿½a", "General Francis", "General Francisco R. Murguï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2442, 32, "El Plateado de Joaquín Amaro", "El Plateado de ", "El Plateado de Joaquín Amaro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2442, 32, "El Plateado de Joaquï¿½n Amaro", "El Plateado de ", "El Plateado de Joaquï¿½n Amaro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2443, 32, "General Pánfilo Natera", "General Pánfilo", "General Pánfilo Natera");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2443, 32, "General Pï¿½nfilo Natera", "General Pï¿½nfilo", "General Pï¿½nfilo Natera");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2444, 32, "Guadalupe", "Guadalupe", "Guadalupe");
 	
@@ -4904,7 +4905,7 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2448, 32, "Jerez", "Jerez", "Jerez");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2449, 32, "Jiménez del Teul", "Jiménez del Teu", "Jiménez del Teul");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2449, 32, "Jimï¿½nez del Teul", "Jimï¿½nez del Teu", "Jimï¿½nez del Teul");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2450, 32, "Juan Aldama", "Juan Aldama", "Juan Aldama");
 	
@@ -4932,19 +4933,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2462, 32, "Moyahua de Estrada", "Moyahua de Estr", "Moyahua de Estrada");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2463, 32, "Nochistlán de Mejía", "Nochistlán de M", "Nochistlán de Mejía");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2463, 32, "Nochistlï¿½n de Mejï¿½a", "Nochistlï¿½n de M", "Nochistlï¿½n de Mejï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2464, 32, "Noria de Ángeles", "Noria de Ángele", "Noria de Ángeles");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2464, 32, "Noria de ï¿½ngeles", "Noria de ï¿½ngele", "Noria de ï¿½ngeles");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2465, 32, "Ojocaliente", "Ojocaliente", "Ojocaliente");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2466, 32, "Pánuco", "Pánuco", "Pánuco");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2466, 32, "Pï¿½nuco", "Pï¿½nuco", "Pï¿½nuco");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2467, 32, "Pinos", "Pinos", "Pinos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2468, 32, "Río Grande", "Río Grande", "Río Grande");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2468, 32, "Rï¿½o Grande", "Rï¿½o Grande", "Rï¿½o Grande");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2469, 32, "Benito Juárez", "Benito Juárez", "Benito Juárez");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2469, 32, "Benito Juï¿½rez", "Benito Juï¿½rez", "Benito Juï¿½rez");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2470, 32, "Sain Alto", "Sain Alto", "Sain Alto");
 	
@@ -4952,19 +4953,19 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2472, 32, "Sombrerete", "Sombrerete", "Sombrerete");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2473, 32, "Susticacán", "Susticacán", "Susticacán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2473, 32, "Susticacï¿½n", "Susticacï¿½n", "Susticacï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2474, 32, "Tabasco", "Tabasco", "Tabasco");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2475, 32, "Tepechitlán", "Tepechitlán", "Tepechitlán");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2475, 32, "Tepechitlï¿½n", "Tepechitlï¿½n", "Tepechitlï¿½n");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2476, 32, "Tepetongo", "Tepetongo", "Tepetongo");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2477, 32, "Teúl de González Ortega", "Teúl de Gonzále", "Teúl de González Ortega");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2477, 32, "Teï¿½l de Gonzï¿½lez Ortega", "Teï¿½l de Gonzï¿½le", "Teï¿½l de Gonzï¿½lez Ortega");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2478, 32, "Tlaltenango de Sánchez Román", "Tlaltenango de ", "Tlaltenango de Sánchez Román");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2478, 32, "Tlaltenango de Sï¿½nchez Romï¿½n", "Tlaltenango de ", "Tlaltenango de Sï¿½nchez Romï¿½n");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2479, 32, "Valparaíso", "Valparaíso", "Valparaíso");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2479, 32, "Valparaï¿½so", "Valparaï¿½so", "Valparaï¿½so");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2480, 32, "Calera", "Calera", "Calera");
 	
@@ -4972,9 +4973,9 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2482, 32, "Villa de Cos", "Villa de Cos", "Villa de Cos");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2483, 32, "Villa García", "Villa García", "Villa García");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2483, 32, "Villa Garcï¿½a", "Villa Garcï¿½a", "Villa Garcï¿½a");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2484, 32, "Villa González Ortega", "Villa González ", "Villa González Ortega");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2484, 32, "Villa Gonzï¿½lez Ortega", "Villa Gonzï¿½lez ", "Villa Gonzï¿½lez Ortega");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2485, 32, "Villa Hidalgo", "Villa Hidalgo", "Villa Hidalgo");
 	
@@ -4984,13 +4985,13 @@
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2488, 32, "Trancoso", "Trancoso", "Trancoso");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2489, 32, "Santa María de la Paz", "Santa María de ", "Santa María de la Paz");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2489, 32, "Santa Marï¿½a de la Paz", "Santa Marï¿½a de ", "Santa Marï¿½a de la Paz");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2490, 32, "Cañitas de Felipe Pescador", "Cañitas de Feli", "Cañitas de Felipe Pescador");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2490, 32, "Caï¿½itas de Felipe Pescador", "Caï¿½itas de Feli", "Caï¿½itas de Felipe Pescador");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2491, 32, "Concepción del Oro", "Concepción del ", "Concepción del Oro");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2491, 32, "Concepciï¿½n del Oro", "Concepciï¿½n del ", "Concepciï¿½n del Oro");
 	
-	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2492, 32, "Cuauhtémoc", "Cuauhtémoc", "Cuauhtémoc");
+	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2492, 32, "Cuauhtï¿½moc", "Cuauhtï¿½moc", "Cuauhtï¿½moc");
 	
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (2493, 32, "Chalchihuites", "Chalchihuites", "Chalchihuites");
 	
