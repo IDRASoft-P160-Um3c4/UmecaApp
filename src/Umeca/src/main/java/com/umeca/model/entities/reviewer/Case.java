@@ -4,6 +4,7 @@ import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.supervisor.FolderConditionalReprieve;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
+import com.umeca.model.entities.supervisor.MonitoringPlan;
 
 import javax.persistence.*;
 import java.util.List;
@@ -53,6 +54,17 @@ public class Case {
 
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Verification verification;
+
+    public MonitoringPlan getMonitoringPlan() {
+        return monitoringPlan;
+    }
+
+    public void setMonitoringPlan(MonitoringPlan monitoringPlan) {
+        this.monitoringPlan = monitoringPlan;
+    }
+
+    @OneToOne(mappedBy = "caseDetention")
+    private MonitoringPlan monitoringPlan;
 
     @Transient
     private String idString;
