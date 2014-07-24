@@ -43,6 +43,7 @@ public class LogNotificationReviewer {
     @Column(name = "is_obsolete", nullable = false)
     private Boolean isObsolete;
 
+
     public LogNotificationReviewer() {
         this.isObsolete = false;
         this.timestamp = Calendar.getInstance();

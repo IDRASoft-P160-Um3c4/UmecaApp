@@ -7,11 +7,18 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.Country;
+import com.umeca.model.catalog.Relationship;
+import com.umeca.model.catalog.State;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.dto.AddressDto;
+import com.umeca.model.catalog.dto.CatalogDto;
+import com.umeca.model.catalog.dto.CountryDto;
+import com.umeca.model.catalog.dto.StateDto;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Drug;
+import com.umeca.model.entities.reviewer.Verification;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
@@ -21,6 +28,7 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.repository.supervisor.FramingAddressRepository;
 import com.umeca.repository.supervisor.FramingReferenceRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
@@ -155,10 +163,21 @@ public class FramingMeetingController {
             FramingMeeting framingMeeting = new FramingMeeting();
             framingMeeting.setIsTerminated(false);
             framingMeeting.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+
+            Verification existVer=caseDet.getVerification();
+
             caseDet.setFramingMeeting(framingMeeting);
+
             caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_INCOMPLETE));
             framingMeeting.setCaseDetention(caseDet);
             framingMeetingService.save(framingMeeting);
+
+            if(existVer!=null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)){
+                  framingMeetingService.fillSaveVerifiedInfo(framingMeeting,existVer.getMeetingVerified());
+            }
+
+
+
         }
 
         FramingMeetingView framingMeetingView = framingMeetingService.fillForView(caseDet);
@@ -166,9 +185,36 @@ public class FramingMeetingController {
         Gson conv = new Gson();
 
         model.addObject("objView", conv.toJson(framingMeetingView));
-        model.addObject("lstCountry", conv.toJson(countryRepository.findAllOrderByName()));
-        model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
-        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findNotObsolete()));
+
+
+        List<CountryDto> countrys = new ArrayList<>();
+        for(Country act : countryRepository.findAllOrderByName()){
+
+            countrys.add(new CountryDto().dtoCountry(act));
+        }
+
+        model.addObject("lstCountry", conv.toJson(countrys));
+
+        List<StateDto> states = new ArrayList<>();
+        for(State act : stateRepository.findStatesByCountryAlpha2("MX")){
+
+            states.add(new StateDto().stateDto(act));
+        }
+
+        model.addObject("listState", conv.toJson(states));
+
+        List<CatalogDto> relationships = new ArrayList<>();
+        for(Relationship act : relationshipRepository.findNotObsolete()){
+
+            CatalogDto rel = new CatalogDto();
+            rel.setId(act.getId());
+            rel.setName(act.getName());
+
+            relationships.add(rel);
+        }
+
+        model.addObject("lstRelationship", conv.toJson(relationships));
+
         return model;
     }
 
@@ -328,6 +374,9 @@ public class FramingMeetingController {
 
     }
 
+    @Autowired
+    FramingAddressRepository framingAddressRepository;
+
     @RequestMapping(value = "/supervisor/framingMeeting/address/upsert", method = RequestMethod.POST)
     public ModelAndView showAddressUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
 
@@ -338,16 +387,24 @@ public class FramingMeetingController {
         Address address;
 
         if (id != null) {
-            address = addressRepository.findOne(id);
+            address = framingAddressRepository.findOne(id).getAddress();
             addressService.fillModelAddress(model, address.getId());
         } else {
-            address = new Address();
+            addressService.fillCatalogAddress(model);
         }
 
         AddressDto addDto = new AddressDto();
         addDto.setIdCase(idCase);
         model.addObject("addObj", conv.toJson(addDto));
-        model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
+
+        List<StateDto> states = new ArrayList<>();
+        for(State act : stateRepository.findStatesByCountryAlpha2("MX")){
+
+            states.add(new StateDto().stateDto(act));
+        }
+
+        model.addObject("listState", conv.toJson(states));
+
         model.addObject("idCaseAdd", idCase);
 
         return model;
@@ -398,7 +455,17 @@ public class FramingMeetingController {
 
         model.addObject("housemate", conv.toJson(housemate));
 
-        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findNotObsolete()));
+        List<CatalogDto> relationships = new ArrayList<>();
+        for(Relationship act : relationshipRepository.findNotObsolete()){
+
+            CatalogDto rel = new CatalogDto();
+            rel.setId(act.getId());
+            rel.setName(act.getName());
+
+            relationships.add(rel);
+        }
+
+        model.addObject("lstRelationship", conv.toJson(relationships));
 
         return model;
     }
@@ -428,7 +495,17 @@ public class FramingMeetingController {
 
         model.addObject("reference", conv.toJson(housemate));
 
-        model.addObject("lstRelationship", conv.toJson(relationshipRepository.findNotObsolete()));
+        List<CatalogDto> relationships = new ArrayList<>();
+        for(Relationship act : relationshipRepository.findNotObsolete()){
+
+            CatalogDto rel = new CatalogDto();
+            rel.setId(act.getId());
+            rel.setName(act.getName());
+
+            relationships.add(rel);
+        }
+
+        model.addObject("lstRelationship", conv.toJson(relationships));
 
         return model;
     }

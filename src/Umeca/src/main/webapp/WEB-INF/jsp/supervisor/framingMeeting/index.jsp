@@ -74,10 +74,10 @@
                             case 'ST_CASE_HEARING_FORMAT_END':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
                                 break;
-                            case 'ST_CASE_FRAMING_INCOMPLETE':
+                            case 'ST_CASE_FRAMING_MEETING_INCOMPLETE':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                                 break;
-                            case 'ST_CASE_FRAMING_COMPLETE':
+                            case 'ST_CASE_FRAMING_MEETING_COMPLETE':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 break;
                             default://ban-circle
