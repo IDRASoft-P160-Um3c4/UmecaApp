@@ -13,6 +13,7 @@ public class TechnicalReviewInfoFileView {
     private List<String> questSel;
     private List<String> sources;
     private String comment;
+    private String result;
     private List<Section> sections;
 
     public TechnicalReviewInfoFileView() {
@@ -90,5 +91,13 @@ public class TechnicalReviewInfoFileView {
 
     public void setSections(List<Section> sections) {
         this.sections = sections;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }
