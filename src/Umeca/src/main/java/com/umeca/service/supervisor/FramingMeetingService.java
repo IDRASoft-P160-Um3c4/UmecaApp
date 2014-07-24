@@ -5,6 +5,7 @@ import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Drug;
+import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 
 import java.util.List;
@@ -42,4 +43,6 @@ public interface FramingMeetingService {
     ResponseMessage saveAddQuest(Long idCase, AdditionalQuestionsForView view);
 
     ResponseMessage doTerminate(Long idCase);
+
+    void fillSaveVerifiedInfo(FramingMeeting existFraming, Meeting verifMeeting);
 }
