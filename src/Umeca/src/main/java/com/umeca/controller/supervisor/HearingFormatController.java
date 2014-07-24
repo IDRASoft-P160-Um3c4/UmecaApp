@@ -82,6 +82,7 @@ public class HearingFormatController {
                     add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
+                    add(Constants.CASE_STATUS_FRAMING_COMPLETE);
 
                 }}, JqGridFilterModel.COMPARE_IN
         );
