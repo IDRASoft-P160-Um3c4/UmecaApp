@@ -20,6 +20,7 @@ import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +52,9 @@ public class VerificationServiceImpl implements VerificationService {
     UserRepository userRepository;
     @Autowired
     SourceVerificationRepository sourceVerificationRepository;
+
+    @Autowired
+    SharedLogExceptionService logException;
 
     @Override
     public void createVerification(Case c) {
@@ -270,7 +274,7 @@ public class VerificationServiceImpl implements VerificationService {
             }.getType());
             String val = "";
             for (Schedule sch : listSchedules) {
-                val += "Día(s): " + sch.getDay() + " Inicio: " + sch.getStart() + "Fin: " + sch.getEnd() + "<br/>";
+                val += "Día(s): " + sch.getDay() + " Inicio: " + sch.getStart() + "Fin: " + sch.getEnd() + ";";
             }
             fms.setValue(val);
             fms.setFinal(false);
@@ -278,6 +282,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(fms);
             return new ResponseMessage(false, "Se ha guardado exitosamente el registro");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveSchedule",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la lista");
         }
     }
@@ -308,6 +313,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(fms);
             return new ResponseMessage(false, "Se ha guardado exitosamente el registro");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveAddressVerification",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la lista");
         }
     }
@@ -371,6 +377,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(fmsAuxSecond);
             return new ResponseMessage(false, "Se ha guardado la selección con éxito.");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveSelectChoice",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la selección");
         }
     }
@@ -447,6 +454,7 @@ public class VerificationServiceImpl implements VerificationService {
                 return new ResponseMessage(false, "Se ha terminado con exito la verificación");
             }
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"terminateVerification",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al terminar la verificación");
         }
     }
@@ -491,6 +499,7 @@ public class VerificationServiceImpl implements VerificationService {
             sourceVerificationRepository.save(sourceVerification);
             return new ResponseMessage(false, "Se ha guardado la fuente exitosamente");
         }catch (Exception e){
+            logException.Write(e,this.getClass(),"doUpsertSources",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar");
         }
     }
@@ -520,6 +529,7 @@ public class VerificationServiceImpl implements VerificationService {
         Case c = caseRepository.findOne(idCase);
         model.addObject("idCase", idCase);
         model.addObject("m", c.getMeeting());
+        model.addObject("age", userService.calculateAge(c.getMeeting().getImputed().getBirthDate()));
         if (c.getMeeting().getSocialEnvironment() != null) {
             if (c.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities() != null) {
                 List<RelActivitySocialEnvironmentDto> listRel = new ArrayList<>();
@@ -555,7 +565,7 @@ public class VerificationServiceImpl implements VerificationService {
             listDto.add(dtoLevel.doDto(s));
         }
         model.addObject("lstLevel", gson.toJson(listDto));
-        List<Country> listCountry = countryRepository.findAll();
+        List<Country> listCountry = countryRepository.findAllOrderByName();
         List<CountryDto> listCountryDto = new ArrayList<CountryDto>();
         for (Country co : listCountry) {
             CountryDto cdto = new CountryDto();
@@ -582,7 +592,7 @@ public class VerificationServiceImpl implements VerificationService {
             model.addObject("listDrug", gson.toJson(listDrug));
         }
         List<CatalogDto> catalogDtoList = new ArrayList<>();
-        for (RegisterType rt : registerTypeRepository.findAll()) {
+        for (RegisterType rt : registerTypeRepository.findAllOrderByName()) {
             CatalogDto cDto = new CatalogDto();
             cDto.setId(rt.getId());
             cDto.setName(rt.getName());
@@ -688,6 +698,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(listValues);
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveFieldVerifiedNotKnow",userService);
             return new ResponseMessage(true, "Ha ocurrido un error");
         }
     }
@@ -703,7 +714,7 @@ public class VerificationServiceImpl implements VerificationService {
             if (!sv.getVerification().getCaseDetention().getId().equals(idCase)) {
                 return new ResponseMessage(true, "Esta fuente no pertenece al caso");
             }
-            if (sv.getDateAuthorized() != null) {
+            if (sv.getDateComplete() != null) {
                 return new ResponseMessage(true, "Esta entrevista ya fue terminada anteriormente");
             }
             sv.setDateComplete(new Date());
@@ -711,6 +722,7 @@ public class VerificationServiceImpl implements VerificationService {
             sourceVerificationRepository.flush();
             return new ResponseMessage(false, "Se ha terminado la entrevista con éxito");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"terminateMeetingSource",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al terminar la entrevista");
         }
     }
@@ -745,6 +757,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(result);
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveFieldVerifiedInocrrect",userService);
             return new ResponseMessage(true, "Ha ocurrido un error ");
         }
 
@@ -768,6 +781,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(listValues);
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveFieldVerifiedEqual",userService);
             return new ResponseMessage(true, "Ha ocurrido un error");
         }
     }
@@ -858,7 +872,7 @@ public class VerificationServiceImpl implements VerificationService {
             List<FieldMeetingSource> listFieldVerficiation = new ArrayList<>();
             for (FieldVerified field : list) {
                 FieldMeetingSource fms = new FieldMeetingSource();
-                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, list.get(0).getName());
+                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, field.getName());
                 fms.setId(fieldMeetingSourceId);
                 FieldVerification fv = fieldVerificationRepository.findByCode(field.getName());
                 fms.setFieldVerification(fv);
@@ -891,8 +905,10 @@ public class VerificationServiceImpl implements VerificationService {
         switch (fv.getType()) {
             case "Country":
                 Country c = countryRepository.findOne(idCat);
+                ca.setId(c.getId());
+                ca.setName(c.getName());
                 fms.setValue(c.getName());
-                fms.setJsonValue(gson.toJson(c));
+                fms.setJsonValue(gson.toJson(ca));
                 break;
             case "MaritalStatus":
                 MaritalStatus m = maritalStatusRepository.findOne(idCat);
@@ -962,7 +978,7 @@ public class VerificationServiceImpl implements VerificationService {
                     valueString = value;
                 } finally {
                     fms.setValue(valueString);
-                    fms.setValue(valueJson);
+                    fms.setJsonValue(valueJson);
                 }
                 break;
             case "Boolean":
@@ -975,10 +991,35 @@ public class VerificationServiceImpl implements VerificationService {
                 fms.setValue(genderString);
                 fms.setJsonValue(value);
                 break;
+            case "Activity":
+
+                try{
+                    List<RelSocialEnvironmentActivity> relSE = gson.fromJson(value,new TypeToken<List<RelSocialEnvironmentActivity>>(){}.getType());
+                    fms.setJsonValue(value);
+                    String val = "";
+                    if (relSE != null) {
+                        for (RelSocialEnvironmentActivity re : relSE) {
+                            val = val + activityRepository.findOne(re.getActivity().getId()).getName();
+                            if(re.getSpecification()!=null && !re.getSpecification().equals("")){
+                                val = val + ": "+re.getSpecification() +"; ";
+                            }else{
+                                val= val +"; ";
+                            }
+                        }
+                    }
+                    fms.setValue(val);
+                }catch (Exception ex ){
+                    ex.printStackTrace();
+                    System.out.println(ex.getMessage());
+                }
+
+                break;
             default:
                 fms.setValue(value);
                 fms.setJsonValue(value);
                 break;
+
+
         }
 
     }

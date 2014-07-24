@@ -1,4 +1,4 @@
-app.controller('framingMeetingController', function ($scope, $timeout, $http) {
+app.controller('framingMeetingController', function ($scope, $timeout, $http,$rootScope) {
 
         $scope.fm = {}
 
@@ -7,17 +7,36 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http) {
 
         $scope.FMerrorMsgLst = "";
 
+        $scope.disableView = function () {
+
+            if ($scope.fm.objView.canTerminate==false) {
+                $("#divFM :input").attr("disabled", true);
+            }
+            else {
+                $("#divFM :input").attr("disabled", false);
+            }
+
+        };
+
         $scope.returnIdx = function () {
             window.goToUrlMvcUrl('index.html');
         };
 
         $scope.init = function () {
-
+            $scope.disableView();
         };
 
         $timeout(function () {
             $scope.init();
         }, 0);
+
+
+        $scope.resizeMap = function(){
+           $timeout(function () {
+                 $rootScope.$broadcast("resizeMap");
+            }, 10);
+
+        };
 
         $scope.doTerminate = function () {
             var currentTimeout = null;

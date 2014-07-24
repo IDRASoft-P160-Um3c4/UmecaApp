@@ -1,4 +1,4 @@
-app.controller('hearingFormatController', function ($scope, $timeout, $http, $q) {
+app.controller('hearingFormatController', function ($scope, $timeout, $http, $q, $sce) {
 
         $scope.m = {};
         $scope.a = {};
@@ -43,10 +43,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q)
             $scope.validateArrangementSel();
             $scope.validateLstContact();
 
-            if ($scope.hasError == true)
+            if ($scope.hasError == true) {
+                $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
                 return false;
-            return true;
+            }
 
+            return true;
         };
 
         $scope.validateBthDay = function () {
@@ -225,7 +227,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q)
                 mm = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
                 yyyy = date.getFullYear();
 
-                strDt = dd + "/" + mm + "/" + yyyy;
+                strDt = yyyy + "/" + mm + "/" + dd;
             }
 
             return strDt;
@@ -292,10 +294,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q)
 
         $scope.saveHF = function (formId, urlToPost, validate) {
             if (validate != undefined)
-                stVal = validate();
+                var stVal = validate();
 
             if ($(formId).valid() == false || stVal == false) {
                 $scope.Invalid = true;
+                $scope.MsgError= $sce.trustAsHtml("No es posible guardar. Debe proporcionar toda la informaci&oacute;n requerida.");
                 return false;
             }
 
@@ -378,7 +381,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q)
 
         $scope.calcAge = function () {
 
-            //dd/mm/yyyy o en milisegundos
+            //yyyy/mm/dd o en milisegundos
             if ($scope.m.impBthDay != null && $scope.m.impBthDay != "") {
 
                 var arrBth = [];
@@ -387,7 +390,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q)
                 var dtBthObj;
 
                 if (arrBth.length > 0)
-                    dtBthObj = new Date(parseInt(arrBth[2]), parseInt(arrBth[1]) - 1, parseInt(arrBth[0]));
+                    dtBthObj = new Date(parseInt(arrBth[0]), parseInt(arrBth[1]) - 1,parseInt(arrBth[2]));
                 else
                     dtBthObj = new Date($scope.m.impBthDay);
 

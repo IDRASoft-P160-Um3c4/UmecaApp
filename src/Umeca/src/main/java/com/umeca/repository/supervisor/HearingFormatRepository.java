@@ -3,6 +3,7 @@ package com.umeca.repository.supervisor;
 import com.umeca.model.entities.supervisor.AccomplishmentLogReport;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.SupervisionLogReport;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -40,6 +41,22 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
             "INNER JOIN hf.caseDetention cd " +
             "WHERE hf.id =:id ")
     AccomplishmentLogReport findSupervisionLogAccomplishmentById(@Param("id") Long id);
+
+
+    @Query("SELECT s.fullname FROM HearingFormat hf " +
+            "INNER JOIN hf.caseDetention cd INNER JOIN hf.supervisor s " +
+            "WHERE cd.id =:caseId ORDER BY hf.id DESC")
+    List<String> findLastFullNameSupervisorByCaseId(@Param("caseId") Long caseId, Pageable pageable);
+
+    @Query("SELECT s.id FROM HearingFormat hf " +
+            "INNER JOIN hf.caseDetention cd INNER JOIN hf.supervisor s " +
+            "WHERE cd.id =:caseId ORDER BY hf.id DESC")
+    List<Long> findLastSupervisorIdByCaseId(@Param("caseId") Long caseId, Pageable pageable);
+
+    @Query("SELECT hf from HearingFormat hf " +
+            "INNER JOIN hf.caseDetention cd " +
+            "WHERE cd.id =:caseId ORDER BY hf.id DESC")
+    List<HearingFormat> findLastHearingFormatByCaseId(@Param("caseId") Long caseId, Pageable pageable);
 }
 
 

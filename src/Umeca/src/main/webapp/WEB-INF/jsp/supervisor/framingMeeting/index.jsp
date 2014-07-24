@@ -40,11 +40,11 @@
                 url: '<c:url value='/supervisor/framingMeeting/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'idStatus', 'Carpeta de Investigación', 'Nombre completo', 'Fecha de nacimiento', 'Estatus', 'Acción'],
+                colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento', 'Estatus', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'codeStatus', index: 'codeStatus', hidden: true },
-                    { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'brthDateTxt', index: 'brthDateTxt', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'descStatus', index: 'descStatus', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -53,7 +53,7 @@
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 pager: '#GridPager',
-                sortname: 'id',
+                sortname: 'idMP',
                 height: 450,
                 viewrecords: true,
                 shrinkToFit: false,
@@ -74,14 +74,14 @@
                             case 'ST_CASE_HEARING_FORMAT_END':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
                                 break;
-                            case 'ST_CASE_FRAMING_INCOMPLETE':
+                            case 'ST_CASE_FRAMING_MEETING_INCOMPLETE':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                                 break;
-                            case 'ST_CASE_FRAMING_COMPLETE':
+                            case 'ST_CASE_FRAMING_MEETING_COMPLETE':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 break;
                             default://ban-circle
-                                be = "<a style=\"display:inline-block;\" title=\"Aún no cuenta con el formato de audiencia\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+                                be = "<a style=\"display:inline-block;\" title=\"Aï¿½n no cuenta con el formato de audiencia\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
                                 break;
                         }
 

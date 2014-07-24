@@ -83,7 +83,7 @@
 
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Género</div>
+            <div class="widget-header">G&eacute;nero</div>
             <div class="widget-body">
                 <div class="control-group col-xs-offset-1">
                     <span class="field-validation-valid" data-valmsg-for="gender"
@@ -94,7 +94,7 @@
                         <label>
                             <input type="radio" class="ace" name="gender"
                                    ng-model="pd.gender" value="1" data-val="true"
-                                   data-val-required="Debe seleccionar una opción"/>
+                                   data-val-required="Debe seleccionar una opciï¿½n"/>
                             <span class="lbl">&nbsp;&nbsp;Femenino</span>
                         </label>
                         <br/>
@@ -123,7 +123,7 @@
                         <label>
                             <input type="radio" class="ace" name="maritalStatus"
                                    ng-model="pd.maritalStatus" value="1" data-val="true"
-                                   data-val-required="Debe seleccionar una opción"/>
+                                   data-val-required="Debe seleccionar una opciï¿½n"/>
                             <span class="lbl">&nbsp;&nbsp;Soltero</span>
                         </label>
                         <br/>
@@ -154,11 +154,11 @@
                     <br/>
                     <div ng-show="pd.maritalStatus==2 || pd.maritalStatus==4">
                         <div class="col-xs-offset-1">
-                            <label>Años</label><br>
+                            <label>A&ntilde;os</label><br>
                             <input id="maritalStatusYears" ng-model="pd.maritalStatusYears" name="maritalStatusYears"
                                    type="text" class="input-sm"
                                    data-val="true"
-                                   data-val-required="Años es un campo requerido"/>
+                                   data-val-required="A&ntilde;os es un campo requerido"/>
                             <br/>
                         <span class="field-validation-valid" data-valmsg-for="maritalStatusYears"
                               data-valmsg-replace="true"></span>
@@ -182,7 +182,7 @@
 
                 <div class="row">
                     <div class="col-xs-4 col-xs-offset-1">
-                        <label>Pais</label>
+                        <label>Pa&iacute;s</label>
                         <select class="form-control element-center" ng-model="pd.birthCountry"
                                 ng-options="e.name for e in lstCountry"
                                 ng-change="pd.birthCountryId = pd.birthCountry.id;"
@@ -208,7 +208,7 @@
                         <div class="input-group">
                             <input class="form-control date-picker"
                                    id="birthDate" name="birthDate" ng-model="pd.birthDate"
-                                   data-date-format="dd/mm/yyyy" type="text" readonly data-val="true"
+                                   data-date-format="yyyy/mm/dd" type="text" readonly data-val="true"
                                    data-val-required="Fecha de naciemiento es un campo requerido">
                             <span class="input-group-addon">
                                 <i class="icon-calendar bigger-110"></i>
@@ -236,13 +236,13 @@
 
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
-                        <label>¿Padece alguna enfermedad o condición física?</label>
+                        <label>&iquest;Padece alguna enfermedad o condici&oacute;n f&iacute;sica?</label>
                         <br/>
                         <textarea class="input-xxlarge form-control limited" name="physicalCondition"
                                   ng-model="pd.physicalCondition"
                                   maxlength="980" data-val="true"
-                                  data-val-required="Enfermedad o condición física es un campo requerido">
-                            {{pd.physicalCondition}}</textarea>
+                                  data-val-required="Enfermedad o condici&oacute;n f&iacute;sica es un campo requerido">
+                            </textarea>
         <span class="field-validation-valid" data-valmsg-for="physicalCondition"
               data-valmsg-replace="true"></span>
 
@@ -261,7 +261,7 @@
 </div>
 
 <div class="col-xs-12">
-    <div class="modal-footer">
+    <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
               ng-click="submitIdCaseParam('#FormPersonalData', '<c:url value="/supervisor/framingMeeting/personalData/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>

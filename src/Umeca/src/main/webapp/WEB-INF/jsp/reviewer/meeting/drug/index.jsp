@@ -16,13 +16,13 @@
             url: '<c:url value='/reviewer/meeting/listDrug.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Sustancia','Periodicidad','Cantidad','Último consumo', 'Acción'],
+            colNames: ['ID', 'Sustancia','Periodicidad','Cantidad','&Uacute;ltimo consumo', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'drugName', index: 'drugName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'perName', index: 'perName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'quantity', index: 'quantity', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'lastUseFormat', index: 'lastUseFormat', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'perName', index: 'perName', width: 150, align: "center",search: false},
+                { name: 'quantity', index: 'quantity', width: 160, align: "center",search: false},
+                { name: 'lastUseFormat', index: 'lastUseFormat', width: 150, align: "center",search: false},
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,

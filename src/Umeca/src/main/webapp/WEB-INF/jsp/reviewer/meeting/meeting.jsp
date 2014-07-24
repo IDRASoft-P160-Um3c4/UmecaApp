@@ -45,7 +45,7 @@
 
     <title>Entrevista</title>
 </head>
-<body scroll="no" ng-app="ptlUmc">
+<body scroll="no" ng-app="ptlUmc" ng-cloak>
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
 <div class="container body-content" ng-controller="meetingController">
@@ -56,15 +56,20 @@
 <div class="row">
     <div class="col-sm-3">
         <h3 class="header smaller lighter blue">
-            <small>Número de carpeta <br/> de investigación:</small>
-            &nbsp;&nbsp;&nbsp;&nbsp;${m.caseDetention.idFolder}
+            <small>Carpeta de investigaci&oacute;n:  </small>
+            &nbsp;${m.caseDetention.idFolder}
         </h3>
     </div>
-
-    <div class="col-sm-7 col-sm-offset-1">
+    <div class="col-sm-8">
         <h3 class="header smaller lighter blue">
-            <small><br/>Nombre del imputado:</small>
-            &nbsp;${m.imputed.name} &nbsp; ${m.imputed.lastNameP} &nbsp; ${m.imputed.lastNameM}
+            <small>Nombre del imputado:  </small>
+            &nbsp;&nbsp;${m.imputed.name} &nbsp; ${m.imputed.lastNameP} &nbsp; ${m.imputed.lastNameM}
+        </h3>
+    </div>
+    <div class="col-sm-1">
+        <h3 class="header smaller lighter blue">
+            <small>Edad:  </small>
+            &nbsp;${age}
         </h3>
     </div>
 </div>
@@ -289,7 +294,7 @@
                                 Facilidad de
                                 <br/>
 
-                                <div class="col-xs-offset-3">abandonar el país</div>
+                                <div class="col-xs-offset-3">abandonar el pa&iacute;s</div>
                             </div>
                             <div class="col-xs-2" ng-show="listMsgError['leavingCountry'].length > 0">
                                 <div class="tools">

@@ -13,7 +13,7 @@
             </div>
             <div class="col-xs-10">
                 <input class="form-control" data-val="true"
-                                          data-val-length="Debe tener al menos 5 y m?ximo 200 caracteres"
+                                          data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
                                           data-val-length-max="200" data-val-length-min="5"
                                           data-val-required="La escuela es un campo requerido" type="text" value=""
                                           ng-init='school.name="${(m.school.name == null) ? '' : m.school.name}"'
@@ -36,12 +36,12 @@
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('school.phone')"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('school.phone')"></i>
-                Teléfono:
+                Tel&eacute;fono:
             </div>
             <div class="col-xs-6"><input class="form-control" data-val="true"
-                                         data-val-length="Debe tener al menos 8 y máximo 25 caracteres"
+                                         data-val-length="Debe tener al menos 8 y m&aacute;ximo 25 caracteres"
                                          data-val-length-max="25" data-val-length-min="8"
-                                         data-val-required="El teléfono es un campo requerido" type="text" value=""
+                                         data-val-required="El tel&eacute;fono es un campo requerido" type="text" value=""
                                          ng-model="school.phone" id="school.phone" name="school.phone"
                                          ng-init='school.phone = "${(m.school.phone == null) ? '' : m.school.phone}"'>
             <span class="field-validation-valid" data-valmsg-for="school.phone"
@@ -60,12 +60,12 @@
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('school.address')"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('school.address')"></i>
-                Dirección:
+                Direcci&oacute;n:
             </div>
             <div class="col-xs-10"><textarea id="school.address" class="form-control" name="school.address"
                                              ng-model="school.address"
                                              ng-init='school.address = "${(m.school.address == null) ? "" : m.school.address}"'
-                                             data-val="true" data-val-required="La dirección es un campo requerido"
+                                             data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
                                              data-val-length="Debe tener al menos 6 y máximo 500 caracteres"
                                              data-val-length-max="500"
                                              data-val-length-min="6">${m.school.address}</textarea>
@@ -75,13 +75,13 @@
             </div>
     </div>
     <br/>
-
+       <div>
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4  element-left">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifEqual('school.degree.id')"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
                    ng-show="verification" code="school.degree.id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('school.degree.id')"></i>
@@ -109,6 +109,24 @@
             </div>
         </div>
     </div>
+           <div class="row" ng-show="school.levelId == 7">
+               <br/>
+               <div class="col-xs-12">
+                   <div class="col-xs-2  element-left">
+                       Especif&iacute;que:
+                   </div>
+                   <div class="col-xs-8">
+                       <input class="form-control" data-val="true"
+                              data-val-length="Debe tener al menos 1 y máximo 300 caracteres"
+                              data-val-length-max="300" data-val-length-min="1"
+                              data-val-required="La especificaci&oacute;n  es un campo requerido" type="text" value=""
+                              ng-model="school.specification" id="school.specification" name="school.specification"
+                              ng-init='school.specification = "${(m.school.specification == null) ? '' : m.school.specification}"'>
+                       <span class="field-validation-valid" data-valmsg-for="school.specification" data-valmsg-replace="true"></span>
+                   </div>
+               </div>
+           </div>
+       </div>
     <br/>
 
     <div class="row">
@@ -134,7 +152,7 @@
                         <thead class="thin-border-bottom">
                         <tr>
                             <th class="element-center">
-                                Día(s)
+                                D&iacute;a(s)
                             </th>
                             <th class="element-center">
                                 Hora de inicio

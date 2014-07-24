@@ -11,6 +11,12 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/proceedingLegalkCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+    </script>
    <title>Usuarios</title>
     <script>
         window.cancelLegal = function (){
@@ -22,7 +28,7 @@
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
 <div class="container body-content">
-
+                                                                            <br/>
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos procesales</h2>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
     <div ng-controller="proceedingLegalController">
@@ -30,19 +36,64 @@
         <div class="col-sm-12">
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs" id="tabMeeting">
-                    <li class="active">
+                    <li class="active" id="liLegalActual">
                         <a data-toggle="tab" href="#legalActual">
-                            <i class="green  icon-legal  bigger-200"></i>
-                           Proceso actual
-                            <i class="icon-exclamation-sign red bigger-100" ng-show="validf['form0'] == true" ng-init="validf['form0'] = false"></i>
+                            <div class="row">
+                                <div class="col-xs-10">
+                                    <i class="green  icon-legal  bigger-200"></i>
+                                    Proceso actual
+                                </div>
+                                <div class="col-xs-2" ng-show="listMsgError['legalActual'].length > 0">
+                                    <div class="tools">
+                                        <div class="inline position-relative">
+                                            <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                                               data-toggle="dropdown" ng-click="changeZIndex('liLegalActual');"></i>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                                                style="width: 400px; z-index: 100000; padding: 0 0;">
+                                                <div class="alert-danger element-center error-font">
+                                                    <div ng-repeat="msg in listMsgError['legalActual']">
+                                                        <li>
+                                                            {{msg}}
+                                                        </li>
+
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </a>
                     </li>
 
-                    <li>
+                    <li id="liLegalPrevious">
                         <a data-toggle="tab" href="#legalPrevious">
-                            <i class="gray  icon-legal  bigger-200"></i>
-                            Procesos anteriores
-                            <i class="icon-exclamation-sign red bigger-100" ng-show="validf['form1'] == true" ng-init="validf['form1'] = false"></i>
+                            <div class="row">
+                                <div class="col-xs-10">
+                                    <i class="gray  icon-legal  bigger-200"></i>
+                                    Procesos anteriores
+                                </div>
+                                <div class="col-xs-2" ng-show="listMsgError['legalPrevious'].length > 0">
+                                    <div class="tools">
+                                        <div class="inline position-relative">
+                                            <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                                               data-toggle="dropdown" ng-click="changeZIndex('liLegalPrevious');"></i>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                                                style="width: 400px; z-index: 100000; padding: 0 0;">
+                                                <div class="alert-danger element-center error-font">
+                                                    <div ng-repeat="msg in listMsgError['legalPrevious']">
+                                                        <li>
+                                                            {{msg}}
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </a>
                     </li>
                 </ul>
@@ -65,13 +116,18 @@
         </div>
     </div>
         <br/>
+
         <div class="row">
-        <div ng-show="listMsgErrorCon.length > 0" class="alert alert-danger element-center error-font">
-            <div  ng-repeat ="msg in listMsgErrorCon">
-                {{msg}}
-                <br/>
+            <div class="col-xs-12">
+                <div ng-show="listMsgError['general'].length > 0" class="alert alert-danger element-center error-font">
+                    <div ng-repeat="msg in listMsgError['general']">
+                        <li>
+                            {{msg}}
+                        </li>
+
+                    </div>
+                </div>
             </div>
-        </div>
         </div>
     <div class="row">
         <div class="modal-footer">

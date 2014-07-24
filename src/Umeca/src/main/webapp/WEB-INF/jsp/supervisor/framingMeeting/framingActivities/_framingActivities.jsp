@@ -29,7 +29,7 @@
 
             <form id="FormFramingActivites" name="FormFramingActivites" class="form-horizontal" role="form">
                 <div class="widget-box">
-                    <div class="widget-header">Ocupaci�n</div>
+                    <div class="widget-header">Ocupaci&oacute;n</div>
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
@@ -37,37 +37,37 @@
                                     <br/>
 
                                     <div class="col-xs-4">
-                                        <label for="occName">Ocupaci�n</label>
+                                        <label for="occName">Ocupaci&oacute;n</label>
                                         <br/>
                                         <input id="occName" ng-model="act.occName"
                                                name="occName"
                                                type="text" class="input-xxlarge"
                                                data-val="true"
-                                               data-val-required="Ocupaci�n es un campo requerido"/>
+                                               data-val-required="Ocupaci&oacute;n es un campo requerido"/>
                                         <br/>
             <span class="field-validation-valid" data-valmsg-for="occName"
                   data-valmsg-replace="true"></span>
                                     </div>
                                     <div class="col-xs-4">
-                                        <label for="occPlace">Lugar de ocupaci�n</label>
+                                        <label for="occPlace">Lugar de ocupaci&oacute;n</label>
                                         <br/>
                                         <input id="occPlace" ng-model="act.occPlace"
                                                name="occPlace"
                                                type="text" class="input-xxlarge"
                                                data-val="true"
-                                               data-val-required="Lugar de ocupaci�n es un campo requerido"/>
+                                               data-val-required="Lugar de ocupaci&oacute;n es un campo requerido"/>
                                         <br/>
             <span class="field-validation-valid" data-valmsg-for="occPlace"
                   data-valmsg-replace="true"></span>
                                     </div>
                                     <div class="col-xs-4">
-                                        <label for="occPhone">Tel�fono</label>
+                                        <label for="occPhone">Tel&eacute;fono</label>
                                         <br/>
                                         <input id="occPhone" ng-model="act.occPhone"
                                                name="occPhone"
                                                type="text" class="input-xxlarge"
                                                data-val="true"
-                                               data-val-required="Tel�fono es un campo requerido"/>
+                                               data-val-required="Tel&eacute;fono es un campo requerido"/>
                                         <br/>
             <span class="field-validation-valid" data-valmsg-for="occPhone"
                   data-valmsg-replace="true"></span>
@@ -109,7 +109,7 @@
     </div>
 
     <div class="col-xs-12">
-        <div class="modal-footer">
+        <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
               ng-click="submitIdCaseParam('#FormFramingActivites', '<c:url value="/supervisor/framingMeeting/activities/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>

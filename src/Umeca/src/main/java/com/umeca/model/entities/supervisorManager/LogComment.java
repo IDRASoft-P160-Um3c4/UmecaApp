@@ -1,23 +1,28 @@
 package com.umeca.model.entities.supervisorManager;
 
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.*;
 
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
-@Table(name = "log_comment_monitoring_plan")
-public class LogCommentMonitoringPlan {
+@Table(name = "log_comment")
+public class LogComment {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_log_comment_monitoring_plan", nullable = false)
+    @Column(name = "id_log_comment", nullable = false)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_monitoring_plan", nullable = false)
+    @JoinColumn(name="id_monitoring_plan", nullable = true)
     private MonitoringPlan monitoringPlan;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_case", nullable = false)
+    private Case caseDetention;
 
     @Column(name = "type", length = 100, nullable = false)
     private String type;
@@ -50,7 +55,7 @@ public class LogCommentMonitoringPlan {
     @Column(name = "is_obsolete", nullable = false)
     private Boolean isObsolete;
 
-    public LogCommentMonitoringPlan() {
+    public LogComment() {
         isObsolete = false;
     }
 
@@ -68,6 +73,14 @@ public class LogCommentMonitoringPlan {
 
     public void setMonitoringPlan(MonitoringPlan monitoringPlan) {
         this.monitoringPlan = monitoringPlan;
+    }
+
+    public Case getCaseDetention() {
+        return caseDetention;
+    }
+
+    public void setCaseDetention(Case caseDetention) {
+        this.caseDetention = caseDetention;
     }
 
     public String getType() {

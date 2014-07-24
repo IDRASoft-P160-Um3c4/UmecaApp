@@ -10,7 +10,7 @@ import java.util.List;
 @Repository("relationshipRepository")
 public interface RelationshipRepository extends JpaRepository<Relationship,Long> {
 
-    @Query("select r from Relationship as r where r.isObsolete=false")
+    @Query("select r from Relationship as r where r.isObsolete=false order by r.name")
     List<Relationship> findNotObsolete();
 
 }

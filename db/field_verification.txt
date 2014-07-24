@@ -8,7 +8,7 @@
 7|imputed.maritalStatus.id|Datos personales y entorno social|1|Estado civil|7|0|7|MaritalStatus
 8|imputed.yearsMaritalStatus|Datos personales y entorno social|1|Años de duración|8|0|7|Integer
 9|imputed.boys|Datos personales y entorno social|1|Total de hijos|10|0|8|Integer
-10|imputed.dependentBoys|Datos personales y entorno social|1|Total de dependientes económicos|10|0|8|Integer
+10|imputed.dependentBoys|Datos personales y entorno social|1|Menores de 18 años|10|0|8|Integer
 11|imputed.birthCountry.id|Datos personales y entorno social|1|País de nacimiento|11|0|9|Country
 12|imputed.birthState|Datos personales y entorno social|1|Estado de nacimiento|12|0|9|String
 13|imputed.birthMunicipality|Datos personales y entorno social|1|Municipio de nacimiento|13|0|9|String
@@ -71,3 +71,5 @@
 70|leaveCountry.familyAnotherCountry.id|Facilidad de abandonar el país|8|El imputado cuenta con familiares y/o amigos cercanos en otro país|8|0|44|Election
 71|leaveCountry.communicationFamily.id|Facilidad de abandonar el país|8|Mantiene comunicación con ellos|9|0|44|Election
 72|leaveCountry.media|Facilidad de abandonar el país|8|Medio de comunicación|10|0|44|String
+73|school.specification|Historia escolar|6|Especificación|6|0|36|String
+74|socialEnvironment.activities|Datos personales y entorno social|1|Actividades que realiza el imputado|45|0|45|Activity

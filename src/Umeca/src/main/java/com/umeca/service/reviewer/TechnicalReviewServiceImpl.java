@@ -11,6 +11,8 @@ import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,12 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
     @Autowired
     VerificationRepository verificationRepository;
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
     @Override
     public QuestionarySectionView getSections(QuestionarySection obj) {
@@ -88,7 +96,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                 lstQuesRevRel.add(rel);
             }
         } catch (Exception e) {
-            System.out.println("Error al parsear la lista de preguntas seleccionadas\n\n");
+            logException.Write(e,this.getClass(),"generateQuesRevRel",sharedUserService);
             System.out.println(e.getMessage());
         }
 

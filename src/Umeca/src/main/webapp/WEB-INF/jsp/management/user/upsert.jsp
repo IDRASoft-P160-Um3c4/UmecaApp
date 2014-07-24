@@ -31,7 +31,7 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Información del
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Informaci&oacute;n del
                                         usuario
                                     </div>
                                     <div class="panel-body">
@@ -43,7 +43,7 @@
                                                     </div>
                                                     <div class="col-xs-9">
                                                         <input class="form-control" data-val="true"
-                                                               data-val-length="Debe tener al menos 6 y máximo 200 caracteres"
+                                                               data-val-length="Debe tener al menos 6 y m&aacute;ximo 200 caracteres"
                                                                data-val-length-max="200" data-val-length-min="6"
                                                                data-val-required="Usuario es un campo requerido"
                                                                id="username" name="username"
@@ -78,7 +78,7 @@
                                             <br/>
 
                                             <div class="col-xs-6">
-                                                <input type="checkbox" ng-model="m.hasChangePass"/> Modificar contraseña
+                                                <input type="checkbox" ng-model="m.hasChangePass"/> Modificar contrase&ntilde;a
                                             </div>
                                         </div>
                                         <br/>
@@ -87,13 +87,13 @@
                                             <div class="col-xs-6">
                                                 <div class="row">
                                                     <div class="col-xs-3 element-left">
-                                                        Contraseña:
+                                                        Contrase&ntilde;a:
                                                     </div>
                                                     <div class="col-xs-9">
                                                         <input class="form-control" data-val="true"
-                                                               data-val-length="Debe tener al menos 8 y máximo 50 caracteres"
+                                                               data-val-length="Debe tener al menos 8 y m&aacute;ximo 50 caracteres"
                                                                data-val-length-max="50" data-val-length-min="8"
-                                                               data-val-required="Contraseña es un campo requerido"
+                                                               data-val-required="Contrase&ntilde;a es un campo requerido"
                                                                id="password" name="password"
                                                                type="password" ng-model="m.password">
                                                     </div>
@@ -106,14 +106,14 @@
                                             <div class="col-xs-6">
                                                 <div class="row">
                                                     <div class="col-xs-3 element-left">
-                                                        Confirmación:
+                                                        Confirmaci&oacute;n:
                                                     </div>
                                                     <div class="col-xs-9">
                                                         <input name="confirm" class="form-control" id="confirm"
                                                                type="password"
-                                                               data-val-required="Confirmar contraseña es un campo requerido"
+                                                               data-val-required="Confirmar contrase&ntilde;a es un campo requerido"
                                                                data-val="true" data-val-equalto-other="*.password"
-                                                               data-val-equalto="La contraseña no concuerda con la confirmación"
+                                                               data-val-equalto="La contrase&ntilde;a no concuerda con la confirmaci&oacute;n"
                                                                ng-model="m.confirm"/>
                                                     </div>
                                                     <div class="col-xs-9 col-xs-offset-3">
@@ -132,7 +132,7 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Información personal
+                                        <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Informaciï¿½n personal
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -143,7 +143,7 @@
                                                     </div>
                                                     <div class="col-xs-9">
                                                         <input class="form-control" data-val="true"
-                                                               data-val-length="Debe tener al menos 6 y máximo 200 caracteres"
+                                                               data-val-length="Debe tener al menos 6 y mï¿½ximo 200 caracteres"
                                                                data-val-length-max="200" data-val-length-min="6"
                                                                data-val-required="Nombre es un campo requerido"
                                                                id="fullname" name="fullname"
@@ -165,11 +165,11 @@
                                                         <input name="email" class="form-control ng-pristine ng-valid"
                                                                id="email" type="text"
                                                                ng-model="m.email"
-                                                               data-val-required="Correo electrónico es un campo requerido"
+                                                               data-val-required="Correo electrï¿½nico es un campo requerido"
                                                                data-val="true"
                                                                data-val-length-min="5" data-val-length-max="500"
-                                                               data-val-length="Debe tener al menos 5  y máximo 500 caracteres"
-                                                               data-val-email="Correo electrónico no válido"
+                                                               data-val-length="Debe tener al menos 5  y mï¿½ximo 500 caracteres"
+                                                               data-val-email="Correo electrï¿½nico no vï¿½lido"
                                                                ng-init="m.email = '${(model == null) ? "" : model.email}';"/>
                                                     </div>
                                                     <div class="col-xs-9 col-xs-offset-3">

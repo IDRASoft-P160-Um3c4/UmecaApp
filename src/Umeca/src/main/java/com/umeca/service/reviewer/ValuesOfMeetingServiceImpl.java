@@ -18,6 +18,7 @@ import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,12 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
 
     @Autowired
     ScheduleService scheduleService;
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
     @Override
     public List<FieldMeetingSource> getValueOfMeetingByCode(String code, Meeting m, FieldMeetingSource template) {
@@ -118,6 +125,34 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     case "comment":
                         if (se.getComment() != null && !se.getComment().equals(""))
                             listFMS.add(new FieldMeetingSource(se.getComment(), se.getComment()));
+                        break;
+                    case "activities":
+
+                        try{
+                            List<RelSocialEnvironmentActivity> rels = se.getRelSocialEnvironmentActivities();
+                            if(rels!= null && rels.size() >0){
+                                String val="";
+                                List<RelSocialEnvironmentActivity> raux = new ArrayList<>();
+                                for(RelSocialEnvironmentActivity r : rels){
+                                    RelSocialEnvironmentActivity rs = new RelSocialEnvironmentActivity();
+                                    rs.setActivity(new Activity());
+                                    rs.getActivity().setId(r.getActivity().getId());
+                                    rs.setSpecification(r.getSpecification());
+                                    raux.add(rs);
+                                    val = val+ r.getActivity().getName();
+                                    if(r.getSpecification()!=null && !r.getSpecification().equals("")){
+                                        val = val +": "+r.getSpecification();
+                                    }else{
+                                        val = val+"; ";
+                                    }
+                                }
+                                listFMS.add(new FieldMeetingSource(val,gson.toJson(raux)));
+                            }
+                        }catch (Exception e ){
+                            e.printStackTrace();
+                            System.out.println(e.getMessage());
+                        }
+
                         break;
                 }
                 break;
@@ -495,6 +530,34 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         if (se.getComment() != null && !se.getComment().equals(""))
                             listFMS.add(new FieldMeetingSource(se.getComment(), se.getComment()));
                         break;
+                    case "activities":
+
+                        try{
+                            List<RelSocialEnvironmentActivity> rels = se.getRelSocialEnvironmentActivities();
+                            if(rels!= null && rels.size() >0){
+                                String val="";
+                                List<RelSocialEnvironmentActivity> raux = new ArrayList<>();
+                                for(RelSocialEnvironmentActivity r : rels){
+                                    RelSocialEnvironmentActivity rs = new RelSocialEnvironmentActivity();
+                                    rs.setActivity(new Activity());
+                                    rs.getActivity().setId(r.getActivity().getId());
+                                    rs.setSpecification(r.getSpecification());
+                                    raux.add(rs);
+                                    val = val+ r.getActivity().getName();
+                                    if(r.getSpecification()!=null && !r.getSpecification().equals("")){
+                                        val = val +": "+r.getSpecification();
+                                    }else{
+                                        val = val+"; ";
+                                    }
+                                }
+                                listFMS.add(new FieldMeetingSource(val,gson.toJson(raux)));
+                            }
+                        }catch (Exception e ){
+                            e.printStackTrace();
+                            System.out.println(e.getMessage());
+                        }
+
+                        break;
                 }
                 break;
             case "imputedHomes":
@@ -838,7 +901,8 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
     StatusMeetingRepository statusMeetingRepository;
     @Autowired
     AddressService addressService;
-
+@Autowired
+ActivityRepository activityRepository;
     @Override
     public void createMeetingVirified(Long idCase, Verification verification) {
         Meeting meeting = new Meeting();
@@ -870,7 +934,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             try {
                                 birthDate = formatter.parse(fms.getJsonValue());
                             } catch (ParseException e) {
-
+                                logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
                             }
                             meeting.getImputed().setBirthDate(birthDate);
                             break;
@@ -922,6 +986,23 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             break;
                         case "comment":
                             meeting.getSocialEnvironment().setComment(fms.getJsonValue());
+                            break;
+                        case "activities":
+                            try{
+                                List<RelSocialEnvironmentActivity> relSE = gson.fromJson(fms.getJsonValue(),new TypeToken<List<RelSocialEnvironmentActivity>>(){}.getType());
+                                if(relSE!=null){
+                                    for(RelSocialEnvironmentActivity r : relSE){
+                                        r.setActivity(activityRepository.findOne(r.getActivity().getId()));
+                                        r.setSocialEnvironment(meeting.getSocialEnvironment());
+                                        r.setRelId(null);
+                                    }
+                                    meeting.getSocialEnvironment().setRelSocialEnvironmentActivities(relSE);
+                                }
+                            }catch (Exception e ){
+                                e.printStackTrace();
+                                System.out.println(e.getMessage());
+                            }
+
                             break;
                     }
                     break;
@@ -1168,7 +1249,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     try {
                                         dateS = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-
+                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
                                     }
                                     j.setStart(dateS);
                                     break;
@@ -1180,7 +1261,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     try {
                                         date = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-
+                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
                                     }
                                     j.setStartPrev(date);
                                     break;
@@ -1189,7 +1270,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     try {
                                         dateE = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-
+                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
                                     }
                                     j.setEnd(dateE);
                                     break;
@@ -1292,7 +1373,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     try {
                                         lastUse = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-
+                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
                                     }
                                     d.setLastUse(lastUse);
                                     break;

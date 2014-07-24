@@ -34,23 +34,23 @@ public class AddressServiceImpl implements AddressService {
     public List<String> validateAddress(Address model) {
         List<String> msgList= new ArrayList<>();
         if(model==null){
-            msgList.add("Kos datos del domicilio son obligatorios");
+            msgList.add("Los datos del domicilio son requeridos");
             return msgList;
         }
         if(model.getOutNum()==null){
-            msgList.add("El número exterior del domicilio es obligatorio");
+            msgList.add("El número exterior del domicilio es requerido");
         }else if(model.getOutNum().equals("")){
-            msgList.add("El número exterior del domicilio es obligatorio");
+            msgList.add("El número exterior del domicilio es requerido");
         }
         if(model.getStreet()==null){
-            msgList.add("La calle del domicilio es obligatoria");
+            msgList.add("La calle del domicilio es requerido");
         }else if(model.getStreet().equals("")){
-            msgList.add("La calle del domicilio es obligatoria");
+            msgList.add("La calle del domicilio es requerido");
         }
         if(model.getLocation()== null){
-            msgList.add("La localidad del domicilio es obligatoria");
+            msgList.add("La localidad del domicilio es requerida");
         }else if(model.getLocation().getId()== null){
-            msgList.add("La localidad del domicilio es obligatoria");
+            msgList.add("La localidad del domicilio es requerida");
         }
 
         return msgList;

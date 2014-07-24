@@ -6,6 +6,8 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.State;
+import com.umeca.model.catalog.dto.StateDto;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
@@ -23,6 +25,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,9 +56,6 @@ public class HearingFormatController {
     private GenericJqGridPageSortFilter gridFilter;
 
     @Autowired
-    private SharedUserService userService;
-
-    @Autowired
     private StateRepository stateRepository;
 
     @Autowired
@@ -63,6 +63,12 @@ public class HearingFormatController {
 
     @Autowired
     private HearingFormatTypeRepository hearingFormatTypeRepository;
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
     @RequestMapping(value = "/supervisor/hearingFormat/listCases", method = RequestMethod.POST)
     public
@@ -72,16 +78,10 @@ public class HearingFormatController {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{//TODO SE DEBEN AGREGAR LOS STATUS EN LOS CUALES SE PERMITE AGREGAR UN FORMATO DE AUDIENCIA
-                    /*8. Se puede generar un formato de audiencia para cualquier estado del proceso de supervisión y para los casos con entrevista verificada.
-                    (casos que se encuentren en entrevista de encuadre, que se encuentren en creación del plan de seguimiento,
-                    o que se encuentren en seguimiento al plan de supervisión), ya no se puede generar un formato de audiencia para los casos que se encuentren cerrados,
-                    o en autorización de cierre.*/
-                    //add(Constants.CASE_STATUS_FRAMING_COMPLETE);
-                    add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
-                    add(Constants.CASE_STATUS_PRE_CLOSED);
 
                 }}, JqGridFilterModel.COMPARE_IN
         );
@@ -154,6 +154,7 @@ public class HearingFormatController {
                     add(joinSpecs.get("arrangementType"));
                     add(joinSpecs.get("extension"));
                     add(joinSpecs.get("linkageProcess"));
+                    add(r.get("registerTime"));
 
                 }};
             }
@@ -201,7 +202,21 @@ public class HearingFormatController {
             Gson conv = new Gson();
             model.addObject("hfView", conv.toJson(hfView));
 
-            model.addObject("listState", conv.toJson(stateRepository.findAll()));
+            /*List<State> states = stateRepository.findStatesByCountryAlpha2("MX");
+
+            List<StateDto> stateDtos  = new ArrayList<>();
+
+            for(State s: states){
+                stateDtos.add(new StateDto().stateDto(s));
+            }
+
+            model.addObject("listHearingFormatType", conv.toJson(stateDtos));
+              */
+            //model.addObject("listState", conv.toJson();
+
+            addressService.fillCatalogAddress(model);
+
+            //StateDto stateDto = new StateDto().stateDto(hear);
 
             model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
 
@@ -223,7 +238,7 @@ public class HearingFormatController {
         HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
-        model.addObject("listState", conv.toJson(stateRepository.findAll()));
+        model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
 
         if (hfView.getIdAddres() != null)
             addressService.fillModelAddress(model, hfView.getIdAddres());
@@ -245,14 +260,14 @@ public class HearingFormatController {
         ResponseMessage response = new ResponseMessage();
 
         if (imputed.getBirthDate() != null) {
-            Integer age = userService.calculateAge(imputed.getBirthDate());
+            Integer age = sharedUserService.calculateAge(imputed.getBirthDate());
             if (age.compareTo(18) == -1) {
-                return new ResponseMessage(true, "El imputado debe tener más de 18 años para continuar.");
+                return new ResponseMessage(true, "El imputado debe tener mï¿½s de 18 aï¿½os para continuar.");
             }
         }
 
         /*if (caseRepository.findByIdMP(idJudicial) != null) {
-            return new ResponseMessage(true, "El número de Carpeta Judicial ya existe, verifique los datos.");
+            return new ResponseMessage(true, "El nï¿½mero de Carpeta Judicial ya existe, verifique los datos.");
         }*/
 
         try {
@@ -264,8 +279,7 @@ public class HearingFormatController {
             response = caseService.saveConditionaReprieveCase(caseDet);
 
         } catch (Exception ex) {
-            System.out.println("Error al guardar el caso de suspensi?n condicional de proceso!!!");
-            ex.printStackTrace();
+            logException.Write(ex, this.getClass(), "doNewCase", sharedUserService);
             response.setHasError(true);
             response.setTitle("Formato de audiencia");
             response.setMessage("Error al guardar el caso de suspensi?n condicional de proceso!!!");

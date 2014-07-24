@@ -51,9 +51,6 @@ public class ActiveMonitoringPlanController {
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
 
-    @Autowired
-    private SharedUserService userService;
-
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/list", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -265,7 +262,7 @@ public class ActiveMonitoringPlanController {
             }
 
             trackMonPlanService.saveAuthRejectMonPlan(model, user, monPlan, MonitoringConstants.STATUS_END,
-                    MonitoringConstants.STATUS_REJECTED_END, MonitoringConstants.TYPE_COMMENT_END);
+                    MonitoringConstants.STATUS_REJECTED_END, MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END);
 
             response.setHasError(false);
         } catch (Exception ex) {

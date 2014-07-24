@@ -57,6 +57,7 @@ app.controller('processAcompanimentController', function ($scope, $rootScope, $t
             }, 200);
         };
 
+        $scope.auxMap="framing";
         $scope.fillAccompaniment = function (data) {
 
             $scope.pa.name=data.name;
@@ -72,14 +73,13 @@ app.controller('processAcompanimentController', function ($scope, $rootScope, $t
             $scope.pa.degree=data.degree;
             $scope.pa.relationshipId=data.relationshipId;
             $scope.fillRelationship();
-
-
             $rootScope.$broadcast("setAddress", data.address);
+
         };
 
-        $scope.init = function () {
+        $scope.init=function(){
+
             $scope.loadProcessAccompaniment();
-            $scope.fillRelationship();
         };
 
         $timeout(function () {

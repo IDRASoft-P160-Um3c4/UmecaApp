@@ -33,7 +33,7 @@
                     url: '<c:url value='/supervisor/manageMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', index: 'caseId', width: 65, align: "center", sortable: true, search: false },
@@ -65,17 +65,17 @@
                             var be = "";
 
                             if (status === "RECHAZADO AUTORIZAR"){
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de autorización\" onclick=\"window.showRejectAuthMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-warning\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de autorizaci&oacute;n\" onclick=\"window.showRejectAuthMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-warning\"></span></a>";
                             }else if(status === "RECHAZADO TERMINAR"){
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de finalización\" onclick=\"window.showRejectAuthEndMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-danger\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de finalizaci&oacute;n\" onclick=\"window.showRejectAuthEndMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-danger\"></span></a>";
                             }
 
                             if (status !== "RECHAZADO AUTORIZAR" && status !== "RECHAZADO TERMINAR" && status !== "EN PROCESO DE AUTORIZAR"  && status !== "EN PROCESO DE TERMINAR") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar finalización del plan de seguimiento\" onclick=\"window.reqEndPlan('" + cl + "');\"><span class=\"glyphicon glyphicon-off\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar finalizaci&oacute;n del plan de seguimiento\" onclick=\"window.reqEndPlan('" + cl + "');\"><span class=\"glyphicon glyphicon-off\"></span></a>";
                             }
 
                             /*if (status === "NUEVO") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisiï¿½n\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
                             }*/
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

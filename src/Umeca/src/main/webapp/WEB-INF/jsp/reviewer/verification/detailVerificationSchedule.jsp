@@ -19,7 +19,7 @@
                                 <div class="col-xs-9 col-xs-offset-1" ng-show ="listSchedule.length > 0">
                                     <div class="row center">
                                         <div class="col-xs-5">
-                                            <h5 class="smaller lighter blue">Día</h5>
+                                            <h5 class="smaller lighter blue">D&iacute;a(s)</h5>
                                             <div class="hr hr-2"></div>
                                         </div>
                                         <div class="col-xs-2">

@@ -13,7 +13,7 @@
         Empresa:
     </div>
     <div class="col-xs-10">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 150 caracteres"
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
                data-val-length-max="150" data-val-length-min="3"
                data-val-required="La empresa es un campo requerido"
                type="text" ng-model="j.company" id="company" name="jobs.company">
@@ -34,7 +34,7 @@
         Puesto:
     </div>
     <div class="col-xs-10">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                data-val-length-max="50" data-val-length-min="3" data-val-required="El puesto es un campo requerido"
                type="text" value="{{j.post}}" name="jobs.post" id="post">
         <span class="field-validation-valid" data-valmsg-for="post" data-valmsg-replace="true"></span>
@@ -51,12 +51,12 @@
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('jobs.phone',j.id);"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.phone',j.id)"></i>
-        Teléfono:
+        Tel&eacute;fono:
     </div>
     <div class="col-xs-10">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y máximo 20 caracteres"
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y m&aacute;ximo 20 caracteres"
                data-val-length-max="20" data-val-length-min="8"
-               data-val-required="El teléfono es un campo requerido"
+               data-val-required="El tel&eacute;fono es un campo requerido"
                type="text" value="{{j.phone}}" name="jobs.phone" id="phone">
         <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
     </div>
@@ -72,12 +72,12 @@
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('jobs.nameHead',j.id);"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.nameHead',j.id)"></i>
-        Nombre del patrón:
+        Nombre del patr&oacute;n:
     </div>
     <div class="col-xs-10">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y máximo 150 caracteres"
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m&aacute;ximo 150 caracteres"
                data-val-length-max="150" data-val-length-min="6"
-               data-val-required="El nombre del patrón es un campo requerido"
+               data-val-required="El nombre del patr&oacute;n es un campo requerido"
                type="text" value="{{j.nameHead}}" name="jobs.nameHead" id="nameHead">
         <span class="field-validation-valid" data-valmsg-for="nameHead" data-valmsg-replace="true"></span>
     </div>
@@ -93,13 +93,14 @@
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('jobs.address',j.id);"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.address',j.id)"></i>
-        Dirección:
+        Direcci&oacute;n:
     </div>
     <div class="col-xs-10">
         <textarea class="form-control" name="jobs.address" id="address"
-                  data-val="true" data-val-required="La dirección es un campo requerido"
-                  data-val-length="Debe tener al menos 6 y máximo 500 caracteres"
-                  data-val-length-max="500" data-val-length-min="6">{{j.address}}</textarea>
+                  data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
+                  ng-model="j.address"
+                  data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
+                  data-val-length-max="500" data-val-length-min="6"></textarea>
         <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
     </div>
 </div>
@@ -135,7 +136,7 @@
                 <div class="row">
 
                     <h4 ng-show="verification ==true">Trabajo {{j.registerType.name}}</h4>
-                    <h4 ng-show="verification == false">Especificación del trabajo</h4>
+                    <h4 ng-show="verification == false">Especificaci&oacute;n del trabajo</h4>
 
                 </div>
             </div>
@@ -182,7 +183,8 @@
                                 <textarea id="form-field-11" class="form-control"
                                           name="jobs.reasonChange"
                                           data-val="true"
-                                          data-val-required="El motivo de cambio es un campo requerido">{{j.reasonChange}}</textarea>
+                                          ng-model="j.reasonChange"
+                                          data-val-required="El motivo de cambio es un campo requerido"></textarea>
                                 <span class="field-validation-valid" data-valmsg-for="reasonChange"
                                       data-valmsg-replace="true"></span>
                             </div>
@@ -198,7 +200,7 @@
             <div class="widget-header">
                 <div class="row">
                     <h4 ng-show="verification ==true">Trabajo {{j.registerType.name}}</h4>
-                    <h4 ng-show="verification == false">Especificación del trabajo</h4>
+                    <h4 ng-show="verification == false">Especificaci&oacute;n del trabajo</h4>
 
                 </div>
             </div>
@@ -230,11 +232,11 @@
                             </div>
                             <div class="col-xs-3">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener máximo 7 caracteres" name="jobs.salaryWeek"
+                                       data-val-length="Debe tener m&aacute;ximo 7 caracteres" name="jobs.salaryWeek"
                                        data-val-length-max="7" data-val-length-min="1"
                                        data-val-required="El salario semanal es un campo requerido"
                                        data-val-regex-pattern="([0-9]+(.[0-9])?)"
-                                       data-val-regex="El salario sólo puede contener números y un punto"
+                                       data-val-regex="El salario s&oacute;lo puede contener n&uacute;meros y un punto"
                                        type="text" value="{{j.salaryWeek}}">
 
                                     <span class="field-validation-valid" data-valmsg-for="salaryWeek"
@@ -266,7 +268,7 @@
                                             <thead class="thin-border-bottom">
                                             <tr>
                                                 <th class="element-center">
-                                                    Día(s)
+                                                    D&iacute;a(s)
                                                 </th>
                                                 <th class="element-center">
                                                     Hora de inicio

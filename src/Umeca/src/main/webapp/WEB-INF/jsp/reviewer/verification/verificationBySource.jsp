@@ -29,21 +29,26 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/addressCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/leavingCountryCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/meetingCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
-
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ComponentVerificationDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifAddressCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifScheduleCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifActivitiesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/verificationCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/AddressVerificationDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ScheduleVerificationDrct.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/upsertMeetingCtrl.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+    </script>
+
 <style>
+
     body {
         font-size: 11px;
     }
@@ -57,6 +62,10 @@
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
         }
 
+        window.verificationActivities = function(id) {
+            window.showUpsertWithIdCase(id, "#upsertModal", "<c:url value='/reviewer/verification/verificationActivities.html?idSource=${idSource}'/>", undefined,undefined, ${idCase});
+        };
+
     </script>
     <title>Usuarios</title>
 
@@ -69,7 +78,7 @@
                ng-update-hidden>
         <input type="hidden" ng-init="urlVerifNotKnow= '<c:url value="/reviewer/verification/verifBySourceNotKnow.json"/>'" ng-model="urlVerifTrue"
                ng-update-hidden>
-        <h2 class="element-center"><i class="glyphicon icon-edit "></i>&nbsp;&nbsp;Entrevista de verificación</h2>
+        <h2 class="element-center"><i class="glyphicon icon-edit "></i>&nbsp;&nbsp;Entrevista de verificaci&oacute;n</h2>
         <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
         <div class="row">
         <div class="col-xs-12 widget-container-span">
@@ -108,7 +117,7 @@
                             </div>
                             <div class="col-xs-5 col-xs-offset-1">
                                 <div class="col-xs-2 smaller lighter blue">
-                                    Teléfono:
+                                    Tel&eacute;fono:
                                 </div>
                                 <div class="col-xs-10 ">
                                     {{source.phone}}
@@ -118,7 +127,7 @@
                         <div class="row">
                             <div class="col-xs-10">
                                 <div class="col-xs-1 smaller lighter blue">
-                                    Dirección:
+                                    Direcci&oacute;n:
                                 </div>
                                 <div class="col-xs-10">
                                     {{source.address}}
@@ -184,7 +193,7 @@
                                 <i class="blue icon-globe  bigger-200"></i>
                                 Facilidad de <br/>
 
-                                <div class="col-xs-offset-3">abandonar el país</div>
+                                <div class="col-xs-offset-3">abandonar el paï¿½s</div>
                             </a>
                         </li>
                     </ul>
@@ -216,7 +225,7 @@
                                             <div class="col-xs-7">
                                                 <input class="form-control" type="text" value="${m.imputed.name}"
                                                        name="imputed.name" data-val-required="El nombre es un campo requerido"
-                                                       data-val-length="Debe tener m?nimo 2 y m?ximo 50 caracteres"
+                                                       data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
                                                        data-val-length-max="50" data-val-length-min="2"/>
                                                  <span class="field-validation-valid" data-valmsg-for="imputed.name"
                                                        data-valmsg-replace="true"></span>
@@ -237,7 +246,7 @@
                                             <div class="col-xs-7">
                                                 <input class="form-control" type="text" value="${m.imputed.lastNameP}"
                                                        name="imputed.lastNameP" data-val-required="El nombre es un campo requerido"
-                                                       data-val-length="Debe tener m?nimo 2 y m?ximo 50 caracteres"
+                                                       data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
                                                        data-val-length-max="50" data-val-length-min="2"/>
                                                  <span class="field-validation-valid" data-valmsg-for="imputed.lastNameP"
                                                        data-valmsg-replace="true"></span>
@@ -258,7 +267,7 @@
                                             <div class="col-xs-7">
                                                 <input class="form-control" type="text" value="${m.imputed.lastNameM}"
                                                        name="imputed.lastNameM" data-val-required="El nombre es un campo requerido"
-                                                       data-val-length="Debe tener m?nimo 2 y m?ximo 50 caracteres"
+                                                       data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
                                                        data-val-length-max="50" data-val-length-min="2"/>
                                                  <span class="field-validation-valid" data-valmsg-for="imputed.lastNameM"
                                                        data-valmsg-replace="true"></span>
@@ -321,7 +330,7 @@
                             <%@ include file="/WEB-INF/jsp/reviewer/verification/drug/accordeon.jsp" %>
                         </div>
                         <div id="leaveCountry" class="tab-pane">
-                            <div class="row">
+                            <div class="row center">
                                 <div class="col-xs-10 col-xs-offset-1">
                                     <%@ include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry/content.jsp" %>
                                 </div>
@@ -344,6 +353,9 @@
         </div>
     </div>
 
+    <div ng-controller="modalDlgController" id="upsertModal">
+
+    </div>
     <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
     <%@ include file="/WEB-INF/jsp/reviewer/verification/detailVerification.jsp" %>
     <%@ include file="/WEB-INF/jsp/reviewer/verification/detailVerificationAddress.jsp" %>

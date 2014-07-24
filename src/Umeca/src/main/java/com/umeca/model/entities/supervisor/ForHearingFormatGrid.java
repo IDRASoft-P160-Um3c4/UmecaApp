@@ -1,7 +1,12 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.CalendarExt;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.EntityGrid;
 import com.umeca.model.shared.HearingFormatConstants;
+
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * Created by Vmware on 22/05/2014.
@@ -15,10 +20,11 @@ public class ForHearingFormatGrid implements EntityGrid {
     private String hearingType;
     private String extension;
     private String processVinc;
+    private String registerTime;
 
     private StringBuilder sb;
 
-    public ForHearingFormatGrid(Long id, String idFolder, String idMP, String name, String lastNP, String lastNM, Integer hType, Integer ext, Integer pVinc) {
+    public ForHearingFormatGrid(Long id, String idFolder, String idMP, String name, String lastNP, String lastNM, Integer hType, Integer ext, Integer pVinc,Calendar registerTime ) {
         this.id = id;
         this.idFolder = idFolder;
         this.idMP = idMP;
@@ -54,6 +60,8 @@ public class ForHearingFormatGrid implements EntityGrid {
             extension = "72 hrs";
         if (ext.equals(HearingFormatConstants.EXTENSION_NO))
             extension = "No";
+
+        this.registerTime = CalendarExt.calendarToFormatString(registerTime, Constants.FORMAT_CALENDAR_I);
     }
 
     public Long getId() {
@@ -110,5 +118,13 @@ public class ForHearingFormatGrid implements EntityGrid {
 
     public void setIdFolder(String idFolder) {
         this.idFolder = idFolder;
+    }
+
+    public String getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(String registerTime) {
+        this.registerTime = registerTime;
     }
 }

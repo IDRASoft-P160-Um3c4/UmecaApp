@@ -30,7 +30,7 @@
                     url: '<c:url value='/supervisor/trackMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignación', 'Fecha generación', 'Fecha autorización', 'Estatus', 'Asignado a', 'Acción'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', index: 'caseId', width: 65, align: "center", sortable: true, search: false },
@@ -63,7 +63,7 @@
 
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Seguimiento al plan\" onclick=\"window.track('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
                             /*if (status === "NUEVO") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisión\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisiï¿½n\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
                             }*/
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

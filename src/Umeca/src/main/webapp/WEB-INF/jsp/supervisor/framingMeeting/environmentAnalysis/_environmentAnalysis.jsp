@@ -11,7 +11,7 @@
     <div class="col-xs-10 col-xs-offset-1">
 
         <div class="row element-center">
-            <h2><i class="blue icon-eye-open bigger-100"></i> &nbsp;Analisis del entorno
+            <h2><i class="blue icon-eye-open bigger-100"></i> &nbsp;An&aacute;lisis del entorno
             </h2>
         </div>
 
@@ -38,7 +38,7 @@
 
                     <div class="col-xs-6">
                         <div class="widget-box">
-                            <div class="widget-header">Vinculos</div>
+                            <div class="widget-header">V&iacute;nculos</div>
                             <div class="widget-body">
 
                                 <div class="row">
@@ -57,7 +57,8 @@
                                                 <input id="chkSource_{{source.id}}"
                                                        ng-checked='lstSelectedSources.indexOf(source.id)>=0'
                                                        ng-click="selectSource(source.id);"
-                                                       class="ace" type="checkbox">
+                                                       class="ace" type="checkbox"
+                                                        ng-disabled="{{fm.objView.canTerminate==false}}">
                                                 <span class="lbl">&nbsp;&nbsp;{{source.description}}</span>
                                             </label>
                                         </div>
@@ -111,7 +112,8 @@
                                                        ng-click="selectRisk(risk.id);"
                                                        ng-checked='lstSelectedRisk.indexOf(risk.id)>=0'
                                                        class="ace"
-                                                       type="checkbox">
+                                                       type="checkbox"
+                                                       ng-disabled="{{fm.objView.canTerminate==false}}">
                                                 <span class="lbl">&nbsp;&nbsp;{{risk.description}}</span>
                                             </label>
                                         </div>
@@ -143,7 +145,8 @@
                                                        ng-click="selectThreat(threat.id);"
                                                        ng-checked='lstSelectedThreat.indexOf(threat.id)>=0'
                                                        class="ace"
-                                                       type="checkbox">
+                                                       type="checkbox"
+                                                       ng-disabled="{{fm.objView.canTerminate==false}}">
                                                 <span class="lbl">&nbsp;&nbsp;{{threat.description}}</span>
                                             </label>
                                         </div>
@@ -162,7 +165,7 @@
     </div>
 
     <div class="col-xs-12">
-        <div class="modal-footer">
+        <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
               ng-click="submitIdCaseParam('#FormEnvironmentAnalisysId', '<c:url value="/supervisor/framingMeeting/environmentAnalysis/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>

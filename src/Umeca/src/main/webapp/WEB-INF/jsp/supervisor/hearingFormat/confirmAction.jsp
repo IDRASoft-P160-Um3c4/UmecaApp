@@ -3,12 +3,11 @@
         <div class="modal-content">
             <div class="modal-header">
 
-
                 <div class="alert alert-info">
                     <h4 class="modal-title element-center">Cerrar caso</h4>
                     <br/>
-                    Se cerrará el caso por que no existe una vinculación a proceso. Debe ingresar sus credenciales para
-                    confimar esta acción.
+                    Se cerrar&aacute; el caso por que no existe una vinculaci&oacute;n a proceso. Debe ingresar sus credenciales para
+                    confimar esta acci&oacute;n.
                 </div>
             </div>
 
@@ -31,7 +30,7 @@
                         </div>
 
                         <div class="row" ng-show="m.confirmComment.length>0">
-                            <label for="credPass">Password</label>
+                            <label for="credPass">Contraseña</label>
                             <br/>
                             <input id="credPass" ng-model="m.credPass" name="credPass"
                                    type="password" data-val="true" class="input-xlarge"

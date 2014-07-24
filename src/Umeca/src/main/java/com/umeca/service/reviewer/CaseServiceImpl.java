@@ -1,19 +1,29 @@
 package com.umeca.service.reviewer;
 
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.StatusMeeting;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.FolderConditionalReprieve;
+import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
+import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.StatusMeetingRepository;
 import com.umeca.repository.reviewer.ImputedRepository;
 import com.umeca.repository.supervisor.FolderConditionalReprieveRepository;
+import com.umeca.repository.supervisor.HearingFormatRepository;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +32,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -49,6 +59,12 @@ public class CaseServiceImpl implements CaseService {
 
     @Autowired
     FolderConditionalReprieveRepository folderConditionalReprieveRepository;
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
 
     @Override
@@ -82,6 +98,7 @@ public class CaseServiceImpl implements CaseService {
             caseDet = caseRepository.save(caseDet);
             caseRepository.flush();
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"save",sharedUserService);
             System.out.println("Error al guardar el caso!!");
             System.out.println(e.getMessage());
         }
@@ -114,8 +131,7 @@ public class CaseServiceImpl implements CaseService {
             resp.setMessage("Se ha guardado el caso con exito.");
 
         }catch (Exception e){
-            System.out.println("Error al guardar el caso por suspension condicional de proceso!!!");
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"saveConditionaReprieveCase",sharedUserService);
             resp.setHasError(true);
             resp.setMessage("Ha ocurrido un error en el servidor, intente mas tarde");
         }
@@ -172,19 +188,66 @@ public class CaseServiceImpl implements CaseService {
                     }
                 }
             } catch (IllegalAccessException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                logException.Write(e,this.getClass(),"validateStatus",sharedUserService);
             } catch (IntrospectionException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                logException.Write(e,this.getClass(),"validateStatus",sharedUserService);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                logException.Write(e,this.getClass(),"validateStatus",sharedUserService);
             }
             return false;
         }
     }
 
-
     @Override
     public Case findByIdFolder(String idFolder) {
         return caseRepository.findByIdFolder(idFolder);
     }
+
+
+    @Autowired
+    LogCommentRepository logCommentRepository;
+
+    @Autowired
+    HearingFormatRepository hearingFormatRepository;
+
+    @Override
+    @Transactional
+    public void saveAuthRejectCloseCase(AuthorizeRejectMonPlan model, User user, Case caseDet) {
+        String statusAction;
+        StatusCase statusCase;
+
+        if(model.getAuthorized() == 1){
+            statusAction = MonitoringConstants.STATUS_AUTHORIZED;
+            statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
+        }else{
+            statusAction = MonitoringConstants.STATUS_REJECTED_AUTHORIZED;
+            statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
+        }
+
+        List<Long> lstUserIds = hearingFormatRepository.findLastSupervisorIdByCaseId(caseDet.getId(), new PageRequest(0, 1));
+        User supervisor = new User();
+        supervisor.setId(lstUserIds.get(0));
+
+        caseDet.setStatus(statusCase);
+        generateLogComment(model.getComments(), user, caseDet, statusAction, supervisor, MonitoringConstants.TYPE_COMMENT_CASE_END);
+        caseRepository.save(caseDet);
+    }
+
+    public void generateLogComment(String comments, User userSender, Case caseDet,
+                                    String action, User userReceiver, String type) {
+        LogComment commentModel = new LogComment();
+        Calendar now = Calendar.getInstance();
+        commentModel.setComments(comments);
+        commentModel.setAction(action);
+        commentModel.setCaseDetention(caseDet);
+        commentModel.setReceiveUser(userReceiver);
+        commentModel.setSenderUser(userSender);
+        commentModel.setTimestamp(now);
+        commentModel.setType(type);
+        logCommentRepository.save(commentModel);
+    }
+
 }

@@ -1,35 +1,34 @@
-<div ng-init ='lstActivitiesNew = ${lstActivitiesNew}; lstActivitiesOld = ${lstActivitiesOld}; lstNotification = ${lstNotification};'></div>
 
 <div id="tasks-tab" class="tab-pane active">
-    <h4 class="smaller lighter green" ng-show="lstActivitiesNew.length > 0">
+    <h4 class="smaller lighter green" ng-show="lstActivities.length > 0">
         <i class="icon-list"></i>
-        Actividades por hacer el día de hoy
+        Actividades por realizar
     </h4>
 
     <ul id="tasksToday" class="item-list">
-        <li class="item-orange clearfix" ng-repeat="a in lstActivitiesNew">
-            <label class="inline">
-                <i class="glyphicon glyphicon-paperclip green"></i> &nbsp;&nbsp;
-                <span class="lbl">Caso {{a.caseId}} (<strong>{{a.mpId}}</strong>), del <strong>{{a.start}}</strong> al <strong>{{a.end}}.</strong><br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Imputado: {{a.personName}}, {{a.activityName}} / {{a.goalName}}</span>
-            </label>
+        <li class="item-orange clearfix" ng-repeat="a in lstActivities">
+            <div class="col-xs-11">
+
+                <div class="row">
+                    <div class="col-xs-9">
+                        <label class="inline">
+                            <i class="glyphicon glyphicon-paperclip green"></i> &nbsp;&nbsp;
+                                <span class="lbl"><strong>{{a.title}}</strong><br/>
+                                    </span>
+                        </label>
+                    </div>
+                    <div class="col-xs-1 col-xs-offset-1">
+                        {{myFormatDate(a.orderDate)}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <span>{{a.message}}</span>
+                </div>
+            </div>
+        </li>
+        <li class="item-green clearfix" ng-show="{{lstActivities.length == 0}}">
+                No existen actividades pendientes.
         </li>
     </ul>
-
-    <div class="space-14" ></div>
-    <h4 class="smaller lighter color-danger" ng-show="lstActivitiesOld.length > 0">
-        <i class="icon-list"></i>
-        Actividades pendientes de días pasados
-    </h4>
-
-    <ul id="tasksOld" class="item-list">
-        <li class="item-purple clearfix" ng-repeat="a in lstActivitiesOld">
-            <label class="inline">
-                <i class="glyphicon glyphicon-fire color-warning"></i> &nbsp;&nbsp;
-                <span class="lbl">Caso {{a.caseId}} (<strong>{{a.mpId}}</strong>), del <strong>{{a.start}}</strong> al <strong>{{a.end}}.</strong><br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Imputado: {{a.personName}}, {{a.activityName}} / {{a.goalName}}</span>
-            </label>
-        </li>
-    </ul>
-
 </div>

@@ -36,7 +36,7 @@
 <br/>
 
 <div class="row">
-    <label>¿Se encuentra en algun tipo de tratamiento de adicciones?</label>
+    <label>&iquest;Se encuentra en algun tipo de tratamiento de adicciones?</label>
     <br/>
     <span class="field-validation-valid" data-valmsg-for="addictionTreatment"
           data-valmsg-replace="true"></span>
@@ -60,12 +60,12 @@
 
 <div class="row">
     <div class="col-xs-8" ng-show='aq.addictionTreatment==1'>
-        <label>¿En que institución?</label>
+        <label>&iquest;En que instituci&oacute;n?</label>
         <br/>
         <textarea class="input-xxlarge form-control limited" name="addictionTreatmentInstitute"
                   ng-model="aq.addictionTreatmentInstitute"
                   maxlength="980" data-val="true"
-                  data-val-required="Institución es un campo requerido">{{aq.addictionTreatmentInstitute}}
+                  data-val-required="Instituci&oacute;n es un campo requerido">
         </textarea>
                                             <span class="field-validation-valid"
                                                   data-valmsg-for="addictionTreatmentInstitute"
@@ -74,14 +74,14 @@
     <br/>
 
     <div class="col-xs-4" ng-show='aq.addictionTreatment==1'>
-        <label for="addictionTreatmentDate">¿Desde cuando?</label>
+        <label for="addictionTreatmentDate">&iquest;Desde cu&aacute;ndo?</label>
         <br/>
 
         <div class="input-group">
             <input class="form-control date-picker"
                    id="addictionTreatmentDate" name="addictionTreatmentDate"
                    type="text"
-                   data-date-format="dd/mm/yyyy" readonly
+                   data-date-format="yyyy/mm/dd" readonly
                    ng-model="aq.addictionTreatmentDate"
                    data-val="true"
                    data-val-required="Fecha de tratamiento es un campo requerido"/>
@@ -98,7 +98,7 @@
 <br/>
 
 <div class="row">
-    <label>¿Tus familiares y/o amigos consumen substancias adictivas? {{aq.addictedAcquaintance}}</label>
+    <label>&iquest;Tus familiares y/o amigos consumen substancias adictivas?</label>
     <br/>
     <input type="hidden" name="selectedAddictedAcquaintances" value="{{selectedAddictedAcquaintances}}">
   <span class="field-validation-valid" data-valmsg-for="addictedAcquaintance"
@@ -121,7 +121,7 @@
     <br/>
 
     <div ng-show="aq.addictedAcquaintance==1">
-        <label>¿Que parentesco tienes con ellos?</label>
+        <label>&iquest;Que parentesco tienes con ellos?</label>
         <br/>
 
         <div ng-show="errorSelAddAcq&&errorSelAddAcq!=''"
@@ -134,7 +134,7 @@
             <div class="col-xs-offset-10 col-xs-offset-1">
                 <label>
                     <input class="ace" ng-model="selectedAddictedAcquaintances[$index].selVal"
-                           type="checkbox">
+                           type="checkbox" ng-disabled="{{fm.objView.canTerminate==false}}">
                     <span class="lbl">&nbsp;&nbsp;{{addictedAcq.name}}</span>
                 </label>
             </div>
@@ -146,7 +146,7 @@
 <br/>
 
 <div class="row">
-    <label>¿Cuenta con familiares en el extranjero?</label>
+    <label>&iquest;Cuenta con familiares en el extranjero?</label>
     <br/>
  <span class="field-validation-valid" data-valmsg-for="relativeAbroad"
        data-valmsg-replace="true"></span>
@@ -168,7 +168,7 @@
     <br/>
 
     <div ng-show="aq.relativeAbroad==1">
-        <label>¿Que parentesco tienes con ellos?</label>
+        <label>&iquest;Que parentesco tienes con ellos?</label>
         <br/>
         <input type="hidden" name="selectedRelativesAbroad" value="{{selectedRelativesAbroad}}">
 
@@ -182,16 +182,18 @@
                     <label ng-click="validateRelAbroad();">
                         <input class="ace"
                                ng-model="selectedRelativesAbroad[$index].selVal"
-                               type="checkbox">
+                               type="checkbox"
+                               ng-disabled="{{fm.objView.canTerminate==false}}">
                         <span class="lbl">&nbsp;&nbsp;{{relativeAbroad.name}}</span>
                     </label>
                 </div>
                 <div class="col-xs-offset-1" ng-show="selectedRelativesAbroad[$index].selVal==true">
-                    <label>¿Dónde vive?</label>
+                    <label>&iquest;D&oacute;nde vive?</label>
                     <textarea class="form-control limited"
                               maxlength="980" ng-blur="validateRelAbroad();"
                               ng-model="selectedRelativesAbroad[$index].description"
-                            >{{selectedRelativesAbroad[$index].description}}</textarea>
+                              ng-disabled="{{fm.objView.canTerminate==false}}"
+                            ></textarea>
                 </div>
 
             </div>
@@ -202,7 +204,7 @@
 <br/>
 
 <div class="row">
-    <label>¿Consideras que alguna de las obligaciones impuestas será difícil de cumplir?</label>
+    <label>&iquest;Consideras que alguna de las obligaciones impuestas ser&aacute; dif&iacute;cil de cumplir?</label>
     <br/>
  <span class="field-validation-valid" data-valmsg-for="obligationIssue"
        data-valmsg-replace="true"></span>
@@ -224,7 +226,7 @@
     <br/>
 
     <div ng-show="aq.obligationIssue==1">
-        <label>¿Cuales?</label>
+        <label>&iquest;Cu&aacute;les?</label>
         <br/>
         <input type="hidden" name="selectedObligationIssues" value="{{selectedObligationIssues}}">
 
@@ -238,7 +240,7 @@
                     <label ng-click="validateOblIssues();">
                         <input class="ace"
                                ng-model="selectedObligationIssues[$index].selVal"
-                               type="checkbox">
+                               type="checkbox" ng-disabled="{{fm.objView.canTerminate==false}}">
                         <span class="lbl">&nbsp;&nbsp;{{obliIssue.name}}</span>
                     </label>
                 </div>
@@ -248,7 +250,8 @@
                               maxlength="980"
                               ng-model="selectedObligationIssues[$index].description"
                               ng-blur="validateOblIssues();"
-                            >{{selectedObligationIssues[$index].description}}</textarea>
+                              ng-disabled="{{fm.objView.canTerminate==false}}"
+                            ></textarea>
                 </div>
             </div>
         </div>
@@ -264,7 +267,7 @@
         <textarea class="input-xxlarge form-control limited" name="observations"
                   ng-model="aq.observations"
                   maxlength="980" data-val="true"
-                  data-val-required="Comentarios es un campo requerido">{{observations}}
+                  data-val-required="Comentarios es un campo requerido">
         </textarea>
                                             <span class="field-validation-valid" data-valmsg-for="observations"
                                                   data-valmsg-replace="true"></span>
@@ -287,7 +290,7 @@
 
 <div class="col-xs-12">
     <div class="modal-footer">
-        <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+        <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-show="{{fm.objView.canTerminate==true}}"
               ng-click="submitIdCaseParam('#FormAddQuest', '<c:url value="/supervisor/framingMeeting/additionalQuestions/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>
               Guardar

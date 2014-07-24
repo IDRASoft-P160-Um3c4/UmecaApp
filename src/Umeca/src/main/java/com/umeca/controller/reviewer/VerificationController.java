@@ -7,11 +7,14 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.Activity;
 import com.umeca.model.catalog.StatusVerification;
+import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.VerificationView;
 import com.umeca.model.entities.reviewer.dto.FieldVerified;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.catalog.ActivityRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.CaseService;
@@ -291,6 +294,27 @@ public class VerificationController {
     @RequestMapping(value = "reviewer/verification/source/upsert", method = RequestMethod.POST)
     public ModelAndView upsertSource(@RequestParam(required = true) Long idCase, @RequestParam(required = false) Long id){
      return verificationService.upsertSource(idCase, id);
+    }
+
+    @Autowired
+    ActivityRepository activityRepository;
+
+    @RequestMapping(value = "reviewer/verification/verificationActivities", method = RequestMethod.POST)
+    public ModelAndView verificationActivities(@RequestParam(required = true) Long idCase,@RequestParam(required = true)Long idSource){
+        ModelAndView model = new ModelAndView("reviewer/verification/detailVerificationActivities");
+        Gson gson = new Gson();
+        model.addObject("idCase",idCase);
+        model.addObject("idSource",idSource);
+        List<CatalogDto> listActivity = new ArrayList<>();
+        for (Activity a : activityRepository.findNotObsolete()) {
+            CatalogDto ca = new CatalogDto();
+            ca.setName(a.getName());
+            ca.setId(a.getId());
+            ca.setSpecification(a.getSpecification());
+            listActivity.add(ca);
+        }
+        model.addObject("lstActivity", gson.toJson(listActivity));
+        return model;
     }
 
 }

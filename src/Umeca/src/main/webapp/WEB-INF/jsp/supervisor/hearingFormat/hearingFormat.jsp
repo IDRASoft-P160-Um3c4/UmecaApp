@@ -23,6 +23,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+    </script>
     <script type="text/javascript">
 
         jQuery(function ($) {
@@ -107,7 +109,8 @@
 <br/>
 
 <div class="container body-content" ng-controller="hearingFormatController" ng-init='m=${hfView}'>
-<%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp" %>
+
+<%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp"%>
 
 <input type="hidden" id="url3" value="<c:url value='/supervisor/hearingFormat/searchArrangementsByType.json'/>"/>
 
@@ -119,7 +122,7 @@
 
     <div class="col-xs-6">
         <h3 class="header smaller lighter blue">
-            <small>Capturó:</small>
+            <small>Captur&aacute;:</small>
             &nbsp;&nbsp;{{m.userName}}
         </h3>
     </div>
@@ -146,6 +149,15 @@
 </div>
 
 <div class="row">
+    <div class="col-xs-12">
+        <div ng-show="MsgError&&MsgError!=''" class="alert alert-danger element-center">
+            <%--{{MsgError}}--%>
+            <p ng-bind-html="MsgError"></p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
 <div class="widget-box">
 <div class="widget-header">Datos generales</div>
 <div class="widget-body">
@@ -164,12 +176,12 @@
                 <div class="row">
 
                     <div class="col-xs-4">
-                        <label for="idFolder">Carpeta de investigación</label>
+                        <label for="idFolder">Carpeta de investigaci&oacute;n</label>
                         <br/>
                         <input id="idFolder" ng-model="m.idFolder" name="idFolder"
                                type="text" class="input-xxlarge" data-val="true"
                                ng-disabled="m.canEdit==false"
-                               data-val-required="Carpeta de investigación es un campo requerido"/>
+                               data-val-required="Carpeta de investigaci&oacute;n es un campo requerido"/>
                         <br/>
                         <span class="field-validation-valid" data-valmsg-for="idFolder"
                               data-valmsg-replace="true"></span>
@@ -213,7 +225,7 @@
                                 <div class="input-group">
                                     <input id="appointmentDate" name="appointmentDate" ng-model="m.appointmentDate"
                                            class="form-control date-picker" id="id-date-picker-1" type="text"
-                                           data-date-format="dd/mm/yyyy" data-val="true" readonly
+                                           data-date-format="yyyy/mm/dd" data-val="true" readonly
                                            data-val-required="Cita es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
@@ -243,13 +255,13 @@
                     </div>
 
                     <div class="col-xs-4">
-                        <label for="endTime">Hora término audiencia</label>
+                        <label for="endTime">Hora t&eacute;rmino audiencia</label>
 
                         <div class="input-group bootstrap-timepicker">
                             <input id="endTime" name="endTime"
                                    ng-change="validateInitEnd();" ng-model="m.endTime"
                                    readonly type="text" class="form-control" min-time="6:00am"
-                                   data-val="true" data-val-required="Hora de término es un campo requerido"/>
+                                   data-val="true" data-val-required="Hora de t&eacute;rmino es un campo requerido"/>
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
                             <br/>
@@ -278,12 +290,12 @@
 
                     <div class="col-xs-4">
 
-                        <label for="mpName">Nombre del Ministerio Público</label>
+                        <label for="mpName">Nombre del Ministerio P&uacute;blico</label>
                         <br/>
                         <input id="mpName" ng-model="m.mpName" name="mpName" type="text"
                                class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Nombre del Ministerio Público es un campo requerido"/>
+                               data-val-required="Nombre del Ministerio Pï¿½blico es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="mpName"
                   data-valmsg-replace="true"></span>
@@ -376,7 +388,7 @@
                                 <div class="input-group">
                                     <input class="form-control date-picker"
                                            id="imputedBirthDate" name="imputedBirthDate" type="text"
-                                           data-date-format="dd/mm/yyyy" ng-disabled="m.canEdit==false"
+                                           data-date-format="yyyy/mm/dd" ng-disabled="m.canEdit==false"
                                            readonly ng-change="calcAge();" ng-model="m.impBthDay" data-val="true"
                                            data-val-required="Fecha de nacimiento es un campo requerido"/>
                                                 <span class="input-group-addon">
@@ -403,12 +415,12 @@
 
                     <div class="col-xs-4">
 
-                        <label for="imputedTel">Telefono(s)</label>
+                        <label for="imputedTel">Tel&eacute;fono(s)</label>
                         <br/>
                         <input id="imputedTel" ng-model="m.imputedTel" name="imputedTel" type="text"
                                class="input-xxlarge"
                                data-val="true" ng-disabled="m.canEdit==false"
-                               data-val-required="Telefono(s) es un campo requerido"/>
+                               data-val-required="Tel&eacute;fono(s) es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedTel"
                   data-valmsg-replace="true"></span>
@@ -441,7 +453,7 @@
                   ng-model="m.crimes"
                   maxlength="980" data-val="true"
                   data-val-required="Delito(s) adicionales es un campo requerido">
-            {{m.crimes}}</textarea>
+            </textarea>
         <span class="field-validation-valid" data-valmsg-for="crimes"
               data-valmsg-replace="true"></span>
     </div>
@@ -453,7 +465,7 @@
                   ng-model="m.additionalData"
                   maxlength="980" data-val="true"
                   data-val-required="Datos adicionales es un campo requerido">
-            {{m.additionalData}}</textarea>
+            </textarea>
         <span class="field-validation-valid" data-valmsg-for="additionalData"
               data-valmsg-replace="true"></span>
     </div>
@@ -464,7 +476,7 @@
 <div class="row">
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Control de detención</div>
+            <div class="widget-header">Control de detenci&oacute;n</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -499,7 +511,7 @@
 
     <div id="divFormImp" class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Formulación de imputación</div>
+            <div class="widget-header">Formulaci&oacute;n de imputaci&oacute;n</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -532,7 +544,7 @@
                             <div class="input-group">
                                 <input class="form-control date-picker"
                                        id="imputationDate" name="imputationDate" ng-model="m.impDate"
-                                       data-date-format="dd/mm/yyyy" type="text" readonly data-val="true"
+                                       data-date-format="yyyy/mm/dd" type="text" readonly data-val="true"
                                        data-val-required="Fecha es un campo requerido">
                             <span class="input-group-addon">
                                 <i class="icon-calendar bigger-110"></i>
@@ -556,7 +568,7 @@
 
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Ampliación del término</div>
+            <div class="widget-header">Ampliaci&oacute;n del t&eacute;rmino</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -593,7 +605,7 @@
 
     <div class="col-xs-6">
         <div class="widget-box">
-            <div class="widget-header">Vinculación a proceso</div>
+            <div class="widget-header">Vinculaci&oacute;n a proceso</div>
             <div class="widget-body">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-3">
@@ -640,7 +652,7 @@
 
                                 <div class="input-group input-large">
                                     <input class="form-control date-picker"
-                                           id="linkageDate" data-date-format="dd/mm/yyyy"
+                                           id="linkageDate" data-date-format="yyyy/mm/dd"
                                            name="linkageDate" ng-model="m.linkageDate"
                                            type="text" readonly data-val="true"
                                            data-val-required="Fecha es un campo requerido">
@@ -758,21 +770,21 @@
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo es un campo requerido">
-                                                {{m.terms}}</textarea>
+                                                </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
                                         </div>
 
                                         <div ng-show="m.arrType==2" class="col-xs-6">
-                                            <label ng-show="m.arrType==2">Plazo de investigación</label>
+                                            <label ng-show="m.arrType==2">Plazo de investigaci&oacute;n</label>
                                             <br/>
                                             <textarea class="form-control limited" name="terms"
                                                       ng-model="m.terms"
                                                       ng-disabled='m.arrType==1'
                                                       maxlength="980"
                                                       data-val="true"
-                                                      data-val-required="Plazo de investigación es un campo requerido">
-                                                {{m.terms}}</textarea>
+                                                      data-val-required="Plazo de investigaci&oacute;n es un campo requerido">
+                                                </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
                                         </div>
@@ -798,7 +810,7 @@
                                                           ng-blur="validateArrangementSel()"
                                                           maxlength="980"
                                                           ng-model="m.lstArrangementShow[$index].description"
-                                                          ng-show="m.lstArrangementShow[$index].selVal==true">{{m.lstArrangementShow[$index].description}}</textarea>
+                                                          ng-show="m.lstArrangementShow[$index].selVal==true"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -835,7 +847,7 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <label for="contactPhone">Teléfono:</label>
+                        <label for="contactPhone">Tel&eacute;fono:</label>
                         <br/>
                         <input id="contactPhone" type="text"
                                class="input-xxlarge" ng-model="m.contactPhone"/>
@@ -844,7 +856,7 @@
 
 
                     <div class="col-xs-4">
-                        <label>Dirección</label>
+                        <label>Direcci&oacute;n</label>
                         <br/>
                         <textarea class="input-xxlarge form-control limited" id="contactAddress"
                                   maxlength="980" ng-model="m.contactAddress">
@@ -885,8 +897,8 @@
                                     <thead class="thin-border-bottom">
                                     <tr>
                                         <th class="element-center">Nombre</th>
-                                        <th class="element-center">Teléfono</th>
-                                        <th class="element-center">Dirección</th>
+                                        <th class="element-center">Tel&eacute;fono</th>
+                                        <th class="element-center">Direcci&oacute;n</th>
                                         <th class="element-center">Quitar</th>
                                     </tr>
                                     </thead>
@@ -918,6 +930,14 @@
         </div>
     </div>
 
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div ng-show="MsgError&&MsgError!=''" class="alert alert-danger element-center">
+            <p ng-bind-html="MsgError"></p>
+        </div>
+    </div>
 </div>
 
 <div class="row element-right">

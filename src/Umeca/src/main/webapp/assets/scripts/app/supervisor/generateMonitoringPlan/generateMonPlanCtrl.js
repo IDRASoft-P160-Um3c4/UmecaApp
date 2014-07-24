@@ -94,6 +94,7 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
             else if(resp.hasError === false){
 
                 try{
+                    $scope.lstActivityDelIds = [];
                     var lstEvents = JSON.parse(resp.returnData);
                     for(var i=0; i<lstEvents.length; i++){
                         var eventInfo = lstEvents[i];

@@ -39,7 +39,7 @@
                 url: '<c:url value='/reviewer/verification/listSourceAdd.json?id=${idCase}' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Nombre','Edad', 'Parentesco', 'Dirección', 'Teléfono','Estatus','Complete','IdCase', 'Acción'],
+                colNames: ['ID', 'Nombre','Edad', 'Parentesco', 'Dirección', 'Tel&eacute;fono','Estatus','Complete','IdCase', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

@@ -44,15 +44,16 @@
                 url: '<c:url value='/supervisor/hearingFormat/listFormats.json' />' + '?id=' +${idCase},
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Carpeta <br/>de Investigación' , 'Carpeta Judicial', 'Nombre completo', 'Audiencia', 'Ampliación <br/>de plazo', 'Vinculación <br/>a proceso', 'Acción'],
+                colNames: ['ID', 'Carpeta <br/>de Investigaci&oacute;n' , 'Carpeta Judicial', 'Nombre completo', 'Fecha de registro','Audiencia', 'Ampliaci&oacute;n <br/>de plazo', 'Vinculaci&oacute;n <br/>a proceso', 'Acci&oacute;n'],
                 colModel: [
-                    { name: 'id', index: 'id', hidden: true },
-                    { name: 'idFolder', index: 'idFolder', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'idMP', index: 'idMP', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullName', index: 'fullName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'hearingType', index: 'hearingType', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'extension', index: 'extension', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'processVinc', index: 'processVinc', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'id', index: 'id', hidden: true,sortable: false, search: false },
+                    { name: 'idFolder', index: 'idFolder', width: 150, align: "center", sortable: false, search: false },
+                    { name: 'idMP', index: 'idMP', width: 150, align: "center", sortable: false, search: false },
+                    { name: 'fullName', index: 'fullName', width: 200, align: "center", sortable: false, search: false },
+                    { name: 'registerTime', index: 'registerTime', width: 150, align: "center", sortable: false, search: false },
+                    { name: 'hearingType', index: 'hearingType', width: 100, align: "center", sortable: false, search: false },
+                    { name: 'extension', index: 'extension', width: 100, align: "center", sortable: false, search: false },
+                    { name: 'processVinc', index: 'processVinc', width: 100, align: "center", sortable: false, search: false },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
@@ -120,8 +121,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-xs-10 col-xs-offset-1">
+    <div class="row element-right">
+        <div class="col-xs-12">
     <span class="btn btn-default btn-sm"
           onclick="returnHearing('<c:url value='/supervisor/hearingFormat/index.html'/>')">
                                 Regresar

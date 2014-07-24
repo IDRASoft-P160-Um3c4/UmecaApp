@@ -83,7 +83,7 @@
        ng-model="urlShowChoices"
        ng-update-hidden>
 
-<h2 class="element-center"><i class="glyphicon icon-edit "></i>&nbsp;&nbsp;Entrevista de verificaci�n</h2>
+<h2 class="element-center"><i class="glyphicon icon-list"></i>&nbsp;&nbsp;Elecci&oacute;n de informaci&oacute;n</h2>
 <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
 <br/>
 
@@ -306,7 +306,7 @@
                 Facilidad de
                 <br/>
 
-                <div class="col-xs-offset-3">abandonar el pa�s</div>
+                <div class="col-xs-offset-3">abandonar el pa&iacute;s</div>
             </div>
             <div class="col-xs-2" ng-show="listMsgError['leaveCountry'].length > 0">
                 <div class="tools">
@@ -481,7 +481,7 @@
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="terminateVerification('<c:url value="/reviewer/verification/terminateVerification.json?idCase=${idCase}"/>');">
-                          Terminar Verificaci�n
+                          Terminar Verificaci&oacute;n
                     </span>
     </div>
 </div>

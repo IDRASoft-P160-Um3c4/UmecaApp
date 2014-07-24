@@ -21,7 +21,7 @@
         </div>
         <div class="col-xs-10">
             <input class="form-control" type="text"
-                   data-val="true" data-val-length="Debe tener al menos 3 y máximo 150 caracteres"
+                   data-val="true" data-val-length="Debe tener al menos 3 y mï¿½ximo 150 caracteres"
                    data-val-length-max="150" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
                     name="name" id="name" ng-init="name = person.name" value="{{name}}">
         </div>
@@ -51,12 +51,12 @@
     </div>
     <div class="col-xs-5">
         <div class="col-xs-4 element-left">
-            Teléfono:
+            Tel&eacute;fono:
         </div>
         <div class="col-xs-7">
             <input class="form-control" type="text"
-                   data-val="true" data-val-length="Debe tener al menos 8 y máximo 20 caracteres"
-                   data-val-length-max="20" data-val-length-min="8" data-val-required="El teléfono es un campo requerido"
+                   data-val="true" data-val-length="Debe tener al menos 8 y m&aacute;ximo 20 caracteres"
+                   data-val-length-max="20" data-val-length-min="8" data-val-required="El tel&eacute;fono es un campo requerido"
                    name="phone" id="phone" value="{{phone}}" ng-init ="phone = person.phone" >
         </div>
         <div class="col-xs-12">
@@ -68,7 +68,7 @@
 <div class="row">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
-            Identificación prensentada:
+            Identificaci&oacute;n prensentada:
         </div>
         <div class="col-xs-8">
             <select class="form-control element-center" ng-model="p.doc"
@@ -82,8 +82,8 @@
             Edad:
         </div>
         <div class="col-xs-7">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 2 número"
-                   data-val-regex-pattern="([0-9]+)" data-val-regex="La edad sólo puede contener números"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m&aacute;ximo 2 n&uacute;mero"
+                   data-val-regex-pattern="([0-9]+)" data-val-regex="La edad s&oacute;lo puede contener n&uacute;meros"
                    data-val-length-max="2" data-val-length-min="1" data-val-required="La edad es un campo requerido"
                    type="text" name="age" ng-init="age = person.age" value="{{age}}">
         </div>
@@ -96,11 +96,11 @@
     <div class="row" ng-show="p.doc.specification == true">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
-                Especifíque:
+                Especif&iacute;que:
             </div>
             <div class="col-xs-8">
-                <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y máximo 255 caracteres"
-                       data-val-length-max="255" data-val-length-min="2" data-val-required="La especificación es un campo requerido"
+                <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                       data-val-length-max="255" data-val-length-min="2" data-val-required="La especificaci&oacute;n es un campo requerido"
                        type="text" ng-model="specification" ng-init="specification = person.specification" id="specification" name="specification">
             </div>
             <div class="col-xs-9 col-xs-offset-3">
@@ -126,7 +126,7 @@
     </div>
     <div class="col-xs-5">
         <div class="col-xs-4 element-left">
-            Dependiente económico:
+            Dependiente econ&oacute;mico:
         </div>
         <div class="col-xs-7">
             <select class="form-control element-center" ng-model="p.dep"
@@ -142,12 +142,12 @@
     <br/>
     <div class="row" ng-show="p.livId == 2">
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">Dirección:</div>
+            <div class="col-xs-2 element-left">Direcci&oacute;n:</div>
             <div class="col-xs-10">
                 <textarea id="address" class="form-control"  name="address" ng-model="address" ng-init="address = person.address"
-                          data-val="true" data-val-required="La dirección es un campo requerido"
-                          data-val-length="Debe tener al menos 6 y máximo 500 caracteres"
-                          data-val-length-max="500" data-val-length-min="6">{{address}}</textarea>
+                          data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
+                          data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
+                          data-val-length-max="500" data-val-length-min="6"></textarea>
             </div>
         </div>
         <div class="col-xs-10 col-xs-offset-2">

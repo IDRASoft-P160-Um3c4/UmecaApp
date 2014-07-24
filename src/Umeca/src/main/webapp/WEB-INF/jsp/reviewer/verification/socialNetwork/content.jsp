@@ -11,7 +11,7 @@
             </div>
             <div class="col-xs-10">
                 <input class="form-control" type="text"
-                       data-val="true" data-val-length="Debe tener al menos 3 y máximo 150 caracteres"
+                       data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
                        data-val-length-max="150" data-val-length-min="3" data-val-required="El Nombre es un campo requerido"
                        name="socialNetwork.name" id="name" ng-init="name = p.name" value="{{name}}">
                 <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
@@ -44,12 +44,12 @@
                 <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.phone" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.phone',p.id);"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.phone',p.id)"></i>
-                Teléfono:
+                Tel&eacute;fono:
             </div>
             <div class="col-xs-7">
                 <input class="form-control" type="text"
-                       data-val="true" data-val-length="Debe tener al menos 8 y máximo 20 caracteres"
-                       data-val-length-max="20" data-val-length-min="8" data-val-required="El teléfono es un campo requerido"
+                       data-val="true" data-val-length="Debe tener al menos 8 y m&aacute;ximo 20 caracteres"
+                       data-val-length-max="20" data-val-length-min="8" data-val-required="El tel&eacute;fono es un campo requerido"
                        name="socialNetwork.phone" id="phone" value="{{phone}}" ng-init ="phone = p.phone" >
                 <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
             </div>
@@ -63,7 +63,7 @@
                 <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.documentType" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.documentType',p.id);"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.documentType.id',p.id)"></i>
-                Identificación prensentada:
+                Identificaci&oacute;n prensentada:
             </div>
             <div class="col-xs-8">
                 <input type="hidden" ng-model="p.docId" ng-update-hidden name="socialNetwork.documentType.id">
@@ -75,11 +75,11 @@
             </div>
 
                     <div class="col-xs-4 element-left" ng-show="p.doc.specification == true">
-                        Especifíque:
+                        Especif&iacute;que:
                     </div>
                     <div class="col-xs-8" ng-show="p.doc.specification == true">
-                        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y máximo 255 caracteres"
-                               data-val-length-max="255" data-val-length-min="2" data-val-required="La especificación es un campo requerido"
+                        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                               data-val-length-max="255" data-val-length-min="2" data-val-required="La especificaci&oacute;n es un campo requerido"
                                type="text" ng-model="specification" ng-init="specification = p.specification" id="specification" name="socialNetwork.specification">
                         <span class="field-validation-valid" data-valmsg-for="specification" data-valmsg-replace="true"></span>
                     </div>
@@ -95,8 +95,8 @@
                 Edad:
             </div>
             <div class="col-xs-7">
-                <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y máximo 2 número"
-                       data-val-regex-pattern="([0-9]+)" data-val-regex="La edad sólo puede contener números"
+                <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m&aacute;ximo 2 n&uacute;mero"
+                       data-val-regex-pattern="([0-9]+)" data-val-regex="La edad s&oacute;lo puede contener n&uacute;meros"
                        data-val-length-max="2" data-val-length-min="1" data-val-required="La edad es un campo requerido"
                        type="text" name="socialNetwork.age" ng-init="age = p.age" value="{{age}}">
                 <span class="field-validation-valid" data-valmsg-for="age" data-valmsg-replace="true"></span>
@@ -124,12 +124,12 @@
                 <br/>
             </div>
 
-                    <div class="col-xs-4 element-left" ng-show="p.livId == 2">Dirección:</div>
+                    <div class="col-xs-4 element-left" ng-show="p.livId == 2">Direcci&oacute;n:</div>
                     <div class="col-xs-8" ng-show="p.livId == 2">
                         <textarea id="address" class="form-control"  name="socialNetwork.address" ng-model="address" ng-init="address = p.address"
-                                  data-val="true" data-val-required="La dirección es un campo requerido"
-                                  data-val-length="Debe tener al menos 6 y máximo 500 caracteres"
-                                  data-val-length-max="500" data-val-length-min="6">{{address}}</textarea>
+                                  data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
+                                  data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
+                                  data-val-length-max="500" data-val-length-min="6"></textarea>
                         <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
                     </div>
         </div>
@@ -139,7 +139,7 @@
                 <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.dependent" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.dependent',p.id);"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.dependent.id',p.id)"></i>
-                Dependiente económico:
+                Dependiente econ&oacute;mico:
             </div>
             <div class="col-xs-7">
                 <input type="hidden" ng-model="p.depId" ng-update-hidden name="socialNetwork.dependent.id">

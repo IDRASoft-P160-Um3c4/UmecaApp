@@ -1,41 +1,48 @@
-<div id="notifications-tab" class="tab-pane" ng-init ='lstNotification = ${lstNotification}; '>
+<div id="notifications-tab" class="tab-pane">
     <div class="clearfix">
         <div class="comments">
             <div class="itemdiv commentdiv" ng-repeat="n in lstNotification">
                 <div class="user">
-                    <img class="nav-user-photo" src="<c:url value='/assets/avatars/avatar0.png' />" alt="{{n.senderUser}}" />
+                    <img class="nav-user-photo" src="<c:url value='/assets/avatars/avatar0.png' />"
+                         alt="{{n.senderUser}}"/>
                 </div>
 
                 <div class="body">
-                    <div class="name">
-                        <span class="blue">{{n.senderUser}}</span>
-                    </div>
+                    <div class="col-xs-11">
 
-                    <div class="time">
-                        <i class="icon-time"></i>
-                        <span class="blue">{{n.timestamp}}</span>
-                    </div>
+                        <div class="row">
+                            <div class="col-xs-9">
+                                <label class="inline">
+                                    <i class="glyphicon glyphicon-paperclip green"></i> &nbsp;&nbsp;
+                                <span class="lbl"><strong>{{n.title}}</strong><br/>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="col-xs-1 col-xs-offset-1">
+                                <span class="lbl">{{n.dateNotif.dayOfMonth}}/{{n.dateNotif.month + 1}}/{{n.dateNotif.year}}</span>
+                            </div>
+                        </div>
 
-                    <div class="text">
-                        <i class="icon-quote-left"></i>
-                        <span class="lbl"><strong>{{(n.type === 'AUTORIZAR'?'PLAN DE SEGUIMIENTO':(n.type === 'REPORTE INCUMPLIMIENTO'?'REPORTE DE INCUMPLIMIENTO':'TERMINO DEL PLAN DE SEGUIMIENTO'))}}</strong></span>
-                            <span ng-class="(n.action === 'RECHAZADO AUTORIZAR' || n.action === 'RECHAZADO REPORTE INCUMPLIMIENTO' ||  n.action === 'RECHAZADO TERMINAR' ? 'red'
-                                : (n.action === 'SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO' || n.action === 'EN PROCESO DE TERMINAR' ? 'color-warning' : 'green'))">&nbsp;({{n.action}})</span><br/>
-                            <span>
-                            Caso {{n.caseId}} (<strong>{{n.mpId}}</strong>) Imputado: <strong>{{n.personName}}</strong> <br/></span>
-                        <div class="font-size-sm">
-                            <span>{{n.comments}}</span>
+                        <div class="row">
+                            <span>{{n.message}}</span>
                         </div>
                     </div>
                 </div>
-
                 <div class="tools">
                     <div class="action-buttons bigger-125">
-                        <a href="#" ng-click="deleteMsg(n.id, '<c:url value='${urlToGo}' />');">
-                            <i class="icon-trash red" title="Eliminar mensaje"></i>
+                        <a href="#" ng-click="deleteNotif(n.id, '<c:url value='${urlToGo}' />');">
+                            <i class="icon-trash red" title="Eliminar notificación"></i>
                         </a>
                     </div>
                 </div>
+            </div>
+
+            <div ng-show="{{lstNotification.length==0}}">
+                <ul class="item-list">
+                    <li class="item-green clearfix">
+                        No existen nuevas notificaciones.
+                    </li>
+                </ul>
             </div>
         </div>
 

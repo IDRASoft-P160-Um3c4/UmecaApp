@@ -97,7 +97,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
             return;
 
         String status = activityMonitoringPlan.getStatus();
-        if(status == MonitoringConstants.STATUS_ACTIVITY_DELETED || status == MonitoringConstants.STATUS_ACTIVITY_DONE || status == MonitoringConstants.STATUS_ACTIVITY_FAILED)
+        if(status.equals(MonitoringConstants.STATUS_ACTIVITY_DELETED) || status.equals(MonitoringConstants.STATUS_ACTIVITY_DONE) || status.equals(MonitoringConstants.STATUS_ACTIVITY_FAILED))
             return;
 
         if(validateDates(activityMonitoringPlan.getStart(), activityMonitoringPlan.getEnd()) == false)
@@ -132,7 +132,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
             return;
 
         String status = activityMonitoringPlan.getStatus();
-        if(status == MonitoringConstants.STATUS_ACTIVITY_DELETED || status == MonitoringConstants.STATUS_ACTIVITY_DONE || status == MonitoringConstants.STATUS_ACTIVITY_FAILED)
+        if(status.equals(MonitoringConstants.STATUS_ACTIVITY_DELETED) || status.equals(MonitoringConstants.STATUS_ACTIVITY_DONE) || status.equals(MonitoringConstants.STATUS_ACTIVITY_FAILED))
             return;
 
         //Validate dates of saved activity before change something...
@@ -173,7 +173,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
             for(int i=0; i<lstArrangementSelected.size(); i++){
                 SelectList slAa = lstArrangementSelected.get(i);
 
-                if(slAa.getId() == idAssignedArr)
+                if(slAa.getId().equals(idAssignedArr))
                 {
                     sAssignedArrangements = (sAssignedArrangements == null ? slAa.getName() : sAssignedArrangements + ", " + slAa.getName());
                     sAssignedArrangementsIds = (sAssignedArrangementsIds == null ? idAssignedArr.toString() : sAssignedArrangementsIds + ", " + idAssignedArr.toString());

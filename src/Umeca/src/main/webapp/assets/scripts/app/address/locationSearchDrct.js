@@ -32,6 +32,8 @@ app.directive('findLocation', function ($http, $timeout) {
                         scope.location =scope.listLocation[0];
                         scope.locationId = scope.location.id;
                         scope.zipCode = scope.location.zipCode;
+                        scope.refreshMap();
+
                     });
             }, 200);
         });
@@ -44,32 +46,27 @@ app.directive('map', function () {
         replace: true,
         template: '<div></div>',
         link: function($scope, element, attrs) {
-            $scope.center = new google.maps.LatLng(18.9245121,-99.2326088);
+            if($scope.lat == undefined){
+                $scope.lat=18.9245121;
+                $scope.lng =-99.2326088;
+            }
+            $scope.point = new google.maps.LatLng($scope.lat,$scope.lng);
 
             $scope.map_options = {
                 zoom: 14,
-                center: new google.maps.LatLng(18.9245121,-99.2326088),
+                center: $scope.point,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
-
-            // create map
             $scope.map = new google.maps.Map(document.getElementById(attrs.id),$scope.map_options);
-
-            // configure marker
-            $scope.marker_options = {
-                map: $scope.map,
-                position: $scope.center
-            };
-
-            // create marker
-            $scope.marker = new google.maps.Marker($scope.marker_options);
-
+            google.maps.event.trigger($scope.map, 'resize');
+            $scope.addMarker($scope.point);
+            google.maps.event.addListener($scope.map, 'click', function(event) {
+               $scope.addMarker(new google.maps.LatLng(event.latLng.k,event.latLng.B));
+            });
             $scope.$watch('selected', function () {
-
-                window.setTimeout(function(){
-
+            window.setTimeout(function(){
                     google.maps.event.trigger($scope.map, 'resize');
-                    $scope.map.setCenter($scope.center);
+                    $scope.map.setCenter($scope.point);
                 },100);
 
             });

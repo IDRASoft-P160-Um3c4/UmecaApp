@@ -20,6 +20,23 @@ app.controller("mainIndexController", function ($scope, sharedSvc) {
         });
     }
 
+    $scope.deleteNotif = function (id, urlToGo) {
+        sharedSvc.showConf({ title: "Confirmar eliminación", message: "¿Desea eliminar la notificación?", type: "warning" })
+            .then(function () {
+                $scope.doDeleteNotif(id, urlToGo);
+            });
+    }
+
+    $scope.doDeleteNotif = function (id, urlToPost) {
+
+        $.ajax({
+            url: urlToPost+id,
+            type: "GET",
+            success: $scope.handleSuccess,
+            error: $scope.handleError
+        });
+    }
+
     $scope.handleSuccess = function (data) {
         try {
             if (data.hasError === true) {
@@ -35,6 +52,7 @@ app.controller("mainIndexController", function ($scope, sharedSvc) {
                 var notif = $scope.lstNotification[i];
 
                 if(notif.id == data.returnData){
+
                     $scope.lstNotification.splice(i, 1);
                     $scope.$apply();
                     return;
@@ -58,4 +76,27 @@ app.controller("mainIndexController", function ($scope, sharedSvc) {
             type: "danger"
         });
     }
+
+    $scope.myFormatDate = function (dateMil) {
+
+        var strDt = "";
+        var date;
+
+        if (dateMil && dateMil != "null") {
+
+            date = new Date(dateMil);
+
+            var dd, mm, yyyy;
+
+            dd = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+            mm = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+            yyyy = date.getFullYear();
+
+            strDt = yyyy + "/" + mm + "/" + dd;
+        }
+
+        return strDt;
+    };
+
+
 });

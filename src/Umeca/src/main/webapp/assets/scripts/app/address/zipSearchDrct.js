@@ -73,14 +73,17 @@ app.directive('zipSearch', function ($http, $timeout) {
                                                     scope.location =scope.listLocation[i];
                                                     scope.locationId = scope.location.id;
                                                     scope.zipCode = scope.location.zipCode;
+                                                    scope.refreshMap();
                                                 }
                                             }
                                         });
                                 });
+
                             scope.listLocation = data.data;
                             scope.location =scope.listLocation[0];
                             scope.locationId = scope.location.id;
                     });
+
             }, 200);
         });
     };

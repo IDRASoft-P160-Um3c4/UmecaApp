@@ -24,7 +24,7 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Información general
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Informaci&oacute;n general
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -81,7 +81,7 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Información de la actividad
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Informaci&oacute;n de la actividad
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -100,7 +100,7 @@
                                             <div class="col-xs-6">
                                                 <div class="profile-user-info profile-user-info-striped">
                                                     <div class="profile-info-row">
-                                                        <div class="profile-info-name"> Actividad de supervisión </div>
+                                                        <div class="profile-info-name"> Actividad de supervisi&oacute;n </div>
                                                         <div class="profile-info-value">
                                                             <span id="actSup">${actSup}&nbsp;<br/>&nbsp;</span>
                                                         </div>
@@ -170,7 +170,7 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Conclusión de la actividad
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Conclusi&oacute;n de la actividad
                                     </div>
                                     <div class="panel-body">
 
@@ -188,7 +188,7 @@
                                             <div class="col-xs-6">
                                                 <div class="profile-user-info profile-user-info-striped">
                                                     <div class="profile-info-row">
-                                                        <div class="profile-info-name"> Fecha conclusión </div>
+                                                        <div class="profile-info-name"> Fecha conclusi&oacute;n </div>
                                                         <div class="profile-info-value">
                                                             <span id="actEndFullDate"><strong>${actEndFullDate}&nbsp;</strong></span>
                                                         </div>
@@ -217,7 +217,7 @@
                             <div class="col-xs-8 col-xs-offset-2">
                                 <div class="panel panel-default panel-success">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-check"></span>&nbsp;&nbsp;Acción sobre la actividad
+                                        <span class="glyphicon glyphicon-check"></span>&nbsp;&nbsp;Acci&oacute;n sobre la actividad
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -252,7 +252,7 @@
                                             <div class="col-xs-12 widget-container-span">
                                                 <div class="widget-box">
                                                     <div class="widget-header widget-header-small header-color-red">
-                                                        <h6>Observaciones</h6> (Ingrese las razones por la cual no se llevó acabo la actividad)
+                                                        <h6>Observaciones</h6> (Ingrese las razones por la cual no se llev&oacute; acabo la actividad)
                                                     </div>
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">
