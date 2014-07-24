@@ -18,6 +18,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,9 +119,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             response.setHasError(false);
             response.setMessage("Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"save",sharedUserService);
+            logException.Write(e, this.getClass(), "save", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Ha ocurrido un error al guardar la informaci?n. Intente más tarde");
+            response.setMessage("Ha ocurrido un error al guardar la informaci?n. Intente mï¿½s tarde");
         } finally {
             return response;
         }
@@ -134,6 +135,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         return framingMeeting;
     }
+
+    @Autowired
+    HearingFormatRepository hearingFormatRepository;
 
     public FramingPersonalDataView fillPersonalDataForView(Long idCase) {
 
@@ -158,7 +162,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             return view;
         }
 
-        if (existVer != null && existVer.getStatus().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
+
+        if (existVer != null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
             Meeting existVerifMeet = existVer.getMeetingVerified();
 
             view.setName(existVerifMeet.getImputed().getName());
@@ -171,7 +176,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 view.setGender(2);
 
             view.setMaritalStatus(existVerifMeet.getImputed().getMaritalStatus().getId());
-            view.setMaritalStatusYears(existVerifMeet.getImputed().getYearsMaritalStatus().toString());
+
+
+            Integer years = existVerifMeet.getImputed().getYearsMaritalStatus();
+            if (years != null)
+                view.setMaritalStatusYears(years.toString());
+
             view.setBirthCountryId(existVerifMeet.getImputed().getBirthCountry().getId());
             view.setBirthState(existVerifMeet.getImputed().getBirthState());
             view.setBirthDate(existVerifMeet.getImputed().getBirthDate());
@@ -180,11 +190,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             return view;
         }
 
-        List<HearingFormat> formats = existCase.getHearingFormats();
+        List<HearingFormat> formats = hearingFormatRepository.findLastHearingFormatByCaseId(idCase, new PageRequest(0, 1));
 
         if (formats != null && formats.size() > 0) {
-
-            Collections.sort(formats, HearingFormat.hearingFormatComparator);
 
             HearingFormat lasF = formats.get(0);
 
@@ -267,10 +275,17 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<FramingSelectedSourceRel> sourceRel = new ArrayList<>();
 
         for (Long currId : ids) {
+
             FramingSelectedSourceRel rel = new FramingSelectedSourceRel();
             rel.setFramingMeeting(existFraming);
-            rel.setFramingReference(framingReferenceRepository.findOne(currId));
-            sourceRel.add(rel);
+
+            FramingReference existRef = framingReferenceRepository.findOne(currId);
+
+            if (existRef != null) {
+                rel.setFramingReference(existRef);
+                sourceRel.add(rel);
+            }
+
         }
 
         return sourceRel;
@@ -362,8 +377,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             return new ResponseMessage(false, "Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveSelectedItems",sharedUserService);
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
+            logException.Write(e, this.getClass(), "saveSelectedItems", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente mï¿½s tarde.");
         }
     }
 
@@ -375,8 +390,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             framingReferenceRepository.save(newReference);
             return new ResponseMessage(false, "Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveReference",sharedUserService);
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
+            logException.Write(e, this.getClass(), "saveReference", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente mï¿½s tarde.");
         }
 
     }
@@ -463,8 +478,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             processAccompanimentRepository.save(processAccompaniment);
             return new ResponseMessage(false, "Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveProcessAccompaniment",sharedUserService);
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
+            logException.Write(e, this.getClass(), "saveProcessAccompaniment", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente mï¿½s tarde.");
         }
     }
 
@@ -589,20 +604,23 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     public ResponseMessage saveFramingAddress(Long idCase, AddressDto view) {
 
         try {
-            FramingAddress framingAddress;
-            if (view.getId() != null)
-                framingAddress = framingAddressRepository.findOne(view.getId());
-            else
-                framingAddress = new FramingAddress();
 
-            framingAddress.setAddress(this.fillAddress(framingAddress.getAddress(), view));
-            framingAddress.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
-            framingAddressRepository.save(framingAddress);
+            if (view.getId() != null) {
+                Address existAddress = addressRepository.findOne(view.getId());
+                existAddress = this.fillAddress(existAddress, view);
+                addressRepository.save(existAddress);
+            } else {
+                FramingAddress framingAddress = new FramingAddress();
+                framingAddress.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
+                framingAddress.setAddress(this.fillAddress(null, view));
+                framingAddressRepository.save(framingAddress);
+            }
 
             return new ResponseMessage(false, "Se ha guardado la informaci?n con ?xito.");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveFramingAddress",sharedUserService);
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "saveFramingAddress", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente mï¿½s tarde.");
         }
     }
 
@@ -612,10 +630,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             framingAddressRepository.delete(id);
 
-            return new ResponseMessage(false, "Se ha eliminado el registro con éxito.");
+            return new ResponseMessage(false, "Se ha eliminado el registro con ï¿½xito.");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"deleteFramingAddress",sharedUserService);
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
+            logException.Write(e, this.getClass(), "deleteFramingAddress", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde.");
         }
     }
 
@@ -624,14 +642,14 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
 
             if (framingSelectedSourceRelRepository.findSourceRelByIdSource(id) != null)
-                return new ResponseMessage(true, "No se puede eliminar la información. El registro ha sido seleccionado en la sección Análisis del entorno.");
+                return new ResponseMessage(true, "No se puede eliminar la informaciï¿½n. El registro ha sido seleccionado en la secciï¿½n Anï¿½lisis del entorno.");
 
             framingReferenceRepository.delete(id);
 
-            return new ResponseMessage(false, "Se ha eliminado el registro con éxito.");
+            return new ResponseMessage(false, "Se ha eliminado el registro con ï¿½xito.");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"deleteReference",sharedUserService);
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
+            logException.Write(e, this.getClass(), "deleteReference", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde.");
         }
     }
 
@@ -647,11 +665,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
             drugRepository.save(drug);
             result.setHasError(false);
-            result.setMessage("Se ha guardado la información con éxito");
+            result.setMessage("Se ha guardado la informaciï¿½n con ï¿½xito");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"doUpsertDrug",sharedUserService);
+            logException.Write(e, this.getClass(), "doUpsertDrug", sharedUserService);
             result.setHasError(true);
-            result.setMessage("Ocurrio un error al guardar la información. Inténte más tarde.");
+            result.setMessage("Ocurrio un error al guardar la informaciï¿½n. Intï¿½nte mï¿½s tarde.");
         }
         return result;
     }
@@ -662,11 +680,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
             drugRepository.delete(drugRepository.findOne(id));
             result.setHasError(false);
-            result.setMessage("Se elimino la sustancia con éxito");
+            result.setMessage("Se elimino la sustancia con ï¿½xito");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"deleteDrug",sharedUserService);
+            logException.Write(e, this.getClass(), "deleteDrug", sharedUserService);
             result.setHasError(true);
-            result.setMessage("Ocurrio un error al eliminar la sustancia. Inténte más tarde");
+            result.setMessage("Ocurrio un error al eliminar la sustancia. Intï¿½nte mï¿½s tarde");
         }
         return result;
     }
@@ -920,11 +938,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             this.save(existFraming);
 
-            return new ResponseMessage(false, "Se ha guardado la información con éxito.");
+            return new ResponseMessage(false, "Se ha guardado la informaciï¿½n con ï¿½xito.");
 
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveAddQuest",sharedUserService);
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
+            logException.Write(e, this.getClass(), "saveAddQuest", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde.");
         }
 
     }
@@ -937,21 +955,21 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (existFraming.getPersonalData() == null)
                 if (sb.toString().equals(""))
-                    sb.append("Debe proporcionar la información faltante para la sección \"Datos personales y entorno social\".");
+                    sb.append("Debe proporcionar la informaciï¿½n faltante para la secciï¿½n \"Datos personales y entorno social\".");
                 else
-                    sb.append("|Debe proporcionar la información faltante para la sección \"Datos personales y entorno social\".");
+                    sb.append("|Debe proporcionar la informaciï¿½n faltante para la secciï¿½n \"Datos personales y entorno social\".");
 
             if (existFraming.getFramingAddresses() == null || !(existFraming.getFramingAddresses().size() > 0))
                 if (sb.toString().equals(""))
-                    sb.append("Debe registrar al menos un registro en la sección \"Domicilios\".");
+                    sb.append("Debe registrar al menos un registro en la secciï¿½n \"Domicilios\".");
                 else
-                    sb.append("|Debe registrar al menos un registro en la sección \"Domicilios\".");
+                    sb.append("|Debe registrar al menos un registro en la secciï¿½n \"Domicilios\".");
 
             if (existFraming.getProcessAccompaniment() == null)
                 if (sb.toString().equals(""))
-                    sb.append("Debe proporcionar la información faltante para la sección \"Persona que acompaña en el proceso\".");
+                    sb.append("Debe proporcionar la informaciï¿½n faltante para la secciï¿½n \"Persona que acompaï¿½a en el proceso\".");
                 else
-                    sb.append("|Debe proporcionar la información faltante para la sección \"Persona que acompaña en el proceso\".");
+                    sb.append("|Debe proporcionar la informaciï¿½n faltante para la secciï¿½n \"Persona que acompaï¿½a en el proceso\".");
 
 
             if (existFraming.getReferences() != null && existFraming.getReferences().size() > 0) {
@@ -966,48 +984,48 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
                 if (noHousemate == 0)
                     if (sb.toString().equals(""))
-                        sb.append("Debe registrar al menos una registro en en la sección \"Personas que viven con el imputado\".");
+                        sb.append("Debe registrar al menos una registro en en la secciï¿½n \"Personas que viven con el imputado\".");
                     else
-                        sb.append("|Debe registrar al menos una registro en en la sección \"Personas que viven con el imputado\".");
+                        sb.append("|Debe registrar al menos una registro en en la secciï¿½n \"Personas que viven con el imputado\".");
                 if (noReferences == 0)
                     if (sb.toString().equals(""))
-                        sb.append("Debe registrar al menos una registro en en la sección \"Referencias personales\".");
+                        sb.append("Debe registrar al menos una registro en en la secciï¿½n \"Referencias personales\".");
                     else
-                        sb.append("|Debe registrar al menos una registro en en la sección \"Referencias personales\".");
+                        sb.append("|Debe registrar al menos una registro en en la secciï¿½n \"Referencias personales\".");
 
             } else {
 
                 if (sb.toString().equals(""))
-                    sb.append("Debe registrar al menos una registro en en la sección \"Personas que viven con el imputado\".");
+                    sb.append("Debe registrar al menos una registro en en la secciï¿½n \"Personas que viven con el imputado\".");
                 else
-                    sb.append("|Debe registrar al menos una registro en en la sección \"Personas que viven con el imputado\".");
+                    sb.append("|Debe registrar al menos una registro en en la secciï¿½n \"Personas que viven con el imputado\".");
 
-                sb.append("|Debe registrar al menos una registro en en la sección \"Referencias personales\".");
+                sb.append("|Debe registrar al menos una registro en en la secciï¿½n \"Referencias personales\".");
             }
 
 
             if (existFraming.getOccupation() == null && existFraming.getActivities() == null)
                 if (sb.toString().equals(""))
-                    sb.append("Debe proporcionar la información faltante para la sección \"Actividades que realiza el imputado\".");
+                    sb.append("Debe proporcionar la informaciï¿½n faltante para la secciï¿½n \"Actividades que realiza el imputado\".");
                 else
-                    sb.append("|Debe proporcionar la información faltante para la sección \"Actividades que realiza el imputado\".");
+                    sb.append("|Debe proporcionar la informaciï¿½n faltante para la secciï¿½n \"Actividades que realiza el imputado\".");
             if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0))
                 if (sb.toString().equals(""))
-                    sb.append("Debe registrar al menos una registro en en la sección \"Consumo de substancias\".");
+                    sb.append("Debe registrar al menos una registro en en la secciï¿½n \"Consumo de substancias\".");
                 else
-                    sb.append("|Debe registrar al menos una registro en en la sección \"Consumo de substancias\".");
+                    sb.append("|Debe registrar al menos una registro en en la secciï¿½n \"Consumo de substancias\".");
             if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
                     existFraming.getSelectedRisksRel() == null || !(existFraming.getSelectedRisksRel().size() > 0) ||
                     existFraming.getSelectedThreatsRel() == null || !(existFraming.getSelectedThreatsRel().size() > 0))
                 if (sb.toString().equals(""))
-                    sb.append("Debe proporcionar la información faltante para la sección \"Anáisis del entorno\".");
+                    sb.append("Debe proporcionar la informaciï¿½n faltante para la secciï¿½n \"Anï¿½isis del entorno\".");
                 else
-                    sb.append("|Debe proporcionar la información faltante para la sección \"Anáisis del entorno\".");
+                    sb.append("|Debe proporcionar la informaciï¿½n faltante para la secciï¿½n \"Anï¿½isis del entorno\".");
             if (existFraming.getAdditionalFramingQuestions() == null)
                 if (sb.toString().equals(""))
-                    sb.append("Debe proporcionar la información faltante para la sección \"Formulario de preguntas al supervisado\".");
+                    sb.append("Debe proporcionar la informaciï¿½n faltante para la secciï¿½n \"Formulario de preguntas al supervisado\".");
                 else
-                    sb.append("|Debe proporcionar la información faltante para la sección \"Formulario de preguntas al supervisado\".");
+                    sb.append("|Debe proporcionar la informaciï¿½n faltante para la secciï¿½n \"Formulario de preguntas al supervisado\".");
             if (!sb.toString().equals("")) {
                 return new ResponseMessage(true, sb.toString());
             }
@@ -1016,12 +1034,126 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existCase.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_COMPLETE));
             existCase.getFramingMeeting().setIsTerminated(true);
             caseRepository.save(existCase);
-            return new ResponseMessage(false, "Se ha guardado la información con exito");
+            return new ResponseMessage(false, "Se ha guardado la informaciï¿½n con exito");
 
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"doTerminate",sharedUserService);
-            return new ResponseMessage(false, "Ha ocurrido un error al guardar la información. Intente más tarde.");
+            logException.Write(e, this.getClass(), "doTerminate", sharedUserService);
+            return new ResponseMessage(false, "Ha ocurrido un error al guardar la informaciï¿½n. Intente mï¿½s tarde.");
         }
+    }
+
+    @Transactional
+    public void fillSaveVerifiedInfo(FramingMeeting existFraming, Meeting verifMeeting) {
+
+        //actividades
+
+        List<RelSocialEnvironmentActivity> relAct = verifMeeting.getSocialEnvironment().getRelSocialEnvironmentActivities();
+
+        StringBuilder sb = new StringBuilder();
+
+        for (RelSocialEnvironmentActivity rel : relAct) {
+
+            if (!sb.toString().equals(""))
+                sb.append(", ");
+
+            sb.append(rel.getActivity().getName());
+
+            if (rel.getSpecification() != null)
+                sb.append(": " + rel.getSpecification());
+
+        }
+
+        existFraming.setActivities(sb.toString());
+
+        //domicilios
+        List<FramingAddress> listAddress = new ArrayList<>();
+
+        for (ImputedHome act : verifMeeting.getImputedHomes()) {
+            FramingAddress framingAddress = new FramingAddress();
+            framingAddress.setFramingMeeting(existFraming);
+
+            Address existAddress = act.getAddress();
+
+            Address address = new Address();
+            address.setLng(existAddress.getLng());
+            address.setLat(existAddress.getLat());
+            address.setInnNum(existAddress.getInnNum());
+            address.setOutNum(existAddress.getOutNum());
+            address.setStreet(existAddress.getStreet());
+            address.setLocation(existAddress.getLocation());
+            address.setAddressString(existAddress.getAddressString());
+
+            framingAddress.setAddress(address);
+
+            listAddress.add(framingAddress);
+
+        }
+
+        existFraming.setFramingAddresses(listAddress);
+
+
+        //perosnas que viven con el imputado y referencias personales
+        List<FramingReference> references = new ArrayList<>();
+
+        for (PersonSocialNetwork person : verifMeeting.getSocialNetwork().getPeopleSocialNetwork()) {
+
+
+            if (person.getLivingWith().getId() == Constants.ELECTION_YES) {
+
+                FramingReference fRef = new FramingReference();
+
+                fRef.setFramingMeeting(existFraming);
+                fRef.setPersonType(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE);
+                fRef.setAddress(person.getAddress());
+                fRef.setName(person.getName());
+                fRef.setAge(person.getAge().toString());
+                fRef.setPhone(person.getPhone());
+                fRef.setRelationship(person.getRelationship());
+
+                references.add(fRef);
+
+            }
+        }
+
+
+        for (Reference reference : verifMeeting.getReferences()) {
+
+            FramingReference fRef = new FramingReference();
+
+            fRef.setFramingMeeting(existFraming);
+            fRef.setPersonType(FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+            fRef.setAddress(reference.getAddress());
+            fRef.setName(reference.getFullName());
+            fRef.setAge(reference.getAge().toString());
+            fRef.setPhone(reference.getPhone());
+            fRef.setRelationship(reference.getRelationship());
+
+            references.add(fRef);
+
+        }
+
+        existFraming.setReferences(references);
+
+        List<Drug> drugs = new ArrayList<>();
+
+        for (Drug drug : verifMeeting.getDrugs()) {
+
+            Drug fDrug = new Drug();
+
+            fDrug.setFramingMeeting(existFraming);
+            fDrug.setDrugType(drug.getDrugType());
+            fDrug.setPeriodicity(drug.getPeriodicity());
+            fDrug.setQuantity(drug.getQuantity());
+            fDrug.setLastUse(drug.getLastUse());
+            fDrug.setSpecificationPeriodicity(drug.getSpecificationPeriodicity());
+
+            drugs.add(fDrug);
+        }
+
+        existFraming.setDrugs(drugs);
+
+        framingMeetingRepository.save(existFraming);
+
     }
 
 }

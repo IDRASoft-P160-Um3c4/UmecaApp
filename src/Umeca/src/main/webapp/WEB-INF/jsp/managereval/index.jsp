@@ -45,9 +45,15 @@
             }
 
             function autorizar(e, s) {
-                if ($(s).val() == "") {
-                    t.alert("Validaciones de fuentes", "Para poder autorizar una verificaci&oacute;n, hay que asignar el m&eacute;todo de verificaci&oacute;n.", "danger");
-                    return false;
+                if ($(e).is(":checked")) {
+                    if ($(s).val() == "") {
+                        t.alert("Validaciones de fuentes", "Para poder autorizar una verificaci&oacute;n, hay que asignar el m&eacute;todo de verificaci&oacute;n.", "danger");
+                        return false;
+                    }
+                    $(s).attr("disabled", "disabled");
+                }
+                else {
+                    $(s).removeAttr("disabled");
                 }
             }
 

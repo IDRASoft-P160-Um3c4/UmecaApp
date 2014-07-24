@@ -16,6 +16,7 @@
         durante el proceso</h2>
 </div>
 <br/>
+
 <div class="row">
     <div ng-show="paSuccessMsg&&paSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
         {{paSuccessMsg}}
@@ -216,8 +217,9 @@
             <div class="col-xs-10 col-xs-offset-1">
 
                 <div class="row">
-
-                    <%@ include file="/WEB-INF/jsp/address/indexAux.jsp" %>
+                    <div class="col-xs-12">
+                        <%@ include file="/WEB-INF/jsp/address/indexAux.jsp" %>
+                    </div>
 
                 </div>
 

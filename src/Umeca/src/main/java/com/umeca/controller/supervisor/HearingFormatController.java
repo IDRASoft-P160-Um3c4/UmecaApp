@@ -6,6 +6,8 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.State;
+import com.umeca.model.catalog.dto.StateDto;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
@@ -75,9 +77,9 @@ public class HearingFormatController {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
-                new ArrayList<String>() {{//TODO SE DEBEN AGREGAR LOS STATUS EN LOS CUALES SE PERMITE AGREGAR UN FORMATO DE AUDIENCIA
+                new ArrayList<String>() {{
 
-                    add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
+                    add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
 
@@ -200,7 +202,7 @@ public class HearingFormatController {
             Gson conv = new Gson();
             model.addObject("hfView", conv.toJson(hfView));
 
-            model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
+            addressService.fillCatalogAddress(model);
 
             model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
 
@@ -246,12 +248,12 @@ public class HearingFormatController {
         if (imputed.getBirthDate() != null) {
             Integer age = sharedUserService.calculateAge(imputed.getBirthDate());
             if (age.compareTo(18) == -1) {
-                return new ResponseMessage(true, "El imputado debe tener más de 18 años para continuar.");
+                return new ResponseMessage(true, "El imputado debe tener mï¿½s de 18 aï¿½os para continuar.");
             }
         }
 
         /*if (caseRepository.findByIdMP(idJudicial) != null) {
-            return new ResponseMessage(true, "El número de Carpeta Judicial ya existe, verifique los datos.");
+            return new ResponseMessage(true, "El nï¿½mero de Carpeta Judicial ya existe, verifique los datos.");
         }*/
 
         try {
@@ -263,7 +265,7 @@ public class HearingFormatController {
             response = caseService.saveConditionaReprieveCase(caseDet);
 
         } catch (Exception ex) {
-            logException.Write(ex,this.getClass(),"doNewCase",sharedUserService);
+            logException.Write(ex, this.getClass(), "doNewCase", sharedUserService);
             response.setHasError(true);
             response.setTitle("Formato de audiencia");
             response.setMessage("Error al guardar el caso de suspensi?n condicional de proceso!!!");

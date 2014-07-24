@@ -3,14 +3,25 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
         $scope.pd = {};
 
 
-        $scope.pdSuccessMsg="";
-        $scope.pdErrorMsg="";
+        $scope.pdSuccessMsg = "";
+        $scope.pdErrorMsg = "";
 
-        $scope.fillCountry= function () {
+        $scope.fillCountry = function () {
 
             if ($scope.lstCountry != undefined && $scope.lstCountry.length > 0)
-                if ($scope.pd.birthCountryId === undefined) {
-                    $scope.pd.birthCountry = $scope.lstCountry[0];
+
+                if ($scope.pd.birthCountryId === undefined || $scope.pd.birthCountryId === null) {
+
+                    for (var i = 0; i < $scope.lstCountry.length; i++) {
+
+
+                        if ($scope.lstCountry[i].id == 1) {//para seleccionar a mexico por defecto
+
+                            $scope.pd.birthCountry = $scope.lstCountry[i];
+                            break;
+                        }
+                    }
+
                     $scope.pd.birthCountryId = $scope.pd.birthCountry.id;
                 }
                 else {
@@ -24,13 +35,13 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
                 }
         };
 
-        $scope.loadPersonalData= function () {
+        $scope.loadPersonalData = function () {
 
             var currentTimeout = null;
             var ajaxConf;
 
-            var url= $('#hidUrlPD').attr("value");
-            var idCase= $('#hidIdCasePD').attr("value");
+            var url = $('#hidUrlPD').attr("value");
+            var idCase = $('#hidIdCasePD').attr("value");
 
             ajaxConf = {
                 method: "POST",
@@ -51,17 +62,20 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
             }, 200);
         };
 
-        $scope.fillPersonalData=function(data){
-            $scope.pd.name=data.name;
-            $scope.pd.lastNameP=data.lastNameP;
-            $scope.pd.lastNameM=data.lastNameM;
-            $scope.pd.gender=data.gender;
-            $scope.pd.maritalStatus=data.maritalStatus;
-            $scope.pd.maritalStatusYears=data.maritalStatusYears;
-            $scope.pd.birthCountryId=data.birthCountryId;
-            $scope.pd.birthState=data.birthState;
-            $scope.pd.birthDate=$scope.myFormatDate(data.birthDate);
-            $scope.pd.physicalCondition=data.physicalCondition;
+        $scope.fillPersonalData = function (data) {
+            $scope.pd.name = data.name;
+            $scope.pd.lastNameP = data.lastNameP;
+            $scope.pd.lastNameM = data.lastNameM;
+            $scope.pd.gender = data.gender;
+            $scope.pd.maritalStatus = data.maritalStatus;
+            $scope.pd.maritalStatusYears = data.maritalStatusYears;
+            $scope.pd.birthCountryId = data.birthCountryId;
+            $scope.fillCountry();
+            $scope.pd.birthState = data.birthState;
+            $scope.pd.birthDate = $scope.myFormatDate(data.birthDate);
+            $scope.pd.physicalCondition = data.physicalCondition;
+
+
         };
 
         $scope.myFormatDate = function (dateMil) {
@@ -88,7 +102,6 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
 
         $scope.init = function () {
             $scope.loadPersonalData();
-            $scope.fillCountry();
         };
 
         $timeout(function () {
@@ -121,16 +134,20 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
             $scope.WaitFor = false;
 
             try {
+
                 if (resp.hasError === undefined) {
                     resp = resp.responseMessage;
                 }
+
                 if (resp.hasError === false) {
                     $scope.pdSuccessMsg = resp.message;
+                    $scope.pdErrorMsg = "";
                     $scope.$apply();
                     return;
                 }
 
                 $scope.pdErrorMsg = resp.message;
+                $scope.pdSuccessMsg = "";
                 $scope.$apply();
 
             } catch (e) {

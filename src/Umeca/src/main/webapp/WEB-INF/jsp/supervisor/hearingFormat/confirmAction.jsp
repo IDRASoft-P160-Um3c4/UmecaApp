@@ -30,11 +30,11 @@
                         </div>
 
                         <div class="row" ng-show="m.confirmComment.length>0">
-                            <label for="credPass">Contraseña</label>
+                            <label for="credPass">Contrase&n~;a</label>
                             <br/>
                             <input id="credPass" ng-model="m.credPass" name="credPass"
                                    type="password" data-val="true" class="input-xlarge"
-                                   data-val-required="Password es un campo requerido"/>
+                                   data-val-required="Contrase&n~;a es un campo requerido"/>
                             <br/>
                         <span class="field-validation-valid" data-valmsg-for="credPass"
                               data-valmsg-replace="true"></span>

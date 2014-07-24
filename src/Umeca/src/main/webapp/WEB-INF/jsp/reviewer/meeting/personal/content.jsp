@@ -357,6 +357,7 @@
                code="socialEnvironment.activities"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
+            <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.activities')"></i>
             &iquest;Qu&eacute; actividades realiza?:
         </div>
         <div class="col-xs-9 element-left">

@@ -22,8 +22,10 @@
 
 
         deleteAddress = function (id) {
-            if (canTerminate == 'true')
+            if (canTerminate == 'true'){
                 window.showObsolete(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/delete.json'/>", "#GridAddress");
+
+            }
         };
 
 

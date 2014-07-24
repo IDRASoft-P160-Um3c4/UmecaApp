@@ -274,7 +274,7 @@ public class VerificationServiceImpl implements VerificationService {
             }.getType());
             String val = "";
             for (Schedule sch : listSchedules) {
-                val += "Día(s): " + sch.getDay() + " Inicio: " + sch.getStart() + "Fin: " + sch.getEnd() + "<br/>";
+                val += "Día(s): " + sch.getDay() + " Inicio: " + sch.getStart() + "Fin: " + sch.getEnd() + ";";
             }
             fms.setValue(val);
             fms.setFinal(false);
@@ -991,10 +991,35 @@ public class VerificationServiceImpl implements VerificationService {
                 fms.setValue(genderString);
                 fms.setJsonValue(value);
                 break;
+            case "Activity":
+
+                try{
+                    List<RelSocialEnvironmentActivity> relSE = gson.fromJson(value,new TypeToken<List<RelSocialEnvironmentActivity>>(){}.getType());
+                    fms.setJsonValue(value);
+                    String val = "";
+                    if (relSE != null) {
+                        for (RelSocialEnvironmentActivity re : relSE) {
+                            val = val + activityRepository.findOne(re.getActivity().getId()).getName();
+                            if(re.getSpecification()!=null && !re.getSpecification().equals("")){
+                                val = val + ": "+re.getSpecification() +"; ";
+                            }else{
+                                val= val +"; ";
+                            }
+                        }
+                    }
+                    fms.setValue(val);
+                }catch (Exception ex ){
+                    ex.printStackTrace();
+                    System.out.println(ex.getMessage());
+                }
+
+                break;
             default:
                 fms.setValue(value);
                 fms.setJsonValue(value);
                 break;
+
+
         }
 
     }

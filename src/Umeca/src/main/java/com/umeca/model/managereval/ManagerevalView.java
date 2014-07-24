@@ -1,8 +1,6 @@
 package com.umeca.model.managereval;
 
-import com.umeca.model.shared.EntityGrid;
-import com.umeca.model.entities.reviewer.Crime;
-import java.util.List;
+import com.umeca.model.shared.*;
 
 /**
  * Created by dcortesr on 30/06/14.

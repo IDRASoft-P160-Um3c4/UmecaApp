@@ -195,7 +195,7 @@ app.controller('innerVerificationController', function($scope, $timeout, $q) {
 });
 
 
-app.controller('innerActivitiesController', function($scope, $timeout, $q) {
+app.controller('innerActivitiesController', function($scope, $timeout, $q,$rootScope) {
 
     $scope.specification = {};
     $scope.lstActivity = [];
@@ -218,6 +218,11 @@ app.controller('innerActivitiesController', function($scope, $timeout, $q) {
             var model = {};
             model.activity= {};
             model.activity.id =  $scope.activityModel[i].id;
+            if($scope.activityModel[i].specification &&($scope.specification[$scope.activityModel[i].name] == undefined || $scope.specification[$scope.activityModel[i].name] == "")){
+                $scope.activities = "false";
+                $rootScope.$broadcast('refreshActivities',$scope.activities);
+                return;
+            }
             if($scope.specification[$scope.activityModel[i].name] != undefined){
                 model.specification  =$scope.specification[$scope.activityModel[i].name];
             }else{
@@ -226,6 +231,8 @@ app.controller('innerActivitiesController', function($scope, $timeout, $q) {
             $scope.relActivities.push(model);
         }
         $scope.activities =  JSON.stringify($scope.relActivities);
+        $rootScope.$broadcast('refreshActivities',$scope.activities);
+
         return true;
     };
 

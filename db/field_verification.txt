@@ -72,3 +72,4 @@
 71|leaveCountry.communicationFamily.id|Facilidad de abandonar el país|8|Mantiene comunicación con ellos|9|0|44|Election
 72|leaveCountry.media|Facilidad de abandonar el país|8|Medio de comunicación|10|0|44|String
 73|school.specification|Historia escolar|6|Especificación|6|0|36|String
+74|socialEnvironment.activities|Datos personales y entorno social|1|Actividades que realiza el imputado|45|0|45|Activity
