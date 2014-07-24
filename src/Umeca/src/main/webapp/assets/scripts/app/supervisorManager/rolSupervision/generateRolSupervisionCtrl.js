@@ -1,4 +1,4 @@
-app.controller('generateMonPlanController', function ($scope, sharedSvc) {
+app.controller('rolSupervisionController', function ($scope, sharedSvc) {
 
     $scope.lstActivityDelIds = [];
     $scope.msgError = undefined;
@@ -11,12 +11,7 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
         $scope.lstActivityDelIds.push(id);
     }
 
-    $scope.returnToCases = function(url){
-        $scope.waitFor = true;
-        window.goToUrlMvcUrl(url);
-    }
-
-    $scope.saveActivities = function(caseId, monPlanId, urlToPost){
+    $scope.saveRolActivities = function(urlToPost){
         $scope.msgError = undefined;
         $scope.waitFor = true;
 
@@ -32,39 +27,26 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
                     continue;
 
                 var infoAct = event.infoActivity;
-                var caseInfo = infoAct.caseInfo;
 
                 var start = window.formatDateTime(event.start);
                 var end = window.formatDateTime(event.end);
 
-                var lstArrangements = [];
-
-                for(var key in infoAct.lstArrangements){
-                    if(infoAct.lstArrangements[key] === true)
-                        lstArrangements.push(key);
-                }
-
                 lstActivities.push({
-                    activityId: event.idActivity,
+                    rolActivityId: event.idActivity,
                     eventId : event._id,
-                    caseId: caseInfo.caseId,
-                    monitoringPlanId: caseInfo.monitoringPlanId,
                     end: end,
                     start: start,
-                    lstArrangements: lstArrangements,
-                    activityMonId: infoAct.activity.id,
-                    goalId: infoAct.goal.id,
-                    sourceId: infoAct.source.id
+                    supervisorId: infoAct.supervisor.id
                 });
             }
 
             if(lstActivities.length === 0 && $scope.lstActivityDelIds.length === 0){
-                sharedSvc.showMsg({title: "Plan de seguimiento",message: "No existen actividades para agregar, actualizar o eliminar",type: "info"});
+                sharedSvc.showMsg({title: "Rol de supervisión",message: "No existen actividades para agregar, actualizar o eliminar",type: "info"});
                 $scope.waitFor = false;
                 return false;
             }
 
-            var activityUpsert = {lstActivitiesUpsert:lstActivities, lstActivitiesDel: $scope.lstActivityDelIds, caseId:caseId, monitoringPlanId: monPlanId};
+            var activityUpsert = {lstActivitiesUpsert:lstActivities, lstActivitiesDel: $scope.lstActivityDelIds};
 
             $.ajax({
                 url: urlToPost,
@@ -92,9 +74,8 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
                 return;
             }
             else if(resp.hasError === false){
-
+                $scope.lstActivityDelIds = [];
                 try{
-                    $scope.lstActivityDelIds = [];
                     var lstEvents = JSON.parse(resp.returnData);
                     for(var i=0; i<lstEvents.length; i++){
                         var eventInfo = lstEvents[i];
@@ -102,7 +83,7 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
 
                         if(event !== undefined && event.length > 0){
                             var fstEvent = event[0];
-                            fstEvent.idActivity = eventInfo.activityMonitoringPlanId;
+                            fstEvent.idActivity = eventInfo.rolActivityId;
                             fstEvent.doTitle(false);
                             fstEvent.isModified = false;
                             $scope.m.calendar.fullCalendar('updateEvent', event);
@@ -110,7 +91,7 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
                     }
 
                 }catch(eIn){}
-                sharedSvc.showMsg({title: "Plan de seguimiento",message: resp.message,type: "success"}).then();
+                sharedSvc.showMsg({title: "Rol de supervisión",message: resp.message,type: "success"}).then();
             }
             $scope.$apply();
         } catch (e) {

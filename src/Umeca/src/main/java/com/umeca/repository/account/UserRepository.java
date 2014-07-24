@@ -41,11 +41,11 @@ public interface UserRepository extends JpaRepository<User, Long>{
     String getEncodedPassword(@Param("id") Long userId);
 
     @Query("SELECT DISTINCT new com.umeca.model.shared.SelectList(u.id, u.username, u.fullname) FROM User u " +
-            "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true")
+            "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true ORDER BY u.username ASC")
     List<SelectList> getLstValidUsersByRole(@Param("sRole") String sRole);
 
     @Query("SELECT DISTINCT new com.umeca.model.shared.SelectList(u.id, u.username, u.fullname) FROM User u " +
-            "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true AND u.id <> :userId")
+            "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true AND u.id <> :userId ORDER BY u.username ASC")
     List<SelectList> getLstValidUsersByRoleExceptUserId(@Param("userId") Long userId, @Param("sRole") String sRole);
 
     @Query("SELECT COUNT(u.id) FROM User u INNER JOIN u.roles r WHERE u.id=:userId AND r.role =:sRole")

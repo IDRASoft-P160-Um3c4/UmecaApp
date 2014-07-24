@@ -69,6 +69,12 @@
                             <li><a href="<c:url value='/supervisorManager/finishedMonitoringPlan/index.html' />"><i class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrados</a></li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol supervisión<b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<c:url value='/supervisorManager/rolSupervision/index.html' />"><i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Generar rol</a></li>
+                        </ul>
+                    </li>
                 </sec:authorize>
 
             </ul>
