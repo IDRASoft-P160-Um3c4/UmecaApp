@@ -62,6 +62,7 @@ public class Constants {
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_REVIEWER = "ROLE_REVIEWER";
+    public static final String ROLE_EVALUATION_MANAGER = "ROLE_EVALUATION_MANAGER";
     public static final String ROLE_SUPERVISOR = "ROLE_SUPERVISOR";
     public static final String ROLE_SUPERVISOR_MANAGER = "ROLE_SUPERVISOR_MANAGER";
     public static final String ROLE_NOTUSE = "ROLE_NOTUSE";

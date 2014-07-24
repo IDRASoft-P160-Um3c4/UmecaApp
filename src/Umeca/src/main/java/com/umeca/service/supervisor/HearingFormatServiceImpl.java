@@ -12,6 +12,7 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -210,7 +211,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         if (existFormats != null && existFormats.size() > 0) {//busco si ya existe algun formato
 
-            hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId());
+            hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId(),true);
 
             hearingFormatView.setCanSave(true);
             hearingFormatView.setCanEdit(true);
@@ -274,7 +275,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     }
 
     @Override
-    public HearingFormatView fillExistHearingFormatForView(Long idFormat) {
+    public HearingFormatView fillExistHearingFormatForView(Long idFormat, Boolean newFormat) {
         HearingFormatView hearingFormatView = new HearingFormatView();
 
         HearingFormat existHF = hearingFormatRepository.findOne(idFormat);
@@ -314,7 +315,12 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatView.setAdditionalData(existHF.getAdditionalData());
         hearingFormatView.setCrimes(existHF.getCrimes());
-        hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
+
+        if(newFormat==true)
+            hearingFormatView.setUserName(sharedUserService.GetLoggedUsername());
+        else
+            hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
+
 
         if (existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
             hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
@@ -396,7 +402,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             sb.append(hearingFormat.getConfirmComment());
             sb.append(".");
 
-            caseService.generateLogComment(sb.toString(),userRepository.findOne(sharedUserService.GetLoggedUserId()),hearingFormat.getCaseDetention(),"STATUS_PENDING_AUTHORIZATION",null,"TYPE_COMMENT_CASE_END");
+            caseService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()), hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END);
 
             hearingFormat = hearingFormatRepository.save(hearingFormat);
 
