@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="col-xs-12 widget-container-span">
                                 <div class="widget-box">
-                                    <div class="widget-header widget-header-small header-color-blue3" ng-init='codeField = ${code}; idList = ${idList};'>
+                                    <div class="widget-header widget-header-small header-color-blue3" ng-init='codeField = ${code}; idList = ${(idList == null) ? '""': idList};'>
                                         <input type="hidden" name="code" value="${code}"/>
                                         <input type="hidden" name="idList" value="${idList}"/>
                                         <h6 class="smaller">Elige la informaci&oacute;n final para el campo o secci&oacute;n</h6>
