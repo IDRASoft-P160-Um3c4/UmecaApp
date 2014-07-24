@@ -70,6 +70,7 @@
                                        data-val-required="El apellido parterno es un campo requerido"
                                        id="lastNameM" name="lastNameM"
                                        type="text" ng-model="lastNameM"/>
+
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="lastNameM" data-valmsg-replace="true"></span>
