@@ -6,6 +6,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.dto.supervisorManager.ResponseRolActivities;
 import com.umeca.model.dto.supervisorManager.RolActivityRequest;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
@@ -24,6 +25,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisiorManager.RolActivityService;
 import com.umeca.service.supervisor.MonitoringPlanService;
+import com.umeca.service.supervisor.TrackMonPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -61,13 +63,13 @@ public class RolSupervisionController {
         List<SelectList> lstSupervisor = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
         String sLstGeneric = gson.toJson(lstSupervisor);
         model.addObject("lstSupervisor", sLstGeneric);
+        model.addObject("urlGetActivities", "/supervisorManager/rolSupervision/getActivities.json");
         return model;
     }
 
 
     @Autowired
     RolActivityService rolActivityService;
-
 
     @RequestMapping(value = "/supervisorManager/rolSupervision/doUpsert", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage doUpsert(@RequestBody RolActivityRequest model){
@@ -104,5 +106,23 @@ public class RolSupervisionController {
         return response;
     }
 
+
+    @RequestMapping(value = "/supervisorManager/rolSupervision/getActivities", method = RequestMethod.POST)
+    public @ResponseBody ResponseRolActivities getActivities(@RequestBody RequestActivities req){
+        ResponseRolActivities response = new ResponseRolActivities();
+        response.setHasError(true);
+
+        try{
+            rolActivityService.getLstActivities(req, MonitoringConstants.STATUS_ACTIVITY_DELETED, response);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "getActivities", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se sucitó un problema, por favor reinicie su navegador e intente de nuevo.");
+            return response;
+        }
+        return response;
+    }
 }
+
+
 

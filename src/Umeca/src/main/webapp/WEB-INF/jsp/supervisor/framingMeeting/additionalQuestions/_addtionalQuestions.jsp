@@ -44,6 +44,7 @@
     <div class="radio">
         <label>
             <input type="radio" class="ace" name="addictionTreatment"
+                   ng-change="selAddictionTreatment();"
                    ng-model="aq.addictionTreatment" ng-checked="aq.addictionTreatment==1" value="1"
                    data-val="true" data-val-required="Debe seleccionar un valor"/>
             <span class="lbl">&nbsp;&nbsp;Si</span>
@@ -51,6 +52,7 @@
         <br/>
         <label>
             <input type="radio" class="ace" name="addictionTreatment" ng-checked="aq.addictionTreatment==2"
+                   ng-change="selAddictionTreatment();"
                    ng-model="aq.addictionTreatment" value="2"/>
             <span class="lbl">&nbsp;&nbsp;No</span>
         </label>

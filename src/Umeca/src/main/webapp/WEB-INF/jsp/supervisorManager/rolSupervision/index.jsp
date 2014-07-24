@@ -44,7 +44,8 @@
             }
 
             var date = new Date();
-            $('#id-date-picker-start,#id-date-picker-end').datepicker({autoclose:true, startDate:new Date(date.getFullYear(), date.getMonth(), date.getDate()-1)}).next().on(ace.click_event, function(){
+            $('#id-date-picker-start,#id-date-picker-end').datepicker(
+                    {autoclose:true, startDate:new Date(date.getFullYear(), date.getMonth(), date.getDate()-1)}).next().on(ace.click_event, function(){
                 $(this).prev().focus();
             });
 
@@ -73,7 +74,6 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                //events: lstRolAct,
                 allDayText: 'Todo el día',
                 allDaySlot: false,
                 slotMinutes: 30,
@@ -87,6 +87,9 @@
                 editable: true,
                 selectable: true,
                 selectHelper: true,
+                viewRender: function( view, element ){
+                    scopeMon.loadActivities(view.start, view.end, '<c:url value='${urlGetActivities}' />');
+                },
                 eventResize: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
                     window.calendarOnEventChange(event, revertFunc);
                 },
@@ -140,7 +143,7 @@
 
             });
 
-            scopeMon.m = {calendar:calendar};
+            scopeMon.m = {calendar:calendar, lstSupervisor: lstSupervisor};
 
         });
     </script>

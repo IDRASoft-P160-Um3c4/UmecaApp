@@ -9,10 +9,14 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
         $scope.fillCountry = function () {
 
             if ($scope.lstCountry != undefined && $scope.lstCountry.length > 0)
-                if ($scope.pd.birthCountryId === undefined) {
 
-                    for (var i = o; i < $scope.lstCountry.length; i++) {
+                if ($scope.pd.birthCountryId === undefined || $scope.pd.birthCountryId === null) {
+
+                    for (var i = 0; i < $scope.lstCountry.length; i++) {
+
+
                         if ($scope.lstCountry[i].id == 1) {//para seleccionar a mexico por defecto
+
                             $scope.pd.birthCountry = $scope.lstCountry[i];
                             break;
                         }
@@ -130,16 +134,20 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
             $scope.WaitFor = false;
 
             try {
+
                 if (resp.hasError === undefined) {
                     resp = resp.responseMessage;
                 }
+
                 if (resp.hasError === false) {
                     $scope.pdSuccessMsg = resp.message;
+                    $scope.pdErrorMsg = "";
                     $scope.$apply();
                     return;
                 }
 
                 $scope.pdErrorMsg = resp.message;
+                $scope.pdSuccessMsg = "";
                 $scope.$apply();
 
             } catch (e) {

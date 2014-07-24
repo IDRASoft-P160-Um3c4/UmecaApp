@@ -20,6 +20,7 @@ import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.CatalogService;
+import com.umeca.service.reviewer.CaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
@@ -60,6 +61,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
     @Autowired
     StatusCaseRepository statusCaseRepository;
+
+    @Autowired
+    CaseService caseService;
 
     private Gson conv = new Gson();
 
@@ -386,9 +390,17 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             if (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO))
                 hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
 
+            sb.append("Solicitud de cierre de caso: ");
+            sb.append(hearingFormat.getCaseDetention().getIdFolder());
+            sb.append(". Comentario: ");
+            sb.append(hearingFormat.getConfirmComment());
+            sb.append(".");
+
+            caseService.generateLogComment(sb.toString(),userRepository.findOne(sharedUserService.GetLoggedUserId()),hearingFormat.getCaseDetention(),"STATUS_PENDING_AUTHORIZATION",null,"TYPE_COMMENT_CASE_END");
 
             hearingFormat = hearingFormatRepository.save(hearingFormat);
 
+            sb = new StringBuilder();
             sb.append(request.getContextPath());
             sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
             sb.append(hearingFormat.getCaseDetention().getId());

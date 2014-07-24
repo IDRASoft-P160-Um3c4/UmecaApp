@@ -11,7 +11,8 @@ app.controller('processAcompanimentController', function ($scope, $rootScope, $t
         $scope.fillRelationship = function () {
 
             if ($scope.lstRelationship != undefined && $scope.lstRelationship.length > 0)
-                if ($scope.pa.relationshipId === undefined) {
+
+                if ($scope.pa.relationshipId === undefined || $scope.pa.relationshipId === null ) {
                     $scope.pa.relationship = $scope.lstRelationship[0];
                     $scope.pa.relationshipId = $scope.pa.relationship.id;
                 }

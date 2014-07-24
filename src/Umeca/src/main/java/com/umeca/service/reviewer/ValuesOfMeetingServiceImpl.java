@@ -141,7 +141,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     raux.add(rs);
                                     val = val+ r.getActivity().getName();
                                     if(r.getSpecification()!=null && !r.getSpecification().equals("")){
-                                        val = val +": "+r.getSpecification();
+                                        val = val +": "+r.getSpecification()+"; ";
                                     }else{
                                         val = val+"; ";
                                     }
@@ -545,7 +545,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     raux.add(rs);
                                     val = val+ r.getActivity().getName();
                                     if(r.getSpecification()!=null && !r.getSpecification().equals("")){
-                                        val = val +": "+r.getSpecification();
+                                        val = val +": "+r.getSpecification()+"; ";
                                     }else{
                                         val = val+"; ";
                                     }

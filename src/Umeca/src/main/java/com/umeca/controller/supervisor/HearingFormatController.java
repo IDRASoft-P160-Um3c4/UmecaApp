@@ -77,9 +77,9 @@ public class HearingFormatController {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
-                new ArrayList<String>() {{//TODO SE DEBEN AGREGAR LOS STATUS EN LOS CUALES SE PERMITE AGREGAR UN FORMATO DE AUDIENCIA
+                new ArrayList<String>() {{
 
-                    add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
+                    add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
 
@@ -202,21 +202,7 @@ public class HearingFormatController {
             Gson conv = new Gson();
             model.addObject("hfView", conv.toJson(hfView));
 
-            /*List<State> states = stateRepository.findStatesByCountryAlpha2("MX");
-
-            List<StateDto> stateDtos  = new ArrayList<>();
-
-            for(State s: states){
-                stateDtos.add(new StateDto().stateDto(s));
-            }
-
-            model.addObject("listHearingFormatType", conv.toJson(stateDtos));
-              */
-            //model.addObject("listState", conv.toJson();
-
             addressService.fillCatalogAddress(model);
-
-            //StateDto stateDto = new StateDto().stateDto(hear);
 
             model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
 
@@ -238,7 +224,8 @@ public class HearingFormatController {
         HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
-        model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
+        addressService.fillCatalogAddress(model);
+        //model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
 
         if (hfView.getIdAddres() != null)
             addressService.fillModelAddress(model, hfView.getIdAddres());

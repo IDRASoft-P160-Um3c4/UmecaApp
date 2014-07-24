@@ -35,15 +35,18 @@
 <b>Resultado de verificaci&oacute;n:</b>
 <br/>
 <br/>
-<table>
+<br/>
+<table border="5">
     <c:forEach var="section" items="${data.sections}">
         <tr>
             <td>${section.name}</td>
             <td>
-                <table>
+                <table style="width:100%;">
                     <c:forEach var="value" items="${section.values}">
                         <tr>
-                            <td>${value}</td>
+                            <td><div style="width:100%;border-width:1px;border-color:blue;border-style:none none double none;">
+                                    ${value}
+                            </div></td>
                         </tr>
                     </c:forEach>
                     <tr>
@@ -55,9 +58,13 @@
     </c:forEach>
 </table>
 <br/>
+<br/>
+<br/>
 <h4>VALORACI&Oacute;N DE RIESGOS:</h4>
+<br/>
 <b>Comentarios:</b>
 ${data.comment}
+<br/>
 <br/>
 <b>Respuestas:</b>
 <br/>
@@ -67,6 +74,11 @@ ${data.comment}
     </tr>
     <br/>
 </c:forEach>
+<br/>
+<br/>
+<b>Resultado de valoraci&oacute;n</b>
+<br/>
+${data.result}
 <br/>
 </body>
 </html>

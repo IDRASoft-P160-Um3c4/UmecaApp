@@ -24,9 +24,9 @@ app.controller('personalDataController', function ($scope, $timeout, $q) {
 
         if ($scope.m.countryId === undefined) {
 
-            for (var i = o; i < $scope.lstCountry.length; i++) {
+            for (var i = 0; i < $scope.lstCountry.length; i++) {
                 if ($scope.lstCountry[i].id == 1) {//para seleccionar a mexico por defecto
-                    $scope.pd.birthCountry = $scope.lstCountry[i];
+                    $scope.m.birthCountry = $scope.lstCountry[i];
                     break;
                 }
             }
