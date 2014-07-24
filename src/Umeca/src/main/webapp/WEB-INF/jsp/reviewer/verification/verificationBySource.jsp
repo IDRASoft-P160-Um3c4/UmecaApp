@@ -34,6 +34,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifAddressCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifScheduleCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifActivitiesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/verificationCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/AddressVerificationDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ScheduleVerificationDrct.js"></script>
@@ -62,7 +63,7 @@
         }
 
         window.verificationActivities = function(id) {
-            window.showUpsertWithIdCase(id, "#upsertModal", "<c:url value='/reviewer/verification/verificationActivities.html'/>", undefined,undefined, ${idCase});
+            window.showUpsertWithIdCase(id, "#upsertModal", "<c:url value='/reviewer/verification/verificationActivities.html?idSource=${idSource}'/>", undefined,undefined, ${idCase});
         };
 
     </script>
@@ -192,7 +193,7 @@
                                 <i class="blue icon-globe  bigger-200"></i>
                                 Facilidad de <br/>
 
-                                <div class="col-xs-offset-3">abandonar el país</div>
+                                <div class="col-xs-offset-3">abandonar el paï¿½s</div>
                             </a>
                         </li>
                     </ul>

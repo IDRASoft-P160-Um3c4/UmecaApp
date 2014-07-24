@@ -300,9 +300,11 @@ public class VerificationController {
     ActivityRepository activityRepository;
 
     @RequestMapping(value = "reviewer/verification/verificationActivities", method = RequestMethod.POST)
-    public ModelAndView upsertSource(){
+    public ModelAndView verificationActivities(@RequestParam(required = true) Long idCase,@RequestParam(required = true)Long idSource){
         ModelAndView model = new ModelAndView("reviewer/verification/detailVerificationActivities");
         Gson gson = new Gson();
+        model.addObject("idCase",idCase);
+        model.addObject("idSource",idSource);
         List<CatalogDto> listActivity = new ArrayList<>();
         for (Activity a : activityRepository.findNotObsolete()) {
             CatalogDto ca = new CatalogDto();
