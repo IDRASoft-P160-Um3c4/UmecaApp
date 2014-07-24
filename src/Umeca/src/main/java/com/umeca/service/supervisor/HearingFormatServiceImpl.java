@@ -12,6 +12,7 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -396,7 +397,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             sb.append(hearingFormat.getConfirmComment());
             sb.append(".");
 
-            caseService.generateLogComment(sb.toString(),userRepository.findOne(sharedUserService.GetLoggedUserId()),hearingFormat.getCaseDetention(),"STATUS_PENDING_AUTHORIZATION",null,"TYPE_COMMENT_CASE_END");
+            caseService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()), hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END);
 
             hearingFormat = hearingFormatRepository.save(hearingFormat);
 
