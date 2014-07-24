@@ -85,7 +85,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         if (listSchedule != null && listSchedule.size() > 0) {
             for (Schedule s : listSchedule) {
-                val = val + "Día(s): " + s.getDay() + " Inicio: " + s.getStart() + " Fin: " + s.getEnd() + "<br/>";
+                val = val + "Día(s): " + s.getDay() + " Inicio: " + s.getStart() + " Fin: " + s.getEnd() + ";";
             }
         }
         return val;

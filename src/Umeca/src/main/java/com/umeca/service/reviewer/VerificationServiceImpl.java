@@ -274,7 +274,7 @@ public class VerificationServiceImpl implements VerificationService {
             }.getType());
             String val = "";
             for (Schedule sch : listSchedules) {
-                val += "Día(s): " + sch.getDay() + " Inicio: " + sch.getStart() + "Fin: " + sch.getEnd() + "<br/>";
+                val += "Día(s): " + sch.getDay() + " Inicio: " + sch.getStart() + "Fin: " + sch.getEnd() + ";";
             }
             fms.setValue(val);
             fms.setFinal(false);
