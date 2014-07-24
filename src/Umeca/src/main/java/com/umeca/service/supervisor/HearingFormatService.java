@@ -23,7 +23,7 @@ public interface HearingFormatService {
 
     HearingFormatView fillNewHearingFormatForView(Long idCase);
 
-    HearingFormatView fillExistHearingFormatForView(Long idFormat);
+    HearingFormatView fillExistHearingFormatForView(Long idFormat, Boolean viewFormat);
 
     ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request);
 

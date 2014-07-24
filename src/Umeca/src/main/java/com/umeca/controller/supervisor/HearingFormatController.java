@@ -222,7 +222,7 @@ public class HearingFormatController {
 
         ModelAndView model = new ModelAndView("/supervisor/hearingFormat/hearingFormat");
 
-        HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat);
+        HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat,false);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
         addressService.fillCatalogAddress(model);

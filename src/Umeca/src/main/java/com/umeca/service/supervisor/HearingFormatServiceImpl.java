@@ -211,7 +211,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         if (existFormats != null && existFormats.size() > 0) {//busco si ya existe algun formato
 
-            hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId());
+            hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId(),true);
 
             hearingFormatView.setCanSave(true);
             hearingFormatView.setCanEdit(true);
@@ -275,7 +275,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     }
 
     @Override
-    public HearingFormatView fillExistHearingFormatForView(Long idFormat) {
+    public HearingFormatView fillExistHearingFormatForView(Long idFormat, Boolean newFormat) {
         HearingFormatView hearingFormatView = new HearingFormatView();
 
         HearingFormat existHF = hearingFormatRepository.findOne(idFormat);
@@ -315,7 +315,12 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatView.setAdditionalData(existHF.getAdditionalData());
         hearingFormatView.setCrimes(existHF.getCrimes());
-        hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
+
+        if(newFormat==true)
+            hearingFormatView.setUserName(sharedUserService.GetLoggedUsername());
+        else
+            hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
+
 
         if (existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
             hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
