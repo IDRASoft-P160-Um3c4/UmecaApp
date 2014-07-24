@@ -58,6 +58,11 @@ public class MainPageServiceImpl implements MainPageService {
 
             case Constants.ROLE_REVIEWER:
                 constructReviewerMainPage(model);
+                return model;
+
+            case Constants.ROLE_EVALUATION_MANAGER:
+                constructEvaluationManagerPage(model);
+                return model;
 
             default:
                 return model;
@@ -137,10 +142,6 @@ public class MainPageServiceImpl implements MainPageService {
 
         List<LogNotificationDto> lstC = caseRepository.getAuthorizedVerificationsInfo(sharedUserService.GetLoggedUserId(), Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 3));
 
-        //List<LogNotificationDto> lstC = caseRepository.getMissingSourcesInfo(sharedUserService.GetLoggedUserId(), Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 5));
-
-        //List<LogNotificationDto> lstD = caseRepository.getAddMissingSourcesMeetingInfo(sharedUserService.GetLoggedUserId(), Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 5));
-
         List<LogNotificationDto> lstActivities = new ArrayList<>();
 
         lstActivities.addAll(lstA);
@@ -155,9 +156,21 @@ public class MainPageServiceImpl implements MainPageService {
 
         model.addObject("lstActivities", conv.toJson(lstActivities));
         model.addObject("lstNotification", conv.toJson(lstNotif));
-
         model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
 
+    }
+
+    private void constructEvaluationManagerPage(ModelAndView model) {
+
+        List<LogNotificationDto> lstA = caseRepository.getNewSourceStatusCases(Constants.VERIFICATION_STATUS_NEW_SOURCE, Constants.CASE_STATUS_SOURCE_VALIDATION, new PageRequest(0, 10));
+        List<LogNotificationDto> lstActivities = new ArrayList<>();
+        lstActivities.addAll(lstA);
+
+        Collections.sort(lstActivities, LogNotificationDto.dateSorter);
+
+        Gson conv = new Gson();
+
+        model.addObject("lstActivities", conv.toJson(lstActivities));
     }
 
     @Transactional

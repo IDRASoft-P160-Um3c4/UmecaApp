@@ -19,14 +19,16 @@ app.controller('personalDataController', function ($scope, $timeout, $q) {
         $("#birthDate").val(birthDate.replace("00:00:00.0", ""));
         birthDate = $("#dateBirthV").val();
         $("#dateBirthV").val(birthDate.replace("00:00:00.0", ""));
+
         if ($scope.listCountry === undefined || $scope.listCountry.length <= 0)
             return;
 
-        if ($scope.m.countryId === undefined) {
+        if ($scope.m.countryId === undefined || $scope.m.countryId === null) {
 
-            for (var i = 0; i < $scope.lstCountry.length; i++) {
-                if ($scope.lstCountry[i].id == 1) {//para seleccionar a mexico por defecto
-                    $scope.m.birthCountry = $scope.lstCountry[i];
+            for (var i = 0; i < $scope.listCountry.length; i++) {
+
+                if ($scope.listCountry[i].id == 1) {//para seleccionar a mexico por defecto
+                    $scope.m.country = $scope.listCountry[i];
                     break;
                 }
             }

@@ -217,7 +217,9 @@
                         <input type="text" class="form-control" name="imputed.boys" value="${m.imputed.boys}"
                                data-val-regex-pattern="([0-9]+)"
                                data-val-required="El total de hijos es un campo requerido"
-                               data-val-regex="S&oacute;lo puede guardar n&uacute;meros" data-val="true" data-val="true"
+                               data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
+                               data-val-length-max="3" data-val-length-min="1"
+                               data-val-regex="S&oacute;lo puede guardar n&uacute;meros" data-val="true"
                                id="imputed.boys"/>
                         <span class="field-validation-valid" data-valmsg-for="imputed.boys"
                               data-valmsg-replace="true"></span>
@@ -230,6 +232,8 @@
                                data-val-regex-pattern="([0-9]+)"
                                data-val-required="El n&uacute;mero de menores de 18 a&ntilde;os es un campo requerido"
                                data-val-regex="S&oacute;lo puede guardar n&uacute;meros" id="imputed.dependentBoys" data-val="true"
+                               data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
+                               data-val-length-max="3" data-val-length-min="1"
                                value="${m.imputed.dependentBoys == null ? '': m.imputed.dependentBoys}"/>
                         <span class="field-validation-valid" data-valmsg-for="imputed.dependentBoys"
                               data-valmsg-replace="true"></span>
