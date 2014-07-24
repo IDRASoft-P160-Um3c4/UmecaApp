@@ -112,6 +112,7 @@ public class FramingMeetingController {
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_FRAMING_COMPLETE);
                     add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+                    add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
                 }}, JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter);

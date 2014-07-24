@@ -3,6 +3,7 @@ package com.umeca.controller.reviewer;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
+import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Questionary;
@@ -69,6 +70,16 @@ public class TechnicalReviewController {
     public
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
+                new ArrayList<String>() {{
+                    add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
+                    add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
