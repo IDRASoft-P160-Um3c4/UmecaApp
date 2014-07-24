@@ -79,7 +79,7 @@ public class HearingFormatController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{//TODO SE DEBEN AGREGAR LOS STATUS EN LOS CUALES SE PERMITE AGREGAR UN FORMATO DE AUDIENCIA
 
-                    add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
+                    add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
 

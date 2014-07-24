@@ -15,7 +15,6 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
                         if ($scope.lstCountry[i].id == 1) {//para seleccionar a mexico por defecto
                             $scope.pd.birthCountry = $scope.lstCountry[i];
                             break;
-
                         }
                     }
 
