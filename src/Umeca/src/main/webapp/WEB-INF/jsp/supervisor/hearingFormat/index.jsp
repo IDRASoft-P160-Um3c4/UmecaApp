@@ -63,6 +63,7 @@
                 sortorder: "desc",
                 caption: "&nbsp;",
                 altRows: true,
+                otroParametro:"rataLoca",
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
                     var status = $(this).jqGrid('getCol', 'status', false);

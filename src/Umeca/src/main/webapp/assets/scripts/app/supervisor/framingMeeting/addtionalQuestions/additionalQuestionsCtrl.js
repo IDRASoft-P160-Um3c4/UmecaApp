@@ -53,10 +53,27 @@ app.controller('additionalQuestionsController', function ($scope, $timeout, $htt
 
     }
 
+    $scope.selAddictionTreatment = function () {
+
+        if ($scope.aq.addictionTreatment == 1) {
+            $scope.aq.addictionTreatmentInstitute = "";
+            $scope.aq.addictionTreatmentDate = "";
+        } else if ($scope.aq.addictionTreatment == 2) {
+            $scope.aq.addictionTreatmentInstitute = "";
+
+            var today = new Date();
+
+            $scope.aq.addictionTreatmentDate = today.getFullYear() + '/' + today.getMonth() + 1 + '/' + today.getDate();
+
+        }
+
+
+    };
+
     $scope.validateSelAddAqc = function () {
 
         var noSel = 0;
-        if ($scope.aq.addictedAcquaintance==1) {
+        if ($scope.aq.addictedAcquaintance == 1) {
             $scope.errorSelAddAcq = "";
             for (var i = 0; i < $scope.selectedAddictedAcquaintances.length; i++) {
 
@@ -65,7 +82,7 @@ app.controller('additionalQuestionsController', function ($scope, $timeout, $htt
                 }
             }
 
-            if(noSel<=0) {
+            if (noSel <= 0) {
                 $scope.errorSelAddAcq = "Debe seleccionar al menos una opción"
                 return false;
             }
@@ -141,7 +158,7 @@ app.controller('additionalQuestionsController', function ($scope, $timeout, $htt
     };
 
     $scope.validateLst = function () {
-        if ($scope.validateSelAddAqc()==true && $scope.validateRelAbroad() == true && $scope.validateOblIssues() == true)
+        if ($scope.validateSelAddAqc() == true && $scope.validateRelAbroad() == true && $scope.validateOblIssues() == true)
             return true;
         return false;
     };
