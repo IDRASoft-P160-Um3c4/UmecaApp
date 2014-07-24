@@ -66,7 +66,7 @@
                     return;
                 },
                 viewRender: function( view, element ){
-                    scopeTrackMon.loadActivities(monitoringPlanId, view.start, view.end, '<c:url value='${urlGetActivities}' />', monitoringPlanId);
+                    scopeTrackMon.loadActivities(monitoringPlanId, view.start, view.end, '<c:url value='${urlGetActivities}' />');
                 },
                 eventClick: function(event, jsEvent, view) {
                     var ans = {};

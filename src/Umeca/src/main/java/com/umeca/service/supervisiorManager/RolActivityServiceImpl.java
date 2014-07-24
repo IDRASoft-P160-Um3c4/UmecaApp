@@ -2,12 +2,12 @@ package com.umeca.service.supervisiorManager;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.dto.supervisorManager.RolActivityDto;
-import com.umeca.model.dto.supervisorManager.RolActivityEvent;
-import com.umeca.model.dto.supervisorManager.RolActivityRequest;
+import com.umeca.model.dto.supervisorManager.*;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.supervisor.RequestActivities;
 import com.umeca.model.entities.supervisorManager.RolActivity;
 import com.umeca.model.shared.MonitoringConstants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.supervisor.LogChangeDataRepository;
 import com.umeca.repository.supervisorManager.RolActivityRepository;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -64,6 +64,18 @@ public class RolActivityServiceImpl implements RolActivityService{
 
         rolActivityRepository.flush();
         return true;
+    }
+
+    @Override
+    public void getLstActivities(RequestActivities req, String statusNotIn, ResponseRolActivities response) {
+        List<RolActivityResponse> lstAllActivities = rolActivityRepository.getAllActivities(statusNotIn,
+                        (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+        response.setLstRolActivities(lstAllActivities);
+
+        List<SelectList> lstSupervisor = rolActivityRepository.getAllValidSupervisors(statusNotIn,
+                (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+        response.setLstSupervisor(lstSupervisor);
+        response.setHasError(false);
     }
 
     private boolean validateDates(Calendar startCalendar, Calendar endCalendar) {

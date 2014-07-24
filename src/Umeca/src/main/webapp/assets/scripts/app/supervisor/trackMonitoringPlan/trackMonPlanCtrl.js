@@ -12,7 +12,7 @@ app.controller('trackMonPlanController', function($scope, sharedSvc){
         window.goToUrlMvcUrl(url);
     }
 
-    $scope.loadActivities = function(monPlanId, dateStart, dateEnd, urlToPost, monPlanId){
+    $scope.loadActivities = function(monPlanId, dateStart, dateEnd, urlToPost){
         var yearStart = dateStart.getFullYear();
         var monthStart = dateStart.getMonth();
         var yearEnd = dateEnd.getFullYear();
