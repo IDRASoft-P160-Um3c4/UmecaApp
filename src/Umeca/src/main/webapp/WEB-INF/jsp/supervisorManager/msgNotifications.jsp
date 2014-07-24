@@ -18,7 +18,7 @@
 
                     <div class="text">
                         <i class="icon-quote-left"></i>
-                        <span class="lbl"><strong>{{(n.type === 'AUTORIZAR'?'PLAN DE SEGUIMIENTO':(n.type === 'REPORTE INCUMPLIMIENTO'?'REPORTE DE INCUMPLIMIENTO':'TERMINO DEL PLAN DE SEGUIMIENTO'))}}</strong></span>
+                        <span class="lbl"><strong>{{n.typeName}}</strong></span>
                             <span ng-class="(n.action === 'RECHAZADO AUTORIZAR' || n.action === 'RECHAZADO REPORTE INCUMPLIMIENTO' ||  n.action === 'RECHAZADO TERMINAR' ? 'red'
                                 : (n.action === 'SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO' || n.action === 'EN PROCESO DE TERMINAR' ? 'color-warning' : 'green'))">&nbsp;({{n.action}})</span><br/>
                             <span>

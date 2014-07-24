@@ -3,7 +3,9 @@ package com.umeca.service.supervisor;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.extensions.StringExt;
+import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.shared.LogChangeData;
 import com.umeca.model.entities.shared.LogCommentJson;
 import com.umeca.model.entities.supervisor.*;
@@ -14,6 +16,8 @@ import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
+import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogChangeSupervisorRepository;
@@ -170,6 +174,11 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         monitoringPlanRepository.save(monPlan);
     }
 
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+
+    @Autowired
+    CaseRepository caseRepository;
 
     @Override
     @Transactional
@@ -195,6 +204,13 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
         monPlan.setStatusLog(json.toJson(logJson));
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
+
+        if(model.getAuthorized() == 1){
+            Case caseDetention = monPlan.getCaseDetention();
+            StatusCase status = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
+            caseDetention.setStatus(status);
+            caseRepository.save(caseDetention);
+        }
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         monitoringPlanRepository.save(monPlan);

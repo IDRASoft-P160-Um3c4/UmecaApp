@@ -15,7 +15,7 @@
     <div class="widget-toolbar no-border">
         <ul class="nav nav-tabs" id="recent-tab">
             <li class="active">
-                <a data-toggle="tab" href="#tasks-tab">Actividades ${act}</a>
+                <a data-toggle="tab" href="#tasks-tab">Actividades</a>
             </li>
 
             <li>

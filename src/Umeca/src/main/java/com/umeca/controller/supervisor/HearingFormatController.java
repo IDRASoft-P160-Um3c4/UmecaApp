@@ -224,7 +224,8 @@ public class HearingFormatController {
         HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
-        model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
+        addressService.fillCatalogAddress(model);
+        //model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
 
         if (hfView.getIdAddres() != null)
             addressService.fillModelAddress(model, hfView.getIdAddres());

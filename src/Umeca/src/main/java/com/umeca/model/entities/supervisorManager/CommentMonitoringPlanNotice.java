@@ -24,6 +24,7 @@ public class CommentMonitoringPlanNotice {
                                        Long caseId, String mpId, String name, String lastP, String lastM) {
         this.id = id;
         this.type = type;
+        this.typeName = convertToTypeName(type);
         this.action = action;
         this.senderUser = senderUser;
         this.receiveUser = receiveUser;
@@ -114,7 +115,15 @@ public class CommentMonitoringPlanNotice {
         this.personName = personName;
     }
 
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
     public String getTypeName() {
+        return typeName;
+    }
+
+    public String convertToTypeName(String type) {
         switch (type){
             case MonitoringConstants.TYPE_COMMENT_AUTHORIZED:
                 return "PLAN DE SEGUIMIENTO";

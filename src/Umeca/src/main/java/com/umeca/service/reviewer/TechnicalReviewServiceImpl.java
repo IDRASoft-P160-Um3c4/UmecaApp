@@ -151,7 +151,8 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                     }else{
                         v = v.replace("{1}",fms.getValue());
                     }
-                    section.getValues().add(v);
+
+                    section.getValues().add(sharedUserService.convertToValidString(v));
                 }
                 file.getSections().add(section);
             }
@@ -189,7 +190,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         Integer total = technicalReview.getTotalRisk();
         if(total<-15){
             risk = "Riesgo alto! Libertad muy dif&iacute;cil de cumplir.";
-        }else if(total>-16 && total>0){
+        }else if(total>-16 && total<0){
             risk = "Riesgo medio! Se puede recomendar combinaci&oacute;n de medidas cautelares en libertad bajo niveles de supervisi&oacute;n.";
         }else if(total>-1 && total<10){
             risk = "Riesgo bajo! Se puede recomendar combinaci&oacute;n de medidas cautelares en libertad bajo niveles de supervisi&oacute;n.";
@@ -202,3 +203,4 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         return file;
     }
 }
+

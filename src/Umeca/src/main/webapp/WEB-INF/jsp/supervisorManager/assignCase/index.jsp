@@ -123,9 +123,14 @@
                         success: function(r) {
                             $("#AssignCaseDialog").modal("hide");
                             $("#GridId").trigger("reloadGrid");
+                            $scope.MsgBoxMsg = $sce.trustAsHtml("La asignaci&oacute;n del caso se ha efecturado correctamente.");
+                            $scope.Type = "info";
+                            $scope.$apply();
+                            $("#MessageBoxDialog").modal("show");
                         },
                         error: function(e) {
                             $scope.MsgBoxMsg = $sce.trustAsHtml("Se ha presentado un error.<br>" + e.statusText);
+                            $scope.Type = "danger";
                             $scope.$apply();
                             $("#MessageBoxDialog").modal("show");
                         },
@@ -137,6 +142,7 @@
                 $scope.promptAssignCase = function(id, cbo) {
                     if ($(cbo).val() == ""){
                         $scope.MsgBoxMsg = $sce.trustAsHtml("Para hacer la asignaci&oacute;n de un caso, es necesario seleccionar un <strong>supervisor</strong>.");
+                        $scope.Type = "danger";
                         $scope.$apply();
                         $("#MessageBoxDialog").modal("show");
                         return;
@@ -190,7 +196,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <div class="alert alert-danger">
+                            <div class="alert alert-{{Type}}">
                                 <button type="button" class="close" ng-click="MsgBoxOK()">&times;</button>
                                 <h4 class="modal-title element-center" ng-bind-html="Title"></h4>
                             </div>
@@ -199,7 +205,7 @@
                             <div class="element-center" ng-bind-html="MsgBoxMsg"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default btn-danger" ng-click="MsgBoxOK()">Aceptar</button>
+                            <button type="button" class="btn btn-default btn-{{Type}}" ng-click="MsgBoxOK()">Aceptar</button>
                         </div>
                     </div>
                 </div>

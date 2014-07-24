@@ -77,7 +77,9 @@
             $('#endTime').timepicker({
                 minuteStep: 1,
                 showSeconds: true,
-                showMeridian: false
+                showMeridian: false,
+                timeFormat: 'hh:mm:ss tt',
+                ampm: false
             }).next().on(ace.click_event, function () {
                 $(this).prev().focus();
             });
