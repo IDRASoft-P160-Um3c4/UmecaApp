@@ -23,6 +23,7 @@ import com.umeca.repository.reviewer.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,6 +123,9 @@ public class MeetingServiceImpl implements MeetingService {
     VerificationRepository verificationRepository;
     @Autowired
     RelSocialEnvironmentActivityRepository rsearRepository;
+    @Autowired
+    SharedLogExceptionService logException;
+
     @Transactional
     @Override
     public Long createMeeting(Imputed imputed) {
@@ -147,7 +151,7 @@ public class MeetingServiceImpl implements MeetingService {
             imputedRepository.save(imputed);
             result = caseDetention.getId();
         } catch (Exception e) {
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"createMeeting",userService);
         } finally {
             return result;
         }
@@ -272,6 +276,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado la información exitosamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"upsertPersonalData",userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrdio un error al guardar los datos personales. Favor de intentar más tarde" + e.getMessage());
         }
@@ -372,6 +377,7 @@ public class MeetingServiceImpl implements MeetingService {
             personSocialNetworkRepository.save(person);
 
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"doUpsertSocialNetwork",userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al guardar la persona de red social.");
         }
@@ -387,6 +393,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se elimino la persona de red social exitosamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"deleteSocialNetwork",userService);
             result.setHasError(true);
             result.setMessage("No se ha podido eliminar la persona de red social. Intente más tarde");
         }
@@ -427,6 +434,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado correctamente la referencia personal");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"doUpsertReference",userService);
             result.setHasError(true);
             result.setMessage("Ocurrio un error al guardar la refernecia. Intente más tarde.");
         }
@@ -442,6 +450,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha eliminado la referencia exitosamente.");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"deleteReference",userService);
             result.setHasError(false);
             result.setMessage("Ocurrio un error al eliminar la referencia. Intente más tarde.");
         }
@@ -479,6 +488,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado la sustancia con éxito");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"doUpsertDrug",userService);
             result.setHasError(true);
             result.setMessage("Ocorrio un error al guardar la sustancia.Inténte más tarde.");
         }
@@ -494,6 +504,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se elimino la sustancia con éxito");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"deleteDrug",userService);
             result.setHasError(true);
             result.setMessage("Ocurrio un error al eliminar la sustancia. Inténte más tarde");
         }
@@ -530,6 +541,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha actualizado su información exitosamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"doUpsertSchool",userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al actualizar su información" + e.getMessage());
         }
@@ -607,6 +619,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado la infomación exitosamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"doUpsertJob",userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al actualizar su información. Intente más tarde.");
         }
@@ -629,6 +642,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha eliminado correctamente el registro");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"deleteJob",userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al intentar eliminar el registro. Inténte más tarde.");
         }
@@ -658,7 +672,7 @@ public class MeetingServiceImpl implements MeetingService {
                 addressService.fillCatalogAddress(model);
             }
         } catch (Exception e) {
-
+            logException.Write(e,this.getClass(),"upsertAddress",userService);
         }
         return model;
     }
@@ -707,6 +721,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado la información con éxito");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"doUpsertAddress",userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al guardar su inormación. Intente más tarde." + e.getMessage());
         }
@@ -725,6 +740,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha eliminado el registro exitosamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"deleteAddress",userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al eliminar el registro. Inténte más tarde");
         }
@@ -742,6 +758,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado su información exitosamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"upsertLeaveCountry",userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al guardar la información");
         }
@@ -824,6 +841,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setMessage("Entrevista terminada con exito");
             result.setUrlToGo("/index.html");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"doTerminateMeeting",userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al terminar la entrevista. Intente más tarde");
         }
@@ -914,6 +932,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setMessage("Entrevista terminada con exito");
             result.setUrlToGo("/index.html");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveProceedingLegal",userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al guardar la información");
         } finally {

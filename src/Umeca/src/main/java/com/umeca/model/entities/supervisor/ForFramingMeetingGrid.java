@@ -1,11 +1,20 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.shared.EntityGrid;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ForFramingMeetingGrid implements EntityGrid {
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
     private Long id;
     private String codeStatus;
@@ -63,7 +72,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
             strBld.append(arrDt[2]);
 
         } catch (Exception e) {
-            System.out.println("FramingMeeting_Constructor: Error al parsear la fecha de nacimiento!!!");
+            logException.Write(e,this.getClass(),"ForFramingMeetingGrid",sharedUserService);
         }
     }
 

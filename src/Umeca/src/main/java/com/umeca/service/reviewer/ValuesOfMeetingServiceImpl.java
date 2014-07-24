@@ -18,6 +18,7 @@ import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,12 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
 
     @Autowired
     ScheduleService scheduleService;
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
     @Override
     public List<FieldMeetingSource> getValueOfMeetingByCode(String code, Meeting m, FieldMeetingSource template) {
@@ -870,7 +877,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             try {
                                 birthDate = formatter.parse(fms.getJsonValue());
                             } catch (ParseException e) {
-
+                                logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
                             }
                             meeting.getImputed().setBirthDate(birthDate);
                             break;
@@ -1168,7 +1175,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     try {
                                         dateS = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-
+                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
                                     }
                                     j.setStart(dateS);
                                     break;
@@ -1180,7 +1187,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     try {
                                         date = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-
+                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
                                     }
                                     j.setStartPrev(date);
                                     break;
@@ -1189,7 +1196,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     try {
                                         dateE = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-
+                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
                                     }
                                     j.setEnd(dateE);
                                     break;
@@ -1292,7 +1299,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     try {
                                         lastUse = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-
+                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
                                     }
                                     d.setLastUse(lastUse);
                                     break;

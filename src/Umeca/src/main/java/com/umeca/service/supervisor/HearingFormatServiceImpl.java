@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
-import com.umeca.model.catalog.dto.LocationDto;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.Address;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.ImputedHome;
+import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -26,8 +28,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 @Service("hearingFormatService")
 public class HearingFormatServiceImpl implements HearingFormatService {

@@ -15,6 +15,7 @@ import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
 import com.umeca.service.reviewer.ScheduleService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,12 @@ public class MeetingController {
     SharedUserService userService;
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
     @RequestMapping(value = "/reviewer/meeting/list", method = RequestMethod.POST)
     public
@@ -449,6 +456,7 @@ public class MeetingController {
             ResponseMessage result = meetingService.doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(), sch);
             return result;
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"upsertSchool",sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la historia escolar.");
         }
 

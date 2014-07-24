@@ -23,6 +23,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,9 +54,6 @@ public class HearingFormatController {
     private GenericJqGridPageSortFilter gridFilter;
 
     @Autowired
-    private SharedUserService userService;
-
-    @Autowired
     private StateRepository stateRepository;
 
     @Autowired
@@ -63,6 +61,12 @@ public class HearingFormatController {
 
     @Autowired
     private HearingFormatTypeRepository hearingFormatTypeRepository;
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
     @RequestMapping(value = "/supervisor/hearingFormat/listCases", method = RequestMethod.POST)
     public
@@ -240,7 +244,7 @@ public class HearingFormatController {
         ResponseMessage response = new ResponseMessage();
 
         if (imputed.getBirthDate() != null) {
-            Integer age = userService.calculateAge(imputed.getBirthDate());
+            Integer age = sharedUserService.calculateAge(imputed.getBirthDate());
             if (age.compareTo(18) == -1) {
                 return new ResponseMessage(true, "El imputado debe tener más de 18 años para continuar.");
             }
@@ -259,8 +263,7 @@ public class HearingFormatController {
             response = caseService.saveConditionaReprieveCase(caseDet);
 
         } catch (Exception ex) {
-            System.out.println("Error al guardar el caso de suspensi?n condicional de proceso!!!");
-            ex.printStackTrace();
+            logException.Write(ex,this.getClass(),"doNewCase",sharedUserService);
             response.setHasError(true);
             response.setTitle("Formato de audiencia");
             response.setMessage("Error al guardar el caso de suspensi?n condicional de proceso!!!");
