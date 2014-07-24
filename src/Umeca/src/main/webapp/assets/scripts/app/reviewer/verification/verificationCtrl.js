@@ -193,3 +193,40 @@ app.controller('innerVerificationController', function($scope, $timeout, $q) {
 
 
 });
+
+
+app.controller('innerActivitiesController', function($scope, $timeout, $q) {
+
+    $scope.specification = {};
+    $scope.lstActivity = [];
+    $scope.activityModel = [];
+    $scope.activityList = [];
+    $scope.pCSelected = [];
+    $scope.relActivities = [];
+
+    $scope.init = function(){
+        $("#slctActivityV").chosen();
+    };
+
+    $timeout(function() {
+        $scope.init();
+    }, 0);
+
+    $scope.matchActivities = function(){
+        $scope.relActivities=[];
+        for(var i = 0 ; i< $scope.activityModel.length; i++){
+            var model = {};
+            model.activity= {};
+            model.activity.id =  $scope.activityModel[i].id;
+            if($scope.specification[$scope.activityModel[i].name] != undefined){
+                model.specification  =$scope.specification[$scope.activityModel[i].name];
+            }else{
+                model.specification = "";
+            }
+            $scope.relActivities.push(model);
+        }
+        $scope.activities =  JSON.stringify($scope.relActivities);
+        return true;
+    };
+
+});

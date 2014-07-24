@@ -61,7 +61,7 @@
             </div>
             <div class="col-xs-7">
                 <div class="input-group">
-                    <input class="form-control date-picker" id="dateBirth"  type="text"  disabled="disabled"
+                    <input class="form-control date-picker" id="dateBirthV"  type="text"  disabled="disabled"
                            data-date-format="yyyy/mm/dd" value="${m.imputed.birthDate}" readonly="readonly"
                            name="imputed.birthDate" data-val-required="La fecha de nacimiento es un campo requerido"/>
 																	<span class="input-group-addon">
@@ -353,7 +353,7 @@
         <div class="col-xs-3 element-left">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifEqual('socialEnvironment.activities')"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+            <i class="icon-remove-circle red  icon-only bigger-120" onclick="window.verificationActivities();" ng-show="verification"
                code="socialEnvironment.activities"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
