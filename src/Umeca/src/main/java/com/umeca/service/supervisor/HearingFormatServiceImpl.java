@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
-import com.umeca.model.catalog.dto.LocationDto;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.Address;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.ImputedHome;
+import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -20,13 +22,16 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 @Service("hearingFormatService")
 public class HearingFormatServiceImpl implements HearingFormatService {
@@ -63,17 +68,18 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         HearingFormat hearingFormat = new HearingFormat();
 
-        hearingFormat.setRegisterTimestamp(new Timestamp(new Date().getTime()));
+        hearingFormat.setRegisterTime(Calendar.getInstance());
         hearingFormat.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
 
         Boolean hasFirstFH = false;
         HearingFormat lastHF = null;
         Case existCase = caseRepository.findOne(viewFormat.getIdCase());
 
-        if (existCase.getHearingFormats().size() > 0) {
+        List<HearingFormat> existFormats = hearingFormatRepository.findLastHearingFormatByCaseId(existCase.getId(), new PageRequest(0, 1));
+
+        if (existFormats != null && existFormats.size() > 0) {
             hasFirstFH = true;
-            Collections.sort(existCase.getHearingFormats(), HearingFormat.hearingFormatComparator);
-            lastHF = existCase.getHearingFormats().get(0);
+            lastHF = existFormats.get(0);
         }
 
         if (hasFirstFH) {
@@ -176,7 +182,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             hearingFormat.setContacts(lstNewContactData);
 
-        }else{
+        } else {
             hearingFormat.setConfirmComment(viewFormat.getConfirmComment());
         }
 
@@ -196,12 +202,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         Case existCase = caseRepository.findOne(idCase);
         Integer meetType = existCase.getMeeting().getMeetingType();
 
-        if (existCase.getHearingFormats() != null && existCase.getHearingFormats().size() > 0) {//busco si ya existe algun formato
+        List<HearingFormat> existFormats = hearingFormatRepository.findLastHearingFormatByCaseId(idCase, new PageRequest(0, 1));
 
-            if (existCase.getHearingFormats().size() > 1)//si hay mas de uno
-                Collections.sort(existCase.getHearingFormats(), HearingFormat.hearingFormatComparator); //los ordeno por su id
+        if (existFormats != null && existFormats.size() > 0) {//busco si ya existe algun formato
 
-            hearingFormatView = this.fillExistHearingFormatForView(existCase.getHearingFormats().get(0).getId());
+            hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId());
 
             hearingFormatView.setCanSave(true);
             hearingFormatView.setCanEdit(true);

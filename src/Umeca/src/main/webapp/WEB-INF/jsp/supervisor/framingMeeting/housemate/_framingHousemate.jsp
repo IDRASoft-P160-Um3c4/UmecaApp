@@ -11,12 +11,12 @@
         var canTerminate = $('#canTerminateHousemate').attr("value");
 
         upsertHousemate = function(id) {
-            if(canTerminate==true)
+            if(canTerminate=='true')
             window.showUpsertWithIdCase(id, "#angJsjqGridIdHouseMate", "<c:url value='/supervisor/framingMeeting/housemate/upsert.html'/>", "#GridHouseMate",undefined, idCase);
         };
 
         deleteHousemate = function (id) {
-            if(canTerminate==true)
+            if(canTerminate=='true')
             window.showObsolete(id, "#angJsjqGridIdHouseMate", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridHouseMate");
         };
 

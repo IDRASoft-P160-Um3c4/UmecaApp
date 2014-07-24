@@ -14,6 +14,8 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.supervisor.*;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -100,6 +102,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     private ObligationIssuesRepository obligationIssuesRepository;
 
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
+
     @Transactional
     @Override
     public ResponseMessage save(FramingMeeting framingMeeting) {
@@ -110,8 +118,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             response.setHasError(false);
             response.setMessage("Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
-            System.out.println("Error al guardar framingMeeting!!!");
-            System.out.println(e.getMessage());
+            logException.Write(e,this.getClass(),"save",sharedUserService);
             response.setHasError(true);
             response.setMessage("Ha ocurrido un error al guardar la informaci?n. Intente más tarde");
         } finally {
@@ -355,7 +362,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             return new ResponseMessage(false, "Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"saveSelectedItems",sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
         }
     }
@@ -368,7 +375,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             framingReferenceRepository.save(newReference);
             return new ResponseMessage(false, "Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"saveReference",sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
         }
 
@@ -456,7 +463,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             processAccompanimentRepository.save(processAccompaniment);
             return new ResponseMessage(false, "Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"saveProcessAccompaniment",sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
         }
     }
@@ -594,7 +601,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             return new ResponseMessage(false, "Se ha guardado la informaci?n con ?xito.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"saveFramingAddress",sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente más tarde.");
         }
     }
@@ -607,7 +614,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             return new ResponseMessage(false, "Se ha eliminado el registro con éxito.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"deleteFramingAddress",sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
         }
     }
@@ -623,7 +630,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             return new ResponseMessage(false, "Se ha eliminado el registro con éxito.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"deleteReference",sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
         }
     }
@@ -642,6 +649,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado la información con éxito");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"doUpsertDrug",sharedUserService);
             result.setHasError(true);
             result.setMessage("Ocurrio un error al guardar la información. Inténte más tarde.");
         }
@@ -656,6 +664,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             result.setHasError(false);
             result.setMessage("Se elimino la sustancia con éxito");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"deleteDrug",sharedUserService);
             result.setHasError(true);
             result.setMessage("Ocurrio un error al eliminar la sustancia. Inténte más tarde");
         }
@@ -914,7 +923,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             return new ResponseMessage(false, "Se ha guardado la información con éxito.");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"saveAddQuest",sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la información. Intente más tarde.");
         }
 
@@ -1010,7 +1019,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             return new ResponseMessage(false, "Se ha guardado la información con exito");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"doTerminate",sharedUserService);
             return new ResponseMessage(false, "Ha ocurrido un error al guardar la información. Intente más tarde.");
         }
     }

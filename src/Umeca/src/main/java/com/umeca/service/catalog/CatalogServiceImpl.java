@@ -13,6 +13,8 @@ import com.umeca.repository.catalog.CountryRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.MunicipalityRepository;
 import com.umeca.repository.catalog.StateRepository;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +31,12 @@ import java.util.List;
  */
 @Service("catalogService")
 public class CatalogServiceImpl implements CatalogService {
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
     @Autowired
     LocationRepository locationRepository;
@@ -53,6 +61,7 @@ public class CatalogServiceImpl implements CatalogService {
             result.setMessage("Se ha buscado la información con éxito");
             result.setData(gson.toJson(locationDtoList));
         }catch (Exception e){
+            logException.Write(e,this.getClass(),"findLocationByZipCode",sharedUserService);
             result.setHasError(true);
             result.setMessage("Se ha producido un error en la búsqueda del código postal");
         }
@@ -69,11 +78,12 @@ public class CatalogServiceImpl implements CatalogService {
         ResponseMessageAddress result = new ResponseMessageAddress();
         try{
             Gson gson = new Gson();
-            List<State> states = stateRepository .getStatesByCountry(countryId);
+            List<State> states = stateRepository.getStatesByCountry(countryId);
             result.setHasError(false);
             result.setMessage("se ha buscado la información con éxito");
             result.setData(gson.toJson(states));
         }catch (Exception e){
+            logException.Write(e,this.getClass(),"getStatesByCountry",sharedUserService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al obtener la información");
         }
@@ -95,6 +105,7 @@ public class CatalogServiceImpl implements CatalogService {
             result.setHasError(false);
             result.setMessage("Busqueda exitosa");
         }catch (Exception e){
+            logException.Write(e,this.getClass(),"findMunicipalityByIdState",sharedUserService);
             result.setHasError(true);
            result.setMessage(e.getMessage());
         }finally {
@@ -116,6 +127,7 @@ public class CatalogServiceImpl implements CatalogService {
             result.setHasError(false);
             result.setMessage("Busqueda exitosa");
         }catch (Exception e){
+            logException.Write(e,this.getClass(),"findLocationByMunId",sharedUserService);
             result.setHasError(true);
             result.setMessage(e.getMessage());
         }finally {

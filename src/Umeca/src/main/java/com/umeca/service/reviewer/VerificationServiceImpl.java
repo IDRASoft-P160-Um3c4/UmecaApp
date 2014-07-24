@@ -20,6 +20,7 @@ import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +52,9 @@ public class VerificationServiceImpl implements VerificationService {
     UserRepository userRepository;
     @Autowired
     SourceVerificationRepository sourceVerificationRepository;
+
+    @Autowired
+    SharedLogExceptionService logException;
 
     @Override
     public void createVerification(Case c) {
@@ -278,6 +282,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(fms);
             return new ResponseMessage(false, "Se ha guardado exitosamente el registro");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveSchedule",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la lista");
         }
     }
@@ -308,6 +313,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(fms);
             return new ResponseMessage(false, "Se ha guardado exitosamente el registro");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveAddressVerification",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la lista");
         }
     }
@@ -371,6 +377,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(fmsAuxSecond);
             return new ResponseMessage(false, "Se ha guardado la selección con éxito.");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveSelectChoice",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la selección");
         }
     }
@@ -447,6 +454,7 @@ public class VerificationServiceImpl implements VerificationService {
                 return new ResponseMessage(false, "Se ha terminado con exito la verificación");
             }
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"terminateVerification",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al terminar la verificación");
         }
     }
@@ -491,6 +499,7 @@ public class VerificationServiceImpl implements VerificationService {
             sourceVerificationRepository.save(sourceVerification);
             return new ResponseMessage(false, "Se ha guardado la fuente exitosamente");
         }catch (Exception e){
+            logException.Write(e,this.getClass(),"doUpsertSources",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar");
         }
     }
@@ -689,6 +698,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(listValues);
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveFieldVerifiedNotKnow",userService);
             return new ResponseMessage(true, "Ha ocurrido un error");
         }
     }
@@ -712,6 +722,7 @@ public class VerificationServiceImpl implements VerificationService {
             sourceVerificationRepository.flush();
             return new ResponseMessage(false, "Se ha terminado la entrevista con éxito");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"terminateMeetingSource",userService);
             return new ResponseMessage(true, "Ha ocurrido un error al terminar la entrevista");
         }
     }
@@ -746,6 +757,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(result);
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveFieldVerifiedInocrrect",userService);
             return new ResponseMessage(true, "Ha ocurrido un error ");
         }
 
@@ -769,6 +781,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(listValues);
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"saveFieldVerifiedEqual",userService);
             return new ResponseMessage(true, "Ha ocurrido un error");
         }
     }

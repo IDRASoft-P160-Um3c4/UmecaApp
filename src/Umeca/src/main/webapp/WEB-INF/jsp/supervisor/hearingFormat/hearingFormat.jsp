@@ -225,7 +225,7 @@
                                 <div class="input-group">
                                     <input id="appointmentDate" name="appointmentDate" ng-model="m.appointmentDate"
                                            class="form-control date-picker" id="id-date-picker-1" type="text"
-                                           data-date-format="dd/mm/yyyy" data-val="true" readonly
+                                           data-date-format="yyyy/mm/dd" data-val="true" readonly
                                            data-val-required="Cita es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
@@ -388,7 +388,7 @@
                                 <div class="input-group">
                                     <input class="form-control date-picker"
                                            id="imputedBirthDate" name="imputedBirthDate" type="text"
-                                           data-date-format="dd/mm/yyyy" ng-disabled="m.canEdit==false"
+                                           data-date-format="yyyy/mm/dd" ng-disabled="m.canEdit==false"
                                            readonly ng-change="calcAge();" ng-model="m.impBthDay" data-val="true"
                                            data-val-required="Fecha de nacimiento es un campo requerido"/>
                                                 <span class="input-group-addon">
@@ -544,7 +544,7 @@
                             <div class="input-group">
                                 <input class="form-control date-picker"
                                        id="imputationDate" name="imputationDate" ng-model="m.impDate"
-                                       data-date-format="dd/mm/yyyy" type="text" readonly data-val="true"
+                                       data-date-format="yyyy/mm/dd" type="text" readonly data-val="true"
                                        data-val-required="Fecha es un campo requerido">
                             <span class="input-group-addon">
                                 <i class="icon-calendar bigger-110"></i>
@@ -652,7 +652,7 @@
 
                                 <div class="input-group input-large">
                                     <input class="form-control date-picker"
-                                           id="linkageDate" data-date-format="dd/mm/yyyy"
+                                           id="linkageDate" data-date-format="yyyy/mm/dd"
                                            name="linkageDate" ng-model="m.linkageDate"
                                            type="text" readonly data-val="true"
                                            data-val-required="Fecha es un campo requerido">

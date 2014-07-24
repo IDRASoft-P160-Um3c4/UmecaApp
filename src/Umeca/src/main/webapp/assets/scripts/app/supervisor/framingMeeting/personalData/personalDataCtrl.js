@@ -79,7 +79,7 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
                 mm = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
                 yyyy = date.getFullYear();
 
-                strDt = dd + "/" + mm + "/" + yyyy;
+                strDt = yyyy + "/" + mm + "/" + dd;
             }
 
             return strDt;

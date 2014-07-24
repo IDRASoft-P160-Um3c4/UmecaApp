@@ -40,7 +40,8 @@ public class MeetingView implements EntityGrid {
         }
         Date date = Calendar.getInstance().getTime();
         date.setTime(dateBirth.getTime());
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         this.dateBirthString = formatter.format(date);
     }
 

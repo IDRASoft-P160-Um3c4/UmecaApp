@@ -17,7 +17,9 @@ import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.TechnicalReviewService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -56,6 +58,12 @@ public class TechnicalReviewController {
 
     @Autowired
     TechnicalReviewService technicalReviewService;
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
     @RequestMapping(value = "/reviewer/technicalReview/list", method = RequestMethod.POST)
     public
@@ -138,6 +146,7 @@ public class TechnicalReviewController {
                 model.addObject("comments", "");
             }
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"technicalReview",sharedUserService);
             System.out.println("Error al cargar los datos para la vista technical review !!!!!\n\n");
             System.out.println(e.getMessage());
             return null;
@@ -167,6 +176,7 @@ public class TechnicalReviewController {
             response.setHasError(false);
             response.setUrlToGo("index.html");
         } catch (Exception ex) {
+            logException.Write(ex,this.getClass(),"doUpsert",sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo.");
         }
