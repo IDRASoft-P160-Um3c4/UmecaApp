@@ -14,6 +14,9 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
     $scope.fillFields = function(event){
         $scope.m.event = event;
         $scope.m.supervisor = event.infoActivity.supervisor;
+        if($scope.m.supervisor === undefined)
+            $scope.m.supervisor = $scope.lstSupervisor[0];
+
     };
 
     $scope.hideMsg = function (rMsg) {
@@ -54,10 +57,13 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
         if(startTime === endTime)
             endTime = "23:59:59";
 
-        //alert($scope.startDt + " -*******- " + $scope.endDt);
+        var dateInit = new Date($scope.startDt);
+        var dateEnd = new Date($scope.endDt);
+        dateInit.setHours(0, 0, 0, 0);
+        dateEnd.setHours(0, 0, 0, 0);
 
-        $($scope.cfg.startDateId).datepicker('update', $scope.startDt);
-        $($scope.cfg.endDateId).datepicker('update', $scope.endDt);
+        $($scope.cfg.startDateId).datepicker('update', dateInit);
+        $($scope.cfg.endDateId).datepicker('update', dateEnd);
 
         $($scope.cfg.startTimeId).timepicker('setTime', startTime);
         $($scope.cfg.endTimeId).timepicker('setTime', endTime);
@@ -106,22 +112,21 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
         d.dateInit = $($scope.cfg.startDateId).data("datepicker").getDate();
         d.dateEnd = $($scope.cfg.endDateId).data("datepicker").getDate();
 
-        d.dateInit.setHours(0,0,0,0);
-        d.dateEnd.setHours(23,59,59,999);
+        d.timeInit = window.formatTime($($scope.cfg.startTimeId).data("timepicker").getTime());
+        d.timeEnd = window.formatTime($($scope.cfg.endTimeId).data("timepicker").getTime());
+
+        d.dateInit.setHours(d.timeInit.hours, d.timeInit.minutes,0,0);
+        d.dateEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes,0,0);
 
         if(d.dateEnd < d.dateInit){
             $scope.msgError = "La fecha final no puede ser menor a la fecha inicial";
             return false;
         }
-
-        d.timeInit = window.formatTime($($scope.cfg.startTimeId).data("timepicker").getTime());
-        d.timeEnd = window.formatTime($($scope.cfg.endTimeId).data("timepicker").getTime());
-
-        if(d.timeEnd.totSecs <= d.timeInit.totSecs){
-            $scope.msgError = "El tiempo final no puede ser igual o menor al tiempo inicial";
-            return false;
-        }
-
+        /*
+         if(d.timeEnd.totSecs <= d.timeInit.totSecs){
+         $scope.msgError = "El tiempo final no puede ser igual o menor al tiempo inicial";
+         return false;
+         } */
         return true;
     };
 
