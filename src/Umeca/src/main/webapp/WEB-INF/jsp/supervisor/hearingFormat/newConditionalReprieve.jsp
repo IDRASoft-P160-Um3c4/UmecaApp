@@ -82,7 +82,7 @@
                             </div>
                             <div class="col-xs-7">
                                 <div class="input-group">
-                                    <input class="form-control date-picker" readonly="readonly" type="text" data-date-format="dd/mm/yyyy"
+                                    <input class="form-control date-picker" readonly="readonly" type="text" data-date-format="yyyy/mm/dd"
                                            data-val="true" data-val-required="La fecha de nacimiento es un campo requerido"
                                            id="birthDate" name="birthDate" ng-model="birthDate"/>
 											<span class="input-group-addon">

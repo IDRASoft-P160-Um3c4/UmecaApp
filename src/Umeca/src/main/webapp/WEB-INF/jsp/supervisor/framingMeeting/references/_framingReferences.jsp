@@ -11,12 +11,12 @@
         var canTerminate = $('#canTerminateRef').attr("value");
 
         upsertReference = function (id) {
-            if (canTerminate == true)
+            if (canTerminate == 'true')
                 window.showUpsertWithIdCase(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/references/upsert.html'/>", "#GridReferences", undefined, idCase);
         };
 
         deleteReference = function (id) {
-            if (canTerminate == true)
+            if (canTerminate == 'true')
                 window.showObsolete(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridReferences");
         };
 

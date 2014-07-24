@@ -3,7 +3,6 @@
         <div class="modal-content">
             <div class="modal-header">
 
-
                 <div class="alert alert-info">
                     <h4 class="modal-title element-center">Cerrar caso</h4>
                     <br/>

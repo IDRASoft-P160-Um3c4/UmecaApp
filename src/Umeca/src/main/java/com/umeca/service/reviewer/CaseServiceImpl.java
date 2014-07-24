@@ -20,6 +20,8 @@ import com.umeca.repository.reviewer.ImputedRepository;
 import com.umeca.repository.supervisor.FolderConditionalReprieveRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -58,6 +60,12 @@ public class CaseServiceImpl implements CaseService {
     @Autowired
     FolderConditionalReprieveRepository folderConditionalReprieveRepository;
 
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    SharedUserService sharedUserService;
+
 
     @Override
     public Case generateNewCase(Imputed imputed, Integer type) {
@@ -90,6 +98,7 @@ public class CaseServiceImpl implements CaseService {
             caseDet = caseRepository.save(caseDet);
             caseRepository.flush();
         } catch (Exception e) {
+            logException.Write(e,this.getClass(),"save",sharedUserService);
             System.out.println("Error al guardar el caso!!");
             System.out.println(e.getMessage());
         }
@@ -122,8 +131,7 @@ public class CaseServiceImpl implements CaseService {
             resp.setMessage("Se ha guardado el caso con exito.");
 
         }catch (Exception e){
-            System.out.println("Error al guardar el caso por suspension condicional de proceso!!!");
-            e.printStackTrace();
+            logException.Write(e,this.getClass(),"saveConditionaReprieveCase",sharedUserService);
             resp.setHasError(true);
             resp.setMessage("Ha ocurrido un error en el servidor, intente mas tarde");
         }
@@ -180,11 +188,14 @@ public class CaseServiceImpl implements CaseService {
                     }
                 }
             } catch (IllegalAccessException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                logException.Write(e,this.getClass(),"validateStatus",sharedUserService);
             } catch (IntrospectionException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                logException.Write(e,this.getClass(),"validateStatus",sharedUserService);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                logException.Write(e,this.getClass(),"validateStatus",sharedUserService);
             }
             return false;
         }

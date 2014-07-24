@@ -1,8 +1,6 @@
 app.directive('verifComp', function ($http, $timeout,$rootScope) {
     return function (scope, elem, attr) {
 
-        var currentTimeout = null;
-
         elem.on('click', function () {
             var idList = scope.$eval(attr.idElement);
             $rootScope.$broadcast('SetIdList',idList);

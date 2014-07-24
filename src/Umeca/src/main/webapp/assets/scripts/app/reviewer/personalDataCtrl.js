@@ -18,6 +18,8 @@ app.controller('personalDataController', function($scope, $timeout,$q) {
             $(".chosen-select").chosen();
             var birthDate=$("#birthDate").val();
              $("#birthDate").val(birthDate.replace("00:00:00.0",""));
+             birthDate=$("#dateBirthV").val();
+             $("#dateBirthV").val(birthDate.replace("00:00:00.0",""));
         if($scope.listCountry === undefined || $scope.listCountry.length <= 0)
             return;
 

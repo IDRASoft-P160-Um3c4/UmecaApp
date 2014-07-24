@@ -81,7 +81,7 @@
             <input class="form-control date-picker"
                    id="addictionTreatmentDate" name="addictionTreatmentDate"
                    type="text"
-                   data-date-format="dd/mm/yyyy" readonly
+                   data-date-format="yyyy/mm/dd" readonly
                    ng-model="aq.addictionTreatmentDate"
                    data-val="true"
                    data-val-required="Fecha de tratamiento es un campo requerido"/>

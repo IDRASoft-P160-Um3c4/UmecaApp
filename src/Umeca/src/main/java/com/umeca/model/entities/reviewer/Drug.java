@@ -36,7 +36,8 @@ public class Drug implements EntityGrid{
         if(lastUse!=null){
             Date date = Calendar.getInstance().getTime();
             date.setTime(lastUse.getTime());
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
             this.lastUseFormat = formatter.format(date);
         }
     }

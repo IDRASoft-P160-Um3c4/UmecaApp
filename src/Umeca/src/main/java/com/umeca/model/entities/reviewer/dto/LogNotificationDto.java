@@ -45,8 +45,8 @@ public class LogNotificationDto {
         }
 
         if(status.equals(Constants.VERIFICATION_STATUS_AUTHORIZED)) {
-            title="Verificación auotorizada.";
-            message="Se han autorizado las entrevistas a las fuentes para el caso con carpeta de investigación "+this.idFolder+" para el imputado "+this.imputedName+".";
+            title="Autorización de fuentes terminada.";
+            message="Ha finalizado autorización de fuentes para el caso con carpeta de investigación "+this.idFolder+" para el imputado "+this.imputedName+".";
         }
 
 

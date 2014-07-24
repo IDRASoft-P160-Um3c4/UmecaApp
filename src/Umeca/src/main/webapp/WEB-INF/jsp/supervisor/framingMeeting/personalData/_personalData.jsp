@@ -208,7 +208,7 @@
                         <div class="input-group">
                             <input class="form-control date-picker"
                                    id="birthDate" name="birthDate" ng-model="pd.birthDate"
-                                   data-date-format="dd/mm/yyyy" type="text" readonly data-val="true"
+                                   data-date-format="yyyy/mm/dd" type="text" readonly data-val="true"
                                    data-val-required="Fecha de naciemiento es un campo requerido">
                             <span class="input-group-addon">
                                 <i class="icon-calendar bigger-110"></i>

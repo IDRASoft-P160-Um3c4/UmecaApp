@@ -61,6 +61,10 @@
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
         }
 
+        window.verificationActivities = function(id) {
+            window.showUpsertWithIdCase(id, "#upsertModal", "<c:url value='/reviewer/verification/verificationActivities.html'/>", undefined,undefined, ${idCase});
+        };
+
     </script>
     <title>Usuarios</title>
 
@@ -348,6 +352,9 @@
         </div>
     </div>
 
+    <div ng-controller="modalDlgController" id="upsertModal">
+
+    </div>
     <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
     <%@ include file="/WEB-INF/jsp/reviewer/verification/detailVerification.jsp" %>
     <%@ include file="/WEB-INF/jsp/reviewer/verification/detailVerificationAddress.jsp" %>

@@ -13,16 +13,16 @@
 
         var urlGridAddress = $('#urlGridAddress').attr("value");
         var idCase = $('#hidIdCaseAdd').attr("value");
-        var canTerminte = $('#canTerminateAddress').attr("value");
+        var canTerminate = $('#canTerminateAddress').attr("value");
 
         upsertAddress = function (id) {
-            if (canTerminte == true)
+            if (canTerminate == 'true')
                 window.showUpsertWithIdCase(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/upsert.html'/>", "#GridAddress", undefined, idCase);
         };
 
 
         deleteAddress = function (id) {
-            if (canTerminte == true)
+            if (canTerminate == 'true')
                 window.showObsolete(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/delete.json'/>", "#GridAddress");
         };
 

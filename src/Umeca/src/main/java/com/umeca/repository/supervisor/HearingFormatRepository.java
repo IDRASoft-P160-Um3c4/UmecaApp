@@ -52,6 +52,11 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
             "INNER JOIN hf.caseDetention cd INNER JOIN hf.supervisor s " +
             "WHERE cd.id =:caseId ORDER BY hf.id DESC")
     List<Long> findLastSupervisorIdByCaseId(@Param("caseId") Long caseId, Pageable pageable);
+
+    @Query("SELECT hf from HearingFormat hf " +
+            "INNER JOIN hf.caseDetention cd " +
+            "WHERE cd.id =:caseId ORDER BY hf.id DESC")
+    List<HearingFormat> findLastHearingFormatByCaseId(@Param("caseId") Long caseId, Pageable pageable);
 }
 
 

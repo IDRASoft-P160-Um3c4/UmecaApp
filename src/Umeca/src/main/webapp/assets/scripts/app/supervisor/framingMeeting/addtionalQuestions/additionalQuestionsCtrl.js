@@ -162,7 +162,7 @@ app.controller('additionalQuestionsController', function ($scope, $timeout, $htt
             mm = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
             yyyy = date.getFullYear();
 
-            strDt = dd + "/" + mm + "/" + yyyy;
+            strDt = yyyy + "/" + mm + "/" + dd;
         }
 
         return strDt;
