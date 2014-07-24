@@ -7,6 +7,7 @@
 <style>
     .chosen-container {
         width: 100%;!important
+
     }
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/chosen.min.css"/>
