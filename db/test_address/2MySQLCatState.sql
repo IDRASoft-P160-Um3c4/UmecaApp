@@ -1,4 +1,6 @@
-﻿	CREATE TABLE IF NOT EXISTS cat_state (
+﻿  use sgumeca;
+
+	CREATE TABLE IF NOT EXISTS cat_state (
 		id_state INTEGER AUTO_INCREMENT PRIMARY KEY,
 		id_country INTEGER NOT NULL REFERENCES CatCountry(id_country), 
 		name varchar(50) NOT NULL,

@@ -50,7 +50,7 @@ app.controller('additionalQuestionsController', function ($scope, $timeout, $htt
         $scope.selectedAddictedAcquaintances = $.parseJSON(data.selectedAddictedAcquaintances);
         $scope.selectedObligationIssues = $.parseJSON(data.selectedObligationIssues);
         $scope.selectedRelativesAbroad = $.parseJSON(data.selectedRelativesAbroad);
-
+        //alert("1");
     }
 
     $scope.selAddictionTreatment = function () {

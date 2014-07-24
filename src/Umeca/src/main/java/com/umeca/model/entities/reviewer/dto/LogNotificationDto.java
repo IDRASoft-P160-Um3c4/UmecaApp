@@ -36,28 +36,32 @@ public class LogNotificationDto {
 
         if(status.equals(Constants.S_MEETING_INCOMPLETE)) {
             title="Entrevista incompleta.";
-            message="Debe completar la entrevista de riesgos procesales del caso con carpeta de investigación "+this.idFolder+" para el imputado "+this.imputedName+".";
+            message="Debe completar la entrevista de riesgos procesales del caso con carpeta de investigaciï¿½n "+this.idFolder+" para el imputado "+this.imputedName+".";
         }
-
+        else
         if(status.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)) {
-            title="Información legal incompleta.";
-            message="Debe completar la información legal de la entrevista de riesgos procesales del caso con carpeta de investigación "+this.idFolder+" para el imputado "+this.imputedName+".";
+            title="Informaciï¿½n legal incompleta.";
+            message="Debe completar la informaciï¿½n legal de la entrevista de riesgos procesales del caso con carpeta de investigaciï¿½n "+this.idFolder+" para el imputado "+this.imputedName+".";
         }
-
+        else
         if(status.equals(Constants.VERIFICATION_STATUS_AUTHORIZED)) {
-            title="Autorización de fuentes terminada.";
-            message="Ha finalizado autorización de fuentes para el caso con carpeta de investigación "+this.idFolder+" para el imputado "+this.imputedName+".";
+            title="Autorizaciï¿½n de fuentes terminada.";
+            message="Ha finalizado autorizaciï¿½n de fuentes para el caso con carpeta de investigaciï¿½n "+this.idFolder+" para el imputado "+this.imputedName+".";
         }
-
-
+        else
+        if(status.equals(Constants.VERIFICATION_STATUS_NEW_SOURCE)) {
+            title="AutorizaciÃ³n de fuentes.";
+            message="Se ha completado el registro de datos legales. Debe autorizar las fuentes para el caso con carpeta de investigaciï¿½n "+this.idFolder+" para el imputado "+this.imputedName+".";
+        }
+        else
         if(status.equals("NO_SOURCES")) {
             title="Fuentes no disponibles.";
-            message="Debe agregar fuentes para realizar la verificación de la entrevista de riesgos procesales del caso con carpeta de investigación "+this.idFolder+" para el imputado "+this.imputedName+".";
+            message="Debe agregar fuentes para realizar la verificaciï¿½n de la entrevista de riesgos procesales del caso con carpeta de investigaciï¿½n "+this.idFolder+" para el imputado "+this.imputedName+".";
         }
-
+        else
         if(status.equals("SOURCES_NO_MEETING")) {
             title="Fuentes disponibles.";
-            message="Debe realizar las entrevistas a las fuentes para la entrevista de riesgos procesales del caso con carpeta de investigación "+this.idFolder+" para el imputado "+this.imputedName+".";
+            message="Debe realizar las entrevistas a las fuentes para la entrevista de riesgos procesales del caso con carpeta de investigaciï¿½n "+this.idFolder+" para el imputado "+this.imputedName+".";
         }
 
     }

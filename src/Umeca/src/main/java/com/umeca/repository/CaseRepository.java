@@ -56,6 +56,16 @@ public interface CaseRepository extends JpaRepository<Case, Long>{
             "where stver.name=:verifSt and usr.id =:idUser and stc.name=:caseSt order by c.meeting.dateCreate asc")
     List<LogNotificationDto> getAuthorizedVerificationsInfo(@Param("idUser")Long idUser,@Param("verifSt")String strMeetingSt ,@Param("caseSt")String strCaseSt, Pageable pageable);
 
+    @Query("select  new com.umeca.model.entities.reviewer.dto.LogNotificationDto(c.idFolder,concat(imp.name,' ',imp.lastNameP,' ',imp.lastNameM),stver.name,m.dateCreate) from Case as c " +
+            "INNER JOIN c.status as stc " +
+            "INNER JOIN c.verification as ver " +
+            "INNER JOIN c.verification.status as stver " +
+            "INNER JOIN c.verification.reviewer as usr " +
+            "INNER JOIN c.meeting.imputed as imp " +
+            "INNER JOIN c.meeting m " +
+            "where stver.name=:verifSt and stc.name=:caseSt order by c.meeting.dateCreate asc")
+    List<LogNotificationDto> getNewSourceStatusCases(@Param("verifSt")String strMeetingSt ,@Param("caseSt")String strCaseSt, Pageable pageable);
+
     //obtengo verificaciones con fuentes autorizadas no terminadas
     @Query("select  new com.umeca.model.entities.reviewer.dto.LogNotificationDto(c.idFolder,concat(imp.name,' ',imp.lastNameP,' ',imp.lastNameM),'SOURCES_NO_MEETING',m.dateCreate) from Case as c " +
             "INNER JOIN c.status as stc " +
