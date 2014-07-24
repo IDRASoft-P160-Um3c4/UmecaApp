@@ -134,16 +134,20 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
             $scope.WaitFor = false;
 
             try {
+
                 if (resp.hasError === undefined) {
                     resp = resp.responseMessage;
                 }
+
                 if (resp.hasError === false) {
                     $scope.pdSuccessMsg = resp.message;
+                    $scope.pdErrorMsg = "";
                     $scope.$apply();
                     return;
                 }
 
                 $scope.pdErrorMsg = resp.message;
+                $scope.pdSuccessMsg = "";
                 $scope.$apply();
 
             } catch (e) {

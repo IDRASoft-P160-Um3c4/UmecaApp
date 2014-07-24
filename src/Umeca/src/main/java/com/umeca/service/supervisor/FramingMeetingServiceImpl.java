@@ -163,8 +163,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
 
 
-
-
         if (existVer != null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
             Meeting existVerifMeet = existVer.getMeetingVerified();
 
@@ -180,9 +178,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setMaritalStatus(existVerifMeet.getImputed().getMaritalStatus().getId());
 
 
-            Integer years=existVerifMeet.getImputed().getYearsMaritalStatus();
-            if(years!=null)
-            view.setMaritalStatusYears(years.toString());
+            Integer years = existVerifMeet.getImputed().getYearsMaritalStatus();
+            if (years != null)
+                view.setMaritalStatusYears(years.toString());
 
             view.setBirthCountryId(existVerifMeet.getImputed().getBirthCountry().getId());
             view.setBirthState(existVerifMeet.getImputed().getBirthState());
@@ -192,7 +190,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             return view;
         }
 
-        List<HearingFormat> formats = hearingFormatRepository.findLastHearingFormatByCaseId(idCase,new PageRequest(0,1));
+        List<HearingFormat> formats = hearingFormatRepository.findLastHearingFormatByCaseId(idCase, new PageRequest(0, 1));
 
         if (formats != null && formats.size() > 0) {
 
@@ -277,10 +275,17 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<FramingSelectedSourceRel> sourceRel = new ArrayList<>();
 
         for (Long currId : ids) {
+
             FramingSelectedSourceRel rel = new FramingSelectedSourceRel();
             rel.setFramingMeeting(existFraming);
-            rel.setFramingReference(framingReferenceRepository.findOne(currId));
-            sourceRel.add(rel);
+
+            FramingReference existRef = framingReferenceRepository.findOne(currId);
+
+            if (existRef != null) {
+                rel.setFramingReference(existRef);
+                sourceRel.add(rel);
+            }
+
         }
 
         return sourceRel;
@@ -600,15 +605,14 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         try {
 
-            if (view.getId() != null){
+            if (view.getId() != null) {
                 Address existAddress = addressRepository.findOne(view.getId());
-                existAddress=this.fillAddress(existAddress, view);
+                existAddress = this.fillAddress(existAddress, view);
                 addressRepository.save(existAddress);
-            }
-            else{
+            } else {
                 FramingAddress framingAddress = new FramingAddress();
                 framingAddress.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
-                framingAddress.setAddress(this.fillAddress(null,view));
+                framingAddress.setAddress(this.fillAddress(null, view));
                 framingAddressRepository.save(framingAddress);
             }
 
@@ -1043,19 +1047,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         //actividades
 
-        List<RelSocialEnvironmentActivity> relAct=verifMeeting.getSocialEnvironment().getRelSocialEnvironmentActivities();
+        List<RelSocialEnvironmentActivity> relAct = verifMeeting.getSocialEnvironment().getRelSocialEnvironmentActivities();
 
         StringBuilder sb = new StringBuilder();
 
-        for(RelSocialEnvironmentActivity rel : relAct){
+        for (RelSocialEnvironmentActivity rel : relAct) {
 
-            if(!sb.toString().equals(""))
+            if (!sb.toString().equals(""))
                 sb.append(", ");
 
             sb.append(rel.getActivity().getName());
 
-            if(rel.getSpecification()!=null)
-                sb.append(": "+rel.getSpecification());
+            if (rel.getSpecification() != null)
+                sb.append(": " + rel.getSpecification());
 
         }
 
@@ -1114,17 +1118,17 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         for (Reference reference : verifMeeting.getReferences()) {
 
-                FramingReference fRef = new FramingReference();
+            FramingReference fRef = new FramingReference();
 
-                fRef.setFramingMeeting(existFraming);
-                fRef.setPersonType(FramingMeetingConstants.PERSON_TYPE_REFERENCE);
-                fRef.setAddress(reference.getAddress());
-                fRef.setName(reference.getFullName());
-                fRef.setAge(reference.getAge().toString());
-                fRef.setPhone(reference.getPhone());
-                fRef.setRelationship(reference.getRelationship());
+            fRef.setFramingMeeting(existFraming);
+            fRef.setPersonType(FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+            fRef.setAddress(reference.getAddress());
+            fRef.setName(reference.getFullName());
+            fRef.setAge(reference.getAge().toString());
+            fRef.setPhone(reference.getPhone());
+            fRef.setRelationship(reference.getRelationship());
 
-                references.add(fRef);
+            references.add(fRef);
 
         }
 
@@ -1132,9 +1136,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         List<Drug> drugs = new ArrayList<>();
 
-        for(Drug drug : verifMeeting.getDrugs()){
+        for (Drug drug : verifMeeting.getDrugs()) {
 
-            Drug fDrug= new Drug();
+            Drug fDrug = new Drug();
 
             fDrug.setFramingMeeting(existFraming);
             fDrug.setDrugType(drug.getDrugType());
