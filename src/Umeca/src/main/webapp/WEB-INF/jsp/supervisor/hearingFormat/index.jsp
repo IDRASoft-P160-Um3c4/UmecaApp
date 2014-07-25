@@ -70,7 +70,7 @@
                     for (var i = 0; i < ids.length; i++) {
 
                         var cl = ids[i];
-                        var be;
+                        var be="";
 
                         switch (status[i]) {
 

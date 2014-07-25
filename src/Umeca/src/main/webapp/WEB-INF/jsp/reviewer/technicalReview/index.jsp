@@ -63,7 +63,7 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
                         var enabled = row.enabled;
-                        var be;
+                        var be="";
 
                         switch (status[i]) {
 

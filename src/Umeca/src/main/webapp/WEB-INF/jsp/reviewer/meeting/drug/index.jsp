@@ -41,7 +41,8 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar sustancia\" onclick=\"window.upsertDrug('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "";
+                     be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar sustancia\" onclick=\"window.upsertDrug('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
                         be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Elimnar sustancia\" onclick=\"window.delete('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                           $(this).jqGrid('setRowData', ids[i], { Action: be });
