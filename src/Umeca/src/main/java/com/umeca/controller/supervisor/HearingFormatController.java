@@ -8,6 +8,7 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.State;
 import com.umeca.model.catalog.dto.StateDto;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
@@ -143,6 +144,7 @@ public class HearingFormatController {
 
                 final javax.persistence.criteria.Join<HearingFormat, HearingFormatImputed> joinHImp = r.join("hearingImputed");
                 final javax.persistence.criteria.Join<HearingFormat, HearingFormatSpecs> joinSpecs = r.join("hearingFormatSpecs");
+                final javax.persistence.criteria.Join<HearingFormat, User> joinUsr = r.join("supervisor");
 
                 return new ArrayList<Selection<?>>() {{
 
@@ -156,6 +158,7 @@ public class HearingFormatController {
                     add(joinSpecs.get("extension"));
                     add(joinSpecs.get("linkageProcess"));
                     add(r.get("registerTime"));
+                    add(joinUsr.get("fullname"));
 
                 }};
             }
