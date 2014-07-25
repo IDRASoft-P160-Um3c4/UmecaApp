@@ -30,11 +30,11 @@
                         </div>
 
                         <div class="row" ng-show="m.confirmComment.length>0">
-                            <label for="credPass">Contrase&n~;a</label>
+                            <label for="credPass">Contrase&ntilde;a</label>
                             <br/>
                             <input id="credPass" ng-model="m.credPass" name="credPass"
                                    type="password" data-val="true" class="input-xlarge"
-                                   data-val-required="Contrase&n~;a es un campo requerido"/>
+                                   data-val-required="Contrase&ntilde;a es un campo requerido"/>
                             <br/>
                         <span class="field-validation-valid" data-valmsg-for="credPass"
                               data-valmsg-replace="true"></span>
@@ -46,7 +46,7 @@
 
                 <div class="row" ng-show='MsgError'>
                     <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
-                        <span class="control-label element-center">{{MsgError}}</span>
+                        <span class="control-label element-center" ng-bind-html="MsgError"></span>
                     </div>
                 </div>
 
