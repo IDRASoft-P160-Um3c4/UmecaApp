@@ -144,4 +144,11 @@ public interface FieldMeetingSourceRepository extends JpaRepository<FieldMeeting
             "INNER JOIN fms.fieldVerification as fv " +
             "where c.id = :idCase and fv.code=:code and fms.isFinal=true")
     List<Long> getIdFieldMSFinalByCaseCode(@Param("idCase")Long idCase,@Param("code") String code);
+
+    @Query("select fms from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "where c.id = :idCase and sv.id=:idSource  AND fms.statusFieldVerification.name <> :status and fv.sectionCode = :sectionCode  order by fms.idFieldList,fv.idSubsection, fv.indexField asc")
+    List<FieldMeetingSource> getFieldMeetingBySource(@Param("idCase")Long id,@Param("idSource") Long idSource, @Param("status")String status,@Param("sectionCode")Integer sectionCode);
 }

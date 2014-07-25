@@ -61,7 +61,7 @@ app.directive('map', function () {
             google.maps.event.trigger($scope.map, 'resize');
             $scope.addMarker($scope.point);
             google.maps.event.addListener($scope.map, 'click', function(event) {
-               $scope.addMarker(new google.maps.LatLng(event.latLng.k,event.latLng.B));
+               $scope.addMarker(new google.maps.LatLng(event.latLng.k,event.latLng.B),true);
             });
             $scope.$watch('selected', function () {
             window.setTimeout(function(){

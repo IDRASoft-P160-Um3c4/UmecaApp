@@ -158,7 +158,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
         $scope.map.setCenter($scope.point);
     });
 
-    $scope.addMarker = function(point){
+    $scope.addMarker = function(point, band){
         if ($scope.markers.length > 0) {
             for (var i = 0; i < $scope.markers.length; i++) {
                 $scope.markers[i].setMap(null);
@@ -171,11 +171,9 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
         $scope.lat = point.k;
         $scope.lng = point.B;
         $scope.markers.push(marker);
-        try{
-        $scope.$apply();
-        }catch (e){
-
-        }
+       if(band==true){
+           $scope.$apply();
+       }
     };
 
     $scope.refreshMap = function () {

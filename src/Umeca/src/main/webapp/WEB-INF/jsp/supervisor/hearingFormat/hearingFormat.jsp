@@ -124,7 +124,7 @@
 
     <div class="col-xs-6">
         <h3 class="header smaller lighter blue">
-            <small>Captur&aacute;:</small>
+            <small>Nombre del supervisor:</small>
             &nbsp;&nbsp;{{m.userName}}
         </h3>
     </div>
@@ -943,6 +943,12 @@
 </div>
 
 <div class="row element-right">
+    <div class="col-xs-6">
+        <h3 class="header smaller lighter blue">
+            <small>Nombre del supervisor:</small>
+            &nbsp;&nbsp;{{m.userName}}
+        </h3>
+    </div>
     <div ng-show="m.canSave==true">
                             <span class="btn btn-default btn-sm"
                                   ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
