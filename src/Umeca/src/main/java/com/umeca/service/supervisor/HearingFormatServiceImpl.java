@@ -211,7 +211,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         if (existFormats != null && existFormats.size() > 0) {//busco si ya existe algun formato
 
-            hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId(),true);
+            hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId(), true);
 
             hearingFormatView.setCanSave(true);
             hearingFormatView.setCanEdit(true);
@@ -316,7 +316,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setAdditionalData(existHF.getAdditionalData());
         hearingFormatView.setCrimes(existHF.getCrimes());
 
-        if(newFormat==true)
+        if (newFormat == true)
             hearingFormatView.setUserName(sharedUserService.GetLoggedUsername());
         else
             hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
@@ -393,16 +393,17 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
 
-            if (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO))
+            if (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
                 hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
 
-            sb.append("Solicitud de cierre de caso: ");
-            sb.append(hearingFormat.getCaseDetention().getIdFolder());
-            sb.append(". Comentario: ");
-            sb.append(hearingFormat.getConfirmComment());
-            sb.append(".");
+                sb.append("Solicitud de cierre de caso: ");
+                sb.append(hearingFormat.getCaseDetention().getIdFolder());
+                sb.append(". Comentario: ");
+                sb.append(hearingFormat.getConfirmComment());
+                sb.append(".");
 
-            caseService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()), hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END);
+                caseService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()), hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END);
+            }
 
             hearingFormat = hearingFormatRepository.save(hearingFormat);
 

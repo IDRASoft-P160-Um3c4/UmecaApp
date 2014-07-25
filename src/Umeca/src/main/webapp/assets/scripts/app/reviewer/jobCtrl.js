@@ -7,8 +7,12 @@ app.controller('jobController', function($scope, $timeout) {
     $scope.init = function(){
 
         var jdpStart=$("#jdpStart").val();
+        var today  = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth();
+        var date = today.getDate();
         if(jdpStart == ""){
-            $("#jdpStart").val("2000/01/01");
+            $("#jdpStart").val(year+"/"+(month+1)+"/"+date);
             jdpStart=$("#jdpStart").val();
         }
         jdpStart= jdpStart.replace(/-/g,"/");
@@ -16,7 +20,7 @@ app.controller('jobController', function($scope, $timeout) {
 
         var jdbEnd=$("#jdbEnd").val();
         if(jdbEnd == ""){
-            $("#jdbEnd").val("2000/01/01");
+            $("#jdbEnd").val(year+"/"+(month+1)+"/"+date);
             jdbEnd=$("#jdbEnd").val();
         }
         jdbEnd= jdbEnd.replace(/-/g,"/");
@@ -24,7 +28,7 @@ app.controller('jobController', function($scope, $timeout) {
 
         var jdpStartCurrent=$("#jdpStartCurrent").val();
         if(jdpStartCurrent == ""){
-            $("#jdpStartCurrent").val("2000/01/01");
+            $("#jdpStartCurrent").val(year+"/"+(month+1)+"/"+date);
             jdpStartCurrent=$("#jdpStartCurrent").val();
         }
         jdpStartCurrent= jdpStartCurrent.replace(/-/g,"/");
