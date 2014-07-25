@@ -132,7 +132,7 @@ public class MainPageServiceImpl implements MainPageService {
                 new ArrayList<String>(){{
                     add(MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT);
                     add(MonitoringConstants.STATUS_PENDING_END);
-                    add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);}});
+                    add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);}}, userId);
         String sLstGeneric = json.toJson(lstGen);
         model.addObject("lstNotification", sLstGeneric);
         model.addObject("urlToGo", "/supervisorManager/log/deleteComment.json");

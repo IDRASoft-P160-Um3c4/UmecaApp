@@ -151,7 +151,7 @@ public class CaseActiveController {
 
     @RequestMapping(value = "/supervisorManager/caseActive/doAuthorizeRejectCase", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseMessage doAuthorizeRejectMonPlan(@ModelAttribute AuthorizeRejectMonPlan model){
+    ResponseMessage doAuthorizeRejectCase(@ModelAttribute AuthorizeRejectMonPlan model){
 
         ResponseMessage response = new ResponseMessage();
         response.setHasError(true);
@@ -183,7 +183,7 @@ public class CaseActiveController {
 
             response.setHasError(false);
         }catch (Exception ex){
-            logException.Write(ex, this.getClass(), "doAuthorizeRejectMonPlan", sharedUserService);
+            logException.Write(ex, this.getClass(), "doAuthorizeRejectCase", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         }
