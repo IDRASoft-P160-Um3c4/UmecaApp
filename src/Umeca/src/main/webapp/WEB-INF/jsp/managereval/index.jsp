@@ -16,32 +16,7 @@
         var verifySourceMethods = ${verifySources};
 
         function verifySources(idx) {
-            var subGrid = "#GridId_" + idx + "_t";
-            var list = $(subGrid + ">tbody>tr[id!='']");
-            var vS = [];
-            $.each(list, function(idx, item){
-                var chk = $(item).find("td>input");
-                if (chk.is(":checked"))
-                    vS.push({
-                        id: $(item).attr("id"),
-                        ref: $(item).find("select").val()
-                    });
-            });
-
-            $.ajax({
-                url: "<c:url value="/managereval/save.json?c=" />" + idx,
-                type: "POST",
-                data: JSON.stringify(vS),
-                success: function(r) {
-                    t.alert("Validaciones de fuentes", "Se han actualizado los datos correctamente. ", "info");
-                    $(subGrid).trigger("reloadGrid");
-                },
-                error: function(e) {
-                    alert(JSON.stringify(e));
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
+            angular.element($("#ConfirmBoxDialog")).scope().prompt(idx);
         }
 
         function autorizar(e, s) {
@@ -181,6 +156,53 @@
                 ignoreCase: true
             });
         });
+
+        app.controller('managerEvalController', function ($scope, $sce) {
+
+            $scope.Title = $sce.trustAsHtml("Aprobaci&oacute;n de fuentes");
+            $scope.Message = $sce.trustAsHtml("Se har&aacute; la autorizaci&oacute;n de fuentes a verificar del caso seleccionado<br>&iquest;Desea continuar? ");
+            $scope.Type = "warning";
+
+            $scope.no = function () {
+                $("#ConfirmBoxDialog").modal("hide");
+            };
+
+            $scope.yes = function() {
+                $.ajax({
+                    url: "<c:url value="/managereval/save.json?c=" />" + $scope.idx,
+                    type: "POST",
+                    data: $scope.toSave,
+                    success: function(r) {
+                        $("#ConfirmBoxDialog").modal("hide");
+                        t.alert($scope.Title, "Se han actualizado los datos correctamente. ", "info");
+                        $($scope.subGrid).trigger("reloadGrid");
+                    },
+                    error: function(e) {
+                        $("#ConfirmBoxDialog").modal("hide");
+                        alert(JSON.stringify(e));
+                    },
+                    dataType: "json",
+                    contentType: "application/json"
+                });
+            };
+
+            $scope.prompt = function(idx) {
+                $scope.subGrid = "#GridId_" + idx + "_t";
+                var list = $($scope.subGrid + ">tbody>tr[id!='']");
+                var vS = [];
+                $.each(list, function(idx, item){
+                    var chk = $(item).find("td>input");
+                    if (chk.is(":checked"))
+                        vS.push({
+                            id: $(item).attr("id"),
+                            ref: $(item).find("select").val()
+                        });
+                });
+                $scope.idx = idx;
+                $scope.toSave = JSON.stringify(vS);
+                $("#ConfirmBoxDialog").modal("show");
+            };
+        });
     </script>
 
     <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Validar fuentes</h2>
@@ -191,6 +213,28 @@
         <div class="blocker" ng-show="working">
             <div>
                 Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="managerEvalController" data-backdrop="static" ng-cloak>
+        <div id="ConfirmBoxDialog" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="alert alert-{{Type}}">
+                            <button type="button" class="close" ng-click="no()">&times;</button>
+                            <h4 class="modal-title element-center" ng-bind-html="Title"></h4>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="element-center" ng-bind-html="Message"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-{{Type}}" ng-click="yes()">S&iacute;</button>
+                        <button type="button" class="btn btn-default btn-secondary" ng-click="no()">No</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
