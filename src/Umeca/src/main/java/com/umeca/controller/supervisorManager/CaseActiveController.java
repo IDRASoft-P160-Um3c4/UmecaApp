@@ -49,7 +49,8 @@ public class CaseActiveController {
     }
 
     @RequestMapping(value = "/supervisorManager/caseActive/list", method = RequestMethod.POST)
-    public @ResponseBody
+    public
+    @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
         opts.extraFilters = new ArrayList<>();
@@ -85,11 +86,12 @@ public class CaseActiveController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idMP"))
                     return r.get("idMP");
-
-                if (field.equals("statusName"))
+                else if (field.equals("fullName"))
+                    return r.join("meeting").join("imputed").get("name");
+                else if (field.equals("statusName"))
                     return r.join("status").get("name");
-
-                return null;
+                else
+                    return null;
             }
         }, Case.class, ForFramingMeetingGrid.class);
 
@@ -102,14 +104,14 @@ public class CaseActiveController {
     HearingFormatRepository hearingFormatRepository;
 
     @RequestMapping(value = "/supervisorManager/caseActive/authClose", method = RequestMethod.POST)
-    public ModelAndView authorize(@RequestParam Long id){ //Case Id
+    public ModelAndView authorize(@RequestParam Long id) { //Case Id
         ModelAndView model = new ModelAndView("/supervisorManager/caseActive/authorizeRejectClose");
 
-        try{
+        try {
             GetCaseInfo(id, model, caseRepository, hearingFormatRepository);
             model.addObject("isAuthorized", 1);
             return model;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "authorize", sharedUserService);
             return null;
         }
@@ -117,14 +119,14 @@ public class CaseActiveController {
 
 
     @RequestMapping(value = "/supervisorManager/caseActive/rejectClose", method = RequestMethod.POST)
-    public ModelAndView reject(@RequestParam Long id){
+    public ModelAndView reject(@RequestParam Long id) {
         ModelAndView model = new ModelAndView("/supervisorManager/caseActive/authorizeRejectClose");
 
-        try{
+        try {
             GetCaseInfo(id, model, caseRepository, hearingFormatRepository);
             model.addObject("isAuthorized", 0);
             return model;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "reject", sharedUserService);
             return null;
         }
@@ -150,31 +152,32 @@ public class CaseActiveController {
     CaseService caseService;
 
     @RequestMapping(value = "/supervisorManager/caseActive/doAuthorizeRejectCase", method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseMessage doAuthorizeRejectCase(@ModelAttribute AuthorizeRejectMonPlan model){
+    public
+    @ResponseBody
+    ResponseMessage doAuthorizeRejectCase(@ModelAttribute AuthorizeRejectMonPlan model) {
 
         ResponseMessage response = new ResponseMessage();
         response.setHasError(true);
 
-        try{
+        try {
             User user = new User();
-            if(sharedUserService.isValidUser(user, response) == false)
+            if (sharedUserService.isValidUser(user, response) == false)
                 return response;
 
-            if(sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false){
+            if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
                 response.setMessage("La contraseña no corresponde al usuario en sesión");
                 return response;
             }
 
             Case caseDet = caseRepository.findOne(model.getCaseId());
 
-            if(caseDet == null){
+            if (caseDet == null) {
                 response.setMessage("No se encontró el caso. Por favor reinicie su navegador e intente de nuevo");
                 return response;
             }
 
             String caseStatus = caseDet.getStatus().getName();
-            if(caseStatus.equals(Constants.CASE_STATUS_PRE_CLOSED) == false){
+            if (caseStatus.equals(Constants.CASE_STATUS_PRE_CLOSED) == false) {
                 response.setMessage("El caso se encuentra en estado " + caseStatus + ", por ello no puede ser autorizado\rechazado para cerrarse");
                 return response;
             }
@@ -182,7 +185,7 @@ public class CaseActiveController {
             caseService.saveAuthRejectCloseCase(model, user, caseDet);
 
             response.setHasError(false);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doAuthorizeRejectCase", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
