@@ -24,7 +24,7 @@
                                     <ul class="list-unstyled spaced">
                                         <li>
                                             <i class="icon-caret-right blue"></i>
-                                            <span style="font-size: 16px; text-align: justify"> Unidad de Medidas Cautelares <strong>(UMECA)</strong> creada bajo el patrocinio del Programa de Apoyo en Seguridad y Justicia MSI/USAID M�xico y la asistencia t�cnica del Instituto de Justicia Procesal Penal de Open Society Justice Initiative se inspira en la metodolog�a utilizada para la pionera Unidad de Medidas Cautelares para Adolescentes , fundada en febrero de 2011 tambi�n con la asistencia t�cnica del propio Instituto de Justicia Procesal Penal.</span>
+                                            <span style="font-size: 16px; text-align: justify"> Unidad de Medidas Cautelares <strong>(UMECA)</strong> creada bajo el patrocinio del Programa de Apoyo en Seguridad y Justicia MSI/USAID M&eacute;xico y la asistencia t&eacute;cnica del Instituto de Justicia Procesal Penal de Open Society Justice Initiative se inspira en la metodolog&iacute;a utilizada para la pionera Unidad de Medidas Cautelares para Adolescentes , fundada en febrero de 2011 tambi&eacute;n con la asistencia t&eacute;cnica del propio Instituto de Justicia Procesal Penal.</span>
                                         </li>
                                         <li>
                                             <i class="icon-caret-right blue"></i>
