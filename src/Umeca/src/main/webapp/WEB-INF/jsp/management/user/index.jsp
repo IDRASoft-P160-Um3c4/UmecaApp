@@ -58,6 +58,9 @@
                     sortorder: "desc",
                     caption: "&nbsp;",
                     altRows: true,
+                    postData: {
+                        typeView: 234
+                    },
                     gridComplete: function () {
                         var ids = $(this).jqGrid('getDataIDs');
                         for (var i = 0; i < ids.length; i++) {
@@ -89,6 +92,16 @@
                     refresh: true, refreshicon : 'icon-refresh green',
                     del: false,
                     search: false});
+
+                jQuery("#GridId").jqGrid('navButtonAdd',"#GridPager",
+                        {
+                            caption:"",
+                            title:"Exportar a excel",
+                            buttonicon :'icon-pencil blue',
+
+                        onClickButton:function(){
+                            alert("sss");
+                        }});
 
                 jQuery("#GridId").jqGrid('filterToolbar', {
                     stringResult: true,

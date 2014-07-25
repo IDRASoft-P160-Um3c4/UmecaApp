@@ -16,7 +16,6 @@ public class JqGridFilterModel
     public static final String COMPARE_IN = "in";
     public static final String COMPARE_NOT_IN = "not in";
 
-
     public String sidx;
     public String sord;
     public Integer page;
