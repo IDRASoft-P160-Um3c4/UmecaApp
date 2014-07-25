@@ -34,8 +34,8 @@
                     { name: 'codeStatus', index: 'codeStatus', hidden: true },
                     { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'brthDateTxt', index: 'brthDateTxt', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'descStatus', index: 'descStatus', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'brthDateTxt', index: 'brthDateTxt', width: 160, align: "center", sortable: false, search: false },
+                    { name: 'descStatus', index: 'descStatus', width: 250, align: "center", sortable: false, search: false },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,

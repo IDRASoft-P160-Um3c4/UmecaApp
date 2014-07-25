@@ -43,7 +43,8 @@ public class CaseClosedController {
     }
 
     @RequestMapping(value = "/supervisorManager/caseClosed/list", method = RequestMethod.POST)
-    public @ResponseBody
+    public
+    @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
         opts.extraFilters = new ArrayList<>();
@@ -79,11 +80,12 @@ public class CaseClosedController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idMP"))
                     return r.get("idMP");
-
-                if (field.equals("statusName"))
+                else if (field.equals("fullName"))
+                    return r.join("meeting").join("imputed").get("name");
+                else if (field.equals("statusName"))
                     return r.join("status").get("name");
-
-                return null;
+                else
+                    return null;
             }
         }, Case.class, ForFramingMeetingGrid.class);
 
