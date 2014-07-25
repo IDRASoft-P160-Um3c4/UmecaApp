@@ -8,7 +8,7 @@
 
 <h4>DATOS DEL CASO</h4>
 
-<b>Nombre del completo del imputado:</b> ${data.name} ${data.lastNameP} ${data.lastNameM}
+<b>Nombre completo del imputado:</b> ${data.name} ${data.lastNameP} ${data.lastNameM}
 <br/>
 <b>Carpeta de investigaci&oacute;n:</b> ${data.idFolder}
 <br/>

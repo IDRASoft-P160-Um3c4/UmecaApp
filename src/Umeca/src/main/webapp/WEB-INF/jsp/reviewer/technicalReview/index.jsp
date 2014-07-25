@@ -25,6 +25,11 @@
             window.goToUrlMvcUrl(goTo);
         };
 
+       var  generateFileAllSources = function (id) {
+            var goTo = "<c:url value='/reviewer/technicalReview/generateFileAllSources.html'/>" + "?id=" + id;
+            window.goToUrlMvcUrl(goTo);
+        };
+
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/technicalReview/list.json' />',
@@ -63,11 +68,12 @@
                         switch (status[i]) {
 
                             case "ST_CASE_VERIFICATION_COMPLETE":
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar opinión técnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar opinión t&eacute;cnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
                                 break;
                             case "ST_CASE_TECHNICAL_REVIEW_COMPLETE":
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar opinión técnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar opini&oacute;n t&eacute;cnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open dark\"></span></a>";
                                 be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte\" onclick=\"generateFile('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Obtener toda la informaci&oacute;n de la verificaci&oacute;n\" onclick=\"generateFileAllSources('" + cl + "');\"><i class=\" icon-group purple\"></i></a>";
                                 break;
                             default:
                                 be = "<a style=\"display:inline-block;\" title=\"Aún no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
