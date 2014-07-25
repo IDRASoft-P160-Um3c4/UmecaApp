@@ -153,7 +153,7 @@
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('leaveCountry.familyAnotherCountry')"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('leaveCountry.familyAnotherCountry.id')"></i>
-                &iquest;El detenido cuenta con familiares y/o amigos cercanos en otro pa&oacute;s?:
+                &iquest;El detenido cuenta con familiares y/o amigos cercanos en otro pa&iacute;s?:
             </div>
             <div class="col-xs-3">
                 <input type="hidden" ng-update-hidden ng-model="l.facId" name="leaveCountry.familyAnotherCountry.id" id="fac"
