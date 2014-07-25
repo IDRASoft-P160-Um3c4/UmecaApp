@@ -190,7 +190,7 @@ public class GenerateMonitoringPlanController {
                 return response;
 
             if(model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0){
-                response.setMessage("No fue posible realizar la operación, revise que su información esté correcta o reinicie su navegador.");
+                response.setMessage("No fue posible realizar la operación, revise que su información esté correcta o que la(s) actividad(es) que desea modificar y/o eliminar aún no esté finalizada.");
                 response.setHasError(true);
             }else{
                 Gson gson = new Gson();

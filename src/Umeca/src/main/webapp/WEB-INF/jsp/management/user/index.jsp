@@ -33,6 +33,8 @@
                 window.showAction(id, "#angJsjqGridId", '<c:url value='/management/user/enable.json' />', "#GridId", "Habilitar usuario", "�Desea habilitar al usuario?", "warning");
             };
 
+            window.viewType = 0;
+
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/management/user/list.json' />',
@@ -59,7 +61,7 @@
                     caption: "&nbsp;",
                     altRows: true,
                     postData: {
-                        typeView: 234
+                        typeView: window.viewType
                     },
                     gridComplete: function () {
                         var ids = $(this).jqGrid('getDataIDs');
@@ -93,14 +95,20 @@
                     del: false,
                     search: false});
 
+                jQuery("#GridId").jqGrid('navSeparatorAdd', '#GridPager');
+
                 jQuery("#GridId").jqGrid('navButtonAdd',"#GridPager",
                         {
                             caption:"",
                             title:"Exportar a excel",
-                            buttonicon :'icon-pencil blue',
+                            buttonicon :'icon-download-alt blue',
 
                         onClickButton:function(){
-                            alert("sss");
+                            window.viewType = 1;
+                            try{
+                                $('#GridId').trigger("reloadGrid");
+                            }catch(e){}
+                            window.viewType = 0;
                         }});
 
                 jQuery("#GridId").jqGrid('filterToolbar', {
