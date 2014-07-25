@@ -1,3 +1,5 @@
+use sgumeca;
+
 	CREATE TABLE IF NOT EXISTS cat_location (
 		id_location INTEGER AUTO_INCREMENT PRIMARY KEY,
 		id_municipality INTEGER NOT NULL REFERENCES cat_municipality(id_municipality), 
@@ -14,7 +16,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (3, 10, "Guadalupe Inn", "Guadalupe ", "Guadalupe Inn", "1020");;
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (4, 10, "Secretaria de Contraloría y Desarrollo Administrativo", "Secretaria", "Secretaria de Contraloría y Desarrollo Administrativo", "1028");;
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (4, 10, "Secretaria de Contralorï¿½a y Desarrollo Administrativo", "Secretaria", "Secretaria de Contralorï¿½a y Desarrollo Administrativo", "1028");;
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (5, 10, "INFONAVIT", "INFONAVIT", "INFONAVIT", "1029");;
 	
@@ -24,7 +26,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (8, 10, "Campestre", "Campestre", "Campestre", "1040");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (9, 10, "Las Águilas", "Las Águila", "Las Águilas", "1048");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (9, 10, "Las ï¿½guilas", "Las ï¿½guila", "Las ï¿½guilas", "1048");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (10, 10, "Tlacopac", "Tlacopac", "Tlacopac", "1049");
 	
@@ -46,19 +48,19 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (19, 10, "Loreto", "Loreto", "Loreto", "1090");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (20, 10, "Pólvora", "Pólvora", "Pólvora", "1100");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (20, 10, "Pï¿½lvora", "Pï¿½lvora", "Pï¿½lvora", "1100");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (21, 10, "Lomas de Santo Domingo", "Lomas de S", "Lomas de Santo Domingo", "1100");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (22, 10, "La Conchita", "La Conchit", "La Conchita", "1109");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (23, 10, "El Capulín", "El Capulín", "El Capulín", "1110");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (23, 10, "El Capulï¿½n", "El Capulï¿½n", "El Capulï¿½n", "1110");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (24, 10, "Liberales de 1857", "Liberales ", "Liberales de 1857", "1110");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (25, 10, "Ampliación El Capulin", "Ampliación", "Ampliación El Capulin", "1110");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (25, 10, "Ampliaciï¿½n El Capulin", "Ampliaciï¿½n", "Ampliaciï¿½n El Capulin", "1110");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (26, 10, "Belém de las Flores", "Belém de l", "Belém de las Flores", "1110");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (26, 10, "Belï¿½m de las Flores", "Belï¿½m de l", "Belï¿½m de las Flores", "1110");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (27, 10, "Secretaria de la Policia Federal Preventiva", "Secretaria", "Secretaria de la Policia Federal Preventiva", "1116");
 	
@@ -66,37 +68,37 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (29, 10, "Sears Roebuck", "Sears Roeb", "Sears Roebuck", "1120");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (30, 10, "Las Américas", "Las Améric", "Las Américas", "1120");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (30, 10, "Las Amï¿½ricas", "Las Amï¿½ric", "Las Amï¿½ricas", "1120");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (31, 10, "Acueducto", "Acueducto", "Acueducto", "1120");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (32, 10, "Hidalgo", "Hidalgo", "Hidalgo", "1120");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (33, 10, "Ampliación Acueducto", "Ampliación", "Ampliación Acueducto", "1125");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (33, 10, "Ampliaciï¿½n Acueducto", "Ampliaciï¿½n", "Ampliaciï¿½n Acueducto", "1125");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (34, 10, "Molino de Santo Domingo", "Molino de ", "Molino de Santo Domingo", "1130");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (35, 10, "Paraíso", "Paraíso", "Paraíso", "1130");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (35, 10, "Paraï¿½so", "Paraï¿½so", "Paraï¿½so", "1130");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (36, 10, "Real del Monte", "Real del M", "Real del Monte", "1130");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (37, 10, "Molino de Santo Domingo", "Molino de ", "Molino de Santo Domingo", "1130");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (38, 10, "Reacomodo Pino Suárez", "Reacomodo ", "Reacomodo Pino Suárez", "1139");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (38, 10, "Reacomodo Pino Suï¿½rez", "Reacomodo ", "Reacomodo Pino Suï¿½rez", "1139");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (39, 10, "Bellavista", "Bellavista", "Bellavista", "1140");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (40, 10, "José Maria Pino Suárez", "José Maria", "José Maria Pino Suárez", "1140");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (40, 10, "Josï¿½ Maria Pino Suï¿½rez", "Josï¿½ Maria", "Josï¿½ Maria Pino Suï¿½rez", "1140");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (41, 10, "Cristo Rey", "Cristo Rey", "Cristo Rey", "1150");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (42, 10, "Tolteca", "Tolteca", "Tolteca", "1150");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (43, 10, "Delegación Política Álvaro Obregón", "Delegación", "Delegación Política Álvaro Obregón", "1159");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (43, 10, "Delegaciï¿½n Polï¿½tica ï¿½lvaro Obregï¿½n", "Delegaciï¿½n", "Delegaciï¿½n Polï¿½tica ï¿½lvaro Obregï¿½n", "1159");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (44, 10, "Isidro Fabela", "Isidro Fab", "Isidro Fabela", "1160");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (45, 10, "Maria G. de García Ruiz", "Maria G. d", "Maria G. de García Ruiz", "1160");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (45, 10, "Maria G. de Garcï¿½a Ruiz", "Maria G. d", "Maria G. de Garcï¿½a Ruiz", "1160");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (46, 10, "1a Victoria", "1a Victori", "1a Victoria", "1160");
 	
@@ -104,7 +106,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (48, 10, "Santa Fe IMSS", "Santa Fe I", "Santa Fe IMSS", "1170");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (49, 10, "Abraham M. González", "Abraham M.", "Abraham M. González", "1170");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (49, 10, "Abraham M. Gonzï¿½lez", "Abraham M.", "Abraham M. Gonzï¿½lez", "1170");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (50, 10, "Carola", "Carola", "Carola", "1180");
 	
@@ -114,17 +116,17 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (53, 10, "Nelli Campo Bello", "Nelli Camp", "Nelli Campo Bello", "1184");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (54, 10, "Arturo Martínez", "Arturo Mar", "Arturo Martínez", "1200");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (54, 10, "Arturo Martï¿½nez", "Arturo Mar", "Arturo Martï¿½nez", "1200");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (55, 10, "Belén", "Belén", "Belén", "1209");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (55, 10, "Belï¿½n", "Belï¿½n", "Belï¿½n", "1209");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (56, 10, "Santa Fe", "Santa Fe", "Santa Fe", "1210");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (57, 10, "Lomas de Santa Fe", "Lomas de S", "Lomas de Santa Fe", "1219");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (58, 10, "Mártires de Tacubaya", "Mártires d", "Mártires de Tacubaya", "1220");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (58, 10, "Mï¿½rtires de Tacubaya", "Mï¿½rtires d", "Mï¿½rtires de Tacubaya", "1220");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (59, 10, "Zenón Delgado", "Zenón Delg", "Zenón Delgado", "1220");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (59, 10, "Zenï¿½n Delgado", "Zenï¿½n Delg", "Zenï¿½n Delgado", "1220");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (60, 10, "El Cuernito", "El Cuernit", "El Cuernito", "1220");
 	
@@ -138,7 +140,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (65, 10, "El Piru Santa Fe", "El Piru Sa", "El Piru Santa Fe", "1230");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (66, 10, "El Piru 2a Ampliación", "El Piru 2a", "El Piru 2a Ampliación", "1230");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (66, 10, "El Piru 2a Ampliaciï¿½n", "El Piru 2a", "El Piru 2a Ampliaciï¿½n", "1230");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (67, 10, "Los Gamitos", "Los Gamito", "Los Gamitos", "1230");
 	
@@ -148,19 +150,19 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (70, 10, "Pueblo Nuevo", "Pueblo Nue", "Pueblo Nuevo", "1240");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (71, 10, "Margarita Maza de Juárez", "Margarita ", "Margarita Maza de Juárez", "1250");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (71, 10, "Margarita Maza de Juï¿½rez", "Margarita ", "Margarita Maza de Juï¿½rez", "1250");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (72, 10, "El Árbol", "El Árbol", "El Árbol", "1250");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (72, 10, "El ï¿½rbol", "El ï¿½rbol", "El ï¿½rbol", "1250");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (73, 10, "Ladera", "Ladera", "Ladera", "1250");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (74, 10, "Tecolalco", "Tecolalco", "Tecolalco", "1250");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (75, 10, "Lomas de Nuevo México", "Lomas de ", "Lomas de Nuevo México", "1250");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (75, 10, "Lomas de Nuevo Mï¿½xico", "Lomas de ", "Lomas de Nuevo Mï¿½xico", "1250");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (76, 10, "Ampliación La Cebada", "Ampliación", "Ampliación La Cebada", "1259");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (76, 10, "Ampliaciï¿½n La Cebada", "Ampliaciï¿½n", "Ampliaciï¿½n La Cebada", "1259");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (77, 10, "La Mexicana 2a Ampliación", "La Mexican", "La Mexicana 2a Ampliación", "1259");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (77, 10, "La Mexicana 2a Ampliaciï¿½n", "La Mexican", "La Mexicana 2a Ampliaciï¿½n", "1259");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (78, 10, "La Mexicana", "La Mexican", "La Mexicana", "1260");
 	
@@ -168,17 +170,17 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (80, 10, "Calzada Jalalpa", "Calzada Ja", "Calzada Jalalpa", "1260");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (81, 10, "Liberación Proletaria", "Liberación", "Liberación Proletaria", "1260");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (81, 10, "Liberaciï¿½n Proletaria", "Liberaciï¿½n", "Liberaciï¿½n Proletaria", "1260");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (82, 10, "Ampliación La Mexicana", "Ampliación", "Ampliación La Mexicana", "1260");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (82, 10, "Ampliaciï¿½n La Mexicana", "Ampliaciï¿½n", "Ampliaciï¿½n La Mexicana", "1260");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (83, 10, "1a Sección Cañada", "1a Sección", "1a Sección Cañada", "1269");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (83, 10, "1a Secciï¿½n Caï¿½ada", "1a Secciï¿½n", "1a Secciï¿½n Caï¿½ada", "1269");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (84, 10, "2a Sección Cañada", "2a Sección", "2a Sección Cañada", "1269");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (84, 10, "2a Secciï¿½n Caï¿½ada", "2a Secciï¿½n", "2a Secciï¿½n Caï¿½ada", "1269");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (85, 10, "Golondrinas 1a Sección", "Golondrina", "Golondrinas 1a Sección", "1270");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (85, 10, "Golondrinas 1a Secciï¿½n", "Golondrina", "Golondrinas 1a Secciï¿½n", "1270");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (86, 10, "Golondrinas 2a Sección", "Golondrina", "Golondrinas 2a Sección", "1270");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (86, 10, "Golondrinas 2a Secciï¿½n", "Golondrina", "Golondrinas 2a Secciï¿½n", "1270");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (87, 10, "La Presa", "La Presa", "La Presa", "1270");
 	
@@ -210,21 +212,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (101, 10, "Reacomodo El Cuernito", "Reacomodo ", "Reacomodo El Cuernito", "1289");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (102, 10, "Piloto Adolfo López Mateos", "Piloto Ado", "Piloto Adolfo López Mateos", "1290");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (102, 10, "Piloto Adolfo Lï¿½pez Mateos", "Piloto Ado", "Piloto Adolfo Lï¿½pez Mateos", "1290");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (103, 10, "Presidentes", "Presidente", "Presidentes", "1290");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (104, 10, "Ampliación Jalalpa", "Ampliación", "Ampliación Jalalpa", "1296");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (104, 10, "Ampliaciï¿½n Jalalpa", "Ampliaciï¿½n", "Ampliaciï¿½n Jalalpa", "1296");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (105, 10, "Jalalpa Tepito", "Jalalpa Te", "Jalalpa Tepito", "1296");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (106, 10, "Jalalpa Tepito 2a Ampliación", "Jalalpa Te", "Jalalpa Tepito 2a Ampliación", "1296");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (106, 10, "Jalalpa Tepito 2a Ampliaciï¿½n", "Jalalpa Te", "Jalalpa Tepito 2a Ampliaciï¿½n", "1296");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (107, 10, "Ampliación Piloto Adolfo López Mateos", "Ampliación", "Ampliación Piloto Adolfo López Mateos", "1298");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (107, 10, "Ampliaciï¿½n Piloto Adolfo Lï¿½pez Mateos", "Ampliaciï¿½n", "Ampliaciï¿½n Piloto Adolfo Lï¿½pez Mateos", "1298");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (108, 10, "1a Ampliación Presidentes", "1a Ampliac", "1a Ampliación Presidentes", "1299");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (108, 10, "1a Ampliaciï¿½n Presidentes", "1a Ampliac", "1a Ampliaciï¿½n Presidentes", "1299");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (109, 10, "2a Ampliación Presidentes", "2a Ampliac", "2a Ampliación Presidentes", "1299");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (109, 10, "2a Ampliaciï¿½n Presidentes", "2a Ampliac", "2a Ampliaciï¿½n Presidentes", "1299");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (110, 10, "San Gabriel", "San Gabrie", "San Gabriel", "1310");
 	
@@ -234,7 +236,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (113, 10, "Bejero del Pueblo Santa Fe", "Bejero del", "Bejero del Pueblo Santa Fe", "1340");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (114, 10, "Santa Fe Peña Blanca", "Santa Fe P", "Santa Fe Peña Blanca", "1376");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (114, 10, "Santa Fe Peï¿½a Blanca", "Santa Fe P", "Santa Fe Peï¿½a Blanca", "1376");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (115, 10, "Santa Fe La Loma", "Santa Fe L", "Santa Fe La Loma", "1376");
 	
@@ -250,11 +252,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (121, 10, "Preconcreto", "Preconcret", "Preconcreto", "1400");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (122, 10, "Olivar del Conde 1a Sección", "Olivar del", "Olivar del Conde 1a Sección", "1400");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (122, 10, "Olivar del Conde 1a Secciï¿½n", "Olivar del", "Olivar del Conde 1a Secciï¿½n", "1400");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (123, 10, "Galeana", "Galeana", "Galeana", "1407");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (124, 10, "Olivar del Conde 2a Sección", "Olivar del", "Olivar del Conde 2a Sección", "1408");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (124, 10, "Olivar del Conde 2a Secciï¿½n", "Olivar del", "Olivar del Conde 2a Secciï¿½n", "1408");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (125, 10, "Palmas", "Palmas", "Palmas", "1410");
 	
@@ -262,7 +264,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (127, 10, "Minas Cristo Rey", "Minas Cris", "Minas Cristo Rey", "1419");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (128, 10, "Santa María Nonoalco", "Santa Marí", "Santa María Nonoalco", "1420");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (128, 10, "Santa Marï¿½a Nonoalco", "Santa Marï¿½", "Santa Marï¿½a Nonoalco", "1420");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (129, 10, "Sacramento", "Sacramento", "Sacramento", "1420");
 	
@@ -272,11 +274,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (132, 10, "Unidad Popular Emiliano Zapata", "Unidad Pop", "Unidad Popular Emiliano Zapata", "1450");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (133, 10, "Batallón de San Patricio", "Batallón d", "Batallón de San Patricio", "1450");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (133, 10, "Batallï¿½n de San Patricio", "Batallï¿½n d", "Batallï¿½n de San Patricio", "1450");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (134, 10, "Hogar y Redención", "Hogar y Re", "Hogar y Redención", "1450");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (134, 10, "Hogar y Redenciï¿½n", "Hogar y Re", "Hogar y Redenciï¿½n", "1450");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (135, 10, "Cañada del Olivar", "Cañada del", "Cañada del Olivar", "1450");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (135, 10, "Caï¿½ada del Olivar", "Caï¿½ada del", "Caï¿½ada del Olivar", "1450");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (136, 10, "Alfonso XIII", "Alfonso XI", "Alfonso XIII", "1460");
 	
@@ -304,9 +306,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (148, 10, "Ladera Chica", "Ladera Chi", "Ladera Chica", "1508");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (149, 10, "Santa Lucía Chantepec", "Santa Lucí", "Santa Lucía Chantepec", "1509");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (149, 10, "Santa Lucï¿½a Chantepec", "Santa Lucï¿½", "Santa Lucï¿½a Chantepec", "1509");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (150, 10, "La Araña", "La Araña", "La Araña", "1510");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (150, 10, "La Araï¿½a", "La Araï¿½a", "La Araï¿½a", "1510");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (151, 10, "Garcimarrero", "Garcimarre", "Garcimarrero", "1510");
 	
@@ -316,9 +318,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (154, 10, "El Politoco", "El Politoc", "El Politoco", "1520");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (155, 10, "Ampliación Estado de Hidalgo", "Ampliación", "Ampliación Estado de Hidalgo", "1520");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (155, 10, "Ampliaciï¿½n Estado de Hidalgo", "Ampliaciï¿½n", "Ampliaciï¿½n Estado de Hidalgo", "1520");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (156, 10, "Ampliación Los Pirules", "Ampliación", "Ampliación Los Pirules", "1520");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (156, 10, "Ampliaciï¿½n Los Pirules", "Ampliaciï¿½n", "Ampliaciï¿½n Los Pirules", "1520");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (157, 10, "Estado de Hidalgo", "Estado de ", "Estado de Hidalgo", "1520");
 	
@@ -330,7 +332,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (161, 10, "Acuilotla", "Acuilotla", "Acuilotla", "1539");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (162, 10, "Cooperativa Unión Olivos", "Cooperativ", "Cooperativa Unión Olivos", "1539");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (162, 10, "Cooperativa Uniï¿½n Olivos", "Cooperativ", "Cooperativa Uniï¿½n Olivos", "1539");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (163, 10, "Providencia", "Providenci", "Providencia", "1540");
 	
@@ -344,19 +346,19 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (168, 10, "Villa Progresista", "Villa Prog", "Villa Progresista", "1548");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (169, 10, "Dos Ríos del Pueblo Santa Lucía", "Dos Ríos d", "Dos Ríos del Pueblo Santa Lucía", "1549");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (169, 10, "Dos Rï¿½os del Pueblo Santa Lucï¿½a", "Dos Rï¿½os d", "Dos Rï¿½os del Pueblo Santa Lucï¿½a", "1549");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (170, 10, "Tepeaca", "Tepeaca", "Tepeaca", "1550");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (171, 10, "Ampliación Tepeaca", "Ampliación", "Ampliación Tepeaca", "1550");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (171, 10, "Ampliaciï¿½n Tepeaca", "Ampliaciï¿½n", "Ampliaciï¿½n Tepeaca", "1550");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (172, 10, "Rinconada Las Cuevitas", "Rinconada ", "Rinconada Las Cuevitas", "1550");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (173, 10, "Canutillo 3a Sección", "Canutillo ", "Canutillo 3a Sección", "1560");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (173, 10, "Canutillo 3a Secciï¿½n", "Canutillo ", "Canutillo 3a Secciï¿½n", "1560");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (174, 10, "Ave Real", "Ave Real", "Ave Real", "1560");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (175, 10, "Canutillo 2a Sección", "Canutillo ", "Canutillo 2a Sección", "1560");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (175, 10, "Canutillo 2a Secciï¿½n", "Canutillo ", "Canutillo 2a Secciï¿½n", "1560");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (176, 10, "Canutillo", "Canutillo", "Canutillo", "1560");
 	
@@ -364,7 +366,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (178, 10, "Tepeaca", "Tepeaca", "Tepeaca", "1567");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (179, 10, "Reacomodo Valentín Gómez Farías", "Reacomodo ", "Reacomodo Valentín Gómez Farías", "1569");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (179, 10, "Reacomodo Valentï¿½n Gï¿½mez Farï¿½as", "Reacomodo ", "Reacomodo Valentï¿½n Gï¿½mez Farï¿½as", "1569");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (180, 10, "Rancho Casa Blanca", "Rancho Cas", "Rancho Casa Blanca", "1580");
 	
@@ -380,13 +382,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (186, 10, "Lomas de Tarango Reacomodo", "Lomas de T", "Lomas de Tarango Reacomodo", "1589");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (187, 10, "El Rincón", "El Rincón", "El Rincón", "1590");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (187, 10, "El Rincï¿½n", "El Rincï¿½n", "El Rincï¿½n", "1590");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (188, 10, "Merced Gómez", "Merced Góm", "Merced Gómez", "1600");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (188, 10, "Merced Gï¿½mez", "Merced Gï¿½m", "Merced Gï¿½mez", "1600");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (189, 10, "Sociedad Cooperativa Unión Poder Popular", "Sociedad C", "Sociedad Cooperativa Unión Poder Popular", "1600");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (189, 10, "Sociedad Cooperativa Uniï¿½n Poder Popular", "Sociedad C", "Sociedad Cooperativa Uniï¿½n Poder Popular", "1600");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (190, 10, "Profesor J. Arturo López Martínez", "Profesor J", "Profesor J. Arturo López Martínez", "1610");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (190, 10, "Profesor J. Arturo Lï¿½pez Martï¿½nez", "Profesor J", "Profesor J. Arturo Lï¿½pez Martï¿½nez", "1610");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (191, 10, "Colinas de Tarango", "Colinas de", "Colinas de Tarango", "1610");
 	
@@ -404,7 +406,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (198, 10, "Lomas de Puerta Grande", "Lomas de P", "Lomas de Puerta Grande", "1630");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (199, 10, "Belém de las Flores", "Belém de l", "Belém de las Flores", "1630");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (199, 10, "Belï¿½m de las Flores", "Belï¿½m de l", "Belï¿½m de las Flores", "1630");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (200, 10, "Puerta Grande", "Puerta Gra", "Puerta Grande", "1630");
 	
@@ -414,13 +416,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (203, 10, "Tlacuitlapa", "Tlacuitlap", "Tlacuitlapa", "1650");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (204, 10, "Ampliación Tlacuitlapa", "Ampliación", "Ampliación Tlacuitlapa", "1650");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (204, 10, "Ampliaciï¿½n Tlacuitlapa", "Ampliaciï¿½n", "Ampliaciï¿½n Tlacuitlapa", "1650");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (205, 10, "2o Reacomodo Tlacuitlapa", "2o Reacomo", "2o Reacomodo Tlacuitlapa", "1650");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (206, 10, "El Ruedo", "El Ruedo", "El Ruedo", "1650");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (207, 10, "Santa Lucía Chantepec", "Santa Lucí", "Santa Lucía Chantepec", "1650");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (207, 10, "Santa Lucï¿½a Chantepec", "Santa Lucï¿½", "Santa Lucï¿½a Chantepec", "1650");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (208, 10, "La Milagrosa", "La Milagro", "La Milagrosa", "1650");
 	
@@ -434,7 +436,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (213, 10, "Ocotillos del Pueblo Tetelpan", "Ocotillos ", "Ocotillos del Pueblo Tetelpan", "1700");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (214, 10, "San Agustín del Pueblo Tetelpan", "San Agustí", "San Agustín del Pueblo Tetelpan", "1700");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (214, 10, "San Agustï¿½n del Pueblo Tetelpan", "San Agustï¿½", "San Agustï¿½n del Pueblo Tetelpan", "1700");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (215, 10, "2a Del Moral del Pueblo de Tetelpan", "2a Del Mor", "2a Del Moral del Pueblo de Tetelpan", "1700");
 	
@@ -442,9 +444,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (217, 10, "El Encino del Pueblo Tetelpan", "El Encino ", "El Encino del Pueblo Tetelpan", "1708");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (218, 10, "Las Águilas", "Las Águila", "Las Águilas", "1710");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (218, 10, "Las ï¿½guilas", "Las ï¿½guila", "Las ï¿½guilas", "1710");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (219, 10, "Ampliación Alpes", "Ampliación", "Ampliación Alpes", "1710");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (219, 10, "Ampliaciï¿½n Alpes", "Ampliaciï¿½n", "Ampliaciï¿½n Alpes", "1710");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (220, 10, "Lomas de Guadalupe", "Lomas de G", "Lomas de Guadalupe", "1720");
 	
@@ -452,9 +454,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (222, 10, "Puente Colorado", "Puente Col", "Puente Colorado", "1730");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (223, 10, "Lomas de las Águilas", "Lomas de l", "Lomas de las Águilas", "1730");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (223, 10, "Lomas de las ï¿½guilas", "Lomas de l", "Lomas de las ï¿½guilas", "1730");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (224, 10, "La Peñita del Pueblo Tetelpan", "La Peñita ", "La Peñita del Pueblo Tetelpan", "1740");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (224, 10, "La Peï¿½ita del Pueblo Tetelpan", "La Peï¿½ita ", "La Peï¿½ita del Pueblo Tetelpan", "1740");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (225, 10, "San Clemente Norte", "San Clemen", "San Clemente Norte", "1740");
 	
@@ -464,9 +466,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (228, 10, "Las Aguilas 3er Parque", "Las Aguila", "Las Aguilas 3er Parque", "1750");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (229, 10, "Las Aguilas 1a Sección", "Las Aguila", "Las Aguilas 1a Sección", "1750");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (229, 10, "Las Aguilas 1a Secciï¿½n", "Las Aguila", "Las Aguilas 1a Secciï¿½n", "1750");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (230, 10, "Ampliación Las Aguilas", "Ampliación", "Ampliación Las Aguilas", "1759");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (230, 10, "Ampliaciï¿½n Las Aguilas", "Ampliaciï¿½n", "Ampliaciï¿½n Las Aguilas", "1759");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (231, 10, "Flor de Maria", "Flor de Ma", "Flor de Maria", "1760");
 	
@@ -476,7 +478,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (234, 10, "La Angostura", "La Angostu", "La Angostura", "1770");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (235, 10, "San José del Olivar", "San José d", "San José del Olivar", "1770");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (235, 10, "San Josï¿½ del Olivar", "San Josï¿½ d", "San Josï¿½ del Olivar", "1770");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (236, 10, "Olivar de los Padres", "Olivar de ", "Olivar de los Padres", "1780");
 	
@@ -486,7 +488,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (239, 10, "Miguel Hidalgo", "Miguel Hid", "Miguel Hidalgo", "1789");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (240, 10, "Lomas de San Ángel Inn", "Lomas de S", "Lomas de San Ángel Inn", "1790");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (240, 10, "Lomas de San ï¿½ngel Inn", "Lomas de S", "Lomas de San ï¿½ngel Inn", "1790");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (241, 10, "Lomas de los Angeles del Pueblo Tetelpan", "Lomas de l", "Lomas de los Angeles del Pueblo Tetelpan", "1790");
 	
@@ -494,7 +496,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (243, 10, "Rancho San Francisco Pueblo San Bartolo Ameyalco", "Rancho San", "Rancho San Francisco Pueblo San Bartolo Ameyalco", "1807");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (244, 10, "Villa Verdún", "Villa Verd", "Villa Verdún", "1810");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (244, 10, "Villa Verdï¿½n", "Villa Verd", "Villa Verdï¿½n", "1810");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (245, 10, "Ejido San Mateo", "Ejido San ", "Ejido San Mateo", "1820");
 	
@@ -504,7 +506,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (248, 10, "Torres de Potrero", "Torres de ", "Torres de Potrero", "1840");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (249, 10, "Rincón de La Bolsa", "Rincón de ", "Rincón de La Bolsa", "1849");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (249, 10, "Rincï¿½n de La Bolsa", "Rincï¿½n de ", "Rincï¿½n de La Bolsa", "1849");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (250, 10, "Rancho del Carmen del Pueblo San Bartolo Ameyalco", "Rancho del", "Rancho del Carmen del Pueblo San Bartolo Ameyalco", "1849");
 	
@@ -520,7 +522,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (256, 10, "Jardines del Pedregal", "Jardines d", "Jardines del Pedregal", "1900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (257, 10, "San Jerónimo Aculco", "San Jeróni", "San Jerónimo Aculco", "1904");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (257, 10, "San Jerï¿½nimo Aculco", "San Jerï¿½ni", "San Jerï¿½nimo Aculco", "1904");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (258, 10, "Rancho Anzaldo y Contreras", "Rancho Anz", "Rancho Anzaldo y Contreras", "1940");
 	
@@ -528,7 +530,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (260, 2, "Centro de Azcapotzalco", "Centro de ", "Centro de Azcapotzalco", "2000");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (261, 2, "Delegación Política Azcapotzalco", "Delegación", "Delegación Política Azcapotzalco", "2008");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (261, 2, "Delegaciï¿½n Polï¿½tica Azcapotzalco", "Delegaciï¿½n", "Delegaciï¿½n Polï¿½tica Azcapotzalco", "2008");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (262, 125, "San Miguel Chongos", "San Miguel", "San Miguel Chongos", "70517");
 	
@@ -538,7 +540,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (265, 200, "San Juan Juquila Mixes", "San Juan J", "San Juan Juquila Mixes", "70520");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (266, 200, "Asunción Acatlán", "Asunción A", "Asunción Acatlán", "70523");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (266, 200, "Asunciï¿½n Acatlï¿½n", "Asunciï¿½n A", "Asunciï¿½n Acatlï¿½n", "70523");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (267, 200, "Santo Domingo Narro", "Santo Domi", "Santo Domingo Narro", "70529");
 	
@@ -548,23 +550,23 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (270, 64, "Las Animas", "Las Animas", "Las Animas", "70532");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (271, 64, "El Camarón", "El Camarón", "El Camarón", "70533");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (271, 64, "El Camarï¿½n", "El Camarï¿½n", "El Camarï¿½n", "70533");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (272, 64, "Nueva Esperanza", "Nueva Espe", "Nueva Esperanza", "70533");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (273, 64, "Asunción", "Asunción", "Asunción", "70533");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (273, 64, "Asunciï¿½n", "Asunciï¿½n", "Asunciï¿½n", "70533");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (274, 64, "Guadalupe", "Guadalupe", "Guadalupe", "70533");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (275, 64, "Buena Vista", "Buena Vist", "Buena Vista", "70534");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (276, 64, "América", "América", "América", "70534");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (276, 64, "Amï¿½rica", "Amï¿½rica", "Amï¿½rica", "70534");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (277, 64, "Santa Cruz", "Santa Cruz", "Santa Cruz", "70534");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (278, 64, "San José de las Flores", "San José d", "San José de las Flores", "70536");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (278, 64, "San Josï¿½ de las Flores", "San Josï¿½ d", "San Josï¿½ de las Flores", "70536");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (279, 64, "San Sebastián Jilotepec", "San Sebast", "San Sebastián Jilotepec", "70536");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (279, 64, "San Sebastiï¿½n Jilotepec", "San Sebast", "San Sebastiï¿½n Jilotepec", "70536");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (280, 64, "San Isidro Chihuiro", "San Isidro", "San Isidro Chihuiro", "70536");
 	
@@ -584,7 +586,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (288, 410, "San Juan Acaltepec", "San Juan A", "San Juan Acaltepec", "70563");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (289, 410, "Santa María Ecatepec", "Santa Marí", "Santa María Ecatepec", "70565");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (289, 410, "Santa Marï¿½a Ecatepec", "Santa Marï¿½", "Santa Marï¿½a Ecatepec", "70565");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (290, 410, "San Lorenzo Jilotepequillo", "San Lorenz", "San Lorenzo Jilotepequillo", "70565");
 	
@@ -592,17 +594,17 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (292, 8, "Tlacolulita", "Tlacolulit", "Tlacolulita", "70570");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (293, 8, "Asunción Tlacolulita", "Asunción T", "Asunción Tlacolulita", "70570");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (293, 8, "Asunciï¿½n Tlacolulita", "Asunciï¿½n T", "Asunciï¿½n Tlacolulita", "70570");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (294, 8, "La Reforma", "La Reforma", "La Reforma", "70571");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (295, 8, "San Juan Alotepec", "San Juan A", "San Juan Alotepec", "70575");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (296, 316, "San Pedro Mártir Quiechapa", "San Pedro ", "San Pedro Mártir Quiechapa", "70580");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (296, 316, "San Pedro Mï¿½rtir Quiechapa", "San Pedro ", "San Pedro Mï¿½rtir Quiechapa", "70580");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (297, 428, "Santa Maria Quiegolani", "Santa Mari", "Santa Maria Quiegolani", "70586");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (298, 428, "San José Quianitas", "San José Q", "San José Quianitas", "70588");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (298, 428, "San Josï¿½ Quianitas", "San Josï¿½ Q", "San Josï¿½ Quianitas", "70588");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (299, 74, "Santa Catarina Quioquitani", "Santa Cata", "Santa Catarina Quioquitani", "70590");
 	
@@ -616,7 +618,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (304, 79, "Emiliano Zapata", "Emiliano Z", "Emiliano Zapata", "70610");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (305, 79, "Aviación", "Aviación", "Aviación", "70610");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (305, 79, "Aviaciï¿½n", "Aviaciï¿½n", "Aviaciï¿½n", "70610");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (306, 79, "Miguel Hidalgo Poniente", "Miguel Hid", "Miguel Hidalgo Poniente", "70610");
 	
@@ -640,7 +642,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (316, 79, "Agua Blanca", "Agua Blanc", "Agua Blanca", "70612");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (317, 79, "Benito Juárez", "Benito Juá", "Benito Juárez", "70612");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (317, 79, "Benito Juï¿½rez", "Benito Juï¿½", "Benito Juï¿½rez", "70612");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (318, 79, "Del Bosque", "Del Bosque", "Del Bosque", "70613");
 	
@@ -666,13 +668,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (329, 79, "Petrolera", "Petrolera", "Petrolera", "70620");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (330, 79, "Refinería", "Refinería", "Refinería", "70620");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (330, 79, "Refinerï¿½a", "Refinerï¿½a", "Refinerï¿½a", "70620");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (331, 79, "Carlos G. Flores", "Carlos G. ", "Carlos G. Flores", "70620");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (332, 79, "Independencia", "Independen", "Independencia", "70630");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (333, 79, "Jesús Rasgado", "Jesús Rasg", "Jesús Rasgado", "70630");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (333, 79, "Jesï¿½s Rasgado", "Jesï¿½s Rasg", "Jesï¿½s Rasgado", "70630");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (334, 79, "Lomas de Galindo", "Lomas de G", "Lomas de Galindo", "70630");
 	
@@ -702,21 +704,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (347, 79, "Barrio Nuevo", "Barrio Nue", "Barrio Nuevo", "70660");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (348, 79, "Cuauhtémoc", "Cuauhtémoc", "Cuauhtémoc", "70660");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (348, 79, "Cuauhtï¿½moc", "Cuauhtï¿½moc", "Cuauhtï¿½moc", "70660");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (349, 79, "Naval", "Naval", "Naval", "70660");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (350, 79, "Héroes de Nacozari", "Héroes de ", "Héroes de Nacozari", "70660");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (350, 79, "Hï¿½roes de Nacozari", "Hï¿½roes de ", "Hï¿½roes de Nacozari", "70660");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (351, 79, "Las Hormigas", "Las Hormig", "Las Hormigas", "70670");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (352, 79, "Santa Rosa", "Santa Rosa", "Santa Rosa", "70670");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (353, 79, "Juárez", "Juárez", "Juárez", "70670");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (353, 79, "Juï¿½rez", "Juï¿½rez", "Juï¿½rez", "70670");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (354, 79, "San Francisco", "San Franci", "San Francisco", "70670");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (355, 79, "Istmeña", "Istmeña", "Istmeña", "70680");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (355, 79, "Istmeï¿½a", "Istmeï¿½a", "Istmeï¿½a", "70680");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (356, 79, "La Soledad", "La Soledad", "La Soledad", "70680");
 	
@@ -736,11 +738,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (364, 79, "San Pablo Sur", "San Pablo ", "San Pablo Sur", "70690");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (365, 79, "Revolución", "Revolución", "Revolución", "70690");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (365, 79, "Revoluciï¿½n", "Revoluciï¿½n", "Revoluciï¿½n", "70690");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (366, 79, "Guadalupe", "Guadalupe", "Guadalupe", "70690");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (367, 79, "Lázaro Cárdenas", "Lázaro Cár", "Lázaro Cárdenas", "70690");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (367, 79, "Lï¿½zaro Cï¿½rdenas", "Lï¿½zaro Cï¿½r", "Lï¿½zaro Cï¿½rdenas", "70690");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (368, 79, "San Antonio Monterrey", "San Antoni", "San Antonio Monterrey", "70701");
 	
@@ -752,7 +754,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (372, 79, "Las Escolleras", "Las Escoll", "Las Escolleras", "70704");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (373, 470, "Santa María Coatlan Nativitas", "Santa Marí", "Santa María Coatlan Nativitas", "70705");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (373, 470, "Santa Marï¿½a Coatlan Nativitas", "Santa Marï¿½", "Santa Marï¿½a Coatlan Nativitas", "70705");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (374, 470, "Guigovelaga", "Guigovelag", "Guigovelaga", "70705");
 	
@@ -776,9 +778,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (384, 418, "Llano Veria", "Llano Veri", "Llano Veria", "70713");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (385, 418, "San Cristóbal", "San Cristó", "San Cristóbal", "70715");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (385, 418, "San Cristï¿½bal", "San Cristï¿½", "San Cristï¿½bal", "70715");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (386, 440, "Santa María Totolapilla", "Santa Marí", "Santa María Totolapilla", "70716");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (386, 440, "Santa Marï¿½a Totolapilla", "Santa Marï¿½", "Santa Marï¿½a Totolapilla", "70716");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (387, 472, "Santiago Laollaga", "Santiago L", "Santiago Laollaga", "70720");
 	
@@ -796,7 +798,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (394, 36, "Santa Cruz Ojo de Agua", "Santa Cruz", "Santa Cruz Ojo de Agua", "70728");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (395, 508, "Barrio San José", "Barrio San", "Barrio San José", "70730");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (395, 508, "Barrio San Josï¿½", "Barrio San", "Barrio San Josï¿½", "70730");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (396, 508, "Santo Domingo Chihuitan", "Santo Domi", "Santo Domingo Chihuitan", "70730");
 	
@@ -808,9 +810,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (400, 412, "Rancho Nuevo", "Rancho Nue", "Rancho Nuevo", "70736");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (401, 412, "Río Grande", "Río Grande", "Río Grande", "70736");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (401, 412, "Rï¿½o Grande", "Rï¿½o Grande", "Rï¿½o Grande", "70736");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (402, 412, "El Palmar Algodón", "El Palmar ", "El Palmar Algodón", "70736");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (402, 412, "El Palmar Algodï¿½n", "El Palmar ", "El Palmar Algodï¿½n", "70736");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (403, 412, "Nizayula", "Nizayula", "Nizayula", "70736");
 	
@@ -828,11 +830,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (410, 412, "El Trapiche Guienagati", "El Trapich", "El Trapiche Guienagati", "70736");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (411, 412, "La Cañada Chayotepec", "La Cañada ", "La Cañada Chayotepec", "70736");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (411, 412, "La Caï¿½ada Chayotepec", "La Caï¿½ada ", "La Caï¿½ada Chayotepec", "70736");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (412, 412, "Llano Zapote", "Llano Zapo", "Llano Zapote", "70736");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (413, 412, "Algodón", "Algodón", "Algodón", "70736");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (413, 412, "Algodï¿½n", "Algodï¿½n", "Algodï¿½n", "70736");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (414, 412, "La Botija", "La Botija", "La Botija", "70736");
 	
@@ -840,29 +842,29 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (416, 412, "Colonia Bustamante", "Colonia Bu", "Colonia Bustamante", "70737");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (417, 412, "Jerusalén", "Jerusalén", "Jerusalén", "70737");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (417, 412, "Jerusalï¿½n", "Jerusalï¿½n", "Jerusalï¿½n", "70737");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (418, 412, "Pie de Cerro", "Pie de Cer", "Pie de Cerro", "70737");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (419, 412, "Los Valles", "Los Valles", "Los Valles", "70737");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (420, 412, "Lachiguxé", "Lachiguxé", "Lachiguxé", "70737");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (420, 412, "Lachiguxï¿½", "Lachiguxï¿½", "Lachiguxï¿½", "70737");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (421, 412, "Peña Blanca", "Peña Blanc", "Peña Blanca", "70737");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (421, 412, "Peï¿½a Blanca", "Peï¿½a Blanc", "Peï¿½a Blanca", "70737");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (422, 412, "Cerro Grande", "Cerro Gran", "Cerro Grande", "70737");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (423, 412, "Tres Marías", "Tres María", "Tres Marías", "70737");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (423, 412, "Tres Marï¿½as", "Tres Marï¿½a", "Tres Marï¿½as", "70737");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (424, 412, "Ocote Solo", "Ocote Solo", "Ocote Solo", "70738");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (425, 412, "Lachivixá", "Lachivixá", "Lachivixá", "70738");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (425, 412, "Lachivixï¿½", "Lachivixï¿½", "Lachivixï¿½", "70738");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (426, 412, "Colonia Cheguigo", "Colonia Ch", "Colonia Cheguigo", "70738");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (427, 412, "La Chihuahua", "La Chihuah", "La Chihuahua", "70738");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (428, 412, "Paso Limón", "Paso Limón", "Paso Limón", "70738");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (428, 412, "Paso Limï¿½n", "Paso Limï¿½n", "Paso Limï¿½n", "70738");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (429, 412, "Arroyo Perla", "Arroyo Per", "Arroyo Perla", "70738");
 	
@@ -888,7 +890,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (440, 52, "Las Majadas", "Las Majada", "Las Majadas", "70744");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (441, 52, "Colonia Marilú", "Colonia Ma", "Colonia Marilú", "70745");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (441, 52, "Colonia Marilï¿½", "Colonia Ma", "Colonia Marilï¿½", "70745");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (442, 52, "El Sauce (El Sauce Jilotepec)", "El Sauce (", "El Sauce (El Sauce Jilotepec)", "70745");
 	
@@ -896,15 +898,15 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (444, 305, "San Pedro Comitancillo", "San Pedro ", "San Pedro Comitancillo", "70750");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (445, 421, "Santa María Mixtequilla", "Santa Marí", "Santa María Mixtequilla", "70755");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (445, 421, "Santa Marï¿½a Mixtequilla", "Santa Marï¿½", "Santa Marï¿½a Mixtequilla", "70755");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (446, 421, "Santa Teresa de Jesús", "Santa Tere", "Santa Teresa de Jesús", "70756");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (446, 421, "Santa Teresa de Jesï¿½s", "Santa Tere", "Santa Teresa de Jesï¿½s", "70756");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (447, 515, "Los Tamarindos", "Los Tamari", "Los Tamarindos", "70760");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (448, 515, "San Antonio", "San Antoni", "San Antonio", "70760");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (449, 515, "Sección Corona", "Sección Co", "Sección Corona", "70760");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (449, 515, "Secciï¿½n Corona", "Secciï¿½n Co", "Secciï¿½n Corona", "70760");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (450, 515, "El Jordan", "El Jordan", "El Jordan", "70760");
 	
@@ -924,7 +926,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (458, 515, "San Pablo", "San Pablo", "San Pablo", "70760");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (459, 515, "San Sebastián", "San Sebast", "San Sebastián", "70760");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (459, 515, "San Sebastiï¿½n", "San Sebast", "San Sebastiï¿½n", "70760");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (460, 515, "La Raza", "La Raza", "La Raza", "70760");
 	
@@ -938,7 +940,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (465, 515, "La Ladrillera", "La Ladrill", "La Ladrillera", "70760");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (466, 515, "El Guayacán", "El Guayacá", "El Guayacán", "70760");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (466, 515, "El Guayacï¿½n", "El Guayacï¿½", "El Guayacï¿½n", "70760");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (467, 515, "Residencial la Noria", "Residencia", "Residencial la Noria", "70760");
 	
@@ -950,13 +952,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (471, 515, "Lieza", "Lieza", "Lieza", "70760");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (472, 515, "Sección 3a de Santa Cruz Togolaba", "Sección 3a", "Sección 3a de Santa Cruz Togolaba", "70760");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (472, 515, "Secciï¿½n 3a de Santa Cruz Togolaba", "Secciï¿½n 3a", "Secciï¿½n 3a de Santa Cruz Togolaba", "70760");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (473, 515, "19 de Marzo", "19 de Marz", "19 de Marzo", "70760");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (474, 515, "Guiengola", "Guiengola", "Guiengola", "70760");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (475, 515, "Benito Juárez", "Benito Juá", "Benito Juárez", "70760");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (475, 515, "Benito Juï¿½rez", "Benito Juï¿½", "Benito Juï¿½rez", "70760");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (476, 515, "Infonavit Sandunga", "Infonavit ", "Infonavit Sandunga", "70760");
 	
@@ -964,7 +966,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (478, 515, "Lopez Portillo", "Lopez Port", "Lopez Portillo", "70760");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (479, 515, "San Jerónimo", "San Jeróni", "San Jerónimo", "70760");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (479, 515, "San Jerï¿½nimo", "San Jerï¿½ni", "San Jerï¿½nimo", "70760");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (480, 515, "Vixhana", "Vixhana", "Vixhana", "70760");
 	
@@ -976,7 +978,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (484, 515, "Santa Elena", "Santa Elen", "Santa Elena", "70760");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (485, 515, "Alejandro Cruz Martínez", "Alejandro ", "Alejandro Cruz Martínez", "70760");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (485, 515, "Alejandro Cruz Martï¿½nez", "Alejandro ", "Alejandro Cruz Martï¿½nez", "70760");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (486, 515, "Guichivere", "Guichivere", "Guichivere", "70760");
 	
@@ -984,7 +986,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (488, 515, "San Juanico", "San Juanic", "San Juanico", "70760");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (489, 515, "Sección 4a de Santa Cruz Togolaba", "Sección 4a", "Sección 4a de Santa Cruz Togolaba", "70760");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (489, 515, "Secciï¿½n 4a de Santa Cruz Togolaba", "Secciï¿½n 4a", "Secciï¿½n 4a de Santa Cruz Togolaba", "70760");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (490, 515, "Tagolaba", "Tagolaba", "Tagolaba", "70760");
 	
@@ -998,21 +1000,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (495, 515, "San Luis Rey", "San Luis R", "San Luis Rey", "70760");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (496, 515, "Morro de Mazatán", "Morro de M", "Morro de Mazatán", "70762");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (496, 515, "Morro de Mazatï¿½n", "Morro de M", "Morro de Mazatï¿½n", "70762");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (497, 515, "Santa Gertrudis Miramar", "Santa Gert", "Santa Gertrudis Miramar", "70762");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (498, 515, "Cajón de Piedra", "Cajón de P", "Cajón de Piedra", "70763");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (498, 515, "Cajï¿½n de Piedra", "Cajï¿½n de P", "Cajï¿½n de Piedra", "70763");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (499, 515, "El Jordan", "El Jordan", "El Jordan", "70763");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (500, 515, "Pishishi", "Pishishi", "Pishishi", "70763");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (501, 515, "Santa Teresa de Jesús", "Santa Tere", "Santa Teresa de Jesús", "70763");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (501, 515, "Santa Teresa de Jesï¿½s", "Santa Tere", "Santa Teresa de Jesï¿½s", "70763");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (502, 515, "San José del Paraíso", "San José d", "San José del Paraíso", "70763");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (502, 515, "San Josï¿½ del Paraï¿½so", "San Josï¿½ d", "San Josï¿½ del Paraï¿½so", "70763");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (503, 515, "La Brecha (Lázaro Cárdenas)", "La Brecha ", "La Brecha (Lázaro Cárdenas)", "70764");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (503, 515, "La Brecha (Lï¿½zaro Cï¿½rdenas)", "La Brecha ", "La Brecha (Lï¿½zaro Cï¿½rdenas)", "70764");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (504, 515, "Santa Clara", "Santa Clar", "Santa Clara", "70765");
 	
@@ -1020,13 +1022,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (506, 515, "San Juan Zaragoza", "San Juan Z", "San Juan Zaragoza", "70767");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (507, 515, "Concepción Rincón Bamba", "Concepción", "Concepción Rincón Bamba", "70769");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (507, 515, "Concepciï¿½n Rincï¿½n Bamba", "Concepciï¿½n", "Concepciï¿½n Rincï¿½n Bamba", "70769");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (508, 307, "Santa Maria Huamelula", "Santa Mari", "Santa Maria Huamelula", "70770");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (509, 307, "San Pedro Huamelula", "San Pedro ", "San Pedro Huamelula", "70770");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (510, 307, "Río Seco", "Río Seco", "Río Seco", "70771");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (510, 307, "Rï¿½o Seco", "Rï¿½o Seco", "Rï¿½o Seco", "70771");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (511, 307, "El Coyul", "El Coyul", "El Coyul", "70771");
 	
@@ -1044,11 +1046,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (518, 307, "Paja Blanca", "Paja Blanc", "Paja Blanca", "70775");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (519, 307, "San Francisco de Asís", "San Franci", "San Francisco de Asís", "70776");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (519, 307, "San Francisco de Asï¿½s", "San Franci", "San Francisco de Asï¿½s", "70776");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (520, 308, "San Pedro Huilotepec", "San Pedro ", "San Pedro Huilotepec", "70777");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (521, 308, "San José del Palmar", "San José d", "San José del Palmar", "70777");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (521, 308, "San Josï¿½ del Palmar", "San Josï¿½ d", "San Josï¿½ del Palmar", "70777");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (522, 248, "Huazatlan Del Rio Cerro Del Marquez", "Huazatlan ", "Huazatlan Del Rio Cerro Del Marquez", "70780");
 	
@@ -1058,13 +1060,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (525, 248, "Laguna Sata Cruz", "Laguna Sat", "Laguna Sata Cruz", "70783");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (526, 248, "Colonia Juárez", "Colonia Ju", "Colonia Juárez", "70784");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (526, 248, "Colonia Juï¿½rez", "Colonia Ju", "Colonia Juï¿½rez", "70784");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (527, 248, "Coilonia Cuauhtémoc", "Coilonia C", "Coilonia Cuauhtémoc", "70785");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (527, 248, "Coilonia Cuauhtï¿½moc", "Coilonia C", "Coilonia Cuauhtï¿½moc", "70785");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (528, 124, "San Blas Atempa Centro", "San Blas A", "San Blas Atempa Centro", "70786");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (529, 124, "Dr. Génico", "Dr. Génico", "Dr. Génico", "70786");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (529, 124, "Dr. Gï¿½nico", "Dr. Gï¿½nico", "Dr. Gï¿½nico", "70786");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (530, 124, "San Marcial", "San Marcia", "San Marcial", "70786");
 	
@@ -1082,7 +1084,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (537, 59, "Tepehuaje", "Tepehuaje", "Tepehuaje", "70800");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (538, 59, "San José Llano Grande", "San José L", "San José Llano Grande", "70800");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (538, 59, "San Josï¿½ Llano Grande", "San Josï¿½ L", "San Josï¿½ Llano Grande", "70800");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (539, 59, "San Pedro Amatlan", "San Pedro ", "San Pedro Amatlan", "70800");
 	
@@ -1112,13 +1114,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (552, 59, "San Miguel Yogovana", "San Miguel", "San Miguel Yogovana", "70803");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (553, 59, "Benito Juárez", "Benito Juá", "Benito Juárez", "70805");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (553, 59, "Benito Juï¿½rez", "Benito Juï¿½", "Benito Juï¿½rez", "70805");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (554, 59, "San Antonio", "San Antoni", "San Antonio", "70805");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (555, 59, "Universitaria", "Universita", "Universitaria", "70805");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (556, 59, "San Martín Caballero", "San Martín", "San Martín Caballero", "70805");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (556, 59, "San Martï¿½n Caballero", "San Martï¿½n", "San Martï¿½n Caballero", "70805");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (557, 59, "San Ignacio", "San Ignaci", "San Ignacio", "70805");
 	
@@ -1126,7 +1128,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (559, 59, "Barrio San Isidro", "Barrio San", "Barrio San Isidro", "70805");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (560, 59, "Ampliación Benito Juárez", "Ampliación", "Ampliación Benito Juárez", "70805");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (560, 59, "Ampliaciï¿½n Benito Juï¿½rez", "Ampliaciï¿½n", "Ampliaciï¿½n Benito Juï¿½rez", "70805");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (561, 59, "Labor de Medina", "Labor de M", "Labor de Medina", "70805");
 	
@@ -1176,7 +1178,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (584, 59, "Labor del Rosario", "Labor del ", "Labor del Rosario", "70805");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (585, 59, "El Paraíso", "El Paraíso", "El Paraíso", "70805");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (585, 59, "El Paraï¿½so", "El Paraï¿½so", "El Paraï¿½so", "70805");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (586, 59, "Barrio Chico", "Barrio Chi", "Barrio Chico", "70805");
 	
@@ -1186,9 +1188,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (589, 59, "Deportiva", "Deportiva", "Deportiva", "70805");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (590, 289, "San Nicolás", "San Nicolá", "San Nicolás", "70806");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (590, 289, "San Nicolï¿½s", "San Nicolï¿½", "San Nicolï¿½s", "70806");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (591, 351, "San Simón Almolongas", "San Simón ", "San Simón Almolongas", "70808");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (591, 351, "San Simï¿½n Almolongas", "San Simï¿½n ", "San Simï¿½n Almolongas", "70808");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (592, 235, "San Esteban Amatlan", "San Esteba", "San Esteban Amatlan", "70810");
 	
@@ -1196,7 +1198,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (594, 235, "Sitio Del Palmar", "Sitio Del ", "Sitio Del Palmar", "70811");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (595, 170, "San José Lachiguiri", "San José L", "San José Lachiguiri", "70813");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (595, 170, "San Josï¿½ Lachiguiri", "San Josï¿½ L", "San Josï¿½ Lachiguiri", "70813");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (596, 170, "Nizagoche", "Nizagoche", "Nizagoche", "70814");
 	
@@ -1214,7 +1216,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (603, 61, "Monjas", "Monjas", "Monjas", "70826");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (604, 61, "Santa María Velato", "Santa Marí", "Santa María Velato", "70827");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (604, 61, "Santa Marï¿½a Velato", "Santa Marï¿½", "Santa Marï¿½a Velato", "70827");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (605, 154, "Santo Domingo Amatlan", "Santo Domi", "Santo Domingo Amatlan", "70828");
 	
@@ -1222,9 +1224,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (607, 362, "Santa Catarina Cuixtla", "Santa Cata", "Santa Catarina Cuixtla", "70830");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (608, 167, "San José Del Peñasco", "San José D", "San José Del Peñasco", "70833");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (608, 167, "San Josï¿½ Del Peï¿½asco", "San Josï¿½ D", "San Josï¿½ Del Peï¿½asco", "70833");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (609, 126, "San Cristóbal Amatlan", "San Cristó", "San Cristóbal Amatlan", "70835");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (609, 126, "San Cristï¿½bal Amatlan", "San Cristï¿½", "San Cristï¿½bal Amatlan", "70835");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (610, 126, "San Lorenzo Mixtepec", "San Lorenz", "San Lorenzo Mixtepec", "70836");
 	
@@ -1240,7 +1242,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (616, 391, "La Chinilla", "La Chinill", "La Chinilla", "70842");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (617, 159, "Llano de León", "Llano de L", "Llano de León", "70843");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (617, 159, "Llano de Leï¿½n", "Llano de L", "Llano de Leï¿½n", "70843");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (618, 159, "Soledad Piedra Larga", "Soledad Pi", "Soledad Piedra Larga", "70843");
 	
@@ -1250,31 +1252,31 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (621, 159, "El Progreso", "El Progres", "El Progreso", "70844");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (622, 159, "San Cristóbal Honduras", "San Cristó", "San Cristóbal Honduras", "70844");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (622, 159, "San Cristï¿½bal Honduras", "San Cristï¿½", "San Cristï¿½bal Honduras", "70844");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (623, 159, "San Jerónimo Coatlan", "San Jeróni", "San Jerónimo Coatlan", "70844");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (623, 159, "San Jerï¿½nimo Coatlan", "San Jerï¿½ni", "San Jerï¿½nimo Coatlan", "70844");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (624, 159, "El Mirador", "El Mirador", "El Mirador", "70845");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (625, 344, "San Sebastián Coatlán", "San Sebast", "San Sebastián Coatlán", "70850");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (625, 344, "San Sebastiï¿½n Coatlï¿½n", "San Sebast", "San Sebastiï¿½n Coatlï¿½n", "70850");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (626, 344, "Porvenir de Ballesteros", "Porvenir d", "Porvenir de Ballesteros", "70851");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (627, 344, "El Gavilán", "El Gavilán", "El Gavilán", "70852");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (627, 344, "El Gavilï¿½n", "El Gavilï¿½n", "El Gavilï¿½n", "70852");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (628, 344, "San José Cieneguilla", "San José C", "San José Cieneguilla", "70854");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (628, 344, "San Josï¿½ Cieneguilla", "San Josï¿½ C", "San Josï¿½ Cieneguilla", "70854");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (629, 291, "San Antonio Lalana", "San Antoni", "San Antonio Lalana", "70855");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (630, 291, "San Pablo Coatlan", "San Pablo ", "San Pablo Coatlan", "70855");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (631, 291, "Santa María Coatlan", "Santa Marí", "Santa María Coatlan", "70855");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (631, 291, "Santa Marï¿½a Coatlan", "Santa Marï¿½", "Santa Marï¿½a Coatlan", "70855");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (632, 291, "San Francisco Coatlan", "San Franci", "San Francisco Coatlan", "70855");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (633, 254, "San Mateo Río Hondo", "San Mateo ", "San Mateo Río Hondo", "70860");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (633, 254, "San Mateo Rï¿½o Hondo", "San Mateo ", "San Mateo Rï¿½o Hondo", "70860");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (634, 254, "San José Del Pacifico", "San José D", "San José Del Pacifico", "70861");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (634, 254, "San Josï¿½ Del Pacifico", "San Josï¿½ D", "San Josï¿½ Del Pacifico", "70861");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (635, 254, "San Ildefonso Ozolotepec", "San Ildefo", "San Ildefonso Ozolotepec", "70862");
 	
@@ -1286,7 +1288,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (639, 424, "San Gregorio Ozolotepec", "San Gregor", "San Gregorio Ozolotepec", "70870");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (640, 424, "Santa María Ozolotepec", "Santa Marí", "Santa María Ozolotepec", "70870");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (640, 424, "Santa Marï¿½a Ozolotepec", "Santa Marï¿½", "Santa Marï¿½a Ozolotepec", "70870");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (641, 424, "San Esteban Ozolotepec", "San Esteba", "San Esteban Ozolotepec", "70870");
 	
@@ -1296,7 +1298,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (644, 263, "Llano Grande", "Llano Gran", "Llano Grande", "70875");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (645, 347, "San Sebastián Río Hondo", "San Sebast", "San Sebastián Río Hondo", "70877");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (645, 347, "San Sebastiï¿½n Rï¿½o Hondo", "San Sebast", "San Sebastiï¿½n Rï¿½o Hondo", "70877");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (646, 347, "San Bernardo", "San Bernar", "San Bernardo", "70878");
 	
@@ -1310,11 +1312,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (651, 148, "San Juan Guiavine", "San Juan G", "San Juan Guiavine", "70888");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (652, 148, "San José Ozolotepec", "San José O", "San José Ozolotepec", "70889");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (652, 148, "San Josï¿½ Ozolotepec", "San Josï¿½ O", "San Josï¿½ Ozolotepec", "70889");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (653, 495, "San Felipe Lachillo", "San Felipe", "San Felipe Lachillo", "70890");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (654, 495, "Santa María Coixtepec", "Santa Marí", "Santa María Coixtepec", "70890");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (654, 495, "Santa Marï¿½a Coixtepec", "Santa Marï¿½", "Santa Marï¿½a Coixtepec", "70890");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (655, 495, "Santiago Xanica", "Santiago X", "Santiago Xanica", "70890");
 	
@@ -1326,43 +1328,43 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (659, 211, "San Juan Ozolotepec", "San Juan O", "San Juan Ozolotepec", "70897");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (660, 211, "Santiago Lapaguía", "Santiago L", "Santiago Lapaguía", "70899");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (660, 211, "Santiago Lapaguï¿½a", "Santiago L", "Santiago Lapaguï¿½a", "70899");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (661, 324, "Nuevo Chapingo 1a Sección", "Nuevo Chap", "Nuevo Chapingo 1a Sección", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (661, 324, "Nuevo Chapingo 1a Secciï¿½n", "Nuevo Chap", "Nuevo Chapingo 1a Secciï¿½n", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (662, 324, "Barranquilla 4a Sección", "Barranquil", "Barranquilla 4a Sección", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (662, 324, "Barranquilla 4a Secciï¿½n", "Barranquil", "Barranquilla 4a Secciï¿½n", "70900");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (663, 324, "La Guayabita", "La Guayabi", "La Guayabita", "70900");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (664, 324, "Barrio Chubasco", "Barrio Chu", "Barrio Chubasco", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (665, 324, "Mendillo 1a Sección", "Mendillo 1", "Mendillo 1a Sección", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (665, 324, "Mendillo 1a Secciï¿½n", "Mendillo 1", "Mendillo 1a Secciï¿½n", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (666, 324, "Sección 2a", "Sección 2a", "Sección 2a", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (666, 324, "Secciï¿½n 2a", "Secciï¿½n 2a", "Secciï¿½n 2a", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (667, 324, "Joverito 4a Sección", "Joverito 4", "Joverito 4a Sección", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (667, 324, "Joverito 4a Secciï¿½n", "Joverito 4", "Joverito 4a Secciï¿½n", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (668, 324, "Sección 3a", "Sección 3a", "Sección 3a", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (668, 324, "Secciï¿½n 3a", "Secciï¿½n 3a", "Secciï¿½n 3a", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (669, 324, "Sección 4a", "Sección 4a", "Sección 4a", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (669, 324, "Secciï¿½n 4a", "Secciï¿½n 4a", "Secciï¿½n 4a", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (670, 324, "Unión y Progreso 1a Sección", "Unión y Pr", "Unión y Progreso 1a Sección", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (670, 324, "Uniï¿½n y Progreso 1a Secciï¿½n", "Uniï¿½n y Pr", "Uniï¿½n y Progreso 1a Secciï¿½n", "70900");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (671, 324, "La Mina", "La Mina", "La Mina", "70900");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (672, 324, "Laborillo", "Laborillo", "Laborillo", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (673, 324, "Barrio San Agustín", "Barrio San", "Barrio San Agustín", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (673, 324, "Barrio San Agustï¿½n", "Barrio San", "Barrio San Agustï¿½n", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (674, 324, "Sección 1a", "Sección 1a", "Sección 1a", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (674, 324, "Secciï¿½n 1a", "Secciï¿½n 1a", "Secciï¿½n 1a", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (675, 324, "Laguna Seca 4a Sección", "Laguna Sec", "Laguna Seca 4a Sección", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (675, 324, "Laguna Seca 4a Secciï¿½n", "Laguna Sec", "Laguna Seca 4a Secciï¿½n", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (676, 324, "Chapingo 4a Sección", "Chapingo 4", "Chapingo 4a Sección", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (676, 324, "Chapingo 4a Secciï¿½n", "Chapingo 4", "Chapingo 4a Secciï¿½n", "70900");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (677, 324, "San Pedro Pochutla Centro", "San Pedro ", "San Pedro Pochutla Centro", "70900");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (678, 324, "Siloe 4a Sección", "Siloe 4a S", "Siloe 4a Sección", "70900");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (678, 324, "Siloe 4a Secciï¿½n", "Siloe 4a S", "Siloe 4a Secciï¿½n", "70900");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (679, 324, "Del Sol", "Del Sol", "Del Sol", "70902");
 	
@@ -1380,11 +1382,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (686, 324, "Puerto Angel", "Puerto Ang", "Puerto Angel", "70902");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (687, 324, "Playa Del Panteón", "Playa Del ", "Playa Del Panteón", "70902");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (687, 324, "Playa Del Panteï¿½n", "Playa Del ", "Playa Del Panteï¿½n", "70902");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (688, 324, "El Vigía", "El Vigía", "El Vigía", "70902");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (688, 324, "El Vigï¿½a", "El Vigï¿½a", "El Vigï¿½a", "70902");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (689, 324, "Arroyo Del Panteón", "Arroyo Del", "Arroyo Del Panteón", "70902");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (689, 324, "Arroyo Del Panteï¿½n", "Arroyo Del", "Arroyo Del Panteï¿½n", "70902");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (690, 324, "El Chico Zapote", "El Chico Z", "El Chico Zapote", "70902");
 	
@@ -1394,7 +1396,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (693, 324, "San Miguel Figueroa", "San Miguel", "San Miguel Figueroa", "70904");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (694, 324, "De Jesús", "De Jesús", "De Jesús", "70904");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (694, 324, "De Jesï¿½s", "De Jesï¿½s", "De Jesï¿½s", "70904");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (695, 324, "Barrio Nuevo Toltepec", "Barrio Nue", "Barrio Nuevo Toltepec", "70904");
 	
@@ -1406,7 +1408,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (699, 324, "Roca Blanca", "Roca Blanc", "Roca Blanca", "70904");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (700, 324, "San José Chacalapa", "San José C", "San José Chacalapa", "70904");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (700, 324, "San Josï¿½ Chacalapa", "San Josï¿½ C", "San Josï¿½ Chacalapa", "70904");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (701, 324, "Yonene", "Yonene", "Yonene", "70904");
 	
@@ -1428,17 +1430,17 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (710, 324, "Apango", "Apango", "Apango", "70905");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (711, 324, "San Pedro Cafetitlán", "San Pedro ", "San Pedro Cafetitlán", "70905");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (711, 324, "San Pedro Cafetitlï¿½n", "San Pedro ", "San Pedro Cafetitlï¿½n", "70905");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (712, 324, "Santa María Limón", "Santa Marí", "Santa María Limón", "70905");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (712, 324, "Santa Marï¿½a Limï¿½n", "Santa Marï¿½", "Santa Marï¿½a Limï¿½n", "70905");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (713, 324, "Benito Juárez", "Benito Juá", "Benito Juárez", "70905");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (713, 324, "Benito Juï¿½rez", "Benito Juï¿½", "Benito Juï¿½rez", "70905");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (714, 324, "Emiliano Zapata", "Emiliano Z", "Emiliano Zapata", "70905");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (715, 324, "La Cruz Del Siglo", "La Cruz De", "La Cruz Del Siglo", "70905");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (716, 324, "Laguna Seca (Sección Cuarta)", "Laguna Sec", "Laguna Seca (Sección Cuarta)", "70905");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (716, 324, "Laguna Seca (Secciï¿½n Cuarta)", "Laguna Sec", "Laguna Seca (Secciï¿½n Cuarta)", "70905");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (717, 324, "Puente Copalita", "Puente Cop", "Puente Copalita", "70905");
 	
@@ -1460,7 +1462,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (726, 509, "Paso San Antonio", "Paso San A", "Paso San Antonio", "70907");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (727, 509, "Río Grande", "Río Grande", "Río Grande", "70907");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (727, 509, "Rï¿½o Grande", "Rï¿½o Grande", "Rï¿½o Grande", "70907");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (728, 509, "Cerro Campana", "Cerro Camp", "Cerro Campana", "70907");
 	
@@ -1478,21 +1480,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (735, 509, "Cerro San Antonio", "Cerro San ", "Cerro San Antonio", "70907");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (736, 509, "Cañada Brava", "Cañada Bra", "Cañada Brava", "70908");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (736, 509, "Caï¿½ada Brava", "Caï¿½ada Bra", "Caï¿½ada Brava", "70908");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (737, 509, "Macahuitera", "Macahuiter", "Macahuitera", "70908");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (738, 509, "San José Piedras Negras", "San José P", "San José Piedras Negras", "70908");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (738, 509, "San Josï¿½ Piedras Negras", "San Josï¿½ P", "San Josï¿½ Piedras Negras", "70908");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (739, 509, "Las Pilas", "Las Pilas", "Las Pilas", "70908");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (740, 509, "Taraguntín", "Taraguntín", "Taraguntín", "70908");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (740, 509, "Taraguntï¿½n", "Taraguntï¿½n", "Taraguntï¿½n", "70908");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (741, 509, "Yerba Santa", "Yerba Sant", "Yerba Santa", "70908");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (742, 509, "Las Cuevas", "Las Cuevas", "Las Cuevas", "70908");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (743, 509, "Barrio del Río", "Barrio del", "Barrio del Río", "70908");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (743, 509, "Barrio del Rï¿½o", "Barrio del", "Barrio del Rï¿½o", "70908");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (744, 509, "Los Sebastianes", "Los Sebast", "Los Sebastianes", "70908");
 	
@@ -1536,15 +1538,15 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (764, 401, "Emiliano Zapata", "Emiliano Z", "Emiliano Zapata", "70934");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (765, 401, "San Agustín", "San Agustí", "San Agustín", "70934");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (765, 401, "San Agustï¿½n", "San Agustï¿½", "San Agustï¿½n", "70934");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (766, 401, "Santa Fe", "Santa Fe", "Santa Fe", "70934");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (767, 401, "Lázaro Cárdenas", "Lázaro Cár", "Lázaro Cárdenas", "70934");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (767, 401, "Lï¿½zaro Cï¿½rdenas", "Lï¿½zaro Cï¿½r", "Lï¿½zaro Cï¿½rdenas", "70934");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (768, 401, "Santa Maria", "Santa Mari", "Santa Maria", "70934");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (769, 401, "Unidad Ecológica Punta Escondida", "Unidad Eco", "Unidad Ecológica Punta Escondida", "70934");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (769, 401, "Unidad Ecolï¿½gica Punta Escondida", "Unidad Eco", "Unidad Ecolï¿½gica Punta Escondida", "70934");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (770, 401, "Zicatela", "Zicatela", "Zicatela", "70934");
 	
@@ -1570,7 +1572,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (781, 401, "El Potrero", "El Potrero", "El Potrero", "70935");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (782, 401, "San José el Quequestle", "San José e", "San José el Quequestle", "70935");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (782, 401, "San Josï¿½ el Quequestle", "San Josï¿½ e", "San Josï¿½ el Quequestle", "70935");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (783, 401, "Los Sarmiento", "Los Sarmie", "Los Sarmiento", "70935");
 	
@@ -1578,7 +1580,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (785, 401, "La Nueva Esperanza", "La Nueva E", "La Nueva Esperanza", "70935");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (786, 401, "Paso Limón", "Paso Limón", "Paso Limón", "70935");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (786, 401, "Paso Limï¿½n", "Paso Limï¿½n", "Paso Limï¿½n", "70935");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (787, 401, "El Bajo", "El Bajo", "El Bajo", "70935");
 	
@@ -1632,7 +1634,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (812, 401, "Santa Maria Colotepec", "Santa Mari", "Santa Maria Colotepec", "70937");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (813, 401, "Río Valdeflores", "Río Valdef", "Río Valdeflores", "70937");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (813, 401, "Rï¿½o Valdeflores", "Rï¿½o Valdef", "Rï¿½o Valdeflores", "70937");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (814, 401, "Arroyo Tomatal", "Arroyo Tom", "Arroyo Tomatal", "70937");
 	
@@ -1652,13 +1654,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (822, 401, "Plataforma", "Plataforma", "Plataforma", "70937");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (823, 401, "San José el Palmar", "San José e", "San José el Palmar", "70937");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (823, 401, "San Josï¿½ el Palmar", "San Josï¿½ e", "San Josï¿½ el Palmar", "70937");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (824, 401, "Valdeflores", "Valdeflore", "Valdeflores", "70937");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (825, 401, "Valdeflores Segunda Sección", "Valdeflore", "Valdeflores Segunda Sección", "70937");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (825, 401, "Valdeflores Segunda Secciï¿½n", "Valdeflore", "Valdeflores Segunda Secciï¿½n", "70937");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (826, 401, "Aguaje de León", "Aguaje de ", "Aguaje de León", "70938");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (826, 401, "Aguaje de Leï¿½n", "Aguaje de ", "Aguaje de Leï¿½n", "70938");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (827, 401, "Colonia Nuevo Amanecer", "Colonia Nu", "Colonia Nuevo Amanecer", "70938");
 	
@@ -1672,7 +1674,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (832, 401, "Arroyo del Bajo", "Arroyo del", "Arroyo del Bajo", "70938");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (833, 401, "Aguaje Ramírez", "Aguaje Ram", "Aguaje Ramírez", "70938");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (833, 401, "Aguaje Ramï¿½rez", "Aguaje Ram", "Aguaje Ramï¿½rez", "70938");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (834, 401, "El Porvenir", "El Porveni", "El Porvenir", "70938");
 	
@@ -1690,7 +1692,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (841, 401, "Las Garrochas", "Las Garroc", "Las Garrochas", "70938");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (842, 401, "Comunidad Ecológica Punta de Zicatela", "Comunidad ", "Comunidad Ecológica Punta de Zicatela", "70938");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (842, 401, "Comunidad Ecolï¿½gica Punta de Zicatela", "Comunidad ", "Comunidad Ecolï¿½gica Punta de Zicatela", "70938");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (843, 401, "Los Vargas", "Los Vargas", "Los Vargas", "70938");
 	
@@ -1698,7 +1700,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (845, 401, "Arroyo del Zapote", "Arroyo del", "Arroyo del Zapote", "70938");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (846, 401, "El Camarón", "El Camarón", "El Camarón", "70938");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (846, 401, "El Camarï¿½n", "El Camarï¿½n", "El Camarï¿½n", "70938");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (847, 401, "El Vitonchino", "El Vitonch", "El Vitonchino", "70938");
 	
@@ -1708,7 +1710,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (850, 401, "Los Naranjos (Los Naranjos Uno)", "Los Naranj", "Los Naranjos (Los Naranjos Uno)", "70938");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (851, 401, "Totolápam", "Totolápam", "Totolápam", "70938");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (851, 401, "Totolï¿½pam", "Totolï¿½pam", "Totolï¿½pam", "70938");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (852, 117, "San Bartolome Loxicha", "San Bartol", "San Bartolome Loxicha", "70940");
 	
@@ -1722,7 +1724,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (857, 439, "San Juanito o la Botija", "San Juanit", "San Juanito o la Botija", "70944");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (858, 439, "El Nanchal (San José el Nanchal)", "El Nanchal", "El Nanchal (San José el Nanchal)", "70944");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (858, 439, "El Nanchal (San Josï¿½ el Nanchal)", "El Nanchal", "El Nanchal (San Josï¿½ el Nanchal)", "70944");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (859, 439, "La Oscurana", "La Oscuran", "La Oscurana", "70944");
 	
@@ -1734,7 +1736,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (863, 439, "San Bernardino", "San Bernar", "San Bernardino", "70944");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (864, 439, "San José", "San José", "San José", "70944");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (864, 439, "San Josï¿½", "San Josï¿½", "San Josï¿½", "70944");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (865, 439, "Soluche", "Soluche", "Soluche", "70944");
 	
@@ -1768,7 +1770,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (880, 439, "Agua Blanca", "Agua Blanc", "Agua Blanca", "70944");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (881, 439, "Villa Unión", "Villa Unió", "Villa Unión", "70944");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (881, 439, "Villa Uniï¿½n", "Villa Uniï¿½", "Villa Uniï¿½n", "70944");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (882, 439, "El Macuil", "El Macuil", "El Macuil", "70944");
 	
@@ -1778,15 +1780,15 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (885, 439, "La Culebra (Barrio la Culebra)", "La Culebra", "La Culebra (Barrio la Culebra)", "70944");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (886, 439, "La Soledad los García", "La Soledad", "La Soledad los García", "70944");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (886, 439, "La Soledad los Garcï¿½a", "La Soledad", "La Soledad los Garcï¿½a", "70944");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (887, 439, "Villa Nueva", "Villa Nuev", "Villa Nueva", "70945");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (888, 439, "San Martín", "San Martín", "San Martín", "70945");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (888, 439, "San Martï¿½n", "San Martï¿½n", "San Martï¿½n", "70945");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (889, 439, "Paso Ocote", "Paso Ocote", "Paso Ocote", "70945");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (890, 439, "El Gavilán", "El Gavilán", "El Gavilán", "70945");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (890, 439, "El Gavilï¿½n", "El Gavilï¿½n", "El Gavilï¿½n", "70945");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (891, 439, "El Manantial", "El Mananti", "El Manantial", "70945");
 	
@@ -1800,11 +1802,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (896, 439, "La Crucecita", "La Cruceci", "La Crucecita", "70945");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (897, 439, "El Paraíso", "El Paraíso", "El Paraíso", "70945");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (897, 439, "El Paraï¿½so", "El Paraï¿½so", "El Paraï¿½so", "70945");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (898, 439, "La Anona", "La Anona", "La Anona", "70945");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (899, 439, "La Unión", "La Unión", "La Unión", "70945");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (899, 439, "La Uniï¿½n", "La Uniï¿½n", "La Uniï¿½n", "70945");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (900, 439, "San Isidro (Infiernillo)", "San Isidro", "San Isidro (Infiernillo)", "70945");
 	
@@ -1822,7 +1824,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (907, 439, "Yonguina", "Yonguina", "Yonguina", "70945");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (908, 439, "El Limón", "El Limón", "El Limón", "70945");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (908, 439, "El Limï¿½n", "El Limï¿½n", "El Limï¿½n", "70945");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (909, 439, "Los Ciruelos", "Los Ciruel", "Los Ciruelos", "70945");
 	
@@ -1830,19 +1832,19 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (911, 439, "Barrio la Cruz", "Barrio la ", "Barrio la Cruz", "70946");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (912, 439, "Barrio el Panteón", "Barrio el ", "Barrio el Panteón", "70946");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (912, 439, "Barrio el Panteï¿½n", "Barrio el ", "Barrio el Panteï¿½n", "70946");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (913, 439, "Barrio el Calvario", "Barrio el ", "Barrio el Calvario", "70946");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (914, 439, "Barrio el Horno", "Barrio el ", "Barrio el Horno", "70946");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (915, 439, "Santa María Tonameca Centro", "Santa Marí", "Santa María Tonameca Centro", "70946");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (915, 439, "Santa Marï¿½a Tonameca Centro", "Santa Marï¿½", "Santa Marï¿½a Tonameca Centro", "70946");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (916, 439, "Barrio Progreso Bajo", "Barrio Pro", "Barrio Progreso Bajo", "70946");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (917, 439, "Frutilla", "Frutilla", "Frutilla", "70947");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (918, 439, "El Peñasco", "El Peñasco", "El Peñasco", "70947");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (918, 439, "El Peï¿½asco", "El Peï¿½asco", "El Peï¿½asco", "70947");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (919, 439, "Juquilita", "Juquilita", "Juquilita", "70947");
 	
@@ -1866,19 +1868,19 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (929, 439, "La Florida", "La Florida", "La Florida", "70947");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (930, 439, "Rincón Bonito", "Rincón Bon", "Rincón Bonito", "70947");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (930, 439, "Rincï¿½n Bonito", "Rincï¿½n Bon", "Rincï¿½n Bonito", "70947");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (931, 439, "El Coco", "El Coco", "El Coco", "70947");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (932, 439, "Mazunte", "Mazunte", "Mazunte", "70947");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (933, 439, "Arroyo Aragón", "Arroyo Ara", "Arroyo Aragón", "70947");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (933, 439, "Arroyo Aragï¿½n", "Arroyo Ara", "Arroyo Aragï¿½n", "70947");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (934, 439, "El Huizache", "El Huizach", "El Huizache", "70947");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (935, 439, "Llano Grande", "Llano Gran", "Llano Grande", "70947");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (936, 439, "Rincón Alegre", "Rincón Ale", "Rincón Alegre", "70947");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (936, 439, "Rincï¿½n Alegre", "Rincï¿½n Ale", "Rincï¿½n Alegre", "70947");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (937, 439, "Ventanilla", "Ventanilla", "Ventanilla", "70947");
 	
@@ -1912,7 +1914,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (952, 439, "San Isidro del Palmar", "San Isidro", "San Isidro del Palmar", "70949");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (953, 439, "Unión del Palmar", "Unión del ", "Unión del Palmar", "70949");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (953, 439, "Uniï¿½n del Palmar", "Uniï¿½n del ", "Uniï¿½n del Palmar", "70949");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (954, 439, "El Popoyote", "El Popoyot", "El Popoyote", "70949");
 	
@@ -1950,7 +1952,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (971, 12, "Azulillo", "Azulillo", "Azulillo", "70954");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (972, 12, "Río Candelaria", "Río Candel", "Río Candelaria", "70954");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (972, 12, "Rï¿½o Candelaria", "Rï¿½o Candel", "Rï¿½o Candelaria", "70954");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (973, 12, "El Molino", "El Molino", "El Molino", "70954");
 	
@@ -1958,11 +1960,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (975, 12, "El Zacatal", "El Zacatal", "El Zacatal", "70954");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (976, 12, "La Ciénega", "La Ciénega", "La Ciénega", "70955");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (976, 12, "La Ciï¿½nega", "La Ciï¿½nega", "La Ciï¿½nega", "70955");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (977, 12, "Santa María Tepejipana", "Santa Marí", "Santa María Tepejipana", "70956");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (977, 12, "Santa Marï¿½a Tepejipana", "Santa Marï¿½", "Santa Marï¿½a Tepejipana", "70956");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (978, 12, "El Alacrán", "El Alacrán", "El Alacrán", "70957");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (978, 12, "El Alacrï¿½n", "El Alacrï¿½n", "El Alacrï¿½n", "70957");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (979, 71, "Pluma Hidalgo", "Pluma Hida", "Pluma Hidalgo", "70960");
 	
@@ -1980,7 +1982,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (986, 71, "Ojo de Agua", "Ojo de Agu", "Ojo de Agua", "70963");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (987, 71, "San Martín", "San Martín", "San Martín", "70963");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (987, 71, "San Martï¿½n", "San Martï¿½n", "San Martï¿½n", "70963");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (988, 71, "El Coco", "El Coco", "El Coco", "70963");
 	
@@ -2002,13 +2004,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (997, 71, "Tres Cruces", "Tres Cruce", "Tres Cruces", "70963");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (998, 71, "Santa María Magdalena Piñas", "Santa Marí", "Santa María Magdalena Piñas", "70963");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (998, 71, "Santa Marï¿½a Magdalena Piï¿½as", "Santa Marï¿½", "Santa Marï¿½a Magdalena Piï¿½as", "70963");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (999, 71, "La Perla", "La Perla", "La Perla", "70963");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1000, 71, "Los Reyes", "Los Reyes", "Los Reyes", "70963");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1001, 71, "Montaña", "Montaña", "Montaña", "70963");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1001, 71, "Montaï¿½a", "Montaï¿½a", "Montaï¿½a", "70963");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1002, 71, "Nazareno", "Nazareno", "Nazareno", "70963");
 	
@@ -2026,7 +2028,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1009, 71, "Iberia", "Iberia", "Iberia", "70963");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1010, 71, "La Cabaña", "La Cabaña", "La Cabaña", "70963");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1010, 71, "La Cabaï¿½a", "La Cabaï¿½a", "La Cabaï¿½a", "70963");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1011, 71, "La Loma", "La Loma", "La Loma", "70963");
 	
@@ -2038,13 +2040,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1015, 71, "Buenos Aires", "Buenos Air", "Buenos Aires", "70963");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1016, 71, "El Jardín", "El Jardín", "El Jardín", "70963");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1016, 71, "El Jardï¿½n", "El Jardï¿½n", "El Jardï¿½n", "70963");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1017, 71, "Barrio Nuevo (Cimarrón)", "Barrio Nue", "Barrio Nuevo (Cimarrón)", "70963");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1017, 71, "Barrio Nuevo (Cimarrï¿½n)", "Barrio Nue", "Barrio Nuevo (Cimarrï¿½n)", "70963");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1018, 71, "El Refugio", "El Refugio", "El Refugio", "70963");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1019, 71, "Fortín", "Fortín", "Fortín", "70963");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1019, 71, "Fortï¿½n", "Fortï¿½n", "Fortï¿½n", "70963");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1020, 71, "Independencia", "Independen", "Independencia", "70963");
 	
@@ -2058,7 +2060,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1025, 71, "Coachepil", "Coachepil", "Coachepil", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1026, 71, "El Jordán", "El Jordán", "El Jordán", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1026, 71, "El Jordï¿½n", "El Jordï¿½n", "El Jordï¿½n", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1027, 71, "Natividad", "Natividad", "Natividad", "70964");
 	
@@ -2098,21 +2100,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1045, 71, "Dolores", "Dolores", "Dolores", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1046, 71, "El Pacífico", "El Pacífic", "El Pacífico", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1046, 71, "El Pacï¿½fico", "El Pacï¿½fic", "El Pacï¿½fico", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1047, 71, "Frontera", "Frontera", "Frontera", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1048, 71, "Las Vegas", "Las Vegas", "Las Vegas", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1049, 71, "San Agustín", "San Agustí", "San Agustín", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1049, 71, "San Agustï¿½n", "San Agustï¿½", "San Agustï¿½n", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1050, 71, "Santa Lucía", "Santa Lucí", "Santa Lucía", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1050, 71, "Santa Lucï¿½a", "Santa Lucï¿½", "Santa Lucï¿½a", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1051, 71, "Tres Marías", "Tres María", "Tres Marías", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1051, 71, "Tres Marï¿½as", "Tres Marï¿½a", "Tres Marï¿½as", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1052, 71, "Barrio Allende", "Barrio All", "Barrio Allende", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1053, 71, "El Paraíso", "El Paraíso", "El Paraíso", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1053, 71, "El Paraï¿½so", "El Paraï¿½so", "El Paraï¿½so", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1054, 71, "Esperanza", "Esperanza", "Esperanza", "70964");
 	
@@ -2126,7 +2128,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1059, 71, "San Vicente", "San Vicent", "San Vicente", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1060, 71, "América", "América", "América", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1060, 71, "Amï¿½rica", "Amï¿½rica", "Amï¿½rica", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1061, 71, "El Trapiche", "El Trapich", "El Trapiche", "70964");
 	
@@ -2136,21 +2138,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1064, 71, "Finca Vista Hermosa", "Finca Vist", "Finca Vista Hermosa", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1065, 71, "Gólgota", "Gólgota", "Gólgota", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1065, 71, "Gï¿½lgota", "Gï¿½lgota", "Gï¿½lgota", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1066, 71, "Mercedes", "Mercedes", "Mercedes", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1067, 71, "Rancho Mónica", "Rancho Món", "Rancho Mónica", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1067, 71, "Rancho Mï¿½nica", "Rancho Mï¿½n", "Rancho Mï¿½nica", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1068, 71, "El Carmen Bajo (El Carmelito)", "El Carmen ", "El Carmen Bajo (El Carmelito)", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1069, 71, "El Edén Alto", "El Edén Al", "El Edén Alto", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1069, 71, "El Edï¿½n Alto", "El Edï¿½n Al", "El Edï¿½n Alto", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1070, 71, "El Pino", "El Pino", "El Pino", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1071, 71, "El Recreo", "El Recreo", "El Recreo", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1072, 71, "Los Ángeles", "Los Ángele", "Los Ángeles", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1072, 71, "Los ï¿½ngeles", "Los ï¿½ngele", "Los ï¿½ngeles", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1073, 71, "Los Limares", "Los Limare", "Los Limares", "70964");
 	
@@ -2160,9 +2162,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1076, 71, "San Antonio Dos", "San Antoni", "San Antonio Dos", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1077, 71, "San Joaquín", "San Joaquí", "San Joaquín", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1077, 71, "San Joaquï¿½n", "San Joaquï¿½", "San Joaquï¿½n", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1078, 71, "San José Palo Grande", "San José P", "San José Palo Grande", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1078, 71, "San Josï¿½ Palo Grande", "San Josï¿½ P", "San Josï¿½ Palo Grande", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1079, 71, "Tierra Colorada", "Tierra Col", "Tierra Colorada", "70964");
 	
@@ -2170,13 +2172,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1081, 71, "Carmen Alto", "Carmen Alt", "Carmen Alto", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1082, 71, "Consolación", "Consolació", "Consolación", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1082, 71, "Consolaciï¿½n", "Consolaciï¿½", "Consolaciï¿½n", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1083, 71, "Coronación", "Coronación", "Coronación", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1083, 71, "Coronaciï¿½n", "Coronaciï¿½n", "Coronaciï¿½n", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1084, 71, "Edén Bajo", "Edén Bajo", "Edén Bajo", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1084, 71, "Edï¿½n Bajo", "Edï¿½n Bajo", "Edï¿½n Bajo", "70964");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1085, 71, "Juárez", "Juárez", "Juárez", "70964");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1085, 71, "Juï¿½rez", "Juï¿½rez", "Juï¿½rez", "70964");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1086, 71, "Las Flores", "Las Flores", "Las Flores", "70964");
 	
@@ -2206,7 +2208,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1099, 71, "Copalita", "Copalita", "Copalita", "70965");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1100, 71, "El Fénix", "El Fénix", "El Fénix", "70965");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1100, 71, "El Fï¿½nix", "El Fï¿½nix", "El Fï¿½nix", "70965");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1101, 71, "La Aurora (Los Cruz)", "La Aurora ", "La Aurora (Los Cruz)", "70965");
 	
@@ -2214,7 +2216,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1103, 71, "El Triunfo", "El Triunfo", "El Triunfo", "70965");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1104, 71, "Miraleón", "Miraleón", "Miraleón", "70965");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1104, 71, "Miraleï¿½n", "Miraleï¿½n", "Miraleï¿½n", "70965");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1105, 71, "San Jacinto", "San Jacint", "San Jacinto", "70965");
 	
@@ -2236,7 +2238,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1114, 306, "San Pedro El Alto", "San Pedro ", "San Pedro El Alto", "70966");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1115, 306, "El Potrero Jazmín", "El Potrero", "El Potrero Jazmín", "70967");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1115, 306, "El Potrero Jazmï¿½n", "El Potrero", "El Potrero Jazmï¿½n", "70967");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1116, 306, "Lagunilla", "Lagunilla", "Lagunilla", "70967");
 	
@@ -2244,13 +2246,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1118, 306, "Loma Canela", "Loma Canel", "Loma Canela", "70967");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1119, 253, "San Mateo Piñas", "San Mateo ", "San Mateo Piñas", "70970");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1119, 253, "San Mateo Piï¿½as", "San Mateo ", "San Mateo Piï¿½as", "70970");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1120, 253, "San Pedro Piñas", "San Pedro ", "San Pedro Piñas", "70971");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1120, 253, "San Pedro Piï¿½as", "San Pedro ", "San Pedro Piï¿½as", "70971");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1121, 253, "Unión de Guerrero", "Unión de G", "Unión de Guerrero", "70972");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1121, 253, "Uniï¿½n de Guerrero", "Uniï¿½n de G", "Uniï¿½n de Guerrero", "70972");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1122, 253, "Rancho Cañada de Minas", "Rancho Cañ", "Rancho Cañada de Minas", "70973");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1122, 253, "Rancho Caï¿½ada de Minas", "Rancho Caï¿½", "Rancho Caï¿½ada de Minas", "70973");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1123, 413, "Vicente Guerrero", "Vicente Gu", "Vicente Guerrero", "70980");
 	
@@ -2314,7 +2316,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1153, 413, "Bajo de Arenal", "Bajo de Ar", "Bajo de Arenal", "70985");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1154, 413, "San Agustín", "San Agustí", "San Agustín", "70985");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1154, 413, "San Agustï¿½n", "San Agustï¿½", "San Agustï¿½n", "70985");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1155, 413, "Beta Centauro", "Beta Centa", "Beta Centauro", "70987");
 	
@@ -2328,7 +2330,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1160, 413, "Chahue", "Chahue", "Chahue", "70987");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1161, 413, "Bahías de Huatulco", "Bahías de ", "Bahías de Huatulco", "70987");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1161, 413, "Bahï¿½as de Huatulco", "Bahï¿½as de ", "Bahï¿½as de Huatulco", "70987");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1162, 413, "Sector L", "Sector L", "Sector L", "70987");
 	
@@ -2344,11 +2346,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1168, 413, "Sector B", "Sector B", "Sector B", "70987");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1169, 413, "Capitán 1", "Capitán 1", "Capitán 1", "70987");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1169, 413, "Capitï¿½n 1", "Capitï¿½n 1", "Capitï¿½n 1", "70987");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1170, 413, "Conjunto Framboyán", "Conjunto F", "Conjunto Framboyán", "70987");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1170, 413, "Conjunto Framboyï¿½n", "Conjunto F", "Conjunto Framboyï¿½n", "70987");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1171, 413, "Capitán 3", "Capitán 3", "Capitán 3", "70987");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1171, 413, "Capitï¿½n 3", "Capitï¿½n 3", "Capitï¿½n 3", "70987");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1172, 413, "Procic", "Procic", "Procic", "70987");
 	
@@ -2358,9 +2360,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1175, 413, "Base Naval", "Base Naval", "Base Naval", "70987");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1176, 413, "Pacífico", "Pacífico", "Pacífico", "70987");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1176, 413, "Pacï¿½fico", "Pacï¿½fico", "Pacï¿½fico", "70987");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1177, 413, "Capitán 2", "Capitán 2", "Capitán 2", "70987");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1177, 413, "Capitï¿½n 2", "Capitï¿½n 2", "Capitï¿½n 2", "70987");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1178, 413, "Mirador", "Mirador", "Mirador", "70987");
 	
@@ -2370,7 +2372,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1181, 413, "Sector F", "Sector F", "Sector F", "70987");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1182, 413, "Río Tangolunda (La Jabalina)", "Río Tangol", "Río Tangolunda (La Jabalina)", "70988");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1182, 413, "Rï¿½o Tangolunda (La Jabalina)", "Rï¿½o Tangol", "Rï¿½o Tangolunda (La Jabalina)", "70988");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1183, 413, "Vicente Guerrero Infonavit", "Vicente Gu", "Vicente Guerrero Infonavit", "70988");
 	
@@ -2412,11 +2414,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1202, 413, "Zona Hotelera Tangolunda", "Zona Hotel", "Zona Hotelera Tangolunda", "70989");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1203, 413, "Bahía de Conejo", "Bahía de C", "Bahía de Conejo", "70989");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1203, 413, "Bahï¿½a de Conejo", "Bahï¿½a de C", "Bahï¿½a de Conejo", "70989");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1204, 413, "Punta Tangolunda", "Punta Tang", "Punta Tangolunda", "70989");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1205, 266, "Santa María Xadani", "Santa Marí", "Santa María Xadani", "70990");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1205, 266, "Santa Marï¿½a Xadani", "Santa Marï¿½", "Santa Marï¿½a Xadani", "70990");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1206, 266, "San Isidro Loma Larga", "San Isidro", "San Isidro Loma Larga", "70990");
 	
@@ -2430,7 +2432,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1211, 266, "El Faro", "El Faro", "El Faro", "70993");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1212, 266, "Santa María Petatengo", "Santa Marí", "Santa María Petatengo", "70994");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1212, 266, "Santa Marï¿½a Petatengo", "Santa Marï¿½", "Santa Marï¿½a Petatengo", "70994");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1213, 266, "Barra Copalita", "Barra Copa", "Barra Copalita", "70995");
 	
@@ -2440,11 +2442,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1216, 73, "San Juan La Laguna", "San Juan L", "San Juan La Laguna", "71000");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1217, 73, "Zimatlan de Lázaro Cárdenas", "Zimatlan d", "Zimatlan de Lázaro Cárdenas", "71000");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1217, 73, "Zimatlan de Lï¿½zaro Cï¿½rdenas", "Zimatlan d", "Zimatlan de Lï¿½zaro Cï¿½rdenas", "71000");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1218, 73, "San Juan Teponaxtla", "San Juan T", "San Juan Teponaxtla", "71000");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1219, 73, "La Concepción Del Progreso", "La Concepc", "La Concepción Del Progreso", "71001");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1219, 73, "La Concepciï¿½n Del Progreso", "La Concepc", "La Concepciï¿½n Del Progreso", "71001");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1220, 73, "Santiago Yosotiche", "Santiago Y", "Santiago Yosotiche", "71002");
 	
@@ -2454,23 +2456,23 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1223, 73, "San Miguel Reyes", "San Miguel", "San Miguel Reyes", "71005");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1224, 73, "Campo de Aviación", "Campo de A", "Campo de Aviación", "71006");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1224, 73, "Campo de Aviaciï¿½n", "Campo de A", "Campo de Aviaciï¿½n", "71006");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1225, 73, "Chilapa", "Chilapa", "Chilapa", "71006");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1226, 73, "La Cureña", "La Cureña", "La Cureña", "71006");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1226, 73, "La Cureï¿½a", "La Cureï¿½a", "La Cureï¿½a", "71006");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1227, 73, "Guadalupe Yutee", "Guadalupe ", "Guadalupe Yutee", "71006");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1228, 73, "La Cruz", "La Cruz", "La Cruz", "71006");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1229, 73, "La Asunción", "La Asunció", "La Asunción", "71006");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1229, 73, "La Asunciï¿½n", "La Asunciï¿½", "La Asunciï¿½n", "71006");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1230, 73, "Palo de Obo", "Palo de Ob", "Palo de Obo", "71007");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1231, 73, "Calaveras", "Calaveras", "Calaveras", "71007");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1232, 73, "La Ciénega", "La Ciénega", "La Ciénega", "71007");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1232, 73, "La Ciï¿½nega", "La Ciï¿½nega", "La Ciï¿½nega", "71007");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1233, 73, "La Quebradora", "La Quebrad", "La Quebradora", "71007");
 	
@@ -2492,7 +2494,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1242, 73, "Santo Domingo Del Estado", "Santo Domi", "Santo Domingo Del Estado", "71010");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1243, 73, "San José Xochixtlan", "San José X", "San José Xochixtlan", "71011");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1243, 73, "San Josï¿½ Xochixtlan", "San Josï¿½ X", "San Josï¿½ Xochixtlan", "71011");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1244, 73, "San Miguel Copala", "San Miguel", "San Miguel Copala", "71011");
 	
@@ -2500,19 +2502,19 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1246, 73, "San Pedro Siniyuvi", "San Pedro ", "San Pedro Siniyuvi", "71012");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1247, 73, "Guadalupe Nuevo Tenochititlán", "Guadalupe ", "Guadalupe Nuevo Tenochititlán", "71013");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1247, 73, "Guadalupe Nuevo Tenochititlï¿½n", "Guadalupe ", "Guadalupe Nuevo Tenochititlï¿½n", "71013");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1248, 73, "Gregorio Alvarez", "Gregorio A", "Gregorio Alvarez", "71014");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1249, 73, "El Carrizal de Galeana", "El Carriza", "El Carrizal de Galeana", "71014");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1250, 73, "San Jorge Río Frijol", "San Jorge ", "San Jorge Río Frijol", "71014");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1250, 73, "San Jorge Rï¿½o Frijol", "San Jorge ", "San Jorge Rï¿½o Frijol", "71014");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1251, 73, "La Cañada Tejocote", "La Cañada ", "La Cañada Tejocote", "71014");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1251, 73, "La Caï¿½ada Tejocote", "La Caï¿½ada ", "La Caï¿½ada Tejocote", "71014");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1252, 73, "La Laguna Guadalupe", "La Laguna ", "La Laguna Guadalupe", "71014");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1253, 73, "Concepción de Guerrero", "Concepción", "Concepción de Guerrero", "71015");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1253, 73, "Concepciï¿½n de Guerrero", "Concepciï¿½n", "Concepciï¿½n de Guerrero", "71015");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1254, 73, "Llano de Zaragoza", "Llano de Z", "Llano de Zaragoza", "71016");
 	
@@ -2528,27 +2530,27 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1260, 73, "La Laguna Guadalupe Chicahuaxtla", "La Laguna ", "La Laguna Guadalupe Chicahuaxtla", "71018");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1261, 73, "Asunción Atoyaquillo", "Asunción A", "Asunción Atoyaquillo", "71020");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1261, 73, "Asunciï¿½n Atoyaquillo", "Asunciï¿½n A", "Asunciï¿½n Atoyaquillo", "71020");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1262, 20, "Constancia Del Rosario", "Constancia", "Constancia Del Rosario", "71030");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1263, 20, "Santa María Pueblo Nuevo", "Santa Marí", "Santa María Pueblo Nuevo", "71031");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1263, 20, "Santa Marï¿½a Pueblo Nuevo", "Santa Marï¿½", "Santa Marï¿½a Pueblo Nuevo", "71031");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1264, 20, "Rancho Viejo", "Rancho Vie", "Rancho Viejo", "71033");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1265, 20, "San José Yosocañú (o Yosocañú)", "San José Y", "San José Yosocañú (o Yosocañú)", "71037");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1265, 20, "San Josï¿½ Yosocaï¿½ï¿½ (o Yosocaï¿½ï¿½)", "San Josï¿½ Y", "San Josï¿½ Yosocaï¿½ï¿½ (o Yosocaï¿½ï¿½)", "71037");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1266, 37, "San José de las Flores", "San José d", "San José de las Flores", "71040");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1266, 37, "San Josï¿½ de las Flores", "San Josï¿½ d", "San Josï¿½ de las Flores", "71040");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1267, 37, "Mesones Hidalgo", "Mesones Hi", "Mesones Hidalgo", "71040");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1268, 37, "El Carmen Tuxtitlan", "El Carmen ", "El Carmen Tuxtitlan", "71041");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1269, 37, "San José Pueblo Nuevo", "San José P", "San José Pueblo Nuevo", "71043");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1269, 37, "San Josï¿½ Pueblo Nuevo", "San Josï¿½ P", "San Josï¿½ Pueblo Nuevo", "71043");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1270, 37, "Concepción las Mesas", "Concepción", "Concepción las Mesas", "71047");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1270, 37, "Concepciï¿½n las Mesas", "Concepciï¿½n", "Concepciï¿½n las Mesas", "71047");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1271, 37, "Aquiles Serdán", "Aquiles Se", "Aquiles Serdán", "71048");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1271, 37, "Aquiles Serdï¿½n", "Aquiles Se", "Aquiles Serdï¿½n", "71048");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1272, 447, "Santa Maria Zacatepec Centro", "Santa Mari", "Santa Maria Zacatepec Centro", "71050");
 	
@@ -2556,11 +2558,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1274, 447, "Santa Ana", "Santa Ana", "Santa Ana", "71053");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1275, 447, "San José", "San José", "San José", "71053");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1275, 447, "San Josï¿½", "San Josï¿½", "San Josï¿½", "71053");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1276, 447, "Santa Cecilia", "Santa Ceci", "Santa Cecilia", "71053");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1277, 447, "La Asunción", "La Asunció", "La Asunción", "71054");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1277, 447, "La Asunciï¿½n", "La Asunciï¿½", "La Asunciï¿½n", "71054");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1278, 447, "La Parota", "La Parota", "La Parota", "71054");
 	
@@ -2592,7 +2594,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1292, 447, "El Ciruelo", "El Ciruelo", "El Ciruelo", "71057");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1293, 447, "San Vicente Piñas", "San Vicent", "San Vicente Piñas", "71057");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1293, 447, "San Vicente Piï¿½as", "San Vicent", "San Vicente Piï¿½as", "71057");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1294, 447, "Las Palmas", "Las Palmas", "Las Palmas", "71057");
 	
@@ -2600,15 +2602,15 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1296, 447, "Loma del Carnero", "Loma del C", "Loma del Carnero", "71058");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1297, 447, "Aquiles Serdán", "Aquiles Se", "Aquiles Serdán", "71058");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1297, 447, "Aquiles Serdï¿½n", "Aquiles Se", "Aquiles Serdï¿½n", "71058");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1298, 447, "San Antonio Zaragoza", "San Antoni", "San Antonio Zaragoza", "71058");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1299, 447, "San Isidro Amatitlán", "San Isidro", "San Isidro Amatitlán", "71058");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1299, 447, "San Isidro Amatitlï¿½n", "San Isidro", "San Isidro Amatitlï¿½n", "71058");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1300, 447, "El Cangrejo", "El Cangrej", "El Cangrejo", "71058");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1301, 447, "San Juan Cabeza del Río", "San Juan C", "San Juan Cabeza del Río", "71060");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1301, 447, "San Juan Cabeza del Rï¿½o", "San Juan C", "San Juan Cabeza del Rï¿½o", "71060");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1302, 447, "El Ocote Prieto", "El Ocote P", "El Ocote Prieto", "71060");
 	
@@ -2628,13 +2630,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1310, 447, "Guadalupe Nuevo Centro", "Guadalupe ", "Guadalupe Nuevo Centro", "71065");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1311, 447, "El Limón Santa Ana", "El Limón S", "El Limón Santa Ana", "71065");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1311, 447, "El Limï¿½n Santa Ana", "El Limï¿½n S", "El Limï¿½n Santa Ana", "71065");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1312, 447, "Santa Cruz Tutiahua", "Santa Cruz", "Santa Cruz Tutiahua", "71065");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1313, 447, "Santiago Llano Grande", "Santiago L", "Santiago Llano Grande", "71066");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1314, 447, "Cañada Hamaca", "Cañada Ham", "Cañada Hamaca", "71067");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1314, 447, "Caï¿½ada Hamaca", "Caï¿½ada Ham", "Caï¿½ada Hamaca", "71067");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1315, 447, "Coyul Grande", "Coyul Gran", "Coyul Grande", "71067");
 	
@@ -2660,27 +2662,27 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1326, 300, "San Juan", "San Juan", "San Juan", "71076");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1327, 300, "San Nicolás", "San Nicolá", "San Nicolás", "71077");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1327, 300, "San Nicolï¿½s", "San Nicolï¿½", "San Nicolï¿½s", "71077");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1328, 76, "La Reforma", "La Reforma", "La Reforma", "71080");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1329, 76, "Estanzuela Grande", "Estanzuela", "Estanzuela Grande", "71081");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1330, 76, "Río Tigre", "Río Tigre", "Río Tigre", "71083");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1330, 76, "Rï¿½o Tigre", "Rï¿½o Tigre", "Rï¿½o Tigre", "71083");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1331, 76, "El Porvenir", "El Porveni", "El Porvenir", "71087");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1332, 415, "Santa María Ipalapa", "Santa Marí", "Santa María Ipalapa", "71091");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1332, 415, "Santa Marï¿½a Ipalapa", "Santa Marï¿½", "Santa Marï¿½a Ipalapa", "71091");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1333, 415, "Zocoteaca de León", "Zocoteaca ", "Zocoteaca de León", "71092");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1333, 415, "Zocoteaca de Leï¿½n", "Zocoteaca ", "Zocoteaca de Leï¿½n", "71092");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1334, 415, "Santa María el Rincón", "Santa Marí", "Santa María el Rincón", "71094");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1334, 415, "Santa Marï¿½a el Rincï¿½n", "Santa Marï¿½", "Santa Marï¿½a el Rincï¿½n", "71094");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1335, 415, "Santiago el Limón", "Santiago e", "Santiago el Limón", "71096");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1335, 415, "Santiago el Limï¿½n", "Santiago e", "Santiago el Limï¿½n", "71096");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1336, 26, "Chalcatongo de Hidalgo", "Chalcatong", "Chalcatongo de Hidalgo", "71100");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1337, 26, "Fortín", "Fortín", "Fortín", "71100");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1337, 26, "Fortï¿½n", "Fortï¿½n", "Fortï¿½n", "71100");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1338, 26, "Natividad", "Natividad", "Natividad", "71100");
 	
@@ -2688,7 +2690,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1340, 26, "Guadalupe Villanueva", "Guadalupe ", "Guadalupe Villanueva", "71103");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1341, 26, "Santa Catalina Yuxía", "Santa Cata", "Santa Catalina Yuxía", "71103");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1341, 26, "Santa Catalina Yuxï¿½a", "Santa Cata", "Santa Catalina Yuxï¿½a", "71103");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1342, 26, "La Paz", "La Paz", "La Paz", "71103");
 	
@@ -2696,7 +2698,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1344, 26, "El Portillo", "El Portill", "El Portillo", "71103");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1345, 26, "Reyes Ixcatlán", "Reyes Ixca", "Reyes Ixcatlán", "71103");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1345, 26, "Reyes Ixcatlï¿½n", "Reyes Ixca", "Reyes Ixcatlï¿½n", "71103");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1346, 26, "Allende", "Allende", "Allende", "71104");
 	
@@ -2712,11 +2714,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1352, 26, "Iturbide", "Iturbide", "Iturbide", "71105");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1353, 26, "El Fortín", "El Fortín", "El Fortín", "71106");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1353, 26, "El Fortï¿½n", "El Fortï¿½n", "El Fortï¿½n", "71106");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1354, 26, "Yutianucaje", "Yutianucaj", "Yutianucaje", "71106");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1355, 26, "Juárez", "Juárez", "Juárez", "71106");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1355, 26, "Juï¿½rez", "Juï¿½rez", "Juï¿½rez", "71106");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1356, 26, "Hidalgo", "Hidalgo", "Hidalgo", "71106");
 	
@@ -2732,9 +2734,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1362, 26, "Molinos Aldama", "Molinos Al", "Molinos Aldama", "71107");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1363, 26, "La Unión", "La Unión", "La Unión", "71107");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1363, 26, "La Uniï¿½n", "La Uniï¿½n", "La Uniï¿½n", "71107");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1364, 26, "Cañada de Morelos", "Cañada de ", "Cañada de Morelos", "71107");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1364, 26, "Caï¿½ada de Morelos", "Caï¿½ada de ", "Caï¿½ada de Morelos", "71107");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1365, 446, "Santa Maria Yucuhiti", "Santa Mari", "Santa Maria Yucuhiti", "71110");
 	
@@ -2762,7 +2764,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1377, 446, "Mal Paso", "Mal Paso", "Mal Paso", "71114");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1378, 446, "Unión y Suspiro", "Unión y Su", "Unión y Suspiro", "71114");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1378, 446, "Uniï¿½n y Suspiro", "Uniï¿½n y Su", "Uniï¿½n y Suspiro", "71114");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1379, 446, "Reyes Llano Grande", "Reyes Llan", "Reyes Llano Grande", "71114");
 	
@@ -2772,7 +2774,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1382, 446, "Ojo de Agua", "Ojo de Agu", "Ojo de Agua", "71114");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1383, 446, "Escalería II", "Escalería ", "Escalería II", "71114");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1383, 446, "Escalerï¿½a II", "Escalerï¿½a ", "Escalerï¿½a II", "71114");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1384, 446, "Llano San Miguel", "Llano San ", "Llano San Miguel", "71114");
 	
@@ -2784,21 +2786,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1388, 446, "Linda Vista", "Linda Vist", "Linda Vista", "71114");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1389, 446, "Peña Flor", "Peña Flor", "Peña Flor", "71115");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1389, 446, "Peï¿½a Flor", "Peï¿½a Flor", "Peï¿½a Flor", "71115");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1390, 446, "Carrizalillo", "Carrizalil", "Carrizalillo", "71115");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1391, 446, "Yatayuku", "Yatayuku", "Yatayuku", "71115");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1392, 446, "Abajo de Alazán", "Abajo de A", "Abajo de Alazán", "71115");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1392, 446, "Abajo de Alazï¿½n", "Abajo de A", "Abajo de Alazï¿½n", "71115");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1393, 446, "San Isidro Paz y Progreso", "San Isidro", "San Isidro Paz y Progreso", "71115");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1394, 446, "Arriba de Alazán", "Arriba de ", "Arriba de Alazán", "71115");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1394, 446, "Arriba de Alazï¿½n", "Arriba de ", "Arriba de Alazï¿½n", "71115");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1395, 446, "Las Trancas", "Las Tranca", "Las Trancas", "71115");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1396, 446, "Loma Hicarión", "Loma Hicar", "Loma Hicarión", "71115");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1396, 446, "Loma Hicariï¿½n", "Loma Hicar", "Loma Hicariï¿½n", "71115");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1397, 446, "Yosonicaje", "Yosonicaje", "Yosonicaje", "71116");
 	
@@ -2810,11 +2812,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1401, 446, "Yukuiyo", "Yukuiyo", "Yukuiyo", "71116");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1402, 446, "TutinÁKañi", "TutinÁKañi", "TutinÁKañi", "71116");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1402, 446, "Tutinï¿½Kaï¿½i", "Tutinï¿½Kaï¿½i", "Tutinï¿½Kaï¿½i", "71116");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1403, 446, "Llano del Triunfo", "Llano del ", "Llano del Triunfo", "71116");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1404, 446, "Peña Blanca", "Peña Blanc", "Peña Blanca", "71117");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1404, 446, "Peï¿½a Blanca", "Peï¿½a Blanc", "Peï¿½a Blanca", "71117");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1405, 446, "Shinicuiti Loma Angosta (Shinicuiti)", "Shinicuiti", "Shinicuiti Loma Angosta (Shinicuiti)", "71117");
 	
@@ -2826,13 +2828,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1409, 446, "Yuvita a", "Yuvita a", "Yuvita a", "71117");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1410, 446, "Escalería I", "Escalería ", "Escalería I", "71117");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1410, 446, "Escalerï¿½a I", "Escalerï¿½a ", "Escalerï¿½a I", "71117");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1411, 446, "Cabacaya", "Cabacaya", "Cabacaya", "71117");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1412, 446, "San Felipe de Jesús Pueblo Viejo", "San Felipe", "San Felipe de Jesús Pueblo Viejo", "71117");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1412, 446, "San Felipe de Jesï¿½s Pueblo Viejo", "San Felipe", "San Felipe de Jesï¿½s Pueblo Viejo", "71117");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1413, 446, "InoÁItún", "InoÁItún", "InoÁItún", "71117");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1413, 446, "Inoï¿½Itï¿½n", "Inoï¿½Itï¿½n", "Inoï¿½Itï¿½n", "71117");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1414, 446, "Tunuhu", "Tunuhu", "Tunuhu", "71117");
 	
@@ -2850,9 +2852,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1421, 133, "Morelos", "Morelos", "Morelos", "71124");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1422, 133, "Ndoyocoyo (Ciénega de Tule)", "Ndoyocoyo ", "Ndoyocoyo (Ciénega de Tule)", "71124");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1422, 133, "Ndoyocoyo (Ciï¿½nega de Tule)", "Ndoyocoyo ", "Ndoyocoyo (Ciï¿½nega de Tule)", "71124");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1423, 133, "Mier y Terán", "Mier y Ter", "Mier y Terán", "71124");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1423, 133, "Mier y Terï¿½n", "Mier y Ter", "Mier y Terï¿½n", "71124");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1424, 371, "Santa Catarina Ticua", "Santa Cata", "Santa Catarina Ticua", "71125");
 	
@@ -2866,7 +2868,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1429, 481, "Tierra Azul", "Tierra Azu", "Tierra Azul", "71133");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1430, 481, "Unión y Progreso", "Unión y Pr", "Unión y Progreso", "71133");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1430, 481, "Uniï¿½n y Progreso", "Uniï¿½n y Pr", "Uniï¿½n y Progreso", "71133");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1431, 481, "San Pedro Yosotato", "San Pedro ", "San Pedro Yosotato", "71134");
 	
@@ -2878,15 +2880,15 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1435, 269, "Los Pinos", "Los Pinos", "Los Pinos", "71140");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1436, 269, "Lázaro Cárdenas", "Lázaro Cár", "Lázaro Cárdenas", "71140");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1436, 269, "Lï¿½zaro Cï¿½rdenas", "Lï¿½zaro Cï¿½r", "Lï¿½zaro Cï¿½rdenas", "71140");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1437, 269, "Álvaro Obregón", "Álvaro Obr", "Álvaro Obregón", "71140");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1437, 269, "ï¿½lvaro Obregï¿½n", "ï¿½lvaro Obr", "ï¿½lvaro Obregï¿½n", "71140");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1438, 269, "Loma Nushiñuu", "Loma Nushi", "Loma Nushiñuu", "71143");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1438, 269, "Loma Nushiï¿½uu", "Loma Nushi", "Loma Nushiï¿½uu", "71143");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1439, 269, "Madero", "Madero", "Madero", "71143");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1440, 269, "Benito Juárez", "Benito Juá", "Benito Juárez", "71143");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1440, 269, "Benito Juï¿½rez", "Benito Juï¿½", "Benito Juï¿½rez", "71143");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1441, 269, "Ignacio Zaragoza", "Ignacio Za", "Ignacio Zaragoza", "71143");
 	
@@ -2896,7 +2898,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1444, 269, "Morelos", "Morelos", "Morelos", "71144");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1445, 269, "General Lázaro Cárdenas", "General Lá", "General Lázaro Cárdenas", "71144");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1445, 269, "General Lï¿½zaro Cï¿½rdenas", "General Lï¿½", "General Lï¿½zaro Cï¿½rdenas", "71144");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1446, 269, "Llano la Majada", "Llano la M", "Llano la Majada", "71144");
 	
@@ -2922,25 +2924,25 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1457, 297, "El Porvenir", "El Porveni", "El Porvenir", "71152");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1458, 297, "San Cristóbal Linda Vista", "San Cristó", "San Cristóbal Linda Vista", "71152");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1458, 297, "San Cristï¿½bal Linda Vista", "San Cristï¿½", "San Cristï¿½bal Linda Vista", "71152");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1459, 297, "Guadalupe Victoria", "Guadalupe ", "Guadalupe Victoria", "71152");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1460, 297, "Juquila Independencia", "Juquila In", "Juquila Independencia", "71152");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1461, 297, "San Lucas Redención", "San Lucas ", "San Lucas Redención", "71153");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1461, 297, "San Lucas Redenciï¿½n", "San Lucas ", "San Lucas Redenciï¿½n", "71153");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1462, 297, "Llano de la Luz", "Llano de l", "Llano de la Luz", "71153");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1463, 297, "Fortín Juárez", "Fortín Juá", "Fortín Juárez", "71153");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1463, 297, "Fortï¿½n Juï¿½rez", "Fortï¿½n Juï¿½", "Fortï¿½n Juï¿½rez", "71153");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1464, 297, "San Isidro Allende", "San Isidro", "San Isidro Allende", "71153");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1465, 297, "Candelaria de La Unión", "Candelaria", "Candelaria de La Unión", "71153");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1465, 297, "Candelaria de La Uniï¿½n", "Candelaria", "Candelaria de La Uniï¿½n", "71153");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1466, 297, "Santo Domingo del Progreso", "Santo Domi", "Santo Domingo del Progreso", "71153");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1467, 297, "Nuñuma", "Nuñuma", "Nuñuma", "71154");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1467, 297, "Nuï¿½uma", "Nuï¿½uma", "Nuï¿½uma", "71154");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1468, 297, "San Felipe Tindaco", "San Felipe", "San Felipe Tindaco", "71154");
 	
@@ -2954,7 +2956,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1473, 297, "Llano de Plaza", "Llano de P", "Llano de Plaza", "71155");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1474, 297, "Unión y Progreso", "Unión y Pr", "Unión y Progreso", "71155");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1474, 297, "Uniï¿½n y Progreso", "Uniï¿½n y Pr", "Uniï¿½n y Progreso", "71155");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1475, 297, "El Mogote", "El Mogote", "El Mogote", "71155");
 	
@@ -2968,19 +2970,19 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1480, 392, "Santa Lucia Monteverde", "Santa Luci", "Santa Lucia Monteverde", "71160");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1481, 392, "Santa María Ocotlan", "Santa Marí", "Santa María Ocotlan", "71160");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1481, 392, "Santa Marï¿½a Ocotlan", "Santa Marï¿½", "Santa Marï¿½a Ocotlan", "71160");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1482, 392, "La Paz", "La Paz", "La Paz", "71161");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1483, 392, "San Sebastián Nopalera", "San Sebast", "San Sebastián Nopalera", "71162");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1483, 392, "San Sebastiï¿½n Nopalera", "San Sebast", "San Sebastiï¿½n Nopalera", "71162");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1484, 392, "Laguna Verde", "Laguna Ver", "Laguna Verde", "71163");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1485, 392, "San José el Porvenir", "San José e", "San José el Porvenir", "71166");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1485, 392, "San Josï¿½ el Porvenir", "San Josï¿½ e", "San Josï¿½ el Porvenir", "71166");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1486, 392, "Peña Negra Nopalera", "Peña Negra", "Peña Negra Nopalera", "71166");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1486, 392, "Peï¿½a Negra Nopalera", "Peï¿½a Negra", "Peï¿½a Negra Nopalera", "71166");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1487, 392, "Cuauhtémoc Yutecoso", "Cuauhtémoc", "Cuauhtémoc Yutecoso", "71166");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1487, 392, "Cuauhtï¿½moc Yutecoso", "Cuauhtï¿½moc", "Cuauhtï¿½moc Yutecoso", "71166");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1488, 88, "San Andres Cabecera Nueva", "San Andres", "San Andres Cabecera Nueva", "71170");
 	
@@ -2988,7 +2990,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1490, 88, "San Miguel de Guerrero", "San Miguel", "San Miguel de Guerrero", "71173");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1491, 88, "Rancho de los García", "Rancho de ", "Rancho de los García", "71173");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1491, 88, "Rancho de los Garcï¿½a", "Rancho de ", "Rancho de los Garcï¿½a", "71173");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1492, 88, "Dolores Hidalgo", "Dolores Hi", "Dolores Hidalgo", "71173");
 	
@@ -3008,7 +3010,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1500, 88, "Ojo de Agua", "Ojo de Agu", "Ojo de Agua", "71174");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1501, 88, "Guadalupe Río Grande", "Guadalupe ", "Guadalupe Río Grande", "71174");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1501, 88, "Guadalupe Rï¿½o Grande", "Guadalupe ", "Guadalupe Rï¿½o Grande", "71174");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1502, 88, "Buenavista", "Buenavista", "Buenavista", "71174");
 	
@@ -3016,7 +3018,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1504, 88, "El Mango", "El Mango", "El Mango", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1505, 88, "El Mesón Viejo", "El Mesón V", "El Mesón Viejo", "71175");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1505, 88, "El Mesï¿½n Viejo", "El Mesï¿½n V", "El Mesï¿½n Viejo", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1506, 88, "Ndutenico", "Ndutenico", "Ndutenico", "71175");
 	
@@ -3032,31 +3034,31 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1512, 88, "Yucundaco", "Yucundaco", "Yucundaco", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1513, 88, "Zocotiú", "Zocotiú", "Zocotiú", "71175");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1513, 88, "Zocotiï¿½", "Zocotiï¿½", "Zocotiï¿½", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1514, 88, "La Casica", "La Casica", "La Casica", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1515, 88, "La Charamusca (Santiago el Mesón)", "La Charamu", "La Charamusca (Santiago el Mesón)", "71175");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1515, 88, "La Charamusca (Santiago el Mesï¿½n)", "La Charamu", "La Charamusca (Santiago el Mesï¿½n)", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1516, 88, "Santos Reyes Aldama", "Santos Rey", "Santos Reyes Aldama", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1517, 88, "Villa Alta (San Cosme la Paz)", "Villa Alta", "Villa Alta (San Cosme la Paz)", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1518, 88, "Cabatú (San Cosme la Paz)", "Cabatú (Sa", "Cabatú (San Cosme la Paz)", "71175");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1518, 88, "Cabatï¿½ (San Cosme la Paz)", "Cabatï¿½ (Sa", "Cabatï¿½ (San Cosme la Paz)", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1519, 88, "Cavacoho", "Cavacoho", "Cavacoho", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1520, 88, "Ndutebinde", "Ndutebinde", "Ndutebinde", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1521, 88, "Peña Blanca", "Peña Blanc", "Peña Blanca", "71175");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1521, 88, "Peï¿½a Blanca", "Peï¿½a Blanc", "Peï¿½a Blanca", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1522, 88, "Río Ferrería", "Río Ferrer", "Río Ferrería", "71175");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1522, 88, "Rï¿½o Ferrerï¿½a", "Rï¿½o Ferrer", "Rï¿½o Ferrerï¿½a", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1523, 88, "El Guayabo", "El Guayabo", "El Guayabo", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1524, 88, "El Violín", "El Violín", "El Violín", "71175");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1524, 88, "El Violï¿½n", "El Violï¿½n", "El Violï¿½n", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1525, 88, "Cieneguilla (Desviación de la Paz)", "Cieneguill", "Cieneguilla (Desviación de la Paz)", "71175");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1525, 88, "Cieneguilla (Desviaciï¿½n de la Paz)", "Cieneguill", "Cieneguilla (Desviaciï¿½n de la Paz)", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1526, 88, "El Mosco", "El Mosco", "El Mosco", "71175");
 	
@@ -3064,13 +3066,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1528, 88, "Los Amates (Santos Reyes)", "Los Amates", "Los Amates (Santos Reyes)", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1529, 88, "San Juan Yutacuiñe", "San Juan Y", "San Juan Yutacuiñe", "71175");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1529, 88, "San Juan Yutacuiï¿½e", "San Juan Y", "San Juan Yutacuiï¿½e", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1530, 88, "Xoxe", "Xoxe", "Xoxe", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1531, 88, "Zapotal (Santos Reyes Aldama)", "Zapotal (S", "Zapotal (Santos Reyes Aldama)", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1532, 88, "Santiago el Mesón", "Santiago e", "Santiago el Mesón", "71175");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1532, 88, "Santiago el Mesï¿½n", "Santiago e", "Santiago el Mesï¿½n", "71175");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1533, 88, "El Coyul (Santos Reyes Aldama)", "El Coyul (", "El Coyul (Santos Reyes Aldama)", "71175");
 	
@@ -3078,7 +3080,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1535, 88, "Skinche", "Skinche", "Skinche", "71175");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1536, 444, "Santa María Yolotepec", "Santa Marí", "Santa María Yolotepec", "71176");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1536, 444, "Santa Marï¿½a Yolotepec", "Santa Marï¿½", "Santa Marï¿½a Yolotepec", "71176");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1537, 500, "Santiago Yosondua", "Santiago Y", "Santiago Yosondua", "71180");
 	
@@ -3096,7 +3098,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1544, 500, "Cuanana", "Cuanana", "Cuanana", "71182");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1545, 500, "Cañada de Galicia", "Cañada de ", "Cañada de Galicia", "71183");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1545, 500, "Caï¿½ada de Galicia", "Caï¿½ada de ", "Caï¿½ada de Galicia", "71183");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1546, 500, "Yerba Santa", "Yerba Sant", "Yerba Santa", "71184");
 	
@@ -3106,7 +3108,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1549, 500, "Vergel", "Vergel", "Vergel", "71187");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1550, 377, "Terán", "Terán", "Terán", "71190");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1550, 377, "Terï¿½n", "Terï¿½n", "Terï¿½n", "71190");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1551, 377, "El Pedregal", "El Pedrega", "El Pedregal", "71190");
 	
@@ -3116,11 +3118,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1554, 377, "El Anonal", "El Anonal", "El Anonal", "71190");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1555, 377, "San José Zaragoza", "San José Z", "San José Zaragoza", "71193");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1555, 377, "San Josï¿½ Zaragoza", "San Josï¿½ Z", "San Josï¿½ Zaragoza", "71193");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1556, 377, "Zaragoza", "Zaragoza", "Zaragoza", "71193");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1557, 377, "Hidalgo de La Unión", "Hidalgo de", "Hidalgo de La Unión", "71194");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1557, 377, "Hidalgo de La Uniï¿½n", "Hidalgo de", "Hidalgo de La Uniï¿½n", "71194");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1558, 377, "Morelos", "Morelos", "Morelos", "71194");
 	
@@ -3130,7 +3132,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1561, 377, "La Victoria", "La Victori", "La Victoria", "71194");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1562, 377, "Buenavista de Juárez", "Buenavista", "Buenavista de Juárez", "71195");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1562, 377, "Buenavista de Juï¿½rez", "Buenavista", "Buenavista de Juï¿½rez", "71195");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1563, 377, "Providencia", "Providenci", "Providencia", "71195");
 	
@@ -3142,7 +3144,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1567, 377, "Nuevo Allende", "Nuevo Alle", "Nuevo Allende", "71196");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1568, 377, "El Paraíso", "El Paraíso", "El Paraíso", "71196");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1568, 377, "El Paraï¿½so", "El Paraï¿½so", "El Paraï¿½so", "71196");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1569, 570, "San Juan", "San Juan", "San Juan", "71200");
 	
@@ -3162,17 +3164,17 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1577, 570, "San Pedro Totomachapam", "San Pedro ", "San Pedro Totomachapam", "71202");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1578, 570, "San Sebastián Río Dulce", "San Sebast", "San Sebastián Río Dulce", "71203");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1578, 570, "San Sebastiï¿½n Rï¿½o Dulce", "San Sebast", "San Sebastiï¿½n Rï¿½o Dulce", "71203");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1579, 570, "San Pedro El Alto", "San Pedro ", "San Pedro El Alto", "71203");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1580, 570, "Santiago Clavellinas", "Santiago C", "Santiago Clavellinas", "71204");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1581, 570, "Santa María Vigallo", "Santa Marí", "Santa María Vigallo", "71205");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1581, 570, "Santa Marï¿½a Vigallo", "Santa Marï¿½", "Santa Marï¿½a Vigallo", "71205");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1582, 570, "La Raya", "La Raya", "La Raya", "71205");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1583, 570, "San Nicolás Quialana", "San Nicolá", "San Nicolás Quialana", "71205");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1583, 570, "San Nicolï¿½s Quialana", "San Nicolï¿½", "San Nicolï¿½s Quialana", "71205");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1584, 570, "Valdeflores", "Valdeflore", "Valdeflores", "71205");
 	
@@ -3180,11 +3182,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1586, 123, "San Bernardo Mixtepec", "San Bernar", "San Bernardo Mixtepec", "71210");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1587, 123, "San Pedro El Rincón", "San Pedro ", "San Pedro El Rincón", "71213");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1587, 123, "San Pedro El Rincï¿½n", "San Pedro ", "San Pedro El Rincï¿½n", "71213");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1588, 123, "San Jerónimo Tititlán", "San Jeróni", "San Jerónimo Tititlán", "71213");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1588, 123, "San Jerï¿½nimo Tititlï¿½n", "San Jerï¿½ni", "San Jerï¿½nimo Tititlï¿½n", "71213");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1589, 123, "Asunción Mixtepec", "Asunción M", "Asunción Mixtepec", "71213");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1589, 123, "Asunciï¿½n Mixtepec", "Asunciï¿½n M", "Asunciï¿½n Mixtepec", "71213");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1590, 378, "Santa Cruz Mixtepec", "Santa Cruz", "Santa Cruz Mixtepec", "71214");
 	
@@ -3216,31 +3218,31 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1604, 399, "Agencia Yahuiche", "Agencia Ya", "Agencia Yahuiche", "71220");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1605, 399, "San Sebastián", "San Sebast", "San Sebastián", "71220");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1605, 399, "San Sebastiï¿½n", "San Sebast", "San Sebastiï¿½n", "71220");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1606, 399, "Yahuiche", "Yahuiche", "Yahuiche", "71220");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1607, 399, "Ampliación Progreso", "Ampliación", "Ampliación Progreso", "71220");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1607, 399, "Ampliaciï¿½n Progreso", "Ampliaciï¿½n", "Ampliaciï¿½n Progreso", "71220");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1608, 399, "Semblanza Oaxaqueña", "Semblanza ", "Semblanza Oaxaqueña", "71220");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1608, 399, "Semblanza Oaxaqueï¿½a", "Semblanza ", "Semblanza Oaxaqueï¿½a", "71220");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1609, 399, "Santa Cruz", "Santa Cruz", "Santa Cruz", "71220");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1610, 399, "Los Cantaros", "Los Cantar", "Los Cantaros", "71220");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1611, 399, "San Jerónimo Yahuiche", "San Jeróni", "San Jerónimo Yahuiche", "71221");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1611, 399, "San Jerï¿½nimo Yahuiche", "San Jerï¿½ni", "San Jerï¿½nimo Yahuiche", "71221");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1612, 399, "La Samaritana", "La Samarit", "La Samaritana", "71222");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1613, 399, "Residencial Denali", "Residencia", "Residencial Denali", "71222");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1614, 399, "La Ilusión", "La Ilusión", "La Ilusión", "71222");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1614, 399, "La Ilusiï¿½n", "La Ilusiï¿½n", "La Ilusiï¿½n", "71222");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1615, 399, "La Cañada", "La Cañada", "La Cañada", "71222");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1615, 399, "La Caï¿½ada", "La Caï¿½ada", "La Caï¿½ada", "71222");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1616, 399, "Niños Héroes", "Niños Héro", "Niños Héroes", "71222");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1616, 399, "Niï¿½os Hï¿½roes", "Niï¿½os Hï¿½ro", "Niï¿½os Hï¿½roes", "71222");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1617, 399, "Paraje la Asunción", "Paraje la ", "Paraje la Asunción", "71222");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1617, 399, "Paraje la Asunciï¿½n", "Paraje la ", "Paraje la Asunciï¿½n", "71222");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1618, 399, "Forestal", "Forestal", "Forestal", "71222");
 	
@@ -3248,25 +3250,25 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1620, 399, "Oaxaca", "Oaxaca", "Oaxaca", "71222");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1621, 399, "Santa María", "Santa Marí", "Santa María", "71222");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1621, 399, "Santa Marï¿½a", "Santa Marï¿½", "Santa Marï¿½a", "71222");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1622, 399, "Los Girasoles", "Los Giraso", "Los Girasoles", "71222");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1623, 399, "Residencial Santa María", "Residencia", "Residencial Santa María", "71223");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1623, 399, "Residencial Santa Marï¿½a", "Residencia", "Residencial Santa Marï¿½a", "71223");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1624, 399, "Agencia Monte Albán", "Agencia Mo", "Agencia Monte Albán", "71223");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1624, 399, "Agencia Monte Albï¿½n", "Agencia Mo", "Agencia Monte Albï¿½n", "71223");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1625, 399, "Lomas de San Jerónimo", "Lomas de S", "Lomas de San Jerónimo", "71223");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1625, 399, "Lomas de San Jerï¿½nimo", "Lomas de S", "Lomas de San Jerï¿½nimo", "71223");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1626, 399, "San José Atzompa", "San José A", "San José Atzompa", "71223");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1626, 399, "San Josï¿½ Atzompa", "San Josï¿½ A", "San Josï¿½ Atzompa", "71223");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1627, 399, "Ex-Hacienda la Soledad", "Ex-Haciend", "Ex-Hacienda la Soledad", "71223");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1628, 399, "San José Hidalgo", "San José H", "San José Hidalgo", "71223");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1628, 399, "San Josï¿½ Hidalgo", "San Josï¿½ H", "San Josï¿½ Hidalgo", "71223");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1629, 399, "Santa Catarina Montaño", "Santa Cata", "Santa Catarina Montaño", "71223");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1629, 399, "Santa Catarina Montaï¿½o", "Santa Cata", "Santa Catarina Montaï¿½o", "71223");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1630, 399, "Riberas de San Jerónimo", "Riberas de", "Riberas de San Jerónimo", "71223");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1630, 399, "Riberas de San Jerï¿½nimo", "Riberas de", "Riberas de San Jerï¿½nimo", "71223");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1631, 92, "San Andres Ixtlahuaca", "San Andres", "San Andres Ixtlahuaca", "71224");
 	
@@ -3308,11 +3310,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1650, 385, "Francisco Villa", "Francisco ", "Francisco Villa", "71230");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1651, 385, "El Paredón", "El Paredón", "El Paredón", "71230");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1651, 385, "El Paredï¿½n", "El Paredï¿½n", "El Paredï¿½n", "71230");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1652, 385, "Santa Cruz Xoxocotlan", "Santa Cruz", "Santa Cruz Xoxocotlan", "71230");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1653, 385, "Pirámides", "Pirámides", "Pirámides", "71230");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1653, 385, "Pirï¿½mides", "Pirï¿½mides", "Pirï¿½mides", "71230");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1654, 385, "Villas Del Bosque", "Villas Del", "Villas Del Bosque", "71230");
 	
@@ -3322,9 +3324,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1657, 385, "Arboledas A Zaachila", "Arboledas ", "Arboledas A Zaachila", "71230");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1658, 385, "San Miguel Arcángel", "San Miguel", "San Miguel Arcángel", "71230");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1658, 385, "San Miguel Arcï¿½ngel", "San Miguel", "San Miguel Arcï¿½ngel", "71230");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1659, 385, "Oaxaca (Xoxocotán)", "Oaxaca (Xo", "Oaxaca (Xoxocotán)", "71231");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1659, 385, "Oaxaca (Xoxocotï¿½n)", "Oaxaca (Xo", "Oaxaca (Xoxocotï¿½n)", "71231");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1660, 385, "Oriental", "Oriental", "Oriental", "71232");
 	
@@ -3352,9 +3354,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1672, 385, "Independencia", "Independen", "Independencia", "71232");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1673, 385, "Independecia 2a Sección", "Independec", "Independecia 2a Sección", "71232");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1673, 385, "Independecia 2a Secciï¿½n", "Independec", "Independecia 2a Secciï¿½n", "71232");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1674, 385, "Amplación San Isidro", "Amplación ", "Amplación San Isidro", "71232");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1674, 385, "Amplaciï¿½n San Isidro", "Amplaciï¿½n ", "Amplaciï¿½n San Isidro", "71232");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1675, 385, "Aguayo", "Aguayo", "Aguayo", "71232");
 	
@@ -3362,11 +3364,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1677, 385, "Lomas de Buenos Aires", "Lomas de B", "Lomas de Buenos Aires", "71232");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1678, 385, "Jardines de La Ciénega", "Jardines d", "Jardines de La Ciénega", "71232");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1678, 385, "Jardines de La Ciï¿½nega", "Jardines d", "Jardines de La Ciï¿½nega", "71232");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1679, 385, "La Soledad", "La Soledad", "La Soledad", "71232");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1680, 385, "Minería", "Minería", "Minería", "71232");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1680, 385, "Minerï¿½a", "Minerï¿½a", "Minerï¿½a", "71232");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1681, 385, "Anahuac", "Anahuac", "Anahuac", "71232");
 	
@@ -3386,27 +3388,27 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1689, 385, "Arboledas", "Arboledas", "Arboledas", "71232");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1690, 385, "Benemérito de Las Américas", "Benemérito", "Benemérito de Las Américas", "71232");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1690, 385, "Benemï¿½rito de Las Amï¿½ricas", "Benemï¿½rito", "Benemï¿½rito de Las Amï¿½ricas", "71232");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1691, 385, "Satélite", "Satélite", "Satélite", "71232");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1691, 385, "Satï¿½lite", "Satï¿½lite", "Satï¿½lite", "71232");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1692, 385, "Los Fresnos", "Los Fresno", "Los Fresnos", "71232");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1693, 385, "Juquilita", "Juquilita", "Juquilita", "71232");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1694, 385, "Agustín Melgar", "Agustín Me", "Agustín Melgar", "71232");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1694, 385, "Agustï¿½n Melgar", "Agustï¿½n Me", "Agustï¿½n Melgar", "71232");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1695, 385, "La Horqueta", "La Horquet", "La Horqueta", "71232");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1696, 385, "Indeco Xoxo", "Indeco Xox", "Indeco Xoxo", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1697, 385, "El Paraíso", "El Paraíso", "El Paraíso", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1697, 385, "El Paraï¿½so", "El Paraï¿½so", "El Paraï¿½so", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1698, 385, "Laureles", "Laureles", "Laureles", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1699, 385, "Montebello", "Montebello", "Montebello", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1700, 385, "1a Ampliación de Xoxo", "1a Ampliac", "1a Ampliación de Xoxo", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1700, 385, "1a Ampliaciï¿½n de Xoxo", "1a Ampliac", "1a Ampliaciï¿½n de Xoxo", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1701, 385, "Villas Xoxo 2", "Villas Xox", "Villas Xoxo 2", "71233");
 	
@@ -3416,27 +3418,27 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1704, 385, "3 de Mayo", "3 de Mayo", "3 de Mayo", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1705, 385, "Sor Juana Inés de La Cruz", "Sor Juana ", "Sor Juana Inés de La Cruz", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1705, 385, "Sor Juana Inï¿½s de La Cruz", "Sor Juana ", "Sor Juana Inï¿½s de La Cruz", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1706, 385, "Los Ángeles", "Los Ángele", "Los Ángeles", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1706, 385, "Los ï¿½ngeles", "Los ï¿½ngele", "Los ï¿½ngeles", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1707, 385, "José Murat", "José Murat", "José Murat", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1707, 385, "Josï¿½ Murat", "Josï¿½ Murat", "Josï¿½ Murat", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1708, 385, "Ampliación Palestina", "Ampliación", "Ampliación Palestina", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1708, 385, "Ampliaciï¿½n Palestina", "Ampliaciï¿½n", "Ampliaciï¿½n Palestina", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1709, 385, "Lomas de Monte Albán", "Lomas de M", "Lomas de Monte Albán", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1709, 385, "Lomas de Monte Albï¿½n", "Lomas de M", "Lomas de Monte Albï¿½n", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1710, 385, "Jardines", "Jardines", "Jardines", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1711, 385, "Lomas de Paragüito", "Lomas de P", "Lomas de Paragüito", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1711, 385, "Lomas de Paragï¿½ito", "Lomas de P", "Lomas de Paragï¿½ito", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1712, 385, "Ampliación Indeco", "Ampliación", "Ampliación Indeco", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1712, 385, "Ampliaciï¿½n Indeco", "Ampliaciï¿½n", "Ampliaciï¿½n Indeco", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1713, 385, "Morelos", "Morelos", "Morelos", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1714, 385, "José Guadalupe Martínez García", "José Guada", "José Guadalupe Martínez García", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1714, 385, "Josï¿½ Guadalupe Martï¿½nez Garcï¿½a", "Josï¿½ Guada", "Josï¿½ Guadalupe Martï¿½nez Garcï¿½a", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1715, 385, "Las Peñas", "Las Peñas", "Las Peñas", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1715, 385, "Las Peï¿½as", "Las Peï¿½as", "Las Peï¿½as", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1716, 385, "San Francisco Javier", "San Franci", "San Francisco Javier", "71233");
 	
@@ -3464,7 +3466,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1728, 385, "Villas Xoxo 1", "Villas Xox", "Villas Xoxo 1", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1729, 385, "Tenochtitlán", "Tenochtitl", "Tenochtitlán", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1729, 385, "Tenochtitlï¿½n", "Tenochtitl", "Tenochtitlï¿½n", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1730, 385, "Reforma Agraria", "Reforma Ag", "Reforma Agraria", "71233");
 	
@@ -3484,17 +3486,17 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1738, 385, "El Rosario Xoxocotlan", "El Rosario", "El Rosario Xoxocotlan", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1739, 385, "San Jesús Nazareno", "San Jesús ", "San Jesús Nazareno", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1739, 385, "San Jesï¿½s Nazareno", "San Jesï¿½s ", "San Jesï¿½s Nazareno", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1740, 385, "Guamuches", "Guamuches", "Guamuches", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1741, 385, "3 Ranchos", "3 Ranchos", "3 Ranchos", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1742, 385, "Colinas San José", "Colinas Sa", "Colinas San José", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1742, 385, "Colinas San Josï¿½", "Colinas Sa", "Colinas San Josï¿½", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1743, 385, "Los Higos", "Los Higos", "Los Higos", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1744, 385, "El Chapulín", "El Chapulí", "El Chapulín", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1744, 385, "El Chapulï¿½n", "El Chapulï¿½", "El Chapulï¿½n", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1745, 385, "Villas Dalias", "Villas Dal", "Villas Dalias", "71233");
 	
@@ -3504,7 +3506,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1748, 385, "3 de Octubre", "3 de Octub", "3 de Octubre", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1749, 385, "Xoxocotlan 2a Sección", "Xoxocotlan", "Xoxocotlan 2a Sección", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1749, 385, "Xoxocotlan 2a Secciï¿½n", "Xoxocotlan", "Xoxocotlan 2a Secciï¿½n", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1750, 385, "Arrazola", "Arrazola", "Arrazola", "71233");
 	
@@ -3512,15 +3514,15 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1752, 385, "Diodoro Carrasco Altamirano", "Diodoro Ca", "Diodoro Carrasco Altamirano", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1753, 385, "Odilón", "Odilón", "Odilón", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1753, 385, "Odilï¿½n", "Odilï¿½n", "Odilï¿½n", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1754, 385, "Benito Juárez", "Benito Juá", "Benito Juárez", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1754, 385, "Benito Juï¿½rez", "Benito Juï¿½", "Benito Juï¿½rez", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1755, 385, "La Oaxaqueña", "La Oaxaque", "La Oaxaqueña", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1755, 385, "La Oaxaqueï¿½a", "La Oaxaque", "La Oaxaqueï¿½a", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1756, 385, "Francisco I. Madero", "Francisco ", "Francisco I. Madero", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1757, 385, "2a Ampliación de Xoxo", "2a Ampliac", "2a Ampliación de Xoxo", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1757, 385, "2a Ampliaciï¿½n de Xoxo", "2a Ampliac", "2a Ampliaciï¿½n de Xoxo", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1758, 385, "Antequera", "Antequera", "Antequera", "71233");
 	
@@ -3528,17 +3530,17 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1760, 385, "Santa Alicia", "Santa Alic", "Santa Alicia", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1761, 385, "Unión", "Unión", "Unión", "71233");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1761, 385, "Uniï¿½n", "Uniï¿½n", "Uniï¿½n", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1762, 385, "Guadalupe", "Guadalupe", "Guadalupe", "71233");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1763, 385, "Simbolos Patrios", "Simbolos P", "Simbolos Patrios", "71233");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1764, 385, "Jerusalén", "Jerusalén", "Jerusalén", "71235");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1764, 385, "Jerusalï¿½n", "Jerusalï¿½n", "Jerusalï¿½n", "71235");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1765, 385, "Ángeles", "Ángeles", "Ángeles", "71236");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1765, 385, "ï¿½ngeles", "ï¿½ngeles", "ï¿½ngeles", "71236");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1766, 385, "Lázaro Cárdenas del Río", "Lázaro Cár", "Lázaro Cárdenas del Río", "71238");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1766, 385, "Lï¿½zaro Cï¿½rdenas del Rï¿½o", "Lï¿½zaro Cï¿½r", "Lï¿½zaro Cï¿½rdenas del Rï¿½o", "71238");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1767, 390, "El Refugio", "El Refugio", "El Refugio", "71240");
 	
@@ -3548,7 +3550,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1770, 390, "Sector Arboles", "Sector Arb", "Sector Arboles", "71240");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1771, 390, "La Ciénega", "La Ciénega", "La Ciénega", "71240");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1771, 390, "La Ciï¿½nega", "La Ciï¿½nega", "La Ciï¿½nega", "71240");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1772, 390, "Santa Lucia Del Camino", "Santa Luci", "Santa Lucia Del Camino", "71240");
 	
@@ -3558,13 +3560,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1775, 390, "San Francisco Tutla", "San Franci", "San Francisco Tutla", "71242");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1776, 390, "Aquiles Serdán", "Aquiles Se", "Aquiles Serdán", "71243");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1776, 390, "Aquiles Serdï¿½n", "Aquiles Se", "Aquiles Serdï¿½n", "71243");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1777, 390, "25 de Enero", "25 de Ener", "25 de Enero", "71243");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1778, 390, "Ampliación Santa Lucia", "Ampliación", "Ampliación Santa Lucia", "71243");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1778, 390, "Ampliaciï¿½n Santa Lucia", "Ampliaciï¿½n", "Ampliaciï¿½n Santa Lucia", "71243");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1779, 390, "Los Álamos", "Los Álamos", "Los Álamos", "71243");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1779, 390, "Los ï¿½lamos", "Los ï¿½lamos", "Los ï¿½lamos", "71243");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1780, 390, "Roma", "Roma", "Roma", "71243");
 	
@@ -3576,7 +3578,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1784, 390, "Ejidal", "Ejidal", "Ejidal", "71243");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1785, 390, "Fernando Gómez Sandoval", "Fernando G", "Fernando Gómez Sandoval", "71243");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1785, 390, "Fernando Gï¿½mez Sandoval", "Fernando G", "Fernando Gï¿½mez Sandoval", "71243");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1786, 390, "Primavera", "Primavera", "Primavera", "71243");
 	
@@ -3586,13 +3588,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1789, 390, "Nueva Santa Lucia", "Nueva Sant", "Nueva Santa Lucia", "71244");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1790, 390, "El Bajío", "El Bajío", "El Bajío", "71244");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1790, 390, "El Bajï¿½o", "El Bajï¿½o", "El Bajï¿½o", "71244");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1791, 390, "Del Bosque", "Del Bosque", "Del Bosque", "71244");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1792, 390, "Guelatao", "Guelatao", "Guelatao", "71244");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1793, 390, "Santa María Ixcotel", "Santa Marí", "Santa María Ixcotel", "71244");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1793, 390, "Santa Marï¿½a Ixcotel", "Santa Marï¿½", "Santa Marï¿½a Ixcotel", "71244");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1794, 390, "Jose Lopez Portillo", "Jose Lopez", "Jose Lopez Portillo", "71244");
 	
@@ -3616,7 +3618,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1804, 390, "Las Flores", "Las Flores", "Las Flores", "71245");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1805, 390, "Niños Héroes", "Niños Héro", "Niños Héroes", "71245");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1805, 390, "Niï¿½os Hï¿½roes", "Niï¿½os Hï¿½ro", "Niï¿½os Hï¿½roes", "71245");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1806, 390, "Militar", "Militar", "Militar", "71245");
 	
@@ -3638,19 +3640,19 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1815, 310, "El Vergel", "El Vergel", "El Vergel", "71247");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1816, 310, "Loma Bonita (Paraje Jagüey)", "Loma Bonit", "Loma Bonita (Paraje Jagüey)", "71247");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1816, 310, "Loma Bonita (Paraje Jagï¿½ey)", "Loma Bonit", "Loma Bonita (Paraje Jagï¿½ey)", "71247");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1817, 310, "Los Nogales", "Los Nogale", "Los Nogales", "71247");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1818, 310, "Juquilita", "Juquilita", "Juquilita", "71247");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1819, 310, "La Peña", "La Peña", "La Peña", "71247");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1819, 310, "La Peï¿½a", "La Peï¿½a", "La Peï¿½a", "71247");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1820, 310, "Ampliación Loma Bonita", "Ampliación", "Ampliación Loma Bonita", "71247");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1820, 310, "Ampliaciï¿½n Loma Bonita", "Ampliaciï¿½n", "Ampliaciï¿½n Loma Bonita", "71247");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1821, 310, "Arboleda", "Arboleda", "Arboleda", "71247");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1822, 310, "La Concepción", "La Concepc", "La Concepción", "71248");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1822, 310, "La Concepciï¿½n", "La Concepc", "La Concepciï¿½n", "71248");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1823, 310, "Jardines del Tepeyac", "Jardines d", "Jardines del Tepeyac", "71248");
 	
@@ -3664,33 +3666,33 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1828, 107, "Ojo de Agua", "Ojo de Agu", "Ojo de Agua", "71253");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1829, 107, "El Polvorín", "El Polvorí", "El Polvorín", "71253");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1829, 107, "El Polvorï¿½n", "El Polvorï¿½", "El Polvorï¿½n", "71253");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1830, 107, "3a. Sección Los Pinos", "3a. Secció", "3a. Sección Los Pinos", "71254");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1830, 107, "3a. Secciï¿½n Los Pinos", "3a. Secciï¿½", "3a. Secciï¿½n Los Pinos", "71254");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1831, 107, "Cerro de La Culebra", "Cerro de L", "Cerro de La Culebra", "71254");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1832, 107, "Buenos Aires 4a Sección", "Buenos Air", "Buenos Aires 4a Sección", "71254");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1832, 107, "Buenos Aires 4a Secciï¿½n", "Buenos Air", "Buenos Aires 4a Secciï¿½n", "71254");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1833, 107, "3a Sección del Panteón", "3a Sección", "3a Sección del Panteón", "71254");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1833, 107, "3a Secciï¿½n del Panteï¿½n", "3a Secciï¿½n", "3a Secciï¿½n del Panteï¿½n", "71254");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1834, 107, "La Experimental", "La Experim", "La Experimental", "71254");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1835, 107, "3a Sección Casa del Temblor", "3a Sección", "3a Sección Casa del Temblor", "71254");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1835, 107, "3a Secciï¿½n Casa del Temblor", "3a Secciï¿½n", "3a Secciï¿½n Casa del Temblor", "71254");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1836, 107, "24 de Febrero (6a Sección)", "24 de Febr", "24 de Febrero (6a Sección)", "71255");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1836, 107, "24 de Febrero (6a Secciï¿½n)", "24 de Febr", "24 de Febrero (6a Secciï¿½n)", "71255");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1837, 107, "5a Sección Eucaliptos", "5a Sección", "5a Sección Eucaliptos", "71255");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1837, 107, "5a Secciï¿½n Eucaliptos", "5a Secciï¿½n", "5a Secciï¿½n Eucaliptos", "71255");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1838, 107, "3a Sección Las Moras", "3a Sección", "3a Sección Las Moras", "71255");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1838, 107, "3a Secciï¿½n Las Moras", "3a Secciï¿½n", "3a Secciï¿½n Las Moras", "71255");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1839, 107, "3a  Sección La Soledad", "3a  Secció", "3a  Sección La Soledad", "71255");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1839, 107, "3a  Secciï¿½n La Soledad", "3a  Secciï¿½", "3a  Secciï¿½n La Soledad", "71255");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1840, 107, "1a Sección Barrio La Calera", "1a Sección", "1a Sección Barrio La Calera", "71256");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1840, 107, "1a Secciï¿½n Barrio La Calera", "1a Secciï¿½n", "1a Secciï¿½n Barrio La Calera", "71256");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1841, 107, "El Portillo", "El Portill", "El Portillo", "71256");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1842, 83, "El Tablón", "El Tablón", "El Tablón", "71260");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1842, 83, "El Tablï¿½n", "El Tablï¿½n", "El Tablï¿½n", "71260");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1843, 83, "Infonavit", "Infonavit", "Infonavit", "71260");
 	
@@ -3708,7 +3710,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1850, 295, "Francisco I Madero", "Francisco ", "Francisco I Madero", "71265");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1851, 295, "Barrio de Jesús", "Barrio de ", "Barrio de Jesús", "71265");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1851, 295, "Barrio de Jesï¿½s", "Barrio de ", "Barrio de Jesï¿½s", "71265");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1852, 295, "La Soledad", "La Soledad", "La Soledad", "71265");
 	
@@ -3718,7 +3720,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1855, 295, "San Antonio", "San Antoni", "San Antonio", "71266");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1856, 295, "Ampliación San Antonio", "Ampliación", "Ampliación San Antonio", "71266");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1856, 295, "Ampliaciï¿½n San Antonio", "Ampliaciï¿½n", "Ampliaciï¿½n San Antonio", "71266");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1857, 295, "Barbas", "Barbas", "Barbas", "71267");
 	
@@ -3738,21 +3740,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1865, 295, "La Santa Cruz", "La Santa C", "La Santa Cruz", "71267");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1866, 295, "El Marqués", "El Marqués", "El Marqués", "71268");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1866, 295, "El Marquï¿½s", "El Marquï¿½s", "El Marquï¿½s", "71268");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1867, 295, "Ex-Hacienda de la Niña Andrea", "Ex-Haciend", "Ex-Hacienda de la Niña Andrea", "71268");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1867, 295, "Ex-Hacienda de la Niï¿½a Andrea", "Ex-Haciend", "Ex-Hacienda de la Niï¿½a Andrea", "71268");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1868, 295, "Barrio San Antonio", "Barrio San", "Barrio San Antonio", "71268");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1869, 295, "Llano Largo", "Llano Larg", "Llano Largo", "71268");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1870, 295, "Río Morón", "Río Morón", "Río Morón", "71268");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1870, 295, "Rï¿½o Morï¿½n", "Rï¿½o Morï¿½n", "Rï¿½o Morï¿½n", "71268");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1871, 295, "Las Cruces", "Las Cruces", "Las Cruces", "71268");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1872, 174, "Animas Trujano", "Animas Tru", "Animas Trujano", "71270");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1873, 174, "El Paredón", "El Paredón", "El Paredón", "71273");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1873, 174, "El Paredï¿½n", "El Paredï¿½n", "El Paredï¿½n", "71273");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1874, 174, "El Zapotillo", "El Zapotil", "El Zapotillo", "71273");
 	
@@ -3776,41 +3778,41 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1884, 555, "Doce de Mayo", "Doce de Ma", "Doce de Mayo", "71286");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1885, 555, "Santa María Roaló", "Santa Marí", "Santa María Roaló", "71286");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1885, 555, "Santa Marï¿½a Roalï¿½", "Santa Marï¿½", "Santa Marï¿½a Roalï¿½", "71286");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1886, 403, "Santa María Coyotepec", "Santa Marí", "Santa María Coyotepec", "71290");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1886, 403, "Santa Marï¿½a Coyotepec", "Santa Marï¿½", "Santa Marï¿½a Coyotepec", "71290");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1887, 403, "Fraccionamiento Proyecto 2000", "Fraccionam", "Fraccionamiento Proyecto 2000", "71292");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1888, 115, "San Bartolo Coyotepec", "San Bartol", "San Bartolo Coyotepec", "71294");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1889, 115, "Reyes Mantecón", "Reyes Mant", "Reyes Mantecón", "71295");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1889, 115, "Reyes Mantecï¿½n", "Reyes Mant", "Reyes Mantecï¿½n", "71295");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1890, 115, "Reyes Mantecon", "Reyes Mant", "Reyes Mantecon", "71295");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1891, 389, "Santa Inés Yatzeche", "Santa Inés", "Santa Inés Yatzeche", "71297");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1891, 389, "Santa Inï¿½s Yatzeche", "Santa Inï¿½s", "Santa Inï¿½s Yatzeche", "71297");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1892, 13, "La Ciénega", "La Ciénega", "La Ciénega", "71300");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1892, 13, "La Ciï¿½nega", "La Ciï¿½nega", "La Ciï¿½nega", "71300");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1893, 108, "San Antonio Huitepec", "San Antoni", "San Antonio Huitepec", "71305");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1894, 108, "Cañada Cangrejo", "Cañada Can", "Cañada Cangrejo", "71306");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1894, 108, "Caï¿½ada Cangrejo", "Caï¿½ada Can", "Caï¿½ada Cangrejo", "71306");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1895, 108, "Cañada de Espina", "Cañada de ", "Cañada de Espina", "71306");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1895, 108, "Caï¿½ada de Espina", "Caï¿½ada de ", "Caï¿½ada de Espina", "71306");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1896, 108, "San Juan Xochiltepec", "San Juan X", "San Juan Xochiltepec", "71306");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1897, 108, "Cañada de Mano", "Cañada de ", "Cañada de Mano", "71306");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1897, 108, "Caï¿½ada de Mano", "Caï¿½ada de ", "Caï¿½ada de Mano", "71306");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1898, 108, "Loma de Timbre", "Loma de Ti", "Loma de Timbre", "71306");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1899, 108, "San Pedro", "San Pedro", "San Pedro", "71306");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1900, 108, "Cañada Flores", "Cañada Flo", "Cañada Flores", "71306");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1900, 108, "Caï¿½ada Flores", "Caï¿½ada Flo", "Caï¿½ada Flores", "71306");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1901, 108, "Cerro Brujo", "Cerro Bruj", "Cerro Brujo", "71306");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1902, 108, "Cañada de Hierba", "Cañada de ", "Cañada de Hierba", "71306");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1902, 108, "Caï¿½ada de Hierba", "Caï¿½ada de ", "Caï¿½ada de Hierba", "71306");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1903, 108, "La Barranca", "La Barranc", "La Barranca", "71306");
 	
@@ -3818,7 +3820,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1905, 108, "Santiago Huaxolotipac", "Santiago H", "Santiago Huaxolotipac", "71306");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1906, 108, "Culebrón", "Culebrón", "Culebrón", "71306");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1906, 108, "Culebrï¿½n", "Culebrï¿½n", "Culebrï¿½n", "71306");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1907, 108, "El Portillo", "El Portill", "El Portillo", "71306");
 	
@@ -3826,21 +3828,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1909, 108, "La Plazuela", "La Plazuel", "La Plazuela", "71306");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1910, 108, "Llano Jabalí", "Llano Jaba", "Llano Jabalí", "71306");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1910, 108, "Llano Jabalï¿½", "Llano Jaba", "Llano Jabalï¿½", "71306");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1911, 108, "Llano Mecate", "Llano Meca", "Llano Mecate", "71306");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1912, 108, "Cañada Aguacate", "Cañada Agu", "Cañada Aguacate", "71306");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1912, 108, "Caï¿½ada Aguacate", "Caï¿½ada Agu", "Caï¿½ada Aguacate", "71306");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1913, 108, "Tierra Caliente", "Tierra Cal", "Tierra Caliente", "71306");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1914, 108, "Cañada de Duraznal (Duraznal)", "Cañada de ", "Cañada de Duraznal (Duraznal)", "71307");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1914, 108, "Caï¿½ada de Duraznal (Duraznal)", "Caï¿½ada de ", "Caï¿½ada de Duraznal (Duraznal)", "71307");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1915, 108, "El Palomar", "El Palomar", "El Palomar", "71307");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1916, 108, "Llano Conejo", "Llano Cone", "Llano Conejo", "71307");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1917, 108, "Río Tronco", "Río Tronco", "Río Tronco", "71307");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1917, 108, "Rï¿½o Tronco", "Rï¿½o Tronco", "Rï¿½o Tronco", "71307");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1918, 108, "Llano Obscuro", "Llano Obsc", "Llano Obscuro", "71307");
 	
@@ -3852,9 +3854,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1922, 108, "Temazcal", "Temazcal", "Temazcal", "71307");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1923, 108, "Cañada de Palenque", "Cañada de ", "Cañada de Palenque", "71307");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1923, 108, "Caï¿½ada de Palenque", "Caï¿½ada de ", "Caï¿½ada de Palenque", "71307");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1924, 108, "Bajo la Peña", "Bajo la Pe", "Bajo la Peña", "71307");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1924, 108, "Bajo la Peï¿½a", "Bajo la Pe", "Bajo la Peï¿½a", "71307");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1925, 108, "Miguel Hidalgo", "Miguel Hid", "Miguel Hidalgo", "71307");
 	
@@ -3864,7 +3866,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1928, 108, "Llano Mazorca", "Llano Mazo", "Llano Mazorca", "71307");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1929, 108, "Río Panal", "Río Panal", "Río Panal", "71307");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1929, 108, "Rï¿½o Panal", "Rï¿½o Panal", "Rï¿½o Panal", "71307");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1930, 108, "Infiernillo", "Infiernill", "Infiernillo", "71307");
 	
@@ -3872,11 +3874,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1932, 108, "El Tecolote", "El Tecolot", "El Tecolote", "71307");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1933, 108, "La Purísima", "La Purísim", "La Purísima", "71307");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1933, 108, "La Purï¿½sima", "La Purï¿½sim", "La Purï¿½sima", "71307");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1934, 108, "Pueblo Viejo", "Pueblo Vie", "Pueblo Viejo", "71307");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1935, 108, "Arriba de la Peña", "Arriba de ", "Arriba de la Peña", "71307");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1935, 108, "Arriba de la Peï¿½a", "Arriba de ", "Arriba de la Peï¿½a", "71307");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1936, 108, "El Manzanito", "El Manzani", "El Manzanito", "71307");
 	
@@ -3910,23 +3912,23 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1951, 108, "Loma de Zopilote", "Loma de Zo", "Loma de Zopilote", "71308");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1952, 108, "Arriba de la Ciénega Rica", "Arriba de ", "Arriba de la Ciénega Rica", "71308");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1952, 108, "Arriba de la Ciï¿½nega Rica", "Arriba de ", "Arriba de la Ciï¿½nega Rica", "71308");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1953, 108, "Buena Vista", "Buena Vist", "Buena Vista", "71308");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1954, 108, "Cañada de Hielo", "Cañada de ", "Cañada de Hielo", "71308");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1954, 108, "Caï¿½ada de Hielo", "Caï¿½ada de ", "Caï¿½ada de Hielo", "71308");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1955, 108, "Llano de Sol", "Llano de S", "Llano de Sol", "71308");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1956, 565, "La Guadalupe", "La Guadalu", "La Guadalupe", "71310");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1957, 565, "Del Niño", "Del Niño", "Del Niño", "71310");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1957, 565, "Del Niï¿½o", "Del Niï¿½o", "Del Niï¿½o", "71310");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1958, 565, "Zaachila", "Zaachila", "Zaachila", "71310");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1959, 565, "San Pablo La Raya", "San Pablo ", "San Pablo La Raya", "71310");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1960, 565, "San José", "San José", "San José", "71310");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1960, 565, "San Josï¿½", "San Josï¿½", "San Josï¿½", "71310");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1961, 565, "San Pedro", "San Pedro", "San Pedro", "71310");
 	
@@ -3934,7 +3936,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1963, 565, "De Lexio", "De Lexio", "De Lexio", "71313");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1964, 565, "La Purísima", "La Purísim", "La Purísima", "71313");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1964, 565, "La Purï¿½sima", "La Purï¿½sim", "La Purï¿½sima", "71313");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1965, 565, "Real del Valle", "Real del V", "Real del Valle", "71313");
 	
@@ -3942,7 +3944,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1967, 565, "San Jacinto", "San Jacint", "San Jacinto", "71313");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1968, 565, "San Sebastián", "San Sebast", "San Sebastián", "71313");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1968, 565, "San Sebastiï¿½n", "San Sebast", "San Sebastiï¿½n", "71313");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1969, 565, "San Lucas Tlanichico", "San Lucas ", "San Lucas Tlanichico", "71314");
 	
@@ -3956,11 +3958,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1974, 565, "Colonia Olimpo", "Colonia Ol", "Colonia Olimpo", "71316");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1975, 565, "La Peña", "La Peña", "La Peña", "71317");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1975, 565, "La Peï¿½a", "La Peï¿½a", "La Peï¿½a", "71317");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1976, 565, "Vicente Guerrero", "Vicente Gu", "Vicente Guerrero", "71317");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1977, 565, "Benito Juárez", "Benito Juá", "Benito Juárez", "71317");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1977, 565, "Benito Juï¿½rez", "Benito Juï¿½", "Benito Juï¿½rez", "71317");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1978, 565, "Lomas de la Cuesta", "Lomas de l", "Lomas de la Cuesta", "71317");
 	
@@ -3970,17 +3972,17 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1981, 565, "El Manantial", "El Mananti", "El Manantial", "71318");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1982, 565, "Guillermo Gónzalez Guardado", "Guillermo ", "Guillermo Gónzalez Guardado", "71318");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1982, 565, "Guillermo Gï¿½nzalez Guardado", "Guillermo ", "Guillermo Gï¿½nzalez Guardado", "71318");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1983, 565, "24 de Julio", "24 de Juli", "24 de Julio", "71318");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1984, 350, "Mayorazgo", "Mayorazgo", "Mayorazgo", "71320");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1985, 350, "Rocío", "Rocío", "Rocío", "71320");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1985, 350, "Rocï¿½o", "Rocï¿½o", "Rocï¿½o", "71320");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1986, 350, "Ricardo Hernandez Casanova", "Ricardo He", "Ricardo Hernandez Casanova", "71320");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1987, 350, "San Sebastián Tutla", "San Sebast", "San Sebastián Tutla", "71320");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1987, 350, "San Sebastiï¿½n Tutla", "San Sebast", "San Sebastiï¿½n Tutla", "71320");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1988, 350, "1a Etapa Ivo Fraccionamiento el Rosario", "1a Etapa I", "1a Etapa Ivo Fraccionamiento el Rosario", "71323");
 	
@@ -4008,7 +4010,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2000, 273, "Soledad Peras", "Soledad Pe", "Soledad Peras", "71327");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2001, 273, "La Brujería", "La Brujerí", "La Brujería", "71327");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2001, 273, "La Brujerï¿½a", "La Brujerï¿½", "La Brujerï¿½a", "71327");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2002, 273, "El Manzanito", "El Manzani", "El Manzanito", "71327");
 	
@@ -4022,25 +4024,25 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2007, 273, "Pensamiento Liberal Mexicano", "Pensamient", "Pensamiento Liberal Mexicano", "71328");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2008, 273, "Barrio Río Morales", "Barrio Río", "Barrio Río Morales", "71328");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2008, 273, "Barrio Rï¿½o Morales", "Barrio Rï¿½o", "Barrio Rï¿½o Morales", "71328");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2009, 292, "San Pablo Cuatro Venados", "San Pablo ", "San Pablo Cuatro Venados", "71330");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2010, 292, "Río Jalapilla", "Río Jalapi", "Río Jalapilla", "71333");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2010, 292, "Rï¿½o Jalapilla", "Rï¿½o Jalapi", "Rï¿½o Jalapilla", "71333");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2011, 292, "El Esponjado", "El Esponja", "El Esponjado", "71333");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2012, 292, "San Cristóbal", "San Cristó", "San Cristóbal", "71333");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2012, 292, "San Cristï¿½bal", "San Cristï¿½", "San Cristï¿½bal", "71333");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2013, 292, "Benito Juárez", "Benito Juá", "Benito Juárez", "71333");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2013, 292, "Benito Juï¿½rez", "Benito Juï¿½", "Benito Juï¿½rez", "71333");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2014, 292, "Río Minas", "Río Minas", "Río Minas", "71333");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2014, 292, "Rï¿½o Minas", "Rï¿½o Minas", "Rï¿½o Minas", "71333");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2015, 292, "Rebollero", "Rebollero", "Rebollero", "71333");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2016, 292, "Mina Ruina", "Mina Ruina", "Mina Ruina", "71334");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2017, 292, "Santa Bárbara", "Santa Bárb", "Santa Bárbara", "71334");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2017, 292, "Santa Bï¿½rbara", "Santa Bï¿½rb", "Santa Bï¿½rbara", "71334");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2018, 292, "El Moral", "El Moral", "El Moral", "71334");
 	
@@ -4048,7 +4050,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2020, 292, "Llano Manteca", "Llano Mant", "Llano Manteca", "71334");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2021, 292, "La Nevería", "La Nevería", "La Nevería", "71334");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2021, 292, "La Neverï¿½a", "La Neverï¿½a", "La Neverï¿½a", "71334");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2022, 292, "La Plazuelita", "La Plazuel", "La Plazuelita", "71334");
 	
@@ -4058,7 +4060,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2025, 292, "El Magueyal", "El Magueya", "El Magueyal", "71334");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2026, 292, "El Zacatán", "El Zacatán", "El Zacatán", "71334");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2026, 292, "El Zacatï¿½n", "El Zacatï¿½n", "El Zacatï¿½n", "71334");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2027, 292, "La Herradura", "La Herradu", "La Herradura", "71334");
 	
@@ -4066,9 +4068,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2029, 292, "Piedra Blanca", "Piedra Bla", "Piedra Blanca", "71334");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2030, 388, "Santa Inés Del Monte", "Santa Inés", "Santa Inés Del Monte", "71336");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2030, 388, "Santa Inï¿½s Del Monte", "Santa Inï¿½s", "Santa Inï¿½s Del Monte", "71336");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2031, 388, "La Cañada", "La Cañada", "La Cañada", "71337");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2031, 388, "La Caï¿½ada", "La Caï¿½ada", "La Caï¿½ada", "71337");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2032, 388, "La Plazuela", "La Plazuel", "La Plazuela", "71337");
 	
@@ -4094,7 +4096,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2043, 388, "El Carmen", "El Carmen", "El Carmen", "71338");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2044, 387, "Del Panteón", "Del Panteó", "Del Panteón", "71340");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2044, 387, "Del Panteï¿½n", "Del Panteï¿½", "Del Panteï¿½n", "71340");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2045, 387, "La Noria", "La Noria", "La Noria", "71340");
 	
@@ -4102,27 +4104,27 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2047, 387, "De la Esmeralda", "De la Esme", "De la Esmeralda", "71340");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2048, 387, "San José Guelatová de Díaz", "San José G", "San José Guelatová de Díaz", "71343");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2048, 387, "San Josï¿½ Guelatovï¿½ de Dï¿½az", "San Josï¿½ G", "San Josï¿½ Guelatovï¿½ de Dï¿½az", "71343");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2049, 387, "La Barda Paso de Piedras", "La Barda P", "La Barda Paso de Piedras", "71343");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2050, 104, "San Antonino El Alto", "San Antoni", "San Antonino El Alto", "71344");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2051, 104, "El Machín", "El Machín", "El Machín", "71345");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2051, 104, "El Machï¿½n", "El Machï¿½n", "El Machï¿½n", "71345");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2052, 104, "El Mirasol", "El Mirasol", "El Mirasol", "71345");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2053, 104, "Río Concha", "Río Concha", "Río Concha", "71345");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2053, 104, "Rï¿½o Concha", "Rï¿½o Concha", "Rï¿½o Concha", "71345");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2054, 104, "Río Culebra", "Río Culebr", "Río Culebra", "71345");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2054, 104, "Rï¿½o Culebra", "Rï¿½o Culebr", "Rï¿½o Culebra", "71345");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2055, 104, "La Cruz Yaguche", "La Cruz Ya", "La Cruz Yaguche", "71345");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2056, 104, "Los Maizales Tempraneros", "Los Maizal", "Los Maizales Tempraneros", "71345");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2057, 104, "San Andrés el Alto", "San Andrés", "San Andrés el Alto", "71345");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2057, 104, "San Andrï¿½s el Alto", "San Andrï¿½s", "San Andrï¿½s el Alto", "71345");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2058, 104, "El Río Hilo", "El Río Hil", "El Río Hilo", "71345");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2058, 104, "El Rï¿½o Hilo", "El Rï¿½o Hil", "El Rï¿½o Hilo", "71345");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2059, 104, "La Mariposa", "La Maripos", "La Mariposa", "71345");
 	
@@ -4142,13 +4144,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2067, 48, "Magdalena Mixtepec", "Magdalena ", "Magdalena Mixtepec", "71347");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2068, 369, "Resurrección", "Resurrecci", "Resurrección", "71350");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2068, 369, "Resurrecciï¿½n", "Resurrecci", "Resurrecciï¿½n", "71350");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2069, 369, "Santa Catarina Quiane", "Santa Cata", "Santa Catarina Quiane", "71350");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2070, 369, "La Yocuela", "La Yocuela", "La Yocuela", "71352");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2071, 369, "Rancho del Guamúchil", "Rancho del", "Rancho del Guamúchil", "71352");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2071, 369, "Rancho del Guamï¿½chil", "Rancho del", "Rancho del Guamï¿½chil", "71352");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2072, 369, "La Soledad", "La Soledad", "La Soledad", "71352");
 	
@@ -4164,7 +4166,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2078, 398, "De Arriba", "De Arriba", "De Arriba", "71355");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2079, 398, "Niños Heroes", "Niños Hero", "Niños Heroes", "71355");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2079, 398, "Niï¿½os Heroes", "Niï¿½os Hero", "Niï¿½os Heroes", "71355");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2080, 398, "Ayoquezco de Aldama", "Ayoquezco ", "Ayoquezco de Aldama", "71355");
 	
@@ -4184,7 +4186,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2088, 398, "El Coyote", "El Coyote", "El Coyote", "71359");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2089, 398, "Santa Inés", "Santa Inés", "Santa Inés", "71359");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2089, 398, "Santa Inï¿½s", "Santa Inï¿½s", "Santa Inï¿½s", "71359");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2090, 398, "Llano del Calicanto (Arroyo Gueguana)", "Llano del ", "Llano del Calicanto (Arroyo Gueguana)", "71359");
 	
@@ -4192,7 +4194,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2092, 358, "Agua Blanca", "Agua Blanc", "Agua Blanca", "71363");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2093, 358, "Rincón de Tlapacoyan", "Rincón de ", "Rincón de Tlapacoyan", "71364");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2093, 358, "Rincï¿½n de Tlapacoyan", "Rincï¿½n de ", "Rincï¿½n de Tlapacoyan", "71364");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2094, 386, "Santa Cruz Zenzontepec", "Santa Cruz", "Santa Cruz Zenzontepec", "71365");
 	
@@ -4200,7 +4202,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2096, 386, "La Paz", "La Paz", "La Paz", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2097, 386, "San José", "San José", "San José", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2097, 386, "San Josï¿½", "San Josï¿½", "San Josï¿½", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2098, 386, "Santa Cruz", "Santa Cruz", "Santa Cruz", "71366");
 	
@@ -4212,7 +4214,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2102, 386, "Piedra de Letra", "Piedra de ", "Piedra de Letra", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2103, 386, "Río de Abajo", "Río de Aba", "Río de Abajo", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2103, 386, "Rï¿½o de Abajo", "Rï¿½o de Aba", "Rï¿½o de Abajo", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2104, 386, "Las Pilas", "Las Pilas", "Las Pilas", "71366");
 	
@@ -4220,21 +4222,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2106, 386, "Barrio San Isidro", "Barrio San", "Barrio San Isidro", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2107, 386, "Los Méndez", "Los Méndez", "Los Méndez", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2107, 386, "Los Mï¿½ndez", "Los Mï¿½ndez", "Los Mï¿½ndez", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2108, 386, "Los Vásquez", "Los Vásque", "Los Vásquez", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2108, 386, "Los Vï¿½squez", "Los Vï¿½sque", "Los Vï¿½squez", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2109, 386, "Quinicuena", "Quinicuena", "Quinicuena", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2110, 386, "San Isidro Calabazo", "San Isidro", "San Isidro Calabazo", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2111, 386, "Santa María Siempreviva", "Santa Marí", "Santa María Siempreviva", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2111, 386, "Santa Marï¿½a Siempreviva", "Santa Marï¿½", "Santa Marï¿½a Siempreviva", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2112, 386, "Agua Ceniza", "Agua Ceniz", "Agua Ceniza", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2113, 386, "El Limonar", "El Limonar", "El Limonar", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2114, 386, "Río Ciruelo", "Río Ciruel", "Río Ciruelo", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2114, 386, "Rï¿½o Ciruelo", "Rï¿½o Ciruel", "Rï¿½o Ciruelo", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2115, 386, "San Miguel", "San Miguel", "San Miguel", "71366");
 	
@@ -4244,19 +4246,19 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2118, 386, "La Juquilita", "La Juquili", "La Juquilita", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2119, 386, "Los Sánchez", "Los Sánche", "Los Sánchez", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2119, 386, "Los Sï¿½nchez", "Los Sï¿½nche", "Los Sï¿½nchez", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2120, 386, "Barrio San Isidro", "Barrio San", "Barrio San Isidro", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2121, 386, "El Cucharal", "El Cuchara", "El Cucharal", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2122, 386, "La Soledad Cofradía", "La Soledad", "La Soledad Cofradía", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2122, 386, "La Soledad Cofradï¿½a", "La Soledad", "La Soledad Cofradï¿½a", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2123, 386, "El Portillo", "El Portill", "El Portillo", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2124, 386, "Los Pozuelos", "Los Pozuel", "Los Pozuelos", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2125, 386, "Mano Del Señor", "Mano Del S", "Mano Del Señor", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2125, 386, "Mano Del Seï¿½or", "Mano Del S", "Mano Del Seï¿½or", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2126, 386, "Rancho Viejo", "Rancho Vie", "Rancho Viejo", "71366");
 	
@@ -4270,13 +4272,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2131, 386, "Santa Anita", "Santa Anit", "Santa Anita", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2132, 386, "Santa Lucía", "Santa Lucí", "Santa Lucía", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2132, 386, "Santa Lucï¿½a", "Santa Lucï¿½", "Santa Lucï¿½a", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2133, 386, "El Jicaral", "El Jicaral", "El Jicaral", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2134, 386, "Los Merino", "Los Merino", "Los Merino", "71366");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2135, 386, "San Pedro del Río", "San Pedro ", "San Pedro del Río", "71366");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2135, 386, "San Pedro del Rï¿½o", "San Pedro ", "San Pedro del Rï¿½o", "71366");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2136, 386, "Piedra Grande", "Piedra Gra", "Piedra Grande", "71366");
 	
@@ -4286,9 +4288,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2139, 386, "La Palma", "La Palma", "La Palma", "71367");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2140, 386, "Santa María Tlapanalquiahuitl", "Santa Marí", "Santa María Tlapanalquiahuitl", "71367");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2140, 386, "Santa Marï¿½a Tlapanalquiahuitl", "Santa Marï¿½", "Santa Marï¿½a Tlapanalquiahuitl", "71367");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2141, 386, "La Ciénega", "La Ciénega", "La Ciénega", "71367");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2141, 386, "La Ciï¿½nega", "La Ciï¿½nega", "La Ciï¿½nega", "71367");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2142, 386, "Rancho Nuevo", "Rancho Nue", "Rancho Nuevo", "71367");
 	
@@ -4314,7 +4316,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2153, 386, "Cerro Aguacate", "Cerro Agua", "Cerro Aguacate", "71368");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2154, 386, "Cofradía Dos", "Cofradía D", "Cofradía Dos", "71368");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2154, 386, "Cofradï¿½a Dos", "Cofradï¿½a D", "Cofradï¿½a Dos", "71368");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2155, 386, "El Vidrio", "El Vidrio", "El Vidrio", "71368");
 	
@@ -4322,7 +4324,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2157, 386, "Cerro Flor", "Cerro Flor", "Cerro Flor", "71368");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2158, 386, "Huazolotitlán", "Huazolotit", "Huazolotitlán", "71368");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2158, 386, "Huazolotitlï¿½n", "Huazolotit", "Huazolotitlï¿½n", "71368");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2159, 386, "Piedra que Menea", "Piedra que", "Piedra que Menea", "71368");
 	
@@ -4332,7 +4334,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2162, 386, "El Campamento", "El Campame", "El Campamento", "71368");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2163, 386, "Llano Víbora", "Llano Víbo", "Llano Víbora", "71368");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2163, 386, "Llano Vï¿½bora", "Llano Vï¿½bo", "Llano Vï¿½bora", "71368");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2164, 386, "Piedra Grande", "Piedra Gra", "Piedra Grande", "71368");
 	
@@ -4342,9 +4344,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2167, 137, "El Aguacatal", "El Aguacat", "El Aguacatal", "71372");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2168, 137, "El Alazán", "El Alazán", "El Alazán", "71372");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2168, 137, "El Alazï¿½n", "El Alazï¿½n", "El Alazï¿½n", "71372");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2169, 137, "La Ciénega", "La Ciénega", "La Ciénega", "71372");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2169, 137, "La Ciï¿½nega", "La Ciï¿½nega", "La Ciï¿½nega", "71372");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2170, 137, "La Muralla", "La Muralla", "La Muralla", "71372");
 	
@@ -4362,29 +4364,29 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2177, 137, "El Duraznal", "El Durazna", "El Duraznal", "71372");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2178, 137, "Río Palma", "Río Palma", "Río Palma", "71372");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2178, 137, "Rï¿½o Palma", "Rï¿½o Palma", "Rï¿½o Palma", "71372");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2179, 137, "Morelos", "Morelos", "Morelos", "71372");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2180, 137, "El Ahijadero", "El Ahijade", "El Ahijadero", "71373");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2181, 137, "San Sebastián Yutanino", "San Sebast", "San Sebastián Yutanino", "71373");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2181, 137, "San Sebastiï¿½n Yutanino", "San Sebast", "San Sebastiï¿½n Yutanino", "71373");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2182, 137, "El Frijol de Yutanino", "El Frijol ", "El Frijol de Yutanino", "71373");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2183, 137, "Unión y Progreso", "Unión y Pr", "Unión y Progreso", "71373");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2183, 137, "Uniï¿½n y Progreso", "Uniï¿½n y Pr", "Uniï¿½n y Progreso", "71373");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2184, 137, "El Garabatal", "El Garabat", "El Garabatal", "71373");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2185, 137, "Llano Ratón", "Llano Rató", "Llano Ratón", "71373");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2185, 137, "Llano Ratï¿½n", "Llano Ratï¿½", "Llano Ratï¿½n", "71373");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2186, 137, "El Aguacate", "El Aguacat", "El Aguacate", "71373");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2187, 137, "Induasavi", "Induasavi", "Induasavi", "71373");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2188, 137, "El Limón", "El Limón", "El Limón", "71374");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2188, 137, "El Limï¿½n", "El Limï¿½n", "El Limï¿½n", "71374");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2189, 137, "Río Ocote", "Río Ocote", "Río Ocote", "71374");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2189, 137, "Rï¿½o Ocote", "Rï¿½o Ocote", "Rï¿½o Ocote", "71374");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2190, 137, "El Cucharal", "El Cuchara", "El Cucharal", "71374");
 	
@@ -4396,11 +4398,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2194, 137, "Lano de Agua", "Lano de Ag", "Lano de Agua", "71374");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2195, 137, "El Boquerón", "El Boqueró", "El Boquerón", "71374");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2195, 137, "El Boquerï¿½n", "El Boquerï¿½", "El Boquerï¿½n", "71374");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2196, 566, "San Mateo Yucutindo Centro", "San Mateo ", "San Mateo Yucutindo Centro", "71375");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2197, 566, "Benito Juárez", "Benito Juá", "Benito Juárez", "71376");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2197, 566, "Benito Juï¿½rez", "Benito Juï¿½", "Benito Juï¿½rez", "71376");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2198, 566, "El Sabino", "El Sabino", "El Sabino", "71376");
 	
@@ -4408,7 +4410,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2200, 566, "El Frijol", "El Frijol", "El Frijol", "71376");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2201, 566, "El Limón", "El Limón", "El Limón", "71376");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2201, 566, "El Limï¿½n", "El Limï¿½n", "El Limï¿½n", "71376");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2202, 566, "Pueblo Viejo", "Pueblo Vie", "Pueblo Viejo", "71376");
 	
@@ -4424,7 +4426,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2208, 566, "Los Naranjos", "Los Naranj", "Los Naranjos", "71378");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2209, 566, "Zapotitlan del Río", "Zapotitlan", "Zapotitlan del Río", "71378");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2209, 566, "Zapotitlan del Rï¿½o", "Zapotitlan", "Zapotitlan del Rï¿½o", "71378");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2210, 566, "Buena Vista", "Buena Vist", "Buena Vista", "71378");
 	
@@ -4432,7 +4434,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2212, 491, "Santiago Textitlan", "Santiago T", "Santiago Textitlan", "71380");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2213, 491, "Río Miel", "Río Miel", "Río Miel", "71382");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2213, 491, "Rï¿½o Miel", "Rï¿½o Miel", "Rï¿½o Miel", "71382");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2214, 491, "El Metal", "El Metal", "El Metal", "71382");
 	
@@ -4442,23 +4444,23 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2217, 491, "La Cruz Grande", "La Cruz Gr", "La Cruz Grande", "71382");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2218, 491, "La Ciénega", "La Ciénega", "La Ciénega", "71382");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2218, 491, "La Ciï¿½nega", "La Ciï¿½nega", "La Ciï¿½nega", "71382");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2219, 491, "Lachixao", "Lachixao", "Lachixao", "71382");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2220, 491, "Río Humo", "Río Humo", "Río Humo", "71382");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2220, 491, "Rï¿½o Humo", "Rï¿½o Humo", "Rï¿½o Humo", "71382");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2221, 491, "Santiago Sochiltepec", "Santiago S", "Santiago Sochiltepec", "71382");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2222, 491, "La Cieneguilla", "La Cienegu", "La Cieneguilla", "71382");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2223, 491, "Río Santiago", "Río Santia", "Río Santiago", "71382");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2223, 491, "Rï¿½o Santiago", "Rï¿½o Santia", "Rï¿½o Santiago", "71382");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2224, 491, "Río Tigre", "Río Tigre", "Río Tigre", "71382");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2224, 491, "Rï¿½o Tigre", "Rï¿½o Tigre", "Rï¿½o Tigre", "71382");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2225, 491, "Las Juntas", "Las Juntas", "Las Juntas", "71382");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2226, 491, "Peña Azul", "Peña Azul", "Peña Azul", "71382");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2226, 491, "Peï¿½a Azul", "Peï¿½a Azul", "Peï¿½a Azul", "71382");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2227, 491, "Pueblo Viejo", "Pueblo Vie", "Pueblo Viejo", "71382");
 	
@@ -4466,7 +4468,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2229, 491, "Zamazul", "Zamazul", "Zamazul", "71382");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2230, 491, "Río Yerba", "Río Yerba", "Río Yerba", "71382");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2230, 491, "Rï¿½o Yerba", "Rï¿½o Yerba", "Rï¿½o Yerba", "71382");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2231, 491, "Chaneque Verde", "Chaneque V", "Chaneque Verde", "71382");
 	
@@ -4474,9 +4476,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2233, 491, "San Antonio", "San Antoni", "San Antonio", "71382");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2234, 491, "Ferrería de la Providencia", "Ferrería d", "Ferrería de la Providencia", "71383");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2234, 491, "Ferrerï¿½a de la Providencia", "Ferrerï¿½a d", "Ferrerï¿½a de la Providencia", "71383");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2235, 491, "Recibimiento de Cuauhtémoc", "Recibimien", "Recibimiento de Cuauhtémoc", "71383");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2235, 491, "Recibimiento de Cuauhtï¿½moc", "Recibimien", "Recibimiento de Cuauhtï¿½moc", "71383");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2236, 491, "Buenavista", "Buenavista", "Buenavista", "71384");
 	
@@ -4486,7 +4488,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2239, 491, "San Isidro Llano Yerba", "San Isidro", "San Isidro Llano Yerba", "71384");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2240, 491, "San Martín Cacaloxuche", "San Martín", "San Martín Cacaloxuche", "71384");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2240, 491, "San Martï¿½n Cacaloxuche", "San Martï¿½n", "San Martï¿½n Cacaloxuche", "71384");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2241, 491, "Llano Rayo", "Llano Rayo", "Llano Rayo", "71384");
 	
@@ -4498,15 +4500,15 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2245, 450, "Barranca Obscura", "Barranca O", "Barranca Obscura", "71386");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2246, 450, "Río Ciruelo", "Río Ciruel", "Río Ciruelo", "71386");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2246, 450, "Rï¿½o Ciruelo", "Rï¿½o Ciruel", "Rï¿½o Ciruelo", "71386");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2247, 450, "Piedra Liza", "Piedra Liz", "Piedra Liza", "71386");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2248, 450, "Colonia de Jesús (La Cucaracha)", "Colonia de", "Colonia de Jesús (La Cucaracha)", "71386");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2248, 450, "Colonia de Jesï¿½s (La Cucaracha)", "Colonia de", "Colonia de Jesï¿½s (La Cucaracha)", "71386");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2249, 450, "Barranca Nueva", "Barranca ", "Barranca Nueva", "71386");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2250, 450, "Ciénega Mamey", "Ciénega Ma", "Ciénega Mamey", "71386");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2250, 450, "Ciï¿½nega Mamey", "Ciï¿½nega Ma", "Ciï¿½nega Mamey", "71386");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2251, 450, "Recibimiento", "Recibimien", "Recibimiento", "71386");
 	
@@ -4530,13 +4532,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2261, 450, "Llano Verde", "Llano Verd", "Llano Verde", "71388");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2262, 450, "San Miguel Río Verde (La Tortuga)", "San Miguel", "San Miguel Río Verde (La Tortuga)", "71388");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2262, 450, "San Miguel Rï¿½o Verde (La Tortuga)", "San Miguel", "San Miguel Rï¿½o Verde (La Tortuga)", "71388");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2263, 450, "Unión Linda Vista", "Unión Lind", "Unión Linda Vista", "71388");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2263, 450, "Uniï¿½n Linda Vista", "Uniï¿½n Lind", "Uniï¿½n Linda Vista", "71388");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2264, 450, "Barranca Campeche", "Barranca C", "Barranca Campeche", "71388");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2265, 450, "El Huaméchil", "El Huaméch", "El Huaméchil", "71388");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2265, 450, "El Huamï¿½chil", "El Huamï¿½ch", "El Huamï¿½chil", "71388");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2266, 450, "La Huichicata", "La Huichic", "La Huichicata", "71388");
 	
@@ -4546,7 +4548,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2269, 450, "Barranca Cosida", "Barranca C", "Barranca Cosida", "71388");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2270, 450, "La Cofradía", "La Cofradí", "La Cofradía", "71388");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2270, 450, "La Cofradï¿½a", "La Cofradï¿½", "La Cofradï¿½a", "71388");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2271, 450, "Loma Larga (San Miguelito)", "Loma Larga", "Loma Larga (San Miguelito)", "71388");
 	
@@ -4570,9 +4572,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2281, 450, "Llano Tigre", "Llano Tigr", "Llano Tigre", "71388");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2282, 450, "San José de las Flores (El Armadillo)", "San José d", "San José de las Flores (El Armadillo)", "71388");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2282, 450, "San Josï¿½ de las Flores (El Armadillo)", "San Josï¿½ d", "San Josï¿½ de las Flores (El Armadillo)", "71388");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2283, 450, "Santa María Naranjo", "Santa Marí", "Santa María Naranjo", "71388");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2283, 450, "Santa Marï¿½a Naranjo", "Santa Marï¿½", "Santa Marï¿½a Naranjo", "71388");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2284, 450, "La Mesilla", "La Mesilla", "La Mesilla", "71388");
 	
@@ -4588,7 +4590,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2290, 450, "El Cocal", "El Cocal", "El Cocal", "71388");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2291, 448, "Santa María Zaniza", "Santa Marí", "Santa María Zaniza", "71390");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2291, 448, "Santa Marï¿½a Zaniza", "Santa Marï¿½", "Santa Marï¿½a Zaniza", "71390");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2292, 448, "Loma de Tlacuache", "Loma de Tl", "Loma de Tlacuache", "71393");
 	
@@ -4596,13 +4598,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2294, 448, "Tierra Colorada", "Tierra Col", "Tierra Colorada", "71393");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2295, 448, "San Ramón", "San Ramón", "San Ramón", "71394");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2295, 448, "San Ramï¿½n", "San Ramï¿½n", "San Ramï¿½n", "71394");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2296, 448, "Rincón de León", "Rincón de ", "Rincón de León", "71394");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2296, 448, "Rincï¿½n de Leï¿½n", "Rincï¿½n de ", "Rincï¿½n de Leï¿½n", "71394");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2297, 448, "San Isidro", "San Isidro", "San Isidro", "71394");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2298, 448, "Liborio López Anaya", "Liborio Ló", "Liborio López Anaya", "71394");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2298, 448, "Liborio Lï¿½pez Anaya", "Liborio Lï¿½", "Liborio Lï¿½pez Anaya", "71394");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2299, 516, "Santo Domingo Teojomulco", "Santo Domi", "Santo Domingo Teojomulco", "71395");
 	
@@ -4610,25 +4612,25 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2301, 516, "Cruz Cuache", "Cruz Cuach", "Cruz Cuache", "71397");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2302, 516, "Pasito de Río Nuez", "Pasito de ", "Pasito de Río Nuez", "71397");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2302, 516, "Pasito de Rï¿½o Nuez", "Pasito de ", "Pasito de Rï¿½o Nuez", "71397");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2303, 516, "San Pablo", "San Pablo", "San Pablo", "71397");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2304, 516, "Río Seco", "Río Seco", "Río Seco", "71397");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2304, 516, "Rï¿½o Seco", "Rï¿½o Seco", "Rï¿½o Seco", "71397");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2305, 516, "El Horno", "El Horno", "El Horno", "71397");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2306, 516, "Río Tambor", "Río Tambor", "Río Tambor", "71397");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2306, 516, "Rï¿½o Tambor", "Rï¿½o Tambor", "Rï¿½o Tambor", "71397");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2307, 516, "Cuajinicuil", "Cuajinicui", "Cuajinicuil", "71397");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2308, 516, "El Ixtaché", "El Ixtaché", "El Ixtaché", "71397");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2308, 516, "El Ixtachï¿½", "El Ixtachï¿½", "El Ixtachï¿½", "71397");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2309, 516, "La Arena Blanca", "La Arena B", "La Arena Blanca", "71397");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2310, 516, "La Laguna", "La Laguna", "La Laguna", "71397");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2311, 516, "Ciénega Verde", "Ciénega Ve", "Ciénega Verde", "71397");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2311, 516, "Ciï¿½nega Verde", "Ciï¿½nega Ve", "Ciï¿½nega Verde", "71397");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2312, 516, "El Molido", "El Molido", "El Molido", "71397");
 	
@@ -4636,7 +4638,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2314, 516, "El Trapiche", "El Trapich", "El Trapiche", "71397");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2315, 516, "El Limón", "El Limón", "El Limón", "71398");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2315, 516, "El Limï¿½n", "El Limï¿½n", "El Limï¿½n", "71398");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2316, 516, "Las Hojas", "Las Hojas", "Las Hojas", "71398");
 	
@@ -4650,9 +4652,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2321, 516, "La Mesa", "La Mesa", "La Mesa", "71399");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2322, 516, "La Cofradía", "La Cofradí", "La Cofradía", "71399");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2322, 516, "La Cofradï¿½a", "La Cofradï¿½", "La Cofradï¿½a", "71399");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2323, 516, "El Paraíso", "El Paraíso", "El Paraíso", "71399");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2323, 516, "El Paraï¿½so", "El Paraï¿½so", "El Paraï¿½so", "71399");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2324, 516, "La Cieneguilla", "La Cienegu", "La Cieneguilla", "71399");
 	
@@ -4662,7 +4664,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2327, 516, "Los Horcones", "Los Horcon", "Los Horcones", "71399");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2328, 516, "Peñas Negras", "Peñas Negr", "Peñas Negras", "71399");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2328, 516, "Peï¿½as Negras", "Peï¿½as Negr", "Peï¿½as Negras", "71399");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2329, 516, "La Arena", "La Arena", "La Arena", "71399");
 	
@@ -4670,7 +4672,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2331, 516, "El Naranjo", "El Naranjo", "El Naranjo", "71399");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2332, 23, "Cuilápam de Guerrero Centro", "Cuilápam d", "Cuilápam de Guerrero Centro", "71400");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2332, 23, "Cuilï¿½pam de Guerrero Centro", "Cuilï¿½pam d", "Cuilï¿½pam de Guerrero Centro", "71400");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2333, 23, "Guadalupe", "Guadalupe", "Guadalupe", "71403");
 	
@@ -4678,7 +4680,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2335, 23, "San Juan", "San Juan", "San Juan", "71403");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2336, 23, "San Sebastián", "San Sebast", "San Sebastián", "71403");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2336, 23, "San Sebastiï¿½n", "San Sebast", "San Sebastiï¿½n", "71403");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2337, 23, "El Calvario", "El Calvari", "El Calvario", "71403");
 	
@@ -4702,9 +4704,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2347, 23, "Lomas de Rancho Quemado", "Lomas de R", "Lomas de Rancho Quemado", "71406");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2348, 23, "Primera Ampliación de Cruz Blanca", "Primera Am", "Primera Ampliación de Cruz Blanca", "71406");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2348, 23, "Primera Ampliaciï¿½n de Cruz Blanca", "Primera Am", "Primera Ampliaciï¿½n de Cruz Blanca", "71406");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2349, 23, "Colonia los Ríos", "Colonia lo", "Colonia los Ríos", "71406");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2349, 23, "Colonia los Rï¿½os", "Colonia lo", "Colonia los Rï¿½os", "71406");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2350, 23, "Paraje Zavaleta", "Paraje Zav", "Paraje Zavaleta", "71406");
 	
@@ -4718,7 +4720,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2355, 23, "Libramiento a Jalpan", "Libramient", "Libramiento a Jalpan", "71407");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2356, 23, "Reyes Zárate Ibáñez", "Reyes Zára", "Reyes Zárate Ibáñez", "71407");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2356, 23, "Reyes Zï¿½rate Ibï¿½ï¿½ez", "Reyes Zï¿½ra", "Reyes Zï¿½rate Ibï¿½ï¿½ez", "71407");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2357, 23, "Barrio el Rosario", "Barrio el ", "Barrio el Rosario", "71407");
 	
@@ -4728,9 +4730,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2360, 23, "Bulmaro Silva", "Bulmaro Si", "Bulmaro Silva", "71408");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2361, 23, "El Peñasco", "El Peñasco", "El Peñasco", "71408");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2361, 23, "El Peï¿½asco", "El Peï¿½asco", "El Peï¿½asco", "71408");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2362, 23, "Primera Sección Barrio San Antonio", "Primera Se", "Primera Sección Barrio San Antonio", "71408");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2362, 23, "Primera Secciï¿½n Barrio San Antonio", "Primera Se", "Primera Secciï¿½n Barrio San Antonio", "71408");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2363, 23, "Manzano", "Manzano", "Manzano", "71409");
 	
@@ -4746,9 +4748,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2369, 277, "1RA", "1RA", "1RA", "71410");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2370, 277, "La Purísima", "La Purísim", "La Purísima", "71410");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2370, 277, "La Purï¿½sima", "La Purï¿½sim", "La Purï¿½sima", "71410");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2371, 277, "Segunda Sección Barrio Arriba", "Segunda Se", "Segunda Sección Barrio Arriba", "71413");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2371, 277, "Segunda Secciï¿½n Barrio Arriba", "Segunda Se", "Segunda Secciï¿½n Barrio Arriba", "71413");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2372, 277, "El Banco", "El Banco", "El Banco", "71413");
 	
@@ -4758,13 +4760,13 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2375, 277, "La Yerba Santa", "La Yerba S", "La Yerba Santa", "71413");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2376, 277, "Chinigue Segunda Sección (La Quebradora)", "Chinigue S", "Chinigue Segunda Sección (La Quebradora)", "71413");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2376, 277, "Chinigue Segunda Secciï¿½n (La Quebradora)", "Chinigue S", "Chinigue Segunda Secciï¿½n (La Quebradora)", "71413");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2377, 277, "Yenetzala", "Yenetzala", "Yenetzala", "71413");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2378, 277, "La Colorada (Tierra Colorada)", "La Colorad", "La Colorada (Tierra Colorada)", "71413");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2379, 277, "Agua Fría", "Agua Fría", "Agua Fría", "71413");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2379, 277, "Agua Frï¿½a", "Agua Frï¿½a", "Agua Frï¿½a", "71413");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2380, 277, "Arroyo de la Rosa (El Aguacate)", "Arroyo de ", "Arroyo de la Rosa (El Aguacate)", "71414");
 	
@@ -4772,19 +4774,19 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2382, 277, "Tierra Blanca", "Tierra Bla", "Tierra Blanca", "71414");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2383, 277, "El Pericón", "El Pericón", "El Pericón", "71414");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2383, 277, "El Pericï¿½n", "El Pericï¿½n", "El Pericï¿½n", "71414");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2384, 277, "Barranca Grande", "Barranca G", "Barranca Grande", "71414");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2385, 277, "Guillaya (Arroyo de Guillaya)", "Guillaya (", "Guillaya (Arroyo de Guillaya)", "71414");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2386, 277, "San José Obrero Paso Ancho", "San José O", "San José Obrero Paso Ancho", "71414");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2386, 277, "San Josï¿½ Obrero Paso Ancho", "San Josï¿½ O", "San Josï¿½ Obrero Paso Ancho", "71414");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2387, 277, "San Agustín", "San Agustí", "San Agustín", "71414");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2387, 277, "San Agustï¿½n", "San Agustï¿½", "San Agustï¿½n", "71414");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2388, 277, "Santa Inés", "Santa Inés", "Santa Inés", "71414");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2388, 277, "Santa Inï¿½s", "Santa Inï¿½s", "Santa Inï¿½s", "71414");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2389, 277, "Yigüiche", "Yigüiche", "Yigüiche", "71414");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2389, 277, "Yigï¿½iche", "Yigï¿½iche", "Yigï¿½iche", "71414");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2390, 277, "La Loma de los Ingenieros", "La Loma de", "La Loma de los Ingenieros", "71414");
 	
@@ -4796,23 +4798,23 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2394, 277, "Arroyo del Pajarito", "Arroyo del", "Arroyo del Pajarito", "71414");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2395, 277, "Las Peñas", "Las Peñas", "Las Peñas", "71414");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2395, 277, "Las Peï¿½as", "Las Peï¿½as", "Las Peï¿½as", "71414");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2396, 277, "Los Órganos", "Los Órgano", "Los Órganos", "71414");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2396, 277, "Los ï¿½rganos", "Los ï¿½rgano", "Los ï¿½rganos", "71414");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2397, 277, "El Encino (Portillo del Encino)", "El Encino ", "El Encino (Portillo del Encino)", "71414");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2398, 277, "El Madrón", "El Madrón", "El Madrón", "71414");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2398, 277, "El Madrï¿½n", "El Madrï¿½n", "El Madrï¿½n", "71414");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2399, 277, "Rancho Viejo Sola", "Rancho Vie", "Rancho Viejo Sola", "71414");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2400, 277, "Zacamatle", "Zacamatle", "Zacamatle", "71414");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2401, 277, "El Eslabón", "El Eslabón", "El Eslabón", "71415");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2401, 277, "El Eslabï¿½n", "El Eslabï¿½n", "El Eslabï¿½n", "71415");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2402, 277, "La Colorada", "La Colorad", "La Colorada", "71415");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2403, 277, "El Encino (San Agustín)", "El Encino ", "El Encino (San Agustín)", "71415");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2403, 277, "El Encino (San Agustï¿½n)", "El Encino ", "El Encino (San Agustï¿½n)", "71415");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2404, 277, "Huizache", "Huizache", "Huizache", "71415");
 	
@@ -4838,9 +4840,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2415, 277, "Piedra Blanca", "Piedra Bla", "Piedra Blanca", "71416");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2416, 277, "El Huazán", "El Huazán", "El Huazán", "71416");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2416, 277, "El Huazï¿½n", "El Huazï¿½n", "El Huazï¿½n", "71416");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2417, 277, "Las Peñas", "Las Peñas", "Las Peñas", "71416");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2417, 277, "Las Peï¿½as", "Las Peï¿½as", "Las Peï¿½as", "71416");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2418, 277, "Sabinos", "Sabinos", "Sabinos", "71416");
 	
@@ -4864,7 +4866,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2428, 277, "Los Morales", "Los Morale", "Los Morales", "71417");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2429, 277, "Santa Inés Sola", "Santa Inés", "Santa Inés Sola", "71417");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2429, 277, "Santa Inï¿½s Sola", "Santa Inï¿½s", "Santa Inï¿½s Sola", "71417");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2430, 277, "Guichila (Portillo los Anonos)", "Guichila (", "Guichila (Portillo los Anonos)", "71417");
 	
@@ -4872,7 +4874,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2432, 277, "Rancho del Cura", "Rancho del", "Rancho del Cura", "71417");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2433, 277, "Barrio de Santa Anita (Sección Tercera)", "Barrio de ", "Barrio de Santa Anita (Sección Tercera)", "71417");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2433, 277, "Barrio de Santa Anita (Secciï¿½n Tercera)", "Barrio de ", "Barrio de Santa Anita (Secciï¿½n Tercera)", "71417");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2434, 277, "Gulera", "Gulera", "Gulera", "71417");
 	
@@ -4880,11 +4882,11 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2436, 277, "Yogolana", "Yogolana", "Yogolana", "71417");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2437, 277, "Yoleré", "Yoleré", "Yoleré", "71417");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2437, 277, "Yolerï¿½", "Yolerï¿½", "Yolerï¿½", "71417");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2438, 277, "El Común", "El Común", "El Común", "71417");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2438, 277, "El Comï¿½n", "El Comï¿½n", "El Comï¿½n", "71417");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2439, 277, "La Cañada", "La Cañada", "La Cañada", "71417");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2439, 277, "La Caï¿½ada", "La Caï¿½ada", "La Caï¿½ada", "71417");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2440, 277, "La Laguna (La Otra Laguna)", "La Laguna ", "La Laguna (La Otra Laguna)", "71417");
 	
@@ -4898,25 +4900,25 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2445, 277, "La Cueva", "La Cueva", "La Cueva", "71417");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2446, 277, "La Ciénega (La Ciénega del Rancho)", "La Ciénega", "La Ciénega (La Ciénega del Rancho)", "71418");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2446, 277, "La Ciï¿½nega (La Ciï¿½nega del Rancho)", "La Ciï¿½nega", "La Ciï¿½nega (La Ciï¿½nega del Rancho)", "71418");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2447, 277, "La Siempre Viva", "La Siempre", "La Siempre Viva", "71418");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2448, 277, "Yoganita", "Yoganita", "Yoganita", "71418");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2449, 277, "Desviación de la Siempre Viva", "Desviación", "Desviación de la Siempre Viva", "71418");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2449, 277, "Desviaciï¿½n de la Siempre Viva", "Desviaciï¿½n", "Desviaciï¿½n de la Siempre Viva", "71418");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2450, 277, "San Sebastián de las Grutas", "San Sebast", "San Sebastián de las Grutas", "71418");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2450, 277, "San Sebastiï¿½n de las Grutas", "San Sebast", "San Sebastiï¿½n de las Grutas", "71418");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2451, 277, "Nachihuí", "Nachihuí", "Nachihuí", "71418");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2451, 277, "Nachihuï¿½", "Nachihuï¿½", "Nachihuï¿½", "71418");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2452, 277, "San Antonio (Llano de Velásquez)", "San Antoni", "San Antonio (Llano de Velásquez)", "71418");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2452, 277, "San Antonio (Llano de Velï¿½squez)", "San Antoni", "San Antonio (Llano de Velï¿½squez)", "71418");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2453, 277, "La Soledad", "La Soledad", "La Soledad", "71420");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2454, 277, "Chichicastle", "Chichicast", "Chichicastle", "71420");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2455, 277, "San Cristóbal", "San Cristó", "San Cristóbal", "71420");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2455, 277, "San Cristï¿½bal", "San Cristï¿½", "San Cristï¿½bal", "71420");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2456, 277, "Los Pitayos", "Los Pitayo", "Los Pitayos", "71420");
 	
@@ -4942,21 +4944,21 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2467, 277, "La V", "La V", "La V", "71424");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2468, 277, "El Rincón", "El Rincón", "El Rincón", "71424");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2468, 277, "El Rincï¿½n", "El Rincï¿½n", "El Rincï¿½n", "71424");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2469, 277, "Zeta", "Zeta", "Zeta", "71424");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2470, 277, "La Ciénega", "La Ciénega", "La Ciénega", "71424");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2470, 277, "La Ciï¿½nega", "La Ciï¿½nega", "La Ciï¿½nega", "71424");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2471, 277, "Golina", "Golina", "Golina", "71424");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2472, 277, "El Anís", "El Anís", "El Anís", "71425");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2472, 277, "El Anï¿½s", "El Anï¿½s", "El Anï¿½s", "71425");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2473, 277, "El Mangalito", "El Mangali", "El Mangalito", "71425");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2474, 277, "Guayabo", "Guayabo", "Guayabo", "71425");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2475, 277, "Santa Catarina la Cañada", "Santa Cata", "Santa Catarina la Cañada", "71425");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2475, 277, "Santa Catarina la Caï¿½ada", "Santa Cata", "Santa Catarina la Caï¿½ada", "71425");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2476, 277, "La Chihuana", "La Chihuan", "La Chihuana", "71425");
 	
@@ -4966,23 +4968,23 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2479, 277, "La Cucaracha", "La Cucarac", "La Cucaracha", "71425");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2480, 277, "La Unión", "La Unión", "La Unión", "71427");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2480, 277, "La Uniï¿½n", "La Uniï¿½n", "La Uniï¿½n", "71427");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2481, 277, "San Juan Viejo", "San Juan V", "San Juan Viejo", "71427");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2482, 277, "Río Húmedo", "Río Húmedo", "Río Húmedo", "71427");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2482, 277, "Rï¿½o Hï¿½medo", "Rï¿½o Hï¿½medo", "Rï¿½o Hï¿½medo", "71427");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2483, 277, "El Duraznillo", "El Durazni", "El Duraznillo", "71427");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2484, 277, "Loma de Ocote", "Loma de Oc", "Loma de Ocote", "71427");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2485, 277, "San Felipe Zapotitlán", "San Felipe", "San Felipe Zapotitlán", "71427");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2485, 277, "San Felipe Zapotitlï¿½n", "San Felipe", "San Felipe Zapotitlï¿½n", "71427");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2486, 277, "El Nido", "El Nido", "El Nido", "71427");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2487, 277, "El Mirador", "El Mirador", "El Mirador", "71427");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2488, 277, "Río Víbora", "Río Víbora", "Río Víbora", "71427");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2488, 277, "Rï¿½o Vï¿½bora", "Rï¿½o Vï¿½bora", "Rï¿½o Vï¿½bora", "71427");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2489, 277, "La Nopalera", "La Nopaler", "La Nopalera", "71427");
 	
@@ -4990,7 +4992,7 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2491, 277, "Las Trancas", "Las Tranca", "Las Trancas", "71427");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2492, 277, "Río Peña", "Río Peña", "Río Peña", "71427");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2492, 277, "Rï¿½o Peï¿½a", "Rï¿½o Peï¿½a", "Rï¿½o Peï¿½a", "71427");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2493, 277, "El Cocoyuche", "El Cocoyuc", "El Cocoyuche", "71427");
 	
@@ -4998,9 +5000,9 @@
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2495, 277, "El Progreso", "El Progres", "El Progreso", "71427");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2496, 277, "Río Espejo", "Río Espejo", "Río Espejo", "71427");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2496, 277, "Rï¿½o Espejo", "Rï¿½o Espejo", "Rï¿½o Espejo", "71427");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2497, 277, "Río Manteca", "Río Mantec", "Río Manteca", "71427");
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2497, 277, "Rï¿½o Manteca", "Rï¿½o Mantec", "Rï¿½o Manteca", "71427");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2498, 277, "San Juan Elotepec", "San Juan E", "San Juan Elotepec", "71427");
 	

@@ -22,7 +22,7 @@
             url: '<c:url value='/reviewer/meeting/listAddress.json?idCase=${m.caseDetention.id}'/>',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Direcci&oacute;n','Tiempo de<br/> recidencia','Tipo de domicilio','Tipo de propiedad', 'Acci&oacute;n'],
+            colNames: ['ID', 'Direcci&oacute;n','Tiempo de<br/> residencia','Tipo de domicilio','Tipo de propiedad', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'addressString', index: 'addressString', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

@@ -113,7 +113,7 @@ public class AssignCaseController {
     }
 
     @RequestMapping(value = "/supervisorManager/assignCase/save", method = RequestMethod.POST)
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     @ResponseBody
     public String save(@RequestBody AssignCaseSaveInformation data) {
         Long userSenderId = userService.GetLoggedUserId();

@@ -1,6 +1,9 @@
 package com.umeca.model.entities.reviewer.dto;
 
 import com.umeca.model.entities.reviewer.SourceVerification;
+import com.umeca.model.entities.reviewer.View.Section;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +19,7 @@ public class SourceVerificationDto {
     private String relationship;
     private String address;
     private String phone;
+    private List<Section> sections;
 
     public SourceVerificationDto dtoSourceVerification(SourceVerification sv){
         this.id = sv.getId();
@@ -24,7 +28,7 @@ public class SourceVerificationDto {
         if(sv.getRelationship()!=null){
             this.relationship = sv.getRelationship().getName();
         }else{
-            this.relationship="No proporcionado";
+            this.relationship="No aplica";
         }
         this.address= sv.getAddress();
         this.phone = sv.getPhone();
@@ -77,5 +81,13 @@ public class SourceVerificationDto {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
     }
 }

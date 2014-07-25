@@ -7,13 +7,17 @@ import com.umeca.model.catalog.Question;
 import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.Section;
+import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileAllSourcesView;
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
+import com.umeca.model.entities.reviewer.dto.SourceVerificationDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
+import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.parsing.SourceExtractor;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -200,6 +204,52 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         file.setResult(risk);
 
+        return file;
+    }
+
+    @Autowired
+    SourceVerificationRepository sourceVerificationRepository;
+
+    @Override
+    public TechnicalReviewInfoFileAllSourcesView fillInfoFileAllSources(Long id) {
+        TechnicalReviewInfoFileAllSourcesView file = new TechnicalReviewInfoFileAllSourcesView();
+        Verification ver = verificationRepository.findOne(id);
+
+        Meeting meeting = ver.getCaseDetention().getMeeting();
+
+        file.setIdFolder(ver.getCaseDetention().getIdFolder());
+        file.setName(meeting.getImputed().getName());
+        file.setLastNameP(meeting.getImputed().getLastNameP());
+        file.setLastNameM(meeting.getImputed().getLastNameM());
+
+        file.setAddress(meeting.getImputedHomes().get(0).getAddress().getAddressString());
+        String template = "Campo: {0} <br/>Valor: {1}";
+        List<Long> sourcesId = sourceVerificationRepository.getAllSourcesByCase(id);
+
+        for(Long idSource: sourcesId){
+            SourceVerificationDto sv = new SourceVerificationDto();
+            sv.dtoSourceVerification(sourceVerificationRepository.findOne(idSource));
+            sv.setSections(new ArrayList<Section>());
+            for(int i=0; i<Constants.NAMES_MEETING.length;i++) {
+                List<FieldMeetingSource> fieldMeetingSources = fieldMeetingSourceRepository.getFieldMeetingBySource(id, idSource, Constants.ST_FIELD_VERIF_UNABLE,(i+1));
+                if(fieldMeetingSources!=null && fieldMeetingSources.size()>0) {
+                    Section s = new Section(fieldMeetingSources.get(0).getFieldVerification().getSection());
+                    List<String> messages= new ArrayList<>();
+                    for (FieldMeetingSource fms : fieldMeetingSources) {
+                        String finalString = template.replace("{0}",fms.getFieldVerification().getFieldName());
+                        finalString = finalString.replace("{1}",fms.getValue());
+                        finalString = sharedUserService.convertToValidString(finalString);
+                        messages.add(finalString);
+                    }
+                        s.setValues(messages);
+                        sv.getSections().add(s);
+
+                }
+            }
+
+                file.getSources().add(sv);
+
+        }
         return file;
     }
 }

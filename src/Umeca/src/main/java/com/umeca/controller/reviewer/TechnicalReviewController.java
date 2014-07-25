@@ -10,6 +10,7 @@ import com.umeca.model.catalog.Questionary;
 import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.ForTechnicalReviewGrid;
+import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileAllSourcesView;
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
 import com.umeca.model.entities.supervisor.HearingFormatView;
 import com.umeca.model.shared.Constants;
@@ -201,6 +202,22 @@ public class TechnicalReviewController {
         ModelAndView model = new ModelAndView("/reviewer/technicalReview/infoFile");
 
         TechnicalReviewInfoFileView dataFile = technicalReviewService.fillInfoFile(id);
+
+        model.addObject("data",dataFile);
+        response.setContentType("application/force-download");
+        response.setHeader("Content-Disposition","attachment; filename=\"datos_opinion_tecnica.doc\"");
+
+
+
+            return model;
+    }
+
+    @RequestMapping(value = "/reviewer/technicalReview/generateFileAllSources", method = RequestMethod.GET)
+    public ModelAndView generateFileAllSources(@RequestParam(required = true) Long id, HttpServletResponse response) {
+
+        ModelAndView model = new ModelAndView("/reviewer/technicalReview/infoAllSources");
+
+        TechnicalReviewInfoFileAllSourcesView dataFile = technicalReviewService.fillInfoFileAllSources(id);
 
         model.addObject("data",dataFile);
         response.setContentType("application/force-download");

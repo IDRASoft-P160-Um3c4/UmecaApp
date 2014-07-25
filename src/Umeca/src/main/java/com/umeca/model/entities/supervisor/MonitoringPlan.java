@@ -23,7 +23,7 @@ public class MonitoringPlan {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_case", nullable = false)
+    @JoinColumn(name="id_case", nullable = false, unique = true)
     private Case caseDetention;
 
     @OneToOne(fetch=FetchType.LAZY)

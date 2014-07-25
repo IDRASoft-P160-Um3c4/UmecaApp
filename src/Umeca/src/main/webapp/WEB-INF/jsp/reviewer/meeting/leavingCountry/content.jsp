@@ -2,7 +2,7 @@
     <input type="hidden" value="${m.caseDetention.id}" name="caseDetention.id">
     <div class="row">
         <div class="center row">
-            <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el pa�s</h2>
+            <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el pa&iacute;s</h2>
         </div>
         <br/>
 

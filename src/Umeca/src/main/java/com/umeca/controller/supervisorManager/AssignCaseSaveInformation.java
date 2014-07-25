@@ -23,7 +23,7 @@ public class AssignCaseSaveInformation {
     }
 
     public String getComments() {
-        return comments;
+        return comments == null? "" : comments;
     }
 
     public void setComments(String comments) {
