@@ -128,7 +128,11 @@ public class MainPageServiceImpl implements MainPageService {
 
     private void constructSupervisorManagerMainPage(ModelAndView model, Long userId) {
         Gson json = new Gson();
-        List<CommentMonitoringPlanNotice> lstGen = logCommentRepository.getEnabledCommentsByManagerSupId(userId);
+        List<CommentMonitoringPlanNotice> lstGen = logCommentRepository.getEnabledCommentsByManagerSupRole(
+                new ArrayList<String>(){{
+                    add(MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT);
+                    add(MonitoringConstants.STATUS_PENDING_END);
+                    add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);}});
         String sLstGeneric = json.toJson(lstGen);
         model.addObject("lstNotification", sLstGeneric);
         model.addObject("urlToGo", "/supervisorManager/log/deleteComment.json");
