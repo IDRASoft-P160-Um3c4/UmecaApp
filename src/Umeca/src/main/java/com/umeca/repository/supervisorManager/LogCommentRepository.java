@@ -29,7 +29,7 @@ public interface LogCommentRepository extends JpaRepository<LogComment, Long>{
             "INNER JOIN lcmp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
             "INNER JOIN lcmp.senderUser su LEFT JOIN lcmp.receiveUser ru " +
             "WHERE su.id <>:userId AND lcmp.action IN :lstActions AND lcmp.isObsolete = false ORDER BY lcmp.id DESC")
-    List<CommentMonitoringPlanNotice> getEnabledCommentsByManagerSupRole(@Param("lstActions") List<String> lstActions);
+    List<CommentMonitoringPlanNotice> getEnabledCommentsByManagerSupRole(@Param("lstActions") List<String> lstActions, @Param("userId")Long userId);
 
     @Query("SELECT lcmp FROM LogComment lcmp " +
             "LEFT JOIN lcmp.monitoringPlan.supervisor s " +

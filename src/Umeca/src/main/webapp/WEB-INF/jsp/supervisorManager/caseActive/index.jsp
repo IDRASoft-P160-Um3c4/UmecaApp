@@ -53,7 +53,7 @@
                     var status = $(this).jqGrid('getCol', 'codeStatus', false);
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
-                        var be;
+                        var be = "";
                         switch (status[i]) {
                             case 'ST_CASE_PRE_CLOSED':
                                 be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar el cierre del caso\" onclick=\"window.authCloseCase('" + cl + "');\"><span class=\"glyphicon glyphicon-check\"></span></a>";

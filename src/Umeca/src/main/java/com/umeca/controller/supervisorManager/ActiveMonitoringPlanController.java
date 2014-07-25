@@ -119,7 +119,7 @@ public class ActiveMonitoringPlanController {
             model.addObject("isAuthorized", 1);
             //model.addObject("isEnd", 1);
             model.addObject("msgPlan", "finalización del plan de seguimiento");
-            model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectMonPlan.json");
+            model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectEndMonPlan.json");
             return model;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "authorizeEnd", sharedUserService);
@@ -137,7 +137,7 @@ public class ActiveMonitoringPlanController {
             //model.addObject("isEnd", 1);
             model.addObject("isAuthorized", 0);
             model.addObject("msgPlan", "finalización del plan de seguimiento");
-            model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectMonPlan.json");
+            model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectEndMonPlan.json");
             return model;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "rejectEnd", sharedUserService);
@@ -231,10 +231,10 @@ public class ActiveMonitoringPlanController {
         return response;
     }
 
-    @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectMonPlan", method = RequestMethod.POST)
+    @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectEndMonPlan", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doAuthorizeRejectMonPlan(@ModelAttribute AuthorizeRejectMonPlan model) {
+    ResponseMessage doAuthorizeRejectEndMonPlan(@ModelAttribute AuthorizeRejectMonPlan model) {
 
         ResponseMessage response = new ResponseMessage();
         response.setHasError(true);
@@ -266,7 +266,7 @@ public class ActiveMonitoringPlanController {
 
             response.setHasError(false);
         } catch (Exception ex) {
-            logException.Write(ex, this.getClass(), "doAuthorizeRejectMonPlan", sharedUserService);
+            logException.Write(ex, this.getClass(), "doAuthorizeRejectEndMonPlan", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         }

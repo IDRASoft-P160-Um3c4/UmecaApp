@@ -143,6 +143,13 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         monPlan.setAuthorizationTime(now);
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
 
+        if(type.equals(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END) && model.getAuthorized() == 1){
+            Case caseDetention = monPlan.getCaseDetention();
+            StatusCase status = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
+            caseDetention.setStatus(status);
+            caseRepository.save(caseDetention);
+        }
+
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         logCommentRepository.save(commentModel);
         monitoringPlanRepository.save(monPlan);
@@ -204,13 +211,6 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
         monPlan.setStatusLog(json.toJson(logJson));
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
-
-        if(model.getAuthorized() == 1){
-            Case caseDetention = monPlan.getCaseDetention();
-            StatusCase status = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
-            caseDetention.setStatus(status);
-            caseRepository.save(caseDetention);
-        }
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         monitoringPlanRepository.save(monPlan);
