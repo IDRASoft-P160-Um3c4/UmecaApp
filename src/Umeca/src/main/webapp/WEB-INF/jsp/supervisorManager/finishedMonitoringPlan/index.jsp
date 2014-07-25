@@ -57,6 +57,8 @@
                             var cl = ids[i];
                             var row = $(this).getRowData(cl);
 
+                            var be="";
+
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de incumplimiento\" onclick=\"window.accomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&iacute;cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 

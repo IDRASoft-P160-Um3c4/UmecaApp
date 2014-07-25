@@ -79,7 +79,7 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
                         var status = row.statusCode;
-                        var be;
+                        var be="";
                         if ( status == 'INCOMPLETE_LEGAL') {
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Procesos legales usuario\" onclick=\"window.legal('" + cl + "');\"><i class=\"icon-legal\"></i></a>";
                         }else if(status == 'INCOMPLETE'){
