@@ -73,7 +73,7 @@
                     for (var i = 0; i < ids.length; i++) {
 
                         var cl = ids[i];
-                        var be;
+                        var be="";
 
                         be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formato de audiencia\" onclick=\"viewHearingFormat(   '" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 

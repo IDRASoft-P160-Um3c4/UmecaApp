@@ -16,7 +16,6 @@ public class JqGridFilterModel
     public static final String COMPARE_IN = "in";
     public static final String COMPARE_NOT_IN = "not in";
 
-
     public String sidx;
     public String sord;
     public Integer page;
@@ -27,6 +26,7 @@ public class JqGridFilterModel
     public String searchString;
     public String filters;
     public List<JqGridRulesModel> extraFilters;
+    public Integer typeView;
 
     //public Long primaryId;
     //public String codeItem;
@@ -109,6 +109,14 @@ public class JqGridFilterModel
 
     public void setExtraFilters(List<JqGridRulesModel> extraFilters) {
         this.extraFilters = extraFilters;
+    }
+
+    public Integer getTypeView() {
+        return typeView;
+    }
+
+    public void setTypeView(Integer typeView) {
+        this.typeView = typeView;
     }
 
     /*

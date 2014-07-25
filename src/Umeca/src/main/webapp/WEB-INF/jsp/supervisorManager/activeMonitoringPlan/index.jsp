@@ -4,7 +4,7 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/authorizeMonitoringPlan/authRejectCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/activeMonitoringPlan/changeSupervisorCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/authorizeMonitoringPlan/authRejectCtrl.js"></script>
     <title>Planes de seguimiento</title>
 </head>
@@ -62,7 +62,7 @@
                     url: '<c:url value='/supervisorManager/activeMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', "Estatus bit�cora", 'Acci�n'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', "Estatus bit&aacute;cora", 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', width: 65, align: "center", sortable: true, search: false },

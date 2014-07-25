@@ -100,7 +100,7 @@ public class RolActivityServiceImpl implements RolActivityService{
             return;
 
         rolActivity.setUserModify(user);
-        rolActivity.setStatus(MonitoringConstants.STATUS_ACTIVITY_MODIFIED);
+        rolActivity.setStatus(MonitoringConstants.STATUS_ACTIVITY_DELETED);
 
         rolActivityRepository.save(rolActivity);
         fullModel.addActsDel();
