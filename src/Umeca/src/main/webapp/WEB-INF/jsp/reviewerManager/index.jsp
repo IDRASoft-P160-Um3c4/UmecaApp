@@ -9,7 +9,7 @@
 <div class="widget-header">
     <h4 class="lighter smaller">
         <i class="icon-rss orange"></i>
-        Pizarraaaaaaaaaaaaa de informaci&oacute;n (Top 10)
+        Pizarra de informaci&oacute;n (Top 10)
     </h4>
 
     <div class="widget-toolbar no-border" ng-init='lstActivities = ${lstActivities};'>
