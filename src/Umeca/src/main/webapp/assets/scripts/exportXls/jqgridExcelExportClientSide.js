@@ -5,7 +5,7 @@
 ;
 (function ($) {
     $.jgrid.extend({
-        exportarExcelCliente: function (o) {
+        toExcelFile: function (o) {
             var archivoExporta, hojaExcel;
             archivoExporta = {
                 worksheets: [
@@ -33,7 +33,7 @@
 
             for (var x = 0; x < gridColModel.length; x++) {
 
-                if (gridColModel[x].hidden != true&&gridColModel[x].name != 'Action') {
+                if (gridColModel[x].hidden != true&&gridColModel[x].name != 'Action'&&gridColModel[x].name !='action') {
                     nombreColumnas.push(gridColModel[x].name);
 
                     var colNme = gridColNames[x].toUpperCase();

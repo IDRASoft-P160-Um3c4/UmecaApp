@@ -94,7 +94,7 @@
 
                         onClickButton: function () {
                             try {
-                                $("#GridId").jqGrid('exportarExcelCliente',{nombre:"HOJATEST",formato:"excel"});
+                                $("#GridId").jqGrid('toExcelFile',{nombre:"datosXls",formato:"excel"});
                             } catch (e) {
                             }
                         }});
