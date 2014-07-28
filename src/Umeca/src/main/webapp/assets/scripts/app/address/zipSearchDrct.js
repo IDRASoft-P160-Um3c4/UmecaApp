@@ -17,7 +17,7 @@ app.directive('zipSearch', function ($http, $timeout) {
             ajaxConf.params = {zipCode : scope.zipCode};
 
             if (currentTimeout) {
-                $timeout.cancel(currentTimeout);
+                $timeout.cancel( currentTimeout);
             }
 
             currentTimeout = $timeout(function() {
