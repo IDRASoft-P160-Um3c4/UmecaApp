@@ -96,7 +96,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class=" icon-check  "></i>&nbsp;&nbsp;Procesos de verificación</h2>
+    <h2 class="element-center"><i class=" icon-check  "></i>&nbsp;&nbsp;Procesos de verificaci&oacute;n</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>
