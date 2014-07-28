@@ -11,7 +11,7 @@ app.directive('zipSearch', function ($http, $timeout) {
         };
 
         elem.on('keyup change blur', function () {
-            if (scope.zipCode == undefined || scope.zipCode.length < 4 || scope.zipCode.length > 5)
+            if (scope.zipCode == undefined || scope.zipCode.length != 5)
                 return;
 
             ajaxConf.params = {zipCode : scope.zipCode};
