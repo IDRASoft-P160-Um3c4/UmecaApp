@@ -24,7 +24,7 @@
                                     <ul class="list-unstyled spaced">
                                         <li>
                                             <i class="icon-caret-right blue"></i>
-                                            <span style="font-size: 16px; text-align: justify"> Sistema creado por el patrocinio del Programa de Apoyo en Seguridad y Justicia de USAID.</span>
+                                            <span style="font-size: 16px; text-align: justify">Unidad de Medidas Cautelares (UMECA) creada con la Asistencia T&eacute;cnica del Programa de Apoyo en Seguridad y Justicia de USAID.</span>
                                         </li>
                                         <li>
                                             <i class="icon-caret-right blue"></i>
