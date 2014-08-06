@@ -1,10 +1,10 @@
 package com.umeca.controller.management;
 
 import com.google.gson.Gson;
+import com.umeca.controller.shared.ExcelConv;
 import com.umeca.infrastructure.PojoValidator;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
-import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.security.BcryptUtil;
 import com.umeca.model.ResponseMessage;
@@ -12,11 +12,14 @@ import com.umeca.model.ResponseUniqueMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.account.UserUnique;
 import com.umeca.model.entities.account.UserView;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import net.sf.jxls.transformer.XLSTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -26,15 +29,14 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
-import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Project: Umeca
@@ -63,75 +65,7 @@ public class UserController {
     @RequestMapping(value = "/management/user/list", method = RequestMethod.POST)
     public
     @ResponseBody
-    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts, HttpServletResponse response) {
-
-        //opts.extraFilters = new ArrayList<>();
-        //JqGridRulesModel extraFilter = new JqGridRulesModel("enabled", "1", JqGridFilterModel.COMPARE_EQUAL);
-        //opts.extraFilters.add(extraFilter);
-
-        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
-            @Override
-            public <T> List<Selection<?>> getFields(final Root<T> r) {
-                return new ArrayList<Selection<?>>() {{
-                    add(r.get("id"));
-                    add(r.get("username"));
-                    add(r.get("fullname"));
-                    add(r.get("email"));
-                    add(r.get("enabled"));
-                    add(r.join("roles").get("description"));
-                }};
-            }
-
-            @Override
-            public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if (field.equals("role"))
-                    return r.join("roles").get("description");
-                return null;
-            }
-        }, User.class, UserView.class);
-
-        /*if (opts.typeView == 0) {
-
-            try {
-
-                response.setContentType("application/force-download");
-                response.setHeader("Content-Disposition","attachment; filename=\"lacrita.txt\"");
-
-                String texto ="me recaaaargo en la pared";
-
-                int read=0;
-                byte[] bytesillos = texto.getBytes();
-
-                InputStream is = new ByteArrayInputStream(texto.getBytes(StandardCharsets.UTF_8));
-
-                OutputStream os = response.getOutputStream();
-
-                while((read = is.read(bytesillos))!= -1){
-                    os.write(bytesillos, 0, read);
-                }
-
-                is.close();
-                os.flush();
-                os.close();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
-
-        return result;
-
-    }
-
-
-    @RequestMapping(value = "/management/user/listExport", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    JqGridResultModel export(@ModelAttribute JqGridFilterModel opts, HttpServletResponse response) {
-
-        //opts.extraFilters = new ArrayList<>();
-        //JqGridRulesModel extraFilter = new JqGridRulesModel("enabled", "1", JqGridFilterModel.COMPARE_EQUAL);
-        //opts.extraFilters.add(extraFilter);
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -157,8 +91,6 @@ public class UserController {
         return result;
 
     }
-
-
 
     @Qualifier("qRoleRepository")
     @Autowired
@@ -303,5 +235,62 @@ public class UserController {
             response.setMessage("Se presentó un error inesperado. Por favor revise que el registro exista e intente de nuevo");
         }
         return response;
+    }
+
+
+
+    @Autowired
+    CaseRepository caseRepository;
+
+    @RequestMapping(value = "/management/user/jxls", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    void jxlsMethod(HttpServletRequest request, HttpServletResponse response) {
+
+        Map beans = new HashMap();
+
+        XLSTransformer transformer = new XLSTransformer();
+
+        try {
+
+            List<Case> listCases = caseRepository.findAll();
+            beans.put("listCases", listCases);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            beans.put("dateFormat", dateFormat);
+
+            ExcelConv excelConv= new ExcelConv();
+            beans.put("excelConv", excelConv);
+
+            UUID uid = UUID.randomUUID();
+
+            File temp = File.createTempFile(uid.toString(), ".xls");
+            String tempPath = temp.getAbsolutePath();
+
+            ServletContext servletContext = request.getSession().getServletContext();
+            String realContextPath = servletContext.getRealPath("/");
+            realContextPath += "/WEB-INF/jxlsTemplate/reportCase.xls";
+
+            transformer.transformXLS(realContextPath, beans, tempPath);
+
+            response.setContentType("application/x-download");
+            response.setHeader("Content-Disposition", "attachment; filename=\"infoCase.xls\"");
+
+            FileInputStream istr = new FileInputStream(tempPath);
+            OutputStream ostr = response.getOutputStream();
+
+            int curByte = -1;
+
+            while ((curByte = istr.read()) != -1)
+                ostr.write(curByte);
+
+            ostr.flush();
+            ostr.close();
+            istr.close();
+            temp.delete();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

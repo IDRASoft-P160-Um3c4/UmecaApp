@@ -104,6 +104,19 @@
                                         }
                     }});
 
+        jQuery("#GridId").jqGrid('navSeparatorAdd', '#GridPager');
+        jQuery("#GridId").jqGrid('navButtonAdd', "#GridPager",
+                {
+                    caption: "",
+                    buttonicon: 'icon-download-alt red',
+
+                    onClickButton: function () {
+                        try {
+                            window.goToUrlMvcUrl("<c:url value='/management/user/jxls.html'/>",null);
+                        } catch (e) {
+                        }
+                    }});
+
         jQuery("#GridId").jqGrid('filterToolbar', {
             stringResult: true,
             searchOperators: true,
