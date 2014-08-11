@@ -1,15 +1,10 @@
 package com.umeca.controller.shared;
 
-import com.umeca.model.catalog.Question;
 import com.umeca.model.catalog.Questionary;
 import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.shared.Constants;
-import com.umeca.repository.catalog.QuestionarySectionRepository;
-import com.umeca.repository.shared.QuestionaryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.xml.transform.sax.SAXSource;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -73,8 +68,8 @@ public class ExcelConv {
                 if (act.getRegisterType() != null)
                     addresses += ", Tipo: " + act.getRegisterType().getName();
 
-                if (act.getBelong() != null)
-                    addresses += ", Propio: " + act.getBelong().getName();
+                if (act.getHomeType() != null)
+                    addresses += ", Tipo: " + act.getHomeType().getName();
             }
 
         return addresses;
