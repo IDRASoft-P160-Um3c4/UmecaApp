@@ -1,4 +1,26 @@
 <div class="row">
+    <div>
+        <div class="col-xs-2 element-right">
+            <i class="icon-ok-circle green  icon-only bigger-120"  ng-show="verification"
+               ng-click="doConfirmVerifEqual('socialNetwork.comment  ')"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
+               code="imputed.maritalStatus.id"></i>
+            <i class="icon-ban-circle inverse icon-only bigger-1 20"  ng-show="verification"
+               ng-click="doConfirmVerifNotKnow('imputed.maritalStatus.id')"></i>
+            <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.maritalStatus.id')"></i>
+            Observaciones:</div>
+        <div class="col-xs-9">
+            <textarea class="width-100"
+                      data-val-required="Las observaciones es un campo requerido"
+                      name="socialNetwork.comment">${m.socialNetwork.comment}</textarea>
+                <span class="field-validation-valid" data-valmsg-for="socialNetwork.comment"
+                      data-valmsg-replace="true"></span>
+        </div>
+
+    </div>
+</div>
+<br/>
+<div class="row">
     <div class="col-sm-12">
         <div id="accordionSocialNetwork" class="accordion-style1 panel-group"
              ng-init='listSocialNetwork =${(listSocialNetwork == null) ? '[]': listSocialNetwork};'>

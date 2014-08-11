@@ -3,6 +3,7 @@
     <div class="row element-left">
         <b>Delitos:</b>
     </div>
+    <input type="hidden" ng-update-hidden ng-init='listCrime = ${(listCrime == null) ? '[]': listCrime};'>
     <input type="hidden" ng-update-hidden ng-model="crimeString" name='listCrime'>
     <div class="col-xs-12">
 

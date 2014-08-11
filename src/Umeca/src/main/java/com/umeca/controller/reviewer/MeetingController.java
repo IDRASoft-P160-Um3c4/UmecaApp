@@ -126,9 +126,9 @@ public class MeetingController {
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.join("address").get("addressString").alias("addressString"));
-                    add(r.get("timeLive"));
+                    add(r.get("phone"));
                     add(r.join("registerType").get("name").alias("registerTypeString"));
-                    add(r.join("belong").get("name").alias("belongString"));
+                    add(r.join("homeType").get("name").alias("homeType"));
                 }};
             }
 
@@ -168,6 +168,7 @@ public class MeetingController {
                     add(r.join("relationship").get("name").alias("relName"));
                     add(r.get("age"));
                     add(r.get("phone"));
+                    add(r.get("isAccompaniment"));
                 }};
             }
 
@@ -205,6 +206,7 @@ public class MeetingController {
                     add(r.join("relationship").get("name").alias("relName"));
                     add(r.get("age"));
                     add(r.get("phone"));
+                    add(r.get("isAccompaniment"));
                 }};
             }
 
@@ -475,6 +477,15 @@ public class MeetingController {
     ResponseMessage saveProceedingLegal(@ModelAttribute CriminalProceedingView cpv) {
         return meetingService.saveProceedingLegal(cpv);
     }
+
+
+    @RequestMapping(value = "/reviewer/meeting/upsertSocialNetworkComment", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage upsertSocialNetworkComment(@RequestParam String comment, @RequestParam Long idCase) {
+        return meetingService.upsertSocialNetworkComment(comment,idCase);
+    }
+
 
 
 }

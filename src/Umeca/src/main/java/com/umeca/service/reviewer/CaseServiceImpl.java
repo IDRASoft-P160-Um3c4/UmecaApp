@@ -86,7 +86,7 @@ public class CaseServiceImpl implements CaseService {
         meeting.setCaseDetention(caseDet);
         meeting.setMeetingType(type);
         caseDet.setMeeting(meeting);
-
+        caseDet.setDateCreate(new Date());
         return caseDet;
     }
 

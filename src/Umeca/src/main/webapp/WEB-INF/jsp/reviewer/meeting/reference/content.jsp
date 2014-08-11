@@ -1,3 +1,4 @@
+
 <div class="row">
     <input type="hidden" ng-update-hidden ng-model="id" name="idCase" id="idCase"
            ng-init="idCase = ${(idCase == null) ? 0 : idCase};">
@@ -7,6 +8,19 @@
            ng-init="r.docId = ${docId == null ? "undefined" : docId};">
     <input type="hidden" ng-update-hidden ng-model="id" name="id" id="id"
            ng-init='id = "${(r.id== null) ? 0 : r.id}"'>
+    <div class="col-xs-10 col-xs-offset-1">
+
+        <input type="hidden" ng-update-hidden name="isAccompaniment" ng-model="r.isAccompaniment">
+
+        <input type="checkbox" ng-model="r.isAccompaniment"
+               ng-init="r.isAccompaniment= ${r.fullName ==null ? false: r.isAccompaniment}">
+
+        &iquest;Esta persona acompa&ntilde;ar&aacute; al imputado durante el proceso?
+    </div>
+</div>
+<br/>
+<div class="row">
+
     <div class="col-xs-12">
         <div class="col-xs-2 element-left">
             Nombre:

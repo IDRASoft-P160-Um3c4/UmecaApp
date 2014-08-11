@@ -1,9 +1,9 @@
 app.controller('addressController', function($scope, $timeout, $http) {
     $scope.a = {};
     $scope.listLocation = [];
-    $scope.listElection = [];
+    $scope.lstHomeType = [];
     $scope.listType = [];
-    $scope.a.belong = 0;
+    $scope.a.homeType = 0;
     $scope.a.type=0;
     $scope.content = "Address";
     $scope.nameAddress = "address.";
@@ -26,41 +26,24 @@ app.controller('addressController', function($scope, $timeout, $http) {
                 }
             }
         }
-        if($scope.listElection === undefined || $scope.listElection.length <= 0)
+        if($scope.lstHomeType === undefined || $scope.lstHomeType.length <= 0)
             return;
 
-        if($scope.a.belongId === undefined){
-            $scope.a.belong = $scope.listElection[0];
-            $scope.a.belongId = $scope.a.belong.id;
+        if($scope.a.homeTypeId === undefined){
+            $scope.a.homeType = $scope.lstHomeType[0];
+            $scope.a.homeTypeId = $scope.a.homeType.id;
         }
         else{
-            for(var i=0; i < $scope.listElection.length; i++){
-                var bel = $scope.listElection[i];
+            for(var i=0; i < $scope.lstHomeType.length; i++){
+                var bel = $scope.lstHomeType[i];
 
-                if(bel.id === $scope.a.belongId){
-                    $scope.a.belong = bel;
+                if(bel.id === $scope.a.homeTypeId){
+                    $scope.a.homeType = bel;
                     break;
                 }
             }
         }
 
-        if($scope.zipCode != "" && $scope.zipCode!= undefined){
-            var ajaxConf = {
-                method: 'POST',
-                url: $scope.url
-            };
-            ajaxConf.params = {zipCode : $scope.zipCode};
-            $http(ajaxConf).success(function (data) {
-                    data.data=jQuery.parseJSON(data.data);
-                    if (data.data == undefined || data.data.length === 0) {
-                        $scope.clear();
-                        return;
-                    }
-                    $scope.listLocation = data.data;
-                    $scope.a.location =$scope.listLocation[0];
-                    $scope.a.locationId = $scope.a.location.id;
-                });
-        }
     };
 
 

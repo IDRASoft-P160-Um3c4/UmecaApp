@@ -22,17 +22,21 @@
         window.cancelLegal = function (){
             window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/index.html'/>");
         }
+        window.cancelViewManagerEval = function(){
+            window.goToUrlMvcUrl("<c:url value='/managereval/showCaseEvaluation/index.html'/>");
+        }
+
     </script>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content">
+<div class="container body-content" ng-cloak>
                                                                             <br/>
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos procesales</h2>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
     <div ng-controller="proceedingLegalController">
-    <div class="row">
+    <div class="row" ng-init="managereval = ${managereval}">
         <div class="col-sm-12">
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs" id="tabMeeting">
@@ -129,7 +133,7 @@
                 </div>
             </div>
         </div>
-    <div class="row">
+    <div class="row" ng-show="managereval == false">
         <div class="modal-footer">
                     <span class="btn btn-default btn-sm" onclick="window.cancelLegal()">
                           Cancelar
@@ -137,6 +141,13 @@
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submit('#FormCurrentLegalId,#FormPreviousLegalId','<c:url value="/reviewer/meeting/saveProceedingLegal.json?idCase=${idCase}"/>');">
                           Guardar
+                    </span>
+        </div>
+    </div>
+    <div class="row" ng-show="managereval == true">
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" onclick="window.cancelViewManagerEval()">
+                          Regresar
                     </span>
         </div>
     </div>

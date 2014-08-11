@@ -6,10 +6,10 @@
 5|Opiáceos|0|0
 6|PBC(Pasta básica de cocaína)|0|0
 7|Solventes|0|1
-8|Cemento|0|1
-9|LSD|0|1
-10|Anfetaminas|0|1
-11|Metanfetaminas|0|1
-12|Extasis|0|1
-13|Hongos|0|1
+8|Cemento|0|0
+9|LSD|0|0
+10|Anfetaminas|0|0
+11|Metanfetaminas|0|0
+12|Extasis|0|0
+13|Hongos|0|0
 14|Otro|0|1

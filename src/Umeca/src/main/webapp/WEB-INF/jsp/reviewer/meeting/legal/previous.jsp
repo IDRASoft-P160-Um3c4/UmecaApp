@@ -11,10 +11,10 @@
             <input class="form-control" data-val="true"
                    data-val-length="Debe tener al menos 5 y m&aacute;ximo 255 caracteres"
                    data-val-length-max="255" data-val-length-min="5"
+                   ng-init='m.firstProceeding="${firstProceeding==null?'':firstProceeding}";'
                    data-val-required="Primer proceso es un campo requerido"
                    type="text" ng-model="m.firstProceeding" id="firstProceeding"
-                   name="firstProceeding"
-                   ng-init='m.firstProceeding = "";'>
+                   name="firstProceeding">
             <span class="field-validation-valid" data-valmsg-for="firstProceeding" data-valmsg-replace="true"></span>
         </div>
         <div class="col-xs-4">
@@ -23,6 +23,7 @@
                    data-val-length="Debe tener al menos 1 y m&aacute;ximo 3 caracteres"
                    data-val-length-max="3" data-val-length-min="1"
                    data-val-required="Procesos abiertos es un campo requerido"
+                   ng-init='m.openProcessNumber="${openProcessNumber==null?'':openProcessNumber}";'
                    data-val-regex-pattern="([0-9]+)" data-val-regex="El n&uacute;mero de procesos abiertos s&oacute;lo puede contener n&uacute;meros"
                    type="text" ng-model="m.openProcessNumber" id="openProcessNumber"
                    name="openProcessNumber"
@@ -34,6 +35,7 @@
             <input class="form-control" data-val="true"
                    data-val-length="Debe tener al menos 1 y m&aacute;ximo 3 caracteres"
                    data-val-length-max="3" data-val-length-min="1"
+                   ng-init='m.numberConvictions="${numberConvictions==null?'':numberConvictions }";'
                    data-val-required="Sentencias condenatorias es un campo requerido"
                    data-val-regex-pattern="([0-9]+)" data-val-regex="El n&uacute;mero de sentencias condenatorias s&oacute;lo puede contener n&uacute;meros"
                    type="text" ng-model="m.numberConvictions" id="numberConvictions"

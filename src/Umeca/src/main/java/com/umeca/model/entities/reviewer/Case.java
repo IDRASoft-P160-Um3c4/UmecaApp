@@ -7,6 +7,7 @@ import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,6 +55,12 @@ public class Case {
 
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Verification verification;
+
+    @Basic(optional = false)
+    @Column(name = "date_create", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreate;
+
 
     public MonitoringPlan getMonitoringPlan() {
         return monitoringPlan;
@@ -164,5 +171,13 @@ public class Case {
 
     public void setVerification(Verification verification) {
         this.verification = verification;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
     }
 }

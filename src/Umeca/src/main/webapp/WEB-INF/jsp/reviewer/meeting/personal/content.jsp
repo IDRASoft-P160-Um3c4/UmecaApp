@@ -38,7 +38,29 @@
             </div>
         </div>
         <br/>
-
+        <div class="row">
+            <div class="col-xs-3 element-left">
+                <br/> <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                         ng-click="doConfirmVerifEqual('imputed.nickname')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                   ng-show="verification" code="imputed.nickname"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                   ng-click="doConfirmVerifNotKnow('imputed.nickname')"></i>
+                <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource"  ng-click="showChoices('imputed.nickname')"></i>
+                Apodo:
+            </div>
+            <div class="col-xs-7 col-xs-offset-2">
+                <input class="form-control" data-val-required="El apodo es un campo requerido"
+                       data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 100 caracteres"
+                       data-val-length-max="100" data-val-length-min="1"
+                       type="text" ng-model="nickname" id="nickname"
+                       ng-init="nickname= '${(m.imputed.nickname == null) ? '': m.imputed.nickname}'"
+                       name="imputed.nickname">
+                    <span class="field-validation-valid" data-valmsg-for="imputed.nickname"
+                          data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <br/>
         <div class="row" ng-show="verification==false">
             <div class="col-xs-5 element-left">
                 Fecha de nacimiento:

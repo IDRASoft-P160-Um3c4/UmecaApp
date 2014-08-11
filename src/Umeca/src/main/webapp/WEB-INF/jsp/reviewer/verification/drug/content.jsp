@@ -2,9 +2,9 @@
 
 <div class="row">
     <div class="col-xs-2">
-        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.drugType',d.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.drugType" id-element="{{d.id}}"></i>
-        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.drugType',d.id);"></i>
+        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.drugType.id',d.id);"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.drugType.id" id-element="{{d.id}}"></i>
+        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.drugType.id',d.id);"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('drugs.drugType.id',d.id)"></i>
         Sustancia:
     </div>
@@ -32,9 +32,9 @@
 
 <div class="row">
     <div class="col-xs-2">
-        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.periodicity',d.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.periodicity" id-element="{{d.id}}"></i>
-        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.periodicity',d.id);"></i>
+        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.periodicity.id',d.id);"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.periodicity.id" id-element="{{d.id}}"></i>
+        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.periodicity.id',d.id);"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('drugs.periodicity.id',d.id)"></i>
         Periodicidad:
     </div>

@@ -25,6 +25,8 @@ public class ImputedHomeDto {
     private String reasonChange;
     private String description;
     private String schedule;
+    private String phone;
+    private String reasonSecondary;
 
     public ImputedHomeDto dtoImputedHome(ImputedHome ih, String schedule){
         this.id=ih.getId();
@@ -40,12 +42,14 @@ public class ImputedHomeDto {
             this.addressString = a.getAddressString();
         }
         this.timeLive=ih.getTimeLive();
-        if(ih.getBelong()!=null){
-            this.belongId = ih.getBelong().getId();
+        if(ih.getHomeType()!=null){
+            this.belongId = ih.getHomeType().getId();
         }
         this.reasonChange = ih.getReasonChange();
         this.description = ih.getDescription();
+        this.phone = ih.getPhone();
         this.schedule = schedule;
+        this.reasonSecondary = ih.getReasonSecondary();
         if(ih.getRegisterType()!=null){
             this.typeId = ih.getRegisterType().getId();
         }
@@ -155,5 +159,21 @@ public class ImputedHomeDto {
 
     public void setSchedule(String schedule) {
         this.schedule = schedule;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getReasonSecondary() {
+        return reasonSecondary;
+    }
+
+    public void setReasonSecondary(String reasonSecondary) {
+        this.reasonSecondary = reasonSecondary;
     }
 }

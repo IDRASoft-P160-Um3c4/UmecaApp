@@ -62,4 +62,6 @@ public interface MeetingService {
     ResponseMessage validateCreateMeeting(Imputed imputed);
 
     ResponseMessage saveProceedingLegal(CriminalProceedingView cpv);
+
+    ResponseMessage upsertSocialNetworkComment(String comment, Long idCase);
 }

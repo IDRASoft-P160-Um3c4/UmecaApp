@@ -12,12 +12,35 @@ app.controller('proceedingLegalController', function($scope, $timeout) {
 
 
     $scope.init = function(){
+        if($scope.managereval==true){
+            $("input:text").each(function() {
+                $( this ).attr('disabled','disabled');
+            });
+            $("input:checkbox").each(function() {
+                $( this ).attr('disabled','disabled');
+            });
+            $("select").each(function(){
+                $(this).prop("disabled", true);;
+            });
+            $("textarea").each(function() {
+                $( this ).attr('disabled','disabled');
+            });
+        }
         if($scope.lstRelationship === undefined || $scope.lstRelationship.length <= 0)
             return;
 
         if($scope.m.relId === undefined){
             $scope.m.rel = $scope.lstRelationship[0];
             $scope.m.relId = $scope.m.rel.id;
+        }else{
+            for (var i = 0; i < $scope.lstRelationship.length; i++) {
+                var rel = $scope.lstRelationship[i];
+
+                if (rel.id === $scope.m.relId) {
+                    $scope.m.rel = rel;
+                    break;
+                }
+            }
         }
         if($scope.listElection === undefined || $scope.listElection.length <= 0)
             return;

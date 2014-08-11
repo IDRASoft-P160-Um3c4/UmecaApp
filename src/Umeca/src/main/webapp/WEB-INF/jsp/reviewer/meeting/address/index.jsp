@@ -22,11 +22,11 @@
             url: '<c:url value='/reviewer/meeting/listAddress.json?idCase=${m.caseDetention.id}'/>',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Direcci&oacute;n','Tiempo de<br/> residencia','Tipo de domicilio','Tipo de propiedad', 'Acci&oacute;n'],
+            colNames: ['ID', 'Direcci&oacute;n','Tel&eacute;fono','Tipo de domicilio','Tipo de propiedad', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'addressString', index: 'addressString', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'timeLive', index: 'timeLive', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'timeLive', index: 'phone', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'registerTypeString', index: 'registerTypeString', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'belongString', index: 'belongString', width: 150, align: "center", search: false},
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
@@ -38,10 +38,10 @@
             height: 200,
             viewrecords: true,
             shrinkToFit: false,
-            sortorder: "desc",
+            sortorder: "asc",
             caption: "&nbsp;",
             altRows: true,
-            gridComplete: function () {
+            gridComplete:  function () {
                 var ids = $(this).jqGrid('getDataIDs');
                 for (var i = 0; i < ids.length; i++) {
                     var cl = ids[i];

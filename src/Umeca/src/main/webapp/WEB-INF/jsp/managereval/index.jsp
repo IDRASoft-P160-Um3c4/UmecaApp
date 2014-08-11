@@ -82,9 +82,9 @@
                     }, 0);
                 },
                 subGridOptions: {
-                    plusicon  : "ui-icon-triangle-1-e",
-                    minusicon : "ui-icon-triangle-1-s",
-                    openicon  : "ui-icon-arrowreturn-1-e",
+                    plusicon  : "glyphicon glyphicon-chevron-down",
+                    minusicon : "glyphicon glyphicon-chevron-right",
+                   // openicon  : "ui-icon-arrowreturn-1-e",
                     reloadOnExpand : false,
                     selectOnExpand : true
                 },

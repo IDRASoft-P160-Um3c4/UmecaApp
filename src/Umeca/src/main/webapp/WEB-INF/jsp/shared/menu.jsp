@@ -44,12 +44,9 @@
                 </sec:authorize>
 
                 <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Supervisi&oacute;n de Evaluadores<b class="caret"></b> </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="<c:url value='/managereval/index.html' />"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Supervisar fuentes</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="<c:url value='/managereval/index.html'/>"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Supervisar fuentes</a></li>
+                    <li><a href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i class="icon-check"></i>&nbsp;&nbsp;Consulta de casos en evaluación</a></li>
+
                 </sec:authorize>
 
                 <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">

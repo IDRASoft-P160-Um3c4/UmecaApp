@@ -3,6 +3,10 @@ app.controller('verificationController', function($scope, $timeout, $q,sharedSvc
     $scope.verification=true;
     $scope.nameScope="estoy en verificationController";
     $scope.init = function(){
+        if($scope.managereval != undefined && $scope.managereval == true){
+            $scope.verification = false;
+            $scope.showSchedule = true;
+        }
         $(".icon-ok-circle").each(function() {
             $( this ).css("cursor","pointer");
             $( this ).attr("rel","tooltip");

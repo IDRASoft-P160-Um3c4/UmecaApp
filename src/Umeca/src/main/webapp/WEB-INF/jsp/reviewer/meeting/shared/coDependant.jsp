@@ -1,5 +1,6 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/coDependantCtrl.js"></script>
 <div class="row element-center" ng-controller="coDependantController">
+    <input type="hidden" ng-update-hidden ng-init='listCoDependant = ${(listCoDependant == null) ? '[]': listCoDependant};'>
     <input type="hidden" ng-update-hidden ng-model="coDependantString" name='listCoDefendant'>
     <div class="col-xs-12   ">
 

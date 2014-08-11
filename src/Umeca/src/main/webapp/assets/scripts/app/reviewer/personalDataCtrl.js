@@ -63,7 +63,7 @@ app.controller('personalDataController', function ($scope, $timeout, $q) {
                 }
             }
         }
-
+        $scope.matchActivities();
     };
 
     $scope.matchActivities = function () {

@@ -58,9 +58,12 @@ public class PersonSocialNetwork{
     @JoinColumn(name="id_social_network", nullable = false)
     private SocialNetwork socialNetwork;
 
+    @Column(name = "is_accompaniment", nullable = false)
+    private Boolean isAccompaniment;
 
     @Transient
     private Long idAux;
+
     public Long getId() {
         return id;
     }
@@ -155,5 +158,14 @@ public class PersonSocialNetwork{
 
     public void setIdAux(Long idAux) {
         this.idAux = idAux;
+    }
+
+
+    public Boolean getIsAccompaniment() {
+        return isAccompaniment;
+    }
+
+    public void setIsAccompaniment(Boolean accompaniment) {
+        isAccompaniment = accompaniment;
     }
 }

@@ -31,9 +31,9 @@ public class SourceVerification implements EntityGrid{
         this.isAuthorized = isAuthorized;
         this.dateComplete = dateComplete;
         if(dateComplete!=null){
-           this.statusString ="Entrevista Terminada";
+           this.statusString ="Entrevista de verificaci&aacute;n terminada";
         }else{
-            this.statusString = "Entrevista Incompleta";
+            this.statusString = "Entrevista de verificaci&aacute;n incompleta";
         }
         this.idCase = idCase;
         this.visible = visible;

@@ -145,4 +145,10 @@
             dlg.replaceWith("");
         });
     };
+
+    $scope.setReason  = function(opc){
+        if(opc.isFinal && $scope.Model.reason != ""){
+            $scope.Model.reason= opc.reason;
+        }
+    }
 });

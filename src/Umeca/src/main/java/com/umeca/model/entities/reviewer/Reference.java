@@ -22,12 +22,13 @@ public class Reference implements EntityGrid{
     public Reference() {
     }
 
-    public Reference(Long id,String fullName, String relName,Integer age, String phone) {
+    public Reference(Long id,String fullName, String relName,Integer age, String phone,Boolean isAccompaniment) {
         this.id = id;
         this.fullName = fullName;
         this.age = age;
         this.phone = phone;
         this.relName = relName;
+        this.isAccompanimentString = isAccompaniment ? "Si": "No";
     }
 
     @Id
@@ -61,6 +62,12 @@ public class Reference implements EntityGrid{
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
+
+    @Column(name = "is_accompaniment", nullable = false)
+    private Boolean isAccompaniment;
+
+    @Transient
+    private String isAccompanimentString;
 
     @Transient
     private String relName;
@@ -155,5 +162,29 @@ public class Reference implements EntityGrid{
 
     public void setIdAux(Long idAux) {
         this.idAux = idAux;
+    }
+
+    public Boolean getIsAccompaniment() {
+        return isAccompaniment;
+    }
+
+    public void setIsAccompaniment(Boolean accompaniment) {
+        isAccompaniment = accompaniment;
+    }
+
+    public Boolean getAccompaniment() {
+        return isAccompaniment;
+    }
+
+    public void setAccompaniment(Boolean accompaniment) {
+        isAccompaniment = accompaniment;
+    }
+
+    public String getAccompanimentString() {
+        return isAccompanimentString;
+    }
+
+    public void setAccompanimentString(String accompanimentString) {
+        isAccompanimentString = accompanimentString;
     }
 }

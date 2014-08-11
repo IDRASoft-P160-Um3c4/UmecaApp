@@ -6,6 +6,7 @@ import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.*;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.ChoiceView;
 import com.umeca.model.entities.reviewer.View.SearchToChoiceIds;
@@ -153,16 +154,31 @@ public class VerificationServiceImpl implements VerificationService {
     @Autowired
     CountryRepository countryRepository;
 
+    private void userConfigToView(ModelAndView model){
+        Long userId = userService.GetLoggedUserId();
+        User u = userRepository.findOne(userId);
+        Boolean band = false;
+        if(u.getRoles().get(0).getRole().equals(Constants.ROLE_EVALUATION_MANAGER))
+            band = true;
+        model.addObject("managereval",band);
+    }
+
     @Override
     public ModelAndView showVerificationBySource(Long idCase, Long idSource) {
 
         ModelAndView model = new ModelAndView("/reviewer/verification/verificationBySource");
         setImputedData(idCase, model);
         Gson gson = new Gson();
-        feelMeeting(model, idCase);
-        SourceVerification sv = sourceVerificationRepository.findOne(idSource);
-        model.addObject("idSource", idSource);
-        model.addObject("source", gson.toJson(new SourceVerificationDto().dtoSourceVerification(sv)));
+        fillMeeting(model, idCase);
+        if(idSource != null){
+            SourceVerification sv = sourceVerificationRepository.findOne(idSource);
+            model.addObject("idSource", idSource);
+            model.addObject("source", gson.toJson(new SourceVerificationDto().dtoSourceVerification(sv)));
+        }else{
+            model.addObject("idSource", 0);
+            model.addObject("source", gson.toJson(new SourceVerificationDto().dtoSourceVerification(new SourceVerification())));
+        }
+        userConfigToView(model);
         return model;
     }
 
@@ -251,6 +267,7 @@ public class VerificationServiceImpl implements VerificationService {
 
         Gson gson = new Gson();
         model.addObject("listChoice", gson.toJson(list));
+        userConfigToView(model);
         return model;
     }
 
@@ -520,11 +537,12 @@ public class VerificationServiceImpl implements VerificationService {
     public ModelAndView showChoiceInformation(Long idCase) {
         ModelAndView model = new ModelAndView("/reviewer/verification/choiceInformation");
         setImputedData(idCase, model);
-        feelMeeting(model, idCase);
+        fillMeeting(model, idCase);
+        userConfigToView(model);
         return model;
     }
 
-    private void feelMeeting(ModelAndView model, Long idCase) {
+    private void fillMeeting(ModelAndView model, Long idCase) {
         Gson gson = new Gson();
         Case c = caseRepository.findOne(idCase);
         model.addObject("idCase", idCase);
@@ -564,6 +582,17 @@ public class VerificationServiceImpl implements VerificationService {
             AcademicLevelDto dtoLevel = new AcademicLevelDto();
             listDto.add(dtoLevel.doDto(s));
         }
+        model.addObject("lstLevel", gson.toJson(listDto));
+        List<HomeType> lstHomeType = homeTypeRepository.findNotObsolete();
+        List<CatalogDto> caDTo = new ArrayList<CatalogDto>();
+        for (HomeType s : lstHomeType) {
+            CatalogDto x = new CatalogDto();
+            x.setId(s.getId());
+            x.setName(s.getName());
+            x.setSpecification(s.getSpecification());
+            caDTo.add(x);
+        }
+        model.addObject("lstHomeType", gson.toJson(caDTo));
         model.addObject("lstLevel", gson.toJson(listDto));
         List<Country> listCountry = countryRepository.findAllOrderByName();
         List<CountryDto> listCountryDto = new ArrayList<CountryDto>();
@@ -786,7 +815,7 @@ public class VerificationServiceImpl implements VerificationService {
         }
     }
 
-    private List<FieldMeetingSource> createFieldMeetingByImputed(String code, Long idCase, Long idList, StatusFieldVerification st, Long idSource) {
+    private List<FieldMeetingSource>  createFieldMeetingByImputed(String code, Long idCase, Long idList, StatusFieldVerification st, Long idSource) {
         try {
             List<FieldMeetingSource> result = new ArrayList<>();
             List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
@@ -867,7 +896,7 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
 
-    private List<FieldMeetingSource> createFieldVerification(List<FieldVerified> list, Long idCase, Long idSource, Long idList, StatusFieldVerification st) {
+    private List<FieldMeetingSource>  createFieldVerification(List<FieldVerified> list, Long idCase, Long idSource, Long idList, StatusFieldVerification st) {
         try {
             List<FieldMeetingSource> listFieldVerficiation = new ArrayList<>();
             for (FieldVerified field : list) {
@@ -875,7 +904,7 @@ public class VerificationServiceImpl implements VerificationService {
                 Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, field.getName());
                 fms.setId(fieldMeetingSourceId);
                 FieldVerification fv = fieldVerificationRepository.findByCode(field.getName());
-                fms.setFieldVerification(fv);
+                    fms.setFieldVerification(fv);
                 fms.setSourceVerification(sourceVerificationRepository.findOne(idSource));
                 String[] vars = field.getName().split("\\.");
                 setObjectNameOfCatalog(fms, vars, field.getValue(), fv);
@@ -894,6 +923,8 @@ public class VerificationServiceImpl implements VerificationService {
     MaritalStatusRepository maritalStatusRepository;
     @Autowired
     DegreeRepository degreeRepository;
+    @Autowired
+    HomeTypeRepository homeTypeRepository;
 
     private void setObjectNameOfCatalog(FieldMeetingSource fms, String[] name, String value, FieldVerification fv) {
         Long idCat = 0L;
@@ -981,7 +1012,7 @@ public class VerificationServiceImpl implements VerificationService {
                     fms.setJsonValue(valueJson);
                 }
                 break;
-            case "Boolean":
+            case "BooleanG":
                 Boolean gender = value.equals("0");
                 String genderString;
                 if (gender.equals(Constants.GENDER_FEMALE))
@@ -989,6 +1020,11 @@ public class VerificationServiceImpl implements VerificationService {
                 else
                     genderString = "Masculino";
                 fms.setValue(genderString);
+                fms.setJsonValue(value);
+                break;
+            case "Boolean":
+                String acString = value.equals("0") ? "No": "Si";
+                fms.setValue(acString);
                 fms.setJsonValue(value);
                 break;
             case "Activity":
@@ -1014,6 +1050,13 @@ public class VerificationServiceImpl implements VerificationService {
                 }
 
                 break;
+            case "HomeType":
+                HomeType ht = homeTypeRepository.findOne(idCat);
+                ca.setName(ht.getName());
+                ca.setId(ht.getId());
+                fms.setValue(ht.getName());
+                fms.setJsonValue(gson.toJson(ca));
+                break;
             default:
                 fms.setValue(value);
                 fms.setJsonValue(value);
@@ -1023,4 +1066,7 @@ public class VerificationServiceImpl implements VerificationService {
         }
 
     }
+
+
 }
+

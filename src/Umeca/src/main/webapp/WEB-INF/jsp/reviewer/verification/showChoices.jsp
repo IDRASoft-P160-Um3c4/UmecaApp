@@ -13,7 +13,7 @@
                         <h4 class="element-center">&nbsp;&nbsp;Informaci�n recolectada</h4>
                     </div>
                 </div>    -->
-                <div class="modal-body">
+                <div class="modal-body" ng-init="managereval = ${managereval}">
                     <form id="FormChoices" name="FormChoices" ng-submit="submit('#FormChoices')" class="form-horizontal"
                           role="form">
                         <div class="row">
@@ -27,8 +27,9 @@
                                             <table class=" widget-body table table-striped table-bordered table-hover" ng-init='listChoice = ${listChoice};'>
                                                 <tbody>
                                                     <tr ng-repeat ="opc in listChoice">
-                                                        <td style="width: 20px;"><input class="" type="radio"  ng-model="Model.rdoField" ng-value="opc.id"
-                                                                     name="idFieldMeeting" ng-disabled="opc.status=='NOT_FOUND'||opc.status=='DONT_KNOW'" ng-checked="opc.isFinal">
+                                                        <td style="width: 20px;">
+                                                            <input class="" type="radio"  ng-value="opc.id" ng-init="setReason(opc)"
+                                                                     name="idFieldMeeting" ng-disabled="opc.status=='NOT_FOUND'||opc.status=='DONT_KNOW'||managereval" ng-checked="opc.isFinal == true">
                                                         </td>
                                                         <td style="width: 15px;">
                                                             <i class="icon-ok green  icon-only bigger-120" ng-show="opc.status == 'EQUALS' "></i>
@@ -58,7 +59,7 @@
                                         Raz&oacute;n por la que se elije este campo o secci&oacute;n:
                                     </div>
                                     <div class="col-xs-9">
-                                        <textarea class="form-control" name="reason"  data-val="true"
+                                        <textarea class="form-control" name="reason"  data-val="true" ng-model="Model.reason" ng-disabled="managereval"
                                          data-val-required="La raz&oacute;n por la que se elije el campo o secci&oacute;n es un campo requerido"></textarea>
                                          <span class="field-validation-valid" data-valmsg-for="reason" data-valmsg-replace="true"></span>
                                     </div>
@@ -76,13 +77,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" ng-show="managereval == false">
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
                     <span class="btn btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submit('#FormChoices','<c:url value="/reviewer/verification/saveSelectChoice.json?idCase=${idCase}"/>');">
                           Guardar
+                    </span>
+                </div>
+                <div class="modal-footer" ng-show="managereval==true">
+                    <span class="btn btn-default btn-sm" ng-click="cancel()">
+                            Cerrar
                     </span>
                 </div>
             </div>

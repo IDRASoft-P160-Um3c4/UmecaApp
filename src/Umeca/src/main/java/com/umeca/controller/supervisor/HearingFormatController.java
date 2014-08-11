@@ -111,13 +111,15 @@ public class HearingFormatController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
                     return r.get("idFolder");
-
+                else
                 if (field.equals("idMP"))
                     return r.get("idMP");
-
+                else
                 if (field.equals("statusName"))
                     return r.join("status").get("name");
-
+                else
+                if(field.equals("fullName"))
+                    return r.join("meeting").join("imputed").get("name");
                 return null;
             }
         }, Case.class, ForCasesHFGrid.class);

@@ -131,7 +131,7 @@
 
     <div class="row">
         <div class="col-xs-12" ng-init='schLists = ${(listScheduleSchool == null) ? '[]': listScheduleSchool};'
-             ng-show="verification || selectSource">
+             ng-show="verification || selectSource || showSchedule">
             <div class="widget-header header-color-blue">
                 <div class="row">
                     <h6> &nbsp;
