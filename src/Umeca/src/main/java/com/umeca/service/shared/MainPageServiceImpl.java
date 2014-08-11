@@ -140,11 +140,11 @@ public class MainPageServiceImpl implements MainPageService {
 
     private void constructReviewerMainPage(ModelAndView model) {
 
-        List<LogNotificationDto> lstA = caseRepository.getMeetingIncompleteInfo(sharedUserService.GetLoggedUserId(), Constants.S_MEETING_INCOMPLETE, Constants.CASE_STATUS_MEETING, new PageRequest(0, 4));
+        List<LogNotificationDto> lstA = caseRepository.getMeetingIncompleteInfo(sharedUserService.GetLoggedUserId(), Constants.S_MEETING_INCOMPLETE, Constants.CASE_STATUS_MEETING, new PageRequest(0,10));
 
-        List<LogNotificationDto> lstB = caseRepository.getMeetingIncompleteInfo(sharedUserService.GetLoggedUserId(), Constants.S_MEETING_INCOMPLETE_LEGAL, Constants.CASE_STATUS_MEETING, new PageRequest(0, 3));
+        List<LogNotificationDto> lstB = caseRepository.getMeetingIncompleteInfo(sharedUserService.GetLoggedUserId(), Constants.S_MEETING_INCOMPLETE_LEGAL, Constants.CASE_STATUS_MEETING, new PageRequest(0, 10));
 
-        List<LogNotificationDto> lstC = caseRepository.getAuthorizedVerificationsInfo(sharedUserService.GetLoggedUserId(), Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 3));
+        List<LogNotificationDto> lstC = caseRepository.getAuthorizedVerificationsInfo(sharedUserService.GetLoggedUserId(), Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 10));
 
         List<LogNotificationDto> lstActivities = new ArrayList<>();
 
@@ -153,6 +153,12 @@ public class MainPageServiceImpl implements MainPageService {
         lstActivities.addAll(lstC);
 
         Collections.sort(lstActivities, LogNotificationDto.dateSorter);
+
+        List<LogNotificationDto> top10 = new ArrayList<>();
+
+        for(int i=0; i<10; i++){
+            top10.add(lstActivities.get(i));
+        }
 
         List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getReviewerNotifications(sharedUserService.GetLoggedUserId());
 

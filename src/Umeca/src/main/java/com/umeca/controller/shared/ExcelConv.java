@@ -1,8 +1,15 @@
 package com.umeca.controller.shared;
 
+import com.umeca.model.catalog.Question;
+import com.umeca.model.catalog.Questionary;
+import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.catalog.QuestionarySectionRepository;
+import com.umeca.repository.shared.QuestionaryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.xml.transform.sax.SAXSource;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -182,24 +189,203 @@ public class ExcelConv {
 
         List<Drug> drugs = meeting.getDrugs();
 
-        if (drugs  != null && drugs .size() > 0)
-            for (Drug act : drugs ) {
-                if (drugsString  != "")
-                    drugsString  += "\n";
+        if (drugs != null && drugs.size() > 0)
+            for (Drug act : drugs) {
+                if (drugsString != "")
+                    drugsString += "\n";
 
-                drugsString  += "-" + act.getDrugType().getName();
+                drugsString += "-" + act.getDrugType().getName();
 
-                drugsString  += ", Periocidad: " + act.getPeriodicity().getName();
+                drugsString += ", Periocidad: " + act.getPeriodicity().getName();
 
-                if(act.getDrugType().getSpecification().equals(true))
-                    drugsString  += ", Especificación: " + act.getSpecificationType();
+                if (act.getDrugType().getSpecification().equals(true))
+                    drugsString += ", Especificación: " + act.getSpecificationType();
 
-                drugsString  += ", Cantidad: " + act.getQuantity();
+                drugsString += ", Cantidad: " + act.getQuantity();
 
-                drugsString  += ", Útlimo consumo: " + dateFormat.format(act.getLastUse());
+                drugsString += ", Útlimo consumo: " + dateFormat.format(act.getLastUse());
             }
 
-        return drugsString ;
+        return drugsString;
+    }
+
+    public String crimesToString(CurrentCriminalProceeding current) {
+
+        String crimesString = "";
+
+        List<Crime> crimes = current.getCrimeList();
+
+        if (crimes != null && crimes.size() > 0)
+            for (Crime act : crimes) {
+                if (crimesString != "")
+                    crimesString += "\n";
+
+                crimesString += "-" + act.getName();
+                crimesString += ", Artículo: " + act.getArticle();
+                crimesString += ", Delito federal: " + act.getFederal().getName();
+            }
+
+        return crimesString;
+    }
+
+    public String coDefToString(CurrentCriminalProceeding current) {
+
+        String coDefString = "";
+
+        List<CoDefendant> coDefendants = current.getCoDefendantList();
+
+        if (coDefendants != null && coDefendants.size() > 0)
+            for (CoDefendant act : coDefendants) {
+                if (coDefString != "")
+                    coDefString += "\n";
+
+                coDefString += "-" + act.getFullName();
+                coDefString += ", " + act.getRelationship().getName();
+            }
+
+        return coDefString;
+    }
+
+    public String tecRevToString(TechnicalReview technicalReview, Integer section) {
+
+        String questionsString = "";
+
+        if (technicalReview != null && section != null) {
+
+            Questionary questionary = null;
+            List<QuestionarySection> sections = null;
+
+            List<QuestionReviewRel> questSelected = technicalReview.getQuestionsSel();
+
+            if (questSelected != null && questSelected.size() > 0) {
+                questionary = questSelected.get(0).getQuestion().getSection().getParent().getQuestionary();
+            }
+
+            if (questionary != null) {
+                sections = questionary.getSections();
+            }
+
+            QuestionarySection currSection = null;
+
+            switch (section) {
+                case 1:
+                    if (sections != null && sections.size() > 0) {
+                        for (QuestionarySection sect : sections) {
+                            if (sect.getCode().equals(Constants.CODE_S1_TEC_REV)) {
+                                currSection = sect;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
+                case 2:
+                    if (sections != null && sections.size() > 0) {
+                        for (QuestionarySection sect : sections) {
+                            if (sect.getCode().equals(Constants.CODE_S2_TEC_REV)) {
+                                currSection = sect;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
+                case 3:
+                    if (sections != null && sections.size() > 0) {
+                        for (QuestionarySection sect : sections) {
+                            if (sect.getCode().equals(Constants.CODE_S3_TEC_REV)) {
+                                currSection = sect;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
+                case 4:
+                    if (sections != null && sections.size() > 0) {
+                        for (QuestionarySection sect : sections) {
+                            if (sect.getCode().equals(Constants.CODE_S4_TEC_REV)) {
+                                currSection = sect;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
+                case 5:
+                    if (sections != null && sections.size() > 0) {
+                        for (QuestionarySection sect : sections) {
+                            if (sect.getCode().equals(Constants.CODE_S5_TEC_REV)) {
+                                currSection = sect;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
+                case 6:
+
+                    Integer totalRisk = technicalReview.getTotalRisk();
+
+                    questionsString += "-Total: " + totalRisk + "\n";
+
+                    if (totalRisk < -15)
+                        questionsString += "-" + Constants.TEC_REV_HIGH_RISK + "\n";
+                    else if (totalRisk > -16 && totalRisk < 0)
+                        questionsString += "-" + Constants.TEC_REV_MEDIUM_RISK + "\n";
+                    else if (totalRisk > -1 && totalRisk < 10)
+                        questionsString += "-" + Constants.TEC_REV_LOW_RISK + "\n";
+                    else if (totalRisk > 9)
+                        questionsString += "-" + Constants.TEC_REV_MINIMUM_RISK + "\n";
+
+                    questionsString += "-Comentarios: " + technicalReview.getComments();
+
+                    break;
+            }
+
+            if (currSection != null) {
+                for (QuestionarySection subsec : currSection.getChilds()) {
+                    if (questionsString != "")
+                        questionsString += "\n";
+
+                    questionsString += "-" + subsec.getName();
+
+                    for (QuestionReviewRel selQues : questSelected) {
+
+                        if (selQues.getQuestion().getSection().getCode().equals(subsec.getCode())) {
+                            if (questionsString != "")
+                                questionsString += "\n";
+
+                            questionsString += "   ." + selQues.getQuestion().getQuestion();
+                        }
+                    }
+                }
+            }
+        }
+
+        return questionsString;
+    }
+
+    public String fieldSourcesToString(SourceVerification source, Integer section) {
+
+        String answersSourceString = "";
+
+        List<FieldMeetingSource> fields = source.getFieldMeetingSourceList();
+
+        System.out.println();
+
+        for (FieldMeetingSource act : fields) {
+            if (act.getFieldVerification().getSectionCode() == section) {
+
+                if (answersSourceString != "")
+                    answersSourceString += "\n";
+
+                answersSourceString += "-" + act.getFieldVerification().getFieldName() + " : " + act.getValue();
+
+            }
+        }
+
+        return answersSourceString;
     }
 
 }

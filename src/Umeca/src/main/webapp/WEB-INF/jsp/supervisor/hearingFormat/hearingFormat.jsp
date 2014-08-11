@@ -746,29 +746,29 @@
                                         <div class="col-xs-3">
                                             <div class="radio">
                                                 <label ng-click="loadArrangements()">
-                                                    <input name="arrangementType" class="ace" type="radio" value="1"
-                                                           ng-model="m.arrType" ng-checked="m.arrType==1"
+                                                    <input name="arrangementType" class="ace" type="radio" value="2"
+                                                           ng-model="m.arrType" ng-checked="m.arrType==2"
                                                            data-val="true"
                                                            data-val-required="Debe seleccionar un valor">
                                                     <span class="lbl">&nbsp;&nbsp;SCPP</span>
                                                 </label>
                                                 <br/>
                                                 <label ng-click="loadArrangements()">
-                                                    <input name="arrangementType" class="ace" type="radio" value="2"
-                                                           ng-model="m.arrType" ng-checked="m.arrType==2">
+                                                    <input name="arrangementType" class="ace" type="radio" value="1"
+                                                           ng-model="m.arrType" ng-checked="m.arrType==1">
                                                     <span class="lbl">&nbsp;&nbsp;MC</span>
                                                 </label>
                                             </div>
                                         </div>
 
 
-                                        <div ng-show="m.arrType==1" class="col-xs-6">
+                                        <div ng-show="m.arrType==2" class="col-xs-6">
                                             <label>Plazo</label>
                                             <br/>
 
                                             <textarea class="form-control limited" name="terms"
                                                       ng-model="m.terms"
-                                                      ng-disabled='m.arrType==2'
+                                                      ng-disabled='m.arrType==1'
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo es un campo requerido">
@@ -777,12 +777,12 @@
                                               data-valmsg-replace="true"></span>
                                         </div>
 
-                                        <div ng-show="m.arrType==2" class="col-xs-6">
-                                            <label ng-show="m.arrType==2">Plazo de investigaci&oacute;n</label>
+                                        <div ng-show="m.arrType==1" class="col-xs-6">
+                                            <label ng-show="m.arrType==1">Plazo de investigaci&oacute;n</label>
                                             <br/>
                                             <textarea class="form-control limited" name="terms"
                                                       ng-model="m.terms"
-                                                      ng-disabled='m.arrType==1'
+                                                      ng-disabled='m.arrType==2'
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo de investigaci&oacute;n es un campo requerido">

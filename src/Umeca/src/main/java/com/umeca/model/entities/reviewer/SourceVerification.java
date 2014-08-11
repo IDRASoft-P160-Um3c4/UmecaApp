@@ -112,6 +112,7 @@ public class SourceVerification implements EntityGrid{
     private Verification verification;
 
     @OneToMany(mappedBy="sourceVerification", cascade={CascadeType.ALL})
+    @OrderBy("id_field.sectionCode")
     private List<FieldMeetingSource> fieldMeetingSourceList;
 
     public Long getId() {
@@ -241,5 +242,13 @@ public class SourceVerification implements EntityGrid{
 
     public void setStatusString(String statusString) {
         this.statusString = statusString;
+    }
+
+    public Boolean getIsAuthorized() {
+        return isAuthorized;
+    }
+
+    public void setIsAuthorized(Boolean authorized) {
+        isAuthorized = authorized;
     }
 }
