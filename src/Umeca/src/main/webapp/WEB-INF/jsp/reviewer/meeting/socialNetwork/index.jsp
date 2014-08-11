@@ -1,6 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<style>
+    textarea{
+        max-width: none;
+    }
+</style>
 <script>
     window.upsertSocialNetwork = function(id) {
 
@@ -16,13 +21,14 @@
             url: '<c:url value='/reviewer/meeting/listSocialNetwork.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Relación','Edad','Tel&eacute;fono', 'Acci&oacute;n'],
+            colNames: ['ID', 'Nombre','Relación','Edad','Tel&eacute;fono','Acompa&ntilde;a al imputado <br/> durante el proceso', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'relName', index: 'relName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'age', index: 'age', width: 160, align: "center",  search: false },
+                { name: 'age', index: 'age', width: 120, align: "center",  search: false },
                 { name: 'phone', index: 'phone', width: 150, align: "center",  search: false  },
+                { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 200, align: "center",  search: false  },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
@@ -75,7 +81,6 @@
 </script>
 
 <div class="row element-center">
-    <div class="col-xs-12">
         <h2> <i class="blue icon-group bigger-100"></i> &nbsp;Red social</h2>
         <br/>
         <div id="angJsjqGridIdSocialNetwork" ng-controller="modalDlgController">
@@ -87,24 +92,38 @@
                 </div>
             </div>
         </div>
-        <br/>
-
-  <!--      <div class="row">
-            <div class="col-xs-11 col-xs-offset-1">
-                <div class="col-xs-2 element-left">Comentarios:</div>
-                <div class="col-xs-10">
-                    <textarea id="form-field-11" class="form-control"></textarea>
-                </div>
-            </div>
-        </div>
     </div>
+        <br/>
+<br/>
+<div class="row" ng-controller="scController">
+    <div class="col-xs-10 col-xs-offset-1">
+    <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
+        {{msgSuccess}}
+    </div>
+    </div>
+    <form id="FormSocialNetworkIndexId" name="FormSocialNetworkIndexId" class="form-horizontal" role="form">
+                <div class="col-xs-2 element-right">Observaciones:</div>
+                <div class="col-xs-9">
+                    <textarea class="width-100"
+                              data-val-required="Las observaciones es un campo requerido"
+                              name="comment">${m.socialNetwork.comment}</textarea>
+                <span class="field-validation-valid" data-valmsg-for="comment"
+                      data-valmsg-replace="true"></span>
+                </div>
+    </form>
+    <br/>
+    <div class="col-xs-10 col-xs-offset-1">
+    <div ng-show="msgError" class="alert alert-danger element-center error-font">
+        {{msgError}}
+    </div>
+        </div>
     <div class="col-xs-12">
         <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormPersonalData', '/reviewer/meeting/upsertPersonalData.json');">
+                          ng-click="submit('#FormSocialNetworkIndexId', '<c:url value="/reviewer/meeting/upsertSocialNetworkComment.json?idCase=${idCase}"/>');">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>
-        </div>    -->
+        </div>
     </div>
 </div>

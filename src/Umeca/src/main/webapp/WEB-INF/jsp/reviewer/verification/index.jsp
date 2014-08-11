@@ -39,8 +39,8 @@
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullname', index: 'fullname', width: 500, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'genderString', index: 'genderString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'statusDescription', index: 'statusDescription', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'genderString', index: 'genderString', width: 150, align: "center", search:false},
+                    { name: 'statusDescription', index: 'statusDescription', width: 200, align: "center", search:false},
                     { name: 'statusCode', index: 'statusCode', hidden:true},
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],

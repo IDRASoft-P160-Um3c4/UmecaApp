@@ -248,7 +248,7 @@
         </div>
         <div class="page-header">
             <h1 class="element-center" ng-init="caseId='${caseId}'; mpId='${mpId}'; personName='${personName}';">
-                Id. del caso: {{caseId}}, &nbsp;&nbsp; Carpeta judicial: {{mpId}}, &nbsp;&nbsp; Imputado: {{personName}}
+                <%--Id. del caso: {{caseId}}, &nbsp;&nbsp; --%> Carpeta judicial: {{mpId}}, &nbsp;&nbsp; Imputado: {{personName}}
             </h1>
         </div>
         <div class="row">

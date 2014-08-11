@@ -1,4 +1,4 @@
-          package com.umeca.service.reviewer;
+package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -8,11 +8,10 @@ import com.umeca.model.catalog.dto.AcademicLevelDto;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.ElectionDto;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
-import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
-import com.umeca.model.entities.reviewer.dto.RelActivitySocialEnvironmentDto;
-import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
+import com.umeca.model.entities.reviewer.dto.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.repository.CaseRepository;
@@ -29,9 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,7 +72,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    MaritalStatusRepository  maritalStatusRepository;
+    MaritalStatusRepository maritalStatusRepository;
     @Autowired
     PersonSocialNetworkRepository personSocialNetworkRepository;
     @Autowired
@@ -138,6 +134,7 @@ public class MeetingServiceImpl implements MeetingService {
                 caseDetention.setRecidivist(false);
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
+            caseDetention.setDateCreate(new Date());
             caseDetention = caseRepository.save(caseDetention);
             Meeting meeting = new Meeting();
             meeting.setMeetingType(HearingFormatConstants.MEETING_PROCEDURAL_RISK);
@@ -151,11 +148,15 @@ public class MeetingServiceImpl implements MeetingService {
             imputedRepository.save(imputed);
             result = caseDetention.getId();
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"createMeeting",userService);
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "createMeeting", userService);
         } finally {
             return result;
         }
     }
+
+    @Autowired
+    HomeTypeRepository homeTypeRepository;
 
     @Override
     public ModelAndView showMeeting(Long id) {
@@ -167,21 +168,20 @@ public class MeetingServiceImpl implements MeetingService {
         Case caseDetention = caseRepository.findOne(id);
         model.addObject("idCase", caseDetention.getId());
         model.addObject("m", caseDetention.getMeeting());
-        model.addObject("age",userService.calculateAge(caseDetention.getMeeting().getImputed().getBirthDate()));
+        model.addObject("age", userService.calculateAge(caseDetention.getMeeting().getImputed().getBirthDate()));
         if (caseDetention.getMeeting().getSocialEnvironment() != null) {
             if (caseDetention.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities() != null) {
                 List<RelActivitySocialEnvironmentDto> listRel = new ArrayList<>();
-              for(RelSocialEnvironmentActivity r: caseDetention.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities())
-              {
-                  RelActivitySocialEnvironmentDto rNew= new RelActivitySocialEnvironmentDto();
-                  listRel.add(rNew.relDto(r));
-              }
+                for (RelSocialEnvironmentActivity r : caseDetention.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities()) {
+                    RelActivitySocialEnvironmentDto rNew = new RelActivitySocialEnvironmentDto();
+                    listRel.add(rNew.relDto(r));
+                }
                 model.addObject("activity", gson.toJson(listRel));
             }
         }
         //model.addObject("lstPhysicalCondition", gson.toJson(physicalConditionRepository.findAll()));
         List<CatalogDto> listActivity = new ArrayList<>();
-        for(Activity a: activityRepository.findNotObsolete()){
+        for (Activity a : activityRepository.findNotObsolete()) {
             CatalogDto c = new CatalogDto();
             c.setName(a.getName());
             c.setId(a.getId());
@@ -197,6 +197,16 @@ public class MeetingServiceImpl implements MeetingService {
             lstElectionDto.add(edto.dtoElection(e));
         }
         model.addObject("listElection", gson.toJson(lstElectionDto));
+        List<HomeType> lstHomeType = homeTypeRepository.findNotObsolete();
+        List<CatalogDto> cdtoList = new ArrayList<>();
+        for (HomeType ht : lstHomeType) {
+            CatalogDto c = new CatalogDto();
+            c.setId(ht.getId());
+            c.setName(ht.getName());
+            c.setSpecification(ht.getSpecification());
+            cdtoList.add(c);
+        }
+        model.addObject("lstHomeType", gson.toJson(cdtoList));
         List<AcademicLevel> lstLevel = academicLevelRepository.findNotObsolete();
         List<AcademicLevelDto> listDto = new ArrayList<AcademicLevelDto>();
         for (AcademicLevel s : lstLevel) {
@@ -219,47 +229,91 @@ public class MeetingServiceImpl implements MeetingService {
                 model.addObject("listSchedule", scheduleService.getSchedules(caseDetention.getId(), School.class));
             }
         }
-        /////////////////////////Social Network
-
         return model;
     }
 
+    private void userConfigToView(ModelAndView model) {
+        Long userId = userService.GetLoggedUserId();
+        User u = userRepository.findOne(userId);
+        Boolean band = false;
+        if (u.getRoles().get(0).getRole().equals(Constants.ROLE_EVALUATION_MANAGER))
+            band = true;
+        model.addObject("managereval", band);
+    }
+
+
     @Override
     public ModelAndView showLegalProcess(Long id) {
-        if (!validateMeetingUser(id))
-            return new ModelAndView("/reviewer/meeting/index");
         ModelAndView model = new ModelAndView("/reviewer/meeting/legal/index");
         Case c = caseRepository.findOne(id);
         model.addObject("idFolder", c.getIdFolder());
-        Imputed i= c.getMeeting().getImputed();
+        Imputed i = c.getMeeting().getImputed();
         String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
         model.addObject("fullNameImputed", fullName);
-        model.addObject("age",userService.calculateAge(i.getBirthDate()));
+        model.addObject("age", userService.calculateAge(i.getBirthDate()));
         model.addObject("idCase", id);
         addressService.fillCatalogAddress(model);
         Gson gson = new Gson();
-        List<Election> lstElection =   electionRepository.findAll();
+        List<Election> lstElection = electionRepository.findAll();
         List<ElectionDto> lstElectionDto = new ArrayList<ElectionDto>();
         for (Election e : lstElection) {
             ElectionDto edto = new ElectionDto();
             lstElectionDto.add(edto.dtoElection(e));
         }
         model.addObject("listElection", gson.toJson(lstElectionDto));
-        List<Relationship> relationshipList= relationshipRepository.findNotObsolete();
+        List<Relationship> relationshipList = relationshipRepository.findNotObsolete();
         List<CatalogDto> catalogDtoList = new ArrayList<>();
-        for(Relationship relationship: relationshipList){
-            CatalogDto cdto= new CatalogDto();
+        for (Relationship relationship : relationshipList) {
+            CatalogDto cdto = new CatalogDto();
             cdto.setId(relationship.getId());
             cdto.setName(relationship.getName());
             catalogDtoList.add(cdto);
         }
         model.addObject("listRelationship", gson.toJson(catalogDtoList));
-        model.addObject("listLegalBefore",findLegalBefore(id,c.getMeeting().getImputed().getName(),c.getMeeting().getImputed().getLastNameP(),c.getMeeting().getImputed().getLastNameM()));
+        model.addObject("listLegalBefore", findLegalBefore(id, c.getMeeting().getImputed().getName(), c.getMeeting().getImputed().getLastNameP(), c.getMeeting().getImputed().getLastNameM()));
+        CurrentCriminalProceeding ccp = c.getMeeting().getCurrentCriminalProceeding();
+        if (ccp != null) {
+            List<Crime> listCrime = ccp.getCrimeList();
+            List<CrimeDto> listCrimeDto = new ArrayList<>();
+            if (listCrime != null) {
+                for (Crime crime : listCrime) {
+                    listCrimeDto.add(new CrimeDto().dtoCrime(crime));
+                }
+                model.addObject("listCrime", gson.toJson(listCrimeDto));
+            }
+            List<CoDefendant> listCoDefendant = ccp.getCoDefendantList();
+            Boolean haveCoDependant= false;
+            if (listCoDefendant != null) {
+                List<CoDefendantDto> listCodefendantDto = new ArrayList<>();
+                for (CoDefendant cd : listCoDefendant) {
+                    haveCoDependant = true;
+                    listCodefendantDto.add(new CoDefendantDto().dtoCoDefendant(cd));
+                }
+                model.addObject("listCoDependant", gson.toJson(listCodefendantDto));
+            }
+            model.addObject("haveCoDependant",haveCoDependant);
+            if(ccp.getDomicileVictim()!=null){
+                addressService.fillModelAddress(model,ccp.getDomicileVictim().getId());
+            }
+            model.addObject("nameVictim",ccp.getNameVictim());
+            if(ccp.getRelationshipVictim()!=null){
+                model.addObject("relId",ccp.getRelationshipVictim().getId());
+            }
+            model.addObject("haveCoDependant", ccp.getBehaviorDetention());
+            model.addObject("placeDetention",ccp.getPlaceDetention());
+        }
+        PreviousCriminalProceeding pcp = c.getMeeting().getPreviousCriminalProceeding();
+        if(pcp != null){
+            model.addObject("firstProceeding",pcp.getFirstProceeding());
+            model.addObject("openProcessNumber",pcp.getOpenProcessNumber());
+            model.addObject("numberConvictions",pcp.getNumberConvictions());
+        }
+        userConfigToView(model);
         return model;
     }
 
-    String findLegalBefore(Long id, String name, String lastNameP, String lastNameM){
-        List<FindLegalBefore> list = caseRepository.findLegalBefore(id,name,lastNameP, lastNameM);
+    String findLegalBefore(Long id, String name, String lastNameP, String lastNameM) {
+        List<FindLegalBefore> list = caseRepository.findLegalBefore(id, name, lastNameP, lastNameM);
         Gson gson = new Gson();
         return gson.toJson(list);
     }
@@ -270,20 +324,20 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         Case caseDetention = caseRepository.findOne(idCase);
         try {
-            refreshPersonalData(imputed,socialEnvironment,activity,caseDetention);
+            refreshPersonalData(imputed, socialEnvironment, activity, caseDetention);
             caseRepository.save(caseDetention);
             caseRepository.saveAndFlush(caseDetention);
             result.setHasError(false);
             result.setMessage("Se ha guardado la información exitosamente");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"upsertPersonalData",userService);
+            logException.Write(e, this.getClass(), "upsertPersonalData", userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrdio un error al guardar los datos personales. Favor de intentar más tarde" + e.getMessage());
         }
         return result;
     }
 
-    private void refreshPersonalData(Imputed imputed, SocialEnvironment socialEnvironment, String activity, Case caseDetention){
+    private void refreshPersonalData(Imputed imputed, SocialEnvironment socialEnvironment, String activity, Case caseDetention) {
         Imputed iCase = caseDetention.getMeeting().getImputed();
         SocialEnvironment seCase = caseDetention.getMeeting().getSocialEnvironment();
         Meeting m = caseDetention.getMeeting();
@@ -291,6 +345,7 @@ public class MeetingServiceImpl implements MeetingService {
         iCase.setMaritalStatus(maritalStatusRepository.findOne(imputed.getMaritalStatus().getId()));
         iCase.setGender(imputed.getGender());
         iCase.setBoys(imputed.getBoys());
+        iCase.setNickname(imputed.getNickname());
         iCase.setDependentBoys(imputed.getDependentBoys());
         iCase.setBirthState(imputed.getBirthState());
         iCase.setBirthLocation(imputed.getBirthLocation());
@@ -300,26 +355,29 @@ public class MeetingServiceImpl implements MeetingService {
 
         if (seCase != null && seCase.getId() != null) {
             seCase.setId(seCase.getId());
-        }else{
+        } else {
             seCase = socialEnvironment;
             seCase.setMeeting(m);
             m.setSocialEnvironment(seCase);
         }
-        Gson gson= new Gson();
-        if(seCase!=null && seCase.getRelSocialEnvironmentActivities()!=null){
-            List<RelSocialEnvironmentActivity> relAux =seCase.getRelSocialEnvironmentActivities();
+        seCase.setComment(socialEnvironment.getComment());
+        seCase.setPhysicalCondition(socialEnvironment.getPhysicalCondition());
+        Gson gson = new Gson();
+        if (seCase != null && seCase.getRelSocialEnvironmentActivities() != null) {
+            List<RelSocialEnvironmentActivity> relAux = seCase.getRelSocialEnvironmentActivities();
             seCase.setRelSocialEnvironmentActivities(null);
-            for(RelSocialEnvironmentActivity r: relAux){
+            for (RelSocialEnvironmentActivity r : relAux) {
                 r.setSocialEnvironment(null);
                 r.setActivity(null);
                 rsearRepository.delete(r);
             }
         }
-        List<RelSocialEnvironmentActivity> rel = gson.fromJson(activity,new TypeToken<List<RelSocialEnvironmentActivity>>(){}.getType());
+        List<RelSocialEnvironmentActivity> rel = gson.fromJson(activity, new TypeToken<List<RelSocialEnvironmentActivity>>() {
+        }.getType());
         if (rel != null) {
             seCase.setRelSocialEnvironmentActivities(new ArrayList<RelSocialEnvironmentActivity>());
             for (RelSocialEnvironmentActivity r : rel) {
-                RelSocialEnvironmentActivity newRel= new RelSocialEnvironmentActivity();
+                RelSocialEnvironmentActivity newRel = new RelSocialEnvironmentActivity();
                 newRel.setActivity(activityRepository.findOne(r.getActivity().getId()));
                 newRel.setSpecification(r.getSpecification());
                 newRel.setSocialEnvironment(seCase);
@@ -377,7 +435,7 @@ public class MeetingServiceImpl implements MeetingService {
             personSocialNetworkRepository.save(person);
 
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"doUpsertSocialNetwork",userService);
+            logException.Write(e, this.getClass(), "doUpsertSocialNetwork", userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al guardar la persona de red social.");
         }
@@ -393,7 +451,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se elimino la persona de red social exitosamente");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"deleteSocialNetwork",userService);
+            logException.Write(e, this.getClass(), "deleteSocialNetwork", userService);
             result.setHasError(true);
             result.setMessage("No se ha podido eliminar la persona de red social. Intente más tarde");
         }
@@ -434,7 +492,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado correctamente la referencia personal");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"doUpsertReference",userService);
+            logException.Write(e, this.getClass(), "doUpsertReference", userService);
             result.setHasError(true);
             result.setMessage("Ocurrio un error al guardar la refernecia. Intente más tarde.");
         }
@@ -450,7 +508,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha eliminado la referencia exitosamente.");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"deleteReference",userService);
+            logException.Write(e, this.getClass(), "deleteReference", userService);
             result.setHasError(false);
             result.setMessage("Ocurrio un error al eliminar la referencia. Intente más tarde.");
         }
@@ -488,7 +546,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado la sustancia con éxito");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"doUpsertDrug",userService);
+            logException.Write(e, this.getClass(), "doUpsertDrug", userService);
             result.setHasError(true);
             result.setMessage("Ocorrio un error al guardar la sustancia.Inténte más tarde.");
         }
@@ -504,7 +562,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se elimino la sustancia con éxito");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"deleteDrug",userService);
+            logException.Write(e, this.getClass(), "deleteDrug", userService);
             result.setHasError(true);
             result.setMessage("Ocurrio un error al eliminar la sustancia. Inténte más tarde");
         }
@@ -518,37 +576,38 @@ public class MeetingServiceImpl implements MeetingService {
         try {
             Gson gson = new Gson();
             Case caseDetention = caseRepository.findOne(id);
-            refreshSchool(school,caseDetention);
+            refreshSchool(school, caseDetention);
             caseRepository.save(caseDetention);
             School s = caseDetention.getMeeting().getSchool();
-            if(s==null){
-                s=new School();
+            if (s == null) {
+                s = new School();
             }
             List<Schedule> listToDelete = s.getSchedule();
             s.setSchedule(null);
-            if(listToDelete!=null){
-                for(Schedule schedule: listToDelete){
+            if (listToDelete != null) {
+                for (Schedule schedule : listToDelete) {
                     schedule.setSchool(null);
                     scheduleRepository.delete(schedule.getId());
                 }
             }
-            List<Schedule> listSchedules = gson.fromJson(schedules,new TypeToken<List<Schedule>>(){}.getType());
+            List<Schedule> listSchedules = gson.fromJson(schedules, new TypeToken<List<Schedule>>() {
+            }.getType());
 
-            for(Schedule schedule: listSchedules){
+            for (Schedule schedule : listSchedules) {
                 schedule.setSchool(s);
             }
             scheduleRepository.save(listSchedules);
             result.setHasError(false);
             result.setMessage("Se ha actualizado su información exitosamente");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"doUpsertSchool",userService);
+            logException.Write(e, this.getClass(), "doUpsertSchool", userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al actualizar su información" + e.getMessage());
         }
         return result;
     }
 
-    private void refreshSchool(School school, Case caseDetention){
+    private void refreshSchool(School school, Case caseDetention) {
         School s = caseDetention.getMeeting().getSchool();
         if (s != null) {
             s.setName(school.getName());
@@ -556,7 +615,7 @@ public class MeetingServiceImpl implements MeetingService {
             s.setPhone(school.getPhone());
             s.setSpecification(school.getSpecification());
             s.setDegree(degreeRepository.findOne(school.getDegree().getId()));
-        }else{
+        } else {
             Degree degree = degreeRepository.findOne(school.getDegree().getId());
             school.setDegree(degree);
             Meeting m = caseDetention.getMeeting();
@@ -599,19 +658,20 @@ public class MeetingServiceImpl implements MeetingService {
             }
             job.setMeeting(c.getMeeting());
             job.setRegisterType(registerTypeRepository.findOne(job.getRegisterType().getId()));
-            job=jobRepository.save(job);
+            job = jobRepository.save(job);
             if (!job.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
                 List<Schedule> listToDelete = job.getSchedule();
-                if(listToDelete !=null){
+                if (listToDelete != null) {
                     job.setSchedule(null);
-                    for(Schedule schedule: listToDelete){
+                    for (Schedule schedule : listToDelete) {
                         schedule.setJob(null);
                         scheduleRepository.delete(schedule.getId());
                     }
                 }
                 Gson gson = new Gson();
-                List<Schedule> listSchedules = gson.fromJson(sch,new TypeToken<List<Schedule>>(){}.getType());
-                for(Schedule schedule: listSchedules){
+                List<Schedule> listSchedules = gson.fromJson(sch, new TypeToken<List<Schedule>>() {
+                }.getType());
+                for (Schedule schedule : listSchedules) {
                     schedule.setJob(job);
                 }
                 scheduleRepository.save(listSchedules);
@@ -619,7 +679,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado la infomación exitosamente");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"doUpsertJob",userService);
+            logException.Write(e, this.getClass(), "doUpsertJob", userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al actualizar su información. Intente más tarde.");
         }
@@ -642,7 +702,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha eliminado correctamente el registro");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"deleteJob",userService);
+            logException.Write(e, this.getClass(), "deleteJob", userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al intentar eliminar el registro. Inténte más tarde.");
         }
@@ -657,22 +717,22 @@ public class MeetingServiceImpl implements MeetingService {
             model.addObject("listRegisterType", gson.toJson(registerTypeRepository.findAllOrderByName()));
             model.addObject("listElection", gson.toJson(electionRepository.findAll()));
             model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
+            model.addObject("lstHomeType", gson.toJson(homeTypeRepository.findNotObsolete()));
             model.addObject("idCase", idCase);
             addressService.fillCatalogAddress(model);
             if (id != null && id != 0) {
 
                 ImputedHome imputedHome = imputedHomeRepository.findOne(id);
                 model.addObject("d", imputedHome);
-                if(imputedHome.getAddress()!=null){
+                if (imputedHome.getAddress() != null) {
                     addressService.fillModelAddress(model, imputedHome.getAddress().getId());
                 }
-                model.addObject("belongId", imputedHome.getBelong().getId());
+                model.addObject("homeTypeId", imputedHome.getHomeType().getId());
                 model.addObject("listSchedule", scheduleService.getSchedules(imputedHome.getId(), ImputedHome.class));
                 model.addObject("typeId", imputedHome.getRegisterType().getId());
-                addressService.fillCatalogAddress(model);
             }
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"upsertAddress",userService);
+            logException.Write(e, this.getClass(), "upsertAddress", userService);
         }
         return model;
     }
@@ -693,27 +753,28 @@ public class MeetingServiceImpl implements MeetingService {
                 imputedHome.setId(null);
             }
             imputedHome.setMeeting(c.getMeeting());
-            imputedHome.setBelong(electionRepository.findOne(imputedHome.getBelong().getId()));
+            imputedHome.setHomeType(homeTypeRepository.findOne(imputedHome.getHomeType().getId()));
             imputedHome.setRegisterType(registerTypeRepository.findOne(imputedHome.getRegisterType().getId()));
-            if(imputedHome.getAddress()!=null && imputedHome.getAddress().getLocation()!=null && imputedHome.getAddress().getLocation().getId()!=null){
+            if (imputedHome.getAddress() != null && imputedHome.getAddress().getLocation() != null && imputedHome.getAddress().getLocation().getId() != null) {
                 Long locationId = imputedHome.getAddress().getLocation().getId();
-                    imputedHome.getAddress().setLocation(locationRepository.findOne(locationId));
-                    imputedHome.getAddress().setAddressString(imputedHome.getAddress().toString());
-                    imputedHome.setAddress(addressRepository.save(imputedHome.getAddress()));
+                imputedHome.getAddress().setLocation(locationRepository.findOne(locationId));
+                imputedHome.getAddress().setAddressString(imputedHome.getAddress().toString());
+                imputedHome.setAddress(addressRepository.save(imputedHome.getAddress()));
             }
             ImputedHome newImputedHome = imputedHomeRepository.save(imputedHome);
             if (!newImputedHome.getRegisterType().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
                 List<Schedule> listToDelete = newImputedHome.getSchedule();
-                if(listToDelete !=null){
+                if (listToDelete != null) {
                     newImputedHome.setSchedule(null);
-                    for(Schedule schedule: listToDelete){
+                    for (Schedule schedule : listToDelete) {
                         schedule.setImputedHome(null);
                         scheduleRepository.delete(schedule.getId());
                     }
                 }
                 Gson gson = new Gson();
-                List<Schedule> listSchedules = gson.fromJson(sch,new TypeToken<List<Schedule>>(){}.getType());
-                for(Schedule schedule: listSchedules){
+                List<Schedule> listSchedules = gson.fromJson(sch, new TypeToken<List<Schedule>>() {
+                }.getType());
+                for (Schedule schedule : listSchedules) {
                     schedule.setImputedHome(newImputedHome);
                 }
                 scheduleRepository.save(listSchedules);
@@ -721,7 +782,7 @@ public class MeetingServiceImpl implements MeetingService {
             result.setHasError(false);
             result.setMessage("Se ha guardado la información con éxito");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"doUpsertAddress",userService);
+            logException.Write(e, this.getClass(), "doUpsertAddress", userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al guardar su inormación. Intente más tarde." + e.getMessage());
         }
@@ -734,13 +795,13 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         try {
             ImputedHome imputedHome = imputedHomeRepository.findOne(id);
-            Long idAddress =  imputedHome.getAddress().getId();
+            Long idAddress = imputedHome.getAddress().getId();
             imputedHomeRepository.delete(id);
             addressRepository.delete(idAddress);
             result.setHasError(false);
             result.setMessage("Se ha eliminado el registro exitosamente");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"deleteAddress",userService);
+            logException.Write(e, this.getClass(), "deleteAddress", userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al eliminar el registro. Inténte más tarde");
         }
@@ -753,22 +814,22 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         try {
             Case c = caseRepository.findOne(id);
-            refreshLeaveCountry(leaveCountry,c);
+            refreshLeaveCountry(leaveCountry, c);
             caseRepository.saveAndFlush(c);
             result.setHasError(false);
             result.setMessage("Se ha guardado su información exitosamente");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"upsertLeaveCountry",userService);
+            logException.Write(e, this.getClass(), "upsertLeaveCountry", userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al guardar la información");
         }
         return result;
     }
 
-    private void refreshLeaveCountry(LeaveCountry leaveCountry, Case c){
+    private void refreshLeaveCountry(LeaveCountry leaveCountry, Case c) {
         Meeting m = c.getMeeting();
         LeaveCountry l = c.getMeeting().getLeaveCountry();
-        if(l==null){
+        if (l == null) {
             l = new LeaveCountry();
             c.getMeeting().setLeaveCountry(l);
             l.setMeeting(m);
@@ -793,6 +854,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Autowired
     FieldMeetingSourceRepository fieldMeetingSourceRepository;
+
     @Transactional
     @Override
     public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, String activities) {
@@ -800,39 +862,44 @@ public class MeetingServiceImpl implements MeetingService {
         try {
             Case c = caseRepository.findOne(meeting.getCaseDetention().getId());
             Gson gson = new Gson();
-            refreshPersonalData(meeting.getImputed(),meeting.getSocialEnvironment(),activities,c);
-            refreshSchool(meeting.getSchool(),c);
+            refreshPersonalData(meeting.getImputed(), meeting.getSocialEnvironment(), activities, c);
+            refreshSchool(meeting.getSchool(), c);
             List<Schedule> listToDelete = c.getMeeting().getSchool().getSchedule();
             c.getMeeting().getSchool().setSchedule(null);
-            if(listToDelete!=null){
-                for(Schedule schedule: listToDelete){
+            if (listToDelete != null) {
+                for (Schedule schedule : listToDelete) {
                     schedule.setSchool(null);
                     scheduleRepository.delete(schedule.getId());
                 }
             }
-            List<Schedule> listSchedules = gson.fromJson(sch,new TypeToken<List<Schedule>>(){}.getType());
+            List<Schedule> listSchedules = gson.fromJson(sch, new TypeToken<List<Schedule>>() {
+            }.getType());
             School s = c.getMeeting().getSchool();
-            for(Schedule schedule: listSchedules){
+            for (Schedule schedule : listSchedules) {
                 schedule.setSchool(s);
             }
             scheduleRepository.save(listSchedules);
-            refreshLeaveCountry(meeting.getLeaveCountry(),c);
-            TerminateMeetingMessageDto validate= new TerminateMeetingMessageDto();
+            refreshLeaveCountry(meeting.getLeaveCountry(), c);
+            TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
             c.getMeeting().getImputed().validateMeeting(validate);
-            if(c.getMeeting().getSchool()==null){
+            if(c.getMeeting().getSocialEnvironment()==null){
+                c.getMeeting().setSocialEnvironment(new SocialEnvironment());
+            }
+            c.getMeeting().getSocialEnvironment().validateMeeting(validate);
+            if (c.getMeeting().getSchool() == null) {
                 c.getMeeting().setSchool(new School());
             }
             c.getMeeting().getSchool().validateMeeting(validate);
-            if(c.getMeeting().getLeaveCountry()==null){
+            if (c.getMeeting().getLeaveCountry() == null) {
                 c.getMeeting().setLeaveCountry(new LeaveCountry());
             }
             c.getMeeting().getLeaveCountry().validateMeeting(validate);
-           c.getMeeting().validateMeeting(validate);
+            c.getMeeting().validateMeeting(validate);
             if (validate.existsMessageProperties()) {
-                List<String> listGeneral=new ArrayList<>();
+                List<String> listGeneral = new ArrayList<>();
                 listGeneral.add("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("general",listGeneral));
-                return new ResponseMessage(true,gson.toJson(validate));
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
+                return new ResponseMessage(true, gson.toJson(validate));
             }
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
             c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
@@ -841,13 +908,12 @@ public class MeetingServiceImpl implements MeetingService {
             result.setMessage("Entrevista terminada con exito");
             result.setUrlToGo("/index.html");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"doTerminateMeeting",userService);
+            logException.Write(e, this.getClass(), "doTerminateMeeting", userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al terminar la entrevista. Intente más tarde");
         }
         return result;
     }
-
 
 
     @Override
@@ -876,13 +942,13 @@ public class MeetingServiceImpl implements MeetingService {
     public ResponseMessage saveProceedingLegal(CriminalProceedingView cpv) {
         ResponseMessage result = new ResponseMessage();
         try {
-           TerminateMeetingMessageDto validate =new TerminateMeetingMessageDto();
-            validateProceedingLegal(cpv,validate);
+            TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
+            validateProceedingLegal(cpv, validate);
             if (validate.existsMessageProperties()) {
                 Gson gson = new Gson();
-                List<String> listGeneral=new ArrayList<>();
+                List<String> listGeneral = new ArrayList<>();
                 listGeneral.add("No se puede guardar la información legal puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("general",listGeneral));
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
                 result.setHasError(true);
                 result.setMessage(gson.toJson(validate));
                 return result;
@@ -932,11 +998,29 @@ public class MeetingServiceImpl implements MeetingService {
             result.setMessage("Entrevista terminada con exito");
             result.setUrlToGo("/index.html");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveProceedingLegal",userService);
+            logException.Write(e, this.getClass(), "saveProceedingLegal", userService);
             result.setHasError(true);
             result.setMessage("Ha ocurrido un error al guardar la información");
         } finally {
             return result;
+        }
+    }
+
+    @Override
+    public ResponseMessage upsertSocialNetworkComment(String comment, Long idCase) {
+        try{
+            SocialNetwork socialNetwork= socialNetworkRepository.findByCase(idCase);
+            if(socialNetwork==null){
+                socialNetwork = new SocialNetwork();
+                Case c = caseRepository.findOne(idCase);
+                socialNetwork.setMeeting(c.getMeeting());
+            }
+            socialNetwork.setComment(comment);
+            socialNetworkRepository.save(socialNetwork);
+            return new ResponseMessage(false, "Se ha guardado su información exitosamente");
+        }catch (Exception e){
+            logException.Write(e, this.getClass(), "upsertSocialNetworkComment", userService);
+            return new ResponseMessage(true,"Ha ocurrido un error al terminar la entrevista. Intente más tarde");
         }
     }
 
@@ -949,20 +1033,20 @@ public class MeetingServiceImpl implements MeetingService {
         if (cpv.getHaveCoDEfendant() && cpv.getListCoDefendant().trim().equals(""))
             current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
         if (cpv.getPlaceDetention().trim().equals(""))
-            current.add(v.template.replace(e,"El lugar de detención"));
+            current.add(v.template.replace(e, "El lugar de detención"));
         if (cpv.getBehaviorDetention().trim().equals(""))
-            current.add(v.template.replace(e,"El comportamiento durante la detención"));
+            current.add(v.template.replace(e, "El comportamiento durante la detención"));
         if (cpv.getNameVictim().trim().equals(""))
-            current.add(v.template.replace(e,"El nombre completo de la víctima"));
+            current.add(v.template.replace(e, "El nombre completo de la víctima"));
         if (cpv.getFirstProceeding().trim().equals(""))
-            previous.add(v.template.replace(e,"El primer caso "));
+            previous.add(v.template.replace(e, "El primer caso "));
         if (cpv.getOpenProcessNumber() == null)
-            previous.add(v.template.replace(e,"El número de procesos abiertos"));
+            previous.add(v.template.replace(e, "El número de procesos abiertos"));
         if (cpv.getNumberConvictions() == null)
-            previous.add(v.template.replace(e,"El número de sentencias condenatorias"));
+            previous.add(v.template.replace(e, "El número de sentencias condenatorias"));
         current.addAll(addressService.validateAddress(cpv.getDomicileVictim()));
-        v.getGroupMessage().add(new GroupMessageMeetingDto("legalActual",current));
-        v.getGroupMessage().add(new GroupMessageMeetingDto("legalPrevious",previous));
+        v.getGroupMessage().add(new GroupMessageMeetingDto("legalActual", current));
+        v.getGroupMessage().add(new GroupMessageMeetingDto("legalPrevious", previous));
         return messageError;
     }
 

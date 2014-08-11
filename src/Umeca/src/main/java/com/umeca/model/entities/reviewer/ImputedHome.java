@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.Election;
+import com.umeca.model.catalog.HomeType;
 import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.shared.EntityGrid;
@@ -42,7 +43,7 @@ public class ImputedHome implements EntityGrid{
 
     @ManyToOne
     @JoinColumn(name="id_belong", nullable = false)
-    private Election belong;
+    private HomeType homeType;
 
     @Column(name="reason_change", length = 500, nullable = true)
     private String reasonChange;
@@ -53,9 +54,18 @@ public class ImputedHome implements EntityGrid{
     @OneToMany(mappedBy="imputedHome", cascade={CascadeType.ALL})
     private List<Schedule> schedule;
 
+    @Column(name="phone", length = 35, nullable = false)
+    private String phone;
+
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
+
+    @Column(name="specification", length = 50)
+    private String specification;
+
+    @Column(name="reasonSecondary", length = 500)
+    private String reasonSecondary;
 
     @Transient
     private String addressString;
@@ -145,12 +155,14 @@ public class ImputedHome implements EntityGrid{
         this.schedule = schedule;
     }
 
-    public Election getBelong() {
-        return belong;
+
+    public HomeType getHomeType() {
+
+        return homeType;
     }
 
-    public void setBelong(Election belong) {
-        this.belong = belong;
+    public void setHomeType(HomeType homeType) {
+        this.homeType = homeType;
     }
 
     public String getAddressString() {
@@ -191,5 +203,29 @@ public class ImputedHome implements EntityGrid{
 
     public void setIdAux(Long idAux) {
         this.idAux = idAux;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getReasonSecondary() {
+        return reasonSecondary;
+    }
+
+    public void setReasonSecondary(String reasonSecondary) {
+        this.reasonSecondary = reasonSecondary;
     }
 }

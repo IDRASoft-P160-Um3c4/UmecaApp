@@ -112,3 +112,41 @@ app.controller('meetingController', function($scope, $timeout) {
         });
     };
 });
+
+app.controller('scController', function($scope, $timeout) {
+
+    $scope.submit = function (formId, urlToPost, hasReturnId) {
+        $scope.Invalid = true;
+        $scope.WaitFor = true;
+
+            $.post(urlToPost, $(formId).serialize())
+                .success($scope.handleSuccess)
+                .error($scope.handleError);
+        return true;
+    };
+
+
+    $scope.handleSuccess = function (resp) {
+        $scope.WaitFor = false;
+        try {
+            if(resp.hasError===undefined){
+                resp=resp.responseMessage;}
+            if (resp.hasError === false) {
+                $scope.msgSuccess=resp.message;
+                $scope.$apply();
+                return;
+            }
+            $scope.msgError=resp.message;
+            $scope.$apply();
+        } catch (e) {
+            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
+        }
+    };
+
+    $scope.handleError = function () {
+        $scope.WaitFor = false;
+        $scope.MsgError = "Error de red. Por favor intente más tarde.";
+        $scope.$apply();
+    };
+
+});

@@ -168,7 +168,7 @@
                                                                     <div class="checkbox">
                                                                         <label>
                                                                             <input type="checkbox" ng-model = "m.daysOfWeek[3]"/>
-                                                                            <span class="control-label">Mi&iacute;rcoles</span>
+                                                                            <span class="control-label">Mi&eacute;rcoles</span>
                                                                         </label>
                                                                     </div>
                                                                 </div>

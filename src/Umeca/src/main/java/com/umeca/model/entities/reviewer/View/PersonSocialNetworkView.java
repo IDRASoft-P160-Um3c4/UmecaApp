@@ -21,15 +21,20 @@ public class PersonSocialNetworkView  implements EntityGrid {
 
     private String phone;
 
+    private Boolean isAccompaniment;
+
+    private String isAccompanimentString;
+
     public PersonSocialNetworkView() {
     }
 
-    public PersonSocialNetworkView(Long id, String name, String relName, Integer age, String phone) {
+    public PersonSocialNetworkView(Long id, String name, String relName, Integer age, String phone, Boolean isAccompaniment) {
         this.id = id;
         this.name = name;
         this.relName = relName;
         this.age = age;
         this.phone = phone;
+        this.isAccompanimentString = isAccompaniment ? "Si":"No";
     }
 
     public Long getId() {
@@ -70,5 +75,21 @@ public class PersonSocialNetworkView  implements EntityGrid {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Boolean getIsAccompaniment() {
+        return isAccompaniment;
+    }
+
+    public void setIsAccompaniment(Boolean accompaniment) {
+        isAccompaniment = accompaniment;
+    }
+
+    public String getIsAccompanimentString() {
+        return isAccompanimentString;
+    }
+
+    public void setIsAccompanimentString(String accompanimentString) {
+        isAccompanimentString = accompanimentString;
     }
 }

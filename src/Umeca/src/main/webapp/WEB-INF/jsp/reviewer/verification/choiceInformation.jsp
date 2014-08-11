@@ -50,6 +50,10 @@
 
     </style>
     <script>
+        window.cancelViewMeeting = function(){
+            window.goToUrlMvcUrl("<c:url value='/managereval/showCaseEvaluation/index.html'/>");
+        }
+
         window.cancelChoiceInformation = function () {
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
         }
@@ -87,7 +91,7 @@
 <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
 <br/>
 
-<div class="row">
+<div class="row" ng-init="managereval = ${managereval}">
 <div class="col-sm-12">
 <div class="tabbable tabs-left">
 <ul class="nav nav-tabs" id="tabMeeting">
@@ -474,7 +478,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-show="managereval == false">
     <div class="modal-footer">
                     <span class="btn btn-default btn-sm" onclick="window.cancelChoiceInformation()">
                         Regresar
@@ -482,6 +486,13 @@
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="terminateVerification('<c:url value="/reviewer/verification/terminateVerification.json?idCase=${idCase}"/>');">
                           Terminar Verificaci&oacute;n
+                    </span>
+    </div>
+</div>
+<div class="row" ng-show="managereval == true">
+    <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" onclick="window.cancelViewMeeting()">
+                        Regresar
                     </span>
     </div>
 </div>

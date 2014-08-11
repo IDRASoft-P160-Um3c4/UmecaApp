@@ -31,16 +31,28 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-xs-6">
-                                                <div class="profile-user-info profile-user-info-striped">
-                                                    <div class="profile-info-row">
-                                                        <div class="profile-info-name"> Caso</div>
-                                                        <div class="profile-info-value">
-                                                            <span id="case">${caseId}&nbsp;</span>
+                                            <%--<div class="col-xs-6">--%>
+                                                <%--<div class="profile-user-info profile-user-info-striped">--%>
+                                                    <%--<div class="profile-info-row">--%>
+                                                        <%--<div class="profile-info-name"> Caso</div>--%>
+                                                        <%--<div class="profile-info-value">--%>
+                                                            <%--<span id="case">${caseId}&nbsp;</span>--%>
+                                                        <%--</div>--%>
+                                                    <%--</div>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                                <div class="col-xs-12">
+                                                    <div class="profile-user-info profile-user-info-striped">
+                                                        <div class="profile-info-row">
+                                                            <div class="profile-info-name"> Imputado</div>
+                                                            <div class="profile-info-value">
+                                                                <span id="fullName">${fullName}&nbsp;</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-xs-6">
                                                 <div class="profile-user-info profile-user-info-striped">
                                                     <div class="profile-info-row">
@@ -48,18 +60,6 @@
 
                                                         <div class="profile-info-value">
                                                             <span id="mpId">${mpId}&nbsp;</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-6">
-                                                <div class="profile-user-info profile-user-info-striped">
-                                                    <div class="profile-info-row">
-                                                        <div class="profile-info-name"> Imputado</div>
-                                                        <div class="profile-info-value">
-                                                            <span id="fullName">${fullName}&nbsp;</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -162,7 +162,7 @@
                 </div>
                 <div class="modal-footer" id="btn-act-footer">
                     <button class="btn btn-default btn-sm" ng-click="cancel()">Cancelar</button>
-                    <button class="btn btn-default btn-primary btn-sm" ng-disable="WaitFor==true"
+                    <button id="bntSubmitChangeSup" class="btn btn-default btn-primary btn-sm" ng-disable="WaitFor==true"
                             ng-show="m.hasPassword"
                             ng-click="submit('#FormCatId', '<c:url value='/supervisorManager/activeMonitoringPlan/doChangeSupervisor.json' />')">
                         Cambiar

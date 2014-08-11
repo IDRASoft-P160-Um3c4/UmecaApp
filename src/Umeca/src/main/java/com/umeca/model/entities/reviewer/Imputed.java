@@ -69,6 +69,9 @@ public class Imputed { @Id
     @Column(name="birth_location", nullable = true, length = 500)
     private String birthLocation;
 
+    @Column(name="nickname", length = 100, nullable = true)
+    private String nickname;
+
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
@@ -201,6 +204,14 @@ public class Imputed { @Id
         this.birthLocation = birthLocation;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public  void validateMeeting(TerminateMeetingMessageDto t){
         List<String> result = new ArrayList<>();
         String e="entity";
@@ -218,6 +229,10 @@ public class Imputed { @Id
         }
         if(boys==null){
             result.add(t.template.replace(e,"El total de hijos"));
+        }
+
+        if(nickname== null || (nickname!=null && nickname.equals(""))){
+            result.add(t.template.replace(e,"El apódo"));
         }
         if(dependentBoys==null){
             result.add(t.template.replace(e,"El número de dependientes económicos"));

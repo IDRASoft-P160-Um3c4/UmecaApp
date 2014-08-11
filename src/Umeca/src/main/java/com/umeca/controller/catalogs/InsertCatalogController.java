@@ -188,6 +188,12 @@ public class InsertCatalogController {
         return "Status Case OK!";
     }
 
+    @RequestMapping(value = "/catalogs/insertHomeType", method = RequestMethod.GET)
+    public String insertHomeType(){
+        service.homeType();
+        return "Home type OK!";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
@@ -218,6 +224,7 @@ public class InsertCatalogController {
         service.statusFieldVerification();
         service.framingRisk();
         service.framingThreat();
+        service.homeType();
         return "insertCatalog OK!!";
     }
 }

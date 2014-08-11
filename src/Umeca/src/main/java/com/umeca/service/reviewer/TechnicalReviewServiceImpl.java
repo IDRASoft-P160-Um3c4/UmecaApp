@@ -224,14 +224,15 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         file.setAddress(meeting.getImputedHomes().get(0).getAddress().getAddressString());
         String template = "Campo: {0} <br/>Valor: {1}";
-        List<Long> sourcesId = sourceVerificationRepository.getAllSourcesByCase(id);
+        Long idCase = ver.getCaseDetention().getId();
+        List<Long> sourcesId = sourceVerificationRepository.getAllSourcesByCase(idCase);
 
         for(Long idSource: sourcesId){
             SourceVerificationDto sv = new SourceVerificationDto();
             sv.dtoSourceVerification(sourceVerificationRepository.findOne(idSource));
             sv.setSections(new ArrayList<Section>());
             for(int i=0; i<Constants.NAMES_MEETING.length;i++) {
-                List<FieldMeetingSource> fieldMeetingSources = fieldMeetingSourceRepository.getFieldMeetingBySource(id, idSource, Constants.ST_FIELD_VERIF_UNABLE,(i+1));
+                List<FieldMeetingSource> fieldMeetingSources = fieldMeetingSourceRepository.getFieldMeetingBySource(idCase, idSource, Constants.ST_FIELD_VERIF_UNABLE,(i+1));
                 if(fieldMeetingSources!=null && fieldMeetingSources.size()>0) {
                     Section s = new Section(fieldMeetingSources.get(0).getFieldVerification().getSection());
                     List<String> messages= new ArrayList<>();

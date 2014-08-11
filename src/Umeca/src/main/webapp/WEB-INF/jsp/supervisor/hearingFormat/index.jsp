@@ -50,7 +50,7 @@
                     { name: 'idFolder', index: 'idFolder', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'idMP', index: 'idMP', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'statusDesc', index: 'statusDesc', width: 400, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'statusDesc', index: 'statusDesc', width: 400, align: "center", search: false},
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,

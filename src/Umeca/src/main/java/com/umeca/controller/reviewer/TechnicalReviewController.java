@@ -105,10 +105,14 @@ public class TechnicalReviewController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
                     return r.join("caseDetention").get("idFolder");
-
+                else
+                if (field.equals("statusName"))
+                    return r.join("caseDetention").join("status").get("name");
+                else
                 return null;
             }
         }, Verification.class, ForTechnicalReviewGrid.class);
+
 
         return result;
     }

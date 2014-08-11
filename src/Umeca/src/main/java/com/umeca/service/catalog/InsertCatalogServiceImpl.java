@@ -29,7 +29,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
 
     @Autowired
     RoleRepository repositoryRole;
@@ -524,6 +524,24 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             framingRiskRepository.save(model);
         }
         framingRiskRepository.flush();
+    }
+
+    @Autowired
+    HomeTypeRepository homeTypeRepository;
+    @Override
+    public void homeType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "home_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            HomeType model = new HomeType();
+
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setSpecification(data[2].equals("1"));
+            model.setObsolete(data[3].equals("1"));
+
+            homeTypeRepository.save(model);
+        }
+        homeTypeRepository.flush();
     }
 
     @Autowired

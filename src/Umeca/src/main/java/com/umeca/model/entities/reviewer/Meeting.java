@@ -225,18 +225,23 @@ public class Meeting {
         }
         List<PersonSocialNetwork> listPS = getSocialNetwork()==null? new ArrayList<PersonSocialNetwork>() :getSocialNetwork().getPeopleSocialNetwork();
         List<Reference> referenceList = getReferences();
+        List<String> listMessSN = new ArrayList<>();
         if ((referenceList==null || (referenceList != null && referenceList.size() == 0))) {
             List<String> listMess = new ArrayList<>();
             listMess.add("Para terminar la entrevista debe agragar al menos una referencia personal.");
             t.getGroupMessage().add(new GroupMessageMeetingDto("reference",listMess));
         }
-
-        if((listPS== null ||( listPS!= null && listPS.size()==0))){
-            List<String> listMess = new ArrayList<>();
-            listMess.add("Para terminar la entrrevista debe agregar al menos una persona en su red social.");
-            t.getGroupMessage().add(new GroupMessageMeetingDto("socialNetwork",listMess));
+        if(socialNetwork==null || (socialNetwork!=null && socialNetwork.getComment().equals(""))){
+            listMessSN.add(t.template.replace("entity","Las observaciones"));
         }
 
+        if((listPS== null ||( listPS!= null && listPS.size()==0))){
+            listMessSN.add("Para terminar la entrevista debe agregar al menos una persona en su red social.");
+        }
+
+        if(listMessSN.size()>0){
+            t.getGroupMessage().add(new GroupMessageMeetingDto("socialNetwork",listMessSN));
+        }
         List<Job> jobList = getJobs();
         if(jobList==null || (jobList!=null && jobList.size()==0)){
             List<String> result = new ArrayList<>();

@@ -16,11 +16,13 @@ public class ChoiceView {
     Long id;
     String status;
     String nameSource;
+    String reason;
     Boolean isFinal;
     List<String> values;
 
     public ChoiceView choiceDto(List<FieldMeetingSource> list){
         FieldMeetingSource template = list.get(0);
+        reason = template.getReason();
         id = template.getId();
         status = template.getStatusFieldVerification().getName();
         if(template.getSourceVerification()!=null)
@@ -63,5 +65,21 @@ public class ChoiceView {
 
     public void setValues(List<String> values) {
         this.values = values;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public Boolean getFinal() {
+        return isFinal;
+    }
+
+    public void setFinal(Boolean aFinal) {
+        isFinal = aFinal;
     }
 }

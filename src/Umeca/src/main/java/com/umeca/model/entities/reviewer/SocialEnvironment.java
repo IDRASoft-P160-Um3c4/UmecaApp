@@ -1,6 +1,11 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
+import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
+import com.umeca.model.shared.Constants;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,5 +75,31 @@ public class SocialEnvironment {
 
     public void setRelSocialEnvironmentActivities(List<RelSocialEnvironmentActivity> relSocialEnvironmentActivities) {
         this.relSocialEnvironmentActivities = relSocialEnvironmentActivities;
+    }
+
+    public  void validateMeeting(TerminateMeetingMessageDto t){
+        List<String> result = new ArrayList<>();
+        String e="entity";
+        if(this.physicalCondition==null||(this.physicalCondition!=null && this.physicalCondition.trim().equals(""))){
+            result.add(t.template.replace(e,"La condición física"));
+        }
+
+        if(relSocialEnvironmentActivities==null || (relSocialEnvironmentActivities!= null
+                && relSocialEnvironmentActivities.size()==0)){
+            result.add(t.template.replace(e,"Las actividades que realiza el imputado"));
+        }
+
+        if(comment== null || (comment!=null && comment.equals(""))){
+            result.add(t.template.replace(e,"Los comentarios"));
+        }
+
+
+        if(t.getGroupMessage()!=null){
+            for (GroupMessageMeetingDto gmdto : t.getGroupMessage()){
+                if(gmdto.getSection().equals("personalData")){
+                    gmdto.getMessages().addAll(result);
+                }
+            }
+        }
     }
 }

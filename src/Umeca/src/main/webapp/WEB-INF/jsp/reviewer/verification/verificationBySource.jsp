@@ -62,6 +62,10 @@
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
         }
 
+        window.cancelViewMeeting = function(){
+            window.goToUrlMvcUrl("<c:url value='/managereval/showCaseEvaluation/index.html'/>");
+        }
+
         window.verificationActivities = function(id) {
             window.showUpsertWithIdCase(id, "#upsertModal", "<c:url value='/reviewer/verification/verificationActivities.html?idSource=${idSource}'/>", undefined,undefined, ${idCase});
         };
@@ -72,15 +76,15 @@
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
-<div class="container body-content">
+<div class="container body-content"   ng-cloak>
     <div ng-controller="verificationController">
         <input type="hidden" ng-init="urlVerifTrue= '<c:url value="/reviewer/verification/verifBySourceEqual.json"/>'" ng-model="urlVerifTrue"
                ng-update-hidden>
         <input type="hidden" ng-init="urlVerifNotKnow= '<c:url value="/reviewer/verification/verifBySourceNotKnow.json"/>'" ng-model="urlVerifTrue"
                ng-update-hidden>
-        <h2 class="element-center"><i class="glyphicon icon-edit "></i>&nbsp;&nbsp;Entrevista de verificaci&oacute;n</h2>
+        <h2 class="element-center"><i class="glyphicon icon-edit" ng-show="managereval==false"></i><i class="glyphicon icon-comments-alt" ng-show="managereval==true"></i>&nbsp;&nbsp;Entrevista de verificaci&oacute;n</h2>
         <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
-        <div class="row">
+        <div class="row" ng-init="managereval = ${managereval}" ng-show="managereval == false">
         <div class="col-xs-12 widget-container-span">
             <div class="widget-box">
                 <div class="widget-header widget-header-small header-color-dark">
@@ -193,7 +197,7 @@
                                 <i class="blue icon-globe  bigger-200"></i>
                                 Facilidad de <br/>
 
-                                <div class="col-xs-offset-3">abandonar el pa�s</div>
+                                <div class="col-xs-offset-3">abandonar el pa&iacute;s</div>
                             </a>
                         </li>
                     </ul>
@@ -340,7 +344,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" ng-show="managereval == false">
             <div class="modal-footer">
                     <span class="btn btn-default btn-sm" onclick="window.cancelMeetingSource()">
                         Regresar
@@ -348,6 +352,13 @@
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="terminateMeetingSource('<c:url value="/reviewer/verification/terminateMeetingSource.json?idCase=${idCase}&&idSource=${idSource}"/>');">
                           Terminar Entrevista
+                    </span>
+            </div>
+        </div>
+        <div class="row" ng-show="managereval == true">
+            <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" onclick="window.cancelViewMeeting()">
+                        Regresar
                     </span>
             </div>
         </div>

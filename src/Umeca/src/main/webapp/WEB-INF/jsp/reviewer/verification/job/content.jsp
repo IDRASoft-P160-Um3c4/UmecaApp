@@ -248,7 +248,7 @@
 
                         <div class="row">
                             <div class="col-xs-12" ng-init='schList = pastToJson(listJob[$index].schedule);'
-                                 ng-show="verification || selectSource">
+                                 ng-show="verification || selectSource || showSchedule">
                                 <div class="widget-header header-color-blue">
                                     <h6> &nbsp;
                                         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"

@@ -34,7 +34,7 @@
             height: 200,
             viewrecords: true,
             shrinkToFit: false,
-            sortorder: "desc",
+            sortorder: "asc",
             caption: "&nbsp;",
             altRows: true,
             gridComplete: function () {

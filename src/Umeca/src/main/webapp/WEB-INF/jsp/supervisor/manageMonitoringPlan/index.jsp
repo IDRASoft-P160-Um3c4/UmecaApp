@@ -36,7 +36,7 @@
                     colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
-                        { name: 'caseId', index: 'caseId', width: 65, align: "center", sortable: true, search: false },
+                        { name: 'caseId', index: 'caseId', hidden: true},
                         { name: 'idMP', index: 'idMP', width: 140, align: "center", sortable: false, search: false },
                         { name: 'fullName', index: 'fullName', width: 220, align: "center", sortable: false, search: false },
                         { name: 'stCreationTime', index: 'stCreationTime', width: 130, align: "center", sortable: true, search: false },

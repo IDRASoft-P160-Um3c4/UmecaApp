@@ -91,10 +91,16 @@ public class VerificationController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if(field.equals("statusCode"))
                     return r.join("status").get("name");
-                if(field.equals("statusDescription"))
+                else if(field.equals("statusDescription"))
                     return r.join("status").get("description");
-                if(field.equals("reviewerId"))
+                else if(field.equals("reviewerId"))
                     return r.join("reviewer").get("id");
+                else if(field.equals("fullname")){
+                    return r.join("caseDetention").join("meeting").join("imputed").get("name");
+                }else if(field.equals("idFolder")){
+                    return r.join("caseDetention").get("idFolder");
+                }
+
                 return null;
 
             }
@@ -132,6 +138,8 @@ public class VerificationController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if(field.equals("idCase")){
                     return r.join("verification").join("caseDetention").get("id");
+                }else if(field.equals("fullName")){
+                    return r.get("fullName");
                 }
                 return null;
             }
@@ -197,7 +205,7 @@ public class VerificationController {
     }
 
     @RequestMapping(value = "/reviewer/verification/verificationBySource", method = RequestMethod.GET)
-    public ModelAndView verificationBySource(@RequestParam Long idCase, @RequestParam Long idSource){
+    public ModelAndView verificationBySource(@RequestParam Long idCase, @RequestParam(required = false) Long idSource){
         return verificationService.showVerificationBySource(idCase, idSource);
     }
 

@@ -37,4 +37,6 @@ public interface InsertCatalogService {
     //void hearingFormatType(); NO APLICA PARA ESTA VERSIÓN
     void framingThreat();
     void framingRisk();
+
+    void homeType();
 }

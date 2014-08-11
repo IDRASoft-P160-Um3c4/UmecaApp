@@ -181,7 +181,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
             method: 'POST',
             url: 'http://maps.googleapis.com/maps/api/geocode/json'
         };
-        ajaxConfMap.params = {address: '+' + $scope.zipCode + '+MEX'};
+        ajaxConfMap.params = {address: '+' + $scope.zipCode + '+MX'};
         $http(ajaxConfMap)
             .success(function (data) {
                 try {

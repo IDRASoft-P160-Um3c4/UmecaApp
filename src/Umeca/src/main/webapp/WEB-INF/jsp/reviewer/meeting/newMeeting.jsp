@@ -25,10 +25,10 @@
                         </div>
                         <br/>
                         <div class="row">
-                            <div class="col-xs-4 element-left">
+                            <div class="col-xs-5 element-left">
                                 Nombre:
                             </div>
-                            <div class="col-xs-8">
+                            <div class="col-xs-7">
                                 <input class="form-control" data-val="true"
                                        data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
                                        data-val-required="El nombre es un campo requerido"
@@ -42,10 +42,10 @@
                         </div>
                         <br/>
                         <div class="row">
-                            <div class="col-xs-4 element-left">
+                            <div class="col-xs-5 element-left">
                                 Apellido paterno:
                             </div>
-                            <div class="col-xs-8">
+                            <div class="col-xs-7">
                                 <input class="form-control" data-val="true"
                                        data-val-length="Debe tener al menos 3 y mï¿½ximo 50 caracteres" ng-init="lastNameP=''"
                                        data-val-length-max="50" data-val-length-min="3"
@@ -60,10 +60,10 @@
 
                         <br/>
                         <div class="row">
-                            <div class="col-xs-4 element-left">
+                            <div class="col-xs-5 element-left">
                                 Apellido materno:
                             </div>
-                            <div class="col-xs-8">
+                            <div class="col-xs-7">
                                 <input class="form-control" data-val="true"
                                        data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3"
@@ -92,6 +92,36 @@
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="birthDate" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-xs-5 element-left">
+                                G&eacute;nero:
+                            </div>
+                            <div class="col-xs-7">
+                                <div class="row" ng-init="gen=false">
+                                    <div class="col-xs-6">
+                                        <div class="radio">
+                                            <label>
+                                                <input class="ace" type="radio" ng-checked="gen==true" name="gender"
+                                                       data-val-required="El g?nero es un campo requerido" id="genero" value="true"
+                                                       ng-model="gen">
+                                                <span class="lbl">Femenino</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="radio">
+                                            <label>
+                                                <input class="ace" type="radio" value="false" ng-model="gen" ng-checked="gen==false"
+                                                       name="gender">
+                                                <span class="lbl">Masculino</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <br/>

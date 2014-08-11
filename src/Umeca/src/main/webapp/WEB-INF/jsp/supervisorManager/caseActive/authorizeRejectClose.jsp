@@ -30,16 +30,16 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-xs-6">
-                                                <div class="profile-user-info profile-user-info-striped">
-                                                    <div class="profile-info-row">
-                                                        <div class="profile-info-name"> Caso </div>
-                                                        <div class="profile-info-value">
-                                                            <span id="case">${caseId}&nbsp;</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <%--<div class="col-xs-6">--%>
+                                                <%--<div class="profile-user-info profile-user-info-striped">--%>
+                                                    <%--<div class="profile-info-row">--%>
+                                                        <%--<div class="profile-info-name"> Caso </div>--%>
+                                                        <%--<div class="profile-info-value">--%>
+                                                            <%--<span id="case">${caseId}&nbsp;</span>--%>
+                                                        <%--</div>--%>
+                                                    <%--</div>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
                                             <div class="col-xs-6">
                                                 <div class="profile-user-info profile-user-info-striped">
                                                     <div class="profile-info-row">
@@ -51,8 +51,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="col-xs-6">
                                                 <div class="profile-user-info profile-user-info-striped">
                                                     <div class="profile-info-row">
@@ -63,7 +61,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-6">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
                                                 <div class="profile-user-info profile-user-info-striped">
                                                     <div class="profile-info-row">
                                                         <div class="profile-info-name"> Supervisor </div>

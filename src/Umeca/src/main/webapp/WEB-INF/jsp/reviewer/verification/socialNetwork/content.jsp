@@ -23,9 +23,9 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
-                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.relationship',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.relationship" id-element="{{p.id}}"></i>
-                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.relationship',p.id);"></i>
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.relationship.id',p.id);"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.relationship.id" id-element="{{p.id}}"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.relationship.id',p.id);"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.relationship.id',p.id)"></i>
                  Parentesco:
             </div>

@@ -16,4 +16,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository("socialNetworkRepository")
 public interface SocialNetworkRepository extends JpaRepository<SocialNetwork, Long>{
+    @Query("select sn from SocialNetwork as sn where sn.meeting.caseDetention.id = :idCase")
+    SocialNetwork findByCase(@Param("idCase")Long idCase);
 }
