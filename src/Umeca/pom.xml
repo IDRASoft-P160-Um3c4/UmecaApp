@@ -148,8 +148,8 @@
             <artifactId>jxls-core</artifactId>
             <version>1.0.5</version>
         </dependency>
-
     </dependencies>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
