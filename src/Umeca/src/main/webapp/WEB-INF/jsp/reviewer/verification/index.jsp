@@ -64,7 +64,7 @@
                         if (status == "AUTHORIZED") {
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrevistar fuentes\" onclick=\"window.viewSource('" + cl + "');\"><span class=\"icon-group blue\"></span></a>";
                         }else if(status == "MEETING_COMPLETE"){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Verificatión final\" onclick=\"window.disable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Verificatiï¿½n final\" onclick=\"window.disable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
@@ -84,6 +84,20 @@
                 refresh: true, refreshicon : 'icon-refresh green',
                 del: false,
                 search: false});
+
+            jQuery("#GridId").jqGrid('navSeparatorAdd', '#GridPager');
+            jQuery("#GridId").jqGrid('navButtonAdd', "#GridPager",
+                    {
+                        caption: "",
+                        title: "Exportar a excel",
+                        buttonicon: 'icon-download-alt blue',
+
+                        onClickButton: function () {
+                            try {
+                                $("#GridId").jqGrid('toExcelFile',{nombre:"datosXls",formato:"excel"});
+                            } catch (e) {
+                            }
+                        }});
 
             jQuery("#GridId").jqGrid('filterToolbar', {
                 stringResult: true,

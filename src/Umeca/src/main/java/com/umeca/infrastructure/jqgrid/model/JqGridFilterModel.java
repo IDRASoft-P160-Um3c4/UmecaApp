@@ -26,7 +26,6 @@ public class JqGridFilterModel
     public String searchString;
     public String filters;
     public List<JqGridRulesModel> extraFilters;
-    public Integer typeView;
 
     //public Long primaryId;
     //public String codeItem;
@@ -110,15 +109,6 @@ public class JqGridFilterModel
     public void setExtraFilters(List<JqGridRulesModel> extraFilters) {
         this.extraFilters = extraFilters;
     }
-
-    public Integer getTypeView() {
-        return typeView;
-    }
-
-    public void setTypeView(Integer typeView) {
-        this.typeView = typeView;
-    }
-
     /*
     public long getPrimaryId() {
         return primaryId;

@@ -1,10 +1,10 @@
 package com.umeca.controller.management;
 
 import com.google.gson.Gson;
+import com.umeca.controller.shared.ExcelConv;
 import com.umeca.infrastructure.PojoValidator;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
-import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.security.BcryptUtil;
 import com.umeca.model.ResponseMessage;
@@ -12,11 +12,14 @@ import com.umeca.model.ResponseUniqueMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.account.UserUnique;
 import com.umeca.model.entities.account.UserView;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import net.sf.jxls.transformer.XLSTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -26,8 +29,14 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Project: Umeca
@@ -46,7 +55,7 @@ public class UserController {
     SharedUserService sharedUserService;
 
     @RequestMapping(value = "/management/user/index", method = RequestMethod.GET)
-    public String index(){
+    public String index() {
         return "/management/user/index";
     }
 
@@ -54,16 +63,14 @@ public class UserController {
     private GenericJqGridPageSortFilter gridFilter;
 
     @RequestMapping(value = "/management/user/list", method = RequestMethod.POST)
-    public @ResponseBody JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
-
-        //opts.extraFilters = new ArrayList<>();
-        //JqGridRulesModel extraFilter = new JqGridRulesModel("enabled", "1", JqGridFilterModel.COMPARE_EQUAL);
-        //opts.extraFilters.add(extraFilter);
+    public
+    @ResponseBody
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                return new ArrayList<Selection<?>>(){{
+                return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.get("username"));
                     add(r.get("fullname"));
@@ -75,7 +82,7 @@ public class UserController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("role"))
+                if (field.equals("role"))
                     return r.join("roles").get("description");
                 return null;
             }
@@ -85,13 +92,12 @@ public class UserController {
 
     }
 
-
     @Qualifier("qRoleRepository")
     @Autowired
     RoleRepository repositoryRole;
 
     @RequestMapping(value = "/management/user/upsert", method = RequestMethod.POST)
-    public ModelAndView upsert(@RequestParam(required = false) Long id){
+    public ModelAndView upsert(@RequestParam(required = false) Long id) {
         ModelAndView modelView = new ModelAndView("/management/user/upsert");
 
         Gson gson = new Gson();
@@ -99,12 +105,11 @@ public class UserController {
 
         modelView.addObject("lstRoles", lstRoles);
 
-        if(id != null)
-        {
+        if (id != null) {
             User model = repositoryUser.findOne(id);
             modelView.addObject("model", model);
 
-            if(model.getRoles().size() > 0 )
+            if (model.getRoles().size() > 0)
                 modelView.addObject("roleId", model.getRoles().get(0).getId());
         }
 
@@ -112,20 +117,21 @@ public class UserController {
     }
 
 
-
     @Qualifier("qUserRepository")
     @Autowired
     UserRepository repositoryUser;
 
     @RequestMapping(value = "/management/user/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsert(@ModelAttribute User modelNew){
+    public
+    @ResponseBody
+    ResponseMessage doUpsert(@ModelAttribute User modelNew) {
 
         ResponseMessage response = new ResponseMessage();
 
-        try{
+        try {
             User model;
 
-            if(modelNew.getId() > 0) {
+            if (modelNew.getId() > 0) {
                 model = repositoryUser.findOne(modelNew.getId());
                 model.setUsername(modelNew.getUsername());
                 model.setEmail(modelNew.getEmail());
@@ -133,29 +139,27 @@ public class UserController {
                 model.getRoles().clear();
                 model.setRoles(modelNew.getRoles());
 
-                if(modelNew.getHasChangePass()){
+                if (modelNew.getHasChangePass()) {
                     model.setPassword(modelNew.getPassword());
                     model.setConfirm(modelNew.getConfirm());
-                }
-                else{
+                } else {
                     model.setConfirm(model.getPassword());
                 }
-            }
-            else{
+            } else {
                 model = modelNew;
                 model.setEnabled(true);
             }
 
             ResponseMessage resp = PojoValidator.validate(model);
-            if(resp != null)
+            if (resp != null)
                 return resp;
 
-            if(model.getId() <= 0 || modelNew.getHasChangePass())
+            if (model.getId() <= 0 || modelNew.getHasChangePass())
                 model.setPassword(BcryptUtil.encode(modelNew.getPassword()));
 
             Long idUser = repositoryUser.findIdByUsername(model.getUsername());
 
-            if(idUser != null && idUser != model.getId()){
+            if (idUser != null && idUser != model.getId()) {
                 response.setHasError(true);
                 response.setMessage("El usuario ya existe, por favor elija otro usuario");
                 return response;
@@ -163,7 +167,7 @@ public class UserController {
 
             repositoryUser.save(model);
             response.setHasError(false);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
@@ -173,19 +177,20 @@ public class UserController {
     }
 
     @RequestMapping(value = "/management/user/isUserAvailable", method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseUniqueMessage isUserAvailable(@RequestBody UserUnique model){
+    public
+    @ResponseBody
+    ResponseUniqueMessage isUserAvailable(@RequestBody UserUnique model) {
 
         ResponseUniqueMessage response = new ResponseUniqueMessage();
 
-        try{
+        try {
             Long count = repositoryUser.countByUsername(model.getUsername(), model.getId());
-            if(count != null && count > 0)
+            if (count != null && count > 0)
                 response.setUnique(false);
             else
                 response.setUnique(true);
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "isUserAvailable", sharedUserService);
             response.setUnique(false);
         }
@@ -195,24 +200,26 @@ public class UserController {
 
 
     @RequestMapping(value = "/management/user/disable", method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseMessage disable(@RequestParam Long id){
+    public
+    @ResponseBody
+    ResponseMessage disable(@RequestParam Long id) {
         return enableUser(id, false);
     }
 
 
     @RequestMapping(value = "/management/user/enable", method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseMessage enable(@RequestParam Long id){
+    public
+    @ResponseBody
+    ResponseMessage enable(@RequestParam Long id) {
         return enableUser(id, true);
     }
 
     private ResponseMessage enableUser(Long id, boolean bIsEnabled) {
         ResponseMessage response = new ResponseMessage();
-        try{
+        try {
             User model = repositoryUser.findOne(id);
 
-            if(model == null){
+            if (model == null) {
                 response.setHasError(true);
                 response.setMessage("Por favor revise que el registro exista e intente de nuevo");
                 return response;
@@ -222,11 +229,68 @@ public class UserController {
             repositoryUser.save(model);
             response.setHasError(false);
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "enableUser", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que el registro exista e intente de nuevo");
         }
         return response;
+    }
+
+
+
+    @Autowired
+    CaseRepository caseRepository;
+
+    @RequestMapping(value = "/management/user/jxls", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    void jxlsMethod(HttpServletRequest request, HttpServletResponse response) {
+
+        Map beans = new HashMap();
+
+        XLSTransformer transformer = new XLSTransformer();
+
+        try {
+
+            List<Case> listCases = caseRepository.findAll();
+            beans.put("listCases", listCases);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            beans.put("dateFormat", dateFormat);
+
+            ExcelConv excelConv= new ExcelConv();
+            beans.put("excelConv", excelConv);
+
+            UUID uid = UUID.randomUUID();
+
+            File temp = File.createTempFile(uid.toString(), ".xls");
+            String tempPath = temp.getAbsolutePath();
+
+            ServletContext servletContext = request.getSession().getServletContext();
+            String realContextPath = servletContext.getRealPath("/");
+            realContextPath += "/WEB-INF/jxlsTemplate/reportCase.xls";
+
+            transformer.transformXLS(realContextPath, beans, tempPath);
+
+            response.setContentType("application/x-download");
+            response.setHeader("Content-Disposition", "attachment; filename=\"infoCase.xls\"");
+
+            FileInputStream istr = new FileInputStream(tempPath);
+            OutputStream ostr = response.getOutputStream();
+
+            int curByte = -1;
+
+            while ((curByte = istr.read()) != -1)
+                ostr.write(curByte);
+
+            ostr.flush();
+            ostr.close();
+            istr.close();
+            temp.delete();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

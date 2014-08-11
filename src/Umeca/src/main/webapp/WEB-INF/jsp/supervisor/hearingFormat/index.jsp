@@ -110,6 +110,20 @@
                 del: false,
                 search: false});
 
+            jQuery("#GridCasesId").jqGrid('navSeparatorAdd', '#GridPager');
+            jQuery("#GridCasesId").jqGrid('navButtonAdd', "#GridPager",
+                    {
+                        caption: "",
+                        title: "Exportar a excel",
+                        buttonicon: 'icon-download-alt blue',
+
+                        onClickButton: function () {
+                            try {
+                                $("#GridCasesId").jqGrid('toExcelFile',{nombre:"datosXls",formato:"excel"});
+                            } catch (e) {
+                            }
+                        }});
+
             jQuery("#GridCasesId").jqGrid('filterToolbar', {
                 stringResult: true,
                 searchOperators: true,
