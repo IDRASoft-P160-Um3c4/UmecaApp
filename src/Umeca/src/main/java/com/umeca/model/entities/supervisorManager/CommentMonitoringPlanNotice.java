@@ -130,9 +130,11 @@ public class CommentMonitoringPlanNotice {
             case MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT:
                 return "REPORTE DE INCUMPLIMIENTO";
             case MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END:
-                return "TERMINACIÃ“N DEL PLAN DE SEGUIMIENTO";
+                return "TERMINACIÓN DEL PLAN DE SEGUIMIENTO";
             case MonitoringConstants.TYPE_COMMENT_CASE_END:
-                return "TERMINACIÃ“N DEL CASO";
+                return "TERMINACIÓN DEL CASO";
+            case MonitoringConstants.TYPE_COMMENT_ASSIGNED_CASE:
+                return "ASIGNACIÓN DE CASO";
             default:
                 return "NA";
         }

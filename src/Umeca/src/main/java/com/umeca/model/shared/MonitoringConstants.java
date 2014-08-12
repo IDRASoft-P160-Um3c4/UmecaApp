@@ -28,6 +28,7 @@ public class MonitoringConstants {
     public final static String TYPE_COMMENT_LOG_ACCOMPLISHMENT = "REPORTE INCUMPLIMIENTO";
     public final static String TYPE_COMMENT_MONITORING_PLAN_END = "TERMINAR PLAN";
     public final static String TYPE_COMMENT_CASE_END = "TERMINAR CASO";
+    public final static String TYPE_COMMENT_ASSIGNED_CASE = "CASO ASIGNADO";
 
     public static final int ACTIVITY_ARRANGEMENT_UNDEFINED = -1;
     public static final int ACTIVITY_ARRANGEMENT_FAILED = 0;
