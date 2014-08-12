@@ -81,7 +81,6 @@ public class TechnicalReviewController {
         );
         opts.extraFilters.add(extraFilter);
 
-
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
