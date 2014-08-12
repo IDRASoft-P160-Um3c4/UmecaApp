@@ -50,7 +50,6 @@ app.controller('additionalQuestionsController', function ($scope, $timeout, $htt
         $scope.selectedAddictedAcquaintances = $.parseJSON(data.selectedAddictedAcquaintances);
         $scope.selectedObligationIssues = $.parseJSON(data.selectedObligationIssues);
         $scope.selectedRelativesAbroad = $.parseJSON(data.selectedRelativesAbroad);
-        //alert("1");
     }
 
     $scope.selAddictionTreatment = function () {
@@ -63,8 +62,14 @@ app.controller('additionalQuestionsController', function ($scope, $timeout, $htt
 
             var today = new Date();
 
-            $scope.aq.addictionTreatmentDate = today.getFullYear() + '/' + today.getMonth() + 1 + '/' + today.getDate();
+            var d = today.getDate();
+            var m = today.getMonth();
 
+            if (parseInt(m) < 10)
+                m = "0" + (parseInt(m) + 1);
+
+            var y = today.getFullYear();
+            $scope.aq.addictionTreatmentDate = y + '/' + m + '/' + d;
         }
 
 

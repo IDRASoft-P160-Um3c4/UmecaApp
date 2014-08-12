@@ -129,10 +129,12 @@ public class MainPageServiceImpl implements MainPageService {
     private void constructSupervisorManagerMainPage(ModelAndView model, Long userId) {
         Gson json = new Gson();
         List<CommentMonitoringPlanNotice> lstGen = logCommentRepository.getEnabledCommentsByManagerSupRole(
-                new ArrayList<String>(){{
+                new ArrayList<String>() {{
                     add(MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT);
                     add(MonitoringConstants.STATUS_PENDING_END);
-                    add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);}}, userId);
+                    add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
+                }}, userId
+        );
         String sLstGeneric = json.toJson(lstGen);
         model.addObject("lstNotification", sLstGeneric);
         model.addObject("urlToGo", "/supervisorManager/log/deleteComment.json");
@@ -140,7 +142,7 @@ public class MainPageServiceImpl implements MainPageService {
 
     private void constructReviewerMainPage(ModelAndView model) {
 
-        List<LogNotificationDto> lstA = caseRepository.getMeetingIncompleteInfo(sharedUserService.GetLoggedUserId(), Constants.S_MEETING_INCOMPLETE, Constants.CASE_STATUS_MEETING, new PageRequest(0,10));
+        List<LogNotificationDto> lstA = caseRepository.getMeetingIncompleteInfo(sharedUserService.GetLoggedUserId(), Constants.S_MEETING_INCOMPLETE, Constants.CASE_STATUS_MEETING, new PageRequest(0, 10));
 
         List<LogNotificationDto> lstB = caseRepository.getMeetingIncompleteInfo(sharedUserService.GetLoggedUserId(), Constants.S_MEETING_INCOMPLETE_LEGAL, Constants.CASE_STATUS_MEETING, new PageRequest(0, 10));
 
@@ -156,8 +158,16 @@ public class MainPageServiceImpl implements MainPageService {
 
         List<LogNotificationDto> top10 = new ArrayList<>();
 
-        for(int i=0; i<10; i++){
-            top10.add(lstActivities.get(i));
+
+        int top = 1;
+        for (LogNotificationDto act : lstActivities) {
+
+            top10.add(act);
+            top++;
+
+            if (top == 10)
+                break;
+
         }
 
         List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getReviewerNotifications(sharedUserService.GetLoggedUserId());

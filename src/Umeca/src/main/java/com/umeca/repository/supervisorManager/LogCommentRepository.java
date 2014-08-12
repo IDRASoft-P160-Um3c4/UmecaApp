@@ -18,9 +18,13 @@ public interface LogCommentRepository extends JpaRepository<LogComment, Long>{
     List<String> getLastCommentByMonPlanIdAndType(@Param("id") Long id, @Param("type") String type, Pageable pageable);
 
     @Query("SELECT new com.umeca.model.entities.supervisorManager.CommentMonitoringPlanNotice(lcmp.id, lcmp.type, lcmp.action, su.fullname, ru.fullname, " +
-            "lcmp.timestamp, lcmp.comments, cd.id, cd.idMP, im.name, im.lastNameP, im.lastNameM) FROM LogComment lcmp " +
-            "LEFT JOIN lcmp.monitoringPlan.supervisor s INNER JOIN lcmp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
-            "INNER JOIN lcmp.senderUser su LEFT JOIN lcmp.receiveUser ru " +
+            "lcmp.timestamp, lcmp.comments, cd.id, cd.idMP, im.name, im.lastNameP, im.lastNameM) " +
+            "FROM LogComment lcmp " +
+            "LEFT JOIN lcmp.monitoringPlan.supervisor s " +
+            "INNER JOIN lcmp.caseDetention cd " +
+            "INNER JOIN cd.meeting.imputed im " +
+            "INNER JOIN lcmp.senderUser su " +
+            "LEFT JOIN lcmp.receiveUser ru " +
             "WHERE (s.id =:userId OR ru.id =:userId) AND su.id <>:userId AND lcmp.isObsolete = false ORDER BY lcmp.id DESC")
     List<CommentMonitoringPlanNotice> getEnabledCommentsByUserId(@Param("userId")Long userId);
 

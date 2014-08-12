@@ -231,7 +231,8 @@ public class Meeting {
             listMess.add("Para terminar la entrevista debe agragar al menos una referencia personal.");
             t.getGroupMessage().add(new GroupMessageMeetingDto("reference",listMess));
         }
-        if(socialNetwork==null || (socialNetwork!=null && socialNetwork.getComment().equals(""))){
+
+        if(socialNetwork==null || (socialNetwork.getComment()!=null && socialNetwork.getComment().equals(""))){
             listMessSN.add(t.template.replace("entity","Las observaciones"));
         }
 

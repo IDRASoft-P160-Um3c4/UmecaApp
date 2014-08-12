@@ -23,6 +23,12 @@
                 window.goToNewUrl("<c:url value='/supervisorManager/log/accomplishmentLog.html?id=idParam' />",params);
             };
 
+            window.supervisionLog = function(id) {
+                var params= [];
+                params["idParam"]=id;
+                window.goToNewUrl("<c:url value='/supervisor/log/supervisionLog.html?id=idParam' />",params);
+            };
+
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/supervisorManager/finishedMonitoringPlan/list.json' />',

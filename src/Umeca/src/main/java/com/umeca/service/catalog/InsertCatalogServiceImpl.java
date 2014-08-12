@@ -6,12 +6,14 @@ import com.umeca.infrastructure.extensions.LongExt;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.VerificationMethod;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
+import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.supervisor.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
 
     @Autowired
     RoleRepository repositoryRole;
@@ -279,12 +281,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             aidSourceRepository.save(model);
         }
         aidSourceRepository.flush();
-    }
-
-    @Autowired
-    @Override
-    public void verificationMethod() {
-
     }
 
     @Autowired
@@ -598,4 +594,18 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         statusFieldVerificationRepository.flush();
     }
 
+    @Autowired
+    VerificationMethodRepository verificationMethodRepository;
+    @Override
+    public void verificationMethod() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "verification_method.txt","\\|", 3);
+        for (String[] data : lstDta) {
+            VerificationMethod model = new VerificationMethod();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
+            verificationMethodRepository.save(model);
+        }
+        verificationMethodRepository.flush();
+    }
 }

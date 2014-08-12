@@ -11,6 +11,7 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisorManager.AssignCaseView;
 import com.umeca.infrastructure.jqgrid.model.*;
+import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
@@ -19,6 +20,7 @@ import com.umeca.repository.shared.*;
 
 import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,7 +54,7 @@ public class AssignCaseController {
     private CaseRepository caseRepository;
 
     @Autowired
-    private LogNotificationReviewerRepository logNotificationReviewerRepository;
+    private LogCommentRepository logCommentRepository;
 
     @Autowired
     SharedUserService userService;
@@ -128,13 +130,22 @@ public class AssignCaseController {
         monitoringPlan.setCreationTime(Calendar.getInstance());
         monitoringPlanRepository.save(monitoringPlan);
 
-        LogNotificationReviewer logNotificationReviewer = new LogNotificationReviewer();
-        logNotificationReviewer.setSubject("Asignación de Caso a Supervisor");
-        logNotificationReviewer.setMessage(data.getComments());
-        logNotificationReviewer.setSenderUser(userSender);
-        logNotificationReviewer.setReceiveUser(user);
-        logNotificationReviewer.setIsObsolete(false);
-        logNotificationReviewerRepository.save(logNotificationReviewer);
+        LogComment logComment = new LogComment();
+
+        logComment.setComments(data.getComments());
+        logComment.setAction("Debe generar el plan de seguimiento");
+        logComment.setCaseDetention(case_);
+        logComment.setMonitoringPlan(monitoringPlan);
+        logComment.setSenderUser(userSender);
+        logComment.setReceiveUser(user);
+        logComment.setTimestamp(Calendar.getInstance());
+        logComment.setType(MonitoringConstants.TYPE_COMMENT_ASSIGNED_CASE);
+
+        logComment.setSenderUser(userSender);
+        logComment.setReceiveUser(user);
+        logComment.setObsolete(false);
+
+        logCommentRepository.save(logComment);
         return "{}";
     }
 }
