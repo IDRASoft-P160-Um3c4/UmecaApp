@@ -31,6 +31,9 @@
         <div class="col-xs-10 col-xs-offset-1">
             <map id="mapAux"></map>
         </div>
+        <div class="col-xs-10 col-xs-offset-1 element-left" ng-show="msgMapRequest">
+            <span class="label label-lg label-pink arrowed-right"  ng-bind-html="msgMapRequest"></span>
+        </div>
     </div>
     <br/>
     <div class="row">
@@ -83,7 +86,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <label>Localidad:</label>
+            <label>Localidad/Colonia:</label>
             <br/>
             <input type="hidden" ng-model="locationId" ng-update-hidden name="{{nameAddress}}location.id">
             <input type="hidden" ng-model="lat" ng-update-hidden name="{{nameAddress}}lat">

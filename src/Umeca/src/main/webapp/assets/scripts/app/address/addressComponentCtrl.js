@@ -8,7 +8,7 @@ var cities = [
     }
 ];
 
-app.controller('addressComponentController', function ($scope, $timeout, $http, $rootScope) {
+app.controller('addressComponentController', function ($scope, $timeout, $http, $rootScope,$sce) {
     $scope.listLocation = [];
     $scope.listState = [];
     $scope.listMunicipality = [];
@@ -177,6 +177,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
     };
 
     $scope.refreshMap = function () {
+        $scope.msgMapRequest=$sce.trustAsHtml("");
         var ajaxConfMap = {
             method: 'POST',
             url: 'http://maps.googleapis.com/maps/api/geocode/json'
@@ -185,11 +186,23 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
         $http(ajaxConfMap)
             .success(function (data) {
                 try {
-                    var lat = data.results[0].geometry.location.lat;
-                    var lng = data.results[0].geometry.location.lng;
-                    $scope.point = new google.maps.LatLng(lat, lng);
-                    $scope.map.setCenter($scope.point);
-                    google.maps.event.trigger($scope.map, 'resize');
+                    if(data.status=="OK"){
+                      for(var i = 0; i < data.results.length; i++){
+                          var comp = data.results[i];
+                          if(comp.address_components[0].types[0] == "postal_code"){
+                             var lat = comp.geometry.location.lat;
+                             var lng = comp.geometry.location.lng;
+                             $scope.point = new google.maps.LatLng(lat, lng);
+                             $scope.map.setCenter($scope.point);
+                             $scope.map.setZoom(14);
+                             google.maps.event.trigger($scope.map, 'resize');
+                         }else{
+                              $scope.msgMapRequest=$sce.trustAsHtml("Google Maps no cuenta con cooredenadas para el C&oacute;digo Postal: "+$scope.zipCode);
+                         }
+                      }
+                    }else{
+
+                    }
                     //$scope.addMarker($scope.point);
                 } catch (e) {
 
