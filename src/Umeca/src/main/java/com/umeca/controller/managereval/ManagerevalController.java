@@ -95,32 +95,29 @@ public class ManagerevalController {
             return resp;
 
         for (SaveInformation item : data) {
-        /*    SourceVerification source = sourceVerification.findOne(item.getId());
+           SourceVerification source = sourceVerification.findOne(item.getId());
             VerificationMethod vm = verificationMethod.findOne(item.getRef());
             source.setAuthorized(true);
             source.setVerificationMethod(vm);
             source.setDateAuthorized(new Date());
-            sourceVerification.save(source);*/
+            sourceVerification.save(source);
         }
 
-        /*Verification _verification = verification.findByCase(c);
+        Verification _verification = verification.findByCase(c);
         StatusVerification sm = statusVerification.findByCode("AUTHORIZED");
         _verification.setStatus(sm);
 
-
-        StatusCase sc = statusCase.findOne(9L);*/
+        StatusCase sc = statusCase.findOne(9L);
         Case __case = _case.findOne(c);
-        /*
-        __case.setStatus(sc);
 
+        __case.setStatus(sc);
 
         verification.save(_verification);
         _case.save(__case);
-        */
 
         LogNotificationReviewer notif = new LogNotificationReviewer();
         notif.setIsObsolete(false);
-        notif.setSubject("Se han verificado las fuentes.");
+        notif.setSubject("Se han verificado las fuentes para el caso con carpeta de investigación "+__case.getIdFolder()+".");
         notif.setMessage(sourcesInfo.getComment());
         notif.setSenderUser(userRepository.findOne(userService.GetLoggedUserId()));
         notif.setReceiveUser(__case.getMeeting().getReviewer());
