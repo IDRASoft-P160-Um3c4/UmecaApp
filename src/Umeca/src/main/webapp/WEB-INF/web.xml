@@ -23,6 +23,10 @@
     <listener>
         <listener-class>com.umeca.infrastructure.InitListener</listener-class>
     </listener>
+    
+    <!--<listener>-->
+        <!--<listener-class>com.umeca.infrastructure.SessionFilterlistener-class>-->
+    <!--</listener>-->
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -41,6 +45,20 @@
     	<filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
     	<url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <!--<filter>-->
+        <!--<filter-name>SessionFilter</filter-name>-->
+        <!--<filter-class>com.umeca.infrastructure.SessionFilter-->
+        <!--</filter-class>-->
+        <!--<init-param>-->
+            <!--<param-name>avoid-urls</param-name>-->
+            <!--<param-value>index.jsp</param-value>-->
+        <!--</init-param>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>SessionFilter</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
 
 	<servlet>
 		<servlet-name>startTicServlet</servlet-name>
@@ -70,4 +88,7 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
 </web-app>

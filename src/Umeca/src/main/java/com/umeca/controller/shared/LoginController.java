@@ -65,4 +65,14 @@ public class LoginController {
         return service.authenticate(user);
     }
 
+     @RequestMapping(value = "/session/checkout", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage sessionCheckout(){
+       if(sharedUserService.GetLoggedUserId() == null){
+           return new ResponseMessage(true, "Session cerrada");
+       }else{
+           return new ResponseMessage(false, "Session reiniciada");
+       }
+
+    }
+
 }
