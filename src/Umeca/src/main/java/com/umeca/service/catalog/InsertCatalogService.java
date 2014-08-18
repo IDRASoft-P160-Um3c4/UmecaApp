@@ -39,4 +39,6 @@ public interface InsertCatalogService {
     void framingRisk();
 
     void homeType();
+
+    void requestType();
 }

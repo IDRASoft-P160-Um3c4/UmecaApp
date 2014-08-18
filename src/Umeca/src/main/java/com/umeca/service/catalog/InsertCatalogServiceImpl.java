@@ -31,7 +31,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
 
     @Autowired
     RoleRepository repositoryRole;
@@ -607,5 +607,21 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             verificationMethodRepository.save(model);
         }
         verificationMethodRepository.flush();
+    }
+
+    @Autowired
+    RequestTypeRepository requestTypeRepository;
+    @Override
+    public void requestType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "request_type.txt","\\|", 4);
+        for (String[] data : lstDta) {
+            RequestType model = new RequestType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            requestTypeRepository.save(model);
+        }
+        requestTypeRepository.flush();
     }
 }

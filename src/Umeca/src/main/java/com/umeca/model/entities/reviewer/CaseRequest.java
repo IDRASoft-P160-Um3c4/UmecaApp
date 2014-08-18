@@ -1,11 +1,10 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalog.dto.RequestType;
+import com.umeca.model.catalog.RequestType;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.shared.Message;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,6 +31,9 @@ public class CaseRequest {
 
     @Column(name="text", nullable = false, length = 1000)
     private String text;
+
+    @Column(name="additional_information", nullable = false, length = 1000)
+    private String additionalInformation;
 
     @ManyToOne
     @JoinColumn(name="id_receiver", nullable = false)
@@ -123,5 +125,13 @@ public class CaseRequest {
 
     public void setRequestMessage(Message requestMessage) {
         this.requestMessage = requestMessage;
+    }
+
+    public String getAdditionalInformation() {
+        return additionalInformation;
+    }
+
+    public void setAdditionalInformation(String additionalInformation) {
+        this.additionalInformation = additionalInformation;
     }
 }
