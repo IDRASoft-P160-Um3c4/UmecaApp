@@ -1,5 +1,7 @@
 package com.umeca.model.shared;
 
+import com.umeca.model.catalog.RequestType;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
@@ -21,6 +23,7 @@ public class Constants {
     public static final String[] TABS_MEETING = {"imputed", "imputedHome", "socialNetwork", "reference", "job", "school", "drug", "leaveCountry"};
     public static final String[] ENTITIES_MEETING = {"imputed", "Domicilio", "Persona", "Referencia", "Trabajo", "school", "Sustancia", "leaveCountry"};
     public static final String[] NAMES_MEETING = {"imputed.", "imputedHomes.", "socialNetwork.", "references.", "jobs.", "school.", "drugs.", "leaveCountry."};
+    public static final String ST_REQUEST_TYPE_CHANGE_SOURCE = "CHANGE_STATUS_SOURCE";
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE = "COMPLETE";
@@ -49,6 +52,7 @@ public class Constants {
     public static final String CASE_STATUS_CONDITIONAL_REPRIEVE = "ST_CASE_CONDITIONAL_REPRIEVE";
     public static final String CASE_STATUS_FRAMING_INCOMPLETE = "ST_CASE_FRAMING_MEETING_INCOMPLETE";
     public static final String CASE_STATUS_FRAMING_COMPLETE = "ST_CASE_FRAMING_MEETING_COMPLETE";
+    public static final String CASE_STATUS_REQUEST = "ST_CASE_REQUEST";
 
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW = "DONT_KNOW";
