@@ -31,7 +31,7 @@ function autorizar(e, s) {
         $(s).removeAttr("disabled");
     }
 }
-d
+
 var t = {};
 
 t.alert = function (title, message, icon) {
