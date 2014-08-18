@@ -1,4 +1,4 @@
-package com.umeca.model.catalog.dto;
+package com.umeca.model.catalog;
 import com.umeca.model.catalog.Degree;
 
 import javax.persistence.*;
@@ -19,7 +19,7 @@ public class RequestType {
     private Long id;
 
     @Column(name="code", length=255, nullable=false)
-    private String code;
+    private String name;
 
     @Column(name="request_type", length=255, nullable=false)
     private String description;
@@ -35,12 +35,12 @@ public class RequestType {
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
+    public String getName() {
+        return name;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
