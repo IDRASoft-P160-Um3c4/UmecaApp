@@ -1,10 +1,10 @@
 package com.umeca.repository;
 
 import com.umeca.model.dto.CaseInfo;
-import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.FindLegalBefore;
 import com.umeca.model.entities.reviewer.dto.LogNotificationDto;
+import com.umeca.model.entities.supervisor.CaseInfoDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,19 +20,19 @@ import java.util.List;
  * Time: 8:10 PM
  */
 @Repository("qCaseRepository")
-public interface CaseRepository extends JpaRepository<Case, Long>{
+public interface CaseRepository extends JpaRepository<Case, Long> {
 
     @Query("SELECT c FROM Case c WHERE c.idFolder =:idFolder")
-    Case findByIdFolder(@Param("idFolder")String idFolder);
+    Case findByIdFolder(@Param("idFolder") String idFolder);
 
     @Query("SELECT c FROM Case c WHERE c.idMP =:idMP")
-    Case findByIdMP(@Param("idMP")String idMP);
+    Case findByIdMP(@Param("idMP") String idMP);
 
     @Query("select  new com.umeca.model.entities.reviewer.FindLegalBefore(c.idMP,c.idFolder,s.description) from Case as c " +
             "INNER JOIN c.status as s " +
             "INNER JOIN c.meeting.imputed as i " +
             "where i.name=:name and i.lastNameP = :lastNameP and i.lastNameM = :lastNameM and c.id <> :idCase")
-    List<FindLegalBefore> findLegalBefore(@Param("idCase")Long id, @Param("name") String name, @Param("lastNameP") String lastNameP, @Param("lastNameM") String lastNameM);
+    List<FindLegalBefore> findLegalBefore(@Param("idCase") Long id, @Param("name") String name, @Param("lastNameP") String lastNameP, @Param("lastNameM") String lastNameM);
 
 
     //obtengo los meeting_incomplete y los incomplete_legal
@@ -43,7 +43,7 @@ public interface CaseRepository extends JpaRepository<Case, Long>{
             "INNER JOIN c.meeting.reviewer as usr " +
             "INNER JOIN c.meeting.imputed as imp " +
             "where sm.name=:meetingSt and usr.id =:idUser and stc.name=:caseSt order by m.dateCreate asc")
-    List<LogNotificationDto> getMeetingIncompleteInfo(@Param("idUser")Long idUser,@Param("meetingSt")String strMeetingSt ,@Param("caseSt")String strCaseSt, Pageable pageable);
+    List<LogNotificationDto> getMeetingIncompleteInfo(@Param("idUser") Long idUser, @Param("meetingSt") String strMeetingSt, @Param("caseSt") String strCaseSt, Pageable pageable);
 
 
     @Query("select  new com.umeca.model.entities.reviewer.dto.LogNotificationDto(c.idFolder,concat(imp.name,' ',imp.lastNameP,' ',imp.lastNameM),stver.name,m.dateCreate) from Case as c " +
@@ -54,7 +54,7 @@ public interface CaseRepository extends JpaRepository<Case, Long>{
             "INNER JOIN c.meeting.imputed as imp " +
             "INNER JOIN c.meeting m " +
             "where stver.name=:verifSt and usr.id =:idUser and stc.name=:caseSt order by c.meeting.dateCreate asc")
-    List<LogNotificationDto> getAuthorizedVerificationsInfo(@Param("idUser")Long idUser,@Param("verifSt")String strMeetingSt ,@Param("caseSt")String strCaseSt, Pageable pageable);
+    List<LogNotificationDto> getAuthorizedVerificationsInfo(@Param("idUser") Long idUser, @Param("verifSt") String strMeetingSt, @Param("caseSt") String strCaseSt, Pageable pageable);
 
     @Query("select  new com.umeca.model.entities.reviewer.dto.LogNotificationDto(c.idFolder,concat(imp.name,' ',imp.lastNameP,' ',imp.lastNameM),stver.name,m.dateCreate) from Case as c " +
             "INNER JOIN c.status as stc " +
@@ -64,7 +64,7 @@ public interface CaseRepository extends JpaRepository<Case, Long>{
             "INNER JOIN c.meeting.imputed as imp " +
             "INNER JOIN c.meeting m " +
             "where stver.name=:verifSt and stc.name=:caseSt order by c.meeting.dateCreate asc")
-    List<LogNotificationDto> getNewSourceStatusCases(@Param("verifSt")String strMeetingSt ,@Param("caseSt")String strCaseSt, Pageable pageable);
+    List<LogNotificationDto> getNewSourceStatusCases(@Param("verifSt") String strMeetingSt, @Param("caseSt") String strCaseSt, Pageable pageable);
 
     //obtengo verificaciones con fuentes autorizadas no terminadas
     @Query("select  new com.umeca.model.entities.reviewer.dto.LogNotificationDto(c.idFolder,concat(imp.name,' ',imp.lastNameP,' ',imp.lastNameM),'SOURCES_NO_MEETING',m.dateCreate) from Case as c " +
@@ -83,7 +83,7 @@ public interface CaseRepository extends JpaRepository<Case, Long>{
             "     and sv.dateComplete is null " +
             "     and sCase.id=vCase.id) is not null " +
             "order by c.meeting.dateCreate asc")
-    List<LogNotificationDto> getMissingSourcesInfo(@Param("idUser")Long idUser,@Param("verifSt")String strMeetingSt ,@Param("caseSt")String strCaseSt, Pageable pageable);
+    List<LogNotificationDto> getMissingSourcesInfo(@Param("idUser") Long idUser, @Param("verifSt") String strMeetingSt, @Param("caseSt") String strCaseSt, Pageable pageable);
 
     //obtengo verificaciones que necesitan mas fuentes
     @Query("select  new com.umeca.model.entities.reviewer.dto.LogNotificationDto(c.idFolder,concat(imp.name,' ',imp.lastNameP,' ',imp.lastNameM),'NO_SOURCES',m.dateCreate) from Case as c " +
@@ -101,7 +101,7 @@ public interface CaseRepository extends JpaRepository<Case, Long>{
             "     where sv.dateAuthorized is not null " +
             "     and sv.dateComplete is null and sCase.id=vCase.id) is null " +
             "order by c.meeting.dateCreate asc")
-    List<LogNotificationDto> getAddMissingSourcesMeetingInfo(@Param("idUser")Long idUser,@Param("verifSt")String strMeetingSt ,@Param("caseSt")String strCaseSt, Pageable pageable);
+    List<LogNotificationDto> getAddMissingSourcesMeetingInfo(@Param("idUser") Long idUser, @Param("verifSt") String strMeetingSt, @Param("caseSt") String strCaseSt, Pageable pageable);
 
 
     @Query("select  new com.umeca.model.dto.CaseInfo(c.id, c.idMP, c.idFolder, i.name, i.lastNameP, i.lastNameM, s.description) from Case as c " +
@@ -109,5 +109,84 @@ public interface CaseRepository extends JpaRepository<Case, Long>{
             "INNER JOIN c.meeting.imputed as i " +
             "WHERE c.id = :idCase")
     CaseInfo getInfoById(@Param("idCase") Long idCase);
+
+
+    /* consultas para obtener informacion para el excel*/
+    @Query("select new com.umeca.model.entities.supervisor.CaseInfoDto(" +
+            "CDET.id," +
+            "CDET.idFolder," +
+            "CDET.idMP," +
+            "CDET.dateCreate," +
+            "STC.description," +
+            "concat(IMP.name,' ',IMP.lastNameP,' ',IMP.lastNameM)," +
+            "IMP.nickname," +
+            "IMP.gender," +
+            "IMP.birthDate," +
+            "IBC.name," +
+            "IMP.birthState," +
+            "IMP.birthMunicipality," +
+            "IMP.birthLocation," +
+            "IMP.celPhone," +
+            "IMS.name," +
+            "IMP.yearsMaritalStatus," +
+            "IMP.boys," +
+            "IMP.dependentBoys," +
+            "SE.physicalCondition," +
+            "SCH.name," +
+            "SCH.phone," +
+            "SCH.address, " +
+            "DEG.name," +
+            "LVL.name," +
+            "OC.name," +
+            "LOC.name," +
+            "LC.state," +
+            "LC.timeAgo," +
+            "LC.reason," +
+            "LC.address," +
+            "RA.name," +
+            "CRA.name," +
+            "LC.media," +
+            "CCP.behaviorDetention," +
+            "CCP.placeDetention," +
+            "CCP.nameVictim," +
+            "VR.name," +
+            "AV.addressString," +
+            "PCP.firstProceeding," +
+            "PCP.openProcessNumber," +
+            "PCP.numberConvictions," +
+            "AAA.name," +
+            "ASCPP.name," +
+            "APA.name," +
+            "TR.id,"+
+            "TR.totalRisk," +
+            "TR.comments," +
+            "TR.subtotalsTxt) " +
+            "from Case CDET " +
+            "inner join CDET.status STC "+
+            "inner join CDET.meeting MEET "+
+            "inner join MEET.imputed IMP " +
+            "left join IMP.birthCountry IBC "+
+            "left join IMP.maritalStatus IMS "+
+            "left join MEET.socialEnvironment SE "+
+            "left join MEET.school SCH "+
+            "left join SCH.degree DEG "+
+            "left join DEG.academicLevel LVL " +
+            "left join MEET.leaveCountry LC " +
+            "left join LC.livedCountry OC " +
+            "left join LC.country LOC  "+
+            "left join LC.familyAnotherCountry RA "+
+            "left join LC.communicationFamily CRA "+
+            "left join MEET.currentCriminalProceeding CCP "+
+            "left join CCP.relationshipVictim VR "+
+            "left join CCP.domicileVictim AV "+
+            "left join MEET.previousCriminalProceeding PCP "+
+            "left join PCP.complyPM AAA "+
+            "left join PCP.complyCSPP ASCPP "+
+            "left join PCP.complyProcessAbove APA "+
+            "left join CDET.technicalReview TR "+
+            "left join CDET.verification VER "+
+            "order by CDET.dateCreate")
+    List<CaseInfoDto> getInfoCases();
+    /**/
 
 }
