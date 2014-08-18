@@ -10,3 +10,4 @@
 9|ST_CASE_VERIFICATION|En verificación
 10|ST_CASE_PRE_CLOSED|Pre-cerrado por vinculación a proceso NO.
 11|ST_CASE_CLOSED|Cerrado.
+12|ST_CASE_REQUEST|En solicitud pendiente
