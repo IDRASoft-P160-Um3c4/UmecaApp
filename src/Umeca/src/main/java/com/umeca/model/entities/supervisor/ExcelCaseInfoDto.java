@@ -4,11 +4,12 @@ import com.umeca.model.shared.Constants;
 
 import java.net.Inet4Address;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Vmware on 12/08/2014.
  */
-public class CaseInfoDto {
+public class ExcelCaseInfoDto {
 
     private Long idCase;
     private String idFolder;
@@ -59,59 +60,67 @@ public class CaseInfoDto {
     private String tecRevComments;
     private String subtotalsJson;
     private Long idVerification;
+    private List<ExcelActivitiesDto> lstActivities;
+    private String activitiesStr;
+    private List<ExcelImputedHomeDto> lstHomes;
+    private String homesStr;
+    private List<ExcelSocialNetworkDto> lstSN;
+    private String socialNetworkStr;
+    private List<ExcelReferenceDto> lstRef;
+    private String referencesStr;
 
     private String imputedGenderStr;
     private String tecRevCommentsStr;
 
-    public CaseInfoDto(Long idCase,
-                       String idFolder,
-                       String idMP,
-                       Date createDate,
-                       String statusCase,
-                       String imputedName,
-                       String imputedAlias,
-                       Boolean imputedGender,
-                       Date imputedBirthDate,
-                       String imputedBirthCountry,
-                       String imputedBirthState,
-                       String imputedBirthMunicipality,
-                       String imputedBirthLocation,
-                       String imputedCelPhone,
-                       String imputedMaritalStatus,
-                       Integer imputedYearsMaritalStatus,
-                       Integer imputedChildren,
-                       Integer imputedChildrenDependant,
-                       String imputedPhysicalCondition,
-                       String imputedSchoolName,
-                       String imputedSchoolPhone,
-                       String imputedSchoolAddress,
-                       String imputedSchoolLevel,
-                       String imputedSchoolDegree,
-                       String imputedLivedAnotherCountry,
-                       String imputedLivedCountry,
-                       String imputedLivedState,
-                       String imputedLivedTimeAgo,
-                       String imputedLivedChangeReason,
-                       String imputedLivedAddress,
-                       String imputedLivedRelativeAbroad,
-                       String imputedLivedRelativeAbroadCommunication,
-                       String imputedLivedRelativeAbroadMedia,
-                       String imputedLegalBehaviorDetention,
-                       String imputedLegalPlaceDetention,
-                       String imputedLegalVictimName,
-                       String imputedLegalVictimRelationship,
-                       String imputedLegalVictimAddress,
-                       String imputedLegalFirstProcess,
-                       Integer imputedLegalOpenProcess,
-                       Integer imputedLegalConvictions,
-                       String imputedLegalAccomplishAssignedArrangement,
-                       String imputedLegalAccomplishSCPP,
-                       String imputedLegalAccomplishProcessAbove,
-                       Long tecRevId,
-                       Integer totalRisk,
-                       String tecRevComments,
-                       String subtotalsJson,
-                       Long idVerification) {
+    public ExcelCaseInfoDto(Long idCase,
+                            String idFolder,
+                            String idMP,
+                            Date createDate,
+                            String statusCase,
+                            String imputedName,
+                            String imputedAlias,
+                            Boolean imputedGender,
+                            Date imputedBirthDate,
+                            String imputedBirthCountry,
+                            String imputedBirthState,
+                            String imputedBirthMunicipality,
+                            String imputedBirthLocation,
+                            String imputedCelPhone,
+                            String imputedMaritalStatus,
+                            Integer imputedYearsMaritalStatus,
+                            Integer imputedChildren,
+                            Integer imputedChildrenDependant,
+                            String imputedPhysicalCondition,
+                            String imputedSchoolName,
+                            String imputedSchoolPhone,
+                            String imputedSchoolAddress,
+                            String imputedSchoolLevel,
+                            String imputedSchoolDegree,
+                            String imputedLivedAnotherCountry,
+                            String imputedLivedCountry,
+                            String imputedLivedState,
+                            String imputedLivedTimeAgo,
+                            String imputedLivedChangeReason,
+                            String imputedLivedAddress,
+                            String imputedLivedRelativeAbroad,
+                            String imputedLivedRelativeAbroadCommunication,
+                            String imputedLivedRelativeAbroadMedia,
+                            String imputedLegalBehaviorDetention,
+                            String imputedLegalPlaceDetention,
+                            String imputedLegalVictimName,
+                            String imputedLegalVictimRelationship,
+                            String imputedLegalVictimAddress,
+                            String imputedLegalFirstProcess,
+                            Integer imputedLegalOpenProcess,
+                            Integer imputedLegalConvictions,
+                            String imputedLegalAccomplishAssignedArrangement,
+                            String imputedLegalAccomplishSCPP,
+                            String imputedLegalAccomplishProcessAbove,
+                            Long tecRevId,
+                            Integer totalRisk,
+                            String tecRevComments,
+                            String subtotalsJson,
+                            Long idVerification) {
 
         this.idCase = idCase;
         this.idFolder = idFolder;
@@ -657,6 +666,178 @@ public class CaseInfoDto {
 
     public void setIdVerification(Long idVerification) {
         this.idVerification = idVerification;
+    }
+
+    public List<ExcelActivitiesDto> getLstActivities() {
+        return lstActivities;
+    }
+
+    public void setLstActivities(List<ExcelActivitiesDto> lstActivities) {
+        this.lstActivities = lstActivities;
+    }
+
+    public String getActivitiesStr() {
+        this.activitiesStr = "";
+
+        if (this.lstActivities != null && lstActivities.size() > 0)
+            for (ExcelActivitiesDto act : this.lstActivities) {
+                if (activitiesStr != "")
+                    activitiesStr += "\n ";
+
+                if (act.getNameAct() != null && !act.getNameAct().trim().equals(""))
+                    activitiesStr += "-" + act.getNameAct();
+
+                if (act.getDescription() != null && !act.getDescription().trim().equals(""))
+                    activitiesStr += ": " + act.getDescription();
+            }
+
+        return activitiesStr;
+    }
+
+    public void setActivitiesStr(String activitiesStr) {
+        this.activitiesStr = activitiesStr;
+    }
+
+    public List<ExcelImputedHomeDto> getLstHomes() {
+        return lstHomes;
+    }
+
+    public void setLstHomes(List<ExcelImputedHomeDto> lstHomes) {
+        this.lstHomes = lstHomes;
+    }
+
+    public String getHomesStr() {
+
+        this.homesStr = "";
+
+        if (this.lstHomes != null && this.lstHomes.size() > 0)
+            for (ExcelImputedHomeDto act : this.lstHomes) {
+
+                if (this.homesStr != "")
+                    this.homesStr += "\n";
+
+                if (act.getAddress() != null && !act.getAddress().trim().equals(""))
+                    this.homesStr += "-" + act.getAddress();
+
+                if (act.getRegType() != null && !act.getRegType().trim().equals(""))
+                    this.homesStr += ", " + act.getRegType();
+
+                if (act.getHomeType() != null && !act.getHomeType().trim().equals(""))
+                    this.homesStr += ", " + act.getHomeType();
+
+            }
+
+        return homesStr;
+    }
+
+    public void setHomesStr(String homesStr) {
+        this.homesStr = homesStr;
+    }
+
+    public List<ExcelSocialNetworkDto> getLstSN() {
+        return lstSN;
+    }
+
+    public void setLstSN(List<ExcelSocialNetworkDto> lstSN) {
+        this.lstSN = lstSN;
+    }
+
+    public String getSocialNetworkStr() {
+
+        this.socialNetworkStr = "";
+
+        if (this.lstSN != null && this.lstSN.size() > 0)
+            for (ExcelSocialNetworkDto act : this.lstSN) {
+                if (this.socialNetworkStr != "")
+                    this.socialNetworkStr += "\n";
+
+                if (act.getName() != null && !act.getName().equals(""))
+                    this.socialNetworkStr += "-" + act.getName();
+
+                if (act.getRelationship() != null && !act.getRelationship().equals(""))
+                    this.socialNetworkStr += ", " + act.getRelationship();
+
+                if (act.getDocument() != null && !act.getDocument().equals(""))
+                    this.socialNetworkStr += ", Identificación: " + act.getDocument();
+
+                if (act.getAge() != null)
+                    this.socialNetworkStr += ", Edad: " + act.getAge();
+
+                if (act.getPhone() != null && !act.getPhone().equals(""))
+                    this.socialNetworkStr += ", Tel.: " + act.getPhone();
+
+                if (act.getDependent() != null && !act.getDependent().equals(""))
+                    this.socialNetworkStr += ", Dependiente: " + act.getDependent();
+
+                if (act.getAccompaniment() != null)
+                    if (act.getAccompaniment().equals(true))
+                        this.socialNetworkStr += ", Acompaña durante el proceso: Si";
+                    else
+                        this.socialNetworkStr += ", Acompaña durante el proceso: No";
+
+                if (act.getLivingWith() != null && !act.getLivingWith().equals(""))
+                    this.socialNetworkStr += ", Vive con el imputado: " + act.getLivingWith();
+
+                if (act.getAddress() != null && !act.getAddress().equals(""))
+                    this.socialNetworkStr += ", Dirección: " + act.getAddress();
+
+            }
+
+        return socialNetworkStr;
+    }
+
+    public void setSocialNetworkStr(String socialNetworkStr) {
+        this.socialNetworkStr = socialNetworkStr;
+    }
+
+    public List<ExcelReferenceDto> getLstRef() {
+        return lstRef;
+    }
+
+    public void setLstRef(List<ExcelReferenceDto> lstRef) {
+        this.lstRef = lstRef;
+    }
+
+    public String getReferencesStr() {
+
+        referencesStr = "";
+        if (this.lstRef != null && this.lstRef.size() > 0)
+            for (ExcelReferenceDto act : this.lstRef) {
+
+                if (this.referencesStr != "")
+                    this.referencesStr += "\n";
+
+                if (act.getName() != null && !act.getName().equals(""))
+                    this.referencesStr += "-" + act.getName();
+
+                if (act.getRelationship() != null && !act.getRelationship().equals(""))
+                    this.referencesStr += ", " + act.getRelationship();
+
+                if (act.getDocument() != null && !act.getDocument().equals(""))
+                    this.referencesStr += ", Identificación: " + act.getDocument();
+
+                if (act.getAge() != null)
+                    this.referencesStr += ", Edad: " + act.getAge();
+
+                if (act.getPhone() != null && !act.getPhone().equals(""))
+                    this.referencesStr += ", Tel.: " + act.getPhone();
+
+                if (act.getAccompaniment() != null)
+                    if (act.getAccompaniment().equals(true))
+                        this.referencesStr += ", Acompaña durante el proceso: Si";
+                    else
+                        this.referencesStr += ", Acompaña durante el proceso: No";
+
+                if (act.getAddress() != null && !act.getAddress().equals(""))
+                    this.referencesStr += ", Dirección: " + act.getAddress();
+
+            }
+
+        return referencesStr;
+    }
+
+    public void setReferencesStr(String referencesStr) {
+        this.referencesStr = referencesStr;
     }
 }
 

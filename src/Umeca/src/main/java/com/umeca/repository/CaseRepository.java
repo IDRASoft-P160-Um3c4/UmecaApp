@@ -4,7 +4,7 @@ import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.FindLegalBefore;
 import com.umeca.model.entities.reviewer.dto.LogNotificationDto;
-import com.umeca.model.entities.supervisor.CaseInfoDto;
+import com.umeca.model.entities.supervisor.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -112,7 +112,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
 
 
     /* consultas para obtener informacion para el excel*/
-    @Query("select new com.umeca.model.entities.supervisor.CaseInfoDto(" +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelCaseInfoDto(" +
             "CDET.id," +
             "CDET.idFolder," +
             "CDET.idMP," +
@@ -157,36 +157,86 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "AAA.name," +
             "ASCPP.name," +
             "APA.name," +
-            "TR.id,"+
+            "TR.id," +
             "TR.totalRisk," +
             "TR.comments," +
-            "TR.subtotalsTxt) " +
+            "TR.subtotalsTxt," +
+            "VER.id) " +
             "from Case CDET " +
-            "inner join CDET.status STC "+
-            "inner join CDET.meeting MEET "+
+            "inner join CDET.status STC " +
+            "inner join CDET.meeting MEET " +
             "inner join MEET.imputed IMP " +
-            "left join IMP.birthCountry IBC "+
-            "left join IMP.maritalStatus IMS "+
-            "left join MEET.socialEnvironment SE "+
-            "left join MEET.school SCH "+
-            "left join SCH.degree DEG "+
+            "left join IMP.birthCountry IBC " +
+            "left join IMP.maritalStatus IMS " +
+            "left join MEET.socialEnvironment SE " +
+            "left join MEET.school SCH " +
+            "left join SCH.degree DEG " +
             "left join DEG.academicLevel LVL " +
             "left join MEET.leaveCountry LC " +
             "left join LC.livedCountry OC " +
-            "left join LC.country LOC  "+
-            "left join LC.familyAnotherCountry RA "+
-            "left join LC.communicationFamily CRA "+
-            "left join MEET.currentCriminalProceeding CCP "+
-            "left join CCP.relationshipVictim VR "+
-            "left join CCP.domicileVictim AV "+
-            "left join MEET.previousCriminalProceeding PCP "+
-            "left join PCP.complyPM AAA "+
-            "left join PCP.complyCSPP ASCPP "+
-            "left join PCP.complyProcessAbove APA "+
-            "left join CDET.technicalReview TR "+
-            "left join CDET.verification VER "+
+            "left join LC.country LOC  " +
+            "left join LC.familyAnotherCountry RA " +
+            "left join LC.communicationFamily CRA " +
+            "left join MEET.currentCriminalProceeding CCP " +
+            "left join CCP.relationshipVictim VR " +
+            "left join CCP.domicileVictim AV " +
+            "left join MEET.previousCriminalProceeding PCP " +
+            "left join PCP.complyPM AAA " +
+            "left join PCP.complyCSPP ASCPP " +
+            "left join PCP.complyProcessAbove APA " +
+            "left join CDET.technicalReview TR " +
+            "left join CDET.verification VER " +
             "order by CDET.dateCreate")
-    List<CaseInfoDto> getInfoCases();
+    List<ExcelCaseInfoDto> getInfoCases();
     /**/
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelActivitiesDto(CDET.id,ACT.name,RSEA.specification) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.socialEnvironment SE " +
+            "left join SE.relSocialEnvironmentActivities RSEA " +
+            "left join RSEA.activity ACT " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelActivitiesDto> getInfoImputedActivities(@Param("casesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelImputedHomeDto(CDET.id,IADD.addressString,HT.name, RT.name) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.imputedHomes IH " +
+            "left join IH.address IADD " +
+            "left join IH.homeType HT " +
+            "left join IH.registerType RT " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelImputedHomeDto> getInfoImputedHomes(@Param("casesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelSocialNetworkDto(CDET.id,PSN.name,REL.name,PSN.age,DT.name,DEP.name,LW.name,PSN.isAccompaniment,PSN.phone,PSN.address) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.socialNetwork SN " +
+            "left join SN.peopleSocialNetwork PSN " +
+            "left join PSN.dependent DEP " +
+            "left join PSN.documentType DT " +
+            "left join PSN.livingWith LW " +
+            "left join PSN.relationship REL " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelSocialNetworkDto> getInfoSocialNetwork(@Param("casesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelReferenceDto(CDET.id,REF.fullName,REF.age,DT.name,REL.name,REF.address,REF.phone,REF.isAccompaniment) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.references REF " +
+            "left join REF.documentType DT " +
+            "left join REF.relationship REL " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelReferenceDto> getInfoReference(@Param("casesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelReferenceDto(CDET.id,REF.fullName,REF.age,DT.name,REL.name,REF.address,REF.phone,REF.isAccompaniment) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.references REF " +
+            "left join REF.documentType DT " +
+            "left join REF.relationship REL " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelReferenceDto> getInfoJobs(@Param("casesIds") List<Long> lstCasesIds);
 
 }

@@ -12,7 +12,7 @@ import com.umeca.model.ResponseUniqueMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.account.UserUnique;
 import com.umeca.model.entities.account.UserView;
-import com.umeca.model.entities.supervisor.CaseInfoDto;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
@@ -238,7 +238,6 @@ public class UserController {
     }
 
 
-
     @Autowired
     CaseRepository caseRepository;
 
@@ -253,16 +252,60 @@ public class UserController {
 
         try {
 
-            List<CaseInfoDto> listCases=caseRepository.getInfoCases();
+            List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases();
 
+            List<Long> casesIds = new ArrayList<>();
 
+            for (ExcelCaseInfoDto act : listCases) {
+                casesIds.add(act.getIdCase());
+            }
+
+            List<ExcelActivitiesDto> lstActivities = caseRepository.getInfoImputedActivities(casesIds);
+            List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomes(casesIds);
+            List<ExcelSocialNetworkDto> lstSN = caseRepository.getInfoSocialNetwork(casesIds);
+            List<ExcelReferenceDto> lstRef = caseRepository.getInfoReference(casesIds);
+
+            for (ExcelCaseInfoDto cAct : listCases) {
+
+                List<ExcelActivitiesDto> acts = new ArrayList<>();
+                for (ExcelActivitiesDto aAct : lstActivities) {
+                    if (aAct.getIdCase() == cAct.getIdCase()) {
+                        acts.add(aAct);
+                    }
+                }
+                cAct.setLstActivities(acts);
+
+                List<ExcelImputedHomeDto> lstImHome = new ArrayList<>();
+                for (ExcelImputedHomeDto hAct : lstHomes) {
+                    if (hAct.getIdCase() == cAct.getIdCase()) {
+                        lstImHome.add(hAct);
+                    }
+                }
+                cAct.setLstHomes(lstImHome);
+
+                List<ExcelSocialNetworkDto> lstCSN = new ArrayList<>();
+                for (ExcelSocialNetworkDto snAct : lstSN) {
+                    if (snAct.getIdCase() == cAct.getIdCase()) {
+                        lstCSN.add(snAct);
+                    }
+                }
+                cAct.setLstSN(lstCSN);
+
+                List<ExcelReferenceDto> lstR = new ArrayList<>();
+                for (ExcelReferenceDto rAct : lstRef) {
+                    if (rAct.getIdCase() == cAct.getIdCase()) {
+                        lstR.add(rAct);
+                    }
+                }
+                cAct.setLstRef(lstR);
+            }
 
             beans.put("listCases", listCases);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             beans.put("dateFormat", dateFormat);
 
-            ExcelConv excelConv= new ExcelConv();
+            ExcelConv excelConv = new ExcelConv();
             beans.put("excelConv", excelConv);
 
             UUID uid = UUID.randomUUID();
