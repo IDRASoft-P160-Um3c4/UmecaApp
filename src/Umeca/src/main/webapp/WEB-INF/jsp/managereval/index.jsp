@@ -16,7 +16,7 @@
 var verifySourceMethods = ${verifySources};
 
 function verifySources(idx) {
-    angular.element($("#ConfirmBoxDialog")).scope().prompt(idx);
+    angular.element($("#managerEvalControllerId")).scope().prompt(idx);
 }
 
 function autorizar(e, s) {
@@ -244,7 +244,7 @@ app.controller('managerEvalController', function ($scope, $sce) {
     </div>
 </div>
 
-<div ng-controller="managerEvalController" data-backdrop="static" ng-cloak>
+<div id="managerEvalControllerId" ng-controller="managerEvalController" data-backdrop="static" ng-cloak>
 
     <div id="ConfirmBoxDialog" class="modal fade">
         <div class="modal-dialog">
