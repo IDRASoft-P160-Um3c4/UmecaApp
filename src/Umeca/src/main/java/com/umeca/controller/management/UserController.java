@@ -12,7 +12,7 @@ import com.umeca.model.ResponseUniqueMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.account.UserUnique;
 import com.umeca.model.entities.account.UserView;
-import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.supervisor.CaseInfoDto;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
@@ -253,7 +253,10 @@ public class UserController {
 
         try {
 
-            List<Case> listCases = caseRepository.findAll();
+            List<CaseInfoDto> listCases=caseRepository.getInfoCases();
+
+
+
             beans.put("listCases", listCases);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
