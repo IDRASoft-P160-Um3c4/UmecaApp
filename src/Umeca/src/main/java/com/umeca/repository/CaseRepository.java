@@ -162,7 +162,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "TR.totalRisk," +
             "TR.comments," +
             "TR.subtotalsTxt," +
-            "VER.id) " +
+            "VER.id," +
+            "OD.name) " +
             "from Case CDET " +
             "inner join CDET.status STC " +
             "inner join CDET.meeting MEET " +
@@ -174,6 +175,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join SCH.degree DEG " +
             "left join DEG.academicLevel LVL " +
             "left join MEET.leaveCountry LC " +
+            "left join LC.officialDocumentation OD " +
             "left join LC.livedCountry OC " +
             "left join LC.country LOC  " +
             "left join LC.familyAnotherCountry RA " +
@@ -231,14 +233,51 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds)")
     List<ExcelReferenceDto> getInfoReference(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelReferenceDto(CDET.id,REF.fullName,REF.age,DT.name,REL.name,REF.address,REF.phone,REF.isAccompaniment) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelJobDto(CDET.id,JOB.post,JOB.nameHead,JOB.company,JOB.phone,JOB.startPrev,JOB.start,JOB.salaryWeek,JOB.end,JOB.reasonChange,JOB.address,RT.name,RT.id) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
-            "left join MEET.references REF " +
-            "left join REF.documentType DT " +
-            "left join REF.relationship REL " +
+            "left join MEET.jobs JOB " +
+            "left join JOB.registerType RT " +
             "where CDET.id in (:casesIds)")
-    List<ExcelReferenceDto> getInfoJobs(@Param("casesIds") List<Long> lstCasesIds);
+    List<ExcelJobDto> getInfoJobs(@Param("casesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelDrugDto(CDET.id, DT.name, PER.name, DRUG.quantity, DRUG.lastUse, DRUG.specificationType, DRUG.specificationPeriodicity) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.drugs DRUG " +
+            "left join DRUG.periodicity PER " +
+            "left join DRUG.drugType DT " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelDrugDto> getInfoDrugs(@Param("casesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelCrimeDto(CDET.id,CRM.name,FED.name,CRM.article) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.currentCriminalProceeding CCP " +
+            "left join CCP.crimeList CRM " +
+            "left join CRM.federal FED " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelCrimeDto> getInfoCrimes(@Param("casesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelCoDefDto(CDET.id, CODF.fullName,REL.name) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.currentCriminalProceeding CCP " +
+            "left join CCP.coDefendantList CODF " +
+            "left join CODF.relationship REL " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelCoDefDto> getInfoCoDef(@Param("casesIds") List<Long> lstCasesIds);
+
+    //public ExcelTecRevSelQuestDto(Long idCase, String parentCode, String code, String question) {
+    @Query("select new com.umeca.model.entities.supervisor.ExcelTecRevSelQuestDto(CDET.id, SECT.code, SUBSECT.code, QUEST.question, SUBSECT.name) " +
+            "from Case CDET " +
+            "left join CDET.technicalReview TREV " +
+            "inner join TREV.questionsSel RELQ " +
+            "inner join RELQ.question QUEST " +
+            "inner join QUEST.section SUBSECT " +
+            "left join SUBSECT.parent SECT " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelTecRevSelQuestDto> getInfoTecRevSelQuest(@Param("casesIds") List<Long> lstCasesIds);
 
     @Query("select new com.umeca.model.entities.reviewer.StatusEvaluation(cs.name, sm.name, vs.name) " +
             "from Case as cd " +
