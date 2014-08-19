@@ -3,6 +3,7 @@ package com.umeca.repository;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.FindLegalBefore;
+import com.umeca.model.entities.reviewer.StatusEvaluation;
 import com.umeca.model.entities.reviewer.dto.LogNotificationDto;
 import com.umeca.model.entities.supervisor.*;
 import org.springframework.data.domain.Pageable;
@@ -239,4 +240,10 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds)")
     List<ExcelReferenceDto> getInfoJobs(@Param("casesIds") List<Long> lstCasesIds);
 
+    @Query("select new com.umeca.model.entities.reviewer.StatusEvaluation(cs.name, sm.name, vs.name) " +
+            "from Case as cd " +
+            "inner join cd.status as cs " +
+            "inner join cd.meeting.status as sm " +
+            "left join cd.verification.status as vs where cd.id = :caseId")
+    StatusEvaluation getStatusEvaluation(@Param("caseId")Long caseId);
 }
