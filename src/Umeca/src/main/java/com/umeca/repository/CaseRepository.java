@@ -161,7 +161,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "TR.totalRisk," +
             "TR.comments," +
             "TR.subtotalsTxt," +
-            "VER.id) " +
+            "VER.id," +
+            "OD.name) " +
             "from Case CDET " +
             "inner join CDET.status STC " +
             "inner join CDET.meeting MEET " +
@@ -173,6 +174,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join SCH.degree DEG " +
             "left join DEG.academicLevel LVL " +
             "left join MEET.leaveCountry LC " +
+            "left join LC.officialDocumentation OD " +
             "left join LC.livedCountry OC " +
             "left join LC.country LOC  " +
             "left join LC.familyAnotherCountry RA " +
@@ -230,13 +232,21 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds)")
     List<ExcelReferenceDto> getInfoReference(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelReferenceDto(CDET.id,REF.fullName,REF.age,DT.name,REL.name,REF.address,REF.phone,REF.isAccompaniment) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelJobDto(CDET.id,JOB.post,JOB.nameHead,JOB.company,JOB.phone,JOB.startPrev,JOB.start,JOB.salaryWeek,JOB.end,JOB.reasonChange,JOB.address,RT.name,RT.id) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
-            "left join MEET.references REF " +
-            "left join REF.documentType DT " +
-            "left join REF.relationship REL " +
+            "left join MEET.jobs JOB " +
+            "left join JOB.registerType RT " +
             "where CDET.id in (:casesIds)")
-    List<ExcelReferenceDto> getInfoJobs(@Param("casesIds") List<Long> lstCasesIds);
+    List<ExcelJobDto> getInfoJobs(@Param("casesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelDrugDto(CDET.id, DT.name, PER.name, DRUG.quantity, DRUG.lastUse, DRUG.specificationType, DRUG.specificationPeriodicity) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.drugs DRUG " +
+            "left join DRUG.periodicity PER " +
+            "left join DRUG.drugType DT " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelDrugDto> getInfoDrugs(@Param("casesIds") List<Long> lstCasesIds);
 
 }

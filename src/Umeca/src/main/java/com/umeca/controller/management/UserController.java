@@ -264,6 +264,8 @@ public class UserController {
             List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomes(casesIds);
             List<ExcelSocialNetworkDto> lstSN = caseRepository.getInfoSocialNetwork(casesIds);
             List<ExcelReferenceDto> lstRef = caseRepository.getInfoReference(casesIds);
+            List<ExcelJobDto> lstJob = caseRepository.getInfoJobs(casesIds);
+            List<ExcelDrugDto> lstDrug = caseRepository.getInfoDrugs(casesIds);
 
             for (ExcelCaseInfoDto cAct : listCases) {
 
@@ -298,6 +300,22 @@ public class UserController {
                     }
                 }
                 cAct.setLstRef(lstR);
+
+                List<ExcelJobDto> lstJ = new ArrayList<>();
+                for (ExcelJobDto jAct : lstJob) {
+                    if (jAct.getIdCase() == cAct.getIdCase()) {
+                        lstJ.add(jAct);
+                    }
+                }
+                cAct.setLstJob(lstJ);
+
+                List<ExcelDrugDto> lstD = new ArrayList<>();
+                for (ExcelDrugDto dAct : lstDrug) {
+                    if (dAct.getIdCase() == cAct.getIdCase()) {
+                        lstD.add(dAct);
+                    }
+                }
+                cAct.setLstDrug(lstD);
             }
 
             beans.put("listCases", listCases);

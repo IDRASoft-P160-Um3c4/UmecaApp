@@ -3,6 +3,7 @@ package com.umeca.model.entities.supervisor;
 import com.umeca.model.shared.Constants;
 
 import java.net.Inet4Address;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import java.util.List;
  * Created by Vmware on 12/08/2014.
  */
 public class ExcelCaseInfoDto {
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
     private Long idCase;
     private String idFolder;
@@ -55,6 +58,7 @@ public class ExcelCaseInfoDto {
     private String imputedLegalAccomplishAssignedArrangement;
     private String imputedLegalAccomplishSCPP;
     private String imputedLegalAccomplishProcessAbove;
+    private String officialDoc;
     private Long tecRevId;
     private Integer totalRisk;
     private String tecRevComments;
@@ -68,6 +72,10 @@ public class ExcelCaseInfoDto {
     private String socialNetworkStr;
     private List<ExcelReferenceDto> lstRef;
     private String referencesStr;
+    private List<ExcelJobDto> lstJob;
+    private String jobsStr;
+    private List<ExcelDrugDto> lstDrug;
+    private String drugsStr;
 
     private String imputedGenderStr;
     private String tecRevCommentsStr;
@@ -120,7 +128,8 @@ public class ExcelCaseInfoDto {
                             Integer totalRisk,
                             String tecRevComments,
                             String subtotalsJson,
-                            Long idVerification) {
+                            Long idVerification,
+                            String officialDoc) {
 
         this.idCase = idCase;
         this.idFolder = idFolder;
@@ -171,6 +180,7 @@ public class ExcelCaseInfoDto {
         this.tecRevComments = tecRevComments;
         this.subtotalsJson = subtotalsJson;
         this.idVerification = idVerification;
+        this.officialDoc = officialDoc;
     }
 
     public Long getIdCase() {
@@ -324,46 +334,14 @@ public class ExcelCaseInfoDto {
     public void setImputedPhysicalCondition(String imputedPhysicalCondition) {
         this.imputedPhysicalCondition = imputedPhysicalCondition;
     }
-/*
-    public String getImputedActivities() {
-        return imputedActivities;
+
+    public String getOfficialDoc() {
+        return officialDoc;
     }
 
-    public void setImputedActivities(String imputedActivities) {
-        this.imputedActivities = imputedActivities;
+    public void setOfficialDoc(String officialDoc) {
+        this.officialDoc = officialDoc;
     }
-
-    public String getImputedHomes() {
-        return imputedHomes;
-    }
-
-    public void setImputedHomes(String imputedHomes) {
-        this.imputedHomes = imputedHomes;
-    }
-
-    public String getImputedSocialNetwork() {
-        return imputedSocialNetwork;
-    }
-
-    public void setImputedSocialNetwork(String imputedSocialNetwork) {
-        this.imputedSocialNetwork = imputedSocialNetwork;
-    }
-
-    public String getImputedReferences() {
-        return imputedReferences;
-    }
-
-    public void setImputedReferences(String imputedReferences) {
-        this.imputedReferences = imputedReferences;
-    }
-
-    public String getImputedJobs() {
-        return imputedJobs;
-    }
-
-    public void setImputedJobs(String imputedJobs) {
-        this.imputedJobs = imputedJobs;
-    }*/
 
     public String getImputedSchoolName() {
         return imputedSchoolName;
@@ -484,22 +462,6 @@ public class ExcelCaseInfoDto {
     public void setImputedLivedRelativeAbroadMedia(String imputedLivedRelativeAbroadMedia) {
         this.imputedLivedRelativeAbroadMedia = imputedLivedRelativeAbroadMedia;
     }
-/*
-    public String getImputedLegalCrimes() {
-        return imputedLegalCrimes;
-    }
-
-    public void setImputedLegalCrimes(String imputedLegalCrimes) {
-        this.imputedLegalCrimes = imputedLegalCrimes;
-    }
-
-    public String getImputedLegalCoAccused() {
-        return imputedLegalCoAccused;
-    }
-
-    public void setImputedLegalCoAccused(String imputedLegalCoAccused) {
-        this.imputedLegalCoAccused = imputedLegalCoAccused;
-    }*/
 
     public String getImputedLegalBehaviorDetention() {
         return imputedLegalBehaviorDetention;
@@ -758,7 +720,7 @@ public class ExcelCaseInfoDto {
                     this.socialNetworkStr += ", " + act.getRelationship();
 
                 if (act.getDocument() != null && !act.getDocument().equals(""))
-                    this.socialNetworkStr += ", Identificaci贸n: " + act.getDocument();
+                    this.socialNetworkStr += ", Identificaci髇: " + act.getDocument();
 
                 if (act.getAge() != null)
                     this.socialNetworkStr += ", Edad: " + act.getAge();
@@ -771,15 +733,15 @@ public class ExcelCaseInfoDto {
 
                 if (act.getAccompaniment() != null)
                     if (act.getAccompaniment().equals(true))
-                        this.socialNetworkStr += ", Acompa帽a durante el proceso: Si";
+                        this.socialNetworkStr += ", Acompa馻 durante el proceso: Si";
                     else
-                        this.socialNetworkStr += ", Acompa帽a durante el proceso: No";
+                        this.socialNetworkStr += ", Acompa馻 durante el proceso: No";
 
                 if (act.getLivingWith() != null && !act.getLivingWith().equals(""))
                     this.socialNetworkStr += ", Vive con el imputado: " + act.getLivingWith();
 
                 if (act.getAddress() != null && !act.getAddress().equals(""))
-                    this.socialNetworkStr += ", Direcci贸n: " + act.getAddress();
+                    this.socialNetworkStr += ", Direcci髇: " + act.getAddress();
 
             }
 
@@ -814,7 +776,7 @@ public class ExcelCaseInfoDto {
                     this.referencesStr += ", " + act.getRelationship();
 
                 if (act.getDocument() != null && !act.getDocument().equals(""))
-                    this.referencesStr += ", Identificaci贸n: " + act.getDocument();
+                    this.referencesStr += ", Identificaci髇: " + act.getDocument();
 
                 if (act.getAge() != null)
                     this.referencesStr += ", Edad: " + act.getAge();
@@ -824,12 +786,12 @@ public class ExcelCaseInfoDto {
 
                 if (act.getAccompaniment() != null)
                     if (act.getAccompaniment().equals(true))
-                        this.referencesStr += ", Acompa帽a durante el proceso: Si";
+                        this.referencesStr += ", Acompa馻 durante el proceso: Si";
                     else
-                        this.referencesStr += ", Acompa帽a durante el proceso: No";
+                        this.referencesStr += ", Acompa馻 durante el proceso: No";
 
                 if (act.getAddress() != null && !act.getAddress().equals(""))
-                    this.referencesStr += ", Direcci贸n: " + act.getAddress();
+                    this.referencesStr += ", Direcci髇: " + act.getAddress();
 
             }
 
@@ -838,6 +800,102 @@ public class ExcelCaseInfoDto {
 
     public void setReferencesStr(String referencesStr) {
         this.referencesStr = referencesStr;
+    }
+
+    public List<ExcelJobDto> getLstJob() {
+        return lstJob;
+    }
+
+    public void setLstJob(List<ExcelJobDto> lstJob) {
+        this.lstJob = lstJob;
+    }
+
+    public String getJobsStr() {
+
+        jobsStr = "";
+
+        if (this.lstJob != null && this.lstJob.size() > 0)
+            for (ExcelJobDto act : this.lstJob) {
+                if (jobsStr != "")
+                    jobsStr += "\n";
+
+                if (act.getCompany() != null && !act.getCompany().equals(""))
+                    jobsStr += "-" + act.getCompany();
+
+                if (act.getPost() != null && !act.getPost().equals(""))
+                    jobsStr += ", Puesto: " + act.getPost();
+
+                if (act.getNameHead() != null && !act.getNameHead().equals(""))
+                    jobsStr += ", Patr髇: " + act.getNameHead();
+
+                if (act.getPhone() != null && !act.getPhone().equals(""))
+                    jobsStr += ", Tel.: " + act.getPhone();
+
+                if (act.getAddress() != null && !act.getAddress().equals(""))
+                    jobsStr += ", Direcci髇: " + act.getAddress();
+
+                if (act.getRegisterType() != null && !act.getRegisterType().equals(""))
+                    jobsStr += ", Tipo: " + act.getRegisterType();
+
+                Long idType = act.getRegisterTypeId();
+
+                if (idType != null && (idType.equals(Constants.REGYSTER_TYPE_CURRENT) || idType.equals(Constants.REGYSTER_TYPE_SECONDARY))) {
+
+                    jobsStr += ", Inicio: " + dateFormat.format(act.getStart());
+                    jobsStr += ", Salario semanal: $" + act.getSalary();
+
+                } else if (idType != null && idType.equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
+                    jobsStr += ", Inicio: " + dateFormat.format(act.getStartPrev());
+                    jobsStr += ", Fin: " + dateFormat.format(act.getEnd());
+                    jobsStr += ", Motivo de cambio: " + act.getReasonChange();
+                }
+            }
+
+        return jobsStr;
+    }
+
+    public void setJobsStr(String jobsStr) {
+        this.jobsStr = jobsStr;
+    }
+
+    public List<ExcelDrugDto> getLstDrug() {
+        return lstDrug;
+    }
+
+    public void setLstDrug(List<ExcelDrugDto> lstDrug) {
+        this.lstDrug = lstDrug;
+    }
+
+    public String getDrugsStr() {
+
+        drugsStr = "";
+
+        if (lstDrug != null && lstDrug.size() > 0)
+            for (ExcelDrugDto act : lstDrug) {
+                if (drugsStr != "")
+                    drugsStr += "\n";
+
+                if (act.getDrugType() != null && !act.getDrugType().equals(""))
+                    drugsStr += "-" + act.getDrugType();
+
+                if (act.getPeriodicity() != null && !act.getPeriodicity().equals(""))
+                    drugsStr += ", Periocidad: " + act.getPeriodicity();
+
+                if (act.getSpecificationType() != null && !act.getSpecificationType().equals(""))
+                    drugsStr += ", Especificaci髇: " + act.getSpecificationType();
+
+                if (act.getQuantity() != null && !act.getQuantity().equals(""))
+                    drugsStr += ", Cantidad: " + act.getQuantity();
+
+                if (act.getLastUse() != null)
+                    drugsStr += ", 趖limo consumo: " + dateFormat.format(act.getLastUse());
+            }
+
+        return drugsStr;
+    }
+
+    public void setDrugsStr(String drugsStr) {
+        this.drugsStr = drugsStr;
     }
 }
 
