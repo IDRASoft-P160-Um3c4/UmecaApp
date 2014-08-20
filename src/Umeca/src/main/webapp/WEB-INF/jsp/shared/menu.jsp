@@ -31,6 +31,7 @@
                         </li>
                         <li><a href="<c:url value='/reviewer/technicalReview/index.html' />"><i
                                 class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</a></li>
+                        <li><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a Coordinador</a></li>
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
@@ -144,22 +145,17 @@
             </div>
         </div>
     </div>
-    <div id="ConfirmBoxDialog" class="modal fade">
+    <div id="ConfirmBoxDialogSession" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-{{Type}}">
-                        <button type="button" class="close" ng-click="no()">&times;</button>
                         <h4 class="modal-title element-center" ng-bind-html="Title"></h4>
                     </div>
                 </div>
-                <form id="formConfirm" name="formConfirm" class="form-horizontal" role="form">
-                    <input type="hidden" id="dataInfo" name="dataInfo" value="{{toSave}}">
-
                     <div class="modal-body">
                         <div class="element-left" ng-bind-html="Message"></div>
                     </div>
-                </form>
                 <div class="modal-footer">
                     <button  type="button"
                             class="btn btn-default btn-info" ng-click="continueSession()">Continuar</button>

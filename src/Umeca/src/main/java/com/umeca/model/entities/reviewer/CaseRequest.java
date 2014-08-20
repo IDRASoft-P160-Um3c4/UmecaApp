@@ -5,6 +5,7 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.shared.Message;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,30 +23,15 @@ public class CaseRequest {
     @Column(name="id_request")
     private Long id;
 
-    @Column(name="state_before", length = 100)
+    @Column(name="state_before", length = 500)
     private String stateBefore;
 
     @ManyToOne
     @JoinColumn(name="id_request_type", nullable = false)
     private RequestType requestType;
 
-    @Column(name="text", nullable = false, length = 1000)
-    private String text;
-
-    @Column(name="additional_information", nullable = false, length = 1000)
-    private String additionalInformation;
-
-    @ManyToOne
-    @JoinColumn(name="id_receiver", nullable = false)
-    private User receiver;
-
-    @ManyToOne
-    @JoinColumn(name="id_sender", nullable = false)
-    private User sender;
-
-    @ManyToOne
-    @JoinColumn(name="id_case_detention", nullable = false)
-    private Case caseDetention;
+    @OneToMany(mappedBy="caseRequest", cascade={CascadeType.ALL})
+    private List<SourceVerification> sources;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_response_message")
@@ -79,36 +65,12 @@ public class CaseRequest {
         this.requestType = requestType;
     }
 
-    public String getText() {
-        return text;
+    public List<SourceVerification> getSources() {
+        return sources;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public User getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
-    }
-
-    public User getSender() {
-        return sender;
-    }
-
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
-
-    public Case getCaseDetention() {
-        return caseDetention;
-    }
-
-    public void setCaseDetention(Case caseDetention) {
-        this.caseDetention = caseDetention;
+    public void setSources(List<SourceVerification> sources) {
+        this.sources = sources;
     }
 
     public Message getResponseMessage() {
@@ -125,13 +87,5 @@ public class CaseRequest {
 
     public void setRequestMessage(Message requestMessage) {
         this.requestMessage = requestMessage;
-    }
-
-    public String getAdditionalInformation() {
-        return additionalInformation;
-    }
-
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
     }
 }

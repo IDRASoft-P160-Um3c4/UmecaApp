@@ -29,4 +29,7 @@ public interface SourceVerificationRepository extends JpaRepository<SourceVerifi
 
     @Query("select s.id from SourceVerification as s where s.verification.caseDetention.id =:idCase and s.visible = false")
     Long findIdSourceImputed(Long idCase);
+
+    @Query("select s from SourceVerification  as s where s.verification.caseDetention.id =:idCase and s.isAuthorized = true and s.dateComplete IS NOT NULL")
+    List<SourceVerification> getAllSourceCompleteByIdCase(@Param("idCase")Long idCase);
 }
