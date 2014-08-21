@@ -65,6 +65,7 @@
                         var enabled = row.enabled;
                         var be = "";
 
+
                         switch (status[i]) {
 
                             case "ST_CASE_VERIFICATION_COMPLETE":
