@@ -114,8 +114,8 @@
                     <br />
                     <div class="row">
                         <div class="col-xs-12">
-                            <div ng-show="MsgError" class="alert alert-danger element-center">
-                                {{MsgError}}
+                            <div ng-show="MsgError" class="alert alert-danger element-center"  ng-bind-html="MsgError">
+                                <%--{{MsgError}}--%>
                             </div>
                         </div>
                     </div>

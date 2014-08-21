@@ -23,7 +23,11 @@ public class Constants {
     public static final String[] TABS_MEETING = {"imputed", "imputedHome", "socialNetwork", "reference", "job", "school", "drug", "leaveCountry"};
     public static final String[] ENTITIES_MEETING = {"imputed", "Domicilio", "Persona", "Referencia", "Trabajo", "school", "Sustancia", "leaveCountry"};
     public static final String[] NAMES_MEETING = {"imputed.", "imputedHomes.", "socialNetwork.", "references.", "jobs.", "school.", "drugs.", "leaveCountry."};
-    public static final String ST_REQUEST_TYPE_CHANGE_SOURCE = "CHANGE_STATUS_SOURCE";
+    public static final String ST_REQUEST_CHANGE_SOURCE = "CHANGE_STATUS_SOURCE";
+    public static final String ST_REQUEST_CASE_OBSOLETE = "CASE_OBSOLETE";
+    public static final String ST_REQUEST_EDIT_MEETING = "EDIT_MEETING";
+    public static final String ST_REQUEST_EDIT_LEGAL_INFORMATION = "EDIT_LEGAL_INFORMATION";
+    public static final String ST_REQUEST_EDIT_TECHNICAL_REVIEW = "EDIT_TECHNICAL_REVIEW";
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE = "COMPLETE";

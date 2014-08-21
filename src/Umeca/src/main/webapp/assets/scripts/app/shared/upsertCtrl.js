@@ -1,4 +1,4 @@
-﻿app.controller('upsertController', function ($scope, $rootScope) {
+﻿app.controller('upsertController', function ($scope, $rootScope,$sce) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
@@ -70,12 +70,12 @@
                 return;
             }
 
-            $scope.MsgError = resp.message;
+            $scope.MsgError = $sce.trustAsHtml(resp.message);
 
             $scope.$apply();
 
         } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
+            $scope.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
         }
     };
 
@@ -93,11 +93,11 @@
                 return;
             }
 
-            $scope.MsgError = resp.message;
+            $scope.MsgError = $sce.trustAsHtml(resp.message);
             $scope.$apply();
 
         } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
+            $scope.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
         }
     };
 
@@ -117,17 +117,17 @@
                 return;
             }
 
-            $scope.MsgError = resp.message;
+            $scope.MsgError = $sce.trustAsHtml(resp.message);
             $scope.$apply();
 
         } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
+            $scope.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
         }
     };
 
     $scope.handleError = function () {
         $scope.WaitFor = false;
-        $scope.MsgError = "Error de red. Por favor intente más tarde.";
+        $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
         $scope.$apply();
     };
 

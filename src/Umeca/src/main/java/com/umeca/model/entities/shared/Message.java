@@ -24,7 +24,7 @@ public class Message {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_case", nullable = false)
+    @JoinColumn(name="id_case", nullable = true)
     private Case caseDetention;
 
     @OneToMany (mappedBy = "message", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

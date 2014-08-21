@@ -93,6 +93,10 @@ public class SourceVerification implements EntityGrid{
     @JoinColumn(name="id_verification_method", nullable = true)
     private VerificationMethod verificationMethod;
 
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_request", nullable = true)
+    private CaseRequest caseRequest;
+
     public Long getIdVerificationMethod() {
         return idVerificationMethod;
     }
@@ -250,5 +254,13 @@ public class SourceVerification implements EntityGrid{
 
     public void setIsAuthorized(Boolean authorized) {
         isAuthorized = authorized;
+    }
+
+    public CaseRequest getCaseRequest() {
+        return caseRequest;
+    }
+
+    public void setCaseRequest(CaseRequest caseRequest) {
+        this.caseRequest = caseRequest;
     }
 }

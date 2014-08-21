@@ -4,6 +4,7 @@ import com.umeca.model.shared.Constants;
 
 import java.net.Inet4Address;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -76,6 +77,12 @@ public class ExcelCaseInfoDto {
     private String jobsStr;
     private List<ExcelDrugDto> lstDrug;
     private String drugsStr;
+    private List<ExcelCrimeDto> lstCrimes;
+    private String crimesStr;
+    private List<ExcelCoDefDto> lstCoDef;
+    private String coDefStr;
+    private List<ExcelTecRevSelQuestDto> lstSelQuest;
+    private String selQuestStr;
 
     private String imputedGenderStr;
     private String tecRevCommentsStr;
@@ -896,6 +903,145 @@ public class ExcelCaseInfoDto {
 
     public void setDrugsStr(String drugsStr) {
         this.drugsStr = drugsStr;
+    }
+
+    public List<ExcelCrimeDto> getLstCrimes() {
+        return lstCrimes;
+    }
+
+    public void setLstCrimes(List<ExcelCrimeDto> lstCrimes) {
+        this.lstCrimes = lstCrimes;
+    }
+
+    public String getCrimesStr() {
+        crimesStr = "";
+        if (lstCrimes != null && lstCrimes.size() > 0)
+            for (ExcelCrimeDto act : lstCrimes) {
+                if (crimesStr != "")
+                    crimesStr += "\n";
+
+                if (act.getCrime() != null && !act.getCrime().equals(""))
+                    crimesStr += "-" + act.getCrime();
+                if (act.getArticle() != null && !act.getArticle().equals(""))
+                    crimesStr += ", Artículo: " + act.getArticle();
+                if (act.getFederal() != null && !act.getFederal().equals(""))
+                    crimesStr += ", Delito federal: " + act.getFederal();
+            }
+
+        return crimesStr;
+    }
+
+    public void setCrimesStr(String crimesStr) {
+        this.crimesStr = crimesStr;
+    }
+
+    public List<ExcelCoDefDto> getLstCoDef() {
+        return lstCoDef;
+    }
+
+    public void setLstCoDef(List<ExcelCoDefDto> lstCoDef) {
+        this.lstCoDef = lstCoDef;
+    }
+
+    public String getCoDefStr() {
+
+        coDefStr = "";
+        if (this.lstCoDef != null && this.lstCoDef.size() > 0)
+            for (ExcelCoDefDto act : this.lstCoDef) {
+                if (coDefStr != "")
+                    coDefStr += "\n";
+
+                if (act.getName() != null && !act.getName().equals(""))
+                    coDefStr += "-" + act.getName();
+                if (act.getRelationship() != null && !act.getRelationship().equals(""))
+                    coDefStr += ", " + act.getRelationship();
+            }
+
+        return coDefStr;
+    }
+
+    public void setCoDefStr(String coDefStr) {
+        this.coDefStr = coDefStr;
+    }
+
+    public List<ExcelTecRevSelQuestDto> getLstSelQuest() {
+        return lstSelQuest;
+    }
+
+    public void setLstSelQuest(List<ExcelTecRevSelQuestDto> lstSelQuest) {
+        this.lstSelQuest = lstSelQuest;
+    }
+
+    public String getSelQuestStr() {
+        return selQuestStr;
+    }
+
+    public void setSelQuestStr(String selQuestStr) {
+        this.selQuestStr = selQuestStr;
+    }
+
+    public String getQuest(Integer idSect) {
+        selQuestStr = "";
+        String sCode = "";
+
+        switch (idSect) {
+            case 1:
+                sCode = Constants.CODE_S1_TEC_REV;
+                break;
+            case 2:
+                sCode = Constants.CODE_S2_TEC_REV;
+                break;
+            case 3:
+                sCode = Constants.CODE_S3_TEC_REV;
+                break;
+            case 4:
+                sCode = Constants.CODE_S4_TEC_REV;
+                break;
+            case 5:
+                sCode = Constants.CODE_S5_TEC_REV;
+                break;
+        }
+
+        List<ExcelSectDto> lstSubsect = new ArrayList<>();
+
+        if (this.lstSelQuest != null && this.lstSelQuest.size() > 0) {
+
+            for (ExcelTecRevSelQuestDto qAct : this.lstSelQuest) {
+                if (qAct.getParentCode().equals(sCode)) {
+                    ExcelSectDto subsec = new ExcelSectDto();
+                    subsec.setSectCode(qAct.getCode());
+                    subsec.setSectName(qAct.getSubSectName());
+
+                    boolean band = false;
+                    for (ExcelSectDto ssct : lstSubsect) {
+                        if (ssct.getSectName().equals(subsec.getSectName()) && ssct.getSectCode().equals(subsec.getSectCode())) {
+                            band = true;
+                            break;
+                        }
+                    }
+
+                    if (band == false)
+                        lstSubsect.add(subsec);
+                }
+            }
+
+            for (ExcelSectDto secAct : lstSubsect) {
+
+                if (selQuestStr != "")
+                    selQuestStr += "\n";
+
+                selQuestStr += "- " + secAct.getSectName();
+
+                for (ExcelTecRevSelQuestDto quAct : this.lstSelQuest) {
+
+                    if (quAct.getCode().equals(secAct.getSectCode())) {
+                        selQuestStr += "\n  ." + quAct.getQuestion();
+                    }
+                }
+            }
+        }
+
+        return selQuestStr;
     }
 }
 

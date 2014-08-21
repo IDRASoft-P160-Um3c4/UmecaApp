@@ -45,7 +45,7 @@ public class CaseEvaluationView implements EntityGrid {
                 status++;
             }
             if(idTec!=null){
-                statusString = "Opini&oacute;n técnica terminada";
+                statusString = "Opini&oacute;n t&eacute;cnica terminada";
                 status++;
             }
         }

@@ -266,6 +266,9 @@ public class UserController {
             List<ExcelReferenceDto> lstRef = caseRepository.getInfoReference(casesIds);
             List<ExcelJobDto> lstJob = caseRepository.getInfoJobs(casesIds);
             List<ExcelDrugDto> lstDrug = caseRepository.getInfoDrugs(casesIds);
+            List<ExcelCrimeDto> lstCrimes = caseRepository.getInfoCrimes(casesIds);
+            List<ExcelCoDefDto> lstCoDef = caseRepository.getInfoCoDef(casesIds);
+            List<ExcelTecRevSelQuestDto> lstSelQuest = caseRepository.getInfoTecRevSelQuest(casesIds);
 
             for (ExcelCaseInfoDto cAct : listCases) {
 
@@ -316,6 +319,30 @@ public class UserController {
                     }
                 }
                 cAct.setLstDrug(lstD);
+
+                List<ExcelCrimeDto> lstCr = new ArrayList<>();
+                for (ExcelCrimeDto crAct : lstCrimes) {
+                    if (crAct.getIdCase() == cAct.getIdCase()) {
+                        lstCr.add(crAct);
+                    }
+                }
+                cAct.setLstCrimes(lstCr);
+
+                List<ExcelCoDefDto> lstCo = new ArrayList<>();
+                for (ExcelCoDefDto coAct : lstCoDef) {
+                    if (coAct.getIdCase() == cAct.getIdCase()) {
+                        lstCo.add(coAct);
+                    }
+                }
+                cAct.setLstCoDef(lstCo);
+
+                List<ExcelTecRevSelQuestDto> lstQu = new ArrayList<>();
+                for (ExcelTecRevSelQuestDto quAct : lstSelQuest) {
+                    if (quAct.getIdCase() == cAct.getIdCase()) {
+                        lstQu.add(quAct);
+                    }
+                }
+                cAct.setLstSelQuest(lstQu);
             }
 
             beans.put("listCases", listCases);

@@ -4,7 +4,8 @@
 <div ng-controller="menuController">
 
 
-    <div class="navbar navbar-inverse navbar-fixed-top" ng-init="urlCheckSession = '<c:url value="/session/checkout.json"/>'; urlHome = '<c:url value='/index.html' />'; initValueSession = ${pageContext.session.maxInactiveInterval};">
+    <div class="navbar navbar-inverse navbar-fixed-top"
+         ng-init="urlCheckSession = '<c:url value="/session/checkout.json"/>'; urlHome = '<c:url value='/index.html' />'; initValueSession = ${pageContext.session.maxInactiveInterval};">
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -31,6 +32,11 @@
                         </li>
                         <li><a href="<c:url value='/reviewer/technicalReview/index.html' />"><i
                                 class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</a></li>
+                        <li><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i
+                                class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a Coordinador</a></li>
+                        <li><a href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
+                                class="icon icon-envelope"></i>&nbsp;&nbsp;Consulta de casos en evaluaci&oacute;n</a>
+                        </li>
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
@@ -114,13 +120,13 @@
                 </ul>
                 <ul class="nav ace-nav navbar-right">
                     <sec:authorize access="isAnonymous()">
-                        <li class="nav-li-blue"  ng-init="hasUser = false">
+                        <li class="nav-li-blue" ng-init="hasUser = false">
                             <a href="javascript:void(0)" ng-click="linkLogin()"><span
                                     class="glyphicon glyphicon-log-in"></span> &nbsp; Ingresar</a>
                         </li>
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">
-                        <li class="nav-li-blue"  ng-init="hasUser = true">
+                        <li class="nav-li-blue" ng-init="hasUser = true">
                             <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                                 <img class="nav-user-photo" src="<c:url value='/assets/avatars/avatar0.png' />"
                                      alt="Usuario"/>
@@ -144,25 +150,21 @@
             </div>
         </div>
     </div>
-    <div id="ConfirmBoxDialog" class="modal fade">
+    <div id="ConfirmBoxDialogSession" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-{{Type}}">
-                        <button type="button" class="close" ng-click="no()">&times;</button>
                         <h4 class="modal-title element-center" ng-bind-html="Title"></h4>
                     </div>
                 </div>
-                <form id="formConfirm" name="formConfirm" class="form-horizontal" role="form">
-                    <input type="hidden" id="dataInfo" name="dataInfo" value="{{toSave}}">
-
-                    <div class="modal-body">
-                        <div class="element-left" ng-bind-html="Message"></div>
-                    </div>
-                </form>
+                <div class="modal-body">
+                    <div class="element-left" ng-bind-html="Message"></div>
+                </div>
                 <div class="modal-footer">
-                    <button  type="button"
-                            class="btn btn-default btn-info" ng-click="continueSession()">Continuar</button>
+                    <button type="button"
+                            class="btn btn-default btn-info" ng-click="continueSession()">Continuar
+                    </button>
                 </div>
             </div>
         </div>

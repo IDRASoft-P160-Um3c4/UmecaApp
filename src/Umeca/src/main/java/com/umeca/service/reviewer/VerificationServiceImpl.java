@@ -694,8 +694,10 @@ public class VerificationServiceImpl implements VerificationService {
     public void setImputedData(Long id, ModelAndView model) {
         Case c = caseRepository.findOne(id);
         model.addObject("idFolder", c.getIdFolder());
-        String fullName = c.getMeeting().getImputed().getName() + " " + c.getMeeting().getImputed().getLastNameP() + " " + c.getMeeting().getImputed().getLastNameM();
+        Imputed i = c.getMeeting().getImputed();
+        String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
         model.addObject("fullNameImputed", fullName);
+        model.addObject("age",userService.calculateAge(i.getBirthDate()));
         model.addObject("idCase", id);
     }
 
