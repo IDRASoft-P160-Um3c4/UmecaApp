@@ -14,6 +14,7 @@ import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileAllSourcesV
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
 import com.umeca.model.entities.supervisor.HearingFormatView;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
@@ -25,6 +26,7 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -77,6 +79,7 @@ public class TechnicalReviewController {
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
                     add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+                    add(Constants.CASE_STATUS_EDIT_TEC_REV);
                 }}, JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter);
@@ -104,11 +107,10 @@ public class TechnicalReviewController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
                     return r.join("caseDetention").get("idFolder");
-                else
-                if (field.equals("statusName"))
+                else if (field.equals("statusName"))
                     return r.join("caseDetention").join("status").get("name");
                 else
-                return null;
+                    return null;
             }
         }, Verification.class, ForTechnicalReviewGrid.class);
 
@@ -147,6 +149,12 @@ public class TechnicalReviewController {
 
             if (tecRev_prev != null) {
                 model.addObject("hasRevTec", true);
+
+                if (caseDet.getStatus().getName().equals(Constants.CASE_STATUS_EDIT_TEC_REV))
+                    model.addObject("canEdit", true);
+                else
+                    model.addObject("canEdit", false);
+
                 model.addObject("showRisk", true);
                 model.addObject("lstQuestSel_prev", technicalReviewService.genLstJsonQuesSel(tecRev_prev.getQuestionsSel()));
                 model.addObject("totRisk_prev", tecRev_prev.getTotalRisk());
@@ -154,6 +162,7 @@ public class TechnicalReviewController {
                 model.addObject("comments", tecRev_prev.getComments());
             } else {
                 model.addObject("hasRevTec", false);
+                model.addObject("canEdit", false);
                 model.addObject("showRisk", false);
                 model.addObject("lstQuestSel_prev", "[]");
                 model.addObject("totRisk_prev", 0);
@@ -161,7 +170,7 @@ public class TechnicalReviewController {
                 model.addObject("comments", "");
             }
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"technicalReview",sharedUserService);
+            logException.Write(e, this.getClass(), "technicalReview", sharedUserService);
             System.out.println("Error al cargar los datos para la vista technical review !!!!!\n\n");
             System.out.println(e.getMessage());
             return null;
@@ -173,25 +182,39 @@ public class TechnicalReviewController {
     @Autowired
     StatusCaseRepository statusCaseRepository;
 
+    @Autowired
+    CaseRepository caseRepository;
+
     @RequestMapping(value = "/reviewer/technicalReview/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
+    @Transactional
     ResponseMessage doUpsert(@ModelAttribute TechnicalReview result) {
 
         ResponseMessage response = new ResponseMessage();
 
-        //validar que no exista la evaluacion para guardarla
-
         try {
-            result.setQuestionsSel(technicalReviewService.generateQuesRevRel(result, result.getTxtListQuest()));
+
             Case caseDetention = verificationRepository.findById(result.getIdVerification()).getCaseDetention();
+            TechnicalReview prevTecRev = caseDetention.getTechnicalReview();
+
+            if (prevTecRev != null) {
+
+                prevTecRev.setCaseDetention(null);
+                caseDetention.setTechnicalReview(null);
+                technicalReviewRepository.delete(prevTecRev);
+                caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_VERIFICATION_COMPLETE));
+                caseRepository.save(caseDetention);
+            }
+
+            result.setQuestionsSel(technicalReviewService.generateQuesRevRel(result, result.getTxtListQuest()));
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
             result.setCaseDetention(caseDetention);
             technicalReviewRepository.save(result);
             response.setHasError(false);
             response.setUrlToGo("index.html");
         } catch (Exception ex) {
-            logException.Write(ex,this.getClass(),"doUpsert",sharedUserService);
+            logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo.");
         }
@@ -206,13 +229,12 @@ public class TechnicalReviewController {
 
         TechnicalReviewInfoFileView dataFile = technicalReviewService.fillInfoFile(id);
 
-        model.addObject("data",dataFile);
+        model.addObject("data", dataFile);
         response.setContentType("application/force-download");
-        response.setHeader("Content-Disposition","attachment; filename=\"datos_opinion_tecnica.doc\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"datos_opinion_tecnica.doc\"");
 
 
-
-            return model;
+        return model;
     }
 
     @RequestMapping(value = "/reviewer/technicalReview/generateFileAllSources", method = RequestMethod.GET)
@@ -222,13 +244,12 @@ public class TechnicalReviewController {
 
         TechnicalReviewInfoFileAllSourcesView dataFile = technicalReviewService.fillInfoFileAllSources(id);
 
-        model.addObject("data",dataFile);
+        model.addObject("data", dataFile);
         response.setContentType("application/force-download");
-        response.setHeader("Content-Disposition","attachment; filename=\"datos_opinion_tecnica.doc\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"datos_opinion_tecnica.doc\"");
 
 
-
-            return model;
+        return model;
     }
 
 

@@ -25,7 +25,7 @@
             window.goToUrlMvcUrl(goTo);
         };
 
-       var  generateFileAllSources = function (id) {
+        var generateFileAllSources = function (id) {
             var goTo = "<c:url value='/reviewer/technicalReview/generateFileAllSources.html'/>" + "?id=" + id;
             window.goToUrlMvcUrl(goTo);
         };
@@ -63,7 +63,7 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
                         var enabled = row.enabled;
-                        var be="";
+                        var be = "";
 
                         switch (status[i]) {
 
@@ -74,6 +74,9 @@
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar opini&oacute;n t&eacute;cnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open dark\"></span></a>";
                                 be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte\" onclick=\"generateFile('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                                 be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Obtener toda la informaci&oacute;n de la verificaci&oacute;n\" onclick=\"generateFileAllSources('" + cl + "');\"><i class=\" icon-group purple\"></i></a>";
+                                break;
+                            case "ST_CASE_EDIT_TEC_REV":
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar opini&oacute;n t&eacute;cnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil dark\"></span></a>";
                                 break;
                             default:
                                 be = "<a style=\"display:inline-block;\" title=\"Aún no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
@@ -108,7 +111,7 @@
 
                         onClickButton: function () {
                             try {
-                                $("#GridId").jqGrid('toExcelFile',{nombre:"datosXls",formato:"excel"});
+                                $("#GridId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                             } catch (e) {
                             }
                         }});

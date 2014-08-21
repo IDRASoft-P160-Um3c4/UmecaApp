@@ -29,7 +29,7 @@
 <input type="hidden" name="subtotalsTxt" id="subtotalsTxt" value="{{lstSubtotSrv}}"/>
 
 
-<div ng-init='sectionList=${listaSecc}; flgIsEvaluated=${hasRevTec}; flgShowRisk=${showRisk}; lstSubtotSrv=${lstSubtotTxt_prev};'>
+<div ng-init='sectionList=${listaSecc}; canEdit=${canEdit}; flgIsEvaluated=${hasRevTec}; flgShowRisk=${showRisk}; lstSubtotSrv=${lstSubtotTxt_prev};'>
 
 <div class="widget-box">
     <div class="widget-header">Datos generales</div>
@@ -56,7 +56,8 @@
                     Nombre del imputado:
                 </div>
                 <div class="col-xs-5 element-left">
-                    <input class="form-control" ng-model="imputedFullName" ng-init='imputedFullName="${imputedFullName}"' disabled>
+                    <input class="form-control" ng-model="imputedFullName"
+                           ng-init='imputedFullName="${imputedFullName}"' disabled>
                 </div>
             </div>
 
@@ -66,7 +67,7 @@
 </div>
 
 
-<div class="row element-right" ng-show="flgIsEvaluated==true">
+<div class="row element-right" ng-show="flgIsEvaluated==true && canEdit==false">
 <span class="btn btn-default btn-sm" ng-click="returnUrl('<c:url value='/reviewer/technicalReview/index.html'/>')">
                                 Regresar
                             </span>
@@ -118,7 +119,7 @@
                     <div class="{{question.type}} col-xs-offset-1">
                         <label>
                             <input class="ace col-xs-1"
-                                   ng-disabled="flgIsEvaluated == true"
+                                   ng-disabled="flgIsEvaluated == true && canEdit==false"
                                    name="{{subsect.tabId}}"
                                    type="{{question.type}}"
                                    ng-click="changeVal(question.type,subsect.tabId,question.questionId,question.ptsValue);"
@@ -171,7 +172,8 @@
                                                ng-init="totTecRev=${totRisk_prev}"/>
                                         &nbsp;
                                                     <span class="btn btn-default"
-                                                          ng-click="calcRisk();" ng-show="flgIsEvaluated == false">Calcular</span>
+                                                          ng-click="calcRisk();"
+                                                          ng-show="flgIsEvaluated == false || canEdit==true">Calcular</span>
                                     </div>
                                     <br/>
                                 </div>
@@ -183,7 +185,8 @@
                                         <div class="col-xs-10 col-xs-offset-1">
                                             <label for="comments">Comentarios</label>
                                             <textarea class="form-control limited" name="comments" id="comments"
-                                                      maxlength="980" ng-disabled="flgIsEvaluated == true"
+                                                      maxlength="980"
+                                                      ng-disabled="flgIsEvaluated == true && canEdit==false"
                                                       required
                                                       data-val="true"
                                                       data-val-required="Comentarios es un campo requerido"
@@ -291,7 +294,7 @@
                             </span>
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                                   ng-click="submitRedirect('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>',false,validateSave)"
-                                  ng-show="flgIsEvaluated == false">
+                                  ng-show="flgIsEvaluated == false || canEdit==true">
                                   Guardar
                             </span>
     </div>
