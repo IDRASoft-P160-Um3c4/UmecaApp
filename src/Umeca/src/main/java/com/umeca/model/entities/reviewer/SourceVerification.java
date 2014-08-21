@@ -255,4 +255,12 @@ public class SourceVerification implements EntityGrid{
     public void setIsAuthorized(Boolean authorized) {
         isAuthorized = authorized;
     }
+
+    public CaseRequest getCaseRequest() {
+        return caseRequest;
+    }
+
+    public void setCaseRequest(CaseRequest caseRequest) {
+        this.caseRequest = caseRequest;
+    }
 }

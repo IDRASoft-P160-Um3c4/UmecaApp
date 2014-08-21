@@ -12,6 +12,7 @@ public class RequestDto {
     private String requestType;
     private String reason;
     private String sourcesId;
+    private String password;
 
     public Long getCaseId() {
         return caseId;
@@ -43,5 +44,13 @@ public class RequestDto {
 
     public void setSourcesId(String sourcesId) {
         this.sourcesId = sourcesId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

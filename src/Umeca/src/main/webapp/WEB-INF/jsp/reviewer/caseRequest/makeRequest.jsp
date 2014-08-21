@@ -3,9 +3,15 @@
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormCatId");
     });
+    $("input").keypress(function(event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            $( "#btnMakeRequest" ).trigger( "click" );
+        }
+    });
 </script>
 <style>
-    textarea {
+    input,textarea {
         max-width: none !important;
     }
 </style>
@@ -22,47 +28,58 @@
                 <div class="modal-body">
                     <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal"
                           role="form">
-                        <br/>
-
+                        <div class="row">
+                                       <div class="col-xs-10 col-xs-offset-1">
+                                           <h4 class="header smaller lighter blue"><small>Tipo de solicitud:  </small>
+                                           &nbsp;${requestTypeDes}</h4>
+                                       </div>
+                        </div>
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
-                                <div class="col-xs-3 text-right"><b>Solicitud:</b></div>
-                                <div class="col-xs-9">${requestTypeDes}</div>
+                                <div class="widget-box">
+                                    <div class="widget-header widget-header-small header-color-dark">
+                                        <h6 class="smaller">Detalles del caso</h6>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <div class="row">
+                                                <div class="col-xs-4 smaller lighter blue  text-right">
+                                                    Imputado:
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    ${caseInfo.personName}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4 smaller lighter blue  text-right">
+                                                    Carpeta de investigaci&oacute;n:
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    ${caseInfo.folderId}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4 smaller lighter blue text-right">
+                                                    Estatus:
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    ${caseInfo.status}
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <br/>
-
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="col-xs-3 text-right"><b>No. de Carpeta:</b></div>
-                                <div class="col-xs-9">${caseInfo.folderId}</div>
-                            </div>
-                        </div>
-                        <br/>
-
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="col-xs-3 text-right"><b>Imputado:</b></div>
-                                <div class="col-xs-9">${caseInfo.personName}</div>
-                            </div>
-                        </div>
-                        <br/>
-
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="col-xs-3 text-right"><b>Esatus:</b></div>
-                                <div class="col-xs-9">${caseInfo.status}</div>
-                            </div>
-                        </div>
-                        <br/>
-
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div ng-init='requestType = "${requestType}"; listSources = ${sources};'
-                                     ng-show="requestType == 'CHANGE_STATUS_SOURCE'">
+                                     ng-show=" requestType == 'CHANGE_STATUS_SOURCE' ">
 
                                     <div class="widget-box" ng-show="listSources.length > 0">
-                                        <div class="widget-header widget-header-small header-color-blue3">
+                                        <div class="widget-header widget-header-small header-color-blue2">
                                             <h6 class="smaller">Elige las fuentes que solicitas cambiar</h6>
                                         </div>
                                         <table class=" widget-body table table-striped table-bordered table-hover">
@@ -87,7 +104,8 @@
                                             <tbody>
                                             <tr ng-repeat="source in listSources">
                                                 <td style="width: 20px;">
-                                                    <input class="" type="checkbox" ng-value="source.id" name="sourcesId" >
+                                                    <input class="" type="checkbox" ng-value="source.id"
+                                                           name="sourcesId">
                                                 </td>
                                                 <td>
                                                     {{source.fullName}}
@@ -113,28 +131,45 @@
                         </div>
 
                         <br/>
-
-                        <div class="row">
+                        <div class="row" ng-show="requestType != 'CHANGE_STATUS_SOURCE' || (requestType == 'CHANGE_STATUS_SOURCE' && listSources.length > 0)">
                             <div class="col-xs-10 col-xs-offset-1">
-                                <div class="widget-header widget-header-small">
-                                    <h6>Raz&oacute;n</h6>
+                                <div class="widget-box">
+                                    <div class="widget-header widget-header-small header-color-blue2">
+                                        <h6 class="smaller">Raz&oacute;n por la que realiza la solicitud</h6>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <input type="hidden" value="${requestType}" name="requestType">
+                                            <input type="hidden" value="${caseInfo.caseId}" name="caseId">
+                                            <textarea id="comment" name="reason" ng-model="comment"
+                                                      class="form-control" ></textarea>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="widget-body">
-                                    <div class="widget-main padding-10">
-                                        <input type="hidden" value="${requestType}" name="requestType">
-                                        <input type="hidden" value="${caseInfo.caseId}" name="caseId">
-                                        <textarea id="comment" name="reason" ng-model="comment"
-                                                  class="form-control" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row"  ng-show="requestType != 'CHANGE_STATUS_SOURCE' || (requestType == 'CHANGE_STATUS_SOURCE' && listSources.length > 0)">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <div class="widget-box">
+                                    <div class="widget-header widget-header-small header-color-blue2">
+                                        <h6 class="smaller">Ingrese su contrase&ntilde;a para confirmar</h6>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <input type="password" id="password" name="password" ng-model="password"
+                                                   class="form-control" rows="5"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
                     <br/>
+
                     <div class="row" ng-show="MsgError">
                         <div class="col-xs-10 col-xs-offset-1">
-                            <div class="alert alert-danger element-center">
-                                {{MsgError}}
+                            <div class="alert alert-danger element-center" ng-bind-html="MsgError" >
                             </div>
                         </div>
                     </div>
@@ -143,8 +178,8 @@
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
-                    <span class="btn btn-default btn-primary btn-sm"
-                          ng-disabled="WaitFor==true || comment=='' || comment == undefined || listSources.length == 0"
+                    <span class="btn btn-default btn-primary btn-sm"   id="btnMakeRequest"
+                          ng-disabled="WaitFor==true || comment=='' || comment == undefined || (listSources.length == 0 && requestType == 'CHANGE_STATUS_SOURCE')"
                           ng-click="submit('#FormCatId', '<c:url value="/reviewer/caseRequest/doMakeRequest.json"/>');">
                           Enviar Solicitud
                     </span>

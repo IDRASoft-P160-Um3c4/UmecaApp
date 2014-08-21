@@ -37,8 +37,7 @@ public class RequestEvaluationView implements EntityGrid {
         this.statusVerification = statusVerification;
         this.fullName = this.name+" "+this.lastNameP+" "+this.lastNameM;
         this.statusCase = statusCase;
-        status = ".E.";
-        description="Entrevista de riesgos procesales incompleta";
+
         if(this.statusCase.equals(Constants.CASE_STATUS_MEETING)){
             if(this.statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)){
                 description="Por agregar infromaci&oacute;n legal";
@@ -61,6 +60,13 @@ public class RequestEvaluationView implements EntityGrid {
         }else if(this.statusCase.equals(Constants.CASE_STATUS_TECHNICAL_REVIEW)){
             description="Con opini&oacute;n t&eacute;cnica generada";
             status +=".D.";
+        }
+        if(this.statusCase.equals(Constants.CASE_STATUS_REQUEST)){
+            description="Pendiente por autorizaci&oacute;n";
+            status +=".F.";
+        }else{
+            status = ".E.";
+            description="Entrevista de riesgos procesales incompleta";
         }
 
     }

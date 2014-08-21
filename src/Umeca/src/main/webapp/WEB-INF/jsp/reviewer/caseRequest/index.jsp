@@ -78,6 +78,8 @@
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Cambiar el estado de las fuentes de verificaci&oacute;n\" onclick=\"window.makeRequest('CHANGE_STATUS_SOURCE','" + cl + "');\"><span class=\"icon-group\"></span></a>";
                         }if(status.indexOf(".D.")!=-1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar Instrumento de evaluaci&oacute;n de riesgos\" onclick=\"window.makeRequest('EDIT_TECHNICAL_REVIEW','" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
+                        }if(status.indexOf(".F.")!=1){
+
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

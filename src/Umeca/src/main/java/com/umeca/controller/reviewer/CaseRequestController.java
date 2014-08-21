@@ -23,6 +23,7 @@ import com.umeca.model.entities.shared.RelMessageUserReceiver;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.RequestTypeRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
@@ -81,6 +82,7 @@ public class CaseRequestController {
                     add(Constants.CASE_STATUS_VERIFICATION);
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
                     add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+                    add(Constants.CASE_STATUS_REQUEST);
                 }}
                 , JqGridFilterModel.COMPARE_IN
         );
@@ -171,53 +173,75 @@ public class CaseRequestController {
     UserRepository userRepository;
     @Autowired
     MessageRepository messageRepository;
+    @Autowired
+    SharedUserService sharedUserService;
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+
 
     @RequestMapping(value = "/reviewer/caseRequest/doMakeRequest", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doMakeRequest(@ModelAttribute RequestDto requestDto) {
         try{
-//            Gson gson = new Gson();
-//            CaseRequest caseRequest = new CaseRequest();
-//            Message requestMessage = new Message();
-//            Long userId = userService.GetLoggedUserId();
-//            List<SelectList> usersReceiver = userRepository.getLstValidUsersByRole(Constants.ROLE_EVALUATION_MANAGER);
-//
-//            User userSender = userRepository.findOne(userId);
-//            StatusEvaluation statusEvaluation = qCaseRepository.getStatusEvaluation(requestDto.getCaseId());
-//            caseRequest.setStateBefore(gson.toJson(statusEvaluation));
-//            caseRequest.setRequestType(requestTypeRepository.findByCode(requestDto.getRequestType()));
-//            caseRequest.setSender(userSender);
-//            Case c=qCaseRepository.findOne(requestDto.getCaseId());
-//            caseRequest.setCaseDetention(c);
-//            requestMessage.setSender(userSender);
-//            if(usersReceiver!= null && usersReceiver.size()>0){
-//                User u = userRepository.findOne(usersReceiver.get(0).getId());
-//                caseRequest.setReceiver(u);
-//                Message m = new Message();
-//                m.setText(requestDto.getReason());
-//                m.setCaseDetention(c);
-//                m.setSender(userSender);
-//                RelMessageUserReceiver rmur = new RelMessageUserReceiver();
-//                rmur.setUser(u);
-//                rmur.setMessage(m);
-//                List<RelMessageUserReceiver> listrmur = new ArrayList<>();
-//                listrmur.add(rmur);
-//                m.setMessageUserReceivers(listrmur);
-//                m.setCreationDate(new Date());
-//                requestMessage.setMessageUserReceivers(listrmur);
-//                m = messageRepository.save(m);
-//                caseRequest.setRequestMessage(m);
-//                if (requestDto.getRequestType().equals(Constants.ST_REQUEST_CHANGE_SOURCE)){
-//                    caseRequest.setText("Mensaje para fuentes");
-//                }
-//                caseRequest.setText("lolololo");
-//
-//                caseRequestRepository.save(caseRequest);
+            if (!sharedUserService.isValidPasswordForUser(sharedUserService.GetLoggedUserId(), requestDto.getPassword())) {
+                return new ResponseMessage(true, "La contrase&ntilde;a es incorrecta, verfifique los datos.");
+            }
+            if(requestDto.getReason().equals("")){
+                return new ResponseMessage(true, "Debes ingresar una raz&oacute;n por la cu&acute;l quieres realizar la solicitud");
+            }
+            Gson gson = new Gson();
+            CaseRequest caseRequest = new CaseRequest();
+            Message requestMessage = new Message();
+            Long userId = userService.GetLoggedUserId();
+            List<SelectList> usersReceiver = userRepository.getLstValidUsersByRole(Constants.ROLE_EVALUATION_MANAGER);
+            User userSender = userRepository.findOne(userId);
+            List<User> receiverList = new ArrayList<>();
+            Case c=qCaseRepository.findOne(requestDto.getCaseId());
+            StatusEvaluation statusEvaluation = qCaseRepository.getStatusEvaluation(requestDto.getCaseId());
+
+            //fillCaseRequest
+            caseRequest.setStateBefore(gson.toJson(statusEvaluation));
+            caseRequest.setRequestType(requestTypeRepository.findByCode(requestDto.getRequestType()));
+            requestMessage.setSender(userSender);
+            if(usersReceiver!= null && usersReceiver.size()>0){
+                Message m = new Message();
+                m.setText(requestDto.getReason());
+                m.setCaseDetention(c);
+                m.setSender(userSender);
+                List<RelMessageUserReceiver> listrmur = new ArrayList<>();
+                for(SelectList ur : usersReceiver){
+                    User u = userRepository.findOne(ur.getId());
+                    RelMessageUserReceiver rmr = new RelMessageUserReceiver();
+                    rmr.setUser(u);
+                    rmr.setMessage(m);
+                    listrmur.add(rmr);
+                }
+                m.setMessageUserReceivers(listrmur);
+                m.setCreationDate(new Date());
+                requestMessage.setMessageUserReceivers(listrmur);
+                m = messageRepository.save(m);
+                caseRequest.setRequestMessage(m);
+                if (requestDto.getRequestType().equals(Constants.ST_REQUEST_CHANGE_SOURCE)){
+                    if(requestDto.getSourcesId() == null || requestDto.getSourcesId().equals("")){
+                        return new ResponseMessage(true,"Debes seleccionar una fuente para realizar la solicitud");
+                    }
+                    List<SourceVerification> sourcesSelected = new ArrayList<>();
+                    String[] sources = requestDto.getSourcesId().split(",");
+                    for(String s: sources){
+                        SourceVerification sv = sourceVerificationRepository.findOne(Long.parseLong(s));
+                        sv.setCaseRequest(caseRequest);
+                        sourcesSelected.add(sv);
+                    }
+                    caseRequest.setSources(sourcesSelected);
+                }
+                caseRequestRepository.save(caseRequest);
+                c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_REQUEST));
+                 qCaseRepository.save(c);
                 return new ResponseMessage(false,"");
-//            }else{
-//                return new ResponseMessage(true,"No existen coordinadores registrados para realizar tu solicitud");
-//            }
+            }else{
+                return new ResponseMessage(true,"No existen coordinadores registrados para realizar tu solicitud");
+            }
 
         }catch (Exception e){
             return new ResponseMessage(true, "Ha ocurrido un error al enviar la solicitud");
