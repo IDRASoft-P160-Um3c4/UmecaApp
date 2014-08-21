@@ -29,10 +29,10 @@
 <input type="hidden" name="subtotalsTxt" id="subtotalsTxt" value="{{lstSubtotSrv}}"/>
 
 
-<div ng-init='sectionList=${listaSecc}; canEdit=${canEdit}; flgIsEvaluated=${hasRevTec}; flgShowRisk=${showRisk}; lstSubtotSrv=${lstSubtotTxt_prev};'>
+<div ng-init='sectionList=${listaSecc}; returnId=${returnId}; canEdit=${canEdit}; flgIsEvaluated=${hasRevTec}; flgShowRisk=${showRisk}; lstSubtotSrv=${lstSubtotTxt_prev};'>
 
 <div class="widget-box">
-    <div class="widget-header">Datos generales</div>
+    <div class="widget-header">Datos generales{{returnId}}</div>
 
     <div class="widget-body">
 
@@ -68,7 +68,7 @@
 
 
 <div class="row element-right" ng-show="flgIsEvaluated==true && canEdit==false">
-<span class="btn btn-default btn-sm" ng-click="returnUrl('<c:url value='/reviewer/technicalReview/index.html'/>')">
+<span class="btn btn-default btn-sm" ng-click="returnUrl(returnId)">
                                 Regresar
                             </span>
 
@@ -289,7 +289,7 @@
 
     <div class="row element-right">
                             <span class="btn btn-default btn-sm"
-                                  ng-click="returnUrl('<c:url value='/reviewer/technicalReview/index.html'/>')">
+                                  ng-click="returnUrl(returnId)">
                                 Cancelar
                             </span>
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"

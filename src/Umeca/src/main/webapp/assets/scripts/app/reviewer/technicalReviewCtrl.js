@@ -220,6 +220,28 @@ app.controller('tecRevController', function ($scope, $timeout) {
 
     };
 
+    $scope.returnUrl = function (id) {
+
+        var url;
+
+        switch (id) {
+            case 1:
+                url = '../../managereval/showCaseEvaluation/index.html';
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            default :
+                url = 'index.html';
+                break;
+        }
+
+        window.goToUrlMvcUrl(url, "")
+    };
+
 
     $timeout(function () {
         $scope.init();

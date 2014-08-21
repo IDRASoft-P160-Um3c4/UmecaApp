@@ -63,10 +63,12 @@ public class CaseEvaluationController {
                 final Join<Meeting,Case> joinMeCa = r.join("caseDetention");
                 final Join<Meeting,Imputed> joinMeIm = r.join("imputed");
                 final Join<Meeting,StatusMeeting> joinMeSt = r.join("status",JoinType.LEFT);
-                final Join<Verification,StatusVerification> joinVeSt = joinMeCa.join("verification",JoinType.LEFT).join("status",JoinType.LEFT);
+                final Join<Verification,StatusVerification> joinVer = joinMeCa.join("verification",JoinType.LEFT);
+                final Join<Verification,StatusVerification> joinVeSt = joinVer.join("status",JoinType.LEFT);
                 final Join<Meeting,TechnicalReview> joinTR = joinMeCa.join("technicalReview",JoinType.LEFT);
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>(){{
                     add(joinMeCa.get("id"));
+                    add(joinVer.get("id"));
                     add(joinMeCa.get("idFolder"));
                     add(joinMeIm.get("name"));
                     add(joinMeIm.get("lastNameP"));

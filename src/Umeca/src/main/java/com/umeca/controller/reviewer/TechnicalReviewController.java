@@ -119,7 +119,7 @@ public class TechnicalReviewController {
     }
 
     @RequestMapping(value = "/reviewer/technicalReview/technicalReview", method = RequestMethod.GET)
-    public ModelAndView technicalReview(Long id) {
+    public ModelAndView technicalReview(Long id, Integer returnId) {
 
         ModelAndView model = new ModelAndView("/reviewer/technicalReview/technicalReview");
 
@@ -150,10 +150,15 @@ public class TechnicalReviewController {
             if (tecRev_prev != null) {
                 model.addObject("hasRevTec", true);
 
-                if (caseDet.getStatus().getName().equals(Constants.CASE_STATUS_EDIT_TEC_REV))
+                if (caseDet.getStatus().getName().equals(Constants.CASE_STATUS_EDIT_TEC_REV) && caseDet.getMeeting().getReviewer().getId().equals(sharedUserService.GetLoggedUserId()))
                     model.addObject("canEdit", true);
                 else
                     model.addObject("canEdit", false);
+
+                if (returnId == null)
+                    model.addObject("returnId", -1);
+                else
+                    model.addObject("returnId", returnId);
 
                 model.addObject("showRisk", true);
                 model.addObject("lstQuestSel_prev", technicalReviewService.genLstJsonQuesSel(tecRev_prev.getQuestionsSel()));
@@ -162,6 +167,7 @@ public class TechnicalReviewController {
                 model.addObject("comments", tecRev_prev.getComments());
             } else {
                 model.addObject("hasRevTec", false);
+                model.addObject("returnId", -1);
                 model.addObject("canEdit", false);
                 model.addObject("showRisk", false);
                 model.addObject("lstQuestSel_prev", "[]");
@@ -172,7 +178,7 @@ public class TechnicalReviewController {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "technicalReview", sharedUserService);
             System.out.println("Error al cargar los datos para la vista technical review !!!!!\n\n");
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return null;
         }
 
