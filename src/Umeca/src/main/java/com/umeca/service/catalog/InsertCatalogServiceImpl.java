@@ -31,8 +31,7 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
-
+    private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
     @Autowired
     RoleRepository repositoryRole;
 

@@ -8,6 +8,7 @@ import com.umeca.model.shared.EntityGrid;
  */
 public class CaseEvaluationView implements EntityGrid {
     private Long id;
+    private Long idVerif;
     private String idFolder;
     private String name;
     private String lastNameP;
@@ -19,8 +20,9 @@ public class CaseEvaluationView implements EntityGrid {
     private String statusString;
     private Integer status;
 
-    public CaseEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, Long idTec) {
+    public CaseEvaluationView(Long id, Long idVerif, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, Long idTec) {
         this.id = id;
+        this.idVerif = idVerif;
         this.idFolder = idFolder;
         this.name = name;
         this.lastNameP = lastNameP;
@@ -28,23 +30,23 @@ public class CaseEvaluationView implements EntityGrid {
         this.statusMeeting = statusMeeting;
         this.statusVerification = statusVerification;
         this.idTec = idTec;
-        this.fullname = this.name+" "+this.lastNameP+" "+this.lastNameM;
+        this.fullname = this.name + " " + this.lastNameP + " " + this.lastNameM;
         status = 0;
-        if(statusMeeting.equals(Constants.S_MEETING_INCOMPLETE)){
-            statusString ="Entrevista de riesgos procesales incompleta";
-        }else {
-            if(statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)){
+        if (statusMeeting.equals(Constants.S_MEETING_INCOMPLETE)) {
+            statusString = "Entrevista de riesgos procesales incompleta";
+        } else {
+            if (statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)) {
                 status++;
                 statusString = "Por agregar informaci&oacute;n legal";
-            }else if(statusMeeting.equals(Constants.S_MEETING_COMPLETE)){
-                status+=2;
+            } else if (statusMeeting.equals(Constants.S_MEETING_COMPLETE)) {
+                status += 2;
                 statusString = "Entrevista completa";
             }
-            if(statusVerification!=null && statusVerification.equals(Constants.VERIFICATION_STATUS_COMPLETE)){
+            if (statusVerification != null && statusVerification.equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
                 statusString = "Verificaci&oacute;n  terminada";
                 status++;
             }
-            if(idTec!=null){
+            if (idTec != null) {
                 statusString = "Opini&oacute;n t&eacute;cnica terminada";
                 status++;
             }
@@ -138,5 +140,13 @@ public class CaseEvaluationView implements EntityGrid {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getIdVerif() {
+        return idVerif;
+    }
+
+    public void setIdVerif(Long idVerif) {
+        this.idVerif = idVerif;
     }
 }
