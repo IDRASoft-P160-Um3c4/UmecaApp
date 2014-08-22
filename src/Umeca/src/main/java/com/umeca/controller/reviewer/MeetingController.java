@@ -59,16 +59,16 @@ public class MeetingController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
 
-        extraFilter = new JqGridRulesModel("statusCode",
+        JqGridRulesModel extraFilter2 = new JqGridRulesModel("statusCode",
                 new ArrayList<String>() {{
                     add(Constants.S_MEETING_INCOMPLETE);
                     add(Constants.S_MEETING_INCOMPLETE_LEGAL);
                 }}
                 , JqGridFilterModel.COMPARE_IN
         );
-
-        opts.extraFilters.add(extraFilter);
-
+        opts.extraFilters.add(extraFilter2);
+        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_MEETING, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter3);
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
@@ -89,6 +89,7 @@ public class MeetingController {
                     add(joinImp.get("gender"));
                     add(joinSM.get("description"));
                     add(joinUsr.get("id").alias("reviewerId"));
+                    add(r.join("status").get("name").alias("statusCase"));
                 }};
             }
 
@@ -99,11 +100,12 @@ public class MeetingController {
                 else if (field.equals("reviewerId"))
                     return r.join("meeting").join("reviewer").get("id");
                 if (field.equals("idFolder"))
-                return r.get("idFolder");
-                else
-                if (field.equals("fullname"))
+                    return r.get("idFolder");
+                else if (field.equals("fullname"))
                     return r.join("meeting").join("imputed").get("name");
-                else
+                else if (field.equals("statusCase")){
+                    return r.join("status").get("name");
+                }else
                     return null;
             }
         }, Case.class, MeetingView.class);
@@ -331,8 +333,8 @@ public class MeetingController {
     @RequestMapping(value = "/reviewer/meeting/legal/index", method = RequestMethod.GET)
     public
     @ResponseBody
-    ModelAndView legal(@RequestParam(required = true) Long id) {
-        return meetingService.showLegalProcess(id);
+    ModelAndView legal(@RequestParam(required = true) Long id, @RequestParam(required = false) Integer showCase) {
+        return meetingService.showLegalProcess(id, showCase);
     }
 
     @RequestMapping(value = "/reviewer/meeting/address/upsert", method = RequestMethod.POST)
@@ -458,7 +460,7 @@ public class MeetingController {
             ResponseMessage result = meetingService.doUpsertSchool(meeting.getCaseDetention().getId(), meeting.getSchool(), sch);
             return result;
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"upsertSchool",sharedUserService);
+            logException.Write(e, this.getClass(), "upsertSchool", sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la historia escolar.");
         }
 
@@ -483,9 +485,8 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage upsertSocialNetworkComment(@RequestParam String comment, @RequestParam Long idCase) {
-        return meetingService.upsertSocialNetworkComment(comment,idCase);
+        return meetingService.upsertSocialNetworkComment(comment, idCase);
     }
-
 
 
 }

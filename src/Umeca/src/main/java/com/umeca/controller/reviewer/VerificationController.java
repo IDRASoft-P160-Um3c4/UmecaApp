@@ -61,8 +61,8 @@ public class VerificationController {
 
         opts.extraFilters = new ArrayList<>();
         opts.extraFilters.add(new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL));
-        //opts.extraFilters.add(new JqGridRulesModel("statusCodeCase",
-        //       new ArrayList<String>(){{add(Constants.CASE_STATUS_VERIFICATION);}},JqGridFilterModel.COMPARE_EQUAL));
+        opts.extraFilters.add(new JqGridRulesModel("statusCodeCase",
+               new ArrayList<String>(){{add(Constants.CASE_STATUS_VERIFICATION);}},JqGridFilterModel.COMPARE_EQUAL));
         opts.extraFilters.add(new JqGridRulesModel("statusCode",
                 new ArrayList<String>(){{add(Constants.VERIFICATION_STATUS_AUTHORIZED);add(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);}},JqGridFilterModel.COMPARE_IN));
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -99,6 +99,8 @@ public class VerificationController {
                     return r.join("caseDetention").join("meeting").join("imputed").get("name");
                 }else if(field.equals("idFolder")){
                     return r.join("caseDetention").get("idFolder");
+                }else if(field.equals("statusCodeCase")){
+                    return r.join("caseDetention").join("status").get("name");
                 }
 
                 return null;

@@ -155,6 +155,7 @@ public class VerificationServiceImpl implements VerificationService {
     CountryRepository countryRepository;
 
     private void userConfigToView(ModelAndView model){
+
         Long userId = userService.GetLoggedUserId();
         User u = userRepository.findOne(userId);
         Boolean band = false;
@@ -174,11 +175,14 @@ public class VerificationServiceImpl implements VerificationService {
             SourceVerification sv = sourceVerificationRepository.findOne(idSource);
             model.addObject("idSource", idSource);
             model.addObject("source", gson.toJson(new SourceVerificationDto().dtoSourceVerification(sv)));
+            userConfigToView(model);
         }else{
             model.addObject("idSource", 0);
             model.addObject("source", gson.toJson(new SourceVerificationDto().dtoSourceVerification(new SourceVerification())));
+            model.addObject("managereval",true);
         }
-        userConfigToView(model);
+
+
         return model;
     }
 

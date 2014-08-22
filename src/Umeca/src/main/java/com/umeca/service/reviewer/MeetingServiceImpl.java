@@ -243,7 +243,7 @@ public class MeetingServiceImpl implements MeetingService {
 
 
     @Override
-    public ModelAndView showLegalProcess(Long id) {
+    public ModelAndView showLegalProcess(Long id, Integer showCase) {
         ModelAndView model = new ModelAndView("/reviewer/meeting/legal/index");
         Case c = caseRepository.findOne(id);
         model.addObject("idFolder", c.getIdFolder());
@@ -308,7 +308,11 @@ public class MeetingServiceImpl implements MeetingService {
             model.addObject("openProcessNumber",pcp.getOpenProcessNumber());
             model.addObject("numberConvictions",pcp.getNumberConvictions());
         }
-        userConfigToView(model);
+        if(showCase!=null && showCase.equals(1)){
+            model.addObject("managereval", true);
+        }else {
+            userConfigToView(model);
+        }
         return model;
     }
 

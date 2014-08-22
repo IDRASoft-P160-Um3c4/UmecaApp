@@ -52,7 +52,8 @@
         window.legal=function(id){
             var params= [];
             params["idParam"]=id;
-            window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/legal/index.html?id=idParam'/>",params);
+            params["showCaseParam"]=1;
+            window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/legal/index.html?id=idParam&&showCase=showCaseParam'/>",params);
 
         };
 
