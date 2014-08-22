@@ -63,10 +63,13 @@
                                     class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Bit&aacute;coras<b
                                     class="caret"></b> </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<c:url value='/supervisor/log/index.html' />"><i
+                                <li><a href="<c:url value='/supervisor/log/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bit&aacute;coras de
                                     supervisi&oacute;n y cumplimiento</a></li>
                             </ul>
+                        </li>
+                        <li><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>"><i
+                                class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en supervisi&oacute;n</a>
                         </li>
                     </sec:authorize>
 
@@ -114,6 +117,9 @@
                                 <li><a href="<c:url value='/supervisorManager/rolSupervision/index.html' />"><i
                                         class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Generar rol</a></li>
                             </ul>
+                        </li>
+                        <li><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>"><i
+                                class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en supervisi&oacute;n</a>
                         </li>
                     </sec:authorize>
 

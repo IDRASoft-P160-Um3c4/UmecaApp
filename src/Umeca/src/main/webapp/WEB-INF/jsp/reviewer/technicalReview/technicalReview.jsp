@@ -28,11 +28,15 @@
        value="{{lstQuestSel}}"/>
 <input type="hidden" name="subtotalsTxt" id="subtotalsTxt" value="{{lstSubtotSrv}}"/>
 
+<input type="hidden" ng-model="urlManagereval"/>
+<input type="hidden" ng-model="urlTecRev" value="<c:url value='/reviewer/technicalReview/index.html'/>"/>
+<input type="hidden" ng-model="urlDirector" value="<c:url value=''/>"/>
 
-<div ng-init='sectionList=${listaSecc}; returnId=${returnId}; canEdit=${canEdit}; flgIsEvaluated=${hasRevTec}; flgShowRisk=${showRisk}; lstSubtotSrv=${lstSubtotTxt_prev};'>
+<div ng-init='sectionList=${listaSecc}; returnId=${returnId}; canEdit=${canEdit}; flgIsEvaluated=${hasRevTec}; flgShowRisk=${showRisk}; lstSubtotSrv=${lstSubtotTxt_prev};
+urlManagereval="<c:url value='/managereval/showCaseEvaluation/index.html'/>"; urlTecRev="<c:url value='/reviewer/technicalReview/index.html'/>";'>
 
 <div class="widget-box">
-    <div class="widget-header">Datos generales{{returnId}}</div>
+    <div class="widget-header">Datos generales</div>
 
     <div class="widget-body">
 

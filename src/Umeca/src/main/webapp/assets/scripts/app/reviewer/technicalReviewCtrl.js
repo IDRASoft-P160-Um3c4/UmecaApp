@@ -226,16 +226,16 @@ app.controller('tecRevController', function ($scope, $timeout) {
 
         switch (id) {
             case 1:
-                url = '../../managereval/showCaseEvaluation/index.html';
+                url = $scope.urlManagereval;
                 break;
             case 2:
 
                 break;
             case 3:
-
+                //todo falta la url para el director
                 break;
             default :
-                url = 'index.html';
+                url = $scope.urlTecRev;
                 break;
         }
 

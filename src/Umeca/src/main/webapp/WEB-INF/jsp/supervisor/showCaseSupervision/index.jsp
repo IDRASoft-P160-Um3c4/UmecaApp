@@ -1,13 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.umeca.model.shared.Constants" %>
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
-
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
@@ -29,38 +21,16 @@
 <div class="container body-content">
 
     <script>
-        window.showMeeting = function (id) {
-            var params = [];
-            params["idParam"] = id;
-            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/verificationBySource.html?idCase=idParam'/>", params);
-
-        };
-
-        window.showVerification = function (id) {
-            var params = [];
-            params["idParam"] = id;
-            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/choiceInformation.html?idCase=idParam'/>", params);
-
-        };
-
-        window.technicalReview = function (id) {
-            var params = [];
-            params["idParam"] = id;
-            params["returnParam"] = 1;
-            window.goToUrlMvcUrl("<c:url value='/reviewer/technicalReview/technicalReview.html?id=idParam&&returnId=returnParam'/>", params);
-
-        };
 
         window.legal = function (id) {
             var params = [];
             params["idParam"] = id;
             window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/legal/index.html?id=idParam'/>", params);
-
         };
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/managereval/showCaseEvaluation/list.json' />',
+                url:'<c:url value='/supervisor/showCaseEvaluation/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'IDVER', 'Carpeta de Investigaci&oacute;n', 'Nombre', 'Estatus', 'Id estatus', 'Acci&oacute;n'],
@@ -140,7 +110,7 @@
     </script>
 
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Consulta de casos en proceso de
-        evaluaci&oacute;n</h2>
+        supervisi&oacute;n</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>
