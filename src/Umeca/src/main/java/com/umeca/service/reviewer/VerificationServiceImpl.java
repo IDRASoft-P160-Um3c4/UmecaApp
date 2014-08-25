@@ -155,6 +155,7 @@ public class VerificationServiceImpl implements VerificationService {
     CountryRepository countryRepository;
 
     private void userConfigToView(ModelAndView model){
+
         Long userId = userService.GetLoggedUserId();
         User u = userRepository.findOne(userId);
         Boolean band = false;
@@ -174,11 +175,14 @@ public class VerificationServiceImpl implements VerificationService {
             SourceVerification sv = sourceVerificationRepository.findOne(idSource);
             model.addObject("idSource", idSource);
             model.addObject("source", gson.toJson(new SourceVerificationDto().dtoSourceVerification(sv)));
+            userConfigToView(model);
         }else{
             model.addObject("idSource", 0);
             model.addObject("source", gson.toJson(new SourceVerificationDto().dtoSourceVerification(new SourceVerification())));
+            model.addObject("managereval",true);
         }
-        userConfigToView(model);
+
+
         return model;
     }
 
@@ -850,14 +854,15 @@ public class VerificationServiceImpl implements VerificationService {
 
     private List<FieldMeetingSource> createFieldNotKnowByCode(String code, Long idCase, Long idList, StatusFieldVerification st, Long idSource) {
         try {
-            List<FieldMeetingSource> result = new ArrayList<>();
+                List<FieldMeetingSource> result = new ArrayList<>();
             List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
             for (Long idFv : listFieldSection) {
                 FieldMeetingSource fmsNew = new FieldMeetingSource();
-                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, code);
+                FieldVerification fv = fieldVerificationRepository.findOne(idFv);
+                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, fv.getCode());
                 fmsNew.setId(fieldMeetingSourceId);
                 fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource));
-                fmsNew.setFieldVerification(fieldVerificationRepository.findByCode(code));
+                fmsNew.setFieldVerification(fv);
                 fmsNew.setValue(Constants.VALUE_NOT_KNOW_SOURCE);
                 fmsNew.setJsonValue(Constants.VALUE_NOT_KNOW_SOURCE);
                 fmsNew.setStatusFieldVerification(st);

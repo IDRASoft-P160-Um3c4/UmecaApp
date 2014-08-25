@@ -285,4 +285,27 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "inner join cd.meeting.status as sm " +
             "left join cd.verification.status as vs where cd.id = :caseId")
     StatusEvaluation getStatusEvaluation(@Param("caseId")Long caseId);
+
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelVerificationDto(" +
+            "CDET.id," +
+            "CDET.idFolder," +
+            "CDET.idMP," +
+            "CDET.dateCreate," +
+            "concat(IMP.name,' ',IMP.lastNameP,' ',IMP.lastNameM)," +
+            "IMP.nickname," +
+            "sv.fullName," +
+            "sv.relationship.name," +
+            "sv.age," +
+            "sv.address," +
+            "sv.id," +
+            "st.description) from Case as CDET " +
+            "INNER JOIN CDET.meeting.imputed as IMP " +
+            "INNER JOIN CDET.status as st "+
+            "INNER JOIN CDET.verification as V " +
+            "INNER JOIN V.sourceVerifications as sv " +
+            "WHERE CDET.id in (:listCaseId) and sv.isAuthorized = true " +
+            "order by CDET.dateCreate")
+    List<ExcelVerificationDto> getInfoVerification(@Param("listCaseId") List<Long> listCaseId);
+
 }

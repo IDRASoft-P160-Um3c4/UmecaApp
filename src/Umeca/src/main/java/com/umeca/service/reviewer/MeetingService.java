@@ -19,7 +19,7 @@ public interface MeetingService {
 
     ModelAndView showMeeting(Long id);
 
-    ModelAndView showLegalProcess(Long id);
+    ModelAndView showLegalProcess(Long id, Integer showCase);
 
     ResponseMessage upsertPersonalData(Long idCase, Imputed imputed, SocialEnvironment socialEnvironment, String activities);
 

@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class MeetingView implements EntityGrid {
 
-    public MeetingView(Long id,String statusCode,  String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description,Long reviewerId) {
+    public MeetingView(Long id,String statusCode,  String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description,Long reviewerId,String statusCase) {
         this.id = id;
         this.idFolder = idFolder;
         this.name = name;
@@ -43,6 +43,7 @@ public class MeetingView implements EntityGrid {
 //        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         this.dateBirthString = formatter.format(date);
+        this.statusCase = statusCase;
     }
 
     private Long id;
@@ -68,6 +69,8 @@ public class MeetingView implements EntityGrid {
     private String dateBirthString;
 
     private Long reviewerId;
+
+    private String statusCase;
 
     private String statusCode;
     public Long getId() {
@@ -167,6 +170,22 @@ public class MeetingView implements EntityGrid {
 
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
+    }
+
+    public Long getReviewerId() {
+        return reviewerId;
+    }
+
+    public void setReviewerId(Long reviewerId) {
+        this.reviewerId = reviewerId;
+    }
+
+    public String getStatusCase() {
+        return statusCase;
+    }
+
+    public void setStatusCase(String statusCase) {
+        this.statusCase = statusCase;
     }
 
     private void createFullname(){
