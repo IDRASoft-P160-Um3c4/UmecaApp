@@ -111,14 +111,11 @@ public class HearingFormatController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
                     return r.get("idFolder");
-                else
-                if (field.equals("idMP"))
+                else if (field.equals("idMP"))
                     return r.get("idMP");
-                else
-                if (field.equals("statusName"))
+                else if (field.equals("statusName"))
                     return r.join("status").get("name");
-                else
-                if(field.equals("fullName"))
+                else if (field.equals("fullName"))
                     return r.join("meeting").join("imputed").get("name");
                 return null;
             }
@@ -183,11 +180,12 @@ public class HearingFormatController {
     }
 
     @RequestMapping(value = "/supervisor/hearingFormat/indexFormats", method = RequestMethod.GET)
-    public ModelAndView indexFormats(@RequestParam(required = true) Long id) {
+    public ModelAndView indexFormats(@RequestParam(required = true) Long id, Integer returnId) {
 
         ModelAndView model = new ModelAndView("/supervisor/hearingFormat/indexFormats");
 
         model.addObject("idCase", id);
+        model.addObject("returnId", returnId);
         return model;
     }
 
@@ -199,8 +197,8 @@ public class HearingFormatController {
         if (caseRepository.findOne(idCase).getStatus().getName().equals(Constants.CASE_STATUS_PRE_CLOSED)) {
             model.setViewName("/supervisor/hearingFormat/indexFormats");
             model.addObject("idCase", idCase);
-            model.addObject("showErr",true);
-            model.addObject("msgError","No es posible agregar mas formatos, el caso se encuentra pre-cerrado.");
+            model.addObject("showErr", true);
+            model.addObject("msgError", "No es posible agregar mas formatos, el caso se encuentra pre-cerrado.");
 
         } else {
             model.setViewName("/supervisor/hearingFormat/hearingFormat");
@@ -223,15 +221,15 @@ public class HearingFormatController {
 
 
     @RequestMapping(value = "/supervisor/hearingFormat/viewHearingFormat", method = RequestMethod.GET)
-    public ModelAndView viewHearingFormat(@RequestParam(required = true) Long idFormat) {
+    public ModelAndView viewHearingFormat(@RequestParam(required = true) Long idFormat, Integer returnId) {
 
         ModelAndView model = new ModelAndView("/supervisor/hearingFormat/hearingFormat");
 
-        HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat,false);
+        HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat, false);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
+        model.addObject("returnId", conv.toJson(returnId));
         addressService.fillCatalogAddress(model);
-        //model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
 
         if (hfView.getIdAddres() != null)
             addressService.fillModelAddress(model, hfView.getIdAddres());

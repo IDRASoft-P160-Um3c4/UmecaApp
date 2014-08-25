@@ -225,16 +225,16 @@ app.controller('tecRevController', function ($scope, $timeout) {
         var url;
 
         switch (id) {
-            case 1:
+            case 1://regreso para evaluador y managereval
                 url = $scope.urlManagereval;
                 break;
-            case 2:
-
+            case 2://regreso para supervisor y managersup
+                url = $scope.urlManagerSup;
                 break;
             case 3:
                 //todo falta la url para el director
                 break;
-            default :
+            default ://regreso por default
                 url = $scope.urlTecRev;
                 break;
         }

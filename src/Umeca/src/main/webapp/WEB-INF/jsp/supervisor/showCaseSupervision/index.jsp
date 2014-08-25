@@ -22,25 +22,34 @@
 
     <script>
 
-        window.legal = function (id) {
+        window.technicalReview = function (id) {
             var params = [];
             params["idParam"] = id;
-            window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/legal/index.html?id=idParam'/>", params);
+            params["returnParam"] = 2;
+            window.goToUrlMvcUrl("<c:url value='/reviewer/technicalReview/technicalReview.html?id=idParam&returnId=returnParam'/>", params);
+        };
+
+        window.hearingFormat = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            params["returnParam"] = 1;
+            window.goToUrlMvcUrl("<c:url value='/supervisor/hearingFormat/indexFormats.html?id=idParam&returnId=returnParam'/>", params);
         };
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url:'<c:url value='/supervisor/showCaseEvaluation/list.json' />',
+                url: '<c:url value='/supervisor/showCaseEvaluation/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'IDVER', 'Carpeta de Investigaci&oacute;n', 'Nombre', 'Estatus', 'Id estatus', 'Acci&oacute;n'],
+                colNames: ['ID', 'IDFM', 'IDHF', 'IDMONP', 'IDVER', 'Carpeta de Investigaci&oacute;n', 'Nombre', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'idVerif', index: 'idVerif', hidden: true },
+                    { name: 'idFM', index: 'idFM', hidden: true },
+                    { name: 'idHF', index: 'idHF', hidden: true },
+                    { name: 'idMonP', index: 'idMonP', hidden: true },
+                    { name: 'idTec', index: 'idTec', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullname', index: 'fullname', search: false, width: 400, align: "center"},
-                    { name: 'statusString', index: 'statusString', width: 300, align: "center", sortable: true, search: false},
-                    { name: 'status', index: 'status', hidden: true},
                     { name: 'Action', width: 130, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
@@ -55,30 +64,37 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-                    var verifs = $(this).jqGrid('getCol', 'idVerif', false);
+                    var hfs = $(this).jqGrid('getCol', 'idHF', false);
+                    var fms = $(this).jqGrid('getCol', 'idFM', false);
+                    var monPs = $(this).jqGrid('getCol', 'idMonP', false);
+                    var tecs = $(this).jqGrid('getCol', 'idTec', false);
+
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
-                        var _id_verif = verifs[i];
+                        var iHF = hfs[i];
+                        var iFM = fms[i];
+                        var iMonP = monPs[i];
+                        var iTec = tecs[i];
+
                         var row = $(this).getRowData(cl);
                         var status = parseInt(row.status);
                         var be = "";
-                        if (status == 0) {
-                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\"     ></i></a>";
-                        } else {
-                            if (status >= 1) {
-                                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entevista de riesgos procesales\" onclick=\"window.showMeeting('" + cl + "');\"><i class=\"glyphicon icon-comments-alt\"></i></a>";
-                            }
-                            if (status >= 2) {
-                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Informaci&oacute;n legal\" onclick=\"window.legal('" + cl + "');\"><span class=\"green  icon-legal\"></span></a>";
-                            }
-                            if (status >= 3) {
-                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Verificaci&oacute;n\" onclick=\"window.showVerification('" + cl + "');\"><span class=\"purple icon-list\"></span></a>";
 
-                            }
-                            if (status >= 4) {
-                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Opini&oacute;n t&eacute;cnica\" onclick=\"window.technicalReview('" + _id_verif + "');\"><span class=\"warning icon-archive\"></span></a>";
-                            }
+                        if (iTec != null && iTec != undefined && iTec.trim() != "")
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar opini&oacute;n t&eacute;cnica\" onclick=\"technicalReview('" + iTec + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>  ";
+
+                        if (iHF != null && iHF != undefined && iHF.trim() != "")
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"hearingFormat('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>  ";
+
+                        if (iFM != null && iFM != undefined && iFM.trim() != "")
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar entrevista de encuadre\" onclick=\"showTecRev('" + cl + "');\"><span class=\"glyphicon glyphicon-bullhorn\"></span></a>  ";
+
+                        if (iMonP != null && iMonP != undefined && iMonP.trim() != "") {
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar bitacora de plan de monitoreo\" onclick=\"showTecRev('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>  ";
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar reporte de incumplimiento\" onclick=\"showTecRev('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>  ";
                         }
+
+
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },

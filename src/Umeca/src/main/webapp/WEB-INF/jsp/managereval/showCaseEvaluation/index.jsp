@@ -63,13 +63,14 @@
                 url: '<c:url value='/managereval/showCaseEvaluation/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'IDVER', 'Carpeta de Investigaci&oacute;n', 'Nombre', 'Estatus', 'Id estatus', 'Acci&oacute;n'],
+                colNames: ['ID', 'IDVER', 'Carpeta de Investigaci&oacute;n', 'Nombre', 'Estatus', 'Evaluador', 'Id estatus', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idVerif', index: 'idVerif', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullname', index: 'fullname', search: false, width: 400, align: "center"},
                     { name: 'statusString', index: 'statusString', width: 300, align: "center", sortable: true, search: false},
+                    { name: 'userName', index: 'userName', width: 150, align: "center", sortable: true, search: false},
                     { name: 'status', index: 'status', hidden: true},
                     { name: 'Action', width: 130, align: "center", sortable: false, search: false }
                 ],
@@ -96,17 +97,17 @@
                             be += "<a href=\"javascript:;\" style=\"display:inline-block;\"     ></i></a>";
                         } else {
                             if (status >= 1) {
-                                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entevista de riesgos procesales\" onclick=\"window.showMeeting('" + cl + "');\"><i class=\"glyphicon icon-comments-alt\"></i></a>";
+                                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entevista de riesgos procesales\" onclick=\"window.showMeeting('" + cl + "');\"><i class=\"glyphicon icon-comments-alt\"></i></a>  ";
                             }
                             if (status >= 2) {
-                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Informaci&oacute;n legal\" onclick=\"window.legal('" + cl + "');\"><span class=\"green  icon-legal\"></span></a>";
+                                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Informaci&oacute;n legal\" onclick=\"window.legal('" + cl + "');\"><span class=\"green  icon-legal\"></span></a>  ";
                             }
                             if (status >= 3) {
-                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Verificaci&oacute;n\" onclick=\"window.showVerification('" + cl + "');\"><span class=\"purple icon-list\"></span></a>";
+                                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Verificaci&oacute;n\" onclick=\"window.showVerification('" + cl + "');\"><span class=\"purple icon-list\"></span></a>  ";
 
                             }
                             if (status >= 4) {
-                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Opini&oacute;n t&eacute;cnica\" onclick=\"window.technicalReview('" + _id_verif + "');\"><span class=\"warning icon-archive\"></span></a>";
+                                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Opini&oacute;n t&eacute;cnica\" onclick=\"window.technicalReview('" + _id_verif + "');\"><span class=\"warning icon-archive\"></span></a>  ";
                             }
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });

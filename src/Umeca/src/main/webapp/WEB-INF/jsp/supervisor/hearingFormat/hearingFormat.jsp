@@ -110,11 +110,14 @@
       role="form" ng-controller="upsertController" method="post">
 <br/>
 
-<div class="container body-content" ng-controller="hearingFormatController" ng-init='m=${hfView}'>
+<div class="container body-content" ng-controller="hearingFormatController"
+     ng-init='m=${hfView}; returnId=${returnId};'>
 
-<%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp"%>
+<%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp" %>
 
 <input type="hidden" id="url3" value="<c:url value='/supervisor/hearingFormat/searchArrangementsByType.json'/>"/>
+<input type="hidden" id="urlRet"
+       value="<c:url value='/supervisor/hearingFormat/indexFormats.html'/>?id={{m.idCase}}&returnId={{returnId}}"/>
 
 <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
 <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
@@ -132,7 +135,7 @@
     <div class="col-xs-6 element-right">
         <div ng-show="m.canSave==false">
         <span class="btn btn-default btn-sm"
-              ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
+              ng-click="returnUrlId('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
                                 Regresar
                             </span>
         </div>
@@ -455,7 +458,7 @@
                   ng-model="m.crimes"
                   maxlength="980" data-val="true"
                   data-val-required="Delito(s) adicionales es un campo requerido">
-            </textarea>
+        </textarea>
         <span class="field-validation-valid" data-valmsg-for="crimes"
               data-valmsg-replace="true"></span>
     </div>
@@ -467,7 +470,7 @@
                   ng-model="m.additionalData"
                   maxlength="980" data-val="true"
                   data-val-required="Datos adicionales es un campo requerido">
-            </textarea>
+        </textarea>
         <span class="field-validation-valid" data-valmsg-for="additionalData"
               data-valmsg-replace="true"></span>
     </div>
@@ -772,7 +775,7 @@
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo es un campo requerido">
-                                                </textarea>
+                                            </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
                                         </div>
@@ -786,7 +789,7 @@
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo de investigaci&oacute;n es un campo requerido">
-                                                </textarea>
+                                            </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
                                         </div>

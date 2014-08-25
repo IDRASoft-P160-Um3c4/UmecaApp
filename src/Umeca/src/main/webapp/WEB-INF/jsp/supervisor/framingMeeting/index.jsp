@@ -81,7 +81,7 @@
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 break;
                             default://ban-circle
-                                be = "<a style=\"display:inline-block;\" title=\"A�n no cuenta con el formato de audiencia\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+                                be = "<a style=\"display:inline-block;\" title=\"No cuenta con el formato de audiencia\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
                                 break;
                         }
 
@@ -129,7 +129,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Casos para entrevista de encuadre
+    <h2 class="element-center"><i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Casos para entrevista de encuadre
     </h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">

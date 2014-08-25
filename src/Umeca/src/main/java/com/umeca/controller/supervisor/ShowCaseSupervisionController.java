@@ -8,6 +8,8 @@ import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.entities.managereval.CaseEvaluationView;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.supervisor.FramingMeeting;
+import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.shared.SelectFilterFields;
@@ -40,8 +42,10 @@ public class ShowCaseSupervisionController {
         return "/supervisor/showCaseSupervision/index";
     }
 
-    @RequestMapping(value = { "/supervisor/showCaseEvaluation/list"}, method = RequestMethod.POST)
-    public @ResponseBody JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
+    @RequestMapping(value = {"/supervisor/showCaseEvaluation/list"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",
                 new ArrayList<String>() {{
@@ -54,22 +58,23 @@ public class ShowCaseSupervisionController {
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                final Join<Meeting,Case> joinMeCa = r.join("caseDetention");
-                final Join<Meeting,Imputed> joinMeIm = r.join("imputed");
-                final Join<Meeting,StatusMeeting> joinMeSt = r.join("status", JoinType.LEFT);
-                final Join<Verification,StatusVerification> joinVer = joinMeCa.join("verification",JoinType.LEFT);
-                final Join<Verification,StatusVerification> joinVeSt = joinVer.join("status",JoinType.LEFT);
-                final Join<Meeting,TechnicalReview> joinTR = joinMeCa.join("technicalReview",JoinType.LEFT);
-                ArrayList<Selection<?>> result = new ArrayList<Selection<?>>(){{
-                    add(joinMeCa.get("id"));
-                    add(joinVer.get("id"));
-                    add(joinMeCa.get("idFolder"));
-                    add(joinMeIm.get("name"));
-                    add(joinMeIm.get("lastNameP"));
-                    add(joinMeIm.get("lastNameM"));
-                    add(joinMeSt.get("name").alias("statusMeeting"));
-                    add(joinVeSt.get("name").alias("statusVerification"));
-                    add(joinTR.get("id").alias("idTec"));
+                final Join<Case, Meeting> joinMe = r.join("meeting", JoinType.INNER);
+                final Join<Meeting, Imputed> joinImp = joinMe.join("imputed", JoinType.INNER);
+                final Join<Case, Verification> joinVer = r.join("verification", JoinType.LEFT);
+                final Join<Case, FramingMeeting> joinFM = r.join("framingMeeting", JoinType.LEFT);
+                final Join<Case, HearingFormat> joinHF = r.join("hearingFormats", JoinType.LEFT);
+                final Join<Case, MonitoringPlan> joinMP = r.join("monitoringPlan", JoinType.LEFT);
+
+                ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("idFolder"));
+                    add(joinImp.get("name"));
+                    add(joinImp.get("lastNameP"));
+                    add(joinImp.get("lastNameM"));
+                    add(joinFM.get("id").alias("idFM"));
+                    add(joinHF.get("id").alias("idHF"));
+                    add(joinMP.get("id").alias("idMonP"));
+                    add(joinVer.get("id").alias("idVerif"));
                 }};
 
                 return result;
@@ -77,12 +82,12 @@ public class ShowCaseSupervisionController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("idFolder"))
+                if (field.equals("idFolder"))
                     return r.join("caseDetention").get("idFolder");
 
                 return null;
             }
-        }, Meeting.class, CaseEvaluationView.class);
+        }, Case.class, CaseEvaluationView.class);
         return result;
     }
 
