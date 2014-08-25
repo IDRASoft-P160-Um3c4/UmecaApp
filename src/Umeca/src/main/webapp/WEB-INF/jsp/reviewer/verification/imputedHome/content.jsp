@@ -33,7 +33,7 @@
         Tel&eacute;fono:
     </div>
     <div class="col-xs-8">
-        <input type="text" class="form-control"ng-model="a.phone" name="phone"
+        <input type="text" class="form-control"ng-model="a.phone" name="imputedHomes.phone"
                id="phone"
                data-val="true"
                data-val-length="Debe tener al menos 6 y m&aacute;ximo 30 caracteres"

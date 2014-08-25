@@ -854,14 +854,15 @@ public class VerificationServiceImpl implements VerificationService {
 
     private List<FieldMeetingSource> createFieldNotKnowByCode(String code, Long idCase, Long idList, StatusFieldVerification st, Long idSource) {
         try {
-            List<FieldMeetingSource> result = new ArrayList<>();
+                List<FieldMeetingSource> result = new ArrayList<>();
             List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
             for (Long idFv : listFieldSection) {
                 FieldMeetingSource fmsNew = new FieldMeetingSource();
-                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, code);
+                FieldVerification fv = fieldVerificationRepository.findOne(idFv);
+                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, fv.getCode());
                 fmsNew.setId(fieldMeetingSourceId);
                 fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource));
-                fmsNew.setFieldVerification(fieldVerificationRepository.findByCode(code));
+                fmsNew.setFieldVerification(fv);
                 fmsNew.setValue(Constants.VALUE_NOT_KNOW_SOURCE);
                 fmsNew.setJsonValue(Constants.VALUE_NOT_KNOW_SOURCE);
                 fmsNew.setStatusFieldVerification(st);
