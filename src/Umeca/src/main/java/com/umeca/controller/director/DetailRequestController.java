@@ -7,6 +7,8 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.StatusMeeting;
+import com.umeca.model.dto.CaseInfo;
+import com.umeca.model.entities.director.view.CaseRequestDto;
 import com.umeca.model.entities.director.view.CaseView;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
@@ -14,6 +16,7 @@ import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.View.PersonSocialNetworkView;
 import com.umeca.model.entities.shared.Message;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
@@ -90,30 +93,19 @@ public class DetailRequestController {
 
     }
 
+    @Autowired
+    CaseRepository caseRepository;
 
-    @RequestMapping(value = "/director/caseRequest/showDetail", method = RequestMethod.POST)
-    public ModelAndView upsertSocialNetwork(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
-        ModelAndView model = new ModelAndView("/reviewer/meeting/socialNetwork/upsert");
-//        Gson gson = new Gson();
-//        model.addObject("lstRelationship", gson.toJson(relationshipRepository.findNotObsolete()));
-//        model.addObject("lstElection", gson.toJson(electionRepository.findAll()));
-//        model.addObject("lstDocumentType", gson.toJson(documentTypeRepository.findNotObsolete()));
-//        if (id != null) {
-//            PersonSocialNetwork p = personSocialNetworkRepository.findOne(id);
-//            PersonSocialNetwork pView = new PersonSocialNetwork();
-//            pView.setId(p.getId());
-//            pView.setName(p.getName());
-//            pView.setAge(p.getAge());
-//            pView.setPhone(p.getPhone());
-//            pView.setAddress(p.getAddress());
-//            pView.setSpecification(p.getSpecification());
-//            model.addObject("p", gson.toJson(pView));
-//            model.addObject("relId", gson.toJson(p.getRelationship().getId()));
-//            model.addObject("docId", gson.toJson(p.getDocumentType().getId()));
-//            model.addObject("depId", gson.toJson(p.getDependent().getId()));
-//            model.addObject("livId", gson.toJson(p.getLivingWith().getId()));
-//        }
-//        model.addObject("idCase", idCase);
+    @RequestMapping(value = "/director/caseRequest/showDetail", method = RequestMethod.GET)
+    public ModelAndView upsertSocialNetwork(@RequestParam(required = true) Long id) {
+        ModelAndView model = new ModelAndView("/director/caseRequest/detailRequest");
+        Gson gson = new Gson();
+        if (id != null) {
+            CaseInfo caseInfo = caseRepository.getInfoById(id);
+            model.addObject("caseInfo",caseInfo);
+            List<CaseRequestDto> listRequest  = caseRequestRepository.findRequestByIdCase(id);
+            model.addObject("listRequest", gson.toJson(listRequest));
+        }
         return model;
     }
 
