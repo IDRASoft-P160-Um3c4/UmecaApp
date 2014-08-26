@@ -29,9 +29,10 @@ import java.util.List;
  * Time: 4:27 PM
  */
 @Service("insertCatalogService")
-public class InsertCatalogServiceImpl implements InsertCatalogService{
+public class InsertCatalogServiceImpl implements InsertCatalogService {
 
-    private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
+    //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -268,6 +269,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     AidSourceRepository aidSourceRepository;
+
     @Override
     public void insertAidSource() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "aid_source.txt", "\\|", 4);
@@ -523,6 +525,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     HomeTypeRepository homeTypeRepository;
+
     @Override
     public void homeType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "home_type.txt", "\\|", 4);
@@ -557,11 +560,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         }
         framingThreatRepository.flush();
     }
+
     @Autowired
     FieldVerificationRepository fieldVerificationRepository;
+
     @Override
     public void fieldVerification() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "field_verification.txt","\\|", 9);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "field_verification.txt", "\\|", 9);
         for (String[] data : lstDta) {
             FieldVerification model = new FieldVerification();
             model.setId(Long.parseLong(data[0]));
@@ -580,9 +585,10 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     StatusFieldVerificationRepository statusFieldVerificationRepository;
+
     @Override
     public void statusFieldVerification() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "status_field_verification.txt","\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "status_field_verification.txt", "\\|", 3);
         for (String[] data : lstDta) {
             StatusFieldVerification model = new StatusFieldVerification();
             model.setId(Long.parseLong(data[0]));
@@ -595,9 +601,10 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     VerificationMethodRepository verificationMethodRepository;
+
     @Override
     public void verificationMethod() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "verification_method.txt","\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "verification_method.txt", "\\|", 3);
         for (String[] data : lstDta) {
             VerificationMethod model = new VerificationMethod();
             model.setId(Long.parseLong(data[0]));
@@ -610,9 +617,10 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     RequestTypeRepository requestTypeRepository;
+
     @Override
     public void requestType() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "request_type.txt","\\|", 4);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "request_type.txt", "\\|", 4);
         for (String[] data : lstDta) {
             RequestType model = new RequestType();
             model.setId(Long.parseLong(data[0]));

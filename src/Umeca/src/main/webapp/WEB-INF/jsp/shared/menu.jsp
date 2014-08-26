@@ -127,13 +127,16 @@
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class=" glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Casos<b class="caret"></b>
+                                    class=" glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Consulta de casos<b
+                                    class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<c:url value='/supervisorManager/caseActive/index.html' />"><i
-                                        class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Evaluaci&oacute;n</a></li>
-                                <li><a href="<c:url value='/supervisorManager/caseClosed/index.html' />"><i
-                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Supervisi&oacute;n</a></li>
+                                <li><a href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Evaluaci&oacute;n</a>
+                                </li>
+                                <li><a href="<c:url value='/supervisor/showCaseSupervision/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Supervisi&oacute;n</a>
+                                </li>
                             </ul>
                         </li>
                         <li><a href="<c:url value='/director/caseRequest/show.html' />"><i
