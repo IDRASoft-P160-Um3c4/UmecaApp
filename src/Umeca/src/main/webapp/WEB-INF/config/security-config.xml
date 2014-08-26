@@ -19,7 +19,7 @@
         <intercept-url pattern="/managereval/showCaseEvaluation/list.json"
                        access="hasAnyRole('ROLE_REVIEWER','ROLE_EVALUATION_MANAGER')"/>
 
-
+        <intercept-url pattern="/director/**" access="hasRole('ROLE_DIRECTOR')"/>
         <intercept-url pattern="/managereval/**" access="hasRole('ROLE_EVALUATION_MANAGER')"/>
 
         <intercept-url pattern="/reviewer/technicalReview/technicalReview.html"
