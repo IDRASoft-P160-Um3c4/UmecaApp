@@ -154,7 +154,7 @@ public class FramingMeetingController {
 
 
     @RequestMapping(value = "/supervisor/framingMeeting/framingMeeting", method = RequestMethod.GET)
-    public ModelAndView framingMeeting(@RequestParam(required = true) Long id) {
+    public ModelAndView framingMeeting(@RequestParam(required = true) Long id, Integer returnId) {
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/framingMeeting");
 
         Case caseDet = caseRepository.findOne(id);
@@ -164,7 +164,7 @@ public class FramingMeetingController {
             framingMeeting.setIsTerminated(false);
             framingMeeting.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
 
-            Verification existVer=caseDet.getVerification();
+            Verification existVer = caseDet.getVerification();
 
             caseDet.setFramingMeeting(framingMeeting);
 
@@ -172,10 +172,9 @@ public class FramingMeetingController {
             framingMeeting.setCaseDetention(caseDet);
             framingMeetingService.save(framingMeeting);
 
-            if(existVer!=null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)){
-                  framingMeetingService.fillSaveVerifiedInfo(framingMeeting,existVer.getMeetingVerified());
+            if (existVer != null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
+                framingMeetingService.fillSaveVerifiedInfo(framingMeeting, existVer.getMeetingVerified());
             }
-
 
 
         }
@@ -188,7 +187,7 @@ public class FramingMeetingController {
 
 
         List<CountryDto> countrys = new ArrayList<>();
-        for(Country act : countryRepository.findAllOrderByName()){
+        for (Country act : countryRepository.findAllOrderByName()) {
 
             countrys.add(new CountryDto().dtoCountry(act));
         }
@@ -196,7 +195,7 @@ public class FramingMeetingController {
         model.addObject("lstCountry", conv.toJson(countrys));
 
         List<StateDto> states = new ArrayList<>();
-        for(State act : stateRepository.findStatesByCountryAlpha2("MX")){
+        for (State act : stateRepository.findStatesByCountryAlpha2("MX")) {
 
             states.add(new StateDto().stateDto(act));
         }
@@ -204,7 +203,7 @@ public class FramingMeetingController {
         model.addObject("listState", conv.toJson(states));
 
         List<CatalogDto> relationships = new ArrayList<>();
-        for(Relationship act : relationshipRepository.findNotObsolete()){
+        for (Relationship act : relationshipRepository.findNotObsolete()) {
 
             CatalogDto rel = new CatalogDto();
             rel.setId(act.getId());
@@ -214,6 +213,11 @@ public class FramingMeetingController {
         }
 
         model.addObject("lstRelationship", conv.toJson(relationships));
+
+        if (returnId == null)
+            returnId = -1;
+
+        model.addObject("returnId", returnId);
 
         return model;
     }
@@ -341,7 +345,9 @@ public class FramingMeetingController {
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/listDrug", method = RequestMethod.POST)
-    public @ResponseBody JqGridResultModel listDrug(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase){
+    public
+    @ResponseBody
+    JqGridResultModel listDrug(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase) {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
@@ -350,7 +356,7 @@ public class FramingMeetingController {
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                return new ArrayList<Selection<?>>(){{
+                return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.join("periodicity").get("name").alias("perName"));
                     add(r.get("lastUse"));
@@ -361,9 +367,9 @@ public class FramingMeetingController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("idCase")){
+                if (field.equals("idCase")) {
                     return r.join("framingMeeting").join("caseDetention").get("id");
-                }else if(field.equals("drugName")){
+                } else if (field.equals("drugName")) {
                     return r.join("drugType").get("name");
                 }
                 return null;
@@ -398,7 +404,7 @@ public class FramingMeetingController {
         model.addObject("addObj", conv.toJson(addDto));
 
         List<StateDto> states = new ArrayList<>();
-        for(State act : stateRepository.findStatesByCountryAlpha2("MX")){
+        for (State act : stateRepository.findStatesByCountryAlpha2("MX")) {
 
             states.add(new StateDto().stateDto(act));
         }
@@ -429,12 +435,16 @@ public class FramingMeetingController {
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/drugs/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsertDrug(@ModelAttribute Drug drug, @RequestParam Long idCase){
+    public
+    @ResponseBody
+    ResponseMessage doUpsertDrug(@ModelAttribute Drug drug, @RequestParam Long idCase) {
         return framingMeetingService.doUpsertDrug(drug, idCase);
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/drugs/delete", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doDeleteDrug(@RequestParam Long id){
+    public
+    @ResponseBody
+    ResponseMessage doDeleteDrug(@RequestParam Long id) {
         return framingMeetingService.deleteDrug(id);
     }
 
@@ -456,7 +466,7 @@ public class FramingMeetingController {
         model.addObject("housemate", conv.toJson(housemate));
 
         List<CatalogDto> relationships = new ArrayList<>();
-        for(Relationship act : relationshipRepository.findNotObsolete()){
+        for (Relationship act : relationshipRepository.findNotObsolete()) {
 
             CatalogDto rel = new CatalogDto();
             rel.setId(act.getId());
@@ -496,7 +506,7 @@ public class FramingMeetingController {
         model.addObject("reference", conv.toJson(housemate));
 
         List<CatalogDto> relationships = new ArrayList<>();
-        for(Relationship act : relationshipRepository.findNotObsolete()){
+        for (Relationship act : relationshipRepository.findNotObsolete()) {
 
             CatalogDto rel = new CatalogDto();
             rel.setId(act.getId());
@@ -574,7 +584,7 @@ public class FramingMeetingController {
     @ResponseBody
     ResponseMessage processAccompanimentDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute ProcessAccompanimentForView view) {
 
-        ProcessAccompaniment processAccompaniment = framingMeetingService.fillProcessAccompaniment(idCase,view);
+        ProcessAccompaniment processAccompaniment = framingMeetingService.fillProcessAccompaniment(idCase, view);
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
         existFraming.setProcessAccompaniment(processAccompaniment);
 
@@ -614,7 +624,7 @@ public class FramingMeetingController {
     public
     @ResponseBody
     ResponseMessage additionalQuestions(@RequestParam(required = true) Long idCase, @ModelAttribute AdditionalQuestionsForView view) {
-        return framingMeetingService.saveAddQuest(idCase,view);
+        return framingMeetingService.saveAddQuest(idCase, view);
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/personalData/loadPersonalData", method = RequestMethod.POST)

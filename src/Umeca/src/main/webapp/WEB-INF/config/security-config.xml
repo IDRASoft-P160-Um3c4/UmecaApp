@@ -27,17 +27,7 @@
 
         <intercept-url pattern="/reviewer/**" access="hasAnyRole('ROLE_REVIEWER','ROLE_EVALUATION_MANAGER')"/>
 
-        <intercept-url pattern="/supervisor/log/supervisionLog.html" access="hasRole('ROLE_SUPERVISOR_MANAGER')"/>
-
-        <intercept-url pattern="/supervisor/showCaseSupervision/index.html"
-                       access="hasAnyRole('ROLE_SUPERVISOR_MANAGER','ROLE_SUPERVISOR')"/>
-        <intercept-url pattern="/supervisor/showCaseEvaluation/list.json"
-                       access="hasAnyRole('ROLE_SUPERVISOR_MANAGER','ROLE_SUPERVISOR')"/>
-
-        <intercept-url pattern="/supervisor/hearingFormat/**"
-                       access="hasAnyRole('ROLE_SUPERVISOR_MANAGER','ROLE_SUPERVISOR')"/>
-
-        <intercept-url pattern="/supervisor/**" access="hasRole('ROLE_SUPERVISOR')"/>
+        <intercept-url pattern="/supervisor/**" access="hasAnyRole('ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER')"/>
         <intercept-url pattern="/supervisorManager/**" access="hasRole('ROLE_SUPERVISOR_MANAGER')"/>
 
         <intercept-url pattern="/**" access="hasRole('ROLE_NOTUSE')"/>

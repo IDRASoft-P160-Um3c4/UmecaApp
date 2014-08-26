@@ -1,4 +1,4 @@
-app.controller('framingMeetingController', function ($scope, $timeout, $http,$rootScope) {
+app.controller('framingMeetingController', function ($scope, $timeout, $http, $rootScope) {
 
         $scope.fm = {}
 
@@ -9,7 +9,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http,$ro
 
         $scope.disableView = function () {
 
-            if ($scope.fm.objView.canTerminate==false) {
+            if ($scope.fm.objView.canTerminate == false) {
                 $("#divFM :input").attr("disabled", true);
             }
             else {
@@ -18,8 +18,13 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http,$ro
 
         };
 
-        $scope.returnIdx = function () {
-            window.goToUrlMvcUrl('index.html');
+        $scope.returnFM = function () {
+
+            if ($scope.returnId && $scope.returnId != null && $scope.returnId != undefined && $scope.returnId > 0) {
+                window.goToUrlMvcUrl($scope.urlManagerSup);
+            }
+            else
+                window.goToUrlMvcUrl($scope.urlIndex);
         };
 
         $scope.init = function () {
@@ -31,9 +36,9 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http,$ro
         }, 0);
 
 
-        $scope.resizeMap = function(){
-           $timeout(function () {
-                 $rootScope.$broadcast("resizeMap");
+        $scope.resizeMap = function () {
+            $timeout(function () {
+                $rootScope.$broadcast("resizeMap");
             }, 10);
 
         };

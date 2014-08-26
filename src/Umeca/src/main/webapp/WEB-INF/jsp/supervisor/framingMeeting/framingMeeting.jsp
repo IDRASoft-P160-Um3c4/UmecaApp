@@ -36,14 +36,18 @@
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content" id="divFM" ng-controller="framingMeetingController" ng-init='fm.objView=${objView}' ng-cloak>
+<div class="container body-content" id="divFM" ng-controller="framingMeetingController"
+     ng-init='fm.objView=${objView}; returnId=${returnId};
+     urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";
+     urlIndex="<c:url value='/supervisor/framingMeeting/index.html'/>";'
+     ng-cloak>
     <input type="hidden" name="idFolder" value="{{fm.objView.idFolder}}">
     <br/>
 
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
 
 
-    <div class="row" >
+    <div class="row">
         <div class="col-xs-4">
 
             <h3 class="header smaller lighter blue">
@@ -71,7 +75,7 @@
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs" id="tabFramingMeeting">
 
-                    <li  class="active">
+                    <li class="active">
                         <a data-toggle="tab" href="#personalData">
                             <i class="purple glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
                             Datos personales y entorno social
@@ -86,18 +90,18 @@
                     </li>
 
                     <li>
-                        <a data-toggle="tab" href="#accompaniment"  ng-click="resizeMap()">
+                        <a data-toggle="tab" href="#accompaniment" ng-click="resizeMap()">
                             <i class="red glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
                             Persona que acompa&ntilde;ara durante <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;el proceso
                         </a>
                     </li>
 
-                    <li >
-                        <a data-toggle="tab" href="#houseMate" >
+                    <li>
+                        <a data-toggle="tab" href="#houseMate">
                             <div class="row">
-                            <i class="blue icon-group bigger-200"></i>
-                            Personas que viven con el imputado
+                                <i class="blue icon-group bigger-200"></i>
+                                Personas que viven con el imputado
                             </div>
                         </a>
                     </li>
@@ -153,7 +157,8 @@
                     </div>
 
                     <div id="accompaniment" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/proccessAccompaniment/_processAccompaniment.jsp" %>
+                        <%@ include
+                                file="/WEB-INF/jsp/supervisor/framingMeeting/proccessAccompaniment/_processAccompaniment.jsp" %>
                     </div>
 
 
@@ -166,11 +171,12 @@
                     </div>
 
                     <div id="activities" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/framingActivities/_framingActivities.jsp" %>
+                        <%@ include
+                                file="/WEB-INF/jsp/supervisor/framingMeeting/framingActivities/_framingActivities.jsp" %>
                     </div>
 
                     <div id="drugs" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/drugs/_drugs.jsp"%>
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/drugs/_drugs.jsp" %>
                     </div>
 
                     <div id="environmentAnalysis" class="tab-pane">
@@ -179,7 +185,8 @@
                     </div>
 
                     <div id="addtional" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/additionalQuestions/_addtionalQuestions.jsp" %>
+                        <%@ include
+                                file="/WEB-INF/jsp/supervisor/framingMeeting/additionalQuestions/_addtionalQuestions.jsp" %>
                     </div>
 
                     <div id="fingerTab" class="tab-pane">
@@ -194,7 +201,7 @@
 
     <div class="row">
         <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
-                    <span class="btn btn-default btn-sm" ng-click="returnIdx();">
+                    <span class="btn btn-default btn-sm" ng-click="returnFM();">
                         Regresar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
@@ -203,7 +210,7 @@
                     </span>
         </div>
         <div class="modal-footer" ng-show="fm.objView.canTerminate==false">
-                    <span class="btn btn-default btn-sm" ng-click="returnIdx();">
+                    <span class="btn btn-default btn-sm" ng-click="returnFM();">
                         Regresar
                     </span>
         </div>
