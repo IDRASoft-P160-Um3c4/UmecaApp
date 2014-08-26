@@ -36,18 +36,38 @@
             window.goToUrlMvcUrl("<c:url value='/supervisor/hearingFormat/indexFormats.html?id=idParam&returnId=returnParam'/>", params);
         };
 
+        window.framingMeeting = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            params["returnParam"] = 1;
+            window.goToUrlMvcUrl("<c:url value='/supervisor/framingMeeting/framingMeeting.html?id=idParam&returnId=returnParam'/>", params);
+        };
+
+        window.accomplishmentLog = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            window.goToNewUrl("<c:url value='/supervisor/log/accomplishmentLog.html?id=idParam' />", params);
+        };
+
+        window.supervisionLog = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            window.goToNewUrl("<c:url value='/supervisor/log/supervisionLog.html?id=idParam' />", params);
+        };
+
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisor/showCaseEvaluation/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'IDFM', 'IDHF', 'IDMONP', 'IDVER', 'Carpeta de Investigaci&oacute;n', 'Nombre', 'Acci&oacute;n'],
+                colNames: ['ID', 'IDFM', 'IDHF', 'IDMONP', 'IDVER', 'FMTERM', 'Carpeta de Investigaci&oacute;n', 'Nombre', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFM', index: 'idFM', hidden: true },
                     { name: 'idHF', index: 'idHF', hidden: true },
                     { name: 'idMonP', index: 'idMonP', hidden: true },
                     { name: 'idTec', index: 'idTec', hidden: true },
+                    { name: 'fmTerminated', index: 'fmTerminated', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullname', index: 'fullname', search: false, width: 400, align: "center"},
                     { name: 'Action', width: 130, align: "center", sortable: false, search: false }
@@ -66,6 +86,7 @@
                     var ids = $(this).jqGrid('getDataIDs');
                     var hfs = $(this).jqGrid('getCol', 'idHF', false);
                     var fms = $(this).jqGrid('getCol', 'idFM', false);
+                    var fmTerm = $(this).jqGrid('getCol', 'fmTerminated', false);
                     var monPs = $(this).jqGrid('getCol', 'idMonP', false);
                     var tecs = $(this).jqGrid('getCol', 'idTec', false);
 
@@ -75,6 +96,7 @@
                         var iFM = fms[i];
                         var iMonP = monPs[i];
                         var iTec = tecs[i];
+                        var isTerm = fmTerm[i];
 
                         var row = $(this).getRowData(cl);
                         var status = parseInt(row.status);
@@ -86,14 +108,13 @@
                         if (iHF != null && iHF != undefined && iHF.trim() != "")
                             be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"hearingFormat('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>  ";
 
-                        if (iFM != null && iFM != undefined && iFM.trim() != "")
-                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar entrevista de encuadre\" onclick=\"showTecRev('" + cl + "');\"><span class=\"glyphicon glyphicon-bullhorn\"></span></a>  ";
+                        if (iFM != null && iFM != undefined && iFM.trim() != "" && isTerm == 'true')
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar entrevista de encuadre\" onclick=\"framingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-bullhorn\"></span></a>  ";
 
                         if (iMonP != null && iMonP != undefined && iMonP.trim() != "") {
-                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar bitacora de plan de monitoreo\" onclick=\"showTecRev('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>  ";
-                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar reporte de incumplimiento\" onclick=\"showTecRev('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>  ";
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar bitacora de plan de monitoreo\" onclick=\"supervisionLog('" + iMonP + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>  ";
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar reporte de incumplimiento\" onclick=\"accomplishmentLog('" + iMonP + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>  ";
                         }
-
 
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

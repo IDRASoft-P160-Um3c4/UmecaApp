@@ -24,6 +24,7 @@ public class CaseEvaluationView implements EntityGrid {
     private Long idHF;
     private Long idFM;
     private Long idMonP;
+    private Boolean fmTerminated;
 
 
     public CaseEvaluationView(Long id, Long idVerif, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, Long idTec, String userName) {
@@ -60,7 +61,7 @@ public class CaseEvaluationView implements EntityGrid {
         }
     }
 
-    public CaseEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, Long idFM, Long idHF, Long idMonP, Long idTec) {
+    public CaseEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, Long idFM, Long idHF, Long idMonP, Long idTec, Boolean fmTerminated) {
         this.id = id;
         this.idFolder = idFolder;
         this.name = name;
@@ -71,6 +72,7 @@ public class CaseEvaluationView implements EntityGrid {
         this.idMonP = idMonP;
         this.fullname = this.name + " " + this.lastNameP + " " + this.lastNameM;
         this.idTec = idTec;
+        this.fmTerminated = fmTerminated;
     }
 
     public Long getId() {
@@ -199,5 +201,13 @@ public class CaseEvaluationView implements EntityGrid {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Boolean getFmTerminated() {
+        return fmTerminated;
+    }
+
+    public void setFmTerminated(Boolean fmTerminated) {
+        this.fmTerminated = fmTerminated;
     }
 }

@@ -75,6 +75,7 @@ public class ShowCaseSupervisionController {
                     add(joinHF.get("id").alias("idHF"));
                     add(joinMP.get("id").alias("idMonP"));
                     add(joinVer.get("id").alias("idVerif"));
+                    add(joinFM.get("isTerminated"));
                 }};
 
                 return result;
