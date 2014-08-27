@@ -39,4 +39,7 @@ public interface InsertCatalogService {
     void framingRisk();
 
     void homeType();
+
+    void fileType();
+    void systemSettings();
 }

@@ -1,11 +1,3 @@
-﻿CREATE TABLE IF NOT EXISTS cat_country(
-	id_country INTEGER AUTO_INCREMENT PRIMARY KEY,	
-	name varchar(50) NOT NULL,
-	alpha2 varchar(2) NOT NULL,
-	alpha3 varchar(3) NOT NULL,
-	latitude double NOT NULL,
-	longitude double NOT NULL
-) ENGINE=InnoDB;
 
 INSERT INTO cat_country (id_country, name, alpha2,alpha3,latitude, longitude) VALUES
 (1, 'Mexico', 'MX', 'MEX', 23, -102),

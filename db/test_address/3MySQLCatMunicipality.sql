@@ -1,12 +1,3 @@
-use sgumeca;
-
-	CREATE TABLE IF NOT EXISTS cat_municipality (
-		id_municipality INTEGER AUTO_INCREMENT PRIMARY KEY,
-		id_state INTEGER NOT NULL REFERENCES CatState(id_state), 
-		name varchar(50) NOT NULL,
-		abbreviation varchar(100) NULL,
-		description varchar(100) NULL
-	) ENGINE=InnoDB;
 
 
 	INSERT INTO cat_municipality (id_municipality, id_state, name, abbreviation, description) VALUES (1, 1, "Aguascalientes", "Aguascalientes", "Aguascalientes");

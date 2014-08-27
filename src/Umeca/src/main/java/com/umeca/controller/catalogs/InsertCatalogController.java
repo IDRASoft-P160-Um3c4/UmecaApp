@@ -194,6 +194,18 @@ public class InsertCatalogController {
         return "Home type OK!";
     }
 
+    @RequestMapping(value = "/catalogs/insertFileType", method = RequestMethod.GET)
+    public String insertFileType(){
+        service.fileType();
+        return "File type OK!";
+    }
+
+    @RequestMapping(value = "/catalogs/insertSystemSettings", method = RequestMethod.GET)
+    public String insertSystemSettings(){
+        service.systemSettings();
+        return "Home type OK!";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
@@ -225,6 +237,8 @@ public class InsertCatalogController {
         service.framingRisk();
         service.framingThreat();
         service.homeType();
+        service.fileType();
+        service.systemSettings();
         return "insertCatalog OK!!";
     }
 }

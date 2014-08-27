@@ -47,7 +47,7 @@
                         }, 0);
                     }
                 });
-                                                             0
+
                 jQuery("#GridId").jqGrid('navGrid', '#GridPager', { edit: false, add: false, del: false, search: false, refreshicon : 'icon-refresh green'});
 
                 jQuery("#GridId").jqGrid('filterToolbar', {
