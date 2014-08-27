@@ -6,8 +6,6 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.catalog.State;
-import com.umeca.model.catalog.dto.StateDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
@@ -17,19 +15,15 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
-import com.umeca.repository.catalog.ArrangementRepository;
-import com.umeca.repository.catalog.RegisterTypeRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.HearingFormatTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
-import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -76,6 +70,7 @@ public class HearingFormatController {
     @ResponseBody
     JqGridResultModel listCases(@ModelAttribute JqGridFilterModel opts) {
 
+
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{
@@ -83,6 +78,7 @@ public class HearingFormatController {
                     add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
+                    add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
                     add(Constants.CASE_STATUS_FRAMING_COMPLETE);
 
                 }}, JqGridFilterModel.COMPARE_IN
