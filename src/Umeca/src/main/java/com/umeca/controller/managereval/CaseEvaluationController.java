@@ -9,6 +9,7 @@ import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.catalog.StatusVerification;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.managereval.CaseEvaluationView;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.managereval.ManagerevalView;
@@ -46,8 +47,10 @@ public class CaseEvaluationController {
         return "/managereval/showCaseEvaluation/index";
     }
 
-    @RequestMapping(value = { "/managereval/showCaseEvaluation/list" }, method = RequestMethod.POST)
-    public @ResponseBody JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
+    @RequestMapping(value = {"/managereval/showCaseEvaluation/list"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",
                 new ArrayList<String>() {{
@@ -57,16 +60,20 @@ public class CaseEvaluationController {
                 , JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter);
-            JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                final Join<Meeting,Case> joinMeCa = r.join("caseDetention");
-                final Join<Meeting,Imputed> joinMeIm = r.join("imputed");
-                final Join<Meeting,StatusMeeting> joinMeSt = r.join("status",JoinType.LEFT);
-                final Join<Verification,StatusVerification> joinVeSt = joinMeCa.join("verification",JoinType.LEFT).join("status",JoinType.LEFT);
-                final Join<Meeting,TechnicalReview> joinTR = joinMeCa.join("technicalReview",JoinType.LEFT);
-                ArrayList<Selection<?>> result = new ArrayList<Selection<?>>(){{
+                final Join<Meeting, Case> joinMeCa = r.join("caseDetention");
+                final Join<Meeting, Imputed> joinMeIm = r.join("imputed");
+                final Join<Meeting, StatusMeeting> joinMeSt = r.join("status", JoinType.LEFT);
+                final Join<Verification, StatusVerification> joinVer = joinMeCa.join("verification", JoinType.LEFT);
+                final Join<Verification, StatusVerification> joinVeSt = joinVer.join("status", JoinType.LEFT);
+                final Join<Meeting, TechnicalReview> joinTR = joinMeCa.join("technicalReview", JoinType.LEFT);
+                final Join<Meeting, User> joinUsr = r.join("reviewer", JoinType.INNER);
+
+                ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
                     add(joinMeCa.get("id"));
+                    add(joinVer.get("id"));
                     add(joinMeCa.get("idFolder"));
                     add(joinMeIm.get("name"));
                     add(joinMeIm.get("lastNameP"));
@@ -74,6 +81,7 @@ public class CaseEvaluationController {
                     add(joinMeSt.get("name").alias("statusMeeting"));
                     add(joinVeSt.get("name").alias("statusVerification"));
                     add(joinTR.get("id").alias("idTec"));
+                    add(joinUsr.get("fullname"));
                 }};
 
                 return result;
@@ -81,7 +89,7 @@ public class CaseEvaluationController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("idFolder"))
+                if (field.equals("idFolder"))
                     return r.join("caseDetention").get("idFolder");
 
                 return null;

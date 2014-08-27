@@ -42,4 +42,6 @@ public interface InsertCatalogService {
 
     void fileType();
     void systemSettings();
+
+    void requestType();
 }

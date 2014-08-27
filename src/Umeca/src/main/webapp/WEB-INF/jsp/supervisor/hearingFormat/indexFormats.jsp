@@ -23,17 +23,30 @@
 
     <script>
 
+        var returnId = '${returnId}';
+
+        if (returnId == null || returnId == undefined || returnId.trim() == "")
+            returnId = 0;
+
+        var urlManagersup = '<c:url value='/supervisor/showCaseSupervision/index.html'/>';
+
         returnHearing = function (url) {
-            window.goToUrlMvcUrl(url);
+
+            if (returnId > 0)
+                window.goToUrlMvcUrl(urlManagersup);
+            else
+                window.goToUrlMvcUrl(url);
         };
 
         addHearingFormat = function () {
-            var goTo = "<c:url value='/supervisor/hearingFormat/newHearingFormat.html'/>" + "?idCase=" + ${idCase};
-            window.goToUrlMvcUrl(goTo);
+            if (!returnId > 0) {
+                var goTo = "<c:url value='/supervisor/hearingFormat/newHearingFormat.html'/>" + "?idCase=" + ${idCase};
+                window.goToUrlMvcUrl(goTo);
+            }
         };
 
         viewHearingFormat = function (id) {
-            var goTo = "<c:url value='/supervisor/hearingFormat/viewHearingFormat.html'/>" + "?idFormat=" + id;
+            var goTo = "<c:url value='/supervisor/hearingFormat/viewHearingFormat.html'/>" + "?idFormat=" + id + "&returnId=" + returnId;
             window.goToUrlMvcUrl(goTo);
         };
 
@@ -44,9 +57,9 @@
                 url: '<c:url value='/supervisor/hearingFormat/listFormats.json' />' + '?id=' +${idCase},
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Carpeta <br/>de Investigaci&oacute;n' , 'Carpeta Judicial', 'Nombre completo', 'Fecha de registro','Supervisor','Audiencia', 'Ampliaci&oacute;n <br/>de plazo', 'Vinculaci&oacute;n <br/>a proceso', 'Acci&oacute;n'],
+                colNames: ['ID', 'Carpeta <br/>de Investigaci&oacute;n' , 'Carpeta Judicial', 'Nombre completo', 'Fecha de registro', 'Supervisor', 'Audiencia', 'Ampliaci&oacute;n <br/>de plazo', 'Vinculaci&oacute;n <br/>a proceso', 'Acci&oacute;n'],
                 colModel: [
-                    { name: 'id', index: 'id', hidden: true,sortable: false, search: false },
+                    { name: 'id', index: 'id', hidden: true, sortable: false, search: false },
                     { name: 'idFolder', index: 'idFolder', width: 150, align: "center", sortable: false, search: false },
                     { name: 'idMP', index: 'idMP', width: 150, align: "center", sortable: false, search: false },
                     { name: 'fullName', index: 'fullName', width: 200, align: "center", sortable: false, search: false },
@@ -73,7 +86,7 @@
                     for (var i = 0; i < ids.length; i++) {
 
                         var cl = ids[i];
-                        var be="";
+                        var be = "";
 
                         be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formato de audiencia\" onclick=\"viewHearingFormat(   '" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
@@ -105,7 +118,7 @@
 
                         onClickButton: function () {
                             try {
-                                $("#GridId").jqGrid('toExcelFile',{nombre:"datosXls",formato:"excel"});
+                                $("#GridId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                             } catch (e) {
                             }
                         }});

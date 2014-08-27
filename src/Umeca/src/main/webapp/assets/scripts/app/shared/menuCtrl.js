@@ -57,7 +57,7 @@
         if($scope.hasUser && $scope.counterReqAjax <  $scope.secondToMessage && ! $scope.bandMessageShow){
             $scope.Message = $sce.trustAsHtml($scope.templateMessage.replace("{time}",$scope.calculateTimeShow()));
             $scope.$apply();
-            $("#ConfirmBoxDialog").modal("show");
+            $("#ConfirmBoxDialogSession").modal("show");
             $scope.bandMessageShow =true;
             setTimeout( function(){
                 var settings = {
@@ -84,7 +84,7 @@
                 };
 
                 $.ajax(settings);
-            }, ($scope.secondToMessage * 1000)+1000);
+            }, (($scope.secondToMessage * 1000)+1000));
 
             setInterval( function(){
                 if($scope.bandMessageShow){
@@ -98,7 +98,7 @@
     $scope.continueSession = function (){
         $scope.bandMessageShow = false;
 
-        $("#ConfirmBoxDialog").modal("hide");
+        $("#ConfirmBoxDialogSession").modal("hide");
         var settings = {
             dataType: "json",
             type: "POST",

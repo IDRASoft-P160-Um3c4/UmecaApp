@@ -12,10 +12,14 @@ import com.umeca.model.ResponseUniqueMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.account.UserUnique;
 import com.umeca.model.entities.account.UserView;
-import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.FieldMeetingSource;
+import com.umeca.model.entities.reviewer.View.Section;
+import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -238,9 +242,10 @@ public class UserController {
     }
 
 
-
     @Autowired
     CaseRepository caseRepository;
+    @Autowired
+    FieldMeetingSourceRepository fieldMeetingSourceRepository;
 
     @RequestMapping(value = "/management/user/jxls", method = RequestMethod.GET)
     public
@@ -253,13 +258,152 @@ public class UserController {
 
         try {
 
-            List<Case> listCases = caseRepository.findAll();
+            //TODO agregar consulta de los reportes que obtenga los id's
+
+            //TODO agreggar a la consulta de getInfoCases el parametro de la lista de id´s obtenida anteriormente
+            List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases();
+
+            List<Long> casesIds = new ArrayList<>();
+
+            for (ExcelCaseInfoDto act : listCases) {
+                casesIds.add(act.getIdCase());
+            }
+
+            //TODO sustituir casesIds por lista de ids obtenida en consulta
+            List<ExcelActivitiesDto> lstActivities = caseRepository.getInfoImputedActivities(casesIds);
+            List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomes(casesIds);
+            List<ExcelSocialNetworkDto> lstSN = caseRepository.getInfoSocialNetwork(casesIds);
+            List<ExcelReferenceDto> lstRef = caseRepository.getInfoReference(casesIds);
+            List<ExcelJobDto> lstJob = caseRepository.getInfoJobs(casesIds);
+            List<ExcelDrugDto> lstDrug = caseRepository.getInfoDrugs(casesIds);
+            List<ExcelCrimeDto> lstCrimes = caseRepository.getInfoCrimes(casesIds);
+            List<ExcelCoDefDto> lstCoDef = caseRepository.getInfoCoDef(casesIds);
+            List<ExcelTecRevSelQuestDto> lstSelQuest = caseRepository.getInfoTecRevSelQuest(casesIds);
+            List<ExcelVerificationDto> lstVerif = caseRepository.getInfoVerification(casesIds);
+            String template = "{0}: {1} \n";
+            for(ExcelVerificationDto evdto : lstVerif){
+                for(int i=0; i< Constants.NAMES_MEETING.length;i++) {
+                    String finalString = "";
+                    List<FieldMeetingSource> fieldMeetingSources = fieldMeetingSourceRepository.getFieldMeetingBySource(evdto.getIdCase(), evdto.getIdSource(), Constants.ST_FIELD_VERIF_UNABLE,(i+1));
+                    if(fieldMeetingSources!=null && fieldMeetingSources.size()>0) {
+                        for (FieldMeetingSource fms : fieldMeetingSources) {
+                            String aux =  template.replace("{0}",fms.getFieldVerification().getFieldName());
+                            aux = aux.replace("{1}",fms.getValue());
+                            finalString = finalString + aux;
+                        }
+                    }
+                    switch (i){
+                        case 0:
+                            evdto.setPersonalData(finalString);
+                            break;
+                        case 1:
+                            evdto.setImputedHome(finalString);
+                            break;
+                        case 2:
+                            evdto.setSocialNetwork(finalString);
+                            break;
+                        case 3:
+                            evdto.setReference(finalString);
+                            break;
+                        case 4:
+                            evdto.setJob(finalString);
+                            break;
+                        case 5:
+                            evdto.setSchool(finalString);
+                            break;
+                        case 6:
+                            evdto.setDrug(finalString);
+                            break;
+                        case 7:
+                            evdto.setLeaveCountry(finalString);
+                            break;
+                    }
+                }
+
+            }
+
+            for (ExcelCaseInfoDto cAct : listCases) {
+
+                List<ExcelActivitiesDto> acts = new ArrayList<>();
+                for (ExcelActivitiesDto aAct : lstActivities) {
+                    if (aAct.getIdCase() == cAct.getIdCase()) {
+                        acts.add(aAct);
+                    }
+                }
+                cAct.setLstActivities(acts);
+
+                List<ExcelImputedHomeDto> lstImHome = new ArrayList<>();
+                for (ExcelImputedHomeDto hAct : lstHomes) {
+                    if (hAct.getIdCase() == cAct.getIdCase()) {
+                        lstImHome.add(hAct);
+                    }
+                }
+                cAct.setLstHomes(lstImHome);
+
+                List<ExcelSocialNetworkDto> lstCSN = new ArrayList<>();
+                for (ExcelSocialNetworkDto snAct : lstSN) {
+                    if (snAct.getIdCase() == cAct.getIdCase()) {
+                        lstCSN.add(snAct);
+                    }
+                }
+                cAct.setLstSN(lstCSN);
+
+                List<ExcelReferenceDto> lstR = new ArrayList<>();
+                for (ExcelReferenceDto rAct : lstRef) {
+                    if (rAct.getIdCase() == cAct.getIdCase()) {
+                        lstR.add(rAct);
+                    }
+                }
+                cAct.setLstRef(lstR);
+
+                List<ExcelJobDto> lstJ = new ArrayList<>();
+                for (ExcelJobDto jAct : lstJob) {
+                    if (jAct.getIdCase() == cAct.getIdCase()) {
+                        lstJ.add(jAct);
+                    }
+                }
+                cAct.setLstJob(lstJ);
+
+                List<ExcelDrugDto> lstD = new ArrayList<>();
+                for (ExcelDrugDto dAct : lstDrug) {
+                    if (dAct.getIdCase() == cAct.getIdCase()) {
+                        lstD.add(dAct);
+                    }
+                }
+                cAct.setLstDrug(lstD);
+
+                List<ExcelCrimeDto> lstCr = new ArrayList<>();
+                for (ExcelCrimeDto crAct : lstCrimes) {
+                    if (crAct.getIdCase() == cAct.getIdCase()) {
+                        lstCr.add(crAct);
+                    }
+                }
+                cAct.setLstCrimes(lstCr);
+
+                List<ExcelCoDefDto> lstCo = new ArrayList<>();
+                for (ExcelCoDefDto coAct : lstCoDef) {
+                    if (coAct.getIdCase() == cAct.getIdCase()) {
+                        lstCo.add(coAct);
+                    }
+                }
+                cAct.setLstCoDef(lstCo);
+
+                List<ExcelTecRevSelQuestDto> lstQu = new ArrayList<>();
+                for (ExcelTecRevSelQuestDto quAct : lstSelQuest) {
+                    if (quAct.getIdCase() == cAct.getIdCase()) {
+                        lstQu.add(quAct);
+                    }
+                }
+                cAct.setLstSelQuest(lstQu);
+            }
+
             beans.put("listCases", listCases);
 
+            beans.put("listCasesV", lstVerif);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             beans.put("dateFormat", dateFormat);
 
-            ExcelConv excelConv= new ExcelConv();
+            ExcelConv excelConv = new ExcelConv();
             beans.put("excelConv", excelConv);
 
             UUID uid = UUID.randomUUID();

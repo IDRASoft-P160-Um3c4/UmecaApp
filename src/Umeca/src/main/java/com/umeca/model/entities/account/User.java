@@ -1,5 +1,7 @@
 package com.umeca.model.entities.account;
 
+import com.umeca.model.entities.shared.Message;
+import com.umeca.model.entities.shared.RelMessageUserReceiver;
 import com.umeca.model.shared.EntityGrid;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -51,6 +53,13 @@ public class User implements EntityGrid {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="user_role", joinColumns ={@JoinColumn(name = "id_user")}, inverseJoinColumns = {@JoinColumn(name = "id_role")})
     private List<Role> roles;
+
+    @OneToMany (mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RelMessageUserReceiver> messageUserReceivers;
+
+    @OneToMany(mappedBy="sender", cascade={CascadeType.ALL})
+    private List<Message> messagesSent;
+
 
     public User(){
 
@@ -131,5 +140,21 @@ public class User implements EntityGrid {
 
     public void setHasChangePass(Boolean hasChangePass) {
         this.hasChangePass = hasChangePass;
+    }
+
+    public List<RelMessageUserReceiver> getMessageUserReceivers() {
+        return messageUserReceivers;
+    }
+
+    public void setMessageUserReceivers(List<RelMessageUserReceiver> messageUserReceivers) {
+        this.messageUserReceivers = messageUserReceivers;
+    }
+
+    public List<Message> getMessagesSent() {
+        return messagesSent;
+    }
+
+    public void setMessagesSent(List<Message> messagesSent) {
+        this.messagesSent = messagesSent;
     }
 }

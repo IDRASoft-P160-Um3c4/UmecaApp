@@ -298,7 +298,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if ($(formId).valid() == false || stVal == false) {
                 $scope.Invalid = true;
-                $scope.MsgError= $sce.trustAsHtml("No es posible guardar. Debe proporcionar toda la informaci&oacute;n requerida.");
+                $scope.MsgError = $sce.trustAsHtml("No es posible guardar. Debe proporcionar toda la informaci&oacute;n requerida.");
                 return false;
             }
 
@@ -390,7 +390,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 var dtBthObj;
 
                 if (arrBth.length > 0)
-                    dtBthObj = new Date(parseInt(arrBth[0]), parseInt(arrBth[1]) - 1,parseInt(arrBth[2]));
+                    dtBthObj = new Date(parseInt(arrBth[0]), parseInt(arrBth[1]) - 1, parseInt(arrBth[2]));
                 else
                     dtBthObj = new Date($scope.m.impBthDay);
 
@@ -453,6 +453,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.init();
         }, 0);
 
+        $scope.returnUrlId = function () {
+            var urlRet = $('#urlRet').attr("value");
+            window.goToUrlMvcUrl(urlRet);
+        }
+        ;
     }
 )
 ;

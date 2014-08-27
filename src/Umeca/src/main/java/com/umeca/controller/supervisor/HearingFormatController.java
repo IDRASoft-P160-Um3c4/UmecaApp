@@ -6,8 +6,6 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.catalog.State;
-import com.umeca.model.catalog.dto.StateDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
@@ -17,19 +15,15 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
-import com.umeca.repository.catalog.ArrangementRepository;
-import com.umeca.repository.catalog.RegisterTypeRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.HearingFormatTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
-import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -76,6 +70,7 @@ public class HearingFormatController {
     @ResponseBody
     JqGridResultModel listCases(@ModelAttribute JqGridFilterModel opts) {
 
+
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{
@@ -83,6 +78,7 @@ public class HearingFormatController {
                     add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
+                    add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
                     add(Constants.CASE_STATUS_FRAMING_COMPLETE);
 
                 }}, JqGridFilterModel.COMPARE_IN
@@ -111,14 +107,11 @@ public class HearingFormatController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
                     return r.get("idFolder");
-                else
-                if (field.equals("idMP"))
+                else if (field.equals("idMP"))
                     return r.get("idMP");
-                else
-                if (field.equals("statusName"))
+                else if (field.equals("statusName"))
                     return r.join("status").get("name");
-                else
-                if(field.equals("fullName"))
+                else if (field.equals("fullName"))
                     return r.join("meeting").join("imputed").get("name");
                 return null;
             }
@@ -183,11 +176,12 @@ public class HearingFormatController {
     }
 
     @RequestMapping(value = "/supervisor/hearingFormat/indexFormats", method = RequestMethod.GET)
-    public ModelAndView indexFormats(@RequestParam(required = true) Long id) {
+    public ModelAndView indexFormats(@RequestParam(required = true) Long id, Integer returnId) {
 
         ModelAndView model = new ModelAndView("/supervisor/hearingFormat/indexFormats");
 
         model.addObject("idCase", id);
+        model.addObject("returnId", returnId);
         return model;
     }
 
@@ -199,8 +193,8 @@ public class HearingFormatController {
         if (caseRepository.findOne(idCase).getStatus().getName().equals(Constants.CASE_STATUS_PRE_CLOSED)) {
             model.setViewName("/supervisor/hearingFormat/indexFormats");
             model.addObject("idCase", idCase);
-            model.addObject("showErr",true);
-            model.addObject("msgError","No es posible agregar mas formatos, el caso se encuentra pre-cerrado.");
+            model.addObject("showErr", true);
+            model.addObject("msgError", "No es posible agregar mas formatos, el caso se encuentra pre-cerrado.");
 
         } else {
             model.setViewName("/supervisor/hearingFormat/hearingFormat");
@@ -223,15 +217,15 @@ public class HearingFormatController {
 
 
     @RequestMapping(value = "/supervisor/hearingFormat/viewHearingFormat", method = RequestMethod.GET)
-    public ModelAndView viewHearingFormat(@RequestParam(required = true) Long idFormat) {
+    public ModelAndView viewHearingFormat(@RequestParam(required = true) Long idFormat, Integer returnId) {
 
         ModelAndView model = new ModelAndView("/supervisor/hearingFormat/hearingFormat");
 
-        HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat,false);
+        HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat, false);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
+        model.addObject("returnId", conv.toJson(returnId));
         addressService.fillCatalogAddress(model);
-        //model.addObject("listState", conv.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
 
         if (hfView.getIdAddres() != null)
             addressService.fillModelAddress(model, hfView.getIdAddres());

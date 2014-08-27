@@ -8,6 +8,7 @@ import com.umeca.model.shared.EntityGrid;
  */
 public class CaseEvaluationView implements EntityGrid {
     private Long id;
+    private Long idVerif;
     private String idFolder;
     private String name;
     private String lastNameP;
@@ -18,9 +19,17 @@ public class CaseEvaluationView implements EntityGrid {
     private String fullname;
     private String statusString;
     private Integer status;
+    private String userName;
 
-    public CaseEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, Long idTec) {
+    private Long idHF;
+    private Long idFM;
+    private Long idMonP;
+    private Boolean fmTerminated;
+
+
+    public CaseEvaluationView(Long id, Long idVerif, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, Long idTec, String userName) {
         this.id = id;
+        this.idVerif = idVerif;
         this.idFolder = idFolder;
         this.name = name;
         this.lastNameP = lastNameP;
@@ -28,28 +37,42 @@ public class CaseEvaluationView implements EntityGrid {
         this.statusMeeting = statusMeeting;
         this.statusVerification = statusVerification;
         this.idTec = idTec;
-        this.fullname = this.name+" "+this.lastNameP+" "+this.lastNameM;
+        this.fullname = this.name + " " + this.lastNameP + " " + this.lastNameM;
+        this.userName = userName;
         status = 0;
-        if(statusMeeting.equals(Constants.S_MEETING_INCOMPLETE)){
-            statusString ="Entrevista de riesgos procesales incompleta";
-        }else {
-            if(statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)){
+        if (statusMeeting.equals(Constants.S_MEETING_INCOMPLETE)) {
+            statusString = "Entrevista de riesgos procesales incompleta";
+        } else {
+            if (statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)) {
                 status++;
                 statusString = "Por agregar informaci&oacute;n legal";
-            }else if(statusMeeting.equals(Constants.S_MEETING_COMPLETE)){
-                status+=2;
+            } else if (statusMeeting.equals(Constants.S_MEETING_COMPLETE)) {
+                status += 2;
                 statusString = "Entrevista completa";
             }
-            if(statusVerification!=null && statusVerification.equals(Constants.VERIFICATION_STATUS_COMPLETE)){
+            if (statusVerification != null && statusVerification.equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
                 statusString = "Verificaci&oacute;n  terminada";
                 status++;
             }
-            if(idTec!=null){
-                statusString = "Opini&oacute;n técnica terminada";
+            if (idTec != null) {
+                statusString = "Opini&oacute;n t&eacute;cnica terminada";
                 status++;
             }
         }
+    }
 
+    public CaseEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, Long idFM, Long idHF, Long idMonP, Long idTec, Boolean fmTerminated) {
+        this.id = id;
+        this.idFolder = idFolder;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.idFM = idFM;
+        this.idHF = idHF;
+        this.idMonP = idMonP;
+        this.fullname = this.name + " " + this.lastNameP + " " + this.lastNameM;
+        this.idTec = idTec;
+        this.fmTerminated = fmTerminated;
     }
 
     public Long getId() {
@@ -138,5 +161,53 @@ public class CaseEvaluationView implements EntityGrid {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getIdVerif() {
+        return idVerif;
+    }
+
+    public void setIdVerif(Long idVerif) {
+        this.idVerif = idVerif;
+    }
+
+    public Long getIdHF() {
+        return idHF;
+    }
+
+    public void setIdHF(Long idHF) {
+        this.idHF = idHF;
+    }
+
+    public Long getIdFM() {
+        return idFM;
+    }
+
+    public void setIdFM(Long idFM) {
+        this.idFM = idFM;
+    }
+
+    public Long getIdMonP() {
+        return idMonP;
+    }
+
+    public void setIdMonP(Long idMonP) {
+        this.idMonP = idMonP;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Boolean getFmTerminated() {
+        return fmTerminated;
+    }
+
+    public void setFmTerminated(Boolean fmTerminated) {
+        this.fmTerminated = fmTerminated;
     }
 }
