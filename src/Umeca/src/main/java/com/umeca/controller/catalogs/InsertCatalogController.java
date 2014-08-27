@@ -244,6 +244,9 @@ public class InsertCatalogController {
         service.framingRisk();
         service.framingThreat();
         service.homeType();
+        service.fileType();
+        service.systemSettings();
+        service.requestType();
         return "insertCatalog OK!!";
     }
 }

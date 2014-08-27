@@ -7,6 +7,7 @@ import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.VerificationMethod;
+import com.umeca.model.entities.shared.SystemSetting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
@@ -14,7 +15,9 @@ import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.VerificationRepository;
+import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
+import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -608,4 +611,56 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         }
         verificationMethodRepository.flush();
     }
+
+    @Autowired
+    RequestTypeRepository requestTypeRepository;
+    @Override
+    public void requestType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "request_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            RequestType model = new RequestType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            requestTypeRepository.save(model);
+        }
+        requestTypeRepository.flush();
+    }
+
+
+    @Autowired
+    SystemSettingRepository systemSettingRepository;
+    @Override
+    public void systemSettings() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "system_settings.txt", "\\|", 5);
+        for (String[] data : lstDta) {
+            SystemSetting model = new SystemSetting();
+            model.setId(Long.parseLong(data[0]));
+            model.setGroup(data[1]);
+            model.setKey(data[2]);
+            model.setValue(data[3]);
+            model.setDescription(data[4]);
+            systemSettingRepository.save(model);
+        }
+        systemSettingRepository.flush();
+    }
+
+
+    @Autowired
+    CatFileTypeRepository fileTypeRepository;
+    @Override
+    public void fileType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "file_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            CatFileType model = new CatFileType();
+            model.setId(Long.parseLong(data[0]));
+            model.setFileType(data[1]);
+            model.setDescription(data[2]);
+            model.setObsolete(data[3].equals("1"));
+            fileTypeRepository.save(model);
+        }
+        fileTypeRepository.flush();
+    }
+
 }
