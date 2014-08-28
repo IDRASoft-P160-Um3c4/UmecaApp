@@ -35,7 +35,6 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where i.name=:name and i.lastNameP = :lastNameP and i.lastNameM = :lastNameM and c.id <> :idCase")
     List<FindLegalBefore> findLegalBefore(@Param("idCase") Long id, @Param("name") String name, @Param("lastNameP") String lastNameP, @Param("lastNameM") String lastNameM);
 
-
     //obtengo los meeting_incomplete y los incomplete_legal
     @Query("select  new com.umeca.model.entities.reviewer.dto.LogNotificationDto(c.idFolder,concat(imp.name,' ',imp.lastNameP,' ',imp.lastNameM),sm.name,m.dateCreate) from Case as c " +
             "INNER JOIN c.status as stc " +
@@ -307,5 +306,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "WHERE CDET.id in (:listCaseId) and sv.isAuthorized = true " +
             "order by CDET.dateCreate")
     List<ExcelVerificationDto> getInfoVerification(@Param("listCaseId") List<Long> listCaseId);
+
+
 
 }

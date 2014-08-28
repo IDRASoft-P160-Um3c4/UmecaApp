@@ -119,13 +119,39 @@ app.controller('proceedingLegalController', function($scope, $timeout) {
             }
             $scope.$apply();
         } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente m√°s tarde.";
+            $scope.MsgError = "Error inesperado de datos. Por favor intente m·s tarde.";
         }
     };
 
     $scope.handleError = function () {
         $scope.WaitFor = false;
-        $scope.MsgError = "Error de red. Por favor intente m√°s tarde.";
+        $scope.MsgError = "Error de red. Por favor intente m·s tarde.";
+        $scope.$apply();
+    };
+
+    $scope.searchPreviousCase = function (){
+            var data ={};
+            data.sName =$scope.sName;
+            data.sLastNameP = $scope.sLastNameP;
+            data.sLastNameM = $scope.sLastNameM;
+            data.idCase= $scope.idCase;
+            $.post($scope.urlSearchPreviousCase,data)
+                .success($scope.handleSuccessFindPrevious)
+                .error($scope.handleErrorFindPrevious);
+    };
+
+    $scope.handleSuccessFindPrevious = function (resp){
+        $scope.listLegalBefore = JSON.parse(resp.message);
+        if($scope.listLegalBefore.length == 0){
+            $scope.sNameS = $scope.sName;
+            $scope.sLastNamePS = $scope.sLastNameP;
+            $scope.sLastNameMS = $scope.sLastNameM;
+        }
+        $scope.$apply();
+    };
+
+    $scope.handleErrorFindPrevious = function(resp){
+       $scope.msgErrorFind = "Error de red. Favor de intentarlo mas tarde"
         $scope.$apply();
     };
 

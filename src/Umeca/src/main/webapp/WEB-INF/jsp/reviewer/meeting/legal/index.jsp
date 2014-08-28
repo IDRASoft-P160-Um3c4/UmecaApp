@@ -36,7 +36,7 @@
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos procesales</h2>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
     <div ng-controller="proceedingLegalController">
-    <div class="row" ng-init="managereval = ${managereval}">
+    <div class="row" ng-init="managereval = ${managereval}; idCase = ${idCase};">
         <div class="col-sm-12">
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs" id="tabMeeting">
@@ -140,7 +140,7 @@
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submit('#FormCurrentLegalId,#FormPreviousLegalId','<c:url value="/reviewer/meeting/saveProceedingLegal.json?idCase=${idCase}"/>');">
-                          Guardar
+                          Terminar
                     </span>
         </div>
     </div>
