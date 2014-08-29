@@ -12,63 +12,21 @@ public class ResponseRequestView implements EntityGrid {
     private String name;
     private String lastNameP;
     private String lastNameM;
-    private String statusMeeting;
-    private String statusVerification;
-    private String statusCase;
+    private String typeRequest;
     private String fullName;
-    private String statusString;
-    private String status;
-    private String description;
+    private String fullNameUser;
+    private String responseType;
 
-    /*codigos de evaluacion
-     A= edit meeting
-     B=edit legal information
-     C=change status source
-     D= edit technical review
-     E = delete meeting(obsolete)
-    */
-    public ResponseRequestView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, String statusCase) {
+    public ResponseRequestView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String typeRequest, String fullNameUser, String responseType) {
         this.id = id;
         this.idFolder = idFolder;
         this.name = name;
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
-        this.statusMeeting = statusMeeting;
-        this.statusVerification = statusVerification;
-        this.fullName = this.name+" "+this.lastNameP+" "+this.lastNameM;
-        this.statusCase = statusCase;
-
-        if(this.statusCase.equals(Constants.CASE_STATUS_MEETING)){
-            if(this.statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)){
-                description="Por agregar infromaci&oacute;n legal";
-                status+= ".A.";
-            }
-        }else if(this.statusCase.equals(Constants.CASE_STATUS_SOURCE_VALIDATION)){
-            description="Autorizaci&oacute; de fuentes pendiente";
-            status+= ".A.";
-            status+=".B.";
-        }
-        else if(this.statusCase.equals(Constants.CASE_STATUS_VERIFICATION)) {
-            if(this.statusVerification.equals(Constants.VERIFICATION_STATUS_NEW_SOURCE)){
-                description="Autorizaci&oacute; de fuentes pendiente";
-                status+=".A..B.";
-            }
-            if(this.statusVerification.equals(Constants.VERIFICATION_STATUS_AUTHORIZED)){
-                description="En verificaci&oacute;n";
-                status +=".C.";
-            }
-        }else if(this.statusCase.equals(Constants.CASE_STATUS_TECHNICAL_REVIEW)){
-            description="Con opini&oacute;n t&eacute;cnica generada";
-            status +=".D.";
-        }
-        if(this.statusCase.equals(Constants.CASE_STATUS_REQUEST)){
-            description="Pendiente por autorizaci&oacute;n";
-            status +=".F.";
-        }else{
-            status = ".E.";
-            description="Entrevista de riesgos procesales incompleta";
-        }
-
+        this.typeRequest = typeRequest;
+        this.fullNameUser=fullNameUser;
+        this.fullName = name + " " + lastNameP + " "+ lastNameM;
+        this.responseType = responseType;
     }
 
     public Long getId() {
@@ -111,28 +69,12 @@ public class ResponseRequestView implements EntityGrid {
         this.lastNameM = lastNameM;
     }
 
-    public String getStatusMeeting() {
-        return statusMeeting;
+    public String getTypeRequest() {
+        return typeRequest;
     }
 
-    public void setStatusMeeting(String statusMeeting) {
-        this.statusMeeting = statusMeeting;
-    }
-
-    public String getStatusVerification() {
-        return statusVerification;
-    }
-
-    public void setStatusVerification(String statusVerification) {
-        this.statusVerification = statusVerification;
-    }
-
-    public String getStatusCase() {
-        return statusCase;
-    }
-
-    public void setStatusCase(String statusCase) {
-        this.statusCase = statusCase;
+    public void setTypeRequest(String typeRequest) {
+        this.typeRequest = typeRequest;
     }
 
     public String getFullName() {
@@ -143,27 +85,19 @@ public class ResponseRequestView implements EntityGrid {
         this.fullName = fullName;
     }
 
-    public String getStatusString() {
-        return statusString;
+    public String getFullNameUser() {
+        return fullNameUser;
     }
 
-    public void setStatusString(String statusString) {
-        this.statusString = statusString;
+    public void setFullNameUser(String fullNameUser) {
+        this.fullNameUser = fullNameUser;
     }
 
-    public String getStatus() {
-        return status;
+    public String getResponseType() {
+        return responseType;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setResponseType(String responseType) {
+        this.responseType = responseType;
     }
 }

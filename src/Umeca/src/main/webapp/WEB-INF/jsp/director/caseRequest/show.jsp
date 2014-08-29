@@ -100,7 +100,7 @@
         </div>
     </div>
 
-    <%@ include file="/WEB-INF/jsp/shared/sharedSvc     .jsp" %>
+    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
     <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>
 

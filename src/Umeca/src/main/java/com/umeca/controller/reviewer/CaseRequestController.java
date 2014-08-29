@@ -26,6 +26,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.RequestTypeRepository;
+import com.umeca.repository.catalog.ResponseTypeRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.shared.MessageRepository;
@@ -74,8 +75,6 @@ public class CaseRequestController {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
-
-        opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter2 = new JqGridRulesModel("statusCase",
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_MEETING);
@@ -177,7 +176,8 @@ public class CaseRequestController {
     SharedUserService sharedUserService;
     @Autowired
     StatusCaseRepository statusCaseRepository;
-
+    @Autowired
+    ResponseTypeRepository responseTypeRepository;
 
     @RequestMapping(value = "/reviewer/caseRequest/doMakeRequest", method = RequestMethod.POST)
     public
@@ -235,6 +235,7 @@ public class CaseRequestController {
                     }
                     caseRequest.setSources(sourcesSelected);
                 }
+                caseRequest.setResponseType(responseTypeRepository.findByCode(Constants.RESPONSE_TYPE_PENDING));
                 caseRequestRepository.save(caseRequest);
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_REQUEST));
                  qCaseRepository.save(c);

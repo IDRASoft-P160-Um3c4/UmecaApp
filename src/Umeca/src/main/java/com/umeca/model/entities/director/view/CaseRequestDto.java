@@ -22,6 +22,7 @@ public class CaseRequestDto {
     String dateResponseString;
     String userRequest;
     String userResponse;
+    String response;
 
     public CaseRequestDto() {
     }
@@ -33,7 +34,7 @@ public class CaseRequestDto {
                           Date dateRequest,
                           Date dateResponse,
                           String userRequest,
-                          String userResponse) {
+                          String userResponse, String response) {
         this.status = status;
         this.typeRequest = typeRequest;
         this.messageRequest = messageRequest;
@@ -46,6 +47,7 @@ public class CaseRequestDto {
         }
         this.userRequest = userRequest;
         this.userResponse = userResponse;
+        this.response = response;
     }
 
     public String getStatus() {
@@ -129,5 +131,11 @@ public class CaseRequestDto {
         this.userResponse = userResponse;
     }
 
+    public String getResponse() {
+        return response;
+    }
 
+    public void setResponse(String response) {
+        this.response = response;
+    }
 }

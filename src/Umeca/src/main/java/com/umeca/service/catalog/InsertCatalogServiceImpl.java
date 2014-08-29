@@ -670,4 +670,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         fileTypeRepository.flush();
     }
 
+
+     @Autowired
+    ResponseTypeRepository responseTypeRepository;
+    @Override
+    public void responseType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "response_type.txt", "\\|", 3);
+        for (String[] data : lstDta) {
+            ResponseType model = new ResponseType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            responseTypeRepository.save(model);
+        }
+        responseTypeRepository.flush();
+    }
+
 }

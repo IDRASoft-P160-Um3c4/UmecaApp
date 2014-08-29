@@ -305,7 +305,7 @@ public class MeetingServiceImpl implements MeetingService {
             if(ccp.getRelationshipVictim()!=null){
                 model.addObject("relId",ccp.getRelationshipVictim().getId());
             }
-            model.addObject("haveCoDependant", ccp.getBehaviorDetention());
+            model.addObject("behaviorDetention", ccp.getBehaviorDetention());
             model.addObject("placeDetention",ccp.getPlaceDetention());
         }
         PreviousCriminalProceeding pcp = c.getMeeting().getPreviousCriminalProceeding();
@@ -1014,7 +1014,7 @@ public class MeetingServiceImpl implements MeetingService {
         Case c = caseRepository.findOne(cpv.getIdCase());
         refreshPreviousProceeding(cpv, c);
         caseRepository.save(c);
-            return new ResponseMessage(false, "Guardado exitoso");
+            return new ResponseMessage(false, "Guardado exitoso","previous");
         }catch (Exception e){
             logException.Write(e, this.getClass(), "savePartialPrevious", userService);
             return new ResponseMessage(true,"Ha ocurrido un error al actualizar los datos");
@@ -1028,7 +1028,7 @@ public class MeetingServiceImpl implements MeetingService {
             Case c = caseRepository.findOne(cpv.getIdCase());
             refreshCurrentProceeding(cpv, c);
             caseRepository.save(c);
-            return new ResponseMessage(false, "Guardado exitoso");
+            return new ResponseMessage(false, "Guardado exitoso", "current");
         }catch (Exception e){
             logException.Write(e, this.getClass(), "savePartialPrevious", userService);
             return new ResponseMessage(true,"Ha ocurrido un error al actualizar los datos");
@@ -1065,6 +1065,7 @@ public class MeetingServiceImpl implements MeetingService {
             //verificationRepository.save(c.getVerification());
             //c.getVerification().setSourceVerifications(verificationService.convertAllInitSourcesVerif(c));
             result.setHasError(false);
+            result.setTitle("redirect");
             result.setMessage("Entrevista terminada con exito");
             result.setUrlToGo("/index.html");
         } catch (Exception e) {
@@ -1102,7 +1103,7 @@ public class MeetingServiceImpl implements MeetingService {
         List<String> messageError = new ArrayList<>();
         if (cpv.getListCrime().trim().equals(""))
             current.add("Debe agregar al menos un delito.");
-        if (cpv.getHaveCoDEfendant() && cpv.getListCoDefendant().trim().equals(""))
+        if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
             current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
         if (cpv.getPlaceDetention().trim().equals(""))
             current.add(v.template.replace(e, "El lugar de detención"));

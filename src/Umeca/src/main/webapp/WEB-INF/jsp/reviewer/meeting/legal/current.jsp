@@ -5,6 +5,12 @@
             <h2><i class="green  icon-legal  bigger-150"></i> &nbsp;Proceso actual</h2>
         </div>
         <br/>
+        <div class="row">
+            <div ng-show="msgExitoCurrent" class="alert alert-success element-center success-font">
+            {{msgExitoCurrent}}
+            </div>
+        </div>
+        <br/>
 
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/crime.jsp" %>
 
@@ -12,9 +18,8 @@
                               <br/>
         <div class="widget-box">
             <div class="widget-header">
-
-                <input type="hidden" ng-update-hidden ng-model="haveCoDependant" ng-init="haveCoDependant = ${haveCoDependant==null ? false: haveCoDependant};" name='haveCoDEfendant'>
-                <h5>&nbsp;<input type="checkbox" ng-model="haveCoDependant" ng-init="haveCoDependant = false">&nbsp;Detenci&oacute;n de coimputados</h5>
+                <input type="hidden" ng-update-hidden ng-model="haveCoDependant" ng-init="haveCoDependant = ${haveCoDependant==null? false: haveCoDependant};" name='haveCoDependant'>
+                <h5>&nbsp;<input type="checkbox" ng-model="haveCoDependant">&nbsp;Detenci&oacute;n de coimputados</h5>
             </div>
             <div class="widget-body" ng-show="haveCoDependant == true">
                 <div class="row">

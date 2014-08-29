@@ -213,6 +213,13 @@ public class InsertCatalogController {
         return "Request type OK!";
     }
 
+
+    @RequestMapping(value = "/catalogs/responseType", method = RequestMethod.GET)
+    public String responseType(){
+        service.responseType();
+        return "Response type OK!";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
@@ -247,6 +254,7 @@ public class InsertCatalogController {
         service.fileType();
         service.systemSettings();
         service.requestType();
+        service.responseType();
         return "insertCatalog OK!!";
     }
 }

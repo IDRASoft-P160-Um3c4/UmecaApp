@@ -5,6 +5,12 @@
                 <h2><i class="gray  icon-legal  bigger-150"></i> &nbsp;Procesos anteriores</h2>
             </div>
             <br/>
+            <div class="row">
+                <div ng-show="msgExitoPrevious" class="alert alert-success element-center success-font">
+                    {{msgExitoPrevious}}
+                </div>
+            </div>
+            <br/>
 
             <div class="row">
                 <div class="col-xs-4">

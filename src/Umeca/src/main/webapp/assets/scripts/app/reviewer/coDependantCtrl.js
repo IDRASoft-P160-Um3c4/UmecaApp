@@ -16,6 +16,7 @@ app.controller('coDependantController', function($scope, $timeout) {
             $scope.c.rel = $scope.listRelationship[0];
             $scope.c.relId = $scope.c.rel.id;
         }
+        $scope.cleanArray();
     };
 
 

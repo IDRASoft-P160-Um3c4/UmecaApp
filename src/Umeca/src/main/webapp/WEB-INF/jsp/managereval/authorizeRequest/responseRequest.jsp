@@ -3,15 +3,15 @@
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormCatId");
     });
-    $("input").keypress(function(event) {
+    $("input").keypress(function (event) {
         if (event.which == 13) {
             event.preventDefault();
-            $( "#btnMakeRequest" ).trigger( "click" );
+            $("#btnMakeRequest").trigger("click");
         }
     });
 </script>
 <style>
-    input,textarea {
+    input, textarea {
         max-width: none !important;
     }
 </style>
@@ -22,18 +22,13 @@
                 <div class="modal-header">
                     <div class="alert alert-info ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center"><i class="icon icon-envelope"></i>&nbsp;&nbsp;Realizar solicitud</h4>
+                        <h4 class="element-center"><i class="icon icon-envelope"></i>&nbsp;&nbsp;Responder solicitud</h4>
                     </div>
                 </div>
                 <div class="modal-body">
                     <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal"
                           role="form">
-                        <div class="row">
-                                       <div class="col-xs-10 col-xs-offset-1">
-                                           <h4 class="header smaller lighter blue"><small>Tipo de solicitud:  </small>
-                                           &nbsp;${requestTypeDes}</h4>
-                                       </div>
-                        </div>
+
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="widget-box">
@@ -44,6 +39,7 @@
                                         <div class="widget-main">
                                             <div class="row">
                                                 <div class="col-xs-4 smaller lighter blue  text-right">
+                                                    <input type="hidden" value="${idRequest}" name="idRequest">
                                                     Imputado:
                                                 </div>
                                                 <div class="col-xs-7">
@@ -63,7 +59,7 @@
                                                     Estatus:
                                                 </div>
                                                 <div class="col-xs-7">
-                                                    ${caseInfo.status}
+                                                    ${statusCase}
                                                 </div>
 
                                             </div>
@@ -73,83 +69,77 @@
                             </div>
                         </div>
                         <br/>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div ng-init='requestType = "${requestType}"; listSources = ${sources};'
-                                     ng-show=" requestType == 'CHANGE_STATUS_SOURCE' ">
 
-                                    <div class="widget-box" ng-show="listSources.length > 0">
-                                        <div class="widget-header widget-header-small header-color-blue2">
-                                            <h6 class="smaller">Elige las fuentes que solicitas cambiar</h6>
-                                        </div>
-                                        <table class=" widget-body table table-striped table-bordered table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th>
-                                                </th>
-                                                <th>
-                                                    Nombre
-                                                </th>
-                                                <th>
-                                                    Parentesco
-                                                </th>
-                                                <th>
-                                                    Edad
-                                                </th>
-                                                <th>
-                                                    Tel&eacute;fono
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr ng-repeat="source in listSources">
-                                                <td style="width: 20px;">
-                                                    <input class="" type="checkbox" ng-value="source.id"
-                                                           name="sourcesId">
-                                                </td>
-                                                <td>
-                                                    {{source.fullName}}
-                                                </td>
-                                                <td>
-                                                    {{source.relationship}}
-                                                </td>
-                                                <td>
-                                                    {{source.age}}
-                                                </td>
-                                                <td>
-                                                    {{source.phone}}
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div ng-show="listSources.length == 0">
-                                        <span class="label label-lg label-info arrowed-right"> No tienes fuentes con entrevista terminada para realizar esta solicitud.</span>
-                                    </div>
-                                </div>
+                        <div class="row" ng-init='sources = ${sources};'>
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <h4 class="smaller lighter blue">
+                                    <small>Tipo de solicitud:</small>
+                                    &nbsp;${requestTypeDes}</h4>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <h5 class="smaller lighter blue">
+                                    <small> Realizada por:
+                                    </small>
+                                    &nbsp; ${user}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <h5 class="smaller lighter blue">
+                                    <small> Raz&oacute;n:
+                                    </small>
+                                    &nbsp; ${reason}</h5>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="sources.length > 0">
+                            <div class="col-xs-1 col-xs-offset-1">
+                                <h5 class="smaller lighter blue">
+                                    <small> Fuente(s):
+                                    </small>
+                                    </h5>
+                            </div>
+                            <div class="col-xs-9">
+                                <h5 class="smaller lighter blue">
+                                    <ul>
+                                    <li ng-repeat="s in sources">
+                                        {{s.fullName}}. Edad: {{s.age}}. Parentesco: {{s.relationship}} <br/>
+                                    </li></ul>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <h5 class="smaller lighter blue">
+                                    <small> Respuesta de la solitud:
+                                    </small> &nbsp;&nbsp;
+                                    <input type="radio" name="response" checked="true" value="ACCEPTED">&nbsp;Aceptar solicitud
+                                &nbsp; &nbsp; &nbsp; <input type="radio" name="response" value="REJECTED">&nbsp;Rechazar solicitud</h5>
+                            </div>
+                        </div>
                         <br/>
-                        <div class="row" ng-show="requestType != 'CHANGE_STATUS_SOURCE' || (requestType == 'CHANGE_STATUS_SOURCE' && listSources.length > 0)">
+
+                        <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="widget-box">
                                     <div class="widget-header widget-header-small header-color-blue2">
-                                        <h6 class="smaller">Raz&oacute;n por la que realiza la solicitud</h6>
+                                        <h6 class="smaller">Raz&oacute;n por la que autoriza o rechaza la solicitud</h6>
                                     </div>
                                     <div class="widget-body">
                                         <div class="widget-main">
                                             <input type="hidden" value="${requestType}" name="requestType">
                                             <input type="hidden" value="${caseInfo.caseId}" name="caseId">
                                             <textarea id="comment" name="reason" ng-model="comment"
-                                                      class="form-control" ></textarea>
+                                                      class="form-control"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br/>
-                        <div class="row"  ng-show="requestType != 'CHANGE_STATUS_SOURCE' || (requestType == 'CHANGE_STATUS_SOURCE' && listSources.length > 0)">
+
+                        <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="widget-box">
                                     <div class="widget-header widget-header-small header-color-blue2">
@@ -169,7 +159,7 @@
 
                     <div class="row" ng-show="MsgError">
                         <div class="col-xs-10 col-xs-offset-1">
-                            <div class="alert alert-danger element-center" ng-bind-html="MsgError" >
+                            <div class="alert alert-danger element-center" ng-bind-html="MsgError">
                             </div>
                         </div>
                     </div>
@@ -178,9 +168,9 @@
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
-                    <span class="btn btn-default btn-primary btn-sm"   id="btnMakeRequest"
-                          ng-disabled="WaitFor==true || comment=='' || comment == undefined || (listSources.length == 0 && requestType == 'CHANGE_STATUS_SOURCE')"
-                          ng-click="submit('#FormCatId', '<c:url value="/reviewer/caseRequest/doMakeRequest.json"/>');">
+                    <span class="btn btn-default btn-primary btn-sm" id="btnMakeRequest"
+                          ng-disabled="WaitFor==true || comment=='' || comment == undefined"
+                          ng-click="submit('#FormCatId', '<c:url value="/managereval/authorizeRequest/doResponseRequest.json"/>');">
                           Enviar Solicitud
                     </span>
                 </div>

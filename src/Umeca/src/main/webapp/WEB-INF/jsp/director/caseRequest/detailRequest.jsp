@@ -104,6 +104,7 @@
                                      ng-show="n.dateResponse != null ">
                                     <span class="lbl smaller blue"> Respondida por: </span> <span class="lbl">{{n.userResponse}}.</span><br/>
                                     <span class="lbl smaller blue">Fecha de respuesta: </span><span class="lbl">{{n.dateResponseString}}.</span><br/>
+                                    <span class="lbl smaller blue">Resoluci&oacute;: </span><span class="lbl">{{n.response}}.</span><br/>
                                     <span class="lbl smaller blue"> Mensaje:  </span><span class="lbl">{{n.messageResponse}}.</span>
                                 </div>
                                 <div class="col-xs-11 col-xs-offset-1 "

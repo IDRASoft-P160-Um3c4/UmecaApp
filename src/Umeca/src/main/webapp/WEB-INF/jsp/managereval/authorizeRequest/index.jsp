@@ -32,22 +32,22 @@
 <div class="container body-content">
 
     <script>
-        window.makeRequest = function(id,code) {
-            window.showUpsertWithIdCase(id, "#angJsjqGridId", "<c:url value='/reviewer/caseRequest/makeRequest.html'/>", "#GridId",undefined, code);
+        window.responseRequest = function(id,code) {
+            window.showUpsertWithIdCase(id, "#angJsjqGridId", "<c:url value='/managereval/responseRequest.html'/>", "#GridId",undefined, code);
         };
 
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/reviewer/caseRequest/list.json' />',
+                url: '<c:url value='/managereval/authorizeRequest/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID','Carpeta de Investigaci&oacute;n','Nombre','Estatus','Id estatus','Acci&oacute;n'],
+                colNames: ['ID','Carpeta de Investigaci&oacute;n','Nombre','Evaluador','Tipo de solicitud','Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'description', index: 'description', width: 300, align: "center", sortable: false, search: false},
-                    { name: 'status', index: 'status', hidden: true },
+                    { name: 'fullNameUser', index: 'fullNameUser', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'typeRequest', index: 'typeRequest', width: 300, align: "center", sortable: false, search: false},
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
@@ -67,20 +67,7 @@
                         var row = $(this).getRowData(cl);
                         var status = row.status+"";
                         var be="";
-                        if ( status.indexOf(".E.") != -1 ) {
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar caso\" onclick=\"window.makeRequest('CASE_OBSOLETE','" + cl + "');\"><i class=\"icon-trash\"></i></a>";
-                        }
-                        if(status.indexOf(".A.")!= -1){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar entrevista de riesgos procesales\" onclick=\"window.makeRequest('EDIT_MEETING','" + cl + "');\"><span class=\"glyphicon icon-comments-alt\"></span></a>";
-                        }if(status.indexOf(".B.")!= -1){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar informaci&oacute;n legal\" onclick=\"window.makeRequest('EDIT_LEGAL_INFORMATION','" + cl + "');\"><span class=\"icon-legal\"></span></a>";
-                        }if(status.indexOf(".C.")!= -1){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Cambiar el estado de las fuentes de verificaci&oacute;n\" onclick=\"window.makeRequest('CHANGE_STATUS_SOURCE','" + cl + "');\"><span class=\"icon-group\"></span></a>";
-                        }if(status.indexOf(".D.")!=-1){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar Instrumento de evaluaci&oacute;n de riesgos\" onclick=\"window.makeRequest('EDIT_TECHNICAL_REVIEW','" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
-                        }if(status.indexOf(".F.")!=1){
-
-                        }
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Responder solicitud\" onclick=\"window.responseRequest('" + cl + "');\"><i class=\" icon-envelope\"></i></a>";
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },

@@ -78,6 +78,8 @@
                                 class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Supervisar fuentes</a></li>
                         <li><a href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
                                 class="icon-check"></i>&nbsp;&nbsp;Consulta de casos en evaluación</a></li>
+                        <li><a href="<c:url value='/managereval/authorizeRequest/index.html' />"><i
+                                class="icon icon-envelope"></i>&nbsp;&nbsp;Autorizaci&oacute;n de solcitudes</a></li>
 
                     </sec:authorize>
 
