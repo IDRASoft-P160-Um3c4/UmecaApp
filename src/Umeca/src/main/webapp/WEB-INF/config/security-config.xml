@@ -32,6 +32,8 @@
                        access="hasAnyRole('ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER','ROLE_DIRECTOR')"/>
         <intercept-url pattern="/supervisorManager/**" access="hasRole('ROLE_SUPERVISOR_MANAGER')"/>
 
+        <intercept-url pattern="/shared/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR')"/>
+
         <intercept-url pattern="/**" access="hasRole('ROLE_NOTUSE')"/>
         <form-login login-page="/index.html"
                     authentication-success-handler-ref="ajaxAuthenticationSuccessHandler"

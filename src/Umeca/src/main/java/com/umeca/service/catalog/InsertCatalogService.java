@@ -40,5 +40,8 @@ public interface InsertCatalogService {
 
     void homeType();
 
+    void fileType();
+    void systemSettings();
+
     void requestType();
 }

@@ -1,31 +1,4 @@
-app.controller('framingMeetingController', function ($scope, $timeout, $http, $rootScope) {
-
-        $scope.fm = {}
-
-        $scope.FMsuccessMsg = "";
-        $scope.FMerrorMsg = "";
-
-        $scope.FMerrorMsgLst = "";
-
-        $scope.disableView = function () {
-
-            if ($scope.fm.objView.canTerminate == false) {
-                $("#divFM :input").attr("disabled", true);
-            }
-            else {
-                $("#divFM :input").attr("disabled", false);
-            }
-
-        };
-
-        $scope.returnFM = function () {
-
-            if ($scope.returnId && $scope.returnId != null && $scope.returnId != undefined && $scope.returnId > 0) {
-                window.goToUrlMvcUrl($scope.urlManagerSup);
-            }
-            else
-                window.goToUrlMvcUrl($scope.urlIndex);
-        };
+app.controller('reportExcelController', function ($scope, $timeout, $http) {
 
         $scope.init = function () {
             $scope.disableView();
@@ -34,14 +7,6 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
         $timeout(function () {
             $scope.init();
         }, 0);
-
-
-        $scope.resizeMap = function () {
-            $timeout(function () {
-                $rootScope.$broadcast("resizeMap");
-            }, 10);
-
-        };
 
         $scope.doTerminate = function () {
             var currentTimeout = null;
@@ -75,7 +40,6 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                     });
             }, 200);
         };
-
 
     }
 )

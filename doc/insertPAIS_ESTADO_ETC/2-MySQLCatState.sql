@@ -1,4 +1,5 @@
 
+
 	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (1, 1, "Aguascalientes", "Agu", "Aguascalientes");
 	
 	INSERT INTO cat_state (id_state, id_country, name, abbreviation, description) VALUES (2, 1, "Baja California", "Baj", "Baja California");

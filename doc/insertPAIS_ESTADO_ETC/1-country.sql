@@ -1,4 +1,3 @@
-
 INSERT INTO cat_country (id_country, name, alpha2,alpha3,latitude, longitude) VALUES
 (1, 'Mexico', 'MX', 'MEX', 23, -102),
 (4, 'Afghanistan', 'AF', 'AFG', 33, 65),
