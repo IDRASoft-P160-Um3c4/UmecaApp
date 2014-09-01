@@ -310,3 +310,9 @@ i.link-image {
 .position-relative{
     position: relative;
 }
+
+.info-example{
+    font-style: italic;
+    color: #7d8893;
+    font-size: x-small;
+}

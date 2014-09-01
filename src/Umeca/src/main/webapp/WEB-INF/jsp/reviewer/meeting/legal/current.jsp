@@ -66,7 +66,9 @@
         </div>
         <br/>
         <div class="row">
-            <div class="col-xs-3 element-left">Comportamiento antes de detenci&oacute;n:</div>
+            <div class="col-xs-3 element-left">Comportamiento antes de detenci&oacute;n:<br/>
+                <label class="info-example">(resistencia, persecuci&oacute;n, violencia, etc.)</label>
+            </div>
             <div class="col-xs-9">
                 <textarea class="form-control" name="behaviorDetention" id="behaviorDetention" ng-model="m.behaviorDetention"
                           data-val="true"  data-val-required="El comportamiento es un campo requerido"

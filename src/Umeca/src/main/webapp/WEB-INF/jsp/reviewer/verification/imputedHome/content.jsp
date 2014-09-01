@@ -138,7 +138,8 @@
 
                         <div class="row">
                             <div class="col-xs-3">
-                                Descripci&oacute;n de c&oacute;mo llegar<br/>al domicilio:
+                                Descripci&oacute;n de c&oacute;mo llegar al domicilio:<br/>
+                                <label class="info-example">(color de casa, ruta, etc.)</label>
                             </div>
                             <div class="col-xs-9">
                                 <textarea id="description" class="form-control"

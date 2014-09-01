@@ -9,22 +9,22 @@
 
         <div class="row">
     <div class="col-xs-5 element-center">
-       Delito<br/>
+       Delito<br/><br/>
         <input type="text" class="form-control" ng-model="c.name"/>
     </div>
     <div class="col-xs-4 element-center">
-       Art&iacute;culo<br/>
+       Art&iacute;culo<br/><br/>
             <input type="text" class="form-control" ng-model="c.article"/>
     </div>
     <div class="col-xs-2 element-center">
-        Federal <br/>
+        Federal<br/> <label class="info-example">(Asociado con el local)</label> <br/>
         <select class="form-control element-center" ng-model="c.federal"
                 ng-options="e.name for e in listElection"
                 ng-change="c.federalId = c.federal.id"
                 ng-init='listElection = ${listElection};'></select>
     </div>
     <div class="col-xs-1 element-center">
-        Acciones<br/><div class="space-5"></div>
+        Acciones<br/><br/><div class="space-5"></div>
         <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addCrime()"></i>
     </div>
     </div>
