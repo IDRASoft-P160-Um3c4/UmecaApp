@@ -46,13 +46,20 @@
     <title>Entrevista</title>
 </head>
 <body scroll="no" ng-app="ptlUmc" ng-cloak>
-<%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
+<div class="row">
+    <div class="col-xs-12">
+        <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
+    </div>
+</div>
 
 <div class="container body-content" ng-controller="meetingController">
 
-<h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos
-    procesales</h2>
-
+<div class="row">
+    <br/>
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos
+        procesales</h2>
+</div>
+<br/>
 <div class="row">
     <div class="col-sm-3">
         <h3 class="header smaller lighter blue">
