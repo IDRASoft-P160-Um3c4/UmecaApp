@@ -137,9 +137,9 @@
                                 <li><a href="<c:url value='/supervisor/showCaseSupervision/index.html' />"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Supervisi&oacute;n</a>
                                 </li>
-                                <%--<li><a href="<c:url value='/director/excelReport/index.html'/>"><i--%>
-                                        <%--class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a>--%>
-                                <%--</li>--%>
+                                <li><a href="<c:url value='/director/excelReport/index.html'/>"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a>
+                                </li>
                             </ul>
                         </li>
                         <li><a href="<c:url value='/director/caseRequest/show.html' />"><i

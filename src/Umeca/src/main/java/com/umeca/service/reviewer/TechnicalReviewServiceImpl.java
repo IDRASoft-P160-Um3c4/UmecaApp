@@ -100,7 +100,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                 lstQuesRevRel.add(rel);
             }
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"generateQuesRevRel",sharedUserService);
+            logException.Write(e, this.getClass(), "generateQuesRevRel", sharedUserService);
             System.out.println(e.getMessage());
         }
 
@@ -138,22 +138,22 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         file.setAddress(meeting.getImputedHomes().get(0).getAddress().getAddressString());
         String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";
-        for(int i=0; i< Constants.NAMES_MEETING.length;i++){
+        for (int i = 0; i < Constants.NAMES_MEETING.length; i++) {
             List<FieldMeetingSource> listFMS = fieldMeetingSourceRepository.getAllFinalByIdCaseAndSectionCode(ver.getCaseDetention().getId(), (i + 1));
-            if(listFMS.size()>0 && listFMS.get(0)!=null){
+            if (listFMS.size() > 0 && listFMS.get(0) != null) {
                 Section section = new Section(listFMS.get(0).getFieldVerification().getSection());
-                for(FieldMeetingSource fms: listFMS){
+                for (FieldMeetingSource fms : listFMS) {
                     String v = template;
-                    v = v.replace("{0}",fms.getFieldVerification().getFieldName());
-                    v = v.replace("{2}",fms.getSourceVerification().getFullName());
-                    if(fms.getReason()==null){
+                    v = v.replace("{0}", fms.getFieldVerification().getFieldName());
+                    v = v.replace("{2}", fms.getSourceVerification().getFullName());
+                    if (fms.getReason() == null) {
                         fms.setReason("Sin raz&oacute;n registrada.");
                     }
-                    v = v.replace("{3}",fms.getReason());
-                    if(fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)){
-                        v = v.replace("{1}",Constants.UNABLE_VERIF_TEXT_DOC);
-                    }else{
-                        v = v.replace("{1}",fms.getValue());
+                    v = v.replace("{3}", fms.getReason());
+                    if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
+                        v = v.replace("{1}", Constants.UNABLE_VERIF_TEXT_DOC);
+                    } else {
+                        v = v.replace("{1}", fms.getValue());
                     }
 
                     section.getValues().add(sharedUserService.convertToValidString(v));
@@ -161,7 +161,6 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                 file.getSections().add(section);
             }
         }
-
 
 
         List<String> sourcesTxt = new ArrayList<>();
@@ -192,13 +191,13 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         String risk = "";
         Integer total = technicalReview.getTotalRisk();
-        if(total<-15){
+        if (total < -15) {
             risk = "Riesgo alto! Libertad muy dif&iacute;cil de cumplir.";
-        }else if(total>-16 && total<0){
+        } else if (total > -16 && total < 0) {
             risk = "Riesgo medio! Se puede recomendar combinaci&oacute;n de medidas cautelares en libertad bajo niveles de supervisi&oacute;n.";
-        }else if(total>-1 && total<10){
+        } else if (total > -1 && total < 10) {
             risk = "Riesgo bajo! Se puede recomendar combinaci&oacute;n de medidas cautelares en libertad bajo niveles de supervisi&oacute;n.";
-        }else if(total>9){
+        } else if (total > 9) {
             risk = "Riesgo mínimo! Se puede recomendar combinaci&oacute;n de medidas cautelares en libertad bajo niveles de supervisi&oacute;n.";
         }
 
@@ -227,31 +226,45 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         Long idCase = ver.getCaseDetention().getId();
         List<Long> sourcesId = sourceVerificationRepository.getAllSourcesByCase(idCase);
 
-        for(Long idSource: sourcesId){
+        for (Long idSource : sourcesId) {
             SourceVerificationDto sv = new SourceVerificationDto();
             sv.dtoSourceVerification(sourceVerificationRepository.findOne(idSource));
             sv.setSections(new ArrayList<Section>());
-            for(int i=0; i<Constants.NAMES_MEETING.length;i++) {
-                List<FieldMeetingSource> fieldMeetingSources = fieldMeetingSourceRepository.getFieldMeetingBySource(idCase, idSource, Constants.ST_FIELD_VERIF_UNABLE,(i+1));
-                if(fieldMeetingSources!=null && fieldMeetingSources.size()>0) {
+            for (int i = 0; i < Constants.NAMES_MEETING.length; i++) {
+                List<FieldMeetingSource> fieldMeetingSources = fieldMeetingSourceRepository.getFieldMeetingBySource(idCase, idSource, Constants.ST_FIELD_VERIF_UNABLE, (i + 1));
+                if (fieldMeetingSources != null && fieldMeetingSources.size() > 0) {
                     Section s = new Section(fieldMeetingSources.get(0).getFieldVerification().getSection());
-                    List<String> messages= new ArrayList<>();
+                    List<String> messages = new ArrayList<>();
                     for (FieldMeetingSource fms : fieldMeetingSources) {
-                        String finalString = template.replace("{0}",fms.getFieldVerification().getFieldName());
-                        finalString = finalString.replace("{1}",fms.getValue());
+                        String finalString = template.replace("{0}", fms.getFieldVerification().getFieldName());
+                        finalString = finalString.replace("{1}", fms.getValue());
                         finalString = sharedUserService.convertToValidString(finalString);
                         messages.add(finalString);
                     }
-                        s.setValues(messages);
-                        sv.getSections().add(s);
+                    s.setValues(messages);
+                    sv.getSections().add(s);
 
                 }
             }
 
-                file.getSources().add(sv);
+            file.getSources().add(sv);
 
         }
         return file;
+    }
+
+    public Integer calculateLevelRisk(Integer total) {
+
+        if (total < -15)
+            return 1; //alto
+        else if (total > -16 && total < 0)
+            return 2; //medio
+        else if (total > -1 && total < 10)
+            return 3;//bajo
+        else if (total > 9)
+            return 4;//minimo
+
+        return 0;
     }
 }
 

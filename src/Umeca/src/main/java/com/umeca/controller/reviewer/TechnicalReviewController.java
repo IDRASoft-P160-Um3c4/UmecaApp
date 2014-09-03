@@ -213,6 +213,7 @@ public class TechnicalReviewController {
                 caseRepository.save(caseDetention);
             }
 
+            result.setLevelRisk(technicalReviewService.calculateLevelRisk(result.getTotalRisk()));
             result.setQuestionsSel(technicalReviewService.generateQuesRevRel(result, result.getTxtListQuest()));
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
             result.setCaseDetention(caseDetention);

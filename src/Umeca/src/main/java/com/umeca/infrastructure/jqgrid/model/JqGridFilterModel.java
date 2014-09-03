@@ -8,8 +8,7 @@ import java.util.List;
  * Date: 4/30/14
  * Time: 1:54 PM
  */
-public class JqGridFilterModel
-{
+public class JqGridFilterModel {
     public static final String OPERATOR_AND = "and";
     public static final String OPERATOR_OR = "or";
     public static final String COMPARE_EQUAL = "eq";

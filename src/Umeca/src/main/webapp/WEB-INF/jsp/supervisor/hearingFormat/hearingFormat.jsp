@@ -111,7 +111,7 @@
 <br/>
 
 <div class="container body-content" ng-controller="hearingFormatController"
-     ng-init='m=${hfView}; returnId=${returnId};'>
+     ng-init='m=${hfView};'>
 
 <%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp" %>
 
@@ -947,7 +947,7 @@
 
 <div class="row element-right">
     <div class="col-xs-6">
-        <h3 class="header smaller lighter blue">
+        <h3 class="header smaller lighter blue element left">
             <small>Nombre del supervisor:</small>
             &nbsp;&nbsp;{{m.userName}}
         </h3>

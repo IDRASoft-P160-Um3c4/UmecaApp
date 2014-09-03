@@ -189,8 +189,9 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join PCP.complyProcessAbove APA " +
             "left join CDET.technicalReview TR " +
             "left join CDET.verification VER " +
+            "where CDET.id in (:lstIdsCases)" +
             "order by CDET.dateCreate")
-    List<ExcelCaseInfoDto> getInfoCases();
+    List<ExcelCaseInfoDto> getInfoCases(@Param("lstIdsCases") List<Long> lstIdsCases);
     /**/
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelActivitiesDto(CDET.id,ACT.name,RSEA.specification) " +
@@ -284,7 +285,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "inner join cd.status as cs " +
             "inner join cd.meeting.status as sm " +
             "left join cd.verification.status as vs where cd.id = :caseId")
-    StatusEvaluation getStatusEvaluation(@Param("caseId")Long caseId);
+    StatusEvaluation getStatusEvaluation(@Param("caseId") Long caseId);
 
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelVerificationDto(" +
@@ -301,7 +302,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "sv.id," +
             "st.description) from Case as CDET " +
             "INNER JOIN CDET.meeting.imputed as IMP " +
-            "INNER JOIN CDET.status as st "+
+            "INNER JOIN CDET.status as st " +
             "INNER JOIN CDET.verification as V " +
             "INNER JOIN V.sourceVerifications as sv " +
             "WHERE CDET.id in (:listCaseId) and sv.isAuthorized = true " +
