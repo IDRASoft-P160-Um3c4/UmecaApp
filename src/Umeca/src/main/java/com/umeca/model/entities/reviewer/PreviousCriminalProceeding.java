@@ -21,25 +21,25 @@ public class PreviousCriminalProceeding {
     @Column(name = "id_previous_criminal_proceeding")
     private Long id;
 
-    @Column(name = "first_proceeding", length = 255, nullable = false)
+    @Column(name = "first_proceeding", length = 255, nullable = true)
     private String firstProceeding;
 
-    @Column(name = "open_process_number", nullable = false)
+    @Column(name = "open_process_number", nullable = true)
     private Integer openProcessNumber;
 
-    @Column(name = "number_convictions", nullable = false)
+    @Column(name = "number_convictions", nullable = true)
     private Integer numberConvictions;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_comply_measures", nullable = false)
+    @JoinColumn(name="id_comply_measures", nullable = true)
     private Election complyPM;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_comply_scpp", nullable = false)
+    @JoinColumn(name="id_comply_scpp", nullable = true)
     private Election complyCSPP;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_comply_process_above", nullable = false)
+    @JoinColumn(name="id_comply_process_above", nullable = true)
     private Election complyProcessAbove;
 
     @OneToOne(fetch=FetchType.LAZY)

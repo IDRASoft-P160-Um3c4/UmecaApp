@@ -28,21 +28,21 @@ public class CurrentCriminalProceeding {
     @OneToMany(mappedBy="criminalProceeding", cascade={CascadeType.ALL})
     private List<CoDefendant> coDefendantList;
 
-    @Column(name="place_detention", length = 500, nullable = false)
+    @Column(name="place_detention", length = 500, nullable = true)
     private String placeDetention;
 
-    @Column(name = "behavior_detention", nullable = false, length = 255)
+    @Column(name = "behavior_detention", nullable = true, length = 255)
     private String behaviorDetention;
 
-    @Column(name = "name_victim", nullable = false)
+    @Column(name = "name_victim", nullable = true)
     private String nameVictim;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_relationship_victim", nullable = false)
+    @JoinColumn(name="id_relationship_victim", nullable = true)
     private Relationship relationshipVictim;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_domicile_victim", nullable = false)
+    @JoinColumn(name="id_domicile_victim", nullable = true)
     private Address domicileVictim;
 
     @OneToOne(fetch=FetchType.LAZY)

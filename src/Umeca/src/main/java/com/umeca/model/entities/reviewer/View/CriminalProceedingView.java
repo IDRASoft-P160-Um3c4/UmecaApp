@@ -24,7 +24,7 @@ public class CriminalProceedingView {
 
     private String listCrime;
 
-    private Boolean  haveCoDEfendant;
+    private Boolean  haveCoDependant;
 
     private String listCoDefendant;
 
@@ -163,11 +163,11 @@ public class CriminalProceedingView {
         this.complyProcessAboveId = complyProcessAboveId;
     }
 
-    public Boolean getHaveCoDEfendant() {
-        return haveCoDEfendant;
+    public Boolean getHaveCoDependant() {
+        return haveCoDependant;
     }
 
-    public void setHaveCoDEfendant(Boolean haveCoDEfendant) {
-        this.haveCoDEfendant = haveCoDEfendant;
+    public void setHaveCoDependant(Boolean haveCoDependant) {
+        this.haveCoDependant = haveCoDependant;
     }
 }

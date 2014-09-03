@@ -82,7 +82,9 @@
                ng-update-hidden>
         <input type="hidden" ng-init="urlVerifNotKnow= '<c:url value="/reviewer/verification/verifBySourceNotKnow.json"/>'" ng-model="urlVerifTrue"
                ng-update-hidden>
-        <h2 class="element-center"><i class="glyphicon icon-edit" ng-show="managereval==false"></i><i class="glyphicon icon-comments-alt" ng-show="managereval==true"></i>&nbsp;&nbsp;Entrevista de verificaci&oacute;n</h2>
+        <br/>
+        <h2 class="element-center" ng-show="managereval==false"><i class="glyphicon icon-edit"></i>&nbsp;&nbsp;Entrevista de verificaci&oacute;n</h2>
+        <h2 class="element-center"  ng-show="managereval==true"><i class="glyphicon icon-comments-alt">&nbsp;&nbsp;Entrevista de riesgos procesales</i></h2>
         <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
         <div class="row" ng-init="managereval = ${managereval}" ng-show="managereval == false">
         <div class="col-xs-12 widget-container-span">
@@ -159,25 +161,33 @@
                         <li>
                             <a data-toggle="tab" href="#address">
                                 <i class="green  icon-home  bigger-200"></i>
-                                Domicilios
+                                Domicilios<br/>
+                                <label class="info-example">De los &uacute;ltimos 5 a&ntilde;os</label>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tab" href="#socialNetwork">
-                                <i class="blue icon-group bigger-200"></i>
-                                Red social
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="blue icon-group bigger-200"></i>
+                                        Red social               <br/>
+                                        <label class="info-example">Personas con las que vive</label>
+                                    </div>
+                                </div>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tab" href="#reference">
                                 <i class="red icon-list bigger-200"></i>
-                                Referencias personales
+                                Referencias personales  <br/>
+                                <label class="info-example">Personas con las que no vive</label>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tab" href="#jobHistory">
                                 <i class="pink icon-briefcase  bigger-200"></i>
-                                Historia laboral
+                                Historia laboral                                   <br/>
+                                <label class="info-example">&Uacute;ltimos 3-5 empleos</label>
                             </a>
                         </li>
                         <li>

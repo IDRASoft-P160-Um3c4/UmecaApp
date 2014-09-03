@@ -24,7 +24,7 @@
         <input type="text" class="form-control"ng-model="a.phone" name="phone"
                id="phone"
                data-val="true"
-               data-val-length="Debe tener al menos 6 y m&aacute;ximo 30 caracteres"
+               data-val-length="Debe tener al menos 5 y m&aacute;ximo 30 caracteres"
                data-val-length-max="50" data-val-length-min="1"
                data-val-required="El tel&eacute;efono es un campo requerido"
                ng-init='a.phone = "${d.phone == null ? "" : d.phone}"'>
@@ -176,7 +176,8 @@
 
                             <div class="row">
                                 <div class="col-xs-3">
-                                    Descripci&oacute;n de c&oacute;mo llegar<br/>al domicilio:
+                                    Descripci&oacute;n de c&oacute;mo llegar al domicilio:<br/>
+                                    <label class="info-example">(color de casa, ruta, etc.)</label>
                                 </div>
                                 <div class="col-xs-9">
                                     <textarea id="description" class="form-control" name="description"

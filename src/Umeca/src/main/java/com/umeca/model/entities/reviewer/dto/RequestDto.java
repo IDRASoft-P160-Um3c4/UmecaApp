@@ -13,6 +13,8 @@ public class RequestDto {
     private String reason;
     private String sourcesId;
     private String password;
+    private String response;
+    private Long idRequest;
 
     public Long getCaseId() {
         return caseId;
@@ -52,5 +54,21 @@ public class RequestDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public Long getIdRequest() {
+        return idRequest;
+    }
+
+    public void setIdRequest(Long idRequest) {
+        this.idRequest = idRequest;
     }
 }

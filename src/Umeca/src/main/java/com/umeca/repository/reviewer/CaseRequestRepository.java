@@ -20,8 +20,10 @@ public interface CaseRequestRepository extends JpaRepository<CaseRequest,Long> {
             "rm.creationDate," +
             "respm.creationDate," +
             "rms.fullname," +
-            "respms.fullname ) " +
+            "respms.fullname," +
+            "rt.description) " +
             "from CaseRequest as cr " +
+            "INNER JOIN cr.responseType as rt " +
             "INNER JOIN cr.requestType as rtcr " +
             "INNER JOIN cr.requestMessage as rm " +
             "INNER JOIN rm.sender as rms " +

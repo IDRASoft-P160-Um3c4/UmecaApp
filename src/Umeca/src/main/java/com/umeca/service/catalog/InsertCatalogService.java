@@ -44,4 +44,6 @@ public interface InsertCatalogService {
     void systemSettings();
 
     void requestType();
+
+    void responseType();
 }

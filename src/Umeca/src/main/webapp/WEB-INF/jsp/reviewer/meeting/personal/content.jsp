@@ -362,7 +362,8 @@
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('socialEnvironment.physicalCondition')"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.physicalCondition')"></i>
-        &iquest;Padece alguna enfermedad o condici&oacute;n f&iacute;sica?:
+        &iquest;Padece alguna enfermedad o condici&oacute;n f&iacute;sica?:             <br/>
+        <label class="info-example">(tuberculosis, hepatitis, alergias, embarazo, tiempo de gestaci&oacute;n, lactancia, etc.)</label>
     </div>
     <div class="col-xs-9">
         <textarea class="form-control"
@@ -384,7 +385,8 @@
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.activities')"></i>
-            &iquest;Qu&eacute; actividades realiza?:
+            &iquest;Qu&eacute; actividades realiza?:   <br/>
+            <label class="info-example">(deportivas, educativas, voluntariado, etc.)</label>
         </div>
         <div class="col-xs-9 element-left">
             <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
@@ -430,7 +432,8 @@
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('socialEnvironment.comment')"></i>
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.comment')"></i>
-        Comentarios:
+        Comentarios:  <br/>
+        <label class="info-example">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>
     </div>
     <div class="col-xs-9">
         <textarea class="form-control" name="socialEnvironment.comment"

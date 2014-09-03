@@ -64,4 +64,10 @@ public interface MeetingService {
     ResponseMessage saveProceedingLegal(CriminalProceedingView cpv);
 
     ResponseMessage upsertSocialNetworkComment(String comment, Long idCase);
+
+    ResponseMessage findPreviousCase(String sName, String sLastNameP, String sLastNameM, Long idCase);
+
+    ResponseMessage savePartialPrevious(CriminalProceedingView cpv);
+
+    ResponseMessage savePartialCurrent(CriminalProceedingView cpv);
 }

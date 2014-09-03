@@ -2,13 +2,16 @@
     <div>
         <div class="col-xs-2 element-right">
             <i class="icon-ok-circle green  icon-only bigger-120"  ng-show="verification"
-               ng-click="doConfirmVerifEqual('socialNetwork.comment  ')"></i>
+               ng-click="doConfirmVerifEqual('socialNetwork.comment')"></i>
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
-               code="imputed.maritalStatus.id"></i>
+               code="socialNetwork.comment"></i>
             <i class="icon-ban-circle inverse icon-only bigger-1 20"  ng-show="verification"
-               ng-click="doConfirmVerifNotKnow('imputed.maritalStatus.id')"></i>
-            <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.maritalStatus.id')"></i>
-            Observaciones:</div>
+               ng-click="doConfirmVerifNotKnow('socialNetwork.comment')"></i>
+            <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('socialNetwork.comment')"></i>
+            Observaciones:
+            <label class="info-example">(no tiene donde vivir, existe violencia, etc.)</label>
+            <br/>
+        </div>
         <div class="col-xs-9">
             <textarea class="width-100"
                       data-val-required="Las observaciones es un campo requerido"

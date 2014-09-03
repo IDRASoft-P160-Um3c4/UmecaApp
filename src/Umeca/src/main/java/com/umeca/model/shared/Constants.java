@@ -100,4 +100,8 @@ public class Constants {
     public static final Integer[] IDS_TABS_MEETING = {1, 2, 3, 4, 5, 6, 7, 8};
 
 
+    public static final String RESPONSE_TYPE_PENDING = "PENDING";
+    public static final String RESPONSE_TYPE_ACCEPTED = "ACCEPTED";
+    public static final String RESPONSE_TYPE_REJECTED = "REJECTED";
+    public static String CASE_STATUS_OBSOLETE = "ST_CASE_OBSOLETE";
 }

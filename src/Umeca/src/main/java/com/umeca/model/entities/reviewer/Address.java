@@ -20,17 +20,17 @@ public class Address implements EntityGrid{
     @Column(name="id_address")
     private Long id;
 
-    @Column(name="street", length = 100, nullable = false)
+    @Column(name="street", length = 100, nullable = true)
     private String street;
 
     @Column(name="no_outside", length = 10, nullable = true)
     private String outNum;
 
-    @Column(name="no_inside", length = 10, nullable = false)
+    @Column(name="no_inside", length = 10, nullable = true)
     private String innNum;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_location", nullable = false)
+    @JoinColumn(name="id_location", nullable = true)
     private Location location;
 
     @Column(name="lat")
@@ -39,7 +39,7 @@ public class Address implements EntityGrid{
     @Column(name="lng")
     private String lng;
 
-    @Column(name="address_string", nullable = false, length = 500)
+    @Column(name="address_string", nullable = true, length = 500)
     private String addressString;
 
     public Long getId() {
@@ -109,7 +109,12 @@ public class Address implements EntityGrid{
     @Override
     public String toString() {
         String result = "";
-        result = "Calle: "+street+" No Ext: "+outNum;
+        if(street!=null && !street.equals("")){
+            result = "Calle: "+street+" No Ext: "+outNum;
+        }
+        if(outNum!=null && !outNum.equals("")){
+
+        }
         if(innNum != null && !innNum.equals("")){
             result= result + " No Int:"+ innNum;
         }

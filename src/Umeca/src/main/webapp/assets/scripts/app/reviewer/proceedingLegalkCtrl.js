@@ -70,20 +70,20 @@ app.controller('proceedingLegalController', function($scope, $timeout) {
     $scope.Model = {};
 
     $scope.submit = function (formId, urlToPost, hasReturnId) {
-        var forms = formId.split(",");
-        var val = true;
-        for(var i=0; i<forms.length; i++){
-            if($(forms[i]).valid() == false){
-                $scope.validf["form"+i] = true;
-                val  = false;
-            }else{
-                $scope.validf["form"+i] = false;
-            }
-        }
-        if (!val) {
-            $scope.Invalid = true;
-            return false;
-        }
+//        var forms = formId.split(",");
+//        var val = true;
+//        for(var i=0; i<forms.length; i++){
+//            if($(forms[i]).valid() == false){
+//                $scope.validf["form"+i] = true;
+//                val  = false;
+//            }else{
+//                $scope.validf["form"+i] = false;
+//            }
+//        }
+//        if (!val) {
+//            $scope.Invalid = true;
+//            return false;
+//        }
         $scope.WaitFor = true;
 
              $.post(urlToPost, $(formId).serialize())
@@ -107,7 +107,16 @@ app.controller('proceedingLegalController', function($scope, $timeout) {
             if(resp.hasError===undefined){
                 resp=resp.responseMessage;}
             if (resp.hasError === false) {
-                window.cancelLegal();
+                if(resp.title == "redirect"){
+                    window.cancelLegal();
+                }else if(resp.title == "current"){
+                    $scope.msgExitoCurrent = resp.message;
+                    $scope.$apply();
+                }else if(resp.title == "previous"){
+                    $scope.msgExitoPrevious = resp.message;
+                    $scope.$apply();
+                }
+
                 return;
             }
             var obj = JSON.parse(resp.message);
@@ -119,13 +128,39 @@ app.controller('proceedingLegalController', function($scope, $timeout) {
             }
             $scope.$apply();
         } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente mÃ¡s tarde.";
+            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
         }
     };
 
     $scope.handleError = function () {
         $scope.WaitFor = false;
-        $scope.MsgError = "Error de red. Por favor intente mÃ¡s tarde.";
+        $scope.MsgError = "Error de red. Por favor intente más tarde.";
+        $scope.$apply();
+    };
+
+    $scope.searchPreviousCase = function (){
+            var data ={};
+            data.sName =$scope.sName;
+            data.sLastNameP = $scope.sLastNameP;
+            data.sLastNameM = $scope.sLastNameM;
+            data.idCase= $scope.idCase;
+            $.post($scope.urlSearchPreviousCase,data)
+                .success($scope.handleSuccessFindPrevious)
+                .error($scope.handleErrorFindPrevious);
+    };
+
+    $scope.handleSuccessFindPrevious = function (resp){
+        $scope.listLegalBefore = JSON.parse(resp.message);
+        if($scope.listLegalBefore.length == 0){
+            $scope.sNameS = $scope.sName;
+            $scope.sLastNamePS = $scope.sLastNameP;
+            $scope.sLastNameMS = $scope.sLastNameM;
+        }
+        $scope.$apply();
+    };
+
+    $scope.handleErrorFindPrevious = function(resp){
+       $scope.msgErrorFind = "Error de red. Favor de intentarlo mas tarde"
         $scope.$apply();
     };
 

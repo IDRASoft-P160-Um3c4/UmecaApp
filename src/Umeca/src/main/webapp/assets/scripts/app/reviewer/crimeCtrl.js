@@ -16,6 +16,7 @@ app.controller('crimeController', function ($scope, $timeout) {
             $scope.c.federal = $scope.listElection[0];
             $scope.c.federalId = $scope.c.federal.id;
         }
+        $scope.cleanArray();
     };
 
 
