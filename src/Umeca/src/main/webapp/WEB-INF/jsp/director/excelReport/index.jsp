@@ -45,26 +45,21 @@
     };
 
 
-    function mycosa(returnIds) {
-
+    function reloadExcelGrid(returnIds) {
         listIds = returnIds;
-        alert(listIds);
-
-        $("#GridCasesId").setGridParam({ postData: {cosa: listIds} });
+        $("#GridCasesId").setGridParam({ postData: {ids: listIds} });
         $("#GridCasesId").trigger("reloadGrid");
     }
 
 
     $(document).ready(function () {
 
-        //function mycosa() {
-
         jQuery("#GridCasesId").jqGrid({
             url: '<c:url value='/director/excelReport/listCases.json' />',
             datatype: "json",
             mtype: 'POST',
             postData: {
-                cosa: listIds
+                ids: listIds
             },
             colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Acci&oacute;n'],
             colModel: [
@@ -766,7 +761,7 @@
 </div>
 </div>
 <br/>
-{{WaitFor==true}}
+
 <div class="row">
     <div class="col-xs-11 element-right">
 <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"

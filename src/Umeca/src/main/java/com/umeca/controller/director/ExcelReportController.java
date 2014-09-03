@@ -54,13 +54,13 @@ public class ExcelReportController {
     @RequestMapping(value = "/director/excelReport/listCases", method = RequestMethod.POST)
     public
     @ResponseBody
-    JqGridResultModel listCases(@ModelAttribute JqGridFilterModel opts, String cosa) {
+    JqGridResultModel listCases(@ModelAttribute JqGridFilterModel opts, String ids) {
 
         opts.extraFilters = new ArrayList<>();
 
         Gson conv = new Gson();
 
-        List<String> idsCases = conv.fromJson(cosa, new TypeToken<List<String>>() {
+        List<String> idsCases = conv.fromJson(ids, new TypeToken<List<String>>() {
         }.getType());
 
         if (!(idsCases.size() > 0))

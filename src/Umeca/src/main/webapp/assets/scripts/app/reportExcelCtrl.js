@@ -58,13 +58,12 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
                     $scope.WaitFor = false;
                     $scope.$apply();
 
-                    resp = resp.responseMessage;
-
-                    window.mycosa(resp.message);
-
                     if (resp.hasError == true) {
                         $scope.MsgError = resp.message;
                         $scope.$apply();
+                    } else {
+                        resp = resp.responseMessage;
+                        window.reloadExcelGrid(resp.message);
                     }
 
                 })
