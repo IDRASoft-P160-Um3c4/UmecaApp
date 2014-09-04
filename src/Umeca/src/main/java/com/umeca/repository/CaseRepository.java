@@ -35,6 +35,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where i.name=:name and i.lastNameP = :lastNameP and i.lastNameM = :lastNameM and c.id <> :idCase")
     List<FindLegalBefore> findLegalBefore(@Param("idCase") Long id, @Param("name") String name, @Param("lastNameP") String lastNameP, @Param("lastNameM") String lastNameM);
 
+
     //obtengo los meeting_incomplete y los incomplete_legal
     @Query("select  new com.umeca.model.entities.reviewer.dto.LogNotificationDto(c.idFolder,concat(imp.name,' ',imp.lastNameP,' ',imp.lastNameM),sm.name,m.dateCreate) from Case as c " +
             "INNER JOIN c.status as stc " +
@@ -284,7 +285,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "inner join cd.status as cs " +
             "inner join cd.meeting.status as sm " +
             "left join cd.verification.status as vs where cd.id = :caseId")
-    StatusEvaluation getStatusEvaluation(@Param("caseId") Long caseId);
+    StatusEvaluation getStatusEvaluation(@Param("caseId")Long caseId);
 
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelVerificationDto(" +
@@ -301,13 +302,13 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "sv.id," +
             "st.description) from Case as CDET " +
             "INNER JOIN CDET.meeting.imputed as IMP " +
-            "INNER JOIN CDET.status as st " +
+            "INNER JOIN CDET.status as st "+
             "INNER JOIN CDET.verification as V " +
             "INNER JOIN V.sourceVerifications as sv " +
             "WHERE CDET.id in (:listCaseId) and sv.isAuthorized = true " +
             "order by CDET.dateCreate")
     List<ExcelVerificationDto> getInfoVerification(@Param("listCaseId") List<Long> listCaseId);
 
-
-
+    @Query("SELECT COUNT(C) FROM Case C INNER JOIN C.status ST WHERE C.id =:caseId AND ST.name <>:caseStatus")
+    Long existsCaseNotClosed(@Param("caseId")Long caseId, @Param("caseStatus")String caseStatusClosed);
 }

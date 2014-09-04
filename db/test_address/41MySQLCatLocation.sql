@@ -1,15 +1,15 @@
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1, 10, "San Angel", "San Angel", "San Angel", "1000");;
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (1, 10, "San Angel", "San Angel", "San Angel", "1000");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2, 10, "Los Alpes", "Los Alpes", "Los Alpes", "1010");;
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (2, 10, "Los Alpes", "Los Alpes", "Los Alpes", "1010");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (3, 10, "Guadalupe Inn", "Guadalupe ", "Guadalupe Inn", "1020");;
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (3, 10, "Guadalupe Inn", "Guadalupe ", "Guadalupe Inn", "1020");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (4, 10, "Secretaria de Contralor�a y Desarrollo Administrativo", "Secretaria", "Secretaria de Contralor�a y Desarrollo Administrativo", "1028");;
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (4, 10, "Secretaria de Contralor�a y Desarrollo Administrativo", "Secretaria", "Secretaria de Contralor�a y Desarrollo Administrativo", "1028");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (5, 10, "INFONAVIT", "INFONAVIT", "INFONAVIT", "1029");;
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (5, 10, "INFONAVIT", "INFONAVIT", "INFONAVIT", "1029");
 	
-	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (6, 10, "Axotla", "Axotla", "Axotla", "1030");;
+	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (6, 10, "Axotla", "Axotla", "Axotla", "1030");
 	
 	INSERT INTO cat_location (id_location, id_municipality, name, abbreviation, description, zip_code) VALUES (7, 10, "Florida", "Florida", "Florida", "1030");
 	

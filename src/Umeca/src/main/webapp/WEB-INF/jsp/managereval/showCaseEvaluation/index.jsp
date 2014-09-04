@@ -59,6 +59,12 @@
 
         };
 
+        window.updwFiles = function(id){
+            var params= [];
+            params["idParam"]=id;
+            window.goToUrlMvcUrl("<c:url value='/shared/uploadFile/index.html?id=idParam'/>",params);
+        };
+
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/managereval/showCaseEvaluation/list.json' />',
@@ -111,6 +117,8 @@
                                 be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Opini&oacute;n t&eacute;cnica\" onclick=\"window.technicalReview('" + _id_verif + "');\"><span class=\"warning icon-archive\"></span></a>  ";
                             }
                         }
+                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Subir / Descargar archivos del caso\" onclick=\"window.updwFiles('" + cl + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
+
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },

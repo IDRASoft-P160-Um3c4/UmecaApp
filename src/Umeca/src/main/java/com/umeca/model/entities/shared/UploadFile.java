@@ -21,6 +21,9 @@ public class UploadFile {
     @Column(name = "file_name", length = 2000, nullable = false)
     private String fileName;
 
+    @Column(name = "real_file_name", length = 2000, nullable = false)
+    private String realFileName;
+
     @Column(name = "description", length = 2000, nullable = false)
     private String description;
 
@@ -51,6 +54,15 @@ public class UploadFile {
 
     @Column(name="is_obsolete")
     private Boolean isObsolete;
+
+    public UploadFile() {
+    }
+
+    public UploadFile(String path, String realFileName, String fileName) {
+        this.path = path;
+        this.realFileName = realFileName;
+        this.fileName = fileName;
+    }
 
     public Long getId() {
         return id;
@@ -146,5 +158,13 @@ public class UploadFile {
 
     public void setObsolete(Boolean obsolete) {
         isObsolete = obsolete;
+    }
+
+    public String getRealFileName() {
+        return realFileName;
+    }
+
+    public void setRealFileName(String realFileName) {
+        this.realFileName = realFileName;
     }
 }

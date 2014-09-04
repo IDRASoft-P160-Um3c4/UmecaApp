@@ -63,7 +63,7 @@
 	<servlet>
 		<servlet-name>startTicServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
+        <init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/config/servlet-config.xml</param-value>
 		</init-param>
@@ -91,4 +91,5 @@
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
+
 </web-app>

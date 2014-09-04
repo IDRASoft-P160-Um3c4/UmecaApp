@@ -65,7 +65,7 @@ public class CaseEvaluationController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 final Join<Meeting, Case> joinMeCa = r.join("caseDetention");
                 final Join<Meeting, Imputed> joinMeIm = r.join("imputed");
-                final Join<Meeting, StatusMeeting> joinMeSt = r.join("status", JoinType.LEFT);
+                final Join<Meeting, StatusMeeting> joinMeSt = r.join("status", JoinType.INNER);
                 final Join<Verification, StatusVerification> joinVer = joinMeCa.join("verification", JoinType.LEFT);
                 final Join<Verification, StatusVerification> joinVeSt = joinVer.join("status", JoinType.LEFT);
                 final Join<Meeting, TechnicalReview> joinTR = joinMeCa.join("technicalReview", JoinType.LEFT);
@@ -91,6 +91,8 @@ public class CaseEvaluationController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
                     return r.join("caseDetention").get("idFolder");
+                else if (field.equals("statusMeeting"))
+                    return r.join("status").get("name");
 
                 return null;
             }

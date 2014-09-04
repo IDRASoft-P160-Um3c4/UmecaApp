@@ -18,4 +18,5 @@ public interface CaseService {
     ResponseMessage saveConditionaReprieveCase(Case caseDet);
     void saveAuthRejectCloseCase(AuthorizeRejectMonPlan model, User user, Case caseDet);
     void generateLogComment(String comments, User userSender, Case caseDet, String action, User userReceiver, String type);
+    boolean isValidCase(Long caseId);
 }
