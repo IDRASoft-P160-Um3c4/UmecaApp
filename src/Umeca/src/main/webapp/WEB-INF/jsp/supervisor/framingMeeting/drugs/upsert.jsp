@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <form id="FormDrugId" name="FormDrugId" class="form-horizontal" role="form">
+                    <form id="FormDrugId" name="FormDrugId" class="form-horizontal" role="form" ng-init="block=true">
                         <br />
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/drug/content.jsp"%>
                     </form>

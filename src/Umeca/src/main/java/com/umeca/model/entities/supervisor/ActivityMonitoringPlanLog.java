@@ -20,8 +20,20 @@ public class ActivityMonitoringPlanLog {
     private Long actSupervisionId;
     private Long aidSourceId;
     private String comments;
+    private String user;
 
-    public ActivityMonitoringPlanLog(Long id, Calendar start, Calendar end, String status, Long actSupervisionId, Long aidSourceId, String comments){
+    public ActivityMonitoringPlanLog(Long id, Calendar start, Calendar end, String status, Long actSupervisionId, Long aidSourceId, String comments, String user){
+        this.id = id;
+        this.start = CalendarExt.calendarToFormatString(start, Constants.FORMAT_CALENDAR_I);
+        this.end = CalendarExt.calendarToFormatString(end, Constants.FORMAT_CALENDAR_I);
+        this.status = status;
+        this.actSupervisionId = actSupervisionId;
+        this.aidSourceId = aidSourceId;
+        this.comments = comments;
+        this.user = user;
+    }
+
+  public ActivityMonitoringPlanLog(Long id, Calendar start, Calendar end, String status, Long actSupervisionId, Long aidSourceId, String comments){
         this.id = id;
         this.start = CalendarExt.calendarToFormatString(start, Constants.FORMAT_CALENDAR_I);
         this.end = CalendarExt.calendarToFormatString(end, Constants.FORMAT_CALENDAR_I);
@@ -85,5 +97,13 @@ public class ActivityMonitoringPlanLog {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 }

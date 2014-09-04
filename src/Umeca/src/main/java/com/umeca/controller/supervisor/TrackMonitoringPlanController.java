@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
@@ -87,6 +88,7 @@ public class TrackMonitoringPlanController {
                     add(r.get("authorizationTime"));
                     add(r.get("status"));
                     add(r.join("supervisor").get("username"));
+                    add(joinCd.join("technicalReview", JoinType.LEFT).get("id").alias("idTec"));
                 }};
             }
 

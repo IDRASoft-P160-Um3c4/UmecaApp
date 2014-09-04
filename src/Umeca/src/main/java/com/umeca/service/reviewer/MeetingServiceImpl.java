@@ -357,6 +357,9 @@ public class MeetingServiceImpl implements MeetingService {
         Imputed iCase = caseDetention.getMeeting().getImputed();
         SocialEnvironment seCase = caseDetention.getMeeting().getSocialEnvironment();
         Meeting m = caseDetention.getMeeting();
+        iCase.setName(imputed.getName());
+        iCase.setLastNameP(imputed.getLastNameP());
+        iCase.setLastNameM(imputed.getLastNameM());
         iCase.setCelPhone(imputed.getCelPhone());
         iCase.setMaritalStatus(maritalStatusRepository.findOne(imputed.getMaritalStatus().getId()));
         iCase.setGender(imputed.getGender());
@@ -937,18 +940,18 @@ public class MeetingServiceImpl implements MeetingService {
         if (imputed.getBirthDate() != null) {
             Integer age = userService.calculateAge(imputed.getBirthDate());
             if (age.compareTo(18) == -1) {
-                return new ResponseMessage(true, "El imputado debe tener más de 18 años para continuar");
+                return new ResponseMessage(true, "El imputado debe tener m&aacute;s de 18 a&ntilde;os para continuar");
             }
         } else {
             return new ResponseMessage(true, "Favor de ingresar la fecha de nacimiento del imputado.");
         }
         if (imputed.getMeeting() != null && imputed.getMeeting().getCaseDetention() != null && imputed.getMeeting().getCaseDetention().getIdFolder() != null) {
-            /*Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
-            if (c != null) {
-                return new ResponseMessage(true, "El número de carpeta de investigación ya se encuentra registrado.");
-            }*/
+            Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
+            Imputed iCase = c.getMeeting().getImputed(); if (iCase.getName().equals(imputed.getName()) && iCase.getLastNameP().equals(imputed.getLastNameP()) && iCase.getLastNameM().equals(imputed.getLastNameM())) {
+                return new ResponseMessage(true, "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrado.");
+            }
         } else {
-            return new ResponseMessage(true, "Favor de ingresar el número de carpeta de investigación para continuar");
+            return new ResponseMessage(true, "Favor de ingresar el n&uacute;mero de carpeta de investigaci&oacute;n para continuar");
         }
         return null;
     }

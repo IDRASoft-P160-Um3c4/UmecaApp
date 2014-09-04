@@ -51,10 +51,20 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
     ActivityMonitoringPlan findByIdAndUserId(@Param("actMonPlanId")Long actMonPlanId, @Param("userId")Long userId);
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanLog(amp.id, amp.start, amp.end, amp.status, amp.supervisionActivity.id, " +
-            "amp.framingSelectedSourceRel.id, amp.comments) " +
+            "amp.framingSelectedSourceRel.id, amp.comments, user.username) " +
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
+            "INNER JOIN amp.supervisorCreate as user " +
             "WHERE mp.id =:monPlanId ORDER BY amp.start ")
     List<ActivityMonitoringPlanLog> getListByMonPlanId(@Param("monPlanId")Long monPlanId);
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanLog(amp.id, amp.start, amp.end, amp.status, amp.supervisionActivity.id, " +
+            "amp.framingSelectedSourceRel.id, amp.comments, user.username) " +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
+            "INNER JOIN amp.supervisorCreate as user " +
+            "INNER JOIN amp.lstAssignedArrangement as lstAA " +
+            "WHERE mp.id =:monPlanId AND lstAA.assignedArrangement.id = :activityId " +
+            "ORDER BY amp.start ")
+    List<ActivityMonitoringPlanLog> getListByMonPlanIdWhitArrangementId(@Param("monPlanId")Long monPlanId, @Param("activityId") Long activityId);
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangementLog(laa.id, amp.id, aa.id, laa.status) " +
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa " +

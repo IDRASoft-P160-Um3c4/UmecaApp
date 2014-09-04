@@ -30,11 +30,6 @@ app.controller('scheduleController', function($scope, $timeout) {
             }
 
         }
-
-        if($scope.listSchedule.length == undefined){
-            alert($scope.listSchedule);
-        }
-
     };
 
 

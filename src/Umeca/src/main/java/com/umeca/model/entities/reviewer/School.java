@@ -43,6 +43,9 @@ public class School {
     @Column(name = "specification",length = 300)
     private String specification;
 
+    @Column(name = "block")
+    private Boolean block;
+
     @OneToOne(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
@@ -109,6 +112,14 @@ public class School {
 
     public void setSpecification(String specification) {
         this.specification = specification;
+    }
+
+    public Boolean getBlock() {
+        return block;
+    }
+
+    public void setBlock(Boolean block) {
+        this.block = block;
     }
 
     public void validateMeeting(TerminateMeetingMessageDto t) {

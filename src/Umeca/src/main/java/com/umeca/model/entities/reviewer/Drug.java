@@ -61,6 +61,9 @@ public class Drug implements EntityGrid{
     @Column(name="last_use", nullable = false)
     private Date lastUse;
 
+    @Column(name="block")
+    private Boolean block;
+
     @Column(name="specification_type", nullable = true, length = 100)
     private String specificationType;
 
@@ -191,5 +194,13 @@ public class Drug implements EntityGrid{
 
     public void setIdAux(Long idAux) {
         this.idAux = idAux;
+    }
+
+    public Boolean getBlock() {
+        return block;
+    }
+
+    public void setBlock(Boolean block) {
+        this.block = block;
     }
 }
