@@ -48,6 +48,7 @@ public class Constants {
     public static final String CASE_STATUS_MEETING = "ST_CASE_MEETING";
     public static final String CASE_STATUS_SOURCE_VALIDATION = "ST_CASE_SOURCE_VALIDATION";
     public static final String ALPHA2_MEXICO = "MX";
+    public static final String CASE_STATUS_HEARING_FORMAT_INCOMPLETE = "ST_CASE_HEARING_FORMAT_INCOMPLETE";
     public static final String CASE_STATUS_HEARING_FORMAT_END = "ST_CASE_HEARING_FORMAT_END";
     public static final String CASE_STATUS_VERIFICATION_COMPLETE = "ST_CASE_VERIFICATION_COMPLETE";
     public static final String CASE_STATUS_TECHNICAL_REVIEW = "ST_CASE_TECHNICAL_REVIEW_COMPLETE";

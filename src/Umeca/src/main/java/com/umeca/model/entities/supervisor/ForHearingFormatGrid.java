@@ -25,7 +25,7 @@ public class ForHearingFormatGrid implements EntityGrid {
 
     private StringBuilder sb;
 
-    public ForHearingFormatGrid(Long id, String idFolder, String idMP, String name, String lastNP, String lastNM, Integer hType, Integer ext, Integer pVinc,Calendar registerTime,String userName ) {
+    public ForHearingFormatGrid(Long id, String idFolder, String idMP, String name, String lastNP, String lastNM, Integer hType, Integer ext, Integer pVinc, Calendar registerTime, String userName) {
         this.id = id;
         this.idFolder = idFolder;
         this.idMP = idMP;
@@ -40,8 +40,7 @@ public class ForHearingFormatGrid implements EntityGrid {
 
         this.fullName = sb.toString();
 
-        this.userName =userName;
-
+        this.userName = userName;
 
 
         if (hType != null) {
@@ -54,16 +53,16 @@ public class ForHearingFormatGrid implements EntityGrid {
             hearingType = "No aplica";
         }
 
-        if (pVinc.equals(HearingFormatConstants.PROCESS_VINC_NO))
+        if (pVinc != null && pVinc.equals(HearingFormatConstants.PROCESS_VINC_NO))
             processVinc = "NO";
-        if (pVinc.equals(HearingFormatConstants.PROCESS_VINC_YES))
+        else if (pVinc != null && pVinc.equals(HearingFormatConstants.PROCESS_VINC_YES))
             processVinc = "SI";
 
-        if (ext.equals(HearingFormatConstants.EXTENSION_144))
+        if (ext != null && ext.equals(HearingFormatConstants.EXTENSION_144))
             extension = "144 hrs";
-        if (ext.equals(HearingFormatConstants.EXTENSION_72))
+        else if (ext != null && ext.equals(HearingFormatConstants.EXTENSION_72))
             extension = "72 hrs";
-        if (ext.equals(HearingFormatConstants.EXTENSION_NO))
+        else if (ext != null && ext.equals(HearingFormatConstants.EXTENSION_NO))
             extension = "No";
 
         this.registerTime = CalendarExt.calendarToFormatString(registerTime, Constants.FORMAT_CALENDAR_I);

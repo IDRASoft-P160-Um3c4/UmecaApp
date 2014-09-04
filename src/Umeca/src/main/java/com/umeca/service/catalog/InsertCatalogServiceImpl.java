@@ -32,10 +32,11 @@ import java.util.List;
  * Time: 4:27 PM
  */
 @Service("insertCatalogService")
-public class InsertCatalogServiceImpl implements InsertCatalogService{
+public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
-    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
+    //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -569,7 +570,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void fieldVerification() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "field_verification.txt","\\|", 9);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "field_verification.txt", "\\|", 9);
         for (String[] data : lstDta) {
             FieldVerification model = new FieldVerification();
             model.setId(Long.parseLong(data[0]));
@@ -591,7 +592,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void statusFieldVerification() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "status_field_verification.txt","\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "status_field_verification.txt", "\\|", 3);
         for (String[] data : lstDta) {
             StatusFieldVerification model = new StatusFieldVerification();
             model.setId(Long.parseLong(data[0]));
@@ -607,7 +608,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Override
     public void verificationMethod() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "verification_method.txt","\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "verification_method.txt", "\\|", 3);
         for (String[] data : lstDta) {
             VerificationMethod model = new VerificationMethod();
             model.setId(Long.parseLong(data[0]));
@@ -638,6 +639,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     SystemSettingRepository systemSettingRepository;
+
     @Override
     public void systemSettings() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "system_settings.txt", "\\|", 5);
@@ -656,6 +658,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     CatFileTypeRepository fileTypeRepository;
+
     @Override
     public void fileType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "file_type.txt", "\\|", 4);
@@ -671,8 +674,9 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
     }
 
 
-     @Autowired
+    @Autowired
     ResponseTypeRepository responseTypeRepository;
+
     @Override
     public void responseType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "response_type.txt", "\\|", 3);

@@ -15,6 +15,8 @@ public class HearingFormatView {
 
     private Long idCase;
 
+    private Long idFormat;
+
     private Boolean canSave;
 
     private Boolean canEdit;
@@ -26,12 +28,15 @@ public class HearingFormatView {
     private String idJudicial;
 
     private Date appointmentDate;
+    private String appointmentDateStr;
 
     private String room;
 
     private Time initTime;
+    private String initTimeStr;
 
     private Time endTime;
+    private String endTimeStr;
 
     private String judgeName;
 
@@ -46,6 +51,7 @@ public class HearingFormatView {
     private String imputedSLastName;
 
     private Date imputedBirthDate;
+    private String imputedBirthDateStr;
 
     private String imputedTel;
 
@@ -56,14 +62,17 @@ public class HearingFormatView {
     private Integer impForm;
 
     private Date imputationDate;
+    private String imputationDateStr;
 
     private Integer vincProcess;
 
     private String linkageRoom;
 
     private Date linkageDate;
+    private String linkageDateStr;
 
     private Time linkageTime;
+    private String linkageTimeStr;
 
     private Integer arrangementType;
 
@@ -100,6 +109,8 @@ public class HearingFormatView {
     private String lat;
 
     private String lng;
+
+    private Boolean isFinished;
 
     public String getLat() {
         return lat;
@@ -451,5 +462,77 @@ public class HearingFormatView {
 
     public void setCredPass(String credPass) {
         this.credPass = credPass;
+    }
+
+    public String getAppointmentDateStr() {
+        return appointmentDateStr;
+    }
+
+    public void setAppointmentDateStr(String appointmentDateStr) {
+        this.appointmentDateStr = appointmentDateStr;
+    }
+
+    public String getInitTimeStr() {
+        return initTimeStr;
+    }
+
+    public void setInitTimeStr(String initTimeStr) {
+        this.initTimeStr = initTimeStr;
+    }
+
+    public String getEndTimeStr() {
+        return endTimeStr;
+    }
+
+    public void setEndTimeStr(String endTimeStr) {
+        this.endTimeStr = endTimeStr;
+    }
+
+    public String getImputedBirthDateStr() {
+        return imputedBirthDateStr;
+    }
+
+    public void setImputedBirthDateStr(String imputedBirthDateStr) {
+        this.imputedBirthDateStr = imputedBirthDateStr;
+    }
+
+    public String getImputationDateStr() {
+        return imputationDateStr;
+    }
+
+    public void setImputationDateStr(String imputationDateStr) {
+        this.imputationDateStr = imputationDateStr;
+    }
+
+    public String getLinkageDateStr() {
+        return linkageDateStr;
+    }
+
+    public void setLinkageDateStr(String linkageDateStr) {
+        this.linkageDateStr = linkageDateStr;
+    }
+
+    public String getLinkageTimeStr() {
+        return linkageTimeStr;
+    }
+
+    public void setLinkageTimeStr(String linkageTimeStr) {
+        this.linkageTimeStr = linkageTimeStr;
+    }
+
+    public Long getIdFormat() {
+        return idFormat;
+    }
+
+    public void setIdFormat(Long idFormat) {
+        this.idFormat = idFormat;
+    }
+
+    public Boolean getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
     }
 }
