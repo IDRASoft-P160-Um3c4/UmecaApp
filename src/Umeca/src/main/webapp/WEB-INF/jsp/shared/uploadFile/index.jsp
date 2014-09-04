@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!--
-* Project: Umeca
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
-    <%--<script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/trackMonitoringPlan/trackListMonPlanCtrl.js"></script>--%>
-    <title></title>
+    <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet" type="text/css">
+
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upload/uploadFileCtrl.js"></script>
+
+    <title>Subir / Descargar archivos</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
     <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -19,25 +21,42 @@
     <div class="container body-content">
 
         <script>
-            window.uploadFile = function(id) {
-                alert(id);
+            window.uploadFile = function() {
+                id = ${caseId};
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/shared/uploadFile/uploadFile.html' />', "#GridId");
+            };
+
+            window.download = function(id) {
+                var params= [];
+                params["idParam"]=id;
+                window.goToUrlMvcUrl("<c:url value='/shared/uploadFile/downloadFile.html?id=idParam' />",params);
+            };
+
+            window.downloadAll = function() {
+                id = ${caseId};
+                var params= [];
+                params["idParam"]=id;
+                window.goToNewUrl("<c:url value='/shared/uploadFile/downloadFileByCase.html?id=idParam' />", params, {opts:"fullscreen=no, top=0, left=0, width=500, height=300"});
+            };
+
+            window.delete = function(id) {
+                id = ${caseId} + "|" + id;
+                window.showAction(id, "#angJsjqGridId", '<c:url value='/shared/uploadFile/deleteFile.json' />', "#GridId", "Eliminar archivo", "&iquest;Desea eliminar el archivo elegido?", "danger");
             };
 
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
-                    url: '<c:url value='/shared/uploadFile/list.json?idCase=' />' + ${caseId},
+                    url: '<c:url value='/shared/uploadFile/list.json?caseId=' />' + ${caseId},
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Archivo', 'Descripción', 'Tamaño', 'Usuario', 'Fecha creaci&oacute;n', 'Caso'],
+                    colNames: ['ID', 'Archivo', 'Descripción', 'Tamaño (bytes)', 'Usuario', 'Fecha creaci&oacute;n', 'Caso', 'Acción'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
-                        { name: 'filename', index: 'filename', width: 140, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                        { name: 'filename', index: 'filename', width: 280, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                         { name: 'description', index: 'description', width: 220, align: "center", sortable: false, search: false },
-                        { name: 'stCreationTime', index: 'stCreationTime', width: 130, align: "center", sortable: true, search: false },
-                        { name: 'stGenerationTime', index: 'stGenerationTime', width: 130, align: "center", sortable: true, search: false },
-                        { name: 'stAuthorizationTime', index: 'stAuthorizationTime', width: 140, align: "center", sortable: true, search: false },
-                        { name: 'status', index: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                        { name: 'supervisor', index: 'supervisor', width: 130, align: "center", sortable: false, search: false },
+                        { name: 'size', index: 'size', width: 150, align: "center", sortable: true, search: false },
+                        { name: 'fullname', index: 'fullname', width: 130, align: "center", sortable: true, search: false },
+                        { name: 'stCreationTime', index: 'stCreationTime', width: 140, align: "center", sortable: true, search: false },
                         { name: 'caseId', index: 'caseId', hidden: true},
                         { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                     ],
@@ -59,9 +78,12 @@
                             var status = row.status;
                             var be = "";
 
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Seguimiento al plan\" onclick=\"window.track('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar\" onclick=\"window.download('" + cl + "');\"><span class=\"glyphicon glyphicon-cloud-download\"></span></a>";
+
+                            if("${readOnly}" !== "1" )
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar\" onclick=\"window.delete('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                             /*if (status === "NUEVO") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisiï¿½n\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
+                                be += "&nbsp;&nb00sp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisiï¿½n\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
                             }*/
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }
@@ -77,24 +99,10 @@
 
                 jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                     edit: false, editicon : 'icon-pencil blue',
-                    add: false,
+                    add: ("${readOnly}" !== "1") ? true : false, addfunc: window.uploadFile, addicon: 'icon-plus-sign purple',
                     refresh: true, refreshicon : 'icon-refresh green',
                     del: false,
                     search: false});
-
-                jQuery("#GridId").jqGrid('navSeparatorAdd', '#GridPager');
-                jQuery("#GridId").jqGrid('navButtonAdd', "#GridPager",
-                        {
-                            caption: "",
-                            title: "Exportar a excel",
-                            buttonicon: 'icon-download-alt blue',
-
-                            onClickButton: function () {
-                                try {
-                                    $("#GridId").jqGrid('toExcelFile',{nombre:"datosXls",formato:"excel"});
-                                } catch (e) {
-                                }
-                            }});
 
                 jQuery("#GridId").jqGrid('filterToolbar', {
                     stringResult: true,
@@ -110,12 +118,17 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-xs-12">
-                    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Planes de seguimiento</h2>
+                    <h3 class="element-center"><i class="glyphicon glyphicon-upload"></i>&nbsp;Subir / <i class="glyphicon glyphicon-upload"></i>&nbsp;Descargar archivos del caso
+                        <br/>Imputado: ${fullname}
+                        <br/>Carpeta judicial: ${mpId} - carpeta de investigación: ${folderId} </h3>
                 </div>
-            </div>
-            <div class="row" ng-controller="trackListMonPlanCtrl">
-                <div class="col-xs-3 col-xs-offset-5">
-                    <div class="btn btn-success element-center" ng-click="trackAll()"><i class="glyphicon glyphicon-calendar"></i> &nbsp; Calendario completo</div>
+                <div class="row" ng-controller="uploadFileController">
+                    <div class="col-xs-12 element-center">
+                    <br/>
+                        <span class="btn btn-primary element-center" ng-click="downloadAll()">
+                            <i class="glyphicon glyphicon-save"></i> &nbsp; Descargar expediente
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

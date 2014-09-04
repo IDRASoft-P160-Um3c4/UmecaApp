@@ -131,9 +131,13 @@
         $scope.$apply();
     };
 
-    $scope.cancel = function () {
+    $scope.cancel = function (isOk) {
         $scope.Model.dlg.modal('hide');
-        $scope.Model.def.reject({ isCancel: true });
+
+        if(isOk === true)
+            $scope.Model.def.resolve({ isCancel: false });
+        else
+            $scope.Model.def.reject({ isCancel: true });
     };
 
     $scope.setDlg = function (dlg, urlToSubmit) {

@@ -22,6 +22,13 @@ public class SystemSetting {
     @Column(name = "description", length = 2000, nullable = false)
     private String description;
 
+    public SystemSetting() {
+    }
+
+    public SystemSetting(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
 
     public Long getId() {
         return id;

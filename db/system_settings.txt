@@ -1,3 +1,4 @@
 ﻿id_system_setting|group|key|value|description
-1|ARCHIVO|MaxNumberFiles|5|Máximo número de archivos por caso
-2|ARCHIVO|MaxSizeFiles|50000|Máximo espacio para los archivos por caso (en kilobytes)
+1|ARCHIVE|MaxNumberFiles|5|Máximo número de archivos por caso
+2|ARCHIVE|MaxSizeFiles|50000000|Máximo espacio para los archivos por caso (en bytes)
+3|ARCHIVE|PathToSave|files|Ruta para almacenar los archivos a subir por caso

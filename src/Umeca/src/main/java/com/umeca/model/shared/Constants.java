@@ -80,6 +80,12 @@ public class Constants {
     public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
     public static String FORMAT_VERIFICATION_DATE = "yyyy-MM-dd hh:mm:ss.S";
 
+    public static final String SYSTEM_SETTINGS_ARCHIVE = "ARCHIVE";
+    public static final String SYSTEM_SETTINGS_ARCHIVE_MAX_NUMBER_FILES = "MaxNumberFiles";
+    public static final String SYSTEM_SETTINGS_ARCHIVE_MAX_SIZE_FILES = "MaxSizeFiles";
+    public static final String SYSTEM_SETTINGS_ARCHIVE_PATH_TO_SAVE = "PathToSave";
+
+
 
     public static String VERIFICATION_STATUS_COMPLETE = "VERIFICATION_COMPLETE";
 
