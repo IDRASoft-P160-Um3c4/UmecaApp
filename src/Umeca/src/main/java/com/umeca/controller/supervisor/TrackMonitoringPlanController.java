@@ -116,7 +116,7 @@ public class TrackMonitoringPlanController {
 
 
     @RequestMapping(value = "/supervisor/trackMonitoringPlan/trackCalendar", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView generate(@RequestParam(required = false) Long id){ //Id monitoring plan
+    public @ResponseBody ModelAndView generate(@RequestParam(required = false) Long id, @RequestParam(required = false) Integer redirect){ //Id monitoring plan
         ModelAndView model = new ModelAndView("/supervisor/trackMonitoringPlan/trackCalendar");
 
         if(id == null){
@@ -128,7 +128,12 @@ public class TrackMonitoringPlanController {
 
         model.addObject("urlGetActivities","/supervisor/trackMonitoringPlan/getActivities.json");
         model.addObject("urlShowActivity","/supervisor/trackMonitoringPlan/showActivity.html");
-        model.addObject("urlReturn","/supervisor/trackMonitoringPlan/index.html");
+        if(redirect==null){
+            model.addObject("urlReturn","/supervisor/trackMonitoringPlan/index.html");
+        }else if(redirect.equals(1)) {
+            model.addObject("urlReturn","/supervisor/manageMonitoringPlan/index.html");
+        }
+
 
         return model;
     }

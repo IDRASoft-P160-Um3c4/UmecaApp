@@ -26,7 +26,20 @@
                 window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisor/manageMonitoringPlan/showRejectAuthEndMsg.html' />', "#GridId");
             }
 
+            window.track = function(id) {
+                var params= [];
+                params["idParam"]=id;
+                params["redirectParam"] = 1;
+                window.goToUrlMvcUrl("<c:url value='/supervisor/trackMonitoringPlan/trackCalendar.html?id=idParam&&redirect=redirectParam' />",params);
+            };
 
+
+
+            window.supervisionLog = function(id) {
+                var params= [];
+                params["idParam"]=id;
+                window.goToNewUrl("<c:url value='/supervisorManager/log/supervisionLog.html?id=idParam' />",params);
+            };
 
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
@@ -72,6 +85,8 @@
 
                             if (status !== "RECHAZADO AUTORIZAR" && status !== "RECHAZADO TERMINAR" && status !== "EN PROCESO DE AUTORIZAR"  && status !== "EN PROCESO DE TERMINAR") {
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar finalizaci&oacute;n del plan de seguimiento\" onclick=\"window.reqEndPlan('" + cl + "');\"><span class=\"glyphicon glyphicon-off\"></span></a>";
+                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver plan de supervisi&oacute;n\" onclick=\"window.track('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
+                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&aacute;cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                             }
 
                             /*if (status === "NUEVO") {
