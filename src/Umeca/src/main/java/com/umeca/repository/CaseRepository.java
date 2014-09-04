@@ -308,4 +308,6 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "order by CDET.dateCreate")
     List<ExcelVerificationDto> getInfoVerification(@Param("listCaseId") List<Long> listCaseId);
 
+    @Query("SELECT COUNT(C) FROM Case C INNER JOIN C.status ST WHERE C.id =:caseId AND ST.name <>:caseStatus")
+    Long existsCaseNotClosed(@Param("caseId")Long caseId, @Param("caseStatus")String caseStatusClosed);
 }

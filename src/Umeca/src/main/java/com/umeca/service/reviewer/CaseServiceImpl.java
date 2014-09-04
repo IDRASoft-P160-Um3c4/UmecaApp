@@ -250,4 +250,9 @@ public class CaseServiceImpl implements CaseService {
         logCommentRepository.save(commentModel);
     }
 
+    @Override
+    public boolean isValidCase(Long caseId) {
+        return caseRepository.existsCaseNotClosed(caseId, Constants.CASE_STATUS_CLOSED) == 1;
+    }
+
 }

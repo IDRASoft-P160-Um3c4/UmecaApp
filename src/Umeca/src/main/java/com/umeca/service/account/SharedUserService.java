@@ -95,6 +95,10 @@ public class SharedUserService {
         return (userRepository.isUserInRole(supervisorId, sRole) > 0);
 
     }
+    public boolean isUserInRoles(Long supervisorId, List<String> lstRole) {
+        return (userRepository.isUserInRoles(supervisorId, lstRole) > 0);
+
+    }
 
     public String convertToValidString(String s){
         s = s.replace("á","&aacute;");

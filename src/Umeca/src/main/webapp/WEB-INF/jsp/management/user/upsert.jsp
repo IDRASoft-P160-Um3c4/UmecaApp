@@ -132,7 +132,7 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Informaci�n personal
+                                        <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Informaci&oacute;n personal
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -143,7 +143,7 @@
                                                     </div>
                                                     <div class="col-xs-9">
                                                         <input class="form-control" data-val="true"
-                                                               data-val-length="Debe tener al menos 6 y m�ximo 200 caracteres"
+                                                               data-val-length="Debe tener al menos 6 y m&aacute;ximo 200 caracteres"
                                                                data-val-length-max="200" data-val-length-min="6"
                                                                data-val-required="Nombre es un campo requerido"
                                                                id="fullname" name="fullname"
@@ -165,11 +165,11 @@
                                                         <input name="email" class="form-control ng-pristine ng-valid"
                                                                id="email" type="text"
                                                                ng-model="m.email"
-                                                               data-val-required="Correo electr�nico es un campo requerido"
+                                                               data-val-required="Correo electr&oacute;nico es un campo requerido"
                                                                data-val="true"
                                                                data-val-length-min="5" data-val-length-max="500"
-                                                               data-val-length="Debe tener al menos 5  y m�ximo 500 caracteres"
-                                                               data-val-email="Correo electr�nico no v�lido"
+                                                               data-val-length="Debe tener al menos 5  y m&aacute;ximo 500 caracteres"
+                                                               data-val-email="Correo electr&oacute;nico no v&aacute;lido"
                                                                ng-init="m.email = '${(model == null) ? "" : model.email}';"/>
                                                     </div>
                                                     <div class="col-xs-9 col-xs-offset-3">
