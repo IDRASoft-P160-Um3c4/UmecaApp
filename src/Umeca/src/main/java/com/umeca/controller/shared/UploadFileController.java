@@ -294,10 +294,8 @@ public class UploadFileController {
                 while ((len = in.read(buffer)) > 0) {
                     zos.write(buffer, 0, len);
                 }
-
                 in.close();
             }
-
             zos.closeEntry();
             zos.close();
 
@@ -305,7 +303,6 @@ public class UploadFileController {
             response.setContentLength((int)fileOut.length());
             response.setHeader("Content-Transfer-Encoding", "binary");
             response.setHeader("Content-Disposition","attachment; filename=\"" + fileOut.getName() +  "\"");//fileName);
-
 
             return new FileSystemResource(fileOut);
 

@@ -246,10 +246,18 @@
                 <i class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Plan de seguimiento (Calendario)
             </h1>
         </div>
-        <div class="page-header">
+        <div class="page-header" ng-init="idTec = ${idTec == null? 0: idTec};">
             <h1 class="element-center" ng-init="caseId='${caseId}'; mpId='${mpId}'; personName='${personName}';">
                 <%--Id. del caso: {{caseId}}, &nbsp;&nbsp; --%> Carpeta judicial: {{mpId}}, &nbsp;&nbsp; Imputado: {{personName}}
             </h1>
+        </div>
+        <div class="row" ng-show="idTec != 0">
+                <div class="col-xs-12 text-info element-right">
+                    <a href="<c:url  value='/reviewer/technicalReview/generateFile.html?id=${caseId}'/>">
+                        <i class="icon-download-alt icon-animated-wrench bigger-120" id="downOT"></i>&nbsp;
+                        <label for="downOT">Descargar opini&oacute;n t&eacutecnica.</label>
+                    </a>
+                </div>
         </div>
         <div class="row">
             <div class="col-xs-12">

@@ -97,6 +97,36 @@
                         <br/>
                         <div class="row">
                             <div class="col-xs-5 element-left">
+                                G&eacute;nero:
+                            </div>
+                            <div class="col-xs-7">
+                                <div class="row" ng-init="gen=false">
+                                    <div class="col-xs-6">
+                                        <div class="radio">
+                                            <label>
+                                                <input class="ace" type="radio" ng-checked="gen==true" name="gender"
+                                                       data-val-required="El g?nero es un campo requerido" id="genero" value="true"
+                                                       ng-model="gen">
+                                                <span class="lbl">Femenino</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="radio">
+                                            <label>
+                                                <input class="ace" type="radio" value="false" ng-model="gen" ng-checked="gen==false"
+                                                       name="gender">
+                                                <span class="lbl">Masculino</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-xs-5 element-left">
                                 Carpeta judicial:
                             </div>
                             <div class="col-xs-7">

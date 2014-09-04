@@ -78,6 +78,9 @@ public class Job implements EntityGrid{
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
 
+    @Column(name="block")
+    private Boolean block;
+
     @Transient
     private String registerTypeString;
 
@@ -221,5 +224,13 @@ public class Job implements EntityGrid{
 
     public void setIdAux(Long idAux) {
         this.idAux = idAux;
+    }
+
+    public Boolean getBlock() {
+        return block;
+    }
+
+    public void setBlock(Boolean block) {
+        this.block = block;
     }
 }

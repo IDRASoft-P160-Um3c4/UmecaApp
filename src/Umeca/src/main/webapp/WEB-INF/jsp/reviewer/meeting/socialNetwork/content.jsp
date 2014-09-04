@@ -70,8 +70,8 @@
             </div>
             <div class="col-xs-7">
                 <input class="form-control" type="text"
-                       data-val="true" data-val-length="Debe tener al menos 8 y m&aacute;ximo 20 caracteres"
-                       data-val-length-max="20" data-val-length-min="8"
+                       data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 20 caracteres"
+                       data-val-length-max="20" data-val-length-min="5"
                        data-val-required="El tel&eacute;fono es un campo requerido"
                        name="phone" id="phone" value="{{phone}}" ng-init="phone = person.phone">
             </div>

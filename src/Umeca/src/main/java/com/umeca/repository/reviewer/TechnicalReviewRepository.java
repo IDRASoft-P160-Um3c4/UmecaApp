@@ -2,6 +2,8 @@ package com.umeca.repository.reviewer;
 
 import com.umeca.model.entities.reviewer.TechnicalReview;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("qTechnicalReviewRepository")
 public interface TechnicalReviewRepository extends JpaRepository<TechnicalReview, Long>{
+    @Query("select e.id from Case as c " +
+            "LEFT JOIN c.technicalReview as e where c.id = :idCase")
+    Long getTechnicalReviewByCaseId(@Param("idCase")Long caseId);
 
 /*
     @Query("SELECT q FROM Questionary q WHERE q.code =:code AND q.isObsolete = false")

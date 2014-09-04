@@ -25,12 +25,17 @@
                 window.goToUrlMvcUrl("<c:url value='/supervisor/trackMonitoringPlan/trackCalendar.html?id=idParam' />",params);
             };
 
+            generateFile = function (id) {
+                var goTo = "<c:url value='/reviewer/technicalReview/generateFile.html'/>" + "?id=" + id;
+                window.goToUrlMvcUrl(goTo);
+            };
+
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/supervisor/trackMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Acci&oacute;n'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a','idTec', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', index: 'caseId', hidden: true},
@@ -41,6 +46,7 @@
                         { name: 'stAuthorizationTime', index: 'stAuthorizationTime', width: 140, align: "center", sortable: true, search: false },
                         { name: 'status', index: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                         { name: 'supervisor', index: 'supervisor', width: 130, align: "center", sortable: false, search: false },
+                        { name: 'idTec', index: 'idTec', hidden:true},
                         { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                     ],
                     rowNum: 10,
@@ -60,11 +66,16 @@
                             var row = $(this).getRowData(cl);
                             var status = row.status;
                             var be = "";
-
+                            var idTec = $(this).jqGrid('getCol', 'idTec', false);
+                            var caseId = $(this).jqGrid('getCol', 'caseId', false);
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Seguimiento al plan\" onclick=\"window.track('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
                             /*if (status === "NUEVO") {
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisi�n\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
                             }*/
+
+                            if(idTec!=null && idTec!=""){
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte\" onclick=\"generateFile('" + caseId + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
+                            }
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }
                     },

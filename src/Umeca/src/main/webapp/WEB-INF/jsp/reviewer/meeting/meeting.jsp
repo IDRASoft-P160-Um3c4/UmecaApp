@@ -67,10 +67,10 @@
             &nbsp;${m.caseDetention.idFolder}
         </h3>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8" ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';" >
         <h3 class="header smaller lighter blue">
             <small>Nombre del imputado:  </small>
-            &nbsp;&nbsp;${m.imputed.name} &nbsp; ${m.imputed.lastNameP} &nbsp; ${m.imputed.lastNameM}
+            &nbsp;&nbsp;{{i.name}} &nbsp; {{i.lastNameP}} &nbsp; {{i.lastNameM}}
         </h3>
     </div>
     <div class="col-sm-1">

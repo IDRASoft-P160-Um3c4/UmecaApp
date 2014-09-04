@@ -1,6 +1,58 @@
-app.controller("supervisionLogController", function($scope){
+app.controller("supervisionLogController", function($scope, $timeout){
 
     $scope.reconstructedLstActMonPlan = [];
+    $scope.assignedArrangementFilter = [];
+    $scope.b={};
+
+    $scope.init = function(){
+        var element = {};
+        element.id=0;
+        element.name="Todas";
+        element.description = "";
+        $scope.assignedArrangementFilter.push(element);
+        $scope.assignedArrangementFilter = $scope.assignedArrangementFilter.concat($scope.lstHfAssignedArrangement);
+        $scope.b.filter = $scope.assignedArrangementFilter[0];
+
+    };
+
+    $scope.fillByFilter = function(){
+        $scope.WaitFor = true;
+        $scope.MsgError= "";
+        var data= {};
+        data.id= $scope.mpId;
+        data.activityId = $scope.b.filter.id;
+        var settings = {
+            dataType: "json",
+            type: "POST",
+            url: $scope.urlToFill,
+            data: data,
+            success: function (resp) {
+                $scope.WaitFor = false;
+                if (resp.hasError === undefined) {
+                    resp = resp.responseMessage;
+                }
+                if (resp.hasError === true) {
+                    $scope.MsgError= "Ha ocurrido un error al filtrar las actividades.";
+                    $scope.$apply();
+                }
+                else {
+                    $scope.lstActMonPlan = JSON.parse(resp.returnData);
+                    $scope.constructActMonPlan();
+                        $scope.$apply();
+                }
+            },
+            error: function () {
+                $scope.MsgError = "No se ha podido conectar al servidor";
+                $scope.$apply();
+            }
+        };
+
+        $.ajax(settings);
+    };
+
+    $timeout(function() {
+        $scope.init();
+    }, 0);
 
     $scope.idToObject = function(id, lstCat){
         for(var i=0; i<lstCat.length; i++){
@@ -38,7 +90,7 @@ app.controller("supervisionLogController", function($scope){
                     status: $scope.setStatus(mpArr.status)
                 });
 
-                $scope.lstActMonPlanArrangement.splice(i,1);
+                //$scope.lstActMonPlanArrangement.splice(i,1);   Se comenta para poder filtrar las actividades
             }
 
             if(bFound === true && mpArr.actMonPlanId !== actMonPlanId)
@@ -69,7 +121,8 @@ app.controller("supervisionLogController", function($scope){
                 aidSource: (aidSource === undefined ? "NA" : aidSource.name + " / " + aidSource.description),
                 lstAssignedArrangements: lstAssignedArrangements,
                 status: act.status,
-                comments: comments
+                comments: comments,
+                user: act.user
             };
 
             $scope.reconstructedLstActMonPlan.push(actRec);

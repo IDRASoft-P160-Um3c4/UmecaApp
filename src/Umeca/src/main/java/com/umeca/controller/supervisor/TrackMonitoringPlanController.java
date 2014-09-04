@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
@@ -87,6 +88,7 @@ public class TrackMonitoringPlanController {
                     add(r.get("authorizationTime"));
                     add(r.get("status"));
                     add(r.join("supervisor").get("username"));
+                    add(joinCd.join("technicalReview", JoinType.LEFT).get("id").alias("idTec"));
                 }};
             }
 
@@ -114,7 +116,7 @@ public class TrackMonitoringPlanController {
 
 
     @RequestMapping(value = "/supervisor/trackMonitoringPlan/trackCalendar", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView generate(@RequestParam(required = false) Long id){ //Id monitoring plan
+    public @ResponseBody ModelAndView generate(@RequestParam(required = false) Long id, @RequestParam(required = false) Integer redirect){ //Id monitoring plan
         ModelAndView model = new ModelAndView("/supervisor/trackMonitoringPlan/trackCalendar");
 
         if(id == null){
@@ -126,7 +128,12 @@ public class TrackMonitoringPlanController {
 
         model.addObject("urlGetActivities","/supervisor/trackMonitoringPlan/getActivities.json");
         model.addObject("urlShowActivity","/supervisor/trackMonitoringPlan/showActivity.html");
-        model.addObject("urlReturn","/supervisor/trackMonitoringPlan/index.html");
+        if(redirect==null){
+            model.addObject("urlReturn","/supervisor/trackMonitoringPlan/index.html");
+        }else if(redirect.equals(1)) {
+            model.addObject("urlReturn","/supervisor/manageMonitoringPlan/index.html");
+        }
+
 
         return model;
     }
