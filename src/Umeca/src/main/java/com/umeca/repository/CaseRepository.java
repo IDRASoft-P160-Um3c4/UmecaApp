@@ -189,8 +189,9 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join PCP.complyProcessAbove APA " +
             "left join CDET.technicalReview TR " +
             "left join CDET.verification VER " +
+            "where CDET.id in (:lstIdsCases)" +
             "order by CDET.dateCreate")
-    List<ExcelCaseInfoDto> getInfoCases();
+    List<ExcelCaseInfoDto> getInfoCases(@Param("lstIdsCases") List<Long> lstIdsCases);
     /**/
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelActivitiesDto(CDET.id,ACT.name,RSEA.specification) " +
