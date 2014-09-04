@@ -55,6 +55,12 @@
             window.goToNewUrl("<c:url value='/supervisor/log/supervisionLog.html?id=idParam' />", params);
         };
 
+        window.updwFiles = function(id){
+            var params= [];
+            params["idParam"]=id;
+            window.goToUrlMvcUrl("<c:url value='/shared/uploadFile/index.html?id=idParam'/>",params);
+        };
+
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisor/showCaseEvaluation/list.json' />',
@@ -115,6 +121,8 @@
                             be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar bitacora de plan de monitoreo\" onclick=\"supervisionLog('" + iMonP + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>  ";
                             be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar reporte de incumplimiento\" onclick=\"accomplishmentLog('" + iMonP + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>  ";
                         }
+
+                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Subir / Descargar archivos del caso\" onclick=\"window.updwFiles('" + cl + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
 
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

@@ -26,6 +26,12 @@
 
         };
 
+        window.updwFiles = function(id){
+            var params= [];
+            params["idParam"]=id;
+            window.goToUrlMvcUrl("<c:url value='/shared/uploadFile/index.html?id=idParam'/>",params);
+        };
+
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/director/caseRequest/list.json' />',
@@ -58,6 +64,8 @@
                         var status = parseInt(row.status);
                         var be = "";
                         be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver detalles de solicitudes realizadas\" onclick=\"window.showDetailRequest('" + cl + "');\"><i class=\"glyphicon icon-eye-open\"></i></a>  ";
+                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Subir / Descargar archivos del caso\" onclick=\"window.updwFiles('" + cl + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
+
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },
