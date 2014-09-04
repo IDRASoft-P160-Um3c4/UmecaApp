@@ -19,4 +19,6 @@ public interface TechnicalReviewService {
     TechnicalReviewInfoFileView fillInfoFile(Long idVerification);
 
     TechnicalReviewInfoFileAllSourcesView fillInfoFileAllSources(Long id);
+
+    Integer calculateLevelRisk(Integer total);
 }

@@ -16,6 +16,12 @@ public class ResponseMessage {
         this.message = message;
     }
 
+    public ResponseMessage(boolean hasError, String message, String title) {
+        this.hasError = hasError;
+        this.message = message;
+        this.title = title;
+    }
+
     public boolean isHasError() {
         return hasError;
     }

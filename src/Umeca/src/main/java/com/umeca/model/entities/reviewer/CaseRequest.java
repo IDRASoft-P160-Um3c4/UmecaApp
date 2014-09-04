@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.RequestType;
+import com.umeca.model.catalog.ResponseType;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.shared.Message;
 
@@ -29,6 +30,10 @@ public class CaseRequest {
     @ManyToOne
     @JoinColumn(name="id_request_type", nullable = false)
     private RequestType requestType;
+
+    @ManyToOne
+    @JoinColumn(name="id_response_type", nullable = false)
+    private ResponseType responseType;
 
     @OneToMany(mappedBy="caseRequest", cascade={CascadeType.ALL})
     private List<SourceVerification> sources;
@@ -87,5 +92,13 @@ public class CaseRequest {
 
     public void setRequestMessage(Message requestMessage) {
         this.requestMessage = requestMessage;
+    }
+
+    public ResponseType getResponseType() {
+        return responseType;
+    }
+
+    public void setResponseType(ResponseType responseType) {
+        this.responseType = responseType;
     }
 }

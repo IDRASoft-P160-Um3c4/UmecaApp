@@ -12,3 +12,4 @@
 11|ST_CASE_CLOSED|Cerrado.
 12|ST_CASE_REQUEST|En solicitud pendiente
 13|ST_CASE_EDIT_TEC_REV|Edición de opinión técnica autorizada
+14|ST_CASE_OBSOLETE|Caso eliminado

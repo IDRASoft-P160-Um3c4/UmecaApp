@@ -46,13 +46,20 @@
     <title>Entrevista</title>
 </head>
 <body scroll="no" ng-app="ptlUmc" ng-cloak>
-<%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
+<div class="row">
+    <div class="col-xs-12">
+        <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
+    </div>
+</div>
 
 <div class="container body-content" ng-controller="meetingController">
 
-<h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos
-    procesales</h2>
-
+<div class="row">
+    <br/>
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos
+        procesales</h2>
+</div>
+<br/>
 <div class="row">
     <div class="col-sm-3">
         <h3 class="header smaller lighter blue">
@@ -116,7 +123,8 @@
                         <div class="row">
                             <div class="col-xs-10">
                                 <i class="green  icon-home  bigger-200"></i>
-                                Domicilios
+                                Domicilios    <br/>
+                                <label class="info-example">De los &uacute;ltimos 5 a&ntilde;os</label>
                             </div>
                             <div class="col-xs-2" ng-show="listMsgError['imputedHome'].length > 0">
                                 <div class="tools">
@@ -147,7 +155,8 @@
                         <div class="row">
                             <div class="col-xs-10">
                                 <i class="blue icon-group bigger-200"></i>
-                                Red social
+                                Red social               <br/>
+                                <label class="info-example">Personas con las que vive</label>
                             </div>
                             <div class="col-xs-2" ng-show="listMsgError['socialNetwork'].length > 0">
                                 <div class="tools">
@@ -177,7 +186,8 @@
                         <div class="row">
                             <div class="col-xs-10">
                                 <i class="red icon-list bigger-200"></i>
-                                Referencias personales
+                                Referencias personales <br/>
+                                <label class="info-example">Personas con las que no vive</label>
                             </div>
                             <div class="col-xs-2" ng-show="listMsgError['reference'].length > 0">
                                 <div class="tools">
@@ -205,7 +215,8 @@
                         <div class="row">
                             <div class="col-xs-10">
                                 <i class="pink icon-briefcase  bigger-200"></i>
-                                Historia laboral
+                                Historia laboral<br/>
+                                <label class="info-example">&Uacute;ltimos 3-5 empleos</label>
                             </div>
                             <div class="col-xs-2" ng-show="listMsgError['job'].length > 0">
                                 <div class="tools">

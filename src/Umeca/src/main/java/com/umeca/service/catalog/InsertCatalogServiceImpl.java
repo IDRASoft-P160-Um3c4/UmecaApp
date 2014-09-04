@@ -34,8 +34,8 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService{
 
-    private String PATH = "C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
-
+    //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -272,6 +272,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     AidSourceRepository aidSourceRepository;
+
     @Override
     public void insertAidSource() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "aid_source.txt", "\\|", 4);
@@ -527,6 +528,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     HomeTypeRepository homeTypeRepository;
+
     @Override
     public void homeType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "home_type.txt", "\\|", 4);
@@ -561,8 +563,10 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
         }
         framingThreatRepository.flush();
     }
+
     @Autowired
     FieldVerificationRepository fieldVerificationRepository;
+
     @Override
     public void fieldVerification() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "field_verification.txt","\\|", 9);
@@ -584,6 +588,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     StatusFieldVerificationRepository statusFieldVerificationRepository;
+
     @Override
     public void statusFieldVerification() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "status_field_verification.txt","\\|", 3);
@@ -599,6 +604,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     VerificationMethodRepository verificationMethodRepository;
+
     @Override
     public void verificationMethod() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "verification_method.txt","\\|", 3);
@@ -614,6 +620,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
 
     @Autowired
     RequestTypeRepository requestTypeRepository;
+
     @Override
     public void requestType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "request_type.txt", "\\|", 4);
@@ -661,6 +668,22 @@ public class InsertCatalogServiceImpl implements InsertCatalogService{
             fileTypeRepository.save(model);
         }
         fileTypeRepository.flush();
+    }
+
+
+     @Autowired
+    ResponseTypeRepository responseTypeRepository;
+    @Override
+    public void responseType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "response_type.txt", "\\|", 3);
+        for (String[] data : lstDta) {
+            ResponseType model = new ResponseType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            responseTypeRepository.save(model);
+        }
+        responseTypeRepository.flush();
     }
 
 }

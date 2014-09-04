@@ -16,6 +16,9 @@ public class TechnicalReview {
     @Column(name = "total", nullable = false)
     private Integer totalRisk;
 
+    @Column(name = "level_risk", nullable = false)
+    private Integer levelRisk;
+
     @Column(name = "comments", length = 1000, nullable = false)
     private String comments;
 
@@ -97,5 +100,13 @@ public class TechnicalReview {
 
     public void setSubtotalsTxt(String subtotalsTxt) {
         this.subtotalsTxt = subtotalsTxt;
+    }
+
+    public Integer getLevelRisk() {
+        return levelRisk;
+    }
+
+    public void setLevelRisk(Integer levelRisk) {
+        this.levelRisk = levelRisk;
     }
 }

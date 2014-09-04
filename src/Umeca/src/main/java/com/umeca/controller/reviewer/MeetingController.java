@@ -488,5 +488,28 @@ public class MeetingController {
         return meetingService.upsertSocialNetworkComment(comment, idCase);
     }
 
+    @RequestMapping(value = "/reviewer/meeting/findPreviousCase", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage findPreviousCase(@RequestParam String sName, @RequestParam String sLastNameP,@RequestParam String sLastNameM, @RequestParam Long idCase) {
+        return meetingService.findPreviousCase(sName,sLastNameP,sLastNameM, idCase);
+    }
+
+    @RequestMapping(value = "/reviewer/meeting/savePartialPrevious", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage savePartialPrevious(@ModelAttribute CriminalProceedingView cpv) {
+        return meetingService.savePartialPrevious(cpv);
+    }
+
+    @RequestMapping(value = "/reviewer/meeting/savePartialCurrent", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage savePartialCurrent(@ModelAttribute CriminalProceedingView cpv) {
+        return meetingService.savePartialCurrent(cpv);
+    }
+
+
+
 
 }

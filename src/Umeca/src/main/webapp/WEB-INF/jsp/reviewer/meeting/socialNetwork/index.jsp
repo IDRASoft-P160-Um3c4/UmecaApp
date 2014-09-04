@@ -102,8 +102,9 @@
     </div>
     </div>
     <form id="FormSocialNetworkIndexId" name="FormSocialNetworkIndexId" class="form-horizontal" role="form">
-                <div class="col-xs-2 element-right">Observaciones:</div>
-                <div class="col-xs-9">
+                <div class="col-xs-3 element-right">Observaciones:<br/>
+                    <label class="info-example">(no tiene donde vivir, existe violencia, etc.)</label></div>
+                <div class="col-xs-8">
                     <textarea class="width-100"
                               data-val-required="Las observaciones es un campo requerido"
                               name="comment">${m.socialNetwork.comment}</textarea>

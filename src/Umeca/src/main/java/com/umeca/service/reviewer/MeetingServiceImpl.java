@@ -128,6 +128,9 @@ public class MeetingServiceImpl implements MeetingService {
         Long result = null;
         try {
             Case caseDetention = new Case();
+            imputed.setName(imputed.getName().trim());
+            imputed.setLastNameP(imputed.getLastNameP().trim());
+            imputed.setLastNameM(imputed.getLastNameM().trim());
             if (imputedRepository.findImputedRegister(imputed.getName(), imputed.getLastNameP(), imputed.getLastNameM(), imputed.getBirthDate()).size() > 0)
                 caseDetention.setRecidivist(true);
             else
@@ -248,8 +251,11 @@ public class MeetingServiceImpl implements MeetingService {
         Case c = caseRepository.findOne(id);
         model.addObject("idFolder", c.getIdFolder());
         Imputed i = c.getMeeting().getImputed();
-        String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
-        model.addObject("fullNameImputed", fullName);
+        String fullname= i.getName()+" "+i.getLastNameP()+" "+i.getLastNameM();
+        model.addObject("sName", i.getName());
+        model.addObject("sLastNameP", i.getLastNameP());
+        model.addObject("sLastNameM",  i.getLastNameM());
+        model.addObject("fullNameImputed", fullname);
         model.addObject("age", userService.calculateAge(i.getBirthDate()));
         model.addObject("idCase", id);
         addressService.fillCatalogAddress(model);
@@ -299,7 +305,7 @@ public class MeetingServiceImpl implements MeetingService {
             if(ccp.getRelationshipVictim()!=null){
                 model.addObject("relId",ccp.getRelationshipVictim().getId());
             }
-            model.addObject("haveCoDependant", ccp.getBehaviorDetention());
+            model.addObject("behaviorDetention", ccp.getBehaviorDetention());
             model.addObject("placeDetention",ccp.getPlaceDetention());
         }
         PreviousCriminalProceeding pcp = c.getMeeting().getPreviousCriminalProceeding();
@@ -315,6 +321,12 @@ public class MeetingServiceImpl implements MeetingService {
         }
         return model;
     }
+
+    @Override
+    public ResponseMessage findPreviousCase(String sName, String sLastNameP, String sLastNameM, Long idCase) {
+        return new ResponseMessage(false,findLegalBefore(idCase,sName,sLastNameP,sLastNameM));
+    }
+
 
     String findLegalBefore(Long id, String name, String lastNameP, String lastNameM) {
         List<FindLegalBefore> list = caseRepository.findLegalBefore(id, name, lastNameP, lastNameM);
@@ -941,6 +953,88 @@ public class MeetingServiceImpl implements MeetingService {
         return null;
     }
 
+    public void refreshPreviousProceeding(CriminalProceedingView cpv, Case c){
+        Meeting m = c.getMeeting();
+        PreviousCriminalProceeding pcpc = m.getPreviousCriminalProceeding();
+        if( pcpc == null){
+            pcpc = new PreviousCriminalProceeding();
+            pcpc.setMeeting(m);
+            m.setPreviousCriminalProceeding(pcpc);
+        }
+        pcpc.setFirstProceeding(cpv.getFirstProceeding());
+        pcpc.setOpenProcessNumber(cpv.getOpenProcessNumber());
+        pcpc.setNumberConvictions(cpv.getNumberConvictions());
+        pcpc.setComplyPM(electionRepository.findOne(cpv.getComplyPMId()));
+        pcpc.setComplyCSPP(electionRepository.findOne(cpv.getComplyCSPPId()));
+        pcpc.setComplyProcessAbove(electionRepository.findOne(cpv.getComplyProcessAboveId()));
+
+    }
+
+    public void refreshCurrentProceeding(CriminalProceedingView cpv, Case c){
+        Meeting m = c.getMeeting();
+        CurrentCriminalProceeding ccpc = m.getCurrentCriminalProceeding();
+        Address av;
+        if( ccpc == null){
+            ccpc = new CurrentCriminalProceeding();
+            av = new Address();
+            m.setCurrentCriminalProceeding(ccpc);
+            ccpc.setMeeting(m);
+        }else{
+            av = ccpc.getDomicileVictim();
+        }
+        if(cpv.getDomicileVictim().getLocation().getId() != null){
+            Long locationId = cpv.getDomicileVictim().getLocation().getId();
+            av.setLocation(locationRepository.findOne(locationId));
+        }
+        av.setStreet(cpv.getDomicileVictim().getStreet());
+        av.setInnNum(cpv.getDomicileVictim().getInnNum());
+        av.setOutNum(cpv.getDomicileVictim().getOutNum());
+        av.setAddressString(av.toString());
+        av = addressRepository.save(av);
+        ccpc.setMeeting(c.getMeeting());
+        ccpc.setBehaviorDetention(cpv.getBehaviorDetention());
+        ccpc.setDomicileVictim(av);
+        ccpc.setNameVictim(cpv.getNameVictim());
+        if(cpv.getListCrime()!= null && !cpv.getListCrime().equals("")){
+            ccpc.setCrimeList(legalService.generateCrime(cpv.getListCrime(), ccpc));
+        }
+        if (cpv.getListCoDefendant() != null && !cpv.getListCoDefendant().equals("")) {
+            ccpc.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccpc));
+        }
+        if(cpv.getRelVictimId()!=null){
+            ccpc.setRelationshipVictim(relationshipRepository.findOne(cpv.getRelVictimId()));
+        }
+        ccpc.setPlaceDetention(cpv.getPlaceDetention());
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage savePartialPrevious(CriminalProceedingView cpv) {
+        try{
+        Case c = caseRepository.findOne(cpv.getIdCase());
+        refreshPreviousProceeding(cpv, c);
+        caseRepository.save(c);
+            return new ResponseMessage(false, "Guardado exitoso","previous");
+        }catch (Exception e){
+            logException.Write(e, this.getClass(), "savePartialPrevious", userService);
+            return new ResponseMessage(true,"Ha ocurrido un error al actualizar los datos");
+        }
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage savePartialCurrent(CriminalProceedingView cpv) {
+        try{
+            Case c = caseRepository.findOne(cpv.getIdCase());
+            refreshCurrentProceeding(cpv, c);
+            caseRepository.save(c);
+            return new ResponseMessage(false, "Guardado exitoso", "current");
+        }catch (Exception e){
+            logException.Write(e, this.getClass(), "savePartialPrevious", userService);
+            return new ResponseMessage(true,"Ha ocurrido un error al actualizar los datos");
+        }
+    }
+
     @Override
     @Transactional
     public ResponseMessage saveProceedingLegal(CriminalProceedingView cpv) {
@@ -957,37 +1051,9 @@ public class MeetingServiceImpl implements MeetingService {
                 result.setMessage(gson.toJson(validate));
                 return result;
             }
-            Address av = new Address();
-            Long locationId = cpv.getDomicileVictim().getLocation().getId();
-            av.setLocation(locationRepository.findOne(locationId));
-            av.setStreet(cpv.getDomicileVictim().getStreet());
-            av.setInnNum(cpv.getDomicileVictim().getInnNum());
-            av.setOutNum(cpv.getDomicileVictim().getOutNum());
-            av.setAddressString(av.toString());
-            av = addressRepository.save(av);
             Case c = caseRepository.findOne(cpv.getIdCase());
-            CurrentCriminalProceeding ccp = new CurrentCriminalProceeding();
-            ccp.setMeeting(c.getMeeting());
-            ccp.setBehaviorDetention(cpv.getBehaviorDetention());
-            ccp.setDomicileVictim(av);
-            ccp.setNameVictim(cpv.getNameVictim());
-            ccp.setCrimeList(legalService.generateCrime(cpv.getListCrime(), ccp));
-            if (cpv.getListCoDefendant() != null && !cpv.getListCoDefendant().equals("")) {
-                ccp.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccp));
-            }
-            ccp.setRelationshipVictim(relationshipRepository.findOne(cpv.getRelVictimId()));
-            ccp.setPlaceDetention(cpv.getPlaceDetention());
-            c.getMeeting().setCurrentCriminalProceeding(ccp);
-            //currentCriminalProceedingRepository.save(ccp);
-            PreviousCriminalProceeding pcp = new PreviousCriminalProceeding();
-            pcp.setFirstProceeding(cpv.getFirstProceeding());
-            pcp.setOpenProcessNumber(cpv.getOpenProcessNumber());
-            pcp.setNumberConvictions(cpv.getNumberConvictions());
-            pcp.setComplyPM(electionRepository.findOne(cpv.getComplyPMId()));
-            pcp.setComplyCSPP(electionRepository.findOne(cpv.getComplyCSPPId()));
-            pcp.setComplyProcessAbove(electionRepository.findOne(cpv.getComplyProcessAboveId()));
-            pcp.setMeeting(c.getMeeting());
-            c.getMeeting().setPreviousCriminalProceeding(pcp);
+            refreshCurrentProceeding(cpv,c);
+            refreshPreviousProceeding(cpv,c);
             StatusMeeting stm = statusMeetingRepository.findByCode(Constants.S_MEETING_COMPLETE);
             c.getMeeting().setStatus(stm);
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));
@@ -999,6 +1065,7 @@ public class MeetingServiceImpl implements MeetingService {
             //verificationRepository.save(c.getVerification());
             //c.getVerification().setSourceVerifications(verificationService.convertAllInitSourcesVerif(c));
             result.setHasError(false);
+            result.setTitle("redirect");
             result.setMessage("Entrevista terminada con exito");
             result.setUrlToGo("/index.html");
         } catch (Exception e) {
@@ -1028,13 +1095,15 @@ public class MeetingServiceImpl implements MeetingService {
         }
     }
 
+
+
     public List<String> validateProceedingLegal(CriminalProceedingView cpv, TerminateMeetingMessageDto v) {
         List<String> current = new ArrayList<>(), previous = new ArrayList<>();
         String e = "entity";
         List<String> messageError = new ArrayList<>();
         if (cpv.getListCrime().trim().equals(""))
             current.add("Debe agregar al menos un delito.");
-        if (cpv.getHaveCoDEfendant() && cpv.getListCoDefendant().trim().equals(""))
+        if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
             current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
         if (cpv.getPlaceDetention().trim().equals(""))
             current.add(v.template.replace(e, "El lugar de detención"));
