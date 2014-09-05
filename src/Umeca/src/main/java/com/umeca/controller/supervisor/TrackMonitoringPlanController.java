@@ -1,5 +1,6 @@
 package com.umeca.controller.supervisor;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -12,6 +13,7 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.OptionList;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
@@ -113,6 +115,8 @@ public class TrackMonitoringPlanController {
 
     @Autowired
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
+    @Autowired
+    private SupervisionActivityRepository supervisionActivityRepository;
 
 
     @RequestMapping(value = "/supervisor/trackMonitoringPlan/trackCalendar", method = RequestMethod.GET)
@@ -134,6 +138,12 @@ public class TrackMonitoringPlanController {
             model.addObject("urlReturn","/supervisor/manageMonitoringPlan/index.html");
         }
 
+        Gson gson = new Gson();
+        List<SelectList> lstGeneric = supervisionActivityRepository.findAllValidSl();
+        lstGeneric.add(0, new SelectList(0l, "--Todas las actividades--"));
+        String sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstActivities", sLstGeneric);
+
 
         return model;
     }
@@ -149,9 +159,18 @@ public class TrackMonitoringPlanController {
         try{
             Long userId = sharedUserService.GetLoggedUserId();
 
-            trackMonPlanService.getLstActivitiesByUser(req, userId, new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);add(MonitoringConstants.STATUS_AUTHORIZED);
-                        add(MonitoringConstants.STATUS_MONITORING);add(MonitoringConstants.STATUS_PENDING_END);add(MonitoringConstants.STATUS_REJECTED_END);add(MonitoringConstants.STATUS_END);}},
-                    new ArrayList<String>(){{add(MonitoringConstants.STATUS_ACTIVITY_DELETED);}}, response);
+            trackMonPlanService.getLstActivitiesByUserAndFilters(req, userId, new ArrayList<String>() {{
+                        add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
+                        add(MonitoringConstants.STATUS_AUTHORIZED);
+                        add(MonitoringConstants.STATUS_MONITORING);
+                        add(MonitoringConstants.STATUS_PENDING_END);
+                        add(MonitoringConstants.STATUS_REJECTED_END);
+                        add(MonitoringConstants.STATUS_END);
+                    }},
+                    new ArrayList<String>() {{
+                        add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
+                    }}, response
+            );
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "getActivities", sharedUserService);
             response.setHasError(true);

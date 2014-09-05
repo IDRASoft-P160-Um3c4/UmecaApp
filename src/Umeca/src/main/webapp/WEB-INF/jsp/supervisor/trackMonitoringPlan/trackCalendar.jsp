@@ -33,7 +33,7 @@
 
             var monitoringPlanId = ${monitoringPlanId};
             var scopeTrackMon = angular.element($("#TrackMonPlanControllerId")).scope();
-            var calendar = $('#calendar').fullCalendar({
+            window.calendar = $('#calendar').fullCalendar({
                 buttonText: {
                     prev: '<i class="icon-chevron-left"></i>',
                     next: '<i class="icon-chevron-right"></i>'
@@ -119,6 +119,39 @@
                         <div class="btn btn-success element-center" ng-disabled="waitFor==true" ng-click="returnToCases('<c:url value="${urlReturn}" />')"><i class="glyphicon glyphicon-chevron-left"></i> &nbsp; Regresar</div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xs-6 widget-container-span col-xs-offset-3">
+                        <div class="widget-box transparent">
+                            <div class="widget-header">
+                                <h4 class="lighter">Filtro</h4>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-12 no-padding-left no-padding-right">
+                                    <div class="tab-content padding-4">
+                                        <div id="filter" class="tab-pane in active">
+                                            <div class="slim-scroll" data-height="100">
+                                                <div class="row">
+                                                    <div class="col-xs-4">
+                                                        <h6>Actividad de supervisión</h6>
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        <select class="form-control element-center" ng-model="m.activity"
+                                                                ng-options="e.name for e in lstActivities"
+                                                                ng-change="onChangeSelect();"
+                                                                ng-init='lstActivities = ${lstActivities}; initActivitySelect();'>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row" ng-show="msgError">
                     <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
                         <span class="control-label element-center">{{msgError}}</span>

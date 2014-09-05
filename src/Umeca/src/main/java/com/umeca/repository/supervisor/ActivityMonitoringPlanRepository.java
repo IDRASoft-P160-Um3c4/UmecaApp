@@ -103,6 +103,18 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
     List<ActivityMonitoringPlanNotice> getLstActivitiesByUserIdAndDates(@Param("userId")Long userId, @Param("lstStatus") ArrayList<String> lstStatus,
                                                                         @Param("lstActStatus") ArrayList<String> lstActStatus,
                                                                         @Param("today") Calendar today, @Param("tomorrow") Calendar tomorrow, Pageable pageable);
+
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanResponse(amp.id, mp.id, cd.id, cd.idMP," +
+            "amp.end, amp.start, amp.supervisionActivity.id, amp.activityGoal.id, amp.status, im.name, im.lastNameP, im.lastNameM)" +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
+            "INNER JOIN mp.supervisor s INNER JOIN amp.supervisionActivity sa " +
+            "WHERE s.id =:userId AND mp.status IN :lstStatus AND (0l = :activityId OR sa.id = :activityId)" +
+            "AND amp.status NOT IN :lstActStatus AND (amp.searchStart =:yearmonthStart OR amp.searchEnd =:yearmonthStart OR amp.searchStart =:yearmonthEnd OR amp.searchEnd =:yearmonthEnd)")
+    List<ActivityMonitoringPlanResponse> getAllActivitiesWithFilters(@Param("userId")Long userId, @Param("lstStatus") List<String> lstStatus,
+                                                                     @Param("lstActStatus") List<String> lstActStatus, @Param("yearmonthStart")int yearmonthStart,
+                                                                     @Param("yearmonthEnd")int yearmonthEnd, @Param("activityId")Long activityId);
+
 }
 
 
