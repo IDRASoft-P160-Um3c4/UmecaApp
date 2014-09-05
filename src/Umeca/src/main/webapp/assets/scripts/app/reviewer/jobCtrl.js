@@ -50,6 +50,8 @@ app.controller('jobController', function($scope, $timeout) {
                 }
             }
         }
+        $scope.fillModel();
+
     };
 
 
@@ -145,5 +147,32 @@ app.controller('jobController', function($scope, $timeout) {
             dlg.data('modal', null);
             dlg.replaceWith("");
         });
+    };
+
+    $scope.fillModel = function(){
+       var template= "NO TRABAJA";
+        //alert("en fill model con blcok "+$scope.block);
+       if($scope.block === false){
+           $scope.j.company= template;
+           $scope.j.post= template;
+           $scope.j.phone = template;
+           $scope.j.nameHead = template;
+           $scope.j.reasonChange = template;
+           $scope.j.address= template;
+           for(var i= 0; i < $scope.lstRegisterType.length ; i++){
+               if($scope.lstRegisterType[i].name == "Anterior"){
+                   $scope.j.registerType = $scope.lstRegisterType[i];
+                   $scope.j.registerTypeId = $scope.lstRegisterType[i].id;
+                   break;
+               }
+           }
+       }else{
+           $scope.j.company= "";
+           $scope.j.post= "";
+           $scope.j.phone = "";
+           $scope.j.nameHead = "";
+           $scope.j.reasonChange = "";
+           $scope.j.address = "";
+       }
     };
 });

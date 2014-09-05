@@ -46,15 +46,7 @@ public class ShowCaseSupervisionController {
     public
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
-        opts.extraFilters = new ArrayList<>();
-        JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",
-                new ArrayList<String>() {{
-                    add(Constants.S_MEETING_INCOMPLETE_LEGAL);
-                    add(Constants.S_MEETING_COMPLETE);
-                }}
-                , JqGridFilterModel.COMPARE_IN
-        );
-        opts.extraFilters.add(extraFilter);
+
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {

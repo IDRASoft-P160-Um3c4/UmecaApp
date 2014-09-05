@@ -18,10 +18,13 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
+import com.umeca.repository.supervisor.AssignedArrangementRepository;
+import com.umeca.repository.supervisor.ContactDataRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Type;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -66,12 +72,20 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     @Autowired
     CaseService caseService;
 
+    @Autowired
+    SharedLogExceptionService logException;
+
     private Gson conv = new Gson();
 
     @Override
     public HearingFormat fillHearingFormat(HearingFormatView viewFormat) {
 
-        HearingFormat hearingFormat = new HearingFormat();
+        HearingFormat hearingFormat = null;
+
+        if (viewFormat.getIdFormat() != null)
+            hearingFormat = hearingFormatRepository.findOne(viewFormat.getIdFormat());
+        else
+            hearingFormat = new HearingFormat();
 
         hearingFormat.setRegisterTime(Calendar.getInstance());
         hearingFormat.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
@@ -80,11 +94,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         HearingFormat lastHF = null;
         Case existCase = caseRepository.findOne(viewFormat.getIdCase());
 
-        List<HearingFormat> existFormats = hearingFormatRepository.findLastHearingFormatByCaseId(existCase.getId(), new PageRequest(0, 1));
+        List<HearingFormat> existFinishedFormats = hearingFormatRepository.findLastHearingFormatByCaseId(existCase.getId(), new PageRequest(0, 1));
 
-        if (existFormats != null && existFormats.size() > 0) {
+        if (existFinishedFormats != null && existFinishedFormats.size() > 0) {
             hasFirstFH = true;
-            lastHF = existFormats.get(0);
+            lastHF = existFinishedFormats.get(0);
         }
 
         if (hasFirstFH) {
@@ -95,10 +109,35 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormat.setIdJudicial(viewFormat.getIdJudicial());
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdfA = new SimpleDateFormat("HH:mm:ss");
+
         hearingFormat.setRoom(viewFormat.getRoom());
-        hearingFormat.setAppointmentDate(viewFormat.getAppointmentDate());
-        hearingFormat.setInitTime(viewFormat.getInitTime());
-        hearingFormat.setEndTime(viewFormat.getEndTime());
+
+        try {
+
+            if (viewFormat.getAppointmentDateStr() != null && !viewFormat.getAppointmentDateStr().trim().equals(""))
+                hearingFormat.setAppointmentDate(sdf.parse(viewFormat.getAppointmentDateStr()));
+            else
+                hearingFormat.setAppointmentDate(null);
+
+            if (viewFormat.getInitTimeStr() != null && !viewFormat.getInitTimeStr().trim().equals(""))
+                hearingFormat.setInitTime(new Time(sdfA.parse(viewFormat.getInitTimeStr()).getTime()));
+            else
+                hearingFormat.setInitTime(null);
+
+            if (viewFormat.getEndTimeStr() != null && !viewFormat.getEndTimeStr().trim().equals(""))
+                hearingFormat.setEndTime(new Time(sdfA.parse(viewFormat.getEndTimeStr()).getTime()));
+            else
+                hearingFormat.setEndTime(null);
+
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error");
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "parsingDataHearingFormat", sharedUserService);
+            return null;
+        }
+
         hearingFormat.setJudgeName(viewFormat.getJudgeName());
         hearingFormat.setMpName(viewFormat.getMpName());
         hearingFormat.setDefenderName(viewFormat.getDefenderName());
@@ -112,19 +151,33 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingImputed.setName(viewFormat.getImputedName());
             hearingImputed.setLastNameP(viewFormat.getImputedFLastName());
             hearingImputed.setLastNameM(viewFormat.getImputedSLastName());
-            hearingImputed.setBirthDate(viewFormat.getImputedBirthDate());
+
+            try {
+                if (viewFormat.getImputedBirthDateStr() != null && !viewFormat.getImputedBirthDateStr().trim().equals(""))
+                    hearingImputed.setBirthDate(sdf.parse(viewFormat.getImputedBirthDateStr()));
+                else
+                    hearingImputed.setBirthDate(null);
+            } catch (Exception e) {
+                System.out.println("Ha ocurrido un error ");
+                e.printStackTrace();
+                logException.Write(e, this.getClass(), "parsingBirthDateHearingFormat", sharedUserService);
+                return null;
+            }
+
             hearingImputed.setImputeTel(viewFormat.getImputedTel());
 
-            Address address = new Address();
-            address.setStreet(viewFormat.getStreet());
-            address.setOutNum(viewFormat.getOutNum());
-            address.setInnNum(viewFormat.getInnNum());
-            address.setLat(viewFormat.getLat());
-            address.setLng(viewFormat.getLng());
-            address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
-            address.setAddressString(address.toString());
+            if (viewFormat.getLocation() != null && viewFormat.getLocation().getId() != null) {
+                Address address = new Address();
+                address.setStreet(viewFormat.getStreet());
+                address.setOutNum(viewFormat.getOutNum());
+                address.setInnNum(viewFormat.getInnNum());
+                address.setLat(viewFormat.getLat());
+                address.setLng(viewFormat.getLng());
+                address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
+                address.setAddressString(address.toString());
 
-            hearingImputed.setAddress(address);
+                hearingImputed.setAddress(address);
+            }
 
             hearingFormat.setHearingImputed(hearingImputed);
         }
@@ -133,13 +186,33 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingSpecs.setControlDetention(viewFormat.getControlDetention());
         hearingSpecs.setExtension(viewFormat.getExtension());
         hearingSpecs.setImputationFormulation(viewFormat.getImpForm());
-        hearingSpecs.setImputationDate(viewFormat.getImputationDate());
+
+        try {
+            if (viewFormat.getImputationDateStr() != null && !viewFormat.getImputationDateStr().trim().equals(""))
+                hearingSpecs.setImputationDate(sdf.parse(viewFormat.getImputationDateStr()));
+            else
+                hearingSpecs.setImputationDate(null);
+
+            if (viewFormat.getLinkageDateStr() != null && !viewFormat.getLinkageDateStr().trim().equals(""))
+                hearingSpecs.setLinkageDate(sdf.parse(viewFormat.getLinkageDateStr()));
+            else
+                hearingSpecs.setLinkageDate(null);
+
+            if (viewFormat.getLinkageTimeStr() != null && !viewFormat.getLinkageTimeStr().trim().equals(""))
+                hearingSpecs.setLinkageTime(new Time(sdfA.parse(viewFormat.getLinkageTimeStr()).getTime()));
+
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error!!!");
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "parsingSpecsHearingFormat", sharedUserService);
+            return null;
+        }
+
         hearingSpecs.setLinkageProcess(viewFormat.getVincProcess());
         hearingSpecs.setLinkageRoom(viewFormat.getLinkageRoom());
-        hearingSpecs.setLinkageDate(viewFormat.getLinkageDate());
-        hearingSpecs.setLinkageTime(viewFormat.getLinkageTime());
 
-        if (viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+
+        if (viewFormat.getVincProcess() != null && viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
 
             hearingSpecs.setArrangementType(viewFormat.getArrangementType());
             hearingSpecs.setNationalArrangement(viewFormat.getNationalArrangement());
@@ -149,43 +222,82 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             List<ArrangementView> lstAssignedArrnmtView;
             Type type = new TypeToken<List<ArrangementView>>() {
             }.getType();
-            lstAssignedArrnmtView = conv.fromJson(viewFormat.getLstArrangement(), type);
 
-            List<AssignedArrangement> lstNewAssigArrmnt = new ArrayList<>();
 
-            for (ArrangementView arrV : lstAssignedArrnmtView) {
+            if (viewFormat.getLstArrangement() != null && !viewFormat.getLstArrangement().trim().equals("")) {
 
-                if (arrV.getSelVal() == true) {
-                    AssignedArrangement assArrmnt = new AssignedArrangement();
-                    assArrmnt.setArrangement(arrangementRepository.findOne(arrV.getId()));
-                    assArrmnt.setDescription(arrV.getDescription());
-                    assArrmnt.setHearingFormat(hearingFormat);
-                    lstNewAssigArrmnt.add(assArrmnt);
-                }
+                lstAssignedArrnmtView = conv.fromJson(viewFormat.getLstArrangement(), type);
+
+                if (lstAssignedArrnmtView.size() > 0) {
+
+                    List<AssignedArrangement> lstNewAssigArrmnt = new ArrayList<>();
+
+                    for (ArrangementView arrV : lstAssignedArrnmtView) {
+
+                        if (arrV.getSelVal() == true) {
+                            AssignedArrangement assArrmnt = new AssignedArrangement();
+                            assArrmnt.setArrangement(arrangementRepository.findOne(arrV.getId()));
+                            assArrmnt.setDescription(arrV.getDescription());
+                            assArrmnt.setHearingFormat(hearingFormat);
+                            lstNewAssigArrmnt.add(assArrmnt);
+                        }
+                    }
+
+                    List<AssignedArrangement> oldArrangements = hearingFormat.getAssignedArrangements();
+                    hearingFormat.setAssignedArrangements(null);
+
+                    for (AssignedArrangement actArr : oldArrangements) {
+                        actArr.setHearingFormat(null);
+                        actArr.setArrangement(null);
+                        assignedArrangementRepository.delete(actArr);
+                    }
+
+                    hearingFormat.setAssignedArrangements(lstNewAssigArrmnt);
+                } else
+                    hearingFormat.setAssignedArrangements(null);
             }
-
-            hearingFormat.setAssignedArrangements(lstNewAssigArrmnt);
 
             List<ContactDataView> lstContactDataView;
 
             Type typeA = new TypeToken<List<ContactDataView>>() {
             }.getType();
 
-            lstContactDataView = conv.fromJson(viewFormat.getLstContactData(), typeA);
 
-            List<ContactData> lstNewContactData = new ArrayList<>();
+            if (viewFormat.getLstContactData() != null && !viewFormat.getLstContactData().trim().equals("")) {
+                lstContactDataView = conv.fromJson(viewFormat.getLstContactData(), typeA);
 
-            for (ContactDataView conV : lstContactDataView) {
+                if (lstContactDataView.size() > 0) {
+                    List<ContactData> lstNewContactData = new ArrayList<>();
 
-                ContactData contact = new ContactData();
-                contact.setNameTxt(conV.getName());
-                contact.setPhoneTxt(conV.getPhone());
-                contact.setAddressTxt(conV.getAddress());
-                contact.setHearingFormat(hearingFormat);
-                lstNewContactData.add(contact);
+                    for (ContactDataView conV : lstContactDataView) {
+
+                        ContactData contact = new ContactData();
+                        contact.setNameTxt(conV.getName());
+                        contact.setPhoneTxt(conV.getPhone());
+                        contact.setAddressTxt(conV.getAddress());
+                        contact.setHearingFormat(hearingFormat);
+                        lstNewContactData.add(contact);
+                    }
+
+                    List<ContactData> oldContacts = hearingFormat.getContacts();
+                    hearingFormat.setContacts(null);
+
+                    for (ContactData act : oldContacts) {
+                        act.setHearingFormat(null);
+                        contactDataRepository.delete(act);
+                    }
+
+                    hearingFormat.setContacts(lstNewContactData);
+                } else {
+                    List<ContactData> oldContacts = hearingFormat.getContacts();
+                    hearingFormat.setContacts(null);
+
+                    for (ContactData act : oldContacts) {
+                        act.setHearingFormat(null);
+                        contactDataRepository.delete(act);
+                    }
+                }
             }
-
-            hearingFormat.setContacts(lstNewContactData);
 
         } else {
             hearingFormat.setConfirmComment(viewFormat.getConfirmComment());
@@ -195,6 +307,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormat.setAdditionalData(viewFormat.getAdditionalData());
         hearingFormat.setCrimes(viewFormat.getCrimes());
+        hearingFormat.setIsFinished(viewFormat.getIsFinished());
 
         return hearingFormat;
     }
@@ -209,7 +322,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         List<HearingFormat> existFormats = hearingFormatRepository.findLastHearingFormatByCaseId(idCase, new PageRequest(0, 1));
 
-        if (existFormats != null && existFormats.size() > 0) {//busco si ya existe algun formato
+        if (existFormats != null && existFormats.size() > 0) {//busco si ya existe algun formato completo
 
             hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId(), true);
 
@@ -271,6 +384,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             }
         }
 
+        hearingFormatView.setIsFinished(false);
+
         return hearingFormatView;
     }
 
@@ -326,9 +441,83 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
             hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
             hearingFormatView.setTerms(existHF.getTerms());
-            hearingFormatView.setLstArrangement(conv.toJson(this.assignedArrangementForView(existHF.getAssignedArrangements())));
+
+            if (existHF.getHearingFormatSpecs().getNationalArrangement() != null && existHF.getHearingFormatSpecs().getArrangementType() != null) {
+
+                List<ArrangementView> lstExistArrangement = this.getArrangmentLst(existHF.getHearingFormatSpecs().getNationalArrangement(), existHF.getHearingFormatSpecs().getArrangementType());
+                hearingFormatView.setLstArrangement(conv.toJson(this.selectedAssignedArrangementForView(lstExistArrangement, existHF.getAssignedArrangements())));
+            }
+
             hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
         }
+
+        return hearingFormatView;
+    }
+
+    @Override
+    public HearingFormatView fillIncompleteFormatForView(Long idFormat) {
+        HearingFormatView hearingFormatView = new HearingFormatView();
+
+        HearingFormat existHF = hearingFormatRepository.findOne(idFormat);
+
+        hearingFormatView.setIdFormat(existHF.getId());
+        hearingFormatView.setIdCase(existHF.getCaseDetention().getId());
+
+        hearingFormatView.setCanSave(true);
+        hearingFormatView.setCanEdit(true);
+        hearingFormatView.setDisableAll(false);
+
+        hearingFormatView.setIdFolder(existHF.getIdFolder());
+        hearingFormatView.setIdJudicial(existHF.getIdJudicial());
+        hearingFormatView.setAppointmentDate(existHF.getAppointmentDate());
+        hearingFormatView.setRoom(existHF.getRoom());
+        hearingFormatView.setInitTime(existHF.getInitTime());
+        hearingFormatView.setEndTime(existHF.getEndTime());
+        hearingFormatView.setJudgeName(existHF.getJudgeName());
+        hearingFormatView.setMpName(existHF.getMpName());
+        hearingFormatView.setDefenderName(existHF.getDefenderName());
+
+        hearingFormatView.setImputedName(existHF.getHearingImputed().getName());
+        hearingFormatView.setImputedFLastName(existHF.getHearingImputed().getLastNameP());
+        hearingFormatView.setImputedSLastName(existHF.getHearingImputed().getLastNameM());
+        hearingFormatView.setImputedBirthDate(existHF.getHearingImputed().getBirthDate());
+        hearingFormatView.setImputedTel(existHF.getHearingImputed().getImputeTel());
+
+        if (existHF.getHearingImputed().getAddress() != null) {
+            hearingFormatView.setIdAddres(existHF.getHearingImputed().getAddress().getId());
+        }
+
+        if (existHF.getHearingFormatSpecs() != null) {
+            hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
+            hearingFormatView.setExtension(existHF.getHearingFormatSpecs().getExtension());
+            hearingFormatView.setImpForm(existHF.getHearingFormatSpecs().getImputationFormulation());
+            hearingFormatView.setImputationDate(existHF.getHearingFormatSpecs().getImputationDate());
+            hearingFormatView.setVincProcess(existHF.getHearingFormatSpecs().getLinkageProcess());
+            hearingFormatView.setLinkageRoom(existHF.getHearingFormatSpecs().getLinkageRoom());
+            hearingFormatView.setLinkageDate(existHF.getHearingFormatSpecs().getLinkageDate());
+            hearingFormatView.setLinkageTime(existHF.getHearingFormatSpecs().getLinkageTime());
+            hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
+        }
+
+        hearingFormatView.setAdditionalData(existHF.getAdditionalData());
+        hearingFormatView.setCrimes(existHF.getCrimes());
+        hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
+
+        if (existHF.getHearingFormatSpecs() != null && existHF.getHearingFormatSpecs().getLinkageProcess() != null && existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+            hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
+            hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
+            hearingFormatView.setTerms(existHF.getTerms());
+
+            if (existHF.getHearingFormatSpecs().getNationalArrangement() != null && existHF.getHearingFormatSpecs().getArrangementType() != null) {
+
+                List<ArrangementView> lstExistArrangement = this.getArrangmentLst(existHF.getHearingFormatSpecs().getNationalArrangement(), existHF.getHearingFormatSpecs().getArrangementType());
+                hearingFormatView.setLstArrangement(conv.toJson(this.selectedAssignedArrangementForView(lstExistArrangement, existHF.getAssignedArrangements())));
+            }
+
+            hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
+        }
+
+        hearingFormatView.setIsFinished(false);
 
         return hearingFormatView;
     }
@@ -350,6 +539,29 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         }
 
         return lstArrmntView;
+    }
+
+    public List<ArrangementView> selectedAssignedArrangementForView(List<ArrangementView> existArrangements, List<AssignedArrangement> assignedArrangements) {
+
+        List<ArrangementView> lstArrmntView = new ArrayList<>();
+
+        for (ArrangementView existArr : existArrangements) {
+            for (AssignedArrangement assArr : assignedArrangements) {
+
+                if (assArr.getArrangement().getId() == existArr.getId()) {
+                    existArr.setSelVal(true);
+                    existArr.setDescription(assArr.getDescription());
+                }
+//                ArrangementView arrV = new ArrangementView();
+//                arrV.setId(assArr.getId());
+//                arrV.setName(assArr.getArrangement().getDescription());
+//                arrV.setDescription(assArr.getDescription());
+//                arrV.setSelVal(true);
+//                lstArrmntView.add(arrV);
+            }
+        }
+
+        return existArrangements;
     }
 
     public List<ArrangementView> assignedArrangementForView(List<AssignedArrangement> assignedArrangements) {
@@ -383,6 +595,13 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         return lstContactView;
     }
 
+
+    @Autowired
+    private ContactDataRepository contactDataRepository;
+
+    @Autowired
+    private AssignedArrangementRepository assignedArrangementRepository;
+
     @Override
     @Transactional
     public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
@@ -391,9 +610,15 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         try {
 
-            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
+            if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true)
+                hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
+            else {
+                hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE));
+            }
 
-            if (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
+            if (hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
+                    hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
+
                 hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
 
                 sb.append("Solicitud de cierre de caso: ");
@@ -409,15 +634,19 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             sb = new StringBuilder();
             sb.append(request.getContextPath());
-            sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
-            sb.append(hearingFormat.getCaseDetention().getId());
+
+            if (hearingFormat.getIsFinished() == true) {
+                sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
+                sb.append(hearingFormat.getCaseDetention().getId());
+            }
 
             response.setHasError(false);
-            response.setMessage("Se ha registrado el formato de audiencia con éxito!!");
+            response.setMessage(hearingFormat.getId() + "|Se ha registrado el formato de audiencia.");
             response.setUrlToGo(sb.toString());
         } catch (Exception e) {
             System.out.println("Ha ocurrido un error al guardar el formato de audiencia (serviceImpl)!!!");
             e.printStackTrace();
+            logException.Write(e, this.getClass(), "saveHearingFormat", sharedUserService);
             response.setHasError(true);
         } finally {
             return response;

@@ -18,6 +18,7 @@
 <div class="modal-body">
     <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal" role="form">
         <br />
+
         <%@ include file="/WEB-INF/jsp/reviewer/meeting/school/content.jsp"%>
     </form>
     <br />

@@ -25,7 +25,11 @@ public interface HearingFormatService {
 
     HearingFormatView fillExistHearingFormatForView(Long idFormat, Boolean viewFormat);
 
+    HearingFormatView fillIncompleteFormatForView(Long idFormat);
+
     ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request);
 
     List<ArrangementView> assignedArrangementForView(List<AssignedArrangement> assignedArrangements);
+
+    List<ArrangementView> selectedAssignedArrangementForView(List<ArrangementView> existArrangements, List<AssignedArrangement> assignedArrangements);
 }

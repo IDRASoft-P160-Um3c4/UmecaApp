@@ -48,6 +48,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 return false;
             }
 
+            $scope.m.isFinished = true;
             return true;
         };
 
@@ -74,7 +75,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (Date.parse('01/01/2014 ' + $scope.m.initTime) >= Date.parse('01/01/2014 ' + $scope.m.endTime)) {
                 $scope.hasError = true;
-                $scope.m.errTime = "La hora de t茅rmino debe ser mayor a la hora de inicio";
+                $scope.m.errTime = "La hora de termino debe ser mayor a la hora de inicio";
                 return;
             }
             else
@@ -86,7 +87,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (!$scope.m.ctrlDet) {
                 $scope.hasError = true;
-                $scope.m.errCtrlDet = "Debe seleccionar una opci贸n";
+                $scope.m.errCtrlDet = "Debe seleccionar una opci髇";
             } else {
                 $scope.clCrtlDet();
             }
@@ -97,7 +98,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (!$scope.m.ext) {
                 $scope.hasError = true;
-                $scope.m.errExt = "Debe seleccionar una opci贸n";
+                $scope.m.errExt = "Debe seleccionar una opci髇";
             } else {
                 $scope.clExtension();
             }
@@ -108,7 +109,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (!$scope.m.formImp) {
                 $scope.hasError = true;
-                $scope.m.errFormImp = "Debe seleccionar una opci贸n";
+                $scope.m.errFormImp = "Debe seleccionar una opci髇";
             }
             else
                 $scope.m.errFormImp = "";
@@ -169,7 +170,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (!$scope.m.vincProcess) {
                 $scope.hasError = true;
-                $scope.m.errLinkProc = "Debe seleccionar una opci贸n";
+                $scope.m.errLinkProc = "Debe seleccionar una opci髇";
             }
             else
                 $scope.m.errLinkProc = "";
@@ -241,6 +242,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             //audiencia
             $scope.m.idCase = data.idCase;
+            $scope.m.idFormat = data.idFormat;
+            $scope.m.isFinished = data.isFinished;
             $scope.m.idFolder = data.idFolder;
             $scope.m.idJudicial = data.idJudicial;
             $scope.m.room = data.room;
@@ -298,7 +301,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if ($(formId).valid() == false || stVal == false) {
                 $scope.Invalid = true;
-                $scope.MsgError = $sce.trustAsHtml("No es posible guardar. Debe proporcionar toda la informaci&oacute;n requerida.");
+                $scope.MsgError = $sce.trustAsHtml("No es posible terminar. Debe proporcionar toda la informaci&oacute;n requerida.");
                 return false;
             }
 
@@ -323,6 +326,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             $scope.WaitFor = true;
 
+
             $.post(urlToPost, $(formId).serialize())
                 .success(function (resp) {
                     if (resp.hasError === undefined) {
@@ -340,12 +344,53 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 })
                 .error(function () {
                     $scope.WaitFor = false;
-                    $scope.MsgError = "Error de red. Por favor intente m谩s tarde.";
+                    $scope.MsgError = "Error de red. Por favor intente m醩 tarde.";
                     $scope.$apply();
                 });
 
             return true;
         };
+
+
+        /**/
+
+        $scope.submitPartiaSaveHF = function (formId, urlToPost) {
+
+            var stVal = true;
+
+            $scope.WaitFor = true;
+
+            $.post(urlToPost, $(formId).serialize())
+                .success(function (resp) {
+                    if (resp.hasError === undefined) {
+                        resp = resp.responseMessage;
+                    }
+
+                    if (resp.hasError == true) {
+                        //$scope.msgMapRequest=$sce.trustAsHtml("Google Maps no cuenta con cooredenadas para el C&oacute;digo Postal: "+$scope.zipCode);
+                        $scope.MsgError = $sce.trustAsHtml(resp.message);
+                        $scope.$apply();
+                    } else {
+                        $scope.WaitFor = false;
+
+                        var listMsg = resp.message.split("|");
+
+                        $scope.m.idFormat = listMsg[0];
+                        $scope.MsgSuccess = $sce.trustAsHtml(listMsg[1]);
+
+                        $scope.$apply();
+                    }
+                })
+                .error(function () {
+                    $scope.WaitFor = false;
+                    $scope.MsgError = "Error de red. Por favor intente m醩 tarde.";
+                    $scope.$apply();
+                });
+
+            return true;
+        };
+
+        /**/
 
         $scope.loadArrangements = function () {
 
@@ -436,7 +481,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 return;
             } else if (noSel > noDesc) {
                 $scope.m.hasError = true;
-                $scope.m.errArrmntSel = "Debe indicar una descripci贸n para cada medida cautelar seleccionada";
+                $scope.m.errArrmntSel = "Debe indicar una descripci髇 para cada medida cautelar seleccionada";
                 return;
             } else
                 $scope.m.errArrmntSel = "";

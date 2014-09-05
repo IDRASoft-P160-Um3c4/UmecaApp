@@ -66,7 +66,7 @@
                 });
             })
 
-            $('#initTime').timepicker({
+            $('#initTimeStr').timepicker({
                 minuteStep: 1,
                 showSeconds: true,
                 showMeridian: false
@@ -74,7 +74,7 @@
                 $(this).prev().focus();
             });
 
-            $('#endTime').timepicker({
+            $('#endTimeStr').timepicker({
                 minuteStep: 1,
                 showSeconds: true,
                 showMeridian: false,
@@ -84,7 +84,7 @@
                 $(this).prev().focus();
             });
 
-            $('#linkageTime').timepicker({
+            $('#linkageTimeStr').timepicker({
                 minuteStep: 1,
                 showSeconds: true,
                 showMeridian: false
@@ -95,7 +95,6 @@
 
         });
     </script>
-
     <title>Formato de audiencia</title>
 </head>
 
@@ -122,6 +121,8 @@
 <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
 <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
 <input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
+<input type="hidden" name="isFinished" value="{{m.isFinished}}"/>
+<input type="hidden" name="idFormat" value="{{m.idFormat}}"/>
 
 <div class="row">
 
@@ -142,11 +143,11 @@
         <div ng-show="m.canSave==true">
                             <span class="btn btn-default btn-sm"
                                   ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
-                                Cancelar
+                                Regresar
                             </span>
 
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">
+                                  ng-click="submitPartiaSaveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>');">
                                                   Guardar
                                             </span>
         </div>
@@ -156,11 +157,18 @@
 <div class="row">
     <div class="col-xs-12">
         <div ng-show="MsgError&&MsgError!=''" class="alert alert-danger element-center">
-            <%--{{MsgError}}--%>
             <p ng-bind-html="MsgError"></p>
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-12">
+        <div ng-show="MsgSuccess&&MsgSuccess!=''" class="alert alert-success element-center">
+            <p ng-bind-html="MsgSuccess"></p>
+        </div>
+    </div>
+</div>
+
 
 <div class="row">
 <div class="widget-box">
@@ -223,12 +231,13 @@
                 <div class="row">
                     <div class="col-xs-4">
 
-                        <label for="appointmentDate">Cita</label>
+                        <label for="appointmentDateStr">Cita</label>
 
                         <div class="row">
                             <div class="col-xs-8 col-sm-11">
                                 <div class="input-group">
-                                    <input id="appointmentDate" name="appointmentDate" ng-model="m.appointmentDate"
+                                    <input id="appointmentDateStr" name="appointmentDateStr"
+                                           ng-model="m.appointmentDate"
                                            class="form-control date-picker" id="id-date-picker-1" type="text"
                                            data-date-format="yyyy/mm/dd" data-val="true" readonly
                                            data-val-required="Cita es un campo requerido"/>
@@ -236,7 +245,7 @@
                                         <i class="icon-calendar bigger-110"></i>
                                     </span>
                                 </div>
-                                <span class="field-validation-valid" data-valmsg-for="appointmentDate"
+                                <span class="field-validation-valid" data-valmsg-for="appointmentDateStr"
                                       data-valmsg-replace="true"></span>
                             </div>
                         </div>
@@ -244,10 +253,10 @@
                     </div>
 
                     <div class="col-xs-4">
-                        <label for="initTime">Hora inicio audiencia</label>
+                        <label for="initTimeStr">Hora inicio audiencia</label>
 
                         <div class="input-group bootstrap-timepicker">
-                            <input id="initTime" name="initTime" ng-model="m.initTime"
+                            <input id="initTimeStr" name="initTimeStr" ng-model="m.initTime"
                                    ng-change="validateInitEnd();" readonly
                                    type="text" class="form-control" data-val="true"
                                    data-val-required="Hora de inicio es un campo requerido"/>
@@ -255,15 +264,15 @@
                                                                 class="icon-time bigger-110"></i></span>
                             <br/>
                         </div>
-                        <span class="field-validation-valid" data-valmsg-for="initTime"
+                        <span class="field-validation-valid" data-valmsg-for="initTimeStr"
                               data-valmsg-replace="true"></span>
                     </div>
 
                     <div class="col-xs-4">
-                        <label for="endTime">Hora t&eacute;rmino audiencia</label>
+                        <label for="endTimeStr">Hora t&eacute;rmino audiencia</label>
 
                         <div class="input-group bootstrap-timepicker">
-                            <input id="endTime" name="endTime"
+                            <input id="endTimeStr" name="endTimeStr"
                                    ng-change="validateInitEnd();" ng-model="m.endTime"
                                    readonly type="text" class="form-control" min-time="6:00am"
                                    data-val="true" data-val-required="Hora de t&eacute;rmino es un campo requerido"/>
@@ -271,7 +280,7 @@
                                                                 class="icon-time bigger-110"></i></span>
                             <br/>
                         </div>
-                        <span class="field-validation-valid" data-valmsg-for="endTime"
+                        <span class="field-validation-valid" data-valmsg-for="endTimeStr"
                               data-valmsg-replace="true">{{m.errTime}}</span>
                         <span ng-class='m.errTime&&m.errTime!="" ? "field-validation-error": "field-validation-valid"'>{{m.errTime}}</span>
                     </div>
@@ -386,13 +395,13 @@
 
                     <div class="col-xs-4">
 
-                        <label for="imputedBirthDate">Fecha de nacimiento</label>
+                        <label for="imputedBirthDateStr">Fecha de nacimiento</label>
 
                         <div class="row">
                             <div class="col-xs-8 col-sm-11">
                                 <div class="input-group">
                                     <input class="form-control date-picker"
-                                           id="imputedBirthDate" name="imputedBirthDate" type="text"
+                                           id="imputedBirthDateStr" name="imputedBirthDateStr" type="text"
                                            data-date-format="yyyy/mm/dd" ng-disabled="m.canEdit==false"
                                            readonly ng-change="calcAge();" ng-model="m.impBthDay" data-val="true"
                                            data-val-required="Fecha de nacimiento es un campo requerido"/>
@@ -400,7 +409,7 @@
                                                     <i class="icon-calendar bigger-110"></i>
                                                 </span>
                                 </div>
-                                <span class="field-validation-valid" data-valmsg-for="imputedBirthDate"
+                                <span class="field-validation-valid" data-valmsg-for="imputedBirthDateStr"
                                       data-valmsg-replace="true"></span>
                             </div>
                         </div>
@@ -544,18 +553,18 @@
                         <br/>
 
                         <div class="col-xs-7">
-                            <label for="imputationDate">Fecha</label>
+                            <label for="imputationDateStr">Fecha</label>
 
                             <div class="input-group">
                                 <input class="form-control date-picker"
-                                       id="imputationDate" name="imputationDate" ng-model="m.impDate"
+                                       id="imputationDateStr" name="imputationDateStr" ng-model="m.impDate"
                                        data-date-format="yyyy/mm/dd" type="text" readonly data-val="true"
                                        data-val-required="Fecha es un campo requerido">
                             <span class="input-group-addon">
                                 <i class="icon-calendar bigger-110"></i>
                             </span>
                             </div>
-                            <span class="field-validation-valid" data-valmsg-for="imputationDate"
+                            <span class="field-validation-valid" data-valmsg-for="imputationDateStr"
                                   data-valmsg-replace="true"></span>
                         </div>
                     </div>
@@ -653,35 +662,35 @@
 
                             <div class="row">
                                 <br/>
-                                <label for="linkageDate">Fecha</label>
+                                <label for="linkageDateStr">Fecha</label>
 
                                 <div class="input-group input-large">
                                     <input class="form-control date-picker"
-                                           id="linkageDate" data-date-format="yyyy/mm/dd"
-                                           name="linkageDate" ng-model="m.linkageDate"
+                                           id="linkageDateStr" data-date-format="yyyy/mm/dd"
+                                           name="linkageDateStr" ng-model="m.linkageDate"
                                            type="text" readonly data-val="true"
                                            data-val-required="Fecha es un campo requerido">
                 <span class="input-group-addon">
                     <i class="icon-calendar bigger-110"></i>
                 </span>
                                 </div>
-                         <span class="field-validation-valid" data-valmsg-for="linkageDate"
+                         <span class="field-validation-valid" data-valmsg-for="linkageDateStr"
                                data-valmsg-replace="true"></span>
                             </div>
 
                             <div class="row">
                                 <br/>
-                                <label for="linkageTime">Hora</label>
+                                <label for="linkageTimeStr">Hora</label>
 
                                 <div class="input-group bootstrap-timepicker">
-                                    <input id="linkageTime" name="linkageTime" readonly type="text"
+                                    <input id="linkageTimeStr" name="linkageTimeStr" readonly type="text"
                                            ng-model="m.linkageTime" data-val="true"
                                            data-val-required="Hora es un campo requerido">
                                             <span class="input-group-addon">
                                                 <i class="icon-time bigger-110"></i>
                                             </span>
                                 </div>
-                                <span class="field-validation-valid" data-valmsg-for="linkageTime"
+                                <span class="field-validation-valid" data-valmsg-for="linkageTimeStr"
                                       data-valmsg-replace="true"></span>
                             </div>
                         </div>
@@ -952,18 +961,29 @@
             &nbsp;&nbsp;{{m.userName}}
         </h3>
     </div>
+
     <div ng-show="m.canSave==true">
                             <span class="btn btn-default btn-sm"
                                   ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
-                                Cancelar
+                                Regresar
                             </span>
 
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">
+                                  ng-click="submitPartiaSaveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>');">
                                                   Guardar
                                             </span>
     </div>
 </div>
+
+<div class="row element-right">
+    <div>
+    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+          ng-click="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">
+                          Terminar
+                    </span>
+    </div>
+</div>
+
 <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
 <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>

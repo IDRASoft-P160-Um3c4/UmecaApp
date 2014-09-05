@@ -128,6 +128,7 @@ public class LogController {
             SupervisionLogReport slr = hearingFormatRepository.findSupervisionLogReportById(lHearingFormatId);
 
             model.addObject("imputedName", slr.getImputedName());
+            model.addObject("mpId", id);
             model.addObject("crime", slr.getCrime());
             model.addObject("judge", slr.getJudge());
             model.addObject("defender", slr.getDefender());
@@ -214,6 +215,30 @@ public class LogController {
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "supervisionLog", userService);
             return null;
+        }
+    }
+
+    @RequestMapping(value = "/supervisor/log/fillByFilter", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage filterLog(@RequestParam Long id, @RequestParam Long activityId){ //Id de MonitoringPlan
+        ResponseMessage response = new ResponseMessage();
+
+        try{
+            Gson gson = new Gson();
+            List<ActivityMonitoringPlanLog> lstActMonPlan = new ArrayList<>();
+            if(activityId==0){
+                lstActMonPlan = activityMonitoringPlanRepository.getListByMonPlanId(id);
+            }else{
+                lstActMonPlan = activityMonitoringPlanRepository.getListByMonPlanIdWhitArrangementId(id,activityId);
+            }
+            response.setReturnData( gson.toJson(lstActMonPlan));
+            response.setHasError(false);
+            return response;
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "requestAccomplishmentLog", userService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            return response;
         }
     }
 

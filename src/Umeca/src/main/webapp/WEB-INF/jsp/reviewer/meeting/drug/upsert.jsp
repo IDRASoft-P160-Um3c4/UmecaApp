@@ -17,6 +17,22 @@
                 </div>
                 <div class="modal-body">
                     <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal" role="form">
+                       <br/>
+                        <div class="row">
+                            <div class="col-xs-12 element-center" ng-init="block=${d.block == null ? true: j.block};">
+                                <div class="col-xs-6 element-right">
+                                    ¿El imputado consume sustancias actualmente?
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type="radio"  name="block"
+                                           id="blockYes" ng-value="true" ng-model="block" ng-change="fillModel()">
+                                    <label for="blockYes">Si</label>   &nbsp;&nbsp;&nbsp;
+                                    <input type="radio"  name="block"
+                                           id="blockNo" ng-value="false" ng-model="block" ng-change="fillModel()">
+                                    <label for="blockNo">No</label>
+                                </div>
+                            </div>
+                        </div>
                         <br />
                         <%@ include file="/WEB-INF/jsp/reviewer/meeting/drug/content.jsp"%>
                     </form>

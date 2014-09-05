@@ -12,7 +12,7 @@
 
 <div class="container body-content" ng-controller="supervisionLogController">
 
-<div ng-init='lstHfAssignedArrangement = ${lstHfAssignedArrangement}; lstActivities = ${lstActivities};
+<div ng-init='lstHfAssignedArrangement = ${lstHfAssignedArrangement}; lstActivities = ${lstActivities};  mpId =${mpId};
     lstGoals = ${lstGoals}; lstSources = ${lstSources}; lstActMonPlan = ${lstActMonPlan}; lstActMonPlanArrangement = ${lstActMonPlanArrangement}; constructActMonPlan();'></div>
 
 <h4 class="element-center">DIRECCI&Oacute;N DE EJECUCI&Oacute;N DE PENAS Y MEDIDAS JUDICIALES</h4>
@@ -164,6 +164,25 @@
         </div>
     </div>
 </div>
+<div class="row">
+   <div class="col-xs-5 element-right">
+       Ver:
+    </div>
+    <div class="col-xs-7 element-right" ng-init="urlToFill = '<c:url value="/supervisor/log/fillByFilter.json"/>'">
+       <select class="width-100" ng-model="b.filter" ng-change="fillByFilter()" ng-disabled="WaitFor == true"
+               ng-options = "e.name for e in assignedArrangementFilter">
+        </select>
+   </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-xs-12">
+        <div ng-show="MsgError" class="alert-danger element-center">
+            {{MsgError}}
+        </div>
+    </div>
+    <br/>
+</div>
 <div class="panel panel-default panel-primary">
     <div class="panel-heading">
         <span class="icon-tasks"></span>&nbsp;&nbsp;LISTADO DE ACTIVIDADES
@@ -183,7 +202,7 @@
 
                                 <th class="col-xs-2 element-center">
                                     <i class="icon-caret-right blue"></i>
-                                    DESCRIPCI&Oacute;N
+                                    DETALLES
                                 </th>
                                 <th class="col-xs-2 element-center">
                                     <i class="icon-caret-right blue"></i>
@@ -203,7 +222,10 @@
                             <tbody ng-repeat="a in reconstructedLstActMonPlan">
                             <tr>
                                 <td>Inicio: {{a.start}}<br/>Fin: {{a.end}}</td>
-                                <td>{{a.supActivity}}</td>
+                                <td>Descripci&oacute;n:<br/> {{a.supActivity}}
+                                    <br/>                   <br/>
+                                    Registrada por:<br/> {{a.user}}
+                                </td>
                                 <td>{{a.aidSource}}</td>
                                 <td>
                                     <table>

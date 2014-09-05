@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 /**
@@ -18,11 +19,11 @@ import java.util.List;
  * Time: 8:10 PM
  */
 @Repository("qHearingFormatRepository")
-public interface HearingFormatRepository extends JpaRepository<HearingFormat, Long>{
+public interface HearingFormatRepository extends JpaRepository<HearingFormat, Long> {
 
     @Query("SELECT hf.id FROM MonitoringPlan mp " +
             "INNER JOIN mp.caseDetention.hearingFormats hf " +
-            "WHERE mp.id =:id ORDER BY hf.id DESC")
+            "WHERE mp.id =:id and hf.isFinished=true ORDER BY hf.id DESC")
     List<Long> getLastHearingFormatByMonPlan(@Param("id") Long id, Pageable pageable);
 
     @Query("SELECT new com.umeca.model.entities.supervisor.SupervisionLogReport(hi.name, hi.lastNameP, hi.lastNameM, hf.crimes, hf.judgeName, hf.defenderName, " +
@@ -55,8 +56,14 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
 
     @Query("SELECT hf from HearingFormat hf " +
             "INNER JOIN hf.caseDetention cd " +
-            "WHERE cd.id =:caseId ORDER BY hf.id DESC")
+            "WHERE cd.id =:caseId and hf.isFinished = true ORDER BY hf.id DESC")
     List<HearingFormat> findLastHearingFormatByCaseId(@Param("caseId") Long caseId, Pageable pageable);
+
+
+    @Query("SELECT MAX (hf.id) from HearingFormat hf " +
+            "INNER JOIN hf.caseDetention cd " +
+            "WHERE cd.id =:caseId and hf.isFinished = false ORDER BY hf.id DESC")
+    Long findHearingFormatIncomplete(@Param("caseId") Long caseId);
 }
 
 

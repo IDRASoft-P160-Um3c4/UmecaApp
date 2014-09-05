@@ -10,10 +10,12 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.reviewer.TechnicalReview;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
+import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
@@ -126,6 +128,8 @@ public class GenerateMonitoringPlanController {
     private MonitoringPlanRepository monitoringPlanRepository;
     @Autowired
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
+    @Autowired
+    private TechnicalReviewRepository qTechnicalReviewRepository;
 
 
 
@@ -154,7 +158,10 @@ public class GenerateMonitoringPlanController {
         lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstSources", sLstGeneric);
-
+        Long idTec = qTechnicalReviewRepository.getTechnicalReviewByCaseId(caseId);
+        if(idTec!=null){
+            model.addObject("idTec",idTec);
+        }
         MonitoringPlanInfo mpi =  monitoringPlanRepository.getInfoById(id);
         model.addObject("caseId",mpi.getIdCase());
         model.addObject("mpId",mpi.getIdMP());

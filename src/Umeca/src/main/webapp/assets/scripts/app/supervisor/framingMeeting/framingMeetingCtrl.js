@@ -71,7 +71,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                             $scope.FMerrorMsgLst = data.message.split('|');
                         }
                         else
-                            $scope.returnIdx();
+                            $scope.returnFM();
                     });
             }, 200);
         };

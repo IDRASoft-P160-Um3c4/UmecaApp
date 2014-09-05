@@ -80,7 +80,7 @@
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar opini&oacute;n t&eacute;cnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil dark\"></span></a>";
                                 break;
                             default:
-                                be = "<a style=\"display:inline-block;\" title=\"Aún no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+                                be = "<a style=\"display:inline-block;\" title=\"A&uacute;n no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
                                 break;
                         }
 

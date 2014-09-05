@@ -14,10 +14,14 @@
         <intercept-url pattern="/session/checkout.json" access="permitAll"/>
         <intercept-url pattern="/management/**" access="hasRole('ROLE_ADMIN')"/>
 
+        <intercept-url pattern="/reviewer/technicalReview/generateFile.html"
+                       access="hasAnyRole('ROLE_SUPERVISOR','ROLE_REVIEWER')"/>
         <intercept-url pattern="/managereval/showCaseEvaluation/index.html"
                        access="hasAnyRole('ROLE_REVIEWER','ROLE_EVALUATION_MANAGER','ROLE_DIRECTOR')"/>
         <intercept-url pattern="/managereval/showCaseEvaluation/list.json"
                        access="hasAnyRole('ROLE_REVIEWER','ROLE_EVALUATION_MANAGER','ROLE_DIRECTOR')"/>
+        <intercept-url pattern="/supervisorManager/log/supervisionLog.html"
+                       access="hasAnyRole('ROLE_SUPERVISOR_MANAGER','ROLE_SUPERVISOR')"/>
 
         <intercept-url pattern="/director/**" access="hasRole('ROLE_DIRECTOR')"/>
         <intercept-url pattern="/managereval/**" access="hasRole('ROLE_EVALUATION_MANAGER')"/>

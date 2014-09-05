@@ -13,47 +13,47 @@ import java.util.List;
 
 @Entity
 @Table(name = "hearing_format")
-public class HearingFormat{
+public class HearingFormat {
 
     @Id
     @GeneratedValue
     @Column(name = "id_hearing_format")
     private Long id;
 
-    @Column(name = "register_timestamp", nullable = false)
+    @Column(name = "register_timestamp")
     private Calendar registerTime;
 
-    @Column(name = "id_folder", nullable = false)
+    @Column(name = "id_folder")
     private String idFolder;
 
-    @Column(name = "id_judicial", nullable = false)
+    @Column(name = "id_judicial")
     private String idJudicial;
 
-    @Column(name = "room", nullable = false)
+    @Column(name = "room")
     private String room;
 
-    @Column(name = "appointment_date", nullable = false)
+    @Column(name = "appointment_date")
     private Date appointmentDate;
 
-    @Column(name = "init_time", nullable = false)
+    @Column(name = "init_time")
     private Time initTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time")
     private Time endTime;
-
-    @Column(name = "judge_name", nullable = false)
+    @Column(name = "judge_name")
     private String judgeName;
 
-    @Column(name = "mp_name", nullable = false)
+    @Column(name = "mp_name")
     private String mpName;
 
-    @Column(name = "defender_name", nullable = false)
+
+    @Column(name = "defender_name")
     private String defenderName;
 
-    @Column(name = "crimes", length = 5000, nullable = false)
+    @Column(name = "crimes", length = 5000)
     private String crimes;
 
-    @Column(name = "additional_data", length = 5000, nullable = false)
+    @Column(name = "additional_data", length = 5000)
     private String additionalData;
 
     @Column(name = "terms", length = 1000)
@@ -62,8 +62,11 @@ public class HearingFormat{
     @Column(name = "confirm_comment", length = 1000)
     private String confirmComment;
 
+    @Column(name = "is_finished")
+    private Boolean isFinished;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="id_format_specs", nullable = false)
+    @JoinColumn(name = "id_format_specs")
     private HearingFormatSpecs hearingFormatSpecs;
 
     @OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -72,8 +75,8 @@ public class HearingFormat{
     @OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ContactData> contacts;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_case", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_case")
     private Case caseDetention;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -85,10 +88,10 @@ public class HearingFormat{
     private HearingFormatImputed hearingImputed;
 
     @Transient
-    public static final Comparator<HearingFormat> hearingFormatComparator= new Comparator<HearingFormat>() {
+    public static final Comparator<HearingFormat> hearingFormatComparator = new Comparator<HearingFormat>() {
         @Override
         public int compare(HearingFormat h1, HearingFormat h2) {
-            return  h1.getId().compareTo(h2.getId());
+            return h1.getId().compareTo(h2.getId());
         }
     };
 
@@ -258,5 +261,13 @@ public class HearingFormat{
 
     public void setConfirmComment(String confirmComment) {
         this.confirmComment = confirmComment;
+    }
+
+    public Boolean getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
     }
 }

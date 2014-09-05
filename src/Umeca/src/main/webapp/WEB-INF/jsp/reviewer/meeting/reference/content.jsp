@@ -59,8 +59,8 @@
             Tel&eacute;fono:
         </div>
         <div class="col-xs-7">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y m&aacute;ximo 20 caracteres"
-                   data-val-length-max="20" data-val-length-min="8" data-val-required="El tel&eacute;fono es un campo requerido" id="phone"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 20 caracteres"
+                   data-val-length-max="20" data-val-length-min="5" data-val-required="El tel&eacute;fono es un campo requerido" id="phone"
                    type="text" value="${r.phone}" ng-model="r.phone" ng-init='r.phone="${(r.phone == null) ? '' : r.phone}"' name="phone">
         </div>
         <div class="col-xs-9 col-xs-offset-3">

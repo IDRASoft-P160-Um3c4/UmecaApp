@@ -5,7 +5,7 @@ import java.sql.Time;
 import java.util.Date;
 
 @Entity
-@Table(name="hearing_format_specs")
+@Table(name = "hearing_format_specs")
 public class HearingFormatSpecs {
 
     @Id
@@ -13,19 +13,19 @@ public class HearingFormatSpecs {
     @Column(name = "id_format_specs")
     private Long id;
 
-    @Column(name = "control_detention", nullable = false)
+    @Column(name = "control_detention")
     private Integer controlDetention;
 
-    @Column(name = "extension", nullable = false)
+    @Column(name = "extension")
     private Integer extension;
 
-    @Column(name = "imputation_formulation", nullable = false)
+    @Column(name = "imputation_formulation")
     private Integer imputationFormulation;
 
     @Column(name = "imputation_date")
     private Date imputationDate;
 
-    @Column(name = "linkage_process", nullable = false)
+    @Column(name = "linkage_process")
     private Integer linkageProcess;
 
     @Column(name = "linkage_room")
@@ -42,7 +42,6 @@ public class HearingFormatSpecs {
 
     @Column(name = "national_arrangement")
     private Boolean nationalArrangement;
-
 
     public Long getId() {
         return id;

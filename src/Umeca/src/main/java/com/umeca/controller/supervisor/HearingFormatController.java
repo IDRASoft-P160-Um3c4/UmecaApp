@@ -17,6 +17,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.HearingFormatTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
@@ -24,6 +25,7 @@ import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -77,6 +79,7 @@ public class HearingFormatController {
 
                     add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
+                    add(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE);
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
                     add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
                     add(Constants.CASE_STATUS_FRAMING_COMPLETE);
@@ -185,6 +188,9 @@ public class HearingFormatController {
         return model;
     }
 
+    @Autowired
+    HearingFormatRepository hearingFormatRepository;
+
     @RequestMapping(value = "/supervisor/hearingFormat/newHearingFormat", method = RequestMethod.GET)
     public ModelAndView newHearingFormat(@RequestParam(required = true) Long idCase) {
 
@@ -195,7 +201,11 @@ public class HearingFormatController {
             model.addObject("idCase", idCase);
             model.addObject("showErr", true);
             model.addObject("msgError", "No es posible agregar mas formatos, el caso se encuentra pre-cerrado.");
-
+        } else if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase) > 0) {
+            model.setViewName("/supervisor/hearingFormat/indexFormats");
+            model.addObject("idCase", idCase);
+            model.addObject("showErr", true);
+            model.addObject("msgError", "No es posible agregar mas formatos, el caso tiene un formato de audiencia icompleto.");
         } else {
             model.setViewName("/supervisor/hearingFormat/hearingFormat");
             HearingFormatView hfView = hearingFormatService.fillNewHearingFormatForView(idCase);
@@ -225,6 +235,22 @@ public class HearingFormatController {
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
         model.addObject("returnId", conv.toJson(returnId));
+        addressService.fillCatalogAddress(model);
+
+        if (hfView.getIdAddres() != null)
+            addressService.fillModelAddress(model, hfView.getIdAddres());
+
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/hearingFormat/editHearingFormat", method = RequestMethod.GET)
+    public ModelAndView editHearingFormat(@RequestParam(required = true) Long idFormat) {
+
+        ModelAndView model = new ModelAndView("/supervisor/hearingFormat/hearingFormat");
+
+        HearingFormatView hfView = hearingFormatService.fillIncompleteFormatForView(idFormat);
+        Gson conv = new Gson();
+        model.addObject("hfView", conv.toJson(hfView));
         addressService.fillCatalogAddress(model);
 
         if (hfView.getIdAddres() != null)
@@ -296,7 +322,7 @@ public class HearingFormatController {
     @ResponseBody
     ResponseMessage doUpsert(@ModelAttribute HearingFormatView result, HttpServletRequest request) {
 
-        if (result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
+        if (result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
             ResponseMessage resp = hearingFormatService.validatePassCredential(result.getCredPass());
             if (resp != null)
                 return resp;

@@ -141,11 +141,9 @@
                         </div>
                         <br/>
                         <div class="row">
-                            <div class="col-xs-12 element-center">
-                                <span class="label label-pink label-lg arrowed-right">
-                                    <i class="icon-warning-sign bigger-120"></i>&nbsp;
-                                    Estos datos no podr&aacute;n ser modificados durante la entrevista.
-                                </span>
+                            <div class="col-xs-12 text-danger">
+                                    <i class="icon-warning-sign icon-animated-wrench bigger-120"></i>&nbsp;
+                                   La carpeta de investigaci&oacute;n no podr&aacute; ser modificada durante la entrevista.
                             </div>
                         </div>
                     </form>
