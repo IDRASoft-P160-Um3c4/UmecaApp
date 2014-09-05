@@ -147,13 +147,15 @@ app.controller("supervisionLogController", function($scope, $timeout){
                     case 1:
                         lstAssignedArrangementsOk.push({
                             name: assArr.name,
-                            status: $scope.setStatus(mpArr.status)
+                            status: $scope.setStatus(mpArr.status),
+                            description: assArr.description
                         });
                         break;
                     case 0:
                         lstAssignedArrangementsFailed.push({
                             name: assArr.name,
-                            status: $scope.setStatus(mpArr.status)
+                            status: $scope.setStatus(mpArr.status),
+                            description: assArr.description
                         });
                         break;
                     default:
