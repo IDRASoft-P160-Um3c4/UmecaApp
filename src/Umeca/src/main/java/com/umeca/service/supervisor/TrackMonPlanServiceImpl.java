@@ -61,6 +61,20 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         response.setHasError(false);
     }
 
+    @Override
+    public void getLstActivitiesByUserAndFilters(RequestActivities req, Long userId, ArrayList<String> lstMonPlanStatus, ArrayList<String> lstActStatus, ResponseActivities response) {
+        List<ActivityMonitoringPlanResponse> lstAllActivities =
+                activityMonitoringPlanRepository.getAllActivitiesWithFilters(userId, lstMonPlanStatus, lstActStatus,
+                        (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd(), req.getActivityId());
+        response.setLstMonPlanActivities(lstAllActivities);
+
+        List<SelectList> lstActivities = supervisionActivityRepository.findAllSl();
+        List<SelectList> lstGoals = activityGoalRepository.findAllSl();
+        response.setLstActivities(lstActivities);
+        response.setLstGoals(lstGoals);
+        response.setHasError(false);
+    }
+
 
     @Autowired
     private ArrangementRepository arrangementRepository;

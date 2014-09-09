@@ -1,8 +1,9 @@
-app.controller('trackMonPlanController', function($scope, sharedSvc){
+app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
 
     $scope.m = {};
     $scope.yearStart = -1;
     $scope.monthStart = -1;
+    $scope.activityIdCurrent = -1;
     $scope.yearEnd = -1;
     $scope.monthEnd = -1;
     $scope.mainMonPlanId = -1;
@@ -13,25 +14,32 @@ app.controller('trackMonPlanController', function($scope, sharedSvc){
     }
 
     $scope.loadActivities = function(monPlanId, dateStart, dateEnd, urlToPost){
+        if($scope.m.activity === undefined){
+            $scope.m.activity = {id: 0};
+        }
+
         var yearStart = dateStart.getFullYear();
         var monthStart = dateStart.getMonth();
         var yearEnd = dateEnd.getFullYear();
         var monthEnd = dateEnd.getMonth();
         $scope.mainMonPlanId = monPlanId;
 
-        if(yearStart === yearEnd && monthStart === monthEnd){
+        if($scope.activityIdCurrent === $scope.m.activity.id &&
+            yearStart === yearEnd && monthStart === monthEnd){
             if($scope.yearStart === yearStart && $scope.monthStart === monthStart ||
                 $scope.yearEnd === yearEnd && $scope.monthEnd === monthEnd){
                 return;
             }
         }
         else{
-            if($scope.yearStart === yearStart && $scope.monthStart === monthStart &&
+            if($scope.activityIdCurrent === $scope.m.activity.id &&
+                $scope.yearStart === yearStart && $scope.monthStart === monthStart &&
                 $scope.yearEnd === yearEnd && $scope.monthEnd === monthEnd){
                 return;
             }
         }
 
+        $scope.activityIdCurrent = $scope.m.activity.id;
         $scope.yearStart = dateStart.getFullYear();
         $scope.monthStart = dateStart.getMonth();
 
@@ -45,7 +53,7 @@ app.controller('trackMonPlanController', function($scope, sharedSvc){
             url: urlToPost,
             type: "POST",
             data: JSON.stringify({monPlanId: monPlanId, yearStart: $scope.yearStart, monthStart: ($scope.monthStart+1),
-                yearEnd: $scope.yearEnd, monthEnd: ($scope.monthEnd+1)}),
+                yearEnd: $scope.yearEnd, monthEnd: ($scope.monthEnd+1), activityId: $scope.m.activity.id}),
             success: $scope.handleSuccess,
             error: $scope.handleError,
             dataType: "json",
@@ -71,7 +79,6 @@ app.controller('trackMonPlanController', function($scope, sharedSvc){
         var lstEvents = [];
         var today = window.stringToDate(data.today);
         today.setHours(0,0,0,0);
-
 
         for(var i=0; i<lstMonPlanActivities.length; i++){
             var act = lstMonPlanActivities[i];
@@ -102,7 +109,6 @@ app.controller('trackMonPlanController', function($scope, sharedSvc){
             };
             lstEvents.push(event);
         }
-
         return lstEvents;
     };
 
@@ -138,5 +144,19 @@ app.controller('trackMonPlanController', function($scope, sharedSvc){
             message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
             type: "danger"
         });
+    }
+
+    $scope.initActivitySelect = function(){
+        if($scope.lstActivities !== undefined && $scope.lstActivities.length > 0){
+            $timeout(function(){
+                $scope.m.activity = $scope.lstActivities[0];
+            }, 1);
+        }
+    }
+
+    $scope.onChangeSelect = function(){
+        $timeout(function(){
+            window.calendar.fullCalendar( 'render' );
+        }, 1);
     }
 });

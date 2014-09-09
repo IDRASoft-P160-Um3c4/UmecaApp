@@ -7,6 +7,7 @@ public class RequestActivities {
     public int monthStart;
     public int yearEnd;
     public int monthEnd;
+    public Long activityId;
 
     public Long getMonPlanId() {
         return monPlanId;
@@ -46,5 +47,13 @@ public class RequestActivities {
 
     public void setMonthEnd(int monthEnd) {
         this.monthEnd = monthEnd;
+    }
+
+    public Long getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Long activityId) {
+        this.activityId = activityId;
     }
 }
