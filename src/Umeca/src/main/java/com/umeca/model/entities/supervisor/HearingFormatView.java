@@ -64,6 +64,9 @@ public class HearingFormatView {
     private Date imputationDate;
     private String imputationDateStr;
 
+    private Date extDate;
+    private String extDateStr;
+
     private Integer vincProcess;
 
     private String linkageRoom;
@@ -544,5 +547,21 @@ public class HearingFormatView {
 
     public void setHasPrevHF(Boolean hasPrevHF) {
         this.hasPrevHF = hasPrevHF;
+    }
+
+    public Date getExtDate() {
+        return extDate;
+    }
+
+    public void setExtDate(Date extDate) {
+        this.extDate = extDate;
+    }
+
+    public String getExtDateStr() {
+        return extDateStr;
+    }
+
+    public void setExtDateStr(String extDateStr) {
+        this.extDateStr = extDateStr;
     }
 }

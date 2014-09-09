@@ -207,6 +207,11 @@ public class HearingFormatController {
             model.addObject("idCase", idCase);
             model.addObject("showErr", true);
             model.addObject("msgError", "No es posible agregar mas formatos, el caso tiene un formato de audiencia icompleto.");
+        } else if (caseRepository.findOne(idCase).getStatus().getName().equals(Constants.CASE_STATUS_CLOSED)) {
+            model.setViewName("/supervisor/hearingFormat/indexFormats");
+            model.addObject("idCase", idCase);
+            model.addObject("showErr", true);
+            model.addObject("msgError", "No es posible agregar mas formatos, el caso se encuentra cerrado.");
         } else {
             model.setViewName("/supervisor/hearingFormat/hearingFormat");
             HearingFormatView hfView = hearingFormatService.fillNewHearingFormatForView(idCase);

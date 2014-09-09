@@ -606,7 +606,7 @@
 
                         <div class="radio">
                             <label ng-click="chnExtDate(1);"
-                                   ng-show="(m.disableAll==true) || (m.hasPrevHF==false&&m.ext>0&&m.ext<3)">
+                                   ng-show="(m.disableAll==true)||(m.hasPrevHF==false&&m.ext>0&&m.ext<3) || (m.canEdit==true&&m.hasPrevHF==false)">
                                 <input name="extension" class="ace" type="radio" value="1" ng-model="m.ext"
                                        ng-checked="m.ext==1" data-val="true"
                                        data-val-required="Debe seleccionar un valor">
@@ -614,7 +614,7 @@
                             </label>
                             <br/>
                             <label ng-click="chnExtDate(2);"
-                                   ng-show="(m.disableAll==true) || (m.hasPrevHF==false&&m.ext>0&&m.ext<3)">
+                                   ng-show="(m.disableAll==true) || (m.hasPrevHF==false&&m.ext>0&&m.ext<3) || (m.canEdit==true&&m.hasPrevHF==false)">
                                 <input name="extension" class="ace" type="radio" value="2" ng-model="m.ext"
                                        ng-checked="m.ext==2">
                                 <span class="lbl">&nbsp;&nbsp;144 hrs</span>

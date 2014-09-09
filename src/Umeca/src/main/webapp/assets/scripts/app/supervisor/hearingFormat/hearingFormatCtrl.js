@@ -323,6 +323,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.ctrlDet = data.controlDetention;
 
             $scope.m.ext = data.extension;
+            $scope.m.extDate = $scope.myFormatDate(data.extDate);
 
             $scope.m.formImp = data.impForm;
             $scope.m.impDate = $scope.myFormatDate(data.imputationDate);

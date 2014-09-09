@@ -193,6 +193,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             else
                 hearingSpecs.setImputationDate(null);
 
+            if (viewFormat.getExtDateStr() != null && !viewFormat.getExtDateStr().trim().equals(""))
+                hearingSpecs.setExtDate(sdf.parse(viewFormat.getExtDateStr()));
+            else
+                hearingSpecs.setExtDate(null);
+
             if (viewFormat.getLinkageDateStr() != null && !viewFormat.getLinkageDateStr().trim().equals(""))
                 hearingSpecs.setLinkageDate(sdf.parse(viewFormat.getLinkageDateStr()));
             else
@@ -426,15 +431,18 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatView.setIdAddres(existHF.getHearingImputed().getAddress().getId());
 
-        hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
-        hearingFormatView.setExtension(existHF.getHearingFormatSpecs().getExtension());
-        hearingFormatView.setImpForm(existHF.getHearingFormatSpecs().getImputationFormulation());
-        hearingFormatView.setImputationDate(existHF.getHearingFormatSpecs().getImputationDate());
-        hearingFormatView.setVincProcess(existHF.getHearingFormatSpecs().getLinkageProcess());
-        hearingFormatView.setLinkageRoom(existHF.getHearingFormatSpecs().getLinkageRoom());
-        hearingFormatView.setLinkageDate(existHF.getHearingFormatSpecs().getLinkageDate());
-        hearingFormatView.setLinkageTime(existHF.getHearingFormatSpecs().getLinkageTime());
-        hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
+        if (existHF.getHearingFormatSpecs() != null) {
+            hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
+            hearingFormatView.setExtension(existHF.getHearingFormatSpecs().getExtension());
+            hearingFormatView.setExtDate(existHF.getHearingFormatSpecs().getExtDate());
+            hearingFormatView.setImpForm(existHF.getHearingFormatSpecs().getImputationFormulation());
+            hearingFormatView.setImputationDate(existHF.getHearingFormatSpecs().getImputationDate());
+            hearingFormatView.setVincProcess(existHF.getHearingFormatSpecs().getLinkageProcess());
+            hearingFormatView.setLinkageRoom(existHF.getHearingFormatSpecs().getLinkageRoom());
+            hearingFormatView.setLinkageDate(existHF.getHearingFormatSpecs().getLinkageDate());
+            hearingFormatView.setLinkageTime(existHF.getHearingFormatSpecs().getLinkageTime());
+            hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
+        }
 
         hearingFormatView.setAdditionalData(existHF.getAdditionalData());
         hearingFormatView.setCrimes(existHF.getCrimes());
@@ -445,7 +453,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
 
 
-        if (existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+        if (existHF.getHearingFormatSpecs() != null && existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
             hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
             hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
             hearingFormatView.setTerms(existHF.getTerms());
@@ -455,10 +463,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 List<ArrangementView> lstExistArrangement = this.getArrangmentLst(existHF.getHearingFormatSpecs().getNationalArrangement(), existHF.getHearingFormatSpecs().getArrangementType());
                 hearingFormatView.setLstArrangement(conv.toJson(this.selectedAssignedArrangementForView(lstExistArrangement, existHF.getAssignedArrangements())));
             }
-
-            hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
         }
 
+        hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
         return hearingFormatView;
     }
 
@@ -498,6 +505,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         if (existHF.getHearingFormatSpecs() != null) {
             hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
             hearingFormatView.setExtension(existHF.getHearingFormatSpecs().getExtension());
+            hearingFormatView.setExtDate(existHF.getHearingFormatSpecs().getExtDate());
             hearingFormatView.setImpForm(existHF.getHearingFormatSpecs().getImputationFormulation());
             hearingFormatView.setImputationDate(existHF.getHearingFormatSpecs().getImputationDate());
             hearingFormatView.setVincProcess(existHF.getHearingFormatSpecs().getLinkageProcess());
