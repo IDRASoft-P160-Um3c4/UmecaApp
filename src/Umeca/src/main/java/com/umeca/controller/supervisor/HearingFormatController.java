@@ -147,6 +147,7 @@ public class HearingFormatController {
                 return new ArrayList<Selection<?>>() {{
 
                     add(r.get("id"));
+                    add(r.get("isFinished"));
                     add(r.get("idFolder"));
                     add(r.get("idJudicial"));
                     add(joinHImp.get("name"));
@@ -322,7 +323,7 @@ public class HearingFormatController {
     @ResponseBody
     ResponseMessage doUpsert(@ModelAttribute HearingFormatView result, HttpServletRequest request) {
 
-        if (result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
+        if (result.getIsFinished() != null && result.getIsFinished() == true && result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
             ResponseMessage resp = hearingFormatService.validatePassCredential(result.getCredPass());
             if (resp != null)
                 return resp;

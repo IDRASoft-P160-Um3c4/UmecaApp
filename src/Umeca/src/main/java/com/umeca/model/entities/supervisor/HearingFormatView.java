@@ -112,6 +112,8 @@ public class HearingFormatView {
 
     private Boolean isFinished;
 
+    private Boolean hasPrevHF;
+
     public String getLat() {
         return lat;
     }
@@ -534,5 +536,13 @@ public class HearingFormatView {
 
     public void setIsFinished(Boolean isFinished) {
         this.isFinished = isFinished;
+    }
+
+    public Boolean getHasPrevHF() {
+        return hasPrevHF;
+    }
+
+    public void setHasPrevHF(Boolean hasPrevHF) {
+        this.hasPrevHF = hasPrevHF;
     }
 }
