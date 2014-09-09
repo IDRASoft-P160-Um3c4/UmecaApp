@@ -50,6 +50,10 @@ public class CriminalProceedingView {
 
     private Long complyProcessAboveId;
 
+    private String specificationNumberConvictions;
+
+    private String specificationOpenProcess;
+
     public Long getIdCase() {
 
         return idCase;
@@ -169,5 +173,21 @@ public class CriminalProceedingView {
 
     public void setHaveCoDependant(Boolean haveCoDependant) {
         this.haveCoDependant = haveCoDependant;
+    }
+
+    public String getSpecificationNumberConvictions() {
+        return specificationNumberConvictions;
+    }
+
+    public void setSpecificationNumberConvictions(String specificationNumberConvictions) {
+        this.specificationNumberConvictions = specificationNumberConvictions;
+    }
+
+    public String getSpecificationOpenProcess() {
+        return specificationOpenProcess;
+    }
+
+    public void setSpecificationOpenProcess(String specificationOpenProcess) {
+        this.specificationOpenProcess = specificationOpenProcess;
     }
 }

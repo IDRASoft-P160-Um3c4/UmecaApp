@@ -30,6 +30,12 @@ public class PreviousCriminalProceeding {
     @Column(name = "number_convictions", nullable = true)
     private Integer numberConvictions;
 
+    @Column(name="specification_open_process", length = 255, nullable = true)
+    private String specificationOpenProcess;
+
+    @Column(name="specification_number_convictions", length = 255, nullable = true)
+    private String specificationNumberConvictions;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_comply_measures", nullable = true)
     private Election complyPM;
@@ -108,5 +114,21 @@ public class PreviousCriminalProceeding {
 
     public void setMeeting(Meeting meeting) {
         this.meeting = meeting;
+    }
+
+    public String getSpecificationOpenProcess() {
+        return specificationOpenProcess;
+    }
+
+    public void setSpecificationOpenProcess(String specificationOpenProcess) {
+        this.specificationOpenProcess = specificationOpenProcess;
+    }
+
+    public String getSpecificationNumberConvictions() {
+        return specificationNumberConvictions;
+    }
+
+    public void setSpecificationNumberConvictions(String specificationNumberConvictions) {
+        this.specificationNumberConvictions = specificationNumberConvictions;
     }
 }

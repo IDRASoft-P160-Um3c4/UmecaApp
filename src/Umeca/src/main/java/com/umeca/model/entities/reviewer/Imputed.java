@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.Country;
+import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.MaritalStatus;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
@@ -71,6 +72,10 @@ public class Imputed { @Id
 
     @Column(name="nickname", length = 100, nullable = true)
     private String nickname;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_location", nullable = true)
+    private Location location;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
@@ -239,17 +244,32 @@ public class Imputed { @Id
         }
         if(birthCountry==null){
             result.add(t.template.replace(e,"El país de nacimiento"));
-        }
-        if(birthMunicipality==null || (birthMunicipality!= null && birthMunicipality.trim().equals(""))){
-            result.add(t.template.replace(e,"El municipio de nacimiento"));
-        }
-        if(birthState==null ||(birthState!=null && birthState.trim().equals(""))){
-            result.add(t.template.replace(e,"El estado de naciemiento"));
-        }
-        if(birthLocation ==null ||(birthLocation != null && birthLocation.trim().equals(""))){
-            result.add(t.template.replace(e,"La ciudad o localidad de nacimiento"));
+        }else{
+            if(birthCountry.getAlpha2().equals(Constants.ALPHA2_MEXICO)){
+               if(location==null|| (location!=null && location.getId()==null)){
+                    result.add(t.template.replace(e,"La localidad"));
+               }
+            }else{
+                if(birthMunicipality==null || (birthMunicipality!= null && birthMunicipality.trim().equals(""))){
+                    result.add(t.template.replace(e,"El municipio de nacimiento"));
+                }
+                if(birthState==null ||(birthState!=null && birthState.trim().equals(""))){
+                    result.add(t.template.replace(e,"El estado de naciemiento"));
+                }
+                if(birthLocation ==null ||(birthLocation != null && birthLocation.trim().equals(""))){
+                    result.add(t.template.replace(e,"La ciudad o localidad de nacimiento"));
+                }
+            }
         }
         t.getGroupMessage().add(new GroupMessageMeetingDto("personalData",result));
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }
 

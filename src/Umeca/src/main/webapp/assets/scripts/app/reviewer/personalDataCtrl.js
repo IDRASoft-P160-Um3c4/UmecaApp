@@ -1,4 +1,4 @@
-app.controller('personalDataController', function ($scope, $timeout, $q) {
+app.controller('personalDataController', function ($scope, $timeout, $q, $http) {
     $scope.m = {};
     $scope.specification = {};
     $scope.lstActivity = [];
@@ -14,6 +14,132 @@ app.controller('personalDataController', function ($scope, $timeout, $q) {
 
 
     $scope.init = function () {
+        if ($scope.listState != undefined && $scope.listState.length > 0) {
+            if($scope.locationId != undefined && $scope.locationId != 0){
+
+                var ajaxConf = {
+                    method: 'POST',
+                    url: $scope.urlFindIds
+                };
+                ajaxConf.params = {id: $scope.locationId};
+                $http(ajaxConf)
+                    .success(function (data) {
+                        if(data.hasError == false){
+                             var idsLocation = jQuery.parseJSON(data.message);
+                             for(var i = 0; i< $scope.listState.length; i++){
+                                 var s = $scope.listState[i];
+                                 if(s.id == idsLocation.stateId){
+                                     $scope.state = s;
+                                     $scope.stateId = s.id;
+                                     var ajaxConf = {
+                                         method: 'POST',
+                                         url: $scope.urlMunicipality
+                                     };
+                                     ajaxConf.params = {idState: $scope.stateId};
+                                     $http(ajaxConf)
+                                         .success(function (data) {
+                                             data.data = jQuery.parseJSON(data.data);
+                                             if (data.data == undefined || data.data.length === 0) {
+                                                 //  cat={};
+                                                 return;
+                                             }
+                                             $scope.listMunicipality = data.data;
+                                             for (var i = 0; i < $scope.listMunicipality.length; i++) {
+                                                 if (idsLocation.munId == $scope.listMunicipality[i].id) {
+                                                     $scope.municipality = $scope.listMunicipality[i];
+                                                     $scope.municipalityId = $scope.municipality.id;
+                                                 }
+                                             }
+                                             ajaxConf = {
+                                                 method: 'POST',
+                                                 url: $scope.urlLocation
+                                             };
+                                             ajaxConf.params = {idMun: $scope.municipalityId};
+                                             $http(ajaxConf)
+                                                 .success(function (data) {
+                                                     data.data = jQuery.parseJSON(data.data);
+                                                     if (data.data == undefined || data.data.length === 0) {
+                                                         // $scope.clear();
+                                                         return;
+                                                     }
+                                                     $scope.listLocation = data.data;
+                                                     for (var i = 0; i < $scope.listLocation.length; i++) {
+                                                         if (idsLocation.id == $scope.listLocation[i].id) {
+                                                             $scope.location = $scope.listLocation[i];
+                                                             $scope.locationId = $scope.location.id;
+                                                             $scope.zipCode = $scope.location.zipCode;
+                                                         }
+                                                     }
+                                                 });
+                                         });
+                                 }
+                             }
+                        }
+
+                        if (data.data == undefined || data.data.length === 0) {
+                            //  cat={};
+                            return;
+                        }
+                        $scope.listMunicipality = data.data;
+                        $scope.municipality = $scope.listMunicipality[0];
+                        $scope.municipalityId = $scope.municipality.id;
+                        ajaxConf = {
+                            method: 'POST',
+                            url: $scope.urlLocation
+                        };
+                        ajaxConf.params = {idMun: $scope.municipalityId};
+                        $http(ajaxConf)
+                            .success(function (data) {
+                                data.data = jQuery.parseJSON(data.data);
+                                if (data.data == undefined || data.data.length === 0) {
+                                    return;
+                                }
+                                $scope.listLocation = data.data;
+                                $scope.location = $scope.listLocation[0];
+                                $scope.locationId = $scope.location.id;
+                                $scope.zipCode = $scope.location.zipCode;
+                            });
+
+                    });
+            }else{
+                $scope.state = $scope.listState[0];
+                $scope.stateId = $scope.state.id;
+                var ajaxConf = {
+                    method: 'POST',
+                    url: $scope.urlMunicipality
+                };
+                ajaxConf.params = {idState: $scope.stateId};
+                $http(ajaxConf)
+                    .success(function (data) {
+                        data.data = jQuery.parseJSON(data.data);
+                        if (data.data == undefined || data.data.length === 0) {
+                            //  cat={};
+                            return;
+                        }
+                        $scope.listMunicipality = data.data;
+                        $scope.municipality = $scope.listMunicipality[0];
+                        $scope.municipalityId = $scope.municipality.id;
+                        ajaxConf = {
+                            method: 'POST',
+                            url: $scope.urlLocation
+                        };
+                        ajaxConf.params = {idMun: $scope.municipalityId};
+                        $http(ajaxConf)
+                            .success(function (data) {
+                                data.data = jQuery.parseJSON(data.data);
+                                if (data.data == undefined || data.data.length === 0) {
+                                    return;
+                                }
+                                $scope.listLocation = data.data;
+                                $scope.location = $scope.listLocation[0];
+                                $scope.locationId = $scope.location.id;
+                                $scope.zipCode = $scope.location.zipCode;
+                            });
+
+                    });
+                }
+
+        }
         $(".chosen-select").chosen();
         var birthDate = $("#birthDate").val();
         $("#birthDate").val(birthDate.replace("00:00:00.0", ""));

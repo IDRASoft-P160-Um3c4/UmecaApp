@@ -32,7 +32,10 @@ app.directive('findLocation', function ($http, $timeout) {
                         scope.location =scope.listLocation[0];
                         scope.locationId = scope.location.id;
                         scope.zipCode = scope.location.zipCode;
-                        scope.refreshMap();
+                        if(scope.refreshMap!= undefined){
+                            scope.refreshMap();
+                        }
+
 
                     });
             }, 200);
