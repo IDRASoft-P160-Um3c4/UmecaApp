@@ -43,14 +43,14 @@
             font-size: 11px;
         }
 
-        .icon-list{
+        .icon-list {
             cursor: pointer;
         }
 
 
     </style>
     <script>
-        window.cancelViewMeeting = function(){
+        window.cancelViewMeeting = function () {
             window.goToUrlMvcUrl("<c:url value='/managereval/showCaseEvaluation/index.html'/>");
         }
 
@@ -61,17 +61,17 @@
         window.terminateVerification = function () {
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html'/>");
         }
-        window.showChoices = function (code,id) {
-            var  divScope=  "#divChoiceInformation";
+        window.showChoices = function (code, id) {
+            var divScope = "#divChoiceInformation";
             var urlToGo = "<c:url value='/reviewer/verification/showChoices.html'/>";
             var scope = angular.element($(divScope)).scope();
-            var data ={};
-            data.id= code;
-            data.idCase= ${idCase};
-            if(id!=undefined){
+            var data = {};
+            data.id = code;
+            data.idCase = ${idCase};
+            if (id != undefined) {
                 data.idList = id;
             }
-            scope.show(data, urlToGo,undefined,undefined,true);
+            scope.show(data, urlToGo, undefined, undefined, true);
         };
 
     </script>
@@ -340,10 +340,13 @@
         <div class="row center">
             <h2><i class="purple glyphicon glyphicon-user bigger-100"></i> &nbsp;Datos personales y
                 entorno social</h2>
-        <div class="row" ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';">
-            <div class="col-xs-10 col-xs-offset-1">
-                <br/>
-                <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/content.jsp" %>
+
+            <div class="row"
+                 ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <br/>
+                    <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/content.jsp" %>
+                </div>
             </div>
         </div>
     </div>
@@ -409,6 +412,7 @@
 </div>
 </div>
 <br/>
+
 <div class="row">
     <div class="col-xs-12">
         <div ng-show="listMsgError['general'].length > 0" class="alert alert-danger element-center error-font">
