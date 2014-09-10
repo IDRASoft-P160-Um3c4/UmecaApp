@@ -10,7 +10,8 @@
                ng-show="verification" code="imputed.name"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('imputed.name')"></i>
-            <i class="purple icon-list-alt icon-only bigger-120" onclick="window.showChoiceInformation('imputed.name');"
+            <i class="purple icon-list icon-only bigger-120"
+               ng-click="showChoices('imputed.name')"
                ng-show="selectSource"></i>
             Nombre:
         </div>
@@ -31,7 +32,8 @@
                ng-show="verification" code="imputed.lastNameP"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('imputed.lastNameP')"></i>
-            <i class="icon-list-alt icon-only bigger-120" ng-click="doSelectSource('imputed.lastNameP')"
+            <i class="purple icon-list icon-only bigger-120"
+               ng-click="showChoices('imputed.lastNameP')"
                ng-show="selectSource"></i>
             Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Paterno:
         </div>
@@ -52,7 +54,8 @@
                ng-show="verification" code="imputed.lastNameM"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('imputed.lastNameM')"></i>
-            <i class="icon-list-alt icon-only bigger-120" ng-click="doSelectSource('imputed.lastNameM')"
+            <i class="purple icon-list icon-only bigger-120"
+               ng-click="showChoices('imputed.lastNameM')"
                ng-show="selectSource"></i>
             Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Materno:
         </div>
