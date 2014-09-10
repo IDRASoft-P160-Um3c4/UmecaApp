@@ -1,72 +1,72 @@
 <div id="divPersonalController" ng-controller="personalDataController">
 <div class="row">
-<%--<br/>--%>
-<%--<div class="row">--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<div class="col-xs-5  element-left">--%>
-            <%--<i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"--%>
-               <%--ng-click="doConfirmVerifEqual('imputed.name')"></i>--%>
-            <%--<i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"--%>
-               <%--ng-show="verification" code="imputed.name"></i>--%>
-            <%--<i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"--%>
-               <%--ng-click="doConfirmVerifNotKnow('imputed.name')"></i>--%>
-            <%--<i class="purple icon-list-alt icon-only bigger-120" onclick="window.showChoiceInformation('imputed.name');"--%>
-               <%--ng-show="selectSource"></i>--%>
-            <%--Nombre:--%>
-        <%--</div>--%>
-        <%--<div class="col-xs-7">--%>
-            <%--<input class="form-control" type="text" ng-model="i.name"--%>
-                   <%--name="imputed.name" data-val-required="El nombre es un campo requerido"--%>
-                   <%--data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"--%>
-                   <%--data-val-length-max="50" data-val-length-min="2"/>--%>
-                                                 <%--<span class="field-validation-valid" data-valmsg-for="imputed.name"--%>
-                                                       <%--data-valmsg-replace="true"></span>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<div class="col-xs-5  element-left">--%>
-            <%--<i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"--%>
-               <%--ng-click="doConfirmVerifEqual('imputed.lastNameP')"></i>--%>
-            <%--<i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"--%>
-               <%--ng-show="verification" code="imputed.lastNameP"></i>--%>
-            <%--<i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"--%>
-               <%--ng-click="doConfirmVerifNotKnow('imputed.lastNameP')"></i>--%>
-            <%--<i class="icon-list-alt icon-only bigger-120" ng-click="doSelectSource('imputed.lastNameP')"--%>
-               <%--ng-show="selectSource"></i>--%>
-            <%--Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Paterno:--%>
-        <%--</div>--%>
-        <%--<div class="col-xs-7">--%>
-            <%--<input class="form-control" type="text" ng-model="i.lastNameP"--%>
-                   <%--name="imputed.lastNameP" data-val-required="El nombre es un campo requerido"--%>
-                   <%--data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"--%>
-                   <%--data-val-length-max="50" data-val-length-min="2"/>--%>
-                                                 <%--<span class="field-validation-valid" data-valmsg-for="imputed.lastNameP"--%>
-                                                       <%--data-valmsg-replace="true"></span>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<div class="col-xs-5  element-left">--%>
-            <%--<i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"--%>
-               <%--ng-click="doConfirmVerifEqual('imputed.lastNameM')"></i>--%>
-            <%--<i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"--%>
-               <%--ng-show="verification" code="imputed.lastNameM"></i>--%>
-            <%--<i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"--%>
-               <%--ng-click="doConfirmVerifNotKnow('imputed.lastNameM')"></i>--%>
-            <%--<i class="icon-list-alt icon-only bigger-120" ng-click="doSelectSource('imputed.lastNameM')"--%>
-               <%--ng-show="selectSource"></i>--%>
-            <%--Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Materno:--%>
-        <%--</div>--%>
-        <%--<div class="col-xs-7">--%>
-            <%--<input class="form-control" type="text" ng-model="i.lastNameM"--%>
-                   <%--name="imputed.lastNameM" data-val-required="El nombre es un campo requerido"--%>
-                   <%--data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"--%>
-                   <%--data-val-length-max="50" data-val-length-min="2"/>--%>
-                                                 <%--<span class="field-validation-valid" data-valmsg-for="imputed.lastNameM"--%>
-                                                       <%--data-valmsg-replace="true"></span>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</div>--%>
-<%--<br/>--%>
+<br/>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="col-xs-5  element-left">
+            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifEqual('imputed.name')"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+               ng-show="verification" code="imputed.name"></i>
+            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifNotKnow('imputed.name')"></i>
+            <i class="purple icon-list-alt icon-only bigger-120" onclick="window.showChoiceInformation('imputed.name');"
+               ng-show="selectSource"></i>
+            Nombre:
+        </div>
+        <div class="col-xs-7">
+            <input class="form-control" type="text" ng-model="i.name"
+                   name="imputed.name" data-val-required="El nombre es un campo requerido"
+                   data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
+                   data-val-length-max="50" data-val-length-min="2"/>
+                                                 <span class="field-validation-valid" data-valmsg-for="imputed.name"
+                                                       data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="col-xs-5  element-left">
+            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifEqual('imputed.lastNameP')"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+               ng-show="verification" code="imputed.lastNameP"></i>
+            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifNotKnow('imputed.lastNameP')"></i>
+            <i class="icon-list-alt icon-only bigger-120" ng-click="doSelectSource('imputed.lastNameP')"
+               ng-show="selectSource"></i>
+            Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Paterno:
+        </div>
+        <div class="col-xs-7">
+            <input class="form-control" type="text" ng-model="i.lastNameP"
+                   name="imputed.lastNameP" data-val-required="El nombre es un campo requerido"
+                   data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
+                   data-val-length-max="50" data-val-length-min="2"/>
+                                                 <span class="field-validation-valid" data-valmsg-for="imputed.lastNameP"
+                                                       data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="col-xs-5  element-left">
+            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifEqual('imputed.lastNameM')"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+               ng-show="verification" code="imputed.lastNameM"></i>
+            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifNotKnow('imputed.lastNameM')"></i>
+            <i class="icon-list-alt icon-only bigger-120" ng-click="doSelectSource('imputed.lastNameM')"
+               ng-show="selectSource"></i>
+            Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Materno:
+        </div>
+        <div class="col-xs-7">
+            <input class="form-control" type="text" ng-model="i.lastNameM"
+                   name="imputed.lastNameM" data-val-required="El nombre es un campo requerido"
+                   data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
+                   data-val-length-max="50" data-val-length-min="2"/>
+                                                 <span class="field-validation-valid" data-valmsg-for="imputed.lastNameM"
+                                                       data-valmsg-replace="true"></span>
+        </div>
+    </div>
+</div>
+<br/>
     <div class="col-xs-6">
         <div class="row">
             <div class="col-xs-3 element-left">
