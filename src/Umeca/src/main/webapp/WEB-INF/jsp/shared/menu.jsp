@@ -161,10 +161,10 @@
                                 class="glyphicon glyphicon-log-in"></span> &nbsp; Ingresar</a>
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">
-                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle" ng-init="hasUser = true">
                             <img class=" nav-user-photo" src="<c:url value='/assets/avatars/avatar0.png' />"
                                  alt="Usuario"/>
-								<span class="user-info">
+								<span class="user-info" >
 									<small>Bienvenido,</small>
 									<%=SecurityContextHolder.getContext().getAuthentication().getName()%>
 								</span>

@@ -1,5 +1,6 @@
 package com.umeca.service.catalog;
 
+import com.umeca.model.ResponseMessage;
 import com.umeca.model.ResponseMessageAddress;
 import com.umeca.model.catalog.Location;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,4 +18,6 @@ public interface CatalogService {
     ResponseMessageAddress getStatesByCountry(Long countryId);
     ResponseMessageAddress findMunicipalityByIdState(Long idState);
     ResponseMessageAddress findLocationByMunId(Long idMun);
+
+    ResponseMessage findIdsLocationById(Long id);
 }

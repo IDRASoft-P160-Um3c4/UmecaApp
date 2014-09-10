@@ -34,6 +34,9 @@ public class HearingFormatSpecs {
     @Column(name = "linkage_date")
     private Date linkageDate;
 
+    @Column(name = "ext_date")
+    private Date extDate;
+
     @Column(name = "linkage_time")
     private Time linkageTime;
 
@@ -129,5 +132,13 @@ public class HearingFormatSpecs {
 
     public void setNationalArrangement(Boolean nationalArrangement) {
         this.nationalArrangement = nationalArrangement;
+    }
+
+    public Date getExtDate() {
+        return extDate;
+    }
+
+    public void setExtDate(Date extDate) {
+        this.extDate = extDate;
     }
 }

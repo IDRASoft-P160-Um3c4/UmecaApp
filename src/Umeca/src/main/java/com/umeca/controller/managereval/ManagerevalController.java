@@ -138,10 +138,7 @@ public class ManagerevalController {
     public
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
-        Long userId = userService.GetLoggedUserId();
-
         opts.extraFilters = new ArrayList<>();
-
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusCode",
                 Constants.VERIFICATION_STATUS_NEW_SOURCE, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
@@ -154,13 +151,12 @@ public class ManagerevalController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 final Join<Case, Meeting> joinMeVe = r.join("meeting");
                 final Join<Meeting, Imputed> joinMee = joinMeVe.join("imputed");
-                final Join<Meeting, Case> joinCd = joinMeVe.join("caseDetention");
                 final Join<Meeting, CurrentCriminalProceeding> joinCCP = joinMeVe.join("currentCriminalProceeding");
                 final Join<CurrentCriminalProceeding, Crime> joinC = joinCCP.join("crimeList");
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
-                    add(joinCd.get("id"));
-                    add(joinCd.get("idFolder"));
+                    add(r.get("id"));
+                    add(r.get("idFolder"));
                     add(joinMee.get("name"));
                     add(joinMee.get("lastNameP"));
                     add(joinMee.get("lastNameM"));

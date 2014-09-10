@@ -172,8 +172,10 @@ app.controller('innerVerificationController', function($scope, $timeout, $q) {
                     if($scope[nameModelComplete[0]] == undefined){
                         $scope[nameModelComplete[0]] = {};
                     }
+                    if($scope[nameList] != undefined &&  $scope[nameList][0]!=undefined ){
                     $scope[nameModelComplete[0]][nameModelComplete[1]]= $scope[nameList][0];
                     $scope[nameModelComplete[0]][nameModelComplete[1]+"Id"]= $scope[nameList][0].id;
+                    }
                 }
             });
           var divTypeImputedHome = $(".removeClassHide")

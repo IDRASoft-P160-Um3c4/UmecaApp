@@ -1,5 +1,6 @@
 package com.umeca.controller.catalogs;
 
+import com.umeca.model.ResponseMessage;
 import com.umeca.model.ResponseMessageAddress;
 import com.umeca.service.catalog.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,11 @@ public class CatalogController {
         return catalogService.findLocationByMunId(idMun);
     }
 
-
+    @RequestMapping(value = "/catalogs/address/idsLocationById", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage locationById(@RequestParam Long id){
+        return catalogService.findIdsLocationById(id);
+    }
 
     @RequestMapping(value = "/catalogs/getStatesByCountry.json", method = RequestMethod.POST)
     public @ResponseBody

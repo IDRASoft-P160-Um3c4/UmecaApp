@@ -146,7 +146,7 @@
         </div>
             </div>
         <br/>
-        <div class="row">
+        <div class="row"  ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';" >
             <div class="col-sm-12">
                 <div class="tabbable tabs-left">
                     <ul class="nav nav-tabs" id="tabMeeting">

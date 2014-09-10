@@ -178,7 +178,7 @@
 <div class="col-xs-10 col-xs-offset-1">
 <br/>
 
-<div class="widget-box">
+<div class="widget-box" id="divAudiencia">
     <div class="widget-header"> Audiencia</div>
     <div class="widget-body">
         <div class="row">
@@ -341,7 +341,7 @@
 
 <br/>
 
-<div class="widget-box">
+<div class="widget-box" id="divImputado">
     <div class="widget-header">Imputado</div>
     <div class="widget-body">
         <div class="row">
@@ -460,35 +460,47 @@
 <div class="row">
     <br/>
 
-    <div class="col-xs-6">
-        <label>Delito(s)</label>
-        <br/>
-        <textarea class="input-xxlarge form-control limited" name="crimes"
-                  ng-model="m.crimes"
-                  maxlength="980" data-val="true"
-                  data-val-required="Delito(s) adicionales es un campo requerido">
-        </textarea>
+    <div class="col-xs-12" id="divDelitos">
+        <div class="widget-box">
+            <div class="widget-header">Delitos</div>
+            <div class="widget-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-6">
+                            <label>Delito(s)</label>
+                            <br/>
+                            <textarea class="input-xxlarge form-control limited" name="crimes"
+                                      ng-model="m.crimes"
+                                      maxlength="980" data-val="true"
+                                      data-val-required="Delito(s) adicionales es un campo requerido">
+                            </textarea>
         <span class="field-validation-valid" data-valmsg-for="crimes"
               data-valmsg-replace="true"></span>
-    </div>
-    <div class="col-xs-6">
-        <label>Datos adicionales</label>
-        <br/>
+                        </div>
+                        <div class="col-xs-6">
+                            <label>Datos adicionales</label>
+                            <br/>
 
-        <textarea class="input-xxlarge form-control limited" name="additionalData"
-                  ng-model="m.additionalData"
-                  maxlength="980" data-val="true"
-                  data-val-required="Datos adicionales es un campo requerido">
-        </textarea>
+                            <textarea class="input-xxlarge form-control limited" name="additionalData"
+                                      ng-model="m.additionalData"
+                                      maxlength="980" data-val="true"
+                                      data-val-required="Datos adicionales es un campo requerido">
+                            </textarea>
         <span class="field-validation-valid" data-valmsg-for="additionalData"
               data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+            </div>
+        </div>
     </div>
 </div>
 
 <br/>
 
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-6" id="divCtrlDet">
         <div class="widget-box">
             <div class="widget-header">Control de detenci&oacute;n</div>
             <div class="widget-body">
@@ -537,23 +549,25 @@
                         </div>
 
                         <div class="radio col-xs-7">
-                            <label>
-                                <input class="ace" name="impForm" type="radio" ng-model="m.formImp" value="1"
+                            <label ng-click="chnLblFormImp(1)">
+                                <input id="formImpYes" class="ace" name="impForm" type="radio" ng-model="m.formImp"
+                                       value="1"
                                        ng-checked="m.formImp==1" data-val="true"
                                        data-val-required="Debe seleccionar un valor">
                                 <span class="lbl">&nbsp;&nbsp;Si</span>
                             </label>
                             <br/>
-                            <label>
-                                <input class="ace" name="impForm" type="radio" ng-model="m.formImp" value="2"
+                            <label ng-click="chnLblFormImp(2)">
+                                <input id="formImpNo" class="ace" name="impForm" type="radio" ng-model="m.formImp"
+                                       value="2"
                                        ng-checked="m.formImp==2">
                                 <span class="lbl">&nbsp;&nbsp;No</span>
                             </label>
                         </div>
                         <br/>
 
-                        <div class="col-xs-7">
-                            <label for="imputationDateStr">Fecha</label>
+                        <div class="col-xs-7" ng-show="m.formImp>0">
+                            <label><p ng-bind-html="m.labelImpForm"></p></label>
 
                             <div class="input-group">
                                 <input class="form-control date-picker"
@@ -580,8 +594,8 @@
 
 <div class="row">
 
-    <div class="col-xs-6">
-        <div class="widget-box">
+    <div class="col-xs-6" id="divExt">
+        <div class="widget-box" ng-show="m.formImp==1">
             <div class="widget-header">Ampliaci&oacute;n del t&eacute;rmino</div>
             <div class="widget-body">
                 <div class="row">
@@ -591,33 +605,53 @@
                               data-valmsg-replace="true"></span>
 
                         <div class="radio">
-                            <label ng-click="clExtension();">
+                            <label ng-click="chnExtDate(1);"
+                                   ng-show="(m.disableAll==true)||(m.hasPrevHF==false&&m.ext>0&&m.ext<3) || (m.canEdit==true&&m.hasPrevHF==false)">
                                 <input name="extension" class="ace" type="radio" value="1" ng-model="m.ext"
                                        ng-checked="m.ext==1" data-val="true"
                                        data-val-required="Debe seleccionar un valor">
                                 <span class="lbl">&nbsp;&nbsp;72 hrs</span>
                             </label>
                             <br/>
-                            <label ng-click="clExtension();">
+                            <label ng-click="chnExtDate(2);"
+                                   ng-show="(m.disableAll==true) || (m.hasPrevHF==false&&m.ext>0&&m.ext<3) || (m.canEdit==true&&m.hasPrevHF==false)">
                                 <input name="extension" class="ace" type="radio" value="2" ng-model="m.ext"
                                        ng-checked="m.ext==2">
                                 <span class="lbl">&nbsp;&nbsp;144 hrs</span>
                             </label>
                             <br/>
-                            <label ng-click="clExtension();">
+                            <label ng-click="chnExtDate(3);">
                                 <input name="extension" class="ace" type="radio" value="3" ng-model="m.ext"
                                        ng-checked="m.ext==3">
                                 <span class="lbl">&nbsp;&nbsp;No</span>
                             </label>
                         </div>
                         <br/>
+
+                        <div class="col-xs-7" ng-show="m.ext>0">
+                            <label for="extDateStr">Nueva fecha de audiencia</label>
+
+                            <div class="input-group">
+                                <input class="form-control date-picker"
+                                       id="extDateStr" name="extDateStr" ng-model="m.extDate"
+                                       data-date-format="yyyy/mm/dd" type="text" readonly data-val="true"
+                                       data-val-required="Fecha es un campo requerido">
+                            <span class="input-group-addon">
+                                <i class="icon-calendar bigger-110"></i>
+                            </span>
+                            </div>
+                            <span class="field-validation-valid" data-valmsg-for="extDateStr"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                        <br/>
                     </div>
                 </div>
+                <br/>
             </div>
         </div>
     </div>
 
-    <div class="col-xs-6">
+    <div class="col-xs-6" id="divVincProc">
         <div class="widget-box">
             <div class="widget-header">Vinculaci&oacute;n a proceso</div>
             <div class="widget-body">
@@ -645,8 +679,7 @@
                         </div>
                         <br/>
 
-                        <div class="col-xs-6">
-
+                        <div class="col-xs-6" ng-show="m.vincProcess==1">
                             <div class="row">
                                 <br/>
                                 <label>Sala</label>
@@ -713,7 +746,7 @@
 
 <br/>
 
-<div class="row" ng-show="m.vincProcess==1">
+<div class="row" ng-show="m.vincProcess==1" id="divMedidas">
     <div class="widget-box">
         <div class="widget-header">Medidas cautelares</div>
         <div class="widget-body">
@@ -843,7 +876,7 @@
 
 <br/>
 
-<div class="row" ng-show="m.vincProcess==1">
+<div class="row" ng-show="m.vincProcess==1" id="divContact">
     <div class="widget-box">
         <div class="widget-header">Datos de contacto</div>
         <div class="widget-body">
@@ -975,7 +1008,7 @@
     </div>
 </div>
 
-<div class="row element-right">
+<div class="row element-right" ng-show="m.canSave==true">
     <div>
     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
           ng-click="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">

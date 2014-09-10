@@ -8,6 +8,38 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.MsgError;
         $scope.MsgErrorContact = "";
 
+        $scope.MsgErrorContact = "";
+
+        $scope.m.labelImpForm = "";
+
+        $scope.chnLblFormImp = function (id) {
+
+            if ($scope.m.hasPrevHF == false) {
+                if (id == 1) {
+                    $scope.m.labelImpForm = $sce.trustAsHtml("Fecha de imputaci&oacute;n");
+                    $scope.m.impDate = $scope.myFormatDate(new Date());
+                }
+                else if (id == 2) {
+                    $scope.m.labelImpForm = $sce.trustAsHtml("Nueva fecha de audiencia");
+                    $scope.m.impDate = "";
+                }
+            }
+
+        };
+
+        $scope.chnExtDate = function (id) {
+            if (id == 1) {
+                $scope.m.extDate = $scope.myFormatDate(((new Date()).getTime() + (86400000 * 3)));
+            }
+            else if (id == 2) {
+                $scope.m.extDate = $scope.myFormatDate(((new Date()).getTime() + (86400000 * 6)));
+            }
+            else if (id == 3) {
+                $scope.m.extDate = "";
+            }
+
+        };
+
         /***/
 
         var dlgConfirmAction = $('#divConfirm');
@@ -48,7 +80,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 return false;
             }
 
-            $scope.m.isFinished = true;
             return true;
         };
 
@@ -99,8 +130,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             if (!$scope.m.ext) {
                 $scope.hasError = true;
                 $scope.m.errExt = "Debe seleccionar una opción";
-            } else {
-                $scope.clExtension();
             }
 
         };
@@ -206,12 +235,36 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         $scope.disableView = function (val) {
 
-            if (val)
-                $("#FormFormatId :input").attr("disabled", true);
-            else
-                $("#FormFormatId :input").attr("disabled", false);
+            if (val) {
 
-        }
+                $("#divAudiencia :input").attr("disabled", true);
+                $("#divImputado :input").attr("disabled", true);
+                $("#divDelitos :input").attr("disabled", true);
+                $("#divCtrlDet :input").attr("disabled", true);
+                $("#divFormImp :input").attr("disabled", true);
+                $("#divExt :input").attr("disabled", true);
+                $("#divVincProc :input").attr("disabled", true);
+                $("#divMedidas :input").attr("disabled", true);
+                $("#divContact :input").attr("disabled", true);
+            }
+            else {
+                $("#divAudiencia :input").attr("disabled", false);
+                $("#divImputado :input").attr("disabled", false);
+                $("#divDelitos :input").attr("disabled", false);
+                $("#divCtrlDet :input").attr("disabled", false);
+
+                if ($scope.m.hasPrevHF == true)
+                    $("#divFormImp :input").attr("disabled", true);
+                else
+                    $("#divFormImp :input").attr("disabled", false);
+
+                $("#divExt :input").attr("disabled", false);
+                $("#divVincProc :input").attr("disabled", false);
+                $("#divMedidas :input").attr("disabled", false);
+                $("#divContact :input").attr("disabled", false);
+            }
+
+        };
 
         $scope.myFormatDate = function (dateMil) {
 
@@ -225,7 +278,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 var dd, mm, yyyy;
 
                 dd = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-                mm = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+                mm = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
                 yyyy = date.getFullYear();
 
                 strDt = yyyy + "/" + mm + "/" + dd;
@@ -244,6 +297,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.idCase = data.idCase;
             $scope.m.idFormat = data.idFormat;
             $scope.m.isFinished = data.isFinished;
+            $scope.m.hasPrevHF = data.hasPrevHF;
             $scope.m.idFolder = data.idFolder;
             $scope.m.idJudicial = data.idJudicial;
             $scope.m.room = data.room;
@@ -269,6 +323,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.ctrlDet = data.controlDetention;
 
             $scope.m.ext = data.extension;
+            $scope.m.extDate = $scope.myFormatDate(data.extDate);
 
             $scope.m.formImp = data.impForm;
             $scope.m.impDate = $scope.myFormatDate(data.imputationDate);
@@ -306,7 +361,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             }
 
             if ($scope.m.vincProcess == 1)
-                $scope.submitReloadHF(formId, urlToPost, $scope.validateConfirm)
+                $scope.submitReloadHF(formId, urlToPost)
             else
                 $scope.showDlg();
         };
@@ -325,6 +380,9 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             }
 
             $scope.WaitFor = true;
+
+            $scope.m.isFinished = true;
+            $scope.$apply();
 
 
             $.post(urlToPost, $(formId).serialize())
@@ -376,6 +434,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                         var listMsg = resp.message.split("|");
 
                         $scope.m.idFormat = listMsg[0];
+                        $scope.MsgError = "";
                         $scope.MsgSuccess = $sce.trustAsHtml(listMsg[1]);
 
                         $scope.$apply();
@@ -492,6 +551,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.init = function () {
             $scope.fillFormat($scope.m);
             $scope.disableView($scope.m.disableAll);
+
         };
 
         $timeout(function () {

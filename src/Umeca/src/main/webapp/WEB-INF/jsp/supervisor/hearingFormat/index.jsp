@@ -34,7 +34,7 @@
             window.goToUrlMvcUrl(goTo);
         };
 
-        newCaseConditionalReprieve= function() {
+        newCaseConditionalReprieve = function () {
             window.showUpsert(null, "#angJsjqGridId", "<c:url value='/supervisor/hearingFormat/newConditionalReprieve.html'/>", "#GridCasesId");
         };
 
@@ -43,7 +43,7 @@
                 url: '<c:url value='/supervisor/hearingFormat/listCases.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n','Carpeta Judicial','Nombre completo', 'Estatus', 'Acci&oacute;n'],
+                colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'status', index: 'status', hidden: true },
@@ -70,7 +70,7 @@
                     for (var i = 0; i < ids.length; i++) {
 
                         var cl = ids[i];
-                        var be="";
+                        var be = "";
 
                         switch (status[i]) {
 
@@ -80,8 +80,11 @@
                             case 'ST_CASE_CONDITIONAL_REPRIEVE':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Gestionar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
                                 break;
-                            case 'ST_CASE_HEARING_FORMAT_END':
+                            case 'ST_CASE_HEARING_FORMAT_INCOMPLETE':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                                break;
+                            case 'ST_CASE_HEARING_FORMAT_END':
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 break;
                             case 'ST_CASE_PRE_CLOSED':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
@@ -105,7 +108,7 @@
 
             jQuery("#GridCasesId").jqGrid('navGrid', '#GridPager', {
                 edit: false,
-                add: true, addfunc: newCaseConditionalReprieve, addicon : 'icon-plus-sign purple',
+                add: true, addfunc: newCaseConditionalReprieve, addicon: 'icon-plus-sign purple',
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
                 search: false});
@@ -119,7 +122,7 @@
 
                         onClickButton: function () {
                             try {
-                                $("#GridCasesId").jqGrid('toExcelFile',{nombre:"datosXls",formato:"excel"});
+                                $("#GridCasesId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                             } catch (e) {
                             }
                         }});

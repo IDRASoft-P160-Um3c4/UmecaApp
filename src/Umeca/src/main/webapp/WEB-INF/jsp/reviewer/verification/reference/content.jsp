@@ -9,8 +9,8 @@
             Nombre:
         </div>
         <div class="col-xs-10">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m&aacute;ximo 150 caracteres"
-                   data-val-length-max="150" data-val-length-min="6" data-val-required="El nombre es un campo requerido" id="fullName"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
+                   data-val-length-max="150" data-val-length-min="3" data-val-required="El nombre es un campo requerido" id="fullName"
                    type="text"  name="references.fullName" value="{{r.fullName}}">
                 <span class="field-validation-valid" data-valmsg-for="fullName" data-valmsg-replace="true"></span>
         </div>

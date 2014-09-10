@@ -61,18 +61,19 @@
                 url: '<c:url value='/supervisor/hearingFormat/listFormats.json' />' + '?id=' +${idCase},
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'isFinished', 'Carpeta <br/>de Investigaci&oacute;n' , 'Carpeta Judicial', 'Nombre completo', 'Fecha de registro', 'Supervisor', 'Audiencia', 'Ampliaci&oacute;n <br/>de plazo', 'Vinculaci&oacute;n <br/>a proceso', 'Acci&oacute;n'],
+                colNames: ['ID', 'isFinished', 'Carpeta <br/>de Investigaci&oacute;n' , 'Carpeta Judicial', 'Nombre completo', 'Fecha de registro', 'Supervisor', 'Audiencia', 'Ampliaci&oacute;n <br/>de plazo', 'Vinculaci&oacute;n <br/>a proceso', 'Finalizado', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true, sortable: false, search: false },
                     { name: 'isFinished', index: 'isFinished', hidden: true, sortable: false, search: false },
-                    { name: 'idFolder', index: 'idFolder', width: 150, align: "center", sortable: false, search: false },
-                    { name: 'idMP', index: 'idMP', width: 150, align: "center", sortable: false, search: false },
-                    { name: 'fullName', index: 'fullName', width: 200, align: "center", sortable: false, search: false },
-                    { name: 'registerTime', index: 'registerTime', width: 150, align: "center", sortable: false, search: false },
-                    { name: 'userName', index: 'userName', width: 150, align: "center", sortable: false, search: false },
-                    { name: 'hearingType', index: 'hearingType', width: 100, align: "center", sortable: false, search: false },
-                    { name: 'extension', index: 'extension', width: 100, align: "center", sortable: false, search: false },
-                    { name: 'processVinc', index: 'processVinc', width: 100, align: "center", sortable: false, search: false },
+                    { name: 'idFolder', index: 'idFolder', width: 140, align: "center", sortable: false, search: false },
+                    { name: 'idMP', index: 'idMP', width: 140, align: "center", sortable: false, search: false },
+                    { name: 'fullName', index: 'fullName', width: 190, align: "center", sortable: false, search: false },
+                    { name: 'registerTime', index: 'registerTime', width: 130, align: "center", sortable: false, search: false },
+                    { name: 'userName', index: 'userName', width: 130, align: "center", sortable: false, search: false },
+                    { name: 'hearingType', index: 'hearingType', width: 90, align: "center", sortable: false, search: false },
+                    { name: 'extension', index: 'extension', width: 90, align: "center", sortable: false, search: false },
+                    { name: 'processVinc', index: 'processVinc', width: 90, align: "center", sortable: false, search: false },
+                    { name: 'finishedStr', index: 'finishedStr', width: 85, align: "center", sortable: false, search: false },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
@@ -95,8 +96,7 @@
                         var isF = finish[i];
                         var be = "";
 
-
-                        if (isF == false)
+                        if (isF == 'false')
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar formato de audiencia\" onclick=\"editHearingFormat(   '" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                         else
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formato de audiencia\" onclick=\"viewHearingFormat(   '" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";

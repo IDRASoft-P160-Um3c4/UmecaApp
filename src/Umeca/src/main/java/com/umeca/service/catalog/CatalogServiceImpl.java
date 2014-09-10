@@ -1,14 +1,13 @@
 package com.umeca.service.catalog;
 
 import com.google.gson.Gson;
+import com.umeca.model.ResponseMessage;
 import com.umeca.model.ResponseMessageAddress;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.Municipality;
 import com.umeca.model.catalog.State;
 import com.umeca.model.catalog.dto.LocationDto;
 import com.umeca.model.catalog.dto.MunicipalityDto;
-import com.umeca.model.catalog.dto.StateDto;
-import com.umeca.model.shared.Constants;
 import com.umeca.repository.catalog.CountryRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.MunicipalityRepository;
@@ -17,7 +16,6 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,6 +130,18 @@ public class CatalogServiceImpl implements CatalogService {
             result.setMessage(e.getMessage());
         }finally {
             return result;
+        }
+    }
+
+    @Override
+    public ResponseMessage findIdsLocationById(Long id) {
+        try{
+        Location l = locationRepository.findOne(id);
+        LocationDto locDto = new LocationDto().locationDto(l);
+        Gson gson = new Gson();
+        return new ResponseMessage(false, gson.toJson(locDto));
+        }catch (Exception e){
+            return new ResponseMessage(true, "Ha ocurrido un error al obtener los datos.");
         }
     }
 

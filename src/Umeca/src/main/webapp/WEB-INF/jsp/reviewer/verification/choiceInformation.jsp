@@ -43,14 +43,14 @@
             font-size: 11px;
         }
 
-        .icon-list{
+        .icon-list {
             cursor: pointer;
         }
 
 
     </style>
     <script>
-        window.cancelViewMeeting = function(){
+        window.cancelViewMeeting = function () {
             window.goToUrlMvcUrl("<c:url value='/managereval/showCaseEvaluation/index.html'/>");
         }
 
@@ -61,17 +61,17 @@
         window.terminateVerification = function () {
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html'/>");
         }
-        window.showChoices = function (code,id) {
-            var  divScope=  "#divChoiceInformation";
+        window.showChoices = function (code, id) {
+            var divScope = "#divChoiceInformation";
             var urlToGo = "<c:url value='/reviewer/verification/showChoices.html'/>";
             var scope = angular.element($(divScope)).scope();
-            var data ={};
-            data.id= code;
-            data.idCase= ${idCase};
-            if(id!=undefined){
+            var data = {};
+            data.id = code;
+            data.idCase = ${idCase};
+            if (id != undefined) {
                 data.idList = id;
             }
-            scope.show(data, urlToGo,undefined,undefined,true);
+            scope.show(data, urlToGo, undefined, undefined, true);
         };
 
     </script>
@@ -340,67 +340,13 @@
         <div class="row center">
             <h2><i class="purple glyphicon glyphicon-user bigger-100"></i> &nbsp;Datos personales y
                 entorno social</h2>
-        </div>
-        <br/>
-        <br/>
-        <br/>
 
-        <div class="row">
-            <div class="col-xs-10 col-xs-offset-1">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <div class="col-xs-5">
-                            <i class="purple icon-list icon-only bigger-120"
-                               ng-click="showChoices('imputed.name')"
-                               ng-show="selectSource"></i>
-                            Nombre:
-                        </div>
-                        <div class="col-xs-7">
-                            <input class="form-control" type="text" value="${m.imputed.name}"
-                                   name="imputed.name" data-val-required="El nombre es un campo requerido"
-                                   data-val-length="Debe tener m?nimo 2 y m?ximo 50 caracteres"
-                                   data-val-length-max="50" data-val-length-min="2"/>
-                                                 <span class="field-validation-valid" data-valmsg-for="imputed.name"
-                                                       data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                    <div class="col-xs-4 element-left">
-                        <div class="col-xs-5 ">
-                            <i class="purple icon-list icon-only bigger-120"
-                              ng-click="showChoices('imputed.lastNameP')"
-                               ng-show="selectSource"></i>
-                            Apellido Paterno:
-                        </div>
-                        <div class="col-xs-7">
-                            <input class="form-control" type="text" value="${m.imputed.lastNameP}"
-                                   name="imputed.lastNameP" data-val-required="El nombre es un campo requerido"
-                                   data-val-length="Debe tener m?nimo 2 y m?ximo 50 caracteres"
-                                   data-val-length-max="50" data-val-length-min="2"/>
-                                                 <span class="field-validation-valid"
-                                                       data-valmsg-for="imputed.lastNameP"
-                                                       data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                    <div class="col-xs-4">
-                        <div class="col-xs-5">
-                            <i class="purple icon-list icon-only bigger-120"
-                               ng-click="showChoices('imputed.lastNameM')"
-                               ng-show="selectSource"></i>
-                            Apellido Materno:
-                        </div>
-                        <div class="col-xs-7">
-                            <input class="form-control" type="text" value="${m.imputed.lastNameM}"
-                                   name="imputed.lastNameM" data-val-required="El nombre es un campo requerido"
-                                   data-val-length="Debe tener m?nimo 2 y m?ximo 50 caracteres"
-                                   data-val-length-max="50" data-val-length-min="2"/>
-                                                 <span class="field-validation-valid"
-                                                       data-valmsg-for="imputed.lastNameM"
-                                                       data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
+            <div class="row"
+                 ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <br/>
+                    <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/content.jsp" %>
                 </div>
-                <br/>
-                <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/content.jsp" %>
             </div>
         </div>
     </div>
@@ -466,6 +412,7 @@
 </div>
 </div>
 <br/>
+
 <div class="row">
     <div class="col-xs-12">
         <div ng-show="listMsgError['general'].length > 0" class="alert alert-danger element-center error-font">

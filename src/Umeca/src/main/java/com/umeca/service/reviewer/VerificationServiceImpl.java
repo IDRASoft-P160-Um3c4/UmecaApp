@@ -2,7 +2,6 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.*;
@@ -785,11 +784,15 @@ public class VerificationServiceImpl implements VerificationService {
                 return new ResponseMessage(true, "No se puede modificar la información de esta fuente");
             }
             StatusFieldVerification st = statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_NOEQUALS);
-            List<FieldMeetingSource> result = createFieldVerification(list, idCase, idSource, idList, st);
+            List<Long> fmsToDelete = new ArrayList<>();
+            List<FieldMeetingSource> result = createFieldVerification(list, idCase, idSource, idList, st, fmsToDelete);
             if (result == null) {
                 return new ResponseMessage(true, "Ha ocurrido un error al crear la lista.");
             }
             fieldMeetingSourceRepository.save(result);
+            for(Long id :fmsToDelete){
+                fieldMeetingSourceRepository.delete(id);
+            }
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
             logException.Write(e,this.getClass(),"saveFieldVerifiedInocrrect",userService);
@@ -798,6 +801,7 @@ public class VerificationServiceImpl implements VerificationService {
 
     }
 
+    @Transactional
     @Override
     public ResponseMessage saveFieldVerifiedEqual(String code, Long idCase, Long idSource, Long idList) {
         if (!caseService.validateStatus(idCase, Constants.CASE_STATUS_VERIFICATION, Verification.class, Constants.VERIFICATION_STATUS_AUTHORIZED)) {
@@ -895,6 +899,7 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
 
+
     @Autowired
     ValuesOfMeetingService valuesOfMeetingService;
 
@@ -902,23 +907,44 @@ public class VerificationServiceImpl implements VerificationService {
         return valuesOfMeetingService.getValueOfMeetingByCode(code, m, template);
     }
 
-
-    private List<FieldMeetingSource>  createFieldVerification(List<FieldVerified> list, Long idCase, Long idSource, Long idList, StatusFieldVerification st) {
+    private List<FieldMeetingSource>  createFieldVerification(List<FieldVerified> list, Long idCase, Long idSource, Long idList, StatusFieldVerification st, List<Long> fmsToDelete) {
         try {
             List<FieldMeetingSource> listFieldVerficiation = new ArrayList<>();
+//            if(list.size()>0){
+//                Integer idSub = fieldVerificationRepository.getIdSubsectionByCode(list.get(0).getName());
+//                if(idList==null){
+//                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsection(idCase,idSource,idSub);
+//                }else{
+//                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsectionWithIdList(idCase, idSource, idSub, idList);
+//                }
+//            }
+
             for (FieldVerified field : list) {
+                if(!field.getValue().equals("")){
                 FieldMeetingSource fms = new FieldMeetingSource();
-                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, field.getName());
+                Long fieldMeetingSourceId;
+                if(idList == null){
+                    fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, field.getName());
+                }else{
+                    fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, field.getName(),idList);
+                }
                 fms.setId(fieldMeetingSourceId);
                 FieldVerification fv = fieldVerificationRepository.findByCode(field.getName());
-                    fms.setFieldVerification(fv);
+                fms.setFieldVerification(fv);
                 fms.setSourceVerification(sourceVerificationRepository.findOne(idSource));
                 String[] vars = field.getName().split("\\.");
-                setObjectNameOfCatalog(fms, vars, field.getValue(), fv);
+                Boolean adding = setObjectNameOfCatalog(fms, vars, field.getValue(), fv);
                 fms.setFinal(false);
                 fms.setIdFieldList(idList);
                 fms.setStatusFieldVerification(st);
-                listFieldVerficiation.add(fms);
+                if(adding){
+                    listFieldVerficiation.add(fms);
+                }
+//                int result = fmsToDelete.indexOf(fieldMeetingSourceId);
+//                if(result>0){
+//                    fmsToDelete.remove(result);
+//                }
+            }
             }
             return listFieldVerficiation;
         } catch (Exception e) {
@@ -933,7 +959,7 @@ public class VerificationServiceImpl implements VerificationService {
     @Autowired
     HomeTypeRepository homeTypeRepository;
 
-    private void setObjectNameOfCatalog(FieldMeetingSource fms, String[] name, String value, FieldVerification fv) {
+    private Boolean setObjectNameOfCatalog(FieldMeetingSource fms, String[] name, String value, FieldVerification fv) {
         Long idCat = 0L;
         if (name[name.length - 1].equals("id")) {
             idCat = Long.parseLong(value);
@@ -1064,6 +1090,17 @@ public class VerificationServiceImpl implements VerificationService {
                 fms.setValue(ht.getName());
                 fms.setJsonValue(gson.toJson(ca));
                 break;
+            case "Location":
+                if(idCat!=null && !idCat.equals(0L)){
+                    Location l = locationRepository.findOne(idCat);
+                    ca.setName(l.getName());
+                    ca.setId(l.getId());
+                    fms.setValue("Estado: " + l.getMunicipality().getState().getName() + ", Municipio; " + l.getMunicipality().getName() + ", Localidad: " + l.getName() + ".");
+                    fms.setJsonValue(gson.toJson(ca));
+                }else{
+                    return false;
+                }
+                break;
             default:
                 fms.setValue(value);
                 fms.setJsonValue(value);
@@ -1071,6 +1108,7 @@ public class VerificationServiceImpl implements VerificationService {
 
 
         }
+        return true;
 
     }
 

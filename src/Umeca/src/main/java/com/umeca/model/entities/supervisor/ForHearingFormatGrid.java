@@ -22,10 +22,12 @@ public class ForHearingFormatGrid implements EntityGrid {
     private String processVinc;
     private String registerTime;
     private String userName;
+    private Boolean isFinished;
+    private String finishedStr;
 
     private StringBuilder sb;
 
-    public ForHearingFormatGrid(Long id, String idFolder, String idMP, String name, String lastNP, String lastNM, Integer hType, Integer ext, Integer pVinc, Calendar registerTime, String userName) {
+    public ForHearingFormatGrid(Long id, Boolean isFinished, String idFolder, String idMP, String name, String lastNP, String lastNM, Integer hType, Integer ext, Integer pVinc, Calendar registerTime, String userName) {
         this.id = id;
         this.idFolder = idFolder;
         this.idMP = idMP;
@@ -66,6 +68,14 @@ public class ForHearingFormatGrid implements EntityGrid {
             extension = "No";
 
         this.registerTime = CalendarExt.calendarToFormatString(registerTime, Constants.FORMAT_CALENDAR_I);
+
+        this.isFinished = isFinished;
+
+        if (isFinished == true)
+            this.finishedStr = "Si";
+        else if (isFinished == false)
+            this.finishedStr = "No";
+
     }
 
     public Long getId() {
@@ -138,5 +148,21 @@ public class ForHearingFormatGrid implements EntityGrid {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Boolean getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
+    }
+
+    public String getFinishedStr() {
+        return finishedStr;
+    }
+
+    public void setFinishedStr(String finishedStr) {
+        this.finishedStr = finishedStr;
     }
 }

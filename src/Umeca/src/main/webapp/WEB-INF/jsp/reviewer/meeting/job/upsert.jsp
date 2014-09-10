@@ -21,16 +21,16 @@
                     <form id="FormJobId" name="FormJobId" class="form-horizontal" role="form">
                         <br/>
                         <div class="row">
-                            <div class="col-xs-12 element-center" ng-init="block=${j.block == null ? true: j.block};">
+                            <div class="col-xs-12 element-center" ng-init="blockJ=${j.block == null ? true: j.block};">
                                 <div class="col-xs-6 element-right">
                                   ¿El imputado trabaja actualmente?
                                 </div>
                                 <div class="col-xs-2">
                                     <input type="radio"  name="block"
-                                           id="blockYes" ng-value="true" ng-model="block" ng-change="fillModel()">
+                                           id="blockYes" ng-value="true" ng-model="blockJ" ng-change="fillModel()">
                                     <label for="blockYes">Si</label>   &nbsp;&nbsp;&nbsp;
                                     <input type="radio"  name="block"
-                                           id="blockNo" ng-value="false" ng-model="block" ng-change="fillModel()">
+                                           id="blockNo" ng-value="false" ng-model="blockJ" ng-change="fillModel()">
                                     <label for="blockNo">No</label>
                                 </div>
                             </div>

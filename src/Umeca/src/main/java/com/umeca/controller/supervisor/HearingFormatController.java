@@ -147,6 +147,7 @@ public class HearingFormatController {
                 return new ArrayList<Selection<?>>() {{
 
                     add(r.get("id"));
+                    add(r.get("isFinished"));
                     add(r.get("idFolder"));
                     add(r.get("idJudicial"));
                     add(joinHImp.get("name"));
@@ -206,6 +207,11 @@ public class HearingFormatController {
             model.addObject("idCase", idCase);
             model.addObject("showErr", true);
             model.addObject("msgError", "No es posible agregar mas formatos, el caso tiene un formato de audiencia icompleto.");
+        } else if (caseRepository.findOne(idCase).getStatus().getName().equals(Constants.CASE_STATUS_CLOSED)) {
+            model.setViewName("/supervisor/hearingFormat/indexFormats");
+            model.addObject("idCase", idCase);
+            model.addObject("showErr", true);
+            model.addObject("msgError", "No es posible agregar mas formatos, el caso se encuentra cerrado.");
         } else {
             model.setViewName("/supervisor/hearingFormat/hearingFormat");
             HearingFormatView hfView = hearingFormatService.fillNewHearingFormatForView(idCase);
@@ -322,7 +328,7 @@ public class HearingFormatController {
     @ResponseBody
     ResponseMessage doUpsert(@ModelAttribute HearingFormatView result, HttpServletRequest request) {
 
-        if (result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
+        if (result.getIsFinished() != null && result.getIsFinished() == true && result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
             ResponseMessage resp = hearingFormatService.validatePassCredential(result.getCredPass());
             if (resp != null)
                 return resp;
