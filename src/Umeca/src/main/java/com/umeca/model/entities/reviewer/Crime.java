@@ -34,6 +34,7 @@ public class Crime {
     @JoinColumn(name="id_criminal_proceeding", nullable = true)
     private CurrentCriminalProceeding criminalProceeding;
 
+
     @Transient
     private String $$hashKey;
 
