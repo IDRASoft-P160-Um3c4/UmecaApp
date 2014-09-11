@@ -13,6 +13,8 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
+import com.umeca.repository.reviewer.ImputedHomeRepository;
+import com.umeca.repository.reviewer.ImputedRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -104,10 +106,17 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     private ObligationIssuesRepository obligationIssuesRepository;
 
     @Autowired
-    SharedLogExceptionService logException;
+    private SharedLogExceptionService logException;
 
     @Autowired
-    SharedUserService sharedUserService;
+    private SharedUserService sharedUserService;
+
+    @Autowired
+    private AcademicLevelRepository academicLevelRepository;
+
+    @Autowired
+    private AccompanimentInfoRepository accompanimentInfoRepository;
+
 
     @Transactional
     @Override
@@ -385,12 +394,56 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     public ResponseMessage saveReference(Case existCase, FramingReference newReference) {
 
         try {
+
+            if (newReference.getIsAccompaniment() != null && newReference.getIsAccompaniment()) {
+
+                AccompanimentInfo accompanimentInfo = accompanimentInfoRepository.getAccompanimentInfoByIdRef(newReference.getId(), new PageRequest(0, 1)).get(0);
+
+                if (accompanimentInfo == null)
+                    accompanimentInfo = new AccompanimentInfo();
+
+                if (newReference.getPersonType() != null && newReference.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
+
+                    accompanimentInfo.setGender(newReference.getGender());
+                    accompanimentInfo.setOccupationPlace(newReference.getOccupationPlace());
+
+                    if (newReference.getAcademicLvlId() != null && newReference.getAcademicLvlId() > 0)
+                        accompanimentInfo.setAcademicLevel(academicLevelRepository.findOne(newReference.getAcademicLvlId()));
+
+                } else if (newReference.getPersonType() != null && newReference.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
+                    accompanimentInfo.setGender(newReference.getGender());
+                    accompanimentInfo.setOccupationPlace(newReference.getOccupationPlace());
+
+                    if (newReference.getAcademicLvlId() != null && newReference.getAcademicLvlId() > 0)
+                        accompanimentInfo.setAcademicLevel(academicLevelRepository.findOne(newReference.getAcademicLvlId()));
+
+                    Address address = accompanimentInfo.getAddress();
+
+                    if (address == null) {
+                        address = new Address();
+                    }
+
+                    address.setStreet(newReference.getStreetComponent());
+                    address.setOutNum(newReference.getOutNumComponent());
+                    address.setInnNum(newReference.getInnNumComponent());
+                    address.setLat(newReference.getLat());
+                    address.setLng(newReference.getLng());
+                    address.setLocation(locationRepository.findOne(newReference.getLocation().getId()));
+                    address.setAddressString(address.toString());
+                    accompanimentInfo.setAddress(address);
+
+                }
+
+                newReference.setAccompanimentInfo(accompanimentInfo);
+            }
+
             newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
             newReference.setFramingMeeting(existCase.getFramingMeeting());
             framingReferenceRepository.save(newReference);
             return new ResponseMessage(false, "Se ha guardado la informaci?n con exito.");
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "saveReference", sharedUserService);
+            e.printStackTrace();
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci?n. Intente m�s tarde.");
         }
 
@@ -1042,6 +1095,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
     }
 
+    @Autowired
+    private ImputedHomeRepository imputedHomeRepository;
+
     @Transactional
     public void fillSaveVerifiedInfo(FramingMeeting existFraming, Meeting verifMeeting) {
 
@@ -1091,12 +1147,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         existFraming.setFramingAddresses(listAddress);
 
-
-        //perosnas que viven con el imputado y referencias personales
+        //personas que viven con el imputado y referencias personales
         List<FramingReference> references = new ArrayList<>();
 
         for (PersonSocialNetwork person : verifMeeting.getSocialNetwork().getPeopleSocialNetwork()) {
-
 
             if (person.getLivingWith().getId() == Constants.ELECTION_YES) {
 
@@ -1109,12 +1163,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 fRef.setAge(person.getAge().toString());
                 fRef.setPhone(person.getPhone());
                 fRef.setRelationship(person.getRelationship());
+                fRef.setIsAccompaniment(person.getIsAccompaniment());
+
+                List<String> actualHomes = imputedHomeRepository.getActualAddressStringByVerificationId(verifMeeting.getId(), new PageRequest(0, 1));
+
+                if (actualHomes != null && actualHomes.size() > 0)
+                    fRef.setAddress(actualHomes.get(0));
+                else
+                    fRef.setAddress(null);
 
                 references.add(fRef);
 
             }
         }
-
 
         for (Reference reference : verifMeeting.getReferences()) {
 
@@ -1127,9 +1188,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             fRef.setAge(reference.getAge().toString());
             fRef.setPhone(reference.getPhone());
             fRef.setRelationship(reference.getRelationship());
+            fRef.setIsAccompaniment(reference.getIsAccompaniment());
 
             references.add(fRef);
-
         }
 
         existFraming.setReferences(references);

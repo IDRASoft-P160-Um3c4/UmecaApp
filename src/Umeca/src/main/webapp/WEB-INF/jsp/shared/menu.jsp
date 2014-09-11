@@ -82,7 +82,7 @@
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
                     <li class="nav-li-blue"><a href="<c:url value='/managereval/index.html'/>"><i
-                            class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Supervisar fuentes</a></li>
+                            class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Autorizar fuentes</a></li>
                     <li class="nav-li-blue"><a href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
                             class="icon-check"></i>&nbsp;&nbsp;Consulta de casos en evaluación</a></li>
                     <li class="nav-li-blue"><a href="<c:url value='/managereval/authorizeRequest/index.html' />"><i

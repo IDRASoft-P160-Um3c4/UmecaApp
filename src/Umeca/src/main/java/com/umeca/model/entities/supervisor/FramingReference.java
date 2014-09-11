@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.Relationship;
+import com.umeca.model.catalog.dto.LocationDto;
 import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
@@ -36,6 +37,13 @@ public class FramingReference implements EntityGrid {
     @Column(name = "person_type")
     private String personType;
 
+    @Column(name = "is_accompaniment")
+    private Boolean isAccompaniment;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_accompaniment_info")
+    private AccompanimentInfo accompanimentInfo;
+
     @ManyToOne
     @JoinColumn(name = "id_framing_meeting")
     private FramingMeeting framingMeeting;
@@ -49,6 +57,37 @@ public class FramingReference implements EntityGrid {
     @Transient
     private Long relationshipId;
 
+    @Transient
+    private Long academicLvlId;
+
+    @Transient
+    private String occupationPlace;
+
+    @Transient
+    private Integer gender;
+
+    @Transient
+    private Long addressId;
+
+    @Transient
+    private String lat;
+
+    @Transient
+    private String lng;
+
+    @Transient
+    private String streetComponent;
+
+    @Transient
+    private String outNumComponent;
+
+    @Transient
+    private String innNumComponent;
+
+    @Transient
+    private LocationDto location;
+
+
     public FramingReference() {
     }
 
@@ -60,13 +99,13 @@ public class FramingReference implements EntityGrid {
 
         if (type.equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
             this.age = phone;
-            this.occupation= address;
+            this.occupation = address;
         } else if (type.equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
             this.phone = phone;
             this.address = address;
         }
 
-        this.personType=type;
+        this.personType = type;
     }
 
     public Long getId() {
@@ -163,5 +202,101 @@ public class FramingReference implements EntityGrid {
 
     public void setRelationshipId(Long relationshipId) {
         this.relationshipId = relationshipId;
+    }
+
+    public Boolean getIsAccompaniment() {
+        return isAccompaniment;
+    }
+
+    public void setIsAccompaniment(Boolean isAccompaniment) {
+        this.isAccompaniment = isAccompaniment;
+    }
+
+    public AccompanimentInfo getAccompanimentInfo() {
+        return accompanimentInfo;
+    }
+
+    public void setAccompanimentInfo(AccompanimentInfo accompanimentInfo) {
+        this.accompanimentInfo = accompanimentInfo;
+    }
+
+    public Long getAcademicLvlId() {
+        return academicLvlId;
+    }
+
+    public void setAcademicLvlId(Long academicLvlId) {
+        this.academicLvlId = academicLvlId;
+    }
+
+    public String getOccupationPlace() {
+        return occupationPlace;
+    }
+
+    public void setOccupationPlace(String occupationPlace) {
+        this.occupationPlace = occupationPlace;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public String getStreetComponent() {
+        return streetComponent;
+    }
+
+    public void setStreetComponent(String streetComponent) {
+        this.streetComponent = streetComponent;
+    }
+
+    public String getOutNumComponent() {
+        return outNumComponent;
+    }
+
+    public void setOutNumComponent(String outNumComponent) {
+        this.outNumComponent = outNumComponent;
+    }
+
+    public String getInnNumComponent() {
+        return innNumComponent;
+    }
+
+    public void setInnNumComponent(String innNumComponent) {
+        this.innNumComponent = innNumComponent;
+    }
+
+    public LocationDto getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationDto location) {
+        this.location = location;
     }
 }
