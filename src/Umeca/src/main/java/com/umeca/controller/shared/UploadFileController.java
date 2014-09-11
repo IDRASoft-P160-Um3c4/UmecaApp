@@ -275,7 +275,7 @@ public class UploadFileController {
             }
 
             CaseInfo caseInfo = caseRepository.getInfoById(id);
-            File fileOut = new File("Expediente-" + caseInfo.getMpId() + ".zip");
+            File fileOut = new File("Expediente - " + caseInfo.getPersonName() + ".zip");
 
             FileOutputStream fos = new FileOutputStream(fileOut);
             ZipOutputStream zos = new ZipOutputStream(fos);

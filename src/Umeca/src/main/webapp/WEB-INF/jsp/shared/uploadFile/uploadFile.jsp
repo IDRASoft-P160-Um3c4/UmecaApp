@@ -72,7 +72,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             <h5 class="element-center"><i class="glyphicon glyphicon-upload"></i>&nbsp;Subir archivos al caso
                                 <br/>Imputado: ${fullname}
-                                <br/>Carpeta judicial: ${mpId} - carpeta de investigación: ${folderId} </h5>
+                            </h5>
                     </div>
                 </div>
                 <div class="modal-body">
