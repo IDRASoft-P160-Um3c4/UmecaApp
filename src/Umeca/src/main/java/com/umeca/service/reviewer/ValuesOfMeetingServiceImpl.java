@@ -107,6 +107,15 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     case "birthLocation":
                         listFMS.add(new FieldMeetingSource(imputed.getBirthLocation(), imputed.getBirthLocation()));
                         break;
+                    case "location":
+                        Location l =imputed.getLocation();
+                        if(l!=null){
+                            cdto.setName(l.getName());
+                            cdto.setId(l.getId());
+
+                            listFMS.add(new FieldMeetingSource("Estado: "+l.getMunicipality().getState().getName()+", Municipio; "+l.getMunicipality().getName()+", Localidad: "+l.getName()+".", gson.toJson(cdto)));
+                        }
+                        break;
                 }
                 break;
             case "socialEnvironment":
@@ -542,6 +551,14 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         break;
                     case "birthLocation":
                         listFMS.add(new FieldMeetingSource(imputed.getBirthLocation(), imputed.getBirthLocation()));
+                        break;
+                    case "location":
+                        Location l =imputed.getLocation();
+                        if(l!=null){
+                            cdto.setName(l.getName());
+                            cdto.setId(l.getId());
+                            listFMS.add(new FieldMeetingSource("Estado: "+l.getMunicipality().getState().getName()+", Municipio; "+l.getMunicipality().getName()+", Localidad: "+l.getName()+".", gson.toJson(cdto)));
+                        }
                         break;
                 }
                 break;
@@ -1026,6 +1043,12 @@ ActivityRepository activityRepository;
                             break;
                         case "birthLocation":
                             meeting.getImputed().setBirthLocation(fms.getJsonValue());
+                            break;
+                        case "location":
+                            CatalogDto locC = gson.fromJson(fms.getJsonValue(),CatalogDto.class);
+                            if(locC!=null && locC.getId()!=null){
+                                meeting.getImputed().setLocation(locationRepository.findOne(locC.getId()));
+                            }
                             break;
                     }
                     break;

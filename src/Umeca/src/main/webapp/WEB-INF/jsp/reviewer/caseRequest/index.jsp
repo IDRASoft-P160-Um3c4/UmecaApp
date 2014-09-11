@@ -95,7 +95,7 @@
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                 edit: false, editicon : 'icon-pencil blue',
-                add: true, addfunc: window.newMeeting, addicon : 'icon-plus-sign purple',
+                add: false,
                 refresh: true, refreshicon : 'icon-refresh green',
                 del: false,
                 search: false});

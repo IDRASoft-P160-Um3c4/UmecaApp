@@ -50,7 +50,6 @@ app.controller('jobController', function($scope, $timeout) {
                 }
             }
         }
-        $scope.fillModel();
 
     };
 
@@ -152,7 +151,7 @@ app.controller('jobController', function($scope, $timeout) {
     $scope.fillModel = function(){
        var template= "NO TRABAJA";
         //alert("en fill model con blcok "+$scope.block);
-       if($scope.block === false){
+       if($scope.blockJ === false){
            $scope.j.company= template;
            $scope.j.post= template;
            $scope.j.phone = template;

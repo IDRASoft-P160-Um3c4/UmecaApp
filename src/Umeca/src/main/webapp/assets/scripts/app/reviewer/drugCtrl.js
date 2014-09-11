@@ -143,7 +143,7 @@ app.controller('drugController', function($scope, $timeout) {
 
     $scope.fillModel = function(){
         var template ="NO CONSUME";
-        if($scope.block == false){
+        if($scope.blockD == false){
             $scope.d.other=template;
             $scope.d.specificationPeriodicity = template;
             $scope.d.quantity = template;

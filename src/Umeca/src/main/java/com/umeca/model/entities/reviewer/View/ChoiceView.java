@@ -30,7 +30,9 @@ public class ChoiceView {
         values = new ArrayList<>();
         isFinal = template.getFinal();
         for(FieldMeetingSource fms : list){
-           values.add(fms.getFieldVerification().getFieldName() +": "+fms.getValue());
+            if(!fms.getValue().equals("")){
+                values.add(fms.getFieldVerification().getFieldName() +": "+fms.getValue());
+            }
         }
         return this;
     }

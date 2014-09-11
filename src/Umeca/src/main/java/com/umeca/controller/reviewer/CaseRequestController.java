@@ -122,8 +122,16 @@ public class CaseRequestController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if(field.equals("idFolder"))
                     return r.join("caseDetention").get("idFolder");
-                if(field.equals("fullName")){
+                else if(field.equals("fullName")){
                     return r.join("imputed").get("name");
+                } else if(field.equals("reviewerId")){
+                    return r.join("reviewer").get("id");
+                } else
+                if(field.equals("statusCase")){
+                    return r.join("caseDetention").join("status").get("name");
+                } else
+                if(field.equals("statusMeeting")){
+                    return r.join("status").get("name");
                 }
                 return null;
             }

@@ -232,7 +232,7 @@ public class Meeting {
             t.getGroupMessage().add(new GroupMessageMeetingDto("reference",listMess));
         }
 
-        if(socialNetwork==null || (socialNetwork.getComment()!=null && socialNetwork.getComment().equals(""))){
+        if(socialNetwork==null|| (socialNetwork.getComment()==null || (socialNetwork.getComment()!=null && socialNetwork.getComment().equals("")))){
             listMessSN.add(t.template.replace("entity","Las observaciones"));
         }
 

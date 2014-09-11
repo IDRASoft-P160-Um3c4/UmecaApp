@@ -122,7 +122,7 @@
                     <li>
                         <a data-toggle="tab" href="#drugs">
                             <i class="green icon-warning-sign  bigger-200"></i>
-                            Consumo de subtancias
+                            Consumo de sustancias
                         </a>
                     </li>
                     <li>

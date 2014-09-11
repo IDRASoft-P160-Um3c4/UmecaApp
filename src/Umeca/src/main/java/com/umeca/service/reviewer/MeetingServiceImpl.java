@@ -171,6 +171,7 @@ public class MeetingServiceImpl implements MeetingService {
         Case caseDetention = caseRepository.findOne(id);
         model.addObject("idCase", caseDetention.getId());
         model.addObject("m", caseDetention.getMeeting());
+        addressService.fillCatalogAddress(model);
         model.addObject("age", userService.calculateAge(caseDetention.getMeeting().getImputed().getBirthDate()));
         if (caseDetention.getMeeting().getSocialEnvironment() != null) {
             if (caseDetention.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities() != null) {
@@ -191,6 +192,7 @@ public class MeetingServiceImpl implements MeetingService {
             c.setSpecification(a.getSpecification());
             listActivity.add(c);
         }
+
         model.addObject("lstActivity", gson.toJson(listActivity));
         model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
         List<Election> lstElection = electionRepository.findAll();
@@ -251,10 +253,10 @@ public class MeetingServiceImpl implements MeetingService {
         Case c = caseRepository.findOne(id);
         model.addObject("idFolder", c.getIdFolder());
         Imputed i = c.getMeeting().getImputed();
-        String fullname = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
+        String fullname= i.getName()+" "+i.getLastNameP()+" "+i.getLastNameM();
         model.addObject("sName", i.getName());
         model.addObject("sLastNameP", i.getLastNameP());
-        model.addObject("sLastNameM", i.getLastNameM());
+        model.addObject("sLastNameM",  i.getLastNameM());
         model.addObject("fullNameImputed", fullname);
         model.addObject("age", userService.calculateAge(i.getBirthDate()));
         model.addObject("idCase", id);
@@ -288,7 +290,7 @@ public class MeetingServiceImpl implements MeetingService {
                 model.addObject("listCrime", gson.toJson(listCrimeDto));
             }
             List<CoDefendant> listCoDefendant = ccp.getCoDefendantList();
-            Boolean haveCoDependant = false;
+            Boolean haveCoDependant= false;
             if (listCoDefendant != null) {
                 List<CoDefendantDto> listCodefendantDto = new ArrayList<>();
                 for (CoDefendant cd : listCoDefendant) {
@@ -297,26 +299,26 @@ public class MeetingServiceImpl implements MeetingService {
                 }
                 model.addObject("listCoDependant", gson.toJson(listCodefendantDto));
             }
-            model.addObject("haveCoDependant", haveCoDependant);
-            if (ccp.getDomicileVictim() != null) {
-                addressService.fillModelAddress(model, ccp.getDomicileVictim().getId());
+            model.addObject("haveCoDependant",haveCoDependant);
+            if(ccp.getDomicileVictim()!=null){
+                addressService.fillModelAddress(model,ccp.getDomicileVictim().getId());
             }
-            model.addObject("nameVictim", ccp.getNameVictim());
-            if (ccp.getRelationshipVictim() != null) {
-                model.addObject("relId", ccp.getRelationshipVictim().getId());
+            model.addObject("nameVictim",ccp.getNameVictim());
+            if(ccp.getRelationshipVictim()!=null){
+                model.addObject("relId",ccp.getRelationshipVictim().getId());
             }
             model.addObject("behaviorDetention", ccp.getBehaviorDetention());
-            model.addObject("placeDetention", ccp.getPlaceDetention());
+            model.addObject("placeDetention",ccp.getPlaceDetention());
         }
         PreviousCriminalProceeding pcp = c.getMeeting().getPreviousCriminalProceeding();
-        if (pcp != null) {
-            model.addObject("firstProceeding", pcp.getFirstProceeding());
-            model.addObject("openProcessNumber", pcp.getOpenProcessNumber());
-            model.addObject("numberConvictions", pcp.getNumberConvictions());
+        if(pcp != null){
+            model.addObject("firstProceeding",pcp.getFirstProceeding());
+            model.addObject("openProcessNumber",pcp.getOpenProcessNumber());
+            model.addObject("numberConvictions",pcp.getNumberConvictions());
         }
-        if (showCase != null && showCase.equals(1)) {
+        if(showCase!=null && showCase.equals(1)){
             model.addObject("managereval", true);
-        } else {
+        }else {
             userConfigToView(model);
         }
         return model;
@@ -324,7 +326,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     public ResponseMessage findPreviousCase(String sName, String sLastNameP, String sLastNameM, Long idCase) {
-        return new ResponseMessage(false, findLegalBefore(idCase, sName, sLastNameP, sLastNameM));
+        return new ResponseMessage(false,findLegalBefore(idCase,sName,sLastNameP,sLastNameM));
     }
 
 
@@ -366,12 +368,22 @@ public class MeetingServiceImpl implements MeetingService {
         iCase.setBoys(imputed.getBoys());
         iCase.setNickname(imputed.getNickname());
         iCase.setDependentBoys(imputed.getDependentBoys());
-        iCase.setBirthState(imputed.getBirthState());
-        iCase.setBirthLocation(imputed.getBirthLocation());
-        iCase.setBirthMunicipality(imputed.getBirthMunicipality());
-        iCase.setBirthCountry(countryRepository.findOne(imputed.getBirthCountry().getId()));
+        Country country = countryRepository.findOne(imputed.getBirthCountry().getId());
+        iCase.setBirthCountry(country);
+        if(country.getAlpha2().equals(Constants.ALPHA2_MEXICO)){
+            iCase.setBirthState("");
+            iCase.setBirthLocation("");
+            iCase.setBirthMunicipality("");
+            if(imputed.getLocation()!=null && imputed.getLocation().getId() != null){
+                iCase.setLocation(locationRepository.findOne(imputed.getLocation().getId()));
+            }
+        }else{
+            iCase.setLocation(null);
+            iCase.setBirthState(imputed.getBirthState());
+            iCase.setBirthLocation(imputed.getBirthLocation());
+            iCase.setBirthMunicipality(imputed.getBirthMunicipality());
+        }
         iCase.setYearsMaritalStatus(imputed.getYearsMaritalStatus());
-
         if (seCase != null && seCase.getId() != null) {
             seCase.setId(seCase.getId());
         } else {
@@ -901,7 +913,7 @@ public class MeetingServiceImpl implements MeetingService {
             refreshLeaveCountry(meeting.getLeaveCountry(), c);
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
             c.getMeeting().getImputed().validateMeeting(validate);
-            if (c.getMeeting().getSocialEnvironment() == null) {
+            if(c.getMeeting().getSocialEnvironment()==null){
                 c.getMeeting().setSocialEnvironment(new SocialEnvironment());
             }
             c.getMeeting().getSocialEnvironment().validateMeeting(validate);
@@ -947,22 +959,22 @@ public class MeetingServiceImpl implements MeetingService {
         }
         if (imputed.getMeeting() != null && imputed.getMeeting().getCaseDetention() != null && imputed.getMeeting().getCaseDetention().getIdFolder() != null) {
             Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
-            if (c != null) {
-                Imputed iCase = c.getMeeting().getImputed();
-                if (iCase.getName().equals(imputed.getName()) && iCase.getLastNameP().equals(imputed.getLastNameP()) && iCase.getLastNameM().equals(imputed.getLastNameM())) {
-                    return new ResponseMessage(true, "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrado.");
+                if(c!=null){
+                    Imputed iCase = c.getMeeting().getImputed();
+                    if (iCase.getName().equals(imputed.getName()) && iCase.getLastNameP().equals(imputed.getLastNameP()) && iCase.getLastNameM().equals(imputed.getLastNameM())) {
+                        return new ResponseMessage(true, "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrado.");
+                    }
                 }
-            }
         } else {
             return new ResponseMessage(true, "Favor de ingresar el n&uacute;mero de carpeta de investigaci&oacute;n para continuar");
         }
         return null;
     }
 
-    public void refreshPreviousProceeding(CriminalProceedingView cpv, Case c) {
+    public void refreshPreviousProceeding(CriminalProceedingView cpv, Case c){
         Meeting m = c.getMeeting();
         PreviousCriminalProceeding pcpc = m.getPreviousCriminalProceeding();
-        if (pcpc == null) {
+        if( pcpc == null){
             pcpc = new PreviousCriminalProceeding();
             pcpc.setMeeting(m);
             m.setPreviousCriminalProceeding(pcpc);
@@ -970,25 +982,27 @@ public class MeetingServiceImpl implements MeetingService {
         pcpc.setFirstProceeding(cpv.getFirstProceeding());
         pcpc.setOpenProcessNumber(cpv.getOpenProcessNumber());
         pcpc.setNumberConvictions(cpv.getNumberConvictions());
+        pcpc.setSpecificationNumberConvictions(cpv.getSpecificationNumberConvictions());
+        pcpc.setSpecificationOpenProcess(cpv.getSpecificationOpenProcess());
         pcpc.setComplyPM(electionRepository.findOne(cpv.getComplyPMId()));
         pcpc.setComplyCSPP(electionRepository.findOne(cpv.getComplyCSPPId()));
         pcpc.setComplyProcessAbove(electionRepository.findOne(cpv.getComplyProcessAboveId()));
 
     }
 
-    public void refreshCurrentProceeding(CriminalProceedingView cpv, Case c) {
+    public void refreshCurrentProceeding(CriminalProceedingView cpv, Case c){
         Meeting m = c.getMeeting();
         CurrentCriminalProceeding ccpc = m.getCurrentCriminalProceeding();
         Address av;
-        if (ccpc == null) {
+        if( ccpc == null){
             ccpc = new CurrentCriminalProceeding();
             av = new Address();
             m.setCurrentCriminalProceeding(ccpc);
             ccpc.setMeeting(m);
-        } else {
+        }else{
             av = ccpc.getDomicileVictim();
         }
-        if (cpv.getDomicileVictim().getLocation().getId() != null) {
+        if(cpv.getDomicileVictim().getLocation().getId() != null){
             Long locationId = cpv.getDomicileVictim().getLocation().getId();
             av.setLocation(locationRepository.findOne(locationId));
         }
@@ -1001,13 +1015,13 @@ public class MeetingServiceImpl implements MeetingService {
         ccpc.setBehaviorDetention(cpv.getBehaviorDetention());
         ccpc.setDomicileVictim(av);
         ccpc.setNameVictim(cpv.getNameVictim());
-        if (cpv.getListCrime() != null && !cpv.getListCrime().equals("")) {
+        if(cpv.getListCrime()!= null && !cpv.getListCrime().equals("")){
             ccpc.setCrimeList(legalService.generateCrime(cpv.getListCrime(), ccpc));
         }
         if (cpv.getListCoDefendant() != null && !cpv.getListCoDefendant().equals("")) {
             ccpc.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccpc));
         }
-        if (cpv.getRelVictimId() != null) {
+        if(cpv.getRelVictimId()!=null){
             ccpc.setRelationshipVictim(relationshipRepository.findOne(cpv.getRelVictimId()));
         }
         ccpc.setPlaceDetention(cpv.getPlaceDetention());
@@ -1016,28 +1030,28 @@ public class MeetingServiceImpl implements MeetingService {
     @Transactional
     @Override
     public ResponseMessage savePartialPrevious(CriminalProceedingView cpv) {
-        try {
-            Case c = caseRepository.findOne(cpv.getIdCase());
-            refreshPreviousProceeding(cpv, c);
-            caseRepository.save(c);
-            return new ResponseMessage(false, "Guardado exitoso", "previous");
-        } catch (Exception e) {
+        try{
+        Case c = caseRepository.findOne(cpv.getIdCase());
+        refreshPreviousProceeding(cpv, c);
+        caseRepository.save(c);
+            return new ResponseMessage(false, "Guardado exitoso","previous");
+        }catch (Exception e){
             logException.Write(e, this.getClass(), "savePartialPrevious", userService);
-            return new ResponseMessage(true, "Ha ocurrido un error al actualizar los datos");
+            return new ResponseMessage(true,"Ha ocurrido un error al actualizar los datos");
         }
     }
 
     @Transactional
     @Override
     public ResponseMessage savePartialCurrent(CriminalProceedingView cpv) {
-        try {
+        try{
             Case c = caseRepository.findOne(cpv.getIdCase());
             refreshCurrentProceeding(cpv, c);
             caseRepository.save(c);
             return new ResponseMessage(false, "Guardado exitoso", "current");
-        } catch (Exception e) {
+        }catch (Exception e){
             logException.Write(e, this.getClass(), "savePartialPrevious", userService);
-            return new ResponseMessage(true, "Ha ocurrido un error al actualizar los datos");
+            return new ResponseMessage(true,"Ha ocurrido un error al actualizar los datos");
         }
     }
 
@@ -1058,8 +1072,8 @@ public class MeetingServiceImpl implements MeetingService {
                 return result;
             }
             Case c = caseRepository.findOne(cpv.getIdCase());
-            refreshCurrentProceeding(cpv, c);
-            refreshPreviousProceeding(cpv, c);
+            refreshCurrentProceeding(cpv,c);
+            refreshPreviousProceeding(cpv,c);
             StatusMeeting stm = statusMeetingRepository.findByCode(Constants.S_MEETING_COMPLETE);
             c.getMeeting().setStatus(stm);
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));
@@ -1085,9 +1099,9 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     public ResponseMessage upsertSocialNetworkComment(String comment, Long idCase) {
-        try {
-            SocialNetwork socialNetwork = socialNetworkRepository.findByCase(idCase);
-            if (socialNetwork == null) {
+        try{
+            SocialNetwork socialNetwork= socialNetworkRepository.findByCase(idCase);
+            if(socialNetwork==null){
                 socialNetwork = new SocialNetwork();
                 Case c = caseRepository.findOne(idCase);
                 socialNetwork.setMeeting(c.getMeeting());
@@ -1095,18 +1109,19 @@ public class MeetingServiceImpl implements MeetingService {
             socialNetwork.setComment(comment);
             socialNetworkRepository.save(socialNetwork);
             return new ResponseMessage(false, "Se ha guardado su información exitosamente");
-        } catch (Exception e) {
+        }catch (Exception e){
             logException.Write(e, this.getClass(), "upsertSocialNetworkComment", userService);
-            return new ResponseMessage(true, "Ha ocurrido un error al terminar la entrevista. Intente más tarde");
+            return new ResponseMessage(true,"Ha ocurrido un error al terminar la entrevista. Intente más tarde");
         }
     }
+
 
 
     public List<String> validateProceedingLegal(CriminalProceedingView cpv, TerminateMeetingMessageDto v) {
         List<String> current = new ArrayList<>(), previous = new ArrayList<>();
         String e = "entity";
         List<String> messageError = new ArrayList<>();
-        if (cpv.getListCrime().trim().equals(""))
+        if (cpv.getListCrime().trim().equals("[]"))
             current.add("Debe agregar al menos un delito.");
         if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
             current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");

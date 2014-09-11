@@ -20,10 +20,10 @@
 
             <input type="hidden" ng-update-hidden name="isAccompaniment" ng-model="p.isAccompaniment">
 
-            <input type="checkbox" ng-model="p.isAccompaniment"
+            <input type="checkbox" ng-model="p.isAccompaniment" id="isAccompaniment"
                    ng-init="p.isAccompaniment= p.isAccompaniment == undefined || p.isAccompaniment == '' ? false: p.isAccompaniment">
 
-            &iquest;Esta persona acompa&ntilde;ar&aacute; al imputado durante el proceso?
+           <label for="isAccompaniment"> &iquest;Esta persona acompa&ntilde;ar&aacute; al imputado durante el proceso?</label>
         </div>
     </div>
     <br/>
@@ -34,7 +34,7 @@
             </div>
             <div class="col-xs-10">
                 <input class="form-control" type="text"
-                       data-val="true" data-val-length="Debe tener al menos 3 y m�ximo 150 caracteres"
+                       data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
                        data-val-length-max="150" data-val-length-min="3"
                        data-val-required="El Nombre es un campo requerido"
                        name="name" id="name" ng-init="name = person.name" value="{{name}}">
