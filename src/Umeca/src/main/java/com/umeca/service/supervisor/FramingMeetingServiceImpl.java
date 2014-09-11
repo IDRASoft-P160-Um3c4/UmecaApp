@@ -397,7 +397,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (newReference.getIsAccompaniment() != null && newReference.getIsAccompaniment()) {
 
-                AccompanimentInfo accompanimentInfo = accompanimentInfoRepository.getAccompanimentInfoByIdRef(newReference.getId(), new PageRequest(0, 1)).get(0);
+                List<AccompanimentInfo> lstAccomInf = accompanimentInfoRepository.getAccompanimentInfoByIdRef(newReference.getId(), new PageRequest(0, 1));
+
+                AccompanimentInfo accompanimentInfo = null;
+
+                if (lstAccomInf != null && lstAccomInf.size() > 0)
+                    accompanimentInfo = lstAccomInf.get(0);
 
                 if (accompanimentInfo == null)
                     accompanimentInfo = new AccompanimentInfo();
