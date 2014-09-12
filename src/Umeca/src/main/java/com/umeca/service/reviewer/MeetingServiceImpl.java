@@ -644,6 +644,7 @@ public class MeetingServiceImpl implements MeetingService {
             s.setName(school.getName());
             s.setAddress(school.getAddress());
             s.setPhone(school.getPhone());
+            s.setBlock(school.getBlock());
             s.setSpecification(school.getSpecification());
             s.setDegree(degreeRepository.findOne(school.getDegree().getId()));
         } else {

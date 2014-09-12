@@ -324,7 +324,9 @@ public class VerificationServiceImpl implements VerificationService {
             for (FieldMeetingSource f : fmsAuxSecond) {
                 f.setId(Long.valueOf(-1));
             }
-            list.add(new ChoiceView().choiceDto(fmsAuxSecond));
+            if(fmsAuxSecond.size()>0){
+                list.add(new ChoiceView().choiceDto(fmsAuxSecond));
+            }
         }
 
         Gson gson = new Gson();

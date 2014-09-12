@@ -212,7 +212,12 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                 }
                 break;
             case "socialNetwork":
-                for (PersonSocialNetwork psn : m.getSocialNetwork().getPeopleSocialNetwork()) {
+                if(name[1].equals("comment")){
+                    SocialNetwork s = m.getSocialNetwork();
+                    listFMS.add(new FieldMeetingSource(s.getComment(), s.getComment()));
+                }else {
+                    List<PersonSocialNetwork> listp = m.getSocialNetwork().getPeopleSocialNetwork();
+                for (PersonSocialNetwork psn : listp) {
                     CatalogDto cDto = new CatalogDto();
                     switch (name[1]) {
                         case "name":
@@ -260,6 +265,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             listFMS.add(fmsAc);
                             break;
                     }
+                }
                 }
                 break;
             case "references":
@@ -660,7 +666,12 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                 }
                 break;
             case "socialNetwork":
-                for (PersonSocialNetwork psn : m.getSocialNetwork().getPeopleSocialNetwork()) {
+                if(name[1].equals("comment")){
+                    SocialNetwork s = m.getSocialNetwork();
+                    listFMS.add(new FieldMeetingSource(s.getComment(), s.getComment()));
+                }else {
+                    List<PersonSocialNetwork> listp = m.getSocialNetwork().getPeopleSocialNetwork();
+                for (PersonSocialNetwork psn : listp) {
                     if (psn.getId().equals(idList)) {
                         CatalogDto cDto = new CatalogDto();
                         switch (name[1]) {
@@ -710,6 +721,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         break;
                     }
 
+                }
                 }
                 break;
             case "references":
@@ -1170,6 +1182,7 @@ ActivityRepository activityRepository;
                 case "socialNetwork":
                     if (meeting.getSocialNetwork() == null) {
                         meeting.setSocialNetwork(new SocialNetwork());
+                        meeting.getSocialNetwork().setComment(meeting.getSocialNetwork().getComment());
                         meeting.getSocialNetwork().setPeopleSocialNetwork(new ArrayList<PersonSocialNetwork>());
                         meeting.getSocialNetwork().setMeeting(meeting);
                     }

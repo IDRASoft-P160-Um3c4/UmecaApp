@@ -12,8 +12,8 @@
             <label class="info-example">(no tiene donde vivir, existe violencia, etc.)</label>
             <br/>
         </div>
-        <div class="col-xs-9">
-            <textarea class="width-100"
+        <div class="col-xs-10">
+            <textarea class="form-control width-100"
                       data-val-required="Las observaciones es un campo requerido"
                       name="socialNetwork.comment">${m.socialNetwork.comment}</textarea>
                 <span class="field-validation-valid" data-valmsg-for="socialNetwork.comment"

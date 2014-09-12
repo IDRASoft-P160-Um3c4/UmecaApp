@@ -49,7 +49,7 @@ public class Reference implements EntityGrid{
     @Column(name="address", length = 250, nullable = false)
     private String address;
 
-    @Column(name="phone", length = 20, nullable =false)
+    @Column(name="phone", length = 200, nullable =false)
     private String phone;
 
     @Column(name="specification_document_type", length = 250, nullable = true)

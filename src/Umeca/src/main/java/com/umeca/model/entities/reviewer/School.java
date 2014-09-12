@@ -27,7 +27,7 @@ public class School {
     @Column(name="name", length = 200, nullable = false)
     private String name;
 
-    @Column(name="phone", length = 25, nullable = true)
+    @Column(name="phone", length = 30, nullable = true)
     private String phone;
 
     @Column(name="address", length = 255, nullable = true)

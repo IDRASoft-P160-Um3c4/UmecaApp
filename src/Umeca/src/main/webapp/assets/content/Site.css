@@ -321,6 +321,12 @@ i.link-image {
     font-size: x-small;
 }
 
+.info-note{
+    font-style: normal;
+    color: #002a80;
+    font-size: x-small;
+}
+
 body {
      padding-top: 0px;
      padding-bottom: 0px;

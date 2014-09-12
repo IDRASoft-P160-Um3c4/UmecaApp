@@ -9,7 +9,7 @@
             Nombre:
         </div>
         <div class="col-xs-10">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
+            <input class="width-100" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
                    data-val-length-max="150" data-val-length-min="3" data-val-required="El nombre es un campo requerido" id="fullName"
                    type="text"  name="references.fullName" value="{{r.fullName}}">
                 <span class="field-validation-valid" data-valmsg-for="fullName" data-valmsg-replace="true"></span>
@@ -37,7 +37,7 @@
             <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
         </div>
     </div>
-    <div class="col-xs-5">
+    <div class="col-xs-6">
         <div class="col-xs-4 element-left">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('references.phone',r.id);"></i>
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.phone" id-element="{{r.id}}"></i>
@@ -45,10 +45,10 @@
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.phone',r.id)"></i>
             Tel&eacute;fono:
         </div>
-        <div class="col-xs-7">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y m&aacute;ximo 20 caracteres"
-                   data-val-length-max="20" data-val-length-min="8" data-val-required="El tel&eacute;fono es un campo requerido" id="phone"
-                   type="text" name="references.phone" value="{{r.phone}}">
+        <div class="col-xs-8">
+            <textarea class="form-control width-100" data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+                   data-val-length-max="200" data-val-length-min="5" data-val-required="El tel&eacute;fono es un campo requerido" id="phone"
+                   type="text" name="references.phone" ng-model="r.phone"></textarea>
             <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
         </div>
     </div>
@@ -84,7 +84,7 @@
 
 
     </div>
-    <div class="col-xs-5">
+    <div class="col-xs-6">
         <div class="col-xs-4 element-left">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('references.age',r.id);"></i>
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.age" id-element="{{r.id}}"></i>
@@ -92,8 +92,8 @@
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.age',r.id)"></i>
             Edad:
         </div>
-        <div class="col-xs-7">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1y m&aacute;ximo 2 caracteres"
+        <div class="col-xs-8">
+            <input class="width-100" data-val="true" data-val-length="Debe tener al menos 1y m&aacute;ximo 2 caracteres"
                    data-val-length-max="2" data-val-length-min="1" data-val-required="La edad es un campo requerido"
                    data-val-regex-pattern="([0-9]+)" data-val-regex="La edad s&oacute;lo puede contener n&uacute;meros"
                    type="text" id="age" name="references.age" value="{{r.age}}">
@@ -112,7 +112,7 @@
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.address',r.id)"></i>
             Direcci&oacute;n:</div>
         <div class="col-xs-10">
-            <textarea id="address" class="form-control"  name="references.address"
+            <textarea id="address" class="form-control width-100"  name="references.address"
                       data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
                       data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
                       ng-model="r.address"

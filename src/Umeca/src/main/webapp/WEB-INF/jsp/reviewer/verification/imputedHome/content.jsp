@@ -33,12 +33,12 @@
         Tel&eacute;fono:
     </div>
     <div class="col-xs-8">
-        <input type="text" class="form-control"ng-model="a.phone" name="imputedHomes.phone"
+        <textarea type="text" class="form-control width-100"ng-model="a.phone" name="imputedHomes.phone"
                id="phone"
                data-val="true"
-               data-val-length="Debe tener al menos 6 y m&aacute;ximo 30 caracteres"
-               data-val-length-max="50" data-val-length-min="1"
-               data-val-required="El tel&eacute;efono es un campo requerido">
+               data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+               data-val-length-max="200" data-val-length-min="5"
+               data-val-required="El tel&eacute;efono es un campo requerido"></textarea>
          <span class="field-validation-valid" data-valmsg-for="phone"
                data-valmsg-replace="true"></span>
     </div>
@@ -58,7 +58,7 @@
                ng-click="showChoices('imputedHomes.homeType.id',a.id)"></i>
             Tipo de propiedad:
         </div>
-        <div class="col-xs-2">
+        <div class="col-xs-3">
             <input type="hidden" ng-model="a.homeTypeId" ng-update-hidden name="imputedHomes.homeType.id">
             <select  class="form-control element-center" ng-model="a.homeType"
                      ng-options="e.name for e in lstHomeType"
@@ -121,11 +121,11 @@
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
                         <div class="row">
-                            <div class="col-xs-5">
+                            <div class="col-xs-3">
                                 Tiempo de vivir en el domicilio:
                             </div>
-                            <div class="col-xs-7">
-                                <input class="form-control" data-val="true"
+                            <div class="col-xs-9">
+                                <input class="form-control width-100" data-val="true"
                                        data-val-length="Debe tener al menos 1 y m&aacute;ximo 30 caracteres"
                                        data-val-length-max="30" data-val-length-min="1" name="imputedHomes.timeLive1"
                                        data-val-required="El tiempo de residencia es un campo requerido"
@@ -142,7 +142,7 @@
                                 <label class="info-example">(color de casa, ruta, etc.)</label>
                             </div>
                             <div class="col-xs-9">
-                                <textarea id="description" class="form-control"
+                                <textarea id="description" class="form-control width-100"
                                           name="imputedHomes.description"
                                           data-val="true"
                                           ng-model="a.description"
@@ -250,11 +250,11 @@
                     <div class="row">
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="row">
-                                <div class="col-xs-5 element-left">
+                                <div class="col-xs-3 element-left">
                                     Tiempo de residencia:
                                 </div>
-                                <div class="col-xs-7">
-                                    <input class="form-control" data-val="true"
+                                <div class="col-xs-9">
+                                    <input class="form-control width-100" data-val="true"
                                            data-val-length="Debe tener al menos 1 y m&aacute;ximo 30 caracteres"
                                            data-val-length-max="30" data-val-length-min="1"
                                            data-val-required="El tiempo de residencia es un campo requerido"
@@ -273,7 +273,7 @@
                                 </div>
                                 <div class="col-xs-9">
                                     <textarea id="reasonChange" name="imputedHomes.reasonChange"
-                                              class="form-control"
+                                              class="form-control width-100"
                                               data-val="true"
                                               ng-model="a.reasonChange"
                                               data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"

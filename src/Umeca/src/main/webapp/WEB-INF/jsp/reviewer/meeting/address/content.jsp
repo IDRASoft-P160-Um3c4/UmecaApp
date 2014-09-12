@@ -17,17 +17,17 @@
 </div>
 <br/>
 <div class="row">
-    <div class="col-xs-3 element-right">
+    <div class="col-xs-2 element-left col-xs-offset-1">
         Tel&eacute;fono:
     </div>
     <div class="col-xs-8">
-        <input type="text" class="form-control"ng-model="a.phone" name="phone"
+        <textarea type="text" class="width-100" ng-model="a.phone" name="phone"
                id="phone"
                data-val="true"
-               data-val-length="Debe tener al menos 5 y m&aacute;ximo 30 caracteres"
-               data-val-length-max="50" data-val-length-min="1"
+               data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+               data-val-length-max="200" data-val-length-min="5"
                data-val-required="El tel&eacute;efono es un campo requerido"
-               ng-init='a.phone = "${d.phone == null ? "" : d.phone}"'>
+               ng-init='a.phone = "${d.phone == null ? "" : d.phone}"'></textarea>
          <span class="field-validation-valid" data-valmsg-for="phone"
                data-valmsg-replace="true"></span>
     </div>
@@ -35,7 +35,7 @@
 <br/>
 
 <div class="row">
-    <div class="col-xs-3 element-right">
+    <div class="col-xs-2 element-left col-xs-offset-1">
         Tipo de propiedad:
     </div>
     <div class="col-xs-2">
