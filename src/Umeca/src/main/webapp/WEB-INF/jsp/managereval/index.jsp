@@ -5,7 +5,7 @@
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/uniqueDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
-    <title>Aprobación de fuentes a verificar</title>
+    <title>Autorizar fuentes</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -232,7 +232,7 @@ app.controller('managerEvalController', function ($scope, $sce) {
 });
 </script>
 
-<h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Validar fuentes</h2>
+<h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Autorizar fuentes</h2>
 
 <div id="angJsjqGridId" ng-controller="modalDlgController">
     <table id="GridId" class="element-center" style="margin: auto"></table>
@@ -285,7 +285,8 @@ app.controller('managerEvalController', function ($scope, $sce) {
                     </div>
                 </form>
                 <div class="col-xs-12">
-                    <div class="alert alert-danger element-center" ng-bind-html="MsgError" ng-show="MsgError&&MsgError!=''"></div>
+                    <div class="alert alert-danger element-center" ng-bind-html="MsgError"
+                         ng-show="MsgError&&MsgError!=''"></div>
                 </div>
                 <div class="modal-footer">
                     <button ng-disabled="!(password&&password!=''&&comment&&comment!='')" type="button"

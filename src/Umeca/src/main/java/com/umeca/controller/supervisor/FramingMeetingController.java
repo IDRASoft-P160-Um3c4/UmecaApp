@@ -7,10 +7,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.catalog.Country;
-import com.umeca.model.catalog.Relationship;
-import com.umeca.model.catalog.State;
-import com.umeca.model.catalog.StatusCase;
+import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
@@ -40,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
@@ -77,6 +75,9 @@ public class FramingMeetingController {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private AcademicLevelRepository academicLevelRepository;
 
     @Autowired
     private DrugTypeRepository drugTypeRepository;
@@ -123,7 +124,6 @@ public class FramingMeetingController {
 
                 final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
-
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -175,8 +175,6 @@ public class FramingMeetingController {
             if (existVer != null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
                 framingMeetingService.fillSaveVerifiedInfo(framingMeeting, existVer.getMeetingVerified());
             }
-
-
         }
 
         FramingMeetingView framingMeetingView = framingMeetingService.fillForView(caseDet);
@@ -185,6 +183,7 @@ public class FramingMeetingController {
 
         model.addObject("objView", conv.toJson(framingMeetingView));
 
+        addressService.fillCatalogAddress(model);
 
         List<CountryDto> countrys = new ArrayList<>();
         for (Country act : countryRepository.findAllOrderByName()) {
@@ -323,7 +322,7 @@ public class FramingMeetingController {
                     add(r.get("name"));
                     add(r.get("phone"));
                     add(r.join("relationship").get("name"));
-                    add(r.get("address"));
+                    add(r.join("accompanimentInfo", JoinType.LEFT).join("address", JoinType.LEFT).get("addressString"));
                     add(r.get("personType"));
                 }};
             }
@@ -477,6 +476,18 @@ public class FramingMeetingController {
 
         model.addObject("lstRelationship", conv.toJson(relationships));
 
+        List<CatalogDto> academicLvls = new ArrayList<>();
+        for (AcademicLevel act : academicLevelRepository.findNotObsolete()) {
+
+            CatalogDto rel = new CatalogDto();
+            rel.setId(act.getId());
+            rel.setName(act.getName());
+
+            academicLvls.add(rel);
+        }
+
+        model.addObject("lstAcademicLevel", conv.toJson(academicLvls));
+
         return model;
     }
 
@@ -516,6 +527,16 @@ public class FramingMeetingController {
         }
 
         model.addObject("lstRelationship", conv.toJson(relationships));
+
+        List<StateDto> states = new ArrayList<>();
+        for (State act : stateRepository.findStatesByCountryAlpha2("MX")) {
+            states.add(new StateDto().stateDto(act));
+        }
+
+        model.addObject("listState", conv.toJson(states));
+
+        if (housemate.getAddressId() != null)
+            addressService.fillModelAddress(model, housemate.getAddressId());
 
         return model;
     }
@@ -659,6 +680,5 @@ public class FramingMeetingController {
 
         return framingMeetingService.doTerminate(idCase);
     }
-
 
 }

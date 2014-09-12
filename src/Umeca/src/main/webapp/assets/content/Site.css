@@ -64,6 +64,10 @@ input[type="checkbox"].input-validation-error {
     text-align: right !important;
 }
 
+.tinyfont{
+    font-size: 0.89em;
+}
+
 .channel-draw {
     border: 1px dashed gainsboro;
     padding: 0 !important;

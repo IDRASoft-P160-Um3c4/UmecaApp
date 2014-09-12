@@ -224,11 +224,22 @@
                         <span class="control-label element-center">{{msgError}}</span>
                     </div>
                 </div>
+                <div class="row" ng-show="!isNew && !isReadOnly">
+                    <div class="col-xs-8 col-xs-offset-3 element-right">
+                        <div class="tinyfont">*Eliminar el grupo, borrará todas las actividades no realizadas del grupo</div>
+                    </div>
+                </div>
+                <div class="row" ng-show="isNew && !isReadOnly">
+                    <div class="col-xs-8 col-xs-offset-3 element-right">
+                        <div class="tinyfont">*Si usted elige un periodo, se creará un grupo de actividades, el cual, podrá eliminar posteriormente</div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-primary" ng-show="isNew" ng-click="add()">Agregar</button>
                 <button type="button" class="btn btn-default btn-primary" ng-show="!isNew && !isReadOnly" ng-click="save()">Modificar</button>
                 <button type="button" class="btn btn-default btn-danger" ng-show="!isNew && !isReadOnly"  ng-click="delete()">Eliminar</button>
+                <button type="button" class="btn btn-default btn-danger" ng-show="!isNew && !isReadOnly"  ng-click="deleteGroup()">Eliminar el grupo</button>
                 <button type="button" class="btn btn-default" ng-click="cancel()">{{(isReadOnly?'Regresar':'Cancelar')}}</button>
             </div>
         </div>

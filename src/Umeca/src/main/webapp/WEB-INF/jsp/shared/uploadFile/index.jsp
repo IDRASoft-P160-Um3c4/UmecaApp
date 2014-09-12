@@ -119,8 +119,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h3 class="element-center"><i class="glyphicon glyphicon-upload"></i>&nbsp;Subir / <i class="glyphicon glyphicon-upload"></i>&nbsp;Descargar archivos del caso
-                        <br/>Imputado: ${fullname}
-                        <br/>Carpeta judicial: ${mpId} - carpeta de investigación: ${folderId} </h3>
+                        <br/>Imputado: ${fullname}</h3>
                 </div>
                 <div class="row" ng-controller="uploadFileController">
                     <div class="col-xs-12 element-center">

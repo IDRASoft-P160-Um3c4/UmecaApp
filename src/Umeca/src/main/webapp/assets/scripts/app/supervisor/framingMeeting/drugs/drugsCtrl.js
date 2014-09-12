@@ -1,46 +1,46 @@
-app.controller('drugsFMController', function($scope, $timeout) {
+app.controller('drugsFMController', function ($scope, $timeout) {
     $scope.d = {};
     $scope.lstType = [];
     $scope.lstPer = [];
     $scope.d.type = 0;
     $scope.d.per = 0;
 
-    $scope.init = function(){
-        $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
+    $scope.init = function () {
+        $('.date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
             $(this).prev().focus();
         });
-        var lastUse=$("#lastUse").val();
-        lastUse= lastUse.replace(/-/g,"/");
-        $("#lastUse").val(lastUse.replace("00:00:00.0",""));
-        if($scope.lstType === undefined || $scope.lstType.length <= 0)
+        var lastUse = $("#lastUse").val();
+        lastUse = lastUse.replace(/-/g, "/");
+        $("#lastUse").val(lastUse.replace("00:00:00.0", ""));
+        if ($scope.lstType === undefined || $scope.lstType.length <= 0)
             return;
 
-        if($scope.d.typeId === undefined){
+        if ($scope.d.typeId === undefined) {
             $scope.d.type = $scope.lstType[0];
             $scope.d.typeId = $scope.d.type.id;
         }
-        else{
-            for(var i=0; i < $scope.lstType.length; i++){
+        else {
+            for (var i = 0; i < $scope.lstType.length; i++) {
                 var type = $scope.lstType[i];
 
-                if(type.id === $scope.d.typeId){
+                if (type.id === $scope.d.typeId) {
                     $scope.d.type = type;
                     break;
                 }
             }
         }
-        if($scope.lstPer === undefined || $scope.lstPer.length <= 0)
+        if ($scope.lstPer === undefined || $scope.lstPer.length <= 0)
             return;
 
-        if($scope.d.perId === undefined){
+        if ($scope.d.perId === undefined) {
             $scope.d.per = $scope.lstPer[0];
             $scope.d.perId = $scope.d.per.id;
         }
-        else{
-            for(var i=0; i < $scope.lstPer.length; i++){
+        else {
+            for (var i = 0; i < $scope.lstPer.length; i++) {
                 var per = $scope.lstPer[i];
 
-                if(per.id === $scope.d.perId){
+                if (per.id === $scope.d.perId) {
                     $scope.d.per = per;
                     break;
                 }
@@ -49,8 +49,9 @@ app.controller('drugsFMController', function($scope, $timeout) {
     };
 
 
-    $timeout(function() {
+    $timeout(function () {
         $scope.init();
+        $scope.blockD = true;
     }, 0);
 
     $scope.WaitFor = false;
