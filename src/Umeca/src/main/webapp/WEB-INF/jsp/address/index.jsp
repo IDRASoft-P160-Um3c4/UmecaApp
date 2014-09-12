@@ -32,8 +32,8 @@ margin-top: 0;
             <map id="map"></map>
             </div>
         <div class="col-xs-10 col-xs-offset-1 element-left" ng-show="msgMapRequest">
-            <span class="label label-lg label-pink arrowed-right"  ng-bind-html="msgMapRequest"></span>
-        </div>
+        <span class="label label-lg label-pink arrowed-right"  ng-bind-html="msgMapRequest"></span>
+    </div>
     </div>
     <br/>
     <div class="row">
