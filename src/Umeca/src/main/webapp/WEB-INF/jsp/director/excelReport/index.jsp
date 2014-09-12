@@ -34,23 +34,14 @@
 <script>
 
     var listIds = "[]";
+    var selectedFilters = {};
 
-    showHearingFormats = function (idCase) {
-        var goTo = "<c:url value='/supervisor/hearingFormat/indexFormats.html'/>" + "?id=" + idCase;
-        window.goToUrlMvcUrl(goTo);
-    };
-
-    newCaseConditionalReprieve = function () {
-        window.showUpsert(null, "#angJsjqGridId", "<c:url value='/supervisor/hearingFormat/newConditionalReprieve.html'/>", "#GridCasesId");
-    };
-
-
-    function reloadExcelGrid(returnIds) {
+    function reloadExcelGrid(returnIds, selectedFiltersObj) {
         listIds = returnIds;
+        selectedFilters = selectedFiltersObj;
         $("#GridCasesId").setGridParam({ postData: {ids: listIds} });
         $("#GridCasesId").trigger("reloadGrid");
     }
-
 
     $(document).ready(function () {
 
@@ -123,24 +114,12 @@
 
         jQuery("#GridCasesId").jqGrid('navGrid', '#GridPager', {
             edit: false,
-            add: true, addfunc: newCaseConditionalReprieve, addicon: 'icon-plus-sign purple',
+            add: false,
             refresh: true, refreshicon: 'icon-refresh green',
             del: false,
             search: false});
 
         jQuery("#GridCasesId").jqGrid('navSeparatorAdd', '#GridPager');
-        /* jQuery("#GridCasesId").jqGrid('navButtonAdd', "#GridPager",
-         {
-         caption: "",
-         title: "Exportar a excel",
-         buttonicon: 'icon-download-alt blue',
-
-         onClickButton: function () {
-         try {
-         $("#GridCasesId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
-         } catch (e) {
-         }
-         }});*/
 
         jQuery("#GridCasesId").jqGrid('filterToolbar', {
             stringResult: true,
@@ -160,11 +139,14 @@
                         try {
                             var params = [];
                             params["idParam"] = listIds;
-                            window.goToUrlMvcUrl("<c:url value='/director/excelReport/jxls.html?ids=idParam'/>", params);
+                            params["filters"] = JSON.stringify(selectedFilters);
+
+                            window.goToUrlMvcUrl("<c:url value='/director/excelReport/jxls.html?ids=idParam&filt=filters'/>", params);
+
                         } catch (e) {
+                            alert(e)
                         }
                     }});
-
     });
 
 </script>
@@ -187,6 +169,10 @@
 <input type="hidden" id="hdLstDrugs" name="lstDrugsStr" value="{{lstDrugs}}">
 <input type="hidden" id="hdLstLvlRisk" name="lstLvlRiskStr" value="{{lstLvlRisk}}">
 <input type="hidden" id="hdLstHearingType" name="lstHearingTypeStr" value="{{lstHearingType}}">
+
+<input type="hidden" id="urlDowload" value="'<c:url value="/catalogs/address/locationsByZipCode.json"/>'">
+
+<iframe id="iframeD" src="#" style="display:none;"></iframe>
 
 <div class="row">
 <div class="widget-box">
@@ -306,7 +292,7 @@
                     <div class="col-xs-10 col-xs-offset-1">
                         <div class="checkbox">
                             <label>
-                                <input class="ace" type="checkbox" name="hasJob">
+                                <input class="ace" type="checkbox" name="hasJob" ng-model="hasJob">
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Con empleo actual</span>
                             </label>
                         </div>
@@ -713,7 +699,7 @@
                                                     <div class="checkbox">
                                                         <label>
                                                             <input class="ace" type="checkbox" id="hasMonP"
-                                                                   name="hasMonP">
+                                                                   name="hasMonP" ng-model="hasMonP">
                                                             <span class="lbl col-xs-10">&nbsp;&nbsp;Plan de monitoreo</span>
                                                         </label>
                                                     </div>

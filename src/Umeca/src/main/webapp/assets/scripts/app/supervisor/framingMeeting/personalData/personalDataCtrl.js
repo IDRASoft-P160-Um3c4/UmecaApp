@@ -1,4 +1,4 @@
-app.controller('personalDataFMController', function ($scope, $timeout, $http, $q) {
+app.controller('personalDataFMController', function ($scope, $timeout, $http, $q, $sce) {
 
         $scope.pd = {};
 
@@ -140,13 +140,13 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
                 }
 
                 if (resp.hasError === false) {
-                    $scope.pdSuccessMsg = resp.message;
+                    $scope.pdSuccessMsg = $sce.trustAsHtml(resp.message);
                     $scope.pdErrorMsg = "";
                     $scope.$apply();
                     return;
                 }
 
-                $scope.pdErrorMsg = resp.message;
+                $scope.pdErrorMsg = $sce.trustAsHtml(resp.message);
                 $scope.pdSuccessMsg = "";
                 $scope.$apply();
 
