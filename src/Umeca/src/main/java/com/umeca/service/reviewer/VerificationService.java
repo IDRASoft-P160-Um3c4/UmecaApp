@@ -36,7 +36,7 @@ public interface VerificationService {
 
     void showButtonsSource(ModelAndView model, Long id);
 
-    ModelAndView showChoiceInformation(Long idCase);
+    ModelAndView showChoiceInformation(Long idCase, Integer read);
 
     ModelAndView showVerificationBySource(Long idCase, Long idSource);
 
@@ -56,4 +56,6 @@ public interface VerificationService {
     ResponseMessage doUpsertSources(Long idCase, SourceVerification sv);
 
     ResponseMessage terminateAddSource(Long idCase);
+
+    ResponseMessage verifChoicesBySection(Long idCase, Integer idSection, Long idList, Long idSource, String comment);
 }

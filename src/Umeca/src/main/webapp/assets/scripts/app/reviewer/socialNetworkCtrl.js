@@ -1,4 +1,4 @@
-app.controller('socialNetworkController', function($scope, $timeout) {
+app.controller('socialNetworkController', function($scope, $timeout,$rootScope) {
     $scope.p = {};
     $scope.lstRel = [];
     $scope.lstDoc = [];
@@ -9,6 +9,10 @@ app.controller('socialNetworkController', function($scope, $timeout) {
     $scope.p.liv = 0;
     $scope.p.dep = 0;
 
+    $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
+        var arg = [idSection, idList, idSource, sectionName, listView]
+        $rootScope.$broadcast('ShowChoicesBySection',arg);
+    };
 
     $scope.init = function(){
         if($scope.lstRel === undefined || $scope.lstRel.length <= 0)

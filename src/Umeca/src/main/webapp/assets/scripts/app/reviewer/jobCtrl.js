@@ -1,8 +1,13 @@
-app.controller('jobController', function($scope, $timeout) {
+app.controller('jobController', function($scope, $timeout,$rootScope) {
     $scope.j = {};
     $scope.lstRegisterType = [];
     $scope.j.registerType = 0;
     $scope.content = "Job";
+
+    $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
+        var arg = [idSection, idList, idSource, sectionName, listView]
+        $rootScope.$broadcast('ShowChoicesBySection',arg);
+    };
 
     $scope.init = function(){
 

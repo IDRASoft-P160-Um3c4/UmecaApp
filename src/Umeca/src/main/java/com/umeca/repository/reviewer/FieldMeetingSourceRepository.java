@@ -166,4 +166,18 @@ public interface FieldMeetingSourceRepository extends JpaRepository<FieldMeeting
             "where c.id = :idCase and sv.id=:idSource and fv.idSubsection = :idSubsection and fms.idFieldList = :idList")
     List<Long> getFMSByIdSubsectionWithIdList(@Param("idCase")Long idCase,@Param("idSource") Long idSource,@Param("idSubsection") Integer idSub,@Param("idList")Long idList);
 
+    @Query("select fms from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "where c.id =:idCase and fv.sectionCode = :idSection" )
+    List<FieldMeetingSource> getGroupFieldMeetingByIdCase(@Param("idCase")Long idCase,@Param("idSection") Integer idSection);
+
+    @Query("select fms from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "where c.id =:idCase and fv.sectionCode = :idSection and fms.idFieldList =:idList" )
+    List<FieldMeetingSource> getGroupFieldMeetingByIdCaseWhitIdList(@Param("idCase")Long idCase,@Param("idSection") Integer idSection, @Param("idList") Long idList);
+
 }

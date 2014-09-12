@@ -1,4 +1,4 @@
-app.controller('schoolController', function($scope, $timeout,$q) {
+app.controller('schoolController', function($scope, $timeout,$q,$rootScope) {
     $scope.school = {};
     $scope.lstLevel = [];
     $scope.lstDegree = [];
@@ -8,6 +8,11 @@ app.controller('schoolController', function($scope, $timeout,$q) {
     $scope.Model = {};
     $scope.Model.def= $q.defer();
     $scope.Model.dlg="";
+
+    $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
+        var arg = [idSection, idList, idSource, sectionName, listView]
+        $rootScope.$broadcast('ShowChoicesBySection',arg);
+    };
     $scope.init = function(){
         if($scope.lstLevel === undefined || $scope.lstLevel.length <= 0)
             return;

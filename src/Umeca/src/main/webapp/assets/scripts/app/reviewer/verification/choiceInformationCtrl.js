@@ -1,6 +1,9 @@
-app.controller('choiceInformationController', function($scope, $timeout, $q,sharedSvc) {
+app.controller('choiceInformationController', function($scope, $timeout, $q,sharedSvc,$sce,$rootScope) {
     $scope.def= $q.defer();
     $scope.selectSource=true;
+    $scope.TypeV = "";
+    $scope.MessageV = "";
+    $scope.TitleV = "";
     $scope.init = function(){
         $(".icon-ok-circle").each(function() {
             $( this ).css("cursor","pointer");
@@ -30,7 +33,9 @@ app.controller('choiceInformationController', function($scope, $timeout, $q,shar
         $("textarea").each(function() {
             $( this ).attr('disabled','disabled');
         });
+        $("#commentVerifSection").removeAttr("disabled");
     };
+
 
 
     $timeout(function() {
@@ -39,6 +44,67 @@ app.controller('choiceInformationController', function($scope, $timeout, $q,shar
 
     $scope.showChoices = function(code,id){
         window.showChoices(code,id);
+    };
+
+    $rootScope.$on('ShowChoicesBySection', function (x, arg) {
+        var idSection,idList, idSource, sectionName,listView;
+        $scope.idSection=arg[0];
+        $scope.idList = arg[1]
+        $scope.idSource = arg[2]
+        sectionName = arg[3];
+        listView = arg[4];
+        if(listView == undefined){
+            listView = "";
+        }
+        $scope.commentVerifSection= "";
+        $scope.TypeV = ($scope.idSource == -1 )? "inverse": "purple";
+        $scope.TitleV = $sce.trustAsHtml("Elecci&oacute;n de infromaci&oacute;n para la secci&oacuten de "+sectionName +" "+listView);
+        var fuente = ($scope.idSource == -1) ? " como: <b>\"No se puede verificar la informaci&oacute;n\"<b/>": " con <b>LA INFORMACI&Oacute;N QUE PROPORCION&Oacute; EL IMPUTADO.</b>";
+        $scope.MessageV = $sce.trustAsHtml("Est&aacute; por establecer la seccion de "+sectionName+" "+listView + fuente);
+        $("#VerifBySectionDialog").modal("show");
+    });
+
+
+    $scope.sendVerifSection = function (urlToPost, idCase){
+        var data = {} ;
+        data.idCase = idCase;
+        data.id = $scope.idSection;
+        if($scope.idList != undefined){
+          data.idList = $scope.idList;
+        }
+        data.idSource = $scope.idSource;
+        data.comment = $scope.commentVerifSection;
+        var settings = {
+            dataType: "json",
+            type: "POST",
+            url: urlToPost,
+            data: data,
+            success: function (resp) {
+                $("#VerifBySectionDialog").modal("hide");
+                if (resp.hasError === undefined) {
+                    resp = resp.responseMessage;
+                }
+                if (resp.hasError === true) {
+                    sharedSvc.showMsg(
+                        {
+                            title: resp.title,
+                            message: resp.message,
+                            type: "danger"
+                        });
+                }
+            },
+            error: function () {
+                $("#VerifBySectionDialog").modal("hide");
+                sharedSvc.showMsg(
+                    {
+                        title: "Error de red",
+                        message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
+                        type: "danger"
+                    });
+            }
+        };
+
+        $.ajax(settings);
     };
 
             $scope.pastToJson = function(string){

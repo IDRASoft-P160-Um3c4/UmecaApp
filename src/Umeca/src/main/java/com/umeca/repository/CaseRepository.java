@@ -24,7 +24,8 @@ import java.util.List;
 public interface CaseRepository extends JpaRepository<Case, Long> {
 
     @Query("SELECT c FROM Case c WHERE c.idFolder =:idFolder")
-    Case findByIdFolder(@Param("idFolder") String idFolder);
+    List<Case> findByIdFolder(@Param("idFolder") String idFolder);
+
 
     @Query("SELECT c FROM Case c WHERE c.idMP =:idMP")
     Case findByIdMP(@Param("idMP") String idMP);
