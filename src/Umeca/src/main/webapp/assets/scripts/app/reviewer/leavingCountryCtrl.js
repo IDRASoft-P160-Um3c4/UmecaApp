@@ -1,4 +1,4 @@
-app.controller('leavingController', function($scope, $timeout,$q) {
+app.controller('leavingController', function($scope, $timeout,$q,$rootScope) {
     $scope.l = {};
     $scope.listElection = [];
     $scope.listCountry = [];
@@ -11,6 +11,12 @@ app.controller('leavingController', function($scope, $timeout,$q) {
     $scope.m = {};
     $scope.Model = {};
     $scope.def= $q.defer();
+
+    $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
+        var arg = [idSection, idList, idSource, sectionName, listView]
+        $rootScope.$broadcast('ShowChoicesBySection',arg);
+    };
+
     $scope.init = function(){
         if($scope.listCountry === undefined || $scope.listCountry.length <= 0)
             return;

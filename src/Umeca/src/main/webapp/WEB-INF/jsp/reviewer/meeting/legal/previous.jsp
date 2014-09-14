@@ -116,7 +116,7 @@
             </div>
             <br/>
 
-            <div class="row">
+            <div class="row" ng-show="managereval == false">
                 <div class="col-xs-12">
                     <div class="widget-container-span ui-sortable">
                         <div class="widget-box transparent">
@@ -208,7 +208,7 @@
             </div>
         </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" ng-show="managereval == false">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submit('#FormPreviousLegalId', '<c:url value="/reviewer/meeting/savePartialPrevious.json?idCase=${idCase}"/>');">
                         <span class="glyphicon glyphicon-cloud-upload"></span>

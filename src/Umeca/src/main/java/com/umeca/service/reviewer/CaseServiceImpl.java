@@ -201,7 +201,7 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
-    public Case findByIdFolder(String idFolder) {
+    public List<Case> findByIdFolder(String idFolder) {
         return caseRepository.findByIdFolder(idFolder);
     }
 

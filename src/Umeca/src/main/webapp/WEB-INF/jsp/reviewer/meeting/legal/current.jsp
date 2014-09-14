@@ -93,7 +93,7 @@
 
 </div>
 </div>
-    <div class="modal-footer">
+    <div class="modal-footer" ng-show="managereval == false">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submit('#FormCurrentLegalId', '<c:url value="/reviewer/meeting/savePartialCurrent.json?idCase=${idCase}"/>');">
                         <span class="glyphicon glyphicon-cloud-upload"></span>

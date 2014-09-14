@@ -1,4 +1,4 @@
-app.controller('addressController', function($scope, $timeout, $http) {
+app.controller('addressController', function($scope, $timeout, $http,$rootScope) {
     $scope.a = {};
     $scope.listLocation = [];
     $scope.lstHomeType = [];
@@ -26,6 +26,8 @@ app.controller('addressController', function($scope, $timeout, $http) {
                 }
             }
         }
+
+
         if($scope.lstHomeType === undefined || $scope.lstHomeType.length <= 0)
             return;
 
@@ -46,6 +48,10 @@ app.controller('addressController', function($scope, $timeout, $http) {
 
     };
 
+    $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
+        var arg = [idSection, idList, idSource, sectionName, listView]
+        $rootScope.$broadcast('ShowChoicesBySection',arg);
+    };
 
     $timeout(function() {
         $scope.init();

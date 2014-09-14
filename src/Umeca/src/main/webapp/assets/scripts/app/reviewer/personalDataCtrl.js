@@ -1,4 +1,4 @@
-app.controller('personalDataController', function ($scope, $timeout, $q, $http) {
+app.controller('personalDataController', function ($scope, $timeout, $q, $http, $rootScope) {
     $scope.m = {};
     $scope.specification = {};
     $scope.lstActivity = [];
@@ -12,6 +12,10 @@ app.controller('personalDataController', function ($scope, $timeout, $q, $http) 
     $scope.relActivities = [];
     $scope.def = $q.defer();
 
+    $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
+        var arg = [idSection, idList, idSource, sectionName, listView]
+        $rootScope.$broadcast('ShowChoicesBySection',arg);
+    };
 
     $scope.init = function () {
         if ($scope.listState != undefined && $scope.listState.length > 0) {

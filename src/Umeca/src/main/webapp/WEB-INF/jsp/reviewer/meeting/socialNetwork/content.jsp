@@ -28,24 +28,20 @@
     </div>
     <br/>
     <div class="row">
+
         <div class="col-xs-12">
             <div class="col-xs-2 element-left">
                 Nombre:
             </div>
             <div class="col-xs-10">
-                <input class="form-control" type="text"
+                <input class="width-100" type="text"
                        data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
                        data-val-length-max="150" data-val-length-min="3"
                        data-val-required="El Nombre es un campo requerido"
                        name="name" id="name" ng-init="name = person.name" value="{{name}}">
-            </div>
-            <div class="row">
-                <div class="col-xs-9 col-xs-offset-3">
-                    <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
-                </div>
-            </div>
+                <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
         </div>
-
+    </div>
     </div>
     <br/>
 
@@ -64,16 +60,16 @@
                 <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
             </div>
         </div>
-        <div class="col-xs-5">
+        <div class="col-xs-6">
             <div class="col-xs-4 element-left">
                 Tel&eacute;fono:
             </div>
-            <div class="col-xs-7">
-                <input class="form-control" type="text"
-                       data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 20 caracteres"
-                       data-val-length-max="20" data-val-length-min="5"
+            <div class="col-xs-8">
+                <textarea class="width-100" type="text"
+                       data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+                       data-val-length-max="200" data-val-length-min="5"
                        data-val-required="El tel&eacute;fono es un campo requerido"
-                       name="phone" id="phone" value="{{phone}}" ng-init="phone = person.phone">
+                       name="phone" id="phone" ng-model="phone" ng-init="phone = person.phone"></textarea>
             </div>
             <div class="col-xs-12">
                 <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
@@ -94,11 +90,11 @@
                         ng-init='lstDoc = ${lstDocumentType};'></select>
             </div>
         </div>
-        <div class="col-xs-5">
+        <div class="col-xs-6">
             <div class="col-xs-4 element-left">
                 Edad:
             </div>
-            <div class="col-xs-7">
+            <div class="col-xs-8">
                 <input class="form-control" data-val="true"
                        data-val-length="Debe tener al menos 1 y m&aacute;ximo 2 n&uacute;mero"
                        data-val-regex-pattern="([0-9]+)"
@@ -148,12 +144,12 @@
                 <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
             </div>
         </div>
-        <div class="col-xs-5">
+        <div class="col-xs-6">
             <div class="col-xs-4 element-left">
                 Dependiente econ&oacute;mico:
             </div>
-            <div class="col-xs-7">
-                <select class="form-control element-center" ng-model="p.dep"
+            <div class="col-xs-8">
+                <select class="width-100 element-center" ng-model="p.dep"
                         ng-options="e.name for e in lstDep"
                         ng-change="p.depId = p.dep.id"
                         ng-init='lstDep = ${lstElection};'></select>

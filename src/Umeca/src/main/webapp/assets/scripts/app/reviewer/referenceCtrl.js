@@ -1,9 +1,14 @@
-app.controller('referenceController', function($scope, $timeout) {
+app.controller('referenceController', function($scope, $timeout,$rootScope) {
     $scope.r = {};
     $scope.lstRel = [];
     $scope.lstDoc = [];
     $scope.r.rel = 0;
     $scope.r.doc = 0;
+
+    $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
+        var arg = [idSection, idList, idSource, sectionName, listView]
+        $rootScope.$broadcast('ShowChoicesBySection',arg);
+    };
 
     $scope.init = function(){
         if($scope.lstRel === undefined || $scope.lstRel.length <= 0)

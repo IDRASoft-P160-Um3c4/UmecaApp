@@ -58,6 +58,18 @@
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
         }
 
+        window.showChoicesSection  = function (idSection,idList){
+            var divScope = "#divChoiceInformation";
+            var urlToGo = "<c:url value='/reviewer/verification/showChoicesBySection.html'/>";
+            var scope = angular.element($(divScope)).scope();
+            var data = {};
+            data.id = idSection;
+            data.idCase = ${idCase};
+            if (id != undefined) {
+                data.idList = id;
+            }
+            scope.show(data, urlToGo, undefined, undefined, true);
+        }
         window.terminateVerification = function () {
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html'/>");
         }
@@ -74,6 +86,10 @@
             scope.show(data, urlToGo, undefined, undefined, true);
         };
 
+        window.closeShowChoicesSection = function (){
+            $("#VerifBySectionDialog").modal("hide");
+        }
+
     </script>
     <title>Usuarios</title>
 
@@ -83,6 +99,33 @@
 <div class="container body-content">
 <div ng-controller="modalDlgController" id="divChoiceInformation">
 <div ng-controller="choiceInformationController">
+<div id="VerifBySectionDialog" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h4 class="modal-title element-center"><span  ng-bind-html="TitleV" class="label label-lg label-{{TypeV}}" style="font-size: large; display: block !important;"></span></h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-left" ng-bind-html="MessageV" ng-init="commentVerifSection = '';"></div>
+                <br/>
+                Raz&oacute;n por la que establece la informaci&oacute;n: <br/>
+                <textarea class="form-control" id="commentVerifSection" ng-model = "commentVerifSection">
+                </textarea>
+            </div>
+            <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" onclick="window.closeShowChoicesSection()">
+                        Cancelar
+                    </span>
+                    <span class="btn btn-primary btn-sm" ng-disabled="WaitFor==true || commentVerifSection ==''"
+                          ng-click="sendVerifSection('<c:url value="/reviewer/verification/showChoicesBySection.json"/>', ${idCase})">
+                          Guardar
+                    </span>
+            </div>
+        </div>
+    </div>
+</div>
 <input type="hidden" ng-init="urlVerifNotKnow= '<c:url value="/reviewer/verification/showChoices.json"/>'"
        ng-model="urlShowChoices"
        ng-update-hidden>
@@ -91,7 +134,7 @@
 <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
 <br/>
 
-<div class="row" ng-init="managereval = ${managereval}">
+<div class="row" ng-init="readOnly = ${managereval}">
 <div class="col-sm-12">
 <div class="tabbable tabs-left">
 <ul class="nav nav-tabs" id="tabMeeting">
@@ -425,7 +468,7 @@
         </div>
     </div>
 </div>
-<div class="row" ng-show="managereval == false">
+<div class="row" ng-show="readOnly == false">
     <div class="modal-footer">
                     <span class="btn btn-default btn-sm" onclick="window.cancelChoiceInformation()">
                         Regresar
@@ -436,7 +479,7 @@
                     </span>
     </div>
 </div>
-<div class="row" ng-show="managereval == true">
+<div class="row" ng-show="readOnly == true">
     <div class="modal-footer">
                     <span class="btn btn-default btn-sm" onclick="window.cancelViewMeeting()">
                         Regresar

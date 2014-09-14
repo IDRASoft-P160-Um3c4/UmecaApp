@@ -1,4 +1,28 @@
 <div id="divPersonalController" ng-controller="personalDataController">
+
+<div class="row element-left"  ng-show="readOnly == false">
+    <div class="col-xs-12">
+
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <b>  Establecer toda la informaci&oacute;n de Datos personales y entorno social
+            con:</b>
+    </div>
+    <div class="col-xs-10 col-xs-offset-1 text-info"  style="padding-top: 8px;">
+        <i class="purple glyphicon glyphicon-user bigger-160"
+           ng-click="showChoicesSection(1,undefined,1,'Datos personales<br/>  y entorno social')"  style="cursor: pointer;"></i>
+        &nbsp;&nbsp;&nbsp;Informaci&oacute;n que proporcion&oacute; el imputado.
+    </div>
+    <div class="col-xs-10 col-xs-offset-1 text-info" style="padding-top: 8px;">
+        <i class="blue icon-question-sign  icon-only bigger-160" style="cursor: pointer;"
+           ng-click="showChoicesSection(1,undefined,-1,'Datos personales<br/> y entorno social')"></i>
+        &nbsp;&nbsp;&nbsp;No se pudo verificar
+    </div>
+</div>
+<div class="row"  ng-show="readOnly == false">
+    <div col-xs-12>
+        <div class="hr hr-8"></div>
+    </div>
+</div>
 <div class="row">
 <br/>
 <div class="row">
