@@ -166,8 +166,10 @@ public class GenerateMonitoringPlanController {
         model.addObject("caseId",mpi.getIdCase());
         model.addObject("mpId",mpi.getIdMP());
         model.addObject("personName",mpi.getPersonName());
-        model.addObject("monStatus",mpi.getPersonName());
+        model.addObject("monStatus",mpi.getMonStatus());
         model.addObject("monitoringPlanId",mpi.getIdMonitoringPlan());
+
+        model.addObject("isInAuthorizeReady", MonitoringConstants.LST_STATUS_AUTHORIZE_READY.contains(mpi.getMonStatus()));
 
         List<ActivityMonitoringPlan> lstActivities = activityMonitoringPlanRepository.findValidActivitiesBy(id, MonitoringConstants.STATUS_ACTIVITY_DELETED);
         List<ActivityMonitoringPlanDto> lstDtoActivities = ActivityMonitoringPlanDto.convertToDtos(lstActivities);
@@ -206,7 +208,10 @@ public class GenerateMonitoringPlanController {
                 response.setMessage("La operación se realizó de forma correcta." +
                         (model.getActsIns() == 0 ? "" : ("<br/>" + model.getActsIns() + " actividad(es) fue(ron) insertada(s)")) +
                         (model.getActsUpd() == 0 ? "" : ("<br/>" + model.getActsUpd() + " actividad(es) fue(ron) actualizada(s)")) +
-                        (model.getActsDel() == 0 ? "" : ("<br/>" + model.getActsDel() + " actividad(es) fue(ron) eliminada(s)")));
+                        (model.getActsDel() == 0 ? "" : ("<br/>" + model.getActsDel() + " actividad(es) fue(ron) eliminada(s)")) +
+                        (model.getActsIns() == 0 ? "" : ("<br/>" + model.getActsPreIns() + " actividad(es) fue(ron) insertada(s) en espera de autorización")) +
+                        (model.getActsUpd() == 0 ? "" : ("<br/>" + model.getActsPreUpd() + " actividad(es) fue(ron) actualizada(s) en espera de autorización")) +
+                        (model.getActsDel() == 0 ? "" : ("<br/>" + model.getActsPreDel() + " actividad(es) fue(ron) eliminada(s) en espera de autorización")));
             }
 
             return response;

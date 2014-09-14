@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Project: Umeca
@@ -47,7 +48,10 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
 
     @Override
     public boolean doUpsertDelete(MonitoringPlanRepository monitoringPlanRepository, ActivityMonitoringPlanRequest fullModel, User user, ResponseMessage response) {
-        if(ValidatePlanMonitoring(monitoringPlanRepository, fullModel, user, response) == false)
+
+        MonitoringPlan monitoringPlan = monitoringPlanRepository.getStatus(user.getId(), fullModel.getCaseId(), fullModel.getMonitoringPlanId());
+
+        if(ValidatePlanMonitoring(monitoringPlan, monitoringPlanRepository, fullModel, user, response) == false)
             return false;
 
         fullModel.setNow(Calendar.getInstance());
@@ -64,6 +68,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
 
         Long idCase = fullModel.getCaseId();
         List<ActivityMonitoringPlanDto> lstActivitiesUpsert = fullModel.getLstActivitiesUpsert();
+        String groupUid = UUID.randomUUID().toString();
         for(ActivityMonitoringPlanDto dto:lstActivitiesUpsert){
 
             if(validateDates(dto.getStartCalendar(), dto.getEndCalendar()) == false)
@@ -72,13 +77,25 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
             if(idCase != dto.getCaseId())
                 continue;
             try{
-                if(dto.getActivityId() > 0)
-                    update(dto, actMpRepository, user, fullModel, lstArrangementSelected);
-                else
-                    create(dto, actMpRepository, user, fullModel, lstArrangementSelected);
+                if(dto.getActivityId() > 0){
+                    //Si está en modo autorizado, se agrega uno nuevo para, en caso de no ser aceptado se toma la actividad anterior
+                    if(fullModel.isInAuthorizeReady())
+                        create(dto, actMpRepository, user, fullModel, lstArrangementSelected, groupUid, true);
+                    else
+                        update(dto, actMpRepository, user, fullModel, lstArrangementSelected, null);
+                }
+                else{
+                    create(dto, actMpRepository, user, fullModel, lstArrangementSelected, groupUid, false);
+                }
             }catch(Exception ex){
                 logException.Write(ex, this.getClass(), "doUpsertDelete", user.getUsername());
             }
+        }
+
+        if(monitoringPlan.getPosAuthorizationChangeTime() == null && fullModel.hasActivitiesInPreAuthorizeMode()){
+            //Se añade una notificación para informar al coordinador que tiene que revisar el cambio del plan de seguimiento
+
+            monitoringPlan.setPosAuthorizationChangeTime(fullModel.getNow());
         }
 
         actMpRepository.flush();
@@ -109,41 +126,74 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, username, fullModel.getCaseId(), fullModel.getMonitoringPlanStatus()));
         actMpRepository.save(activityMonitoringPlan);
-        fullModel.addActsDel();
+        fullModel.incActsDel();
 
     }
 
     private void create(ActivityMonitoringPlanDto dto, ActivityMonitoringPlanRepository actMpRepository, User user, ActivityMonitoringPlanRequest fullModel,
-                        List<SelectList> lstArrangementSelected) {
-
+                        List<SelectList> lstArrangementSelected, String groupUid, boolean bIsAuthUpdate) {
         ActivityMonitoringPlan activityMonitoringPlan = new ActivityMonitoringPlan();
+
+        if(bIsAuthUpdate){
+            ActivityMonitoringPlan activityMonitoringPlanToUpdate = getValidActivityMonitoringPlanToUpdate(dto, actMpRepository);
+            if (activityMonitoringPlanToUpdate == null) return;
+
+            //Si no tiene una actividad a quien reemplazar, se debe crear una nueva, de lo contrario sólo se actualiza la anterior
+            if(activityMonitoringPlan.getActMonPlanToReplace() == null){
+                activityMonitoringPlan.setActMonPlanToReplace(activityMonitoringPlanToUpdate);
+                activityMonitoringPlan.setGroup(activityMonitoringPlanToUpdate.getGroup());
+            }
+            else{
+                update(dto, actMpRepository, user, fullModel, lstArrangementSelected, activityMonitoringPlanToUpdate);
+                fullModel.decActsUpd();
+                fullModel.incActsPreUpd();
+                return;
+            }
+        }
+        else{
+            activityMonitoringPlan.setGroup(groupUid);
+        }
+
         activityMonitoringPlan.setSupervisorCreate(user);
         activityMonitoringPlan.setCreationTime(fullModel.getNow());
 
         DtoToModelAndSave(dto, actMpRepository, user, fullModel, activityMonitoringPlan, lstArrangementSelected, true);
-        fullModel.addActsIns();
+
+        if(fullModel.isInAuthorizeReady()){
+            if(bIsAuthUpdate) fullModel.incActsPreUpd();
+            else fullModel.incActsPreIns();
+
+        }else{
+            fullModel.incActsIns();
+        }
     }
 
     private void update(ActivityMonitoringPlanDto dto, ActivityMonitoringPlanRepository actMpRepository, User user, ActivityMonitoringPlanRequest fullModel,
-                        List<SelectList> lstArrangementSelected) {
-        ActivityMonitoringPlan activityMonitoringPlan = actMpRepository.findOneValid(dto.getActivityId(), dto.getMonitoringPlanId(), dto.getCaseId());
+                        List<SelectList> lstArrangementSelected, ActivityMonitoringPlan activityMonitoringPlanToUpdate) {
 
-        if(activityMonitoringPlan == null)
-            return;
+        ActivityMonitoringPlan activityMonitoringPlan = activityMonitoringPlanToUpdate == null ?
+                getValidActivityMonitoringPlanToUpdate(dto, actMpRepository) : activityMonitoringPlanToUpdate;
 
-        String status = activityMonitoringPlan.getStatus();
-        if(status.equals(MonitoringConstants.STATUS_ACTIVITY_DELETED) || status.equals(MonitoringConstants.STATUS_ACTIVITY_DONE) || status.equals(MonitoringConstants.STATUS_ACTIVITY_FAILED))
-            return;
-
-        //Validate dates of saved activity before change something...
-        if(validateDates(activityMonitoringPlan.getStart(), activityMonitoringPlan.getEnd()) == false)
-            return;
+        if (activityMonitoringPlan == null) return;
 
         activityMonitoringPlan.setSupervisorModify(user);
         activityMonitoringPlan.setModifyTime(fullModel.getNow());
 
         DtoToModelAndSave(dto, actMpRepository, user, fullModel, activityMonitoringPlan, lstArrangementSelected, false);
-        fullModel.addActsUpd();
+        fullModel.incActsUpd();
+    }
+
+    private ActivityMonitoringPlan getValidActivityMonitoringPlanToUpdate(ActivityMonitoringPlanDto dto, ActivityMonitoringPlanRepository actMpRepository) {
+        ActivityMonitoringPlan activityMonitoringPlan = actMpRepository.findOneValid(dto.getActivityId(), dto.getMonitoringPlanId(), dto.getCaseId());
+        if(activityMonitoringPlan == null)
+            return null;
+        String status = activityMonitoringPlan.getStatus();
+        if(status.equals(MonitoringConstants.STATUS_ACTIVITY_DELETED) || status.equals(MonitoringConstants.STATUS_ACTIVITY_DONE) || status.equals(MonitoringConstants.STATUS_ACTIVITY_FAILED))
+            return null;
+        //Validate dates of saved activity before change something...
+        if(validateDates(activityMonitoringPlan.getStart(), activityMonitoringPlan.getEnd()) == false)
+            return null;
+        return activityMonitoringPlan;
     }
 
 
@@ -203,6 +253,8 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         cal = dto.getStartCalendar();
         activityMonitoringPlan.setStart(cal);
         activityMonitoringPlan.setSearchStart((cal.get(Calendar.YEAR) * 100) + (cal.get(Calendar.MONTH) + 1));
+        //Se añade en modo por autorizar, y se enciende la bandera si esta autorizado el plan de lo contrario hacerlo nulo
+        activityMonitoringPlan.setPreAuthorizeMode(fullModel.isInAuthorizeReady() ? true : null);
 
         if(isNew == true){
             Case caseDetention = new Case();
@@ -224,14 +276,14 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         }
 
         actMpRepository.save(activityMonitoringPlan);
-        fullModel.getLstActivitiesUpserted().add(new ActivityMonitoringPlanEvent(activityMonitoringPlan.getId(), dto.getEventId()));
+        fullModel.getLstActivitiesUpserted().add(new ActivityMonitoringPlanEvent(activityMonitoringPlan.getId(), dto.getEventId(), activityMonitoringPlan.getGroup()));
     }
 
 
-    private boolean ValidatePlanMonitoring(MonitoringPlanRepository monitoringPlanRepository, ActivityMonitoringPlanRequest fullModel, User user, ResponseMessage response) {
+    private boolean ValidatePlanMonitoring(MonitoringPlan monitoringPlan, MonitoringPlanRepository monitoringPlanRepository, ActivityMonitoringPlanRequest fullModel, User user, ResponseMessage response) {
 
-        MonitoringPlan monitoringPlan = monitoringPlanRepository.getStatus(user.getId(), fullModel.getCaseId(), fullModel.getMonitoringPlanId());
         String status = monitoringPlan.getStatus();
+        fullModel.setInAuthorizeReady(MonitoringConstants.LST_STATUS_AUTHORIZE_READY.contains(status));
 
         fullModel.setMonitoringPlanStatus(status);
         if(status != null && (status.equals(MonitoringConstants.STATUS_NEW) || status.equals(MonitoringConstants.STATUS_PENDING_CREATION) ||

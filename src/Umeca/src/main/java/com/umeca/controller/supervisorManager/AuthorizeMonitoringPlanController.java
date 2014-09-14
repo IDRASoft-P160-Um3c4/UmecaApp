@@ -117,6 +117,7 @@ public class AuthorizeMonitoringPlanController {
             model.addObject("urlGetActivities","/supervisorManager/authorizeMonitoringPlan/getActivities.json");
             model.addObject("urlShowActivity","/supervisorManager/authorizeMonitoringPlan/showActivity.html");
             model.addObject("urlReturn","/supervisorManager/authorizeMonitoringPlan/index.html");
+            trackMonPlanService.setLstActivitiesSupervision(model);
 
             return model;
         }catch(Exception e){
@@ -138,9 +139,19 @@ public class AuthorizeMonitoringPlanController {
         try{
             Long userId =  monitoringPlanRepository.getUserIdByMonPlanId(req.getMonPlanId());
 
-            trackMonPlanService.getLstActivitiesByUser(req, userId, new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);add(MonitoringConstants.STATUS_AUTHORIZED);
-                        add(MonitoringConstants.STATUS_MONITORING);add(MonitoringConstants.STATUS_PENDING_END);add(MonitoringConstants.STATUS_REJECTED_END);add(MonitoringConstants.STATUS_END);}},
-                    new ArrayList<String>(){{add(MonitoringConstants.STATUS_ACTIVITY_DELETED);}}, response);
+            trackMonPlanService.getLstActivitiesByUserAndFilters(req, userId, new ArrayList<String>() {{
+                        add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
+                        add(MonitoringConstants.STATUS_AUTHORIZED);
+                        add(MonitoringConstants.STATUS_MONITORING);
+                        add(MonitoringConstants.STATUS_PENDING_END);
+                        add(MonitoringConstants.STATUS_REJECTED_END);
+                        add(MonitoringConstants.STATUS_END);
+                    }},
+                    new ArrayList<String>() {{
+                        add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
+                    }}, response
+            );
+
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "getActivities", sharedUserService);
             response.setHasError(true);

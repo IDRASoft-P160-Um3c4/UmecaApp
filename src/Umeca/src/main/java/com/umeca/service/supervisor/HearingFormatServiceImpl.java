@@ -21,9 +21,12 @@ import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.supervisor.AssignedArrangementRepository;
 import com.umeca.repository.supervisor.ContactDataRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
+import com.umeca.service.reviewer.CaseServiceImpl;
+import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -613,10 +616,14 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
 
     @Autowired
+    LogCommentRepository logCommentRepository;
+
+    @Autowired
     private ContactDataRepository contactDataRepository;
 
     @Autowired
     private AssignedArrangementRepository assignedArrangementRepository;
+
 
     @Override
     @Transactional
@@ -643,7 +650,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 sb.append(hearingFormat.getConfirmComment());
                 sb.append(".");
 
-                caseService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()), hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END);
+                SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
+                        hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
             }
 
             hearingFormat = hearingFormatRepository.save(hearingFormat);

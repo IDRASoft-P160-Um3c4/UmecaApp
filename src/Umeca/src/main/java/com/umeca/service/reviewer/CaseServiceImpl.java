@@ -9,7 +9,6 @@ import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.FolderConditionalReprieve;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
-import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.MonitoringConstants;
@@ -21,6 +20,7 @@ import com.umeca.repository.supervisor.FolderConditionalReprieveRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -32,7 +32,6 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -206,7 +205,6 @@ public class CaseServiceImpl implements CaseService {
         return caseRepository.findByIdFolder(idFolder);
     }
 
-
     @Autowired
     LogCommentRepository logCommentRepository;
 
@@ -232,23 +230,11 @@ public class CaseServiceImpl implements CaseService {
         supervisor.setId(lstUserIds.get(0));
 
         caseDet.setStatus(statusCase);
-        generateLogComment(model.getComments(), user, caseDet, statusAction, supervisor, MonitoringConstants.TYPE_COMMENT_CASE_END);
+        SharedLogCommentService.generateLogComment(model.getComments(), user, caseDet, statusAction, supervisor,
+                MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
         caseRepository.save(caseDet);
     }
 
-    public void generateLogComment(String comments, User userSender, Case caseDet,
-                                    String action, User userReceiver, String type) {
-        LogComment commentModel = new LogComment();
-        Calendar now = Calendar.getInstance();
-        commentModel.setComments(comments);
-        commentModel.setAction(action);
-        commentModel.setCaseDetention(caseDet);
-        commentModel.setReceiveUser(userReceiver);
-        commentModel.setSenderUser(userSender);
-        commentModel.setTimestamp(now);
-        commentModel.setType(type);
-        logCommentRepository.save(commentModel);
-    }
 
     @Override
     public boolean isValidCase(Long caseId) {

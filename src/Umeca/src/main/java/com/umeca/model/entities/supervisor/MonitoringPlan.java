@@ -54,6 +54,8 @@ public class MonitoringPlan {
     @Column(name = "status_log", nullable = true)
     private String statusLog;
 
+    @Column(name = "pos_authorization_change_time", nullable = true)
+    private Calendar posAuthorizationChangeTime;
 
     public Long getId() {
         return id;
@@ -133,5 +135,13 @@ public class MonitoringPlan {
 
     public void setStatusLog(String statusLog) {
         this.statusLog = statusLog;
+    }
+
+    public Calendar getPosAuthorizationChangeTime() {
+        return posAuthorizationChangeTime;
+    }
+
+    public void setPosAuthorizationChangeTime(Calendar posAuthorizationChangeTime) {
+        this.posAuthorizationChangeTime = posAuthorizationChangeTime;
     }
 }

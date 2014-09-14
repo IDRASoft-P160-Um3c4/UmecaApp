@@ -69,7 +69,8 @@
                         goal: idToObject(act.goalId, lstGoals),
                         source: idToObject(act.sourceId, lstSources),
                         caseInfo: caseInfo
-                    }
+                    },
+                    groupEvt: act.group
                 };
                 event.doTitle(false);
                 lstEvents.push(event);
@@ -84,9 +85,9 @@
             var lstGoals = ${lstGoals};
             var lstSources = ${lstSources};
 
-            var caseInfo = {caseId:"${caseId}", mpId: "${mpId}", personName: "${personName}", monStatus: "${monStatus}", monitoringPlanId: "${monitoringPlanId}"};
+            var caseInfo = {caseId:"${caseId}", mpId: "${mpId}", personName: "${personName}",
+                monStatus: "${monStatus}", monitoringPlanId: "${monitoringPlanId}", isInAuthorizeReady: ${isInAuthorizeReady}};
             lstEventsAct = convertToEvents(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources);
-
 
             var date = new Date();
             $('#id-date-picker-start,#id-date-picker-end').datepicker({autoclose:true, startDate:new Date(date.getFullYear(), date.getMonth(), date.getDate()-1)}).next().on(ace.click_event, function(){
@@ -147,7 +148,7 @@
                     right: 'month,agendaWeek,agendaDay'
                 },
                 events: lstEventsAct,
-                allDayText: 'Todo el d�a',
+                allDayText: 'Todo el d&iacute;a',
                 allDaySlot: false,
                 slotMinutes: 30,
                 axisFormat: 'HH:mm',
@@ -217,6 +218,38 @@
                                             return (ev._id == event._id);
                                         });
                                         scopeMon.addActivityToDelete(event.idActivity);
+                                        break;
+                                    case 'PRE_REMOVE':
+                                        if(event.idActivity === -1){
+                                            calendar.fullCalendar('removeEvents' , function(ev){
+                                                return (ev._id == event._id);
+                                            });
+                                        }else{
+                                            event.className = 'label-pre-delete';
+                                            calendar.fullCalendar('updateEvent', event);
+                                            scopeMon.addActivityToDelete(event.idActivity);
+                                        }
+                                        break;
+                                    case 'REMOVE_GROUP':
+                                        calendar.fullCalendar('removeEvents' , function(ev){
+                                            if(ev.groupEvt === event.groupEvt){
+                                                scopeMon.addActivityToDelete(ev.idActivity);
+                                                return true;
+                                            }
+                                        });
+                                        break;
+                                    case 'PRE_REMOVE_GROUP':
+                                        calendar.fullCalendar('removeEvents' , function(ev){
+                                            if(ev.groupEvt === event.groupEvt){
+                                                if(ev.idActivity === -1){
+                                                    return true;
+                                                }else{
+                                                    event.className = 'label-pre-delete';
+                                                    calendar.fullCalendar('updateEvent', event);
+                                                    scopeMon.addActivityToDelete(event.idActivity);
+                                                }
+                                            }
+                                        });
                                         break;
                                     case 'UPDATE':
                                         calendar.fullCalendar('updateEvent', event);

@@ -1,6 +1,5 @@
 package com.umeca.controller.supervisor;
 
-import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -13,7 +12,6 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.OptionList;
-import com.umeca.model.shared.SelectList;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
@@ -137,14 +135,7 @@ public class TrackMonitoringPlanController {
         }else if(redirect.equals(1)) {
             model.addObject("urlReturn","/supervisor/manageMonitoringPlan/index.html");
         }
-
-        Gson gson = new Gson();
-        List<SelectList> lstGeneric = supervisionActivityRepository.findAllValidSl();
-        lstGeneric.add(0, new SelectList(0l, "--Todas las actividades--"));
-        String sLstGeneric = gson.toJson(lstGeneric);
-        model.addObject("lstActivities", sLstGeneric);
-
-
+        trackMonPlanService.setLstActivitiesSupervision(model);
         return model;
     }
 

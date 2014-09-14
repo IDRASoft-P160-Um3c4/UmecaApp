@@ -122,88 +122,134 @@
                                             <div class="col-xs-10 col-xs-offset-1 widget-container-span">
                                                 <div class="widget-box transparent">
                                                     <div class="widget-header">
-                                                        <h6 class="lighter">Elige la periodicidad por d&iacute;a(s) de la semana</h6>
+                                                        <h6 class="lighter">Elige la periodicidad por: &nbsp; <select class="element-center" ng-model="m.periodicity" id="selectPeriodicity"
+                                                                    ng-options="e.name for e in lstPeriodicity"
+                                                                    ng-change="m.periodicityId = m.periodicity.id"
+                                                                    ng-disabled = "isReadOnly">
+                                                            </select>
+                                                        </h6>
                                                     </div>
-
-                                                    <div class="widget-body">
-                                                        <div class="widget-main padding-6 no-padding-left no-padding-right">
-                                                            <div class="row">
-                                                                <div class="col-xs-8 col-xs-offset-1">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" ng-model="m.chkBusinessWeek" ng-change = "onBusinessWeek()"/>
-                                                                            <span class="control-label"><strong>Toda la semana h&aacute;bil</strong></span>
-                                                                        </label>
+                                                    <div ng-show="m.periodicityId < 3 ">
+                                                        <div class="widget-body">
+                                                            <div class="widget-main padding-6 no-padding-left no-padding-right">
+                                                                <div class="row">
+                                                                    <div class="col-xs-8 col-xs-offset-1">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model="m.chkBusinessWeek" ng-change = "onBusinessWeek()"/>
+                                                                                <span class="control-label"><strong>Toda la semana h&aacute;bil</strong></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-8 col-xs-offset-1">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model="m.chkWeek" ng-change = "onWeek()"/>
+                                                                                <span class="control-label"><strong>Toda la semana</strong></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-2 col-xs-offset-1">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.daysOfWeek[1]" />
+                                                                                <span class="control-label">Lunes</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-2">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.daysOfWeek[2]"/>
+                                                                                <span class="control-label">Martes</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-2">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.daysOfWeek[3]"/>
+                                                                                <span class="control-label">Mi&eacute;rcoles</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-2">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.daysOfWeek[4]"/>
+                                                                                <span class="control-label">Jueves</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-2">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.daysOfWeek[5]"/>
+                                                                                <span class="control-label">Viernes</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-2 col-xs-offset-1">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.daysOfWeek[6]"/>
+                                                                                <span class="control-label">S&aacute;bado</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-2">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.daysOfWeek[0]"/>
+                                                                                <span class="control-label">Domingo</span>
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-xs-8 col-xs-offset-1">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" ng-model="m.chkWeek" ng-change = "onWeek()"/>
-                                                                            <span class="control-label"><strong>Toda la semana</strong></span>
-                                                                        </label>
+                                                        </div>
+                                                    </div>
+                                                    <div ng-show="m.periodicityId > 2">
+                                                        <div class="widget-body">
+                                                            <div class="widget-main padding-6 no-padding-left no-padding-right">
+                                                                <div class="row">
+                                                                    <div class="col-xs-8">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model="m.chkAllDays" ng-change = "onAllDays()"/>
+                                                                                <span class="control-label"><strong>Todos los días</strong></span>
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-xs-2 col-xs-offset-1">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[1]" />
-                                                                            <span class="control-label">Lunes</span>
-                                                                        </label>
+                                                                <div class="row">
+                                                                    <div class="col-xs-12">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model="m.sundayNoBusiness" />
+                                                                                <span class="control-label">En caso de domingo, mover la actividad al lunes siguiente</span>
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-xs-2">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[2]"/>
-                                                                            <span class="control-label">Martes</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-2">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[3]"/>
-                                                                            <span class="control-label">Mi&eacute;rcoles</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-2">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[4]"/>
-                                                                            <span class="control-label">Jueves</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-2">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[5]"/>
-                                                                            <span class="control-label">Viernes</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-xs-2 col-xs-offset-1">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[6]"/>
-                                                                            <span class="control-label">S&aacute;bado</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-2">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" ng-model = "m.daysOfWeek[0]"/>
-                                                                            <span class="control-label">Domingo</span>
-                                                                        </label>
+                                                                <div ng-repeat="r in range(0,3,1)">
+                                                                    <div class="row">
+                                                                        <div  ng-repeat="c in range(0,12,1)">
+                                                                            <div ng-if="($index+1)+(r*12) <= 31" class="col-xs-1">
+                                                                                <div class="checkbox">
+                                                                                    <label>
+                                                                                        <input type="checkbox" ng-model = "m.daysOfMonth[($index)+(r*12)]" />
+                                                                                        <span class="control-label">{{($index+1)+(r*12)}}</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -226,7 +272,7 @@
                 </div>
                 <div class="row" ng-show="!isNew && !isReadOnly">
                     <div class="col-xs-8 col-xs-offset-3 element-right">
-                        <div class="tinyfont">*Eliminar el grupo, borrará todas las actividades no realizadas del grupo</div>
+                        <div class="tinyfont">*Eliminar grupo, borrará todas las actividades no realizadas del grupo</div>
                     </div>
                 </div>
                 <div class="row" ng-show="isNew && !isReadOnly">
@@ -239,7 +285,7 @@
                 <button type="button" class="btn btn-default btn-primary" ng-show="isNew" ng-click="add()">Agregar</button>
                 <button type="button" class="btn btn-default btn-primary" ng-show="!isNew && !isReadOnly" ng-click="save()">Modificar</button>
                 <button type="button" class="btn btn-default btn-danger" ng-show="!isNew && !isReadOnly"  ng-click="delete()">Eliminar</button>
-                <button type="button" class="btn btn-default btn-danger" ng-show="!isNew && !isReadOnly"  ng-click="deleteGroup()">Eliminar el grupo</button>
+                <button type="button" class="btn btn-default btn-danger" ng-show="!isNew && !isReadOnly"  ng-click="deleteGroup()">Eliminar grupo</button>
                 <button type="button" class="btn btn-default" ng-click="cancel()">{{(isReadOnly?'Regresar':'Cancelar')}}</button>
             </div>
         </div>
