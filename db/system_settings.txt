@@ -2,3 +2,4 @@
 1|ARCHIVE|MaxNumberFiles|5|Máximo número de archivos por caso
 2|ARCHIVE|MaxSizeFiles|50000000|Máximo espacio para los archivos por caso (en bytes)
 3|ARCHIVE|PathToSave|files|Ruta para almacenar los archivos a subir por caso
+4|MONPLAN|HoursToAuthorize|72|Horas antes de poner el plan de seguimiento en suspensión

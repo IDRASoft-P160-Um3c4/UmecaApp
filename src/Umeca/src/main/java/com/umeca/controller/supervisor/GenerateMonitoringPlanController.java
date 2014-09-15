@@ -198,7 +198,9 @@ public class GenerateMonitoringPlanController {
             if(monitoringPlanService.doUpsertDelete(monitoringPlanRepository, model, user, response) == false)
                 return response;
 
-            if(model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0){
+
+            if(model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0
+                    && model.getActsPreIns() == 0 && model.getActsPreUpd() == 0 && model.getActsPreDel() == 0){
                 response.setMessage("No fue posible realizar la operación, revise que su información esté correcta o que la(s) actividad(es) que desea modificar y/o eliminar aún no esté finalizada.");
                 response.setHasError(true);
             }else{
@@ -209,11 +211,10 @@ public class GenerateMonitoringPlanController {
                         (model.getActsIns() == 0 ? "" : ("<br/>" + model.getActsIns() + " actividad(es) fue(ron) insertada(s)")) +
                         (model.getActsUpd() == 0 ? "" : ("<br/>" + model.getActsUpd() + " actividad(es) fue(ron) actualizada(s)")) +
                         (model.getActsDel() == 0 ? "" : ("<br/>" + model.getActsDel() + " actividad(es) fue(ron) eliminada(s)")) +
-                        (model.getActsIns() == 0 ? "" : ("<br/>" + model.getActsPreIns() + " actividad(es) fue(ron) insertada(s) en espera de autorización")) +
-                        (model.getActsUpd() == 0 ? "" : ("<br/>" + model.getActsPreUpd() + " actividad(es) fue(ron) actualizada(s) en espera de autorización")) +
-                        (model.getActsDel() == 0 ? "" : ("<br/>" + model.getActsPreDel() + " actividad(es) fue(ron) eliminada(s) en espera de autorización")));
+                        (model.getActsPreIns() == 0 ? "" : ("<br/>" + model.getActsPreIns() + " actividad(es) fue(ron) insertada(s) en espera de autorización")) +
+                        (model.getActsPreUpd() == 0 ? "" : ("<br/>" + model.getActsPreUpd() + " actividad(es) fue(ron) actualizada(s) en espera de autorización")) +
+                        (model.getActsPreDel() == 0 ? "" : ("<br/>" + model.getActsPreDel() + " actividad(es) fue(ron) eliminada(s) en espera de autorización")));
             }
-
             return response;
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);

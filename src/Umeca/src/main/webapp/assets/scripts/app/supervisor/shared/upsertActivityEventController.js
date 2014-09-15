@@ -18,7 +18,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         if($scope.lstSources.length > 0) $scope.m.source = $scope.lstSources[0];
     };
 
-    $scope.hideMsg = function (rMsg) {
+    $scope.hideMsg = function () {
         dlgMsgBox.modal('hide');
     };
 
@@ -56,7 +56,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         $scope.m.periodicity = $scope.lstPeriodicity[0];
         $scope.m.periodicityId = $scope.m.periodicity.id;
         $scope.m.daysOfMonth = [];
-        for(i=0; i<31; i++){$scope.m.daysOfMonth.push(false);}
+        for(var i=0; i<31; i++){$scope.m.daysOfMonth.push(false);}
 
         if(params.isNew === false){
             $scope.fillFields(params.event);
@@ -301,7 +301,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         $scope.m.event.start = dateInit;
         $scope.m.event.end = dateEnd;
         $scope.m.event.isModified = true;
-        $scope.m.event.className = $scope.cfg.caseInfo.isInAuthorizeReady ? 'label-pre-update' : 'label-info';
+        $scope.m.event.className = $scope.cfg.caseInfo.isInAuthorizeReady ? ($scope.m.event.className == 'label-pre-new' ? 'label-pre-new' : 'label-pre-update') : 'label-info';
 
         $scope.m.event.infoActivity = {
             lstArrangements: $scope.m.lstArrangements,
@@ -364,24 +364,25 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
     $scope.range = function(first, last, step){
         if(step === undefined) step = 1;
         var out = [];
-        for(i=first; i<last; i+=step){
+        for(var i=first; i<last; i+=step){
             out.push(i);
         }
         return out;
-    }
+    };
 
-    $scope.onAllDays = function(){
-        if($scope.m.chkAllDays){
-            for(i=0; i<$scope.m.daysOfMonth.length; i++){
+    $scope.onAllDays = function () {
+        var i;
+        if ($scope.m.chkAllDays) {
+            for (i = 0; i < $scope.m.daysOfMonth.length; i++) {
                 $scope.m.daysOfMonth[i] = true;
             }
         }
-        else{
-            for(i=0; i<$scope.m.daysOfMonth.length; i++){
+        else {
+            for (i = 0; i < $scope.m.daysOfMonth.length; i++) {
                 $scope.m.daysOfMonth[i] = false;
             }
         }
-    }
+    };
 
     $scope.clearDaysOfWeek();
 

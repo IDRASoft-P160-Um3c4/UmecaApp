@@ -24,10 +24,19 @@ public class MonitoringConstants {
             new ArrayList<String>(){{add(STATUS_AUTHORIZED);add(STATUS_MONITORING);add(STATUS_REJECTED_END);}};
 
     public final static String STATUS_ACTIVITY_NEW = "NUEVA";
+    public final static String STATUS_ACTIVITY_PRE_NEW = "PRE_NUEVA";
     public final static String STATUS_ACTIVITY_MODIFIED = "MODIFICADA";
+    public final static String STATUS_ACTIVITY_PRE_MODIFIED = "PRE_MODIFICADA";
     public final static String STATUS_ACTIVITY_DONE = "REALIZADA";
     public final static String STATUS_ACTIVITY_FAILED = "NO REALIZADA";
     public final static String STATUS_ACTIVITY_DELETED = "ELIMINADA";
+    public final static String STATUS_ACTIVITY_PRE_DELETED = "PRE_ELIMINADA";
+
+    public final static List<String> LST_STATUS_ACTIVITY_END =
+            new ArrayList<String>(){{add(STATUS_ACTIVITY_DELETED);add(STATUS_ACTIVITY_DONE);add(STATUS_ACTIVITY_FAILED);add(STATUS_ACTIVITY_PRE_DELETED);}};
+
+    public final static List<String> LST_STATUS_ACTIVITY_PRE_AUTH =
+            new ArrayList<String>(){{add(STATUS_ACTIVITY_PRE_NEW);add(STATUS_ACTIVITY_PRE_MODIFIED);add(STATUS_ACTIVITY_PRE_DELETED);}};
 
     public final static String TYPE_COMMENT_AUTHORIZED = "AUTORIZAR";
     public final static String TYPE_COMMENT_LOG_ACCOMPLISHMENT = "REPORTE INCUMPLIMIENTO";
@@ -43,4 +52,7 @@ public class MonitoringConstants {
     public static final String LOG_ACCOMPLISHMENT_AUTHORIZED = "AUTORIZAR REPORTE INCUMPLIMIENTO";
     public static final String LOG_ACCOMPLISHMENT_REJECTED = "RECHAZADO REPORTE INCUMPLIMIENTO";
 
+    public static final String LOG_MSG_INFO_PENDING_AUTHORIZATION = "En espera de la autorización del plan de seguimiento";
+    public static final String LOG_MSG_INFO_PENDING_ACTIVITY_AUTHORIZATION =
+            "Se crearon, modificaron o eliminaron actividades del plan de seguimiento, se espera autorización. Si no autoriza se suspenderá el plan.";
 }

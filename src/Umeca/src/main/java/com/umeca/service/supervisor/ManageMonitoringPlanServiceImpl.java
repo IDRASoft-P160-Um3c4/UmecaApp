@@ -14,6 +14,7 @@ import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.LogChangeDataRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
+import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,9 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     @Autowired
     LogChangeDataRepository logChangeDataRepository;
 
+    @Autowired
+    LogCommentRepository logCommentRepository;
+
     @Override
     @Transactional
     public boolean preAuthorize(Long monPlanId, User user, ResponseMessage message) {
@@ -44,14 +48,14 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
             return false;
 
         MonitoringPlan monPlan = monPlanRepository.findOne(monPlanId);
-
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
         monPlan.setStatus(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
         monPlan.setGenerator(user);
         monPlan.setGenerationTime(Calendar.getInstance());
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
 
-
+        SharedLogCommentService.generateLogComment(MonitoringConstants.LOG_MSG_INFO_PENDING_AUTHORIZATION, user, monPlan.getCaseDetention(),
+                monPlan.getStatus(), null, MonitoringConstants.TYPE_COMMENT_AUTHORIZED, logCommentRepository);
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlanId));
         monPlanRepository.save(monPlan);

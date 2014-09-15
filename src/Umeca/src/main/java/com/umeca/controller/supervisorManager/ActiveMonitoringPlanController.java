@@ -10,15 +10,14 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
-import com.umeca.model.entities.supervisor.MonitoringPlan;
-import com.umeca.model.entities.supervisor.MonitoringPlanInfo;
-import com.umeca.model.entities.supervisor.MonitoringPlanView;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.entities.supervisorManager.ChangeSupervisor;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -82,6 +81,7 @@ public class ActiveMonitoringPlanController {
                     add(r.get("status"));
                     add(r.join("supervisor").get("username"));
                     add(r.get("statusLog"));
+                    add(r.get("posAuthorizationChangeTime"));
                 }};
             }
 
@@ -339,4 +339,35 @@ public class ActiveMonitoringPlanController {
         }
         return response;
     }
+
+    @Autowired
+    private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
+
+    @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/authRejActMonPlan", method = RequestMethod.POST)
+    public ModelAndView authRejActMonPlan(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/supervisorManager/activeMonitoringPlan/authRejActMonPlan");
+
+        try {
+            MonitoringPlanInfo monPlan = monitoringPlanRepository.getInfoById(id);
+
+            model.addObject("caseId", monPlan.getIdCase());
+            model.addObject("mpId", monPlan.getIdMP());
+            model.addObject("fullName", monPlan.getPersonName());
+            model.addObject("status", monPlan.getMonStatus());
+
+            List<ActivityMonitoringPlanNotice> lstActivities = activityMonitoringPlanRepository.getAllActivitiesByMonPlanIdInStatus(id,
+                    new ArrayList<String>(){{add(MonitoringConstants.STATUS_ACTIVITY_PRE_NEW);
+                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED);add(MonitoringConstants.STATUS_ACTIVITY_PRE_DELETED); }});
+
+            Gson gson = new Gson();
+            String sLstGeneric = gson.toJson(lstActivities);
+            model.addObject("lstActivities", sLstGeneric);
+
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "authRejActMonPlan", sharedUserService);
+            return null;
+        }
+    }
+
 }
