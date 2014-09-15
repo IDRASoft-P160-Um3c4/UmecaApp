@@ -258,6 +258,18 @@ div.blocker {
     color: orangered;
 }
 
+.label-pre-new{
+    background-color: rgb(6, 171, 255) !important;
+}
+
+.label-pre-update{
+    background-color: rgb(137, 101, 255) !important;
+}
+
+.label-pre-delete{
+    background-color: rgb(255, 110, 4) !important;
+}
+
 i.link-image {
     cursor: pointer;
 }
@@ -318,6 +330,12 @@ i.link-image {
 .info-example{
     font-style: italic;
     color: #7d8893;
+    font-size: x-small;
+}
+
+.info-note{
+    font-style: normal;
+    color: #002a80;
     font-size: x-small;
 }
 

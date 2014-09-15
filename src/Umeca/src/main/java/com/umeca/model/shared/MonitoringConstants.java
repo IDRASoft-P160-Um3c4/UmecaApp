@@ -1,5 +1,8 @@
 package com.umeca.model.shared;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Project: Umeca
  * User: Israel
@@ -17,6 +20,8 @@ public class MonitoringConstants {
     public final static String STATUS_REJECTED_END ="RECHAZADO TERMINAR";
     public final static String STATUS_END ="TERMINADO";
 
+    public final static List<String> LST_STATUS_AUTHORIZE_READY =
+            new ArrayList<String>(){{add(STATUS_AUTHORIZED);add(STATUS_MONITORING);add(STATUS_REJECTED_END);}};
 
     public final static String STATUS_ACTIVITY_NEW = "NUEVA";
     public final static String STATUS_ACTIVITY_MODIFIED = "MODIFICADA";

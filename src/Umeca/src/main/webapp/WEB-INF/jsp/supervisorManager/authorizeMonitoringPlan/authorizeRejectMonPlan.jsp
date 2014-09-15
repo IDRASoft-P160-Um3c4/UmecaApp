@@ -110,7 +110,8 @@
                                                     </div>
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">
-                                                            <input id="password" type="password" name="password" ng-model="m.password" class="form-control" rows="8"></textarea>
+                                                            <input id="password" type="password" name="password" ng-model="m.password" ng-enter-key for-element-id="btn-def-ck"
+                                                                   class="form-control" rows="8"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -133,7 +134,7 @@
                 </div>
                 <div class="modal-footer" id="btn-act-footer">
                     <button class="btn btn-default btn-sm" ng-click="cancel()">Cancelar</button>
-                        <button class="btn btn-default btn-primary btn-sm" ng-show = "m.password && m.comments"
+                        <button class="btn btn-default btn-primary btn-sm" id="btn-def-ck" ng-show = "m.password && m.comments"
                               ng-click="submit('#FormCatId', '<c:url value='${urlToGo}' />')">
                               Aceptar
                         </button>

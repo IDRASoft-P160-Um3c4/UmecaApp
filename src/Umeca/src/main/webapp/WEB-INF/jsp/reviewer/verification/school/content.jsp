@@ -1,4 +1,27 @@
 <div ng-controller="schoolController">
+<div class="row"  ng-show="readOnly == false">
+    <div class="col-xs-12">
+
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <b>  Establecer toda la informaci&oacute;n de Historia Escolar
+             con:</b>
+    </div>
+    <div class="col-xs-10 col-xs-offset-1 text-info"  style="padding-top: 8px;">
+        <i class="purple glyphicon glyphicon-user bigger-160"
+           ng-click="showChoicesSection(6,undefined,1,'Historia escolar')"  style="cursor: pointer;"></i>
+        &nbsp;&nbsp;&nbsp;Informaci&oacute;n que proporcion&oacute; el imputado.
+    </div>
+    <div class="col-xs-10 col-xs-offset-1 text-info" style="padding-top: 8px;">
+        <i class="blue icon-question-sign  icon-only bigger-160" style="cursor: pointer;"
+           ng-click="showChoicesSection(6,undefined,-1,'Historia escolar')"></i>
+        &nbsp;&nbsp;&nbsp;No se pudo verificar
+    </div>
+</div>
+<div class="row"  ng-show="readOnly == false">
+    <div col-xs-12>
+        <div class="hr hr-8"></div>
+    </div>
+</div>
     <div class="row">
         <div class="col-xs-12">
             <div class="col-xs-2 element-left">
@@ -39,8 +62,8 @@
                 Tel&eacute;fono:
             </div>
             <div class="col-xs-6"><input class="form-control" data-val="true"
-                                         data-val-length="Debe tener al menos 8 y m&aacute;ximo 25 caracteres"
-                                         data-val-length-max="25" data-val-length-min="8"
+                                         data-val-length="Debe tener al menos 5 y m&aacute;ximo 30 caracteres"
+                                         data-val-length-max="30" data-val-length-min="5"
                                          data-val-required="El tel&eacute;fono es un campo requerido" type="text" value=""
                                          ng-model="school.phone" id="school.phone" name="school.phone"
                                          ng-init='school.phone = "${(m.school.phone == null) ? '' : m.school.phone}"'>

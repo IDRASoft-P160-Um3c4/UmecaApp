@@ -96,6 +96,16 @@ public class ActivityMonitoringPlan {
     @Column(name = "comments", nullable = true)
     private String comments;
 
+    @Column(name = "group_evt", length = 50, nullable = false)
+    private String group;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "act_mon_plan_to_replace_id", nullable = true)
+    private ActivityMonitoringPlan actMonPlanToReplace;
+
+    @Column(name = "is_pre_authorize_mode", nullable = true)
+    private Boolean isPreAuthorizeMode;
+
     public Long getId() {
         return id;
     }
@@ -262,5 +272,29 @@ public class ActivityMonitoringPlan {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public ActivityMonitoringPlan getActMonPlanToReplace() {
+        return actMonPlanToReplace;
+    }
+
+    public void setActMonPlanToReplace(ActivityMonitoringPlan actMonPlanToReplace) {
+        this.actMonPlanToReplace = actMonPlanToReplace;
+    }
+
+    public Boolean isPreAuthorizeMode() {
+        return isPreAuthorizeMode;
+    }
+
+    public void setPreAuthorizeMode(Boolean preAuthorizeMode) {
+        isPreAuthorizeMode = preAuthorizeMode;
     }
 }

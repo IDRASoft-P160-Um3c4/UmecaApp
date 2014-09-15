@@ -4,7 +4,7 @@
     <input type="hidden" ng-update-hidden ng-model="coDependantString" name='listCoDefendant'>
     <div class="col-xs-12   ">
 
-        <div class="row">
+        <div class="row" ng-show="managereval == false">
     <div class="col-xs-7 element-center">
        Nombre Completo<br/>
         <input type="text" class="form-control" ng-model="c.fullName"/>
@@ -22,7 +22,7 @@
     </div>
     </div>
 
-        <div class="row" >
+        <div class="row" ng-show="managereval == false" >
         <div class="hr hr-6"></div>
         </div>
         <div ng-show="msgError" class="alert alert-danger element-center error-font">
@@ -50,7 +50,7 @@
                 <div class="col-xs-3">
                     {{c.relationship.name}}
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-3" ng-show="managereval == false">
                     <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteCoDependant($index)"></i>
                 </div>
             </div>

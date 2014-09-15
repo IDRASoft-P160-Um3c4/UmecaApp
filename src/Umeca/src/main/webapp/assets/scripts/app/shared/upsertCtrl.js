@@ -155,4 +155,8 @@
             $scope.Model.reason= opc.reason;
         }
     }
+
+    $scope.aleert = function(k){
+        alert(k);
+    }
 });

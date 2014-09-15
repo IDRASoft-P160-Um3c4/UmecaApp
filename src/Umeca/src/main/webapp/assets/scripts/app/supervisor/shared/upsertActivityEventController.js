@@ -52,7 +52,11 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         $scope.m.lstArrangements = {};
         $scope.m.chkBusinessWeek = false;
         $scope.m.chkWeek = false;
-
+        $scope.lstPeriodicity = [{id:1, name:'Semana'}, {id:2, name:'Quincena'}, {id:3, name:'Mes'}, {id:4, name:'Bimestre'}, {id:5, name:'Semestre'}];
+        $scope.m.periodicity = $scope.lstPeriodicity[0];
+        $scope.m.periodicityId = $scope.m.periodicity.id;
+        $scope.m.daysOfMonth = [];
+        for(i=0; i<31; i++){$scope.m.daysOfMonth.push(false);}
 
         if(params.isNew === false){
             $scope.fillFields(params.event);
@@ -170,16 +174,49 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         dateStepEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
 
         var iCount = 0;
-        while(dateStepInit < d.dateEnd){
+        var hasEvent, stepMonth, itMonth, isNextBusinessDay = false, group = window.generateUuid();
 
-            if($scope.m.daysOfWeek[dateStepInit.getDay()] === true){
+        if($scope.m.periodicityId > 2){
+            switch ($scope.m.periodicityId){
+                case 4:
+                    stepMonth = 2;
+                    break;
+                case 5:
+                    stepMonth = 6;
+                    break;
+                default:
+                    stepMonth = 1;
+                    break;
+            }
+        }
 
-                if(dateStepInit < today)
-                {
-                    $scope.msgError = "No es posible añadir actividades antes de la fecha actual";
-                    return false;
+        itMonth = 0;
+
+        while(dateStepInit < d.dateEnd || isNextBusinessDay ){
+            hasEvent = false;
+            if($scope.m.periodicityId < 3){
+                if($scope.m.daysOfWeek[dateStepInit.getDay()] === true){
+                    hasEvent = true;
                 }
+            }else{
+                if( isNextBusinessDay || ((itMonth%stepMonth === 0) && $scope.m.daysOfMonth[dateStepInit.getDate()-1] === true)){
+                    isNextBusinessDay = false;
+                    if($scope.m.sundayNoBusiness === true && dateStepInit.getDay() === 0){
+                        isNextBusinessDay = true;
+                    }
+                    else{
+                        hasEvent = true;
+                    }
+                }
+            }
 
+            if(hasEvent === true && dateStepInit < today)
+            {
+                $scope.msgError = "No es posible añadir actividades antes de la fecha actual";
+                return false;
+            }
+
+            if(hasEvent){
                 var eventAct = {
                     title: "",
                     doTitle: function(isModified){
@@ -192,14 +229,15 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                     end: dateStepEnd,
                     allDay: false,
                     isModified: true,
-                    className: 'label-info',
+                    className: ($scope.cfg.caseInfo.isInAuthorizeReady ? 'label-pre-new' : 'label-info'),
                     infoActivity:{
                         lstArrangements: $scope.m.lstArrangements,
                         activity: $scope.m.activity,
                         goal: $scope.m.goal,
                         source: $scope.m.source,
                         caseInfo: $scope.cfg.caseInfo
-                    }
+                    },
+                    groupEvt: group
                 };
 
                 eventAct.doTitle(true);
@@ -211,10 +249,15 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                 }
             }
 
+            var oldMonth = dateStepInit.getMonth();
             dateStepInit = new Date(dateStepInit.getFullYear(), dateStepInit.getMonth(), dateStepInit.getDate() + 1);
             dateStepEnd = new Date(dateStepEnd.getFullYear(), dateStepEnd.getMonth(), dateStepEnd.getDate() + 1);
             dateStepInit.setHours(d.timeInit.hours, d.timeInit.minutes, 0, 0);
             dateStepEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
+            var newMonth = dateStepInit.getMonth();
+
+            if(oldMonth !== newMonth)
+                itMonth++;
         }
 
         if(iCount === 0){
@@ -258,6 +301,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         $scope.m.event.start = dateInit;
         $scope.m.event.end = dateEnd;
         $scope.m.event.isModified = true;
+        $scope.m.event.className = $scope.cfg.caseInfo.isInAuthorizeReady ? 'label-pre-update' : 'label-info';
 
         $scope.m.event.infoActivity = {
             lstArrangements: $scope.m.lstArrangements,
@@ -276,10 +320,15 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
 
     $scope.delete = function(){
         $scope.IsOk = true;
-        $scope.option = "REMOVE";
+        $scope.option = ($scope.cfg.caseInfo.isInAuthorizeReady ? "PRE_REMOVE" : "REMOVE");
         $scope.hideMsg();
     };
 
+    $scope.deleteGroup = function(){
+        $scope.IsOk = true;
+        $scope.option = ($scope.cfg.caseInfo.isInAuthorizeReady ? "PRE_REMOVE_GROUP" : "REMOVE_GROUP");
+        $scope.hideMsg();
+    };
 
     $scope.cancel = function () {
         $scope.IsOk = false;
@@ -312,5 +361,28 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         $scope.m.daysOfWeek = [false, false, false, false, false, false, false];
     };
 
+    $scope.range = function(first, last, step){
+        if(step === undefined) step = 1;
+        var out = [];
+        for(i=first; i<last; i+=step){
+            out.push(i);
+        }
+        return out;
+    }
+
+    $scope.onAllDays = function(){
+        if($scope.m.chkAllDays){
+            for(i=0; i<$scope.m.daysOfMonth.length; i++){
+                $scope.m.daysOfMonth[i] = true;
+            }
+        }
+        else{
+            for(i=0; i<$scope.m.daysOfMonth.length; i++){
+                $scope.m.daysOfMonth[i] = false;
+            }
+        }
+    }
+
     $scope.clearDaysOfWeek();
+
 });

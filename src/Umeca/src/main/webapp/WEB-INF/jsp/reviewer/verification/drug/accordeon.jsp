@@ -16,6 +16,28 @@
 
                 <div class="panel-collapse collapse in" id="collapseDrug{{$index}}">
                     <div class="panel-body" ng-controller="drugController">
+                        <div class="row"  ng-show="readOnly == false">
+                            <div class="col-xs-12">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <b>  Establecer toda la informaci&oacute;n de el consumo de sustancias
+                                    {{$index+1}} con:</b>
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-1 text-info"  style="padding-top: 8px;">
+                                <i class="purple glyphicon glyphicon-user bigger-160"
+                                   ng-click="showChoicesSection(7,d.id,1,'Sustancia',$index+1)"  style="cursor: pointer;"></i>
+                                &nbsp;&nbsp;&nbsp;Informaci&oacute;n que proporcion&oacute; el imputado.
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-1 text-info" style="padding-top: 8px;">
+                                <i class="blue icon-question-sign  icon-only bigger-160" style="cursor: pointer;"
+                                   ng-click="showChoicesSection(7,d.id,-1,'Sustancia',$index+1)"></i>
+                                &nbsp;&nbsp;&nbsp;No se pudo verificar
+                            </div>
+                        </div>
+                        <div class="row"  ng-show="readOnly == false">
+                            <div col-xs-12>
+                                <div class="hr hr-8"></div>
+                            </div>
+                        </div>
                         <%@ include file="/WEB-INF/jsp/reviewer/verification/drug/content.jsp" %>
                     </div>
                 </div>

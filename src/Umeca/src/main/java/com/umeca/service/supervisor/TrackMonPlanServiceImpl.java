@@ -231,6 +231,14 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         logCommentRepository.save(commentModel);
     }
 
+    @Override
+    public void setLstActivitiesSupervision(ModelAndView model) {
+        Gson gson = new Gson();
+        List<SelectList> lstGeneric = supervisionActivityRepository.findAllValidSl();
+        lstGeneric.add(0, new SelectList(0l, "--Todas las actividades--"));
+        String sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstActivities", sLstGeneric);
+    }
 
     @Override
     @Transactional

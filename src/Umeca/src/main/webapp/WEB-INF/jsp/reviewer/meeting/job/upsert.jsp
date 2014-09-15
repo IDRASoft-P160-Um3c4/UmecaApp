@@ -23,7 +23,7 @@
                         <div class="row">
                             <div class="col-xs-12 element-center" ng-init="blockJ=${j.block == null ? true: j.block};">
                                 <div class="col-xs-6 element-right">
-                                  ¿El imputado trabaja actualmente?
+                                  &iquest;El imputado trabaja actualmente?
                                 </div>
                                 <div class="col-xs-2">
                                     <input type="radio"  name="block"

@@ -30,7 +30,7 @@
                             </div>
                             <div class="col-xs-7">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
+                                       data-val-length="Debe tener al menos 3 y mï¿½ximo 50 caracteres"
                                        data-val-required="El nombre es un campo requerido"
                                        data-val-length-max="50" data-val-length-min="3" ng-init="name=''"
                                        id="name" name="name" ng-model="name"
@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-xs-7">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y máximo 50 caracteres"
+                                       data-val-length="Debe tener al menos 3 y mï¿½ximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3"
                                        data-val-required="El apellido parterno es un campo requerido" ng-init="lastNameM=''"
                                        id="lastNameM" name="lastNameM"
@@ -130,9 +130,9 @@
                                Carpeta de investigaci&oacute;n:
                             </div>
                             <div class="col-xs-7">
-                                    <input class="form-control" type="text"    data-val-length="Debe tener al menos 1 y máximo 15 caracteres"
+                                    <input class="form-control" type="text"    data-val-length="Debe tener al menos 1 y m&aacute;ximo 15 caracteres"
                                            data-val-length-max="15" data-val-length-min="1"
-                                            data-val="true" data-val-required="La carpeta de investigación es un campo requerido" ng-init="m.idFolder=''"
+                                            data-val="true" data-val-required="La carpeta de investigaci&oacute;n es un campo requerido" ng-init="m.idFolder=''"
                                             id="meeting.caseDetention.idFolder" name="meeting.caseDetention.idFolder" ng-model="m.idFolder"/>
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
@@ -146,11 +146,19 @@
                                    La carpeta de investigaci&oacute;n no podr&aacute; ser modificada durante la entrevista.
                             </div>
                         </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-xs-12 element-center">
+                                <input type="checkbox" ng-model="m.isAccepted" id="isAccepted"
+                                       ng-init="m.isAccepted= false">
+                                <label class="info-note" for="isAccepted">&iquest;El imputado acepta que se realice la entrevista de riesgos procesales?</label>
+                            </div>
+                        </div>
                     </form>
                     <br />
-                    <div class="row">
+                    <div class="row"  ng-show="MsgError">
                         <div class="col-xs-12">
-                            <div ng-show="MsgError" class="alert alert-danger element-center"  ng-bind-html="MsgError">
+                            <div class="alert alert-danger element-center"  ng-bind-html="MsgError">
                                 <%--{{MsgError}}--%>
                             </div>
                         </div>
@@ -160,7 +168,7 @@
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true || m.isAccepted == false"
                           ng-click="submitRedirect('#FormCatId','<c:url value="/reviewer/meeting/doNewMeeting.json"/>');">
                           Continuar
                     </span>

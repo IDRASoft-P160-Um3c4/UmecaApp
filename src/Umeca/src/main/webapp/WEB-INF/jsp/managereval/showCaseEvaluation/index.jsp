@@ -39,7 +39,8 @@
         window.showVerification = function (id) {
             var params = [];
             params["idParam"] = id;
-            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/choiceInformation.html?idCase=idParam'/>", params);
+            params["readParam"] = 1;
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/choiceInformation.html?idCase=idParam&&read=readParam'/>", params);
 
         };
 

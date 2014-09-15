@@ -19,6 +19,7 @@ public class ActivityMonitoringPlanDto {
     private Long goalId;
     private Long sourceId;
     private List<Long> lstArrangements;
+    private String group;
 
     public Long getActivityId() {
         return activityId;
@@ -119,6 +120,14 @@ public class ActivityMonitoringPlanDto {
         this.lstArrangements = lstArrangements;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
     public static List<ActivityMonitoringPlanDto> convertToDtos(List<ActivityMonitoringPlan> lstActivities) {
         List<ActivityMonitoringPlanDto> lstDtos = new ArrayList<>();
 
@@ -143,6 +152,7 @@ public class ActivityMonitoringPlanDto {
             Long caseId = actMonPlan.getCaseDetention().getId();
             dto.setCaseId(caseId);
             dto.setMonitoringPlanId(actMonPlan.getMonitoringPlan().getId());
+            dto.setGroup(actMonPlan.getGroup());
 
             lstDtos.add(dto);
         }

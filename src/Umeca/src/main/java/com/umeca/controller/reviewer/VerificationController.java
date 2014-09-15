@@ -257,13 +257,18 @@ public class VerificationController {
     }
 
     @RequestMapping(value = "/reviewer/verification/choiceInformation", method = RequestMethod.GET)
-    public ModelAndView choiceInformation(@RequestParam(required = true) Long idCase){
-        return verificationService.showChoiceInformation(idCase);
+    public ModelAndView choiceInformation(@RequestParam(required = true) Long idCase, Integer read){
+        return verificationService.showChoiceInformation(idCase, read);
     }
 
     @RequestMapping(value = "/reviewer/verification/showChoices", method = RequestMethod.POST)
     public ModelAndView showChoice(@RequestParam(required = true) Long idCase,@RequestParam(required = true) String id,@RequestParam(required = false) Long idList){
         return verificationService.showChoices(idCase,id,idList);
+    }
+
+    @RequestMapping(value = "/reviewer/verification/showChoicesBySection", method = RequestMethod.POST)
+    public ResponseMessage showChoiceBySection(@RequestParam(required = true) Long idCase,@RequestParam(required = true) Integer id,@RequestParam(required = false) Long idList, Long idSource, @RequestParam String comment){
+        return verificationService.verifChoicesBySection(idCase,id,idList, idSource,comment);
     }
 
     @RequestMapping(value = "reviewer/verification/saveScheduleVerification", method = RequestMethod.POST)
@@ -288,6 +293,7 @@ public class VerificationController {
     public ResponseMessage terminateVerification(@RequestParam(required = true) Long idCase){
         return verificationService.terminateVerification(idCase);
     }
+
 
     @RequestMapping(value = "reviewer/verification/addSource/doUpsert", method = RequestMethod.POST)
     public ResponseMessage doUpsertSources(@RequestParam(required = true) Long idCase, @ModelAttribute SourceVerification sv){

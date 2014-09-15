@@ -103,6 +103,7 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
                         if(event !== undefined && event.length > 0){
                             var fstEvent = event[0];
                             fstEvent.idActivity = eventInfo.activityMonitoringPlanId;
+                            fstEvent.groupEvt = eventInfo.group;
                             fstEvent.doTitle(false);
                             fstEvent.isModified = false;
                             $scope.m.calendar.fullCalendar('updateEvent', event);

@@ -26,10 +26,11 @@
                                     </div>
                                             <table class=" widget-body table table-striped table-bordered table-hover" ng-init='listChoice = ${listChoice};'>
                                                 <tbody>
-                                                    <tr ng-repeat ="opc in listChoice">
-                                                        <td style="width: 20px;">
+                                                    <tr ng-repeat ="opc in listChoice" >
+                                                        <td style="width: 20px;" >
                                                             <input class="" type="radio"  ng-value="opc.id" ng-init="setReason(opc)"
-                                                                     name="idFieldMeeting" ng-disabled="opc.status=='NOT_FOUND'||opc.status=='DONT_KNOW'||managereval" ng-checked="opc.isFinal == true">
+                                                                     name="idFieldMeeting" ng-disabled="opc.status=='NOT_FOUND'||opc.status=='DONT_KNOW'||managereval"
+                                                                     ng-checked="opc.isFinal == true">
                                                         </td>
                                                         <td style="width: 15px;">
                                                             <i class="icon-ok green  icon-only bigger-120" ng-show="opc.status == 'EQUALS' "></i>

@@ -56,6 +56,10 @@
         color: #555 !important;;
     }
 
+    .width-100{
+        max-width: none !important;
+        width: 100% !important;
+    }
 </style>
     <script>
         window.cancelMeetingSource = function(){
@@ -287,6 +291,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <div class="row" ng-show="managereval == false">
             <div class="modal-footer">

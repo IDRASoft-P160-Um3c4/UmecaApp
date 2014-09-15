@@ -34,7 +34,7 @@ public class PersonSocialNetwork{
     @Column(name="age", nullable = false)
     private Integer age;
 
-    @Column(name="phone", nullable = false, length = 20)
+    @Column(name="phone", nullable = false, length = 200)
     private String phone;
 
     @Column(name="address", nullable = true, length = 500)

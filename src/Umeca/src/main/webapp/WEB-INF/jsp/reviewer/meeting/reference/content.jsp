@@ -26,7 +26,7 @@
             Nombre:
         </div>
         <div class="col-xs-10">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
+            <input class="width-100" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
                     data-val-length-max="150" data-val-length-min="3" data-val-required="El nombre es un campo requerido" id="fullName"
                    type="text" value="${r.fullName}" ng-model="r.fullName" ng-init='r.fullName="${(r.fullName)==null ? '' : r.fullName}";' name="fullName">
         </div>
@@ -54,14 +54,14 @@
             <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
         </div>
     </div>
-    <div class="col-xs-5">
+    <div class="col-xs-6">
         <div class="col-xs-4 element-left">
-            Tel&eacute;fono:
+            Tel&eacute;fono(s):
         </div>
-        <div class="col-xs-7">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 20 caracteres"
-                   data-val-length-max="20" data-val-length-min="5" data-val-required="El tel&eacute;fono es un campo requerido" id="phone"
-                   type="text" value="${r.phone}" ng-model="r.phone" ng-init='r.phone="${(r.phone == null) ? '' : r.phone}"' name="phone">
+        <div class="col-xs-8">
+            <textarea class="width-100" data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+                   data-val-length-max="200" data-val-length-min="5" data-val-required="El tel&eacute;fono es un campo requerido" id="phone"
+                   type="text" value="${r.phone}" ng-model="r.phone" ng-init='r.phone="${(r.phone == null) ? '' : r.phone}"' name="phone"></textarea>
         </div>
         <div class="col-xs-9 col-xs-offset-3">
             <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
@@ -72,7 +72,7 @@
 <div class="row">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
-            Identificación prensentada:
+            Identificaci&oacute;n prensentada:
         </div>
         <div class="col-xs-8">
             <select class="form-control element-center" ng-model="r.doc"
@@ -84,11 +84,11 @@
             <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
         </div>
     </div>
-    <div class="col-xs-5">
+    <div class="col-xs-6">
         <div class="col-xs-4 element-left">
             Edad:
         </div>
-        <div class="col-xs-7">
+        <div class="col-xs-8">
             <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1y m&aacute;ximo 2 caracteres"
                    data-val-length-max="2" data-val-length-min="1" data-val-required="La edad es un campo requerido"
                    data-val-regex-pattern="([0-9]+)" data-val-regex="La edad s&oacute;lo puede contener n&uacute;meros"

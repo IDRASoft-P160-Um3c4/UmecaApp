@@ -153,14 +153,14 @@ public class VerificationServiceImpl implements VerificationService {
     @Autowired
     CountryRepository countryRepository;
 
-    private void userConfigToView(ModelAndView model){
+    private void userConfigToView(ModelAndView model) {
 
         Long userId = userService.GetLoggedUserId();
         User u = userRepository.findOne(userId);
         Boolean band = false;
-        if(u.getRoles().get(0).getRole().equals(Constants.ROLE_EVALUATION_MANAGER))
+        if (u.getRoles().get(0).getRole().equals(Constants.ROLE_EVALUATION_MANAGER))
             band = true;
-        model.addObject("managereval",band);
+        model.addObject("managereval", band);
     }
 
     @Override
@@ -170,15 +170,15 @@ public class VerificationServiceImpl implements VerificationService {
         setImputedData(idCase, model);
         Gson gson = new Gson();
         fillMeeting(model, idCase);
-        if(idSource != null){
+        if (idSource != null) {
             SourceVerification sv = sourceVerificationRepository.findOne(idSource);
             model.addObject("idSource", idSource);
             model.addObject("source", gson.toJson(new SourceVerificationDto().dtoSourceVerification(sv)));
             userConfigToView(model);
-        }else{
+        } else {
             model.addObject("idSource", 0);
             model.addObject("source", gson.toJson(new SourceVerificationDto().dtoSourceVerification(new SourceVerification())));
-            model.addObject("managereval",true);
+            model.addObject("managereval", true);
         }
 
 
@@ -186,21 +186,80 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
+    @Transactional
+    public ResponseMessage verifChoicesBySection(Long idCase, Integer idSection, Long idList, Long idSource, String comment) {
+        try {
+            Long idImputed = sourceVerificationRepository.findIdSourceImputed(idCase);
+            List<FieldMeetingSource> fmsList;
+            List<String> sListImputed = new ArrayList<>();
+            String status = (idSource.equals(-1L)) ? Constants.ST_FIELD_VERIF_UNABLE : Constants.ST_FIELD_VERIF_IMPUTED;
+            if (idList != null)
+                fmsList = fieldMeetingSourceRepository.getGroupFieldMeetingByIdCaseWhitIdList(idCase, idSection, idList);
+            else
+                fmsList = fieldMeetingSourceRepository.getGroupFieldMeetingByIdCase(idCase, idSection);
+            for (FieldMeetingSource fms : fmsList) {
+                if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_IMPUTED) && status.equals(Constants.ST_FIELD_VERIF_UNABLE)) {
+                    sListImputed.add(fms.getFieldVerification().getCode());
+                }
+                Boolean result = fms.getStatusFieldVerification().getName().equals(status) && fms.getSourceVerification().getId().equals(idImputed);
+                fms.setFinal(result);
+                if(result){
+                    fms.setReason(comment);
+                }
+            }
+            if (status.equals(Constants.ST_FIELD_VERIF_UNABLE)) {
+                for (FieldMeetingSource fms : fmsList) {
+                    if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
+                        Integer index = sListImputed.indexOf(fms.getFieldVerification().getCode());
+                        if (index >= 0) {
+                            sListImputed.remove(index);
+                        }
+                    }
+                }
+                if(sListImputed.size()>0){
+                    List<FieldMeetingSource>  addNew= new ArrayList<>();
+                   for(FieldMeetingSource fms : fmsList){
+                       if(sListImputed.contains(fms.getFieldVerification().getCode())){
+                           FieldMeetingSource fmsAux = new FieldMeetingSource();
+                           fmsAux.setFieldVerification(fms.getFieldVerification());
+                           fmsAux.setFinal(true);
+                           fmsAux.setValue(fms.getValue());
+                           fmsAux.setJsonValue(fms.getJsonValue());
+                           fmsAux.setSourceVerification(fms.getSourceVerification());
+                           fmsAux.setStatusFieldVerification(statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_UNABLE));
+                           fmsAux.setIdFieldList(fms.getIdFieldList());
+                           fmsAux.setReason(comment);
+                           addNew.add(fmsAux);
+                       }
+
+                   }
+                    fmsList.addAll(addNew);
+                }
+            }
+            fieldMeetingSourceRepository.save(fmsList);
+            return new ResponseMessage(false, "Se  ah guardado la i nformacion con exito");
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "showChoicesBySection", userService);
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la in formacion");
+        }
+    }
+
+    @Override
     public ModelAndView showChoices(Long idCase, String code, Long idList) {
         ModelAndView model = new ModelAndView("/reviewer/verification/showChoices");
         model.addObject("idCase", idCase);
-        model.addObject("code", code);
         model.addObject("idList", idList);
+        model.addObject("code", code);
         List<Long> idAllSources = sourceVerificationRepository.getAllSourcesByCase(idCase);
         List<SearchToChoiceIds> idSources;
-        List<SearchToChoiceIds> idAux;
+
         if (idList == null) {
             idSources = fieldMeetingSourceRepository.getIdSourceByCode(idCase, code);
 
         } else {
             idSources = fieldMeetingSourceRepository.getIdSourceByCodeWhithIdList(idCase, code, idList);
         }
-        idAux = idSources;
+
         List<ChoiceView> list = new ArrayList<>();
         List<Long> listAdded = new ArrayList<>();
         Boolean addUnable = true;
@@ -265,7 +324,9 @@ public class VerificationServiceImpl implements VerificationService {
             for (FieldMeetingSource f : fmsAuxSecond) {
                 f.setId(Long.valueOf(-1));
             }
-            list.add(new ChoiceView().choiceDto(fmsAuxSecond));
+            if(fmsAuxSecond.size()>0){
+                list.add(new ChoiceView().choiceDto(fmsAuxSecond));
+            }
         }
 
         Gson gson = new Gson();
@@ -302,7 +363,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(fms);
             return new ResponseMessage(false, "Se ha guardado exitosamente el registro");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveSchedule",userService);
+            logException.Write(e, this.getClass(), "saveSchedule", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la lista");
         }
     }
@@ -333,7 +394,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(fms);
             return new ResponseMessage(false, "Se ha guardado exitosamente el registro");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveAddressVerification",userService);
+            logException.Write(e, this.getClass(), "saveAddressVerification", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la lista");
         }
     }
@@ -397,7 +458,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(fmsAuxSecond);
             return new ResponseMessage(false, "Se ha guardado la selección con éxito.");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveSelectChoice",userService);
+            logException.Write(e, this.getClass(), "saveSelectChoice", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la selección");
         }
     }
@@ -417,42 +478,42 @@ public class VerificationServiceImpl implements VerificationService {
             String[] tabs = Constants.TABS_MEETING;
             String[] entities = Constants.ENTITIES_MEETING;
             String[] names = Constants.NAMES_MEETING;
-            for(int i=0;i<names.length;i++){  //0,5,7
+            for (int i = 0; i < names.length; i++) {  //0,5,7
                 List<Long> idsList = fieldMeetingSourceRepository.getIdsListOfSectionCodeOfSource((i + 1), idCase, imputed.getId());
                 List<String> r = new ArrayList<>();
                 String e = "entity";
-                String f ="field";
+                String f = "field";
                 List<Integer> subsections;
-                if(idsList.size()>0 && idsList.get(0)!=null){ //have list
+                if (idsList.size() > 0 && idsList.get(0) != null) { //have list
                     int index = 0;
-                    for(Long idList : idsList){
+                    for (Long idList : idsList) {
                         index++;
-                        subsections=fieldVerificationRepository.getSubsectionsBySectionCodeWithIdList(i+1,idCase,idList);
-                        for(Integer idSubsection: subsections){
+                        subsections = fieldVerificationRepository.getSubsectionsBySectionCodeWithIdList(i + 1, idCase, idList);
+                        for (Integer idSubsection : subsections) {
                             List<FieldVerification> fvs = fieldVerificationRepository.getMinFieldByIdSubsection(idSubsection);
-                            if(fvs.size()>0){
-                                List<Long> subsectionIdListList = fieldMeetingSourceRepository.getIdFieldMSFinalByCaseCodeIdList(idCase,idList,fvs.get(0).getCode());
-                                if(subsectionIdListList.size()==0){
-                                    String msg =v.templateVerification.replace(e,entities[i]+" "+index+":");
-                                    msg = msg.replace(f,fvs.get(0).getFieldName());
+                            if (fvs.size() > 0) {
+                                List<Long> subsectionIdListList = fieldMeetingSourceRepository.getIdFieldMSFinalByCaseCodeIdList(idCase, idList, fvs.get(0).getCode());
+                                if (subsectionIdListList.size() == 0) {
+                                    String msg = v.templateVerification.replace(e, entities[i] + " " + index + ":");
+                                    msg = msg.replace(f, fvs.get(0).getFieldName());
                                     r.add(msg);
                                 }
                             }
                         }
                     }
-                }else{
-                    subsections=fieldVerificationRepository.getSubsectionsBySectionCode(i+1,idCase);
-                    for(Integer idSubsection: subsections){
+                } else {
+                    subsections = fieldVerificationRepository.getSubsectionsBySectionCode(i + 1, idCase);
+                    for (Integer idSubsection : subsections) {
                         List<FieldVerification> fvs = fieldVerificationRepository.getMinFieldByIdSubsection(idSubsection);
-                        if(fvs.size()>0){
-                            List<Long> subsectionIdListList = fieldMeetingSourceRepository.getIdFieldMSFinalByCaseCode(idCase,fvs.get(0).getCode());
-                            if(subsectionIdListList.size()==0){
+                        if (fvs.size() > 0) {
+                            List<Long> subsectionIdListList = fieldMeetingSourceRepository.getIdFieldMSFinalByCaseCode(idCase, fvs.get(0).getCode());
+                            if (subsectionIdListList.size() == 0) {
                                 r.add(v.templateVerificationSingle.replace(e, fvs.get(0).getFieldName()));
                             }
                         }
                     }
                 }
-                if(r.size()>0){
+                if (r.size() > 0) {
                     v.getGroupMessage().add(new GroupMessageMeetingDto(tabs[i], r));
                 }
             }
@@ -474,7 +535,7 @@ public class VerificationServiceImpl implements VerificationService {
                 return new ResponseMessage(false, "Se ha terminado con exito la verificación");
             }
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"terminateVerification",userService);
+            logException.Write(e, this.getClass(), "terminateVerification", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al terminar la verificación");
         }
     }
@@ -498,18 +559,18 @@ public class VerificationServiceImpl implements VerificationService {
     @Transactional
     @Override
     public ResponseMessage doUpsertSources(Long idCase, SourceVerification sv) {
-        try{
-            Case c  = caseRepository.findOne(idCase);
-            if(sv.getId()== 0){
+        try {
+            Case c = caseRepository.findOne(idCase);
+            if (sv.getId() == 0) {
                 sv.setId(null);
             }
             SourceVerification sourceVerification = new SourceVerification();
             sourceVerification.setId(sv.getId());
             sourceVerification.setFullName(sv.getFullName());
             sourceVerification.setAge(sv.getAge());
-            if(sv.getRelationship().getId()!=null){
+            if (sv.getRelationship().getId() != null) {
                 Relationship r = relationshipRepository.findOne(sv.getRelationship().getId());
-               sourceVerification.setRelationship(r);
+                sourceVerification.setRelationship(r);
             }
             sourceVerification.setAddress(sv.getAddress());
             sourceVerification.setPhone(sv.getPhone());
@@ -518,15 +579,15 @@ public class VerificationServiceImpl implements VerificationService {
             sourceVerification.setVerification(c.getVerification());
             sourceVerificationRepository.save(sourceVerification);
             return new ResponseMessage(false, "Se ha guardado la fuente exitosamente");
-        }catch (Exception e){
-            logException.Write(e,this.getClass(),"doUpsertSources",userService);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "doUpsertSources", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar");
         }
     }
 
     @Override
     public ResponseMessage terminateAddSource(Long idCase) {
-        if(!caseService.validateStatus(idCase,Constants.CASE_STATUS_VERIFICATION,Verification.class,Constants.VERIFICATION_STATUS_AUTHORIZED)){
+        if (!caseService.validateStatus(idCase, Constants.CASE_STATUS_VERIFICATION, Verification.class, Constants.VERIFICATION_STATUS_AUTHORIZED)) {
             return new ResponseMessage(true, "Esta acción no se puede llevar a cabo para este caso");
         }
         Case c = caseRepository.findOne(idCase);
@@ -536,12 +597,17 @@ public class VerificationServiceImpl implements VerificationService {
         return new ResponseMessage(false, "Se ha modificado el caso exitosamente");
     }
 
+
     @Override
-    public ModelAndView showChoiceInformation(Long idCase) {
+    public ModelAndView showChoiceInformation(Long idCase, Integer read) {
         ModelAndView model = new ModelAndView("/reviewer/verification/choiceInformation");
         setImputedData(idCase, model);
         fillMeeting(model, idCase);
-        userConfigToView(model);
+        if(read!=null){
+            model.addObject("managereval", true);
+        }else{
+            userConfigToView(model);
+        }
         return model;
     }
 
@@ -700,7 +766,7 @@ public class VerificationServiceImpl implements VerificationService {
         Imputed i = c.getMeeting().getImputed();
         String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
         model.addObject("fullNameImputed", fullName);
-        model.addObject("age",userService.calculateAge(i.getBirthDate()));
+        model.addObject("age", userService.calculateAge(i.getBirthDate()));
         model.addObject("idCase", id);
     }
 
@@ -732,7 +798,7 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(listValues);
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveFieldVerifiedNotKnow",userService);
+            logException.Write(e, this.getClass(), "saveFieldVerifiedNotKnow", userService);
             return new ResponseMessage(true, "Ha ocurrido un error");
         }
     }
@@ -756,7 +822,7 @@ public class VerificationServiceImpl implements VerificationService {
             sourceVerificationRepository.flush();
             return new ResponseMessage(false, "Se ha terminado la entrevista con éxito");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"terminateMeetingSource",userService);
+            logException.Write(e, this.getClass(), "terminateMeetingSource", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al terminar la entrevista");
         }
     }
@@ -790,12 +856,12 @@ public class VerificationServiceImpl implements VerificationService {
                 return new ResponseMessage(true, "Ha ocurrido un error al crear la lista.");
             }
             fieldMeetingSourceRepository.save(result);
-            for(Long id :fmsToDelete){
+            for (Long id : fmsToDelete) {
                 fieldMeetingSourceRepository.delete(id);
             }
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveFieldVerifiedInocrrect",userService);
+            logException.Write(e, this.getClass(), "saveFieldVerifiedInocrrect", userService);
             return new ResponseMessage(true, "Ha ocurrido un error ");
         }
 
@@ -820,12 +886,12 @@ public class VerificationServiceImpl implements VerificationService {
             fieldMeetingSourceRepository.save(listValues);
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"saveFieldVerifiedEqual",userService);
+            logException.Write(e, this.getClass(), "saveFieldVerifiedEqual", userService);
             return new ResponseMessage(true, "Ha ocurrido un error");
         }
     }
 
-    private List<FieldMeetingSource>  createFieldMeetingByImputed(String code, Long idCase, Long idList, StatusFieldVerification st, Long idSource) {
+    private List<FieldMeetingSource> createFieldMeetingByImputed(String code, Long idCase, Long idList, StatusFieldVerification st, Long idSource) {
         try {
             List<FieldMeetingSource> result = new ArrayList<>();
             List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
@@ -858,7 +924,7 @@ public class VerificationServiceImpl implements VerificationService {
 
     private List<FieldMeetingSource> createFieldNotKnowByCode(String code, Long idCase, Long idList, StatusFieldVerification st, Long idSource) {
         try {
-                List<FieldMeetingSource> result = new ArrayList<>();
+            List<FieldMeetingSource> result = new ArrayList<>();
             List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
             for (Long idFv : listFieldSection) {
                 FieldMeetingSource fmsNew = new FieldMeetingSource();
@@ -899,7 +965,6 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
 
-
     @Autowired
     ValuesOfMeetingService valuesOfMeetingService;
 
@@ -907,7 +972,7 @@ public class VerificationServiceImpl implements VerificationService {
         return valuesOfMeetingService.getValueOfMeetingByCode(code, m, template);
     }
 
-    private List<FieldMeetingSource>  createFieldVerification(List<FieldVerified> list, Long idCase, Long idSource, Long idList, StatusFieldVerification st, List<Long> fmsToDelete) {
+    private List<FieldMeetingSource> createFieldVerification(List<FieldVerified> list, Long idCase, Long idSource, Long idList, StatusFieldVerification st, List<Long> fmsToDelete) {
         try {
             List<FieldMeetingSource> listFieldVerficiation = new ArrayList<>();
 //            if(list.size()>0){
@@ -920,31 +985,31 @@ public class VerificationServiceImpl implements VerificationService {
 //            }
 
             for (FieldVerified field : list) {
-                if(!field.getValue().equals("")){
-                FieldMeetingSource fms = new FieldMeetingSource();
-                Long fieldMeetingSourceId;
-                if(idList == null){
-                    fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, field.getName());
-                }else{
-                    fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, field.getName(),idList);
-                }
-                fms.setId(fieldMeetingSourceId);
-                FieldVerification fv = fieldVerificationRepository.findByCode(field.getName());
-                fms.setFieldVerification(fv);
-                fms.setSourceVerification(sourceVerificationRepository.findOne(idSource));
-                String[] vars = field.getName().split("\\.");
-                Boolean adding = setObjectNameOfCatalog(fms, vars, field.getValue(), fv);
-                fms.setFinal(false);
-                fms.setIdFieldList(idList);
-                fms.setStatusFieldVerification(st);
-                if(adding){
-                    listFieldVerficiation.add(fms);
-                }
+                if (!field.getValue().equals("")) {
+                    FieldMeetingSource fms = new FieldMeetingSource();
+                    Long fieldMeetingSourceId;
+                    if (idList == null) {
+                        fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, field.getName());
+                    } else {
+                        fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, field.getName(), idList);
+                    }
+                    fms.setId(fieldMeetingSourceId);
+                    FieldVerification fv = fieldVerificationRepository.findByCode(field.getName());
+                    fms.setFieldVerification(fv);
+                    fms.setSourceVerification(sourceVerificationRepository.findOne(idSource));
+                    String[] vars = field.getName().split("\\.");
+                    Boolean adding = setObjectNameOfCatalog(fms, vars, field.getValue(), fv);
+                    fms.setFinal(false);
+                    fms.setIdFieldList(idList);
+                    fms.setStatusFieldVerification(st);
+                    if (adding) {
+                        listFieldVerficiation.add(fms);
+                    }
 //                int result = fmsToDelete.indexOf(fieldMeetingSourceId);
 //                if(result>0){
 //                    fmsToDelete.remove(result);
 //                }
-            }
+                }
             }
             return listFieldVerficiation;
         } catch (Exception e) {
@@ -964,7 +1029,7 @@ public class VerificationServiceImpl implements VerificationService {
         if (name[name.length - 1].equals("id")) {
             idCat = Long.parseLong(value);
         }
-        CatalogDto ca=new CatalogDto();
+        CatalogDto ca = new CatalogDto();
         Gson gson = new Gson();
         switch (fv.getType()) {
             case "Country":
@@ -1056,28 +1121,29 @@ public class VerificationServiceImpl implements VerificationService {
                 fms.setJsonValue(value);
                 break;
             case "Boolean":
-                String acString = value.equals("0") ? "No": "Si";
+                String acString = value.equals("0") ? "No" : "Si";
                 fms.setValue(acString);
                 fms.setJsonValue(value);
                 break;
             case "Activity":
 
-                try{
-                    List<RelSocialEnvironmentActivity> relSE = gson.fromJson(value,new TypeToken<List<RelSocialEnvironmentActivity>>(){}.getType());
+                try {
+                    List<RelSocialEnvironmentActivity> relSE = gson.fromJson(value, new TypeToken<List<RelSocialEnvironmentActivity>>() {
+                    }.getType());
                     fms.setJsonValue(value);
                     String val = "";
                     if (relSE != null) {
                         for (RelSocialEnvironmentActivity re : relSE) {
                             val = val + activityRepository.findOne(re.getActivity().getId()).getName();
-                            if(re.getSpecification()!=null && !re.getSpecification().equals("")){
-                                val = val + ": "+re.getSpecification() +"; ";
-                            }else{
-                                val= val +"; ";
+                            if (re.getSpecification() != null && !re.getSpecification().equals("")) {
+                                val = val + ": " + re.getSpecification() + "; ";
+                            } else {
+                                val = val + "; ";
                             }
                         }
                     }
                     fms.setValue(val);
-                }catch (Exception ex ){
+                } catch (Exception ex) {
                     ex.printStackTrace();
                     System.out.println(ex.getMessage());
                 }
@@ -1091,13 +1157,13 @@ public class VerificationServiceImpl implements VerificationService {
                 fms.setJsonValue(gson.toJson(ca));
                 break;
             case "Location":
-                if(idCat!=null && !idCat.equals(0L)){
+                if (idCat != null && !idCat.equals(0L)) {
                     Location l = locationRepository.findOne(idCat);
                     ca.setName(l.getName());
                     ca.setId(l.getId());
                     fms.setValue("Estado: " + l.getMunicipality().getState().getName() + ", Municipio; " + l.getMunicipality().getName() + ", Localidad: " + l.getName() + ".");
                     fms.setJsonValue(gson.toJson(ca));
-                }else{
+                } else {
                     return false;
                 }
                 break;

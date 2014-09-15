@@ -17,6 +17,7 @@ import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +38,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     LogChangeDataRepository logChangeDataRepository;
 
     @Override
+    @Transactional
     public boolean preAuthorize(Long monPlanId, User user, ResponseMessage message) {
         if(validatePreAuthorize(monPlanId, user.getId(), message) == false)
             return false;
@@ -48,6 +50,8 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         monPlan.setGenerator(user);
         monPlan.setGenerationTime(Calendar.getInstance());
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
+
+
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlanId));
         monPlanRepository.save(monPlan);

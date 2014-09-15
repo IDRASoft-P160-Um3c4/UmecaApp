@@ -9,15 +9,16 @@ package com.umeca.model.entities.supervisor;
 public class ActivityMonitoringPlanEvent {
     private Long activityMonitoringPlanId;
     private String eventId;
+    private String group;
 
     public ActivityMonitoringPlanEvent(){
 
     }
 
-    public ActivityMonitoringPlanEvent(Long activityMonitoringPlanId, String eventId){
+    public ActivityMonitoringPlanEvent(Long activityMonitoringPlanId, String eventId, String group){
         this.activityMonitoringPlanId = activityMonitoringPlanId;
         this.eventId = eventId;
-
+        this.group = group;
     }
 
     public Long getActivityMonitoringPlanId() {
@@ -34,6 +35,14 @@ public class ActivityMonitoringPlanEvent {
 
     public void setEventId(String eventId) {
         this.eventId = eventId;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }
 

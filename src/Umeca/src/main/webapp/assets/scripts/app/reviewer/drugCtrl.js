@@ -1,9 +1,14 @@
-app.controller('drugController', function($scope, $timeout) {
+app.controller('drugController', function($scope, $timeout,$rootScope) {
     $scope.d = {};
     $scope.lstType = [];
     $scope.lstPer = [];
     $scope.d.type = 0;
     $scope.d.per = 0;
+
+    $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
+        var arg = [idSection, idList, idSource, sectionName, listView]
+        $rootScope.$broadcast('ShowChoicesBySection',arg);
+    };
 
     $scope.init = function(){
         $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
