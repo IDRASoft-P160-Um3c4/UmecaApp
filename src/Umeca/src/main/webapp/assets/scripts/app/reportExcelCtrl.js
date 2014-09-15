@@ -11,6 +11,15 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
         $scope.lstLvlRisk = [];
         $scope.lstHearingType = [];
 
+        $scope.lstStCaseStr = [];
+        $scope.lstGenderStr = [];
+        $scope.lstMarStStr = [];
+        $scope.lstJobStr = [];
+        $scope.lstAcLvlStr = [];
+        $scope.lstDrugsStr = [];
+        $scope.lstLvlRkStr = [];
+        $scope.lstHearingTpStr = [];
+
         $scope.m = {};
         $scope.m.filtersModel = {};
 
@@ -104,6 +113,13 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
             $scope.m.filtersModel["l9"] = $scope.lstLvlRisk;
             $scope.m.filtersModel["l10"] = $scope.lstHearingType;
 
+            $scope.m.filtersModel["lstStCaseStr"] = $scope.lstStCaseStr;
+            $scope.m.filtersModel["lstGenderStr"] = $scope.lstGenderStr;
+            $scope.m.filtersModel["lstMarStStr"] = $scope.lstMarStStr;
+            $scope.m.filtersModel["lstAcLvlStr"] = $scope.lstAcLvlStr;
+            $scope.m.filtersModel["lstDrugsStr"] = $scope.lstDrugsStr;
+            $scope.m.filtersModel["lstLvlRkStr"] = $scope.lstLvlRkStr;
+            $scope.m.filtersModel["lstHearingTpStr"] = $scope.lstHearingTpStr;
         };
 
     }

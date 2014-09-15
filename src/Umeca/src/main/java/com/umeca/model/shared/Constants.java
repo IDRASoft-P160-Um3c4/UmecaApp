@@ -15,8 +15,7 @@ public class Constants {
     public static final String VERIFICATION_STATUS_NEW_SOURCE = "NEW_SOURCE";
     public static final String VERIFICATION_STATUS_AUTHORIZED = "AUTHORIZED";
     public static final String VERIFICATION_STATUS_MEETING_COMPLETE = "MEETING_COMPLETE";
-    public static final Long MARITAL_UNION_FREE = 4L;
-    public static final Long MARITAL_MARRIED = 2L;
+
     public static final String VALUE_NOT_KNOW_SOURCE = "La fuente desconoce la información.";
     public static final String UNABLE_VERIF_TEXT = "No hay forma de verificar la información";
     public static final String UNABLE_VERIF_TEXT_DOC = "No fue posible verificar.";
@@ -87,7 +86,6 @@ public class Constants {
     public static final String SYSTEM_SETTINGS_ARCHIVE_PATH_TO_SAVE = "PathToSave";
 
 
-
     public static String VERIFICATION_STATUS_COMPLETE = "VERIFICATION_COMPLETE";
 
     public static String STR_REVIEWER_NOTIF_NO_SOURCES = "NO_SOURCES";
@@ -111,4 +109,37 @@ public class Constants {
     public static final String RESPONSE_TYPE_ACCEPTED = "ACCEPTED";
     public static final String RESPONSE_TYPE_REJECTED = "REJECTED";
     public static String CASE_STATUS_OBSOLETE = "ST_CASE_OBSOLETE";
+
+
+    public static final Long MARITAL_SINGLE = 1L;
+    public static final Long MARITAL_MARRIED = 2L;
+    public static final Long MARITAL_DIVORCED = 3L;
+    public static final Long MARITAL_UNION_FREE = 4L;
+    public static final Long MARITAL_WIDOWER = 5L;
+
+    public static final Long AC_LVL_ILLITERATE = 1L;
+    public static final Long AC_LVL_PRIMARY = 2L;
+    public static final Long AC_LVL_HIGH_SCH = 3L;
+    public static final Long AC_LVL_BACHELOR = 4L;
+    public static final Long AC_LVL_UNIVERSITY = 5L;
+    public static final Long AC_LVL_GRADUATE = 6L;
+    public static final Long AC_LVL_OTHER = 7L;
+
+    public static final Long DRUG_ALCOHOL = 1L;
+    public static final Long DRUG_MARIHUANA = 2L;
+    public static final Long DRUG_COCAIN = 3L;
+    public static final Long DRUG_HEROIN = 4L;
+    public static final Long DRUG_OPIUM = 5l;
+    public static final Long DRUG_PBC = 6L;
+    public static final Long DRUG_SOLV = 7L;
+    public static final Long DRUG_CEME = 8L;
+    public static final Long DRUG_LSD = 9L;
+    public static final Long DRUG_AMPH = 10L;
+    public static final Long DRUG_META = 11L;
+    public static final Long DRUG_EXTA = 12L;
+    public static final Long DRUG_MUSH = 13L;
+    public static final Long DRUG_OTHER = 14L;
+
+
+
 }

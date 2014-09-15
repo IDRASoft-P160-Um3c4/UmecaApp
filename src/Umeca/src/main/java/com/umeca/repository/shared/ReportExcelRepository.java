@@ -26,7 +26,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
     @Query("select distinct (c.id) from Case as c " +
             "inner join c.verification as ver " +
             "inner join ver.status as stver " +
-            "where stver.id in :lstStVer and c.id in :lstCases")
+            "where (stver.id in (:lstStVer)) and (c.id in (:lstCases))")
     List<Long> findIdCasesByStatusVerification(@Param("lstStVer") List<Long> lstStVer, @Param("lstCases") List<Long> lstCases);
 
     @Query("select distinct (c.id) from Case as c " +
@@ -97,4 +97,56 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (c.id in (:lstCases)) and rt.id=1")
     List<Long> findIdCasesWithActualJob(@Param("lstCases") List<Long> lstCases);
 
+
+    /*summary querys*/
+
+    @Query("select count(c.id) from Case as c " +
+            "inner join c.meeting as m " +
+            "inner join m.imputed imp " +
+            "left join c.framingMeeting as fm " +
+            "left join fm.personalData as fmpd " +
+            "where (c.id in (:lstCases)) and (imp.gender =:genderB or fmpd.gender=:genderI)")
+    Long countGender(@Param("lstCases") List<Long> lstCases, @Param("genderB") Boolean genderB, @Param("genderI") Integer genderI);
+
+    @Query("select count(c.id) from Case as c " +
+            "left join c.meeting as m " +
+            "left join m.imputed imp " +
+            "left join imp.maritalStatus ms " +
+            "left join c.framingMeeting as fm " +
+            "left join fm.personalData as fmpd " +
+            "left join fmpd.maritalStatus as fmpdms " +
+            "where (c.id in (:lstCases)) and ((ms.id=:marSt) or (fmpdms.id=:marSt)) ")
+    Long countMarSt(@Param("lstCases") List<Long> lstCases, @Param("marSt") Long marSt);
+
+    @Query("select count(c.id) from Case as c " +
+            "inner join c.meeting as m " +
+            "inner join m.jobs as j " +
+            "inner join j.registerType as rt " +
+            "where (c.id in (:lstCases)) and rt.id=1")
+    Long countCurrentJob(@Param("lstCases") List<Long> lstCases);
+
+    @Query("select count(c.id) from Case as c " +
+            "inner join c.meeting as m " +
+            "inner join m.school sch " +
+            "inner join sch.degree deg " +
+            "inner join deg.academicLevel alvl " +
+            "where (c.id in (:lstCases)) and alvl.id=:acLvl")
+    Long countAcLvl(@Param("lstCases") List<Long> lstCases, @Param("acLvl") Long acLvl);
+
+    @Query("select distinct (c.id) from Case as c " +
+            "inner join c.meeting as meet " +
+            "inner join meet.status as stmeet " +
+            "where (stmeet.name in (:lstStMeet)) and (c.id in (:lstCases))")
+    List<Long> findIdCasesByStatusMeetingStr(@Param("lstStMeet") List<String> lstStMeet, @Param("lstCases") List<Long> lstCases);
+
+    @Query("select distinct (c.id) from Case as c " +
+            "inner join c.verification as ver " +
+            "inner join ver.status as stver " +
+            "where ((stver.name in (:lstStVer)) and (c.id in (:lstCases)))")
+    List<Long> findIdCasesByStatusVerificationStr(@Param("lstStVer") List<String> lstStVer, @Param("lstCases") List<Long> lstCases);
+
+    @Query("select distinct (c.id) from Case as c " +
+            "inner join c.status as sc " +
+            "where (sc.name in (:lstStCase)) and (c.id in (:lstCases))")
+    List<Long> findIdCasesByStatusCaseStr(@Param("lstStCase") List<String> lstStCase, @Param("lstCases") List<Long> lstCases);
 }
