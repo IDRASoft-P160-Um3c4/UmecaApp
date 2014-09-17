@@ -46,6 +46,7 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upsertCtrl.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/modalDlgCtrl.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/hiddenDrct.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/enterKeyDrct.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/exportXls/jqgridExcelExportClientSide-libs.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/exportXls/jqgridExcelExportClientSide.js"></script>
 

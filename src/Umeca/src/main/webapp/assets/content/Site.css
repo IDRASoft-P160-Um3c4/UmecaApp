@@ -258,6 +258,18 @@ div.blocker {
     color: orangered;
 }
 
+.label-pre-new{
+    background-color: rgb(6, 171, 255) !important;
+}
+
+.label-pre-update{
+    background-color: rgb(137, 101, 255) !important;
+}
+
+.label-pre-delete{
+    background-color: rgb(255, 110, 4) !important;
+}
+
 i.link-image {
     cursor: pointer;
 }

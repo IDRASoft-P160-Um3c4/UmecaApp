@@ -79,14 +79,19 @@
                             class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
                         supervisi&oacute;n</a>
                     </li>
+
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
                     <li class="nav-li-blue"><a href="<c:url value='/managereval/index.html'/>"><i
                             class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Autorizar fuentes</a></li>
                     <li class="nav-li-blue"><a href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
-                            class="icon-check"></i>&nbsp;&nbsp;Consulta de casos en evaluación</a></li>
+                            class="icon-check"></i>&nbsp;&nbsp;Consulta de casos en evaluaci&oacute;n</a></li>
                     <li class="nav-li-blue"><a href="<c:url value='/managereval/authorizeRequest/index.html' />"><i
                             class="icon icon-envelope"></i>&nbsp;&nbsp;Autorizaci&oacute;n de solcitudes</a></li>
+                    <li class="nav-li-blue"><a
+                            href="<c:url value='/shared/messageHistory/index.html' />"><i
+                            class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+                    </li>
 
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
@@ -120,7 +125,7 @@
                     </li>
                     <li class="dropdown nav-li-blue">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol supervisión
+                                class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol supervisiï¿½n
                             <i class="icon-caret-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="<c:url value='/supervisorManager/rolSupervision/index.html' />"><i
@@ -130,6 +135,10 @@
                     <li class="nav-li-blue"><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>"><i
                             class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
                         supervisi&oacute;n</a>
+                    </li>
+                    <li class="nav-li-blue"><a
+                            href="<c:url value='/shared/messageHistory/index.html' />"><i
+                            class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                     </li>
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_DIRECTOR')">
@@ -152,7 +161,10 @@
                     </li>
                     <li class="nav-li-blue"><a href="<c:url value='/director/caseRequest/show.html' />"><i
                             class="icon icon-envelope"></i>&nbsp;&nbsp;Historial de solicitudes</a></li>
-
+                    <li class="nav-li-blue"><a
+                            href="<c:url value='/shared/messageHistory/index.html' />"><i
+                            class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+                    </li>
                 </sec:authorize>
 
                 <li class="light-blue">

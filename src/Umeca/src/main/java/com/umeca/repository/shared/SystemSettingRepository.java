@@ -13,4 +13,7 @@ public interface SystemSettingRepository extends JpaRepository<SystemSetting, Lo
 
     @Query("SELECT new com.umeca.model.entities.shared.SystemSetting(SS.key, SS.value) FROM SystemSetting SS WHERE SS.group =:group")
     List<SystemSetting> findAllOfGroup(@Param("group") String group);
+
+    @Query("SELECT SS.value FROM SystemSetting SS WHERE SS.group =:group AND SS.key =:key")
+    String findOneValue(@Param("group")String group, @Param("key")String key);
 }

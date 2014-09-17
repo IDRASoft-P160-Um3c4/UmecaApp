@@ -23,7 +23,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
 
-
+    <script src="${pageContext.request.contextPath}/assets/scripts/commonActMonPlan.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/generateMonitoringPlan/generateMonPlanCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/shared/upsertActivityEventController.js"></script>
     <script>
@@ -48,6 +48,9 @@
 
         var convertToEvents = function(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources){
             var lstEvents = [];
+            var today = new Date();
+            today.setHours(0,0,0,0);
+
             for(var i=0; i<lstActivitiesMonPlan.length; i++){
                 var act = lstActivitiesMonPlan[i];
                 var event = {
@@ -62,15 +65,18 @@
                     end: window.stringToDate(act.end),
                     allDay: false,
                     isModified: false,
-                    className: 'label-info',
                     infoActivity:{
                         lstArrangements: lstIdsToObjects(act.lstArrangements),
                         activity: idToObject(act.activityMonId, lstActivities),
                         goal: idToObject(act.goalId, lstGoals),
                         source: idToObject(act.sourceId, lstSources),
                         caseInfo: caseInfo
-                    }
+                    },
+                    groupEvt: act.group
                 };
+
+                event.className = window.colorActMonPlan(act.status, act.end, today);
+
                 event.doTitle(false);
                 lstEvents.push(event);
             }
@@ -84,9 +90,9 @@
             var lstGoals = ${lstGoals};
             var lstSources = ${lstSources};
 
-            var caseInfo = {caseId:"${caseId}", mpId: "${mpId}", personName: "${personName}", monStatus: "${monStatus}", monitoringPlanId: "${monitoringPlanId}"};
+            var caseInfo = {caseId:"${caseId}", mpId: "${mpId}", personName: "${personName}",
+                monStatus: "${monStatus}", monitoringPlanId: "${monitoringPlanId}", isInAuthorizeReady: ${isInAuthorizeReady}};
             lstEventsAct = convertToEvents(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources);
-
 
             var date = new Date();
             $('#id-date-picker-start,#id-date-picker-end').datepicker({autoclose:true, startDate:new Date(date.getFullYear(), date.getMonth(), date.getDate()-1)}).next().on(ace.click_event, function(){
@@ -147,7 +153,7 @@
                     right: 'month,agendaWeek,agendaDay'
                 },
                 events: lstEventsAct,
-                allDayText: 'Todo el d�a',
+                allDayText: 'Todo el d&iacute;a',
                 allDaySlot: false,
                 slotMinutes: 30,
                 axisFormat: 'HH:mm',
@@ -217,6 +223,38 @@
                                             return (ev._id == event._id);
                                         });
                                         scopeMon.addActivityToDelete(event.idActivity);
+                                        break;
+                                    case 'PRE_REMOVE':
+                                        if(event.idActivity === -1){
+                                            calendar.fullCalendar('removeEvents' , function(ev){
+                                                return (ev._id == event._id);
+                                            });
+                                        }else{
+                                            event.className = 'label-pre-delete';
+                                            calendar.fullCalendar('updateEvent', event);
+                                            scopeMon.addActivityToDelete(event.idActivity);
+                                        }
+                                        break;
+                                    case 'REMOVE_GROUP':
+                                        calendar.fullCalendar('removeEvents' , function(ev){
+                                            if(ev.groupEvt === event.groupEvt){
+                                                scopeMon.addActivityToDelete(ev.idActivity);
+                                                return true;
+                                            }
+                                        });
+                                        break;
+                                    case 'PRE_REMOVE_GROUP':
+                                        calendar.fullCalendar('removeEvents' , function(ev){
+                                            if(ev.groupEvt === event.groupEvt){
+                                                if(ev.idActivity === -1){
+                                                    return true;
+                                                }else{
+                                                    ev.className = 'label-pre-delete';
+                                                    calendar.fullCalendar('updateEvent', ev);
+                                                    scopeMon.addActivityToDelete(ev.idActivity);
+                                                }
+                                            }
+                                        });
                                         break;
                                     case 'UPDATE':
                                         calendar.fullCalendar('updateEvent', event);

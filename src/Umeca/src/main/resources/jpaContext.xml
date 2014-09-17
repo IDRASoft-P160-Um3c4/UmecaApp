@@ -45,7 +45,7 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:EmprendeTIC"/>
-		<property name="username" value="EMPRENDETIC"/>
+		<property name="username" value="EMPRENDETIC"/>s
 		<property name="password" value="EMP3ND3T1C41"/>
 		<property name="poolPreparedStatements"><value>true</value></property>
 		<property name="maxActive"><value>10</value></property>
@@ -60,7 +60,7 @@
         <!--<property name="password" value="bemeinademo" />-->
 		<property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true" />
 		<property name="username" value="root" />
-        <property name="password" value="root" />
+        <property name="password" value="" />
 	</bean>
 
 </beans>

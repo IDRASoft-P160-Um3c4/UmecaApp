@@ -26,4 +26,9 @@ public class SystemSettingServiceImpl implements SystemSettingService {
 
         return hmSystemSettings;    */
     }
+
+    @Override
+    public String findOneValue(String group, String key) {
+        return systemSettingsRepository.findOneValue(group, key);
+    }
 }

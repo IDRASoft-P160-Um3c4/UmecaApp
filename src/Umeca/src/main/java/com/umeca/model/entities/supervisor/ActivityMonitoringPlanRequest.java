@@ -15,7 +15,12 @@ public class ActivityMonitoringPlanRequest {
     private long actsIns;
     private long actsUpd;
     private long actsDel;
+    private long actsPreIns;
+    private long actsPreUpd;
+    private long actsPreDel;
     private Calendar now;
+
+    private boolean isInAuthorizeReady;
 
     public ActivityMonitoringPlanRequest(){
         lstActivitiesDel = new ArrayList<>();
@@ -24,6 +29,10 @@ public class ActivityMonitoringPlanRequest {
         actsIns = 0;
         actsUpd = 0;
         actsDel = 0;
+        actsPreIns = 0;
+        actsPreUpd = 0;
+        actsPreDel = 0;
+        isInAuthorizeReady = false;
     }
 
     public Long getCaseId() {
@@ -82,7 +91,7 @@ public class ActivityMonitoringPlanRequest {
         this.actsIns = actsIns;
     }
 
-    public void addActsIns(){
+    public void incActsIns(){
         this.actsIns++;
     }
 
@@ -94,7 +103,7 @@ public class ActivityMonitoringPlanRequest {
         this.actsUpd = actsUpd;
     }
 
-    public void addActsUpd(){
+    public void incActsUpd(){
         this.actsUpd++;
     }
 
@@ -106,7 +115,7 @@ public class ActivityMonitoringPlanRequest {
         this.actsDel = actsDel;
     }
 
-    public void addActsDel(){
+    public void incActsDel(){
         this.actsDel++;
     }
 
@@ -116,5 +125,59 @@ public class ActivityMonitoringPlanRequest {
 
     public Calendar getNow() {
         return now;
+    }
+
+    public void setInAuthorizeReady(boolean inAuthorizeReady) {
+        isInAuthorizeReady = inAuthorizeReady;
+    }
+
+    public boolean isInAuthorizeReady() {
+        return isInAuthorizeReady;
+    }
+
+    public void decActsUpd() {
+        this.actsUpd--;
+    }
+
+    public long getActsPreIns() {
+        return actsPreIns;
+    }
+
+    public void setActsPreIns(long actsPreIns) {
+        this.actsPreIns = actsPreIns;
+    }
+
+    public void incActsPreIns(){
+        this.actsPreIns++;
+    }
+
+    public long getActsPreUpd() {
+        return actsPreUpd;
+    }
+
+    public void incActsPreUpd(){
+        this.actsPreUpd++;
+    }
+
+    public void setActsPreUpd(long actsPreUpd) {
+        this.actsPreUpd = actsPreUpd;
+    }
+
+    public long getActsPreDel() {
+        return actsPreDel;
+    }
+
+    public void setActsPreDel(long actsPreDel) {
+        this.actsPreDel = actsPreDel;
+    }
+
+    public void incActsPreDel(){
+        this.actsPreDel++;
+    }
+
+    public boolean hasActivitiesInPreAuthorizeMode(){
+        if(actsPreDel > 0 || actsPreIns > 0 || actsPreUpd > 0 )
+            return true;
+        return false;
     }
 }
