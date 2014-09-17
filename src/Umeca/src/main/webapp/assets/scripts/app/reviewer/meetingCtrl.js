@@ -33,37 +33,13 @@ app.controller('meetingController', function($scope, $timeout) {
         $scope.Invalid = true;
         $scope.WaitFor = true;
 
-        if (hasReturnId === true) {
-            $.post(urlToPost, $(formId).serialize())
-                .success($scope.handleSuccessWithId)
-                .error($scope.handleError);
-        }
-        else {
-            $.post(urlToPost, $(formId).serialize())
+                 $.post(urlToPost, $(formId).serialize())
                 .success($scope.handleSuccess)
                 .error($scope.handleError);
-        }
+
         return true;
     };
 
-    $scope.handleSuccessWithId = function (resp) {
-        $scope.WaitFor = false;
-
-        try {
-            if(resp.hasError===undefined){
-                resp=resp.responseMessage;
-            }
-            if (resp.hasError === false) {
-                $scope.Model.def.resolve({ isCancel: false });
-                return;
-            }
-            $scope.MsgError = resp.message;
-            $scope.$apply();
-
-        } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
-        }
-    };
 
 
     $scope.handleSuccess = function (resp) {
@@ -111,9 +87,22 @@ app.controller('meetingController', function($scope, $timeout) {
             dlg.replaceWith("");
         });
     };
-});
-
+})
 app.controller('scController', function($scope, $timeout) {
+
+    $scope.upsertComment = function (idCase, urlToPost, typeComment) {
+        $scope.Invalid = true;
+        $scope.WaitFor = true;
+        var aa = {};
+        aa.idCase =idCase;
+        aa.typeComment = typeComment;
+        aa.comment = $scope.comment;
+        $.post(urlToPost, aa)
+            .success($scope.handleSuccess)
+            .error($scope.handleError);
+
+        return true;
+    };
 
     $scope.submit = function (formId, urlToPost, hasReturnId) {
         $scope.Invalid = true;

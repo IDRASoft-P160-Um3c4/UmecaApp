@@ -70,4 +70,6 @@ public interface MeetingService {
     ResponseMessage savePartialPrevious(CriminalProceedingView cpv);
 
     ResponseMessage savePartialCurrent(CriminalProceedingView cpv);
+
+    ResponseMessage upsertComment(Long idCase, String comment, Integer commentType);
 }

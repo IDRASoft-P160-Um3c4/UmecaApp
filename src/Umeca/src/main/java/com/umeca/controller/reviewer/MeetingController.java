@@ -509,7 +509,11 @@ public class MeetingController {
         return meetingService.savePartialCurrent(cpv);
     }
 
-
-
+    @RequestMapping(value = "/reviewer/meeting/upsertComment", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage upsertComment(@RequestParam String comment,@RequestParam Long idCase, @RequestParam Integer typeComment) {
+        return meetingService.upsertComment(idCase, comment, typeComment);
+    }
 
 }

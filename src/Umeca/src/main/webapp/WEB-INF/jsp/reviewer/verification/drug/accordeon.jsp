@@ -1,4 +1,10 @@
 <div class="row">
+    <div class="col-xs-10 col-xs-offset-1 element-left">
+        <label class="text-primary">Observaciones: <b>${m.commentDrug}</b></label>
+    </div>
+</div>
+<br/>
+<div class="row">
     <div class="col-sm-12">
         <div id="accordionDrug" class="accordion-style1 panel-group"
              ng-init='listDrug =${(listDrug == null) ? '[]': listDrug};'>

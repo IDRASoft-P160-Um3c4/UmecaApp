@@ -68,6 +68,9 @@ public class LeaveCountry {
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
 
+    @Transient
+    private String commentCountry;
+
     public Long getId() {
         return id;
     }
@@ -162,6 +165,15 @@ public class LeaveCountry {
 
     public void setMedia(String media) {
         this.media = media;
+    }
+
+
+    public String getCommentCountry() {
+        return commentCountry;
+    }
+
+    public void setCommentCountry(String commentCountry) {
+        this.commentCountry = commentCountry;
     }
 
     public void validateMeeting(TerminateMeetingMessageDto t) {

@@ -608,6 +608,7 @@ public class MeetingServiceImpl implements MeetingService {
             Gson gson = new Gson();
             Case caseDetention = caseRepository.findOne(id);
             refreshSchool(school, caseDetention);
+            caseDetention.getMeeting().setCommentSchool(school.getCommentSchool());
             caseRepository.save(caseDetention);
             School s = caseDetention.getMeeting().getSchool();
             if (s == null) {
@@ -639,7 +640,10 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     private void refreshSchool(School school, Case caseDetention) {
+        try{
         School s = caseDetention.getMeeting().getSchool();
+        Meeting m = caseDetention.getMeeting();
+
         if (s != null) {
             s.setName(school.getName());
             s.setAddress(school.getAddress());
@@ -650,11 +654,12 @@ public class MeetingServiceImpl implements MeetingService {
         } else {
             Degree degree = degreeRepository.findOne(school.getDegree().getId());
             school.setDegree(degree);
-            Meeting m = caseDetention.getMeeting();
             m.setSchool(school);
             school.setMeeting(m);
         }
-
+        }catch (Exception e){
+            System.out.println();
+        }
     }
 
     @Override
@@ -846,6 +851,7 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         try {
             Case c = caseRepository.findOne(id);
+            c.getMeeting().setCommentCountry(leaveCountry.getCommentCountry());
             refreshLeaveCountry(leaveCountry, c);
             caseRepository.saveAndFlush(c);
             result.setHasError(false);
@@ -893,11 +899,25 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         try {
             Case c = caseRepository.findOne(meeting.getCaseDetention().getId());
+            Meeting m = c.getMeeting();
+            m.setCommentCountry(meeting.getLeaveCountry().getCommentCountry());
+            m.setCommentSchool(meeting.getSchool().getCommentSchool());
+            m.setCommentHome(meeting.getCommentHome());
+            m.setCommentReference(meeting.getCommentReference());
+            m.setCommentJob(meeting.getCommentJob());
+            m.setCommentDrug(meeting.getCommentDrug());
+            SocialNetwork sn = m.getSocialNetwork();
+            if(sn==null){
+                sn = new SocialNetwork();
+                sn.setMeeting(m);
+                m.setSocialNetwork(sn);
+            }
+            sn.setComment(meeting.getSocialNetwork().getComment());
             Gson gson = new Gson();
             refreshPersonalData(meeting.getImputed(), meeting.getSocialEnvironment(), activities, c);
             refreshSchool(meeting.getSchool(), c);
             List<Schedule> listToDelete = c.getMeeting().getSchool().getSchedule();
-            c.getMeeting().getSchool().setSchedule(null);
+            m.getSchool().setSchedule(null);
             if (listToDelete != null) {
                 for (Schedule schedule : listToDelete) {
                     schedule.setSchool(null);
@@ -906,27 +926,31 @@ public class MeetingServiceImpl implements MeetingService {
             }
             List<Schedule> listSchedules = gson.fromJson(sch, new TypeToken<List<Schedule>>() {
             }.getType());
-            School s = c.getMeeting().getSchool();
+            School s = m.getSchool();
             for (Schedule schedule : listSchedules) {
                 schedule.setSchool(s);
             }
             scheduleRepository.save(listSchedules);
+
+
             refreshLeaveCountry(meeting.getLeaveCountry(), c);
+
+            caseRepository.save(c);
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
-            c.getMeeting().getImputed().validateMeeting(validate);
-            if(c.getMeeting().getSocialEnvironment()==null){
-                c.getMeeting().setSocialEnvironment(new SocialEnvironment());
+           m.getImputed().validateMeeting(validate);
+            if(m.getSocialEnvironment()==null){
+                m.setSocialEnvironment(new SocialEnvironment());
             }
-            c.getMeeting().getSocialEnvironment().validateMeeting(validate);
-            if (c.getMeeting().getSchool() == null) {
-                c.getMeeting().setSchool(new School());
+           m.getSocialEnvironment().validateMeeting(validate);
+            if (m.getSchool() == null) {
+                m.setSchool(new School());
             }
-            c.getMeeting().getSchool().validateMeeting(validate);
-            if (c.getMeeting().getLeaveCountry() == null) {
-                c.getMeeting().setLeaveCountry(new LeaveCountry());
+            m.getSchool().validateMeeting(validate);
+            if (m.getLeaveCountry() == null) {
+               m.setLeaveCountry(new LeaveCountry());
             }
-            c.getMeeting().getLeaveCountry().validateMeeting(validate);
-            c.getMeeting().validateMeeting(validate);
+            m.getLeaveCountry().validateMeeting(validate);
+            m.validateMeeting(validate);
             if (validate.existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
                 listGeneral.add("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección");
@@ -934,7 +958,8 @@ public class MeetingServiceImpl implements MeetingService {
                 return new ResponseMessage(true, gson.toJson(validate));
             }
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
-            c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
+            m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
+
             caseRepository.save(c);
             result.setHasError(false);
             result.setMessage("Entrevista terminada con exito");
@@ -1055,6 +1080,50 @@ public class MeetingServiceImpl implements MeetingService {
         }catch (Exception e){
             logException.Write(e, this.getClass(), "savePartialPrevious", userService);
             return new ResponseMessage(true,"Ha ocurrido un error al actualizar los datos");
+        }
+    }
+
+    @Override
+    @Transactional
+    public ResponseMessage upsertComment(Long idCase, String comment, Integer commentType) {
+        try{
+            Case c  = caseRepository.findOne(idCase);
+            if ( c == null)
+                return new ResponseMessage(true,"Ocurri&oacute; un error al guardar");
+            switch (commentType){
+                case 2: //Domicilios
+                    c.getMeeting().setCommentHome(comment);
+                    break;
+                case 3:   //Red social
+                    Meeting m = c.getMeeting();
+                    SocialNetwork s = m.getSocialNetwork();
+                    if(s== null){
+                        s = new SocialNetwork();
+                        s.setMeeting(m);
+                        m.setSocialNetwork(s);
+                    }
+                    s.setComment(comment);
+                    break;
+                case 4: //Referencias
+                    c.getMeeting().setCommentReference(comment);
+                    break;
+                case 5: //Trabajo
+                    c.getMeeting().setCommentJob(comment);
+                    break;
+                case 6: //Escuela
+                    c.getMeeting().setCommentSchool(comment);
+                    break;
+                case 7: //Substancias
+                    c.getMeeting().setCommentDrug(comment);
+                    break;
+                case 8: //acilidad de abandonar el pais
+                    c.getMeeting().setCommentCountry(comment);
+                    break;
+            }
+            caseRepository.save(c);
+            return new ResponseMessage(false, "Se actualizó la información exitosamente");
+        }catch (Exception e){
+            return new ResponseMessage(true, "Ocurri&oacute; un error al guardar.");
         }
     }
 

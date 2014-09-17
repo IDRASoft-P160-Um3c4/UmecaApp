@@ -50,6 +50,9 @@ public class School {
     @JoinColumn(name="id_meeting", nullable = false)
     private Meeting meeting;
 
+    @Transient
+    private String commentSchool;
+
     public Long getId() {
         return id;
     }
@@ -138,5 +141,13 @@ public class School {
             r.add(t.template.replace(e,"El grado escolar"));
         }
         t.getGroupMessage().add(new GroupMessageMeetingDto("school",r));
+    }
+
+    public String getCommentSchool() {
+        return commentSchool;
+    }
+
+    public void setCommentSchool(String commentSchool) {
+        this.commentSchool = commentSchool;
     }
 }

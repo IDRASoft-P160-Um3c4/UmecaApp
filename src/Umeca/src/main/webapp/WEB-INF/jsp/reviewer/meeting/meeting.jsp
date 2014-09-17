@@ -61,7 +61,7 @@
 
 <div class="row">
     <br/>
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluaci�n de riesgos
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluaci&oacute;n de riesgos
         procesales</h2>
 </div>
 <br/>
@@ -385,7 +385,7 @@
                         Regresar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormSchool , #FormPersonalData, #FormLeaveCountry','<c:url value="/reviewer/meeting/terminateMeeting.json?idCase=${idCase}"/>');">
+                          ng-click="submit('#FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId','<c:url value="/reviewer/meeting/terminateMeeting.json?idCase=${idCase}"/>');">
                           Terminar
                     </span>
     </div>

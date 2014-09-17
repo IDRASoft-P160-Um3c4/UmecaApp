@@ -1,4 +1,10 @@
 <div ng-controller="schoolController">
+<div class="row">
+    <div class="col-xs-12">
+        <label class="text-primary">Observaciones: <b>${m.commentSchool}</b></label>
+    </div>
+</div>
+<br/>
 <div class="row"  ng-show="readOnly == false">
     <div class="col-xs-12">
 
@@ -89,7 +95,7 @@
                                              ng-model="school.address"
                                              ng-init='school.address = "${(m.school.address == null) ? "" : m.school.address}"'
                                              data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
-                                             data-val-length="Debe tener al menos 6 y máximo 500 caracteres"
+                                             data-val-length="Debe tener al menos 6 y mï¿½ximo 500 caracteres"
                                              data-val-length-max="500"
                                              data-val-length-min="6">${m.school.address}</textarea>
             <span class="field-validation-valid"
@@ -140,7 +146,7 @@
                    </div>
                    <div class="col-xs-8">
                        <input class="form-control" data-val="true"
-                              data-val-length="Debe tener al menos 1 y máximo 300 caracteres"
+                              data-val-length="Debe tener al menos 1 y mï¿½ximo 300 caracteres"
                               data-val-length-max="300" data-val-length-min="1"
                               data-val-required="La especificaci&oacute;n  es un campo requerido" type="text" value=""
                               ng-model="school.specification" id="school.specification" name="school.specification"
