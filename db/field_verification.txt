@@ -38,7 +38,7 @@ id|code|sectionName|sectionCode|fieldName|index|is_obsolete|idSubsection|type
 37|socialNetwork.livingWith.id|Red social|3|Vive con el imputado|8|0|21|Election
 38|socialNetwork.address|Red social|3|Dirección|9|0|21|String
 39|socialNetwork.isAccompaniment|Red social|3|Acompañará al imputado durante el proceso|10|0|50|Boolean
-40|socialNetwerk.comment|Red social|3|Observaciones|11|0|48|String
+40|socialNetwork.comment|Red social|3|Observaciones|11|0|48|String
 41|references.fullName|Referencias personales|4|Nombre|1|0|22|String
 42|references.relationship.id|Referencias personales|4|Parentesco|2|0|45|Relationship
 43|references.phone|Referencias personales|4|Teléfono|3|0|23|String

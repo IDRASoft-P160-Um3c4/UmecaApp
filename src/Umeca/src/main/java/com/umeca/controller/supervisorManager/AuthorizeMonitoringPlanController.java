@@ -103,7 +103,7 @@ public class AuthorizeMonitoringPlanController {
 
     @RequestMapping(value = "/supervisorManager/authorizeMonitoringPlan/showCalendar", method = RequestMethod.GET)
     public @ResponseBody
-    ModelAndView generate(@RequestParam(required = false) Long id){ //Id monitoring plan
+    ModelAndView generate(@RequestParam(required = false) Long id, @RequestParam(required = false) Long ret){ //Id monitoring plan
         try{
             ModelAndView model = new ModelAndView("/supervisor/trackMonitoringPlan/trackCalendar");
 
@@ -116,7 +116,14 @@ public class AuthorizeMonitoringPlanController {
 
             model.addObject("urlGetActivities","/supervisorManager/authorizeMonitoringPlan/getActivities.json");
             model.addObject("urlShowActivity","/supervisorManager/authorizeMonitoringPlan/showActivity.html");
-            model.addObject("urlReturn","/supervisorManager/authorizeMonitoringPlan/index.html");
+
+            if(ret == null || ret == 0){
+                model.addObject("urlReturn","/supervisorManager/authorizeMonitoringPlan/index.html");
+            }else if(ret == 1){
+                model.addObject("urlReturn","/supervisorManager/activeMonitoringPlan/index.html");
+            }
+
+            trackMonPlanService.setLstActivitiesSupervision(model);
 
             return model;
         }catch(Exception e){
@@ -138,9 +145,19 @@ public class AuthorizeMonitoringPlanController {
         try{
             Long userId =  monitoringPlanRepository.getUserIdByMonPlanId(req.getMonPlanId());
 
-            trackMonPlanService.getLstActivitiesByUser(req, userId, new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);add(MonitoringConstants.STATUS_AUTHORIZED);
-                        add(MonitoringConstants.STATUS_MONITORING);add(MonitoringConstants.STATUS_PENDING_END);add(MonitoringConstants.STATUS_REJECTED_END);add(MonitoringConstants.STATUS_END);}},
-                    new ArrayList<String>(){{add(MonitoringConstants.STATUS_ACTIVITY_DELETED);}}, response);
+            trackMonPlanService.getLstActivitiesByUserAndFilters(req, userId, new ArrayList<String>() {{
+                        add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
+                        add(MonitoringConstants.STATUS_AUTHORIZED);
+                        add(MonitoringConstants.STATUS_MONITORING);
+                        add(MonitoringConstants.STATUS_PENDING_END);
+                        add(MonitoringConstants.STATUS_REJECTED_END);
+                        add(MonitoringConstants.STATUS_END);
+                    }},
+                    new ArrayList<String>() {{
+                        add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
+                    }}, response
+            );
+
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "getActivities", sharedUserService);
             response.setHasError(true);

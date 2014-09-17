@@ -17,7 +17,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/housemate/housemateCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/references/referencesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/environmentAnalysis/environmentAnalysisCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/processAcompaniment/processAccompanimentCtrl.js"></script>
+    <%--<script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/processAcompaniment/processAccompanimentCtrl.js"></script>--%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/framingActivities/framingActivitiesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/addtionalQuestions/additionalQuestionsCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/personalData/personalDataCtrl.js"></script>
@@ -89,20 +89,18 @@
                         </a>
                     </li>
 
-                    <li>
+                    <!--<li>
                         <a data-toggle="tab" href="#accompaniment" ng-click="resizeMap()">
                             <i class="red glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
                             Persona que acompa&ntilde;ara durante <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;el proceso
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;el proceso
                         </a>
-                    </li>
+                    </li>-->
 
                     <li>
                         <a data-toggle="tab" href="#houseMate">
-                            <div class="row">
-                                <i class="blue icon-group bigger-200"></i>
-                                Personas que viven con el imputado
-                            </div>
+                            <i class="blue icon-group bigger-200"></i>
+                            Personas que viven con el imputado
                         </a>
                     </li>
 
@@ -156,10 +154,10 @@
                         <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/framingAddress/_framingAddress.jsp" %>
                     </div>
 
-                    <div id="accompaniment" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/supervisor/framingMeeting/proccessAccompaniment/_processAccompaniment.jsp" %>
-                    </div>
+                    <%--<div id="accompaniment" class="tab-pane">--%>
+                    <%--<%@ include--%>
+                    <%--file="/WEB-INF/jsp/supervisor/framingMeeting/proccessAccompaniment/_processAccompaniment.jsp" %>--%>
+                    <%--</div>--%>
 
 
                     <div id="houseMate" class="tab-pane">

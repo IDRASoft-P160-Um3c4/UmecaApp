@@ -3,7 +3,6 @@ package com.umeca.controller.director;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.controller.shared.ExcelConv;
-import com.umeca.infrastructure.extensions.IntegerExt;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -39,8 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -63,8 +60,10 @@ public class ExcelReportController {
         List<String> idsCases = conv.fromJson(ids, new TypeToken<List<String>>() {
         }.getType());
 
-        if (!(idsCases.size() > 0))
+        if (idsCases == null || !(idsCases.size() > 0)) {
+            idsCases = new ArrayList<>();
             idsCases.add("-1");
+        }
 
         JqGridRulesModel extraFilter = new JqGridRulesModel("idsCases", idsCases, JqGridFilterModel.COMPARE_IN);
         opts.extraFilters.add(extraFilter);
@@ -104,10 +103,8 @@ public class ExcelReportController {
         return "/director/excelReport/index";
     }
 
-
     @Autowired
     ReportExcelRepository reportExcelRepository;
-
     @Autowired
     SharedLogExceptionService logException;
     @Autowired
@@ -287,6 +284,14 @@ public class ExcelReportController {
         return intersectList;
     }
 
+    private ReportExcelSummary fillSummary(String filters) {
+
+        ReportExcelSummary summary = new ReportExcelSummary();
+
+
+        return summary;
+    }
+
 
     @Autowired
     CaseRepository caseRepository;
@@ -296,7 +301,7 @@ public class ExcelReportController {
     @RequestMapping(value = "/director/excelReport/jxls", method = RequestMethod.GET)
     public
     @ResponseBody
-    void jxlsMethod(HttpServletRequest request, HttpServletResponse response, String ids) {
+    void jxlsMethod(HttpServletRequest request, HttpServletResponse response, String ids, String filt) {
 
         Map beans = new HashMap();
 
@@ -314,7 +319,6 @@ public class ExcelReportController {
                 casesIds.add(-1L);
 
             List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases(casesIds);
-
             List<ExcelActivitiesDto> lstActivities = caseRepository.getInfoImputedActivities(casesIds);
             List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomes(casesIds);
             List<ExcelSocialNetworkDto> lstSN = caseRepository.getInfoSocialNetwork(casesIds);
@@ -364,7 +368,6 @@ public class ExcelReportController {
                             break;
                     }
                 }
-
             }
 
             for (ExcelCaseInfoDto cAct : listCases) {
@@ -442,6 +445,133 @@ public class ExcelReportController {
                 cAct.setLstSelQuest(lstQu);
             }
 
+            /*summary*/
+
+            ReportExcelSummary summ = conv.fromJson(filt, new TypeToken<ReportExcelSummary>() {
+            }.getType());
+            ;
+
+            Date initDate = null;
+            Date endDate = null;
+            String initTime = " 00:00:00";
+            String endTime = " 23:59:59";
+            try {
+                initDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+                        .parse(summ.getiDt() + initTime);
+
+                endDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+                        .parse(summ.geteDt() + endTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+                logException.Write(e, this.getClass(), "jxlsMethod", sharedUserService);
+            }
+
+            List<Long> idsCasesByDate = reportExcelRepository.findIdCasesByDates(initDate, endDate);
+
+            summ.setTotCases(new Long(idsCasesByDate.size()));
+
+            //genero
+            summ.setTotFem(reportExcelRepository.countGender(idsCasesByDate, true, 1));
+            summ.setTotMasc(reportExcelRepository.countGender(idsCasesByDate, false, 2));
+
+            //estado civil
+            summ.setTotSolt(reportExcelRepository.countMarSt(idsCasesByDate, Constants.MARITAL_SINGLE));
+            summ.setTotCas(reportExcelRepository.countMarSt(idsCasesByDate, Constants.MARITAL_MARRIED));
+            summ.setTotDiv(reportExcelRepository.countMarSt(idsCasesByDate, Constants.MARITAL_DIVORCED));
+            summ.setTotUL(reportExcelRepository.countMarSt(idsCasesByDate, Constants.MARITAL_UNION_FREE));
+            summ.setTotViu(reportExcelRepository.countMarSt(idsCasesByDate, Constants.MARITAL_WIDOWER));
+
+            //empleo
+
+            summ.setTotEmp(new Long(reportExcelRepository.findIdCasesWithActualJob(idsCasesByDate).size()));
+            summ.setTotDesemp(summ.getTotCases() - summ.getTotEmp());
+
+            //nivel academico
+            summ.setTotSIA(reportExcelRepository.countAcLvl(idsCasesByDate, Constants.AC_LVL_ILLITERATE));
+            summ.setTotPrim(reportExcelRepository.countAcLvl(idsCasesByDate, Constants.AC_LVL_PRIMARY));
+            summ.setTotSecu(reportExcelRepository.countAcLvl(idsCasesByDate, Constants.AC_LVL_HIGH_SCH));
+            summ.setTotBach(reportExcelRepository.countAcLvl(idsCasesByDate, Constants.AC_LVL_BACHELOR));
+            summ.setTotLic(reportExcelRepository.countAcLvl(idsCasesByDate, Constants.AC_LVL_UNIVERSITY));
+            summ.setTotPostg(reportExcelRepository.countAcLvl(idsCasesByDate, Constants.AC_LVL_GRADUATE));
+            summ.setTotAcLvlOtro(reportExcelRepository.countAcLvl(idsCasesByDate, Constants.AC_LVL_OTHER));
+
+            //drogas
+
+            summ.setTotAlco(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_ALCOHOL);
+            }}, idsCasesByDate).size()));
+            summ.setTotMari(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_MARIHUANA);
+            }}, idsCasesByDate).size()));
+            summ.setTotCoca(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_COCAIN);
+            }}, idsCasesByDate).size()));
+            summ.setTotHero(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_HEROIN);
+            }}, idsCasesByDate).size()));
+            summ.setTotOpio(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_OPIUM);
+            }}, idsCasesByDate).size()));
+            summ.setTotPBC(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_PBC);
+            }}, idsCasesByDate).size()));
+            summ.setTotSolven(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_SOLV);
+            }}, idsCasesByDate).size()));
+            summ.setTotCement(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_CEME);
+            }}, idsCasesByDate).size()));
+            summ.setTotLSD(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_LSD);
+            }}, idsCasesByDate).size()));
+            summ.setTotAnfet(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_AMPH);
+            }}, idsCasesByDate).size()));
+            summ.setTotMetanf(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_META);
+            }}, idsCasesByDate).size()));
+            summ.setTotExta(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_EXTA);
+            }}, idsCasesByDate).size()));
+            summ.setTotHongo(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_MUSH);
+            }}, idsCasesByDate).size()));
+
+            summ.setTotDrgOtro(new Long(reportExcelRepository.findIdCasesByDrugs(new ArrayList<Long>() {{
+                add(Constants.DRUG_OTHER);
+            }}, idsCasesByDate).size()));
+
+
+            //estatus
+            summ.setTotMeeting(new Long(reportExcelRepository.findIdCasesByStatusMeetingStr(new ArrayList<String>() {{
+                add(Constants.S_MEETING_INCOMPLETE_LEGAL);
+            }}, idsCasesByDate).size()));
+
+            summ.setTotLegal(new Long(reportExcelRepository.findIdCasesByStatusMeetingStr(new ArrayList<String>() {{
+                add(Constants.S_MEETING_COMPLETE);
+            }}, idsCasesByDate).size()));
+
+            summ.setTotVerif(new Long(reportExcelRepository.findIdCasesByStatusMeetingStr(new ArrayList<String>() {{
+                add(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
+            }}, idsCasesByDate).size()));
+
+            summ.setTotTechRev(new Long(reportExcelRepository.findIdCasesByStatusCaseStr(new ArrayList<String>() {{
+                add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+            }}, idsCasesByDate).size()));
+
+            summ.setTotHearingF(new Long(reportExcelRepository.findIdCasesByStatusCaseStr(new ArrayList<String>() {{
+                add(Constants.CASE_STATUS_HEARING_FORMAT_END);
+            }}, idsCasesByDate).size()));
+
+            summ.setTotFMeeting(new Long(reportExcelRepository.findIdCasesByStatusCaseStr(new ArrayList<String>() {{
+                add(Constants.CASE_STATUS_FRAMING_COMPLETE);
+            }}, idsCasesByDate).size()));
+
+            summ.setTotMonP(new Long(reportExcelRepository.findIdCasesWithMonP(idsCasesByDate).size()));
+
+            /*summary*/
+
+            beans.put("summ", summ);
             beans.put("listCases", listCases);
 
             beans.put("listCasesV", lstVerif);
@@ -482,6 +612,5 @@ public class ExcelReportController {
             ex.printStackTrace();
         }
     }
-
 
 }

@@ -644,6 +644,7 @@ public class MeetingServiceImpl implements MeetingService {
             s.setName(school.getName());
             s.setAddress(school.getAddress());
             s.setPhone(school.getPhone());
+            s.setBlock(school.getBlock());
             s.setSpecification(school.getSpecification());
             s.setDegree(degreeRepository.findOne(school.getDegree().getId()));
         } else {
@@ -958,11 +959,13 @@ public class MeetingServiceImpl implements MeetingService {
             return new ResponseMessage(true, "Favor de ingresar la fecha de nacimiento del imputado.");
         }
         if (imputed.getMeeting() != null && imputed.getMeeting().getCaseDetention() != null && imputed.getMeeting().getCaseDetention().getIdFolder() != null) {
-            Case c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
-                if(c!=null){
-                    Imputed iCase = c.getMeeting().getImputed();
-                    if (iCase.getName().equals(imputed.getName()) && iCase.getLastNameP().equals(imputed.getLastNameP()) && iCase.getLastNameM().equals(imputed.getLastNameM())) {
-                        return new ResponseMessage(true, "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrado.");
+            List<Case> c = caseRepository.findByIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
+                if(c!=null && c.size()>0){
+                    for(Case cAux : c){
+                        Imputed iCase = cAux.getMeeting().getImputed();
+                        if (iCase.getName().equals(imputed.getName()) && iCase.getLastNameP().equals(imputed.getLastNameP()) && iCase.getLastNameM().equals(imputed.getLastNameM())) {
+                            return new ResponseMessage(true, "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrado.");
+                        }
                     }
                 }
         } else {

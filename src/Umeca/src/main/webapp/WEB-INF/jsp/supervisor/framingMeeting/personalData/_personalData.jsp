@@ -10,12 +10,14 @@
     <h2><i class="purple glyphicon glyphicon-user bigger-100 element-center"></i> &nbsp;Datos personales</h2>
 </div>
 <br/>
+
 <div class="row">
-    <div ng-show="pdSuccessMsg&&pdSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
-        {{pdSuccessMsg}}
+    <div ng-show="pdSuccessMsg&&pdSuccessMsg!=''" class="alert alert-success element-center success-font">
+        <span ng-bind-html="pdSuccessMsg"></span>
     </div>
+
     <div ng-show="pdErrorMsg&&pdErrorMsg!=''" class="alert alert-danger element-center error-font">
-        {{pdErrorMsg}}
+        <span ng-bind-html="pdErrorMsg"></span>
     </div>
 </div>
 
@@ -89,6 +91,7 @@
                     <span class="field-validation-valid" data-valmsg-for="gender"
                           data-valmsg-replace="true"></span>
                     <br/>
+
                     <div class="radio">
 
                         <label>
@@ -119,6 +122,7 @@
                     <span class="field-validation-valid" data-valmsg-for="maritalStatus"
                           data-valmsg-replace="true"></span>
                     <br/>
+
                     <div class="radio">
                         <label>
                             <input type="radio" class="ace" name="maritalStatus"
@@ -152,6 +156,7 @@
                         </label>
                     </div>
                     <br/>
+
                     <div ng-show="pd.maritalStatus==2 || pd.maritalStatus==4">
                         <div class="col-xs-offset-1">
                             <label>A&ntilde;os</label><br>
@@ -242,7 +247,7 @@
                                   ng-model="pd.physicalCondition"
                                   maxlength="980" data-val="true"
                                   data-val-required="Enfermedad o condici&oacute;n f&iacute;sica es un campo requerido">
-                            </textarea>
+                        </textarea>
         <span class="field-validation-valid" data-valmsg-for="physicalCondition"
               data-valmsg-replace="true"></span>
 
@@ -273,9 +278,9 @@
 </div>
 
 <script>
-    var date=new Date();
-    date.setFullYear(date.getFullYear()-18);
-    $('.date-picker').datepicker({autoclose:true, endDate:date}).next().on(ace.click_event, function(){
+    var date = new Date();
+    date.setFullYear(date.getFullYear() - 18);
+    $('.date-picker').datepicker({autoclose: true, endDate: date}).next().on(ace.click_event, function () {
         $(this).prev().focus();
     });
 

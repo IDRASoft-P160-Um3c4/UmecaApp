@@ -10,20 +10,20 @@
         var canTerminate = $('#canTerminateDrugs').attr("value");
 
         upsertDrug = function (id) {
-            if(canTerminate=='true')
-            window.showUpsertWithIdCase(id, "#angJsjqGridIdDrug", "<c:url value='/supervisor/framingMeeting/drugs/upsert.html'/>", "#GridIdDrug", undefined, idCase);
+            if (canTerminate == 'true')
+                window.showUpsertWithIdCase(id, "#angJsjqGridIdDrug", "<c:url value='/supervisor/framingMeeting/drugs/upsert.html'/>", "#GridIdDrug", undefined, idCase);
         }
 
         deleteDrug = function (id) {
-            if(canTerminate=='true')
-            window.showObsolete(id, "#angJsjqGridIdDrug", "<c:url value='/supervisor/framingMeeting/drugs/delete.json'/>", "#GridIdDrug");
+            if (canTerminate == 'true')
+                window.showObsolete(id, "#angJsjqGridIdDrug", "<c:url value='/supervisor/framingMeeting/drugs/delete.json'/>", "#GridIdDrug");
         };
 
         jQuery("#GridIdDrug").jqGrid({
             url: urlGridDrugs,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Sustancia', 'Periodicidad', 'Cantidad', '�ltimo consumo', 'Acci�n'],
+            colNames: ['ID', 'Sustancia', 'Periodicidad', 'Cantidad', '&Uacute;ltimo consumo', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'drugName', index: 'drugName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

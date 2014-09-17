@@ -23,6 +23,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
 
+    <script src="${pageContext.request.contextPath}/assets/scripts/commonActMonPlan.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/trackMonitoringPlan/trackMonPlanCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/trackMonitoringPlan/monActivityCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upsertCtrl.js"></script>

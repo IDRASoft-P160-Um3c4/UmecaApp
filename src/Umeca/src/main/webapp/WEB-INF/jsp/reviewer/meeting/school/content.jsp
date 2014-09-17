@@ -1,14 +1,14 @@
 <div ng-controller="schoolController">
     <div class="row">
-        <div class="col-xs-12 element-center" ng-init="block=${m.school.block == null ? true: m.school.block}">
+        <div class="col-xs-12 element-center" ng-init="block=${m.school.block == null ? false: m.school.block}">
             <div class="col-xs-6 element-right">
-                ¿El imputado estudia actualmente?
+                &iquest;El imputado estudia actualmente?
             </div>
             <div class="col-xs-2">
-                <input type="radio" name="block"
+                <input type="radio" name="school.block"
                        id="blockYes" ng-value="true" ng-model="block" ng-change="fillModel()">
                 <label for="blockYes">Si</label>   &nbsp;&nbsp;&nbsp;
-                <input type="radio" ng-checked="block==false" name="block"
+                <input type="radio" ng-checked="block==false" name="school.block"
                        id="blockNo" ng-value="false" ng-model="block" ng-change="fillModel()">
                 <label for="blockNo">No</label>
             </div>
@@ -49,8 +49,8 @@
                 Tel&eacute;fono:
             </div>
             <div class="col-xs-8"><input class="form-control" data-val="true"
-                                         data-val-length="Debe tener al menos 5 y m&aacute;ximo 25 caracteres"
-                                         data-val-length-max="25" data-val-length-min="5"   ng-readonly="!block"
+                                         data-val-length="Debe tener al menos 5 y m&aacute;ximo 30 caracteres"
+                                         data-val-length-max="30" data-val-length-min="5"   ng-readonly="!block"
                                          data-val-required="El tel&eacute;fono es un campo requerido" type="text" value=""
                                          ng-model="school.phone" id="school.phone" name="school.phone"
                                          ng-init='school.phone = "${(m.school.phone == null) ? '' : m.school.phone}"'>

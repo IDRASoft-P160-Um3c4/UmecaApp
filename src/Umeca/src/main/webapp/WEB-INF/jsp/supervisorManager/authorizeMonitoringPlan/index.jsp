@@ -16,7 +16,8 @@
             window.showCalendar = function(id) {
                 var params= [];
                 params["idParam"]=id;
-                window.goToUrlMvcUrl("<c:url value='/supervisorManager/authorizeMonitoringPlan/showCalendar.html?id=idParam' />",params);
+                params["retParam"]=0;
+                window.goToUrlMvcUrl("<c:url value='/supervisorManager/authorizeMonitoringPlan/showCalendar.html?id=idParam&ret=retParam' />",params);
             };
 
             window.authorize = function(id){

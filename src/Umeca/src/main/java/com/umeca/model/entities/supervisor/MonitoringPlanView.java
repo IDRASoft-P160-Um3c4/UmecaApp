@@ -4,14 +4,7 @@ import com.umeca.model.shared.EntityGrid;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/3/14
- * Time: 4:36 PM
- */
 public class MonitoringPlanView implements EntityGrid{
 
     private Long id;
@@ -31,6 +24,8 @@ public class MonitoringPlanView implements EntityGrid{
     private String supervisor;
     private String statusLog;
     private Long idTec;
+    private Calendar posAuthorizationChangeTime;
+    private boolean hasActPreAuth;
 
 
     public MonitoringPlanView(Long id, Long caseId, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
@@ -67,9 +62,11 @@ public class MonitoringPlanView implements EntityGrid{
     }
 
     public MonitoringPlanView(Long id, Long caseId, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
-                              Calendar generationTime, Calendar authorizationTime, String status, String supervisor, String statusLog) {
+                              Calendar generationTime, Calendar authorizationTime, String status, String supervisor, String statusLog, Calendar posAuthorizationChangeTime) {
         this(id, caseId, idMP, name, lastNameP, lastNameM, creationTime, generationTime, authorizationTime, status, supervisor);
         this.statusLog = statusLog;
+        this.posAuthorizationChangeTime = posAuthorizationChangeTime;
+        hasActPreAuth = authorizationTime != null && posAuthorizationChangeTime != null;
     }
 
     public Long getId() {
@@ -215,5 +212,21 @@ public class MonitoringPlanView implements EntityGrid{
 
     public void setIdTec(Long idTec) {
         this.idTec = idTec;
+    }
+
+    public Calendar getPosAuthorizationChangeTime() {
+        return posAuthorizationChangeTime;
+    }
+
+    public void setPosAuthorizationChangeTime(Calendar posAuthorizationChangeTime) {
+        this.posAuthorizationChangeTime = posAuthorizationChangeTime;
+    }
+
+    public boolean isHasActPreAuth() {
+        return hasActPreAuth;
+    }
+
+    public void setHasActPreAuth(boolean hasActPreAuth) {
+        this.hasActPreAuth = hasActPreAuth;
     }
 }

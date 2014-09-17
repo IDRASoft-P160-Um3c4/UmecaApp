@@ -42,7 +42,12 @@
             window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/index.html'/>");
         }
     </script>
-
+    <style>
+        .width-100{
+            max-width: none !important;
+            width: 100% !important;
+        }
+    </style>
     <title>Entrevista</title>
 </head>
 <body scroll="no" ng-app="ptlUmc" ng-cloak>
@@ -56,7 +61,7 @@
 
 <div class="row">
     <br/>
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluación de riesgos
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluaciï¿½n de riesgos
         procesales</h2>
 </div>
 <br/>

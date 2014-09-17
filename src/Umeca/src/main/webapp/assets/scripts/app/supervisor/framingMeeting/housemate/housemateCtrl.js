@@ -1,10 +1,11 @@
-app.controller('housemateController', function ($scope, $timeout,$rootScope) {
+app.controller('housemateController', function ($scope, $timeout, $rootScope) {
 
 
     $scope.hm = {};
 
     $scope.init = function () {
         $scope.fillSelRelationship();
+        $scope.fillSelAcademicLvl();
     };
 
     $timeout(function () {
@@ -35,6 +36,27 @@ app.controller('housemateController', function ($scope, $timeout,$rootScope) {
             }
         }
 
+    };
+
+    $scope.fillSelAcademicLvl = function () {
+
+        if ($scope.lstAcademicLevel === undefined || $scope.lstAcademicLevel.length <= 0)
+            return;
+
+        if ($scope.hm.academicLvlId === undefined) {
+            $scope.hm.academicLvl = $scope.lstAcademicLevel[0];
+            $scope.hm.academicLvlId = $scope.hm.academicLvl.id;
+        }
+        else {
+            for (var i = 0; i < $scope.lstAcademicLevel.length; i++) {
+                var rel = $scope.lstAcademicLevel[i];
+
+                if (rel.id === $scope.hm.academicLvlId) {
+                    $scope.hm.academicLvl = rel;
+                    break;
+                }
+            }
+        }
     };
 
     $scope.submitIdCaseParam = function (formId, urlToPost, id) {

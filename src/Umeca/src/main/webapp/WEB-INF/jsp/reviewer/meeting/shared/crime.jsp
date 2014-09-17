@@ -7,7 +7,7 @@
     <input type="hidden" ng-update-hidden ng-model="crimeString" name='listCrime'>
     <div class="col-xs-12">
 
-        <div class="row">
+        <div class="row"  ng-show="managereval == false">
     <div class="col-xs-5 element-center">
        Delito<br/><br/>
         <input type="text" class="form-control" ng-model="c.name"/>
@@ -66,7 +66,7 @@
                 <div class="col-xs-2">
                     {{crime.federal.name}}
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-3" ng-show="managereval == false">
                     <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteCrime($index)"></i>
                 </div>
             </div>

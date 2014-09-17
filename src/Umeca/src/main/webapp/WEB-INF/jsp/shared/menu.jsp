@@ -83,7 +83,7 @@
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
                     <li class="nav-li-blue"><a href="<c:url value='/managereval/index.html'/>"><i
-                            class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Supervisar fuentes</a></li>
+                            class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Autorizar fuentes</a></li>
                     <li class="nav-li-blue"><a href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
                             class="icon-check"></i>&nbsp;&nbsp;Consulta de casos en evaluaci&oacute;n</a></li>
                     <li class="nav-li-blue"><a href="<c:url value='/managereval/authorizeRequest/index.html' />"><i
@@ -212,10 +212,14 @@
             <div class="modal-body">
                 <div class="element-left" ng-bind-html="Message"></div>
             </div>
-            <div class="modal-footer">
-                <button type="button"
-                        class="btn btn-default btn-info" ng-click="continueSession()">Continuar
-                </button>
+            <div class="modal-footer" ng-show="managereval == false">
+                    <span class="btn btn-default btn-sm" ng-click="cancel()">
+                        Cancelar
+                    </span>
+                    <span class="btn btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="submit('#FormChoices','<c:url value="/reviewer/verification/saveSelectChoice.json?idCase=${idCase}"/>');">
+                          Guardar
+                    </span>
             </div>
         </div>
     </div>

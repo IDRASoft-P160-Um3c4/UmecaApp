@@ -1,5 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.dto.LocationDto;
+
 public class FramingReferenceDto {
 
     private Long id;
@@ -10,19 +12,64 @@ public class FramingReferenceDto {
     private String age;
     private String occupation;
     private Long idCase;
+    private Boolean isAccompaniment;
+    private LocationDto location;
+    private Long academicLvlId;
+    private String occupationPlace;
+    private Integer gender;
+    private Long addressId;
 
-    public FramingReferenceDto(){
+    public FramingReferenceDto() {
 
     }
 
-    public FramingReferenceDto(FramingReference ref){
-        this.id=ref.getId();
-        this.name=ref.getName();
-        this.phone=ref.getPhone();
-        this.relationshipId=ref.getRelationship().getId();
-        this.address=ref.getAddress();
-        this.age=ref.getAge();
-        this.setOccupation(ref.getOccupation());
+    public FramingReferenceDto(FramingReference ref) {
+        this.id = ref.getId();
+        this.name = ref.getName();
+        this.phone = ref.getPhone();
+        this.relationshipId = ref.getRelationship().getId();
+        this.address = ref.getAddress();
+        this.age = ref.getAge();
+        this.isAccompaniment = ref.getIsAccompaniment();
+
+        if (ref.getPersonType() != null && ref.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
+
+            if (ref.getAccompanimentInfo() != null) {
+                this.location = new LocationDto();
+
+                if (ref.getAccompanimentInfo().getAddress() != null) {
+                    this.location.setId(ref.getAccompanimentInfo().getAddress().getLocation().getId());
+                }
+
+                if (ref.getAccompanimentInfo().getAcademicLevel() != null)
+                    this.academicLvlId = ref.getAccompanimentInfo().getAcademicLevel().getId();
+
+                this.occupationPlace = ref.getAccompanimentInfo().getOccupationPlace();
+                this.gender = ref.getAccompanimentInfo().getGender();
+
+            }
+
+        } else if (ref.getPersonType() != null && ref.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
+
+            if (ref.getAccompanimentInfo() != null) {
+                this.location = new LocationDto();
+
+                if (ref.getAccompanimentInfo().getAddress() != null) {
+                    this.location.setId(ref.getAccompanimentInfo().getAddress().getLocation().getId());
+                    this.addressId = ref.getAccompanimentInfo().getAddress().getId();
+                }
+
+                if (ref.getAccompanimentInfo().getAcademicLevel() != null)
+                    this.academicLvlId = ref.getAccompanimentInfo().getAcademicLevel().getId();
+
+                this.occupationPlace = ref.getAccompanimentInfo().getOccupationPlace();
+                this.gender = ref.getAccompanimentInfo().getGender();
+
+            }
+
+        }
+
+        this.occupation = ref.getOccupation();
     }
 
     public String getName() {
@@ -46,7 +93,7 @@ public class FramingReferenceDto {
     }
 
     public void setRelationshipId(Long relationshipId) {
-        this.relationshipId =  relationshipId;
+        this.relationshipId = relationshipId;
     }
 
     public String getAddress() {
@@ -87,5 +134,53 @@ public class FramingReferenceDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getIsAccompaniment() {
+        return isAccompaniment;
+    }
+
+    public void setIsAccompaniment(Boolean isAccompaniment) {
+        this.isAccompaniment = isAccompaniment;
+    }
+
+    public LocationDto getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationDto location) {
+        this.location = location;
+    }
+
+    public Long getAcademicLvlId() {
+        return academicLvlId;
+    }
+
+    public void setAcademicLvlId(Long academicLvlId) {
+        this.academicLvlId = academicLvlId;
+    }
+
+    public String getOccupationPlace() {
+        return occupationPlace;
+    }
+
+    public void setOccupationPlace(String occupationPlace) {
+        this.occupationPlace = occupationPlace;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 }

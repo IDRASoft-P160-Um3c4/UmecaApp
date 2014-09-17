@@ -14,6 +14,7 @@ public class ActivityMonitoringPlanNotice {
     private String activityName;
     private String goalName;
     private String personName;
+    private String status;
 
     public ActivityMonitoringPlanNotice(Long activityMonId, Long caseId, String mpId, Calendar endCalendar, Calendar startCalendar,
                                         String activityName, String goalName, String name, String lastP, String lastM){
@@ -25,6 +26,15 @@ public class ActivityMonitoringPlanNotice {
         this.activityName = activityName;
         this.goalName = goalName;
         this.personName = name + " " + lastP + " " + lastM;
+    }
+
+    public ActivityMonitoringPlanNotice(Long activityMonId, Calendar endCalendar, Calendar startCalendar,
+                                        String activityName, String status){
+        this.activityMonId = activityMonId;
+        this.end = CalendarExt.calendarToFormatString(endCalendar, Constants.FORMAT_CALENDAR_I);
+        this.start = CalendarExt.calendarToFormatString(startCalendar, Constants.FORMAT_CALENDAR_I);
+        this.activityName = activityName;
+        this.status = status;
     }
 
     public Long getActivityMonId() {
@@ -89,5 +99,13 @@ public class ActivityMonitoringPlanNotice {
 
     public void setPersonName(String personName) {
         this.personName = personName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

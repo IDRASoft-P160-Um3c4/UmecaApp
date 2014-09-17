@@ -85,14 +85,7 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
             var className = 'label-info';
             var end = window.stringToDate(act.end);
 
-            if(act.status === "NO REALIZADA"){
-                className = 'label-grey';
-            }else if(act.status === "REALIZADA"){
-                className = 'label-success';
-            }else if(act.status === "NUEVA" || act.status === "MODIFICADA"){
-                if(end < today)
-                    className = 'label-danger';
-            }
+            className = window.colorActMonPlan(act.status, end, today);
 
             if(act.monitoringPlanId === $scope.mainMonPlanId){
                 className = className + ' border-event-main';

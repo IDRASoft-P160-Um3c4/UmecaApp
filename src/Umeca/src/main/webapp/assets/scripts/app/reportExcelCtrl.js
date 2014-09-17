@@ -11,6 +11,18 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
         $scope.lstLvlRisk = [];
         $scope.lstHearingType = [];
 
+        $scope.lstStCaseStr = [];
+        $scope.lstGenderStr = [];
+        $scope.lstMarStStr = [];
+        $scope.lstJobStr = [];
+        $scope.lstAcLvlStr = [];
+        $scope.lstDrugsStr = [];
+        $scope.lstLvlRkStr = [];
+        $scope.lstHearingTpStr = [];
+
+        $scope.m = {};
+        $scope.m.filtersModel = {};
+
         $scope.init = function () {
 
         };
@@ -63,11 +75,18 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
                         $scope.$apply();
                     } else {
                         resp = resp.responseMessage;
-                        window.reloadExcelGrid(resp.message);
+
+                        $scope.fillFiltersModel();
+
+                        window.reloadExcelGrid(resp.message, $scope.m.filtersModel);
+
+
                     }
 
-                })
-                .error(function () {
+                }
+            )
+                .
+                error(function () {
                     $scope.WaitFor = false;
                     $scope.MsgError = "Error de red. Por favor intente más tarde.";
                     $scope.$apply();
@@ -76,37 +95,31 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
             return true;
         };
 
-        $scope.doTerminate = function () {
-            var currentTimeout = null;
-            var url = "doTerminate.json";
-            var idCase = $scope.fm.objView.idCase;
-            var ajaxConf;
+        $scope.fillFiltersModel = function () {
 
-            ajaxConf = {
-                method: "GET",
-                params: {idCase: idCase}
-            };
+            $scope.m.filtersModel["iDt"] = $scope.initDate;
+            $scope.m.filtersModel["eDt"] = $scope.endDate;
+            $scope.m.filtersModel["mP"] = $scope.hasMonP;
+            $scope.m.filtersModel["hJ"] = $scope.hasJob;
 
-            ajaxConf.url = url;
+            $scope.m.filtersModel["l1"] = $scope.lstStatusCase;
+            $scope.m.filtersModel["l2"] = $scope.lstStatusMeeting;
+            $scope.m.filtersModel["l3"] = $scope.lstStatusVerification;
+            $scope.m.filtersModel["l4"] = $scope.lstGender;
+            $scope.m.filtersModel["l5"] = $scope.lstMaritalSt;
+            $scope.m.filtersModel["l6"] = $scope.lstJob;
+            $scope.m.filtersModel["l7"] = $scope.lstAcademicLvl;
+            $scope.m.filtersModel["l8"] = $scope.lstDrugs;
+            $scope.m.filtersModel["l9"] = $scope.lstLvlRisk;
+            $scope.m.filtersModel["l10"] = $scope.lstHearingType;
 
-            if (currentTimeout) {
-                $timeout.cancel(currentTimeout);
-            }
-
-            currentTimeout = $timeout(function () {
-                $http(ajaxConf)
-                    .success(function (data) {
-
-                        var resp = data.responseMesage;
-
-                        if (data.hasError == true) {
-                            //$scope.FMerrorMsg = data.message;
-                            $scope.FMerrorMsgLst = data.message.split('|');
-                        }
-                        else
-                            $scope.returnIdx();
-                    });
-            }, 200);
+            $scope.m.filtersModel["lstStCaseStr"] = $scope.lstStCaseStr;
+            $scope.m.filtersModel["lstGenderStr"] = $scope.lstGenderStr;
+            $scope.m.filtersModel["lstMarStStr"] = $scope.lstMarStStr;
+            $scope.m.filtersModel["lstAcLvlStr"] = $scope.lstAcLvlStr;
+            $scope.m.filtersModel["lstDrugsStr"] = $scope.lstDrugsStr;
+            $scope.m.filtersModel["lstLvlRkStr"] = $scope.lstLvlRkStr;
+            $scope.m.filtersModel["lstHearingTpStr"] = $scope.lstHearingTpStr;
         };
 
     }

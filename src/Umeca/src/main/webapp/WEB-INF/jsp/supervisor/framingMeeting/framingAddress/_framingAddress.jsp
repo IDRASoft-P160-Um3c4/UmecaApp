@@ -22,7 +22,7 @@
 
 
         deleteAddress = function (id) {
-            if (canTerminate == 'true'){
+            if (canTerminate == 'true') {
                 window.showObsolete(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/delete.json'/>", "#GridAddress");
 
             }
@@ -33,7 +33,7 @@
             url: urlGridAddress,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Direcci�n', 'Acci�n'],
+            colNames: ['ID', 'Direcci&oacute;n', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'fullAddress', index: 'fullAddress', width: 600, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
