@@ -86,6 +86,24 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
 
 
     @Query("select distinct (c.id) from Case as c " +
+            "left join c.meeting as m " +
+            "left join m.imputedHomes ih " +
+            "left join ih.address iha " +
+            "left join iha.location ihal " +
+            "left join c.framingMeeting as fm " +
+            "left join fm.framingAddresses as fma " +
+            "left join fma.address as fmad " +
+            "left join fmad.location as fmadl " +
+            "left join c.hearingFormats as hf " +
+            "left join hf.hearingImputed as hfi " +
+            "left join hfi.address as hfia " +
+            "left join hfia.location as hfial " +
+            "where (c.id in (:lstCases)) and " +
+            "((ihal.id = :locationId) or (fmadl.id = :locationId) or (hfial.id = :locationId))")
+    List<Long> findIdCasesByLocation(@Param("lstCases") List<Long> lstCases, @Param("locationId") Long locId);
+
+
+    @Query("select distinct (c.id) from Case as c " +
             "inner join c.monitoringPlan as MonP " +
             "where (c.id in (:lstCases))")
     List<Long> findIdCasesWithMonP(@Param("lstCases") List<Long> lstCases);

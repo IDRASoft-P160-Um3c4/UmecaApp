@@ -8,6 +8,10 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.Location;
+import com.umeca.model.catalog.Municipality;
+import com.umeca.model.catalog.State;
+import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.FieldMeetingSource;
@@ -16,6 +20,9 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.catalog.LocationRepository;
+import com.umeca.repository.catalog.MunicipalityRepository;
+import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.shared.ReportExcelRepository;
 import com.umeca.repository.shared.SelectFilterFields;
@@ -28,6 +35,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
@@ -98,9 +106,76 @@ public class ExcelReportController {
     }
 
 
+    @Autowired
+    private StateRepository stateRepository;
+    @Autowired
+    private MunicipalityRepository municipalityRepository;
+    @Autowired
+    private LocationRepository locationRepository;
+
     @RequestMapping(value = "/director/excelReport/index", method = RequestMethod.GET)
-    public String index() {
-        return "/director/excelReport/index";
+    public ModelAndView index() {
+        ModelAndView model = new ModelAndView("/director/excelReport/index");
+
+
+        List<State> states = stateRepository.findStatesByCountryAlpha2("MX");
+        List<CatalogDto> lstStates = new ArrayList<>();
+
+        for (State act : states) {
+            CatalogDto dto = new CatalogDto();
+            dto.setId(act.getId());
+            dto.setName(act.getName());
+            lstStates.add(dto);
+        }
+
+        Gson conv = new Gson();
+
+        model.addObject("lstStates", conv.toJson(lstStates));
+
+        return model;
+    }
+
+    @RequestMapping(value = "/director/excelReport/getMunBySt", method = RequestMethod.POST)
+    ResponseMessage getMunicipality(Long idSt) {
+        ResponseMessage response = new ResponseMessage();
+        List<CatalogDto> lstMun = new ArrayList<>();
+        List<Municipality> municipalities = municipalityRepository.findByIdState(idSt);
+
+        for (Municipality act : municipalities) {
+            CatalogDto dto = new CatalogDto();
+            dto.setId(act.getId());
+            dto.setName(act.getName());
+            lstMun.add(dto);
+        }
+
+        Gson conv = new Gson();
+
+        response.setHasError(false);
+        response.setMessage(conv.toJson(lstMun));
+
+        return response;
+    }
+
+    @RequestMapping(value = "/director/excelReport/getLocationsByMun", method = RequestMethod.POST)
+    ResponseMessage getLocations(Long idMun) {
+
+        ResponseMessage response = new ResponseMessage();
+        List<CatalogDto> lstLoc = new ArrayList<>();
+        List<Location> locations = locationRepository.findLocationByMunId(idMun);
+
+        for (Location act : locations) {
+            CatalogDto dto = new CatalogDto();
+            dto.setId(act.getId());
+            dto.setName(act.getName());
+            lstLoc.add(dto);
+        }
+
+        Gson conv = new Gson();
+
+        response.setHasError(false);
+        response.setMessage(conv.toJson(lstLoc));
+
+        return response;
     }
 
     @Autowired
@@ -156,6 +231,8 @@ public class ExcelReportController {
         List<Long> idsHearingType = null;
 
         List<Long> idsWithMonP = null;
+
+        List<Long> idsHomePlace = null;
 
         List<Long> finalIds = null;
 
@@ -216,6 +293,10 @@ public class ExcelReportController {
                 idsWithMonP = reportExcelRepository.findIdCasesWithMonP(idsCasesInDateRange);
             }
 
+            if (filtersDto.getHomePlace() != null && filtersDto.getHomePlace() == true) {
+                idsHomePlace = reportExcelRepository.findIdCasesByLocation(idsCasesInDateRange, filtersDto.getIdLoc());
+            }
+
             //intersecciones de las listas
             finalIds = idsCasesInDateRange;
 
@@ -265,6 +346,10 @@ public class ExcelReportController {
 
             if (idsWithMonP != null) {
                 finalIds = this.intersectIds(finalIds, idsWithMonP);
+            }
+
+            if (idsHomePlace != null) {
+                finalIds = this.intersectIds(finalIds, idsHomePlace);
             }
         }
 
