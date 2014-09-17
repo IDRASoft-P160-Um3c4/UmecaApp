@@ -46,6 +46,8 @@ public class CaseRequest {
     @JoinColumn(name="id_request_message")
     private Message requestMessage;
 
+    public CaseRequest(){}
+
     public Long getId() {
         return id;
     }
