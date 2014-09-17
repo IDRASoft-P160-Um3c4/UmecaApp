@@ -103,7 +103,7 @@ public class AuthorizeMonitoringPlanController {
 
     @RequestMapping(value = "/supervisorManager/authorizeMonitoringPlan/showCalendar", method = RequestMethod.GET)
     public @ResponseBody
-    ModelAndView generate(@RequestParam(required = false) Long id){ //Id monitoring plan
+    ModelAndView generate(@RequestParam(required = false) Long id, @RequestParam(required = false) Long ret){ //Id monitoring plan
         try{
             ModelAndView model = new ModelAndView("/supervisor/trackMonitoringPlan/trackCalendar");
 
@@ -116,7 +116,13 @@ public class AuthorizeMonitoringPlanController {
 
             model.addObject("urlGetActivities","/supervisorManager/authorizeMonitoringPlan/getActivities.json");
             model.addObject("urlShowActivity","/supervisorManager/authorizeMonitoringPlan/showActivity.html");
-            model.addObject("urlReturn","/supervisorManager/authorizeMonitoringPlan/index.html");
+
+            if(ret == null || ret == 0){
+                model.addObject("urlReturn","/supervisorManager/authorizeMonitoringPlan/index.html");
+            }else if(ret == 1){
+                model.addObject("urlReturn","/supervisorManager/activeMonitoringPlan/index.html");
+            }
+
             trackMonPlanService.setLstActivitiesSupervision(model);
 
             return model;

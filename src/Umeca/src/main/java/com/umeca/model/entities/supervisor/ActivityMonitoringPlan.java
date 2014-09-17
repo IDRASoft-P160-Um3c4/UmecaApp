@@ -106,6 +106,9 @@ public class ActivityMonitoringPlan {
     @Column(name = "is_pre_authorize_mode", nullable = true)
     private Boolean isPreAuthorizeMode;
 
+    @Column(name = "is_replaced", nullable = true)
+    private Boolean isReplaced;
+
     public Long getId() {
         return id;
     }
@@ -297,4 +300,13 @@ public class ActivityMonitoringPlan {
     public void setPreAuthorizeMode(Boolean preAuthorizeMode) {
         isPreAuthorizeMode = preAuthorizeMode;
     }
+
+    public Boolean getReplaced() {
+        return isReplaced;
+    }
+
+    public void setReplaced(Boolean replaced) {
+        isReplaced = replaced;
+    }
+
 }

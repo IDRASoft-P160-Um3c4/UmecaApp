@@ -23,7 +23,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
 
-
+    <script src="${pageContext.request.contextPath}/assets/scripts/commonActMonPlan.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/generateMonitoringPlan/generateMonPlanCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/shared/upsertActivityEventController.js"></script>
     <script>
@@ -48,6 +48,9 @@
 
         var convertToEvents = function(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources){
             var lstEvents = [];
+            var today = new Date();
+            today.setHours(0,0,0,0);
+
             for(var i=0; i<lstActivitiesMonPlan.length; i++){
                 var act = lstActivitiesMonPlan[i];
                 var event = {
@@ -62,7 +65,6 @@
                     end: window.stringToDate(act.end),
                     allDay: false,
                     isModified: false,
-                    className: 'label-info',
                     infoActivity:{
                         lstArrangements: lstIdsToObjects(act.lstArrangements),
                         activity: idToObject(act.activityMonId, lstActivities),
@@ -72,6 +74,9 @@
                     },
                     groupEvt: act.group
                 };
+
+                event.className = window.colorActMonPlan(act.status, act.end, today);
+
                 event.doTitle(false);
                 lstEvents.push(event);
             }
@@ -244,9 +249,9 @@
                                                 if(ev.idActivity === -1){
                                                     return true;
                                                 }else{
-                                                    event.className = 'label-pre-delete';
-                                                    calendar.fullCalendar('updateEvent', event);
-                                                    scopeMon.addActivityToDelete(event.idActivity);
+                                                    ev.className = 'label-pre-delete';
+                                                    calendar.fullCalendar('updateEvent', ev);
+                                                    scopeMon.addActivityToDelete(ev.idActivity);
                                                 }
                                             }
                                         });

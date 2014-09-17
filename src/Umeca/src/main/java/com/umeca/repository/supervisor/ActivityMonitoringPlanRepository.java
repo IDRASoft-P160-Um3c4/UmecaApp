@@ -21,7 +21,7 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
     ActivityMonitoringPlan findOneValid(@Param("actMonPlanId")Long activityId, @Param("monPlanId")Long monitoringPlanId, @Param("caseId")Long caseId);
 
     @Query("SELECT amp FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
-            "WHERE mp.id =:monPlanId AND amp.status<>:status")
+            "WHERE mp.id =:monPlanId AND amp.status<>:status AND amp.isReplaced IS NULL")
     List<ActivityMonitoringPlan> findValidActivitiesBy(@Param("monPlanId")Long monitoringPlanId, @Param("status")String status);
 
     @Query("SELECT count(amp.id) FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
@@ -109,11 +109,19 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "amp.end, amp.start, amp.supervisionActivity.id, amp.activityGoal.id, amp.status, im.name, im.lastNameP, im.lastNameM)" +
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
             "INNER JOIN mp.supervisor s INNER JOIN amp.supervisionActivity sa " +
-            "WHERE s.id =:userId AND mp.status IN :lstStatus AND (0l = :activityId OR sa.id = :activityId)" +
+            "WHERE s.id =:userId AND mp.status IN :lstStatus AND amp.isReplaced IS NULL AND (0l = :activityId OR sa.id = :activityId)" +
             "AND amp.status NOT IN :lstActStatus AND (amp.searchStart =:yearmonthStart OR amp.searchEnd =:yearmonthStart OR amp.searchStart =:yearmonthEnd OR amp.searchEnd =:yearmonthEnd)")
     List<ActivityMonitoringPlanResponse> getAllActivitiesWithFilters(@Param("userId")Long userId, @Param("lstStatus") List<String> lstStatus,
                                                                      @Param("lstActStatus") List<String> lstActStatus, @Param("yearmonthStart")int yearmonthStart,
                                                                      @Param("yearmonthEnd")int yearmonthEnd, @Param("activityId")Long activityId);
+
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanNotice(amp.id, amp.end, amp.start, sa.name, amp.status) " +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
+            "INNER JOIN amp.supervisionActivity sa " +
+            "WHERE mp.id =:monPlanId AND amp.status IN :lstStatus " +
+            "ORDER BY amp.start ASC")
+    List<ActivityMonitoringPlanNotice> getAllActivitiesByMonPlanIdInStatus(@Param("monPlanId")Long monPlanId, @Param("lstStatus") List<String> lstStatus);
 
 }
 

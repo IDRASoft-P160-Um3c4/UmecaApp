@@ -85,6 +85,8 @@ public class Constants {
     public static final String SYSTEM_SETTINGS_ARCHIVE_MAX_SIZE_FILES = "MaxSizeFiles";
     public static final String SYSTEM_SETTINGS_ARCHIVE_PATH_TO_SAVE = "PathToSave";
 
+    public static final String SYSTEM_SETTINGS_MONPLAN = "MONPLAN";
+    public static final String SYSTEM_SETTINGS_MONPLAN_HOURS_TO_AUTHORIZE = "HoursToAuthorize";
 
     public static String VERIFICATION_STATUS_COMPLETE = "VERIFICATION_COMPLETE";
 
@@ -103,7 +105,6 @@ public class Constants {
     public static String TEC_REV_MINIMUM_RISK = "Riesgo mínimo!: Se puede recomendar combinación de medidas cautelares en libertad bajo niveles de supervisión.";
 
     public static final Integer[] IDS_TABS_MEETING = {1, 2, 3, 4, 5, 6, 7, 8};
-
 
     public static final String RESPONSE_TYPE_PENDING = "PENDING";
     public static final String RESPONSE_TYPE_ACCEPTED = "ACCEPTED";
