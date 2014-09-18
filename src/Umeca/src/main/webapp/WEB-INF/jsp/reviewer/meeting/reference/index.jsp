@@ -15,7 +15,7 @@
             url: '<c:url value='/reviewer/meeting/listReference.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Relaci&oacute;n','Edad','Teléfono','Acompa&ntilde;a al imputado <br/> durante el proceso', 'Acci&oacute;n'],
+            colNames: ['ID', 'Nombre','Relaci&oacute;n','Edad','Telï¿½fono','Acompa&ntilde;a al imputado <br/> durante el proceso', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'fullName', index: 'fullName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -86,6 +86,46 @@
                     Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+    <br/><br/>
+<div class="row" ng-controller="scController">
+    <div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
+            {{msgSuccess}}
+        </div>
+    </div>
+    <form id="FormCommentReferenceId" name="FormCommentReferenceId" class="form-horizontal" role="form">
+        <div class="col-xs-3 element-right">Observaciones:<br/>
+            <label class="info-example">(no tiene donde vivir, existe violencia, etc.)</label></div>
+        <div class="col-xs-8">
+            <textarea class="width-100"
+                      ng-model = "comment" ng-init='comment = "${m.commentReference == null ? '' : m.commentReference}";'
+                      data-val-required="Las observaciones es un campo requerido"
+                      data-val="true"
+                      data-val-required="Las observaciones es un campo requerido"
+                      data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                      data-val-length-max="500"
+                      data-val-length-min="1"
+                      name="commentReference">${m.socialNetwork.comment}</textarea>
+                <span class="field-validation-valid" data-valmsg-for="comment"
+                      data-valmsg-replace="true"></span>
+        </div>
+    </form>
+    <br/>
+    <div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgError" class="alert alert-danger element-center error-font">
+            {{msgError}}
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="upsertComment(${idCase}, '<c:url value="/reviewer/meeting/upsertComment.json"/>',4);">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                          Guardar
+                    </span>
         </div>
     </div>
 </div>

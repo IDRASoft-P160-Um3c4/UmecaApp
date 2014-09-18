@@ -21,7 +21,7 @@
             url: '<c:url value='/reviewer/meeting/listSocialNetwork.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Relación','Edad','Tel&eacute;fono','Acompa&ntilde;a al imputado <br/> durante el proceso', 'Acci&oacute;n'],
+            colNames: ['ID', 'Nombre','Relaci&oacute;n','Edad','Tel&eacute;fono','Acompa&ntilde;a al imputado <br/> durante el proceso', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -105,9 +105,14 @@
                 <div class="col-xs-3 element-right">Observaciones:<br/>
                     <label class="info-example">(no tiene donde vivir, existe violencia, etc.)</label></div>
                 <div class="col-xs-8">
-                    <textarea class="width-100"
+                    <textarea class="width-100"     ng-model = "comment" ng-init='comment = "${m.socialNetwork.comment == null ? '' : m.socialNetwork.comment}";'
                               data-val-required="Las observaciones es un campo requerido"
-                              name="comment">${m.socialNetwork.comment}</textarea>
+                              data-val="true"
+                              data-val-required="Las observaciones es un campo requerido"
+                              data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                              data-val-length-max="500"
+                              data-val-length-min="1"
+                              name="socialNetwork.comment"></textarea>
                 <span class="field-validation-valid" data-valmsg-for="comment"
                       data-valmsg-replace="true"></span>
                 </div>
@@ -121,7 +126,7 @@
     <div class="col-xs-12">
         <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormSocialNetworkIndexId', '<c:url value="/reviewer/meeting/upsertSocialNetworkComment.json?idCase=${idCase}"/>');">
+                          ng-click="upsertComment(${idCase}, '<c:url value="/reviewer/meeting/upsertComment.json"/>',3);">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>

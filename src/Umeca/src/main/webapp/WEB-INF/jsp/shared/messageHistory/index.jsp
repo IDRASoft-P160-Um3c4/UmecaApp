@@ -35,13 +35,14 @@
                 url: '<c:url value='/shared/messageHistory/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID','Carpeta de Investigaci&oacute;n','Remitente','Estatus','Mensaje'],
+                colNames: ['ID','Carpeta de Investigaci&oacute;n','Remitente','Solicitud', 'Respuesta', 'Mensaje'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'description', index: 'description', width: 300, align: "center", sortable: false, search: false},
-                    { name: "message", hidden: true}
+                    { name: 'sender', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'requestType', width: 300, align: "center", sortable: false, search: false},
+                    { name: 'responseType', width: 300, align: "center", sortable: false, search: false},
+                    { name: "message"}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

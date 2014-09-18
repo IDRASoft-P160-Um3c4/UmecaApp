@@ -4,6 +4,8 @@ import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.model.catalog.RequestType;
+import com.umeca.model.catalog.ResponseType;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.shared.Message;
 import com.umeca.model.entities.shared.MessageHistoryView;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import com.umeca.model.entities.account.User;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -57,11 +60,18 @@ public class MessageHistoryController {
                 final Join<CaseRequest, Message> messageRequest = r.join("requestMessage");
                 final Join<Message, Case> messageRequestCase = messageRequest.join("caseDetention");
                 final Join<CaseRequest, Message> messageResponse = r.join("responseMessage", JoinType.LEFT);
+                final Join<CaseRequest, RequestType> requestType = r.join("requestType");
+                final Join<CaseRequest, ResponseType> responseType = r.join("responseType");
+                final Join<Message, User> sender = messageRequest.join("sender");
 
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(messageRequestCase.get("idFolder"));
+                    add(requestType.get("description").alias("requestType"));
+                    add(responseType.get("description").alias("responseType"));
+                    add(sender.get("fullname").alias("sender"));
+                    add(messageRequest.get("text").alias("message"));
                 }};
 
                 return result;

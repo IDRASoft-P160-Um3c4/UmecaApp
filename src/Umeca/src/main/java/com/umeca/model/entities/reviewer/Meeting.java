@@ -4,7 +4,6 @@ import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
-import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -74,6 +73,24 @@ public class Meeting {
 
     @Column(name="meeting_type")
     private Integer meetingType;
+
+    @Column(name="comment_reference", nullable = true, length = 500)
+    private String commentReference;
+
+    @Column(name="comment_job", nullable = true, length = 500)
+    private String commentJob;
+
+    @Column(name="comment_school", nullable = true, length = 500)
+    private String commentSchool;
+
+    @Column(name="comment_country", nullable = true, length = 500)
+    private String commentCountry;
+
+    @Column(name="comment_home", nullable = true, length = 500)
+    private String commentHome;
+
+    @Column(name="comment_drug", nullable = true, length = 500)
+    private String commentDrug;
 
     @Basic(optional = false)
     @Column(name = "date_create", updatable = false)
@@ -214,6 +231,55 @@ public class Meeting {
 
     public void setDateCreate(Date dateCreate) {
         this.dateCreate = dateCreate;
+    }
+
+    public String getCommentReference() {
+        return commentReference;
+    }
+
+    public void setCommentReference(String commentReference) {
+        this.commentReference = commentReference;
+    }
+
+
+    public String getCommentJob() {
+        return commentJob;
+    }
+
+    public void setCommentJob(String commentJob) {
+        this.commentJob = commentJob;
+    }
+
+    public String getCommentSchool() {
+        return commentSchool;
+    }
+
+    public void setCommentSchool(String commentSchool) {
+        this.commentSchool = commentSchool;
+    }
+
+    public String getCommentCountry() {
+        return commentCountry;
+    }
+
+    public void setCommentCountry(String commentCountry) {
+        this.commentCountry = commentCountry;
+    }
+
+    public String getCommentHome() {
+        return commentHome;
+    }
+
+    public void setCommentHome(String commentHome) {
+        this.commentHome = commentHome;
+    }
+
+    public String getCommentDrug() {
+        return commentDrug;
+    }
+
+    public void setCommentDrug(String commentDrug) {
+        this.commentDrug = commentDrug;
     }
 
     public void validateMeeting(TerminateMeetingMessageDto t){
