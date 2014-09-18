@@ -15,6 +15,9 @@ public class FramingPersonalDataView {
     private String birthState;
     private Date birthDate;
     private String physicalCondition;
+    private Long birthStateId;
+    private Boolean isMexico;
+    private Integer age;
 
     public String getName() {
         return name;
@@ -94,5 +97,29 @@ public class FramingPersonalDataView {
 
     public void setPhysicalCondition(String physicalCondition) {
         this.physicalCondition = physicalCondition;
+    }
+
+    public Long getBirthStateId() {
+        return birthStateId;
+    }
+
+    public void setBirthStateId(Long birthStateId) {
+        this.birthStateId = birthStateId;
+    }
+
+    public Boolean getIsMexico() {
+        return isMexico;
+    }
+
+    public void setIsMexico(Boolean isMexico) {
+        this.isMexico = isMexico;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 }

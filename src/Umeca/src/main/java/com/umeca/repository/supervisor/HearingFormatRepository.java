@@ -64,6 +64,8 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
             "INNER JOIN hf.caseDetention cd " +
             "WHERE cd.id =:caseId and hf.isFinished = false ORDER BY hf.id DESC")
     Long findHearingFormatIncomplete(@Param("caseId") Long caseId);
+
+
 }
 
 

@@ -167,6 +167,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setBirthDate(existFraming.getPersonalData().getBirthDate());
             view.setPhysicalCondition(existFraming.getPersonalData().getPhysicalCondition());
 
+            if (existFraming.getPersonalData().getBirthStateCmb() != null) {
+                view.setBirthStateId(existFraming.getPersonalData().getBirthStateCmb().getId());
+                view.setIsMexico(true);
+            } else
+                view.setIsMexico(false);
+
             return view;
         }
 
@@ -215,6 +221,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         return new FramingPersonalDataView();
     }
 
+    @Autowired
+    private StateRepository stateRepository;
+
     public FramingImputedPersonalData fillPersonalData(Long idCase, FramingPersonalDataView view) {
 
         FramingImputedPersonalData personalData = caseRepository.findOne(idCase).getFramingMeeting().getPersonalData();
@@ -232,6 +241,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         personalData.setBirthState(view.getBirthState());
         personalData.setBirthDate(view.getBirthDate());
         personalData.setPhysicalCondition(view.getPhysicalCondition());
+        if (view.getBirthStateId() != null && view.getBirthStateId() > 0 && view.getIsMexico() != null && view.getIsMexico() == true)
+            personalData.setBirthStateCmb(stateRepository.findOne(view.getBirthStateId()));
 
         return personalData;
     }

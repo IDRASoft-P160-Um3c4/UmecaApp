@@ -293,15 +293,23 @@ public class HearingFormatController {
             Case caseDet;
 
             caseDet = caseService.generateNewCase(imputed, HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE);
-            caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE));
             caseDet.setIdMP(idJudicial);
-            response = caseService.saveConditionaReprieveCase(caseDet);
+            Long num = caseRepository.findJudicialFoneticBrthDayImputed(caseDet.getIdMP(), caseDet.getMeeting().getImputed().getFoneticString(), caseDet.getMeeting().getImputed().getBirthDate());
+
+            if (num != null && num > 0) {
+                response.setHasError(true);
+                response.setTitle("Formato de audiencia");
+                response.setMessage("El n&uacute;mero de Carpeta Judicial e Imputado ya existen, verifique los datos.");
+            } else {
+                caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE));
+                response = caseService.saveConditionaReprieveCase(caseDet);
+            }
 
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doNewCase", sharedUserService);
             response.setHasError(true);
             response.setTitle("Formato de audiencia");
-            response.setMessage("Error al guardar el caso de suspensi?n condicional de proceso!!!");
+            response.setMessage("Error al guardar el caso de suspensión condicional de proceso!!!");
 
         } finally {
             return response;

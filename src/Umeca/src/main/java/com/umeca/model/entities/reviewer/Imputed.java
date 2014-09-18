@@ -20,65 +20,69 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="imputed")
-public class Imputed { @Id
+@Table(name = "imputed")
+public class Imputed {
+    @Id
     @GeneratedValue
-    @Column(name="id_imputed")
+    @Column(name = "id_imputed")
     private Long id;
 
-    @Column(name="name", length = 50, nullable = false)
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name="lastname_p", length = 50, nullable = false)
+    @Column(name = "lastname_p", length = 50, nullable = false)
     private String lastNameP;
 
-    @Column(name="lastname_m", length = 50, nullable = false)
+    @Column(name = "lastname_m", length = 50, nullable = false)
     private String lastNameM;
 
-    @Column(name="gender", nullable = true)
+    @Column(name = "fonetic_string", length = 150, nullable = false)
+    private String foneticString;
+
+    @Column(name = "gender", nullable = true)
     private Boolean gender;
 
-    @Column(name="birth_date", nullable = false)
+    @Column(name = "birth_date", nullable = false)
     private Date birthDate;
 
-    @Column(name="cel_phone", length = 20, nullable = true)
+    @Column(name = "cel_phone", length = 20, nullable = true)
     private String celPhone;
 
-    @Column(name="years_marital_status", nullable = true)
+    @Column(name = "years_marital_status", nullable = true)
     private Integer yearsMaritalStatus;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_marital_status", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_marital_status", nullable = true)
     private MaritalStatus maritalStatus;
 
-    @Column(name="boys", nullable = true)
+    @Column(name = "boys", nullable = true)
     private Integer boys;
 
-    @Column(name="dependent_boys", nullable = true)
+    @Column(name = "dependent_boys", nullable = true)
     private Integer dependentBoys;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_country", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_country", nullable = true)
     private Country birthCountry;
 
-    @Column(name="birth_municipality", nullable = true, length = 500)
+    @Column(name = "birth_municipality", nullable = true, length = 500)
     private String birthMunicipality;
 
-    @Column(name="birth_state", nullable = true, length = 500)
+    @Column(name = "birth_state", nullable = true, length = 500)
     private String birthState;
 
-    @Column(name="birth_location", nullable = true, length = 500)
+    @Column(name = "birth_location", nullable = true, length = 500)
     private String birthLocation;
 
-    @Column(name="nickname", length = 100, nullable = true)
+    @Column(name = "nickname", length = 100, nullable = true)
     private String nickname;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_location", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_location", nullable = true)
     private Location location;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_meeting", nullable = false)
     private Meeting meeting;
 
     public Long getId() {
@@ -217,51 +221,51 @@ public class Imputed { @Id
         this.nickname = nickname;
     }
 
-    public  void validateMeeting(TerminateMeetingMessageDto t){
+    public void validateMeeting(TerminateMeetingMessageDto t) {
         List<String> result = new ArrayList<>();
-        String e="entity";
-        if(this.gender ==null){
-            result.add(t.template.replace(e,"El género"));
+        String e = "entity";
+        if (this.gender == null) {
+            result.add(t.template.replace(e, "El género"));
         }
-        if(this.celPhone==null||(this.celPhone!=null && this.celPhone.trim().equals(""))){
-            result.add(t.template.replace(e,"El número celular"));
+        if (this.celPhone == null || (this.celPhone != null && this.celPhone.trim().equals(""))) {
+            result.add(t.template.replace(e, "El número celular"));
         }
-        if(maritalStatus==null||(maritalStatus.getId()==null)){
-            result.add(t.template.replace(e,"El estado civil"));
-        }else if((maritalStatus.getId().equals(Constants.MARITAL_MARRIED) || maritalStatus.getId().equals(Constants.MARITAL_UNION_FREE))
-                && yearsMaritalStatus==null){
-            result.add(t.template.replace(e,"El número de años en el estado civil"));
+        if (maritalStatus == null || (maritalStatus.getId() == null)) {
+            result.add(t.template.replace(e, "El estado civil"));
+        } else if ((maritalStatus.getId().equals(Constants.MARITAL_MARRIED) || maritalStatus.getId().equals(Constants.MARITAL_UNION_FREE))
+                && yearsMaritalStatus == null) {
+            result.add(t.template.replace(e, "El número de años en el estado civil"));
         }
-        if(boys==null){
-            result.add(t.template.replace(e,"El total de hijos"));
+        if (boys == null) {
+            result.add(t.template.replace(e, "El total de hijos"));
         }
 
-        if(nickname== null || (nickname!=null && nickname.equals(""))){
-            result.add(t.template.replace(e,"El apódo"));
+        if (nickname == null || (nickname != null && nickname.equals(""))) {
+            result.add(t.template.replace(e, "El apódo"));
         }
-        if(dependentBoys==null){
-            result.add(t.template.replace(e,"El número de dependientes económicos"));
+        if (dependentBoys == null) {
+            result.add(t.template.replace(e, "El número de dependientes económicos"));
         }
-        if(birthCountry==null){
-            result.add(t.template.replace(e,"El país de nacimiento"));
-        }else{
-            if(birthCountry.getAlpha2().equals(Constants.ALPHA2_MEXICO)){
-               if(location==null|| (location!=null && location.getId()==null)){
-                    result.add(t.template.replace(e,"La localidad"));
-               }
-            }else{
-                if(birthMunicipality==null || (birthMunicipality!= null && birthMunicipality.trim().equals(""))){
-                    result.add(t.template.replace(e,"El municipio de nacimiento"));
+        if (birthCountry == null) {
+            result.add(t.template.replace(e, "El país de nacimiento"));
+        } else {
+            if (birthCountry.getAlpha2().equals(Constants.ALPHA2_MEXICO)) {
+                if (location == null || (location != null && location.getId() == null)) {
+                    result.add(t.template.replace(e, "La localidad"));
                 }
-                if(birthState==null ||(birthState!=null && birthState.trim().equals(""))){
-                    result.add(t.template.replace(e,"El estado de naciemiento"));
+            } else {
+                if (birthMunicipality == null || (birthMunicipality != null && birthMunicipality.trim().equals(""))) {
+                    result.add(t.template.replace(e, "El municipio de nacimiento"));
                 }
-                if(birthLocation ==null ||(birthLocation != null && birthLocation.trim().equals(""))){
-                    result.add(t.template.replace(e,"La ciudad o localidad de nacimiento"));
+                if (birthState == null || (birthState != null && birthState.trim().equals(""))) {
+                    result.add(t.template.replace(e, "El estado de naciemiento"));
+                }
+                if (birthLocation == null || (birthLocation != null && birthLocation.trim().equals(""))) {
+                    result.add(t.template.replace(e, "La ciudad o localidad de nacimiento"));
                 }
             }
         }
-        t.getGroupMessage().add(new GroupMessageMeetingDto("personalData",result));
+        t.getGroupMessage().add(new GroupMessageMeetingDto("personalData", result));
     }
 
     public Location getLocation() {
@@ -270,6 +274,14 @@ public class Imputed { @Id
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public String getFoneticString() {
+        return foneticString;
+    }
+
+    public void setFoneticString(String foneticString) {
+        this.foneticString = foneticString;
     }
 }
 

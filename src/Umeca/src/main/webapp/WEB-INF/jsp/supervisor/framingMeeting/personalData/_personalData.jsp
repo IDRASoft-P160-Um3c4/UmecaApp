@@ -29,6 +29,12 @@
 <input type="hidden" id="hidUrlPD"
        value="<c:url value="/supervisor/framingMeeting/personalData/loadPersonalData.json"/>"/>
 
+<input type="hidden" name="birthStateId" value="{{pd.birthStateCmb.id}}"/>
+<input type="hidden" name="isMexico" value="{{pd.isMexico}}"/>
+
+
+<input type="hidden" ng-init="urlGetStates= '<c:url value="/supervisor/framingMeeting/personalData/getStates.json"/>';">
+
 <div class="widget-box">
     <div class="widget-header">Nombre</div>
     <div class="widget-body">
@@ -186,16 +192,23 @@
                 <br/>
 
                 <div class="row">
-                    <div class="col-xs-4 col-xs-offset-1">
+                    <div class="col-xs-5 col-xs-offset-1">
                         <label>Pa&iacute;s</label>
                         <select class="form-control element-center" ng-model="pd.birthCountry"
                                 ng-options="e.name for e in lstCountry"
-                                ng-change="pd.birthCountryId = pd.birthCountry.id;"
+                                ng-change="pd.birthCountryId = pd.birthCountry.id; changeCountry();"
                                 ng-init='lstCountry = ${lstCountry};'></select>
                         <input type="hidden" name="birthCountryId" value="{{pd.birthCountryId}}"/>
                     </div>
 
-                    <div class="col-xs-3">
+                    <div class="col-xs-5" ng-show="pd.isMexico==true">
+                        <label>Estado</label>
+                        <select class="form-control element-center" ng-model="pd.birthStateCmb"
+                                ng-options="e.name for e in pd.lstStates"></select>
+                        <input type="hidden" name="birthCountryId" value="{{pd.birthCountryId}}"/>
+                    </div>
+
+                    <div class="col-xs-5" ng-show="pd.isMexico==false">
                         <label>Estado</label>
                         <br/>
                         <input id="birthState" ng-model="pd.birthState" name="birthState"
@@ -207,14 +220,20 @@
                               data-valmsg-replace="true"></span>
                     </div>
 
-                    <div class="col-xs-3">
+                </div>
+
+                <br/>
+
+                <div class="row">
+                    <div class="col-xs-5 col-xs-offset-1">
                         <label for="birthDate">Fecha de nacimiento</label>
 
                         <div class="input-group">
                             <input class="form-control date-picker"
                                    id="birthDate" name="birthDate" ng-model="pd.birthDate"
                                    data-date-format="yyyy/mm/dd" type="text" readonly data-val="true"
-                                   data-val-required="Fecha de naciemiento es un campo requerido">
+                                   data-val-required="Fecha de naciemiento es un campo requerido"
+                                   ng-change="calcAge();">
                             <span class="input-group-addon">
                                 <i class="icon-calendar bigger-110"></i>
                             </span>
@@ -222,7 +241,13 @@
                             <span class="field-validation-valid" data-valmsg-for="birthDate"
                                   data-valmsg-replace="true"></span>
                     </div>
-
+                    <div class="col-xs-5">
+                        <label>Edad</label>
+                        <br/>
+                        <input id="age" ng-model="pd.age"
+                               type="text" class="input-xxlarge" readonly/>
+                        <br/>
+                    </div>
                 </div>
                 <br/>
             </div>
