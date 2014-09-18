@@ -212,13 +212,10 @@
             <div class="modal-body">
                 <div class="element-left" ng-bind-html="Message"></div>
             </div>
-            <div class="modal-footer" ng-show="managereval == false">
-                    <span class="btn btn-default btn-sm" ng-click="cancel()">
-                        Cancelar
-                    </span>
+            <div class="modal-footer">
                     <span class="btn btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormChoices','<c:url value="/reviewer/verification/saveSelectChoice.json?idCase=${idCase}"/>');">
-                          Guardar
+                          ng-click="continueSession()">
+                          Continuar
                     </span>
             </div>
         </div>

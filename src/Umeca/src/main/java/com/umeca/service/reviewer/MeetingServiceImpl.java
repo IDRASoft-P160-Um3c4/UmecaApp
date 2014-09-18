@@ -314,6 +314,8 @@ public class MeetingServiceImpl implements MeetingService {
         if(pcp != null){
             model.addObject("firstProceeding",pcp.getFirstProceeding());
             model.addObject("openProcessNumber",pcp.getOpenProcessNumber());
+            model.addObject("specificationOpenProcess", pcp.getSpecificationOpenProcess());
+            model.addObject("specificationNumberConvictions", pcp.getSpecificationNumberConvictions());
             model.addObject("numberConvictions",pcp.getNumberConvictions());
         }
         if(showCase!=null && showCase.equals(1)){
@@ -988,7 +990,7 @@ public class MeetingServiceImpl implements MeetingService {
                 if(c!=null && c.size()>0){
                     for(Case cAux : c){
                         Imputed iCase = cAux.getMeeting().getImputed();
-                        if (iCase.getName().equals(imputed.getName()) && iCase.getLastNameP().equals(imputed.getLastNameP()) && iCase.getLastNameM().equals(imputed.getLastNameM())) {
+                        if (iCase.getFoneticString().equals(imputed.getFoneticString())) {
                             return new ResponseMessage(true, "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrado.");
                         }
                     }
