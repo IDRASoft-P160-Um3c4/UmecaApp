@@ -530,6 +530,29 @@ public class ExcelReportController {
                 cAct.setLstSelQuest(lstQu);
             }
 
+            /*supervision*/
+
+            List<HearingFormatInfo> allHearingFormat = reportExcelRepository.getHearingFormatInfo(casesIds);
+
+            for (ExcelCaseInfoDto actCase : listCases) {
+                List<HearingFormatInfo> lstFormats = new ArrayList<>();
+                for (HearingFormatInfo actHF : allHearingFormat) {
+
+                    actHF.setAssignedArran(reportExcelRepository.getArrangementsByFormat(actHF.getIdFormat()));
+                    actHF.setContacts(reportExcelRepository.getContactsByFormat(actHF.getIdFormat()));
+
+                    if (actHF.getIdCase() == actCase.getIdCase()) {
+                        lstFormats.add(actHF);
+                    }
+
+                }
+                actCase.setFormatsInfo(lstFormats);
+            }
+
+
+
+            /*supervision*/
+
             /*summary*/
 
             ReportExcelSummary summ = conv.fromJson(filt, new TypeToken<ReportExcelSummary>() {
