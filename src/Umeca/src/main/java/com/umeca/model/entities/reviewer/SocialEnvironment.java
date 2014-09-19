@@ -97,7 +97,7 @@ public class SocialEnvironment {
         if(t.getGroupMessage()!=null){
             for (GroupMessageMeetingDto gmdto : t.getGroupMessage()){
                 if(gmdto.getSection().equals("personalData")){
-                    gmdto.getMessages().addAll(result);
+                    gmdto.getListString().addAll(result);
                 }
             }
         }

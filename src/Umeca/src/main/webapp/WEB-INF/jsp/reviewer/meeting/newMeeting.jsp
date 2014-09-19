@@ -30,7 +30,7 @@
                             </div>
                             <div class="col-xs-7">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y m�ximo 50 caracteres"
+                                       data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                        data-val-required="El nombre es un campo requerido"
                                        data-val-length-max="50" data-val-length-min="3" ng-init="name=''"
                                        id="name" name="name" ng-model="name"
@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-xs-7">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y m�ximo 50 caracteres" ng-init="lastNameP=''"
+                                       data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres" ng-init="lastNameP=''"
                                        data-val-length-max="50" data-val-length-min="3"
                                        data-val-required="El apellido paterno es un campo requerido"
                                        id="lastNameP" name="lastNameP"
@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-xs-7">
                                 <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y m�ximo 50 caracteres"
+                                       data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3"
                                        data-val-required="El apellido parterno es un campo requerido" ng-init="lastNameM=''"
                                        id="lastNameM" name="lastNameM"
