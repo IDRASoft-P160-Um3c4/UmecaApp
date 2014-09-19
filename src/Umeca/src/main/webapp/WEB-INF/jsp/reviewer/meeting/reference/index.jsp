@@ -93,7 +93,7 @@
 <div class="row" ng-controller="scController">
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
-            {{msgSuccess}}
+            <span ng-bind-html="msgSuccess"></span>
         </div>
     </div>
     <form id="FormCommentReferenceId" name="FormCommentReferenceId" class="form-horizontal" role="form">
@@ -116,7 +116,7 @@
     <br/>
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgError" class="alert alert-danger element-center error-font">
-            {{msgError}}
+            <span ng-bind-html="msgError"></span>
         </div>
     </div>
     <div class="col-xs-12">

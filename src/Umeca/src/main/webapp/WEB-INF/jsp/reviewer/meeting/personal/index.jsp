@@ -6,7 +6,7 @@
     <div class="col-xs-10 element-center col-xs-offset-1">
         <h2><i class="purple glyphicon glyphicon-user bigger-100"></i> &nbsp;Datos personales y entorno social</h2>
         <div ng-show="msgExito" class="alert alert-success element-center success-font">
-            {{msgExito}}
+          <span ng-bind-html="msgExito"></span>
         </div>
         <form id="FormPersonalData" name="FormPersonalData" ng-submit="submit('#FormPersonalData')"
               class="form-horizontal"
@@ -17,7 +17,7 @@
         </form>
         <br/>
         <div ng-show="msgError" class="alert alert-danger element-center error-font">
-            {{msgError}}
+            <span ng-bind-html="msgError"></span>
         </div>
     </div>
     <div class="col-xs-12">

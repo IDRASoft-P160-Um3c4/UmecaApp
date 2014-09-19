@@ -15,13 +15,14 @@ public class GroupMessageMeetingDto {
         this.section = section;
     }
 
-    public GroupMessageMeetingDto(String section, List<String> messages) {
+    public GroupMessageMeetingDto(String section, List<String> listString) {
         this.section = section;
-        this.messages = messages;
+        this.listString = listString;
     }
 
     String section;
-    List<String> messages;
+    List<String> listString;
+    String messages;
 
     public String getSection() {
         return section;
@@ -31,11 +32,19 @@ public class GroupMessageMeetingDto {
         this.section = section;
     }
 
-    public List<String> getMessages() {
+    public List<String> getListString() {
+        return listString;
+    }
+
+    public void setListString(List<String> listString) {
+        this.listString = listString;
+    }
+
+    public String getMessages() {
         return messages;
     }
 
-    public void setMessages(List<String> messages) {
+    public void setMessages(String messages) {
         this.messages = messages;
     }
 }

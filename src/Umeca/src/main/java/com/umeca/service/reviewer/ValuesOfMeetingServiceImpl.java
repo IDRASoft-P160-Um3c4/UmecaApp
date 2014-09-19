@@ -1001,12 +1001,21 @@ ActivityRepository activityRepository;
                     switch (name[1]) {
                         case "name":
                             meeting.getImputed().setName(fms.getJsonValue());
+                            if(meeting.getImputed().getName()!= null && meeting.getImputed().getLastNameP()!=null && meeting.getImputed().getLastNameM()!=null){
+                                meeting.getImputed().setFoneticString(meeting.getImputed().getName().trim().toLowerCase()+meeting.getImputed().getLastNameP().trim().toLowerCase()+meeting.getImputed().getLastNameM().trim().toLowerCase());
+                            }
                             break;
                         case "lastNameP":
                             meeting.getImputed().setLastNameP(fms.getJsonValue());
+                            if(meeting.getImputed().getName()!= null && meeting.getImputed().getLastNameP()!=null && meeting.getImputed().getLastNameM()!=null){
+                                meeting.getImputed().setFoneticString(meeting.getImputed().getName().trim().toLowerCase()+meeting.getImputed().getLastNameP().trim().toLowerCase()+meeting.getImputed().getLastNameM().trim().toLowerCase());
+                            }
                             break;
                         case "lastNameM":
                             meeting.getImputed().setLastNameM(fms.getJsonValue());
+                            if(meeting.getImputed().getName()!= null && meeting.getImputed().getLastNameP()!=null && meeting.getImputed().getLastNameM()!=null){
+                                meeting.getImputed().setFoneticString(meeting.getImputed().getName().trim().toLowerCase()+meeting.getImputed().getLastNameP().trim().toLowerCase()+meeting.getImputed().getLastNameM().trim().toLowerCase());
+                            }
                             break;
                         case "birthDate":
                             SimpleDateFormat formatter = new SimpleDateFormat(Constants.FORMAT_VERIFICATION_DATE);

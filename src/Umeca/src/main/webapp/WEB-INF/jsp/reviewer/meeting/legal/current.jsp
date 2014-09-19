@@ -7,7 +7,7 @@
         <br/>
         <div class="row">
             <div ng-show="msgExitoCurrent" class="alert alert-success element-center success-font">
-            {{msgExitoCurrent}}
+           <span ng-bind-html="msgExitoCurrent"></span>
             </div>
         </div>
         <br/>

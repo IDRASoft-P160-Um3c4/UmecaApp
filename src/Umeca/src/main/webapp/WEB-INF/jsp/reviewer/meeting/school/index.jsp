@@ -8,7 +8,7 @@
         <div class="row" >
             <div class="col-xs-10 col-xs-offset-1">
                 <div ng-show="msgExito" class="alert alert-success element-center success-font">
-                    {{msgExito}}
+                    <span ng-bind-html="msgExito"></span>
                 </div>
                 <form id="FormSchool" name="FormSchool" ng-submit="submit('#FormSchool')" class="form-horizontal"
                       role="form">
@@ -17,7 +17,7 @@
                 <%@ include file="/WEB-INF/jsp/reviewer/meeting/school/content.jsp"%>
                 </form>
                 <div ng-show="msgError" class="alert alert-danger element-center error-font">
-                    {{msgError}}
+                    <span ng-bind-html="msgError"></span>
                 </div>
 
             </div>
@@ -27,7 +27,7 @@
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submit('#FormSchool', '<c:url value="/reviewer/meeting/school/doUpsert.json"/>');">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
-                          Guardar
+                           Guardar
                     </span>
             </div>
         </div>

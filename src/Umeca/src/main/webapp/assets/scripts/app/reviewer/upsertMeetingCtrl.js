@@ -1,4 +1,4 @@
-app.controller('upsertMeetingController', function ($scope, $timeout) {
+app.controller('upsertMeetingController', function ($scope, $timeout, $sce) {
     $scope.verification=false;
     $scope.submit = function (formId, urlToPost) {
 
@@ -22,21 +22,21 @@ app.controller('upsertMeetingController', function ($scope, $timeout) {
                 resp = resp.responseMessage;
             }
             if (resp.hasError === false) {
-                $scope.msgExito = resp.message;
+                $scope.msgExito = $sce.trustAsHtml(resp.message);
                 $scope.$apply();
                 return;
             }
-            $scope.msgError = resp.message;
+            $scope.msgError =$sce.trustAsHtml( resp.message);
             $scope.$apply();
 
         } catch (e) {
-            $scope.msgError = "Error inesperado de datos. Por favor intente más tarde.";
+            $scope.msgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente m&aacute;s tarde.");
         }
     };
 
     $scope.handleError = function () {
         $scope.WaitFor = false;
-        $scope.MsgError = "Error de red. Por favor intente más tarde.";
+        $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente m&aacute;s tarde.");
         $scope.$apply();
     };
 

@@ -2,11 +2,6 @@
 <input type="hidden" value="${m.caseDetention.id}" name="caseDetention.id">
 
 <div class="row">
-
-<div class="center row">
-    <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el pa&iacute;s</h2>
-</div>
-<br/>
 <div class="row" ng-show="verification || selectSource">
     <div class="col-xs-10 col-xs-offset-1 element-left">
         <label class="text-primary">Observaciones: <b>${m.commentCountry}</b></label>
@@ -41,9 +36,6 @@
         </div>
     </div>
 
-    <div ng-show="msgExito" class="alert alert-success element-center success-font">
-        {{msgExito}}
-    </div>
     <br/>
 
     <div class="row">
@@ -245,9 +237,8 @@
                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                       data-val-length-max="500"
                       data-val-length-min="1"
-                      data-val-required="Las observaciones es un campo requerido"
                       name="leaveCountry.commentCountry"></textarea>
-                <span class="field-validation-valid" data-valmsg-for="comment"
+                <span class="field-validation-valid" data-valmsg-for="leaveCountry.commentCountry"
                       data-valmsg-replace="true"></span>
         </div>
     </div>
