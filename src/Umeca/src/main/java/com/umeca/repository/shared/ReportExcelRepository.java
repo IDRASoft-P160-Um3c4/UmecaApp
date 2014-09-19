@@ -3,6 +3,8 @@ package com.umeca.repository.shared;
 import com.umeca.model.catalog.Questionary;
 import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.supervisor.ContactData;
+import com.umeca.model.entities.supervisor.HearingFormatInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -167,4 +169,29 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "inner join c.status as sc " +
             "where (sc.name in (:lstStCase)) and (c.id in (:lstCases))")
     List<Long> findIdCasesByStatusCaseStr(@Param("lstStCase") List<String> lstStCase, @Param("lstCases") List<Long> lstCases);
+
+    @Query("select new com.umeca.model.entities.supervisor.HearingFormatInfo(C.id,HF.id,HF.idFolder, HF.idJudicial,HF.room,HF.initTime,HF.endTime, HF.judgeName, HF.mpName, HF.defenderName, " +
+            "HFIM.name, HFIM.lastNameP, HFIM.lastNameM, HFIM.birthDate, HFIM.imputeTel, HFIMA.addressString, HF.crimes, HF.additionalData, HFSP.controlDetention, HFSP.imputationFormulation, " +
+            "HFSP.extension, HFSP.extDate, HFSP.linkageProcess, HFSP.linkageRoom, HFSP.linkageDate, HFSP.linkageTime, HFSP.arrangementType, HFSP.nationalArrangement, HF.terms, HF.registerTime) " +
+            "from Case C " +
+            "inner join C.hearingFormats HF " +
+            "inner join HF.hearingImputed HFIM " +
+            "inner join HFIM.address HFIMA " +
+            "inner join HF.hearingFormatSpecs HFSP " +
+            "inner join HF.supervisor HFUSR " +
+            "where (C.id in(:lstCasesIds))")
+    List<HearingFormatInfo> getHearingFormatInfo(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+
+    @Query("select ARR.description from HearingFormat HF " +
+            "inner join HF.assignedArrangements HFA " +
+            "inner join HFA.arrangement ARR " +
+            "where (HF.id=:formatId)")
+    List<String> getArrangementsByFormat(@Param("formatId") Long formatId);
+
+    @Query("select CON from HearingFormat HF " +
+            "inner join HF.contacts CON " +
+            "where (HF.id=:formatId)")
+    List<ContactData> getContactsByFormat(@Param("formatId") Long formatId);
+
 }
