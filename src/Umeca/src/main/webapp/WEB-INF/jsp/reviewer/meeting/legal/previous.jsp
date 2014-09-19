@@ -7,7 +7,7 @@
             <br/>
             <div class="row">
                 <div ng-show="msgExitoPrevious" class="alert alert-success element-center success-font">
-                    {{msgExitoPrevious}}
+                   <span ng-bind-html="msgExitoPrevious"></span>
                 </div>
             </div>
             <br/>
@@ -45,7 +45,7 @@
                     <input class="form-control" data-val="true"
                            data-val-length="Debe tener al menos 1 y m&aacute;ximo 3 caracteres"
                            data-val-length-max="3" data-val-length-min="1"
-                           ng-init='m.numberConvictions="${numberConvictions==null?'':numberConvictions }";'
+                           ng-init='m.numberConvictions="${numberConvictions==null? '' :numberConvictions }";'
                            data-val-required="Sentencias condenatorias es un campo requerido"
                            data-val-regex-pattern="([0-9]+)"
                            data-val-regex="El n&uacute;mero de sentencias condenatorias s&oacute;lo puede contener n&uacute;meros"
@@ -65,7 +65,7 @@
                            data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
                            data-val-length-max="255" data-val-length-min="1"
                            data-val-required="Procesos abiertos es un campo requerido"
-                           ng-init='m.openProcessNumber="${specificationOpenProcess==null?'':specificationOpenProcess}";'
+                           ng-init='m.specificationOpenProcess="${specificationOpenProcess==null? 0 :specificationOpenProcess}";'
                            type="text" ng-model="m.specificationOpenProcess" id="specificationOpenProcess"
                            name="specificationOpenProcess">
                     <span class="field-validation-valid" data-valmsg-for="specificationOpenProcess"
