@@ -13,8 +13,8 @@
                     <div class="col-xs-9">
                         <label class="inline">
                             <i class="glyphicon glyphicon-paperclip green"></i> &nbsp;&nbsp;
-                                <span class="lbl"><strong>{{a.title}}</strong><br/>
-                                    </span>
+                                <strong><span class="lbl" ng-bind-html="formatHtml(a.title)"><br/>
+                                    </span></strong>
                         </label>
                     </div>
                     <div class="col-xs-1 col-xs-offset-1">
@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="row">
-                    <span>{{a.message}}</span>
+                    <p ng-bind-html="formatHtml(a.message)"></p>
                 </div>
             </div>
         </li>

@@ -994,7 +994,8 @@ public class MeetingServiceImpl implements MeetingService {
                 if(c!=null && c.size()>0){
                     for(Case cAux : c){
                         Imputed iCase = cAux.getMeeting().getImputed();
-                        if (iCase.getFoneticString().equals(imputed.getFoneticString())) {
+                        Long iCaseBD = iCase.getBirthDate().getTime();
+                        if (iCase.getFoneticString().equals(imputed.getFoneticString())&& iCaseBD.equals(imputed.getBirthDate().getTime())) {
                             return new ResponseMessage(true, "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrado.");
                         }
                     }
