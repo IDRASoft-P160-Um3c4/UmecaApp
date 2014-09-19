@@ -103,7 +103,7 @@
                         <label>
                             <input type="radio" class="ace" name="gender"
                                    ng-model="pd.gender" value="1" data-val="true"
-                                   data-val-required="Debe seleccionar una opci�n"/>
+                                   data-val-required="Debe seleccionar una opci&oacute;n"/>
                             <span class="lbl">&nbsp;&nbsp;Femenino</span>
                         </label>
                         <br/>
@@ -133,7 +133,7 @@
                         <label>
                             <input type="radio" class="ace" name="maritalStatus"
                                    ng-model="pd.maritalStatus" value="1" data-val="true"
-                                   data-val-required="Debe seleccionar una opci�n"/>
+                                   data-val-required="Debe seleccionar una opci&oacute;n"/>
                             <span class="lbl">&nbsp;&nbsp;Soltero</span>
                         </label>
                         <br/>

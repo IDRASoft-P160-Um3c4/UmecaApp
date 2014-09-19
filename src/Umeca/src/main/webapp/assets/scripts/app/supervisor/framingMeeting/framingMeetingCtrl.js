@@ -1,4 +1,4 @@
-app.controller('framingMeetingController', function ($scope, $timeout, $http, $rootScope) {
+app.controller('framingMeetingController', function ($scope, $timeout, $http, $rootScope, $sce) {
 
         $scope.fm = {}
 
@@ -6,6 +6,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
         $scope.FMerrorMsg = "";
 
         $scope.FMerrorMsgLst = "";
+        $scope.listMsgError ={};
 
         $scope.disableView = function () {
 
@@ -15,6 +16,23 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
             else {
                 $("#divFM :input").attr("disabled", false);
             }
+
+        };
+
+        $scope.changeZIndex = function(elementClick){
+            $("#liPersonalData").css("z-index","0");
+            $("#liImputedHome").css("z-index","0");
+            $("#liReference").css("z-index","0");
+            $("#liSocialNetwork").css("z-index","0");
+            $("#liJob").css("z-index","0");
+            $("#liSchool").css("z-index","0");
+            $("#liFinger").css("z-index","0");
+            $("#liActivities").css("z-index","0");
+            $("#liAnalysis").css("z-index","0");
+            $("#liQuestion").css("z-index","0");
+            $("#liDrug").css("z-index","0");
+            $("#liLeaveCountry").css("z-index","0");
+            $("#"+elementClick).css("z-index","1");
 
         };
 
@@ -64,11 +82,18 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                 $http(ajaxConf)
                     .success(function (data) {
 
-                        var resp = data.responseMesage;
+                        if(data.hasError==undefined){
+                           data = data.responseMesage;
+                        }
 
                         if (data.hasError == true) {
-                            //$scope.FMerrorMsg = data.message;
-                            $scope.FMerrorMsgLst = data.message.split('|');
+                            var obj = JSON.parse(data.message);
+                            if(obj.groupMessage != undefined){
+                                for(var i=0; i < obj.groupMessage.length; i++){
+                                    var g1= obj.groupMessage[i];
+                                    $scope.listMsgError[g1.section]= $sce.trustAsHtml( g1.messages);
+                                }
+                            }
                         }
                         else
                             $scope.returnFM();
