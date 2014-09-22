@@ -180,6 +180,8 @@ public class VerificationController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if(field.equals("idCase")){
                     return r.join("verification").join("caseDetention").get("id");
+                }if(field.equals("fullName")){
+                    return r.get("fullName");
                 }
                 return null;
             }
@@ -204,6 +206,7 @@ public class VerificationController {
     public ModelAndView addSources(@RequestParam(required = true) Long id){
         ModelAndView model = new ModelAndView("/reviewer/verification/addSources/index");
         model.addObject("idCase", id);
+        verificationService.setImputedData(id,model);
         return model;
     }
 
