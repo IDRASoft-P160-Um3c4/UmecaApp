@@ -6,6 +6,8 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
+import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
@@ -167,6 +169,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setBirthDate(existFraming.getPersonalData().getBirthDate());
             view.setPhysicalCondition(existFraming.getPersonalData().getPhysicalCondition());
 
+            if (existFraming.getPersonalData().getBirthStateCmb() != null) {
+                view.setBirthStateId(existFraming.getPersonalData().getBirthStateCmb().getId());
+                view.setIsMexico(true);
+            } else
+                view.setIsMexico(false);
+
             return view;
         }
 
@@ -215,6 +223,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         return new FramingPersonalDataView();
     }
 
+    @Autowired
+    private StateRepository stateRepository;
+
     public FramingImputedPersonalData fillPersonalData(Long idCase, FramingPersonalDataView view) {
 
         FramingImputedPersonalData personalData = caseRepository.findOne(idCase).getFramingMeeting().getPersonalData();
@@ -232,6 +243,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         personalData.setBirthState(view.getBirthState());
         personalData.setBirthDate(view.getBirthDate());
         personalData.setPhysicalCondition(view.getPhysicalCondition());
+        if (view.getBirthStateId() != null && view.getBirthStateId() > 0 && view.getIsMexico() != null && view.getIsMexico() == true)
+            personalData.setBirthStateCmb(stateRepository.findOne(view.getBirthStateId()));
 
         return personalData;
     }
@@ -726,7 +739,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsertDrug", sharedUserService);
             result.setHasError(true);
-            result.setMessage("Ocurrio un error al guardar la informaci&oacute;n. Inténte m&aacute;s tarde.");
+            result.setMessage("Ocurrio un error al guardar la informaci&oacute;n. Intï¿½nte m&aacute;s tarde.");
         }
         return result;
     }
@@ -741,7 +754,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "deleteDrug", sharedUserService);
             result.setHasError(true);
-            result.setMessage("Ocurrio un error al eliminar la sustancia. Inténte m&aacute;s tarde");
+            result.setMessage("Ocurrio un error al eliminar la sustancia. Intï¿½nte m&aacute;s tarde");
         }
         return result;
     }
@@ -1009,19 +1022,20 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         StringBuilder sb = new StringBuilder();
         try {
             FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+            TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
+            List<String> lsSN = new ArrayList<>();
+            List<String> lsR = new ArrayList<>();
+            if (existFraming.getPersonalData() == null){
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Datos personales y entorno social\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("imputed",ls));
+            }
 
-            if (existFraming.getPersonalData() == null)
-                if (sb.toString().equals(""))
-                    sb.append("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Datos personales y entorno social\".");
-                else
-                    sb.append("|Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Datos personales y entorno social\".");
-
-            if (existFraming.getFramingAddresses() == null || !(existFraming.getFramingAddresses().size() > 0))
-                if (sb.toString().equals(""))
-                    sb.append("Debe registrar al menos un registro en la secci&oacute;n \"Domicilios\".");
-                else
-                    sb.append("|Debe registrar al menos un registro en la secci&oacute;n \"Domicilios\".");
-
+            if (existFraming.getFramingAddresses() == null || !(existFraming.getFramingAddresses().size() > 0)){
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe registrar al menos un registro en la secci&oacute;n \"Domicilios\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome",ls));
+            }
 //            if (existFraming.getProcessAccompaniment() == null)
 //                if (sb.toString().equals(""))
 //                    sb.append("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Persona que acompa?a en el proceso\".");
@@ -1038,25 +1052,16 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                         noReferences++;
                 }
 
-                if (noHousemate == 0)
-                    if (sb.toString().equals(""))
-                        sb.append("Debe registrar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
-                    else
-                        sb.append("|Debe registrar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
-                if (noReferences == 0)
-                    if (sb.toString().equals(""))
-                        sb.append("Debe registrar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
-                    else
-                        sb.append("|Debe registrar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
+                if (noHousemate == 0){
+                    lsSN.add("Debe registrar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
+                }
+                if (noReferences == 0){
+                    lsR.add("Debe registrar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
+                }
 
             } else {
-
-                if (sb.toString().equals(""))
-                    sb.append("Debe registrar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
-                else
-                    sb.append("|Debe registrar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
-
-                sb.append("|Debe registrar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
+                lsSN.add("Debe registrar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
+                lsR.add("Debe registrar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
             }
 
             int bandHM = 0;
@@ -1074,43 +1079,48 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             if (bandHM > 0) {
-                if (sb.toString().equals(""))
-                    sb.append("Ha marcado que alguna persona registrada en la secci&oacute;n \"Personas que viven con el imputado\" como acompa&ntilde;ante durante el proceso. Debe registrar la informaci&oacute;n adicional requerida.");
-                else
-                    sb.append("|Ha marcado que alguna persona registrada en la secci&oacute;n \"Personas que viven con el imputado\" como acompa&ntilde;ante durante el proceso. Debe registrar la informaci&oacute;n adicional requerida.");
+                lsSN.add("Ha marcado que alguna persona registrada en la secci&oacute;n \"Personas que viven con el imputado\" como acompa&ntilde;ante durante el proceso. Debe registrar la informaci&oacute;n adicional requerida.");
             }
 
             if (bandREF > 0) {
-                if (sb.toString().equals(""))
-                    sb.append("Ha marcado a alguna persona registrada en la secci&oacute;n \"Referencias personales\" como acompa&ntilde;ante durante el proceso. Debe registrar la informaci&oacute;n adicional requerida.");
-                else
-                    sb.append("|Ha marcado que alguna persona registrada en la secci&oacute;n \"Referencias personales\" como acompa&ntilde;ante durante el proceso. Debe registrar la informaci&oacute;n adicional requerida.");
+                lsR.add("Ha marcado que alguna persona registrada en la secci&oacute;n \"Referencias personales\" como acompa&ntilde;ante durante el proceso. Debe registrar la informaci&oacute;n adicional requerida.");
             }
 
-            if (existFraming.getOccupation() == null && existFraming.getActivities() == null)
-                if (sb.toString().equals(""))
-                    sb.append("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Actividades que realiza el imputado\".");
-                else
-                    sb.append("|Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Actividades que realiza el imputado\".");
-            if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0))
-                if (sb.toString().equals(""))
-                    sb.append("Debe registrar al menos una registro en en la secci&oacute;n \"Consumo de sustancias\".");
-                else
-                    sb.append("|Debe registrar al menos una registro en en la secci&oacute;n \"Consumo de sustancias\".");
+            if(lsSN.size()>0){
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("socialNetwork",lsSN));
+            }
+            if(lsR.size()>0){
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("reference",lsR));
+            }
+            if (existFraming.getOccupation() == null && existFraming.getActivities() == null){
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"Actividades que realiza el imputado\\\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities",ls));
+            }
+            if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0))    {
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe registrar al menos una registro en en la secci&oacute;n \\\"Consumo de sustancias\\\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("drug",ls));
+            }
             if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
                     existFraming.getSelectedRisksRel() == null || !(existFraming.getSelectedRisksRel().size() > 0) ||
-                    existFraming.getSelectedThreatsRel() == null || !(existFraming.getSelectedThreatsRel().size() > 0))
-                if (sb.toString().equals(""))
-                    sb.append("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"An&aacute;isis del entorno\".");
-                else
-                    sb.append("|Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"An&aacute;isis del entorno\".");
-            if (existFraming.getAdditionalFramingQuestions() == null)
-                if (sb.toString().equals(""))
-                    sb.append("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Formulario de preguntas al supervisado\".");
-                else
-                    sb.append("|Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Formulario de preguntas al supervisado\".");
-            if (!sb.toString().equals("")) {
-                return new ResponseMessage(true, sb.toString());
+                    existFraming.getSelectedThreatsRel() == null || !(existFraming.getSelectedThreatsRel().size() > 0)){
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"An&aacute;isis del entorno\\\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("analysis",ls));
+            }
+            if (existFraming.getAdditionalFramingQuestions() == null){
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"Formulario de preguntas al supervisado\\\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("question",ls));
+            }
+            if (validate.existsMessageProperties()) {
+                List<String> listGeneral = new ArrayList<>();
+                listGeneral.add(sharedUserService.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para mÃ¡s detalles revise los mensajes de cada secciÃ³n"));
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
+                Gson gson =new Gson();
+                validate.formatMessages();
+                return new ResponseMessage(true, gson.toJson(validate));
             }
 
             Case existCase = caseRepository.findOne(idCase);

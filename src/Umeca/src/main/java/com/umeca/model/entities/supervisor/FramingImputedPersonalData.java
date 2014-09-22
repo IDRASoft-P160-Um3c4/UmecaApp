@@ -2,11 +2,13 @@ package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.Country;
 import com.umeca.model.catalog.MaritalStatus;
+import com.umeca.model.catalog.State;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="framing_imputed_personal_data")
+@Table(name = "framing_imputed_personal_data")
 public class FramingImputedPersonalData {
 
     @Id
@@ -36,6 +38,10 @@ public class FramingImputedPersonalData {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_country")
     private Country birthCountry;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_state")
+    private State birthStateCmb;
 
     @Column(name = "birth_state")
     private String birthState;
@@ -133,4 +139,13 @@ public class FramingImputedPersonalData {
     public void setPhysicalCondition(String physicalCondition) {
         this.physicalCondition = physicalCondition;
     }
+
+    public State getBirthStateCmb() {
+        return birthStateCmb;
+    }
+
+    public void setBirthStateCmb(State birthStateCmb) {
+        this.birthStateCmb = birthStateCmb;
+    }
+
 }

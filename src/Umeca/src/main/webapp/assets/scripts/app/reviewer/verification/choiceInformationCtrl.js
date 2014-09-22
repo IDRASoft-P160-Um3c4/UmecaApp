@@ -153,7 +153,7 @@ app.controller('choiceInformationController', function($scope, $timeout, $q,shar
             if(obj.groupMessage != undefined){
                 for(var i=0; i < obj.groupMessage.length; i++){
                     var g1= obj.groupMessage[i];
-                    $scope.listMsgError[g1.section]=g1.messages;
+                    $scope.listMsgError[g1.section]= $sce.trustAsHtml(g1.messages);
                 }
             }
             $scope.$apply();

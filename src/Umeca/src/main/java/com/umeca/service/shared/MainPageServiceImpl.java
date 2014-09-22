@@ -189,8 +189,11 @@ public class MainPageServiceImpl implements MainPageService {
         Collections.sort(lstActivities, LogNotificationDto.dateSorter);
 
         Gson conv = new Gson();
+        List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getReviewerNotifications(sharedUserService.GetLoggedUserId());
+       model.addObject("lstActivities", conv.toJson(lstActivities));
+        model.addObject("lstNotification", conv.toJson(lstNotif));
+        model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
 
-        model.addObject("lstActivities", conv.toJson(lstActivities));
     }
 
     @Transactional

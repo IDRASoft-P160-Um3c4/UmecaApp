@@ -61,7 +61,7 @@
 
 <div class="row">
     <br/>
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluaci�n de riesgos
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluaci&oacute;n de riesgos
         procesales</h2>
 </div>
 <br/>
@@ -99,7 +99,7 @@
                                 <br/>
                                 <div class="col-xs-offset-3">y Entorno social</div>
                             </div>
-                            <div class="col-xs-2" ng-show="listMsgError['personalData'].length > 0">
+                            <div class="col-xs-2" ng-show="listMsgError['personalData']">
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -108,12 +108,7 @@
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">
-                                                <div ng-repeat="msg in listMsgError['personalData']">
-                                                    <li>
-                                                        {{msg}}
-                                                    </li>
-
-                                                </div>
+                                                        <span ng-bind-html = "listMsgError['personalData']"></span>
                                             </div>
                                         </ul>
                                     </div>
@@ -131,7 +126,7 @@
                                 Domicilios    <br/>
                                 <label class="info-example">De los &uacute;ltimos 5 a&ntilde;os</label>
                             </div>
-                            <div class="col-xs-2" ng-show="listMsgError['imputedHome'].length > 0">
+                            <div class="col-xs-2" ng-show="listMsgError['imputedHome']">
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -140,13 +135,8 @@
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">
-                                                <div ng-repeat="msg in listMsgError['imputedHome']">
-                                                    <li>
-                                                        {{msg}}
-                                                    </li>
-
+                                                <span ng-bind-html="listMsgError['imputedHome']"></span>
                                                 </div>
-                                            </div>
                                         </ul>
                                     </div>
                                 </div>
@@ -163,7 +153,7 @@
                                 Red social               <br/>
                                 <label class="info-example">Personas con las que vive</label>
                             </div>
-                            <div class="col-xs-2" ng-show="listMsgError['socialNetwork'].length > 0">
+                            <div class="col-xs-2" ng-show="listMsgError['socialNetwork']">
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -172,12 +162,8 @@
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">
-                                                <div ng-repeat="msg in listMsgError['socialNetwork']">
-                                                    <li>
-                                                        {{msg}}
-                                                    </li>
-
-                                                </div>
+                                                <span ng-bind-html="listMsgError['socialNetwork']">
+                                                </span>
                                             </div>
                                         </ul>
                                     </div>
@@ -194,7 +180,7 @@
                                 Referencias personales <br/>
                                 <label class="info-example">Personas con las que no vive</label>
                             </div>
-                            <div class="col-xs-2" ng-show="listMsgError['reference'].length > 0">
+                            <div class="col-xs-2" ng-show="listMsgError['reference']">
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
@@ -202,11 +188,8 @@
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">
-                                                <div ng-repeat="msg in listMsgError['reference']">
-                                                    <li>
-                                                        {{msg}}
-                                                    </li>
-                                                </div>
+                                                <span ng-bind-html="listMsgError['reference']">
+                                                </span>
                                             </div>
                                         </ul>
                                     </div>
@@ -223,7 +206,7 @@
                                 Historia laboral<br/>
                                 <label class="info-example">&Uacute;ltimos 3-5 empleos</label>
                             </div>
-                            <div class="col-xs-2" ng-show="listMsgError['job'].length > 0">
+                            <div class="col-xs-2" ng-show="listMsgError['job']">
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -232,12 +215,8 @@
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">
-                                                <div ng-repeat="msg in listMsgError['job']">
-                                                    <li>
-                                                        {{msg}}
-                                                    </li>
-
-                                                </div>
+                                                <span ng-bind-html="listMsgError['job']">
+                                                </span>
                                             </div>
                                         </ul>
                                     </div>
@@ -253,7 +232,7 @@
                                 <i class="orange icon-book  bigger-200"></i>
                                 Historia Escolar
                             </div>
-                            <div class="col-xs-2" ng-show="listMsgError['school'].length > 0">
+                            <div class="col-xs-2" ng-show="listMsgError['school']">
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
@@ -261,11 +240,8 @@
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">
-                                                <div ng-repeat="msg in listMsgError['school']">
-                                                    <li>
-                                                        {{msg}}
-                                                    </li>
-                                                </div>
+                                                <span ng-bind-html="listMsgError['school']">
+                                                </span>
                                             </div>
                                         </ul>
                                     </div>
@@ -281,7 +257,7 @@
                                 <i class="green icon-warning-sign  bigger-200"></i>
                                 Consumo de sustancias
                             </div>
-                            <div class="col-xs-2" ng-show="listMsgError['drug'].length > 0">
+                            <div class="col-xs-2" ng-show="listMsgError['drug']">
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
@@ -289,11 +265,8 @@
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">
-                                                <div ng-repeat="msg in listMsgError['drug']">
-                                                    <li>
-                                                        {{msg}}
-                                                    </li>
-                                                </div>
+                                                <span ng-bind-html="listMsgError['drug']">
+                                                </span>
                                             </div>
                                         </ul>
                                     </div>
@@ -312,7 +285,7 @@
 
                                 <div class="col-xs-offset-3">abandonar el pa&iacute;s</div>
                             </div>
-                            <div class="col-xs-2" ng-show="listMsgError['leavingCountry'].length > 0">
+                            <div class="col-xs-2" ng-show="listMsgError['leavingCountry']">
                                 <div class="tools">
                                     <div class="inline position-relative">
                                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
@@ -320,11 +293,8 @@
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                             style="width: 400px; z-index: 100000; padding: 0 0;">
                                             <div class="alert-danger element-center error-font">
-                                                <div ng-repeat="msg in listMsgError['leavingCountry']">
-                                                    <li>
-                                                        {{msg}}
-                                                    </li>
-                                                </div>
+                                                <span ng-bind-html="listMsgError['leavingCountry']">
+                                                </span>
                                             </div>
                                         </ul>
                                     </div>
@@ -369,13 +339,9 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div ng-show="listMsgError['general'].length > 0" class="alert alert-danger element-center error-font">
-            <div ng-repeat="msg in listMsgError['general']">
-                <li>
-                    {{msg}}
-                </li>
-
-            </div>
+        <div ng-show="listMsgError['general']" class="alert alert-danger element-center error-font">
+            <span ng-bind-html="listMsgError['general']">
+            </span>
         </div>
     </div>
 </div>
@@ -385,7 +351,7 @@
                         Regresar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormSchool , #FormPersonalData, #FormLeaveCountry','<c:url value="/reviewer/meeting/terminateMeeting.json?idCase=${idCase}"/>');">
+                          ng-click="submit('#FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId','<c:url value="/reviewer/meeting/terminateMeeting.json?idCase=${idCase}"/>');">
                           Terminar
                     </span>
     </div>

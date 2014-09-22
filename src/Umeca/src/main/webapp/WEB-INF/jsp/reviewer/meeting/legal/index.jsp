@@ -52,7 +52,7 @@
                                     Proceso actual            <br/>
                                     <label class="info-example">Analizar carpeta de investigaci&oacute;n</label>
                                 </div>
-                                <div class="col-xs-2" ng-show="listMsgError['legalActual'].length > 0">
+                                <div class="col-xs-2" ng-show="listMsgError['legalActual']">
                                     <div class="tools">
                                         <div class="inline position-relative">
                                             <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -61,12 +61,8 @@
                                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                                 style="width: 400px; z-index: 100000; padding: 0 0;">
                                                 <div class="alert-danger element-center error-font">
-                                                    <div ng-repeat="msg in listMsgError['legalActual']">
-                                                        <li>
-                                                            {{msg}}
-                                                        </li>
-
-                                                    </div>
+                                                    <span ng-bind-html="listMsgError['legalActual']">
+                                                        </span>
                                                 </div>
                                             </ul>
                                         </div>
@@ -83,7 +79,7 @@
                                     <i class="gray  icon-legal  bigger-200"></i>
                                     Procesos anteriores
                                 </div>
-                                <div class="col-xs-2" ng-show="listMsgError['legalPrevious'].length > 0">
+                                <div class="col-xs-2" ng-show="listMsgError['legalPrevious']">
                                     <div class="tools">
                                         <div class="inline position-relative">
                                             <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -92,11 +88,8 @@
                                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                                                 style="width: 400px; z-index: 100000; padding: 0 0;">
                                                 <div class="alert-danger element-center error-font">
-                                                    <div ng-repeat="msg in listMsgError['legalPrevious']">
-                                                        <li>
-                                                            {{msg}}
-                                                        </li>
-                                                    </div>
+                                                    <span ng-bind-html="listMsgError['legalPrevious']">
+                                                    </span>
                                                 </div>
                                             </ul>
                                         </div>
@@ -128,13 +121,9 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <div ng-show="listMsgError['general'].length > 0" class="alert alert-danger element-center error-font">
-                    <div ng-repeat="msg in listMsgError['general']">
-                        <li>
-                            {{msg}}
-                        </li>
-
-                    </div>
+                <div ng-show="listMsgError['general']" class="alert alert-danger element-center error-font">
+                    <span ng-bind-html="listMsgError['general']">
+                    </span>
                 </div>
             </div>
         </div>

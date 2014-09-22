@@ -1,4 +1,4 @@
-app.controller('personalDataController', function ($scope, $timeout, $q, $http, $rootScope) {
+app.controller('personalDataController', function ($scope, $timeout, $q, $http, $rootScope, $sce) {
     $scope.m = {};
     $scope.specification = {};
     $scope.lstActivity = [];

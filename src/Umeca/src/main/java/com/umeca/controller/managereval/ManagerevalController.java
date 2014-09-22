@@ -86,6 +86,7 @@ public class ManagerevalController {
     @Autowired
     LogNotificationReviewerRepository logNotificationReviewerRepository;
 
+
     @RequestMapping(value = "/managereval/save", method = RequestMethod.POST)
     @Transactional
     public
@@ -124,12 +125,27 @@ public class ManagerevalController {
 
         LogNotificationReviewer notif = new LogNotificationReviewer();
         notif.setIsObsolete(false);
-        notif.setSubject("Se han verificado las fuentes para el caso con carpeta de investigaci�n "+__case.getIdFolder()+".");
+        notif.setSubject("Se han verificado las fuentes para el caso con carpeta de investigaci&oacute;n "+__case.getIdFolder()+".");
         notif.setMessage(sourcesInfo.getComment());
-        notif.setSenderUser(userRepository.findOne(userService.GetLoggedUserId()));
-        notif.setReceiveUser(__case.getMeeting().getReviewer());
+        User uSender = userRepository.findOne(userService.GetLoggedUserId());
+        notif.setSenderUser(uSender);
+        User reviewer =__case.getMeeting().getReviewer();
+        notif.setReceiveUser(reviewer);
 
         logNotificationReviewerRepository.save(notif);
+
+        Message m = new Message();
+        m.setCaseDetention(__case);
+        m.setSender(uSender);
+        List<RelMessageUserReceiver> rmur  = new ArrayList<>();
+        RelMessageUserReceiver r = new RelMessageUserReceiver();
+        r.setUser(reviewer);
+        r.setMessage(m);
+        rmur.add(r);
+        m.setMessageUserReceivers(rmur);
+        m.setCreationDate(new Date());
+        m.setText(sourcesInfo.getComment());
+        messageRepository.save(m);
 
         return new ResponseMessage(false, "");
     }
@@ -411,6 +427,16 @@ public class ManagerevalController {
             }
             caseRequestRepository.save(caseRequest);
             qCaseRepository.save(c);
+            LogNotificationReviewer notif = new LogNotificationReviewer();
+            notif.setIsObsolete(false);
+            User uSender = userRepository.findOne(userService.GetLoggedUserId());
+            notif.setSenderUser(uSender);
+            String request = requestDto.getResponse().equals(Constants.RESPONSE_TYPE_ACCEPTED)? " acept&oactue; ":" rechaz&oactue;";
+            notif.setSubject("El Coordinador de Evaluaci&oacute;n "+uSender.getFullname()+request+"la solcitud");
+            notif.setMessage("Carpeta de investigaci&oacute;n: "+c.getIdFolder()+"<br/>Solicitud: "+caseRequest.getRequestType().getDescription()+"<br/>Raz&oacute;n: "+requestDto.getReason());
+            notif.setReceiveUser(caseRequest.getRequestMessage().getSender());
+            logNotificationReviewerRepository.save(notif);
+
             return new ResponseMessage(false,"Se ha guardado la respuesta con exito");
 
         }catch (Exception e){

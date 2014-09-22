@@ -1,7 +1,7 @@
 <div id="notifications-tab" class="tab-pane">
     <div class="clearfix">
         <div class="comments">
-            <div class="itemdiv commentdiv" ng-repeat="n in lstNotification">
+            <div class="itemdiv commentdiv" ng-repeat="n in lstNotification" >
                 <div class="user">
                     <img class="nav-user-photo" src="<c:url value='/assets/avatars/avatar0.png' />"
                          alt="{{n.senderUser}}"/>
@@ -14,8 +14,8 @@
                             <div class="col-xs-9">
                                 <label class="inline">
                                     <i class="glyphicon glyphicon-paperclip green"></i> &nbsp;&nbsp;
-                                <span class="lbl"><strong>{{n.title}}</strong><br/>
-                                    </span>
+                                <strong><span class="lbl" ng-bind-html="formatHtml(n.title)"><br/>
+                                    </span></strong>
                                 </label>
                             </div>
                             <div class="col-xs-1 col-xs-offset-1">
@@ -23,8 +23,8 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <span>{{n.message}}</span>
+                        <div class="row" >
+                            <p ng-bind-html="formatHtml(n.message)"></p>
                         </div>
                     </div>
                 </div>

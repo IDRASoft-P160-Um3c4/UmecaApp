@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,11 +31,11 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     @Query("SELECT c FROM Case c WHERE c.idMP =:idMP")
     Case findByIdMP(@Param("idMP") String idMP);
 
-    @Query("select  new com.umeca.model.entities.reviewer.FindLegalBefore(c.idMP,c.idFolder,s.description) from Case as c " +
+    @Query("select  new com.umeca.model.entities.reviewer.FindLegalBefore(c.id,c.idMP,c.idFolder,s.description,c.dateCreate) from Case as c " +
             "INNER JOIN c.status as s " +
             "INNER JOIN c.meeting.imputed as i " +
-            "where i.name=:name and i.lastNameP = :lastNameP and i.lastNameM = :lastNameM and c.id <> :idCase")
-    List<FindLegalBefore> findLegalBefore(@Param("idCase") Long id, @Param("name") String name, @Param("lastNameP") String lastNameP, @Param("lastNameM") String lastNameM);
+            "where i.foneticString=:foneticString and c.id <> :idCase")
+    List<FindLegalBefore> findLegalBefore(@Param("idCase") Long id, @Param("foneticString") String foneticString);
 
 
     //obtengo los meeting_incomplete y los incomplete_legal
@@ -286,7 +287,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "inner join cd.status as cs " +
             "inner join cd.meeting.status as sm " +
             "left join cd.verification.status as vs where cd.id = :caseId")
-    StatusEvaluation getStatusEvaluation(@Param("caseId")Long caseId);
+    StatusEvaluation getStatusEvaluation(@Param("caseId") Long caseId);
 
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelVerificationDto(" +
@@ -303,7 +304,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "sv.id," +
             "st.description) from Case as CDET " +
             "INNER JOIN CDET.meeting.imputed as IMP " +
-            "INNER JOIN CDET.status as st "+
+            "INNER JOIN CDET.status as st " +
             "INNER JOIN CDET.verification as V " +
             "INNER JOIN V.sourceVerifications as sv " +
             "WHERE CDET.id in (:listCaseId) and sv.isAuthorized = true " +
@@ -311,5 +312,12 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     List<ExcelVerificationDto> getInfoVerification(@Param("listCaseId") List<Long> listCaseId);
 
     @Query("SELECT COUNT(C) FROM Case C INNER JOIN C.status ST WHERE C.id =:caseId AND ST.name <>:caseStatus")
-    Long existsCaseNotClosed(@Param("caseId")Long caseId, @Param("caseStatus")String caseStatusClosed);
+    Long existsCaseNotClosed(@Param("caseId") Long caseId, @Param("caseStatus") String caseStatusClosed);
+
+    @Query("SELECT COUNT(C.id) FROM Case C " +
+            "INNER JOIN C.meeting M " +
+            "INNER JOIN M.imputed IMP " +
+            "WHERE C.idMP=:idMP AND IMP.foneticString=:foneticName AND IMP.birthDate=:bthDate")
+    Long findJudicialFoneticBrthDayImputed(@Param("idMP") String idMP, @Param("foneticName") String foneticName, @Param("bthDate") Date bthDate);
+
 }

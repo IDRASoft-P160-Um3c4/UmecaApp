@@ -95,3 +95,42 @@
         </div>
     </div>
 </div>
+     <br/><br/>
+<div class="row" ng-controller="scController">
+    <div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
+            <span ng-bind-html="msgSuccess"></span>
+        </div>
+    </div>
+    <form id="FormCommentHomeId" name="FormCommentHomeId" class="form-horizontal" role="form">
+        <div class="col-xs-3 element-right">Observaciones:<br/>
+            <label class="info-example">(Este campo no es verificable)</label></div>
+        <div class="col-xs-8">
+            <textarea class="width-100" ng-model = "comment" ng-init='comment = "${m.commentHome == null ? '' : m.commentHome}";'
+                      data-val-required="Las obsgervaciones es un campo requerido"
+                      data-val="true"
+                      data-val-required="Las observaciones es un campo requerido"
+                      data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                      data-val-length-max="500"
+                      data-val-length-min="1"
+                      name="commentHome"></textarea>
+                <span class="field-validation-valid" data-valmsg-for="comment"
+                      data-valmsg-replace="true"></span>
+        </div>
+    </form>
+    <br/>
+    <div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgError" class="alert alert-danger element-center error-font">
+            <span ng-bind-html="msgError"></span>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="upsertComment(${idCase}, '<c:url value="/reviewer/meeting/upsertComment.json"/>',2);">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                          Guardar
+                    </span>
+        </div>
+    </div>
+</div>

@@ -2,9 +2,38 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
 
         $scope.pd = {};
 
-
         $scope.pdSuccessMsg = "";
         $scope.pdErrorMsg = "";
+        $scope.lstStates = [];
+
+        $scope.changeCountry = function () {
+
+            if ($scope.pd.birthCountryId == 1) {
+
+                $scope.pd.isMexico = true;
+
+                $.post($scope.urlGetStates)
+                    .success(function (resp) {
+                        if (resp.hasError == true) {
+                            $scope.MsgError = resp.message;
+                            $scope.$apply();
+                        } else {
+                            resp = resp.responseMessage;
+                            $scope.pd.lstStates = $.parseJSON(resp.message);
+                            $scope.fillSelState();
+                            $scope.$apply();
+                        }
+                    }
+                )
+                    .error(function () {
+                        $scope.MsgError = "Error de red, intente mas tarde.";
+                        $scope.$apply();
+                    });
+            } else {
+                $scope.pd.isMexico = false;
+            }
+
+        };
 
         $scope.fillCountry = function () {
 
@@ -16,8 +45,9 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
 
 
                         if ($scope.lstCountry[i].id == 1) {//para seleccionar a mexico por defecto
-
                             $scope.pd.birthCountry = $scope.lstCountry[i];
+                            $scope.pd.isMexico == true;
+                            $scope.changeCountry();
                             break;
                         }
                     }
@@ -73,10 +103,62 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
             $scope.fillCountry();
             $scope.pd.birthState = data.birthState;
             $scope.pd.birthDate = $scope.myFormatDate(data.birthDate);
+
+            if ($scope.pd.birthDate != undefined && $scope.pd.birthDate != "")
+                $scope.calcAge();
+
             $scope.pd.physicalCondition = data.physicalCondition;
 
+            $scope.pd.isMexico = data.isMexico;
+
+            if ($scope.pd.isMexico == true)
+                $scope.pd.birthStateCmbId = data.birthStateId;
+
+            $scope.changeCountry();
 
         };
+
+        $scope.fillSelState = function () {
+
+            if ($scope.pd.lstStates === undefined || $scope.pd.lstStates.length <= 0)
+                return;
+
+            if ($scope.pd.birthStateCmbId === undefined) {
+                $scope.pd.birthStateCmb = $scope.pd.lstStates[0];
+                $scope.pd.birthStateCmbId = $scope.pd.birthStateCmb.id;
+            }
+            else {
+                for (var i = 0; i < $scope.pd.lstStates.length; i++) {
+                    var sta = $scope.pd.lstStates[i];
+
+                    if (sta.id === $scope.pd.birthStateCmbId) {
+                        $scope.pd.birthStateCmb = sta;
+                        break;
+                    }
+                }
+            }
+        };
+
+        $scope.calcAge = function () {
+
+            if ($scope.pd.birthDate != null && $scope.pd.birthDate != "") {
+                var arrBth = [];
+                arrBth = $scope.pd.birthDate.split('/');
+
+                var dtBthObj;
+
+                if (arrBth.length > 0)
+                    dtBthObj = new Date(parseInt(arrBth[0]), parseInt(arrBth[1]) - 1, parseInt(arrBth[2]));
+                else
+                    dtBthObj = new Date($scope.pd.birthDate);
+
+                var ageDifMs = Date.now() - dtBthObj.getTime();
+                var ageDate = new Date(ageDifMs);
+
+                $scope.pd.age = Math.abs(ageDate.getUTCFullYear() - 1970);
+            }
+        };
+
 
         $scope.myFormatDate = function (dateMil) {
 

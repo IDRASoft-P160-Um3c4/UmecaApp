@@ -1,4 +1,4 @@
-﻿app.controller('upsertController', function ($scope, $rootScope,$sce) {
+﻿app.controller('upsertController', function ($scope, $rootScope, $sce) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
@@ -134,7 +134,7 @@
     $scope.cancel = function (isOk) {
         $scope.Model.dlg.modal('hide');
 
-        if(isOk === true)
+        if (isOk === true)
             $scope.Model.def.resolve({ isCancel: false });
         else
             $scope.Model.def.reject({ isCancel: true });
@@ -150,13 +150,11 @@
         });
     };
 
-    $scope.setReason  = function(opc){
-        if(opc.isFinal && $scope.Model.reason != ""){
-            $scope.Model.reason= opc.reason;
+    $scope.setReason = function (opc) {
+        if (opc.isFinal && $scope.Model.reason != "") {
+            $scope.Model.reason = opc.reason;
         }
     }
 
-    $scope.aleert = function(k){
-        alert(k);
-    }
+
 });

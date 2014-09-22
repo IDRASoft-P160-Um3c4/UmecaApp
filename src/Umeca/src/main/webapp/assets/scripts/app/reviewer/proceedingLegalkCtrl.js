@@ -1,4 +1,4 @@
-app.controller('proceedingLegalController', function($scope, $timeout) {
+app.controller('proceedingLegalController', function($scope, $timeout, $sce) {
     $scope.m = {};
     $scope.listElection = [];
     $scope.lstRelationship = [];
@@ -110,10 +110,10 @@ app.controller('proceedingLegalController', function($scope, $timeout) {
                 if(resp.title == "redirect"){
                     window.cancelLegal();
                 }else if(resp.title == "current"){
-                    $scope.msgExitoCurrent = resp.message;
+                    $scope.msgExitoCurrent = $sce.trustAsHtml( resp.message);
                     $scope.$apply();
                 }else if(resp.title == "previous"){
-                    $scope.msgExitoPrevious = resp.message;
+                    $scope.msgExitoPrevious =$sce.trustAsHtml( resp.message);
                     $scope.$apply();
                 }
 
@@ -123,18 +123,18 @@ app.controller('proceedingLegalController', function($scope, $timeout) {
             if(obj.groupMessage != undefined){
                 for(var i=0; i < obj.groupMessage.length; i++){
                     var g1= obj.groupMessage[i];
-                    $scope.listMsgError[g1.section]=g1.messages;
+                    $scope.listMsgError[g1.section]=$sce.trustAsHtml(g1.messages);
                 }
             }
             $scope.$apply();
         } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
+            $scope.MsgError = "Error inesperado de datos. Por favor intente mï¿½s tarde.";
         }
     };
 
     $scope.handleError = function () {
         $scope.WaitFor = false;
-        $scope.MsgError = "Error de red. Por favor intente más tarde.";
+        $scope.MsgError = "Error de red. Por favor intente mï¿½s tarde.";
         $scope.$apply();
     };
 
@@ -162,6 +162,10 @@ app.controller('proceedingLegalController', function($scope, $timeout) {
     $scope.handleErrorFindPrevious = function(resp){
        $scope.msgErrorFind = "Error de red. Favor de intentarlo mas tarde"
         $scope.$apply();
+    };
+
+    $scope.formatHtml = function(sHtml){
+        return $sce.trustAsHtml(sHtml);
     };
 
 });

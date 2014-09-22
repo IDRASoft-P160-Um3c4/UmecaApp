@@ -11,6 +11,9 @@ public class ReportExcelFiltersDto {
     private String initDate;
     private String endDate;
 
+    private Long idLoc;
+    private Boolean homePlace;
+
     private String lstStatusCaseStr;
     private List<Long> lstStatusCase;
 
@@ -238,4 +241,19 @@ public class ReportExcelFiltersDto {
         this.hasJob = hasJob;
     }
 
+    public Boolean getHomePlace() {
+        return homePlace;
+    }
+
+    public void setHomePlace(Boolean homePlace) {
+        this.homePlace = homePlace;
+    }
+
+    public Long getIdLoc() {
+        return idLoc;
+    }
+
+    public void setIdLoc(Long idLoc) {
+        this.idLoc = idLoc;
+    }
 }

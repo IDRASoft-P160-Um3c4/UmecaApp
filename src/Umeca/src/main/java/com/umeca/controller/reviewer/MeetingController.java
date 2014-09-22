@@ -314,6 +314,7 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed) {
+        imputed.setFoneticString(sharedUserService.getFoneticByName(imputed.getName(),imputed.getLastNameP(),imputed.getLastNameM()));
         ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
         if (validateCreate != null)
             return validateCreate;
@@ -509,7 +510,11 @@ public class MeetingController {
         return meetingService.savePartialCurrent(cpv);
     }
 
-
-
+    @RequestMapping(value = "/reviewer/meeting/upsertComment", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage upsertComment(@RequestParam String comment,@RequestParam Long idCase, @RequestParam Integer typeComment) {
+        return meetingService.upsertComment(idCase, comment, typeComment);
+    }
 
 }

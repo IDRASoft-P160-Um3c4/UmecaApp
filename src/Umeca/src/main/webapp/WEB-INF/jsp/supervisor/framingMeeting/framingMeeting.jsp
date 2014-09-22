@@ -41,164 +41,342 @@
      urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";
      urlIndex="<c:url value='/supervisor/framingMeeting/index.html'/>";'
      ng-cloak>
-    <input type="hidden" name="idFolder" value="{{fm.objView.idFolder}}">
-    <br/>
+<input type="hidden" name="idFolder" value="{{fm.objView.idFolder}}">
+<br/>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
+<h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
 
 
-    <div class="row">
-        <div class="col-xs-4">
+<div class="row">
+    <div class="col-xs-4">
 
-            <h3 class="header smaller lighter blue">
-                <small>N&uacute;mero de carpeta <br/> de investigaci&oacute;n:</small>
-                &nbsp;&nbsp;&nbsp;&nbsp;{{fm.objView.idFolder}}
-            </h3>
-        </div>
-
+        <h3 class="header smaller lighter blue">
+            <small>N&uacute;mero de carpeta <br/> de investigaci&oacute;n:</small>
+            &nbsp;&nbsp;&nbsp;&nbsp;{{fm.objView.idFolder}}
+        </h3>
     </div>
 
-    <div class="row">
-        <div ng-show="FMsuccessMsg&&FMsuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
-            {{FMsuccessMsg}}
-        </div>
-        <div ng-show="FMerrorMsg&&FMerrorMsg!=''" class="alert alert-danger element-center error-font">
-            {{FMerrorMsg}}
-        </div>
-        <div ng-show="FMerrorMsgLst&&FMerrorMsgLst.length>0" class="alert alert-danger element-center error-font">
-            <span ng-repeat="error in FMerrorMsgLst track by $index">{{error}}<br/></span>
+</div>
+
+<div class="row">
+    <div ng-show="FMsuccessMsg&&FMsuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
+        {{FMsuccessMsg}}
+    </div>
+    <div ng-show="FMerrorMsg&&FMerrorMsg!=''" class="alert alert-danger element-center error-font">
+        {{FMerrorMsg}}
+    </div>
+    <div ng-show="FMerrorMsgLst&&FMerrorMsgLst.length>0" class="alert alert-danger element-center error-font">
+        <span ng-repeat="error in FMerrorMsgLst track by $index">{{error}}<br/></span>
+    </div>
+</div>
+<br/>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div ng-show="listMsgError['general']" class="alert alert-danger element-center error-font">
+            <span ng-bind-html="listMsgError['general']">
+            </span>
         </div>
     </div>
+</div>
+<br/>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="tabbable tabs-left">
-                <ul class="nav nav-tabs" id="tabFramingMeeting">
+<div class="row">
+<div class="col-sm-12">
+<div class="tabbable tabs-left">
+<ul class="nav nav-tabs" id="tabFramingMeeting">
 
-                    <li class="active">
-                        <a data-toggle="tab" href="#personalData">
-                            <i class="purple glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
-                            Datos personales y entorno social
-                        </a>
-                    </li>
+<li class="active" id="liImputed">
+    <a data-toggle="tab" href="#personalData">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="purple glyphicon glyphicon-user bigger-200"></i>
+                Datos personales
+                <br/>
 
-                    <li>
-                        <a data-toggle="tab" href="#address">
-                            <i class="green icon-home  bigger-200"/></i>
-                            Domicilios
-                        </a>
-                    </li>
+                <div class="col-xs-offset-3">y Entorno social</div>
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['imputed']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liImputed');"></i>
 
-                    <!--<li>
-                        <a data-toggle="tab" href="#accompaniment" ng-click="resizeMap()">
-                            <i class="red glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
-                            Persona que acompa&ntilde;ara durante <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;el proceso
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['imputed']">
+                                </span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="liImputedHome">
+    <a data-toggle="tab" href="#address">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="green  icon-home  bigger-200"></i>
+                Domicilios
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['imputedHome']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liImputedHome');"></i>
+
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['imputedHome']">
+                                    </span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<!--<li>
+    <a data-toggle="tab" href="#accompaniment" ng-click="resizeMap()">
+        <i class="red glyphicon glyphicon-user bigger-200"></i>&nbsp;&nbsp;
+        Persona que acompa&ntilde;ara durante <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;el proceso
                         </a>
                     </li>-->
 
-                    <li>
-                        <a data-toggle="tab" href="#houseMate">
-                            <i class="blue icon-group bigger-200"></i>
-                            Personas que viven con el imputado
-                        </a>
-                    </li>
+<li id="liSocialNetwork">
+    <a data-toggle="tab" href="#houseMate">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="blue icon-group bigger-200"></i>
+                Personas que viven con el imputado
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['socialNetwork']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liSocialNetwork');"></i>
 
-                    <li>
-                        <a data-toggle="tab" href="#references">
-                            <i class="purple icon-list bigger-200"></i>
-                            Referencias personales
-                        </a>
-                    </li>
-
-                    <li>
-                        <a data-toggle="tab" href="#activities">
-                            <i class="pink icon-briefcase  bigger-200"></i>
-                            Actividades que realiza el imputado
-                        </a>
-                    </li>
-                    <li>
-                        <a data-toggle="tab" href="#drugs">
-                            <i class="green icon-warning-sign  bigger-200"></i>
-                            Consumo de sustancias
-                        </a>
-                    </li>
-                    <li>
-                        <a data-toggle="tab" href="#environmentAnalysis">
-                            <i class="blue icon-eye-open bigger-200"></i>
-                            An&aacute;lisis de entorno
-                        </a>
-                    </li>
-                    <li>
-                        <a data-toggle="tab" href="#addtional">
-
-                            <i class="red icon-list bigger-200"></i>
-                            Formulario de preguntas al supervisado
-                        </a>
-                    </li>
-                    <li>
-                        <a data-toggle="tab" href="#fingerTab">
-
-                            <i class="icon-edit bigger-200"></i>
-                            Enrolamiento
-                        </a>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-                    <div id="personalData" class="tab-pane  in active">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/personalData/_personalData.jsp" %>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['socialNetwork']">
+                                    </span>
+                            </div>
+                        </ul>
                     </div>
-
-                    <div id="address" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/framingAddress/_framingAddress.jsp" %>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="liReference">
+    <a data-toggle="tab" href="#references">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="red icon-list bigger-200"></i>
+                Referencias personales
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['reference']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liReference');"></i>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['reference']">
+                                </span>
+                            </div>
+                        </ul>
                     </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
 
-                    <%--<div id="accompaniment" class="tab-pane">--%>
-                    <%--<%@ include--%>
-                    <%--file="/WEB-INF/jsp/supervisor/framingMeeting/proccessAccompaniment/_processAccompaniment.jsp" %>--%>
-                    <%--</div>--%>
-
-
-                    <div id="houseMate" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/housemate/_framingHousemate.jsp" %>
+<li id="liActivities">
+    <a data-toggle="tab" href="#activities">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="pink icon-briefcase  bigger-200"></i>
+                Actividades que realiza el imputado
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['activities']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liActivities');"></i>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['activities']">
+                                </span>
+                            </div>
+                        </ul>
                     </div>
-
-                    <div id="references" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/references/_framingReferences.jsp" %>
-                    </div>
-
-                    <div id="activities" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/supervisor/framingMeeting/framingActivities/_framingActivities.jsp" %>
-                    </div>
-
-                    <div id="drugs" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/drugs/_drugs.jsp" %>
-                    </div>
-
-                    <div id="environmentAnalysis" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/supervisor/framingMeeting/environmentAnalysis/_environmentAnalysis.jsp" %>
-                    </div>
-
-                    <div id="addtional" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/supervisor/framingMeeting/additionalQuestions/_addtionalQuestions.jsp" %>
-                    </div>
-
-                    <div id="fingerTab" class="tab-pane">
-                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/fingerPrinting/index.jsp" %>
-                    </div>
-
                 </div>
             </div>
         </div>
 
+    </a>
+</li>
+<li id="liDrug">
+    <a data-toggle="tab" href="#drugs">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="green icon-warning-sign  bigger-200"></i>
+                Consumo de sustancias
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['drug']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liDrug');"></i>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['drug']">
+                                </span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="liAnalysis">
+    <a data-toggle="tab" href="#environmentAnalysis">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="blue icon-eye-open bigger-200"></i>
+                An&aacute;lisis de entorno
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['analysis']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liAnalysis');"></i>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['analysis']">
+                                </span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="liQuestion">
+    <a data-toggle="tab" href="#addtional">
+
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="red icon-list bigger-200"></i>
+                Formulario de preguntas al supervisado
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['question']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liQuestion');"></i>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['question']">
+                                </span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="liFinger">
+    <a data-toggle="tab" href="#fingerTab">
+
+        <i class="icon-edit bigger-200"></i>
+        Enrolamiento
+    </a>
+</li>
+</ul>
+
+<div class="tab-content">
+    <div id="personalData" class="tab-pane  in active">
+        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/personalData/_personalData.jsp" %>
     </div>
 
-    <div class="row">
-        <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
+    <div id="address" class="tab-pane">
+        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/framingAddress/_framingAddress.jsp" %>
+    </div>
+
+    <%--<div id="accompaniment" class="tab-pane">--%>
+    <%--<%@ include--%>
+    <%--file="/WEB-INF/jsp/supervisor/framingMeeting/proccessAccompaniment/_processAccompaniment.jsp" %>--%>
+    <%--</div>--%>
+
+
+    <div id="houseMate" class="tab-pane">
+        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/housemate/_framingHousemate.jsp" %>
+    </div>
+
+    <div id="references" class="tab-pane">
+        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/references/_framingReferences.jsp" %>
+    </div>
+
+    <div id="activities" class="tab-pane">
+        <%@ include
+                file="/WEB-INF/jsp/supervisor/framingMeeting/framingActivities/_framingActivities.jsp" %>
+    </div>
+
+    <div id="drugs" class="tab-pane">
+        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/drugs/_drugs.jsp" %>
+    </div>
+
+    <div id="environmentAnalysis" class="tab-pane">
+        <%@ include
+                file="/WEB-INF/jsp/supervisor/framingMeeting/environmentAnalysis/_environmentAnalysis.jsp" %>
+    </div>
+
+    <div id="addtional" class="tab-pane">
+        <%@ include
+                file="/WEB-INF/jsp/supervisor/framingMeeting/additionalQuestions/_addtionalQuestions.jsp" %>
+    </div>
+
+    <div id="fingerTab" class="tab-pane">
+        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/fingerPrinting/index.jsp" %>
+    </div>
+
+</div>
+</div>
+</div>
+
+</div>
+<br/>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div ng-show="listMsgError['general']" class="alert alert-danger element-center error-font">
+            <span ng-bind-html="listMsgError['general']">
+            </span>
+        </div>
+    </div>
+</div>
+<br/>
+
+<div class="row">
+    <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
                     <span class="btn btn-default btn-sm" ng-click="returnFM();">
                         Regresar
                     </span>
@@ -206,16 +384,16 @@
                           ng-click="doTerminate();">
                           Terminar
                     </span>
-        </div>
-        <div class="modal-footer" ng-show="fm.objView.canTerminate==false">
+    </div>
+    <div class="modal-footer" ng-show="fm.objView.canTerminate==false">
                     <span class="btn btn-default btn-sm" ng-click="returnFM();">
                         Regresar
                     </span>
-        </div>
     </div>
+</div>
 
-    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
-    <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
+<%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
+<%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>
 
 </body>

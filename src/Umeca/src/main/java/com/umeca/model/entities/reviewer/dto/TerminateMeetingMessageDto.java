@@ -1,5 +1,7 @@
 package com.umeca.model.entities.reviewer.dto;
 
+import com.umeca.service.account.SharedUserService;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +34,31 @@ public class TerminateMeetingMessageDto {
 
     public boolean  existsMessageProperties(){
         for(GroupMessageMeetingDto g : groupMessage){
-            if(g.getMessages().size()>0){
+            if(g.getListString().size()>0){
                 return true;
             }
         }
         return false;
+    }
+
+    public void formatMessages(SharedUserService sharedUserService) {
+        for(GroupMessageMeetingDto g: groupMessage){
+            g.setMessages("");
+            for(String s : g.getListString()){
+                g.setMessages(g.getMessages()+sharedUserService.convertToValidString(s)+ "<br/>");
+            }
+            g.setListString(null);
+        }
+    }
+
+    public void formatMessages() {
+
+        for(GroupMessageMeetingDto g: groupMessage){
+            g.setMessages("");
+            for(String s : g.getListString()){
+                g.setMessages(g.getMessages()+s+ "<br/>");
+            }
+            g.setListString(null);
+        }
     }
 }

@@ -81,6 +81,9 @@ public class CaseServiceImpl implements CaseService {
         meeting.setStatus(statusMeeting);
         meeting.setDateCreate(new Date());
         imputed.setMeeting(meeting);
+
+        imputed.setFoneticString(imputed.getName().trim().toLowerCase() + imputed.getLastNameP().trim().toLowerCase() + imputed.getLastNameM().trim().toLowerCase());
+
         meeting.setImputed(imputed);
         meeting.setCaseDetention(caseDet);
         meeting.setMeetingType(type);
@@ -97,7 +100,7 @@ public class CaseServiceImpl implements CaseService {
             caseDet = caseRepository.save(caseDet);
             caseRepository.flush();
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"save",sharedUserService);
+            logException.Write(e, this.getClass(), "save", sharedUserService);
             System.out.println("Error al guardar el caso!!");
             System.out.println(e.getMessage());
         }
@@ -109,7 +112,7 @@ public class CaseServiceImpl implements CaseService {
     @Transactional
     public ResponseMessage saveConditionaReprieveCase(Case caseDet) {
 
-        ResponseMessage resp= new ResponseMessage();
+        ResponseMessage resp = new ResponseMessage();
 
         try {
             FolderConditionalReprieve folderObj = new FolderConditionalReprieve();
@@ -129,8 +132,8 @@ public class CaseServiceImpl implements CaseService {
             resp.setHasError(false);
             resp.setMessage("Se ha guardado el caso con exito.");
 
-        }catch (Exception e){
-            logException.Write(e,this.getClass(),"saveConditionaReprieveCase",sharedUserService);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "saveConditionaReprieveCase", sharedUserService);
             resp.setHasError(true);
             resp.setMessage("Ha ocurrido un error en el servidor, intente mas tarde");
         }
@@ -140,41 +143,41 @@ public class CaseServiceImpl implements CaseService {
 
     @Override
     public Boolean validateStatus(Long idCase, String statusCase) {
-        return validateStatus(idCase, statusCase,Case.class,"");
+        return validateStatus(idCase, statusCase, Case.class, "");
     }
 
 
     @Override
-    public Boolean validateStatus(Long idCase, String statusCase, Class entityClass, String statusEntity){
-        Case c= caseRepository.findOne(idCase);
-        if(c==null){
-           return false;
-        }
-        if(!c.getStatus().getName().equals(statusCase)){
+    public Boolean validateStatus(Long idCase, String statusCase, Class entityClass, String statusEntity) {
+        Case c = caseRepository.findOne(idCase);
+        if (c == null) {
             return false;
         }
-        if(entityClass==null && statusEntity ==null){
+        if (!c.getStatus().getName().equals(statusCase)) {
+            return false;
+        }
+        if (entityClass == null && statusEntity == null) {
             return true;
-        }else{
+        } else {
             Field[] fields = c.getClass().getDeclaredFields();
-            String entityName= "";
-            for (Field field: fields) {
+            String entityName = "";
+            for (Field field : fields) {
                 if (entityClass == field.getType()) {
-                    entityName= field.getName();
+                    entityName = field.getName();
                     break;
                 }
             }
             try {
                 for (PropertyDescriptor pd : Introspector.getBeanInfo(Case.class).getPropertyDescriptors()) {
-                    if (pd.getReadMethod() != null && pd.getName().equals(entityName)){
-                        Object entity =  pd.getReadMethod().invoke(c);
+                    if (pd.getReadMethod() != null && pd.getName().equals(entityName)) {
+                        Object entity = pd.getReadMethod().invoke(c);
                         for (PropertyDescriptor pdEntity : Introspector.getBeanInfo(entity.getClass()).getPropertyDescriptors()) {
-                            if (pdEntity.getReadMethod() != null && pdEntity.getName().equals("status")){
+                            if (pdEntity.getReadMethod() != null && pdEntity.getName().equals("status")) {
                                 Object status = pdEntity.getReadMethod().invoke(entity);
                                 for (PropertyDescriptor pdStatus : Introspector.getBeanInfo(status.getClass()).getPropertyDescriptors()) {
-                                    if (pdStatus.getReadMethod() != null && pdStatus.getName().equals("name")){
+                                    if (pdStatus.getReadMethod() != null && pdStatus.getName().equals("name")) {
                                         String statusCode = (String) pdStatus.getReadMethod().invoke(status);
-                                        if(statusCode.equals(statusEntity)){
+                                        if (statusCode.equals(statusEntity)) {
                                             return true;
                                         }
                                         break;
@@ -188,13 +191,13 @@ public class CaseServiceImpl implements CaseService {
                 }
             } catch (IllegalAccessException e) {
                 //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                logException.Write(e,this.getClass(),"validateStatus",sharedUserService);
+                logException.Write(e, this.getClass(), "validateStatus", sharedUserService);
             } catch (IntrospectionException e) {
                 //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                logException.Write(e,this.getClass(),"validateStatus",sharedUserService);
+                logException.Write(e, this.getClass(), "validateStatus", sharedUserService);
             } catch (InvocationTargetException e) {
                 //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                logException.Write(e,this.getClass(),"validateStatus",sharedUserService);
+                logException.Write(e, this.getClass(), "validateStatus", sharedUserService);
             }
             return false;
         }
@@ -217,10 +220,10 @@ public class CaseServiceImpl implements CaseService {
         String statusAction;
         StatusCase statusCase;
 
-        if(model.getAuthorized() == 1){
+        if (model.getAuthorized() == 1) {
             statusAction = MonitoringConstants.STATUS_AUTHORIZED;
             statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
-        }else{
+        } else {
             statusAction = MonitoringConstants.STATUS_REJECTED_AUTHORIZED;
             statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
         }

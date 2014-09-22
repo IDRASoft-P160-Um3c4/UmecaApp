@@ -665,7 +665,27 @@ public class FramingMeetingController {
         existFraming.setPersonalData(personalData);
 
         return framingMeetingService.save(existFraming);
+    }
 
+    @RequestMapping(value = "/supervisor/framingMeeting/personalData/getStates", method = RequestMethod.POST)
+    ResponseMessage getMunicipality(Long idSt) {
+        ResponseMessage response = new ResponseMessage();
+        List<CatalogDto> lstSt = new ArrayList<>();
+        List<State> states = stateRepository.findStatesByCountryAlpha2("MX");
+
+        for (State act : states) {
+            CatalogDto dto = new CatalogDto();
+            dto.setId(act.getId());
+            dto.setName(act.getName());
+            lstSt.add(dto);
+        }
+
+        Gson conv = new Gson();
+
+        response.setHasError(false);
+        response.setMessage(conv.toJson(lstSt));
+
+        return response;
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/additionalQuestion/loadAddtionalQuestion", method = RequestMethod.POST)

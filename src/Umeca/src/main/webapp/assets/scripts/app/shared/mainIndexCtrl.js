@@ -1,4 +1,4 @@
-app.controller("mainIndexController", function ($scope, sharedSvc) {
+app.controller("mainIndexController", function ($scope, sharedSvc, $sce) {
 
     $scope.deleteMsg = function (id, urlToGo) {
         sharedSvc.showConf({ title: "Confirmar eliminación", message: "¿Desea eliminar el mensaje de confirmación?", type: "warning" })
@@ -98,5 +98,9 @@ app.controller("mainIndexController", function ($scope, sharedSvc) {
         return strDt;
     };
 
+
+    $scope.formatHtml = function(sHtml){
+        return $sce.trustAsHtml(sHtml);
+    };
 
 });

@@ -169,18 +169,14 @@
 <input type="hidden" id="hdLstDrugs" name="lstDrugsStr" value="{{lstDrugs}}">
 <input type="hidden" id="hdLstLvlRisk" name="lstLvlRiskStr" value="{{lstLvlRisk}}">
 <input type="hidden" id="hdLstHearingType" name="lstHearingTypeStr" value="{{lstHearingType}}">
+<input type="hidden" name="idLoc" value="{{locSel.id}}">
 
-<%--<input type="hidden" name="lstStCaseStr" value="{{lstStCaseStr}}">--%>
-<%--<input type="hidden" name="lstGenderStr" value="{{lstGenderStr}}">--%>
-<%--<input type="hidden" name="lstMarStStr" value="{{lstMarStStr}}">--%>
-<%--<input type="hidden" name="lstAcLvlStr" value="{{lstAcLvlStr}}">--%>
-<%--<input type="hidden" name="lstDrugsStr" value="{{lstDrugsStr}}">--%>
-<%--<input type="hidden" name="lstLvlRkStr" value="{{lstLvlRkStr}}">--%>
-<%--<input type="hidden" name="lstHearingTpStr" value="{{lstHearingTpStr}}">--%>
+
+<input type="hidden"
+       ng-init="urlGetMun= '<c:url value="/director/excelReport/getMunBySt.json"/>'; urlGetLoc= '<c:url value="/director/excelReport/getLocationsByMun.json"/>'">
 
 <input type="hidden" id="urlDowload" value="'<c:url value="/catalogs/address/locationsByZipCode.json"/>'">
 
-<iframe id="iframeD" src="#" style="display:none;"></iframe>
 
 <div class="row">
 <div class="widget-box">
@@ -192,7 +188,7 @@
     <br/>
 
     <div class="widget-box">
-        <div class="widget-header">General</div>
+        <div class="widget-header">Rango de fechas</div>
         <div class="widget-body">
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-1">
@@ -200,7 +196,7 @@
 
                     <div class="row">
 
-                        <div class="col-xs-3 ">
+                        <div class="col-xs-3 col-xs-offset-2">
                             <label for="initDate">Fecha inicio</label>
 
                             <div class="row">
@@ -242,15 +238,6 @@
                                                               data-valmsg-replace="true"></span>
                             </div>
                         </div>
-                        <%--<div class="col-xs-4 col-xs-offset-1">--%>
-                        <%--<div class="checkbox">--%>
-                        <%--<label>--%>
-                        <%--<input class="ace" type="checkbox"--%>
-                        <%--ng-click='addIdToList("lstStatusCase",11)'>--%>
-                        <%--<span class="lbl col-xs-10">&nbsp;&nbsp;Incluir casos cerrados</span>--%>
-                        <%--</label>--%>
-                        <%--</div>--%>
-                        <%--</div>--%>
                     </div>
                     <br/>
                 </div>
@@ -538,30 +525,42 @@
             <div class="widget-header">Lugar de residencia</div>
             <div class="widget-body">
                 <div class="row">
+                    <div class="checkbox col-xs-5">
+                        <label>
+                            <input class="ace" type="checkbox" ng-model="homePlace" name="homePlace">
+                            <span class="lbl col-xs-10">&nbsp;&nbsp;Agregar filtro por lugar de residencia</span>
+                        </label>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
                     <br/>
 
-                    <div class="col-xs-3">
+                    <div class="col-xs-3 col-xs-offset-1">
                         <label>&nbsp;&nbsp;Estado:</label>
-                        <%--<select class="form-control element-center" ng-model="state" find-municipality--%>
-                        <%--url-request='<c:url value="/catalogs/address/municipalityByStId.json"/>'--%>
-                        <%--ng-options="e.name for e in listState" ng-init='listState = ${listState}'--%>
-                        <%--ng-change="stateId = state.id;"></select>--%>
+                        <br/>
+                        <select class="form-control element-center" ng-model="stateSel"
+                                ng-options="e.name for e in lstStates" ng-init='lstStates = ${lstStates}'
+                                ng-change="changeState(stateSel);" ng-disabled="homePlace==false"></select>
+                        <br/>
                     </div>
 
-                    <div class="col-xs-3 col-xs-offset-1">
+                    <div class="col-xs-3">
                         <label>Municipio:</label>
-                        <%--<select class="form-control element-center" ng-model="state" find-municipality--%>
-                        <%--url-request='<c:url value="/catalogs/address/municipalityByStId.json"/>'--%>
-                        <%--ng-options="e.name for e in listState" ng-init='listState = ${listState}'--%>
-                        <%--ng-change="stateId = state.id;"></select>--%>
+                        <br/>
+                        <select class="form-control element-center" ng-model="munSel"
+                                ng-options="m.name for m in lstMuns" ng-change="changeMun(munSel);"
+                                ng-disabled="homePlace==false"></select>
+                        <br/>
                     </div>
 
-                    <div class="col-xs-3 col-xs-offset-1">
+                    <div class="col-xs-4">
                         <label>Localidad:</label>
-                        <%--<select class="form-control element-center" ng-model="state" find-municipality--%>
-                        <%--url-request='<c:url value="/catalogs/address/municipalityByStId.json"/>'--%>
-                        <%--ng-options="e.name for e in listState" ng-init='listState = ${listState}'--%>
-                        <%--ng-change="stateId = state.id;"></select>--%>
+                        <br/>
+                        <select id="locSel" class="form-control element-center" ng-model="locSel"
+                                ng-options="e.name for e in lstLoca" ng-disabled="homePlace==false"></select>
+                        <br/>
                     </div>
                 </div>
             </div>

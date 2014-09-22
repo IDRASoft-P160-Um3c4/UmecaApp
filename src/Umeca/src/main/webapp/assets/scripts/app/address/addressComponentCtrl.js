@@ -197,7 +197,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                              $scope.map.setZoom(14);
                              google.maps.event.trigger($scope.map, 'resize');
                          }else{
-                              $scope.msgMapRequest=$sce.trustAsHtml("Google Maps no cuenta con cooredenadas para el C&oacute;digo Postal: "+$scope.zipCode);
+                              $scope.msgMapRequest=$sce.trustAsHtml("Google Maps no cuenta con coordenadas para el C&oacute;digo Postal: "+$scope.zipCode);
                          }
                       }
                     }else{
