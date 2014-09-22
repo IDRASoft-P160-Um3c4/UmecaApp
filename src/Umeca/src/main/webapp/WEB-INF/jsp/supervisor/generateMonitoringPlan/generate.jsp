@@ -75,7 +75,7 @@
                     groupEvt: act.group
                 };
 
-                event.className = window.colorActMonPlan(act.status, act.end, today);
+                event.className = window.colorActMonPlan(act.status, window.stringToDate(act.end), today);
 
                 event.doTitle(false);
                 lstEvents.push(event);
@@ -176,6 +176,8 @@
                     }
                     event.doTitle(true);
                     event.isModified = true;
+                    event.className = (event.infoActivity.caseInfo.isInAuthorizeReady ?
+                            (event.className == 'label-pre-new' ? 'label-pre-new' : 'label-pre-update') : 'label-info');
                 },
                 eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
                     var today = new Date();
@@ -187,6 +189,8 @@
                     }
                     event.doTitle(true);
                     event.isModified = true;
+                    event.className = (event.infoActivity.caseInfo.isInAuthorizeReady ?
+                            (event.className == 'label-pre-new' ? 'label-pre-new' : 'label-pre-update') : 'label-info');
                 },
                 select: function(start, end, allDay) {
                     var today = new Date();
@@ -277,7 +281,7 @@
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content"  ng-controller="generateMonPlanController" id="GenerateMonPlanControllerId">
+<div class="container body-content"  ng-controller="generateMonPlanController" id="GenerateMonPlanControllerId" ng-cloak>
     <div class="page-content">
         <div class="page-header">
             <h1 class="element-center">

@@ -24,7 +24,7 @@
                             <span>
                             Caso {{n.caseId}} (<strong>{{n.mpId}}</strong>) Imputado: <strong>{{n.personName}}</strong> <br/></span>
                         <div class="font-size-sm">
-                            <span>{{n.comments}}</span>
+                            <div ng-bind-html="n.comments"></div>
                         </div>
                     </div>
                 </div>

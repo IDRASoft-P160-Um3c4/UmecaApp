@@ -131,8 +131,19 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         if(validateDates(activityMonitoringPlan.getStart(), activityMonitoringPlan.getEnd()) == false)
             return;
 
+        ActivityMonitoringPlan actMonPlanToReplace = activityMonitoringPlan.getActMonPlanToReplace();
+
+        if(actMonPlanToReplace != null){
+            ActivityMonitoringPlan activityMonitoringPlanToReplace = activityMonitoringPlan;
+            activityMonitoringPlan = actMpRepository.findOneValid(actMonPlanToReplace.getId(), fullModel.getMonitoringPlanId(), fullModel.getCaseId());
+            activityMonitoringPlanToReplace.setStatus(STATUS_ACTIVITY_DELETED);
+            activityMonitoringPlan.setReplaced(null);
+        }
+
+
         ActivityMonitoringPlanJson jsonOld = ActivityMonitoringPlanJson.convertToJson(activityMonitoringPlan);
-        activityMonitoringPlan.setStatus(fullModel.isInAuthorizeReady() ? STATUS_ACTIVITY_PRE_DELETED : STATUS_ACTIVITY_DELETED);
+        activityMonitoringPlan.setStatus((fullModel.isInAuthorizeReady() && STATUS_ACTIVITY_PRE_NEW.equals(status) == false )
+                ? STATUS_ACTIVITY_PRE_DELETED : STATUS_ACTIVITY_DELETED);
         ActivityMonitoringPlanJson jsonNew = ActivityMonitoringPlanJson.convertToJson(activityMonitoringPlan);
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, username, fullModel.getCaseId(), fullModel.getMonitoringPlanStatus()));
@@ -155,7 +166,8 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
             if (activityMonitoringPlanToUpdate == null) return;
 
             //Si no tiene una actividad a quien reemplazar, se debe crear una nueva, de lo contrario sólo se actualiza la anterior
-            if(activityMonitoringPlanToUpdate.getActMonPlanToReplace() != null || LST_STATUS_ACTIVITY_PRE_AUTH.contains (activityMonitoringPlanToUpdate.getStatus())){
+            ActivityMonitoringPlan actMonReplace = activityMonitoringPlanToUpdate.getActMonPlanToReplace();
+            if((actMonReplace != null && actMonReplace.getId() != null) || STATUS_ACTIVITY_PRE_NEW.equals(activityMonitoringPlanToUpdate.getStatus())){
                 update(dto, actMpRepository, user, fullModel, lstArrangementSelected, activityMonitoringPlanToUpdate);
 
                 fullModel.decActsUpd();
