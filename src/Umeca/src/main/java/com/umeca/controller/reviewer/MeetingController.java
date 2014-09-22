@@ -314,7 +314,7 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed) {
-        imputed.setFoneticString(imputed.getName().trim().toLowerCase()+imputed.getLastNameP().trim().toLowerCase()+imputed.getLastNameM().trim().toLowerCase());
+        imputed.setFoneticString(sharedUserService.getFoneticByName(imputed.getName(),imputed.getLastNameP(),imputed.getLastNameM()));
         ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
         if (validateCreate != null)
             return validateCreate;

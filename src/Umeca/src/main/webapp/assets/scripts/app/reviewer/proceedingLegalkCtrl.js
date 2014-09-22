@@ -164,4 +164,8 @@ app.controller('proceedingLegalController', function($scope, $timeout, $sce) {
         $scope.$apply();
     };
 
+    $scope.formatHtml = function(sHtml){
+        return $sce.trustAsHtml(sHtml);
+    };
+
 });
