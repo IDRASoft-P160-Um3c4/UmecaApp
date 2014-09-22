@@ -79,6 +79,7 @@ public class LogController {
                     add(r.get("status"));
                     add(r.join("supervisor").get("username"));
                     add(r.get("statusLog"));
+                    add(r.get("posAuthorizationChangeTime"));
                 }};
             }
 

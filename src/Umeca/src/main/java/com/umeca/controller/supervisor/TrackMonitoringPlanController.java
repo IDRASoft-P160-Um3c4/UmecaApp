@@ -160,6 +160,9 @@ public class TrackMonitoringPlanController {
                     }},
                     new ArrayList<String>() {{
                         add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
+                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_NEW);
+                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED);
+                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_DELETED);
                     }}, response
             );
         }catch (Exception ex){

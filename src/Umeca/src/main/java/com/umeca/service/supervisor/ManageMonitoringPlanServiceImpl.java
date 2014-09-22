@@ -150,18 +150,18 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
 
         monPlanRepository.flush();
 
-        Long activitiesInPre = actMonPlanRepository.countActivitiesByStatus(monPlanId, new ArrayList<String>(){{
-            add(MonitoringConstants.STATUS_ACTIVITY_PRE_NEW);{{add(MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED);}}{{add(MonitoringConstants.STATUS_ACTIVITY_PRE_DELETED);}}}});
+        Long activitiesInPre = actMonPlanRepository.countActivitiesByInLstStatus(monPlanId, new ArrayList<String>()
+            {{add(MonitoringConstants.STATUS_ACTIVITY_PRE_NEW); add(MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED); add(MonitoringConstants.STATUS_ACTIVITY_PRE_DELETED);}});
 
         //Si ya no hay actividades se debe quitar el tiempo, para que no se suspenda en caso de pasar las n horas
         MonitoringPlan monitoringPlan = monPlanRepository.findOne(monPlanId);
         String message;
         if(activitiesInPre == null || activitiesInPre == 0){
             monitoringPlan.setPosAuthorizationChangeTime(null);
-            message = ". Todas las actividades fueron autorizada(s) o rechazada(s).";
+            message = ".<br/>Todas las actividades fueron autorizada(s) o rechazada(s).";
         }
         else{
-            message = ". No todas las actividades fueron autorizada(s) o rechazada(s). Debe revisar si durante la autorización se insertaron, modificaron o eliminaron actividades.";
+            message = ".<br/>No todas las actividades fueron autorizada(s) o rechazada(s). Debe revisar si durante la autorización se insertaron, modificaron o eliminaron actividades.";
         }
 
         Case caseDet = monitoringPlan.getCaseDetention();
@@ -275,7 +275,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     }
 
     private boolean HasActivitiesNotDeleted(Long monPlanId, ResponseMessage message) {
-        Long countValidActivities = actMonPlanRepository.countActivitiesByStatus(monPlanId, new ArrayList<String>() {{
+        Long countValidActivities = actMonPlanRepository.countActivitiesByNotInLstStatus(monPlanId, new ArrayList<String>() {{
             add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
         }});
 

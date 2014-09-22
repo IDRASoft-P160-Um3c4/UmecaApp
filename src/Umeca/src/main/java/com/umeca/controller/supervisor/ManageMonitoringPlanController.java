@@ -156,7 +156,7 @@ public class ManageMonitoringPlanController {
         try{
             MonitoringPlanInfo monPlanInfo = monitoringPlanRepository.getInfoById(id);
 
-            Long countMiss = activityMonitoringPlanRepository.countActivitiesByStatus(id, new ArrayList<String>() {{
+            Long countMiss = activityMonitoringPlanRepository.countActivitiesByNotInLstStatus(id, new ArrayList<String>() {{
                 add(MonitoringConstants.STATUS_ACTIVITY_FAILED);
                 add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
                 add(MonitoringConstants.STATUS_ACTIVITY_DONE);

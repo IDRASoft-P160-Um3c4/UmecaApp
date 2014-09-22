@@ -26,7 +26,11 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
 
     @Query("SELECT count(amp.id) FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
             "WHERE mp.id =:monPlanId AND amp.status NOT IN :lstStatus")
-    Long countActivitiesByStatus(@Param("monPlanId") Long monPlanId, @Param("lstStatus") List<String> lstStatus);
+    Long countActivitiesByNotInLstStatus(@Param("monPlanId") Long monPlanId, @Param("lstStatus") List<String> lstStatus);
+
+    @Query("SELECT count(amp.id) FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
+            "WHERE mp.id =:monPlanId AND amp.status IN :lstStatus")
+    Long countActivitiesByInLstStatus(@Param("monPlanId") Long monPlanId, @Param("lstStatus") List<String> lstStatus);
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanResponse(amp.id, mp.id, cd.id, cd.idMP," +
             "amp.end, amp.start, amp.supervisionActivity.id, amp.activityGoal.id, amp.status, im.name, im.lastNameP, im.lastNameM)" +
@@ -132,6 +136,7 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "INNER JOIN fssr.relationship rs LEFT JOIN amp.supervisorDone sd LEFT JOIN amp.actMonPlanToReplace ampr " +
             "WHERE amp.id =:actMonId")
     ActivityMonitoringPlanInfo getActivityInfoFull(@Param("actMonId")Long actMonId);
+
 }
 
 
