@@ -1,11 +1,6 @@
 package com.umeca.model.shared;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 7/8/14
- * Time: 9:30 PM
- */
+
 public class OptionList {
 
     private Long id;

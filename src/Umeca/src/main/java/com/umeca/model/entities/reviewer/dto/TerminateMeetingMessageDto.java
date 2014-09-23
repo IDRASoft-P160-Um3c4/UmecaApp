@@ -50,4 +50,15 @@ public class TerminateMeetingMessageDto {
             g.setListString(null);
         }
     }
+
+    public void formatMessages() {
+
+        for(GroupMessageMeetingDto g: groupMessage){
+            g.setMessages("");
+            for(String s : g.getListString()){
+                g.setMessages(g.getMessages()+s+ "<br/>");
+            }
+            g.setListString(null);
+        }
+    }
 }

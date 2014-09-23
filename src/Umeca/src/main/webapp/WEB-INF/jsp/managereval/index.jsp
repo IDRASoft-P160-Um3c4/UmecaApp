@@ -204,6 +204,7 @@ app.controller('managerEvalController', function ($scope, $sce) {
                         $("#ConfirmBoxDialog").modal("hide");
                         $($scope.subGrid).trigger("reloadGrid");
                     }
+                    $("#GridId").trigger("reloadGrid");
                 })
                 .error(function () {
                     $scope.MsgError = $sce.trustAsHtml("Error de red. Intente m&aacute;s tarde.");

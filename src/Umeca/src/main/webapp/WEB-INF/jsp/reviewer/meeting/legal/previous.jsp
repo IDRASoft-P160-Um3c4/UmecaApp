@@ -161,7 +161,7 @@
                                         <div class="col-xs-12" ng-show="listLegalBefore.length > 0">
                                             <div class="widget-header header-color-blue">
                                                 <h5 class="bigger lighter">
-                                                    Procesos legales anteriores
+                                                    Procesos legales anteriores de {{sNameS}} {{sLastNamePS}} {{sLastNameMS}}
                                                 </h5>
                                             </div>
 
@@ -170,6 +170,7 @@
                                                     <table class="table table-striped table-bordered table-hover">
                                                         <thead class="thin-border-bottom">
                                                         <tr>
+                                                            <th>Fecha de <br/>creaci&oacute;n</th>
                                                             <th>
                                                                 Carpeta Judicial
                                                             </th>
@@ -177,17 +178,23 @@
                                                             <th>
                                                                 Carpeta de investigaci&oacute;n
                                                             </th>
+                                                            <th>Medidas cautelares</th>
                                                             <th>Estatus del caso</th>
                                                         </tr>
                                                         </thead>
 
                                                         <tbody>
                                                         <tr ng-repeat="case in listLegalBefore track by $index">
+                                                            <td>{{case.dateCreateString}}</td>
                                                             <td class="">{{case.idMP}}</td>
                                                             <td>
                                                                 {{case.idFolder}}
                                                             </td>
-
+                                                            <td>
+                                                                <ul>
+                                                                    <p ng-bind-html="formatHtml(case.arrangement);"></p>
+                                                                </ul>
+                                                            </td>
                                                             <td>
                                                                 {{case.statusCase}}
                                                             </td>

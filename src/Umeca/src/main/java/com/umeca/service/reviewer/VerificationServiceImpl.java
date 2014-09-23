@@ -467,6 +467,8 @@ public class VerificationServiceImpl implements VerificationService {
     private EntityManager entityManager;
     @Autowired
     AddressRepository addressRepository;
+    @Autowired
+    SharedUserService sharedUserService;
 
     @Transactional
     @Override
@@ -521,6 +523,7 @@ public class VerificationServiceImpl implements VerificationService {
                 List<String> listGeneral = new ArrayList<>();
                 listGeneral.add("No se puede terminar la verificación puesto que falta por verificar campos y/o secciones, para más detalles revise los mensajes de cada sección");
                 v.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
+                v.formatMessages(sharedUserService);
                 return new ResponseMessage(true, gson.toJson(v));
             } else {
                 Case caseDetention = caseRepository.findOne(idCase);

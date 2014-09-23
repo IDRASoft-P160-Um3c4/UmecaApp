@@ -15,6 +15,7 @@ import com.umeca.model.entities.reviewer.dto.*;
 import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -327,6 +328,9 @@ public class MeetingServiceImpl implements MeetingService {
         return model;
     }
 
+    @Autowired
+    ArrangementRepository qArrangementRepository;
+
     @Override
     public ResponseMessage findPreviousCase(String sName, String sLastNameP, String sLastNameM, Long idCase) {
         return new ResponseMessage(false,findLegalBefore(idCase,sName,sLastNameP,sLastNameM));
@@ -334,7 +338,18 @@ public class MeetingServiceImpl implements MeetingService {
 
 
     String findLegalBefore(Long id, String name, String lastNameP, String lastNameM) {
-        List<FindLegalBefore> list = caseRepository.findLegalBefore(id, name, lastNameP, lastNameM);
+        String foneticName = sharedUserService.getFoneticByName(name, lastNameP, lastNameM);
+        List<FindLegalBefore> list = caseRepository.findLegalBefore(id,foneticName);
+        if(list!=null && list.size()>0){
+            for(FindLegalBefore flb : list){
+                List<SelectList> lstArrangement = qArrangementRepository.findLstArrangementByCaseId(flb.getIdCase());
+                if(lstArrangement!=null && lstArrangement.size()>0){
+                flb.convertListArrangementToString(lstArrangement);
+                }else{
+                    flb.setArrangement("Sin medidas cautelares asignadas");
+                }
+            }
+        }
         Gson gson = new Gson();
         return gson.toJson(list);
     }
@@ -994,7 +1009,8 @@ public class MeetingServiceImpl implements MeetingService {
                 if(c!=null && c.size()>0){
                     for(Case cAux : c){
                         Imputed iCase = cAux.getMeeting().getImputed();
-                        if (iCase.getFoneticString().equals(imputed.getFoneticString())) {
+                        Long iCaseBD = iCase.getBirthDate().getTime();
+                        if (iCase.getFoneticString().equals(imputed.getFoneticString())&& iCaseBD.equals(imputed.getBirthDate().getTime())) {
                             return new ResponseMessage(true, "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrado.");
                         }
                     }

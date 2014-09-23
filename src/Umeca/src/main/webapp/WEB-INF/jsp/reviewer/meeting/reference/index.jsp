@@ -15,7 +15,7 @@
             url: '<c:url value='/reviewer/meeting/listReference.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Relaci&oacute;n','Edad','Tel�fono','Acompa&ntilde;a al imputado <br/> durante el proceso', 'Acci&oacute;n'],
+            colNames: ['ID', 'Nombre','Relaci&oacute;n','Edad','Tel&eacute;fono','Acompa&ntilde;a al imputado <br/> durante el proceso', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'fullName', index: 'fullName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
