@@ -34,6 +34,10 @@
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
         }
 
+        window.terminateSuccess = function(){
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html'/>");
+        }
+
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/verification/listSourceAdd.json?id=${idCase}' />',
