@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
+import com.umeca.model.shared.Constants;
 import org.apache.commons.lang.time.StopWatch;
 
 import java.util.Calendar;
@@ -22,12 +23,15 @@ public class ActivityMonitoringPlanInfo {
     private String supUserDone;
     private String comments;
     private Calendar endDone;
+    private String endSt;
+    private String startSt;
+    private String assignedArrangement;
+    private Long actMonPlanToReplaceId;
 
     public ActivityMonitoringPlanInfo(Long activityMonitoringPlanId, Long monitoringPlanId, Long caseId, String mpId, String status, Calendar end,
                                       Calendar start, String supervisionActivityName,
                                       String activityGoalName, String aidSourceName, String aidSourceRelationship, String actStatus, String name, String lastNameP, String lastNameM,
                                       String supUserDone, String comments, Calendar endDone){
-
         this.activityMonitoringPlanId = activityMonitoringPlanId;
         this.monitoringPlanId = monitoringPlanId;
         this.caseId = caseId;
@@ -43,6 +47,20 @@ public class ActivityMonitoringPlanInfo {
         this.supUserDone = supUserDone;
         this.comments = comments;
         this.endDone = endDone;
+        this.startSt = CalendarExt.calendarToFormatString(start, Constants.FORMAT_CALENDAR_I);
+        this.endSt = CalendarExt.calendarToFormatString(end, Constants.FORMAT_CALENDAR_I);
+    }
+
+
+    public ActivityMonitoringPlanInfo(Long activityMonitoringPlanId, Long monitoringPlanId, Long caseId, String mpId, String status, Calendar end,
+                                      Calendar start, String  assignedArrangement, String supervisionActivityName,
+                                      String activityGoalName, String aidSourceName, String aidSourceRelationship, String actStatus, String name, String lastNameP, String lastNameM,
+                                      String supUserDone, String comments, Calendar endDone, Long actMonPlanToReplaceId){
+
+        this(activityMonitoringPlanId, monitoringPlanId, caseId, mpId, status, end, start, supervisionActivityName, activityGoalName, aidSourceName, aidSourceRelationship,
+                actStatus, name, lastNameP, lastNameP, supUserDone, comments, endDone);
+        this.assignedArrangement = assignedArrangement;
+        this.actMonPlanToReplaceId = actMonPlanToReplaceId;
     }
 
     public Long getActivityMonitoringPlanId() {
@@ -171,5 +189,37 @@ public class ActivityMonitoringPlanInfo {
 
     public void setEndDone(Calendar endDone) {
         this.endDone = endDone;
+    }
+
+    public String getEndSt() {
+        return endSt;
+    }
+
+    public void setEndSt(String endSt) {
+        this.endSt = endSt;
+    }
+
+    public String getStartSt() {
+        return startSt;
+    }
+
+    public void setStartSt(String startSt) {
+        this.startSt = startSt;
+    }
+
+    public String getAssignedArrangement() {
+        return assignedArrangement;
+    }
+
+    public void setAssignedArrangement(String assignedArrangement) {
+        this.assignedArrangement = assignedArrangement;
+    }
+
+    public Long getActMonPlanToReplaceId() {
+        return actMonPlanToReplaceId;
+    }
+
+    public void setActMonPlanToReplaceId(Long actMonPlanToReplaceId) {
+        this.actMonPlanToReplaceId = actMonPlanToReplaceId;
     }
 }

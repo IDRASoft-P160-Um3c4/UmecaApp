@@ -26,7 +26,7 @@
 
             window.preAuthorize = function(id){
                 window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/generateMonitoringPlan/preAuthorize.json' />", "#GridId",
-                        "Plan de seguimiento", "¿Est&aacute; seguro de que desea solicitar la autorizaci&oacute;n del plan de seguimiento para este caso?", "warning");
+                        "Plan de seguimiento", "&iquest;Est&aacute; seguro de que desea solicitar la autorizaci&oacute;n del plan de seguimiento para este caso?", "warning");
             };
 
             window.showRejectAuthMsg = function(id){

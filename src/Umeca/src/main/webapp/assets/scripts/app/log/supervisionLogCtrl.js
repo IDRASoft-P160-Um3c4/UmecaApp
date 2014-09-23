@@ -218,4 +218,7 @@ app.controller("supervisionLogController", function($scope, $timeout){
         }
     }
 
+    $scope.createLabel = function(status){
+        return 'label ' + window.colorActMonPlan(status);
+    };
 });

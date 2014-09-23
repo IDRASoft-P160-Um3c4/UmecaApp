@@ -26,7 +26,11 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
 
     @Query("SELECT count(amp.id) FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
             "WHERE mp.id =:monPlanId AND amp.status NOT IN :lstStatus")
-    Long countActivitiesByStatus(@Param("monPlanId") Long monPlanId, @Param("lstStatus") List<String> lstStatus);
+    Long countActivitiesByNotInLstStatus(@Param("monPlanId") Long monPlanId, @Param("lstStatus") List<String> lstStatus);
+
+    @Query("SELECT count(amp.id) FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
+            "WHERE mp.id =:monPlanId AND amp.status IN :lstStatus")
+    Long countActivitiesByInLstStatus(@Param("monPlanId") Long monPlanId, @Param("lstStatus") List<String> lstStatus);
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanResponse(amp.id, mp.id, cd.id, cd.idMP," +
             "amp.end, amp.start, amp.supervisionActivity.id, amp.activityGoal.id, amp.status, im.name, im.lastNameP, im.lastNameM)" +
@@ -122,6 +126,16 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "WHERE mp.id =:monPlanId AND amp.status IN :lstStatus " +
             "ORDER BY amp.start ASC")
     List<ActivityMonitoringPlanNotice> getAllActivitiesByMonPlanIdInStatus(@Param("monPlanId")Long monPlanId, @Param("lstStatus") List<String> lstStatus);
+
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanInfo(amp.id, mp.id, cd.id, cd.idMP, mp.status, " +
+            "amp.end, amp.start, amp.assignedArrangements, sa.name, ag.name, fssr.name, rs.name, amp.status, im.name, im.lastNameP, im.lastNameM, " +
+            "sd.fullname, amp.comments, amp.doneTime, ampr.id) " +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
+            "INNER JOIN amp.supervisionActivity sa INNER JOIN amp.activityGoal ag INNER JOIN amp.framingSelectedSourceRel.framingReference fssr " +
+            "INNER JOIN fssr.relationship rs LEFT JOIN amp.supervisorDone sd LEFT JOIN amp.actMonPlanToReplace ampr " +
+            "WHERE amp.id =:actMonId")
+    ActivityMonitoringPlanInfo getActivityInfoFull(@Param("actMonId")Long actMonId);
 
 }
 

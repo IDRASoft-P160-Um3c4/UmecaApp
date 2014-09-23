@@ -30,26 +30,16 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
-                                            <%--<div class="col-xs-6">--%>
-                                                <%--<div class="profile-user-info profile-user-info-striped">--%>
-                                                    <%--<div class="profile-info-row">--%>
-                                                        <%--<div class="profile-info-name"> Caso </div>--%>
-                                                        <%--<div class="profile-info-value">--%>
-                                                            <%--<span id="case">${caseId}&nbsp;</span>--%>
-                                                        <%--</div>--%>
-                                                    <%--</div>--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-                                                <div class="col-xs-12">
-                                                    <div class="profile-user-info profile-user-info-striped">
-                                                        <div class="profile-info-row">
-                                                            <div class="profile-info-name"> Imputado </div>
-                                                            <div class="profile-info-value">
-                                                                <span id="fullName">${fullName}&nbsp;</span>
-                                                            </div>
+                                            <div class="col-xs-12">
+                                                <div class="profile-user-info profile-user-info-striped">
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Imputado </div>
+                                                        <div class="profile-info-value">
+                                                            <span id="fullName">${fullName}&nbsp;</span>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6">
@@ -111,7 +101,7 @@
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">
                                                             <input id="password" type="password" name="password" ng-model="m.password" ng-enter-key for-element-id="btn-def-ck"
-                                                                   class="form-control" rows="8"></textarea>
+                                                                   class="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
