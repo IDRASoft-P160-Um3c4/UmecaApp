@@ -88,6 +88,7 @@ public class ExcelCaseInfoDto {
     private String tecRevCommentsStr;
 
     private List<HearingFormatInfo> formatsInfo;
+    private FramingMeetingInfo framingMeetingInfo;
 
     public ExcelCaseInfoDto(Long idCase,
                             String idFolder,
@@ -1052,6 +1053,14 @@ public class ExcelCaseInfoDto {
 
     public void setFormatsInfo(List<HearingFormatInfo> formatsInfo) {
         this.formatsInfo = formatsInfo;
+    }
+
+    public FramingMeetingInfo getFramingMeetingInfo() {
+        return framingMeetingInfo;
+    }
+
+    public void setFramingMeetingInfo(FramingMeetingInfo framingMeetingInfo) {
+        this.framingMeetingInfo = framingMeetingInfo;
     }
 }
 
