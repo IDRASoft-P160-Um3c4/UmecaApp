@@ -71,7 +71,7 @@ public class SourceVerification implements EntityGrid{
     @Column(name="address", length = 500, nullable = false)
     private String address;
 
-    @Column(name="phone", length = 20, nullable =false)
+    @Column(name="phone", length = 200, nullable =false)
     private String phone;
 
     @Column(name="isAuthorized", nullable = false)

@@ -26,12 +26,14 @@ import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.FramingAddressRepository;
+import com.umeca.repository.supervisor.FramingMeetingRepository;
 import com.umeca.repository.supervisor.FramingReferenceRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.supervisor.FramingMeetingService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -96,6 +98,9 @@ public class FramingMeetingController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FramingMeetingRepository framingMeetingRepository;
 
     @RequestMapping(value = "/supervisor/framingMeeting/index", method = RequestMethod.GET)
     public String index() {
@@ -461,6 +466,13 @@ public class FramingMeetingController {
             housemate = new FramingReferenceDto();
 
         housemate.setIdCase(idCase);
+
+        if (housemate.getAddress() == null || housemate.getAddress().trim().equals("")) {
+            List<String> fmAddress = framingMeetingRepository.firstFramingHouseByCase(idCase, new PageRequest(0, 1));
+            if (fmAddress != null && fmAddress.size() > 0) {
+                housemate.setAddress(fmAddress.get(0));
+            }
+        }
 
         model.addObject("housemate", conv.toJson(housemate));
 

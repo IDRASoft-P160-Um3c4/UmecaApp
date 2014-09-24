@@ -17,14 +17,13 @@ import java.util.List;
  * Time: 8:10 PM
  */
 @Repository("qFramingMeetingRepository")
-public interface FramingMeetingRepository extends JpaRepository<FramingMeeting, Long>{
+public interface FramingMeetingRepository extends JpaRepository<FramingMeeting, Long> {
 
 
     @Query("SELECT hf FROM MonitoringPlan mp " +
             "INNER JOIN mp.caseDetention.hearingFormats hf " +
             "WHERE mp.id =:id ORDER BY hf.id DESC")
-    FramingMeeting findByCaseId(@Param("id")Long id);
-
+    FramingMeeting findByCaseId(@Param("id") Long id);
 
 
     @Query("SELECT s.fullname FROM FramingMeeting fm " +
@@ -32,6 +31,12 @@ public interface FramingMeetingRepository extends JpaRepository<FramingMeeting, 
             "WHERE cd.id =:caseId ORDER BY fm.id DESC")
     List<String> findLastSupervisorByCaseId(@Param("caseId") Long caseId, Pageable pageable);
 
+    @Query("select ADD.addressString from Case CD " +
+            "left join CD.framingMeeting FM " +
+            "left join FM.framingAddresses FMA " +
+            "left join FMA.address ADD " +
+            "where CD.id=:idCase order by ADD.id ASC")
+    List<String> firstFramingHouseByCase(@Param("idCase") Long idCase, Pageable pageable);
 }
 
 

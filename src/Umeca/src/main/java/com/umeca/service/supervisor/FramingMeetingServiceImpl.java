@@ -407,7 +407,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         try {
 
-            if (newReference.getIsAccompaniment() != null && newReference.getIsAccompaniment()) {
+            if (newReference.getIsAccompaniment() != null && newReference.getIsAccompaniment() == true) {
 
                 List<AccompanimentInfo> lstAccomInf = accompanimentInfoRepository.getAccompanimentInfoByIdRef(newReference.getId(), new PageRequest(0, 1));
 
@@ -452,6 +452,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 }
 
                 newReference.setAccompanimentInfo(accompanimentInfo);
+            } else {
+                newReference.setIsAccompaniment(false);
             }
 
             newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
@@ -1069,7 +1071,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (existFraming.getReferences() != null && existFraming.getReferences().size() > 0) {
                 for (FramingReference act : existFraming.getReferences()) {
-                    if (act.getIsAccompaniment() == true && act.getAccompanimentInfo() == null) {
+                    if (act.getIsAccompaniment() != null && act.getIsAccompaniment() == true && act.getAccompanimentInfo() == null) {
                         if (act.getPersonType() != null && act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
                             bandHM++;
                         else if (act.getPersonType() != null && act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))

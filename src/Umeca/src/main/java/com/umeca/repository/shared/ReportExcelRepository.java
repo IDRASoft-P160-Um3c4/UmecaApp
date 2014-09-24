@@ -1,10 +1,9 @@
 package com.umeca.repository.shared;
 
-import com.umeca.model.catalog.Questionary;
-import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
+import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.supervisor.ContactData;
-import com.umeca.model.entities.supervisor.HearingFormatInfo;
+import com.umeca.model.entities.supervisor.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -117,6 +116,12 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (c.id in (:lstCases)) and rt.id=1")
     List<Long> findIdCasesWithActualJob(@Param("lstCases") List<Long> lstCases);
 
+    @Query("select distinct (c.id) from Case as c " +
+            "inner join c.meeting as m " +
+            "inner join m.jobs as j " +
+            "inner join j.registerType as rt " +
+            "where ((c.id in (:lstCases)) and ((rt.id <> 1) or (rt.id is null)))")
+    List<Long> findIdCasesWithOutActualJob(@Param("lstCases") List<Long> lstCases);
 
     /*summary querys*/
 
@@ -182,16 +187,115 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (C.id in(:lstCasesIds))")
     List<HearingFormatInfo> getHearingFormatInfo(@Param("lstCasesIds") List<Long> lstCasesIds);
 
-
     @Query("select ARR.description from HearingFormat HF " +
             "inner join HF.assignedArrangements HFA " +
             "inner join HFA.arrangement ARR " +
             "where (HF.id=:formatId)")
     List<String> getArrangementsByFormat(@Param("formatId") Long formatId);
 
+    @Query("SELECT hf.id FROM Case CD " +
+            "inner join CD.hearingFormats hf " +
+            "WHERE CD.id =:id and hf.isFinished=true ORDER BY hf.id DESC")
+    List<Long> getLastHearingFormatByCase(@Param("id") Long id, Pageable pageable);
+
     @Query("select CON from HearingFormat HF " +
             "inner join HF.contacts CON " +
             "where (HF.id=:formatId)")
     List<ContactData> getContactsByFormat(@Param("formatId") Long formatId);
+
+    @Query("select new com.umeca.model.entities.supervisor.FramingMeetingInfo(CD.id,CD.idFolder,CD.idMP,CD.dateCreate,PD.name,PD.lastNameP,PD.lastNameM,PD.gender," +
+            "MS.name,PD.maritalStatusYears,BC.name,BS.name,PD.birthState,PD.birthDate,PD.physicalCondition," +
+            "FM.activities, OCC.name, OCC.place, OCC.phone,AFQ.observations,AFQ.addictionTreatment,AFQ.addictionTreatmentInstitute," +
+            "AFQ.addictionTreatmentDate,AFQ.addictedAcquaintance,AFQ.relativeAbroad,AFQ.obligationIssue) " +
+            "from Case CD " +
+            "inner join CD.framingMeeting as FM " +
+            "left join FM.personalData PD " +
+            "left join PD.maritalStatus MS " +
+            "left join PD.birthCountry BC " +
+            "left join PD.birthStateCmb BS " +
+            "left join FM.occupation OCC " +
+            "left join FM.additionalFramingQuestions AFQ " +
+            "where (CD.id in (:lstCasesIds))")
+    List<FramingMeetingInfo> getFramingMeetingInfo(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.FramingReferenceInfo" +
+            "(CD.id,REF.name,REF.phone,REL.name,REF.address,REF.age,REF.occupation,REF.personType,REF.isAccompaniment," +
+            "AI.gender,AI.occupationPlace,AL.name,ADD.addressString) " +
+            "from Case CD " +
+            "inner join CD.framingMeeting FM " +
+            "inner join FM.references REF " +
+            "inner join REF.relationship REL " +
+            "left join REF.accompanimentInfo AI " +
+            "left join AI.address ADD " +
+            "left join AI.academicLevel AL " +
+            "where (CD.id in (:lstCasesIds))")
+    List<FramingReferenceInfo> getFramingReferenceInfo(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id,ADD.addressString) from Case CD " +
+            "left join CD.framingMeeting FM " +
+            "left join FM.framingAddresses FMA " +
+            "left join FMA.address ADD " +
+            "where (CD.id in (:lstCasesIds))")
+    List<CatalogDto> getFramingHomes(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelDrugDto(CDET.id, DT.name, PER.name, DRUG.quantity, DRUG.lastUse, DRUG.specificationType, DRUG.specificationPeriodicity) " +
+            "from Case CDET " +
+            "left join CDET.framingMeeting FM " +
+            "left join FM.drugs DRUG " +
+            "left join DRUG.periodicity PER " +
+            "left join DRUG.drugType DT " +
+            "where CDET.id in (:lstCasesIds)")
+    List<ExcelDrugDto> getFramingInfoDrugs(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id,REL.name) from Case CD " +
+            "left join CD.framingMeeting FM " +
+            "left join FM.additionalFramingQuestions AFQ " +
+            "left  join AFQ.addictedAcquaintancesRel AFQR " +
+            "left join AFQR.relationship REL " +
+            "where (CD.id in (:lstCasesIds))")
+    List<CatalogDto> getFramingAddictedAcquaintances(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ObligationIssuesInfo(CD.id, REL.name, AFQR.address) " +
+            "from Case CD " +
+            "left join CD.framingMeeting FM " +
+            "left join FM.additionalFramingQuestions AFQ " +
+            "left  join AFQ.relativesAbroadRel AFQR " +
+            "left join AFQR.relationship REL " +
+            "where (CD.id in (:lstCasesIds))")
+    List<ObligationIssuesInfo> getFramingRelativesAbroad(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ObligationIssuesInfo(CD.id, ARR.description, OI.cause) " +
+            "from Case CD " +
+            "left join CD.framingMeeting FM " +
+            "left join FM.additionalFramingQuestions AFQ " +
+            "left  join AFQ.obligationIssues OI " +
+            "left join OI.arrangement ARR " +
+            "where (CD.id in (:lstCasesIds))")
+    List<ObligationIssuesInfo> getFramingObligationIssues(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id,REL.name) " +
+            "from Case CD " +
+            "left join CD.framingMeeting FM " +
+            "left join FM.selectedSourcesRel SSR " +
+            "left  join SSR.framingReference FR " +
+            "left join FR.relationship REL " +
+            "where (CD.id in (:lstCasesIds))")
+    List<CatalogDto> getFramingSelectedSourceRel(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id,FT.description) " +
+            "from Case CD " +
+            "left join CD.framingMeeting FM " +
+            "left join FM.selectedThreatsRel STR " +
+            "left  join STR.framingThreat FT " +
+            "where (CD.id in (:lstCasesIds))")
+    List<CatalogDto> getFramingSelectedThreatsRel(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id, FR.description) " +
+            "from Case CD " +
+            "left join CD.framingMeeting FM " +
+            "left join FM.selectedRisksRel SRR " +
+            "left  join SRR.framingRisk FR " +
+            "where (CD.id in (:lstCasesIds))")
+    List<CatalogDto> getFramingSelectedRiskRel(@Param("lstCasesIds") List<Long> lstCasesIds);
 
 }
