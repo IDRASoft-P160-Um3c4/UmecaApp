@@ -59,9 +59,9 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
-                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.documentType',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.documentType" id-element="{{p.id}}"></i>
-                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.documentType',p.id);"></i>
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.documentType.id',p.id);"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.documentType.id" id-element="{{p.id}}"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.documentType.id',p.id);"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.documentType.id',p.id)"></i>
                 Identificaci&oacute;n prensentada:
             </div>
@@ -108,9 +108,9 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
-                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.livingWith',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.livingWith" id-element="{{p.id}}"></i>
-                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.livingWith',p.id);"></i>
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.livingWith.id',p.id);"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.livingWith.id" id-element="{{p.id}}"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.livingWith.id',p.id);"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.livingWith.id',p.id)"></i>
                 Vive con el:
             </div>
@@ -135,9 +135,9 @@
         </div>
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
-                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.dependent',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.dependent" id-element="{{p.id}}"></i>
-                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.dependent',p.id);"></i>
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.dependent.id',p.id);"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.dependent.id" id-element="{{p.id}}"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.dependent.id',p.id);"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.dependent.id',p.id)"></i>
                 Dependiente econ&oacute;mico:
             </div>

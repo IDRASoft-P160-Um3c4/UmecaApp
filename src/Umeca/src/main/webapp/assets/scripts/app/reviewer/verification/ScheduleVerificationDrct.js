@@ -5,7 +5,7 @@ app.directive('verifSchedule', function ($http, $rootScope) {
 
         elem.on('click', function () {
             var idList = scope.$eval(attr.idElement);
-            $rootScope.$broadcast('SetIdList',idList);
+            $rootScope.$broadcast('SetIdListSchedule',idList);
             var code = attr.idCode;
             $rootScope.$broadcast('SetCodeSchedule',code);
             var divModValid ="#dlgUpModalIdSchedule";

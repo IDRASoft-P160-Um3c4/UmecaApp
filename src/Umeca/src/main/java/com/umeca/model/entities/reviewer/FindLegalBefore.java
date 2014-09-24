@@ -21,9 +21,10 @@ public class FindLegalBefore {
     String statusCase;
     String arrangement;
     String dateCreateString;
+    String imputedInfo;
 
 
-    public FindLegalBefore(Long idCase,String idMP, String idFolder, String statusCase, Date dateCreate) {
+    public FindLegalBefore(Long idCase,String idMP, String idFolder, String statusCase, Date dateCreate, String fullName, Date birthDate) {
         this.idCase = idCase;
         if(idMP==null ||(idMP!=null && idMP.equals("")))
             idMP="No asignado";
@@ -31,6 +32,7 @@ public class FindLegalBefore {
         this.idFolder = idFolder;
         this.statusCase = statusCase;
         this.dateCreateString = Constants.df.format(dateCreate);
+        this.imputedInfo = "Nombre: "+fullName+"<br/> Fecha de nacimiento: "+Constants.df.format(birthDate);
     }
 
     public String getIdMP() {
@@ -88,5 +90,11 @@ public class FindLegalBefore {
         this.dateCreateString = dateCreateString;
     }
 
+    public String getImputedInfo() {
+        return imputedInfo;
+    }
 
+    public void setImputedInfo(String imputedInfo) {
+        this.imputedInfo = imputedInfo;
+    }
 }

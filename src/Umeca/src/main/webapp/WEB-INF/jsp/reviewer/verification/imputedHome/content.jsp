@@ -25,7 +25,7 @@
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('imputedHomes.phone',a.id);"></i>
         <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"  ng-show="verification"
-           id-code="imputedHomes.phone" id-element="{{a.id}}"></i>
+           code="imputedHomes.phone" id-element="{{a.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('imputedHomes.phone',a.id);"></i>
         <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"

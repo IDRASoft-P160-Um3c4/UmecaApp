@@ -159,23 +159,28 @@ public class MainPageServiceImpl implements MainPageService {
         List<LogNotificationDto> top10 = new ArrayList<>();
 
 
-        int top = 1;
+        int top = 0;
         for (LogNotificationDto act : lstActivities) {
-
             top10.add(act);
             top++;
-
             if (top == 10)
                 break;
-
         }
 
         List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getReviewerNotifications(sharedUserService.GetLoggedUserId());
+        List<LogNotificationDto> top10Notif = new ArrayList<>();
+        int topN = 0;
+        for (LogNotificationDto not : lstNotif) {
+            top10Notif.add(not);
+            topN++;
+            if (topN == 10)
+                break;
+        }
 
         Gson conv = new Gson();
 
-        model.addObject("lstActivities", conv.toJson(lstActivities));
-        model.addObject("lstNotification", conv.toJson(lstNotif));
+        model.addObject("lstActivities", conv.toJson(top10));
+        model.addObject("lstNotification", conv.toJson(top10Notif));
         model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
 
     }
@@ -190,8 +195,25 @@ public class MainPageServiceImpl implements MainPageService {
 
         Gson conv = new Gson();
         List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getReviewerNotifications(sharedUserService.GetLoggedUserId());
-       model.addObject("lstActivities", conv.toJson(lstActivities));
-        model.addObject("lstNotification", conv.toJson(lstNotif));
+
+        List<LogNotificationDto> top10 = new ArrayList<>();
+        int top = 0;
+        for (LogNotificationDto act : lstActivities) {
+            top10.add(act);
+            top++;
+            if (top == 10)
+                break;
+        }
+        List<LogNotificationDto> top10Notif = new ArrayList<>();
+        int topN = 0;
+        for (LogNotificationDto not : lstNotif) {
+            top10Notif.add(not);
+            topN++;
+            if (topN == 10)
+                break;
+        }
+       model.addObject("lstActivities", conv.toJson(top10));
+        model.addObject("lstNotification", conv.toJson(top10Notif));
         model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
 
     }

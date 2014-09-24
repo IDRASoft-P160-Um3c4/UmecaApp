@@ -8,6 +8,30 @@
                     </div>
                 </div>
                 <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <div class="widget-container-span ui-sortable">
+                                <div class="widget-box transparent">
+                                    <div class="widget-header">
+                                        <div class="row"> <input type="hidden"
+                                                                 ng-init='urlSearchInformation= "<c:url value='/reviewer/verification/searchInformationBySource.json'/>";'/>
+                                            <h4 class="lighter">Infomaci&oacute;n proporcionada por la fuente: </h4>
+                                        </div>
+                                        <div class="row">
+                                            <div style="color: #808080;" class="col-xs-10 col-xs-offset-1">
+                                                <ul>
+                                                    <p  ng-bind-html="fmsOfSource"></p>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
                     <form id="FormCatIdAddress" name="FormCatIdAddress" ng-submit="submit('#FormCatIdAddress')" class="form-horizontal"
                           role="form">
 
