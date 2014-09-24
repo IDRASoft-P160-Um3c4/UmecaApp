@@ -42,34 +42,39 @@
      urlIndex="<c:url value='/supervisor/framingMeeting/index.html'/>";'
      ng-cloak>
 <input type="hidden" name="idFolder" value="{{fm.objView.idFolder}}">
-<br/>
+
 
 <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
-
-
-<div class="row">
-    <div class="col-xs-4">
-
+<%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
+<div class="row" ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true;">
+    <div class="col-xs-10">
+    <h3 class="header smaller lighter blue">
+        <small>Actividades de evaluaci&oacute;n:{{checked}}  </small>
+        &nbsp;
+        <i class="icon-check" ng-show="hasMeeting"></i><i class="icon-unchecked" ng-show="!hasMeeting"></i>&nbsp;<label>Entrevista de riesgos procesales</label>&nbsp;&nbsp;
+        <i class="icon-check" ng-show="hasTR"></i><i class="icon-unchecked" ng-show="!hasTR"></i>&nbsp;<label>Opini&oacute;n T&eacute;cnica</label>
+    </h3>
+    </div>
+    <div class="col-xs-2 element-center">
         <h3 class="header smaller lighter blue">
-            <small>N&uacute;mero de carpeta <br/> de investigaci&oacute;n:</small>
-            &nbsp;&nbsp;&nbsp;&nbsp;{{fm.objView.idFolder}}
+            <small>Resoluci&oacute;n:  </small>&nbsp;&nbsp;&nbsp;<label>${resolution}</label>
         </h3>
     </div>
-
 </div>
-
+ <br/>
 <div class="row">
     <div ng-show="FMsuccessMsg&&FMsuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
         {{FMsuccessMsg}}
+        <br/>
     </div>
     <div ng-show="FMerrorMsg&&FMerrorMsg!=''" class="alert alert-danger element-center error-font">
         {{FMerrorMsg}}
+        <br/>
     </div>
     <div ng-show="FMerrorMsgLst&&FMerrorMsgLst.length>0" class="alert alert-danger element-center error-font">
         <span ng-repeat="error in FMerrorMsgLst track by $index">{{error}}<br/></span>
     </div>
 </div>
-<br/>
 
 <div class="row">
     <div class="col-xs-12">
@@ -80,7 +85,6 @@
     </div>
 </div>
 <br/>
-
 <div class="row">
 <div class="col-sm-12">
 <div class="tabbable tabs-left">

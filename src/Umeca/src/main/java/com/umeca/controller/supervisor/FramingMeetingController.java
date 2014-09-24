@@ -12,12 +12,10 @@ import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.StateDto;
-import com.umeca.model.entities.reviewer.Address;
-import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.Drug;
-import com.umeca.model.entities.reviewer.Verification;
+import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -28,6 +26,7 @@ import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.FramingAddressRepository;
 import com.umeca.repository.supervisor.FramingMeetingRepository;
 import com.umeca.repository.supervisor.FramingReferenceRepository;
+import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.supervisor.FramingMeetingService;
@@ -42,6 +41,9 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import java.awt.print.PageFormat;
+import java.awt.print.Pageable;
+import java.awt.print.Printable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,13 +159,33 @@ public class FramingMeetingController {
         return result;
     }
 
+    @Autowired
+    HearingFormatRepository hearingFormatRepository;
+
 
     @RequestMapping(value = "/supervisor/framingMeeting/framingMeeting", method = RequestMethod.GET)
     public ModelAndView framingMeeting(@RequestParam(required = true) Long id, Integer returnId) {
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/framingMeeting");
 
         Case caseDet = caseRepository.findOne(id);
-
+        model.addObject("idFolder", caseDet.getIdFolder());
+        Imputed i = caseDet.getMeeting().getImputed();
+        String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
+        model.addObject("fullNameImputed", fullName);
+        model.addObject("age", sharedUserService.calculateAge(i.getBirthDate()));
+        model.addObject("hasMeeting",caseDet.getMeeting().getSchool()!=null);
+        model.addObject("hasTR",caseDet.getTechnicalReview()!=null);
+        List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id,new PageRequest(0,1));
+        if(lstHF!=null && lstHF.size()>0){
+            HearingFormatSpecs hfs = lstHF.get(0).getHearingFormatSpecs();
+            if(hfs !=null){
+                if(hfs.getArrangementType().equals(HearingFormatConstants.HEARING_TYPE_MC)){
+                    model.addObject("resolution","MC");
+                }else{
+                    model.addObject("resolution", "SCCP");
+                }
+            }
+        }
         if (caseDet.getFramingMeeting() == null) {
             FramingMeeting framingMeeting = new FramingMeeting();
             framingMeeting.setIsTerminated(false);
