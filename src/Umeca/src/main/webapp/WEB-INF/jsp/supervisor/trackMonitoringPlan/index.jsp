@@ -35,7 +35,7 @@
                     url: '<c:url value='/supervisor/trackMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a','idTec', 'Acci&oacute;n'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a','idTec', 'Suspendido', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', index: 'caseId', hidden: true},
@@ -47,7 +47,8 @@
                         { name: 'status', index: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                         { name: 'supervisor', index: 'supervisor', width: 130, align: "center", sortable: false, search: false },
                         { name: 'idTec', index: 'idTec', hidden:true},
-                        { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                        { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden:true},
+                        { name: 'Action', width: 110, align: "center", sortable: false, search: false }
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],
@@ -67,15 +68,18 @@
                             var status = row.status;
                             var be = "";
                             var idTec = $(this).jqGrid('getCol', 'idTec', false);
+                            var isMonPlanSuspended = row.isMonPlanSuspended;
                             var caseId = $(this).jqGrid('getCol', 'caseId', false);
+                            if(isMonPlanSuspended === 'true'){
+                                be += " &nbsp;<span style='display:inline-block;' class='glyphicon glyphicon-fire red' title='El plan se encuentra suspendido, no se podr&aacute;n realizar acciones hasta que el coordinador lo autorice.'></span>";
+                            }
+
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Seguimiento al plan\" onclick=\"window.track('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
-                            /*if (status === "NUEVO") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisi�n\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
-                            }*/
 
                             if(idTec!=null && idTec!=""){
                                 be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte\" onclick=\"generateFile('" + caseId + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                             }
+
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }
                     },

@@ -85,7 +85,7 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
             var className = 'label-info';
             var end = window.stringToDate(act.end);
 
-            className = window.colorActMonPlan(act.status, end, today);
+            className = window.colorActMonPlan(act.status, end, today, undefined, act.suspended);
 
             if(act.monitoringPlanId === $scope.mainMonPlanId){
                 className = className + ' border-event-main';
@@ -98,7 +98,8 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
                 start: window.stringToDate(act.start),
                 end: end,
                 allDay: false,
-                className: className
+                className: className,
+                suspended: act.suspended
             };
             lstEvents.push(event);
         }

@@ -33,7 +33,7 @@
                     url: '<c:url value='/supervisorManager/authorizeMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Acci&oacute;n'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Suspender', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', hidden:true},
@@ -44,7 +44,8 @@
                         { name: 'stAuthorizationTime', width: 140, align: "center", sortable: true, search: false },
                         { name: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                         { name: 'supervisor', width: 130, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] }},
-                        { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                        { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden:true},
+                        { name: 'Action', width: 110, align: "center", sortable: false, search: false }
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],
@@ -62,6 +63,11 @@
                             var cl = ids[i];
                             var row = $(this).getRowData(cl);
                             var be = "";
+                            var isMonPlanSuspended = row.isMonPlanSuspended;
+
+                            if(isMonPlanSuspended === 'true'){
+                                be += "<span style='display:inline-block;' class='glyphicon glyphicon-fire red' title='El plan se encuentra suspendido, no se podr&aacute;n realizar acciones hasta que el coordinador lo autorice.'></span>";
+                            }
 
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver plan de supervisi&oacute;n\" onclick=\"window.showCalendar('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar plan de supervisi&oacute;n\" onclick=\"window.reject('" + cl + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";

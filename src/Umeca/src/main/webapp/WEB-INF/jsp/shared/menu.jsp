@@ -125,7 +125,7 @@
                     </li>
                     <li class="dropdown nav-li-blue">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol supervisi�n
+                                class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol supervisi&oacute;n
                             <i class="icon-caret-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="<c:url value='/supervisorManager/rolSupervision/index.html' />"><i

@@ -94,6 +94,7 @@ public class ManageMonitoringPlanController {
                     add(r.get("authorizationTime"));
                     add(r.get("status"));
                     add(r.join("supervisor").get("username"));
+                    add(r.get("posAuthorizationChangeTime"));
                 }};
             }
 

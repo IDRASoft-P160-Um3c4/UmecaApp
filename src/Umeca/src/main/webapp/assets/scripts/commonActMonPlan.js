@@ -1,4 +1,9 @@
-window.colorActMonPlan = function(status, end, today, color){
+window.colorActMonPlan = function(status, end, today, color, isSuspended){
+
+    if(isSuspended === true){
+        return 'label-black';
+    }
+
     switch(status){
         case "NO REALIZADA":
             return color === undefined ? 'label-grey' : 'grey';

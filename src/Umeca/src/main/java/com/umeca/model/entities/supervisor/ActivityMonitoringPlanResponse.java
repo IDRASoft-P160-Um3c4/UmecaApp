@@ -18,6 +18,7 @@ public class ActivityMonitoringPlanResponse {
     private Long goalId;
     private String status;
     private String personName;
+    private Boolean isSuspended;
 
     public ActivityMonitoringPlanResponse(Long activityMonId, Long monitoringPlanId, Long caseId, String mpId, Calendar endCalendar, Calendar startCalendar,
                                           Long activityId, Long goalId, String status, String name, String lastP, String lastM){
@@ -31,6 +32,7 @@ public class ActivityMonitoringPlanResponse {
         this.goalId = goalId;
         this.status = status;
         this.personName = name + " " + lastP + " " + lastM;
+        this.isSuspended = false;
     }
 
     public Long getActivityMonId() {
@@ -141,5 +143,13 @@ public class ActivityMonitoringPlanResponse {
 
     public void setPersonName(String personName) {
         this.personName = personName;
+    }
+
+    public Boolean getSuspended() {
+        return isSuspended;
+    }
+
+    public void setSuspended(Boolean suspended) {
+        isSuspended = suspended;
     }
 }
