@@ -310,6 +310,11 @@ public class VerificationController {
              return verificationService.terminateAddSource(idCase);
     }
 
+    @RequestMapping(value = "/reviewer/verification/searchInformationBySource", method = RequestMethod.POST)
+    public ResponseMessage searchInformationBySource(@RequestParam Long idCase, @RequestParam Long idSource, @RequestParam String code, @RequestParam(required = false) Long idList){
+             return verificationService.searchInformationByeSourceCode(idCase,idSource,code,idList);
+    }
+
 
     @RequestMapping(value = "reviewer/verification/source/upsert", method = RequestMethod.POST)
     public ModelAndView upsertSource(@RequestParam(required = true) Long idCase, @RequestParam(required = false) Long id){
@@ -325,6 +330,8 @@ public class VerificationController {
         Gson gson = new Gson();
         model.addObject("idCase",idCase);
         model.addObject("idSource",idSource);
+        ResponseMessage rm = verificationService.searchInformationByeSourceCode(idCase,idSource,"socialEnvironment.activities",null);
+        model.addObject("activitiesRegister",rm.getMessage());
         List<CatalogDto> listActivity = new ArrayList<>();
         for (Activity a : activityRepository.findNotObsolete()) {
             CatalogDto ca = new CatalogDto();

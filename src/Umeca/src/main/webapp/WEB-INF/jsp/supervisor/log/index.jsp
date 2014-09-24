@@ -38,7 +38,7 @@
                     url: '<c:url value='/supervisor/log/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', "Estatus bit&aacute;cora", 'Acci&oacute;n'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', "Estatus bit&aacute;cora", 'Suspender','Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', width: 65, hidden: true },
@@ -50,7 +50,8 @@
                         { name: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                         { name: 'supervisor', width: 130, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] }},
                         { name: 'statusLog', hidden: true },
-                        { name: 'Action', width: 90, align: "center", sortable: false, search: false }
+                        { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden:true},
+                        { name: 'Action', width: 110, align: "center", sortable: false, search: false }
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],
@@ -68,6 +69,8 @@
                             var cl = ids[i];
                             var row = $(this).getRowData(cl);
                             var statusLog = undefined;
+                            var isMonPlanSuspended = row.isMonPlanSuspended;
+
                             try{
                                 if(row.statusLog !== undefined && row.statusLog !== null && row.statusLog !== "")
                                     statusLog = jQuery.parseJSON(row.statusLog);
@@ -75,14 +78,19 @@
 
                             var be = "";
 
+                            if(isMonPlanSuspended === 'true'){
+                                be += "<span style='display:inline-block;' class='glyphicon glyphicon-fire red' title='El plan se encuentra suspendido, no se podr&aacute;n realizar acciones hasta que el coordinador lo autorice.'></span>";
+                            }
+                            else{
+                                if(statusLog === undefined || (statusLog.action !== "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO" && statusLog.action !== "AUTORIZAR REPORTE INCUMPLIMIENTO")){
+                                    be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorizaci&oacute;n del reporte de incumplimiento\" onclick=\"window.requestAccomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                                }
+                            }
+
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de incumplimiento\" onclick=\"window.accomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
 
                             if(statusLog !== undefined && statusLog.action === "RECHAZADO REPORTE INCUMPLIMIENTO"){
                                 be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo del reporte de incumplimiento\" onclick=\"window.showRejectAuthAccomplishmentMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment green\"></span></a>";
-                            }
-
-                            if(statusLog === undefined || (statusLog.action !== "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO" && statusLog.action !== "AUTORIZAR REPORTE INCUMPLIMIENTO")){
-                                be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorizaci&oacute;n del reporte de incumplimiento\" onclick=\"window.requestAccomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
                             }
 
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&aacute;cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";

@@ -141,7 +141,7 @@
                                             </div>
                                             <div class="col-xs-4">
                                                 Apellido Materno:<br/>
-                                                <input type="text" class="form-control" ng-model="sLastNameM" ng-init="sLastNameMS = '${sLastNameP}'; sLastNameM = '';"/>
+                                                <input type="text" class="form-control" ng-model="sLastNameM" ng-init="sLastNameMS = '${sLastNameM}'; sLastNameM = '';"/>
                                             </div>
                                         </div>
                                         <div class="col-xs-1">
@@ -151,7 +151,7 @@
                                         <span class="lbl alert-danger">{{msgErrorFind}}</span>
                                     </div>
                                     <br/>
-
+                                </div>
                                     <div class="row">
                                         <div class="col-xs-12" ng-show="listLegalBefore.length == 0">
                                             <div class="alert-info element-center info-font">
@@ -161,7 +161,7 @@
                                         <div class="col-xs-12" ng-show="listLegalBefore.length > 0">
                                             <div class="widget-header header-color-blue">
                                                 <h5 class="bigger lighter">
-                                                    Procesos legales anteriores de {{sNameS}} {{sLastNamePS}} {{sLastNameMS}}
+                                                    Resultados de la b&uacute;squeda: {{sNameS}} {{sLastNamePS}} {{sLastNameMS}}
                                                 </h5>
                                             </div>
 
@@ -174,10 +174,10 @@
                                                             <th>
                                                                 Carpeta Judicial
                                                             </th>
-
                                                             <th>
                                                                 Carpeta de investigaci&oacute;n
                                                             </th>
+                                                            <th>Datos del imputado</th>
                                                             <th>Medidas cautelares</th>
                                                             <th>Estatus del caso</th>
                                                         </tr>
@@ -191,10 +191,13 @@
                                                                 {{case.idFolder}}
                                                             </td>
                                                             <td>
-                                                                <ul>
-                                                                    <p ng-bind-html="formatHtml(case.arrangement);"></p>
-                                                                </ul>
+                                                                <p ng-bind-html="formatHtml(case.imputedInfo);"></p>
                                                             </td>
+                                                            <td>
+                                                            <ul>
+                                                                <p ng-bind-html="formatHtml(case.arrangement);"></p>
+                                                            </ul>
+                                                        </td>
                                                             <td>
                                                                 {{case.statusCase}}
                                                             </td>
@@ -213,7 +216,7 @@
 
 
             </div>
-        </div>
+
     </div>
     <div class="modal-footer" ng-show="managereval == false">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"

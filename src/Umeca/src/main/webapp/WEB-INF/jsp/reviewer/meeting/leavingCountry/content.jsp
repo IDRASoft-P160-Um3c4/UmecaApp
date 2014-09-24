@@ -44,7 +44,7 @@
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifEqual('leaveCountry.officialDocumentation.id')"></i>
                 <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
-                   ng-show="verification" code="officialDocumentation"></i>
+                   ng-show="verification" code="leaveCountry.officialDocumentation.id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('leaveCountry.officialDocumentation.id')"></i>
                 <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
@@ -68,11 +68,11 @@
             <div class="col-xs-12">
                 <div class="col-xs-9 element-left">
                     <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-                       ng-click="doConfirmVerifEqual('leaveCountry.livedCountry')"></i>
+                       ng-click="doConfirmVerifEqual('leaveCountry.livedCountry.id')"></i>
                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
-                       ng-show="verification" code="leaveCountry.livedCountry"></i>
+                       ng-show="verification" code="leaveCountry.livedCountry.id"></i>
                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                       ng-click="doConfirmVerifNotKnow('leaveCountry.livedCountry')"></i>
+                       ng-click="doConfirmVerifNotKnow('leaveCountry.livedCountry.id')"></i>
                     <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
                        ng-click="showChoices('leaveCountry.livedCountry.id')"></i>
                     &iquest;El detenido ha vivido en otro pa&iacute;s?:
@@ -178,11 +178,11 @@
 
         <div class="col-xs-9 element-left">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifEqual('leaveCountry.familyAnotherCountry')"></i>
+               ng-click="doConfirmVerifEqual('leaveCountry.familyAnotherCountry.id')"></i>
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
-               ng-show="verification" code="leaveCountry.familyAnotherCountry"></i>
+               ng-show="verification" code="leaveCountry.familyAnotherCountry.id"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifNotKnow('leaveCountry.familyAnotherCountry')"></i>
+               ng-click="doConfirmVerifNotKnow('leaveCountry.familyAnotherCountry.id')"></i>
             <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
                ng-click="showChoices('leaveCountry.familyAnotherCountry.id')"></i>
             &iquest;El detenido cuenta con familiares y/o amigos cercanos en otro pa&iacute;s?:
@@ -227,6 +227,7 @@
 
     </div>
     <br/>
+</div>
     <div class="row" ng-show = "!verification && !selectSource">
         <div class="col-xs-3 element-left">Observaciones:<br/>
             <label class="info-example">(Este campo no es verificable)</label></div>
@@ -243,6 +244,5 @@
         </div>
     </div>
     <br/>
-</div>
 </div>
 </div>

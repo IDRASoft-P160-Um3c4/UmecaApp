@@ -3,7 +3,9 @@ app.directive('verifComp', function ($http, $timeout,$rootScope) {
 
         elem.on('click', function () {
             var idList = scope.$eval(attr.idElement);
+            var code = attr.code;
             $rootScope.$broadcast('SetIdList',idList);
+            $rootScope.$broadcast('SetCodeVerif',code);
             var levelChild = scope.$eval(attr.levelChild);
             var finalElem=elem;
             for(var i=0; i<levelChild; i++){

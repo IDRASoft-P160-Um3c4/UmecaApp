@@ -20,9 +20,9 @@
 <div class="row">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
-            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('references.relationship',r.id);"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.relationship" id-element="{{r.id}}"></i>
-            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.relationship',r.id);"></i>
+            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('references.relationship.id',r.id);"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.relationship.id" id-element="{{r.id}}"></i>
+            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.relationship.id',r.id);"></i>
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.relationship.id',r.id)"></i>
             Parentesco:
         </div>

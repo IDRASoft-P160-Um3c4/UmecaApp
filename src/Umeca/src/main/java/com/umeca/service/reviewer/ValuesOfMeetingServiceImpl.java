@@ -378,10 +378,13 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     case "degree":
                         String level = "Nivel: " + s.getDegree().getAcademicLevel().getName() + " Grado: " + s.getDegree().getName();
                         listFMS.add(new FieldMeetingSource(level, gson.toJson(new DegreeDto().dtoGrade(s.getDegree()))));
+                        if(!s.getSpecification().trim().equals("")){
+                            listFMS.add(new FieldMeetingSource(s.getSpecification().trim(),s.getSpecification().trim()));
+                        }
                         break;
                     case "schedule":
                         String sc = (String) scheduleService.getSchedules(s.getId(), School.class);
-                        if (!s.equals("[]")) {
+                        if (!sc.equals("[]")) {
                             listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(s.getId(), School.class), sc));
                         }
                         break;
@@ -838,10 +841,13 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     case "degree":
                         String level = "Nivel: " + s.getDegree().getAcademicLevel().getName() + " Grado: " + s.getDegree().getName();
                         listFMS.add(new FieldMeetingSource(level, gson.toJson(new DegreeDto().dtoGrade(s.getDegree()))));
+                        if(!s.getSpecification().trim().equals("")){
+                            listFMS.add(new FieldMeetingSource(s.getSpecification().trim(),s.getSpecification().trim()));
+                        }
                         break;
                     case "schedule":
                         String sc = (String) scheduleService.getSchedules(s.getId(), School.class);
-                        if (!s.equals("[]")) {
+                        if (!sc.equals("[]")) {
                             listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(s.getId(), School.class), sc));
                         }
                         break;

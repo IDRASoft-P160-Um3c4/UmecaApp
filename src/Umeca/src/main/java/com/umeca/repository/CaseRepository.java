@@ -31,7 +31,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     @Query("SELECT c FROM Case c WHERE c.idMP =:idMP")
     Case findByIdMP(@Param("idMP") String idMP);
 
-    @Query("select  new com.umeca.model.entities.reviewer.FindLegalBefore(c.id,c.idMP,c.idFolder,s.description,c.dateCreate) from Case as c " +
+    @Query("select  new com.umeca.model.entities.reviewer.FindLegalBefore(c.id,c.idMP,c.idFolder,s.description,c.dateCreate,concat(i.name,' ',i.lastNameP,' ',i.lastNameM),i.birthDate) from Case as c " +
             "INNER JOIN c.status as s " +
             "INNER JOIN c.meeting.imputed as i " +
             "where i.foneticString=:foneticString and c.id <> :idCase")

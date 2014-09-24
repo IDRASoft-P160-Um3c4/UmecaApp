@@ -143,8 +143,8 @@ app.controller('verificationController', function($scope, $timeout, $q,sharedSvc
 });
 
 app.controller('innerVerificationController', function($scope, $timeout, $q) {
+         $scope.init = function(){
 
-    $scope.init = function(){
         $('.date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
             $(this).prev().focus();
         });

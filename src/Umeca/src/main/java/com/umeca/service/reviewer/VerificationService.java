@@ -58,4 +58,6 @@ public interface VerificationService {
     ResponseMessage terminateAddSource(Long idCase);
 
     ResponseMessage verifChoicesBySection(Long idCase, Integer idSection, Long idList, Long idSource, String comment);
+
+    ResponseMessage searchInformationByeSourceCode(Long idCase, Long idSource, String code, Long idList);
 }
