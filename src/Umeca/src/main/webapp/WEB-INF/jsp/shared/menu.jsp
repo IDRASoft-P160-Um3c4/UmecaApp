@@ -45,6 +45,10 @@
                             href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
                             class="icon icon-envelope"></i>&nbsp;&nbsp;Consulta de casos en evaluaci&oacute;n</a>
                     </li>
+                    <li class="nav-li-blue"><a
+                            href="<c:url value='/shared/messageHistory/index.html' />"><i
+                            class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+                    </li>
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
                     <li class="nav-li-blue"><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i
@@ -79,7 +83,10 @@
                             class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
                         supervisi&oacute;n</a>
                     </li>
-
+                    <li class="nav-li-blue"><a
+                            href="<c:url value='/shared/messageHistory/index.html' />"><i
+                            class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+                    </li>
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
                     <li class="nav-li-blue"><a href="<c:url value='/managereval/index.html'/>"><i
@@ -92,7 +99,6 @@
                             href="<c:url value='/shared/messageHistory/index.html' />"><i
                             class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                     </li>
-
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
                     <li class="dropdown nav-li-blue">
@@ -166,7 +172,6 @@
                             class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                     </li>
                 </sec:authorize>
-
                 <li class="light-blue">
                     <sec:authorize access="isAnonymous()">
                         <a href="#" ng-click="linkLogin()" ng-init="hasUser = false"><span

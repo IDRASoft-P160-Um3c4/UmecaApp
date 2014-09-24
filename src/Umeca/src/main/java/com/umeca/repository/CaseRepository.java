@@ -165,7 +165,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "TR.comments," +
             "TR.subtotalsTxt," +
             "VER.id," +
-            "OD.name) " +
+            "OD.name, " +
+            "MP.id) " +
             "from Case CDET " +
             "inner join CDET.status STC " +
             "inner join CDET.meeting MEET " +
@@ -191,6 +192,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join PCP.complyProcessAbove APA " +
             "left join CDET.technicalReview TR " +
             "left join CDET.verification VER " +
+            "left join CDET.monitoringPlan MP " +
             "where CDET.id in (:lstIdsCases)" +
             "order by CDET.dateCreate")
     List<ExcelCaseInfoDto> getInfoCases(@Param("lstIdsCases") List<Long> lstIdsCases);

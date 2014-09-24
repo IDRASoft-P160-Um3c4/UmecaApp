@@ -87,6 +87,67 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
         return result;
     }
 
+    public JqGridResultModel find(JqGridFilterModel opts, SelectFilterFields selFil, boolean distinct,  Class<T> tClass, Class<V> vClass){
+        JqGridResultModel result = new JqGridResultModel();
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<V> cq = cb.createQuery(vClass);
+
+        Root<T> r = cq.from(tClass);
+        cq.multiselect(selFil.getFields(r));
+        cq.distinct(distinct);
+
+        if(StringExt.isNullOrWhiteSpace(opts.getSord()) == false && StringExt.isNullOrWhiteSpace(opts.getSidx())== false){
+            if(opts.getSord().trim().toLowerCase().equals(EntitySpecification.JQGRID_ASC)){
+                cq.orderBy(cb.asc(selectExpression(r, opts.getSidx(), selFil)));
+            }
+            else{
+                cq.orderBy(cb.desc(selectExpression(r, opts.getSidx(), selFil)));
+            }
+        }
+
+        Long totalRecords = criteriaCount(cb, opts, tClass, selFil);
+
+        buildQuery(cb, cq, r, opts, selFil);
+
+        Long numRows = opts.getRows() > 0 ? opts.getRows() : 1l;
+        TypedQuery<V> tqData = entityManager.createQuery(cq);
+        tqData.setFirstResult((opts.getPage()-1) * opts.getRows());
+        tqData.setMaxResults(opts.getRows());
+
+        List<V> lstEnt = tqData.getResultList();
+
+        List<JqGridRowsModel> rows = new ArrayList<>();
+
+        for(EntityGrid entity : lstEnt){
+            boolean cn = false;
+            JqGridRowsModel row = new JqGridRowsModel();
+            row.setId(entity.getId());
+            row.setCell(entity);
+            for (JqGridRowsModel rs : rows){
+                if (rs.getId() == row.getId()){
+                    cn = true;
+                    if (vClass.getName() == ManagerevalView.class.getName()){
+                        ManagerevalView mev = (ManagerevalView)entity;
+                        ManagerevalView rsv = (ManagerevalView)rs.getCell();
+                        rsv.setCrime(rsv.getCrime() + ", " + mev.getCrime());
+                    }
+                    break;
+                }
+            }
+
+            if (!cn)
+                rows.add(row);
+        }
+
+        result.setTotal((int)(totalRecords / numRows) + 1);
+        result.setPage(opts.getPage());
+        result.setRecords(totalRecords);
+        result.setRows(rows);
+
+        return result;
+    }
+
     private Expression<?> selectExpression(Root<T> r, String field, SelectFilterFields selFil) {
         Expression<String> exp = selFil.setFilterField(r, field);
         if(exp == null)

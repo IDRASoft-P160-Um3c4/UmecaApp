@@ -19,13 +19,16 @@ import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.MunicipalityRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.shared.ReportExcelRepository;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import net.sf.jxls.transformer.XLSTransformer;
@@ -181,6 +184,8 @@ public class ExcelReportController {
 
     @Autowired
     ReportExcelRepository reportExcelRepository;
+    @Autowired
+    HearingFormatRepository hearingFormatRepository;
     @Autowired
     SharedLogExceptionService logException;
     @Autowired
@@ -383,6 +388,16 @@ public class ExcelReportController {
     CaseRepository caseRepository;
     @Autowired
     FieldMeetingSourceRepository fieldMeetingSourceRepository;
+    @Autowired
+    ArrangementRepository arrangementRepository;
+    @Autowired
+    SupervisionActivityRepository supervisionActivityRepository;
+    @Autowired
+    ActivityGoalRepository activityGoalRepository;
+    @Autowired
+    FramingReferenceRepository framingReferenceRepository;
+    @Autowired
+    ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
 
     @RequestMapping(value = "/director/excelReport/jxls", method = RequestMethod.GET)
     public
@@ -651,6 +666,52 @@ public class ExcelReportController {
                 if (actCase.getFramingMeetingInfo() == null)
                     actCase.setFramingMeetingInfo(new FramingMeetingInfo());
             }
+
+
+            for (ExcelCaseInfoDto actCase : listCases) {
+
+                MonitoringPlanExcelInfo monInfo = new MonitoringPlanExcelInfo();
+
+                List<Long> idsHF = reportExcelRepository.getLastHearingFormatByCase(actCase.getIdCase(), new PageRequest(0, 1));
+
+                SupervisionLogReport slr = null;
+                Long lastFormatId = null;
+
+                if (idsHF != null & idsHF.size() > 0)
+                    lastFormatId = idsHF.get(0);
+
+                if (lastFormatId != null)
+                    slr = hearingFormatRepository.findSupervisionLogReportById(lastFormatId);
+
+                monInfo.setSupervisionLogReport(slr);
+
+                List<SelectList> lstSources = framingReferenceRepository.findAllValidByCaseId(actCase.getIdCase());
+                monInfo.setLstSources(lstSources);
+                List<SelectList> lstArr = arrangementRepository.findLstArrangementByCaseId(actCase.getIdCase());
+                monInfo.setLstArrangement(lstArr);
+
+                List<SelectList> lstActMP = new ArrayList<>();
+                List<SelectList> lstGoals = new ArrayList<>();
+                List<ActivityMonitoringPlanLog> lstActMonP = new ArrayList<>();
+                List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement = new ArrayList<>();
+
+                if (actCase.getIdMonP() != null && actCase.getIdMonP() > 0) {
+                    lstActMP = supervisionActivityRepository.findByMonPlanId(actCase.getIdMonP());
+                    lstGoals = activityGoalRepository.findByMonPlanId(actCase.getIdMonP());
+                    lstActMonP = activityMonitoringPlanRepository.getListByMonPlanId(actCase.getIdMonP());
+                    lstActMonPlanArrangement = activityMonitoringPlanRepository.getListActMonPlanArrangementByMonPlanId(actCase.getIdMonP());
+                }
+
+                monInfo.setLstActivities(lstActMP);
+                monInfo.setLstGoals(lstGoals);
+                monInfo.setLstActMonPlan(lstActMonP);
+                monInfo.setLstActMonPlanArrangement(lstActMonPlanArrangement);
+                monInfo.doReconstructedActivityInfo();
+
+                actCase.setMonitoringPlanExcelInfo(monInfo);
+            }
+
+
             /*supervision*/
 
             /*summary*/
