@@ -89,6 +89,8 @@ public class ExcelCaseInfoDto {
 
     private List<HearingFormatInfo> formatsInfo;
     private FramingMeetingInfo framingMeetingInfo;
+    private Long idMonP;
+    private MonitoringPlanExcelInfo monitoringPlanExcelInfo;
 
     public ExcelCaseInfoDto(Long idCase,
                             String idFolder,
@@ -139,7 +141,8 @@ public class ExcelCaseInfoDto {
                             String tecRevComments,
                             String subtotalsJson,
                             Long idVerification,
-                            String officialDoc) {
+                            String officialDoc,
+                            Long idMonP) {
 
         this.idCase = idCase;
         this.idFolder = idFolder;
@@ -191,6 +194,7 @@ public class ExcelCaseInfoDto {
         this.subtotalsJson = subtotalsJson;
         this.idVerification = idVerification;
         this.officialDoc = officialDoc;
+        this.idMonP = idMonP;
     }
 
     public Long getIdCase() {
@@ -1061,6 +1065,26 @@ public class ExcelCaseInfoDto {
 
     public void setFramingMeetingInfo(FramingMeetingInfo framingMeetingInfo) {
         this.framingMeetingInfo = framingMeetingInfo;
+    }
+
+    public MonitoringPlanExcelInfo getMonitoringPlanExcelInfo() {
+        return monitoringPlanExcelInfo;
+    }
+
+    public void setMonitoringPlanExcelInfo(MonitoringPlanExcelInfo monitoringPlanExcelInfo) {
+        this.monitoringPlanExcelInfo = monitoringPlanExcelInfo;
+    }
+
+    public static SimpleDateFormat getDateFormat() {
+        return dateFormat;
+    }
+
+    public Long getIdMonP() {
+        return idMonP;
+    }
+
+    public void setIdMonP(Long idMonP) {
+        this.idMonP = idMonP;
     }
 }
 

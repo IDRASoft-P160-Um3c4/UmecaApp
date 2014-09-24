@@ -298,4 +298,6 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (CD.id in (:lstCasesIds))")
     List<CatalogDto> getFramingSelectedRiskRel(@Param("lstCasesIds") List<Long> lstCasesIds);
 
+
+
 }
