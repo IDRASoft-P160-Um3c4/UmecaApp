@@ -361,6 +361,8 @@ public class HearingFormatInfo {
             for (String act : this.assignedArran) {
                 if (returnStr != "")
                     returnStr += "\n-";
+                else
+                    returnStr += "-";
 
                 returnStr += act;
             }
@@ -484,6 +486,16 @@ public class HearingFormatInfo {
     }
 
     public String getIsNationalStr() {
+
+        this.isNationalStr = "";
+
+        if (this.isNational != null) {
+            if (this.isNational == true)
+                this.isNationalStr = "Nacional";
+            else
+                this.isNationalStr = "Local";
+        }
+
         return isNationalStr;
     }
 

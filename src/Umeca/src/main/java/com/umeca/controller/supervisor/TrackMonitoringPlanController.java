@@ -89,6 +89,7 @@ public class TrackMonitoringPlanController {
                     add(r.get("status"));
                     add(r.join("supervisor").get("username"));
                     add(joinCd.join("technicalReview", JoinType.LEFT).get("id").alias("idTec"));
+                    add(r.get("posAuthorizationChangeTime"));
                 }};
             }
 

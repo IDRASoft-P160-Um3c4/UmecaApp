@@ -44,7 +44,7 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanInfo(amp.id, mp.id, cd.id, cd.idMP, mp.status, " +
             "amp.end, amp.start, sa.name, ag.name, fssr.name, rs.name, amp.status, im.name, im.lastNameP, im.lastNameM, " +
-            "sd.fullname, amp.comments, amp.doneTime) " +
+            "sd.fullname, amp.comments, amp.doneTime, mp.generationTime, mp.authorizationTime, mp.posAuthorizationChangeTime) " +
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
             "INNER JOIN amp.supervisionActivity sa INNER JOIN amp.activityGoal ag INNER JOIN amp.framingSelectedSourceRel.framingReference fssr " +
             "INNER JOIN fssr.relationship rs LEFT JOIN amp.supervisorDone sd " +
@@ -137,6 +137,15 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "WHERE amp.id =:actMonId")
     ActivityMonitoringPlanInfo getActivityInfoFull(@Param("actMonId")Long actMonId);
 
+
+    @Query("SELECT DISTINCT new com.umeca.model.entities.supervisor.MonitoringPlanDto(mp.id, mp.generationTime, " +
+            "mp.authorizationTime, mp.posAuthorizationChangeTime)" +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.supervisor s " +
+            "WHERE s.id =:userId AND mp.status IN :lstStatus AND amp.isReplaced IS NULL " +
+            "AND amp.status NOT IN :lstActStatus AND (amp.searchStart =:yearmonthStart OR amp.searchEnd =:yearmonthStart OR amp.searchStart =:yearmonthEnd OR amp.searchEnd =:yearmonthEnd)")
+    List<MonitoringPlanDto> getAllMonPlanWithFilters(@Param("userId")Long userId, @Param("lstStatus") List<String> lstStatus,
+                                                     @Param("lstActStatus") List<String> lstActStatus, @Param("yearmonthStart")int yearmonthStart,
+                                                     @Param("yearmonthEnd")int yearmonthEnd);
 }
 
 

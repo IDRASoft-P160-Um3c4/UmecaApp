@@ -52,7 +52,7 @@
             postData: {
                 ids: listIds
             },
-            colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Acci&oacute;n'],
+            colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'status', index: 'status', hidden: true },
@@ -60,7 +60,6 @@
                 { name: 'idMP', index: 'idMP', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'fullName', index: 'fullName', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'statusDesc', index: 'statusDesc', width: 400, align: "center", search: false},
-                { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
@@ -144,7 +143,7 @@
                             window.goToUrlMvcUrl("<c:url value='/director/excelReport/jxls.html?ids=idParam&filt=filters'/>", params);
 
                         } catch (e) {
-                            alert(e)
+
                         }
                     }});
     });

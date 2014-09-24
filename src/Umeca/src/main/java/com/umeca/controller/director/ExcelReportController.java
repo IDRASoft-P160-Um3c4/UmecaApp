@@ -30,6 +30,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -536,6 +537,7 @@ public class ExcelReportController {
 
             for (ExcelCaseInfoDto actCase : listCases) {
                 List<HearingFormatInfo> lstFormats = new ArrayList<>();
+
                 for (HearingFormatInfo actHF : allHearingFormat) {
 
                     actHF.setAssignedArran(reportExcelRepository.getArrangementsByFormat(actHF.getIdFormat()));
@@ -546,11 +548,109 @@ public class ExcelReportController {
                     }
 
                 }
+
                 actCase.setFormatsInfo(lstFormats);
             }
 
+            List<FramingMeetingInfo> allFramingMeeting = reportExcelRepository.getFramingMeetingInfo(casesIds);
+            List<FramingReferenceInfo> allReferences = reportExcelRepository.getFramingReferenceInfo(casesIds);
+            List<CatalogDto> allFramingHomes = reportExcelRepository.getFramingHomes(casesIds);
+            List<ExcelDrugDto> allDrugs = reportExcelRepository.getFramingInfoDrugs(casesIds);
+            List<CatalogDto> allAddictedAcquaintances = reportExcelRepository.getFramingAddictedAcquaintances(casesIds);
+            List<ObligationIssuesInfo> allObligationIssues = reportExcelRepository.getFramingObligationIssues(casesIds);
+            List<ObligationIssuesInfo> allRelativesAbroad = reportExcelRepository.getFramingRelativesAbroad(casesIds);
+
+            List<CatalogDto> allSelectedSourcesRel = reportExcelRepository.getFramingSelectedSourceRel(casesIds);
+            List<CatalogDto> allSelectedThreatsRel = reportExcelRepository.getFramingSelectedThreatsRel(casesIds);
+            List<CatalogDto> allSelectedRiskRel = reportExcelRepository.getFramingSelectedRiskRel(casesIds);
+
+            for (FramingMeetingInfo actFM : allFramingMeeting) {
+
+                List<FramingReferenceInfo> refs = new ArrayList<>();
+                for (FramingReferenceInfo actRef : allReferences) {
+                    if (actRef.getId() == actFM.getIdCase())
+                        refs.add(actRef);
+                }
+                actFM.setReferences(refs);
+
+                List<CatalogDto> homes = new ArrayList<>();
+                for (CatalogDto actHome : allFramingHomes) {
+                    if (actHome.getId() == actFM.getIdCase())
+                        homes.add(actHome);
+                }
+                actFM.setHomes(homes);
+
+                List<ExcelDrugDto> drugs = new ArrayList<>();
+                for (ExcelDrugDto actDrug : allDrugs) {
+                    if (actDrug.getIdCase() == actFM.getIdCase())
+                        drugs.add(actDrug);
+                }
+                actFM.setDrugs(drugs);
+
+                List<CatalogDto> addictedAcquaintances = new ArrayList<>();
+                for (CatalogDto actAA : allAddictedAcquaintances) {
+                    if (actAA.getId() == actFM.getIdCase())
+                        addictedAcquaintances.add(actAA);
+                }
+                actFM.setAddictedAcquaintances(addictedAcquaintances);
+
+                List<ObligationIssuesInfo> obligationIssues = new ArrayList<>();
+                for (ObligationIssuesInfo actOI : allObligationIssues) {
+                    if (actOI.getIdCase() == actFM.getIdCase())
+                        obligationIssues.add(actOI);
+                }
+                actFM.setObligationIssues(obligationIssues);
+
+                List<ObligationIssuesInfo> relativesAbroad = new ArrayList<>();
+                for (ObligationIssuesInfo actRA : allRelativesAbroad) {
+                    if (actRA.getIdCase() == actFM.getIdCase())
+                        relativesAbroad.add(actRA);
+                }
+                actFM.setRelativesAbroad(relativesAbroad);
+
+                List<CatalogDto> sourcesSel = new ArrayList<>();
+                for (CatalogDto actSS : allSelectedSourcesRel) {
+                    if (actSS.getId() == actFM.getIdCase())
+                        sourcesSel.add(actSS);
+                }
+                actFM.setLinks(sourcesSel);
+
+                List<CatalogDto> threatsSel = new ArrayList<>();
+                for (CatalogDto actTS : allSelectedThreatsRel) {
+                    if (actTS.getId() == actFM.getIdCase())
+                        threatsSel.add(actTS);
+                }
+                actFM.setThreats(threatsSel);
+
+                List<CatalogDto> riskSel = new ArrayList<>();
+                for (CatalogDto actRS : allSelectedRiskRel) {
+                    if (actRS.getId() == actFM.getIdCase())
+                        riskSel.add(actRS);
+                }
+                actFM.setRisks(riskSel);
 
 
+                List<Long> idsHF = reportExcelRepository.getLastHearingFormatByCase(actFM.getIdCase(), new PageRequest(0, 1));
+                List<String> arran = null;
+
+                if (idsHF != null && idsHF.size() > 0)
+                    arran = reportExcelRepository.getArrangementsByFormat(idsHF.get(0));
+
+                actFM.setArrangements(arran);
+            }
+
+            for (ExcelCaseInfoDto actCase : listCases) {
+                FramingMeetingInfo aa = new FramingMeetingInfo();
+                for (FramingMeetingInfo actFM : allFramingMeeting) {
+                    if (actCase.getIdCase() == actFM.getIdCase())
+                        actCase.setFramingMeetingInfo(actFM);
+                }
+            }
+
+            for (ExcelCaseInfoDto actCase : listCases) {
+                if (actCase.getFramingMeetingInfo() == null)
+                    actCase.setFramingMeetingInfo(new FramingMeetingInfo());
+            }
             /*supervision*/
 
             /*summary*/
@@ -578,6 +678,9 @@ public class ExcelReportController {
 
             summ.setTotCases(new Long(idsCasesByDate.size()));
 
+            if (!(idsCasesByDate.size() > 0))
+                idsCasesByDate.add(-1L);
+
             //genero
             summ.setTotFem(reportExcelRepository.countGender(idsCasesByDate, true, 1));
             summ.setTotMasc(reportExcelRepository.countGender(idsCasesByDate, false, 2));
@@ -592,7 +695,7 @@ public class ExcelReportController {
             //empleo
 
             summ.setTotEmp(new Long(reportExcelRepository.findIdCasesWithActualJob(idsCasesByDate).size()));
-            summ.setTotDesemp(summ.getTotCases() - summ.getTotEmp());
+            summ.setTotDesemp(new Long(reportExcelRepository.findIdCasesWithOutActualJob(idsCasesByDate).size()));
 
             //nivel academico
             summ.setTotSIA(reportExcelRepository.countAcLvl(idsCasesByDate, Constants.AC_LVL_ILLITERATE));

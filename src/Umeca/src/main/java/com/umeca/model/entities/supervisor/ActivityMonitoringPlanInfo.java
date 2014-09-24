@@ -27,6 +27,10 @@ public class ActivityMonitoringPlanInfo {
     private String startSt;
     private String assignedArrangement;
     private Long actMonPlanToReplaceId;
+    private Calendar generationTime;
+    private Calendar authorizationTime;
+    private Calendar posAuthorizationChangeTime;
+    private boolean isSuspended;
 
     public ActivityMonitoringPlanInfo(Long activityMonitoringPlanId, Long monitoringPlanId, Long caseId, String mpId, String status, Calendar end,
                                       Calendar start, String supervisionActivityName,
@@ -51,14 +55,27 @@ public class ActivityMonitoringPlanInfo {
         this.endSt = CalendarExt.calendarToFormatString(end, Constants.FORMAT_CALENDAR_I);
     }
 
-
     public ActivityMonitoringPlanInfo(Long activityMonitoringPlanId, Long monitoringPlanId, Long caseId, String mpId, String status, Calendar end,
+                                      Calendar start, String supervisionActivityName,
+                                      String activityGoalName, String aidSourceName, String aidSourceRelationship, String actStatus, String name, String lastNameP, String lastNameM,
+                                      String supUserDone, String comments, Calendar endDone, Calendar generationTime, Calendar authorizationTime, Calendar posAuthorizationChangeTime){
+
+        this(activityMonitoringPlanId, monitoringPlanId, caseId, mpId, status, end, start, supervisionActivityName, activityGoalName, aidSourceName, aidSourceRelationship,
+                actStatus, name, lastNameP, lastNameM, supUserDone, comments, endDone);
+
+        this.generationTime = generationTime;
+        this.authorizationTime = authorizationTime;
+        this.posAuthorizationChangeTime = posAuthorizationChangeTime;
+        this.isSuspended = MonitoringPlanView.calculateIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime);
+    }
+
+        public ActivityMonitoringPlanInfo(Long activityMonitoringPlanId, Long monitoringPlanId, Long caseId, String mpId, String status, Calendar end,
                                       Calendar start, String  assignedArrangement, String supervisionActivityName,
                                       String activityGoalName, String aidSourceName, String aidSourceRelationship, String actStatus, String name, String lastNameP, String lastNameM,
                                       String supUserDone, String comments, Calendar endDone, Long actMonPlanToReplaceId){
 
         this(activityMonitoringPlanId, monitoringPlanId, caseId, mpId, status, end, start, supervisionActivityName, activityGoalName, aidSourceName, aidSourceRelationship,
-                actStatus, name, lastNameP, lastNameP, supUserDone, comments, endDone);
+                actStatus, name, lastNameP, lastNameM, supUserDone, comments, endDone);
         this.assignedArrangement = assignedArrangement;
         this.actMonPlanToReplaceId = actMonPlanToReplaceId;
     }
@@ -221,5 +238,13 @@ public class ActivityMonitoringPlanInfo {
 
     public void setActMonPlanToReplaceId(Long actMonPlanToReplaceId) {
         this.actMonPlanToReplaceId = actMonPlanToReplaceId;
+    }
+
+    public boolean getSuspended() {
+        return isSuspended;
+    }
+
+    public void setSuspended(boolean suspended) {
+        isSuspended = suspended;
     }
 }

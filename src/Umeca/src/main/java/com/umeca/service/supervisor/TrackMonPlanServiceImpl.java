@@ -66,6 +66,27 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
                         (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd(), req.getActivityId());
         response.setLstMonPlanActivities(lstAllActivities);
 
+        List<MonitoringPlanDto> lstMonPlanSus = activityMonitoringPlanRepository.getAllMonPlanWithFilters(userId, lstMonPlanStatus, lstActStatus,
+                (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+
+        MonitoringPlanDto monitoringPlanDto = null;
+        for(ActivityMonitoringPlanResponse act : lstAllActivities){
+            if(monitoringPlanDto == null || monitoringPlanDto.getMonPlanId() != act.getMonitoringPlanId()){
+                monitoringPlanDto = null;
+                for(MonitoringPlanDto monPlan : lstMonPlanSus){
+                    if(act.getMonitoringPlanId() != monPlan.getMonPlanId())
+                        continue;
+                    monitoringPlanDto = monPlan;
+                    break;
+                }
+            }
+            //Si está suspendido, se debe marcar
+            if(monitoringPlanDto != null && monitoringPlanDto.getMonPlanSuspended()){
+                act.setSuspended(true);
+            }
+        }
+
+
         List<SelectList> lstActivities = supervisionActivityRepository.findAllSl();
         List<SelectList> lstGoals = activityGoalRepository.findAllSl();
         response.setLstActivities(lstActivities);
@@ -106,6 +127,9 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         if(status.equals(MonitoringConstants.STATUS_ACTIVITY_MODIFIED) || status.equals(MonitoringConstants.STATUS_ACTIVITY_NEW)){
             isReadOnly = false;
         }
+
+        if(actMonPlanInfo.getSuspended())
+            isReadOnly = true;
 
         Gson gson = new Gson();
         String sLstArrangement = gson.toJson(lstArrangement);

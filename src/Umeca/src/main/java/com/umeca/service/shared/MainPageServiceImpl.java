@@ -45,8 +45,14 @@ public class MainPageServiceImpl implements MainPageService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    SystemSettingService systemSettingService;
+
     @Override
     public ModelAndView generatePage(String sRole, ModelAndView model, Long userId) {
+
+        systemSettingService.initSystemSettings();
+
         switch (sRole) {
             case Constants.ROLE_SUPERVISOR:
                 constructSupervisorMainPage(model, userId);
