@@ -15,7 +15,7 @@
             url: '<c:url value='/reviewer/meeting/listReference.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Relaci&oacute;n','Edad','Tel�fono','Acompa&ntilde;a al imputado <br/> durante el proceso', 'Acci&oacute;n'],
+            colNames: ['ID', 'Nombre','Relaci&oacute;n','Edad','Tel&eacute;fono','Acompa&ntilde;a al imputado <br/> durante el proceso', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'fullName', index: 'fullName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -93,7 +93,7 @@
 <div class="row" ng-controller="scController">
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
-            {{msgSuccess}}
+            <span ng-bind-html="msgSuccess"></span>
         </div>
     </div>
     <form id="FormCommentReferenceId" name="FormCommentReferenceId" class="form-horizontal" role="form">
@@ -116,7 +116,7 @@
     <br/>
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgError" class="alert alert-danger element-center error-font">
-            {{msgError}}
+            <span ng-bind-html="msgError"></span>
         </div>
     </div>
     <div class="col-xs-12">

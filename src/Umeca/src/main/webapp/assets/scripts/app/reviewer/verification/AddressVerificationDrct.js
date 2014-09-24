@@ -5,7 +5,7 @@ app.directive('verifAddress', function ($http, $rootScope) {
 
         elem.on('click', function () {
             var idList = scope.$eval(attr.idElement);
-            $rootScope.$broadcast('SetIdList',idList);
+            $rootScope.$broadcast('SetIdListAddress',idList);
             var code = attr.idCode;
             $rootScope.$broadcast('SetCodeAddress',code);
             var divModValid ="#dlgUpModalIdAddress";
@@ -17,8 +17,7 @@ app.directive('verifAddress', function ($http, $rootScope) {
             scopeNew.enableProperties();
             $.validator.unobtrusive.parse("#FormCatIdAddress");
             $(divModValid).injector().invoke(function ($compile, $rootScope) {
-                $compile($("#divElementVerifAddress"))($rootScope);
-                $rootScope.$apply();
+                $compile($("#divElementVerifAddress"))($rootScope); $rootScope.$apply();
             });
             scopeNew.setDlg(scopeNew.Model.dlg);
             ////eliminar valores y eliminar readonly

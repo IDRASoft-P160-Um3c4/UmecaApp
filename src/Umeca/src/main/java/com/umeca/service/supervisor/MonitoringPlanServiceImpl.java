@@ -9,6 +9,7 @@ import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
+import com.umeca.model.shared.SharedSystemSetting;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
@@ -131,8 +132,19 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
         if(validateDates(activityMonitoringPlan.getStart(), activityMonitoringPlan.getEnd()) == false)
             return;
 
+        ActivityMonitoringPlan actMonPlanToReplace = activityMonitoringPlan.getActMonPlanToReplace();
+
+        if(actMonPlanToReplace != null){
+            ActivityMonitoringPlan activityMonitoringPlanToReplace = activityMonitoringPlan;
+            activityMonitoringPlan = actMpRepository.findOneValid(actMonPlanToReplace.getId(), fullModel.getMonitoringPlanId(), fullModel.getCaseId());
+            activityMonitoringPlanToReplace.setStatus(STATUS_ACTIVITY_DELETED);
+            activityMonitoringPlan.setReplaced(null);
+        }
+
+
         ActivityMonitoringPlanJson jsonOld = ActivityMonitoringPlanJson.convertToJson(activityMonitoringPlan);
-        activityMonitoringPlan.setStatus(fullModel.isInAuthorizeReady() ? STATUS_ACTIVITY_PRE_DELETED : STATUS_ACTIVITY_DELETED);
+        activityMonitoringPlan.setStatus((fullModel.isInAuthorizeReady() && STATUS_ACTIVITY_PRE_NEW.equals(status) == false )
+                ? STATUS_ACTIVITY_PRE_DELETED : STATUS_ACTIVITY_DELETED);
         ActivityMonitoringPlanJson jsonNew = ActivityMonitoringPlanJson.convertToJson(activityMonitoringPlan);
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, username, fullModel.getCaseId(), fullModel.getMonitoringPlanStatus()));
@@ -155,7 +167,8 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
             if (activityMonitoringPlanToUpdate == null) return;
 
             //Si no tiene una actividad a quien reemplazar, se debe crear una nueva, de lo contrario sólo se actualiza la anterior
-            if(activityMonitoringPlanToUpdate.getActMonPlanToReplace() != null || LST_STATUS_ACTIVITY_PRE_AUTH.contains (activityMonitoringPlanToUpdate.getStatus())){
+            ActivityMonitoringPlan actMonReplace = activityMonitoringPlanToUpdate.getActMonPlanToReplace();
+            if((actMonReplace != null && actMonReplace.getId() != null) || STATUS_ACTIVITY_PRE_NEW.equals(activityMonitoringPlanToUpdate.getStatus())){
                 update(dto, actMpRepository, user, fullModel, lstArrangementSelected, activityMonitoringPlanToUpdate);
 
                 fullModel.decActsUpd();
@@ -302,17 +315,18 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService{
 
     private boolean ValidatePlanMonitoring(MonitoringPlan monitoringPlan, MonitoringPlanRepository monitoringPlanRepository, ActivityMonitoringPlanRequest fullModel, ResponseMessage response) {
 
-        Calendar authDate = monitoringPlan.getPosAuthorizationChangeTime();
+        int typeSuspended = MonitoringPlanView.typeIsMonPlanSuspended(monitoringPlan.getGenerationTime(), monitoringPlan.getAuthorizationTime(), monitoringPlan.getPosAuthorizationChangeTime());
+        if(typeSuspended != MonitoringConstants.AUTHORIZATION_OK){
+            response.setHasError(true);
 
-        if(authDate != null){
-            //Revisar si ya pasaron las n horas para la autorización
-            Long iHoursToAuth = Long.parseLong(systemSettingService.findOneValue(Constants.SYSTEM_SETTINGS_MONPLAN, Constants.SYSTEM_SETTINGS_MONPLAN_HOURS_TO_AUTHORIZE));
-            long timeDifDays = (fullModel.getNow().getTimeInMillis() - authDate.getTimeInMillis()) / (86400000l);
-            if(timeDifDays >= iHoursToAuth){
-                response.setHasError(true);
-                response.setMessage("El plan de seguimiento está suspendido dado que ha excedido el tiempo de autorización (" + iHoursToAuth  + " horas), por favor consulte a su coordinador");
-                return false;
-            }
+            if(typeSuspended == MonitoringConstants.AUTHORIZATION_MONPLAN)
+                response.setMessage("El plan de seguimiento está suspendido dado que ha excedido el tiempo de espera ("
+                        + SharedSystemSetting.MonPlanHoursToAuthorize + " horas) para la autorización del plan de seguimiento. Por favor consulte a su coordinador");
+            else if(typeSuspended != MonitoringConstants.AUTHORIZATION_ACTMONPLAN)
+            response.setMessage("El plan de seguimiento está suspendido dado que ha excedido el tiempo de espera ("
+                    + SharedSystemSetting.MonPlanHoursToAuthorize + " horas). Por favor consulte a su coordinador");
+
+            return false;
         }
 
         String status = monitoringPlan.getStatus();

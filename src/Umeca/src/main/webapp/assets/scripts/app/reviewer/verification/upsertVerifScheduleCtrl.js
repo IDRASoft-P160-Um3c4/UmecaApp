@@ -1,9 +1,38 @@
-app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$rootScope) {
+app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$rootScope, $sce) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
     $scope.verification = false;
     $scope.generalComponent = false;
+    $scope.fmsOfSource;
+    $scope.countAuxSch = 0;
+
+    $scope.findSourceBefore = function () {
+        if ($scope.countAuxSch == 2) {
+            $scope.fmsOfSource = $sce.trustAsHtml("Buscando informaci&oacute;n...");
+            $scope.countAuxSch = 0;
+            var data = {};
+            data.idCase = $scope.idCase;
+            data.idSource = $scope.idSource;
+            data.idList = $scope.idList;
+            data.code = $scope.code;
+            $.post($scope.urlSearchInformation, data)
+                .success($scope.handleSuccessFindPrevious)
+                .error($scope.handleErrorFindPrevious);
+        }
+    };
+
+    $scope.handleSuccessFindPrevious = function (resp) {
+        $scope.fmsOfSource = $sce.trustAsHtml(resp.responseMessage.message);
+        $scope.$apply();
+    };
+
+    $scope.handleErrorFindPrevious = function (resp) {
+        $scope.fmsOfSource = $sce.trustAsHtml("No se ha podido obtener la informaci&oacute;n de la fuente");
+        $scope.$apply();
+    };
+
+
     $scope.init = function(){
 
     };
@@ -64,12 +93,16 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$r
     };
 
 
-    $rootScope.$on('SetIdList', function (event,idList) {
+    $rootScope.$on('SetIdListSchedule', function (event,idList) {
         $scope.idList=idList;
+        $scope.countAuxSch++;
+        $scope.findSourceBefore();
     });
 
     $rootScope.$on('SetCodeSchedule', function (event,code) {
         $scope.code=code;
+        $scope.countAuxSch++;
+        $scope.findSourceBefore();
     });
     $scope.handleSuccess = function (resp) {
         $scope.WaitFor = false;

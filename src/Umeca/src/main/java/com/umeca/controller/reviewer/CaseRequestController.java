@@ -31,6 +31,7 @@ import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,6 +187,8 @@ public class CaseRequestController {
     StatusCaseRepository statusCaseRepository;
     @Autowired
     ResponseTypeRepository responseTypeRepository;
+    @Autowired
+    LogNotificationReviewerRepository logNotificationReviewerRepository;
 
     @RequestMapping(value = "/reviewer/caseRequest/doMakeRequest", method = RequestMethod.POST)
     public
@@ -210,7 +213,8 @@ public class CaseRequestController {
 
             //fillCaseRequest
             caseRequest.setStateBefore(gson.toJson(statusEvaluation));
-            caseRequest.setRequestType(requestTypeRepository.findByCode(requestDto.getRequestType()));
+            RequestType requestType = requestTypeRepository.findByCode(requestDto.getRequestType());
+            caseRequest.setRequestType(requestType);
             requestMessage.setSender(userSender);
             if(usersReceiver!= null && usersReceiver.size()>0){
                 Message m = new Message();
@@ -218,12 +222,14 @@ public class CaseRequestController {
                 m.setCaseDetention(c);
                 m.setSender(userSender);
                 List<RelMessageUserReceiver> listrmur = new ArrayList<>();
+                User managerEval = new User();
                 for(SelectList ur : usersReceiver){
-                    User u = userRepository.findOne(ur.getId());
+                    User u= userRepository.findOne(ur.getId());
                     RelMessageUserReceiver rmr = new RelMessageUserReceiver();
                     rmr.setUser(u);
                     rmr.setMessage(m);
                     listrmur.add(rmr);
+                    managerEval = u;
                 }
                 m.setMessageUserReceivers(listrmur);
                 m.setCreationDate(new Date());
@@ -247,6 +253,16 @@ public class CaseRequestController {
                 caseRequestRepository.save(caseRequest);
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_REQUEST));
                  qCaseRepository.save(c);
+
+                LogNotificationReviewer notif = new LogNotificationReviewer();
+                notif.setIsObsolete(false);
+                notif.setSubject("Se ha realizado una solicitud para el caso con carpeta de investigaci&oacute;n "+c.getIdFolder()+".");
+                User uSender = userRepository.findOne(userService.GetLoggedUserId());
+                notif.setSenderUser(uSender);
+                notif.setMessage("El usuario "+uSender.getFullname()+" realiz&oacute; la solcitud: "+requestType.getDescription());
+                notif.setReceiveUser(managerEval);
+
+                logNotificationReviewerRepository.save(notif);
                 return new ResponseMessage(false,"");
             }else{
                 return new ResponseMessage(true,"No existen coordinadores registrados para realizar tu solicitud");

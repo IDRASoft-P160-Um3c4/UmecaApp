@@ -4,6 +4,7 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUm.jsp" %>
+    <script src="${pageContext.request.contextPath}/assets/scripts/commonActMonPlan.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/log/supervisionLogCtrl.js"></script>
 
     <title>Bit&aacute;cora de supervisi&oacute;n</title>
@@ -236,7 +237,9 @@
                                     </table>
                                 </td>
                                 <td>
-                                    {{a.status}}<br/>{{a.comments}}
+                                    <span ng-class="createLabel(a.status)">{{a.status}}</span>
+                                    <br/>
+                                    {{a.comments}}
                                 </td>
                             </tr>
                             </tbody>

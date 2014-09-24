@@ -2,6 +2,8 @@ package com.umeca.model.shared;
 
 import com.umeca.model.catalog.RequestType;
 
+import java.text.DateFormat;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
@@ -31,7 +33,7 @@ public class Constants {
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE = "COMPLETE";
     public static String S_MEETING_COMPLETE_VERIFICATION = "COMPLETE_VERIFICATION";
-
+    public static final DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
     public static Boolean GENDER_FEMALE = true;
     public static Boolean GENDER_MALE = false;
 

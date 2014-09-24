@@ -2,11 +2,6 @@
 <input type="hidden" value="${m.caseDetention.id}" name="caseDetention.id">
 
 <div class="row">
-
-<div class="center row">
-    <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el pa&iacute;s</h2>
-</div>
-<br/>
 <div class="row" ng-show="verification || selectSource">
     <div class="col-xs-10 col-xs-offset-1 element-left">
         <label class="text-primary">Observaciones: <b>${m.commentCountry}</b></label>
@@ -41,9 +36,6 @@
         </div>
     </div>
 
-    <div ng-show="msgExito" class="alert alert-success element-center success-font">
-        {{msgExito}}
-    </div>
     <br/>
 
     <div class="row">
@@ -52,7 +44,7 @@
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifEqual('leaveCountry.officialDocumentation.id')"></i>
                 <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
-                   ng-show="verification" code="officialDocumentation"></i>
+                   ng-show="verification" code="leaveCountry.officialDocumentation.id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('leaveCountry.officialDocumentation.id')"></i>
                 <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
@@ -76,11 +68,11 @@
             <div class="col-xs-12">
                 <div class="col-xs-9 element-left">
                     <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-                       ng-click="doConfirmVerifEqual('leaveCountry.livedCountry')"></i>
+                       ng-click="doConfirmVerifEqual('leaveCountry.livedCountry.id')"></i>
                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
-                       ng-show="verification" code="leaveCountry.livedCountry"></i>
+                       ng-show="verification" code="leaveCountry.livedCountry.id"></i>
                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                       ng-click="doConfirmVerifNotKnow('leaveCountry.livedCountry')"></i>
+                       ng-click="doConfirmVerifNotKnow('leaveCountry.livedCountry.id')"></i>
                     <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
                        ng-click="showChoices('leaveCountry.livedCountry.id')"></i>
                     &iquest;El detenido ha vivido en otro pa&iacute;s?:
@@ -186,11 +178,11 @@
 
         <div class="col-xs-9 element-left">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifEqual('leaveCountry.familyAnotherCountry')"></i>
+               ng-click="doConfirmVerifEqual('leaveCountry.familyAnotherCountry.id')"></i>
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
-               ng-show="verification" code="leaveCountry.familyAnotherCountry"></i>
+               ng-show="verification" code="leaveCountry.familyAnotherCountry.id"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifNotKnow('leaveCountry.familyAnotherCountry')"></i>
+               ng-click="doConfirmVerifNotKnow('leaveCountry.familyAnotherCountry.id')"></i>
             <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
                ng-click="showChoices('leaveCountry.familyAnotherCountry.id')"></i>
             &iquest;El detenido cuenta con familiares y/o amigos cercanos en otro pa&iacute;s?:
@@ -235,6 +227,7 @@
 
     </div>
     <br/>
+</div>
     <div class="row" ng-show = "!verification && !selectSource">
         <div class="col-xs-3 element-left">Observaciones:<br/>
             <label class="info-example">(Este campo no es verificable)</label></div>
@@ -245,13 +238,11 @@
                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                       data-val-length-max="500"
                       data-val-length-min="1"
-                      data-val-required="Las observaciones es un campo requerido"
                       name="leaveCountry.commentCountry"></textarea>
-                <span class="field-validation-valid" data-valmsg-for="comment"
+                <span class="field-validation-valid" data-valmsg-for="leaveCountry.commentCountry"
                       data-valmsg-replace="true"></span>
         </div>
     </div>
     <br/>
-</div>
 </div>
 </div>

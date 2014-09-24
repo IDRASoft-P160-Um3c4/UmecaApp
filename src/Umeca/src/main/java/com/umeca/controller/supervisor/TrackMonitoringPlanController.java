@@ -89,6 +89,7 @@ public class TrackMonitoringPlanController {
                     add(r.get("status"));
                     add(r.join("supervisor").get("username"));
                     add(joinCd.join("technicalReview", JoinType.LEFT).get("id").alias("idTec"));
+                    add(r.get("posAuthorizationChangeTime"));
                 }};
             }
 
@@ -160,6 +161,9 @@ public class TrackMonitoringPlanController {
                     }},
                     new ArrayList<String>() {{
                         add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
+                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_NEW);
+                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED);
+                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_DELETED);
                     }}, response
             );
         }catch (Exception ex){

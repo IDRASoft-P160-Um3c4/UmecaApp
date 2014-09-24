@@ -31,11 +31,11 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     @Query("SELECT c FROM Case c WHERE c.idMP =:idMP")
     Case findByIdMP(@Param("idMP") String idMP);
 
-    @Query("select  new com.umeca.model.entities.reviewer.FindLegalBefore(c.idMP,c.idFolder,s.description) from Case as c " +
+    @Query("select  new com.umeca.model.entities.reviewer.FindLegalBefore(c.id,c.idMP,c.idFolder,s.description,c.dateCreate,concat(i.name,' ',i.lastNameP,' ',i.lastNameM),i.birthDate) from Case as c " +
             "INNER JOIN c.status as s " +
             "INNER JOIN c.meeting.imputed as i " +
-            "where i.name=:name and i.lastNameP = :lastNameP and i.lastNameM = :lastNameM and c.id <> :idCase")
-    List<FindLegalBefore> findLegalBefore(@Param("idCase") Long id, @Param("name") String name, @Param("lastNameP") String lastNameP, @Param("lastNameM") String lastNameM);
+            "where i.foneticString=:foneticString and c.id <> :idCase")
+    List<FindLegalBefore> findLegalBefore(@Param("idCase") Long id, @Param("foneticString") String foneticString);
 
 
     //obtengo los meeting_incomplete y los incomplete_legal

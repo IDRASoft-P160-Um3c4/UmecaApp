@@ -12,7 +12,7 @@
 </head>
 <body scroll="no" ng-app="ptlUmc">
     <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
-
+                                 0
     <div class="container body-content">
 
         <script>
@@ -69,7 +69,7 @@
                     url: '<c:url value='/supervisorManager/activeMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', "Estatus bit&aacute;cora", "PreAuth", 'Acci&oacute;n'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', "Estatus bit&aacute;cora", "PreAuth", 'Suspender', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', hidden:true },
@@ -82,6 +82,7 @@
                         { name: 'supervisor', width: 130, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] }},
                         { name: 'statusLog', hidden: true },
                         { name: 'hasActPreAuth', hidden: true },
+                        { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden:true},
                         { name: 'Action', width: 150, align: "center", sortable: false, search: false }
                     ],
                     rowNum: 10,
@@ -108,6 +109,11 @@
                             }catch(ex){}
 
                             var be = "";
+                            var isMonPlanSuspended = row.isMonPlanSuspended;
+
+                            if(isMonPlanSuspended === 'true'){
+                                be += "<span style='display:inline-block;' class='glyphicon glyphicon-fire red' title='El plan se encuentra suspendido, no se podr&aacute;n realizar acciones hasta que el coordinador lo autorice.'></span>";
+                            }
 
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Cambiar supervisor del caso\" onclick=\"window.changeSupervisor('" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver plan de supervisi&oacute;n\" onclick=\"window.showCalendar('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";

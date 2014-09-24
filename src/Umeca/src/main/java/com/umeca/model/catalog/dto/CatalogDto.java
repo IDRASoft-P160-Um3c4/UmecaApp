@@ -14,6 +14,14 @@ public class CatalogDto {
     private String name;
     private Boolean specification;
 
+    public CatalogDto(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public CatalogDto() {
+    }
+
     public Long getId() {
         return id;
     }

@@ -5,13 +5,22 @@
 <div class="row" ng-controller="upsertMeetingController">
     <div class="col-xs-10 element-center col-xs-offset-1">
 
+        <div class="center row">
+            <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el pa&iacute;s</h2>
+        </div>
+        <br/>
+
+        <div ng-show="msgExito" class="alert alert-success element-center success-font">
+            <span ng-bind-html="msgExito"></span>
+        </div>
+        <br/>
         <form id="FormLeaveCountry" name="FormLeaveCountry"   class="form-horizontal"  role="form">
             <%@ include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry/content.jsp"%>
         </form>
         <br/>
 
         <div ng-show="msgError" class="alert alert-danger element-center error-font">
-            {{msgError}}
+            <span ng-bind-html="msgError"></span>
         </div>
     </div>
     <div class="col-xs-12">

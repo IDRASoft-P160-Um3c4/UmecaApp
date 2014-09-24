@@ -210,9 +210,9 @@ public class VerificationServiceImpl implements VerificationService {
             if (status.equals(Constants.ST_FIELD_VERIF_UNABLE)) {
                 for (FieldMeetingSource fms : fmsList) {
                     if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
-                        Integer index = sListImputed.indexOf(fms.getFieldVerification().getCode());
-                        if (index >= 0) {
-                            sListImputed.remove(index);
+                            sListImputed.remove(fms.getFieldVerification().getCode());
+                        if(sListImputed.size()==0){
+                            break;
                         }
                     }
                 }
@@ -241,6 +241,54 @@ public class VerificationServiceImpl implements VerificationService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "showChoicesBySection", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la in formacion");
+        }
+    }
+
+    @Override
+    public ResponseMessage searchInformationByeSourceCode(Long idCase, Long idSource, String code, Long idList) {
+        ResponseMessage response = new ResponseMessage(true, "La fuente no  ha proporcionado informaci&oacute;n para &eacute;ste campo");
+        try{
+            List<FieldMeetingSource> result = new ArrayList<>();
+            List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
+            String aux= "";
+            for (Long idFv : listFieldSection) {
+                FieldVerification fv = fieldVerificationRepository.findOne(idFv);
+                if (fv != null) {
+                    FieldMeetingSource fmsNew = new FieldMeetingSource();
+                    Long fieldMeetingSourceId;
+                    if (idList == null) {
+                        fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, fv.getCode());
+                    } else {
+                        fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, fv.getCode(), idList);
+                    }
+
+                    if(fieldMeetingSourceId!=null){
+                        FieldMeetingSource fmsAux = fieldMeetingSourceRepository.findOne(fieldMeetingSourceId);
+                        if(!fmsAux.getValue().trim().equals("")){
+                        switch (fmsAux.getStatusFieldVerification().getName()){
+                            case Constants.ST_FIELD_VERIF_EQUALS:
+                                    aux += "<i class=\"icon-ok green  icon-only bigger-120\"></i>&nbsp;&nbsp;"+fmsAux.getFieldVerification().getFieldName()+": " + fmsAux.getValue()+"<br/>";
+                                break;
+                            case Constants.ST_FIELD_VERIF_NOEQUALS:
+                                aux += "<i class=\"icon-remove red  icon-only bigger-120\"></i>&nbsp;&nbsp;"+fmsAux.getFieldVerification().getFieldName()+": " + fmsAux.getValue()+"<br/>";
+                                break;
+                            case Constants.ST_FIELD_VERIF_DONTKNOW:
+                                aux += "<i class=\"icon-ban-circle grey  icon-only bigger-120\"></i>&nbsp;&nbsp;"+fmsAux.getFieldVerification().getFieldName()+": " + fmsAux.getValue()+"<br/>";
+                                break;
+                        }
+                        }
+
+                    }
+                }
+            }
+            if(!aux.equals("")){
+                response.setHasError(false);
+                response.setMessage(aux);
+            }
+        }catch (Exception e){
+            logException.Write(e, this.getClass(), "searchInformationByeSourceCode", userService);
+        }finally {
+            return response;
         }
     }
 
@@ -436,7 +484,7 @@ public class VerificationServiceImpl implements VerificationService {
                     if (idList == null) {
                         fmsAuxSecond = fieldMeetingSourceRepository.getGroupFieldMeeting(template.getSourceVerification().getId(), template.getFieldVerification().getIdSubsection(), Constants.ST_FIELD_VERIF_IMPUTED);
                     } else {
-                        fmsAuxSecond = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(template.getSourceVerification().getId(), template.getFieldVerification().getIdSubsection(), idList, Constants.ST_FIELD_VERIF_IMPUTED);
+                            fmsAuxSecond = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(template.getSourceVerification().getId(), template.getFieldVerification().getIdSubsection(), idList, Constants.ST_FIELD_VERIF_IMPUTED);
                     }
                 } else {
                     if (idList == null) {
@@ -467,6 +515,8 @@ public class VerificationServiceImpl implements VerificationService {
     private EntityManager entityManager;
     @Autowired
     AddressRepository addressRepository;
+    @Autowired
+    SharedUserService sharedUserService;
 
     @Transactional
     @Override
@@ -521,6 +571,7 @@ public class VerificationServiceImpl implements VerificationService {
                 List<String> listGeneral = new ArrayList<>();
                 listGeneral.add("No se puede terminar la verificación puesto que falta por verificar campos y/o secciones, para más detalles revise los mensajes de cada sección");
                 v.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
+                v.formatMessages(sharedUserService);
                 return new ResponseMessage(true, gson.toJson(v));
             } else {
                 Case caseDetention = caseRepository.findOne(idCase);
@@ -894,26 +945,34 @@ public class VerificationServiceImpl implements VerificationService {
     private List<FieldMeetingSource> createFieldMeetingByImputed(String code, Long idCase, Long idList, StatusFieldVerification st, Long idSource) {
         try {
             List<FieldMeetingSource> result = new ArrayList<>();
+            Long idSourceImputed = sourceVerificationRepository.findIdSourceImputed(idCase);
             List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
             for (Long idFv : listFieldSection) {
-                FieldMeetingSource fms = new FieldMeetingSource();
-                if (idList != null) {
-                    fms = fieldMeetingSourceRepository.findMeetingSourceByIdFieldVerification(idCase, idList, idFv);
-                } else {
-                    fms = fieldMeetingSourceRepository.findMeetingSourceByIdFieldVerificationWithoutId(idCase, idFv);
-                }
-                if (fms != null) {
+                FieldVerification fv = fieldVerificationRepository.findOne(idFv);
+                if (fv != null) {
                     FieldMeetingSource fmsNew = new FieldMeetingSource();
-                    Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, code);
+                    FieldMeetingSource fmsAux = new FieldMeetingSource();
+                    Long fieldMeetingSourceId, fieldMeetingSourceImputedId;
+                    if (idList == null) {
+                        fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, fv.getCode());
+                        fieldMeetingSourceImputedId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase,idSourceImputed, fv.getCode());
+
+                    } else {
+                        fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, fv.getCode(), idList);
+                        fieldMeetingSourceImputedId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSourceImputed, fv.getCode(), idList);
+                    }
                     fmsNew.setId(fieldMeetingSourceId);
                     fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource));
-                    fmsNew.setFieldVerification(fieldVerificationRepository.findOne(idFv));
-                    fmsNew.setValue(fms.getValue());
-                    fmsNew.setJsonValue(fms.getJsonValue());
-                    fmsNew.setStatusFieldVerification(st);
-                    fmsNew.setFinal(false);
-                    fmsNew.setIdFieldList(idList);
-                    result.add(fmsNew);
+                    fmsNew.setFieldVerification(fv);
+                    if(fieldMeetingSourceImputedId!=null){
+                    fmsAux = fieldMeetingSourceRepository.findOne(fieldMeetingSourceImputedId);
+                        fmsNew.setValue(fmsAux.getValue());
+                        fmsNew.setJsonValue(fmsAux.getJsonValue());
+                        fmsNew.setStatusFieldVerification(st);
+                        fmsNew.setFinal(false);
+                        fmsNew.setIdFieldList(idList);
+                        result.add(fmsNew);
+                    }
                 }
             }
             return result;
@@ -926,19 +985,31 @@ public class VerificationServiceImpl implements VerificationService {
         try {
             List<FieldMeetingSource> result = new ArrayList<>();
             List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
+            Long idSourceImputed = sourceVerificationRepository.findIdSourceImputed(idCase);
             for (Long idFv : listFieldSection) {
-                FieldMeetingSource fmsNew = new FieldMeetingSource();
                 FieldVerification fv = fieldVerificationRepository.findOne(idFv);
-                Long fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, fv.getCode());
-                fmsNew.setId(fieldMeetingSourceId);
-                fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource));
-                fmsNew.setFieldVerification(fv);
-                fmsNew.setValue(Constants.VALUE_NOT_KNOW_SOURCE);
-                fmsNew.setJsonValue(Constants.VALUE_NOT_KNOW_SOURCE);
-                fmsNew.setStatusFieldVerification(st);
-                fmsNew.setFinal(false);
-                fmsNew.setIdFieldList(idList);
-                result.add(fmsNew);
+                if (fv != null) {
+                    FieldMeetingSource fmsNew = new FieldMeetingSource();
+                    Long fieldMeetingSourceId, fieldMeetingImputedId;
+                    if (idList == null) {
+                        fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, fv.getCode());
+                        fieldMeetingImputedId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSourceImputed, fv.getCode());
+                    } else {
+                        fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, fv.getCode(), idList);
+                        fieldMeetingImputedId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSourceImputed, fv.getCode(), idList);
+                    }
+                    if(fieldMeetingImputedId!=null){
+                        fmsNew.setId(fieldMeetingSourceId);
+                        fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource));
+                        fmsNew.setFieldVerification(fv);
+                        fmsNew.setValue(Constants.VALUE_NOT_KNOW_SOURCE);
+                        fmsNew.setJsonValue(Constants.VALUE_NOT_KNOW_SOURCE);
+                        fmsNew.setStatusFieldVerification(st);
+                        fmsNew.setFinal(false);
+                        fmsNew.setIdFieldList(idList);
+                        result.add(fmsNew);
+                    }
+                }
             }
             return result;
         } catch (Exception e) {

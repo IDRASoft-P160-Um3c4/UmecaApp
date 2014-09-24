@@ -1,17 +1,52 @@
-﻿app.controller('upsertVerificationController', function ($scope, $rootScope, $timeout) {
+﻿app.controller('upsertVerificationController', function ($scope, $rootScope, $timeout, $sce) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
     $scope.verification = false;
-    $scope.nameScope = "estoy en UPSERT verificationController";
+    $scope.nameScope = "";
     $scope.generalComponent = false;
+    $scope.fmsOfSource;
+    $scope.countAux = 0;
+    $scope.findSourceBefore = function () {
+        if ($scope.countAux == 2) {
+            $scope.fmsOfSource = $sce.trustAsHtml("Buscando informaci&oacute;n...");
+            $scope.countAux = 0;
+            var data = {};
+            data.idCase = $scope.idCase;
+            data.idSource = $scope.idSource;
+            data.idList = $scope.idList;
+            data.code = $scope.codeVerif;
+            $.post($scope.urlSearchInformation, data)
+                .success($scope.handleSuccessFindPrevious)
+                .error($scope.handleErrorFindPrevious);
+        }
+    };
+
+    $scope.handleSuccessFindPrevious = function (resp) {
+        $scope.fmsOfSource = $sce.trustAsHtml(resp.responseMessage.message);
+        $scope.$apply();
+    };
+
+    $scope.handleErrorFindPrevious = function (resp) {
+        $scope.fmsOfSource = $sce.trustAsHtml("No se ha podido obtener la informaci&oacute;n de la fuente");
+        $scope.$apply();
+    };
 
 
-    $rootScope.$on('SetIdList', function (event,idList) {
-        $scope.idList=idList;
+    $rootScope.$on('SetIdList', function (event, idList) {
+        $scope.idList = idList;
+        $scope.countAux++;
+        $scope.findSourceBefore();
+    });
+
+    $rootScope.$on('SetCodeVerif', function (event, codeVerif) {
+        $scope.codeVerif = codeVerif;
+        $scope.countAux++;
+        $scope.findSourceBefore();
     });
 
     $scope.init = function () {
+
         $('.date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
             $(this).prev().focus();
         });
@@ -69,7 +104,7 @@
             var psEqual = vars[i].split("=");
             var e = {};
             e.name = psEqual[0];
-            if(psEqual[0]=="imputedHomes.timeLive1"){
+            if (psEqual[0] == "imputedHomes.timeLive1") {
                 e.name = "imputedHomes.timeLive";
             }
 
@@ -97,37 +132,37 @@
                     if (valMax != undefined && valMin != undefined && ($(this).val().length > parseInt(valMax) || $(this).val().length < parseInt(valMin))) {
                         message = $(this).attr("data-val-length")
                     }
-                    if (pattern != undefined && $(this).val().match("^[0-9]+$")== null) {
+                    if (pattern != undefined && $(this).val().match("^[0-9]+$") == null) {
                         message = $(this).attr("data-val-regex");
                     }
                 }
                 var spanVal = $(this).siblings("span");
-                if(spanVal.hasClass("input-group-addon")){
+                if (spanVal.hasClass("input-group-addon")) {
                     spanVal = $(this).parent().siblings('span');
                 }
-                var c= $(this).is("input:text");
+                var c = $(this).is("input:text");
                 if (message != "") {
-                    spanVal.css("display","block");
+                    spanVal.css("display", "block");
                     spanVal.addClass("field-validation-error");
                     spanVal.removeClass("field-validation-valid");
                     spanVal.text(message);
                     hasError = true;
                 } else {
-                    if($(this).is("input:text") || $(this).is("textarea")){
-                        spanVal.css("display","none");
+                    if ($(this).is("input:text") || $(this).is("textarea")) {
+                        spanVal.css("display", "none");
                         spanVal.addClass("field-validation-valid");
                         spanVal.removeClass("field-validation-error");
                     }
-                    if(e.value!=""){
-                        var adding=true;
-                        if($(this).is("input:radio")){
-                            for(var z = 0 ; z<submitElement.length;z++){
-                                if(submitElement[z].name == e.name){
+                    if (e.value != "") {
+                        var adding = true;
+                        if ($(this).is("input:radio")) {
+                            for (var z = 0; z < submitElement.length; z++) {
+                                if (submitElement[z].name == e.name) {
                                     adding = false;
                                 }
                             }
                         }
-                        if(adding){
+                        if (adding) {
                             submitElement.push(e);
                         }
                     }
@@ -146,11 +181,11 @@
         if (result == null) {
             return false;
         }
-        if($scope.idList==undefined){
+        if ($scope.idList == undefined) {
             $scope.idList = "";
         }
         var content = JSON.stringify(result);
-        content = "val=" + content + "&&idCase=" + $scope.idCase + "&&idSource=" + $scope.idSource +"&&idList="+$scope.idList;
+        content = "val=" + content + "&&idCase=" + $scope.idCase + "&&idSource=" + $scope.idSource + "&&idList=" + $scope.idList;
         $scope.WaitFor = true;
         $.post($scope.urlToGoSave, content)
             .success($scope.handleSuccess)

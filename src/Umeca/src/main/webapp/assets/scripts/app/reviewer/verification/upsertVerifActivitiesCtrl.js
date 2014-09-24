@@ -1,4 +1,4 @@
-app.controller('verificationActivitiesController', function($scope, $timeout, $q, $rootScope) {
+app.controller('verificationActivitiesController', function($scope, $timeout, $q, $rootScope,$sce) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
@@ -8,6 +8,10 @@ app.controller('verificationActivitiesController', function($scope, $timeout, $q
     $scope.init = function(){
 
       };
+
+    $scope.formatHtml = function(sHtml){
+        return $sce.trustAsHtml(sHtml);
+    };
 
     $rootScope.$on('refreshActivities', function (event,activities) {
         $scope.activities=activities;

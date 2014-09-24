@@ -1,6 +1,8 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.shared.EntityGrid;
+import com.umeca.model.shared.MonitoringConstants;
+import com.umeca.model.shared.SharedSystemSetting;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,10 +28,10 @@ public class MonitoringPlanView implements EntityGrid{
     private Long idTec;
     private Calendar posAuthorizationChangeTime;
     private boolean hasActPreAuth;
-
+    private boolean isMonPlanSuspended;
 
     public MonitoringPlanView(Long id, Long caseId, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
-                              Calendar generationTime, Calendar authorizationTime, String status, String supervisor, Long idTec) {
+                              Calendar generationTime, Calendar authorizationTime, String status, String supervisor, Long idTec, Calendar posAuthorizationChangeTime) {
         this.id = id;
         this.caseId = caseId;
         this.idMP = idMP;
@@ -43,10 +45,14 @@ public class MonitoringPlanView implements EntityGrid{
         this.status = status;
         this.supervisor = supervisor;
         this.idTec = idTec;
+        this.posAuthorizationChangeTime = posAuthorizationChangeTime;
+        this.hasActPreAuth = calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime);
+        this.isMonPlanSuspended = calculateIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime);
     }
 
+
     public MonitoringPlanView(Long id, Long caseId, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
-                              Calendar generationTime, Calendar authorizationTime, String status, String supervisor) {
+                              Calendar generationTime, Calendar authorizationTime, String status, String supervisor, Calendar posAuthorizationChangeTime) {
         this.id = id;
         this.caseId = caseId;
         this.idMP = idMP;
@@ -59,14 +65,18 @@ public class MonitoringPlanView implements EntityGrid{
         this.authorizationTime = authorizationTime;
         this.status = status;
         this.supervisor = supervisor;
+        this.hasActPreAuth = calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime);
+        this.isMonPlanSuspended = calculateIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime);
     }
 
     public MonitoringPlanView(Long id, Long caseId, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
                               Calendar generationTime, Calendar authorizationTime, String status, String supervisor, String statusLog, Calendar posAuthorizationChangeTime) {
-        this(id, caseId, idMP, name, lastNameP, lastNameM, creationTime, generationTime, authorizationTime, status, supervisor);
+        this(id, caseId, idMP, name, lastNameP, lastNameM, creationTime, generationTime, authorizationTime, status, supervisor, posAuthorizationChangeTime);
         this.statusLog = statusLog;
-        this.posAuthorizationChangeTime = posAuthorizationChangeTime;
-        hasActPreAuth = authorizationTime != null && posAuthorizationChangeTime != null;
+    }
+
+    public static boolean calculateHasActPreAuth(Calendar authorizationTime, Calendar posAuthorizationChangeTime) {
+        return authorizationTime != null && posAuthorizationChangeTime != null;
     }
 
     public Long getId() {
@@ -222,11 +232,42 @@ public class MonitoringPlanView implements EntityGrid{
         this.posAuthorizationChangeTime = posAuthorizationChangeTime;
     }
 
-    public boolean isHasActPreAuth() {
+    public boolean getHasActPreAuth() {
         return hasActPreAuth;
     }
 
     public void setHasActPreAuth(boolean hasActPreAuth) {
         this.hasActPreAuth = hasActPreAuth;
+    }
+
+    public boolean getIsMonPlanSuspended() {
+        return isMonPlanSuspended;
+    }
+
+    public void setMonPlanSuspended(boolean monPlanSuspended) {
+        isMonPlanSuspended = monPlanSuspended;
+    }
+
+    public static boolean calculateIsMonPlanSuspended(Calendar generationTime, Calendar authorizationTime, Calendar posAuthorizationChangeTime) {
+        if(typeIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime) == MonitoringConstants.AUTHORIZATION_OK)
+            return false;
+        return true;
+    }
+
+    public static int typeIsMonPlanSuspended(Calendar generationTime, Calendar authorizationTime, Calendar posAuthorizationChangeTime) {
+        //Primero revisar si es por autorización del plan o por autorización de las nuevas actividades
+        if(generationTime != null && authorizationTime == null){
+            long timeDifDays = (Calendar.getInstance().getTimeInMillis() - generationTime.getTimeInMillis()) / (SharedSystemSetting.MILISECONDS_PER_HOUR);
+            if(timeDifDays >= SharedSystemSetting.MonPlanHoursToAuthorize){
+                return MonitoringConstants.AUTHORIZATION_MONPLAN;
+            }
+
+        }else if(calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime)){
+            long timeDifDays = (Calendar.getInstance().getTimeInMillis() - posAuthorizationChangeTime.getTimeInMillis()) / (SharedSystemSetting.MILISECONDS_PER_HOUR);
+            if(timeDifDays >= SharedSystemSetting.MonPlanHoursToAuthorize){
+                return MonitoringConstants.AUTHORIZATION_ACTMONPLAN;
+            }
+        }
+        return MonitoringConstants.AUTHORIZATION_OK;
     }
 }

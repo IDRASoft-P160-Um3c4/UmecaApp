@@ -11,6 +11,7 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisorManager.AuthRejMonActivitiesRequest;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.entities.supervisorManager.ChangeSupervisor;
 import com.umeca.model.shared.Constants;
@@ -21,6 +22,7 @@ import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.supervisor.ManageMonitoringPlanService;
 import com.umeca.service.supervisor.TrackMonPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -330,7 +332,6 @@ public class ActiveMonitoringPlanController {
             }
 
             trackMonPlanService.saveChangeSupervisorMonPlan(model, user, monPlan);
-
             response.setHasError(false);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doChangeSupervisor", sharedUserService);
@@ -370,4 +371,58 @@ public class ActiveMonitoringPlanController {
         }
     }
 
+    @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/showMonActDetail", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage showMonActDetail(@RequestBody Long id){
+        ResponseMessage response = new ResponseMessage();
+        try{
+            trackMonPlanService.getActivityToShow(id, response);
+            response.setHasError(false);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "showMonActDetail", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        }
+        return response;
+    }
+
+    @Autowired
+    ManageMonitoringPlanService manageMonitoringPlanService;
+
+    @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/authRejLstMonAct", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage authRejLstMonAct(@RequestBody AuthRejMonActivitiesRequest model){
+        ResponseMessage response = new ResponseMessage();
+        response.setHasError(true);
+        try{
+            //Validar contraseña y validar los comentarios
+            User user = new User();
+            if(sharedUserService.isValidUser(user, response) == false)
+                return response;
+
+            if(sharedUserService.isValidPasswordForUser(user.getId(), model.getPs()) == false){
+                response.setMessage("La contraseña no corresponde al usuario en sesión");
+                return response;
+            }
+
+            if(model.getComments() == null || model.getComments().trim().isEmpty()){
+                response.setMessage("Debe ingresar un comentario para continuar");
+                return response;
+            }
+
+            if(model.getLstAutRejActMon() == null || model.getLstAutRejActMon().size() <= 0){
+                response.setMessage("Debe tener al menos una actividad para autorizar o rechazar");
+                return response;
+            }
+
+            if(manageMonitoringPlanService.authRejLstMonAct(model, sharedUserService, response) == false)
+                return response;
+
+            response.setHasError(false);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "authRejLstMonAct", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        }
+        return response;
+    }
 }

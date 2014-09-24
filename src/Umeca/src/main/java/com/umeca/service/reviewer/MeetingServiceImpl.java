@@ -12,8 +12,10 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.dto.*;
+import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -326,6 +328,9 @@ public class MeetingServiceImpl implements MeetingService {
         return model;
     }
 
+    @Autowired
+    ArrangementRepository qArrangementRepository;
+
     @Override
     public ResponseMessage findPreviousCase(String sName, String sLastNameP, String sLastNameM, Long idCase) {
         return new ResponseMessage(false,findLegalBefore(idCase,sName,sLastNameP,sLastNameM));
@@ -333,11 +338,24 @@ public class MeetingServiceImpl implements MeetingService {
 
 
     String findLegalBefore(Long id, String name, String lastNameP, String lastNameM) {
-        List<FindLegalBefore> list = caseRepository.findLegalBefore(id, name, lastNameP, lastNameM);
+        String foneticName = sharedUserService.getFoneticByName(name, lastNameP, lastNameM);
+        List<FindLegalBefore> list = caseRepository.findLegalBefore(id,foneticName);
+        if(list!=null && list.size()>0){
+            for(FindLegalBefore flb : list){
+                List<SelectList> lstArrangement = qArrangementRepository.findLstArrangementByCaseId(flb.getIdCase());
+                if(lstArrangement!=null && lstArrangement.size()>0){
+                flb.convertListArrangementToString(lstArrangement);
+                }else{
+                    flb.setArrangement("Sin medidas cautelares asignadas");
+                }
+            }
+        }
         Gson gson = new Gson();
         return gson.toJson(list);
     }
 
+    @Autowired
+    SharedUserService sharedUserService;
     @Transactional
     @Override
     public ResponseMessage upsertPersonalData(Long idCase, Imputed imputed, SocialEnvironment socialEnvironment, String activity) {
@@ -348,11 +366,11 @@ public class MeetingServiceImpl implements MeetingService {
             caseRepository.save(caseDetention);
             caseRepository.saveAndFlush(caseDetention);
             result.setHasError(false);
-            result.setMessage("Se ha guardado la información exitosamente");
+            result.setMessage(ConsMessage.MSG_SUCCESS_UPSERT);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "upsertPersonalData", userService);
             result.setHasError(true);
-            result.setMessage("Ha ocurrdio un error al guardar los datos personales. Favor de intentar más tarde" + e.getMessage());
+            result.setMessage(ConsMessage.MSG_ERROR_UPSERT);
         }
         return result;
     }
@@ -470,7 +488,7 @@ public class MeetingServiceImpl implements MeetingService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsertSocialNetwork", userService);
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al guardar la persona de red social.");
+             result.setMessage(ConsMessage.MSG_ERROR_UPSERT);
         }
         return result;
     }
@@ -482,11 +500,11 @@ public class MeetingServiceImpl implements MeetingService {
         try {
             personSocialNetworkRepository.delete(personSocialNetworkRepository.findOne(id));
             result.setHasError(false);
-            result.setMessage("Se elimino la persona de red social exitosamente");
+            result.setMessage(ConsMessage.MSG_SUCCESS_DELETE);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "deleteSocialNetwork", userService);
             result.setHasError(true);
-            result.setMessage("No se ha podido eliminar la persona de red social. Intente más tarde");
+            result.setMessage(ConsMessage.MSG_ERROR_DELETE);
         }
         return result;
     }
@@ -523,11 +541,11 @@ public class MeetingServiceImpl implements MeetingService {
             }
             referenceRepository.saveAndFlush(reference);
             result.setHasError(false);
-            result.setMessage("Se ha guardado correctamente la referencia personal");
+            result.setMessage(ConsMessage.MSG_SUCCESS_UPSERT);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsertReference", userService);
             result.setHasError(true);
-            result.setMessage("Ocurrio un error al guardar la refernecia. Intente más tarde.");
+            result.setMessage(ConsMessage.MSG_ERROR_UPSERT);
         }
         return result;
     }
@@ -539,11 +557,11 @@ public class MeetingServiceImpl implements MeetingService {
         try {
             referenceRepository.delete(referenceRepository.findOne(id));
             result.setHasError(false);
-            result.setMessage("Se ha eliminado la referencia exitosamente.");
+            result.setMessage(ConsMessage.MSG_SUCCESS_DELETE);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "deleteReference", userService);
             result.setHasError(false);
-            result.setMessage("Ocurrio un error al eliminar la referencia. Intente más tarde.");
+            result.setMessage(ConsMessage.MSG_ERROR_DELETE);
         }
         return result;
     }
@@ -577,11 +595,11 @@ public class MeetingServiceImpl implements MeetingService {
             }
             drugRepository.save(drug);
             result.setHasError(false);
-            result.setMessage("Se ha guardado la sustancia con éxito");
+            result.setMessage(ConsMessage.MSG_SUCCESS_UPSERT);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsertDrug", userService);
             result.setHasError(true);
-            result.setMessage("Ocorrio un error al guardar la sustancia.Inténte más tarde.");
+            result.setMessage(ConsMessage.MSG_ERROR_UPSERT);
         }
         return result;
     }
@@ -593,11 +611,11 @@ public class MeetingServiceImpl implements MeetingService {
         try {
             drugRepository.delete(drugRepository.findOne(id));
             result.setHasError(false);
-            result.setMessage("Se elimino la sustancia con éxito");
+            result.setMessage(ConsMessage.MSG_SUCCESS_DELETE);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "deleteDrug", userService);
             result.setHasError(true);
-            result.setMessage("Ocurrio un error al eliminar la sustancia. Inténte más tarde");
+            result.setMessage(ConsMessage.MSG_ERROR_DELETE);
         }
         return result;
     }
@@ -632,11 +650,11 @@ public class MeetingServiceImpl implements MeetingService {
             }
             scheduleRepository.save(listSchedules);
             result.setHasError(false);
-            result.setMessage("Se ha actualizado su información exitosamente");
+            result.setMessage(ConsMessage.MSG_SUCCESS_UPSERT);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsertSchool", userService);
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al actualizar su información" + e.getMessage());
+            result.setMessage(ConsMessage.MSG_ERROR_UPSERT);
         }
         return result;
     }
@@ -716,11 +734,11 @@ public class MeetingServiceImpl implements MeetingService {
                 scheduleRepository.save(listSchedules);
             }
             result.setHasError(false);
-            result.setMessage("Se ha guardado la infomación exitosamente");
+            result.setMessage(ConsMessage.MSG_SUCCESS_UPSERT);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsertJob", userService);
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al actualizar su información. Intente más tarde.");
+            result.setMessage(ConsMessage.MSG_ERROR_UPSERT);
         }
         return result;
     }
@@ -739,11 +757,11 @@ public class MeetingServiceImpl implements MeetingService {
         try {
             jobRepository.delete(id);
             result.setHasError(false);
-            result.setMessage("Se ha eliminado correctamente el registro");
+            result.setMessage(ConsMessage.MSG_SUCCESS_DELETE);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "deleteJob", userService);
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al intentar eliminar el registro. Inténte más tarde.");
+            result.setMessage(ConsMessage.MSG_ERROR_DELETE);
         }
         return result;
     }
@@ -819,11 +837,11 @@ public class MeetingServiceImpl implements MeetingService {
                 scheduleRepository.save(listSchedules);
             }
             result.setHasError(false);
-            result.setMessage("Se ha guardado la información con éxito");
+            result.setMessage(ConsMessage.MSG_SUCCESS_UPSERT);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsertAddress", userService);
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al guardar su inormación. Intente más tarde." + e.getMessage());
+            result.setMessage(ConsMessage.MSG_ERROR_UPSERT);
         }
         return result;
     }
@@ -838,11 +856,11 @@ public class MeetingServiceImpl implements MeetingService {
             imputedHomeRepository.delete(id);
             addressRepository.delete(idAddress);
             result.setHasError(false);
-            result.setMessage("Se ha eliminado el registro exitosamente");
+            result.setMessage(ConsMessage.MSG_SUCCESS_DELETE);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "deleteAddress", userService);
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al eliminar el registro. Inténte más tarde");
+            result.setMessage(ConsMessage.MSG_ERROR_DELETE);
         }
         return result;
     }
@@ -857,11 +875,11 @@ public class MeetingServiceImpl implements MeetingService {
             refreshLeaveCountry(leaveCountry, c);
             caseRepository.saveAndFlush(c);
             result.setHasError(false);
-            result.setMessage("Se ha guardado su información exitosamente");
+            result.setMessage(ConsMessage.MSG_SUCCESS_UPSERT);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "upsertLeaveCountry", userService);
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al guardar la información");
+            result.setMessage(ConsMessage.MSG_ERROR_UPSERT);
         }
         return result;
     }
@@ -953,10 +971,11 @@ public class MeetingServiceImpl implements MeetingService {
             }
             m.getLeaveCountry().validateMeeting(validate);
             m.validateMeeting(validate);
-            if (validate.existsMessageProperties()) {
+            if (validate .existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
-                listGeneral.add("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección");
+                listGeneral.add(sharedUserService.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección"));
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
+                validate.formatMessages(sharedUserService);
                 return new ResponseMessage(true, gson.toJson(validate));
             }
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
@@ -990,7 +1009,8 @@ public class MeetingServiceImpl implements MeetingService {
                 if(c!=null && c.size()>0){
                     for(Case cAux : c){
                         Imputed iCase = cAux.getMeeting().getImputed();
-                        if (iCase.getFoneticString().equals(imputed.getFoneticString())) {
+                        Long iCaseBD = iCase.getBirthDate().getTime();
+                        if (iCase.getFoneticString().equals(imputed.getFoneticString())&& iCaseBD.equals(imputed.getBirthDate().getTime())) {
                             return new ResponseMessage(true, "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrado.");
                         }
                     }
@@ -1020,6 +1040,13 @@ public class MeetingServiceImpl implements MeetingService {
 
     }
 
+    @Autowired
+    CrimeRepository crimeRepository;
+
+    @Autowired
+    CoDefendantRepository coDefendantRepository;
+
+
     public void refreshCurrentProceeding(CriminalProceedingView cpv, Case c){
         Meeting m = c.getMeeting();
         CurrentCriminalProceeding ccpc = m.getCurrentCriminalProceeding();
@@ -1045,8 +1072,16 @@ public class MeetingServiceImpl implements MeetingService {
         ccpc.setBehaviorDetention(cpv.getBehaviorDetention());
         ccpc.setDomicileVictim(av);
         ccpc.setNameVictim(cpv.getNameVictim());
+        List<Crime> listOldCrime = ccpc.getCrimeList();
+        if(listOldCrime != null ){
+            crimeRepository.delete(listOldCrime);
+        }
         if(cpv.getListCrime()!= null && !cpv.getListCrime().equals("")){
             ccpc.setCrimeList(legalService.generateCrime(cpv.getListCrime(), ccpc));
+        }
+        List<CoDefendant> listOldCoDefendant  = ccpc.getCoDefendantList();
+        if(listOldCoDefendant != null){
+            coDefendantRepository.delete(listOldCoDefendant);
         }
         if (cpv.getListCoDefendant() != null && !cpv.getListCoDefendant().equals("")) {
             ccpc.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccpc));
@@ -1064,10 +1099,10 @@ public class MeetingServiceImpl implements MeetingService {
         Case c = caseRepository.findOne(cpv.getIdCase());
         refreshPreviousProceeding(cpv, c);
         caseRepository.save(c);
-            return new ResponseMessage(false, "Guardado exitoso","previous");
+            return new ResponseMessage(false, ConsMessage.MSG_SUCCESS_UPSERT,"previous");
         }catch (Exception e){
             logException.Write(e, this.getClass(), "savePartialPrevious", userService);
-            return new ResponseMessage(true,"Ha ocurrido un error al actualizar los datos");
+            return new ResponseMessage(true,ConsMessage.MSG_ERROR_UPSERT);
         }
     }
 
@@ -1078,10 +1113,10 @@ public class MeetingServiceImpl implements MeetingService {
             Case c = caseRepository.findOne(cpv.getIdCase());
             refreshCurrentProceeding(cpv, c);
             caseRepository.save(c);
-            return new ResponseMessage(false, "Guardado exitoso", "current");
+            return new ResponseMessage(false,ConsMessage.MSG_SUCCESS_UPSERT, "current");
         }catch (Exception e){
             logException.Write(e, this.getClass(), "savePartialPrevious", userService);
-            return new ResponseMessage(true,"Ha ocurrido un error al actualizar los datos");
+            return new ResponseMessage(true,ConsMessage.MSG_ERROR_UPSERT);
         }
     }
 
@@ -1123,9 +1158,9 @@ public class MeetingServiceImpl implements MeetingService {
                     break;
             }
             caseRepository.save(c);
-            return new ResponseMessage(false, "Se actualizó la información exitosamente");
+            return new ResponseMessage(false,ConsMessage.MSG_SUCCESS_UPSERT);
         }catch (Exception e){
-            return new ResponseMessage(true, "Ocurri&oacute; un error al guardar.");
+            return new ResponseMessage(true,ConsMessage.MSG_ERROR_UPSERT);
         }
     }
 
@@ -1139,9 +1174,10 @@ public class MeetingServiceImpl implements MeetingService {
             if (validate.existsMessageProperties()) {
                 Gson gson = new Gson();
                 List<String> listGeneral = new ArrayList<>();
-                listGeneral.add("No se puede guardar la información legal puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección");
+                listGeneral.add(sharedUserService.convertToValidString("No se puede guardar la información legal puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección"));
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
                 result.setHasError(true);
+                validate.formatMessages(sharedUserService);
                 result.setMessage(gson.toJson(validate));
                 return result;
             }
@@ -1165,7 +1201,7 @@ public class MeetingServiceImpl implements MeetingService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "saveProceedingLegal", userService);
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al guardar la información");
+            result.setMessage(sharedUserService.convertToValidString("Ha ocurrido un error al guardar la información"));
         } finally {
             return result;
         }
@@ -1200,17 +1236,17 @@ public class MeetingServiceImpl implements MeetingService {
         if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
             current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
         if (cpv.getPlaceDetention().trim().equals(""))
-            current.add(v.template.replace(e, "El lugar de detención"));
+            current.add(sharedUserService.convertToValidString(v.template.replace(e,"El lugar de detención")));
         if (cpv.getBehaviorDetention().trim().equals(""))
-            current.add(v.template.replace(e, "El comportamiento durante la detención"));
+            current.add(sharedUserService.convertToValidString(v.template.replace(e, "El comportamiento durante la detención")));
         if (cpv.getNameVictim().trim().equals(""))
-            current.add(v.template.replace(e, "El nombre completo de la víctima"));
+            current.add(sharedUserService.convertToValidString(v.template.replace(e, "El nombre completo de la víctima")));
         if (cpv.getFirstProceeding().trim().equals(""))
-            previous.add(v.template.replace(e, "El primer caso "));
+            previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El primer caso ")));
         if (cpv.getOpenProcessNumber() == null)
-            previous.add(v.template.replace(e, "El número de procesos abiertos"));
+            previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El número de procesos abiertos")));
         if (cpv.getNumberConvictions() == null)
-            previous.add(v.template.replace(e, "El número de sentencias condenatorias"));
+            previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El número de sentencias condenatorias")));
         current.addAll(addressService.validateAddress(cpv.getDomicileVictim()));
         v.getGroupMessage().add(new GroupMessageMeetingDto("legalActual", current));
         v.getGroupMessage().add(new GroupMessageMeetingDto("legalPrevious", previous));
@@ -1230,7 +1266,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     public ResponseMessage messageValidateMeetingUser(Long idCase) {
         if (!validateMeetingUser(idCase)) {
-            return new ResponseMessage(true, "Este usuario no tiene permiso para ver la información solicitada");
+            return new ResponseMessage(true, sharedUserService.convertToValidString("Este usuario no tiene permiso para ver la información solicitada"));
         }
         return null;
     }

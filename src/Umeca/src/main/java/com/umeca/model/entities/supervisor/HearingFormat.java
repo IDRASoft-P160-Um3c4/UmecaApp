@@ -46,7 +46,6 @@ public class HearingFormat {
     @Column(name = "mp_name")
     private String mpName;
 
-
     @Column(name = "defender_name")
     private String defenderName;
 

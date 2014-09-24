@@ -99,9 +99,13 @@ public class ActivityMonitoringPlan {
     @Column(name = "group_evt", length = 50, nullable = false)
     private String group;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) //A quien va a reemplazar antes de autorizar
     @JoinColumn(name = "act_mon_plan_to_replace_id", nullable = true)
     private ActivityMonitoringPlan actMonPlanToReplace;
+
+    @ManyToOne(fetch = FetchType.LAZY)//A quien reemplazó después de autorizar, para mantener una trazabilidad
+    @JoinColumn(name = "act_mon_plan_replaced_id", nullable = true)
+    private ActivityMonitoringPlan actMonPlanReplaced;
 
     @Column(name = "is_pre_authorize_mode", nullable = true)
     private Boolean isPreAuthorizeMode;
@@ -309,4 +313,11 @@ public class ActivityMonitoringPlan {
         isReplaced = replaced;
     }
 
+    public ActivityMonitoringPlan getActMonPlanReplaced() {
+        return actMonPlanReplaced;
+    }
+
+    public void setActMonPlanReplaced(ActivityMonitoringPlan actMonPlanReplaced) {
+        this.actMonPlanReplaced = actMonPlanReplaced;
+    }
 }

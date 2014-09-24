@@ -120,4 +120,8 @@ public class SharedUserService {
     public List<String> getLstRolesByUserId(Long userId) {
         return userRepository.getLstRolesByUserId(userId);
     }
+
+    public String getFoneticByName(String name, String lastNameP, String lastNameM) {
+        return name.trim().toLowerCase()+lastNameP.trim().toLowerCase()+lastNameM.trim().toLowerCase();
+    }
 }

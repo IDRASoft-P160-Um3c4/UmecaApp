@@ -195,7 +195,7 @@
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifEqual('imputed.celPhone')"></i>
                 <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                   ng-show="verification"></i>
+                   ng-show="verification" code="imputed.celPhone"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                    ng-click="doConfirmVerifNotKnow('imputed.celPhone')"></i>
                 <i class="purple icon-list icon-only bigger-120" ng-click="showChoices('imputed.celPhone')"
@@ -374,11 +374,11 @@
             <div class="widget-header">
                 <div class="col-xs-1" >
                     <i class="icon-ok-circle green  icon-only bigger-120"ng-show="verification"
-                       ng-click="doConfirmVerifEqual('imputed.birtCountry')"></i>
+                       ng-click="doConfirmVerifEqual('imputed.birthCountry.id')"></i>
                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="5" ng-show="verification"
-                       code="imputed.birthCountry"></i>
+                       code="imputed.birthCountry.id"></i>
                     <i class="icon-ban-circle gray icon-only bigger-120"ng-show="verification"
-                       ng-click="doConfirmVerifNotKnow('imputed.birthCountry')"></i>
+                       ng-click="doConfirmVerifNotKnow('imputed.birthCountry.id')"></i>
                     <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputed.birthCountry.id')"></i>
                 </div>
                 <div class="col-xs-10 element-left">

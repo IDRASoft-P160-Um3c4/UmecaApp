@@ -30,6 +30,10 @@
             window.showUpsertWithIdCase(id, "#angJsjqGridId", "<c:url value='/reviewer/verification/source/upsert.html'/>", "#GridId",undefined, ${idCase});
         };
 
+        window.cancelShowSource = function(){
+            window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
+        }
+
         window.terminateSuccess = function(){
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html'/>");
         }
@@ -39,15 +43,15 @@
                 url: '<c:url value='/reviewer/verification/listSourceAdd.json?id=${idCase}' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Nombre','Edad', 'Parentesco', 'Direcci�n', 'Tel&eacute;fono','Estatus','Complete','IdCase', 'Acci&oacute;n'],
+                colNames: ['ID', 'Nombre','Edad', 'Parentesco', 'Direcci&oacute;n', 'Tel&eacute;fono','Estatus','Complete','IdCase', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'age', index: 'age', width: 80, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'relationshipString', index: 'relationshipString', width: 100, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'address', index: 'address', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'phone', index: 'phone', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'statusString', index: 'statusString', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'age', index: 'age', width: 80, align: "center", sorttype: 'string', search: false },
+                    { name: 'relationshipString', index: 'relationshipString', width: 100, align: "center", search: false },
+                    { name: 'address', index: 'address', width: 300, align: "center", sorttype: 'string', search: false },
+                    { name: 'phone', index: 'phone', width: 150, align: "center", sorttype: 'string', search: false },
+                    { name: 'statusString', index: 'statusString', width: 200, align: "center", sorttype: 'string', search: false },
                     { name: 'dateComplete', index: 'dateComplete',hidden:true},
                     { name: 'idCase', index: 'idCase', hidden:true},
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
@@ -86,7 +90,7 @@
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                 edit: false, editicon : 'icon-notes blue',
-                add: false,
+                add: true, addfunc: window.upsertSource, addicon : 'icon-plus-sign purple',
                 refresh: true, refreshicon : 'icon-refresh green',
                 del: false,
                 search: false});
@@ -102,7 +106,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class=" icon-group"></i>&nbsp;&nbsp;Fuentes de verificaci�n</h2>
+    <h2 class="element-center"><i class=" icon-group"></i>&nbsp;&nbsp;Fuentes de verificaci&oacute;n</h2>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

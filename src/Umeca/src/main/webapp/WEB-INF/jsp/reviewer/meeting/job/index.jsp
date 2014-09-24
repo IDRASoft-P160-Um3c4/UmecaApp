@@ -16,7 +16,7 @@
             url: '<c:url value='/reviewer/meeting/listJob.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Empresa','Puesto','Patr�n','Tel&eacute;fono','Tipo','TipoId','Acci&oacute;n'],
+            colNames: ['ID', 'Empresa','Puesto','Patr&oacute;n','Tel&eacute;fono','Tipo','TipoId','Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'company', index: 'company', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -96,7 +96,7 @@
 <div class="row" ng-controller="scController">
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
-            {{msgSuccess}}
+            <span ng-bind-html="msgSuccess"></span>
         </div>
     </div>
     <form id="FormCommentJobId" name="FormCommentJobId" class="form-horizontal" role="form">
@@ -117,7 +117,7 @@
     <br/>
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgError" class="alert alert-danger element-center error-font">
-            {{msgError}}
+            <span ng-bind-html="msgError"></span>
         </div>
     </div>
     <div class="col-xs-12">

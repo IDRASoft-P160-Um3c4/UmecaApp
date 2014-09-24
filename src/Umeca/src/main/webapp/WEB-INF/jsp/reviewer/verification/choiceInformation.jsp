@@ -148,7 +148,7 @@
 
                 <div class="col-xs-offset-3">y Entorno social</div>
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['imputed'].length > 0">
+            <div class="col-xs-2" ng-show="listMsgError['imputed']">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -157,12 +157,8 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['imputed'] track by $index">
-                                    <li>
-                                        {{msg}}
-                                    </li>
-
-                                </div>
+                                <span ng-bind-html="listMsgError['imputed']">
+                                </span>
                             </div>
                         </ul>
                     </div>
@@ -178,7 +174,7 @@
                 <i class="green  icon-home  bigger-200"></i>
                 Domicilios
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['imputedHome'].length > 0">
+            <div class="col-xs-2" ng-show="listMsgError['imputedHome']">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -187,12 +183,8 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['imputedHome'] track by $index">
-                                    <li>
-                                        {{msg}}
-                                    </li>
-
-                                </div>
+                                <span ng-bind-html="listMsgError['imputedHome']">
+                                    </span>
                             </div>
                         </ul>
                     </div>
@@ -208,7 +200,7 @@
                 <i class="blue icon-group bigger-200"></i>
                 Red social
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['socialNetwork'].length > 0">
+            <div class="col-xs-2" ng-show="listMsgError['socialNetwork']">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -217,12 +209,8 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['socialNetwork'] track by $index">
-                                    <li>
-                                        {{msg}}
-                                    </li>
-
-                                </div>
+                                <span ng-bind-html="listMsgError['socialNetwork']">
+                                    </span>
                             </div>
                         </ul>
                     </div>
@@ -238,7 +226,7 @@
                 <i class="red icon-list bigger-200"></i>
                 Referencias personales
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['reference'].length > 0">
+            <div class="col-xs-2" ng-show="listMsgError['reference']">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
@@ -246,11 +234,8 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['reference'] track by $index">
-                                    <li>
-                                        {{msg}}
-                                    </li>
-                                </div>
+                                <span ng-bind-html="listMsgError['reference']">
+                                </span>
                             </div>
                         </ul>
                     </div>
@@ -266,7 +251,7 @@
                 <i class="pink icon-briefcase  bigger-200"></i>
                 Historia laboral
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['job'].length > 0">
+            <div class="col-xs-2" ng-show="listMsgError['job']">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
@@ -275,12 +260,8 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['job'] track by $index">
-                                    <li>
-                                        {{msg}}
-                                    </li>
-
-                                </div>
+                                <span ng-bind-html="listMsgError['job']">
+                                    </span>
                             </div>
                         </ul>
                     </div>
@@ -296,7 +277,7 @@
                 <i class="orange icon-book  bigger-200"></i>
                 Historia Escolar
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['school'].length > 0">
+            <div class="col-xs-2" ng-show="listMsgError['school']">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
@@ -304,11 +285,8 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['school'] track by $index">
-                                    <li>
-                                        {{msg}}
-                                    </li>
-                                </div>
+                                <span ng-bind-html="listMsgError['school']">
+                                    </span>
                             </div>
                         </ul>
                     </div>
@@ -318,13 +296,13 @@
     </a>
 </li>
 <li id="liDrug">
-    <a data-toggle="tab" href="#drougs">
+    <a data-toggle="tab" href="#drugs">
         <div class="row">
             <div class="col-xs-10">
                 <i class="green icon-warning-sign  bigger-200"></i>
                 Consumo de sustancias
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['drug'].length > 0">
+            <div class="col-xs-2" ng-show="listMsgError['drug']">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
@@ -332,11 +310,8 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['drug'] track by $index">
-                                    <li>
-                                        {{msg}}
-                                    </li>
-                                </div>
+                                <span ng-bind-html="listMsgError['drug']">
+                                </span>
                             </div>
                         </ul>
                     </div>
@@ -355,7 +330,7 @@
 
                 <div class="col-xs-offset-3">abandonar el pa&iacute;s</div>
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['leaveCountry'].length > 0">
+            <div class="col-xs-2" ng-show="listMsgError['leaveCountry']">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
@@ -363,11 +338,8 @@
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <div ng-repeat="msg in listMsgError['leaveCountry'] track by $index">
-                                    <li>
-                                        {{msg}}
-                                    </li>
-                                </div>
+                                <span ng-bind-html="listMsgError['leaveCountry']">
+                                    </span>
                             </div>
                         </ul>
                     </div>
@@ -436,7 +408,7 @@
         </div>
 
     </div>
-    <div id="drougs" class="tab-pane">
+    <div id="drugs" class="tab-pane">
         <div class="row center">
             <h2><i class="green icon-warning-sign  bigger-100">&nbsp;</i>Consumo de sustancias</h2>
         </div>
@@ -458,13 +430,9 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div ng-show="listMsgError['general'].length > 0" class="alert alert-danger element-center error-font">
-            <div ng-repeat="msg in listMsgError['general']">
-                <li>
-                    {{msg}}
-                </li>
-
-            </div>
+        <div ng-show="listMsgError['general']" class="alert alert-danger element-center error-font">
+            <span ng-bind-html="listMsgError['general']">
+            </span>
         </div>
     </div>
 </div>

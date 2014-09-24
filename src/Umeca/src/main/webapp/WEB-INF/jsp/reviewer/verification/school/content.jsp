@@ -28,7 +28,7 @@
         <div class="hr hr-8"></div>
     </div>
 </div>
-    <div class="row">
+    <div class="row" ng-init='schLists = ${(listScheduleSchool == null) ? '[]': listScheduleSchool};'>
         <div class="col-xs-12">
             <div class="col-xs-2 element-left">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
@@ -158,8 +158,8 @@
        </div>
     <br/>
 
-    <div class="row">
-        <div class="col-xs-12" ng-init='schLists = ${(listScheduleSchool == null) ? '[]': listScheduleSchool};'
+    <div class="row" ng-show="schLists.length > 0 ">
+        <div class="col-xs-12"
              ng-show="verification || selectSource || showSchedule">
             <div class="widget-header header-color-blue">
                 <div class="row">

@@ -26,8 +26,30 @@
                         <h4 class="element-center">&nbsp;&nbsp;Dato proporcionado por la fuente</h4>
                     </div>
                 </div>
-                <div cNlass="modal-body">
-                    <div class="row" ng-controller="innerActivitiesController">
+                <div class="modal-body"  ng-controller="innerActivitiesController">
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <div class="widget-container-span ui-sortable">
+                                <div class="widget-box transparent">
+                                    <div class="widget-header">
+                                        <div class="row"> <input type="hidden"
+                                                                 ng-init='urlSearchInformation= "<c:url value='/reviewer/verification/searchInformationBySource.json'/>";'/>
+                                            <h4 class="lighter">Infomaci&oacute;n proporcionada por la fuente: </h4>
+                                        </div>
+                                        <div class="row">
+                                            <div style="color: #808080;" class="col-xs-10 col-xs-offset-1">
+                                                ${activitiesRegister}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="row">
+
                         <div class="col-xs-10 col-xs-offset-1">
                             <form id="FormVerifUpsertIdActivities" name="FormVerifUpsertIdActivities"
                                   ng-submit="submit('#FormVerifUpsertIdActivities')"

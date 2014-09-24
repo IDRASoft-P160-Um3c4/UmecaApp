@@ -1,9 +1,37 @@
-app.controller('verificationAddressController', function($scope, $timeout, $q, $rootScope) {
+app.controller('verificationAddressController', function($scope, $timeout, $q, $rootScope, $sce) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
     $scope.verification = false;
     $scope.generalComponent = false;
+    $scope.fmsOfSource;
+    $scope.countAuxAd = 0;
+
+    $scope.findSourceBefore = function () {
+        if ($scope.countAuxAd == 2) {
+            $scope.fmsOfSource = $sce.trustAsHtml("Buscando informaci&oacute;n...");
+            $scope.countAuxAd = 0;
+            var data = {};
+            data.idCase = $scope.idCase;
+            data.idSource = $scope.idSource;
+            data.idList = $scope.idList;
+            data.code = $scope.code;
+            $.post($scope.urlSearchInformation, data)
+                .success($scope.handleSuccessFindPrevious)
+                .error($scope.handleErrorFindPrevious);
+        }
+    };
+
+    $scope.handleSuccessFindPrevious = function (resp) {
+        $scope.fmsOfSource = $sce.trustAsHtml(resp.responseMessage.message);
+        $scope.$apply();
+    };
+
+    $scope.handleErrorFindPrevious = function (resp) {
+        $scope.fmsOfSource = $sce.trustAsHtml("No se ha podido obtener la informaci&oacute;n de la fuente");
+        $scope.$apply();
+    };
+
     $scope.init = function(){
 
       };
@@ -45,12 +73,16 @@ app.controller('verificationAddressController', function($scope, $timeout, $q, $
     }, 0);
 
 
-    $rootScope.$on('SetIdList', function (event,idList) {
+    $rootScope.$on('SetIdListAddress', function (event,idList) {
+        $scope.countAuxAd++;
+        $scope.findSourceBefore();
         $scope.idList=idList;
     });
 
     $rootScope.$on('SetCodeAddress', function (event,code) {
         $scope.code=code;
+        $scope.countAuxAd++;
+        $scope.findSourceBefore();
     });
 
     $scope.submit = function (formId) {

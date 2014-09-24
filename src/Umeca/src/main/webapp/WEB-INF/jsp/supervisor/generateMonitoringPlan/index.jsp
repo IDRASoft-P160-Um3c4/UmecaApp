@@ -26,7 +26,7 @@
 
             window.preAuthorize = function(id){
                 window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/generateMonitoringPlan/preAuthorize.json' />", "#GridId",
-                        "Plan de seguimiento", "¿Est&aacute; seguro de que desea solicitar la autorizaci&oacute;n del plan de seguimiento para este caso?", "warning");
+                        "Plan de seguimiento", "&iquest;Est&aacute; seguro de que desea solicitar la autorizaci&oacute;n del plan de seguimiento para este caso?", "warning");
             };
 
             window.showRejectAuthMsg = function(id){
@@ -42,7 +42,7 @@
                     url: '<c:url value='/supervisor/generateMonitoringPlan/list.json' />',
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Acci&oacute;n'],
+                    colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Suspendido', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'caseId', index: 'caseId', hidden:true },
@@ -53,7 +53,8 @@
                         { name: 'stAuthorizationTime', index: 'stAuthorizationTime', width: 140, align: "center", sortable: true, search: false },
                         { name: 'status', index: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                         { name: 'supervisor', index: 'supervisor', width: 130, align: "center", sortable: false, search: false },
-                        { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                        { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden:true},
+                        { name: 'Action', width: 110, align: "center", sortable: false, search: false }
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],
@@ -72,23 +73,28 @@
                             var row = $(this).getRowData(cl);
                             var status = row.status;
                             var be = "";
+                            var isMonPlanSuspended = row.isMonPlanSuspended;
 
-                            if (status === "NUEVO") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de seguimiento\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
-                            }else if (status === "EN PROCESO DE GENERAR" ) {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorizaci&oacute;n del plan de seguimiento\" onclick=\"window.preAuthorize('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                            if(isMonPlanSuspended === 'true'){
+                                be += "<span style='display:inline-block;' class='glyphicon glyphicon-fire red' title='El plan se encuentra suspendido, no se podr&aacute;n realizar acciones hasta que el coordinador lo autorice.'></span>";
                             }
-                            else if (status === "RECHAZADO AUTORIZAR"){
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de autorizaci&oacute;n\" onclick=\"window.showRejectAuthMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-warning\"></span></a>";
-                            }
-                            else if(status === "RECHAZADO TERMINAR"){
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de finalizaci&oacute;n\" onclick=\"window.showRejectAuthEndMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-danger\"></span></a>";
-                            }
+                            else{
+                                if (status === "NUEVO") {
+                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de seguimiento\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
+                                }else if (status === "EN PROCESO DE GENERAR" ) {
+                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorizaci&oacute;n del plan de seguimiento\" onclick=\"window.preAuthorize('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                                }
+                                else if (status === "RECHAZADO AUTORIZAR"){
+                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de autorizaci&oacute;n\" onclick=\"window.showRejectAuthMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-warning\"></span></a>";
+                                }
+                                else if(status === "RECHAZADO TERMINAR"){
+                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de finalizaci&oacute;n\" onclick=\"window.showRejectAuthEndMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-danger\"></span></a>";
+                                }
 
-                            if (status === "EN PROCESO DE GENERAR" || status === "AUTORIZADO" || status === "RECHAZADO AUTORIZAR" || status === "EN PROCESO DE EJECUCI&Oacute;N" || status === "RECHAZADO TERMINAR" ){
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar plan de seguimiento\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                                if (status === "EN PROCESO DE GENERAR" || status === "AUTORIZADO" || status === "RECHAZADO AUTORIZAR" || status === "EN PROCESO DE EJECUCI&Oacute;N" || status === "RECHAZADO TERMINAR" ){
+                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar plan de seguimiento\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                                }
                             }
-
 
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

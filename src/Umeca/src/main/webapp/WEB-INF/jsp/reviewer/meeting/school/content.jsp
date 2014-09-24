@@ -1,6 +1,6 @@
 <div ng-controller="schoolController">
     <div class="row">
-        <div class="col-xs-12 element-center" ng-init="block=${m.school.block == null ? false: m.school.block}">
+        <div class="col-xs-12 element-center" ng-init="block=${m.school.block == null ? true: m.school.block}">
             <div class="col-xs-6 element-right">
                 &iquest;El imputado estudia actualmente?
             </div>
@@ -170,7 +170,6 @@
                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                           data-val-length-max="500"
                           data-val-length-min="1"
-                          data-val-required="Las observaciones es un campo requerido"
                           name="school.commentSchool"></textarea>
                 <span class="field-validation-valid" data-valmsg-for="comment"
                       data-valmsg-replace="true"></span>

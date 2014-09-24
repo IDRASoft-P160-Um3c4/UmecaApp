@@ -3,16 +3,14 @@ package com.umeca.service.supervisor;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.extensions.StringExt;
+import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.shared.LogChangeData;
 import com.umeca.model.entities.shared.LogCommentJson;
 import com.umeca.model.entities.supervisor.*;
-import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
-import com.umeca.model.entities.supervisorManager.ChangeSupervisor;
-import com.umeca.model.entities.supervisorManager.LogChangeSupervisor;
-import com.umeca.model.entities.supervisorManager.LogComment;
+import com.umeca.model.entities.supervisorManager.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
@@ -68,6 +66,27 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
                         (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd(), req.getActivityId());
         response.setLstMonPlanActivities(lstAllActivities);
 
+        List<MonitoringPlanDto> lstMonPlanSus = activityMonitoringPlanRepository.getAllMonPlanWithFilters(userId, lstMonPlanStatus, lstActStatus,
+                (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+
+        MonitoringPlanDto monitoringPlanDto = null;
+        for(ActivityMonitoringPlanResponse act : lstAllActivities){
+            if(monitoringPlanDto == null || monitoringPlanDto.getMonPlanId() != act.getMonitoringPlanId()){
+                monitoringPlanDto = null;
+                for(MonitoringPlanDto monPlan : lstMonPlanSus){
+                    if(act.getMonitoringPlanId() != monPlan.getMonPlanId())
+                        continue;
+                    monitoringPlanDto = monPlan;
+                    break;
+                }
+            }
+            //Si está suspendido, se debe marcar
+            if(monitoringPlanDto != null && monitoringPlanDto.getMonPlanSuspended()){
+                act.setSuspended(true);
+            }
+        }
+
+
         List<SelectList> lstActivities = supervisionActivityRepository.findAllSl();
         List<SelectList> lstGoals = activityGoalRepository.findAllSl();
         response.setLstActivities(lstActivities);
@@ -109,6 +128,9 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
             isReadOnly = false;
         }
 
+        if(actMonPlanInfo.getSuspended())
+            isReadOnly = true;
+
         Gson gson = new Gson();
         String sLstArrangement = gson.toJson(lstArrangement);
         model.addObject("lstArrangements", sLstArrangement);
@@ -126,6 +148,18 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         model.addObject("actSupervisorDone", StringExt.naOnEmpty(actMonPlanInfo.getSupUserDone()));
         model.addObject("actComments", StringExt.naOnEmpty(actMonPlanInfo.getComments()));
         model.addObject("actEndFullDate", CalendarExt.calendarToFormatString(actMonPlanInfo.getEndDone(), Constants.FORMAT_CALENDAR_I));
+    }
+
+    public void getActivityToShow(Long id, ResponseMessage response) {
+        final ActivityMonitoringPlanInfo actMonPlanInfo = activityMonitoringPlanRepository.getActivityInfoFull(id);
+
+        Long actMonPlanToReplaceId = actMonPlanInfo.getActMonPlanToReplaceId();
+        if(actMonPlanToReplaceId != null){
+            final ActivityMonitoringPlanInfo actMonPlanInfoRep = activityMonitoringPlanRepository.getActivityInfoFull(actMonPlanToReplaceId);
+            response.setReturnData(new PreActivityMonitoringPlan(){{setNewActMonPlanInfo(actMonPlanInfo);setOldActMonPlanInfo(actMonPlanInfoRep);}});
+        }else{
+            response.setReturnData(new PreActivityMonitoringPlan(){{setNewActMonPlanInfo(actMonPlanInfo);}});
+        }
     }
 
     @Autowired

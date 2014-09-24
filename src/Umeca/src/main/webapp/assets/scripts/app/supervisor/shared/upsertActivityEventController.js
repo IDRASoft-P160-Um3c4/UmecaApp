@@ -320,13 +320,13 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
 
     $scope.delete = function(){
         $scope.IsOk = true;
-        $scope.option = ($scope.cfg.caseInfo.isInAuthorizeReady ? "PRE_REMOVE" : "REMOVE");
+        $scope.option = (($scope.cfg.caseInfo.isInAuthorizeReady && $scope.m.event.className != 'label-pre-new') ? "PRE_REMOVE" : "REMOVE");
         $scope.hideMsg();
     };
 
     $scope.deleteGroup = function(){
         $scope.IsOk = true;
-        $scope.option = ($scope.cfg.caseInfo.isInAuthorizeReady ? "PRE_REMOVE_GROUP" : "REMOVE_GROUP");
+        $scope.option = (($scope.cfg.caseInfo.isInAuthorizeReady && $scope.m.event.className != 'label-pre-new') ? "PRE_REMOVE_GROUP" : "REMOVE_GROUP");
         $scope.hideMsg();
     };
 
