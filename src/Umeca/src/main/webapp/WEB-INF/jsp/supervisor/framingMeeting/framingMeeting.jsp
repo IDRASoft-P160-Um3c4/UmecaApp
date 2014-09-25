@@ -30,6 +30,12 @@
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
     </script>
 
+    <script>
+        generateFile = function (id) {
+            var goTo = "<c:url value='/reviewer/technicalReview/generateFileCase.html'/>" + "?id=" + id;
+            window.goToUrlMvcUrl(goTo);
+        };
+    </script>
 
     <title>Entrevista de encuadre</title>
 </head>
@@ -49,10 +55,11 @@
 <div class="row" ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true;">
     <div class="col-xs-10">
     <h3 class="header smaller lighter blue">
-        <small>Actividades de evaluaci&oacute;n:{{checked}}  </small>
+        <small>Actividades de evaluaci&oacute;n:  </small>
         &nbsp;
         <i class="icon-check" ng-show="hasMeeting"></i><i class="icon-unchecked" ng-show="!hasMeeting"></i>&nbsp;<label>Entrevista de riesgos procesales</label>&nbsp;&nbsp;
         <i class="icon-check" ng-show="hasTR"></i><i class="icon-unchecked" ng-show="!hasTR"></i>&nbsp;<label>Opini&oacute;n T&eacute;cnica</label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a ng-show="hasMeeting && hasTR" href="javascript:;" style="display:inline-block;" title="Descargar informaci&oacute;n" onclick="generateFile(${idCase});"><span class="glyphicon glyphicon-download"></span>&nbsp;&nbsp;<label>Descargar informaci&oacute;n</label></a>
     </h3>
     </div>
     <div class="col-xs-2 element-center">
