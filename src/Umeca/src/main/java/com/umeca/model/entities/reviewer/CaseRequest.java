@@ -32,7 +32,7 @@ public class CaseRequest {
     private RequestType requestType;
 
     @ManyToOne
-    @JoinColumn(name="id_response_type", nullable = false)
+    @JoinColumn(name="id_response_type")
     private ResponseType responseType;
 
     @OneToMany(mappedBy="caseRequest", cascade={CascadeType.ALL})
