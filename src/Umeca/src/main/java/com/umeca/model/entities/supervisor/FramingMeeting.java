@@ -7,48 +7,49 @@ import com.umeca.model.entities.reviewer.Drug;
 import com.umeca.model.entities.reviewer.ImputedHome;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="framing_meeting")
+@Table(name = "framing_meeting")
 public class FramingMeeting {
 
     @Id
     @GeneratedValue
-    @Column(name="id_framing_meeting")
+    @Column(name = "id_framing_meeting")
     private Long id;
 
-    @Column(name="activities")
+    @Column(name = "activities")
     private String activities;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="id_framing_imputed_personal_data")
+    @JoinColumn(name = "id_framing_imputed_personal_data")
     private FramingImputedPersonalData personalData;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="id_framing_occupation")
+    @JoinColumn(name = "id_framing_occupation")
     private Occupation occupation;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="id_additional_framing_questions")
+    @JoinColumn(name = "id_additional_framing_questions")
     private AdditionalFramingQuestions additionalFramingQuestions;
 
-    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingAddress> framingAddresses;
 
-    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingReference> references;
 
-    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Drug> drugs;
 
-    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingSelectedSourceRel> selectedSourcesRel;
 
-    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingSelectedRiskRel> selectedRisksRel;
 
-    @OneToMany(mappedBy = "framingMeeting",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingSelectedThreatRel> selectedThreatsRel;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -59,8 +60,14 @@ public class FramingMeeting {
     @JoinColumn(name = "id_case")
     private Case caseDetention;
 
-    @Column(name="is_terminated")
+    @Column(name = "is_terminated")
     private Boolean isTerminated;
+
+    @Column(name = "init_date")
+    private Date initDate;
+
+    @Column(name = "end_date")
+    private Date endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
@@ -184,5 +191,21 @@ public class FramingMeeting {
 
     public void setSupervisor(User supervisor) {
         this.supervisor = supervisor;
+    }
+
+    public Date getInitDate() {
+        return initDate;
+    }
+
+    public void setInitDate(Date initDate) {
+        this.initDate = initDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

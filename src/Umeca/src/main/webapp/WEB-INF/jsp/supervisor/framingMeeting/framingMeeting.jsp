@@ -52,23 +52,48 @@
 
 <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
 <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
-<div class="row" ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true;">
+<div class="row"
+     ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true;">
     <div class="col-xs-10">
-    <h3 class="header smaller lighter blue">
-        <small>Actividades de evaluaci&oacute;n:  </small>
-        &nbsp;
-        <i class="icon-check" ng-show="hasMeeting"></i><i class="icon-unchecked" ng-show="!hasMeeting"></i>&nbsp;<label>Entrevista de riesgos procesales</label>&nbsp;&nbsp;
-        <i class="icon-check" ng-show="hasTR"></i><i class="icon-unchecked" ng-show="!hasTR"></i>&nbsp;<label>Opini&oacute;n T&eacute;cnica</label>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a ng-show="hasMeeting && hasTR" href="javascript:;" style="display:inline-block;" title="Descargar informaci&oacute;n" onclick="generateFile(${idCase});"><span class="glyphicon glyphicon-download"></span>&nbsp;&nbsp;<label>Descargar informaci&oacute;n</label></a>
-    </h3>
+        <h3 class="header smaller lighter blue">
+            <small>Actividades de evaluaci&oacute;n:</small>
+            &nbsp;
+            <i class="icon-check" ng-show="hasMeeting"></i><i class="icon-unchecked"
+                                                              ng-show="!hasMeeting"></i>&nbsp;<label>Entrevista de
+            riesgos procesales</label>&nbsp;&nbsp;
+            <i class="icon-check" ng-show="hasTR"></i><i class="icon-unchecked" ng-show="!hasTR"></i>&nbsp;<label>Opini&oacute;n
+            T&eacute;cnica</label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a ng-show="hasMeeting && hasTR" href="javascript:;"
+                                             style="display:inline-block;" title="Descargar informaci&oacute;n"
+                                             onclick="generateFile(${idCase});"><span
+                class="glyphicon glyphicon-download"></span>&nbsp;&nbsp;<label>Descargar informaci&oacute;n</label></a>
+        </h3>
     </div>
     <div class="col-xs-2 element-center">
         <h3 class="header smaller lighter blue">
-            <small>Resoluci&oacute;n:  </small>&nbsp;&nbsp;&nbsp;<label>${resolution}</label>
+            <small>Resoluci&oacute;n:</small>
+            &nbsp;&nbsp;&nbsp;<label>${resolution}</label>
         </h3>
     </div>
 </div>
- <br/>
+<div class="row">
+    <div class="col-xs-4">
+        <h3 class="header smaller lighter blue">
+            <small>Inicio:</small>
+            &nbsp;
+            &nbsp;<label>{{fm.objView.initDate}}</label>
+        </h3>
+    </div>
+    <div class="col-xs-4 col-xs-offset-1">
+        <h3 class="header smaller lighter blue">
+            <small>Fin:</small>
+            &nbsp;
+            &nbsp;<label>{{fm.objView.initDate}}</label>
+        </h3>
+    </div>
+</div>
+<br/>
+
 <div class="row">
     <div ng-show="FMsuccessMsg&&FMsuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
         {{FMsuccessMsg}}
@@ -92,6 +117,7 @@
     </div>
 </div>
 <br/>
+
 <div class="row">
 <div class="col-sm-12">
 <div class="tabbable tabs-left">
@@ -165,7 +191,7 @@
         <div class="row">
             <div class="col-xs-10">
                 <i class="blue icon-group bigger-200"></i>
-                Personas que viven con el imputado
+                Personas con las que vive el imputado
             </div>
             <div class="col-xs-2" ng-show="listMsgError['socialNetwork']">
                 <div class="tools">

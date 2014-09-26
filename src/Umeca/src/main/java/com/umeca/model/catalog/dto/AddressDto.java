@@ -20,19 +20,21 @@ public class AddressDto {
     private String lng;
     private Long idCase;
     private LocationDto location;
+    private String addressRef;
 
-    public AddressDto addressDto(Address address){
+    public AddressDto addressDto(Address address) {
         this.id = address.getId();
         this.street = address.getStreet();
         this.outNum = address.getOutNum();
         this.innNum = address.getInnNum();
         this.lat = address.getLat();
         this.lng = address.getLng();
-        if(address.getLocation()!=null){
+        if (address.getLocation() != null) {
             this.zipCode = address.getLocation().getZipCode();
         }
         return this;
     }
+
     public Long getId() {
         return id;
     }
@@ -103,5 +105,13 @@ public class AddressDto {
 
     public void setLng(String lng) {
         this.lng = lng;
+    }
+
+    public String getAddressRef() {
+        return addressRef;
+    }
+
+    public void setAddressRef(String addressRef) {
+        this.addressRef = addressRef;
     }
 }

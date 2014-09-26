@@ -25,8 +25,14 @@ public class FramingReference implements EntityGrid {
     @JoinColumn(name = "id_relationship")
     private Relationship relationship;
 
+    @Column(name = "time_ago")
+    private String timeAgo;
+
     @Column(name = "address")
     private String address;
+
+    @Column(name = "address_ref")
+    private String addressRef;
 
     @Column(name = "age")
     private String age;
@@ -298,5 +304,21 @@ public class FramingReference implements EntityGrid {
 
     public void setLocation(LocationDto location) {
         this.location = location;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public String getAddressRef() {
+        return addressRef;
+    }
+
+    public void setAddressRef(String addressRef) {
+        this.addressRef = addressRef;
     }
 }

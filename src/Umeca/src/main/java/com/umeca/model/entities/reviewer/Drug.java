@@ -21,8 +21,8 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="drug")
-public class Drug implements EntityGrid{
+@Table(name = "drug")
+public class Drug implements EntityGrid {
 
     public Drug() {
     }
@@ -33,7 +33,7 @@ public class Drug implements EntityGrid{
         this.lastUse = lastUse;
         this.drugName = drugName;
         this.quantity = quantity;
-        if(lastUse!=null){
+        if (lastUse != null) {
             Date date = Calendar.getInstance().getTime();
             date.setTime(lastUse.getTime());
 //            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -44,38 +44,41 @@ public class Drug implements EntityGrid{
 
     @Id
     @GeneratedValue
-    @Column(name="id_drug")
+    @Column(name = "id_drug")
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_drug_type", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_drug_type", nullable = false)
     private DrugType drugType;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_periodicity", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_periodicity", nullable = false)
     private Periodicity periodicity;
 
-    @Column(name="quantity", length = 25, nullable = false)
+    @Column(name = "quantity", length = 25, nullable = false)
     private String quantity;
 
-    @Column(name="last_use", nullable = false)
+    @Column(name = "last_use", nullable = false)
     private Date lastUse;
 
-    @Column(name="block")
+    @Column(name = "block")
     private Boolean block;
 
-    @Column(name="specification_type", nullable = true, length = 100)
+    @Column(name = "specification_type", nullable = true, length = 100)
     private String specificationType;
 
-    @Column(name="specification_periodicity", nullable = true, length = 100)
+    @Column(name = "specification_periodicity", nullable = true, length = 100)
     private String specificationPeriodicity;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = true)
+    @Column(name = "onset_age")
+    private String onsetAge;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_meeting", nullable = true)
     private Meeting meeting;
 
     @ManyToOne
-    @JoinColumn(name="id_framing_meeting")
+    @JoinColumn(name = "id_framing_meeting")
     private FramingMeeting framingMeeting;
 
 
@@ -202,5 +205,13 @@ public class Drug implements EntityGrid{
 
     public void setBlock(Boolean block) {
         this.block = block;
+    }
+
+    public String getOnsetAge() {
+        return onsetAge;
+    }
+
+    public void setOnsetAge(String onsetAge) {
+        this.onsetAge = onsetAge;
     }
 }

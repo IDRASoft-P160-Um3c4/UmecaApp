@@ -15,9 +15,11 @@
             <h2><i class="pink icon-briefcase  bigger-100"></i> &nbsp;Actividades que reliza
                 el imputado </h2>
         </div>
-<br/>
+        <br/>
+
         <div class="row">
-            <div ng-show="actSuccessMsg&&actSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
+            <div ng-show="actSuccessMsg&&actSuccessMsg!=''"
+                 class="col-xs-12 alert alert-success element-center success-font">
                 {{actSuccessMsg}}
             </div>
             <div ng-show="actErrorMsg&&actErrorMsg!=''" class="alert alert-danger element-center error-font">
@@ -81,11 +83,15 @@
                 <br/>
 
                 <div class="widget-box">
-                    <div class="widget-header">Actividades</div>
+                    <div class="widget-header">Actividades&nbsp;&nbsp;<label class="info-example">(d&iacute;as,
+                        horarios, lugares y personas que frecuenta)</label>
+                    </div>
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="row">
+                                    <br/>
+
                                     <div>
                                         <label>Actividades que reliza el imputado</label>
                                         <br/>

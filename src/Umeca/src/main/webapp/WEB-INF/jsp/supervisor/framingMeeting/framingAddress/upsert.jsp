@@ -8,7 +8,7 @@
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="addressFMController" ng-cloak>
 
-        <div class="modal-dialog" style="width:800px"  ng-init='fa=${addObj}'>
+        <div class="modal-dialog" style="width:800px" ng-init='fa=${addObj}'>
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-info ">
@@ -18,11 +18,23 @@
                 </div>
                 <div class="modal-body">
                     <form id="FormAddressId" name="FormHousemateId" class="form-horizontal" role="form">
-                        <input type="hidden" name="personType" value="HOUSEMATE">
-                        <input type="hidden" name="relationshipId" value="{{hm.relationship.id}}">
-
                         <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
+                        <br/>
 
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <label>Referencias del domicilio</label>
+                                <br/>
+                                <textarea class="input-xxlarge form-control limited" name="addressRef"
+                                          ng-model="fa.addressRef"
+                                          maxlength="980" data-val="true"
+                                          data-val-required="Referencias del domicilio es un campo requerido">
+                                </textarea>
+        <span class="field-validation-valid" data-valmsg-for="addressRef"
+              data-valmsg-replace="true"></span>
+                                <br/>
+                            </div>
+                        </div>
                     </form>
                     <br/>
 
