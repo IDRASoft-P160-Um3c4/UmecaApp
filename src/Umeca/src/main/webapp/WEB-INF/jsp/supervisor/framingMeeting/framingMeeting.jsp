@@ -55,7 +55,7 @@
 <div class="row" ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true;">
     <div class="col-xs-10">
     <h3 class="header smaller lighter blue">
-        <small>Actividades de evaluaci&oacute;n:  </small>
+        <small>Actividades de evaluaci&oacute;n:   </small>
         &nbsp;
         <i class="icon-check" ng-show="hasMeeting"></i><i class="icon-unchecked" ng-show="!hasMeeting"></i>&nbsp;<label>Entrevista de riesgos procesales</label>&nbsp;&nbsp;
         <i class="icon-check" ng-show="hasTR"></i><i class="icon-unchecked" ng-show="!hasTR"></i>&nbsp;<label>Opini&oacute;n T&eacute;cnica</label>

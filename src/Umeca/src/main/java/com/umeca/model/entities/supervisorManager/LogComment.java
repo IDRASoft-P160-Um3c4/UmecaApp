@@ -42,7 +42,7 @@ public class LogComment {
     private Calendar timestamp;
 
     @Lob @Basic(fetch=FetchType.LAZY)
-    @Column(name = "comments", nullable = false)
+    @Column(name = "comments", nullable = false, length = 500)
     private String comments;
 
     @OneToOne(fetch=FetchType.LAZY)

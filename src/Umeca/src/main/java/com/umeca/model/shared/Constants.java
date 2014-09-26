@@ -29,6 +29,7 @@ public class Constants {
     public static final String ST_REQUEST_EDIT_MEETING = "EDIT_MEETING";
     public static final String ST_REQUEST_EDIT_LEGAL_INFORMATION = "EDIT_LEGAL_INFORMATION";
     public static final String ST_REQUEST_EDIT_TECHNICAL_REVIEW = "EDIT_TECHNICAL_REVIEW";
+    public static final String RESPONSE_TYPE_DRESSED = "DRESSED";
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE = "COMPLETE";
@@ -144,5 +145,5 @@ public class Constants {
     public static final Long DRUG_OTHER = 14L;
 
 
-
+    public static final String ST_REQUEST_AUTHORIZE_SOURCE="AUTHORIZE_SOURCES";
 }

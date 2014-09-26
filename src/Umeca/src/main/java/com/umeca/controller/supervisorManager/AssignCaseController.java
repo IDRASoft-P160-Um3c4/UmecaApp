@@ -118,6 +118,7 @@ public class AssignCaseController {
     @Transactional(rollbackFor = {Exception.class})
     @ResponseBody
     public String save(@RequestBody AssignCaseSaveInformation data) {
+        data.setComments(data.getComments().trim());
         Long userSenderId = userService.GetLoggedUserId();
         Case case_ = caseRepository.findOne(data.getCaseId());
         User user = userRepository.findOne(data.getSupervisorId());
