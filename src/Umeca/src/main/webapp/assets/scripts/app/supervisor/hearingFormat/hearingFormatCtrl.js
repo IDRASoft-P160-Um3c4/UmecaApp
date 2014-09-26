@@ -253,8 +253,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 $("#divDelitos :input").attr("disabled", false);
                 $("#divCtrlDet :input").attr("disabled", false);
 
-                if ($scope.m.hasPrevHF == true)
+                if ($scope.m.hasPrevHF == true) {
+                    $("#idFolder").attr("disabled", true);
+                    $("#idJudicial").attr("disabled", true);
+                    $("#divImputado :input").attr("disabled", true);
                     $("#divFormImp :input").attr("disabled", true);
+                }
                 else
                     $("#divFormImp :input").attr("disabled", false);
 
@@ -551,7 +555,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.init = function () {
             $scope.fillFormat($scope.m);
             $scope.disableView($scope.m.disableAll);
-
         };
 
         $timeout(function () {

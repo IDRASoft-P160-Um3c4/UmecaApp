@@ -281,7 +281,7 @@ public class HearingFormatController {
         if (imputed.getBirthDate() != null) {
             Integer age = sharedUserService.calculateAge(imputed.getBirthDate());
             if (age.compareTo(18) == -1) {
-                return new ResponseMessage(true, "El imputado debe tener m�s de 18 a�os para continuar.");
+                return new ResponseMessage(true, "El imputado debe tener m&aacute;s de 18 a&ntilde;os para continuar.");
             }
         }
 

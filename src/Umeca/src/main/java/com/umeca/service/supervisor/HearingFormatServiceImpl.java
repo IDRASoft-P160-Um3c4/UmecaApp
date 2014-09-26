@@ -451,7 +451,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setCrimes(existHF.getCrimes());
 
         if (newFormat == true)
-            hearingFormatView.setUserName(sharedUserService.GetLoggedUsername());
+            hearingFormatView.setUserName(userRepository.findOne(sharedUserService.GetLoggedUserId()).getFullname());
         else
             hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
 
@@ -633,9 +633,12 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         try {
 
-            if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true)
+            if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true) {
                 hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
-            else {
+                if (hearingFormat.getCaseDetention().getIdMP() == null || hearingFormat.getCaseDetention().getIdMP().trim().equals("")) {
+                    hearingFormat.getCaseDetention().setIdMP(hearingFormat.getIdJudicial());
+                }
+            } else {
                 hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE));
             }
 
@@ -653,8 +656,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
                         hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
             }
-
-            hearingFormat = hearingFormatRepository.save(hearingFormat);
 
             response.setHasError(false);
 
