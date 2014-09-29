@@ -9,10 +9,12 @@
 
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headUm.jsp"%>
-    <link href="${pageContext.request.contextPath}/assets/content/themes/umeca/fullcalendar.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css" />
+    <%@ include file="/WEB-INF/jsp/shared/headUm.jsp" %>
+    <link href="${pageContext.request.contextPath}/assets/content/themes/umeca/fullcalendar.css" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
 
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/typeahead-bs2.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/jquery-ui-1.10.3.custom.min.js"></script>
@@ -30,7 +32,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/modalDlgCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/hiddenDrct.js"></script>
     <script>
-        jQuery(function($) {
+        jQuery(function ($) {
 
             var monitoringPlanId = ${monitoringPlanId};
             var scopeTrackMon = angular.element($("#TrackMonPlanControllerId")).scope();
@@ -45,7 +47,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                allDayText: 'Todo el día',
+                allDayText: 'Todo el dï¿½a',
                 allDaySlot: false,
                 slotMinutes: 30,
                 axisFormat: 'HH:mm',
@@ -58,39 +60,41 @@
                 editable: false,
                 selectable: false,
                 selectHelper: false,
-                eventResize: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+                eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
                     revertFunc();
                     return;
                 },
-                eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+                eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
                     revertFunc();
                     return;
                 },
-                viewRender: function( view, element ){
+                viewRender: function (view, element) {
                     scopeTrackMon.loadActivities(monitoringPlanId, view.start, view.end, '<c:url value='${urlGetActivities}' />');
                 },
-                eventClick: function(event, jsEvent, view) {
+                eventClick: function (event, jsEvent, view) {
                     var ans = {};
                     window.showUpsert(event.idActivity, "#angJsjqGridId", '<c:url value='${urlShowActivity}' />', undefined, undefined,
-                        function(ans){
-                            try{
-                                if(ans !== undefined && ans.resp !== undefined && ans.resp.hasError === false){
+                            function (ans) {
+                                try {
+                                    if (ans !== undefined && ans.resp !== undefined && ans.resp.hasError === false) {
 
-                                    if(ans.resp.returnData === "REALIZADA")
-                                        event.className = "label-success";
-                                    else
-                                        event.className = "label-grey";
+                                        if (ans.resp.returnData === "REALIZADA")
+                                            event.className = "label-success";
+                                        else
+                                            event.className = "label-grey";
 
-                                    calendar.fullCalendar('updateEvent', event);
+                                        calendar.fullCalendar('updateEvent', event);
+                                    }
+                                } catch (e) {
+                                    return;
                                 }
-                            }catch(e){return;}
 
-                        });
+                            });
                 }
 
             });
 
-            scopeTrackMon.m = { calendar:calendar};
+            scopeTrackMon.m = { calendar: calendar};
 
         });
     </script>
@@ -100,7 +104,8 @@
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content"  ng-controller="trackMonPlanController" id="TrackMonPlanControllerId">
+<div class="container body-content" ng-controller="trackMonPlanController" id="TrackMonPlanControllerId"
+     ng-init="idTec = ${idTec == null? 0: idTec}; caseId='${caseId}';">
     <div class="page-content">
         <div class="page-header">
             <h1 class="element-center">
@@ -109,7 +114,7 @@
         </div>
         <div class="blocker" ng-show="workingTrack">
             <div>
-                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
+                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
             </div>
         </div>
         <div class="row">
@@ -117,7 +122,10 @@
                 <div class="row">
                     <div class="space"></div>
                     <div class="col-xs-4 col-xs-offset-4 element-center">
-                        <div class="btn btn-success element-center" ng-disabled="waitFor==true" ng-click="returnToCases('<c:url value="${urlReturn}" />')"><i class="glyphicon glyphicon-chevron-left"></i> &nbsp; Regresar</div>
+                        <div class="btn btn-success element-center" ng-disabled="waitFor==true"
+                             ng-click="returnToCases('<c:url value="${urlReturn}" />')"><i
+                                class="glyphicon glyphicon-chevron-left"></i> &nbsp; Regresar
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -134,10 +142,11 @@
                                             <div class="slim-scroll" data-height="100">
                                                 <div class="row">
                                                     <div class="col-xs-4">
-                                                        <h6>Actividad de supervisión</h6>
+                                                        <h6>Actividad de supervisiï¿½n</h6>
                                                     </div>
                                                     <div class="col-xs-8">
-                                                        <select class="form-control element-center" ng-model="m.activity"
+                                                        <select class="form-control element-center"
+                                                                ng-model="m.activity"
                                                                 ng-options="e.name for e in lstActivities"
                                                                 ng-change="onChangeSelect();"
                                                                 ng-init='lstActivities = ${lstActivities}; initActivitySelect();'>
@@ -150,6 +159,15 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="idTec != 0">
+                    <div class="col-xs-12 text-info element-right">
+                        <a href="<c:url  value='/reviewer/technicalReview/generateFileCase.html?id=${caseId}'/>">
+                            <i class="icon-download-alt icon-animated-wrench bigger-120" id="downOT"></i>&nbsp;
+                            <label for="downOT">Descargar opini&oacute;n t&eacutecnica.</label>
+                        </a>
                     </div>
                 </div>
 
@@ -172,13 +190,13 @@
 <div id="angJsjqGridId" ng-controller="modalDlgController">
     <div class="blocker" ng-show="working">
         <div>
-            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
         </div>
     </div>
 </div>
 
-<%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
-<%@ include file="/WEB-INF/jsp/shared/footer.jsp"%>
+<%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
+<%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 
 </body>
 </html>
