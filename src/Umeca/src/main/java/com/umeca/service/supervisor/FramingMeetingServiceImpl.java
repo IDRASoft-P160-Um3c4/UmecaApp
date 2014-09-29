@@ -649,6 +649,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         Collections.sort(lstFormats, HearingFormat.hearingFormatComparator);
         HearingFormat lastFormat = lstFormats.get(lstFormats.size() - 1);
 
+
         List<String> lstAssArrg = new ArrayList<>();
 
         if (lastFormat.getAssignedArrangements() != null && lastFormat.getAssignedArrangements().size() > 0) {

@@ -97,6 +97,9 @@ public class Meeting {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
 
+    @Column(name="date_terminate")
+    private Date dateTerminate;
+
     public Long getId() {
         return id;
     }
@@ -280,6 +283,14 @@ public class Meeting {
 
     public void setCommentDrug(String commentDrug) {
         this.commentDrug = commentDrug;
+    }
+
+    public Date getDateTerminate() {
+        return dateTerminate;
+    }
+
+    public void setDateTerminate(Date dateTerminate) {
+        this.dateTerminate = dateTerminate;
     }
 
     public void validateMeeting(TerminateMeetingMessageDto t){

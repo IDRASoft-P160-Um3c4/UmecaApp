@@ -45,7 +45,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                allDayText: 'Todo el día',
+                allDayText: 'Todo el d&iacute;a',
                 allDaySlot: false,
                 slotMinutes: 30,
                 axisFormat: 'HH:mm',
@@ -134,7 +134,7 @@
                                             <div class="slim-scroll" data-height="100">
                                                 <div class="row">
                                                     <div class="col-xs-4">
-                                                        <h6>Actividad de supervisión</h6>
+                                                        <h6>Actividad de supervisi&oacute;n</h6>
                                                     </div>
                                                     <div class="col-xs-8">
                                                         <select class="form-control element-center" ng-model="m.activity"

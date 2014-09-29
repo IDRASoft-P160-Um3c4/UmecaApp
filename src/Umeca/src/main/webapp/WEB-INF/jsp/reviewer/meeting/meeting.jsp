@@ -85,6 +85,26 @@
         </h3>
     </div>
 </div>
+<div class="row">
+    <div class="col-sm-4">
+        <h3 class="header smaller lighter blue">
+            <small>Inicio:  </small>
+            &nbsp;${tStart}
+        </h3>
+    </div>
+    <div class="col-sm-4">
+        <h3 class="header smaller lighter blue">
+            <small>Fin:  </small>
+            &nbsp;${tEnd}
+        </h3>
+    </div>
+    <div class="col-sm-4">
+        <h3 class="header smaller lighter blue">
+            <small>Evaluador:  </small>
+            &nbsp;${reviewerFullname}
+        </h3>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-sm-12">

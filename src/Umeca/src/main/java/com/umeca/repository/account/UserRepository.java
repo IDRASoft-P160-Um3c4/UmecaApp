@@ -57,4 +57,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
     @Query("SELECT COUNT(u.id) FROM User u INNER JOIN u.roles r WHERE u.id=:userId AND r.role IN :roles")
     Long isUserInRoles(@Param("userId") Long userId, @Param("roles") List<String> roles);
 
+    @Query("SELECT new com.umeca.model.shared.SelectList(u.id, u.username, u.fullname, count(u.id)) FROM MonitoringPlan as mp " +
+            "LEFT JOIN mp.supervisor as u " +
+            "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true group by u.id")
+    List<SelectList> getUsersAssignCase(@Param("sRole") String sRole);
 }

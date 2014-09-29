@@ -62,7 +62,7 @@ public class AssignCaseController {
     @ModelAttribute("users")
     public String getVerifySources() {
         Gson gson = new Gson();
-        return gson.toJson(userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR));
+        return gson.toJson(userRepository.getUsersAssignCase(Constants.ROLE_SUPERVISOR));
     }
 
     @RequestMapping(value = {"/supervisorManager/assignCase/index"}, method = RequestMethod.GET)
