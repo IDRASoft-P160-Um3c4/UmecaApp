@@ -36,7 +36,7 @@
 <br/>
 
 <div class="row">
-    <label>&iquest;Se encuentra en algun tipo de tratamiento de adicciones?</label>
+    <label>&iquest;Se encuentra en alg&uacute;n tipo de tratamiento de adicciones?</label>
     <br/>
     <span class="field-validation-valid" data-valmsg-for="addictionTreatment"
           data-valmsg-replace="true"></span>
@@ -47,7 +47,7 @@
                    ng-change="selAddictionTreatment();"
                    ng-model="aq.addictionTreatment" ng-checked="aq.addictionTreatment==1" value="1"
                    data-val="true" data-val-required="Debe seleccionar un valor"/>
-            <span class="lbl">&nbsp;&nbsp;Si</span>
+            <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
         </label>
         <br/>
         <label>
@@ -62,7 +62,7 @@
 
 <div class="row">
     <div class="col-xs-8" ng-show='aq.addictionTreatment==1'>
-        <label>&iquest;En que instituci&oacute;n?</label>
+        <label>&iquest;En qu&eacute; instituci&oacute;n?</label>
         <br/>
         <textarea class="input-xxlarge form-control limited" name="addictionTreatmentInstitute"
                   ng-model="aq.addictionTreatmentInstitute"
@@ -111,7 +111,7 @@
             <input type="radio" class="ace" name="addictedAcquaintance"
                    ng-model="aq.addictedAcquaintance" value="1" data-val="true"
                    data-val-required="Debe seleccionar un valor"/>
-            <span class="lbl">&nbsp;&nbsp;Si</span>
+            <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
         </label>
         <br/>
         <label>
@@ -123,7 +123,7 @@
     <br/>
 
     <div ng-show="aq.addictedAcquaintance==1">
-        <label>&iquest;Que parentesco tienes con ellos?</label>
+        <label>&iquest;Qu&eacute; parentesco/relaci&oacute;n tienes con ellos?</label>
         <br/>
 
         <div ng-show="errorSelAddAcq&&errorSelAddAcq!=''"
@@ -158,7 +158,7 @@
             <input type="radio" class="ace" name="relativeAbroad"
                    ng-model="aq.relativeAbroad" value="1" data-val="true"
                    data-val-required="Debe seleccionar un valor"/>
-            <span class="lbl">&nbsp;&nbsp;Si</span>
+            <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
         </label>
         <br/>
         <label>
@@ -170,7 +170,7 @@
     <br/>
 
     <div ng-show="aq.relativeAbroad==1">
-        <label>&iquest;Que parentesco tienes con ellos?</label>
+        <label>&iquest;Qu&eacute; parentesco/relaci&oacute;n tienes con esa persona?</label>
         <br/>
         <input type="hidden" name="selectedRelativesAbroad" value="{{selectedRelativesAbroad}}">
 
@@ -206,7 +206,8 @@
 <br/>
 
 <div class="row">
-    <label>&iquest;Consideras que alguna de las obligaciones impuestas ser&aacute; dif&iacute;cil de cumplir?</label>
+    <label>&iquest;Consideras que alguna de las obligaciones impuestas ser&aacute; dif&iacute;cil de
+        cumplir?</label>
     <br/>
  <span class="field-validation-valid" data-valmsg-for="obligationIssue"
        data-valmsg-replace="true"></span>
@@ -216,7 +217,7 @@
             <input type="radio" class="ace" name="obligationIssue"
                    ng-model="aq.obligationIssue" value="1" data-val="true"
                    data-val-required="Debe seleccionar un valor"/>
-            <span class="lbl">&nbsp;&nbsp;Si</span>
+            <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
         </label>
         <br/>
         <label>
@@ -292,7 +293,8 @@
 
 <div class="col-xs-12">
     <div class="modal-footer">
-        <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-show="{{fm.objView.canTerminate==true}}"
+        <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+              ng-show="{{fm.objView.canTerminate==true}}"
               ng-click="submitIdCaseParam('#FormAddQuest', '<c:url value="/supervisor/framingMeeting/additionalQuestions/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>
               Guardar

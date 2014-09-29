@@ -44,6 +44,7 @@ import javax.persistence.criteria.Selection;
 import java.awt.print.PageFormat;
 import java.awt.print.Pageable;
 import java.awt.print.Printable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,15 +175,16 @@ public class FramingMeetingController {
         model.addObject("fullNameImputed", fullName);
         model.addObject("idCase", id);
         model.addObject("age", sharedUserService.calculateAge(i.getBirthDate()));
-        model.addObject("hasMeeting",caseDet.getMeeting().getSchool()!=null);
-        model.addObject("hasTR",caseDet.getTechnicalReview()!=null);
-        List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id,new PageRequest(0,1));
-        if(lstHF!=null && lstHF.size()>0){
+        model.addObject("hasMeeting", caseDet.getMeeting().getSchool() != null);
+        model.addObject("hasTR", caseDet.getTechnicalReview() != null);
+
+        List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id, new PageRequest(0, 1));
+        if (lstHF != null && lstHF.size() > 0) {
             HearingFormatSpecs hfs = lstHF.get(0).getHearingFormatSpecs();
-            if(hfs !=null){
-                if(hfs.getArrangementType().equals(HearingFormatConstants.HEARING_TYPE_MC)){
-                    model.addObject("resolution","MC");
-                }else{
+            if (hfs != null) {
+                if (hfs.getArrangementType().equals(HearingFormatConstants.HEARING_TYPE_MC)) {
+                    model.addObject("resolution", "MC");
+                } else {
                     model.addObject("resolution", "SCCP");
                 }
             }
@@ -210,7 +212,6 @@ public class FramingMeetingController {
         Gson conv = new Gson();
 
         model.addObject("objView", conv.toJson(framingMeetingView));
-
         addressService.fillCatalogAddress(model);
 
         List<CountryDto> countrys = new ArrayList<>();
@@ -419,15 +420,18 @@ public class FramingMeetingController {
 
         Address address;
 
+        FramingAddress existFramingAddress = null;
         if (id != null) {
-            address = framingAddressRepository.findOne(id).getAddress();
-            addressService.fillModelAddress(model, address.getId());
+            existFramingAddress = framingAddressRepository.findOne(id);
+            addressService.fillModelAddress(model, existFramingAddress.getAddress().getId());
         } else {
             addressService.fillCatalogAddress(model);
         }
 
         AddressDto addDto = new AddressDto();
         addDto.setIdCase(idCase);
+        if (existFramingAddress != null)
+            addDto.setAddressRef(existFramingAddress.getAddressRef());
         model.addObject("addObj", conv.toJson(addDto));
 
         List<StateDto> states = new ArrayList<>();

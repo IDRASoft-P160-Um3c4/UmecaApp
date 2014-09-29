@@ -12,15 +12,17 @@
                 <div class="modal-header">
                     <div class="alert alert-info ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center"><i class="glyphicon glyphicon-warning-sign "></i>&nbsp;&nbsp;Consumo de sustancias</h4>
+                        <h4 class="element-center"><i class="glyphicon glyphicon-warning-sign "></i>&nbsp;&nbsp;Consumo
+                            de sustancias</h4>
                     </div>
                 </div>
                 <div class="modal-body">
                     <form id="FormDrugId" name="FormDrugId" class="form-horizontal" role="form" ng-init="block=true">
-                        <br />
-                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/drug/content.jsp"%>
+                        <br/>
+                        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/drugs/content.jsp" %>
                     </form>
-                    <br />
+                    <br/>
+
                     <div class="row">
                         <div class="col-xs-12">
                             <div ng-show="MsgError" class="alert alert-danger element-center">

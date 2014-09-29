@@ -14,13 +14,15 @@ public class FramingAddress {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_framing_meeting")
+    @JoinColumn(name = "id_framing_meeting")
     private FramingMeeting framingMeeting;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="id_address")
+    @JoinColumn(name = "id_address")
     private Address address;
 
+    @Column(name = "address_ref")
+    private String addressRef;
 
     public Long getId() {
         return id;
@@ -44,6 +46,14 @@ public class FramingAddress {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getAddressRef() {
+        return addressRef;
+    }
+
+    public void setAddressRef(String addressRef) {
+        this.addressRef = addressRef;
     }
 }
 

@@ -266,7 +266,9 @@
 
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
-                        <label>&iquest;Padece alguna enfermedad o condici&oacute;n f&iacute;sica?</label>
+                        <label>&iquest;Padece alguna enfermedad o condici&oacute;n f&iacute;sica?</label><br/>
+                        <label class="info-example">(tuberculosis, hepatitis, alergias, embarazo, tiempo de gestaci&oacute;n,
+                            lactancia, etc.)</label>
                         <br/>
                         <textarea class="input-xxlarge form-control limited" name="physicalCondition"
                                   ng-model="pd.physicalCondition"
