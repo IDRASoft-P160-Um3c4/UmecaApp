@@ -1047,8 +1047,10 @@ ActivityRepository activityRepository;
                             if (catalogDto != null && catalogDto.getId() != null)
                                 meeting.getImputed().setMaritalStatus(maritalStatusRepository.findOne(catalogDto.getId()));
                             break;
-                        case "yearsMartialStatus":
-                            meeting.getImputed().setYearsMaritalStatus(Integer.parseInt(fms.getJsonValue()));
+                        case "yearsMaritalStatus":
+                            if(fms.getJsonValue()!=null && !fms.getJsonValue().equals("")){
+                                meeting.getImputed().setYearsMaritalStatus(Integer.parseInt(fms.getJsonValue()));
+                            }
                             break;
                         case "boys":
                             meeting.getImputed().setBoys(Integer.parseInt(fms.getJsonValue()));
