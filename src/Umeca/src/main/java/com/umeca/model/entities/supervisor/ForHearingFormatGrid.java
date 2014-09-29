@@ -48,9 +48,11 @@ public class ForHearingFormatGrid implements EntityGrid {
         if (hType != null) {
 
             if (hType.equals(HearingFormatConstants.HEARING_TYPE_MC))
-                hearingType = "MC";
-            if (hType.equals(HearingFormatConstants.HEARING_TYPE_SCP))
+                //hearingType = "MC";
                 hearingType = "SCPP";
+            if (hType.equals(HearingFormatConstants.HEARING_TYPE_SCP))
+                //hearingType = "SCPP";
+                hearingType = "MC";
         } else {
             hearingType = "No aplica";
         }
