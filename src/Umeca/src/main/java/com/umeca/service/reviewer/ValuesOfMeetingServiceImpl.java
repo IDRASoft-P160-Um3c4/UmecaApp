@@ -378,6 +378,8 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     case "degree":
                         String level = "Nivel: " + s.getDegree().getAcademicLevel().getName() + " Grado: " + s.getDegree().getName();
                         listFMS.add(new FieldMeetingSource(level, gson.toJson(new DegreeDto().dtoGrade(s.getDegree()))));
+                        break;
+                    case "specification":
                         if(!s.getSpecification().trim().equals("")){
                             listFMS.add(new FieldMeetingSource(s.getSpecification().trim(),s.getSpecification().trim()));
                         }
@@ -841,6 +843,8 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     case "degree":
                         String level = "Nivel: " + s.getDegree().getAcademicLevel().getName() + " Grado: " + s.getDegree().getName();
                         listFMS.add(new FieldMeetingSource(level, gson.toJson(new DegreeDto().dtoGrade(s.getDegree()))));
+                        break;
+                    case "specification":
                         if(!s.getSpecification().trim().equals("")){
                             listFMS.add(new FieldMeetingSource(s.getSpecification().trim(),s.getSpecification().trim()));
                         }
@@ -1047,8 +1051,10 @@ ActivityRepository activityRepository;
                             if (catalogDto != null && catalogDto.getId() != null)
                                 meeting.getImputed().setMaritalStatus(maritalStatusRepository.findOne(catalogDto.getId()));
                             break;
-                        case "yearsMartialStatus":
-                            meeting.getImputed().setYearsMaritalStatus(Integer.parseInt(fms.getJsonValue()));
+                        case "yearsMaritalStatus":
+                            if(fms.getJsonValue()!=null && !fms.getJsonValue().equals("")){
+                                meeting.getImputed().setYearsMaritalStatus(Integer.parseInt(fms.getJsonValue()));
+                            }
                             break;
                         case "boys":
                             meeting.getImputed().setBoys(Integer.parseInt(fms.getJsonValue()));
@@ -1437,6 +1443,9 @@ ActivityRepository activityRepository;
                             if (degreeDto != null) {
                                 meeting.getSchool().setDegree(degreeRepository.findOne(degreeDto.getId()));
                             }
+                            break;
+                        case "specification":
+                            meeting.getSchool().setSpecification(fms.getJsonValue());
                             break;
                         case "schedule":
                             List<Schedule> listSchedules = gson.fromJson(fms.getJsonValue(), new TypeToken<List<Schedule>>() {

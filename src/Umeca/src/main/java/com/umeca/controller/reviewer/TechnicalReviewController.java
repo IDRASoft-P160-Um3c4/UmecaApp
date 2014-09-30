@@ -244,6 +244,20 @@ public class TechnicalReviewController {
         return model;
     }
 
+    @RequestMapping(value = "/reviewer/technicalReview/generateFileCase", method = RequestMethod.GET)
+    public ModelAndView generateFileByCase(@RequestParam(required = true) Long id, HttpServletResponse response) {
+
+        ModelAndView model = new ModelAndView("/reviewer/technicalReview/infoFile");
+        Case c =caseRepository.findOne(id);
+        TechnicalReviewInfoFileView dataFile = technicalReviewService.fillInfoFile(c.getVerification().getId());
+        model.addObject("data", dataFile);
+        response.setContentType("application/force-download");
+        response.setHeader("Content-Disposition", "attachment; filename=\"datos_opinion_tecnica.doc\"");
+
+
+        return model;
+    }
+
     @RequestMapping(value = "/reviewer/technicalReview/generateFileAllSources", method = RequestMethod.GET)
     public ModelAndView generateFileAllSources(@RequestParam(required = true) Long id, HttpServletResponse response) {
 

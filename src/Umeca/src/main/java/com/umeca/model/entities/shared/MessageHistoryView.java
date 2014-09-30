@@ -2,6 +2,9 @@ package com.umeca.model.entities.shared;
 
 import com.umeca.model.shared.EntityGrid;
 
+/**
+ * Created by dcortesr on 17/09/14.
+ */
 public class MessageHistoryView implements EntityGrid {
     public Long getId() {
         return id;
@@ -33,9 +36,10 @@ public class MessageHistoryView implements EntityGrid {
 
     private String fullName;
 
-    public MessageHistoryView(Long id, String idFolder, String name, String lastNameP, String lastNameM){
+
+    public MessageHistoryView(Long id, String idFolder, String name, String firstName, String lastName){
         this.id = id;
         this.idFolder = idFolder;
-        this.fullName = lastNameP + "," + lastNameM + "/" + name;
+        this.fullName = name + "/" + firstName + "," + lastName;
     }
 }

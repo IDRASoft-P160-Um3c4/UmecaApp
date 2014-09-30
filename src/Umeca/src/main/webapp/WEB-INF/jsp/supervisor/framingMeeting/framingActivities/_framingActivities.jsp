@@ -15,9 +15,11 @@
             <h2><i class="pink icon-briefcase  bigger-100"></i> &nbsp;Actividades que reliza
                 el imputado </h2>
         </div>
-<br/>
+        <br/>
+
         <div class="row">
-            <div ng-show="actSuccessMsg&&actSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
+            <div ng-show="actSuccessMsg&&actSuccessMsg!=''"
+                 class="col-xs-12 alert alert-success element-center success-font">
                 {{actSuccessMsg}}
             </div>
             <div ng-show="actErrorMsg&&actErrorMsg!=''" class="alert alert-danger element-center error-font">
@@ -81,41 +83,42 @@
                 <br/>
 
                 <div class="widget-box">
-                    <div class="widget-header">Actividades</div>
+                    <div class="widget-header">Actividades&nbsp;&nbsp;<label class="info-example">(d&iacute;as,
+                        horarios, lugares y personas que frecuenta)</label>
+                    </div>
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="row">
-                                    <div>
-                                        <label>Actividades que reliza el imputado</label>
-                                        <br/>
-                                        <textarea class="input-xxlarge form-control limited" name="activities"
-                                                  ng-model="act.activities"
-                                                  maxlength="980" data-val="true"
-                                                  data-val-required="Actividades es un campo requerido">
-                                        </textarea>
+                                    <br/>
+                                    <label>Actividades que reliza el imputado</label>
+                                    <br/>
+                                    <textarea class="input-xxlarge form-control limited" name="activities"
+                                              ng-model="act.activities"
+                                              maxlength="980" data-val="true"
+                                              data-val-required="Actividades es un campo requerido">
+                                    </textarea>
                                             <span class="field-validation-valid" data-valmsg-for="activities"
                                                   data-valmsg-replace="true"></span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <br/>
                     </div>
-                </div>
-            </form>
+                    <br/>
         </div>
-        <br/>
+        </form>
     </div>
+    <br/>
+</div>
 
-    <div class="col-xs-12">
-        <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
+<div class="col-xs-12">
+    <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
               ng-click="submitIdCaseParam('#FormFramingActivites', '<c:url value="/supervisor/framingMeeting/activities/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>
               Guardar
         </span>
-        </div>
     </div>
+</div>
 
 </div>

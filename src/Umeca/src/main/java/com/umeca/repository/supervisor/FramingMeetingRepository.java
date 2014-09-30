@@ -37,6 +37,7 @@ public interface FramingMeetingRepository extends JpaRepository<FramingMeeting, 
             "left join FMA.address ADD " +
             "where CD.id=:idCase order by ADD.id ASC")
     List<String> firstFramingHouseByCase(@Param("idCase") Long idCase, Pageable pageable);
+
 }
 
 

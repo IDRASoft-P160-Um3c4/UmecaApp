@@ -92,7 +92,7 @@ public class ManagerevalController {
     public
     @ResponseBody
     ResponseMessage save(@ModelAttribute SourcesDataView sourcesInfo, @RequestParam Long c) {
-
+           try{
         Gson conv = new Gson();
         List<SaveInformation> data = conv.fromJson(sourcesInfo.getDataInfo(), new TypeToken<List<SaveInformation>>() {
         }.getType());
@@ -112,7 +112,7 @@ public class ManagerevalController {
         }
 
         Verification _verification = verification.findByCase(c);
-        StatusVerification sm = statusVerification.findByCode("AUTHORIZED");
+        StatusVerification sm = statusVerification.findByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
         _verification.setStatus(sm);
 
         StatusCase sc = statusCase.findOne(9L);
@@ -133,19 +133,30 @@ public class ManagerevalController {
         notif.setReceiveUser(reviewer);
 
         logNotificationReviewerRepository.save(notif);
-
-        Message m = new Message();
-        m.setCaseDetention(__case);
-        m.setSender(uSender);
-        List<RelMessageUserReceiver> rmur  = new ArrayList<>();
-        RelMessageUserReceiver r = new RelMessageUserReceiver();
-        r.setUser(reviewer);
-        r.setMessage(m);
-        rmur.add(r);
-        m.setMessageUserReceivers(rmur);
-        m.setCreationDate(new Date());
-        m.setText(sourcesInfo.getComment());
-        messageRepository.save(m);
+        //Responder ultima solicitud
+        Long lastRequestID = caseRequestRepository.findLastRequestAuhtorizeIdByCase(c,Constants.ST_REQUEST_AUTHORIZE_SOURCE);
+        if(lastRequestID!=null){
+            CaseRequest caseRequest= caseRequestRepository.findOne(lastRequestID);
+            Message m = new Message();
+            m.setCaseDetention(__case);
+            m.setSender(uSender);
+            List<RelMessageUserReceiver> rmur  = new ArrayList<>();
+            RelMessageUserReceiver r = new RelMessageUserReceiver();
+            r.setUser(reviewer);
+            r.setMessage(m);
+            rmur.add(r);
+            m.setMessageUserReceivers(rmur);
+            m.setCreationDate(new Date());
+            m.setText(sourcesInfo.getComment());
+            messageRepository.save(m);
+            caseRequest.setResponseMessage(m);
+            caseRequest.setResponseType(responseTypeRepository.findByCode(Constants.RESPONSE_TYPE_DRESSED));
+            caseRequestRepository.save(caseRequest);
+        }
+        //////////
+           }catch (Exception e){
+               return new ResponseMessage(true,"");
+           }
 
         return new ResponseMessage(false, "");
     }

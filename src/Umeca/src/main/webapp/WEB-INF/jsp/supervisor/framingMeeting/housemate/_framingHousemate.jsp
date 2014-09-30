@@ -89,7 +89,7 @@
     <input type="hidden" id="canTerminateHousemate" value="{{fm.objView.canTerminate}}"/>
 
     <div class="col-xs-12">
-        <h2><i class="blue icon-group bigger-100">&nbsp;</i>Personas con las que vive</h2>
+        <h2><i class="blue icon-group bigger-100">&nbsp;</i>Personas con las que vive el imputado</h2>
         <br/>
 
         <div id="angJsjqGridIdHouseMate" ng-controller="modalDlgController">

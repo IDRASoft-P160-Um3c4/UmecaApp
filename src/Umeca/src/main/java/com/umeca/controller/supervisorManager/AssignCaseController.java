@@ -14,6 +14,7 @@ import com.umeca.infrastructure.jqgrid.model.*;
 import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.shared.*;
@@ -30,10 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by dcortesr on 16/07/14.
@@ -62,13 +60,30 @@ public class AssignCaseController {
     @ModelAttribute("users")
     public String getVerifySources() {
         Gson gson = new Gson();
-        return gson.toJson(userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR));
+        List<Long> userAll = userRepository.getIdValidUsersByRole(Constants.ROLE_SUPERVISOR);
+        List<SelectList> users = userRepository.getUsersAssignCase(Constants.ROLE_SUPERVISOR,userAll);
+        for(SelectList u: users){
+            userAll.remove(u.getId());
+        }
+        for(Long uid: userAll){
+            User user = userRepository.findOne(uid);
+            users.add(new SelectList(user.getId(),user.getUsername(),user.getFullname(),0L));
+        }
+        Collections.sort(users,new SelectListComparator());
+        return gson.toJson(users);
     }
 
     @RequestMapping(value = {"/supervisorManager/assignCase/index"}, method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView index(){
         return new ModelAndView("/supervisorManager/assignCase/index");
+    }
+
+    public class SelectListComparator implements Comparator<SelectList> {
+        @Override
+        public int compare(SelectList o1, SelectList o2) {
+            return o1.getAux().compareTo(o2.getAux());
+        }
     }
 
     @RequestMapping(value = {"/supervisorManager/assignCase/list"}, method = RequestMethod.POST)
@@ -118,6 +133,7 @@ public class AssignCaseController {
     @Transactional(rollbackFor = {Exception.class})
     @ResponseBody
     public String save(@RequestBody AssignCaseSaveInformation data) {
+        data.setComments(data.getComments().trim());
         Long userSenderId = userService.GetLoggedUserId();
         Case case_ = caseRepository.findOne(data.getCaseId());
         User user = userRepository.findOne(data.getSupervisorId());

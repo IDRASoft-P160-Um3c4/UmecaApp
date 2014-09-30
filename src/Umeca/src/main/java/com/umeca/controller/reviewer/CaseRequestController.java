@@ -198,7 +198,7 @@ public class CaseRequestController {
             if (!sharedUserService.isValidPasswordForUser(sharedUserService.GetLoggedUserId(), requestDto.getPassword())) {
                 return new ResponseMessage(true, "La contrase&ntilde;a es incorrecta, verfifique los datos.");
             }
-            if(requestDto.getReason().equals("")){
+            if (requestDto.getReason().equals("")){
                 return new ResponseMessage(true, "Debes ingresar una raz&oacute;n por la cu&acute;l quieres realizar la solicitud");
             }
             Gson gson = new Gson();
@@ -207,7 +207,6 @@ public class CaseRequestController {
             Long userId = userService.GetLoggedUserId();
             List<SelectList> usersReceiver = userRepository.getLstValidUsersByRole(Constants.ROLE_EVALUATION_MANAGER);
             User userSender = userRepository.findOne(userId);
-            List<User> receiverList = new ArrayList<>();
             Case c=qCaseRepository.findOne(requestDto.getCaseId());
             StatusEvaluation statusEvaluation = qCaseRepository.getStatusEvaluation(requestDto.getCaseId());
 

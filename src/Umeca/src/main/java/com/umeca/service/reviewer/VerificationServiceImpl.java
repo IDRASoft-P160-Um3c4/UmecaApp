@@ -815,10 +815,19 @@ public class VerificationServiceImpl implements VerificationService {
         Case c = caseRepository.findOne(id);
         model.addObject("idFolder", c.getIdFolder());
         Imputed i = c.getMeeting().getImputed();
+        Meeting m = c.getMeeting();
         String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
         model.addObject("fullNameImputed", fullName);
         model.addObject("age", userService.calculateAge(i.getBirthDate()));
         model.addObject("idCase", id);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        model.addObject("tStart",format.format(m.getDateCreate()));
+        if(m.getDateTerminate()!=null){
+            model.addObject("tEnd",format.format(m.getDateTerminate()));
+        }else{
+            model.addObject("tEnd","sin terminar");
+        }
+        model.addObject("reviewerFullname",m.getReviewer().getFullname());
     }
 
     @Autowired

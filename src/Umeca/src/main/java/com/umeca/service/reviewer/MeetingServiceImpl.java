@@ -12,6 +12,8 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.dto.*;
+import com.umeca.model.entities.shared.Message;
+import com.umeca.model.entities.shared.RelMessageUserReceiver;
 import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -21,6 +23,7 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
+import com.umeca.repository.shared.MessageRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
@@ -30,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -171,8 +175,17 @@ public class MeetingServiceImpl implements MeetingService {
         Gson gson = new Gson();
         ////////////////////Personal data
         Case caseDetention = caseRepository.findOne(id);
+        Meeting m  = caseDetention.getMeeting();
         model.addObject("idCase", caseDetention.getId());
-        model.addObject("m", caseDetention.getMeeting());
+        model.addObject("m", m);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        model.addObject("tStart",format.format(m.getDateCreate()));
+        if(m.getDateTerminate()!=null){
+            model.addObject("tEnd",format.format(m.getDateTerminate()));
+        }else{
+            model.addObject("tEnd","sin terminar");
+        }
+        model.addObject("reviewerFullname",m.getReviewer().getFullname());
         addressService.fillCatalogAddress(model);
         model.addObject("age", userService.calculateAge(caseDetention.getMeeting().getImputed().getBirthDate()));
         if (caseDetention.getMeeting().getSocialEnvironment() != null) {
@@ -980,7 +993,7 @@ public class MeetingServiceImpl implements MeetingService {
             }
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
             m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
-
+            m.setDateTerminate(new Date());
             caseRepository.save(c);
             result.setHasError(false);
             result.setMessage("Entrevista terminada con exito");
@@ -1164,6 +1177,14 @@ public class MeetingServiceImpl implements MeetingService {
         }
     }
 
+    @Autowired
+    RequestTypeRepository requestTypeRepository;
+    @Autowired
+    MessageRepository messageRepository;
+    @Autowired
+    CaseRequestRepository caseRequestRepository;
+    @Autowired
+    ResponseTypeRepository responseTypeRepository;
     @Override
     @Transactional
     public ResponseMessage saveProceedingLegal(CriminalProceedingView cpv) {
@@ -1192,8 +1213,40 @@ public class MeetingServiceImpl implements MeetingService {
             caseRepository.saveAndFlush(c);
             List<FieldMeetingSource> listFS = verificationService.createAllFieldVerificationOfImputed(c.getId());
             fieldMeetingSourceRepository.save(listFS);
-            //verificationRepository.save(c.getVerification());
-            //c.getVerification().setSourceVerifications(verificationService.convertAllInitSourcesVerif(c));
+            //add request to authorize sources
+            Gson gson = new Gson();
+            CaseRequest caseRequest = new CaseRequest();
+            Message requestMessage = new Message();
+            Long userId = userService.GetLoggedUserId();
+            List<SelectList> usersReceiver = userRepository.getLstValidUsersByRole(Constants.ROLE_EVALUATION_MANAGER);
+            User userSender = userRepository.findOne(userId);
+            RequestType requestType = requestTypeRepository.findByCode(Constants.ST_REQUEST_AUTHORIZE_SOURCE);
+            caseRequest.setRequestType(requestType);
+            requestMessage.setSender(userSender);
+            if(usersReceiver!= null && usersReceiver.size()>0){
+                Message m = new Message();
+                m.setText("Se termina de capturar información legal, se solicita autorizar fuentes.");
+                m.setCaseDetention(c);
+                m.setSender(userSender);
+                List<RelMessageUserReceiver> listrmur = new ArrayList<>();
+                User managerEval = new User();
+                for(SelectList ur : usersReceiver){
+                    User u= userRepository.findOne(ur.getId());
+                    RelMessageUserReceiver rmr = new RelMessageUserReceiver();
+                    rmr.setUser(u);
+                    rmr.setMessage(m);
+                    listrmur.add(rmr);
+                    managerEval = u;
+                }
+                m.setMessageUserReceivers(listrmur);
+                m.setCreationDate(new Date());
+                requestMessage.setMessageUserReceivers(listrmur);
+                m = messageRepository.save(m);
+                caseRequest.setRequestMessage(m);
+                caseRequest.setResponseType(responseTypeRepository.findByCode(Constants.RESPONSE_TYPE_PENDING));
+                caseRequestRepository.save(caseRequest);
+            }
+            ///////////////////////////////////////////
             result.setHasError(false);
             result.setTitle("redirect");
             result.setMessage("Entrevista terminada con exito");

@@ -34,4 +34,11 @@ public interface CaseRequestRepository extends JpaRepository<CaseRequest,Long> {
             "INNER JOIN c.meeting as m " +
             "inner join m.imputed as i where c.id =:idCase order by rm.creationDate asc ")
     List<CaseRequestDto> findRequestByIdCase(@Param("idCase") Long id);
+
+    @Query("select max(r.id) from CaseRequest as r " +
+            "inner join r.requestMessage.caseDetention as c " +
+            "inner join r.requestType as rt " +
+            "where c.id=:idCase and rt.name=:type")
+    Long findLastRequestAuhtorizeIdByCase(@Param("idCase")Long c, @Param("type")String stRequestAuthorizeSource);
+
 }

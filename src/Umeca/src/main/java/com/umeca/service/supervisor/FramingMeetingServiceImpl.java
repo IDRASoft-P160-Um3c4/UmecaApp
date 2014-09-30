@@ -10,14 +10,18 @@ import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.reviewer.ImputedHomeRepository;
 import com.umeca.repository.supervisor.*;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,8 +30,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service("framingMeetingService")
@@ -80,7 +86,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     private FramingAddressRepository framingAddressRepository;
 
     @Autowired
-    private AddressRepository addressRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private DrugTypeRepository drugTypeRepository;
@@ -98,7 +104,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     private AddictedAcquaintanceRelRepository addictedAcquaintanceRelRepository;
 
     @Autowired
-    private AdditionalFramingQuestionsRepository additionalFramingQuestionsRepository;
+    private LogCommentRepository logCommentRepository;
 
     @Autowired
     private ArrangementRepository arrangementRepository;
@@ -125,6 +131,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         ResponseMessage response = new ResponseMessage();
         try {
+            framingMeeting.setInitDate(new Date());
             framingMeetingRepository.save(framingMeeting);
             response.setHasError(false);
             response.setMessage("Se ha guardado la informaci&oacute;n con &eacute;xito.");
@@ -185,6 +192,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setName(existVerifMeet.getImputed().getName());
             view.setLastNameP(existVerifMeet.getImputed().getLastNameP());
             view.setLastNameM(existVerifMeet.getImputed().getLastNameM());
+            view.setBirthDate(existVerifMeet.getImputed().getBirthDate());
 
             if (existVerifMeet.getImputed().getGender() == true)
                 view.setGender(1);
@@ -192,15 +200,20 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 view.setGender(2);
 
             view.setMaritalStatus(existVerifMeet.getImputed().getMaritalStatus().getId());
-
-
             Integer years = existVerifMeet.getImputed().getYearsMaritalStatus();
+
             if (years != null)
                 view.setMaritalStatusYears(years.toString());
 
             view.setBirthCountryId(existVerifMeet.getImputed().getBirthCountry().getId());
-            view.setBirthState(existVerifMeet.getImputed().getBirthState());
-            view.setBirthDate(existVerifMeet.getImputed().getBirthDate());
+
+            if (existVerifMeet.getImputed().getLocation() != null) {
+                view.setBirthStateId(existVerifMeet.getImputed().getLocation().getMunicipality().getState().getId());
+                view.setIsMexico(true);
+            }
+
+            view.setBirthState(existVerifMeet.getImputed().getBirthState());//TODO AGREGAR EL ESTADO SI ES UN COMBO
+
             view.setPhysicalCondition(existVerifMeet.getSocialEnvironment().getPhysicalCondition());
 
             return view;
@@ -260,6 +273,29 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         if (existCase.getFramingMeeting().getIsTerminated() == true)
             framingMeetingView.setCanTerminate(false);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+
+        String init = "";
+        String end = "";
+
+        try {
+            Date iniD = existCase.getFramingMeeting().getInitDate();
+            Date endD = existCase.getFramingMeeting().getEndDate();
+
+            if (iniD != null)
+                init = sdf.format(iniD);
+
+            if (endD != null)
+                end = sdf.format(endD);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "fillForView_FramingMeetingServiceImpl", sharedUserService);
+        } finally {
+            framingMeetingView.setInitDate(init);
+            framingMeetingView.setEndDate(end);
+        }
 
         return framingMeetingView;
     }
@@ -492,7 +528,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         view.setOccPhone(processAccompaniment.getOccupation().getPhone());
         view.setIdAddres(processAccompaniment.getAddress().getId());
         view.setRelationshipId(processAccompaniment.getRelationship().getId());
-        view.setAddress(conv.toJson(new AddressDto().addressDto(addressRepository.findOne(processAccompaniment.getAddress().getId()))));
+        //view.setAddress(conv.toJson(new AddressDto().addressDto(addressRepository.findOne(processAccompaniment.getAddress().getId()))));
 
         return view;
     }
@@ -623,6 +659,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         Collections.sort(lstFormats, HearingFormat.hearingFormatComparator);
         HearingFormat lastFormat = lstFormats.get(lstFormats.size() - 1);
 
+
         List<String> lstAssArrg = new ArrayList<>();
 
         if (lastFormat.getAssignedArrangements() != null && lastFormat.getAssignedArrangements().size() > 0) {
@@ -678,13 +715,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
 
             if (view.getId() != null) {
-                Address existAddress = addressRepository.findOne(view.getId());
-                existAddress = this.fillAddress(existAddress, view);
-                addressRepository.save(existAddress);
+                //Address existAddress = addressRepository.findOne(view.getId());
+                //existAddress = this.fillAddress(existAddress, view);
+                FramingAddress existFramingAddress = framingAddressRepository.findFramingAddressByIdAddress(view.getId());
+                this.fillAddress(existFramingAddress.getAddress(), view);
+                existFramingAddress.setAddressRef(view.getAddressRef());
+                framingAddressRepository.save(existFramingAddress);
+                //Address existAddress = addressRepository.findOne(view.getId());
+                //addressRepository.save(existAddress);
             } else {
                 FramingAddress framingAddress = new FramingAddress();
                 framingAddress.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
                 framingAddress.setAddress(this.fillAddress(null, view));
+                framingAddress.setAddressRef(view.getAddressRef());
                 framingAddressRepository.save(framingAddress);
             }
 
@@ -1021,22 +1064,22 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     public ResponseMessage doTerminate(Long idCase) {
 
-        StringBuilder sb = new StringBuilder();
+
         try {
             FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
             List<String> lsSN = new ArrayList<>();
             List<String> lsR = new ArrayList<>();
-            if (existFraming.getPersonalData() == null){
+            if (existFraming.getPersonalData() == null) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Datos personales y entorno social\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("imputed",ls));
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("imputed", ls));
             }
 
-            if (existFraming.getFramingAddresses() == null || !(existFraming.getFramingAddresses().size() > 0)){
+            if (existFraming.getFramingAddresses() == null || !(existFraming.getFramingAddresses().size() > 0)) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe registrar al menos un registro en la secci&oacute;n \"Domicilios\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome",ls));
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome", ls));
             }
 //            if (existFraming.getProcessAccompaniment() == null)
 //                if (sb.toString().equals(""))
@@ -1054,10 +1097,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                         noReferences++;
                 }
 
-                if (noHousemate == 0){
+                if (noHousemate == 0) {
                     lsSN.add("Debe registrar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
                 }
-                if (noReferences == 0){
+                if (noReferences == 0) {
                     lsR.add("Debe registrar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
                 }
 
@@ -1088,39 +1131,39 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 lsR.add("Ha marcado que alguna persona registrada en la secci&oacute;n \"Referencias personales\" como acompa&ntilde;ante durante el proceso. Debe registrar la informaci&oacute;n adicional requerida.");
             }
 
-            if(lsSN.size()>0){
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("socialNetwork",lsSN));
+            if (lsSN.size() > 0) {
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("socialNetwork", lsSN));
             }
-            if(lsR.size()>0){
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("reference",lsR));
+            if (lsR.size() > 0) {
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("reference", lsR));
             }
-            if (existFraming.getOccupation() == null && existFraming.getActivities() == null){
+            if (existFraming.getOccupation() == null && existFraming.getActivities() == null) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"Actividades que realiza el imputado\\\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities",ls));
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", ls));
             }
-            if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0))    {
+            if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0)) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe registrar al menos una registro en en la secci&oacute;n \\\"Consumo de sustancias\\\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("drug",ls));
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("drug", ls));
             }
             if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
                     existFraming.getSelectedRisksRel() == null || !(existFraming.getSelectedRisksRel().size() > 0) ||
-                    existFraming.getSelectedThreatsRel() == null || !(existFraming.getSelectedThreatsRel().size() > 0)){
+                    existFraming.getSelectedThreatsRel() == null || !(existFraming.getSelectedThreatsRel().size() > 0)) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"An&aacute;isis del entorno\\\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("analysis",ls));
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("analysis", ls));
             }
-            if (existFraming.getAdditionalFramingQuestions() == null){
+            if (existFraming.getAdditionalFramingQuestions() == null) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"Formulario de preguntas al supervisado\\\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("question",ls));
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("question", ls));
             }
             if (validate.existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
                 listGeneral.add(sharedUserService.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección"));
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
-                Gson gson =new Gson();
+                Gson gson = new Gson();
                 validate.formatMessages();
                 return new ResponseMessage(true, gson.toJson(validate));
             }
@@ -1128,7 +1171,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             Case existCase = caseRepository.findOne(idCase);
             existCase.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_COMPLETE));
             existCase.getFramingMeeting().setIsTerminated(true);
+            existCase.getFramingMeeting().setEndDate(new Date());
+
             caseRepository.save(existCase);
+            StringBuilder sb = new StringBuilder();
+            sb.append("Entrevista de encuadre terminada: ");
+            sb.append(existCase.getIdFolder());
+            sb.append(". Comentario: ");
+            sb.append("Debe asignar el caso a un supervisor para generar el plan de monitoreo");
+            sb.append(".");
+
+            SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
+                    existCase, MonitoringConstants.STATUS_PENDING_CREATION, null, MonitoringConstants.TYPE_COMMENT_ASSIGNED_CASE, logCommentRepository);
+
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito");
 
         } catch (Exception e) {

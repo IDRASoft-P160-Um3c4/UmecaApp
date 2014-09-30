@@ -6,6 +6,8 @@ public class FramingMeetingView {
     private Long idCase;
     private FramingPersonalDataView personalData;
     private Boolean canTerminate;
+    private String initDate;
+    private String endDate;
 
     public String getIdFolder() {
         return idFolder;
@@ -37,5 +39,21 @@ public class FramingMeetingView {
 
     public void setCanTerminate(Boolean canTerminate) {
         this.canTerminate = canTerminate;
+    }
+
+    public String getInitDate() {
+        return initDate;
+    }
+
+    public void setInitDate(String initDate) {
+        this.initDate = initDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

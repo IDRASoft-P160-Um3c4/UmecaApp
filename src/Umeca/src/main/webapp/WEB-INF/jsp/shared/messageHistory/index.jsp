@@ -35,14 +35,11 @@
                 url: '<c:url value='/shared/messageHistory/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID','Carpeta de Investigaci&oacute;n','Remitente','Solicitud', 'Respuesta', 'Mensaje'],
+                colNames: ['ID','Carpeta de Investigaci&oacute;n','Imputado'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'sender', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'requestType', width: 300, align: "center", sortable: false, search: false},
-                    { name: 'responseType', width: 300, align: "center", sortable: false, search: false},
-                    { name: "message"}
+                    { name: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -54,36 +51,54 @@
                 sortorder: "desc",
                 caption: "&nbsp;",
                 altRows: true,
-                gridComplete: function () {
-                    var ids = $(this).jqGrid('getDataIDs');
-                    for (var i = 0; i < ids.length; i++) {
-                        var cl = ids[i];
-                        var row = $(this).getRowData(cl);
-                        var status = row.status+"";
-                        var be="";
-                        if ( status.indexOf(".E.") != -1 ) {
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar caso\" onclick=\"window.makeRequest('CASE_OBSOLETE','" + cl + "');\"><i class=\"icon-trash\"></i></a>";
-                        }
-                        if(status.indexOf(".A.")!= -1){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar entrevista de riesgos procesales\" onclick=\"window.makeRequest('EDIT_MEETING','" + cl + "');\"><span class=\"glyphicon icon-comments-alt\"></span></a>";
-                        }if(status.indexOf(".B.")!= -1){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar informaci&oacute;n legal\" onclick=\"window.makeRequest('EDIT_LEGAL_INFORMATION','" + cl + "');\"><span class=\"icon-legal\"></span></a>";
-                        }if(status.indexOf(".C.")!= -1){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Cambiar el estado de las fuentes de verificaci&oacute;n\" onclick=\"window.makeRequest('CHANGE_STATUS_SOURCE','" + cl + "');\"><span class=\"icon-group\"></span></a>";
-                        }if(status.indexOf(".D.")!=-1){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar Instrumento de evaluaci&oacute;n de riesgos\" onclick=\"window.makeRequest('EDIT_TECHNICAL_REVIEW','" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
-                        }if(status.indexOf(".F.")!=1){
-
-                        }
-                        $(this).jqGrid('setRowData', ids[i], { Action: be });
-                    }
+                width: 1100,
+                subGridOptions: {
+                    plusicon: "glyphicon glyphicon-chevron-down position-relative",
+                    minusicon: "glyphicon glyphicon-chevron-right position-relative",
+                    // openicon  : "ui-icon-arrowreturn-1-e",
+                    reloadOnExpand: false,
+                    selectOnExpand: true
                 },
+                subGrid: true,
                 loadComplete : function() {
                     var table = this;
                     setTimeout(function(){
                         updatePagerIcons(table);
                         enableTooltips(table);
                     }, 0);
+                },
+                subGridRowExpanded: function (subgrid_id, row_id) {
+                    var subgrid_table_id, pager_id;
+                    subgrid_table_id = subgrid_id + "_t";
+                    pager_id = "p_" + subgrid_table_id;
+                    $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
+                    $("#" + subgrid_table_id).jqGrid({
+                        url: '<c:url value='/shared/messageHistory/detail.json?idCase=' />' + row_id,
+                        datatype: "json",
+                        mtype: 'POST',
+                        colNames: ['ID', 'Solicitante', 'Solicitud', 'Mensaje', 'Respuesta', 'Mensaje'],
+                        colModel: [
+                            { name: 'id', hidden: true },
+                            { name: 'sender', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                            { name: 'requestType', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                            { name: 'requestMessage', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                            { name: 'responseType', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                            { name: "responseMessage", width: 250, align: "center", sortable: false },
+                        ],
+                        rowNum: 20,
+                        pager: pager_id,
+                        sortname: 'id',
+                        sortorder: "asc",
+                        height: '100%',
+                        loadComplete: function () {
+                            var table = this;
+                            setTimeout(function () {
+                                updatePagerIcons(table);
+                                enableTooltips(table);
+                            }, 0);
+                        }
+                    });
+                    $("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, {edit: false, add: false, del: false})
                 }
             });
 

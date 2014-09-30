@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
@@ -58,7 +58,7 @@
                             if (vm == "") {
                                 var be = "<select id=\"" + cbo + "\"" + (row.supervisor != "" ? " disabled=\"disabled\"" : "") + "><option></option>";
                                 $.each(users, function (idx, item) {
-                                    be += "<option value=\"" + item.id + "\"" + (item.id == vm ? " selected" : "") + ">" + item.name + "</option>";
+                                    be += "<option value=\"" + item.id + "\"" + (item.id == vm ? " selected" : "") + ">" + item.description + "</option>";
                                 });
                                 var ba = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Asignar el caso\" onclick=\"assignCase(" + row.id + ", '#" + cbo + "');\"><i class=\"icon-share\"></i></a>";
                                 $(this).jqGrid('setRowData', ids[i], { supervisor: be, action: ba});
@@ -67,7 +67,7 @@
                                 var be = "";
                                 $.each(users, function(_,user) {
                                     if (user.id == vm) {
-                                        be = user.name;
+                                        be = user.description;
                                         return false;
                                     }
                                 });
@@ -140,7 +140,7 @@
                             $scope.MsgBoxMsg = $sce.trustAsHtml("La asignaci&oacute;n del caso se ha efecturado correctamente.");
                             $scope.Type = "info";
                             $scope.$apply();
-                            $("#MessageBoxDialog").modal("show");
+                            $("#MessageBoxDialog").modal("show");nm
                         },
                         error: function(e) {
                             $scope.MsgBoxMsg = $sce.trustAsHtml("Se ha presentado un error.<br>" + e.statusText);
@@ -198,6 +198,9 @@
                             <div class="element-center" ng-bind-html="Message"></div>
                             <label for="id_txt_comments" class="control-label">Comentarios:</label>
                                 <textarea id="id_txt_comments" style="width:540px;" ng-model="comments"></textarea>
+                            <div ng-show="msgError" class="alert-danger element-center">
+                                {{msgError}}
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default btn-primary" ng-click="ok()">Asignar</button>
