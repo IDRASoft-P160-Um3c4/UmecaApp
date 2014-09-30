@@ -670,9 +670,9 @@ public class VerificationServiceImpl implements VerificationService {
         model.addObject("age", userService.calculateAge(c.getMeeting().getImputed().getBirthDate()));
         if (c.getMeeting().getSocialEnvironment() != null) {
             if (c.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities() != null) {
-                List<RelActivitySocialEnvironmentDto> listRel = new ArrayList<>();
+                List<RelActivityObjectDto> listRel = new ArrayList<>();
                 for (RelSocialEnvironmentActivity r : c.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities()) {
-                    RelActivitySocialEnvironmentDto rNew = new RelActivitySocialEnvironmentDto();
+                    RelActivityObjectDto rNew = new RelActivityObjectDto();
                     listRel.add(rNew.relDto(r));
                 }
                 model.addObject("activity", gson.toJson(listRel));

@@ -34,12 +34,6 @@ import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/3/14
- * Time: 12:03 PM
- */
 
 @Controller
 public class ManageMonitoringPlanController {
@@ -204,7 +198,12 @@ public class ManageMonitoringPlanController {
             }
 
             if(monPlan.getStatus().equals(MonitoringConstants.STATUS_END) == true){
-                response.setMessage("El plan de supervisión se encuentra en estado " + monPlan.getStatus() + ", por ello no puede ser autorizado");
+                response.setMessage("El plan de supervisión se encuentra en estado " + monPlan.getStatus() + ", por ello no puede ser terminado");
+                return response;
+            }
+
+            if(MonitoringPlanView.calculateIsMonPlanSuspended(monPlan.getGenerationTime(), monPlan.getAuthorizationTime(), monPlan.getPosAuthorizationChangeTime())){
+                response.setMessage("El plan de supervisión se encuentra suspendido, por ello no puede ser terminado. Favor de contactar al supervisor");
                 return response;
             }
 

@@ -1,10 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.Address;
-import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.Drug;
-import com.umeca.model.entities.reviewer.ImputedHome;
+import com.umeca.model.entities.reviewer.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,8 +16,8 @@ public class FramingMeeting {
     @Column(name = "id_framing_meeting")
     private Long id;
 
-    @Column(name = "activities")
-    private String activities;
+    @OneToMany (mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RelFramingMeetingActivity> relFramingMeetingActivities;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_framing_imputed_personal_data")
@@ -161,12 +158,12 @@ public class FramingMeeting {
         this.selectedThreatsRel = selectedThreatsRel;
     }
 
-    public String getActivities() {
-        return activities;
+    public List<RelFramingMeetingActivity> getRelFramingMeetingActivities() {
+        return relFramingMeetingActivities;
     }
 
-    public void setActivities(String activities) {
-        this.activities = activities;
+    public void setRelFramingMeetingActivities(List<RelFramingMeetingActivity> relFramingMeetingActivities) {
+        this.relFramingMeetingActivities = relFramingMeetingActivities;
     }
 
     public FramingImputedPersonalData getPersonalData() {

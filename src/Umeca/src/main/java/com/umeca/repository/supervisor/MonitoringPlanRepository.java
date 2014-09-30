@@ -1,6 +1,7 @@
 package com.umeca.repository.supervisor;
 
 import com.umeca.model.entities.supervisor.MonitoringPlan;
+import com.umeca.model.entities.supervisor.MonitoringPlanDto;
 import com.umeca.model.entities.supervisor.MonitoringPlanInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -41,6 +42,11 @@ public interface MonitoringPlanRepository extends JpaRepository<MonitoringPlan, 
 
     @Query("SELECT mp.id FROM MonitoringPlan mp WHERE mp.id =:monPlanId AND mp.status <>:status AND mp.supervisor.id =:userId")
     Long getIdByUserAndNotStatus(@Param("monPlanId") Long monPlanId, @Param("status")String status, @Param("userId")Long userId);
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.MonitoringPlanDto(mp.id, mp.generationTime, " +
+            "mp.authorizationTime, mp.posAuthorizationChangeTime)" +
+            "FROM MonitoringPlan mp WHERE mp.id = :monPlanId")
+    MonitoringPlanDto getMonPlanAuthInfo(@Param("monPlanId")Long monPlanId);
 }
 
 

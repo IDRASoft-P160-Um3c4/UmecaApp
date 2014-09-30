@@ -190,9 +190,9 @@ public class MeetingServiceImpl implements MeetingService {
         model.addObject("age", userService.calculateAge(caseDetention.getMeeting().getImputed().getBirthDate()));
         if (caseDetention.getMeeting().getSocialEnvironment() != null) {
             if (caseDetention.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities() != null) {
-                List<RelActivitySocialEnvironmentDto> listRel = new ArrayList<>();
+                List<RelActivityObjectDto> listRel = new ArrayList<>();
                 for (RelSocialEnvironmentActivity r : caseDetention.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities()) {
-                    RelActivitySocialEnvironmentDto rNew = new RelActivitySocialEnvironmentDto();
+                    RelActivityObjectDto rNew = new RelActivityObjectDto();
                     listRel.add(rNew.relDto(r));
                 }
                 model.addObject("activity", gson.toJson(listRel));

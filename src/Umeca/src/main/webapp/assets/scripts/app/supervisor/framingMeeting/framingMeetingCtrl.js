@@ -100,7 +100,10 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
             }, 200);
         };
 
+    $scope.openNewPage = function(url, id){
+        var params= [];
+        params["idParam"]=id;
+        window.goToNewUrl(url, params, {opts:"fullscreen=no, top=0, left=0, width=500, height=300"});
+    };
 
-    }
-)
-;
+});
