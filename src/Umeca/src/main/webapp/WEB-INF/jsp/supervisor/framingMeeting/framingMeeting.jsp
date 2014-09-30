@@ -88,7 +88,7 @@
         <h3 class="header smaller lighter blue">
             <small>Fin:</small>
             &nbsp;
-            &nbsp;<label>{{fm.objView.initDate}}</label>
+            &nbsp;<label>{{fm.objView.endDate}}</label>
         </h3>
     </div>
 </div>

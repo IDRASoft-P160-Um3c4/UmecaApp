@@ -166,6 +166,7 @@ public class FramingMeetingController {
     @Autowired
     ActivityRepository activityRepository;
 
+
     @RequestMapping(value = "/supervisor/framingMeeting/framingMeeting", method = RequestMethod.GET)
     public ModelAndView framingMeeting(@RequestParam(required = true) Long id, Integer returnId) {
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/framingMeeting");
@@ -180,6 +181,7 @@ public class FramingMeetingController {
         model.addObject("imputedId", i.getId());
         model.addObject("hasMeeting", caseDet.getMeeting().getSchool() != null);
         model.addObject("hasTR", caseDet.getTechnicalReview() != null);
+
         List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id, new PageRequest(0, 1));
         if (lstHF != null && lstHF.size() > 0) {
             HearingFormatSpecs hfs = lstHF.get(0).getHearingFormatSpecs();
@@ -687,8 +689,7 @@ public class FramingMeetingController {
     public
     @ResponseBody
     ResponseMessage activitiesDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute FramingActivitiesForView view) {
-        if(view.getActivities() ==null || (view.getActivities()!=null && view.getActivities().equals("")))
-            return new ResponseMessage(true, "Debe agragar al menos una actividad a la lista.");
+
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
         existFraming = framingMeetingService.setActivities(existFraming, view);
         return framingMeetingService.save(existFraming);
