@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+" codebase="http://localhost:8080/Umeca/assets/app/" href="sensor.jnlp">
+  <information>
+    <title>Enrolamiento</title>
+    <vendor>IDRASoft</vendor>
+    <homepage href="http://localhost:8080/Umeca/assets/app/" />
+    <description>Enrolamiento</description>
+  </information>
+  <security>
+    <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.7+" />
+    <jar href="sensor.jar" />
+  </resources>
+  <application-desc main-class="com.idrasoft.onetouch.MainForm" />
+</jnlp>
+
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" codebase="http://localhost:8080/">
+<information>
+    <title>Enrolamiento</title>
+    <vendor>IDRASoft</vendor>
+    <description>Enrolamiento</description></information>
+<resources>
+    <property name="jnlp.publish-url" value="http://localhost:8080/Umeca/assets/app/"/>
+    <j2se version="1.7+" />
+    <jar href="sensor.jar" />
+</resources>
+<application-desc main-class="com.idrasoft.onetouch.MainForm">
+</application-desc>
+<security>
+    <all-permissions/>
+</security>
+</jnlp>
+
