@@ -91,37 +91,35 @@
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="row">
                                     <br/>
-
-                                    <div>
-                                        <label>Actividades que reliza el imputado</label>
-                                        <br/>
-                                        <textarea class="input-xxlarge form-control limited" name="activities"
-                                                  ng-model="act.activities"
-                                                  maxlength="980" data-val="true"
-                                                  data-val-required="Actividades es un campo requerido">
-                                        </textarea>
+                                    <label>Actividades que reliza el imputado</label>
+                                    <br/>
+                                    <textarea class="input-xxlarge form-control limited" name="activities"
+                                              ng-model="act.activities"
+                                              maxlength="980" data-val="true"
+                                              data-val-required="Actividades es un campo requerido">
+                                    </textarea>
                                             <span class="field-validation-valid" data-valmsg-for="activities"
                                                   data-valmsg-replace="true"></span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <br/>
                     </div>
+                    <br/>
                 </div>
-            </form>
         </div>
-        <br/>
+        </form>
     </div>
+    <br/>
+</div>
 
-    <div class="col-xs-12">
-        <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
+<div class="col-xs-12">
+    <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
               ng-click="submitIdCaseParam('#FormFramingActivites', '<c:url value="/supervisor/framingMeeting/activities/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>
               Guardar
         </span>
-        </div>
     </div>
+</div>
 
 </div>
