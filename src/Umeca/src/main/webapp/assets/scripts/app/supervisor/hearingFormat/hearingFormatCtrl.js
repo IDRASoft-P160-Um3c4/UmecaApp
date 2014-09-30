@@ -540,14 +540,14 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (noSel < 1) {
                 $scope.m.hasError = true;
-                $scope.m.errArrmntSel = "Debe seleccionar al menos una medida cautelar";
+                $scope.m.errArrmntSel = $sce.trustAsHtml("Debe seleccionar al menos una medida cautelar");
                 return;
             } else if (noSel > noDesc) {
                 $scope.m.hasError = true;
-                $scope.m.errArrmntSel = "Debe indicar una descripción para cada medida cautelar seleccionada";
+                $scope.m.errArrmntSel = $sce.trustAsHtml("Debe indicar una descripci&oacute;n para cada medida cautelar seleccionada");
                 return;
             } else
-                $scope.m.errArrmntSel = "";
+                $scope.m.errArrmntSel = $sce.trustAsHtml("");
 
 
         };

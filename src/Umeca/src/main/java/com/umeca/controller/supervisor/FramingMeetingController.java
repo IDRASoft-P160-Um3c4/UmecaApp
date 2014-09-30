@@ -163,7 +163,6 @@ public class FramingMeetingController {
     @Autowired
     HearingFormatRepository hearingFormatRepository;
 
-
     @RequestMapping(value = "/supervisor/framingMeeting/framingMeeting", method = RequestMethod.GET)
     public ModelAndView framingMeeting(@RequestParam(required = true) Long id, Integer returnId) {
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/framingMeeting");
