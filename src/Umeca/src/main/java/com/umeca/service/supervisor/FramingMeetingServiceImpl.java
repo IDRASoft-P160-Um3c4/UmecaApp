@@ -7,6 +7,7 @@ import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
+import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
@@ -15,7 +16,6 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.reviewer.ImputedHomeRepository;
 import com.umeca.repository.supervisor.*;
@@ -591,6 +591,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
     }
 
+    @Autowired
+    RelFramingMeetingActivityRepository relFramingActivityRepository;
+    @Autowired
+    ActivityRepository activityRepository;
+
+    @Transactional
     public FramingMeeting setActivities(FramingMeeting existFraming, FramingActivitiesForView view) {
 
         Occupation occ = existFraming.getOccupation();
@@ -603,7 +609,28 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         occ.setPhone(view.getOccPhone());
 
         existFraming.setOccupation(occ);
-        existFraming.setActivities(view.getActivities());
+        Gson gson = new Gson();
+        if(existFraming.getRelFramingMeetingActivities()!=null){
+            List<RelFramingMeetingActivity> relAux = existFraming.getRelFramingMeetingActivities();
+            existFraming.setRelFramingMeetingActivities(null);
+            for (RelFramingMeetingActivity r : relAux) {
+                r.setFramingMeeting(null);
+                r.setActivity(null);
+                relFramingActivityRepository.delete(r);
+            }
+        }
+        List<RelFramingMeetingActivity> rel = gson.fromJson(view.getActivities(), new TypeToken<List<RelFramingMeetingActivity>>() {
+        }.getType());
+        if (rel != null) {
+            existFraming.setRelFramingMeetingActivities(new ArrayList<RelFramingMeetingActivity>());
+            for (RelFramingMeetingActivity r : rel) {
+                RelFramingMeetingActivity newRel = new RelFramingMeetingActivity();
+                newRel.setActivity(activityRepository.findOne(r.getActivity().getId()));
+                newRel.setSpecification(r.getSpecification());
+                newRel.setFramingMeeting(existFraming);
+                existFraming.getRelFramingMeetingActivities().add(newRel);
+            }
+        }
 
         return existFraming;
     }
@@ -702,12 +729,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setOccPlace(existFraming.getOccupation().getPlace());
             view.setOccPhone(existFraming.getOccupation().getPhone());
         }
-
-        if (existFraming.getActivities() != null) {
-            view.setActivities(existFraming.getActivities());
-        }
-
-        return view;
+         return view;
     }
 
     public ResponseMessage saveFramingAddress(Long idCase, AddressDto view) {
@@ -1137,7 +1159,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (lsR.size() > 0) {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("reference", lsR));
             }
-            if (existFraming.getOccupation() == null && existFraming.getActivities() == null) {
+            if (existFraming.getOccupation() == null && existFraming.getRelFramingMeetingActivities() == null) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"Actividades que realiza el imputado\\\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", ls));
@@ -1215,8 +1237,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 sb.append(": " + rel.getSpecification());
 
         }
-
-        existFraming.setActivities(sb.toString());
+        //TODO SET ACTIVITIES TO VERIFICATION
+        //existFraming.setActivities(sb.toString());
 
         //domicilios
         List<FramingAddress> listAddress = new ArrayList<>();
