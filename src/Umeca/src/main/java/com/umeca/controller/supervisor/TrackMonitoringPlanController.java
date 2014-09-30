@@ -254,6 +254,15 @@ public class TrackMonitoringPlanController {
                 return response;
             }
 
+            //Validar el estado del plan de seguimiento
+            MonitoringPlanDto monPlanDto = monitoringPlanRepository.getMonPlanAuthInfo(activityMonitoringPlan.getMonitoringPlan().getId());
+
+            if(monPlanDto.getMonPlanSuspended()){
+                response.setHasError(true);
+                response.setMessage("El plan se encuentra suspendido, por favor conctate a su coordinador para reactivar el plan.");
+                return response;
+            }
+
             String status = activityMonitoringPlan.getStatus();
             if (status.equals(MonitoringConstants.STATUS_ACTIVITY_DONE) || status.equals(MonitoringConstants.STATUS_ACTIVITY_FAILED)) {
                 response.setHasError(true);

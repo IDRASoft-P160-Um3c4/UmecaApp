@@ -177,6 +177,7 @@ public class FramingMeetingController {
         model.addObject("age", sharedUserService.calculateAge(i.getBirthDate()));
         model.addObject("hasMeeting", caseDet.getMeeting().getSchool() != null);
         model.addObject("hasTR", caseDet.getTechnicalReview() != null);
+        model.addObject("imputedId", i.getId());
 
         List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id, new PageRequest(0, 1));
         if (lstHF != null && lstHF.size() > 0) {
