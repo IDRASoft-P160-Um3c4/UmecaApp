@@ -44,6 +44,10 @@ public interface UserRepository extends JpaRepository<User, Long>{
             "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true ORDER BY u.username ASC")
     List<SelectList> getLstValidUsersByRole(@Param("sRole") String sRole);
 
+    @Query("SELECT DISTINCT u.id FROM User u " +
+            "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true ORDER BY u.username ASC")
+    List<Long> getIdValidUsersByRole(@Param("sRole") String sRole);
+
     @Query("SELECT DISTINCT new com.umeca.model.shared.SelectList(u.id, u.username, u.fullname) FROM User u " +
             "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true AND u.id <> :userId ORDER BY u.username ASC")
     List<SelectList> getLstValidUsersByRoleExceptUserId(@Param("userId") Long userId, @Param("sRole") String sRole);
@@ -56,5 +60,10 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     @Query("SELECT COUNT(u.id) FROM User u INNER JOIN u.roles r WHERE u.id=:userId AND r.role IN :roles")
     Long isUserInRoles(@Param("userId") Long userId, @Param("roles") List<String> roles);
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(u.id, u.username, u.fullname, count(mp.id)) FROM MonitoringPlan mp " +
+            "LEFT JOIN mp.supervisor as u " +
+            "INNER JOIN u.roles r WHERE (r.role=:sRole) AND (u.id in (:listUsers)) and mp.status <> 'TERMINADO'  group by (u.id)")
+    List<SelectList> getUsersAssignCase(@Param("sRole") String sRole,@Param("listUsers") List<Long> listUsers);
 
 }

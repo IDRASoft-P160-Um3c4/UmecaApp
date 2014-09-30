@@ -140,7 +140,7 @@
                             $scope.MsgBoxMsg = $sce.trustAsHtml("La asignaci&oacute;n del caso se ha efecturado correctamente.");
                             $scope.Type = "info";
                             $scope.$apply();
-                            $("#MessageBoxDialog").modal("show");
+                            $("#MessageBoxDialog").modal("show");nm
                         },
                         error: function(e) {
                             $scope.MsgBoxMsg = $sce.trustAsHtml("Se ha presentado un error.<br>" + e.statusText);

@@ -9,12 +9,10 @@
 
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headUm.jsp" %>
-    <link href="${pageContext.request.contextPath}/assets/content/themes/umeca/fullcalendar.css" rel="stylesheet"
-          type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
+    <%@ include file="/WEB-INF/jsp/shared/headUm.jsp"%>
+    <link href="${pageContext.request.contextPath}/assets/content/themes/umeca/fullcalendar.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css" />
 
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/typeahead-bs2.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/jquery-ui-1.10.3.custom.min.js"></script>
@@ -47,7 +45,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                allDayText: 'Todo el d�a',
+                allDayText: 'Todo el d&iacute;a',
                 allDaySlot: false,
                 slotMinutes: 30,
                 axisFormat: 'HH:mm',
