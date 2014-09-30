@@ -143,6 +143,6 @@ public class Constants {
     public static final Long DRUG_MUSH = 13L;
     public static final Long DRUG_OTHER = 14L;
 
-
+    public static final String KEY_CYPHER_APP = "1234567890123481";
 
 }

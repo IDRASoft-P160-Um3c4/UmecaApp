@@ -114,8 +114,6 @@ public class TrackMonitoringPlanController {
 
     @Autowired
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
-    @Autowired
-    private SupervisionActivityRepository supervisionActivityRepository;
 
 
     @RequestMapping(value = "/supervisor/trackMonitoringPlan/trackCalendar", method = RequestMethod.GET)
@@ -189,6 +187,9 @@ public class TrackMonitoringPlanController {
         }
     }
 
+    @Autowired
+    MonitoringPlanRepository monitoringPlanRepository;
+
     @RequestMapping(value = "/supervisor/trackMonitoringPlan/doActionActivity", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage doActionActivity(@ModelAttribute ActionActivity model){
         ResponseMessage response = new ResponseMessage();
@@ -225,6 +226,15 @@ public class TrackMonitoringPlanController {
             if(activityMonitoringPlan == null){
                 response.setHasError(true);
                 response.setMessage("Usted no puede establecer la actividad como realizada o no realizada. Revise que usted sea el asignado para la supervisión del caso");
+                return response;
+            }
+
+            //Validar el estado del plan de seguimiento
+            MonitoringPlanDto monPlanDto = monitoringPlanRepository.getMonPlanAuthInfo(activityMonitoringPlan.getMonitoringPlan().getId());
+
+            if(monPlanDto.getMonPlanSuspended()){
+                response.setHasError(true);
+                response.setMessage("El plan se encuentra suspendido, por favor conctate a su coordinador para reactivar el plan.");
                 return response;
             }
 
@@ -297,16 +307,13 @@ public class TrackMonitoringPlanController {
                 }
             }
 
-
             activityMonitoringPlan.setStatus(sStatus);
             activityMonitoringPlan.setComments(sComments);
             activityMonitoringPlan.setSupervisorDone(user);
             activityMonitoringPlan.setDoneTime(Calendar.getInstance());
 
             activityMonitoringPlanRepository.save(activityMonitoringPlan);
-
             response.setReturnData(sStatus);
-
 
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "doActionActivity", sharedUserService);

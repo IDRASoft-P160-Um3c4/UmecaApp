@@ -172,6 +172,7 @@ public class FramingMeetingController {
         Imputed i = caseDet.getMeeting().getImputed();
         String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
         model.addObject("fullNameImputed", fullName);
+        model.addObject("imputedId", i.getId());
         model.addObject("age", sharedUserService.calculateAge(i.getBirthDate()));
         model.addObject("hasMeeting",caseDet.getMeeting().getSchool()!=null);
         model.addObject("hasTR",caseDet.getTechnicalReview()!=null);
