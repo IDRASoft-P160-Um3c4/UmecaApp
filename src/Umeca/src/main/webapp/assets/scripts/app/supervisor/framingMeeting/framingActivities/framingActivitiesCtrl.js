@@ -4,14 +4,58 @@ app.controller('framingActivitiesController', function ($scope, $timeout, $http)
 
     $scope.actErrorMsg ="";
     $scope.actSuccessMsg="";
+    $scope.specification = {};
+    $scope.lstActivity = [];
+    $scope.activityModel = [];
+    $scope.activityList = [];
+    $scope.relActivities = [];
 
     $scope.init = function () {
         $scope.loadFramingActivities();
+        $(".chosen-select").chosen();
+        $scope.matchActivities();
     };
 
     $timeout(function () {
         $scope.init();
     }, 0);
+
+
+    $scope.selectedActivities = function (lstActivity, lstActivitySelect) {
+
+        for (var i = 0; i < lstActivitySelect.length; i++) {
+            for (var j = 0; j < lstActivity.length; j++) {
+                if (lstActivity[j].id === lstActivitySelect[i].id) {
+                    $scope.activityModel.push(lstActivity[j]);
+                    if (lstActivity[j].specification) {
+                        $scope.specification[lstActivity[j].name] = lstActivitySelect[i].specification;
+                    }
+                }
+            }
+        }
+        $scope.matchActivities();
+    };
+
+    $scope.matchActivities = function () {
+        $scope.relActivities = [];
+        for (var i = 0; i < $scope.activityModel.length; i++) {
+            var model = {};
+            model.activity = {};
+            model.activity.id = $scope.activityModel[i].id;
+            if ($scope.specification[$scope.activityModel[i].name] != undefined) {
+                model.specification = $scope.specification[$scope.activityModel[i].name];
+            } else {
+                model.specification = "";
+            }
+            $scope.relActivities.push(model);
+        }
+        if($scope.relActivities.length==0){
+            $scope.activities = "";
+        }else{
+            $scope.activities = JSON.stringify($scope.relActivities);
+        }
+        return true;
+    };
 
     $scope.WaitFor = false;
     $scope.Model = {};
@@ -65,7 +109,8 @@ app.controller('framingActivitiesController', function ($scope, $timeout, $http)
         $scope.WaitFor = true;
 
         var url = urlToPost + id;
-
+        $scope.actSuccessMsg="";
+        $scope.actErrorMsg="";
         $.post(url, $(formId).serialize())
             .success($scope.handleSuccess)
             .error($scope.handleError);

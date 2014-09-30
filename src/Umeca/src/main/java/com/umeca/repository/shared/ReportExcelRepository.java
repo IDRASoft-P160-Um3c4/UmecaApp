@@ -203,12 +203,15 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (HF.id=:formatId)")
     List<ContactData> getContactsByFormat(@Param("formatId") Long formatId);
 
+    //TODO CAMBIAR OCC.name 1 por el texto de actividades
     @Query("select new com.umeca.model.entities.supervisor.FramingMeetingInfo(CD.id,CD.idFolder,CD.idMP,CD.dateCreate,PD.name,PD.lastNameP,PD.lastNameM,PD.gender," +
             "MS.name,PD.maritalStatusYears,BC.name,BS.name,PD.birthState,PD.birthDate,PD.physicalCondition," +
-            "FM.activities, OCC.name, OCC.place, OCC.phone,AFQ.observations,AFQ.addictionTreatment,AFQ.addictionTreatmentInstitute," +
+            "concat(ac.name , ': ' , rel.specification,';') , OCC.name, OCC.place, OCC.phone,AFQ.observations,AFQ.addictionTreatment,AFQ.addictionTreatmentInstitute," +
             "AFQ.addictionTreatmentDate,AFQ.addictedAcquaintance,AFQ.relativeAbroad,AFQ.obligationIssue) " +
             "from Case CD " +
             "inner join CD.framingMeeting as FM " +
+            "inner join FM.relFramingMeetingActivities as rel " +
+            "inner join rel.activity as ac "+
             "left join FM.personalData PD " +
             "left join PD.maritalStatus MS " +
             "left join PD.birthCountry BC " +
