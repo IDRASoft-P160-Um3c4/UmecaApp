@@ -105,7 +105,6 @@
                         </div>
                     </div>
                     <br/>
-                </div>
         </div>
         </form>
     </div>
