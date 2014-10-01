@@ -146,7 +146,7 @@
                    </div>
                    <div class="col-xs-8">
                        <input class="form-control" data-val="true"
-                              data-val-length="Debe tener al menos 1 y m�ximo 300 caracteres"
+                              data-val-length="Debe tener al menos 1 y m&aacute;ximo 300 caracteres"
                               data-val-length-max="300" data-val-length-min="1"
                               data-val-required="La especificaci&oacute;n  es un campo requerido" type="text" value=""
                               ng-model="school.specification" id="school.specification" name="school.specification"

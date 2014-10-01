@@ -41,7 +41,6 @@ public class LogController {
     @Autowired
     private SharedUserService userService;
 
-
     @RequestMapping(value = "/supervisor/log /index", method = RequestMethod.GET)
     public String index(){
         return "/supervisor/log/index";

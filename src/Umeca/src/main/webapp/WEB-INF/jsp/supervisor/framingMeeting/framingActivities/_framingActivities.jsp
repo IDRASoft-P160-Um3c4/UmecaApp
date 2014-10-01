@@ -1,7 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<style>
+    .chosen-container {
+        width: 100% !important;
 
+    }
+</style>
 <div class="row" ng-controller="framingActivitiesController">
     <input type="hidden" id="hidUrlAct"
            value="<c:url value="/supervisor/framingMeeting/framingActivities/loadAFramingActivities.json"/>"/>
@@ -65,11 +70,12 @@
                                     <div class="col-xs-4">
                                         <label for="occPhone">Tel&eacute;fono</label>
                                         <br/>
-                                        <input id="occPhone" ng-model="act.occPhone"
+                                        <textarea id="occPhone" ng-model="act.occPhone"
                                                name="occPhone"
                                                type="text" class="input-xxlarge"
                                                data-val="true"
-                                               data-val-required="Tel&eacute;fono es un campo requerido"/>
+                                               data-val-required="Tel&eacute;fono es un campo requerido">
+                                            </textarea>
                                         <br/>
             <span class="field-validation-valid" data-valmsg-for="occPhone"
                   data-valmsg-replace="true"></span>
@@ -87,41 +93,76 @@
                         horarios, lugares y personas que frecuenta)</label>
                     </div>
                     <div class="widget-body">
+                        <br/>
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
-                                <div class="row">
-                                    <br/>
+                                        <form id="FormVerifUpsertIdActivities" name="FormVerifUpsertIdActivities"
+                                              ng-submit="submit('#FormVerifUpsertIdActivities')"
+                                              class="form-horizontal"
+                                              role="form">
+                                            <div class="row">
+                                                <div class="col-xs-3 element-left">
+                                                    &iquest;Qu&eacute; actividades realiza?:
+                                                </div>
+                                                <div class="col-xs-9 element-left">
+                                                    <input  ng-model="activities" ng-update-hidden type="hidden"
+                                                            data-val="true"
+                                                            data-val-required="Las actividades qeu realiza el imputado es un campo requerido"
+                                                            name="activities">
+                                                    <select multiple="" class="width-100 chosen-select" ng-model="activityModel"
+                                                            data-placeholder="..."
+                                                            ng-init='lstActivity = ${lstActivity};  lstActivitySelec = ${(activity == null) ? '[]' : activity}; selectedActivities(lstActivity,lstActivitySelec);'
+                                                            id="slctActivityV" ng-change="matchActivities()"
+                                                            ng-options="ac as ac.name for ac in lstActivity">
+                                                    </select>
+                                                     <span class="field-validation-valid" data-valmsg-for="activities"
+                                                           data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                            <br/>
 
-                                    <div>
-                                        <label>Actividades que reliza el imputado</label>
-                                        <br/>
-                                        <textarea class="input-xxlarge form-control limited" name="activities"
-                                                  ng-model="act.activities"
-                                                  maxlength="980" data-val="true"
-                                                  data-val-required="Actividades es un campo requerido">
-                                        </textarea>
-                                            <span class="field-validation-valid" data-valmsg-for="activities"
-                                                  data-valmsg-replace="true"></span>
-                                    </div>
+                                            <div class="row">
+                                                <div ng-repeat="activity in activityModel">
+                                                    <div ng-show="activity.specification==true">
+                                                        <div class="col-xs-3">
+                                                            Especif&iacute;que activiades {{activity.name}}:
+                                                        </div>
+                                                        <div class="col-xs-9">
+                                                            <input class="form-control" data-val="true"
+                                                                   data-val-length="Debe tener al menos 3 y m&aacute;ximo 255 caracteres"
+                                                                   data-val-length-max="255" data-val-length-min="3"
+                                                                   data-val-required="La especificaci&oacute;n de actividades {{activity.name}} es un campo requerido"
+                                                                   type="text" value="" ng-model="specification[activity.name]"
+                                                                   id="specification{{activity.name}}"
+                                                                   name="specification{{activity.name}}"
+                                                                   ng-change="matchActivities()"><br/>
+                <span class="field-validation-valid" data-valmsg-for="specification{{activity.name}}"
+                      data-valmsg-replace="true"></span>
+                                                            <br/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                        </form>
                                 </div>
-                            </div>
                         </div>
-                        <br/>
                     </div>
-                </div>
-            </form>
+                    <br/>
         </div>
-        <br/>
+        </form>
     </div>
+    <br/>
+</div>
 
-    <div class="col-xs-12">
-        <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
+<div class="col-xs-12">
+    <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
               ng-click="submitIdCaseParam('#FormFramingActivites', '<c:url value="/supervisor/framingMeeting/activities/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>
               Guardar
         </span>
-        </div>
     </div>
+</div>
 
 </div>

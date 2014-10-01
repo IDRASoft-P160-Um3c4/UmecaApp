@@ -26,6 +26,20 @@
                 </h3>
             </div>
     </div>
+    <div class="row" ng-show="${tStart==null?false:true}">
+        <div class="col-sm-8">
+            <h3 class="header smaller lighter blue">
+                <small>Entrevista de riesgos procesales:  </small>
+                &nbsp;${tStart}&nbsp;-&nbsp;${tEnd}
+            </h3>
+        </div>
+        <div class="col-sm-4">
+            <h3 class="header smaller lighter blue">
+                <small>Evaluador:  </small>
+                &nbsp;${reviewerFullname}
+            </h3>
+        </div>
+    </div>
 
   </body>
 </html>

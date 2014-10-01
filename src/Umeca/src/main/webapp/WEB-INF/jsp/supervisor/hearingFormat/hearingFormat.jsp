@@ -841,7 +841,8 @@
 
                                 <div class="row">
                                     <div class="col-xs-10 col-xs-offset-1">
-                                        <span ng-class='m.errArrmntSel&&m.errArrmntSel!="" ? "field-validation-error" : "input-validation-valid"'>{{m.errArrmntSel}}</span>
+                                        <span ng-class='m.errArrmntSel&&m.errArrmntSel!="" ? "field-validation-error" : "input-validation-valid"'
+                                              ng-bind-html="m.errArrmntSel"></span>
 
                                         <div class="row" ng-repeat="arrangment in m.lstArrangementShow">
                                             <div class="checkbox">

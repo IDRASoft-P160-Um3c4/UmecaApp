@@ -46,6 +46,8 @@ public class Constants {
     public static final Integer CONDITIONAL_REPRIEVE_HEARING = 1;
     public static final Integer MEETING_HEARING = 2;
 
+    public static final String KEY_CYPHER_APP = "1234567890123481";
+
     //status del caso
     public static final String CASE_STATUS_MEETING = "ST_CASE_MEETING";
     public static final String CASE_STATUS_SOURCE_VALIDATION = "ST_CASE_SOURCE_VALIDATION";

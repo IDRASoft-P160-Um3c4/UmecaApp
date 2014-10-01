@@ -7,17 +7,21 @@ import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
+import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.reviewer.ImputedHomeRepository;
 import com.umeca.repository.supervisor.*;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -82,7 +86,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     private FramingAddressRepository framingAddressRepository;
 
     @Autowired
-    private AddressRepository addressRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private DrugTypeRepository drugTypeRepository;
@@ -100,7 +104,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     private AddictedAcquaintanceRelRepository addictedAcquaintanceRelRepository;
 
     @Autowired
-    private AdditionalFramingQuestionsRepository additionalFramingQuestionsRepository;
+    private LogCommentRepository logCommentRepository;
 
     @Autowired
     private ArrangementRepository arrangementRepository;
@@ -188,6 +192,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setName(existVerifMeet.getImputed().getName());
             view.setLastNameP(existVerifMeet.getImputed().getLastNameP());
             view.setLastNameM(existVerifMeet.getImputed().getLastNameM());
+            view.setBirthDate(existVerifMeet.getImputed().getBirthDate());
 
             if (existVerifMeet.getImputed().getGender() == true)
                 view.setGender(1);
@@ -195,15 +200,20 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 view.setGender(2);
 
             view.setMaritalStatus(existVerifMeet.getImputed().getMaritalStatus().getId());
-
-
             Integer years = existVerifMeet.getImputed().getYearsMaritalStatus();
+
             if (years != null)
                 view.setMaritalStatusYears(years.toString());
 
             view.setBirthCountryId(existVerifMeet.getImputed().getBirthCountry().getId());
-            view.setBirthState(existVerifMeet.getImputed().getBirthState());
-            view.setBirthDate(existVerifMeet.getImputed().getBirthDate());
+
+            if (existVerifMeet.getImputed().getLocation() != null) {
+                view.setBirthStateId(existVerifMeet.getImputed().getLocation().getMunicipality().getState().getId());
+                view.setIsMexico(true);
+            }
+
+            view.setBirthState(existVerifMeet.getImputed().getBirthState());//TODO AGREGAR EL ESTADO SI ES UN COMBO
+
             view.setPhysicalCondition(existVerifMeet.getSocialEnvironment().getPhysicalCondition());
 
             return view;
@@ -581,6 +591,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
     }
 
+    @Autowired
+    RelFramingMeetingActivityRepository relFramingActivityRepository;
+    @Autowired
+    ActivityRepository activityRepository;
+
+    @Transactional
     public FramingMeeting setActivities(FramingMeeting existFraming, FramingActivitiesForView view) {
 
         Occupation occ = existFraming.getOccupation();
@@ -593,7 +609,28 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         occ.setPhone(view.getOccPhone());
 
         existFraming.setOccupation(occ);
-        existFraming.setActivities(view.getActivities());
+        Gson gson = new Gson();
+        if(existFraming.getRelFramingMeetingActivities()!=null){
+            List<RelFramingMeetingActivity> relAux = existFraming.getRelFramingMeetingActivities();
+            existFraming.setRelFramingMeetingActivities(null);
+            for (RelFramingMeetingActivity r : relAux) {
+                r.setFramingMeeting(null);
+                r.setActivity(null);
+                relFramingActivityRepository.delete(r);
+            }
+        }
+        List<RelFramingMeetingActivity> rel = gson.fromJson(view.getActivities(), new TypeToken<List<RelFramingMeetingActivity>>() {
+        }.getType());
+        if (rel != null) {
+            existFraming.setRelFramingMeetingActivities(new ArrayList<RelFramingMeetingActivity>());
+            for (RelFramingMeetingActivity r : rel) {
+                RelFramingMeetingActivity newRel = new RelFramingMeetingActivity();
+                newRel.setActivity(activityRepository.findOne(r.getActivity().getId()));
+                newRel.setSpecification(r.getSpecification());
+                newRel.setFramingMeeting(existFraming);
+                existFraming.getRelFramingMeetingActivities().add(newRel);
+            }
+        }
 
         return existFraming;
     }
@@ -649,6 +686,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         Collections.sort(lstFormats, HearingFormat.hearingFormatComparator);
         HearingFormat lastFormat = lstFormats.get(lstFormats.size() - 1);
 
+
         List<String> lstAssArrg = new ArrayList<>();
 
         if (lastFormat.getAssignedArrangements() != null && lastFormat.getAssignedArrangements().size() > 0) {
@@ -691,12 +729,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setOccPlace(existFraming.getOccupation().getPlace());
             view.setOccPhone(existFraming.getOccupation().getPhone());
         }
-
-        if (existFraming.getActivities() != null) {
-            view.setActivities(existFraming.getActivities());
-        }
-
-        return view;
+         return view;
     }
 
     public ResponseMessage saveFramingAddress(Long idCase, AddressDto view) {
@@ -1053,7 +1086,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     public ResponseMessage doTerminate(Long idCase) {
 
-        StringBuilder sb = new StringBuilder();
+
         try {
             FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
@@ -1126,7 +1159,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (lsR.size() > 0) {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("reference", lsR));
             }
-            if (existFraming.getOccupation() == null && existFraming.getActivities() == null) {
+            if (existFraming.getOccupation() == null && existFraming.getRelFramingMeetingActivities() == null) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"Actividades que realiza el imputado\\\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", ls));
@@ -1163,6 +1196,16 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existCase.getFramingMeeting().setEndDate(new Date());
 
             caseRepository.save(existCase);
+            StringBuilder sb = new StringBuilder();
+            sb.append("Entrevista de encuadre terminada: ");
+            sb.append(existCase.getIdFolder());
+            sb.append(". Comentario: ");
+            sb.append("Debe asignar el caso a un supervisor para generar el plan de monitoreo");
+            sb.append(".");
+
+            SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
+                    existCase, MonitoringConstants.STATUS_PENDING_CREATION, null, MonitoringConstants.TYPE_COMMENT_ASSIGNED_CASE, logCommentRepository);
+
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito");
 
         } catch (Exception e) {
@@ -1194,8 +1237,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 sb.append(": " + rel.getSpecification());
 
         }
-
-        existFraming.setActivities(sb.toString());
+        //TODO SET ACTIVITIES TO VERIFICATION
+        //existFraming.setActivities(sb.toString());
 
         //domicilios
         List<FramingAddress> listAddress = new ArrayList<>();

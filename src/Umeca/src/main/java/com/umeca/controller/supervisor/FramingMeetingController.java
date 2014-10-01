@@ -13,6 +13,7 @@ import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.StateDto;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -162,6 +163,8 @@ public class FramingMeetingController {
 
     @Autowired
     HearingFormatRepository hearingFormatRepository;
+    @Autowired
+    ActivityRepository activityRepository;
 
 
     @RequestMapping(value = "/supervisor/framingMeeting/framingMeeting", method = RequestMethod.GET)
@@ -175,6 +178,7 @@ public class FramingMeetingController {
         model.addObject("fullNameImputed", fullName);
         model.addObject("idCase", id);
         model.addObject("age", sharedUserService.calculateAge(i.getBirthDate()));
+        model.addObject("imputedId", i.getId());
         model.addObject("hasMeeting", caseDet.getMeeting().getSchool() != null);
         model.addObject("hasTR", caseDet.getTechnicalReview() != null);
 
@@ -210,7 +214,28 @@ public class FramingMeetingController {
         FramingMeetingView framingMeetingView = framingMeetingService.fillForView(caseDet);
 
         Gson conv = new Gson();
+        List<CatalogDto> listActivity = new ArrayList<>();
+        for (Activity a : activityRepository.findNotObsolete()) {
+            CatalogDto c = new CatalogDto();
+            c.setName(a.getName());
+            c.setId(a.getId());
+            c.setSpecification(a.getSpecification());
+            listActivity.add(c);
+        }
 
+        model.addObject("lstActivity",conv.toJson(listActivity));
+        FramingMeeting fm= caseDet.getFramingMeeting();
+        if(fm!=null && fm.getRelFramingMeetingActivities()!=null){
+        List<RelFramingMeetingActivity> listRelData =caseDet.getFramingMeeting().getRelFramingMeetingActivities();
+        if (listRelData != null && listRelData.size()>0) {
+            List<RelActivityObjectDto> listRel = new ArrayList<>();
+            for (RelFramingMeetingActivity r :listRelData) {
+                RelActivityObjectDto rNew = new RelActivityObjectDto();
+                listRel.add(rNew.relDto(r));
+            }
+            model.addObject("activity", conv.toJson(listRel));
+        }
+        }
         model.addObject("objView", conv.toJson(framingMeetingView));
         addressService.fillCatalogAddress(model);
 

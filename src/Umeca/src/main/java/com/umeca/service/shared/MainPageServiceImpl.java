@@ -139,6 +139,8 @@ public class MainPageServiceImpl implements MainPageService {
                     add(MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT);
                     add(MonitoringConstants.STATUS_PENDING_END);
                     add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
+                    add(MonitoringConstants.STATUS_PENDING_END);
+                    add(MonitoringConstants.STATUS_END);
                 }}, userId
         );
         String sLstGeneric = json.toJson(lstGen);
@@ -218,7 +220,7 @@ public class MainPageServiceImpl implements MainPageService {
             if (topN == 10)
                 break;
         }
-       model.addObject("lstActivities", conv.toJson(top10));
+        model.addObject("lstActivities", conv.toJson(top10));
         model.addObject("lstNotification", conv.toJson(top10Notif));
         model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
 

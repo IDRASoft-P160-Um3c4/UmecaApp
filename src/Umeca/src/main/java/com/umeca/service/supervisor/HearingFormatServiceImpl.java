@@ -659,6 +659,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             response.setHasError(false);
 
+            hearingFormatRepository.save(hearingFormat);
+
             if (hearingFormat.getIsFinished() == true) {
                 sb = new StringBuilder();
                 sb.append(request.getContextPath());
@@ -667,7 +669,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 response.setUrlToGo(sb.toString());
             } else {
                 response.setMessage(hearingFormat.getId() + "|Se ha registrado el formato de audiencia.");
-
             }
 
 

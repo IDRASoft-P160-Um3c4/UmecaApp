@@ -22,9 +22,15 @@
         </div>
 
         <div class="row">
-
             <form id="FormFingerPrinting" name="FormFingerPrinting" class="form-horizontal" role="form">
-
+                <div class="row">
+                    <div class="col-xs-8 col-xs-offset-2 element-center">
+                        <button class="btn btn-primary btn-large" ng-click="openNewPage('<c:url value="/supervisor/shared/enrollment.jnlp?id=idParam"/>', ${imputedId});">
+                            <i class="glyphicon glyphicon-off"></i>
+                            Ejecutar aplicaci&oacute;n
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
         <br/>

@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -174,15 +175,24 @@ public class MeetingServiceImpl implements MeetingService {
         Gson gson = new Gson();
         ////////////////////Personal data
         Case caseDetention = caseRepository.findOne(id);
+        Meeting m  = caseDetention.getMeeting();
         model.addObject("idCase", caseDetention.getId());
-        model.addObject("m", caseDetention.getMeeting());
+        model.addObject("m", m);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        model.addObject("tStart",format.format(m.getDateCreate()));
+        if(m.getDateTerminate()!=null){
+            model.addObject("tEnd",format.format(m.getDateTerminate()));
+        }else{
+            model.addObject("tEnd","sin terminar");
+        }
+        model.addObject("reviewerFullname",m.getReviewer().getFullname());
         addressService.fillCatalogAddress(model);
         model.addObject("age", userService.calculateAge(caseDetention.getMeeting().getImputed().getBirthDate()));
         if (caseDetention.getMeeting().getSocialEnvironment() != null) {
             if (caseDetention.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities() != null) {
-                List<RelActivitySocialEnvironmentDto> listRel = new ArrayList<>();
+                List<RelActivityObjectDto> listRel = new ArrayList<>();
                 for (RelSocialEnvironmentActivity r : caseDetention.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities()) {
-                    RelActivitySocialEnvironmentDto rNew = new RelActivitySocialEnvironmentDto();
+                    RelActivityObjectDto rNew = new RelActivityObjectDto();
                     listRel.add(rNew.relDto(r));
                 }
                 model.addObject("activity", gson.toJson(listRel));
@@ -983,7 +993,7 @@ public class MeetingServiceImpl implements MeetingService {
             }
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
             m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
-
+            m.setDateTerminate(new Date());
             caseRepository.save(c);
             result.setHasError(false);
             result.setMessage("Entrevista terminada con exito");
