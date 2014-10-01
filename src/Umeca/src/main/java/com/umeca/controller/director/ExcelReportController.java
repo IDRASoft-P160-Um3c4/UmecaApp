@@ -569,6 +569,7 @@ public class ExcelReportController {
 
             List<FramingMeetingInfo> allFramingMeeting = reportExcelRepository.getFramingMeetingInfo(casesIds);
             List<FramingReferenceInfo> allReferences = reportExcelRepository.getFramingReferenceInfo(casesIds);
+            List<ExcelActivitiesDto> allFramingActivities = reportExcelRepository.getFramingImputedActivities(casesIds);
             List<CatalogDto> allFramingHomes = reportExcelRepository.getFramingHomes(casesIds);
             List<ExcelDrugDto> allDrugs = reportExcelRepository.getFramingInfoDrugs(casesIds);
             List<CatalogDto> allAddictedAcquaintances = reportExcelRepository.getFramingAddictedAcquaintances(casesIds);
@@ -587,6 +588,13 @@ public class ExcelReportController {
                         refs.add(actRef);
                 }
                 actFM.setReferences(refs);
+
+                List<ExcelActivitiesDto> activs = new ArrayList<>();
+                for (ExcelActivitiesDto actAct : allFramingActivities) {
+                    if (actAct.getIdCase() == actFM.getIdCase())
+                        activs.add(actAct);
+                }
+                actFM.setActivities(activs);
 
                 List<CatalogDto> homes = new ArrayList<>();
                 for (CatalogDto actHome : allFramingHomes) {

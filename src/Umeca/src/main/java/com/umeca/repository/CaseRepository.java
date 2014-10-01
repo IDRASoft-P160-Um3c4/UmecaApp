@@ -300,7 +300,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "concat(IMP.name,' ',IMP.lastNameP,' ',IMP.lastNameM)," +
             "IMP.nickname," +
             "sv.fullName," +
-            "sv.relationship.name," +
+            "rel.name," +
             "sv.age," +
             "sv.address," +
             "sv.id," +
@@ -309,7 +309,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "INNER JOIN CDET.status as st " +
             "INNER JOIN CDET.verification as V " +
             "INNER JOIN V.sourceVerifications as sv " +
-            "WHERE CDET.id in (:listCaseId) and sv.isAuthorized = true " +
+            "LEFT JOIN sv.relationship as rel " +
+            "WHERE (sv.isAuthorized = true) and (CDET.id in (:listCaseId)) " +
             "order by CDET.dateCreate")
     List<ExcelVerificationDto> getInfoVerification(@Param("listCaseId") List<Long> listCaseId);
 

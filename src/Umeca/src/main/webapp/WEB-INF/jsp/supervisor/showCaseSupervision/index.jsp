@@ -21,12 +21,12 @@
 <div class="container body-content">
 
     <script>
+        var hideCol = false;
+
         <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
-        var sup = true;
+        hideCol = true;
         </sec:authorize>
-        <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
-        var sup = false;
-        </sec:authorize>
+
         window.technicalReview = function (id) {
             var params = [];
             params["idParam"] = id;
@@ -60,10 +60,10 @@
             window.goToNewUrl("<c:url value='/supervisor/log/supervisionLog.html?id=idParam' />", params);
         };
 
-        window.updwFiles = function(id){
-            var params= [];
-            params["idParam"]=id;
-            window.goToUrlMvcUrl("<c:url value='/shared/uploadFile/index.html?id=idParam'/>",params);
+        window.updwFiles = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            window.goToUrlMvcUrl("<c:url value='/shared/uploadFile/index.html?id=idParam'/>", params);
         };
 
         $(document).ready(function () {
@@ -71,7 +71,7 @@
                 url: '<c:url value='/supervisor/showCaseEvaluation/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'IDFM', 'IDHF', 'IDMONP', 'IDVER', 'FMTERM', 'Carpeta Judicial', 'Nombre','Supervisor', 'Acci&oacute;n'],
+                colNames: ['ID', 'IDFM', 'IDHF', 'IDMONP', 'IDVER', 'FMTERM', 'Carpeta Judicial', 'Nombre', 'Supervisor', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFM', index: 'idFM', hidden: true },
@@ -81,7 +81,7 @@
                     { name: 'fmTerminated', index: 'fmTerminated', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullname', index: 'fullname', search: false, width: 400, align: "center"},
-                    { name: 'userName', index: 'userName', search: false, width: 400, align: "center", hidden: sup},
+                    { name: 'userName', index: 'userName', search: false, width: 400, align: "center", hidden: hideCol},
                     { name: 'Action', width: 130, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
