@@ -610,7 +610,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         existFraming.setOccupation(occ);
         Gson gson = new Gson();
-        if(existFraming.getRelFramingMeetingActivities()!=null){
+        if (existFraming.getRelFramingMeetingActivities() != null) {
             List<RelFramingMeetingActivity> relAux = existFraming.getRelFramingMeetingActivities();
             existFraming.setRelFramingMeetingActivities(null);
             for (RelFramingMeetingActivity r : relAux) {
@@ -729,7 +729,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setOccPlace(existFraming.getOccupation().getPlace());
             view.setOccPhone(existFraming.getOccupation().getPhone());
         }
-         return view;
+        return view;
     }
 
     public ResponseMessage saveFramingAddress(Long idCase, AddressDto view) {
@@ -1224,21 +1224,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         List<RelSocialEnvironmentActivity> relAct = verifMeeting.getSocialEnvironment().getRelSocialEnvironmentActivities();
 
-        StringBuilder sb = new StringBuilder();
+        if (relAct != null && relAct.size() > 0) {
+            List<RelFramingMeetingActivity> relFramingMeetingActivities = new ArrayList<>();
 
-        for (RelSocialEnvironmentActivity rel : relAct) {
+            for (RelSocialEnvironmentActivity rel : relAct) {
+                RelFramingMeetingActivity actRel = new RelFramingMeetingActivity();
+                actRel.setFramingMeeting(existFraming);
+                actRel.setSpecification(rel.getSpecification());
+                actRel.setActivity(rel.getActivity());
+                relFramingMeetingActivities.add(actRel);
+            }
 
-            if (!sb.toString().equals(""))
-                sb.append(", ");
-
-            sb.append(rel.getActivity().getName());
-
-            if (rel.getSpecification() != null)
-                sb.append(": " + rel.getSpecification());
-
+            existFraming.setRelFramingMeetingActivities(relFramingMeetingActivities);
         }
-        //TODO SET ACTIVITIES TO VERIFICATION
-        //existFraming.setActivities(sb.toString());
 
         //domicilios
         List<FramingAddress> listAddress = new ArrayList<>();

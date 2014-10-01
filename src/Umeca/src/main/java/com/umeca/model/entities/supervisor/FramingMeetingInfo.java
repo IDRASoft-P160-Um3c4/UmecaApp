@@ -61,12 +61,14 @@ public class FramingMeetingInfo {
     private List<ExcelDrugDto> drugs;
     private List<CatalogDto> homes;
 
+    private List<ExcelActivitiesDto> activities;
+
     public FramingMeetingInfo() {
     }
 
     public FramingMeetingInfo(Long idCase, String idFolder, String idMP, Date dateCreate, String imputedName, String imputedLNP, String imputedLNM,
                               Integer imputedGender, String imputedMaritalStatus, String imputedYearsMaritalStatus, String imputedBirthCountry,
-                              String imputedBirthStateCmb, String imputedBirthState, Date imputedBirthDate, String imputedPhysicalCondition, String imputedActivities,
+                              String imputedBirthStateCmb, String imputedBirthState, Date imputedBirthDate, String imputedPhysicalCondition,
                               String imputedOccupation, String imputedOccupationPlace, String imputedOccupationPhone, String additionalQuestionsObs, Integer addictionTreatment, String addictionTreatmentInstitute,
                               Date addictionTreatmentDate, Integer addictedAcquaintance, Integer relativeAbroad, Integer obligationIssue) {
 
@@ -717,5 +719,30 @@ public class FramingMeetingInfo {
 
     public void setImputedGenderStr(String imputedGenderStr) {
         this.imputedGenderStr = imputedGenderStr;
+    }
+
+    public List<ExcelActivitiesDto> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<ExcelActivitiesDto> activities) {
+        this.activities = activities;
+    }
+
+    public String activitiesToString() {
+        String returnStr = "";
+
+        if (this.activities != null && this.activities.size() > 0) {
+            for (ExcelActivitiesDto act : activities) {
+                if (returnStr != "")
+                    returnStr += "\n";
+                if (act.getNameAct() != null)
+                    returnStr += "-" + act.getNameAct();
+                if (act.getDescription() != null && !act.getDescription().trim().equals(""))
+                    returnStr += ": " + act.getDescription();
+            }
+        }
+
+        return returnStr;
     }
 }
