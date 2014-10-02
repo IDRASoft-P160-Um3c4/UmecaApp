@@ -18,6 +18,7 @@ import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.reviewer.ImputedHomeRepository;
+import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
@@ -1084,6 +1085,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     }
 
+    @Autowired
+    private SystemSettingRepository systemSettingRepository;
+
     public ResponseMessage doTerminate(Long idCase) {
 
 
@@ -1159,28 +1163,48 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (lsR.size() > 0) {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("reference", lsR));
             }
-            if (existFraming.getOccupation() == null && existFraming.getRelFramingMeetingActivities() == null) {
+            if (existFraming.getOccupation() == null || existFraming.getRelFramingMeetingActivities() == null || !(existFraming.getRelFramingMeetingActivities().size() > 0)) {
                 List<String> ls = new ArrayList<>();
-                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"Actividades que realiza el imputado\\\".");
+                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Actividades que realiza el imputado\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", ls));
             }
             if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0)) {
                 List<String> ls = new ArrayList<>();
-                ls.add("Debe registrar al menos una registro en en la secci&oacute;n \\\"Consumo de sustancias\\\".");
+                ls.add("Debe registrar al menos una registro en en la secci&oacute;n \"Consumo de sustancias\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("drug", ls));
             }
             if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
                     existFraming.getSelectedRisksRel() == null || !(existFraming.getSelectedRisksRel().size() > 0) ||
                     existFraming.getSelectedThreatsRel() == null || !(existFraming.getSelectedThreatsRel().size() > 0)) {
                 List<String> ls = new ArrayList<>();
-                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"An&aacute;isis del entorno\\\".");
+                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"An&aacute;isis del entorno\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("analysis", ls));
             }
             if (existFraming.getAdditionalFramingQuestions() == null) {
                 List<String> ls = new ArrayList<>();
-                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \\\"Formulario de preguntas al supervisado\\\".");
+                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Formulario de preguntas al supervisado\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("question", ls));
             }
+
+            if (existFraming.getAdditionalFramingQuestions() == null) {
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Formulario de preguntas al supervisado\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("question", ls));
+            }
+
+            String cad = systemSettingRepository.findOneValue("FINGER_VAL", "ValidateFingerPrint");
+            Boolean validateFingerprint = null;
+
+            if (cad != null && !cad.trim().equals(""))
+                validateFingerprint = Boolean.valueOf(cad);
+
+            if (validateFingerprint != null && validateFingerprint == true)
+                if (!(framingMeetingRepository.getFingerIdsByImputed(existFraming.getCaseDetention().getMeeting().getImputed().getId()).size() > 0)) {
+                    List<String> ls = new ArrayList<>();
+                    ls.add("Debe registrar al menos una huella dactilar en la secci&oacute;n \"Enrolamiento\".");
+                    validate.getGroupMessage().add(new GroupMessageMeetingDto("fingerprint", ls));
+                }
+
             if (validate.existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
                 listGeneral.add(sharedUserService.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección"));

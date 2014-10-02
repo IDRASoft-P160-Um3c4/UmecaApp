@@ -217,6 +217,7 @@ public class HearingFormatController {
             HearingFormatView hfView = hearingFormatService.fillNewHearingFormatForView(idCase);
             Gson conv = new Gson();
             model.addObject("hfView", conv.toJson(hfView));
+            model.addObject("hasPrevHF", hfView.getHasPrevHF());
 
             addressService.fillCatalogAddress(model);
 

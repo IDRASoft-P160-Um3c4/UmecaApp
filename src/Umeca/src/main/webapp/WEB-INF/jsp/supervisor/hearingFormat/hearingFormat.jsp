@@ -535,6 +535,12 @@
         </div>
     </div>
 
+    <c:if test="${hasPrevHF ==true}">
+        funcionaaaaaa
+        <input type="hidden" name="impForm" value="{{m.formImp}}"/>
+        <input type="hidden" name="imputationDateStr" value="{{m.impDate}}"/>
+    </c:if>
+
     <div id="divFormImp" class="col-xs-6">
         <div class="widget-box">
             <div class="widget-header">Formulaci&oacute;n de imputaci&oacute;n</div>
