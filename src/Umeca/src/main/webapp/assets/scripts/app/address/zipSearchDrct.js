@@ -67,7 +67,7 @@ app.directive('zipSearch', function ($http, $timeout) {
                                                 // scope.clear();
                                                 return;
                                             }
-                                            scope.listLocation = data.data;
+                                            scope.listLocation.concat(data.data);
                                             for(var i =0 ; i<scope.listLocation.length;i++){
                                                 if(firstLocation.id == scope.listLocation[i].id){
                                                     scope.location =scope.listLocation[i];
