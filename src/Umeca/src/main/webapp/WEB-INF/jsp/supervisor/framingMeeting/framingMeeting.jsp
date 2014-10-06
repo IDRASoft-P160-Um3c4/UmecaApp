@@ -340,11 +340,32 @@
         </div>
     </a>
 </li>
+
+
 <li id="liFinger">
     <a data-toggle="tab" href="#fingerTab">
 
-        <i class="icon-edit bigger-200"></i>
-        Enrolamiento
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="icon-edit bigger-200"></i>
+                Enrolamiento
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['fingerprint']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liFinger');"></i>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['fingerprint']">
+                                </span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </a>
 </li>
 </ul>

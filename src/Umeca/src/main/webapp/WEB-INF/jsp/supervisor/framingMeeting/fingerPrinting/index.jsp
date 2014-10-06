@@ -25,7 +25,8 @@
             <form id="FormFingerPrinting" name="FormFingerPrinting" class="form-horizontal" role="form">
                 <div class="row">
                     <div class="col-xs-8 col-xs-offset-2 element-center">
-                        <button class="btn btn-primary btn-large" ng-click="openNewPage('<c:url value="/supervisor/shared/enrollment.jnlp?id=idParam"/>', ${imputedId});">
+                        <button class="btn btn-primary btn-large"
+                                ng-click="openNewPage('<c:url value="/supervisor/shared/enrollment.jnlp?id=idParam"/>', ${imputedId});">
                             <i class="glyphicon glyphicon-off"></i>
                             Ejecutar aplicaci&oacute;n
                         </button>
@@ -38,7 +39,7 @@
 
     </div>
 
-    <div class="col-xs-12">
+    <!--<div class="col-xs-12">
         <div class="modal-footer">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-show="{{fm.objView.canTerminate==true}}"
               ng-click="tuAccion();">
@@ -46,6 +47,6 @@
               Guardar
         </span>
         </div>
-    </div>
+    </div>-->
 
 </div>
