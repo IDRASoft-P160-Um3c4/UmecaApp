@@ -302,7 +302,8 @@ public class MeetingServiceImpl implements MeetingService {
             catalogDtoList.add(cdto);
         }
         model.addObject("listRelationship", gson.toJson(catalogDtoList));
-        model.addObject("listLegalBefore", findLegalBefore(id, c.getMeeting().getImputed().getName(), c.getMeeting().getImputed().getLastNameP(), c.getMeeting().getImputed().getLastNameM()));
+        String listLegalBefore =  findLegalBefore(id, c.getMeeting().getImputed().getName(), c.getMeeting().getImputed().getLastNameP(), c.getMeeting().getImputed().getLastNameM());
+        model.addObject("listLegalBefore",listLegalBefore);
         CurrentCriminalProceeding ccp = c.getMeeting().getCurrentCriminalProceeding();
         if (ccp != null) {
             List<Crime> listCrime = ccp.getCrimeList();
@@ -351,6 +352,10 @@ public class MeetingServiceImpl implements MeetingService {
             if(pcp.getComplyProcessAbove()!=null){
                 model.addObject("complyProcessAboveId", pcp.getComplyProcessAbove().getId());
             }
+        }else if(listLegalBefore.equals("[]")){
+            model.addObject("firstProceeding","Ninguno");
+            model.addObject("openProcessNumber","0");
+            model.addObject("numberConvictions","0");
         }
         if(showCase!=null && showCase.equals(1)){
             model.addObject("managereval", true);
