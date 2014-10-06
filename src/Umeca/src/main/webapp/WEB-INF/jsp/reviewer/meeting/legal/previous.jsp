@@ -17,8 +17,8 @@
                 <div class="col-xs-4">
                     Primer proceso: <br/>
                     <input class="form-control" data-val="true"
-                           data-val-length="Debe tener al menos 5 y m&aacute;ximo 255 caracteres"
-                           data-val-length-max="255" data-val-length-min="5"
+                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
+                           data-val-length-max="255" data-val-length-min="1"
                            ng-init='m.firstProceeding="${firstProceeding==null?'':firstProceeding}";'
                            data-val-required="Primer proceso es un campo requerido"
                            type="text" ng-model="m.firstProceeding" id="firstProceeding"
@@ -86,14 +86,15 @@
             </div>
             <br/>
             <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-4" ng-init="m.complyCSPPId = ${complyCSPPId == null ? 'undefined': complyCSPPId};
+                m.complyPMId = ${complyPMId== null ? 'undefined':complyPMId}; m.complyProcessAboveId = ${complyProcessAboveId == null ? 'undefined':complyProcessAboveId};">
                     <br/>
                     &iquest;Cumpli&oacute; con medidas cautelares?: <br/>
                     <input type="hidden" ng-model="m.complyPMId" ng-update-hidden name="complyPMId">
                     <select class="form-control element-center" ng-model="m.complyPM"
                             ng-options="e.name for e in listElection"
                             ng-change="m.complyPMId = m.complyPM.id"
-                            ng-init='listElection = ${listElection};'></select>
+                            ng-init='listElection = ${listElectionNotApply};'></select>
                 </div>
                 <div class="col-xs-4">
                     <br/>
@@ -102,7 +103,7 @@
                     <select class="form-control element-center" ng-model="m.complyCSPP"
                             ng-options="e.name for e in listElection"
                             ng-change="m.complyCSPPId = m.complyCSPP.id"
-                            ng-init='listElection = ${listElection};'></select>
+                            ng-init='listElection = ${listElectionNotApply};'></select>
                 </div>
                 <div class="col-xs-4">
                     <br/>
@@ -111,7 +112,7 @@
                     <select class="form-control element-center" ng-model="m.complyProcessAbove"
                             ng-options="e.name for e in listElection"
                             ng-change="m.complyProcessAboveId = m.complyProcessAbove.id"
-                            ng-init='listElection = ${listElection};'></select>
+                            ng-init='listElection = ${listElectionNotApply};'></select>
                 </div>
             </div>
             <br/>

@@ -1,3 +1,9 @@
+<style>
+    .width-100{
+        max-width: none !important;
+        width: 100% !important;
+    }
+</style>
 <form id="FormCurrentLegalId" name="FormCurrentLegalId" class="form-horizontal" role="form">
 <div class="row">
     <div class="col-xs-10  col-xs-offset-1">
@@ -41,7 +47,7 @@
                     <div class="col-xs-10 col-xs-offset-1">
                        <br/>
                         <div class="col-xs-8 element-left">
-                            Nombre completo<br/>
+                            Nombre completo <br/>
                             <input type="text" class="form-control" ng-model="m.fullName" id="nameVictim" name="nameVictim"
                                    data-val="true"  data-val-required="El nombre de la v&iacute;ctima es un campo requerido" ng-init='m.fullName="${nameVictim==null?'':nameVictim}";'
                                    data-val-length-max="300" data-val-length-min="3" data-val-length ="Debe tener al menos 3 y m&aacute;ximo 300 caracteres."/>
@@ -58,6 +64,19 @@
                         </div>
                         <div class="col-xs-12">
                             <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
+                            <br/>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                            Infromaci&oacute;n adicional <br/>
+                            <label class="info-example">En caso de existir m&aacute;s de una v&iacute;ctima escribir los nombres y direcciones de cada una de ellas</label>
+                                <br/>
+                            <textarea class="width-100" ng-model="m.additionalInfo" id="additionalInfo" name="additionalInfo"
+                                      data-val="true" ng-init='m.additionalInfo="${additionalInfo==null?'':additionalInfo}";'
+                                      data-val-length-max="300" data-val-length-min="3" data-val-length ="Debe tener entre 1 y m&aacute;ximo 1000 caracteres." >
+                            </textarea>
+                                <span class="field-validation-valid" data-valmsg-for="additionalInfo" data-valmsg-replace="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>

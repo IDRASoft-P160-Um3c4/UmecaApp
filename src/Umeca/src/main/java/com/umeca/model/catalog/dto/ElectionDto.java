@@ -2,6 +2,7 @@ package com.umeca.model.catalog.dto;
 
 import com.umeca.model.catalog.DayWeek;
 import com.umeca.model.catalog.Election;
+import com.umeca.model.catalog.ElectionNotApply;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +16,12 @@ public class ElectionDto {
     private String name;
 
     public ElectionDto dtoElection(Election election){
+        this.id= election.getId();
+        this.name = election.getName();
+      return  this;
+    }
+
+    public ElectionDto dtoElection(ElectionNotApply election){
         this.id= election.getId();
         this.name = election.getName();
       return  this;

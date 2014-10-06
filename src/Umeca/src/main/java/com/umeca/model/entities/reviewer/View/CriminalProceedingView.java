@@ -54,6 +54,8 @@ public class CriminalProceedingView {
 
     private String specificationOpenProcess;
 
+    private String additionalInfo;
+
     public Long getIdCase() {
 
         return idCase;
@@ -189,5 +191,13 @@ public class CriminalProceedingView {
 
     public void setSpecificationOpenProcess(String specificationOpenProcess) {
         this.specificationOpenProcess = specificationOpenProcess;
+    }
+
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
     }
 }

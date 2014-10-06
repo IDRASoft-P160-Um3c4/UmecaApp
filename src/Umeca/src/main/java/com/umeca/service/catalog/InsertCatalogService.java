@@ -33,17 +33,13 @@ public interface InsertCatalogService {
     void verificationMethod();
     void fieldVerification();
     void statusFieldVerification();
-
     //void hearingFormatType(); NO APLICA PARA ESTA VERSIÓN
     void framingThreat();
     void framingRisk();
-
     void homeType();
-
     void fileType();
     void systemSettings();
-
     void requestType();
-
     void responseType();
+    void electionNotApply();
 }

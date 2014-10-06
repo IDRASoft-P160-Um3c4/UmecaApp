@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.Election;
+import com.umeca.model.catalog.ElectionNotApply;
 
 import javax.persistence.*;
 
@@ -38,15 +39,15 @@ public class PreviousCriminalProceeding {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_comply_measures", nullable = true)
-    private Election complyPM;
+    private ElectionNotApply complyPM;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_comply_scpp", nullable = true)
-    private Election complyCSPP;
+    private ElectionNotApply complyCSPP;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_comply_process_above", nullable = true)
-    private Election complyProcessAbove;
+    private ElectionNotApply complyProcessAbove;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = true)
@@ -84,27 +85,27 @@ public class PreviousCriminalProceeding {
         this.numberConvictions = numberConvictions;
     }
 
-    public Election getComplyPM() {
+    public ElectionNotApply getComplyPM() {
         return complyPM;
     }
 
-    public void setComplyPM(Election complyPM) {
+    public void setComplyPM(ElectionNotApply complyPM) {
         this.complyPM = complyPM;
     }
 
-    public Election getComplyCSPP() {
+    public ElectionNotApply getComplyCSPP() {
         return complyCSPP;
     }
 
-    public void setComplyCSPP(Election complyCSPP) {
+    public void setComplyCSPP(ElectionNotApply complyCSPP) {
         this.complyCSPP = complyCSPP;
     }
 
-    public Election getComplyProcessAbove() {
+    public ElectionNotApply getComplyProcessAbove() {
         return complyProcessAbove;
     }
 
-    public void setComplyProcessAbove(Election complyProcessAbove) {
+    public void setComplyProcessAbove(ElectionNotApply complyProcessAbove) {
         this.complyProcessAbove = complyProcessAbove;
     }
 

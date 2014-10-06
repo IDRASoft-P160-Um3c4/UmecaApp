@@ -19,9 +19,8 @@
         <div class="col-xs-10 col-xs-offset-1">
 
             <input type="hidden" ng-update-hidden name="isAccompaniment" ng-model="p.isAccompaniment">
-
-            <input type="checkbox" ng-model="p.isAccompaniment" id="isAccompaniment"
-                   ng-init="p.isAccompaniment= p.isAccompaniment == undefined || p.isAccompaniment == '' ? false: p.isAccompaniment">
+            <input type="checkbox" ng-model="p.isAccompaniment" id="isAccompaniment" ng-checked="p.isAccompaniment"
+                   ng-init="p.isAccompaniment =${isAccomp==null ? false: isAccomp};">
 
            <label for="isAccompaniment"> &iquest;Esta persona acompa&ntilde;ar&aacute; al imputado durante el proceso?</label>
         </div>

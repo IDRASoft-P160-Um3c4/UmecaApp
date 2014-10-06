@@ -48,15 +48,39 @@ app.controller('proceedingLegalController', function($scope, $timeout, $sce) {
         if($scope.m.complyPMId === undefined){
             $scope.m.complyPM = $scope.listElection[0];
             $scope.m.complyPMId = $scope.m.complyPM.id;
+        }else{
+            for(var i=0; i<$scope.listElection.length; i++){
+                var n = $scope.listElection[i];
+                if(n.id==$scope.m.complyPMId){
+                    $scope.m.complyPM = n;
+                    $scope.m.complyPMId = n.id;
+                }
+            }
         }
 
         if($scope.m.complyCSPPId === undefined){
             $scope.m.complyCSPP = $scope.listElection[0];
             $scope.m.complyCSPPId = $scope.m.complyCSPP.id;
+        }else{
+            for(var i=0; i<$scope.listElection.length; i++){
+                var n = $scope.listElection[i];
+                if(n.id==$scope.m.complyCSPPId){
+                    $scope.m.complyCSPP = n;
+                    $scope.m.complyCSPPId = n.id;
+                }
+            }
         }
         if($scope.m.complyProcessAboveId === undefined){
             $scope.m.complyProcessAbove = $scope.listElection[0];
             $scope.m.complyProcessAboveId = $scope.m.complyProcessAbove.id;
+        }else{
+            for(var i=0; i<$scope.listElection.length; i++){
+                var n = $scope.listElection[i];
+                if(n.id==$scope.m.complyProcessAboveId){
+                    $scope.m.complyProcessAbove = n;
+                    $scope.m.complyProcessAboveId = n.id;
+                }
+            }
         }
 
     };

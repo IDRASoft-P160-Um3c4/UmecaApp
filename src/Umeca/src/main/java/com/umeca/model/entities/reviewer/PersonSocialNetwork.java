@@ -160,7 +160,6 @@ public class PersonSocialNetwork{
         this.idAux = idAux;
     }
 
-
     public Boolean getIsAccompaniment() {
         return isAccompaniment;
     }

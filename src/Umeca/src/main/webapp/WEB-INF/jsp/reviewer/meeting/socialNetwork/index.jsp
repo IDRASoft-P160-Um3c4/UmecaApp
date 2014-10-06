@@ -21,14 +21,15 @@
             url: '<c:url value='/reviewer/meeting/listSocialNetwork.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre','Relaci&oacute;n','Edad','Tel&eacute;fono','Acompa&ntilde;a al imputado <br/> durante el proceso', 'Acci&oacute;n'],
+            colNames: ['ID', 'Nombre','Relaci&oacute;n','Edad','Tel&eacute;fono','Acompa&ntilde;a al imputado <br/> durante el proceso','Dependiente<br/>econ&oacute;mico', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'relName', index: 'relName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'age', index: 'age', width: 120, align: "center",  search: false },
+                { name: 'age', index: 'age', width: 70, align: "center",  search: false },
                 { name: 'phone', index: 'phone', width: 150, align: "center",  search: false  },
-                { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 200, align: "center",  search: false  },
+                { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 180, align: "center",  search: false  },
+                { name: 'dependentString', index: 'dependentString', width: 120, align: "center",  search: false  },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,

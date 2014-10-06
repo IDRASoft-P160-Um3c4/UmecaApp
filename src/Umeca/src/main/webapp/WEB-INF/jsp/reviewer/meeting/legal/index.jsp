@@ -35,7 +35,7 @@
                                                                             <br/>
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Informaci&oacute;n legal</h2>
     <br/>
-    <div class="element-center"><label class="element-center info-example">LOS SIGUIENTES DATOS SE OBTIENEN DE LA CARPETA DE INVESTIGACI&Oacute;N, DE LA INFROMACI&Oacute;N POLICIAL, DE LA PGJ O DEL TSJ</label><br/>
+    <div class="element-center"><label class="element-center info-example">LOS SIGUIENTES DATOS SE OBTIENEN DE LA CARPETA DE INVESTIGACI&Oacute;N, DE LA INFORMACI&Oacute;N POLICIAL, DE LA PGJ O DEL TSJ</label><br/>
     <label class="info-example" style="font-size: small;!important">BAJO NINGUNA CIRCUNSTANCIA SE LE SOLICITAR&Aacute; ESTA INFORMACI&Oacute;N AL IMPUTADO</label>
     </div>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
