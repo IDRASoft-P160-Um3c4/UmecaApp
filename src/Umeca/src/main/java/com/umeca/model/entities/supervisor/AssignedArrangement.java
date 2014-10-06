@@ -24,6 +24,17 @@ public class AssignedArrangement {
     @JoinColumn(name = "id_hearing_format", nullable = false)
     private HearingFormat hearingFormat;
 
+    @Column(name = "require_presence", columnDefinition = "TINYINT(1) DEFAULT 0")
+    private boolean requirePresence;
+
+    public boolean isRequirePresence() {
+        return requirePresence;
+    }
+
+    public void setRequirePresence(boolean requirePresence) {
+        this.requirePresence = requirePresence;
+    }
+
     public Long getId() {
         return id;
     }
