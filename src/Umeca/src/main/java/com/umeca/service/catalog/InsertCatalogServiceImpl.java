@@ -36,7 +36,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
     //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -688,6 +688,21 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             responseTypeRepository.save(model);
         }
         responseTypeRepository.flush();
+    }
+
+    @Autowired
+    ElectionNotApplyRepository electionNotApplyRepository;
+
+    @Override
+    public void electionNotApply() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "election_not_apply.txt", "\\|", 2);
+        for (String[] data : lstDta) {
+            ElectionNotApply model = new ElectionNotApply();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            electionNotApplyRepository.save(model);
+        }
+        electionNotApplyRepository.flush();
     }
 
 }

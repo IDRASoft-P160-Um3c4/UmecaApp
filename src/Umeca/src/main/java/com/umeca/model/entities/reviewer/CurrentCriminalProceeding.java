@@ -45,6 +45,9 @@ public class CurrentCriminalProceeding {
     @JoinColumn(name="id_domicile_victim", nullable = true)
     private Address domicileVictim;
 
+    @Column(name="additional_info",length = 1000, nullable = true)
+    private String additionalInfo;
+
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = true)
     private Meeting meeting;
@@ -57,7 +60,13 @@ public class CurrentCriminalProceeding {
         this.id = id;
     }
 
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
 
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
 
     public String getPlaceDetention() {
         return placeDetention;

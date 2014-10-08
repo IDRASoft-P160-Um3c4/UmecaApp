@@ -79,7 +79,7 @@ public class SharedController {
                     "    <description>Enrolamiento</description></information>\n" +
                     "<resources>\n" +
                     "    <property name=\"jnlp.publish-url\" value=\"" + urlBase + "\"/>\n" +
-                    "    <j2se version=\"1.7+\" />\n" +
+                    "     <j2se version=\"1.7+\" />\n" +
                     "    <jar href=\"sensor.jar\" />\n" +
                     "</resources>\n" +
                     "<application-desc main-class=\"com.idrasoft.onetouch.MainForm\">\n" +

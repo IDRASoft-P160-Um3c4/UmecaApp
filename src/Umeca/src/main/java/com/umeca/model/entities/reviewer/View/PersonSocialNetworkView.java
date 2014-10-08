@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer.View;
 
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.EntityGrid;
 
 /**
@@ -25,16 +26,21 @@ public class PersonSocialNetworkView  implements EntityGrid {
 
     private String isAccompanimentString;
 
+    private Long dependent;
+
+    private String dependentString;
+
     public PersonSocialNetworkView() {
     }
 
-    public PersonSocialNetworkView(Long id, String name, String relName, Integer age, String phone, Boolean isAccompaniment) {
+    public PersonSocialNetworkView(Long id, String name, String relName, Integer age, String phone, Boolean isAccompaniment, Long dependent) {
         this.id = id;
         this.name = name;
         this.relName = relName;
         this.age = age;
         this.phone = phone;
         this.isAccompanimentString = isAccompaniment ? "Si":"No";
+        this.dependentString = dependent.equals(Constants.ELECTION_YES)? "Si": "No";
     }
 
     public Long getId() {
@@ -91,5 +97,21 @@ public class PersonSocialNetworkView  implements EntityGrid {
 
     public void setIsAccompanimentString(String accompanimentString) {
         isAccompanimentString = accompanimentString;
+    }
+
+    public Long getDependent() {
+        return dependent;
+    }
+
+    public void setDependent(Long dependent) {
+        this.dependent = dependent;
+    }
+
+    public String getDependentString() {
+        return dependentString;
+    }
+
+    public void setDependentString(String dependentString) {
+        this.dependentString = dependentString;
     }
 }

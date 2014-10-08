@@ -149,8 +149,8 @@ app.controller('drugController', function($scope, $timeout,$rootScope) {
     $scope.fillModel = function(){
         var template ="NO CONSUME";
         if($scope.blockD == false){
-            $scope.d.other=template;
-            $scope.d.specificationPeriodicity = template;
+            //$scope.d.other=template;
+            //$scope.d.specificationPeriodicity = template;
             $scope.d.quantity = template;
             var today  = new Date();
             var year = today.getFullYear();
@@ -159,7 +159,7 @@ app.controller('drugController', function($scope, $timeout,$rootScope) {
             $scope.d.lastUse = year+"/"+(month+1)+"/"+date;
             for(var i=0; i < $scope.lstType.length; i++){
                 var type = $scope.lstType[i];
-                 if(type.name === "Otro"){
+                 if(type.name === "No consume"){
                     $scope.d.type = type;
                     $scope.d.typeId = type.id;
                     break;
@@ -167,7 +167,7 @@ app.controller('drugController', function($scope, $timeout,$rootScope) {
             }
             for(var i=0; i < $scope.lstPer.length; i++){
                 var per = $scope.lstPer[i];
-                if(per.specification === true){
+                if(per.name == "No consume"){
                     $scope.d.per = per;
                     $scope.d.perId = per.id;
                     break;

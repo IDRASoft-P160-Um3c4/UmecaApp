@@ -40,7 +40,7 @@ public class RequestEvaluationView implements EntityGrid {
         status ="";
         if(this.statusCase.equals(Constants.CASE_STATUS_MEETING)){
             if(this.statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)){
-                description="Por agregar infromaci&oacute;n legal";
+                description="Por agregar informaci&oacute;n legal";
                 status+= ".A.";
             }else if(this.statusMeeting.equals(Constants.S_MEETING_INCOMPLETE)){
                 status = ".E.";

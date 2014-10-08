@@ -261,6 +261,8 @@ public class MeetingServiceImpl implements MeetingService {
         model.addObject("managereval", band);
     }
 
+    @Autowired
+    ElectionNotApplyRepository electionNotApplyRepository;
 
     @Override
     public ModelAndView showLegalProcess(Long id, Integer showCase) {
@@ -284,6 +286,13 @@ public class MeetingServiceImpl implements MeetingService {
             lstElectionDto.add(edto.dtoElection(e));
         }
         model.addObject("listElection", gson.toJson(lstElectionDto));
+        List<ElectionNotApply> lstElectionNotApply = electionNotApplyRepository.findAll();
+        List<ElectionDto> lstElectionNotApplyDto = new ArrayList<ElectionDto>();
+        for (ElectionNotApply e : lstElectionNotApply) {
+            ElectionDto edto = new ElectionDto();
+            lstElectionNotApplyDto.add(edto.dtoElection(e));
+        }
+        model.addObject("listElectionNotApply", gson.toJson(lstElectionNotApplyDto));
         List<Relationship> relationshipList = relationshipRepository.findNotObsolete();
         List<CatalogDto> catalogDtoList = new ArrayList<>();
         for (Relationship relationship : relationshipList) {
@@ -293,7 +302,8 @@ public class MeetingServiceImpl implements MeetingService {
             catalogDtoList.add(cdto);
         }
         model.addObject("listRelationship", gson.toJson(catalogDtoList));
-        model.addObject("listLegalBefore", findLegalBefore(id, c.getMeeting().getImputed().getName(), c.getMeeting().getImputed().getLastNameP(), c.getMeeting().getImputed().getLastNameM()));
+        String listLegalBefore =  findLegalBefore(id, c.getMeeting().getImputed().getName(), c.getMeeting().getImputed().getLastNameP(), c.getMeeting().getImputed().getLastNameM());
+        model.addObject("listLegalBefore",listLegalBefore);
         CurrentCriminalProceeding ccp = c.getMeeting().getCurrentCriminalProceeding();
         if (ccp != null) {
             List<Crime> listCrime = ccp.getCrimeList();
@@ -322,6 +332,7 @@ public class MeetingServiceImpl implements MeetingService {
             if(ccp.getRelationshipVictim()!=null){
                 model.addObject("relId",ccp.getRelationshipVictim().getId());
             }
+            model.addObject("additionalInfo",ccp.getAdditionalInfo());
             model.addObject("behaviorDetention", ccp.getBehaviorDetention());
             model.addObject("placeDetention",ccp.getPlaceDetention());
         }
@@ -332,6 +343,19 @@ public class MeetingServiceImpl implements MeetingService {
             model.addObject("specificationOpenProcess", pcp.getSpecificationOpenProcess());
             model.addObject("specificationNumberConvictions", pcp.getSpecificationNumberConvictions());
             model.addObject("numberConvictions",pcp.getNumberConvictions());
+            if(pcp.getComplyCSPP()!=null){
+              model.addObject("complyCSPPId",pcp.getComplyCSPP().getId());
+            }
+            if(pcp.getComplyPM()!=null){
+                model.addObject("complyPMId",pcp.getComplyPM().getId());
+            }
+            if(pcp.getComplyProcessAbove()!=null){
+                model.addObject("complyProcessAboveId", pcp.getComplyProcessAbove().getId());
+            }
+        }else if(listLegalBefore.equals("[]")){
+            model.addObject("firstProceeding","Ninguno");
+            model.addObject("openProcessNumber","0");
+            model.addObject("numberConvictions","0");
         }
         if(showCase!=null && showCase.equals(1)){
             model.addObject("managereval", true);
@@ -466,6 +490,7 @@ public class MeetingServiceImpl implements MeetingService {
             pView.setPhone(p.getPhone());
             pView.setAddress(p.getAddress());
             pView.setSpecification(p.getSpecification());
+            model.addObject("isAccomp",p.getIsAccompaniment());
             model.addObject("p", gson.toJson(pView));
             model.addObject("relId", gson.toJson(p.getRelationship().getId()));
             model.addObject("docId", gson.toJson(p.getDocumentType().getId()));
@@ -1047,9 +1072,9 @@ public class MeetingServiceImpl implements MeetingService {
         pcpc.setNumberConvictions(cpv.getNumberConvictions());
         pcpc.setSpecificationNumberConvictions(cpv.getSpecificationNumberConvictions());
         pcpc.setSpecificationOpenProcess(cpv.getSpecificationOpenProcess());
-        pcpc.setComplyPM(electionRepository.findOne(cpv.getComplyPMId()));
-        pcpc.setComplyCSPP(electionRepository.findOne(cpv.getComplyCSPPId()));
-        pcpc.setComplyProcessAbove(electionRepository.findOne(cpv.getComplyProcessAboveId()));
+        pcpc.setComplyPM(electionNotApplyRepository.findOne(cpv.getComplyPMId()));
+        pcpc.setComplyCSPP(electionNotApplyRepository.findOne(cpv.getComplyCSPPId()));
+        pcpc.setComplyProcessAbove(electionNotApplyRepository.findOne(cpv.getComplyProcessAboveId()));
 
     }
 
@@ -1085,6 +1110,7 @@ public class MeetingServiceImpl implements MeetingService {
         ccpc.setBehaviorDetention(cpv.getBehaviorDetention());
         ccpc.setDomicileVictim(av);
         ccpc.setNameVictim(cpv.getNameVictim());
+        ccpc.setAdditionalInfo(cpv.getAdditionalInfo());
         List<Crime> listOldCrime = ccpc.getCrimeList();
         if(listOldCrime != null ){
             crimeRepository.delete(listOldCrime);

@@ -220,6 +220,12 @@ public class InsertCatalogController {
         return "Response type OK!";
     }
 
+    @RequestMapping(value = "/catalogs/electionNotApply", method = RequestMethod.GET)
+    public String electionNotApply(){
+        service.electionNotApply();
+        return "Response election not apply OK!";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll(){
         service.role();
@@ -255,6 +261,7 @@ public class InsertCatalogController {
         service.systemSettings();
         service.requestType();
         service.responseType();
+        service.electionNotApply();
         return "insertCatalog OK!!";
     }
 }

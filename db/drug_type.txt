@@ -13,3 +13,4 @@
 12|Extasis|0|0
 13|Hongos|0|0
 14|Otro|0|1
+15|No consume|0|0

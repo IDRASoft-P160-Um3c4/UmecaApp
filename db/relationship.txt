@@ -15,3 +15,6 @@ id|name|obsolete
 14|Esposa|0
 15|Suegra|0
 16|Familiar Político|0
+17|Padre|0
+18|Abuelo|0
+19|Otro|0
