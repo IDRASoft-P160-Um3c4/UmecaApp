@@ -6,4 +6,4 @@ id|name|specification|isObsolete
 5|Reuniones sociales|0|0
 6|Reuniones familiares|0|0
 7|Otras|1|0
-8|Ninguna|0
+8|Ninguna|0|0
