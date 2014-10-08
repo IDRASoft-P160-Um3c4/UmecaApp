@@ -33,12 +33,12 @@
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_REVIEWER')">
                     <li class="nav-li-blue"><a href="<c:url value='/reviewer/meeting/index.html' />"><i
-                            class="glyphicon icon-comments-alt"></i>&nbsp;&nbsp;Entevista</a></li>
+                            class="glyphicon icon-comments-alt"></i>&nbsp;&nbsp;Entrevista</a></li>
                     <li class="nav-li-blue"><a href="<c:url value='/reviewer/verification/index.html' />"><i
                             class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a>
                     </li>
                     <li class="nav-li-blue"><a href="<c:url value='/reviewer/technicalReview/index.html' />"><i
-                            class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</a></li>
+                            class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n de riesgos</a></li>
                     <li class="nav-li-blue"><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i
                             class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a Coordinador</a></li>
                     <li class="nav-li-blue"><a
@@ -181,7 +181,7 @@
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle" ng-init="hasUser = true">
                             <img class=" nav-user-photo" src="<c:url value='/assets/avatars/avatar0.png' />"
                                  alt="Usuario"/>
-								<span class="user-info" >
+								<span class="user-info">
 									<small>Bienvenido,</small>
 									<%=SecurityContextHolder.getContext().getAuthentication().getName()%>
 								</span>

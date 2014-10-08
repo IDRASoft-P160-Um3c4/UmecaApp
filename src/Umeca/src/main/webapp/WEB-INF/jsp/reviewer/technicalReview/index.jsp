@@ -69,15 +69,15 @@
                         switch (status[i]) {
 
                             case "ST_CASE_VERIFICATION_COMPLETE":
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar opinión t&eacute;cnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar instrumento de evaluaci&oacute;n de riesgos\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
                                 break;
                             case "ST_CASE_TECHNICAL_REVIEW_COMPLETE":
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar opini&oacute;n t&eacute;cnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open dark\"></span></a>";
-                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte\" onclick=\"generateFile('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
-                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Obtener toda la informaci&oacute;n de la verificaci&oacute;n\" onclick=\"generateFileAllSources('" + cl + "');\"><i class=\" icon-group purple\"></i></a>";
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar instrumento de evaluaci&oacute;n de riesgos\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open dark\"></span></a>";
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar formato de opini&oacute;n\" onclick=\"generateFile('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar entrevistas\" onclick=\"generateFileAllSources('" + cl + "');\"><i class=\" icon-group purple\"></i></a>";
                                 break;
                             case "ST_CASE_EDIT_TEC_REV":
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar opini&oacute;n t&eacute;cnica\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil dark\"></span></a>";
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar instrumento de evaluaci&oacute;n de riesgos\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil dark\"></span></a>";
                                 break;
                             default:
                                 be = "<a style=\"display:inline-block;\" title=\"A&uacute;n no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
@@ -128,7 +128,8 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Opinión Técnica</h2>
+    <h2 class="element-center"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n de
+        riesgos</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

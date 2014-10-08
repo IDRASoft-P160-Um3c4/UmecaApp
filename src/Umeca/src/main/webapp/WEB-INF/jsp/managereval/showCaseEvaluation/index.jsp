@@ -52,18 +52,28 @@
 
         };
 
-        window.legal=function(id){
-            var params= [];
-            params["idParam"]=id;
-            params["showCaseParam"]=1;
-            window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/legal/index.html?id=idParam&&showCase=showCaseParam'/>",params);
+        window.legal = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            params["showCaseParam"] = 1;
+            window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/legal/index.html?id=idParam&&showCase=showCaseParam'/>", params);
 
         };
 
-        window.updwFiles = function(id){
-            var params= [];
-            params["idParam"]=id;
-            window.goToUrlMvcUrl("<c:url value='/shared/uploadFile/index.html?id=idParam'/>",params);
+        window.updwFiles = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            window.goToUrlMvcUrl("<c:url value='/shared/uploadFile/index.html?id=idParam'/>", params);
+        };
+
+        window.generateFileAllSources = function (id) {
+            var goTo = "<c:url value='/reviewer/technicalReview/generateFileAllSources.html'/>" + "?id=" + id;
+            window.goToUrlMvcUrl(goTo);
+        };
+
+        window.generateFile = function (id) {
+            var goTo = "<c:url value='/reviewer/technicalReview/generateFile.html'/>" + "?id=" + id;
+            window.goToUrlMvcUrl(goTo);
         };
 
         $(document).ready(function () {
@@ -76,11 +86,11 @@
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idVerif', index: 'idVerif', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullname', index: 'fullname', search: false, width: 400, align: "center"},
+                    { name: 'fullname', index: 'fullname', search: false, width: 350, align: "center"},
                     { name: 'statusString', index: 'statusString', width: 300, align: "center", sortable: true, search: false},
                     { name: 'userName', index: 'userName', width: 150, align: "center", sortable: true, search: false},
                     { name: 'status', index: 'status', hidden: true},
-                    { name: 'Action', width: 130, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 180, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -111,11 +121,12 @@
                                 be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Informaci&oacute;n legal\" onclick=\"window.legal('" + cl + "');\"><span class=\"green  icon-legal\"></span></a>  ";
                             }
                             if (status >= 3) {
-                                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Verificaci&oacute;n\" onclick=\"window.showVerification('" + cl + "');\"><span class=\"purple icon-list\"></span></a>  ";
-
+                                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Verificaci&oacute;n\" onclick=\"window.showVerification('" + cl + "');\"><span class=\"purple icon-list\"></span></a>";
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar entrevistas\" onclick=\"generateFileAllSources('" + _id_verif + "');\"><i class=\" icon-group purple\"></i></a> ";
                             }
                             if (status >= 4) {
-                                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Opini&oacute;n t&eacute;cnica\" onclick=\"window.technicalReview('" + _id_verif + "');\"><span class=\"warning icon-archive\"></span></a>  ";
+                                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Instrumento de evaluaci&oacute;n de riesgos \" onclick=\"window.technicalReview('" + _id_verif + "');\"><span class=\"warning icon-archive\"></span></a>";
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar formato de opini&oacute;n\" onclick=\"generateFile('" + _id_verif + "');\"><span class=\"glyphicon glyphicon-file\"></span></a> ";
                             }
                         }
                         be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Subir / Descargar archivos del caso\" onclick=\"window.updwFiles('" + cl + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";

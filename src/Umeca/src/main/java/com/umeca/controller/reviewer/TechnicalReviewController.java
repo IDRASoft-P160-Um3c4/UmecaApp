@@ -139,13 +139,14 @@ public class TechnicalReviewController {
             Verification verification = verificationRepository.findById(id);
             Case caseDet = verification.getCaseDetention();
             TechnicalReview tecRev_prev = caseDet.getTechnicalReview();
-            Imputed imputed = caseDet.getMeeting().getImputed();
+            Imputed imputed = caseDet.getVerification().getMeetingVerified().getImputed();
             String fullname = imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM();
 
             System.out.println(caseDet.getIdFolder());
             model.addObject("idVerification", verification.getId());
             model.addObject("imputedFullName", fullname);
             model.addObject("foldId", verification.getCaseDetention().getIdFolder());
+            model.addObject("idCase", verification.getCaseDetention().getId());
 
             if (tecRev_prev != null) {
                 model.addObject("hasRevTec", true);
@@ -248,7 +249,7 @@ public class TechnicalReviewController {
     public ModelAndView generateFileByCase(@RequestParam(required = true) Long id, HttpServletResponse response) {
 
         ModelAndView model = new ModelAndView("/reviewer/technicalReview/infoFile");
-        Case c =caseRepository.findOne(id);
+        Case c = caseRepository.findOne(id);
         TechnicalReviewInfoFileView dataFile = technicalReviewService.fillInfoFile(c.getVerification().getId());
         model.addObject("data", dataFile);
         response.setContentType("application/force-download");
