@@ -31,7 +31,7 @@ public class SocialNetworkDto {
         if(p.getLivingWith()!=null)
             this.livId = p.getLivingWith().getId();
         if(p.getDependent()!=null)
-            this.depId = p.getLivingWith().getId();
+            this.depId = p.getDependent().getId();
         this.name = p.getName();
         this.phone = p.getPhone();
         this.age = p.getAge();

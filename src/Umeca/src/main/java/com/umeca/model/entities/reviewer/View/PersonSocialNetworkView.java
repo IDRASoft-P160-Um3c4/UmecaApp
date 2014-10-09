@@ -40,6 +40,7 @@ public class PersonSocialNetworkView  implements EntityGrid {
         this.age = age;
         this.phone = phone;
         this.isAccompanimentString = isAccompaniment ? "Si":"No";
+        this.dependent = dependent;
         this.dependentString = dependent.equals(Constants.ELECTION_YES)? "Si": "No";
     }
 
