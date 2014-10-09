@@ -322,7 +322,7 @@ public class VerificationServiceImpl implements VerificationService {
                 } else {
                     result = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(e.getIdSource(), e.getIdSubsection(), idList, Constants.ST_FIELD_VERIF_UNABLE);
                 }
-                if (result != null) {
+                if (result != null ) {
                     //for(FieldMeetingSource fAux: result){
                     //  if(!fAux.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)){
                     //    List<FieldMeetingSource> a = new ArrayList<>();
