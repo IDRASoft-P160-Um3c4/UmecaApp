@@ -50,7 +50,7 @@ public class FieldMeetingSource {
     private String jsonValue;
 
     @ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinColumn(name="id_status", nullable = false)
+    @JoinColumn(name="id_status",nullable = true)
     private StatusFieldVerification statusFieldVerification;
 
     @Column(name="is_final", nullable = true)

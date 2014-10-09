@@ -33,7 +33,7 @@ public class SourceVerification implements EntityGrid{
         if(dateComplete!=null){
            this.statusString ="Entrevista de verificaci&aacute;n terminada";
         }else{
-            this.statusString = "Entrevista de verificaci&aacute;n incompleta";
+            this.statusString = "Entrevista de verificaci&oacute;n incompleta";
         }
         this.idCase = idCase;
         this.visible = visible;
@@ -116,7 +116,6 @@ public class SourceVerification implements EntityGrid{
     private Verification verification;
 
     @OneToMany(mappedBy="sourceVerification", cascade={CascadeType.ALL})
-    @OrderBy("id_field.sectionCode")
     private List<FieldMeetingSource> fieldMeetingSourceList;
 
     public Long getId() {
