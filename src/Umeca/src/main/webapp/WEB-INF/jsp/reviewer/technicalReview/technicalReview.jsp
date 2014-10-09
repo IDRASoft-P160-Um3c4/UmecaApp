@@ -5,6 +5,12 @@
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/technicalReviewCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/hiddenDrct.js"></script>
+    <script>
+        var generateFileAllSources = function (id) {
+            var goTo = "<c:url value='/reviewer/technicalReview/generateFileAllSources.html'/>" + "?id=" + id;
+            window.goToUrlMvcUrl(goTo);
+        };
+    </script>
 
     <title>Opini&oacute;n t&eacute;cnica</title>
 </head>
@@ -13,7 +19,7 @@
 
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<h2 class="element-center"><i class="icon-archive"></i>&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</h2>
+<h2 class="element-center"><i class="icon-archive"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n de riesgos</h2>
 
 
 <form id="FormTecRevId" name="FormTecRevId" class="form-horizontal"
@@ -33,37 +39,55 @@
 urlManagereval="<c:url value='/managereval/showCaseEvaluation/index.html'/>"; urlTecRev="<c:url value='/reviewer/technicalReview/index.html'/>";
 urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
 
-<div class="widget-box">
-    <div class="widget-header">Datos generales</div>
+    <div class="widget-box">
+        <div class="widget-header">Datos generales</div>
 
-    <div class="widget-body">
-
-        <div class="control-group">
-            <br/>
-
+        <div class="widget-body">
 
             <div class="row">
-                <div class="col-xs-2 col-xs-offset-1">
-                    No. Carpeta:
-                </div>
-                <div class="col-xs-2 element-left">
-                    <input class="form-control" ng-model="foldId" ng-init='foldId="${foldId}"' disabled>
+                <div class="col-xs-12">
+                    <div class="col-xs-9">
+                        <div class="control-group">
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-xs-2 col-xs-offset-1">
+                                    No. Carpeta:
+                                </div>
+                                <div class="col-xs-2 element-left">
+                                    <input class="form-control" ng-model="foldId" ng-init='foldId="${foldId}"' disabled>
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-xs-2 col-xs-offset-1">
+                                    Nombre del imputado:
+                                </div>
+                                <div class="col-xs-5 element-left">
+                                    <input class="form-control" ng-model="imputedFullName"
+                                           ng-init='imputedFullName="${imputedFullName}"' disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                    <div class="col-xs-3">
+                        <br/>
+                        <br/>
+                        <br/>
+
+                        <h3 class="header smaller lighter blue">
+                            <a href="javascript:;"
+                               style="display:inline-block;" title="Descargar informaci&oacute;n de verificaci&oacute;n"
+                               onclick="generateFileAllSources(${idVerification});"><span
+                                    class="glyphicon glyphicon-download"></span>&nbsp;&nbsp;<label>Descargar informaci&oacute;n
+                                de verificaci&oacute;n</label></a>
+                        </h3>
+                    </div>
                 </div>
             </div>
-
-            <br/>
-
-            <div class="row">
-                <div class="col-xs-2 col-xs-offset-1">
-                    Nombre del imputado:
-                </div>
-                <div class="col-xs-5 element-left">
-                    <input class="form-control" ng-model="imputedFullName"
-                           ng-init='imputedFullName="${imputedFullName}"' disabled>
-                </div>
-            </div>
-
-            <br/>
         </div>
     </div>
 </div>
