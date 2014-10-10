@@ -1253,7 +1253,7 @@ public class MeetingServiceImpl implements MeetingService {
             requestMessage.setSender(userSender);
             if(usersReceiver!= null && usersReceiver.size()>0){
                 Message m = new Message();
-                m.setText("Se termina de capturar información legal, se solicita autorizar fuentes.");
+                m.setText("Se termina de capturar informaci&oacute;n legal, se solicita autorizar fuentes.");
                 m.setCaseDetention(c);
                 m.setSender(userSender);
                 List<RelMessageUserReceiver> listrmur = new ArrayList<>();

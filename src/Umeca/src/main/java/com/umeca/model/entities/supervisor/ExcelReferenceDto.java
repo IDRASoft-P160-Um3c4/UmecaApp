@@ -14,8 +14,9 @@ public class ExcelReferenceDto {
     private String phone;
     private Boolean accompaniment;
     private String accompanimentStr;
+    private String specificationRelationship;
 
-    public ExcelReferenceDto(Long idCase, String name, Integer age, String document, String relationship, String address, String phone, Boolean accompaniment) {
+    public ExcelReferenceDto(Long idCase, String name, Integer age, String document, String relationship, String address, String phone, Boolean accompaniment, String specificationRelationship) {
         this.idCase = idCase;
         this.name = name;
         this.age = age;
@@ -24,6 +25,10 @@ public class ExcelReferenceDto {
         this.address = address;
         this.phone = phone;
         this.accompaniment = accompaniment;
+        if(specificationRelationship!=null && !specificationRelationship.equals("")){
+            this.relationship += ": "+specificationRelationship;
+        }
+        this.specificationRelationship = specificationRelationship;
     }
 
     public String getName() {
@@ -102,5 +107,13 @@ public class ExcelReferenceDto {
 
     public void setDocument(String document) {
         this.document = document;
+    }
+
+    public String getSpecificationRelationship() {
+        return specificationRelationship;
+    }
+
+    public void setSpecificationRelationship(String specificationRelationship) {
+        this.specificationRelationship = specificationRelationship;
     }
 }

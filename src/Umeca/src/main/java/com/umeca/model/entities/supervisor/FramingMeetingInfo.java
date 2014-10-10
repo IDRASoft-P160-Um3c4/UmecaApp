@@ -56,6 +56,7 @@ public class FramingMeetingInfo {
     private List<CatalogDto> risks;
     private List<CatalogDto> threats;
     private List<String> arrangements;
+    private String specificationRelationship;
 
     private List<FramingReferenceInfo> references;
     private List<ExcelDrugDto> drugs;
@@ -99,7 +100,6 @@ public class FramingMeetingInfo {
         this.addictedAcquaintance = addictedAcquaintance;
         this.relativeAbroad = relativeAbroad;
         this.obligationIssue = obligationIssue;
-
     }
 
     public Long getIdCase() {
@@ -337,7 +337,11 @@ public class FramingMeetingInfo {
                             returnStr += "-" + actRef.getName();
                             returnStr += "," + actRef.getGenderStr();
                             returnStr += ", " + actRef.getAge() + " años";
-                            returnStr += ", Parentesco: " + actRef.getRelationship();
+                            String relationship = actRef.getRelationship();
+                            if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
+                                relationship += ": "+actRef.getSpecificationRelationship();
+                            }
+                            returnStr += ", Parentesco: " + relationship;
                             returnStr += ", Ocupación" + actRef.getOccupation();
                             returnStr += ", Lugar de ocupación: " + actRef.getOccupationPlace();
                             returnStr += ", Teléfono: " + actRef.getPhone();
@@ -346,8 +350,12 @@ public class FramingMeetingInfo {
                         } else {
                             returnStr += "-" + actRef.getName();
                             returnStr += ", Teléfono: " + actRef.getPhone();
-                            returnStr += ", Parentesco: " + actRef.getRelationship();
-                            returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                            String relationship= actRef.getRelationship();
+                            if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
+                                relationship += ": "+actRef.getSpecificationRelationship();
+                            }
+                            returnStr += ", Parentesco: " + relationship;
+                            returnStr += ", Esta persona acompañ ara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
                         }
                     }
                 }
@@ -375,17 +383,25 @@ public class FramingMeetingInfo {
                             returnStr += "-" + actRef.getName();
                             returnStr += "," + actRef.getGenderStr();
                             returnStr += ", " + actRef.getAge() + " años";
-                            returnStr += ", Parentesco: " + actRef.getRelationship();
+                            String relationship = actRef.getRelationship();
+                            if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
+                                relationship += ": "+actRef.getSpecificationRelationship();
+                            }
+                            returnStr += ", Parentesco: " + relationship;
                             returnStr += ", Ocupación: " + actRef.getOccupation();
                             returnStr += ", Lugar de ocupación: " + actRef.getOccupationPlace();
                             returnStr += ", Teléfono: " + actRef.getPhone();
                             returnStr += ", " + actRef.getAddress();
                             returnStr += ", Escolaridad: " + actRef.getAcademicLvl() + ".";
-                            returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                            returnStr += ", Esta persona acompañará durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
                         } else {
                             returnStr += "-" + actRef.getName();
                             returnStr += ", " + actRef.getAge() + " años";
-                            returnStr += ", Parentesco: " + actRef.getRelationship();
+                            String relationship = actRef.getRelationship();
+                            if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
+                                relationship += ": "+actRef.getSpecificationRelationship();
+                            }
+                            returnStr += ", Parentesco: " + relationship;
                             returnStr += ", Ocupación: " + actRef.getOccupation();
                             returnStr += ", " + actRef.getAddress();
                             returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
@@ -744,5 +760,13 @@ public class FramingMeetingInfo {
         }
 
         return returnStr;
+    }
+
+    public String getSpecificationRelationship() {
+        return specificationRelationship;
+    }
+
+    public void setSpecificationRelationship(String specificationRelationship) {
+        this.specificationRelationship = specificationRelationship;
     }
 }

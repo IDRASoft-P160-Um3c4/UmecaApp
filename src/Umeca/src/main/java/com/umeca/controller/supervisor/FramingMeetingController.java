@@ -300,6 +300,7 @@ public class FramingMeetingController {
                     add(r.join("relationship").get("name"));
                     add(r.get("occupation"));
                     add(r.get("personType"));
+                    add(r.get("specificationRelationship"));
                 }};
             }
 
@@ -378,6 +379,7 @@ public class FramingMeetingController {
                     add(r.join("relationship").get("name"));
                     add(r.join("accompanimentInfo", JoinType.LEFT).join("address", JoinType.LEFT).get("addressString"));
                     add(r.get("personType"));
+                    add(r.get("specificationRelationship"));
                 }};
             }
 
@@ -534,7 +536,7 @@ public class FramingMeetingController {
             CatalogDto rel = new CatalogDto();
             rel.setId(act.getId());
             rel.setName(act.getName());
-
+            rel.setSpecification(act.getSpecification());
             relationships.add(rel);
         }
 
@@ -586,7 +588,7 @@ public class FramingMeetingController {
             CatalogDto rel = new CatalogDto();
             rel.setId(act.getId());
             rel.setName(act.getName());
-
+            rel.setSpecification(act.getSpecification());
             relationships.add(rel);
         }
 

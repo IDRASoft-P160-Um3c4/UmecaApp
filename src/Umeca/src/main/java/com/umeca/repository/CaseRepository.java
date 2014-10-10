@@ -217,7 +217,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds)")
     List<ExcelImputedHomeDto> getInfoImputedHomes(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelSocialNetworkDto(CDET.id,PSN.name,REL.name,PSN.age,DT.name,DEP.name,LW.name,PSN.isAccompaniment,PSN.phone,PSN.address) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelSocialNetworkDto(CDET.id,PSN.name,REL.name,PSN.age,DT.name,DEP.name,LW.name,PSN.isAccompaniment,PSN.phone,PSN.address,PSN.specificationRelationship) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
             "left join MEET.socialNetwork SN " +
@@ -229,7 +229,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds)")
     List<ExcelSocialNetworkDto> getInfoSocialNetwork(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelReferenceDto(CDET.id,REF.fullName,REF.age,DT.name,REL.name,REF.address,REF.phone,REF.isAccompaniment) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelReferenceDto(CDET.id,REF.fullName,REF.age,DT.name,REL.name,REF.address,REF.phone,REF.isAccompaniment, REF.specificationRelationship) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
             "left join MEET.references REF " +
