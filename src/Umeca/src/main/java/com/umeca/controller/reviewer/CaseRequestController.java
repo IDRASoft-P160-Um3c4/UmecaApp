@@ -80,6 +80,7 @@ public class CaseRequestController {
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_MEETING);
                     add(Constants.CASE_STATUS_VERIFICATION);
+                    add(Constants.CASE_STATUS_SOURCE_VALIDATION);
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
                     add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
                     add(Constants.CASE_STATUS_REQUEST);

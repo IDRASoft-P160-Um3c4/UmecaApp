@@ -31,6 +31,7 @@ app.directive('findMunicipality', function ($http, $timeout) {
                         scope.listMunicipality = data.data;
                        scope.municipality =scope.listMunicipality[0];
                         scope.municipalityId = scope.municipality.id;
+                        scope.setLocation();
                     });
             }, 200);
         });

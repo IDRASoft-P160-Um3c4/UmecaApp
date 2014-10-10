@@ -2,6 +2,8 @@ package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.entities.account.User;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;

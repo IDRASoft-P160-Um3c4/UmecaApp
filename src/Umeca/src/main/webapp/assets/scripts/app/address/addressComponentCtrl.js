@@ -18,6 +18,49 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
     $scope.markers = [];
     $scope.infoWindow = null;
 
+    $scope.setLocation = function(){
+        var ajaxConf = {
+            method: 'POST',
+            url: $scope.urlLocation
+        };
+        ajaxConf.params = {idMun: $scope.municipalityId};
+        $http(ajaxConf)
+            .success(function (data) {
+                data.data = jQuery.parseJSON(data.data);
+                if (data.data == undefined || data.data.length === 0) {
+                    // $scope.clear();
+                    return;
+                }
+                $scope.listLocation = data.data;
+                if ($scope.listLocation.length > 0) {
+                        $scope.location = $scope.listLocation[0];
+                        $scope.locationId = $scope.location.id;
+                        $scope.zipCode = $scope.location.zipCode;
+                }
+            });
+    };
+
+    $scope.setMunicipality = function(){
+        var ajaxConf = {
+            method: 'POST',
+            url: $scope.urlMunicipality
+        };
+        ajaxConf.params = {idState: $scope.stateId};
+        $http(ajaxConf)
+            .success(function (data) {
+                data.data = jQuery.parseJSON(data.data);
+                if (data.data == undefined || data.data.length === 0) {
+                    //  cat={};
+                    return;
+                }
+                $scope.listMunicipality = data.data;
+                    if ($scope.listMunicipality.length > 0) {
+                        $scope.municipality = $scope.listMunicipality[0];
+                        $scope.municipalityId = $scope.municipality.id;
+                    }
+                $scope.setLocation();
+            });
+    };
 
     $scope.clear = function () {
         $scope.msgZipCode = "El código postal " + $scope.zipCode + " no existe.";

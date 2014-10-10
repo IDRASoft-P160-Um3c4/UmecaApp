@@ -22,12 +22,15 @@ public class Reference implements EntityGrid{
     public Reference() {
     }
 
-    public Reference(Long id,String fullName, String relName,Integer age, String phone,Boolean isAccompaniment) {
+    public Reference(Long id,String fullName, String relName,Integer age, String phone,Boolean isAccompaniment, String specificationRelationship) {
         this.id = id;
         this.fullName = fullName;
         this.age = age;
         this.phone = phone;
         this.relName = relName;
+        if(!specificationRelationship.equals("")){
+            this.relName += ": "+specificationRelationship;
+        }
         this.isAccompanimentString = isAccompaniment ? "Si": "No";
     }
 
@@ -65,6 +68,9 @@ public class Reference implements EntityGrid{
 
     @Column(name = "is_accompaniment", nullable = false)
     private Boolean isAccompaniment;
+
+    @Column(name="specification_relationship", nullable =  true, length = 255)
+    private String specificationRelationship;
 
     @Transient
     private String isAccompanimentString;
@@ -186,5 +192,13 @@ public class Reference implements EntityGrid{
 
     public void setAccompanimentString(String accompanimentString) {
         isAccompanimentString = accompanimentString;
+    }
+
+    public String getSpecificationRelationship() {
+        return specificationRelationship;
+    }
+
+    public void setSpecificationRelationship(String specificationRelationship) {
+        this.specificationRelationship = specificationRelationship;
     }
 }

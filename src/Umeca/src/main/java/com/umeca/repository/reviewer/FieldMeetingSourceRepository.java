@@ -180,4 +180,10 @@ public interface FieldMeetingSourceRepository extends JpaRepository<FieldMeeting
             "where c.id =:idCase and fv.sectionCode = :idSection and fms.idFieldList =:idList" )
     List<FieldMeetingSource> getGroupFieldMeetingByIdCaseWhitIdList(@Param("idCase")Long idCase,@Param("idSection") Integer idSection, @Param("idList") Long idList);
 
+    @Query("select fms from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "where c.id =:idCase" )
+    List<FieldMeetingSource> getAllByIdCase(@Param("idCase")Long idCase);
+
 }

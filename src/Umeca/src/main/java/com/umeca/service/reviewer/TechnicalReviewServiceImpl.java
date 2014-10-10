@@ -130,13 +130,13 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         Verification ver = verificationRepository.findOne(idVerification);
 
         Meeting meeting = ver.getCaseDetention().getMeeting();
+        Imputed im = meeting.getImputed();
+        file.setIdFolder(sharedUserService.convertToValidString(ver.getCaseDetention().getIdFolder()));
+        file.setName(sharedUserService.convertToValidString(im.getName()));
+        file.setLastNameP(sharedUserService.convertToValidString(im.getLastNameP()));
+        file.setLastNameM(sharedUserService.convertToValidString(im.getLastNameM()));
 
-        file.setIdFolder(ver.getCaseDetention().getIdFolder());
-        file.setName(meeting.getImputed().getName());
-        file.setLastNameP(meeting.getImputed().getLastNameP());
-        file.setLastNameM(meeting.getImputed().getLastNameM());
-
-        file.setAddress(meeting.getImputedHomes().get(0).getAddress().getAddressString());
+        file.setAddress(sharedUserService.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString()));
         String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";
         for (int i = 0; i < Constants.NAMES_MEETING.length; i++) {
             List<FieldMeetingSource> listFMS = fieldMeetingSourceRepository.getAllFinalByIdCaseAndSectionCode(ver.getCaseDetention().getId(), (i + 1));
@@ -168,10 +168,14 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         for (SourceVerification source : ver.getSourceVerifications()) {
             if (source.getVisible() == true && source.getAuthorized() == true) {
                 StringBuilder sb = new StringBuilder();
-                sb.append(source.getFullName());
+                sb.append(sharedUserService.convertToValidString(source.getFullName()));
                 sb.append(" relaci&oacute;n con el imputado ");
-                sb.append(source.getRelationship().getName());
-                sourcesTxt.add(sb.toString());
+                String relationship = source.getRelationship().getName();
+                if(source.getRelationship().getSpecification()){
+                    relationship += source.getSpecification();
+                }
+                sb.append(sharedUserService.convertToValidString(relationship));
+                sourcesTxt.add(sharedUserService.convertToValidString(sb.toString()));
             }
         }
 
@@ -215,13 +219,13 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         Verification ver = verificationRepository.findOne(id);
 
         Meeting meeting = ver.getCaseDetention().getMeeting();
+        Imputed im = meeting.getImputed();
+        file.setIdFolder(sharedUserService.convertToValidString(ver.getCaseDetention().getIdFolder()));
+        file.setName(sharedUserService.convertToValidString(im.getName()));
+        file.setLastNameP(sharedUserService.convertToValidString(im.getLastNameP()));
+        file.setLastNameM(sharedUserService.convertToValidString(im.getLastNameM()));
 
-        file.setIdFolder(ver.getCaseDetention().getIdFolder());
-        file.setName(meeting.getImputed().getName());
-        file.setLastNameP(meeting.getImputed().getLastNameP());
-        file.setLastNameM(meeting.getImputed().getLastNameM());
-
-        file.setAddress(meeting.getImputedHomes().get(0).getAddress().getAddressString());
+        file.setAddress(sharedUserService.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString()));
         String template = "Campo: {0} <br/>Valor: {1}";
         Long idCase = ver.getCaseDetention().getId();
         List<Long> sourcesId = sourceVerificationRepository.getAllSourcesByCase(idCase);
@@ -236,9 +240,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                     Section s = new Section(fieldMeetingSources.get(0).getFieldVerification().getSection());
                     List<String> messages = new ArrayList<>();
                     for (FieldMeetingSource fms : fieldMeetingSources) {
-                        String finalString = template.replace("{0}", fms.getFieldVerification().getFieldName());
-                        finalString = finalString.replace("{1}", fms.getValue());
-                        finalString = sharedUserService.convertToValidString(finalString);
+                        String finalString = template.replace("{0}", sharedUserService.convertToValidString(fms.getFieldVerification().getFieldName()));
+                        finalString = finalString.replace("{1}", sharedUserService.convertToValidString(fms.getValue()));
+                        //finalString = finalString;
                         messages.add(finalString);
                     }
                     s.setValues(messages);

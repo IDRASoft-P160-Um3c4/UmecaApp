@@ -400,7 +400,7 @@
                         <select class="form-control element-center" ng-model="m.country"
                                 ng-options="e.name for e in listCountry"
                                 url-request="/catalogs/getStatesByCountry.json"
-                                ng-change="m.countryId = m.country.id;" ng-init='listCountry = ${lstCountry};'></select>
+                                ng-change="m.countryId = m.country.id; setState();" ng-init='listCountry = ${lstCountry};'></select>
                     </div>
                     <div class="col-xs-2 element-right" ng-show="m.countryId != 1">
                         Estado:

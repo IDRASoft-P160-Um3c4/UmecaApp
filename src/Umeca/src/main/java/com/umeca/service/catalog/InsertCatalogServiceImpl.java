@@ -363,13 +363,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void relationship() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt", "\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "relationship.txt", "\\|", 4);
         for (String[] data : lstDta) {
             Relationship model = new Relationship();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            ;
             model.setObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
             relationshipRepository.save(model);
         }
         relationshipRepository.flush();

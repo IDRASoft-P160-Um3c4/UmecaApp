@@ -61,6 +61,9 @@ public class PersonSocialNetwork{
     @Column(name = "is_accompaniment", nullable = false)
     private Boolean isAccompaniment;
 
+    @Column(name = "specification_relationship", nullable = true, length = 255)
+    private String specificationRelationship;
+
     @Transient
     private Long idAux;
 
@@ -166,5 +169,13 @@ public class PersonSocialNetwork{
 
     public void setIsAccompaniment(Boolean accompaniment) {
         isAccompaniment = accompaniment;
+    }
+
+    public String getSpecificationRelationship() {
+        return specificationRelationship;
+    }
+
+    public void setSpecificationRelationship(String specificationRelationship) {
+        this.specificationRelationship = specificationRelationship;
     }
 }

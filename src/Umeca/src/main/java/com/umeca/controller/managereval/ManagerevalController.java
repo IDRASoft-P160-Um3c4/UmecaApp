@@ -20,7 +20,7 @@ import com.umeca.model.managereval.ManagerevalView;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
-import com.umeca.repository.managereval.SourceVerificationRepository;
+import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.supervisor.HearingFormatService;
@@ -258,13 +258,13 @@ public class ManagerevalController {
     JqGridResultModel authorizeRequestList(@ModelAttribute JqGridFilterModel opts) {
         Long userId = userService.GetLoggedUserId();
         opts.extraFilters = new ArrayList<>();
-        JqGridRulesModel extraFilter = new JqGridRulesModel("statusCase",
-                new ArrayList<String>() {{
-                    add(Constants.CASE_STATUS_REQUEST);
-                }}
-                , JqGridFilterModel.COMPARE_IN
-        );
-        opts.extraFilters.add(extraFilter);
+//        JqGridRulesModel extraFilter = new JqGridRulesModel("statusCase",
+//                new ArrayList<String>() {{
+//                    add(Constants.CASE_STATUS_REQUEST);
+//                }}
+//                , JqGridFilterModel.COMPARE_IN
+//        );
+//        opts.extraFilters.add(extraFilter);
         JqGridRulesModel extraFilter2 = new JqGridRulesModel("responseType",
                 new ArrayList<String>() {{
                     add(Constants.RESPONSE_TYPE_PENDING);
@@ -272,6 +272,18 @@ public class ManagerevalController {
                 , JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter2);
+        JqGridRulesModel extraFilter3 = new JqGridRulesModel("requestType",
+                new ArrayList<String>() {{
+                    add(Constants.ST_REQUEST_AUTHORIZE_SOURCE);
+//                    add(Constants.ST_REQUEST_CASE_OBSOLETE);
+//                    add(Constants.ST_REQUEST_CHANGE_SOURCE);
+//                    add(Constants.ST_REQUEST_EDIT_LEGAL_INFORMATION);
+//                    add(Constants.ST_REQUEST_EDIT_MEETING);
+//                    add(Constants.ST_REQUEST_EDIT_TECHNICAL_REVIEW);
+                }}
+                , JqGridFilterModel.COMPARE_NOT_IN
+        );
+        opts.extraFilters.add(extraFilter3);
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
@@ -303,6 +315,8 @@ public class ManagerevalController {
                     return r.join("requestMessage").join("caseDetention").join("status").get("name");
                 }if(field.equals("responseType")){
                     return r.join("responseType").get("name");
+                }if(field.equals("requestType")){
+                    return r.join("requestType").get("name");
                 }
                 return null;
             }
@@ -369,6 +383,13 @@ public class ManagerevalController {
     StatusVerificationRepository statusVerificationRepository;
     @Autowired
     ResponseTypeRepository responseTypeRepository;
+    @Autowired
+    VerificationRepository verificationRepository;
+    @Autowired
+    FieldMeetingSourceRepository fieldMeetingSourceRepository;
+    @Autowired
+    SourceVerificationRepository sourceVerificationRepository;
+
     @Transactional
     @RequestMapping(value = "/managereval/authorizeRequest/doResponseRequest", method = RequestMethod.POST)
     public
@@ -418,7 +439,19 @@ public class ManagerevalController {
                         case Constants.ST_REQUEST_EDIT_LEGAL_INFORMATION:
                             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
                             c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
-                            break;
+                            Verification v =c.getVerification();
+                            List<SourceVerification> svList = v.getSourceVerifications();
+                            for(SourceVerification sv:svList){
+                                List<FieldMeetingSource> fmsList = sv.getFieldMeetingSourceList();
+                                sv.setFieldMeetingSourceList(null);
+                                if(fmsList!=null && fmsList.size()>0){
+                                    fieldMeetingSourceRepository.delete(fmsList);
+                                }
+                            }
+                            sourceVerificationRepository.delete(svList);
+                            c.setVerification(null);
+                            verificationRepository.delete(v);
+                        break;
                         case Constants.ST_REQUEST_EDIT_MEETING:
                             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
                             c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE));

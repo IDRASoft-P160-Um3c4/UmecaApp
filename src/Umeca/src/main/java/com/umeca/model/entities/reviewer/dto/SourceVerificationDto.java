@@ -27,6 +27,9 @@ public class SourceVerificationDto {
         this.age = sv.getAge();
         if(sv.getRelationship()!=null){
             this.relationship = sv.getRelationship().getName();
+            if(sv.getRelationship().getSpecification()){
+                this.relationship += ": "+sv.getSpecification();
+            }
         }else{
             this.relationship="No aplica";
         }

@@ -299,6 +299,7 @@ public class MeetingServiceImpl implements MeetingService {
             CatalogDto cdto = new CatalogDto();
             cdto.setId(relationship.getId());
             cdto.setName(relationship.getName());
+            cdto.setSpecification(relationship.getSpecification());
             catalogDtoList.add(cdto);
         }
         model.addObject("listRelationship", gson.toJson(catalogDtoList));
@@ -490,6 +491,7 @@ public class MeetingServiceImpl implements MeetingService {
             pView.setPhone(p.getPhone());
             pView.setAddress(p.getAddress());
             pView.setSpecification(p.getSpecification());
+            pView.setSpecificationRelationship(p.getSpecificationRelationship());
             model.addObject("isAccomp",p.getIsAccompaniment());
             model.addObject("p", gson.toJson(pView));
             model.addObject("relId", gson.toJson(p.getRelationship().getId()));

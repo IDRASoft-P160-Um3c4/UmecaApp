@@ -1,4 +1,4 @@
-app.controller('personalDataController', function ($scope, $timeout, $q, $http, $rootScope, $sce) {
+  app.controller('personalDataController', function ($scope, $timeout, $q, $http, $rootScope, $sce) {
     $scope.m = {};
     $scope.specification = {};
     $scope.lstActivity = [];
@@ -11,6 +11,29 @@ app.controller('personalDataController', function ($scope, $timeout, $q, $http, 
     $scope.pCSelected = [];
     $scope.relActivities = [];
     $scope.def = $q.defer();
+
+
+      $scope.setLocation = function () {
+          var ajaxConf = {
+              method: 'POST',
+              url: $scope.urlLocation
+          };
+          ajaxConf.params = {idMun: $scope.municipalityId};
+          $http(ajaxConf)
+              .success(function (data) {
+                  data.data = jQuery.parseJSON(data.data);
+                  if (data.data == undefined || data.data.length === 0) {
+                      // $scope.clear();
+                      return;
+                  }
+                  $scope.listLocation = data.data;
+                  if ($scope.listLocation.length > 0) {
+                      $scope.location = $scope.listLocation[0];
+                      $scope.locationId = $scope.location.id;
+                      $scope.zipCode = $scope.location.zipCode;
+                  }
+              });
+      };
 
     $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
         var arg = [idSection, idList, idSource, sectionName, listView]
