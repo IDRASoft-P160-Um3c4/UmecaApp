@@ -24,7 +24,7 @@
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.relationship.id',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.relationship.id" id-element="{{p.id}}"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="socialNetwork.relationship.id" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.relationship.id',p.id);"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.relationship.id',p.id)"></i>
                  Parentesco:
@@ -38,22 +38,43 @@
                 <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
             </div>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-6" ng-show="p.rel.specification == true">
             <div class="col-xs-4 element-left">
+                Especif&iacute;que<br/>parentesco:
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control" data-val="true"
+                       data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                       data-val-length-max="255" data-val-length-min="2"
+                       data-val-required="La especificaci&oacute;n es un campo requerido"
+                       type="text" ng-model="p.specificationRelationship"
+                       id="specificationRelationship" name="socialNetwork.specificationRelationship">
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="specificationRelationship" data-valmsg-replace="true"></span>
+            </div>
+
+        </div>
+    </div>
+    <br/>
+    <div class="row" >
+        <div class="col-xs-12">
+            <div class="col-xs-2 element-left">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.phone',p.id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.phone" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.phone',p.id);"></i>
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.phone',p.id)"></i>
                 Tel&eacute;fono:
             </div>
-            <div class="col-xs-8">
+            <div class="col-xs-10">
                 <textarea class="form-control width-100" type="text"
-                       data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
-                       data-val-length-max="200" data-val-length-min="5" data-val-required="El tel&eacute;fono es un campo requerido"
-                       name="socialNetwork.phone" id="phone" ng-model="phone" ng-init ="phone = p.phone" ></textarea>
+                          data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+                          data-val-length-max="200" data-val-length-min="5" data-val-required="El tel&eacute;fono es un campo requerido"
+                          name="socialNetwork.phone" id="phone" ng-model="phone" ng-init ="phone = p.phone" ></textarea>
                 <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
             </div>
         </div>
+
     </div>
     <br/>
     <div class="row">

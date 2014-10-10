@@ -21,6 +21,7 @@ public class SocialNetworkDto {
     Integer age;
     String specification;
     String address;
+    String specificationRelationship;
 
     public SocialNetworkDto dtoSocialNetwork(PersonSocialNetwork p){
         this.id=p.getId();
@@ -37,6 +38,7 @@ public class SocialNetworkDto {
         this.age = p.getAge();
         this.specification = p.getSpecification();
         this.address = p.getAddress();
+        this.specificationRelationship = p.getSpecificationRelationship();
         return this;
     }
 
@@ -118,5 +120,13 @@ public class SocialNetworkDto {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getSpecificationRelationship() {
+        return specificationRelationship;
+    }
+
+    public void setSpecificationRelationship(String specificationRelationship) {
+        this.specificationRelationship = specificationRelationship;
     }
 }

@@ -56,7 +56,7 @@ public class SharedUserService {
         User userToValidate = userRepository.getInfoToValidate(sUsername);
 
         if(userToValidate.getEnabled() == false){
-            response.setMessage("Usted no tiene permisos para realizar esta acci√≥n. Por favor solicite los permisos suficientes para realizar esta acci√≥n e intente de nuevo.");
+            response.setMessage("Usted no tiene permisos para realizar esta acciÛn. Por favor solicite los permisos suficientes para realizar esta acciÛn e intente de nuevo.");
             response.setHasError(true);
             return false;
         }
@@ -101,19 +101,19 @@ public class SharedUserService {
     }
 
     public String convertToValidString(String s){
-        s = s.replace("√°","&aacute;");
-        s = s.replace("√©","&eacute;");
-        s = s.replace("√≠","&iacute;");
-        s = s.replace("√≥","&oacute;");
-        s = s.replace("√∫","&uacute;");
-        s = s.replace("√Å","&Aacute;");
-        s = s.replace("√â","&Eacute;");
-        s = s.replace("√ç","&Iacute;");
-        s = s.replace("√ì","&Oacute;");
-        s = s.replace("√ö","&Uacute;");
-        s = s.replace("√±","&ntilde;");
-        s = s.replace("√ë","&Ntilde;");
-        s = s.replace("¬ø","&iquest;");
+        s = s.replace("·","&aacute;");
+        s = s.replace("È","&eacute;");
+        s = s.replace("Ì","&iacute;");
+        s = s.replace("Û","&oacute;");
+        s = s.replace("˙","&uacute;");
+        s = s.replace("¡","&Aacute;");
+        s = s.replace("…","&Eacute;");
+        s = s.replace("Õ","&Iacute;");
+        s = s.replace("”","&Oacute;");
+        s = s.replace("⁄","&Uacute;");
+        s = s.replace("Ò","&ntilde;");
+        s = s.replace("—","&Ntilde;");
+        s = s.replace("ø","&iquest;");
         return s;
     }
 

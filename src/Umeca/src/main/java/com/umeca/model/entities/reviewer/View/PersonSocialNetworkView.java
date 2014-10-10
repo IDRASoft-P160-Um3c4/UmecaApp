@@ -30,13 +30,18 @@ public class PersonSocialNetworkView  implements EntityGrid {
 
     private String dependentString;
 
+    private String specificationRelationship;
+
     public PersonSocialNetworkView() {
     }
 
-    public PersonSocialNetworkView(Long id, String name, String relName, Integer age, String phone, Boolean isAccompaniment, Long dependent) {
+    public PersonSocialNetworkView(Long id, String name, String relName, Integer age, String phone, Boolean isAccompaniment, Long dependent, String specificationRelationship) {
         this.id = id;
         this.name = name;
         this.relName = relName;
+        if(!specificationRelationship.equals("")){
+            this.relName += ": "+specificationRelationship;
+        }
         this.age = age;
         this.phone = phone;
         this.isAccompanimentString = isAccompaniment ? "Si":"No";
@@ -114,5 +119,13 @@ public class PersonSocialNetworkView  implements EntityGrid {
 
     public void setDependentString(String dependentString) {
         this.dependentString = dependentString;
+    }
+
+    public String getSpecificationRelationship() {
+        return specificationRelationship;
+    }
+
+    public void setSpecificationRelationship(String specificationRelationship) {
+        this.specificationRelationship = specificationRelationship;
     }
 }

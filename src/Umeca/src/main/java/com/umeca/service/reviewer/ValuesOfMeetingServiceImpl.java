@@ -228,6 +228,11 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             cDto.setId(psn.getRelationship().getId());
                             listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
                             break;
+                        case "specificationRelationship":
+                            if(psn.getSpecificationRelationship()!=null && !psn.getSpecificationRelationship().equals("")){
+                                listFMS.add(new FieldMeetingSource(psn.getSpecificationRelationship(), psn.getSpecificationRelationship(),psn.getId()));
+                            }
+                            break;
                         case "phone":
                             listFMS.add(new FieldMeetingSource(psn.getPhone(), psn.getPhone(), psn.getId()));
                             break;
@@ -279,6 +284,11 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             cDto.setName(r.getRelationship().getName());
                             cDto.setId(r.getRelationship().getId());
                             listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), r.getId()));
+                            break;
+                        case "specificationRelationship":
+                            if(r.getSpecificationRelationship()!=null && !r.getSpecificationRelationship().equals("")){
+                                listFMS.add(new FieldMeetingSource(r.getSpecificationRelationship(), r.getSpecificationRelationship(),r.getId()));
+                            }
                             break;
                         case "phone":
                             listFMS.add(new FieldMeetingSource(r.getPhone(), r.getPhone(), r.getId()));
@@ -688,6 +698,11 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                 cDto.setId(psn.getRelationship().getId());
                                 listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
                                 break;
+                            case "specificationRelationship":
+                                if(psn.getSpecificationRelationship()!=null && !psn.getSpecificationRelationship().equals("")){
+                                    listFMS.add(new FieldMeetingSource(psn.getSpecificationRelationship(), psn.getSpecificationRelationship(),psn.getId()));
+                                }
+                                break;
                             case "phone":
                                 listFMS.add(new FieldMeetingSource(psn.getPhone(), psn.getPhone(), psn.getId()));
                                 break;
@@ -741,6 +756,11 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                 cDto.setName(r.getRelationship().getName());
                                 cDto.setId(r.getRelationship().getId());
                                 listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), r.getId()));
+                                break;
+                            case "specificationRelationship":
+                                if(r.getSpecificationRelationship()!=null && !r.getSpecificationRelationship().equals("")){
+                                    listFMS.add(new FieldMeetingSource(r.getSpecificationRelationship(), r.getSpecificationRelationship(),r.getId()));
+                                }
                                 break;
                             case "phone":
                                 listFMS.add(new FieldMeetingSource(r.getPhone(), r.getPhone(), r.getId()));
@@ -1232,6 +1252,11 @@ ActivityRepository activityRepository;
                                         psn.setRelationship(relationshipRepository.findOne(cDto.getId()));
                                     }
                                     break;
+                                case "specificationRelationship":
+                                    if(!fms.getJsonValue().equals("")){
+                                        psn.setSpecificationRelationship(fms.getJsonValue());
+                                    }
+                                    break;
                                 case "phone":
                                     psn.setPhone(fms.getJsonValue());
                                     break;
@@ -1303,6 +1328,11 @@ ActivityRepository activityRepository;
                                     cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
                                     if (cDto != null) {
                                         r.setRelationship(relationshipRepository.findOne(cDto.getId()));
+                                    }
+                                    break;
+                                case "specificationRelationship":
+                                    if(!fms.getJsonValue().equals("")){
+                                        r.setSpecificationRelationship(fms.getJsonValue());
                                     }
                                     break;
                                 case "phone":

@@ -79,6 +79,7 @@ public class VerificationServiceImpl implements VerificationService {
             sv.setAge(reference.getAge());
             sv.setAddress(reference.getAddress());
             sv.setRelationship(reference.getRelationship());
+            sv.setSpecification(reference.getSpecificationRelationship());
             sv.setVisible(Boolean.TRUE);
             sv.setVerification(c.getVerification());
             sv.setAuthorized(Boolean.FALSE);
@@ -107,6 +108,7 @@ public class VerificationServiceImpl implements VerificationService {
                 sv.setAddress(psn.getAddress());
             }
             sv.setRelationship(psn.getRelationship());
+            sv.setSpecification(psn.getSpecificationRelationship());
             sv.setVisible(Boolean.TRUE);
             sv.setAuthorized(Boolean.FALSE);
             sv.setVerification(c.getVerification());
@@ -778,6 +780,7 @@ public class VerificationServiceImpl implements VerificationService {
             for (Relationship r : relationshipRepository.findNotObsolete()) {
                 CatalogDto ca = new CatalogDto();
                 ca.setName(r.getName());
+                ca.setSpecification(r.getSpecification());
                 ca.setId(r.getId());
                 lstRelationship.add(ca);
             }

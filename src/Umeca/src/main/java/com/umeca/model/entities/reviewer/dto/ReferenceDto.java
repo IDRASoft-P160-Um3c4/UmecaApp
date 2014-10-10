@@ -18,6 +18,7 @@ public class ReferenceDto {
     Integer age;
     String specification;
     String address;
+    String specificationRelationship;
 
     public ReferenceDto dtoReference(Reference r){
         id = r.getId();
@@ -28,6 +29,7 @@ public class ReferenceDto {
         fullName = r.getFullName();
         phone = r.getPhone();
         age = r.getAge();
+        specificationRelationship = r.getSpecificationRelationship();
         specification = r.getSpecification();
         address = r.getAddress();
         return this;
@@ -95,5 +97,13 @@ public class ReferenceDto {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getSpecificationRelationship() {
+        return specificationRelationship;
+    }
+
+    public void setSpecificationRelationship(String specificationRelationship) {
+        this.specificationRelationship = specificationRelationship;
     }
 }

@@ -93,6 +93,10 @@ public class ExcelConv {
 
                     socialString += ", " + act.getRelationship().getName();
 
+                    if(act.getRelationship().getSpecification()){
+                        socialString += ": " + act.getSpecificationRelationship();
+                    }
+
                     socialString += ", Identificación: " + act.getDocumentType().getName();
 
                     socialString += ", Edad: " + act.getAge();
@@ -125,7 +129,11 @@ public class ExcelConv {
 
                 referencesString += "-" + act.getFullName();
 
-                referencesString += ", " + act.getRelationship().getName();
+                String relationship = act.getRelationship().getName();
+                if(act.getRelationship().getSpecification()){
+                    relationship += ": "+ act.getSpecificationRelationship();
+                }
+                referencesString += ", " + relationship;
 
                 referencesString += ", Identificación: " + act.getDocumentType().getName();
 
@@ -155,11 +163,11 @@ public class ExcelConv {
 
                 jobsString += ", Puesto: " + act.getPost();
 
-                jobsString += ", Patrón: " + act.getNameHead();
+                jobsString += ", Patr?n: " + act.getNameHead();
 
                 jobsString += ", Tel.: " + act.getPhone();
 
-                jobsString += ", Dirección: " + act.getAddress();
+                jobsString += ", Direcci?n: " + act.getAddress();
 
                 jobsString += ", Tipo: " + act.getRegisterType().getName();
 
@@ -194,11 +202,11 @@ public class ExcelConv {
                 drugsString += ", Periocidad: " + act.getPeriodicity().getName();
 
                 if (act.getDrugType().getSpecification().equals(true))
-                    drugsString += ", Especificación: " + act.getSpecificationType();
+                    drugsString += ", Especificaci?n: " + act.getSpecificationType();
 
                 drugsString += ", Cantidad: " + act.getQuantity();
 
-                drugsString += ", Útlimo consumo: " + dateFormat.format(act.getLastUse());
+                drugsString += ", ?tlimo consumo: " + dateFormat.format(act.getLastUse());
             }
 
         return drugsString;
@@ -216,7 +224,7 @@ public class ExcelConv {
                     crimesString += "\n";
 
                 crimesString += "-" + act.getName();
-                crimesString += ", Artículo: " + act.getArticle();
+                crimesString += ", Art?culo: " + act.getArticle();
                 crimesString += ", Delito federal: " + act.getFederal().getName();
             }
 

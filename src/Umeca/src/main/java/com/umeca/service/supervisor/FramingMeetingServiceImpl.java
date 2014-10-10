@@ -312,7 +312,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             FramingReferenceForView objView = new FramingReferenceForView();
             objView.setId(fr.getId());
-            objView.setDescription(fr.getName() + ", " + fr.getRelationship().getName());
+            String relationship = fr.getRelationship().getName();
+            objView.setDescription(fr.getName() + ", " + relationship);
             objView.setValSel(false);
             lstView.add(objView);
         }

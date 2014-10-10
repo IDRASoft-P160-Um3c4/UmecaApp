@@ -172,6 +172,7 @@ public class MeetingController {
                     add(r.get("phone"));
                     add(r.get("isAccompaniment"));
                     add(r.join("dependent").get("id").alias("dependent"));
+                    add(r.get("specificationRelationship"));
                 }};
             }
 
@@ -210,6 +211,7 @@ public class MeetingController {
                     add(r.get("age"));
                     add(r.get("phone"));
                     add(r.get("isAccompaniment"));
+                    add(r.get("specificationRelationship"));
                 }};
             }
 

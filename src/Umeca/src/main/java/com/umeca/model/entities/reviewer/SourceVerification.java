@@ -86,6 +86,9 @@ public class SourceVerification implements EntityGrid{
     @Column(name="dateAuthorized", nullable=true)
     private Date dateAuthorized;
 
+    @Column(name="specification", nullable = true, length = 255)
+    private String specification;
+
     @Transient
     private Long idCase;
 
@@ -261,5 +264,13 @@ public class SourceVerification implements EntityGrid{
 
     public void setCaseRequest(CaseRequest caseRequest) {
         this.caseRequest = caseRequest;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 }

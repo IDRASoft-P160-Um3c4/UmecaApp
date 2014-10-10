@@ -76,7 +76,26 @@
         </div>
     </div>
     <br/>
+    <div class="row" ng-show="p.rel.specification == true">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Especif&iacute;que<br/>parentesco:
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control" data-val="true"
+                       data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                       data-val-length-max="255" data-val-length-min="2"
+                       data-val-required="La especificaci&oacute;n es un campo requerido"
+                       type="text" ng-model="specificationRelationship" ng-init="specificationRelationship = person.specificationRelationship"
+                       id="specificationRelationship" name="specificationRelationship">
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="specificationRelationship" data-valmsg-replace="true"></span>
+            </div>
+        </div>
 
+    </div>
+    <br/>
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
