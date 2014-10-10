@@ -15,14 +15,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="source_verification")
-public class SourceVerification implements EntityGrid{
+@Table(name = "source_verification")
+public class SourceVerification implements EntityGrid {
 
     public SourceVerification() {
     }
 
-    public SourceVerification(Long id,String fullName, Integer age, String relationshipString, String address, String phone, Boolean isAuthorized, Date dateComplete, Long idCase, Boolean visible) {
-        this.id =  id;
+    public SourceVerification(Long id, String fullName, Integer age, String relationshipString, String address, String phone, Boolean isAuthorized, Date dateComplete, Long idCase, Boolean visible) {
+        this.id = id;
         this.fullName = fullName;
         this.age = age;
         this.relationshipString = relationshipString;
@@ -30,17 +30,17 @@ public class SourceVerification implements EntityGrid{
         this.phone = phone;
         this.isAuthorized = isAuthorized;
         this.dateComplete = dateComplete;
-        if(dateComplete!=null){
-           this.statusString ="Entrevista de verificaci&aacute;n terminada";
-        }else{
+        if (dateComplete != null) {
+            this.statusString = "Entrevista de verificaci&aacute;n terminada";
+        } else {
             this.statusString = "Entrevista de verificaci&aacute;n incompleta";
         }
         this.idCase = idCase;
         this.visible = visible;
     }
 
-    public SourceVerification(Long id,String fullName, String relationshipString, String phone, String address, Long idVerificationMethod, Boolean isAuthorized, Long idCase) {
-        this.id =  id;
+    public SourceVerification(Long id, String fullName, String relationshipString, String phone, String address, Long idVerificationMethod, Boolean isAuthorized, Long idCase) {
+        this.id = id;
         this.fullName = fullName;
         this.relationshipString = relationshipString;
         this.address = address;
@@ -55,46 +55,46 @@ public class SourceVerification implements EntityGrid{
     @Column(name = "id_source_verification")
     private Long id;
 
-    @Column(name="name", length = 150, nullable = false)
+    @Column(name = "name", length = 150, nullable = false)
     private String fullName;
 
-    @Column(name="age", nullable = false)
+    @Column(name = "age", nullable = false)
     private Integer age;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_relationship", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_relationship", nullable = true)
     private Relationship relationship;
 
     @Transient
     private String relationshipString;
 
-    @Column(name="address", length = 500, nullable = false)
+    @Column(name = "address", length = 500, nullable = false)
     private String address;
 
-    @Column(name="phone", length = 200, nullable =false)
+    @Column(name = "phone", length = 200, nullable = false)
     private String phone;
 
-    @Column(name="isAuthorized", nullable = false)
+    @Column(name = "isAuthorized", nullable = false)
     private Boolean isAuthorized;
 
-    @Column(name="date_complete", nullable = true)
+    @Column(name = "date_complete", nullable = true)
     private Date dateComplete;
 
     @Transient
     private String statusString;
 
-    @Column(name="dateAuthorized", nullable=true)
+    @Column(name = "dateAuthorized", nullable = true)
     private Date dateAuthorized;
 
     @Transient
     private Long idCase;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_verification_method", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_verification_method", nullable = true)
     private VerificationMethod verificationMethod;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_request", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_request", nullable = true)
     private CaseRequest caseRequest;
 
     public Long getIdVerificationMethod() {
@@ -108,15 +108,14 @@ public class SourceVerification implements EntityGrid{
     @Transient
     private Long idVerificationMethod;
 
-    @Column(name="visible")
+    @Column(name = "visible")
     private Boolean visible;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_verification", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_verification", nullable = false)
     private Verification verification;
 
-    @OneToMany(mappedBy="sourceVerification", cascade={CascadeType.ALL})
-    @OrderBy("id_field.sectionCode")
+    @OneToMany(mappedBy = "sourceVerification", cascade = {CascadeType.ALL})
     private List<FieldMeetingSource> fieldMeetingSourceList;
 
     public Long getId() {

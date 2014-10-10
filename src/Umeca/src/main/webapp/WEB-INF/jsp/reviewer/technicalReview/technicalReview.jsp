@@ -12,7 +12,7 @@
         };
     </script>
 
-    <title>Opini&oacute;n t&eacute;cnica</title>
+    <title>Instrumento de eevaluaci&oacute;n</title>
 </head>
 
 <body scroll="no" ng-app="ptlUmc">

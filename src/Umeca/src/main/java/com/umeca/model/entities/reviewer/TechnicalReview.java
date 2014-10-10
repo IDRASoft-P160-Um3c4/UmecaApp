@@ -32,6 +32,9 @@ public class TechnicalReview {
     @JoinColumn(name = "id_case_detention")//@JoinColumn(name = "id_case") cambiar por esta linea
     private Case caseDetention;
 
+    @Column(name = "is_finished")
+    private Boolean isFinished;
+
     @Transient
     private String txtListQuest;
 
@@ -108,5 +111,13 @@ public class TechnicalReview {
 
     public void setLevelRisk(Integer levelRisk) {
         this.levelRisk = levelRisk;
+    }
+
+    public Boolean getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
     }
 }

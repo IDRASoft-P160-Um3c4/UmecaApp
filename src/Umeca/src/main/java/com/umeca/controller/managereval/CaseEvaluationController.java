@@ -52,6 +52,7 @@ public class CaseEvaluationController {
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
         opts.extraFilters = new ArrayList<>();
+
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",
                 new ArrayList<String>() {{
                     add(Constants.S_MEETING_INCOMPLETE_LEGAL);
@@ -59,7 +60,20 @@ public class CaseEvaluationController {
                 }}
                 , JqGridFilterModel.COMPARE_IN
         );
+
         opts.extraFilters.add(extraFilter);
+
+        List<String> usrRoles = userService.getLstRolesByUserId(userService.GetLoggedUserId());
+        if (usrRoles != null && usrRoles.size() > 0) {
+            if (usrRoles.contains(Constants.ROLE_REVIEWER)) {
+                extraFilter = new JqGridRulesModel("user", userService.GetLoggedUserId().toString()
+                        , JqGridFilterModel.COMPARE_EQUAL
+                );
+                opts.extraFilters.add(extraFilter);
+            }
+        }
+
+
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
@@ -93,6 +107,8 @@ public class CaseEvaluationController {
                     return r.join("caseDetention").get("idFolder");
                 else if (field.equals("statusMeeting"))
                     return r.join("status").get("name");
+                else if (field.equals("user"))
+                    return r.join("reviewer").get("id");
 
                 return null;
             }

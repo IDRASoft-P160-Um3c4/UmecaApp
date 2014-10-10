@@ -14,6 +14,7 @@ import com.umeca.model.entities.shared.MessageHistoryView;
 import com.umeca.model.managereval.ManagerevalView;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,14 +31,17 @@ public class MessageHistoryController {
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
 
+    @Autowired
+    SharedUserService userService;
+
     @RequestMapping(value = {"/shared/messageHistory/index"}, method = RequestMethod.GET)
-    public ModelAndView index(){
+    public ModelAndView index() {
         return new ModelAndView("/shared/messageHistory/index");
     }
 
-    @RequestMapping(value={"/shared/messageHistory/list"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/shared/messageHistory/list"}, method = RequestMethod.POST)
     @ResponseBody
-    public JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
+    public JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
         /*
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusCode",
@@ -47,6 +51,17 @@ public class MessageHistoryController {
                 Constants.CASE_STATUS_SOURCE_VALIDATION, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter2);
         */
+
+        List<String> usrRoles = userService.getLstRolesByUserId(userService.GetLoggedUserId());
+        if (usrRoles != null && usrRoles.size() > 0) {
+            if (usrRoles.contains(Constants.ROLE_REVIEWER)) {
+                JqGridRulesModel extraFilter = new JqGridRulesModel("user", userService.GetLoggedUserId().toString()
+                        , JqGridFilterModel.COMPARE_EQUAL
+                );
+                opts.setExtraFilters(new ArrayList<JqGridRulesModel>());
+                opts.extraFilters.add(extraFilter);
+            }
+        }
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -81,26 +96,19 @@ public class MessageHistoryController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                /*
-                if (field.equals("statusCode"))
-                    return r.join("verification").join("status").get("name");
-                if (field.equals("statusCaseCode"))
-                    return r.join("status").get("name");
-                */
+                if (field.equals("user"))
+                    return r.join("sources").join("verification").join("reviewer").get("id");
+
                 return null;
             }
 
-            /*
-            public <T> Expression<?> getExpressions(final Root<T> r){
-                return null;
-            }*/
         }, true, CaseRequest.class, MessageHistoryView.class);
         return result;
     }
 
     @RequestMapping(value = {"/shared/messageHistory/detail"}, method = RequestMethod.POST)
     @ResponseBody
-    public JqGridResultModel detail(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase){
+    public JqGridResultModel detail(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase) {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("caseDetention", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);

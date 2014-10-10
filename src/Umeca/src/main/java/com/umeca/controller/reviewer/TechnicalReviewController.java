@@ -166,6 +166,7 @@ public class TechnicalReviewController {
                 model.addObject("totRisk_prev", tecRev_prev.getTotalRisk());
                 model.addObject("lstSubtotTxt_prev", tecRev_prev.getSubtotalsTxt());
                 model.addObject("comments", tecRev_prev.getComments());
+                model.addObject("isFinished", tecRev_prev.getIsFinished());
             } else {
                 model.addObject("hasRevTec", false);
                 model.addObject("returnId", -1);
@@ -175,6 +176,7 @@ public class TechnicalReviewController {
                 model.addObject("totRisk_prev", 0);
                 model.addObject("lstSubtotTxt_prev", "[]");
                 model.addObject("comments", "");
+                model.addObject("isFinished", false);
             }
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "technicalReview", sharedUserService);
