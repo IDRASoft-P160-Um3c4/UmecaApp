@@ -96,11 +96,14 @@ public class FramingReference implements EntityGrid {
     @Transient
     private LocationDto location;
 
+    @Transient
+    private String isAccompanimentString;
+
 
     public FramingReference() {
     }
 
-    public FramingReference(Long id, String name, String phone, String relationship, String address, String type,String specificationRelationship) {
+    public FramingReference(Long id, String name, String phone, String relationship, String address, String type,String specificationRelationship,Boolean isAccompaniment) {
 
         this.id = id;
         this.name = name;
@@ -117,6 +120,7 @@ public class FramingReference implements EntityGrid {
             relationshipName+= ": "+specificationRelationship;
         }
         this.personType = type;
+        this.isAccompanimentString = isAccompaniment ? "Si": "No";
     }
 
     public Long getId() {
@@ -333,5 +337,13 @@ public class FramingReference implements EntityGrid {
 
     public void setSpecificationRelationship(String specificationRelationship) {
         this.specificationRelationship = specificationRelationship;
+    }
+
+    public String getIsAccompanimentString() {
+        return isAccompanimentString;
+    }
+
+    public void setIsAccompanimentString(String accompanimentString) {
+        isAccompanimentString = accompanimentString;
     }
 }
