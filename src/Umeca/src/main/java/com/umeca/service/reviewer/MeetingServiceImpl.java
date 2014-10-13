@@ -492,6 +492,7 @@ public class MeetingServiceImpl implements MeetingService {
             pView.setAddress(p.getAddress());
             pView.setSpecification(p.getSpecification());
             pView.setSpecificationRelationship(p.getSpecificationRelationship());
+            pView.setBlock(p.getBlock());
             model.addObject("isAccomp",p.getIsAccompaniment());
             model.addObject("p", gson.toJson(pView));
             model.addObject("relId", gson.toJson(p.getRelationship().getId()));

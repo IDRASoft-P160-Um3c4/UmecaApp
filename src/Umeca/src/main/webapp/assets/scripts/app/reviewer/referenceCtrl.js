@@ -141,4 +141,42 @@ app.controller('referenceController', function($scope, $timeout,$rootScope) {
             dlg.replaceWith("");
         });
     };
+
+    $scope.fillModel = function(){
+        var template= "NO TIENE";
+        var template2 = "Ninguno";
+        //alert("en fill model con blcok "+$scope.block);
+        if($scope.blockR === false){
+            $scope.r.fullName = template;
+            for(var i= 0; i < $scope.lstRel.length ; i++){
+                if($scope.lstRel[i].name == template2){
+                    $scope.r.rel = $scope.lstRel[i];
+                    $scope.r.relId = $scope.lstRel[i].id;
+                    break;
+                }
+            }
+            $scope.r.phone = template;
+            for(var i= 0; i < $scope.lstDoc.length ; i++){
+                if($scope.lstDoc[i].name == template2){
+                    $scope.r.doc = $scope.lstDoc[i];
+                    $scope.r.docId = $scope.lstDoc[i].id;
+                    break;
+                }
+            }
+
+            $scope.r.age = 0;
+            $scope.r.address = template;
+            $scope.r.isAccompaniment = false;
+        }else{
+            $scope.r.fullName = "";
+            $scope.r.rel = $scope.lstRel[0];
+            $scope.r.relId = $scope.lstRel[0].id;
+            $scope.r.phone = "";
+            $scope.r.doc = $scope.lstDoc[0];
+            $scope.r.docId = $scope.lstDoc[0].id;
+            $scope.r.age = "";
+            $scope.r.address = "";
+            $scope.r.isAccompaniment = false;
+        }
+    };
 });
