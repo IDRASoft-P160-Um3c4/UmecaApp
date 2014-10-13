@@ -36,7 +36,7 @@
 
             <form id="FormFramingActivites" name="FormFramingActivites" class="form-horizontal" role="form">
                 <div class="widget-box">
-                    <div class="widget-header">Ocupaci&oacute;n</div>
+                    <div class="widget-header">Ocupaci&oacute;n laboral</div>
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
@@ -125,17 +125,17 @@
                                                 <div ng-repeat="activity in activityModel">
                                                     <div ng-show="activity.specification==true">
                                                         <div class="col-xs-3">
-                                                            Especif&iacute;que activiades {{activity.name}}:
+                                                            Especif&iacute;que actividades {{activity.name}}:
                                                         </div>
                                                         <div class="col-xs-9">
-                                                            <input class="form-control" data-val="true"
+                                                            <textarea class="form-control" data-val="true"
                                                                    data-val-length="Debe tener al menos 3 y m&aacute;ximo 255 caracteres"
                                                                    data-val-length-max="255" data-val-length-min="3"
                                                                    data-val-required="La especificaci&oacute;n de actividades {{activity.name}} es un campo requerido"
                                                                    type="text" value="" ng-model="specification[activity.name]"
                                                                    id="specification{{activity.name}}"
                                                                    name="specification{{activity.name}}"
-                                                                   ng-change="matchActivities()"><br/>
+                                                                   ng-change="matchActivities()"> </textarea><br/>
                 <span class="field-validation-valid" data-valmsg-for="specification{{activity.name}}"
                       data-valmsg-replace="true"></span>
                                                             <br/>

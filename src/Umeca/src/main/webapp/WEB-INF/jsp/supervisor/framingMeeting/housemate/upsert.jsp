@@ -83,6 +83,25 @@
                 </div>
                 <br/>
 
+                <div class="col-xs-12" ng-show="hm.relationship.specification == true">
+                    <br/>
+                    <div class="col-xs-6">
+                            Especif&iacute;que parentesco:
+                      <br/>
+                            <input class="form-control" data-val="true"
+                                   data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                                   data-val-length-max="255" data-val-length-min="2"
+                                   data-val-required="La especificaci&oacute;n es un campo requerido"
+                                   type="text" ng-model="hm.specificationRelationship"
+                                   id="specificationRelationship" name="specificationRelationship">
+                        <br/>
+                        <div class="col-xs-9 col-xs-offset-3">
+                            <span class="field-validation-valid" data-valmsg-for="specificationRelationship" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <br/>
                 <div class="col-xs-12">
                     <div class="col-xs-11">
                         <label>Ocupaci&oacute;n</label>
@@ -109,7 +128,7 @@
                                    name="isAccompaniment"
                                    ng-model="hm.isAccompaniment"
                                    ng-checked="hm.isAccompaniment==true">
-                                        <span class="lbl col-xs-10">&nbsp;&nbsp;¿&Eacute;sta persona lo acompa&ntilde;ar&aacute;
+                                        <span class="lbl col-xs-10">&nbsp;&nbsp;&iquest;&Eacute;sta persona lo acompa&ntilde;ar&aacute;
                                             durante el proceso?</span>
                         </label>
                     </div>

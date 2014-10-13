@@ -180,4 +180,60 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
             dlg.replaceWith("");
         });
     };
+
+
+    $scope.fillModel = function(){
+        var template= "NO TIENE";
+        var template2 = "Ninguno";
+        if($scope.p.block === false){
+            $scope.name = template;
+            for(var i= 0; i < $scope.lstRel.length ; i++){
+                if($scope.lstRel[i].name == template2){
+                    $scope.p.rel = $scope.lstRel[i];
+                    $scope.p.relId = $scope.lstRel[i].id;
+                    break;
+                }
+            }
+            $scope.phone = template;
+            for(var i= 0; i < $scope.lstDoc.length ; i++){
+                if($scope.lstDoc[i].name == template2){
+                    $scope.p.doc = $scope.lstDoc[i];
+                    $scope.p.docId = $scope.lstDoc[i].id;
+                    break;
+                }
+            }
+
+            $scope.age = 0;
+            $scope.p.isAccompaniment = false;
+            for(var i= 0; i < $scope.lstDep.length ; i++){
+                if($scope.lstDep[i].name == "No"){
+                    $scope.p.dep = $scope.lstDep[i];
+                    $scope.p.depId = $scope.lstDep[i].id;
+                    break;
+                }
+            }
+            for(var i= 0; i < $scope.lstLiv.length ; i++){
+                if($scope.lstLiv[i].name == "Si"){
+                    $scope.p.liv = $scope.lstLiv[i];
+                    $scope.p.livId = $scope.lstLiv[i].id;
+                    break;
+                }
+            }
+        }else{
+            $scope.name = "";
+                    $scope.p.rel = $scope.lstRel[0];
+                    $scope.p.relId = $scope.lstRel[0].id;
+            $scope.phone = template;
+                    $scope.p.doc = $scope.lstDoc[0];
+                    $scope.p.docId = $scope.lstDoc[0].id;
+            $scope.age = "";
+            $scope.phone = "";
+            $scope.p.isAccompaniment = false;
+                    $scope.p.dep = $scope.lstDep[0];
+                    $scope.p.depId = $scope.lstDep[0].id;
+                    $scope.p.liv = $scope.lstLiv[0];
+                    $scope.p.livId = $scope.lstLiv[0].id;
+            $scope.address="";
+        }
+    };
 });

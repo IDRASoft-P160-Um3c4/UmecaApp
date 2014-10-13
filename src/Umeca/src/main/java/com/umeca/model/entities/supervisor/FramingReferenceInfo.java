@@ -17,8 +17,9 @@ public class FramingReferenceInfo {
     private String genderStr;
     private String occupationPlace;
     private String academicLvl;
+    private String specificationRelationship;
 
-    public FramingReferenceInfo(Long id, String name, String phone, String relationship, String address, String age, String occupation, String personType, Boolean isAccompaniment, Integer gender, String occupationPlace, String academicLvl, String addressStr) {
+    public FramingReferenceInfo(Long id, String name, String phone, String relationship, String address, String age, String occupation, String personType, Boolean isAccompaniment, Integer gender, String occupationPlace, String academicLvl, String addressStr, String specificationRelationship) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -32,6 +33,7 @@ public class FramingReferenceInfo {
         this.occupationPlace = occupationPlace;
         this.academicLvl = academicLvl;
         this.addressStr = addressStr;
+        this.specificationRelationship = specificationRelationship;
     }
 
     public Long getId() {
@@ -162,5 +164,13 @@ public class FramingReferenceInfo {
 
     public void setAcademicLvl(String academicLvl) {
         this.academicLvl = academicLvl;
+    }
+
+    public String getSpecificationRelationship() {
+        return specificationRelationship;
+    }
+
+    public void setSpecificationRelationship(String specificationRelationship) {
+        this.specificationRelationship = specificationRelationship;
     }
 }

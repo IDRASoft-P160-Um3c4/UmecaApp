@@ -538,7 +538,7 @@
         <div ng-repeat="activity in activityModel">
             <div ng-show="activity.specification==true">
                 <div class="col-xs-3">
-                    Especif&iacute;que activiades {{activity.name}}:
+                    Especif&iacute;que actividades {{activity.name}}:
                 </div>
                 <div class="col-xs-9">
                     <input class="form-control" data-val="true"

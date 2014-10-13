@@ -495,6 +495,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
+            if(!newReference.getRelationship().getSpecification()){
+                newReference.setSpecificationRelationship("");
+            }
             newReference.setFramingMeeting(existCase.getFramingMeeting());
             framingReferenceRepository.save(newReference);
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");

@@ -221,7 +221,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
 
     @Query("select new com.umeca.model.entities.supervisor.FramingReferenceInfo" +
             "(CD.id,REF.name,REF.phone,REL.name,REF.address,REF.age,REF.occupation,REF.personType,REF.isAccompaniment," +
-            "AI.gender,AI.occupationPlace,AL.name,ADD.addressString) " +
+            "AI.gender,AI.occupationPlace,AL.name,ADD.addressString,REF.specificationRelationship) " +
             "from Case CD " +
             "inner join CD.framingMeeting FM " +
             "inner join FM.references REF " +

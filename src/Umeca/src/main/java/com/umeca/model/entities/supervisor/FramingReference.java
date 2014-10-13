@@ -54,6 +54,9 @@ public class FramingReference implements EntityGrid {
     @JoinColumn(name = "id_framing_meeting")
     private FramingMeeting framingMeeting;
 
+    @Column(name="specification_relationship", length = 255, nullable = true)
+    private String specificationRelationship;
+
     @Transient
     private Long idCase;
 
@@ -93,11 +96,14 @@ public class FramingReference implements EntityGrid {
     @Transient
     private LocationDto location;
 
+    @Transient
+    private String isAccompanimentString;
+
 
     public FramingReference() {
     }
 
-    public FramingReference(Long id, String name, String phone, String relationship, String address, String type) {
+    public FramingReference(Long id, String name, String phone, String relationship, String address, String type,String specificationRelationship,Boolean isAccompaniment) {
 
         this.id = id;
         this.name = name;
@@ -110,8 +116,11 @@ public class FramingReference implements EntityGrid {
             this.phone = phone;
             this.address = address;
         }
-
+        if(specificationRelationship!=null && !specificationRelationship.equals("")){
+            relationshipName+= ": "+specificationRelationship;
+        }
         this.personType = type;
+        this.isAccompanimentString = isAccompaniment ? "Si": "No";
     }
 
     public Long getId() {
@@ -320,5 +329,21 @@ public class FramingReference implements EntityGrid {
 
     public void setAddressRef(String addressRef) {
         this.addressRef = addressRef;
+    }
+
+    public String getSpecificationRelationship() {
+        return specificationRelationship;
+    }
+
+    public void setSpecificationRelationship(String specificationRelationship) {
+        this.specificationRelationship = specificationRelationship;
+    }
+
+    public String getIsAccompanimentString() {
+        return isAccompanimentString;
+    }
+
+    public void setIsAccompanimentString(String accompanimentString) {
+        isAccompanimentString = accompanimentString;
     }
 }

@@ -74,7 +74,7 @@
                                         ng-init='lstRelationship = ${lstRelationship};'></select>
                             </div>
                             <div class="col-xs-6" ng-show="refe.relationship.id==8">
-                                <label>Tiempo de conocerlo</label>
+                                <label>Tiempo de conocerlo</label><br/>
                                 <br/>
                                 <input id="timeAgo" ng-model="refe.timeAgo" name="timeAgo" type="text"
                                        class="input-xxlarge" data-val="true"
@@ -88,6 +88,26 @@
                     </div>
                     <br/>
 
+                    <div class="row" ng-show="refe.relationship.specification == true">
+                        <div class="col-xs-6">
+                            <div class="col-xs-4 element-left">
+                                Especif&iacute;que<br/>parentesco:
+                            </div>
+                            <div class="col-xs-8">
+                                <input class="form-control" data-val="true"
+                                       data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                                       data-val-length-max="255" data-val-length-min="2"
+                                       data-val-required="La especificaci&oacute;n es un campo requerido"
+                                       type="text" ng-model="refe.specificationRelationship"
+                                       id="specificationRelationship" name="specificationRelationship">
+                            </div>
+                            <div class="col-xs-9 col-xs-offset-3">
+                                <span class="field-validation-valid" data-valmsg-for="specificationRelationship" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br/>
                     <div class="row">
                         <div class="col-xs-8">
                             <div class="checkbox">
@@ -98,7 +118,7 @@
                                            name="isAccompaniment"
                                            ng-model="refe.isAccompaniment"
                                            ng-checked="refe.isAccompaniment==true">
-                                        <span class="lbl col-xs-10">&nbsp;&nbsp;¿&Eacute;sta persona lo acompa&ntilde;ar&aacute;
+                                        <span class="lbl col-xs-10">&nbsp;&nbsp;&iquest;&Eacute;sta persona lo acompa&ntilde;ar&aacute;
                                             durante el proceso?</span>
                                 </label>
                             </div>

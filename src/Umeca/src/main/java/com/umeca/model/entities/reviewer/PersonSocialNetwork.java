@@ -64,6 +64,9 @@ public class PersonSocialNetwork{
     @Column(name = "specification_relationship", nullable = true, length = 255)
     private String specificationRelationship;
 
+    @Column(name = "block")
+    private Boolean block;
+
     @Transient
     private Long idAux;
 
@@ -177,5 +180,13 @@ public class PersonSocialNetwork{
 
     public void setSpecificationRelationship(String specificationRelationship) {
         this.specificationRelationship = specificationRelationship;
+    }
+
+    public Boolean getBlock() {
+        return block;
+    }
+
+    public void setBlock(Boolean block) {
+        this.block = block;
     }
 }
