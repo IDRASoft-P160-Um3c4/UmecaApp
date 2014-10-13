@@ -1,4 +1,4 @@
- package com.umeca.controller.reviewer;
+package com.umeca.controller.reviewer;
 
 import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
@@ -79,6 +79,7 @@ public class TechnicalReviewController {
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
                     add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+                    add(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW);
                     add(Constants.CASE_STATUS_EDIT_TEC_REV);
                 }}, JqGridFilterModel.COMPARE_IN
         );
@@ -99,6 +100,7 @@ public class TechnicalReviewController {
                     add(joinIm.get("name"));
                     add(joinIm.get("lastNameP"));
                     add(joinIm.get("lastNameM"));
+                    add(joinCd.join("status").get("description"));
                 }};
             }
 
@@ -151,7 +153,8 @@ public class TechnicalReviewController {
             if (tecRev_prev != null) {
                 model.addObject("hasRevTec", true);
 
-                if (caseDet.getStatus().getName().equals(Constants.CASE_STATUS_EDIT_TEC_REV) && caseDet.getMeeting().getReviewer().getId().equals(sharedUserService.GetLoggedUserId()))
+                if ((caseDet.getStatus().getName().equals(Constants.CASE_STATUS_EDIT_TEC_REV) && caseDet.getMeeting().getReviewer().getId().equals(sharedUserService.GetLoggedUserId()))
+                        || (caseDet.getStatus().getName().equals(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW) && tecRev_prev.getIsFinished() != null && tecRev_prev.getIsFinished() == false))
                     model.addObject("canEdit", true);
                 else
                     model.addObject("canEdit", false);
@@ -218,11 +221,23 @@ public class TechnicalReviewController {
 
             result.setLevelRisk(technicalReviewService.calculateLevelRisk(result.getTotalRisk()));
             result.setQuestionsSel(technicalReviewService.generateQuesRevRel(result, result.getTxtListQuest()));
-            caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
+
+            if (result.getIsFinished() != null && result.getIsFinished() == true)
+                caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
+            else
+                caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW));
+
             result.setCaseDetention(caseDetention);
             technicalReviewRepository.save(result);
-            response.setHasError(false);
-            response.setUrlToGo("index.html");
+
+            if (result.getIsFinished() != null && result.getIsFinished() == true) {
+                response.setHasError(false);
+                response.setUrlToGo("index.html");
+            } else {
+                response.setHasError(false);
+                response.setUrlToGo("#");
+            }
+
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);

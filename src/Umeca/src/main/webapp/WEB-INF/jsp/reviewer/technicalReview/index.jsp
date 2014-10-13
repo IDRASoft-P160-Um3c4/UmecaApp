@@ -35,13 +35,14 @@
                 url: '<c:url value='/reviewer/technicalReview/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'SHOW', 'No. Carpeta', 'No. M.P.', 'Imputado', 'Acci&oacute;n'],
+                colNames: ['ID', 'SHOW', 'No. Carpeta', 'No. M.P.', 'Imputado', 'Estatus', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'status', index: 'status', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'statusName', index: 'statusName', width: 200, align: "center", sortable: false, search: false },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
@@ -78,6 +79,9 @@
                                 break;
                             case "ST_CASE_EDIT_TEC_REV":
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar instrumento de evaluaci&oacute;n de riesgos\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil dark\"></span></a>";
+                                break;
+                            case "ST_CASE_TECHNICAL_REVIEW_INCOMPLETE":
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar instrumento de evaluaci&oacute;n de riesgos\" onclick=\"addTechnicalReview('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil dark\"></span></a>";
                                 break;
                             default:
                                 be = "<a style=\"display:inline-block;\" title=\"A&uacute;n no cuenta con la verificación completa\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";

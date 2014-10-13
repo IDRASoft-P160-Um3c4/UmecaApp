@@ -12,7 +12,7 @@
         };
     </script>
 
-    <title>Instrumento de eevaluaci&oacute;n</title>
+    <title>Instrumento de evaluaci&oacute;n</title>
 </head>
 
 <body scroll="no" ng-app="ptlUmc">
@@ -26,16 +26,15 @@
       role="form" ng-controller="upsertController" method="post">
 <br/>
 
-
 <div class="container body-content" ng-controller="tecRevController">
 
 <input type="hidden" name="idVerification" id="idVerification" value="${idVerification}"/>
+<input type="hidden" name="isFinished" id="isFinished" value="{{isFinished}}"/>
 <input type="hidden" name="txtListQuest" id="txtListQuest" ng-init="lstQuestSel=${lstQuestSel_prev}"
        value="{{lstQuestSel}}"/>
 <input type="hidden" name="subtotalsTxt" id="subtotalsTxt" value="{{lstSubtotSrv}}"/>
 
-
-<div ng-init='sectionList=${listaSecc}; returnId=${returnId}; canEdit=${canEdit}; flgIsEvaluated=${hasRevTec}; flgShowRisk=${showRisk}; lstSubtotSrv=${lstSubtotTxt_prev};
+<div ng-init='sectionList=${listaSecc}; returnId=${returnId}; canEdit=${canEdit}; flgIsEvaluated=${hasRevTec}; flgShowRisk=${showRisk}; lstSubtotSrv=${lstSubtotTxt_prev}; isFinished=${isFinished};
 urlManagereval="<c:url value='/managereval/showCaseEvaluation/index.html'/>"; urlTecRev="<c:url value='/reviewer/technicalReview/index.html'/>";
 urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
 
@@ -166,6 +165,19 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
                     </div>
                 </div>
 
+                <div class="row element-right">
+                    <br/>
+
+                    <div class="col-xs-3 col-xs-offset-8">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                                  ng-click="submitRedirect('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>',false)"
+                                  ng-show="flgIsEvaluated == false || canEdit==true">
+                                  Guardar
+                            </span>
+                    </div>
+                </div>
+
                 <br/>
             </div>
         </div>
@@ -209,7 +221,7 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
                                     <div class="row">
 
                                         <div class="col-xs-10 col-xs-offset-1">
-                                            <label for="comments">Comentarios</label>
+                                            <label for="comments">Comentarios {{isFinished}}</label>
                                             <textarea class="form-control limited" name="comments" id="comments"
                                                       maxlength="980"
                                                       ng-disabled="flgIsEvaluated == true && canEdit==false"
@@ -321,7 +333,7 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                                   ng-click="submitRedirect('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>',false,validateSave)"
                                   ng-show="flgIsEvaluated == false || canEdit==true">
-                                  Guardar
+                                  Terminar
                             </span>
     </div>
 

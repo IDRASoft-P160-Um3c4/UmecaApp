@@ -181,6 +181,9 @@ app.controller('tecRevController', function ($scope, $timeout) {
             return false;
         }
 
+        $scope.isFinished = true;
+        $scope.$apply();
+
         return true;
     };
 

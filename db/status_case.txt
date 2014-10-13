@@ -14,3 +14,4 @@
 13|ST_CASE_EDIT_TEC_REV|Edición de opinión técnica autorizada
 14|ST_CASE_OBSOLETE|Caso eliminado
 15|ST_CASE_HEARING_FORMAT_INCOMPLETE|Formato de audiencia incompleto.
+16|ST_CASE_TECHNICAL_REVIEW_INCOMPLETE|Opinión técnica incompleta.

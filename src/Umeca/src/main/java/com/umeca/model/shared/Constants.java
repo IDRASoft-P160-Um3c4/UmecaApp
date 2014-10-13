@@ -56,6 +56,7 @@ public class Constants {
     public static final String CASE_STATUS_HEARING_FORMAT_END = "ST_CASE_HEARING_FORMAT_END";
     public static final String CASE_STATUS_VERIFICATION_COMPLETE = "ST_CASE_VERIFICATION_COMPLETE";
     public static final String CASE_STATUS_TECHNICAL_REVIEW = "ST_CASE_TECHNICAL_REVIEW_COMPLETE";
+    public static final String CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW = "ST_CASE_TECHNICAL_REVIEW_INCOMPLETE";
     public static final String CASE_STATUS_VERIFICATION = "ST_CASE_VERIFICATION";
 
     public static final String CASE_STATUS_CONDITIONAL_REPRIEVE = "ST_CASE_CONDITIONAL_REPRIEVE";
@@ -147,5 +148,5 @@ public class Constants {
     public static final Long DRUG_OTHER = 14L;
 
 
-    public static final String ST_REQUEST_AUTHORIZE_SOURCE="AUTHORIZE_SOURCES";
+    public static final String ST_REQUEST_AUTHORIZE_SOURCE = "AUTHORIZE_SOURCES";
 }

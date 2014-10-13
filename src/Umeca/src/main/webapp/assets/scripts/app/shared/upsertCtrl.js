@@ -67,6 +67,8 @@
             }
             if (resp.hasError === false) {
                 window.goToUrlMvcUrl(resp.urlToGo, "");
+                $scope.WaitFor = false;
+                $scope.$apply();
                 return;
             }
 
