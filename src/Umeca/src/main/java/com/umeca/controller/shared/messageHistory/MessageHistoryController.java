@@ -74,7 +74,6 @@ public class MessageHistoryController {
                 final Join<CaseRequest, Message> messageResponse = r.join("responseMessage", JoinType.LEFT);
                 final Join<CaseRequest, RequestType> requestType = r.join("requestType");
                 final Join<CaseRequest, ResponseType> responseType = r.join("responseType");
-                final Join<Message, User> sender = messageRequest.join("sender");
                 final Join<Meeting, Imputed> imputed = meetingCase.join("imputed");
 
 
@@ -97,7 +96,7 @@ public class MessageHistoryController {
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("user"))
-                    return r.join("sources").join("verification").join("reviewer").get("id");
+                    return r.join("requestMessage").join("sender").get("id");
 
                 return null;
             }
