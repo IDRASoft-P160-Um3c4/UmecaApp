@@ -449,7 +449,7 @@ public class MeetingServiceImpl implements MeetingService {
             seCase.setMeeting(m);
             m.setSocialEnvironment(seCase);
         }
-        seCase.setComment(socialEnvironment.getComment());
+        //seCase.setComment(socialEnvironment.getComment());
         seCase.setPhysicalCondition(socialEnvironment.getPhysicalCondition());
         Gson gson = new Gson();
         if (seCase != null && seCase.getRelSocialEnvironmentActivities() != null) {
@@ -949,6 +949,11 @@ public class MeetingServiceImpl implements MeetingService {
         l.setReason(leaveCountry.getReason());
         l.setAddress(leaveCountry.getAddress());
         l.setMedia(leaveCountry.getMedia());
+        if(m.getSocialEnvironment()==null){
+            m.setSocialEnvironment(new SocialEnvironment());
+            m.getSocialEnvironment().setMeeting(m);
+        }
+        m.getSocialEnvironment().setComment(leaveCountry.getCommentSocialEnvironment());
     }
 
     @Autowired
