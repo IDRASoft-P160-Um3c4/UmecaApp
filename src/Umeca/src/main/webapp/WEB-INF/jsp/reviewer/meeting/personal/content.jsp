@@ -558,25 +558,6 @@
 </div>
 <br/>
 
-<div class="row">
-    <div class="col-xs-3 element-left">
-        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-           ng-click="doConfirmVerifEqual('socialEnvironment.comment')"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
-           code="socialEnvironment.comment"></i>
-        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-           ng-click="doConfirmVerifNotKnow('socialEnvironment.comment')"></i>
-        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.comment')"></i>
-        Comentarios:  <br/>
-        <label class="info-example">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>
-    </div>
-    <div class="col-xs-9">
-        <textarea class="form-control" name="socialEnvironment.comment"
-                  data-val-required="Los comentarios es un campo requerido">${m.socialEnvironment.comment}</textarea>
-         <span class="field-validation-valid" data-valmsg-for="socialEnvironment.comment"
-               data-valmsg-replace="true"></span>
-    </div>
-</div>
 </div>
 <script>
     $('.date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {

@@ -71,6 +71,9 @@ public class LeaveCountry {
     @Transient
     private String commentCountry;
 
+    @Transient
+    private String commentSocialEnvironment;
+
     public Long getId() {
         return id;
     }
@@ -174,6 +177,14 @@ public class LeaveCountry {
 
     public void setCommentCountry(String commentCountry) {
         this.commentCountry = commentCountry;
+    }
+
+    public String getCommentSocialEnvironment() {
+        return commentSocialEnvironment;
+    }
+
+    public void setCommentSocialEnvironment(String commentSocialEnvironment) {
+        this.commentSocialEnvironment = commentSocialEnvironment;
     }
 
     public void validateMeeting(TerminateMeetingMessageDto t) {
