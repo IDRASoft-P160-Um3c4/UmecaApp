@@ -117,6 +117,8 @@ public class HearingFormatView {
 
     private Boolean hasPrevHF;
 
+    private String comments;
+
     public String getLat() {
         return lat;
     }
@@ -563,5 +565,13 @@ public class HearingFormatView {
 
     public void setExtDateStr(String extDateStr) {
         this.extDateStr = extDateStr;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

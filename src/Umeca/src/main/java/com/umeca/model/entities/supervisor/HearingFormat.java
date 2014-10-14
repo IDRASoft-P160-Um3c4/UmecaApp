@@ -64,6 +64,9 @@ public class HearingFormat {
     @Column(name = "is_finished")
     private Boolean isFinished;
 
+    @Column(name = "comments")
+    private String comments;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_format_specs")
     private HearingFormatSpecs hearingFormatSpecs;
@@ -268,5 +271,13 @@ public class HearingFormat {
 
     public void setIsFinished(Boolean isFinished) {
         this.isFinished = isFinished;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

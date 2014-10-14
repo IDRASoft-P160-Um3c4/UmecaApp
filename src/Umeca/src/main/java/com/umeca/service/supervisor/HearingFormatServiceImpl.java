@@ -322,6 +322,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormat.setCrimes(viewFormat.getCrimes());
         hearingFormat.setIsFinished(viewFormat.getIsFinished());
 
+        hearingFormat.setComments(viewFormat.getComments());
+
         return hearingFormat;
     }
 
@@ -468,6 +470,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             }
         }
 
+        hearingFormatView.setComments(existHF.getComments());
         hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
         return hearingFormatView;
     }
@@ -536,6 +539,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
         }
 
+        hearingFormatView.setComments(existHF.getComments());
         hearingFormatView.setIsFinished(false);
 
         return hearingFormatView;

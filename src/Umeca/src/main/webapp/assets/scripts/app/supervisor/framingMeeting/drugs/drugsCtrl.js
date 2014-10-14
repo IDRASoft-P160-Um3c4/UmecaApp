@@ -48,6 +48,43 @@ app.controller('drugsFMController', function ($scope, $timeout) {
         }
     };
 
+    $scope.fillDrug = function (id) {
+        var template = "NO CONSUME";
+        if (id == 2) {
+            //$scope.d.other=template;
+            //$scope.d.specificationPeriodicity = template;
+            $scope.d.quantity = template;
+            $scope.d.onsetAge = template;
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = today.getMonth();
+            var date = today.getDate();
+            $scope.d.lastUse = year + "/" + (month + 1) + "/" + date;
+            for (var i = 0; i < $scope.lstType.length; i++) {
+                var type = $scope.lstType[i];
+                if (type.name === "No consume") {
+                    $scope.d.type = type;
+                    $scope.d.typeId = type.id;
+                    break;
+                }
+            }
+            for (var i = 0; i < $scope.lstPer.length; i++) {
+                var per = $scope.lstPer[i];
+                if (per.name == "No consume") {
+                    $scope.d.per = per;
+                    $scope.d.perId = per.id;
+                    break;
+                }
+            }
+        } else {
+            $scope.d.other = "";
+            $scope.d.specificationPeriodicity = "";
+            $scope.d.quantity = "";
+            $scope.d.lastUse = "";
+            $scope.d.onsetAge = "";
+        }
+    };
+
 
     $timeout(function () {
         $scope.init();

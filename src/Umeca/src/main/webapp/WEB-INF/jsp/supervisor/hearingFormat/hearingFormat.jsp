@@ -290,12 +290,12 @@
                 <div class="row">
 
                     <div class="col-xs-4">
-                        <label for="judgeName">Nombre del Juez</label>
+                        <label for="judgeName">Juez de control</label>
                         <br/>
                         <input id="judgeName" ng-model="m.judgeName" name="judgeName"
                                type="text" class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Nombre del juez es un campo requerido"/>
+                               data-val-required="Juez de control es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="judgeName"
                   data-valmsg-replace="true"></span>
@@ -304,12 +304,12 @@
 
                     <div class="col-xs-4">
 
-                        <label for="mpName">Nombre del Ministerio P&uacute;blico</label>
+                        <label for="mpName">Ministerio P&uacute;blico</label>
                         <br/>
                         <input id="mpName" ng-model="m.mpName" name="mpName" type="text"
                                class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Nombre del Ministerio P�blico es un campo requerido"/>
+                               data-val-required="Ministerio P&uacute;blico es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="mpName"
                   data-valmsg-replace="true"></span>
@@ -317,13 +317,13 @@
 
                     <div class="col-xs-4">
 
-                        <label for="defenderName">Nombre del defensor</label>
+                        <label for="defenderName">Defensor</label>
                         <br/>
                         <input id="defenderName" ng-model="m.defenderName" name="defenderName"
                                type="text"
                                class="input-xxlarge"
                                data-val="true"
-                               data-val-required="Nombre del defensor es un campo requerido"/>
+                               data-val-required="Defensor es un campo requerido"/>
                         <br/>
             <span class="field-validation-valid" data-valmsg-for="defenderName"
                   data-valmsg-replace="true"></span>
@@ -342,7 +342,7 @@
 <br/>
 
 <div class="widget-box" id="divImputado">
-    <div class="widget-header">Imputado</div>
+    <div class="widget-header">Datos del imputado</div>
     <div class="widget-body">
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
@@ -1005,6 +1005,25 @@
 
 
                 </div>
+                <br/>
+
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1">
+                        <div class="col-xs-6">
+                            <br/>
+                            <label>Observaciones</label>
+                            <br/>
+                            <textarea class="input-xxlarge form-control limited" name="comments"
+                                      ng-model="m.comments"
+                                      maxlength="980" data-val="true"
+                                      data-val-required="Observaciones un campo requerido">
+                            </textarea>
+        <span class="field-validation-valid" data-valmsg-for="comments"
+              data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <br/>
 

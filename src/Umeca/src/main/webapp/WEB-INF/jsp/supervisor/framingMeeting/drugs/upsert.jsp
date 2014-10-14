@@ -18,6 +18,20 @@
                 </div>
                 <div class="modal-body">
                     <form id="FormDrugId" name="FormDrugId" class="form-horizontal" role="form" ng-init="block=true">
+                        <div class="row">
+                            <div class="col-xs-12 element-center"
+                                 ng-init="blockD=${d.block == null ? true: d.block}; d.consumeDrug=1;">
+                                <div class="col-xs-6 element-right">
+                                    &iquest;El imputado consume sustancias actualmente?
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type="radio" value="1" ng-model="d.consumeDrug" ng-click="fillDrug(1)">
+                                    <label>Si</label> &nbsp;&nbsp;&nbsp;
+                                    <input type="radio" value="2" ng-model="d.consumeDrug" ng-click="fillDrug(2)">
+                                    <label>No</label>
+                                </div>
+                            </div>
+                        </div>
                         <br/>
                         <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/drugs/content.jsp" %>
                     </form>

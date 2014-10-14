@@ -341,6 +341,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.arrType = data.arrangementType;
             $scope.m.nationalArrangement = data.nationalArrangement;
             $scope.m.terms = data.terms;
+            $scope.m.comments = data.comments;
 
             $scope.m.userName = data.userName;
             //
