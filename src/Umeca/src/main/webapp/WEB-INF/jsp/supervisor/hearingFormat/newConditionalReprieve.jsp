@@ -22,8 +22,7 @@
 
                         <div class="row">
                             <div class="col-xs-12">
-                                <label>Ingrese la informaci&oacute;n requerida para generar un nuevo caso por Suspensi&oacute;n
-                                    Condicional de Proceso.</label>
+                                <label>Ingrese la informaci&oacute;n requerida para generar un nuevo caso.</label>
                             </div>
                         </div>
                         <br/>

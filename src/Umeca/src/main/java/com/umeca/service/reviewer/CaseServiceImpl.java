@@ -115,18 +115,20 @@ public class CaseServiceImpl implements CaseService {
         ResponseMessage resp = new ResponseMessage();
 
         try {
-            FolderConditionalReprieve folderObj = new FolderConditionalReprieve();
+            //FolderConditionalReprieve folderObj = new FolderConditionalReprieve();
 
-            folderObj = folderConditionalReprieveRepository.save(folderObj);
+            //folderObj = folderConditionalReprieveRepository.save(folderObj);
 
-            StringBuilder sb = new StringBuilder();
+            //StringBuilder sb = new StringBuilder();
 
-            sb.append(HearingFormatConstants.FOLDER_CONDITIONAL_REPRIEVE_PREFIX);
-            sb.append(folderObj.getId());
+            //sb.append(HearingFormatConstants.FOLDER_CONDITIONAL_REPRIEVE_PREFIX);
+            //sb.append(folderObj.getId());
 
-            caseDet.setIdFolder(sb.toString());
-            caseDet.setFolderConditionalReprieve(folderObj);
-            folderObj.setCaseDetention(caseDet);
+            //caseDet.setIdFolder(sb.toString());
+            //caseDet.setFolderConditionalReprieve(folderObj);
+            //folderObj.setCaseDetention(caseDet);
+
+            caseDet.setIdFolder("SIN EVALUACIÓN REGISTRADA");
             caseRepository.save(caseDet);
 
             resp.setHasError(false);

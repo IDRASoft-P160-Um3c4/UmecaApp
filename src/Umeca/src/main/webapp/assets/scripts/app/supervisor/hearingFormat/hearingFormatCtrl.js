@@ -17,7 +17,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             if ($scope.m.hasPrevHF == false) {
                 if (id == 1) {
                     $scope.m.labelImpForm = $sce.trustAsHtml("Fecha de imputaci&oacute;n");
-                    $scope.m.impDate = $scope.myFormatDate(new Date());
+                    //$scope.m.impDate = $scope.myFormatDate(new Date());
+                    $scope.m.impDate = $scope.m.appointmentDate;
                 }
                 else if (id == 2) {
                     $scope.m.labelImpForm = $sce.trustAsHtml("Nueva fecha de audiencia");
@@ -35,7 +36,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 $scope.m.extDate = $scope.myFormatDate(((new Date()).getTime() + (86400000 * 6)));
             }
             else if (id == 3) {
-                $scope.m.extDate = "";
+                //$scope.m.extDate = "";
+                $scope.m.extDate = $scope.m.appointmentDate;
             }
 
         };
@@ -540,15 +542,19 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (noSel < 1) {
                 $scope.m.hasError = true;
-                $scope.m.errArrmntSel = $sce.trustAsHtml("Debe seleccionar al menos una medida cautelar");
+                $scope.m.errArrmntSel = $sce.trustAsHtml("Debe seleccionar al menos una obligaci&oacute;n procesal");
                 return;
             } else if (noSel > noDesc) {
                 $scope.m.hasError = true;
-                $scope.m.errArrmntSel = $sce.trustAsHtml("Debe indicar una descripci&oacute;n para cada medida cautelar seleccionada");
+                $scope.m.errArrmntSel = $sce.trustAsHtml("Debe indicar una descripci&oacute;n para cada obligaci&oacute;n procesal seleccionada");
                 return;
             } else
                 $scope.m.errArrmntSel = $sce.trustAsHtml("");
 
+
+        };
+
+        $scope.hasContacts = function (id) {
 
         };
 

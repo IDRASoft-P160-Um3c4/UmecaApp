@@ -754,7 +754,7 @@
 
 <div class="row" ng-show="m.vincProcess==1" id="divMedidas">
     <div class="widget-box">
-        <div class="widget-header">Medidas cautelares</div>
+        <div class="widget-header">Obligaciones procesales</div>
         <div class="widget-body">
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-1">
@@ -887,6 +887,35 @@
     <div class="widget-box">
         <div class="widget-header">Datos de contacto</div>
         <div class="widget-body">
+            <br/>
+
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+
+                    <div class="col-xs-12">
+                        <label for="contactName">&iquest;Tiene contactos?</label>
+                        <br/>
+
+                        <div class="radio">
+                            <label ng-click="hasContacts(1)">
+                                <input name="arrangementType" class="ace" type="radio" value="2"
+                                       ng-model="m.arrType" ng-checked="m.arrType==2"
+                                       data-val="true"
+                                       data-val-required="Debe seleccionar un valor">
+                                <span class="lbl">&nbsp;&nbsp;Si</span>
+                            </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <label ng-click="hasContacts(2)">
+                                <input name="arrangementType" class="ace" type="radio" value="1"
+                                       ng-model="m.arrType" ng-checked="m.arrType==1">
+                                <span class="lbl">&nbsp;&nbsp;No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <br/>
 
             <div class="row">
@@ -1032,3 +1061,11 @@
 
 </body>
 </html>
+
+<script>
+    var date = new Date();
+    date.setFullYear(date.getFullYear() - 18);
+    $('#imputedBirthDateStr').datepicker({autoclose: true, endDate: date}).next().on(ace.click_event, function () {
+        $(this).prev().focus();
+    });
+</script>

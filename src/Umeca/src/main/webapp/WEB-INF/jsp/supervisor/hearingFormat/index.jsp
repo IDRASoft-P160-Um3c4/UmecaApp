@@ -47,10 +47,10 @@
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'status', index: 'status', hidden: true },
-                    { name: 'idFolder', index: 'idFolder', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'idMP', index: 'idMP', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'statusDesc', index: 'statusDesc', width: 400, align: "center", search: false},
+                    { name: 'statusDesc', index: 'statusDesc', width: 350, align: "center", search: false},
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
