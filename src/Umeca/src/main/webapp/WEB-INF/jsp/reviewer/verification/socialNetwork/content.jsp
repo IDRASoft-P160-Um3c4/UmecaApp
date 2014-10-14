@@ -33,7 +33,7 @@
                 <input type="hidden" ng-model="p.relId" ng-update-hidden name="socialNetwork.relationship.id">
                 <select class="form-control element-center" ng-model="p.rel"
                         ng-options="e.name for e in lstRel"
-                        ng-change="p.relId = p.rel.id"
+                        ng-change="p.relId = p.rel.id" value="{{p.relId}}"
                         ng-init='lstRel = ${lstRelationship};'></select>
                 <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
             </div>
@@ -43,7 +43,7 @@
                 Especif&iacute;que<br/>parentesco:
             </div>
             <div class="col-xs-8">
-                <input class="form-control" data-val="true"
+                <input class="form-control" data-val="true" value="{{p.specificationRelationship}}"
                        data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
                        data-val-length-max="255" data-val-length-min="2"
                        data-val-required="La especificaci&oacute;n es un campo requerido"
@@ -67,7 +67,7 @@
                 Tel&eacute;fono:
             </div>
             <div class="col-xs-10">
-                <textarea class="form-control width-100" type="text"
+                <textarea class="form-control width-100" type="text" value="{{p.phone}}"
                           data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
                           data-val-length-max="200" data-val-length-min="5" data-val-required="El tel&eacute;fono es un campo requerido"
                           name="socialNetwork.phone" id="phone" ng-model="phone" ng-init ="phone = p.phone" ></textarea>
@@ -90,7 +90,7 @@
                 <input type="hidden" ng-model="p.docId" ng-update-hidden name="socialNetwork.documentType.id">
                 <select class="form-control element-center" ng-model="p.doc"
                         ng-options="e.name for e in lstDoc"
-                        ng-change="p.docId = p.doc.id"
+                        ng-change="p.docId = p.doc.id" value="{{p.docId}}"
                         ng-init='lstDoc = ${lstDocumentType};'></select>
                 <br/>
             </div>
@@ -99,7 +99,7 @@
                         Especif&iacute;que:
                     </div>
                     <div class="col-xs-8" ng-show="p.doc.specification == true">
-                        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres" value="{{p.specification}}"
                                data-val-length-max="255" data-val-length-min="2" data-val-required="La especificaci&oacute;n es un campo requerido"
                                type="text" ng-model="specification" ng-init="specification = p.specification" id="specification" name="socialNetwork.specification">
                         <span class="field-validation-valid" data-valmsg-for="specification" data-valmsg-replace="true"></span>
@@ -139,7 +139,7 @@
                 <input type="hidden" ng-model="p.livId" ng-update-hidden name="socialNetwork.livingWith.id">
                 <select class="form-control element-center" ng-model="p.liv"
                         ng-options="e.name for e in lstLiv"
-                        ng-change="p.livId = p.liv.id"
+                        ng-change="p.livId = p.liv.id" value="{{p.livId}}"
                         ng-init='lstLiv = ${lstElection};'></select>
                 <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
                 <br/>
@@ -149,7 +149,7 @@
                     <div class="col-xs-8" ng-show="p.livId == 2">
                         <textarea id="address" class="form-control"  name="socialNetwork.address" ng-model="address" ng-init="address = p.address"
                                   data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
-                                  data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
+                                  data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres" value="{{p.address}}"
                                   data-val-length-max="500" data-val-length-min="6"></textarea>
                         <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
                     </div>
@@ -166,7 +166,7 @@
                 <input type="hidden" ng-model="p.depId" ng-update-hidden name="socialNetwork.dependent.id">
                 <select class="form-control width-100 element-center" ng-model="p.dep"
                         ng-options="e.name for e in lstDep"
-                        ng-change="p.depId = p.dep.id"
+                        ng-change="p.depId = p.dep.id" value="{{p.depId}}"
                         ng-init='lstDep = ${lstElection};'></select>
             </div>
         </div>

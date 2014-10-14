@@ -130,7 +130,7 @@
             <div class="col-xs-7">
 
                 <select class="form-control element-center" ng-model="school.degree"
-                        ng-options="e.name for e in lstDegree"
+                        ng-options="e.name for e in lstDegree" value="{{school.degree.id}}"
                         ng-change="school.degreeId = school.degree.id"
                         ng-init='lstDegree = school.level.degrees;'></select>
                 <input type="hidden" ng-update-hidden ng-model="school.degreeId" name="school.degree.id" id="degreeId"

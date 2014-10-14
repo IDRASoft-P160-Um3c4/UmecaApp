@@ -13,7 +13,9 @@ import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.VerificationView;
 import com.umeca.model.entities.reviewer.dto.FieldVerified;
+import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.ActivityRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
@@ -324,12 +326,26 @@ public class VerificationController {
     @Autowired
     ActivityRepository activityRepository;
 
+    @Autowired
+    CaseRepository caseRepository;
+
     @RequestMapping(value = "reviewer/verification/verificationActivities", method = RequestMethod.POST)
     public ModelAndView verificationActivities(@RequestParam(required = true) Long idCase,@RequestParam(required = true)Long idSource){
         ModelAndView model = new ModelAndView("reviewer/verification/detailVerificationActivities");
         Gson gson = new Gson();
         model.addObject("idCase",idCase);
         model.addObject("idSource",idSource);
+        Case c  = caseRepository.findOne(idCase);
+        if (c.getMeeting().getSocialEnvironment() != null) {
+            if (c.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities() != null) {
+                List<RelActivityObjectDto> listRel = new ArrayList<>();
+                for (RelSocialEnvironmentActivity r : c.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities()) {
+                    RelActivityObjectDto rNew = new RelActivityObjectDto();
+                    listRel.add(rNew.relDto(r));
+                }
+                model.addObject("activity", gson.toJson(listRel));
+            }
+        }
         ResponseMessage rm = verificationService.searchInformationByeSourceCode(idCase,idSource,"socialEnvironment.activities",null);
         model.addObject("activitiesRegister",rm.getMessage());
         List<CatalogDto> listActivity = new ArrayList<>();

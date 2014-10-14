@@ -33,8 +33,8 @@
         Tel&eacute;fono:
     </div>
     <div class="col-xs-8">
-        <textarea type="text" class="form-control width-100"ng-model="a.phone" name="imputedHomes.phone"
-               id="phone"
+        <textarea type="text" class="form-control width-100" ng-model="a.phone" name="imputedHomes.phone"
+               id="phone" value="{{a.phone}}"
                data-val="true"
                data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
                data-val-length-max="200" data-val-length-min="5"
@@ -61,7 +61,7 @@
         <div class="col-xs-3">
             <input type="hidden" ng-model="a.homeTypeId" ng-update-hidden name="imputedHomes.homeType.id">
             <select  class="form-control element-center" ng-model="a.homeType"
-                     ng-options="e.name for e in lstHomeType"
+                     ng-options="e.name for e in lstHomeType" value="{{a.homeTypeId}}"
                      ng-change="a.homeTypeId = a.homeType.id;" ng-init='lstHomeType = ${lstHomeType};'></select>
         </div>
     </div>
@@ -73,7 +73,7 @@
         <div class="col-xs-8">
             <input type="text" class="form-control"ng-model="a.specification" name="imputedHomes.specification"
                    id="specification"
-                   data-val="true"
+                   data-val="true" value="{{a.specification}}"
                    data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
                    data-val-length-max="50" data-val-length-min="1"
                    data-val-required="La especificaci&oacute;n del tipo de propiedad es un campo requerido">
@@ -100,7 +100,7 @@
         <div class="col-xs-3">
             <input type="hidden" ng-model="a.typeId" ng-update-hidden name="imputedHomes.registerType.id">
             <select class="form-control element-center" ng-model="a.type"
-                    ng-options="e.name for e in listType"
+                    ng-options="e.name for e in listType" value="{{a.typeId}}"
                     ng-change="a.typeId = a.type.id;" ng-init='listType= ${lstRegisterType };'></select>
         </div>
 
@@ -144,7 +144,7 @@
                             <div class="col-xs-9">
                                 <textarea id="description" class="form-control width-100"
                                           name="imputedHomes.description"
-                                          data-val="true"
+                                          data-val="true" value="{{a.description}}"
                                           ng-model="a.description"
                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                                           data-val-length-max="500" data-val-length-min="1"
@@ -162,7 +162,7 @@
                             <div class="col-xs-9">
                                 <textarea id="reasonSecondary" class="form-control" name="imputedHomes.reasonSecondary"
                                           ng-model="a.reasonSecondary"
-                                          data-val="true"
+                                          data-val="true" value="{{a.reasonSecondary}}"
                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                                           data-val-length-max="500" data-val-length-min="1"
                                           data-val-required="La raz&oacute;n es un campo requerido"></textarea>
@@ -274,7 +274,7 @@
                                 <div class="col-xs-9">
                                     <textarea id="reasonChange" name="imputedHomes.reasonChange"
                                               class="form-control width-100"
-                                              data-val="true"
+                                              data-val="true" value="{{a.reasonChange}}"
                                               ng-model="a.reasonChange"
                                               data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                                               data-val-length-max="500" data-val-length-min="1"

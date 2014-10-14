@@ -81,7 +81,7 @@
                     <input type="hidden" ng-update-hidden ng-model="l.ocId" name="leaveCountry.livedCountry.id" id="oc"
                            ng-init='l.ocId = ${(m.leaveCountry.livedCountry.id == null)? 'undefined':m.leaveCountry.livedCountry.id}'>
                     <select class="form-control element-center" ng-model="l.oc"
-                            ng-options="e.name for e in listElection"
+                            ng-options="e.name for e in listElection" value="{{l.oc.id}}"
                             ng-change="l.ocId = l.oc.id;" ng-init='listElection = ${listElection};'></select>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                            id="country"
                            ng-init='l.countryId = ${(m.leaveCountry.country.id == null)? 'undefined':m.leaveCountry.country.id}'>
                     <select class="form-control element-center" ng-model="l.country"
-                            ng-options="e.name for e in listCountry"
+                            ng-options="e.name for e in listCountry" value="l.country.id"
                             url-request="/catalogs/getStatesByCountry.json"
                             ng-change="l.countryId = l.country.id;" ng-init='listCountry = ${lstCountry};'></select>
                 </div>
@@ -111,7 +111,7 @@
                            data-val-length-max="100" data-val-length-min="3"
                            data-val-required="El estado es un campo requerido"
                            type="text" ng-model="l.state" id="leaveCountry.state"
-                           name="leaveCountry.state"
+                           name="leaveCountry.state" value="{{l.state}}"
                            ng-init='l.state = "${(m.leaveCountry.state ==  null) ? "" : m.leaveCountry.state}";'>
                         <span class="field-validation-valid" data-valmsg-for="leaveCountry.state"
                               data-valmsg-replace="true"></span>
@@ -130,7 +130,7 @@
                        data-val-length-max="250" data-val-length-min="3"
                        data-val-required="El tiempo es un campo requerido"
                        type="text" ng-model="l.timeAgo" id="leaveCountry.timeAgo"
-                       name="leaveCountry.timeAgo"
+                       name="leaveCountry.timeAgo"  value="{{l.timeAgo}}"
                        ng-init='l.timeAgo = "${(m.leaveCountry.timeAgo ==  null) ? "" : m.leaveCountry.timeAgo}";'>
                         <span class="field-validation-valid" data-valmsg-for="leaveCountry.timeAgo"
                               data-valmsg-replace="true"></span>
@@ -143,7 +143,7 @@
                           data-val-length="Debe tener al menos 3 y m&aacute;ximo 500 caracteres"
                           data-val-length-max="500" data-val-length-min="3"
                           data-val-required="La raz&oacute;n es un campo requerido" ng-model="l.reason"
-                          name="leaveCountry.reason"
+                          name="leaveCountry.reason" value="{{l.reason}}"
                           ng-init='l.reason = "${(m.leaveCountry.reason == null) ? "" : m.leaveCountry.reason}"'></textarea>
                     <span class="field-validation-valid" data-valmsg-for="leaveCountry.reason"
                           data-valmsg-replace="true"></span>
@@ -159,9 +159,9 @@
                 <textarea ng-model="l.address"
                           ng-init='l.address = "${(m.leaveCountry.address == null) ? "" : m.leaveCountry.address}"'
                           data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
-                          class="form-control"
+                          class="form-control" value="{{l.address}}"
                           data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
-                          name="leaveCountry.address" id="leaveCou ntry.address"
+                          name="leaveCountry.address" id="leaveCountry.address"
                           data-val-length-max="500" data-val-length-min="6"></textarea>
 
                         <span class="field-validation-valid" data-valmsg-for="leaveCountry.address"
@@ -192,7 +192,7 @@
                    id="fac"
                    ng-init='l.facId = ${(m.leaveCountry.familyAnotherCountry.id == null)? 'undefined':m.leaveCountry.familyAnotherCountry.id}'>
             <select class="form-control element-center" ng-model="l.fac"
-                    ng-options="e.name for e in listElection"
+                    ng-options="e.name for e in listElection" value="{{l.fac.id}}"
                     ng-change="l.facId = l.fac.id;" ng-init='listElection = ${listElection};'></select>
         </div>
 
@@ -208,7 +208,7 @@
             <input type="hidden" ng-update-hidden ng-model="l.cfId" name="leaveCountry.communicationFamily.id" id="cf"
                    ng-init='l.cfId = ${(m.leaveCountry.communicationFamily.id == null)? 'undefined':m.leaveCountry.communicationFamily.id}'>
             <select class="form-control element-center" ng-model="l.cf"
-                    ng-options="e.name for e in listElection"
+                    ng-options="e.name for e in listElection" value="{{l.cf.id}}"
                     ng-change="l.cfId = l.cf.id;" ng-init='listElection = ${listElection};'></select>
         </div>
         <div class="col-xs-2 element-left" ng-show="l.cfId == 1">
@@ -219,7 +219,7 @@
                    data-val-length="Debe tener al menos 2 y m&aacute;ximo 50 caracteres"
                    data-val-length-max="50" data-val-length-min="2"
                    data-val-required="El medio es un campo requerido"
-                   type="text" value="" id="leaveCountry.media" name="leaveCountry.media" ng-model="l.media"
+                   type="text" value="{{l.media}}" id="leaveCountry.media" name="leaveCountry.media" ng-model="l.media"
                    ng-init='l.media = "${(m.leaveCountry.media == null) ? "":m.leaveCountry.media}";'>
                      <span class="field-validation-valid" data-valmsg-for="leaveCountry.media"
                            data-valmsg-replace="true"></span>
