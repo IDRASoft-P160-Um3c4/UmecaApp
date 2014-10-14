@@ -63,7 +63,7 @@
                                         <input  ng-model="activities" ng-update-hidden type="hidden" name="socialEnvironment.activities">
                                         <select multiple="" class="width-100 chosen-select" ng-model="activityModel"
                                                 data-placeholder="..."
-                                                ng-init='lstActivity = ${lstActivity};'
+                                                ng-init='lstActivity = ${lstActivity}; lstActivitySelec = ${(activity == null) ? '[]' : activity}; selectedActivities(lstActivity,lstActivitySelec);'
                                                 id="slctActivityV" ng-change="matchActivities()"
                                                 ng-options="ac as ac.name for ac in lstActivity">
                                         </select>

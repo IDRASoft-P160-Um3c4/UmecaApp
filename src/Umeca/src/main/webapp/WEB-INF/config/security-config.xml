@@ -44,9 +44,9 @@
         <form-login login-page="/index.html"
                     authentication-success-handler-ref="ajaxAuthenticationSuccessHandler"
                     authentication-failure-handler-ref="ajaxAuthenticationFailureHandler"/>
-        <session-management>
-            <concurrency-control max-sessions="1"/>
-        </session-management>
+        <!--<session-management>-->
+            <!--<concurrency-control max-sessions="1"/>-->
+        <!--</session-management>-->
     </http>
 
     <authentication-manager>

@@ -40,7 +40,7 @@
             Nombre:
         </div>
         <div class="col-xs-7">
-            <input class="form-control" type="text" ng-model="i.name"
+            <input class="form-control" type="text" ng-model="i.name" value="{{i.name}}"
                    name="imputed.name" data-val-required="El nombre es un campo requerido"
                    data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
                    data-val-length-max="50" data-val-length-min="2"/>
@@ -62,7 +62,7 @@
             Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Paterno:
         </div>
         <div class="col-xs-7">
-            <input class="form-control" type="text" ng-model="i.lastNameP"
+            <input class="form-control" type="text" ng-model="i.lastNameP" value="{{i.lastNameP}}"
                    name="imputed.lastNameP" data-val-required="El nombre es un campo requerido"
                    data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
                    data-val-length-max="50" data-val-length-min="2"/>
@@ -84,7 +84,7 @@
             Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Materno:
         </div>
         <div class="col-xs-7">
-            <input class="form-control" type="text" ng-model="i.lastNameM"
+            <input class="form-control" type="text" ng-model="i.lastNameM" value="i.lastNameM   "
                    name="imputed.lastNameM" data-val-required="El nombre es un campo requerido"
                    data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
                    data-val-length-max="50" data-val-length-min="2"/>
@@ -398,7 +398,7 @@
                                id="country"
                                ng-init='m.countryId = ${(m.imputed.birthCountry.id == null)? 'undefined':m.imputed.birthCountry.id}'>
                         <select class="form-control element-center" ng-model="m.country"
-                                ng-options="e.name for e in listCountry"
+                                ng-options="e.name for e in listCountry" value="{{m.country.id}}"
                                 url-request="/catalogs/getStatesByCountry.json"
                                 ng-change="m.countryId = m.country.id; setState();" ng-init='listCountry = ${lstCountry};'></select>
                     </div>
@@ -408,7 +408,7 @@
                     <div class="col-xs-3" ng-show="m.countryId != 1">
                         <input class="form-control"
                                type="text" ng-model="stateString" id="imputed.birthState"   data-val="true"
-                               name="imputed.birthState" data-val-required="El estado es un campo requerido"
+                               name="imputed.birthState" data-val-required="El estado es un campo requerido" value="{{stateString}}"
                                ng-init='stateString = "${(m.imputed.birthState ==  null) ? "" : m.imputed.birthState}";'>
                          <span class="field-validation-valid" data-valmsg-for="imputed.birthState"
                                data-valmsg-replace="true"></span>
@@ -417,7 +417,7 @@
                         Estado:
                     </div>
                     <div class="col-xs-3" ng-show="m.countryId == 1">
-                        <select class="form-control element-center" ng-model="state" find-municipality
+                        <select class="form-control element-center" ng-model="state" find-municipality value="{{state.id}}"
                                 url-request='<c:url value="/catalogs/address/municipalityByStId.json"/>'
                                 ng-options="e.name for e in listState" ng-init='listState = ${listState}'
                                 ng-change="stateId = state.id;"></select><br/>
@@ -468,7 +468,7 @@
                         <input type="hidden" ng-model="urlLocation"
                                ng-init='urlLocation = "<c:url value="/catalogs/address/locationByMunId.json"/>"; locationId = ${m.imputed.location.id == null? "undefined" : m.imputed.location.id};
                                urlFindIds = "<c:url value='/catalogs/address/idsLocationById.json'/>";'>
-                        <select class="form-control" ng-model="location" change-cp
+                        <select class="form-control" ng-model="location" change-cp  value="{{location.id}}"
                                 ng-options="e.name for e in listLocation" ng-init='listLocation = ""'
                                 ng-change="locationId = location.id;"></select>
 

@@ -30,7 +30,7 @@
             <input type="hidden" ng-model="r.relId" ng-update-hidden name="references.relationship.id">
             <select class="form-control element-center" ng-model="r.rel"
                     ng-options="e.name for e in lstRel"
-                    ng-change="r.relId = r.rel.id"
+                    ng-change="r.relId = r.rel.id" value="{{r.rel.id}}"
                     ng-init='lstRel = ${lstRelationship};'></select>
         </div>
         <div class="col-xs-9 col-xs-offset-3">
@@ -42,7 +42,7 @@
             Especif&iacute;que<br/>parentesco:
         </div>
         <div class="col-xs-8">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
+            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres" value="{{r.specificationRelationship}}"
                    data-val-length-max="255" data-val-length-min="1" data-val-required="La especificaci&oacute;n es un campo requerido"
                    type="text" ng-model="r.specificationRelationship" id="specificationRelationship" name="references.specificationRelationship">
         </div>
@@ -64,7 +64,7 @@
         <div class="col-xs-10">
             <textarea class="form-control width-100" data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
                       data-val-length-max="200" data-val-length-min="5" data-val-required="El tel&eacute;fono es un campo requerido" id="phone"
-                      type="text" name="references.phone" ng-model="r.phone"></textarea>
+                      type="text" name="references.phone" ng-model="r.phone" value="{{r.phone}}"></textarea>
             <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
         </div>
 
@@ -84,7 +84,7 @@
             <input type="hidden" ng-model="r.docId" ng-update-hidden name="references.documentType.id">
             <select class="form-control element-center" ng-model="r.doc"
                     ng-options="e.name for e in lstDoc"
-                    ng-change="r.docId = r.doc.id"
+                    ng-change="r.docId = r.doc.id" value="{{r .docId}}"
                     ng-init='lstDoc = ${lstDocumentType};'></select>
             <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
             <br/>
@@ -132,7 +132,7 @@
             <textarea id="address" class="form-control width-100"  name="references.address"
                       data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
                       data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
-                      ng-model="r.address"
+                      ng-model="r.address"  value="{{r.address}}"
                       data-val-length-max="500" data-val-length-min="6"></textarea>
             <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
         </div>

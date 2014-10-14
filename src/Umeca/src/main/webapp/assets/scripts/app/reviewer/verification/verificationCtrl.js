@@ -163,9 +163,17 @@ app.controller('innerVerificationController', function ($scope, $timeout, $http)
                 var toUpperName = nameModelLast.charAt(0).toUpperCase() + nameModelLast.substring(1);
 
                 if (toUpperName == "Degree") {
-                    $scope.lstDegree = $scope.school.level.degrees;
-                    $scope.school.degree = $scope.lstDegree[0];
-                    $scope.school.degreeId = $scope.lstDegree[0].id;
+                    for(var j=0; j<$scope.lstLevel.length; j++){
+                        $scope.lstDegree = $scope.lstLevel[j].degrees;
+                        for(var i= 0; i< $scope.lstDegree.length; i++){
+                            if($(this).attr("value")==$scope.lstDegree[i].id){
+                                $scope.school.level = $scope.lstLevel[j];
+                                $scope.school.levelId = $scope.school.level.id;
+                                $scope.school.degree = $scope.lstDegree[i];
+                                $scope.school.degreeId = $scope.lstDegree[i].id;
+                            }
+                        }
+                    }
                 } else {
                     var nameList = "list" + toUpperName;
                     if ($scope[nameList] == undefined) {
@@ -178,8 +186,17 @@ app.controller('innerVerificationController', function ($scope, $timeout, $http)
                         $scope[nameModelComplete[0]] = {};
                     }
                     if ($scope[nameList] != undefined && $scope[nameList][0] != undefined) {
-                        $scope[nameModelComplete[0]][nameModelComplete[1]] = $scope[nameList][0];
-                        $scope[nameModelComplete[0]][nameModelComplete[1] + "Id"] = $scope[nameList][0].id;
+                        if($(this).attr("value")!= undefined){
+                        for(var i = 0; i<$scope[nameList].length; i++){
+                            if($(this).attr("value") == $scope[nameList][i].id){
+                                $scope[nameModelComplete[0]][nameModelComplete[1]] = $scope[nameList][i];
+                                $scope[nameModelComplete[0]][nameModelComplete[1] + "Id"] = $scope[nameList][i].id;
+                            }
+                        }
+                        }else{
+                            $scope[nameModelComplete[0]][nameModelComplete[1]] = $scope[nameList][0];
+                            $scope[nameModelComplete[0]][nameModelComplete[1] + "Id"] = $scope[nameList][0].id;
+                        }
                     }
                 }
             });
@@ -191,10 +208,34 @@ app.controller('innerVerificationController', function ($scope, $timeout, $http)
         var allInput = $("input:text");
         var allTextArea = $("textarea");
         $("#divElementVerif").find(allInput).each(function () {
-            $(this).val("");
+            if( $(this).val() == ""){
+                var nameModel = $(this).attr("ng-model");
+                var sections = nameModel.split(".");
+                var actual = $scope;
+                for(var i=0; i<sections.length; i++){
+                    if(i < (sections.length -1) && actual[sections[i]] == undefined){
+                        actual[sections[i]] = {};
+                    }else if(i == (sections.length -1)){
+                        actual[sections[i]]=$(this).attr("value");
+                    }
+                    actual = actual[sections[i]];
+                }
+            }
         });
         $("#divElementVerif").find(allTextArea).each(function () {
-            $(this).val("");
+            if( $(this).val() == ""){
+                var nameModel = $(this).attr("ng-model");
+                var sections = nameModel.split(".");
+                var actual = $scope;
+                for(var i=0; i<sections.length; i++){
+                    if(i < (sections.length -1) && actual[sections[i]] == undefined){
+                        actual[sections[i]] = {};
+                    }else if(i == (sections.length -1)){
+                        actual[sections[i]]=$(this).attr("value");
+                    }
+                    actual = actual[sections[i]];
+                }
+            }
         });
     };
 

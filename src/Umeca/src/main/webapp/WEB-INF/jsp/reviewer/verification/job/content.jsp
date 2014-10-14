@@ -13,7 +13,7 @@
     </div>
     <div class="col-xs-10">
         <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
-               data-val-length-max="150" data-val-length-min="3"
+               data-val-length-max="150" data-val-length-min="3" value="{{j.company}}"
                data-val-required="La empresa es un campo requerido"
                type="text" ng-model="j.company" id="company" name="jobs.company">
         <span class="field-validation-valid" data-valmsg-for="company" data-valmsg-replace="true"></span>
@@ -97,7 +97,7 @@
     <div class="col-xs-10">
         <textarea class="form-control" name="jobs.address" id="address"
                   data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
-                  ng-model="j.address"
+                  ng-model="j.address" value="{{j.address}}"
                   data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
                   data-val-length-max="500" data-val-length-min="6"></textarea>
         <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
@@ -120,7 +120,7 @@
         <div class="col-xs-10">
             <input type="hidden" ng-update-hidden ng-model="j.registerTypeId" name="jobs.registerType.id"
                    id="registerTypeId">
-            <select class="form-control element-center" ng-model="j.registerType"
+            <select class="form-control element-center" ng-model="j.registerType" value="{{j.registerType.id}}"
                     ng-options="e.name for e in lstRegisterType" ng-init='lstRegisterType = ${lstRegisterType};'
                     ng-change="j.registerTypeId = j.registerType.id;"></select>
         </div>
@@ -181,7 +181,7 @@
                             <div class="col-xs-9">
                                 <textarea id="form-field-11" class="form-control"
                                           name="jobs.reasonChange"
-                                          data-val="true"
+                                          data-val="true" value="{{j.reasonChange}}"
                                           ng-model="j.reasonChange"
                                           data-val-required="El motivo de cambio es un campo requerido"></textarea>
                                 <span class="field-validation-valid" data-valmsg-for="reasonChange"

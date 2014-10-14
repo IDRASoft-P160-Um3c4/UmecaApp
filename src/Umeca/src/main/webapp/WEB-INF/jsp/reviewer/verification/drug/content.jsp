@@ -12,7 +12,7 @@
         <input type="hidden" ng-model="d.typeId" ng-update-hidden name="drugs.drugType.id">
         <select class="form-control element-center" ng-model="d.type"
                 ng-options="e.name for e in lstType"
-                ng-change="d.typeId = d.type.id"
+                ng-change="d.typeId = d.type.id" value="{{d.type.id}}"
                 ng-init='lstType = ${lstDrugType};'></select>
 
     </div>
@@ -42,7 +42,7 @@
         <input type="hidden" ng-model="d.perId" ng-update-hidden name="drugs.periodicity.id">
         <select class="form-control element-center" ng-model="d.per"
                 ng-options="e.name for e in lstPer"
-                ng-change="d.perId = d.per.id"
+                ng-change="d.perId = d.per.id"  value="{{d.per.id}}"
                 ng-init='lstPer = ${lstPeriodicity};'></select>
     </div>
     <div class="col-xs-2" ng-show="d.per.specification==true">
