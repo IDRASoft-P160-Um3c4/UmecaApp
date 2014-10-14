@@ -110,7 +110,7 @@
 <br/>
 
 <div class="container body-content" ng-controller="hearingFormatController"
-     ng-init='m=${hfView};'>
+     ng-init='m=${hfView}; m.rdHasContacts = 1;'>
 
 <%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp" %>
 
@@ -668,7 +668,7 @@
                                data-valmsg-replace="true"></span>
 
                         <div class="radio">
-                            <label>
+                            <label ng-click="chngVincProcess(1)">
                                 <input class="ace" name="vincProcess" type="radio" value="1"
                                        ng-model="m.vincProcess"
                                        ng-checked="m.vincProcess==1" data-val="true"
@@ -898,16 +898,14 @@
 
                         <div class="radio">
                             <label ng-click="hasContacts(1)">
-                                <input name="arrangementType" class="ace" type="radio" value="2"
-                                       ng-model="m.arrType" ng-checked="m.arrType==2"
-                                       data-val="true"
-                                       data-val-required="Debe seleccionar un valor">
+                                <input class="ace" type="radio" value="1" ng-model="m.rdHasContacts"
+                                       ng-checked="m.rdHasContacts==1">
                                 <span class="lbl">&nbsp;&nbsp;Si</span>
                             </label>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <label ng-click="hasContacts(2)">
-                                <input name="arrangementType" class="ace" type="radio" value="1"
-                                       ng-model="m.arrType" ng-checked="m.arrType==1">
+                                <input class="ace" type="radio" value="2" ng-model="m.rdHasContacts"
+                                       ng-checked="m.rdHasContacts==2">
                                 <span class="lbl">&nbsp;&nbsp;No</span>
                             </label>
                         </div>

@@ -556,7 +556,30 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         $scope.hasContacts = function (id) {
 
+            if (id == 2) {
+                $scope.m.contactName = "NO TIENE";
+                $scope.m.contactPhone = "00000000";
+                $scope.m.contactAddress = "NO TIENE";
+            } else {
+                $scope.m.contactName = "";
+                $scope.m.contactPhone = "";
+                $scope.m.contactAddress = "";
+            }
         };
+
+        $scope.chngVincProcess = function (id) {
+            if (id == 1) {
+                if ($scope.m.ext == 3) {
+                    $scope.m.linkageRoom = $scope.m.room;
+                    $scope.m.linkageDate = $scope.m.appointmentDate;
+                    $scope.m.linkageTime = $scope.m.initTime;
+                } else {
+                    $scope.m.linkageRoom = "";
+                    $scope.m.linkageDate = "";
+                    $scope.m.linkageTime = "";
+                }
+            }
+        }
 
         $scope.init = function () {
             $scope.fillFormat($scope.m);
