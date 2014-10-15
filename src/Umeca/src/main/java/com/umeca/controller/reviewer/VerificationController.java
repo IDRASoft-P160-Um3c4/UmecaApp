@@ -17,8 +17,10 @@ import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.ActivityRepository;
+import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.catalog.AddressService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.reviewer.VerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -359,5 +361,13 @@ public class VerificationController {
         model.addObject("lstActivity", gson.toJson(listActivity));
         return model;
     }
+
+    @Autowired
+    AddressService addressService;
+    @RequestMapping(value = "/reviewer/verification/fillModelAddress", method = RequestMethod.POST)
+    public ResponseMessage fillModelAddress(@RequestParam Long idList){
+        return new ResponseMessage(false,addressService.fillAddressDto(idList));
+    }
+
 
 }

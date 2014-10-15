@@ -5,10 +5,6 @@ app.controller('verificationActivitiesController', function($scope, $timeout, $q
     $scope.verification = false;
     $scope.generalComponent = false;
     $scope.activities="";
-    $scope.specification = {};
-    $scope.lstActivity = [];
-    $scope.activityModel = [];
-    $scope.activityList = [];
     $scope.init = function(){
 
       };
@@ -104,6 +100,51 @@ app.controller('verificationActivitiesController', function($scope, $timeout, $q
             $scope.Model.url = urlToSubmit;
         }
     };
+
+});
+
+
+app.controller('innerActivitiesController', function ($scope, $timeout, $q, $rootScope) {
+
+    $scope.specification = {};
+    $scope.lstActivity = [];
+    $scope.activityModel = [];
+    $scope.activityList = [];
+    $scope.pCSelected = [];
+    $scope.relActivities = [];
+
+    $scope.init = function () {
+        $("#slctActivityV").chosen();
+    };
+
+    $timeout(function () {
+        $scope.init();
+    }, 0);
+
+    $scope.matchActivities = function () {
+        $scope.relActivities = [];
+        for (var i = 0; i < $scope.activityModel.length; i++) {
+            var model = {};
+            model.activity = {};
+            model.activity.id = $scope.activityModel[i].id;
+            if ($scope.activityModel[i].specification && ($scope.specification[$scope.activityModel[i].name] == undefined || $scope.specification[$scope.activityModel[i].name] == "")) {
+                $scope.activities = "false";
+                $rootScope.$broadcast('refreshActivities', $scope.activities);
+                return;
+            }
+            if ($scope.specification[$scope.activityModel[i].name] != undefined) {
+                model.specification = $scope.specification[$scope.activityModel[i].name];
+            } else {
+                model.specification = "";
+            }
+            $scope.relActivities.push(model);
+        }
+        $scope.activities = JSON.stringify($scope.relActivities);
+        $rootScope.$broadcast('refreshActivities', $scope.activities);
+
+        return true;
+    };
+
     $scope.selectedActivities = function (lstActivity, lstActivitySelect) {
 
         for (var i = 0; i < lstActivitySelect.length; i++) {
@@ -119,20 +160,5 @@ app.controller('verificationActivitiesController', function($scope, $timeout, $q
         $scope.matchActivities();
     };
 
-    $scope.matchActivities = function () {
-        $scope.relActivities = [];
-        for (var i = 0; i < $scope.activityModel.length; i++) {
-            var model = {};
-            model.activity = {};
-            model.activity.id = $scope.activityModel[i].id;
-            if ($scope.specification[$scope.activityModel[i].name] != undefined) {
-                model.specification = $scope.specification[$scope.activityModel[i].name];
-            } else {
-                model.specification = "";
-            }
-            $scope.relActivities.push(model);
-        }
-        $scope.activities = JSON.stringify($scope.relActivities);
-        return true;
-    };
+
 });

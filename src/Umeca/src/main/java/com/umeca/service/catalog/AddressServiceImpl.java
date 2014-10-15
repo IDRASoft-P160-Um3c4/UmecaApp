@@ -77,6 +77,16 @@ public class AddressServiceImpl implements AddressService {
 
     }
 
+    @Override
+    public String fillAddressDto(Long addressId){
+        Address a = addressRepository.findOne(addressId);
+        if(a ==null){
+            a = new Address();
+        }
+        AddressDto addressDto = new AddressDto().addressDto(a);
+        return new Gson().toJson(addressDto);
+    }
+
 
 }
 

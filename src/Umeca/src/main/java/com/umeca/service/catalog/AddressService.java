@@ -20,4 +20,6 @@ public interface AddressService {
     void fillCatalogAddress(ModelAndView model);
 
     void fillModelAddress(ModelAndView model, Long addressId);
+
+    String fillAddressDto(Long addressId);
 }

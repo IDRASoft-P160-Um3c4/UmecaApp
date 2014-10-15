@@ -5,6 +5,7 @@ app.controller('verificationAddressController', function($scope, $timeout, $q, $
     $scope.verification = false;
     $scope.generalComponent = false;
     $scope.fmsOfSource;
+    $scope.addressId=0;
     $scope.countAuxAd = 0;
 
     $scope.findSourceBefore = function () {
@@ -22,6 +23,25 @@ app.controller('verificationAddressController', function($scope, $timeout, $q, $
         }
     };
 
+    $scope.fillModel = function(){
+            var data = {};
+        if($scope.addressId != undefined && $scope.addressId !=0){
+            data.idList = $scope.addressId;
+            $.post($scope.urlFillModelAddress, data)
+                .success($scope.fillModelSuccess)
+                .error($scope.fillModelError);
+        }
+
+    };
+
+    $scope.fillModelSuccess= function (data){
+        var addressModel =data.responseMessage.message;
+        $rootScope.$broadcast("setAddress", addressModel);
+    };
+
+    $scope.fillModelError = function (){
+        $scope.fmsOfSource = $sce.trustAsHtml("No se ha podido cargar los datos del imputado");
+    };
     $scope.handleSuccessFindPrevious = function (resp) {
         $scope.fmsOfSource = $sce.trustAsHtml(resp.responseMessage.message);
         $scope.$apply();
@@ -33,7 +53,7 @@ app.controller('verificationAddressController', function($scope, $timeout, $q, $
     };
 
     $scope.init = function(){
-
+//        $rootScope.$broadcast("resizeMap");
       };
 
     $scope.enableProperties = function () {
@@ -77,6 +97,11 @@ app.controller('verificationAddressController', function($scope, $timeout, $q, $
         $scope.countAuxAd++;
         $scope.findSourceBefore();
         $scope.idList=idList;
+    });
+
+     $rootScope.$on('SetIdAddressVerif', function (event,idAddress) {
+        $scope.addressId = idAddress;
+         $scope.fillModel();
     });
 
     $rootScope.$on('SetCodeAddress', function (event,code) {
