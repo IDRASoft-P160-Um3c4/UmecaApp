@@ -6,6 +6,8 @@ app.directive('verifAddress', function ($http, $rootScope) {
         elem.on('click', function () {
             var idList = scope.$eval(attr.idElement);
             $rootScope.$broadcast('SetIdListAddress',idList);
+            var addressId =scope.$eval(attr.addressId);
+            $rootScope.$broadcast('SetIdAddressVerif',addressId);
             var code = attr.idCode;
             $rootScope.$broadcast('SetCodeAddress',code);
             var divModValid ="#dlgUpModalIdAddress";

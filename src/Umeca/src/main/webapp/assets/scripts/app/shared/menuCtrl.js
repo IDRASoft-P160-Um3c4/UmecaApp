@@ -1,5 +1,5 @@
 ﻿app.controller('menuController', function ($scope, $rootScope, $sce, sharedSvc, $timeout) {
-    $scope.Title = $sce.trustAsHtml("Sessi&oacute;n a punto de terminar");
+    $scope.Title = $sce.trustAsHtml("Sesi&oacute;n a punto de terminar");
     $scope.templateMessage = "Su sessi&oacute;n se terminará en {time}, para prolongar su sesi&oacute;n da click en Continuar";
     $scope.Message = $sce.trustAsHtml("");
     $scope.Type = "warning";

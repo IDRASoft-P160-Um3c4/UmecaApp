@@ -8,7 +8,7 @@
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('imputedHomes.address',a.id);"></i>
         <i class="icon-remove-circle red  icon-only bigger-120" verif-address level-child="6" ng-show="verification"
-           id-code="imputedHomes.address" id-element="{{a.id}}"></i>
+           id-code="imputedHomes.address" id-element="{{a.id}}" address-id="{{a.addressId}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('imputedHomes.address',a.id);"></i>
         <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"

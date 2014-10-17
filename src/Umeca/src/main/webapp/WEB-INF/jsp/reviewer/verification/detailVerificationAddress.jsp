@@ -14,7 +14,8 @@
                                 <div class="widget-box transparent">
                                     <div class="widget-header">
                                         <div class="row"> <input type="hidden"
-                                                                 ng-init='urlSearchInformation= "<c:url value='/reviewer/verification/searchInformationBySource.json'/>";'/>
+                                                                 ng-init='urlSearchInformation= "<c:url value='/reviewer/verification/searchInformationBySource.json'/>";
+                                                                 urlFillModelAddress = "<c:url value='/reviewer/verification/fillModelAddress.json '/>";'/>
                                             <h4 class="lighter">Infomaci&oacute;n proporcionada por la fuente: </h4>
                                         </div>
                                         <div class="row">

@@ -77,9 +77,11 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
             $scope.lng = $scope.model.lng;
             if($scope.model.lat != undefined){
                 $scope.point = new google.maps.LatLng( $scope.lat,$scope.lng);
-                $scope.map.setCenter($scope.point);
-                $scope.addMarker($scope.point);
-                google.maps.event.trigger($scope.map, 'resize');
+                if($scope.map != null){//TODO revisar porque es nulo en verificación
+                    $scope.map.setCenter($scope.point);
+                    $scope.addMarker($scope.point);
+                    google.maps.event.trigger($scope.map, 'resize');
+                }
             }
         }
         if ($scope.zipCode != "" && $scope.zipCode != undefined) {
@@ -140,6 +142,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                                             $scope.location = $scope.listLocation[i];
                                             $scope.locationId = $scope.location.id;
                                             $scope.zipCode = $scope.location.zipCode;
+                                            $scope.refreshMap();
                                         }
                                     }
                                 });
@@ -147,6 +150,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                     $scope.listLocation = data.data;
                     $scope.location = $scope.listLocation[0];
                     $scope.locationId = $scope.location.id;
+
                 });
         } else {
             if ($scope.listState != undefined && $scope.listState.length > 0) {
@@ -182,12 +186,14 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                                 $scope.location = $scope.listLocation[0];
                                 $scope.locationId = $scope.location.id;
                                 $scope.zipCode = $scope.location.zipCode;
+                                $scope.refreshMap();
                             });
 
                     });
 
             }
         }
+
         // $scope.initMaps();
     };
 
