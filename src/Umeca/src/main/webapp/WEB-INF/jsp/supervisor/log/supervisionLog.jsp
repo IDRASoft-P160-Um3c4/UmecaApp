@@ -154,7 +154,8 @@
             <div class="col-xs-12">
                 <div class="profile-user-info profile-user-info-striped">
                     <div class="profile-info-row two-lines">
-                        <div class="profile-info-name"> ESTRATEGIAS DE RECORDATORIOS</div>
+                        <%--<div class="profile-info-name"> ESTRATEGIAS DE RECORDATORIOS</div>--%>
+                        <div class="profile-info-name"> OBJETIVOS DE LA ACTIVIDAD DE SUPERVISI&Oacute;N</div>
                         <div class="profile-info-value element-left">
                             <div ng-repeat="i in lstGoals"><i class="icon-rss blue"></i>&nbsp;&nbsp;{{i.name}}</span>
                             </div>
@@ -166,16 +167,17 @@
     </div>
 </div>
 <div class="row">
-   <div class="col-xs-5 element-right">
-       Ver:
+    <div class="col-xs-5 element-right">
+        Ver por obligaciones procesales:
     </div>
     <div class="col-xs-7 element-right" ng-init="urlToFill = '<c:url value="/supervisor/log/fillByFilter.json"/>'">
-       <select class="width-100" ng-model="b.filter" ng-change="fillByFilter()" ng-disabled="WaitFor == true"
-               ng-options = "e.name for e in assignedArrangementFilter">
+        <select class="width-100" ng-model="b.filter" ng-change="fillByFilter()" ng-disabled="WaitFor == true"
+                ng-options="e.name for e in assignedArrangementFilter">
         </select>
-   </div>
+    </div>
 </div>
 <br/>
+
 <div class="row">
     <div class="col-xs-12">
         <div ng-show="MsgError" class="alert-danger element-center">
@@ -224,7 +226,7 @@
                             <tr>
                                 <td>Inicio: {{a.start}}<br/>Fin: {{a.end}}</td>
                                 <td>Descripci&oacute;n:<br/> {{a.supActivity}}
-                                    <br/>                   <br/>
+                                    <br/> <br/>
                                     Registrada por:<br/> {{a.user}}
                                 </td>
                                 <td>{{a.aidSource}}</td>

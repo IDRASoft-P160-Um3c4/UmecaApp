@@ -149,4 +149,7 @@ public class Constants {
 
 
     public static final String ST_REQUEST_AUTHORIZE_SOURCE = "AUTHORIZE_SOURCES";
+
+
+    public static final String NAME_RELATIONSHIP_IMPUTED = "Imputado";
 }

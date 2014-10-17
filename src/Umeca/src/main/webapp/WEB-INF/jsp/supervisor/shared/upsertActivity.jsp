@@ -223,7 +223,7 @@
                                                                         <div class="checkbox">
                                                                             <label>
                                                                                 <input type="checkbox" ng-model="m.chkAllDays" ng-change = "onAllDays()"/>
-                                                                                <span class="control-label"><strong>Todos los días</strong></span>
+                                                                                <span class="control-label"><strong>Todos los d&iacute;as</strong></span>
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -272,12 +272,12 @@
                 </div>
                 <div class="row" ng-show="!isNew && !isReadOnly">
                     <div class="col-xs-8 col-xs-offset-3 element-right">
-                        <div class="tinyfont">*Eliminar grupo, borrará todas las actividades no realizadas del grupo</div>
+                        <div class="tinyfont">*Eliminar grupo, borrar&aacute; todas las actividades no realizadas del grupo</div>
                     </div>
                 </div>
                 <div class="row" ng-show="isNew && !isReadOnly">
                     <div class="col-xs-8 col-xs-offset-3 element-right">
-                        <div class="tinyfont">*Si usted elige un periodo, se creará un grupo de actividades, el cual, podrá eliminar posteriormente</div>
+                        <div class="tinyfont">*Si usted elige un periodo, se crea&aacute; un grupo de actividades, el cual, podr&aacute; eliminar posteriormente</div>
                     </div>
                 </div>
             </div>

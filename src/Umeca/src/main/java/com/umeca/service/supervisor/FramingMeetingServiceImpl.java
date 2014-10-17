@@ -309,13 +309,14 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<FramingReference> existSources = caseRepository.findOne(idCase).getFramingMeeting().getReferences();
 
         for (FramingReference fr : existSources) {
-
-            FramingReferenceForView objView = new FramingReferenceForView();
-            objView.setId(fr.getId());
-            String relationship = fr.getRelationship().getName();
-            objView.setDescription(fr.getName() + ", " + relationship);
-            objView.setValSel(false);
-            lstView.add(objView);
+            if (fr.getIsAccompaniment() == true) {
+                FramingReferenceForView objView = new FramingReferenceForView();
+                objView.setId(fr.getId());
+                String relationship = fr.getRelationship().getName();
+                objView.setDescription(fr.getName() + ", " + relationship);
+                objView.setValSel(false);
+                lstView.add(objView);
+            }
         }
 
         return lstView;
@@ -495,7 +496,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
-            if(!newReference.getRelationship().getSpecification()){
+            if (!newReference.getRelationship().getSpecification()) {
                 newReference.setSpecificationRelationship("");
             }
             newReference.setFramingMeeting(existCase.getFramingMeeting());
@@ -1223,7 +1224,24 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existCase.getFramingMeeting().setIsTerminated(true);
             existCase.getFramingMeeting().setEndDate(new Date());
 
+            //para agregar al imputado en el listado de fuentes para las actividades
+
+            FramingReference imputedReference = new FramingReference();
+
+            imputedReference.setRelationship(relationshipRepository.findImputedRelationship());
+            imputedReference.setFramingMeeting(existFraming);
+            imputedReference.setName(existFraming.getPersonalData().getName() + " " + existFraming.getPersonalData().getLastNameP() + " " + existFraming.getPersonalData().getLastNameM());
+            existFraming.getReferences().add(imputedReference);
             caseRepository.save(existCase);
+
+            FramingSelectedSourceRel imputedSourceRel = new FramingSelectedSourceRel();
+            imputedSourceRel.setFramingMeeting(existFraming);
+            imputedSourceRel.setFramingReference(imputedReference);
+            //para agregar al imputado en el listado de fuentes para las actividades
+
+            caseRepository.save(existCase);
+
+
             StringBuilder sb = new StringBuilder();
             sb.append("Entrevista de encuadre terminada: ");
             sb.append(existCase.getIdFolder());

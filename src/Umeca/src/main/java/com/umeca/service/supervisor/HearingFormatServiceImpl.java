@@ -21,6 +21,7 @@ import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.supervisor.AssignedArrangementRepository;
 import com.umeca.repository.supervisor.ContactDataRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
+import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.CatalogService;
@@ -145,45 +146,45 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormat.setMpName(viewFormat.getMpName());
         hearingFormat.setDefenderName(viewFormat.getDefenderName());
 
-        if (hasFirstFH) {
-            hearingFormat.setHearingImputed(lastHF.getHearingImputed());
-        } else {
+        //if (hasFirstFH) {
+        //hearingFormat.setHearingImputed(lastHF.getHearingImputed());
+        //} else {
 
-            HearingFormatImputed hearingImputed = new HearingFormatImputed();
+        HearingFormatImputed hearingImputed = new HearingFormatImputed();
 
-            hearingImputed.setName(viewFormat.getImputedName());
-            hearingImputed.setLastNameP(viewFormat.getImputedFLastName());
-            hearingImputed.setLastNameM(viewFormat.getImputedSLastName());
+        hearingImputed.setName(viewFormat.getImputedName());
+        hearingImputed.setLastNameP(viewFormat.getImputedFLastName());
+        hearingImputed.setLastNameM(viewFormat.getImputedSLastName());
 
-            try {
-                if (viewFormat.getImputedBirthDateStr() != null && !viewFormat.getImputedBirthDateStr().trim().equals(""))
-                    hearingImputed.setBirthDate(sdf.parse(viewFormat.getImputedBirthDateStr()));
-                else
-                    hearingImputed.setBirthDate(null);
-            } catch (Exception e) {
-                System.out.println("Ha ocurrido un error ");
-                e.printStackTrace();
-                logException.Write(e, this.getClass(), "parsingBirthDateHearingFormat", sharedUserService);
-                return null;
-            }
-
-            hearingImputed.setImputeTel(viewFormat.getImputedTel());
-
-            if (viewFormat.getLocation() != null && viewFormat.getLocation().getId() != null) {
-                Address address = new Address();
-                address.setStreet(viewFormat.getStreet());
-                address.setOutNum(viewFormat.getOutNum());
-                address.setInnNum(viewFormat.getInnNum());
-                address.setLat(viewFormat.getLat());
-                address.setLng(viewFormat.getLng());
-                address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
-                address.setAddressString(address.toString());
-
-                hearingImputed.setAddress(address);
-            }
-
-            hearingFormat.setHearingImputed(hearingImputed);
+        try {
+            if (viewFormat.getImputedBirthDateStr() != null && !viewFormat.getImputedBirthDateStr().trim().equals(""))
+                hearingImputed.setBirthDate(sdf.parse(viewFormat.getImputedBirthDateStr()));
+            else
+                hearingImputed.setBirthDate(null);
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error ");
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "parsingBirthDateHearingFormat", sharedUserService);
+            return null;
         }
+
+        hearingImputed.setImputeTel(viewFormat.getImputedTel());
+
+        if (viewFormat.getLocation() != null && viewFormat.getLocation().getId() != null) {
+            Address address = new Address();
+            address.setStreet(viewFormat.getStreet());
+            address.setOutNum(viewFormat.getOutNum());
+            address.setInnNum(viewFormat.getInnNum());
+            address.setLat(viewFormat.getLat());
+            address.setLng(viewFormat.getLng());
+            address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
+            address.setAddressString(address.toString());
+
+            hearingImputed.setAddress(address);
+        }
+
+        hearingFormat.setHearingImputed(hearingImputed);
+        //}
 
         HearingFormatSpecs hearingSpecs = new HearingFormatSpecs();
         hearingSpecs.setControlDetention(viewFormat.getControlDetention());
@@ -628,6 +629,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     @Autowired
     private AssignedArrangementRepository assignedArrangementRepository;
 
+    @Autowired
+    private MonitoringPlanRepository monitoringPlanRepository;
 
     @Override
     @Transactional
@@ -661,9 +664,20 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                         hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
             }
 
+            if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
+                    hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+                MonitoringPlan monP = hearingFormat.getCaseDetention().getMonitoringPlan();
+
+                if (monP != null) {
+                    monP.setResolution(hearingFormat.getHearingFormatSpecs().getArrangementType());
+                    monitoringPlanRepository.save(monP);
+                }
+            }
+
             response.setHasError(false);
 
             hearingFormatRepository.save(hearingFormat);
+
 
             if (hearingFormat.getIsFinished() == true) {
                 sb = new StringBuilder();
