@@ -202,7 +202,7 @@ public class GenerateMonitoringPlanController {
 
             if(model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0
                     && model.getActsPreIns() == 0 && model.getActsPreUpd() == 0 && model.getActsPreDel() == 0){
-                response.setMessage("No fue posible realizar la operaci&oacute;n, revise que su informaci&oacute;n esté correcta o que la(s) actividad(es) que desea modificar y/o eliminar aún no esté finalizada.");
+                response.setMessage("No fue posible realizar la operaci&oacute;n, revise que su informaci&oacute;n est&eacute; correcta o que la(s) actividad(es) que desea modificar y/o eliminar a&uacute;n no est&eacute; finalizada.");
                 response.setHasError(true);
             }else{
                 Gson gson = new Gson();
