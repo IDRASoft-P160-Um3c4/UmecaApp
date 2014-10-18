@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
-                                <span class="field-validation-valid" data-valmsg-for="dateBirth"
+                                <span class="field-validation-valid" data-valmsg-for="birthDate"
                                       data-valmsg-replace="true"></span>
                             </div>
                         </div>
@@ -153,7 +153,7 @@
                                        id="idJudicial" name="idJudicial" ng-model="m.idJudicial"/>
                             </div>
                             <div class="col-xs-9 col-xs-offset-3">
-                                <span class="field-validation-valid" data-valmsg-for="meeting.caseDetention.idFolder"
+                                <span class="field-validation-valid" data-valmsg-for="idJudicial"
                                       data-valmsg-replace="true"></span>
                             </div>
                         </div>

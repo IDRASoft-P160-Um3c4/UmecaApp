@@ -52,7 +52,7 @@
                         { name: 'stGenerationTime', index: 'stGenerationTime', width: 130, align: "center", sortable: true, search: false },
                         { name: 'stAuthorizationTime', index: 'stAuthorizationTime', width: 140, align: "center", sortable: true, search: false },
                         { name: 'status', index: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                        { name: 'fullName', index: 'fullName', width: 130, align: "center", sortable: false, search: false },
+                        { name: 'supervisor', index: 'supervisor', width: 130, align: "center", sortable: false, search: false },
                         { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden:true},
                         { name: 'Action', width: 110, align: "center", sortable: false, search: false }
                     ],

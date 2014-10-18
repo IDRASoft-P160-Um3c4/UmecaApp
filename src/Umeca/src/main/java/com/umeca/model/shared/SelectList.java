@@ -1,5 +1,7 @@
 package com.umeca.model.shared;
 
+import java.util.Calendar;
+
 /**
  * Project: Umeca
  * User: Israel
@@ -8,6 +10,8 @@ package com.umeca.model.shared;
  */
 public class SelectList {
     private Long id;
+    private Integer idAux;
+    private Calendar calendar;
     private String name;
     private String description;
     private Long aux;
@@ -22,6 +26,11 @@ public class SelectList {
         this.id = id;
         this.name = name;
         this.description = description;
+    }
+
+    public SelectList(Integer id, Calendar calendar) {
+        this.idAux = id;
+        this.calendar = calendar;
     }
 
     public SelectList(Long id, String name, String description, String secDescription) {
@@ -71,5 +80,21 @@ public class SelectList {
 
     public void setAux(Long aux) {
         this.aux = aux;
+    }
+
+    public Integer getIdAux() {
+        return idAux;
+    }
+
+    public void setIdAux(Integer idAux) {
+        this.idAux = idAux;
+    }
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
 }

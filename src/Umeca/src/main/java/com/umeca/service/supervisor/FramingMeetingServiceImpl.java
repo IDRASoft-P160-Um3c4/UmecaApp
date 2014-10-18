@@ -1226,19 +1226,24 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             //para agregar al imputado en el listado de fuentes para las actividades
 
-            FramingReference imputedReference = new FramingReference();
 
-            imputedReference.setRelationship(relationshipRepository.findImputedRelationship());
-            imputedReference.setFramingMeeting(existFraming);
-            imputedReference.setName(existFraming.getPersonalData().getName() + " " + existFraming.getPersonalData().getLastNameP() + " " + existFraming.getPersonalData().getLastNameM());
-            existFraming.getReferences().add(imputedReference);
-            caseRepository.save(existCase);
+            if (framingReferenceRepository.findImputedReference(existFraming.getId(), Constants.NAME_RELATIONSHIP_IMPUTED) == null) {
+                FramingReference imputedReference = new FramingReference();
 
-            FramingSelectedSourceRel imputedSourceRel = new FramingSelectedSourceRel();
-            imputedSourceRel.setFramingMeeting(existFraming);
-            imputedSourceRel.setFramingReference(imputedReference);
-            //para agregar al imputado en el listado de fuentes para las actividades
+                imputedReference.setRelationship(relationshipRepository.findImputedRelationship());
+                imputedReference.setFramingMeeting(existFraming);
+                imputedReference.setName(existFraming.getPersonalData().getName() + " " + existFraming.getPersonalData().getLastNameP() + " " + existFraming.getPersonalData().getLastNameM());
+                //existFraming.getReferences().add(imputedReference);
+                imputedReference = framingReferenceRepository.save(imputedReference);
+                //caseRepository.save(existCase);
 
+                FramingSelectedSourceRel imputedSourceRel = new FramingSelectedSourceRel();
+                imputedSourceRel.setFramingMeeting(existFraming);
+                existFraming.getSelectedSourcesRel().add(imputedSourceRel);
+                imputedSourceRel.setFramingReference(imputedReference);
+                imputedSourceRel = framingSelectedSourceRelRepository.save(imputedSourceRel);
+                //para agregar al imputado en el listado de fuentes para las actividades
+            }
             caseRepository.save(existCase);
 
 

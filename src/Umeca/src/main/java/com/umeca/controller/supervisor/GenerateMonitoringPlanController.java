@@ -89,7 +89,7 @@ public class GenerateMonitoringPlanController {
                     add(r.get("generationTime"));
                     add(r.get("authorizationTime"));
                     add(r.get("status"));
-                    add(r.join("supervisor").get("username"));
+                    add(r.join("supervisor").get("fullname"));
                     add(r.get("posAuthorizationChangeTime"));
                 }};
             }
