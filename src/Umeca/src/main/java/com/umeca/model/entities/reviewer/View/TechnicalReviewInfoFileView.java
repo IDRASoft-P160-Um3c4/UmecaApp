@@ -11,6 +11,8 @@ public class TechnicalReviewInfoFileView {
     private String idFolder;
     private String address;
     private List<String> questSel;
+    private List<String> questRisk;
+    private List<String> questLinks;
     private List<String> sources;
     private String comment;
     private String result;
@@ -99,5 +101,21 @@ public class TechnicalReviewInfoFileView {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public List<String> getQuestRisk() {
+        return questRisk;
+    }
+
+    public void setQuestRisk(List<String> questRisk) {
+        this.questRisk = questRisk;
+    }
+
+    public List<String> getQuestLinks() {
+        return questLinks;
+    }
+
+    public void setQuestLinks(List<String> questLinks) {
+        this.questLinks = questLinks;
     }
 }

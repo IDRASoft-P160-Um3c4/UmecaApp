@@ -21,6 +21,10 @@ public class SelectList {
         this.name = name;
     }
 
+    public SelectList(Integer id, String description) {
+        this.idAux = id;
+        this.description = description;
+    }
 
     public SelectList(Long id, String name, String description) {
         this.id = id;

@@ -44,9 +44,11 @@
                 <table style="width:100%;">
                     <c:forEach var="value" items="${section.values}">
                         <tr>
-                            <td><div style="width:100%;border-width:1px;border-color:blue;border-style:none none double none;">
-                                    ${value}
-                            </div></td>
+                            <td>
+                                <div style="width:100%;border-width:1px;border-color:blue;border-style:none none double none;">
+                                        ${value}
+                                </div>
+                            </td>
                         </tr>
                     </c:forEach>
                     <tr>
@@ -66,13 +68,23 @@
 ${data.comment}
 <br/>
 <br/>
-<b>Respuestas:</b>
+<b>V&iacute;nculos comunitarios:</b>
 <br/>
-<c:forEach var="current_1" items="${data.questSel}">
-    <tr>
-        <td>${current_1}</td>
-    </tr>
-    <br/>
+<c:forEach var="current_1" items="${data.questLinks}">
+<tr>
+<td>${current_1}</td>
+</tr>
+<br/>
+</c:forEach>
+<br/>
+<br/>
+<b>Riesgos procesales:</b>
+<br/>
+<c:forEach var="current_2" items="${data.questRisk}">
+<tr>
+<td>${current_2}</td>
+</tr>
+<br/>
 </c:forEach>
 <br/>
 <br/>

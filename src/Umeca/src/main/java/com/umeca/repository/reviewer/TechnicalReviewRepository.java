@@ -1,10 +1,13 @@
 package com.umeca.repository.reviewer;
 
 import com.umeca.model.entities.reviewer.TechnicalReview;
+import com.umeca.model.shared.SelectList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Project: Umeca
@@ -13,10 +16,10 @@ import org.springframework.stereotype.Repository;
  * Time: 8:10 PM
  */
 @Repository("qTechnicalReviewRepository")
-public interface TechnicalReviewRepository extends JpaRepository<TechnicalReview, Long>{
+public interface TechnicalReviewRepository extends JpaRepository<TechnicalReview, Long> {
     @Query("select e.id from Case as c " +
             "LEFT JOIN c.technicalReview as e where c.id = :idCase")
-    Long getTechnicalReviewByCaseId(@Param("idCase")Long caseId);
+    Long getTechnicalReviewByCaseId(@Param("idCase") Long caseId);
 
 /*
     @Query("SELECT q FROM Questionary q WHERE q.code =:code AND q.isObsolete = false")
@@ -29,4 +32,11 @@ public interface TechnicalReviewRepository extends JpaRepository<TechnicalReview
     Long findIdByUsername(@Param("username")String username);
 */
 
+    @Query("Select new com.umeca.model.shared.SelectList(Q.value, Q.question) from Verification ver " +
+            "INNER JOIN ver.caseDetention cd " +
+            "INNER JOIN cd.technicalReview tecR " +
+            "INNER JOIN tecR.questionsSel qSel " +
+            "INNER JOIN qSel.question Q " +
+            "WHERE ver.id=:idVer")
+    List<SelectList> getQuestionValuesByCaseId(@Param("idVer") Long idVer);
 }
