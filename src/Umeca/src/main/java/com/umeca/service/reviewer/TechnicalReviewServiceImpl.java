@@ -11,8 +11,10 @@ import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileAllSourcesV
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
 import com.umeca.model.entities.reviewer.dto.SourceVerificationDto;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
+import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -124,6 +126,10 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
     @Autowired
     FieldMeetingSourceRepository fieldMeetingSourceRepository;
 
+    @Autowired
+    TechnicalReviewRepository technicalReviewRepository;
+
+
     public TechnicalReviewInfoFileView fillInfoFile(Long idVerification) {
         TechnicalReviewInfoFileView file = new TechnicalReviewInfoFileView();
 
@@ -171,7 +177,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                 sb.append(sharedUserService.convertToValidString(source.getFullName()));
                 sb.append(" relaci&oacute;n con el imputado ");
                 String relationship = source.getRelationship().getName();
-                if(source.getRelationship().getSpecification()){
+                if (source.getRelationship().getSpecification()) {
                     relationship += source.getSpecification();
                 }
                 sb.append(sharedUserService.convertToValidString(relationship));
@@ -182,13 +188,27 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         file.setSources(sourcesTxt);
 
         List<String> questSelTxt = new ArrayList<>();
+        List<String> questRisks = new ArrayList<>();
+        List<String> questLinks = new ArrayList<>();
 
-        for (QuestionReviewRel rel : ver.getCaseDetention().getTechnicalReview().getQuestionsSel()) {
-            if (!questSelTxt.contains(rel.getQuestion().getQuestion()))
-                questSelTxt.add(rel.getQuestion().getQuestion());
+        List<SelectList> lstQuest = technicalReviewRepository.getQuestionValuesByCaseId(ver.getId());
+
+        for (SelectList act : lstQuest) {
+            if (!questSelTxt.contains(act.getDescription())) {
+                questSelTxt.add(act.getDescription());
+
+                String cad = SharedUserService.convertToValidString(act.getDescription());
+
+                if (act.getIdAux() > 0)
+                    questLinks.add(cad);
+                else if (act.getIdAux() < 0)
+                    questRisks.add(cad);
+            }
         }
 
         file.setQuestSel(questSelTxt);
+        file.setQuestLinks(questLinks);
+        file.setQuestRisk(questRisks);
 
         TechnicalReview technicalReview = ver.getCaseDetention().getTechnicalReview();
         file.setComment(technicalReview.getComments());

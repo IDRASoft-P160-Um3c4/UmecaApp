@@ -25,6 +25,10 @@
         <intercept-url pattern="/supervisorManager/log/supervisionLog.html"
                        access="hasAnyRole('ROLE_SUPERVISOR_MANAGER','ROLE_SUPERVISOR')"/>
 
+        <intercept-url pattern="/director/excelReport/**"
+                       access="hasAnyRole('ROLE_EVALUATION_MANAGER','ROLE_SUPERVISOR_MANAGER','ROLE_DIRECTOR')"/>
+
+
         <intercept-url pattern="/director/**" access="hasRole('ROLE_DIRECTOR')"/>
         <intercept-url pattern="/managereval/**" access="hasRole('ROLE_EVALUATION_MANAGER')"/>
 
@@ -38,14 +42,15 @@
                        access="hasAnyRole('ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER','ROLE_DIRECTOR')"/>
         <intercept-url pattern="/supervisorManager/**" access="hasRole('ROLE_SUPERVISOR_MANAGER')"/>
 
-        <intercept-url pattern="/shared/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR')"/>
+        <intercept-url pattern="/shared/**"
+                       access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR')"/>
 
         <intercept-url pattern="/**" access="hasRole('ROLE_NOTUSE')"/>
         <form-login login-page="/index.html"
                     authentication-success-handler-ref="ajaxAuthenticationSuccessHandler"
                     authentication-failure-handler-ref="ajaxAuthenticationFailureHandler"/>
         <!--<session-management>-->
-            <!--<concurrency-control max-sessions="1"/>-->
+        <!--<concurrency-control max-sessions="1"/>-->
         <!--</session-management>-->
     </http>
 

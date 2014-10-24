@@ -336,6 +336,11 @@ i.link-image {
     min-height: 45px !important;
 }
 
+.three-lines{
+    min-height: 60px !important;
+}
+
+
 .font-size-sm{
     font-size: 0.9em;
 }

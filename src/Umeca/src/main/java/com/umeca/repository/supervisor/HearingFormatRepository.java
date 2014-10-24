@@ -3,6 +3,7 @@ package com.umeca.repository.supervisor;
 import com.umeca.model.entities.supervisor.AccomplishmentLogReport;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.SupervisionLogReport;
+import com.umeca.model.shared.SelectList;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -64,6 +65,14 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
             "INNER JOIN hf.caseDetention cd " +
             "WHERE cd.id =:caseId and hf.isFinished = false ORDER BY hf.id DESC")
     Long findHearingFormatIncomplete(@Param("caseId") Long caseId);
+
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(hfs.arrangementType,hf.registerTime) FROM MonitoringPlan mp " +
+            "INNER JOIN mp.caseDetention cd " +
+            "INNER JOIN cd.hearingFormats hf " +
+            "INNER JOIN hf.hearingFormatSpecs hfs " +
+            "WHERE mp.id =:monPlanId and hf.isFinished=true order by hf.registerTime asc")
+    List<SelectList> getInfoResolution(@Param("monPlanId") Long monPlanId);
 
 }
 

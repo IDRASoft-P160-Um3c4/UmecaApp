@@ -51,6 +51,7 @@ public class ShowCaseSupervisionController {
     SharedUserService userService;
     @Autowired
     UserRepository userRepository;
+
     @RequestMapping(value = {"/supervisor/showCaseEvaluation/list"}, method = RequestMethod.POST)
     public
     @ResponseBody
@@ -58,13 +59,13 @@ public class ShowCaseSupervisionController {
         Long userId = userService.GetLoggedUserId();
         User user = userRepository.findOne(userId);
         Boolean addFileter = false;
-        for (Role r : user.getRoles()){
-            if(r.getRole().equals(Constants.ROLE_SUPERVISOR)){
+        for (Role r : user.getRoles()) {
+            if (r.getRole().equals(Constants.ROLE_SUPERVISOR)) {
                 addFileter = true;
                 break;
             }
         }
-        if(addFileter){
+        if (addFileter) {
             opts.extraFilters = new ArrayList<>();
             JqGridRulesModel extraFilter = new JqGridRulesModel("supervisorId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
             opts.extraFilters.add(extraFilter);
@@ -92,6 +93,7 @@ public class ShowCaseSupervisionController {
                     add(joinVer.get("id").alias("idVerif"));
                     add(joinFM.get("isTerminated"));
                     add(joinMP.join("supervisor").get("fullname").alias("userName"));
+                    add(joinMP.get("resolution"));
                 }};
 
                 return result;
@@ -101,8 +103,10 @@ public class ShowCaseSupervisionController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
                     return r.join("caseDetention").get("idMP");
-                if(field.equals("supervisorId"))
+                if (field.equals("supervisorId"))
                     return r.join("monitoringPlan").join("supervisor").get("id");
+                if (field.equals("resolutionStr"))
+                    return r.join("monitoringPlan").get("resolution");
                 return null;
             }
         }, Case.class, CaseEvaluationView.class);

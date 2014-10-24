@@ -2,6 +2,7 @@ package com.umeca.model.entities.managereval;
 
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.EntityGrid;
+import com.umeca.model.shared.HearingFormatConstants;
 
 /**
  * Created by dcortesr on 30/06/14.
@@ -25,6 +26,8 @@ public class CaseEvaluationView implements EntityGrid {
     private Long idFM;
     private Long idMonP;
     private Boolean fmTerminated;
+
+    private String resolutionStr;
 
 
     public CaseEvaluationView(Long id, Long idVerif, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, Long idTec, String userName) {
@@ -61,7 +64,7 @@ public class CaseEvaluationView implements EntityGrid {
         }
     }
 
-    public CaseEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, Long idFM, Long idHF, Long idMonP, Long idTec, Boolean fmTerminated,String userName) {
+    public CaseEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, Long idFM, Long idHF, Long idMonP, Long idTec, Boolean fmTerminated, String userName) {
         this.id = id;
         this.idFolder = idFolder;
         this.name = name;
@@ -73,7 +76,26 @@ public class CaseEvaluationView implements EntityGrid {
         this.fullname = this.name + " " + this.lastNameP + " " + this.lastNameM;
         this.idTec = idTec;
         this.fmTerminated = fmTerminated;
-        this.userName =userName;
+        this.userName = userName;
+    }
+
+    public CaseEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, Long idFM, Long idHF, Long idMonP, Long idTec, Boolean fmTerminated, String userName, Integer resolution) {
+        this.id = id;
+        this.idFolder = idFolder;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.idFM = idFM;
+        this.idHF = idHF;
+        this.idMonP = idMonP;
+        this.fullname = this.name + " " + this.lastNameP + " " + this.lastNameM;
+        this.idTec = idTec;
+        this.fmTerminated = fmTerminated;
+        this.userName = userName;
+        if (resolution != null && resolution == HearingFormatConstants.HEARING_TYPE_MC)
+            resolutionStr = "MC";
+        else if (resolution != null && resolution == HearingFormatConstants.HEARING_TYPE_SCP)
+            resolutionStr = "SCPP";
     }
 
     public Long getId() {
@@ -210,5 +232,13 @@ public class CaseEvaluationView implements EntityGrid {
 
     public void setFmTerminated(Boolean fmTerminated) {
         this.fmTerminated = fmTerminated;
+    }
+
+    public String getResolutionStr() {
+        return resolutionStr;
+    }
+
+    public void setResolutionStr(String resolutionStr) {
+        this.resolutionStr = resolutionStr;
     }
 }

@@ -18,3 +18,4 @@ id|name|obsolete|specification
 17|Padre|0|0
 18|Abuelo|0|0
 19|Otro|0|1
+20|Imputado|1|0

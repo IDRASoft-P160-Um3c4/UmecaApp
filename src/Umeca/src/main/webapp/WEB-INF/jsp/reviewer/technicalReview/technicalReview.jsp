@@ -221,7 +221,7 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
                                     <div class="row">
 
                                         <div class="col-xs-10 col-xs-offset-1">
-                                            <label for="comments">Comentarios {{isFinished}}</label>
+                                            <label for="comments">Comentarios</label>
                                             <textarea class="form-control limited" name="comments" id="comments"
                                                       maxlength="980"
                                                       ng-disabled="flgIsEvaluated == true && canEdit==false"

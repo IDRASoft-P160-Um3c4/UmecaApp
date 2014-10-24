@@ -258,7 +258,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 if ($scope.m.hasPrevHF == true) {
                     $("#idFolder").attr("disabled", true);
                     $("#idJudicial").attr("disabled", true);
-                    $("#divImputado :input").attr("disabled", true);
+                    //$("#divImputado :input").attr("disabled", true);
                     $("#divFormImp :input").attr("disabled", true);
                 }
                 else

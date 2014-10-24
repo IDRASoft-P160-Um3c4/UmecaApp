@@ -17,7 +17,7 @@ import java.util.List;
  * Time: 8:10 PM
  */
 @Repository("qFramingReferenceRepository")
-public interface FramingReferenceRepository extends JpaRepository<FramingReference, Long>{
+public interface FramingReferenceRepository extends JpaRepository<FramingReference, Long> {
 
 
     @Query("SELECT new com.umeca.model.shared.SelectList(ssr.id, fr.name, rs.name, " +
@@ -25,6 +25,22 @@ public interface FramingReferenceRepository extends JpaRepository<FramingReferen
             "INNER JOIN fm.caseDetention cd INNER JOIN fm.selectedSourcesRel ssr INNER JOIN ssr.framingReference fr INNER JOIN fr.relationship rs " +
             "WHERE cd.id =:caseId")
     public List<SelectList> findAllValidByCaseId(@Param("caseId") Long caseId);
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(fr.id, fr.name, rs.name) FROM FramingMeeting fm " +
+            "INNER JOIN fm.caseDetention cd " +
+            "INNER JOIN cd.monitoringPlan monP " +
+            "INNER JOIN fm.selectedSourcesRel ssr " +
+            "INNER JOIN ssr.framingReference fr " +
+            "INNER JOIN fr.relationship rs " +
+            "WHERE monP.id =:idMonP and fr.isAccompaniment=true")
+    public List<SelectList> findAccompanimentReferences(@Param("idMonP") Long idMonP);
+
+    @Query("SELECT fr FROM FramingMeeting fm " +
+            "INNER JOIN fm.selectedSourcesRel ssr " +
+            "INNER JOIN ssr.framingReference fr " +
+            "INNER JOIN fr.relationship rs " +
+            "WHERE fm.id=:idFramingMeeting and rs.name=:relImputed")
+    public FramingReference findImputedReference(@Param("idFramingMeeting") Long idFramingMeeting, @Param("relImputed") String relImputed);
 
 }
 

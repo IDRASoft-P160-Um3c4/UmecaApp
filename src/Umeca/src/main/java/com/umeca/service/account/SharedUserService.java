@@ -56,7 +56,7 @@ public class SharedUserService {
         User userToValidate = userRepository.getInfoToValidate(sUsername);
 
         if(userToValidate.getEnabled() == false){
-            response.setMessage("Usted no tiene permisos para realizar esta acción. Por favor solicite los permisos suficientes para realizar esta acción e intente de nuevo.");
+            response.setMessage("Usted no tiene permisos para realizar esta acci?n. Por favor solicite los permisos suficientes para realizar esta acci?n e intente de nuevo.");
             response.setHasError(true);
             return false;
         }
@@ -100,7 +100,7 @@ public class SharedUserService {
 
     }
 
-    public String convertToValidString(String s){
+    public static String convertToValidString(String s){
         s = s.replace("á","&aacute;");
         s = s.replace("é","&eacute;");
         s = s.replace("í","&iacute;");

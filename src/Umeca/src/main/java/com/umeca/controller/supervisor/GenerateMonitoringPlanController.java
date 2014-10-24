@@ -89,7 +89,7 @@ public class GenerateMonitoringPlanController {
                     add(r.get("generationTime"));
                     add(r.get("authorizationTime"));
                     add(r.get("status"));
-                    add(r.join("supervisor").get("username"));
+                    add(r.join("supervisor").get("fullname"));
                     add(r.get("posAuthorizationChangeTime"));
                 }};
             }
@@ -202,26 +202,27 @@ public class GenerateMonitoringPlanController {
 
             if(model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0
                     && model.getActsPreIns() == 0 && model.getActsPreUpd() == 0 && model.getActsPreDel() == 0){
-                response.setMessage("No fue posible realizar la operación, revise que su información esté correcta o que la(s) actividad(es) que desea modificar y/o eliminar aún no esté finalizada.");
+                response.setMessage("No fue posible realizar la operaci&oacute;n, revise que su informaci&oacute;n est&eacute; correcta o que la(s) actividad(es) que desea modificar y/o eliminar a&uacute;n no est&eacute; finalizada.");
                 response.setHasError(true);
             }else{
                 Gson gson = new Gson();
                 response.setReturnData(gson.toJson(model.getLstActivitiesUpserted()));
                 response.setHasError(false);
-                response.setMessage("La operación se realizó de forma correcta." +
+                response.setMessage("La operaci&oacute;n se realiz&oacute; de forma correcta." +
                         (model.getActsIns() == 0 ? "" : ("<br/>" + model.getActsIns() + " actividad(es) fue(ron) insertada(s)")) +
                         (model.getActsUpd() == 0 ? "" : ("<br/>" + model.getActsUpd() + " actividad(es) fue(ron) actualizada(s)")) +
                         (model.getActsDel() == 0 ? "" : ("<br/>" + model.getActsDel() + " actividad(es) fue(ron) eliminada(s)")) +
-                        (model.getActsPreIns() == 0 ? "" : ("<br/>" + model.getActsPreIns() + " actividad(es) fue(ron) insertada(s) en espera de autorización")) +
-                        (model.getActsPreUpd() == 0 ? "" : ("<br/>" + model.getActsPreUpd() + " actividad(es) fue(ron) actualizada(s) en espera de autorización")) +
-                        (model.getActsPreDel() == 0 ? "" : ("<br/>" + model.getActsPreDel() + " actividad(es) fue(ron) eliminada(s) en espera de autorización")));
+                        (model.getActsPreIns() == 0 ? "" : ("<br/>" + model.getActsPreIns() + " actividad(es) fue(ron) insertada(s) en espera de autorizaci&oacute;n")) +
+                        (model.getActsPreUpd() == 0 ? "" : ("<br/>" + model.getActsPreUpd() + " actividad(es) fue(ron) actualizada(s) en espera de autorizaci&oacute;n")) +
+                        (model.getActsPreDel() == 0 ? "" : ("<br/>" + model.getActsPreDel() + " actividad(es) fue(ron) eliminada(s) en espera de autorizaci&oacute;n")));
+
             }
             return response;
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
         }
-        response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        response.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
         return response;
     }
 

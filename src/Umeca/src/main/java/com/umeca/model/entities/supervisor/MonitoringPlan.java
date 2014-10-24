@@ -23,25 +23,25 @@ public class MonitoringPlan {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_case", nullable = false, unique = true)
+    @JoinColumn(name = "id_case", nullable = false, unique = true)
     private Case caseDetention;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_user_supervisor", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user_supervisor", nullable = false)
     private User supervisor;
 
     @Column(name = "creation_time", nullable = false)
     private Calendar creationTime;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_user_generator", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user_generator", nullable = true)
     private User generator;
 
     @Column(name = "generation_time", nullable = true)
     private Calendar generationTime;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_user_authorizer", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user_authorizer", nullable = true)
     private User authorizer;
 
     @Column(name = "authorization_time", nullable = true)
@@ -50,12 +50,16 @@ public class MonitoringPlan {
     @Column(name = "status", length = 100, nullable = false)
     private String status;
 
-    @Lob @Basic(fetch=FetchType.LAZY)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "status_log", nullable = true)
     private String statusLog;
 
     @Column(name = "pos_authorization_change_time", nullable = true)
     private Calendar posAuthorizationChangeTime;
+
+    @Column(name = "resolution", nullable = true)
+    private Integer resolution;
 
     public Long getId() {
         return id;
@@ -143,5 +147,13 @@ public class MonitoringPlan {
 
     public void setPosAuthorizationChangeTime(Calendar posAuthorizationChangeTime) {
         this.posAuthorizationChangeTime = posAuthorizationChangeTime;
+    }
+
+    public Integer getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(Integer resolution) {
+        this.resolution = resolution;
     }
 }

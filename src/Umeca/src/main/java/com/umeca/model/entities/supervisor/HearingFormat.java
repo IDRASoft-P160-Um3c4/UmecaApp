@@ -85,7 +85,7 @@ public class HearingFormat {
     @JoinColumn(name = "id_user")
     private User supervisor;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_hearing_format_imputed")
     private HearingFormatImputed hearingImputed;
 
