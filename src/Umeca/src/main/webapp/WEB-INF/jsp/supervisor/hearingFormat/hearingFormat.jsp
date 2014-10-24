@@ -536,7 +536,6 @@
     </div>
 
     <c:if test="${hasPrevHF ==true}">
-        funcionaaaaaa
         <input type="hidden" name="impForm" value="{{m.formImp}}"/>
         <input type="hidden" name="imputationDateStr" value="{{m.impDate}}"/>
     </c:if>
