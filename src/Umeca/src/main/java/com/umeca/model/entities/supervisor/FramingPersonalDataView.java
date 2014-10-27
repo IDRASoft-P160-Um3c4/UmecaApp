@@ -15,6 +15,9 @@ public class FramingPersonalDataView {
     private String birthState;
     private Date birthDate;
     private String physicalCondition;
+    private String phone;
+    private String celPhone;
+    private String email;
     private Long birthStateId;
     private Boolean isMexico;
     private Integer age;
@@ -121,5 +124,29 @@ public class FramingPersonalDataView {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCelPhone() {
+        return celPhone;
+    }
+
+    public void setCelPhone(String celPhone) {
+        this.celPhone = celPhone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

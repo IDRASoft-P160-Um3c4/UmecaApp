@@ -52,6 +52,15 @@ public class FramingImputedPersonalData {
     @Column(name = "physical_condition")
     private String physicalCondition;
 
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "cel_phone")
+    private String celPhone;
+
+    @Column(name = "email")
+    private String email;
+
     public Long getId() {
         return id;
     }
@@ -148,4 +157,27 @@ public class FramingImputedPersonalData {
         this.birthStateCmb = birthStateCmb;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCelPhone() {
+        return celPhone;
+    }
+
+    public void setCelPhone(String celPhone) {
+        this.celPhone = celPhone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

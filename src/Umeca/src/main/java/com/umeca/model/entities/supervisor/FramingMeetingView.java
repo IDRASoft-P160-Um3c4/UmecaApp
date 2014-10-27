@@ -8,6 +8,7 @@ public class FramingMeetingView {
     private Boolean canTerminate;
     private String initDate;
     private String endDate;
+    private String userName;
 
     public String getIdFolder() {
         return idFolder;
@@ -55,5 +56,13 @@ public class FramingMeetingView {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

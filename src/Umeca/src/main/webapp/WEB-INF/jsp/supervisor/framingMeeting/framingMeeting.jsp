@@ -84,11 +84,18 @@
             &nbsp;<label>{{fm.objView.initDate}}</label>
         </h3>
     </div>
-    <div class="col-xs-4 col-xs-offset-1">
+    <div class="col-xs-4">
         <h3 class="header smaller lighter blue">
             <small>Fin:</small>
             &nbsp;
             &nbsp;<label>{{fm.objView.endDate}}</label>
+        </h3>
+    </div>
+    <div class="col-xs-4">
+        <h3 class="header smaller lighter blue">
+            <small>Supervisor:</small>
+            &nbsp;
+            &nbsp;<label>{{fm.objView.userName}}</label>
         </h3>
     </div>
 </div>

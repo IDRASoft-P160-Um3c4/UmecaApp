@@ -21,6 +21,7 @@ public class FramingReferenceDto {
     private String timeAgo;
     private String addressRef;
     private String specificationRelationship;
+
     public FramingReferenceDto() {
 
     }
@@ -32,10 +33,11 @@ public class FramingReferenceDto {
         this.relationshipId = ref.getRelationship().getId();
         this.address = ref.getAddress();
         this.age = ref.getAge();
-        this.isAccompaniment = ref.getIsAccompaniment();
+        if (ref.getIsAccompaniment() == null)
+            this.isAccompaniment = false;
         this.timeAgo = ref.getTimeAgo();
         addressRef = ref.getAddressRef();
-        this.specificationRelationship=ref.getSpecificationRelationship();
+        this.specificationRelationship = ref.getSpecificationRelationship();
 
         if (ref.getPersonType() != null && ref.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
 

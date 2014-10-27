@@ -187,6 +187,61 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="widget-box">
+            <div class="widget-header">Contacto</div>
+            <div class="widget-body">
+                <br/>
+
+                <div class="row">
+                    <div class="col-xs-5 col-xs-offset-1">
+                        <label>Tel&eacute;fono</label>
+                        <br/>
+                        <textarea class="input-xxlarge form-control limited" name="phone"
+                                  ng-model="pd.phone"
+                                  maxlength="980" data-val="true"
+                                  data-val-required="Tel&eacute;fono es un campo requerido">
+                        </textarea>
+                    <span class="field-validation-valid" data-valmsg-for="phone"
+                          data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="col-xs-5">
+                        <label>Celular</label>
+                        <br/>
+                        <textarea class="input-xxlarge form-control limited" name="celPhone"
+                                  ng-model="pd.celPhone"
+                                  maxlength="980" data-val="true"
+                                  data-val-required="Celular es un campo requerido">
+                        </textarea>
+                    <span class="field-validation-valid" data-valmsg-for="celPhone"
+                          data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+                <br/>
+
+                <div class="row">
+                    <div class="col-xs-5 col-xs-offset-1">
+                        <label>Correo electr&oacute;nico</label><br>
+                        <input id="email" ng-model="pd.email" name="email"
+                               type="text" class="input-xxlarge"
+                               data-val="true"
+                               data-val-required="Correo electr&oacute;nico es un campo requerido"/>
+                        <br/>
+                        <span class="field-validation-valid" data-valmsg-for="email"
+                              data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+                <br/>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<br/>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box">
             <div class="widget-header">Lugar y fecha de nacimiento</div>
             <div class="widget-body">
                 <br/>

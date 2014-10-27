@@ -104,6 +104,11 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
             $scope.pd.birthState = data.birthState;
             $scope.pd.birthDate = $scope.myFormatDate(data.birthDate);
 
+            $scope.pd.phone = data.phone;
+            $scope.pd.celPhone = data.celPhone;
+            $scope.pd.email = data.email;
+
+
             if ($scope.pd.birthDate != undefined && $scope.pd.birthDate != "")
                 $scope.calcAge();
 

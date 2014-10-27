@@ -379,6 +379,7 @@ public class FramingMeetingController {
                     add(r.get("phone"));
                     add(r.join("relationship").get("name"));
                     add(r.join("accompanimentInfo", JoinType.LEFT).join("address", JoinType.LEFT).get("addressString"));
+                    add(r.get("address"));
                     add(r.get("personType"));
                     add(r.get("specificationRelationship"));
                     add(r.get("isAccompaniment"));
@@ -577,8 +578,10 @@ public class FramingMeetingController {
 
         if (id != null)
             housemate = new FramingReferenceDto(framingReferenceRepository.findOne(id));
-        else
+        else {
             housemate = new FramingReferenceDto();
+            housemate.setIsAccompaniment(false);
+        }
 
         housemate.setIdCase(idCase);
 
