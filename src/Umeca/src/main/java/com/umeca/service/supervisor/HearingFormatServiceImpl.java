@@ -37,13 +37,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Type;
+import java.security.Timestamp;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service("hearingFormatService")
 public class HearingFormatServiceImpl implements HearingFormatService {
@@ -473,6 +471,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatView.setComments(existHF.getComments());
         hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
+        hearingFormatView.setIsFinished(existHF.getIsFinished());
         return hearingFormatView;
     }
 
@@ -642,6 +641,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true) {
                 hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
+                hearingFormat.setEndTime(new Time(new Date().getTime()));
                 if (hearingFormat.getCaseDetention().getIdMP() == null || hearingFormat.getCaseDetention().getIdMP().trim().equals("")) {
                     hearingFormat.getCaseDetention().setIdMP(hearingFormat.getIdJudicial());
                 }

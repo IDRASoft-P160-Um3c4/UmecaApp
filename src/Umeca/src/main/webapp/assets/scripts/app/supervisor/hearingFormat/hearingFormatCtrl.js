@@ -72,7 +72,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             $scope.hasError = false;
 
-            $scope.validateInitEnd();
+            //$scope.validateInitEnd();
             $scope.validateBthDay();
             $scope.validateArrangementSel();
             $scope.validateLstContact();

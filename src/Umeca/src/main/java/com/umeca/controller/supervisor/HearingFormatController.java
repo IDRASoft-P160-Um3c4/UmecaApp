@@ -337,11 +337,17 @@ public class HearingFormatController {
     @ResponseBody
     ResponseMessage doUpsert(@ModelAttribute HearingFormatView result, HttpServletRequest request) {
 
+        Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
+
+        if (incompleteHFId != null && incompleteHFId > 0 && incompleteHFId!=result.getIdFormat())
+            return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, dene terminarlo para poder agregar un nuevo formato de audiencia.");
+
         if (result.getIsFinished() != null && result.getIsFinished() == true && result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
             ResponseMessage resp = hearingFormatService.validatePassCredential(result.getCredPass());
             if (resp != null)
                 return resp;
         }
+
 
         HearingFormat hearingFormat = hearingFormatService.fillHearingFormat(result);
         hearingFormat.setCaseDetention(caseRepository.findOne(result.getIdCase()));
