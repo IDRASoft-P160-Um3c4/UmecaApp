@@ -231,7 +231,7 @@
                 <div class="row">
                     <div class="col-xs-4">
 
-                        <label for="appointmentDateStr">Cita</label>
+                        <label for="appointmentDateStr">Distrito judicial</label>
 
                         <div class="row">
                             <div class="col-xs-8 col-sm-11">
@@ -240,7 +240,7 @@
                                            ng-model="m.appointmentDate"
                                            class="form-control date-picker" id="id-date-picker-1" type="text"
                                            data-date-format="yyyy/mm/dd" data-val="true" readonly
-                                           data-val-required="Cita es un campo requerido"/>
+                                           data-val-required="Distrito judicial es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
                                     </span>
@@ -268,7 +268,7 @@
                               data-valmsg-replace="true"></span>
                     </div>
 
-                    <div class="col-xs-4">
+                    <div class="col-xs-4" ng-show="m.isFinished==true">
                         <label for="endTimeStr">Hora t&eacute;rmino audiencia</label>
 
                         <div class="input-group bootstrap-timepicker">

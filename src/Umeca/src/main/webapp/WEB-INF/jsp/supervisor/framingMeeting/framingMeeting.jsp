@@ -289,31 +289,6 @@
         </div>
     </a>
 </li>
-<li id="liAnalysis">
-    <a data-toggle="tab" href="#environmentAnalysis">
-        <div class="row">
-            <div class="col-xs-10">
-                <i class="blue icon-eye-open bigger-200"></i>
-                An&aacute;lisis de entorno
-            </div>
-            <div class="col-xs-2" ng-show="listMsgError['analysis']">
-                <div class="tools">
-                    <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liAnalysis');"></i>
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['analysis']">
-                                </span>
-                            </div>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
 <li id="liQuestion">
     <a data-toggle="tab" href="#addtional">
 
@@ -340,8 +315,6 @@
         </div>
     </a>
 </li>
-
-
 <li id="liFinger">
     <a data-toggle="tab" href="#fingerTab">
 
@@ -359,6 +332,31 @@
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
                                 <span ng-bind-html="listMsgError['fingerprint']">
+                                </span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="liAnalysis">
+    <a data-toggle="tab" href="#environmentAnalysis">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="blue icon-eye-open bigger-200"></i>
+                An&aacute;lisis de entorno
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['analysis']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liAnalysis');"></i>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['analysis']">
                                 </span>
                             </div>
                         </ul>
