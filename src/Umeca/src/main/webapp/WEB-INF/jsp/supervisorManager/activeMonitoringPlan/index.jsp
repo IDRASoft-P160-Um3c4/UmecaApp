@@ -68,7 +68,7 @@
                 url: '<c:url value='/supervisorManager/activeMonitoringPlan/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Caso', 'Carpeta judicial', 'Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', "Estatus bit&aacute;cora", "PreAuth", 'Suspender', 'Acci&oacute;n'],
+                colNames: ['ID', 'Caso', 'Carpeta judicial', 'Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', /*"Estatus bit&aacute;cora"*/"Estatus plan", "PreAuth", 'Suspender', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'caseId', hidden: true },
@@ -125,7 +125,8 @@
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar reporte de incumplimiento\" onclick=\"window.authorizeAccomplishment('" + cl + "');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
                         }
 
-                        be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&aacute;cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+//                        be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&aacute;cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                        be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Plan estrat&eacute;gico\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
                         if (status === "EN PROCESO DE TERMINAR") {
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar termino del plan de supervisi&oacute;n\" onclick=\"window.rejectEnd('" + cl + "');\"><span class=\"glyphicon glyphicon-remove-circle red\"></span></a>";

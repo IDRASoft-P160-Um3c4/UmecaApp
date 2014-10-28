@@ -176,6 +176,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setBirthState(existFraming.getPersonalData().getBirthState());
             view.setBirthDate(existFraming.getPersonalData().getBirthDate());
             view.setPhysicalCondition(existFraming.getPersonalData().getPhysicalCondition());
+            view.setPhone(existFraming.getPersonalData().getPhone());
+            view.setCelPhone(existFraming.getPersonalData().getCelPhone());
+            view.setEmail(existFraming.getPersonalData().getEmail());
 
             if (existFraming.getPersonalData().getBirthStateCmb() != null) {
                 view.setBirthStateId(existFraming.getPersonalData().getBirthStateCmb().getId());
@@ -257,6 +260,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         personalData.setBirthState(view.getBirthState());
         personalData.setBirthDate(view.getBirthDate());
         personalData.setPhysicalCondition(view.getPhysicalCondition());
+        personalData.setPhone(view.getPhone());
+        personalData.setCelPhone(view.getCelPhone());
+        personalData.setEmail(view.getEmail());
         if (view.getBirthStateId() != null && view.getBirthStateId() > 0 && view.getIsMexico() != null && view.getIsMexico() == true)
             personalData.setBirthStateCmb(stateRepository.findOne(view.getBirthStateId()));
 
@@ -271,6 +277,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         framingMeetingView.setIdFolder(existCase.getIdFolder());
         framingMeetingView.setIdCase(existCase.getId());
         framingMeetingView.setCanTerminate(true);
+        framingMeetingView.setUserName(existCase.getFramingMeeting().getSupervisor().getFullname());
 
         if (existCase.getFramingMeeting().getIsTerminated() == true)
             framingMeetingView.setCanTerminate(false);

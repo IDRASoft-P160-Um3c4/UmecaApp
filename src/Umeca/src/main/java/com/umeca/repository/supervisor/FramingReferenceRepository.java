@@ -20,8 +20,15 @@ import java.util.List;
 public interface FramingReferenceRepository extends JpaRepository<FramingReference, Long> {
 
 
-    @Query("SELECT new com.umeca.model.shared.SelectList(ssr.id, fr.name, rs.name, " +
+    /*@Query("SELECT new com.umeca.model.shared.SelectList(ssr.id, fr.name, rs.name, " +
             "(case when fr.address is null then '" + FramingMeetingConstants.PERSON_SAME_ADDRESS + "' else fr.address end)) FROM FramingMeeting fm " +
+            "INNER JOIN fm.caseDetention cd INNER JOIN fm.selectedSourcesRel ssr INNER JOIN ssr.framingReference fr INNER JOIN fr.relationship rs " +
+            "WHERE cd.id =:caseId")
+    public List<SelectList> findAllValidByCaseId(@Param("caseId") Long caseId);*/
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(ssr.id, fr.name, rs.name, " +
+            "(case when fr.address is null then concat('" + FramingMeetingConstants.PERSON_SAME_ADDRESS + " / ',fr.phone) " +
+            "else concat(fr.address,' / ',fr.phone) end)) FROM FramingMeeting fm " +
             "INNER JOIN fm.caseDetention cd INNER JOIN fm.selectedSourcesRel ssr INNER JOIN ssr.framingReference fr INNER JOIN fr.relationship rs " +
             "WHERE cd.id =:caseId")
     public List<SelectList> findAllValidByCaseId(@Param("caseId") Long caseId);

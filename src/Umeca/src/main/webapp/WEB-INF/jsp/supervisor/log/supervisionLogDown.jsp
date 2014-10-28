@@ -3,7 +3,8 @@
 
 <html>
 <head>
-    <title>Bit&aacute;cora de supervisi&oacute;n</title>
+    <%--<title>Bit&aacute;cora de supervisi&oacute;n</title>--%>
+    <title>Historial de supervisi&oacute;n</title>
 </head>
 <body scroll="no" style="width: 1100px; margin: auto" class="element-center">
 

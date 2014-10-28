@@ -214,11 +214,11 @@
                     </div>
 
                     <div class="col-xs-4">
-                        <label for="room">Sala</label>
+                        <label for="room">Distrito judicial</label>
                         <br/>
                         <input id="room" ng-model="m.room" name="room" type="text"
                                class="input-xxlarge" data-val="true"
-                               data-val-required="Sala es un campo requerido"/>
+                               data-val-required="Distrito judicial es un campo requerido"/>
                         <br/>
                                         <span class="field-validation-valid" data-valmsg-for="room"
                                               data-valmsg-replace="true"></span>
@@ -231,7 +231,7 @@
                 <div class="row">
                     <div class="col-xs-4">
 
-                        <label for="appointmentDateStr">Distrito judicial</label>
+                        <label for="appointmentDateStr">Fecha de audiencia:</label>
 
                         <div class="row">
                             <div class="col-xs-8 col-sm-11">
@@ -240,7 +240,7 @@
                                            ng-model="m.appointmentDate"
                                            class="form-control date-picker" id="id-date-picker-1" type="text"
                                            data-date-format="yyyy/mm/dd" data-val="true" readonly
-                                           data-val-required="Distrito judicial es un campo requerido"/>
+                                           data-val-required="Fecha de audiencia es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
                                     </span>

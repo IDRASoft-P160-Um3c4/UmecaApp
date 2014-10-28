@@ -4,7 +4,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.a = {};
 
         $scope.m.errTime;
-        $scope.hasError;
+        $scope.hasError = false;
         $scope.MsgError;
         $scope.MsgErrorContact = "";
 
@@ -74,7 +74,15 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             //$scope.validateInitEnd();
             $scope.validateBthDay();
+            if ($scope.hasError == true) {
+                $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
+                return false;
+            }
             $scope.validateArrangementSel();
+            if ($scope.hasError == true) {
+                $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
+                return false;
+            }
             $scope.validateLstContact();
 
             if ($scope.hasError == true) {
@@ -542,17 +550,19 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             }
 
             if (noSel < 1) {
-                $scope.m.hasError = true;
+                $scope.hasError = true;
                 $scope.m.errArrmntSel = $sce.trustAsHtml("Debe seleccionar al menos una obligaci&oacute;n procesal");
+                $scope.$apply();
                 return;
             } else if (noSel > noDesc) {
-                $scope.m.hasError = true;
+                $scope.hasError = true;
                 $scope.m.errArrmntSel = $sce.trustAsHtml("Debe indicar una descripci&oacute;n para cada obligaci&oacute;n procesal seleccionada");
+                $scope.$apply();
                 return;
-            } else
+            } else {
                 $scope.m.errArrmntSel = $sce.trustAsHtml("");
-
-
+                $scope.$apply();
+            }
         };
 
         $scope.hasContacts = function (id) {

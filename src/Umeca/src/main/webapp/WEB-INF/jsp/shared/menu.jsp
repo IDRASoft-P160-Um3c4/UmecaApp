@@ -72,12 +72,19 @@
                 </li>
                 <li class="dropdown nav-li-blue">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                            class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Bit&aacute;coras
-                        <i class="icon-caret-down"></i></a>
+                            class="glyphicon glyphicon-folder-close"></i>
+                        <%--&nbsp;&nbsp;Bit&aacute;coras--%>
+                        <%--<i class="icon-caret-down"></i>--%>
+                        &nbsp;&nbsp;Historial
+                        <i class="icon-caret-down"></i>
+                    </a>
                     <ul class="dropdown-menu">
-                        <li><a href="<c:url value='/supervisor/log/index.html'/>"><i
-                                class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bit&aacute;coras de
-                            supervisi&oacute;n y cumplimiento</a></li>
+                        <%--<li><a href="<c:url value='/supervisor/log/index.html'/>"><i--%>
+                                <%--class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bit&aacute;coras de--%>
+                            <%--supervisi&oacute;n y cumplimiento</a></li>--%>
+                            <li><a href="<c:url value='/supervisor/log/index.html'/>"><i
+                                    class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Historial de
+                                supervisi&oacute;n y cumplimiento</a></li>
                     </ul>
                 </li>
                 <li class="nav-li-blue"><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>"><i

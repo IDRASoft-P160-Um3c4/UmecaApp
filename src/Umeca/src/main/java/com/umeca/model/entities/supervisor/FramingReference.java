@@ -54,7 +54,7 @@ public class FramingReference implements EntityGrid {
     @JoinColumn(name = "id_framing_meeting")
     private FramingMeeting framingMeeting;
 
-    @Column(name="specification_relationship", length = 255, nullable = true)
+    @Column(name = "specification_relationship", length = 255, nullable = true)
     private String specificationRelationship;
 
     @Transient
@@ -103,7 +103,7 @@ public class FramingReference implements EntityGrid {
     public FramingReference() {
     }
 
-    public FramingReference(Long id, String name, String phone, String relationship, String address, String type,String specificationRelationship,Boolean isAccompaniment) {
+    public FramingReference(Long id, String name, String phone, String relationship, String addressA, String addressB, String type, String specificationRelationship, Boolean isAccompaniment) {
 
         this.id = id;
         this.name = name;
@@ -114,13 +114,38 @@ public class FramingReference implements EntityGrid {
             this.occupation = address;
         } else if (type.equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
             this.phone = phone;
-            this.address = address;
+
+            if ((addressA != null && !addressA.equals("")) && (addressB == null || addressB.equals("")))
+                this.address = addressA;
+            else if ((addressB != null && !addressB.equals("")) && (addressA == null || addressB.equals("")))
+                this.address = addressB;
         }
-        if(specificationRelationship!=null && !specificationRelationship.equals("")){
-            relationshipName+= ": "+specificationRelationship;
+        if (specificationRelationship != null && !specificationRelationship.equals("")) {
+            relationshipName += ": " + specificationRelationship;
         }
         this.personType = type;
-        this.isAccompanimentString = isAccompaniment ? "Si": "No";
+        this.isAccompanimentString = isAccompaniment ? "Si" : "No";
+    }
+
+    public FramingReference(Long id, String name, String phone, String relationship, String address, String type, String specificationRelationship, Boolean isAccompaniment) {
+
+        this.id = id;
+        this.name = name;
+        this.relationshipName = relationship;
+
+        if (type.equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
+            this.age = phone;
+            this.occupation = address;
+        } else if (type.equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
+            this.phone = phone;
+
+            this.address = address;
+        }
+        if (specificationRelationship != null && !specificationRelationship.equals("")) {
+            relationshipName += ": " + specificationRelationship;
+        }
+        this.personType = type;
+        this.isAccompanimentString = isAccompaniment ? "Si" : "No";
     }
 
     public Long getId() {
