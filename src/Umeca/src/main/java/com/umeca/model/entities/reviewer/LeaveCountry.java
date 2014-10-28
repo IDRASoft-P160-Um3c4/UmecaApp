@@ -208,9 +208,9 @@ public class LeaveCountry {
             if(state==null ||(state!=null && state.trim().equals(""))){
                 r.add(t.template.replace(e,"El estado donde ha vivido"));
             }
-            if(comment== null || (comment!=null && comment.equals(""))){
-                r.add(t.template.replace(e,"Los comentarios"));
-            }
+        }
+        if(comment== null || (comment!=null && comment.equals(""))){
+            r.add(t.template.replace(e,"Los comentarios"));
         }
         if(familyAnotherCountry==null){
             r.add(t.template.replace(e,"Si tiene familia en otro pa&iacute;s"));

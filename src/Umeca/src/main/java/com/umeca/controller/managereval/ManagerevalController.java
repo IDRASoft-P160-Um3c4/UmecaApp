@@ -478,7 +478,7 @@ public class ManagerevalController {
             notif.setIsObsolete(false);
             User uSender = userRepository.findOne(userService.GetLoggedUserId());
             notif.setSenderUser(uSender);
-            String request = requestDto.getResponse().equals(Constants.RESPONSE_TYPE_ACCEPTED)? " acept&oactue; ":" rechaz&oacute;";
+            String request = requestDto.getResponse().equals(Constants.RESPONSE_TYPE_ACCEPTED)? " acept&oacute; ":" rechaz&oacute;";
             notif.setSubject("El Coordinador de Evaluaci&oacute;n "+uSender.getFullname()+request+"la solcitud");
             notif.setMessage("Carpeta de investigaci&oacute;n: "+c.getIdFolder()+"<br/>Solicitud: "+caseRequest.getRequestType().getDescription()+"<br/>Raz&oacute;n: "+requestDto.getReason());
             notif.setReceiveUser(caseRequest.getRequestMessage().getSender());
