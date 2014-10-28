@@ -97,7 +97,10 @@ public class MessageHistoryController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("user"))
                     return r.join("requestMessage").join("sender").get("id");
-
+                if(field.equals("fullName"))
+                    return r.join("requestMessage").join("caseDetention").join("meeting").join("imputed").get("name");
+                if(field.equals("idFolder"))
+                    return r.join("requestMessage").join("caseDetention").get("idFolder");
                 return null;
             }
 
