@@ -23,6 +23,7 @@ import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -389,6 +390,8 @@ public class ManagerevalController {
     FieldMeetingSourceRepository fieldMeetingSourceRepository;
     @Autowired
     SourceVerificationRepository sourceVerificationRepository;
+    @Autowired
+    SharedLogExceptionService logException;
 
     @Transactional
     @RequestMapping(value = "/managereval/authorizeRequest/doResponseRequest", method = RequestMethod.POST)
@@ -475,7 +478,7 @@ public class ManagerevalController {
             notif.setIsObsolete(false);
             User uSender = userRepository.findOne(userService.GetLoggedUserId());
             notif.setSenderUser(uSender);
-            String request = requestDto.getResponse().equals(Constants.RESPONSE_TYPE_ACCEPTED)? " acept&oactue; ":" rechaz&oactue;";
+            String request = requestDto.getResponse().equals(Constants.RESPONSE_TYPE_ACCEPTED)? " acept&oactue; ":" rechaz&oacute;";
             notif.setSubject("El Coordinador de Evaluaci&oacute;n "+uSender.getFullname()+request+"la solcitud");
             notif.setMessage("Carpeta de investigaci&oacute;n: "+c.getIdFolder()+"<br/>Solicitud: "+caseRequest.getRequestType().getDescription()+"<br/>Raz&oacute;n: "+requestDto.getReason());
             notif.setReceiveUser(caseRequest.getRequestMessage().getSender());
@@ -484,6 +487,7 @@ public class ManagerevalController {
             return new ResponseMessage(false,"Se ha guardado la respuesta con exito");
 
         }catch (Exception e){
+            logException.Write(e, this.getClass(), "doMakeRequest", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al responder la solicitud");
         }
 
