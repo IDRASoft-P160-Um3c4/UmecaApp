@@ -163,7 +163,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                         } else {
                             idSources = fieldMeetingSourceRepository.getIdSourceByCodeWhithIdListWithoutState(idCase, fms.getFieldVerification().getCode(), fms.getIdFieldList(), Constants.ST_FIELD_VERIF_UNABLE);
                         }
-                        String sourcessay="<br/>";
+                        String sourcessay="<br/>Informaci&oacuten recopilada:<br/>";
                         for (SearchToChoiceIds e : idSources) {
                                 List<FieldMeetingSource> result = new ArrayList<>();
                                 if (fms.getIdFieldList() == null) {
