@@ -7,7 +7,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/commonActMonPlan.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/log/supervisionLogCtrl.js"></script>
 
-    <title>Bit&aacute;cora de supervisi&oacute;n</title>
+    <%--<title>Bit&aacute;cora de supervisi&oacute;n</title>--%>
+    <title>Historial de supervisi&oacute;n</title>
 </head>
 <body scroll="no" ng-app="ptlUmc" style="width: 1100px; margin: auto" class="element-center">
 

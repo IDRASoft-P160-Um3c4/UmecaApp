@@ -90,9 +90,11 @@
                                 }
 
                                 if (status !== "RECHAZADO AUTORIZAR" && status !== "RECHAZADO TERMINAR" && status !== "EN PROCESO DE AUTORIZAR"  && status !== "EN PROCESO DE TERMINAR") {
-                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar finalizaci&oacute;n del plan de seguimiento\" onclick=\"window.reqEndPlan('" + cl + "');\"><span class=\"glyphicon glyphicon-off\"></span></a>";
+//                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar finalizaci&oacute;n del plan de seguimiento\" onclick=\"window.reqEndPlan('" + cl + "');\"><span class=\"glyphicon glyphicon-off\"></span></a>";
+                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar suspensi&oacute;n del proceso de supervisi&oacute;n\" onclick=\"window.reqEndPlan('" + cl + "');\"><span class=\"glyphicon glyphicon-off\"></span></a>";
                                     be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver plan de supervisi&oacute;n\" onclick=\"window.track('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
-                                    be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&aacute;cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+//                                    be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&aacute;cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                                    be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Plan estrat&eacute;gico\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 }
                             }
 

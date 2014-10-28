@@ -347,6 +347,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         } else {//si no existe un formato de audiencia anterior
             //evaluo el origen del meeting
+            hearingFormatView.setInitTime(new Time(new Date().getTime()));
+            hearingFormatView.setAppointmentDate(new Date());
+
             if (meetType.equals(HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE)) { //si el meeting fue creado como suspension condicional
 
                 //obtengo los datos de meeting
