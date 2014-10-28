@@ -1015,11 +1015,11 @@ public class MeetingServiceImpl implements MeetingService {
             if (m.getLeaveCountry() == null) {
                m.setLeaveCountry(new LeaveCountry());
             }
-            m.getLeaveCountry().validateMeeting(validate);
+            m.getLeaveCountry().validateMeeting(validate,m.getSocialEnvironment().getComment());
             m.validateMeeting(validate);
             if (validate .existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
-                listGeneral.add(sharedUserService.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección"));
+                listGeneral.add(sharedUserService.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
                 validate.formatMessages(sharedUserService);
                 return new ResponseMessage(true, gson.toJson(validate));
@@ -1034,7 +1034,7 @@ public class MeetingServiceImpl implements MeetingService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doTerminateMeeting", userService);
             result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al terminar la entrevista. Intente más tarde");
+            result.setMessage("Ha ocurrido un error al terminar la entrevista. Intente m&aacute;s tarde");
         }
         return result;
     }

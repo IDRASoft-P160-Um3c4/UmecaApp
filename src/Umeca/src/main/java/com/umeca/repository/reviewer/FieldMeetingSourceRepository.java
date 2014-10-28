@@ -186,4 +186,19 @@ public interface FieldMeetingSourceRepository extends JpaRepository<FieldMeeting
             "where c.id =:idCase" )
     List<FieldMeetingSource> getAllByIdCase(@Param("idCase")Long idCase);
 
+    @Query("select new com.umeca.model.entities.reviewer.View.SearchToChoiceIds(sv.id,fv.idSubsection) from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "INNER JOIN fms.statusFieldVerification sfv "+
+            "where c.id = :idCase and fv.code = :code and sfv.name <> :status")
+    List<SearchToChoiceIds> getIdSourceByCodeWithoutState(@Param("idCase")Long idCase,@Param("code") String code,@Param("status") String stFieldVerifUnable);
+
+    @Query("select new com.umeca.model.entities.reviewer.View.SearchToChoiceIds(sv.id,fv.idSubsection) from Case as c " +
+            "INNER JOIN c.verification.sourceVerifications sv " +
+            "INNER JOIN sv.fieldMeetingSourceList as fms " +
+            "INNER JOIN fms.fieldVerification as fv " +
+            "INNER JOIN fms.statusFieldVerification sfv "+
+            "where c.id = :idCase and fv.code = :code and fms.idFieldList = :idList and sfv.name <> :status")
+    List<SearchToChoiceIds> getIdSourceByCodeWhithIdListWithoutState(@Param("idCase")Long idCase,@Param("code") String code,@Param("idList") Long idList,@Param("status") String stFieldVerifUnable);
 }

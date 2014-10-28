@@ -6,9 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import com.umeca.model.catalog.Question;
 import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.*;
-import com.umeca.model.entities.reviewer.View.Section;
-import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileAllSourcesView;
-import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
+import com.umeca.model.entities.reviewer.View.*;
 import com.umeca.model.entities.reviewer.dto.SourceVerificationDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
@@ -141,11 +139,11 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         file.setName(sharedUserService.convertToValidString(im.getName()));
         file.setLastNameP(sharedUserService.convertToValidString(im.getLastNameP()));
         file.setLastNameM(sharedUserService.convertToValidString(im.getLastNameM()));
-
+        Long idCase= ver.getCaseDetention().getId();
         file.setAddress(sharedUserService.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString()));
         String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";
         for (int i = 0; i < Constants.NAMES_MEETING.length; i++) {
-            List<FieldMeetingSource> listFMS = fieldMeetingSourceRepository.getAllFinalByIdCaseAndSectionCode(ver.getCaseDetention().getId(), (i + 1));
+            List<FieldMeetingSource> listFMS = fieldMeetingSourceRepository.getAllFinalByIdCaseAndSectionCode(idCase, (i + 1));
             if (listFMS.size() > 0 && listFMS.get(0) != null) {
                 Section section = new Section(listFMS.get(0).getFieldVerification().getSection());
                 for (FieldMeetingSource fms : listFMS) {
@@ -157,7 +155,35 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                     }
                     v = v.replace("{3}", fms.getReason());
                     if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
-                        v = v.replace("{1}", Constants.UNABLE_VERIF_TEXT_DOC);
+                        List<ChoiceView> list = new ArrayList<>();
+                        List<SearchToChoiceIds> idSources = new ArrayList<>();
+                        if (fms.getIdFieldList() == null) {
+                            idSources = fieldMeetingSourceRepository.getIdSourceByCodeWithoutState(idCase, fms.getFieldVerification().getCode(),Constants.ST_FIELD_VERIF_UNABLE);
+
+                        } else {
+                            idSources = fieldMeetingSourceRepository.getIdSourceByCodeWhithIdListWithoutState(idCase, fms.getFieldVerification().getCode(), fms.getIdFieldList(), Constants.ST_FIELD_VERIF_UNABLE);
+                        }
+                        String sourcessay="<br/>";
+                        for (SearchToChoiceIds e : idSources) {
+                                List<FieldMeetingSource> result = new ArrayList<>();
+                                if (fms.getIdFieldList() == null) {
+                                    result = fieldMeetingSourceRepository.getGroupFieldMeeting(e.getIdSource(), e.getIdSubsection(), Constants.ST_FIELD_VERIF_UNABLE);
+                                } else {
+                                    result = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(e.getIdSource(), e.getIdSubsection(), fms.getIdFieldList(), Constants.ST_FIELD_VERIF_UNABLE);
+                                }
+                                list.add(new ChoiceView().choiceDto(result));
+                        }
+                        for(ChoiceView choice: list){
+                            sourcessay+=choice.getNameSource()+": ";
+                            for(String s: choice.getValues()){
+                                sourcessay+=s+",";
+                            }
+                            sourcessay+="<br/>";
+
+                        }
+                        String finalText= Constants.UNABLE_VERIF_TEXT_DOC + sourcessay;
+                        v = v.replace("{1}", finalText);
+
                     } else {
                         v = v.replace("{1}", fms.getValue());
                     }

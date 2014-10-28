@@ -187,36 +187,39 @@ public class LeaveCountry {
         this.commentSocialEnvironment = commentSocialEnvironment;
     }
 
-    public void validateMeeting(TerminateMeetingMessageDto t) {
+    public void validateMeeting(TerminateMeetingMessageDto t, String comment) {
         List<String> r=new ArrayList<>();
         String e="entity";
         if(officialDocumentation==null){
-            r.add(t.template.replace(e,"Si cuenta con documentación para salir del país"));
+            r.add(t.template.replace(e,"Si cuenta con documentaci&oacute;n para salir del pa&iacute;s"));
         }
         if(livedCountry==null){
-            r.add(t.template.replace(e,"Si ha vivido en otro país"));
+            r.add(t.template.replace(e,"Si ha vivido en otro pa&iacute;s"));
         }else if(livedCountry.getId()!=null && livedCountry.getId().equals(Constants.ELECTION_YES)){
             if(timeAgo==null || (timeAgo!=null &&timeAgo.trim().equals(""))){
-                r.add(t.template.replace(e,"El timepo que ha vivido en otro país"));
+                r.add(t.template.replace(e,"El tiempo que ha vivido en otro pa&iacute;s"));
             }
             if(reason==null || (reason!=null && reason.trim().equals(""))){
-                r.add(t.template.replace(e,"La razon por la que dejo de vivir en otro país"));
+                r.add(t.template.replace(e,"La razon por la que dejo de vivir en otro pa&iacute;s"));
             }
             if(country==null){
-                r.add(t.template.replace(e,"El país donde ha vivido"));
+                r.add(t.template.replace(e,"El pa&iacute;s donde ha vivido"));
             }
             if(state==null ||(state!=null && state.trim().equals(""))){
                 r.add(t.template.replace(e,"El estado donde ha vivido"));
             }
+            if(comment== null || (comment!=null && comment.equals(""))){
+                r.add(t.template.replace(e,"Los comentarios"));
+            }
         }
         if(familyAnotherCountry==null){
-            r.add(t.template.replace(e,"Si tiene familia en otro país"));
+            r.add(t.template.replace(e,"Si tiene familia en otro pa&iacute;s"));
         }else if(familyAnotherCountry.getId()!=null && familyAnotherCountry.getId().equals(Constants.ELECTION_YES)){
             if(communicationFamily== null){
-                r.add(t.template.replace(e,"Si tiene comunicación con su familia"));
+                r.add(t.template.replace(e,"Si tiene comunicaci&oacute;n con su familia"));
             }else if (communicationFamily.getId()!=null && communicationFamily.getId().equals(Constants.ELECTION_YES)){
                 if(media==null ||(media!=null && media.trim().equals(""))){
-                    r.add(t.template.replace(e,"El medio de comunción con su familia"));
+                    r.add(t.template.replace(e,"El medio de comunci&oacute;n con su familia"));
                 }
             }
         }

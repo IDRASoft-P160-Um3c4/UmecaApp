@@ -81,7 +81,7 @@ public class SocialEnvironment {
         List<String> result = new ArrayList<>();
         String e="entity";
         if(this.physicalCondition==null||(this.physicalCondition!=null && this.physicalCondition.trim().equals(""))){
-            result.add(t.template.replace(e,"La condición física"));
+            result.add(t.template.replace(e,"La condici&oacute;n f&iacute;sica"));
         }
 
         if(relSocialEnvironmentActivities==null || (relSocialEnvironmentActivities!= null
@@ -89,9 +89,7 @@ public class SocialEnvironment {
             result.add(t.template.replace(e,"Las actividades que realiza el imputado"));
         }
 
-        if(comment== null || (comment!=null && comment.equals(""))){
-            result.add(t.template.replace(e,"Los comentarios"));
-        }
+
 
 
         if(t.getGroupMessage()!=null){

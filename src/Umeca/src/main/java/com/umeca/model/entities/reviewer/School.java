@@ -132,10 +132,10 @@ public class School {
             r.add(t.template.replace(e,"La escuela"));
         }
         if(phone==null || (phone!=null && phone.trim().equals(""))){
-            r.add(t.template.replace(e,"El teléfono"));
+            r.add(t.template.replace(e,"El tel&eacute;fono"));
         }
         if(address==null || (address!=null && address.trim().equals(""))){
-            r.add(t.template.replace(e,"La dirección"));
+            r.add(t.template.replace(e,"La direcci&oacute;n"));
         }
         if(degree==null){
             r.add(t.template.replace(e,"El grado escolar"));
