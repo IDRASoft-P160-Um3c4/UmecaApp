@@ -53,22 +53,10 @@ app.controller('schoolController', function($scope, $timeout,$q,$rootScope) {
             $scope.school.name=template;
            $scope.school.phone = template;
            $scope.school.address = template;
-           $scope.school.specification = template;
-           for(var i=0 ; i<$scope.lstLevel.length; i++){
-               if($scope.lstLevel[i].name == "Otro"){
-                   $scope.school.level = $scope.lstLevel[i];
-                   $scope.school.levelId = $scope.lstLevel[i].id;
-                   $scope.lstDegree =  $scope.lstLevel[i].degrees;
-                   $scope.school.degree =$scope.lstDegree[0];
-                   $scope.school.degreeId = $scope.school.degree.id;
-                   break;
-               }
-           }
        }else{
            $scope.school.name="";
            $scope.school.phone = "";
            $scope.school.address = "";
-           $scope.school.specification = "";
        }
    }
 });

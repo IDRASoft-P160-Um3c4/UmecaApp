@@ -49,7 +49,7 @@ public class FieldMeetingSource {
     @Column(name="value_json", length = 1000, nullable = false)
     private String jsonValue;
 
-    @ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="id_status",nullable = true)
     private StatusFieldVerification statusFieldVerification;
 

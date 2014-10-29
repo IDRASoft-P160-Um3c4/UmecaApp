@@ -40,6 +40,6 @@ public class MessageHistoryView implements EntityGrid {
     public MessageHistoryView(Long id, String idFolder, String name, String firstName, String lastName){
         this.id = id;
         this.idFolder = idFolder;
-        this.fullName = name + "/" + firstName + "," + lastName;
+        this.fullName = name + " " + firstName + " " + lastName;
     }
 }

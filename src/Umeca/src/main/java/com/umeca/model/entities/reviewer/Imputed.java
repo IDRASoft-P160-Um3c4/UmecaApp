@@ -225,29 +225,29 @@ public class Imputed {
         List<String> result = new ArrayList<>();
         String e = "entity";
         if (this.gender == null) {
-            result.add(t.template.replace(e, "El género"));
+            result.add(t.template.replace(e, "El g&eacute;nero"));
         }
         if (this.celPhone == null || (this.celPhone != null && this.celPhone.trim().equals(""))) {
-            result.add(t.template.replace(e, "El número celular"));
+            result.add(t.template.replace(e, "El n&uacute;mero celular"));
         }
         if (maritalStatus == null || (maritalStatus.getId() == null)) {
             result.add(t.template.replace(e, "El estado civil"));
         } else if ((maritalStatus.getId().equals(Constants.MARITAL_MARRIED) || maritalStatus.getId().equals(Constants.MARITAL_UNION_FREE))
                 && yearsMaritalStatus == null) {
-            result.add(t.template.replace(e, "El número de años en el estado civil"));
+            result.add(t.template.replace(e, "El n&uacute;mero de años en el estado civil"));
         }
         if (boys == null) {
             result.add(t.template.replace(e, "El total de hijos"));
         }
 
         if (nickname == null || (nickname != null && nickname.equals(""))) {
-            result.add(t.template.replace(e, "El apódo"));
+            result.add(t.template.replace(e, "El ap&oacute;do"));
         }
         if (dependentBoys == null) {
-            result.add(t.template.replace(e, "El número de dependientes económicos"));
+            result.add(t.template.replace(e, "El n&uacute;mero de dependientes econ&oacute;micos"));
         }
         if (birthCountry == null) {
-            result.add(t.template.replace(e, "El país de nacimiento"));
+            result.add(t.template.replace(e, "El pa&iacute;s de nacimiento"));
         } else {
             if (birthCountry.getAlpha2().equals(Constants.ALPHA2_MEXICO)) {
                 if (location == null || (location != null && location.getId() == null)) {
