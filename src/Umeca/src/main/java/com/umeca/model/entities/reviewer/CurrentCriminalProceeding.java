@@ -2,6 +2,7 @@ package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.Election;
 import com.umeca.model.catalog.Relationship;
+import com.umeca.model.entities.shared.Victim;
 
 import javax.persistence.*;
 import java.util.List;
@@ -34,23 +35,15 @@ public class CurrentCriminalProceeding {
     @Column(name = "behavior_detention", nullable = true, length = 255)
     private String behaviorDetention;
 
-    @Column(name = "name_victim", nullable = true)
-    private String nameVictim;
-
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_relationship_victim", nullable = true)
-    private Relationship relationshipVictim;
-
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_domicile_victim", nullable = true)
-    private Address domicileVictim;
-
     @Column(name="additional_info",length = 1000, nullable = true)
     private String additionalInfo;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = true)
     private Meeting meeting;
+
+    @OneToMany(mappedBy="criminalProceeding", cascade={CascadeType.ALL})
+    private List<Victim> victims;
 
     public Long getId() {
         return id;
@@ -83,30 +76,6 @@ public class CurrentCriminalProceeding {
 
     public void setBehaviorDetention(String behaviorDetention) {
         this.behaviorDetention = behaviorDetention;
-    }
-
-    public String getNameVictim() {
-        return nameVictim;
-    }
-
-    public void setNameVictim(String nameVictim) {
-        this.nameVictim = nameVictim;
-    }
-
-    public Relationship getRelationshipVictim() {
-        return relationshipVictim;
-    }
-
-    public void setRelationshipVictim(Relationship relationshipVictim) {
-        this.relationshipVictim = relationshipVictim;
-    }
-
-    public Address getDomicileVictim() {
-        return domicileVictim;
-    }
-
-    public void setDomicileVictim(Address domicileVictim) {
-        this.domicileVictim = domicileVictim;
     }
 
     public Meeting getMeeting() {
