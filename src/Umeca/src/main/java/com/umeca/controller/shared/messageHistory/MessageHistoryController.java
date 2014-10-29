@@ -78,6 +78,7 @@ public class MessageHistoryController {
 
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
+                    //add(messageRequestCase.get("id"));
                     add(messageRequestCase.get("id"));
                     add(messageRequestCase.get("idFolder"));
                     add(imputed.get("name"));
@@ -128,7 +129,8 @@ public class MessageHistoryController {
 
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
-                    add(messageRequestCase.get("id"));
+                    //add(messageRequestCase.get("id"));
+                    add(r.get("id"));
                     add(sender.get("fullname"));
                     add(requestType.get("description"));
                     add(messageRequest.get("text"));
