@@ -202,7 +202,7 @@ public class MainPageServiceImpl implements MainPageService {
         Collections.sort(lstActivities, LogNotificationDto.dateSorter);
 
         Gson conv = new Gson();
-        List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getReviewerNotifications(Constants.ROLE_EVALUATION_MANAGER);
+        List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getManagerEvalNotifications(Constants.ROLE_REVIEWER);
 
         List<LogNotificationDto> top10 = new ArrayList<>();
         int top = 0;
