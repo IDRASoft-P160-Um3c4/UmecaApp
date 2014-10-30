@@ -256,6 +256,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 $("#divVincProc :input").attr("disabled", true);
                 $("#divMedidas :input").attr("disabled", true);
                 $("#divContact :input").attr("disabled", true);
+                $("#divCitaUmeca :input").attr("disabled", true);
             }
             else {
                 $("#divAudiencia :input").attr("disabled", false);
@@ -352,7 +353,16 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.comments = data.comments;
 
             $scope.m.userName = data.userName;
+
+            $scope.m.hearingTypeId = data.hearingTypeId;
+            $scope.m.imputedPresence = data.imputedPresence;
+            $scope.m.hearingTypeSpecification = data.hearingTypeSpecification;
+            $scope.m.hearingResult = data.hearingResult;
             //
+
+            $scope.m.umecaDate = $scope.myFormatDate(data.umecaDate);
+            $scope.m.umecaTime = data.umecaTime;
+            $scope.m.umecaSupervisorId = data.umecaSupervisorId;
 
             if (data.lstArrangement != undefined)
                 $scope.m.lstArrangementShow = $.parseJSON(data.lstArrangement);
@@ -362,6 +372,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             else
                 $scope.m.lstContactData = [];
 
+            $scope.$apply();
         };
 
 
@@ -552,16 +563,13 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             if (noSel < 1) {
                 $scope.hasError = true;
                 $scope.m.errArrmntSel = $sce.trustAsHtml("Debe seleccionar al menos una obligaci&oacute;n procesal");
-                $scope.$apply();
                 return;
             } else if (noSel > noDesc) {
                 $scope.hasError = true;
                 $scope.m.errArrmntSel = $sce.trustAsHtml("Debe indicar una descripci&oacute;n para cada obligaci&oacute;n procesal seleccionada");
-                $scope.$apply();
                 return;
             } else {
                 $scope.m.errArrmntSel = $sce.trustAsHtml("");
-                $scope.$apply();
             }
         };
 
@@ -592,8 +600,63 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             }
         }
 
+        $scope.fillSelSupervisor = function () {
+
+            if ($scope.lstSupervisor === undefined || $scope.lstSupervisor.length <= 0)
+                return;
+
+            if ($scope.m.umecaSupervisorId === undefined) {
+                $scope.m.umecaSupervisor = $scope.lstSupervisor[0];
+                $scope.m.umecaSupervisorId = $scope.m.umecaSupervisor.id;
+            }
+            else {
+                for (var i = 0; i < $scope.lstSupervisor.length; i++) {
+                    var rel = $scope.lstSupervisor[i];
+
+                    if (rel.id === $scope.m.umecaSupervisorId) {
+                        $scope.m.umecaSupervisor = rel;
+                        break;
+                    }
+                }
+            }
+        };
+
+        $scope.fillSelHearingType = function () {
+
+            if ($scope.m.hasPrevHF == true) {
+                if ($scope.lstHearingType === undefined || $scope.lstHearingType.length <= 0)
+                    return;
+
+                if ($scope.m.hearingTypeId === undefined) {
+                    $scope.m.hearingType = $scope.lstHearingType[0];
+                    $scope.m.hearingTypeId = $scope.m.hearingType.id;
+                }
+                else {
+                    for (var i = 0; i < $scope.lstHearingType.length; i++) {
+                        var rel = $scope.lstHearingType[i];
+
+                        if (rel.id === $scope.m.hearingTypeId) {
+                            $scope.m.hearingType = rel;
+                            break;
+                        }
+                    }
+                }
+            }
+        };
+
+
+        $scope.lockArrangements = function () {
+            if ($scope.m.hearingType && $scope.m.hearingType.lock == true)
+                $("#divMedidas :input").attr("disabled", true);
+            else
+                $("#divMedidas :input").attr("disabled", false);
+        };
+
         $scope.init = function () {
             $scope.fillFormat($scope.m);
+            $scope.fillSelSupervisor();
+            $scope.fillSelHearingType();
+            $scope.lockArrangements();
             $scope.disableView($scope.m.disableAll);
         };
 

@@ -119,6 +119,22 @@ public class HearingFormatView {
 
     private String comments;
 
+    private Date umecaDate;
+    private String umecaDateStr;
+
+    private Time umecaTime;
+    private String umecaTimeStr;
+
+    private Long umecaSupervisorId;
+
+    private Long hearingTypeId;
+
+    private String hearingTypeSpecification;
+
+    private Integer imputedPresence;
+
+    private String hearingResult;
+
     public String getLat() {
         return lat;
     }
@@ -573,5 +589,78 @@ public class HearingFormatView {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+
+    public Date getUmecaDate() {
+        return umecaDate;
+    }
+
+    public void setUmecaDate(Date umecaDate) {
+        this.umecaDate = umecaDate;
+    }
+
+    public String getUmecaDateStr() {
+        return umecaDateStr;
+    }
+
+    public void setUmecaDateStr(String umecaDateStr) {
+        this.umecaDateStr = umecaDateStr;
+    }
+
+    public Time getUmecaTime() {
+        return umecaTime;
+    }
+
+    public void setUmecaTime(Time umecaTime) {
+        this.umecaTime = umecaTime;
+    }
+
+    public String getUmecaTimeStr() {
+        return umecaTimeStr;
+    }
+
+    public void setUmecaTimeStr(String umecaTimeStr) {
+        this.umecaTimeStr = umecaTimeStr;
+    }
+
+    public Long getUmecaSupervisorId() {
+        return umecaSupervisorId;
+    }
+
+    public void setUmecaSupervisorId(Long umecaSupervisorId) {
+        this.umecaSupervisorId = umecaSupervisorId;
+    }
+
+    public Long getHearingTypeId() {
+        return hearingTypeId;
+    }
+
+    public void setHearingTypeId(Long hearingTypeId) {
+        this.hearingTypeId = hearingTypeId;
+    }
+
+    public String getHearingTypeSpecification() {
+        return hearingTypeSpecification;
+    }
+
+    public void setHearingTypeSpecification(String hearingTypeSpecification) {
+        this.hearingTypeSpecification = hearingTypeSpecification;
+    }
+
+    public Integer getImputedPresence() {
+        return imputedPresence;
+    }
+
+    public void setImputedPresence(Integer imputedPresence) {
+        this.imputedPresence = imputedPresence;
+    }
+
+    public String getHearingResult() {
+        return hearingResult;
+    }
+
+    public void setHearingResult(String hearingResult) {
+        this.hearingResult = hearingResult;
     }
 }

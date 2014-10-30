@@ -92,6 +92,14 @@
                 $(this).prev().focus();
             });
 
+            $('#umecaTimeStr').timepicker({
+                minuteStep: 1,
+                showSeconds: true,
+                showMeridian: false
+            }).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+
 
         });
     </script>
@@ -123,6 +131,8 @@
 <input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
 <input type="hidden" name="isFinished" value="{{m.isFinished}}"/>
 <input type="hidden" name="idFormat" value="{{m.idFormat}}"/>
+<input type="hidden" id="umecaSupervisorId" name="umecaSupervisorId" value="{{m.umecaSupervisor.id}}"/>
+
 
 <div class="row">
 
@@ -179,162 +189,223 @@
 <br/>
 
 <div class="widget-box" id="divAudiencia">
-    <div class="widget-header"> Audiencia</div>
-    <div class="widget-body">
-        <div class="row">
-            <div class="col-xs-10 col-xs-offset-1">
+<div class="widget-header"> Audiencia</div>
+<div class="widget-body">
+<div class="row">
+<div class="col-xs-10 col-xs-offset-1">
+<br/>
+<c:if test="${hasPrevHF ==true}">
+    <input type="hidden" id="hearingTypeId" name="hearingTypeId" value="{{m.hearingType.id}}"/>
 
+    <div class="row">
+        <div class="col-xs-4">
+            <label>Tipo de audiencia</label>
+            <br/>
+            <select class="form-control element-center"
+                    ng-model="m.hearingType"
+                    ng-options="e.description for e in lstHearingType"
+                    ng-init='lstHearingType = ${lstHearingType};' ng-change="lockArrangements();"></select>
+        </div>
+        <div class="col-xs-4">
+            <label>&iquest;Se present&oacute; el imputado a la audiencia?</label>
+                     <span class="field-validation-valid" data-valmsg-for="imputedPresence"
+                           data-valmsg-replace="true"></span>
+
+            <div class="radio">
+                <label>
+                    <input name="imputedPresence" class="ace" type="radio" value="1"
+                           ng-model="m.imputedPresence"
+                           ng-checked="m.imputedPresence==1" data-val="true"
+                           data-val-required="Debe seleccionar un valor">
+                    <span class="lbl">&nbsp;&nbsp;Si</span>
+                </label>
                 <br/>
+                <label>
+                    <input name="imputedPresence" class="ace" type="radio" value="2"
+                           ng-model="m.imputedPresence"
+                           ng-checked="m.imputedPresence==2">
+                    <span class="lbl">&nbsp;&nbsp;No</span>
+                </label>
 
-                <div class="row">
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <label>Resultado de la audiencia</label>
+            <br/>
+            <textarea class="input-xxlarge form-control limited" name="hearingResult"
+                      ng-model="m.hearingResult"
+                      maxlength="980" data-val="true"
+                      data-val-required="Resultado de la audiencia es un campo requerido">
+            </textarea>
+        <span class="field-validation-valid" data-valmsg-for="hearingResult"
+              data-valmsg-replace="true"></span>
+        </div>
+    </div>
 
-                    <div class="col-xs-4">
-                        <label for="idFolder">Carpeta de investigaci&oacute;n</label>
-                        <br/>
-                        <input id="idFolder" ng-model="m.idFolder" name="idFolder"
-                               type="text" class="input-xxlarge" data-val="true"
-                               ng-disabled="m.canEdit==false"
-                               data-val-required="Carpeta de investigaci&oacute;n es un campo requerido"/>
-                        <br/>
+    <div class="row" ng-show="m.hearingType.specification==true">
+        <div class="col-xs-4">
+            <label>Especifique tipo de audiencia</label>
+            <br/>
+            <textarea class="input-xxlarge form-control limited" name="hearingTypeSpecification"
+                      ng-model="m.hearingTypeSpecification"
+                      maxlength="980" data-val="true"
+                      data-val-required="Especificaci&oacute;n de tipo de audiencia es un campo requerido">
+            </textarea>
+        <span class="field-validation-valid" data-valmsg-for="hearingTypeSpecification"
+              data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <br/>
+</c:if>
+<div class="row">
+
+    <div class="col-xs-4">
+        <label for="idFolder">Carpeta de investigaci&oacute;n</label>
+        <br/>
+        <input id="idFolder" ng-model="m.idFolder" name="idFolder"
+               type="text" class="input-xxlarge" data-val="true"
+               ng-disabled="m.canEdit==false"
+               data-val-required="Carpeta de investigaci&oacute;n es un campo requerido"/>
+        <br/>
                         <span class="field-validation-valid" data-valmsg-for="idFolder"
                               data-valmsg-replace="true"></span>
-                    </div>
+    </div>
 
-                    <div class="col-xs-4">
-                        <label for="idJudicial">Carpeta judicial</label>
-                        <br/>
-                        <input id="idJudicial" ng-model="m.idJudicial"
-                               name="idJudicial" type="text"
-                               class="input-xxlarge" data-val="true"
-                               ng-disabled="m.canEdit==false"
-                               data-val-required="Carpeta judicial es un campo requerido"/>
-                        <br/>
+    <div class="col-xs-4">
+        <label for="idJudicial">Carpeta judicial</label>
+        <br/>
+        <input id="idJudicial" ng-model="m.idJudicial"
+               name="idJudicial" type="text"
+               class="input-xxlarge" data-val="true"
+               ng-disabled="m.canEdit==false"
+               data-val-required="Carpeta judicial es un campo requerido"/>
+        <br/>
                         <span class="field-validation-valid" data-valmsg-for="idJudicial"
                               data-valmsg-replace="true"></span>
-                    </div>
+    </div>
 
-                    <div class="col-xs-4">
-                        <label for="room">Distrito judicial</label>
-                        <br/>
-                        <input id="room" ng-model="m.room" name="room" type="text"
-                               class="input-xxlarge" data-val="true"
-                               data-val-required="Distrito judicial es un campo requerido"/>
-                        <br/>
+    <div class="col-xs-4">
+        <label for="room">Distrito judicial</label>
+        <br/>
+        <input id="room" ng-model="m.room" name="room" type="text"
+               class="input-xxlarge" data-val="true"
+               data-val-required="Distrito judicial es un campo requerido"/>
+        <br/>
                                         <span class="field-validation-valid" data-valmsg-for="room"
                                               data-valmsg-replace="true"></span>
-                    </div>
+    </div>
 
-                </div>
+</div>
 
-                <br/>
+<br/>
 
-                <div class="row">
-                    <div class="col-xs-4">
+<div class="row">
+    <div class="col-xs-4">
 
-                        <label for="appointmentDateStr">Fecha de audiencia:</label>
+        <label for="appointmentDateStr">Fecha de audiencia:</label>
 
-                        <div class="row">
-                            <div class="col-xs-8 col-sm-11">
-                                <div class="input-group">
-                                    <input id="appointmentDateStr" name="appointmentDateStr"
-                                           ng-model="m.appointmentDate"
-                                           class="form-control date-picker" id="id-date-picker-1" type="text"
-                                           data-date-format="yyyy/mm/dd" data-val="true" readonly
-                                           data-val-required="Fecha de audiencia es un campo requerido"/>
+        <div class="row">
+            <div class="col-xs-8 col-sm-11">
+                <div class="input-group">
+                    <input id="appointmentDateStr" name="appointmentDateStr"
+                           ng-model="m.appointmentDate"
+                           class="form-control date-picker" id="id-date-picker-1" type="text"
+                           data-date-format="yyyy/mm/dd" data-val="true" readonly
+                           data-val-required="Fecha de audiencia es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
                                     </span>
-                                </div>
+                </div>
                                 <span class="field-validation-valid" data-valmsg-for="appointmentDateStr"
                                       data-valmsg-replace="true"></span>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="col-xs-4">
-                        <label for="initTimeStr">Hora inicio audiencia</label>
-
-                        <div class="input-group bootstrap-timepicker">
-                            <input id="initTimeStr" name="initTimeStr" ng-model="m.initTime"
-                                   ng-change="validateInitEnd();" readonly
-                                   type="text" class="form-control" data-val="true"
-                                   data-val-required="Hora de inicio es un campo requerido"/>
-                                                        <span class="input-group-addon"><i
-                                                                class="icon-time bigger-110"></i></span>
-                            <br/>
-                        </div>
-                        <span class="field-validation-valid" data-valmsg-for="initTimeStr"
-                              data-valmsg-replace="true"></span>
-                    </div>
-
-                    <div class="col-xs-4" ng-show="m.isFinished==true">
-                        <label for="endTimeStr">Hora t&eacute;rmino audiencia</label>
-
-                        <div class="input-group bootstrap-timepicker">
-                            <input id="endTimeStr" name="endTimeStr"
-                                   ng-change="validateInitEnd();" ng-model="m.endTime"
-                                   readonly type="text" class="form-control" min-time="6:00am"
-                                   data-val="true" data-val-required="Hora de t&eacute;rmino es un campo requerido"/>
-                                                        <span class="input-group-addon"><i
-                                                                class="icon-time bigger-110"></i></span>
-                            <br/>
-                        </div>
-                        <span class="field-validation-valid" data-valmsg-for="endTimeStr"
-                              data-valmsg-replace="true">{{m.errTime}}</span>
-                        <span ng-class='m.errTime&&m.errTime!="" ? "field-validation-error": "field-validation-valid"'>{{m.errTime}}</span>
-                    </div>
-                </div>
-                <br/>
-
-                <div class="row">
-
-                    <div class="col-xs-4">
-                        <label for="judgeName">Juez de control</label>
-                        <br/>
-                        <input id="judgeName" ng-model="m.judgeName" name="judgeName"
-                               type="text" class="input-xxlarge"
-                               data-val="true"
-                               data-val-required="Juez de control es un campo requerido"/>
-                        <br/>
-            <span class="field-validation-valid" data-valmsg-for="judgeName"
-                  data-valmsg-replace="true"></span>
-                    </div>
-
-
-                    <div class="col-xs-4">
-
-                        <label for="mpName">Ministerio P&uacute;blico</label>
-                        <br/>
-                        <input id="mpName" ng-model="m.mpName" name="mpName" type="text"
-                               class="input-xxlarge"
-                               data-val="true"
-                               data-val-required="Ministerio P&uacute;blico es un campo requerido"/>
-                        <br/>
-            <span class="field-validation-valid" data-valmsg-for="mpName"
-                  data-valmsg-replace="true"></span>
-                    </div>
-
-                    <div class="col-xs-4">
-
-                        <label for="defenderName">Defensor</label>
-                        <br/>
-                        <input id="defenderName" ng-model="m.defenderName" name="defenderName"
-                               type="text"
-                               class="input-xxlarge"
-                               data-val="true"
-                               data-val-required="Defensor es un campo requerido"/>
-                        <br/>
-            <span class="field-validation-valid" data-valmsg-for="defenderName"
-                  data-valmsg-replace="true"></span>
-                    </div>
-
-                </div>
-                <br/>
             </div>
         </div>
 
     </div>
+
+    <div class="col-xs-4">
+        <label for="initTimeStr">Hora inicio audiencia</label>
+
+        <div class="input-group bootstrap-timepicker">
+            <input id="initTimeStr" name="initTimeStr" ng-model="m.initTime"
+                   ng-change="validateInitEnd();" readonly
+                   type="text" class="form-control" data-val="true"
+                   data-val-required="Hora de inicio es un campo requerido"/>
+                                                        <span class="input-group-addon"><i
+                                                                class="icon-time bigger-110"></i></span>
+            <br/>
+        </div>
+                        <span class="field-validation-valid" data-valmsg-for="initTimeStr"
+                              data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="col-xs-4" ng-show="m.isFinished==true">
+        <label for="endTimeStr">Hora t&eacute;rmino audiencia</label>
+
+        <div class="input-group bootstrap-timepicker">
+            <input id="endTimeStr" name="endTimeStr"
+                   ng-change="validateInitEnd();" ng-model="m.endTime"
+                   readonly type="text" class="form-control" min-time="6:00am"
+                   data-val="true" data-val-required="Hora de t&eacute;rmino es un campo requerido"/>
+                                                        <span class="input-group-addon"><i
+                                                                class="icon-time bigger-110"></i></span>
+            <br/>
+        </div>
+                        <span class="field-validation-valid" data-valmsg-for="endTimeStr"
+                              data-valmsg-replace="true">{{m.errTime}}</span>
+        <span ng-class='m.errTime&&m.errTime!="" ? "field-validation-error": "field-validation-valid"'>{{m.errTime}}</span>
+    </div>
+</div>
+<br/>
+
+<div class="row">
+
+    <div class="col-xs-4">
+        <label for="judgeName">Juez de control</label>
+        <br/>
+        <input id="judgeName" ng-model="m.judgeName" name="judgeName"
+               type="text" class="input-xxlarge"
+               data-val="true"
+               data-val-required="Juez de control es un campo requerido"/>
+        <br/>
+            <span class="field-validation-valid" data-valmsg-for="judgeName"
+                  data-valmsg-replace="true"></span>
+    </div>
+
+
+    <div class="col-xs-4">
+
+        <label for="mpName">Ministerio P&uacute;blico</label>
+        <br/>
+        <input id="mpName" ng-model="m.mpName" name="mpName" type="text"
+               class="input-xxlarge"
+               data-val="true"
+               data-val-required="Ministerio P&uacute;blico es un campo requerido"/>
+        <br/>
+            <span class="field-validation-valid" data-valmsg-for="mpName"
+                  data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="col-xs-4">
+
+        <label for="defenderName">Defensor</label>
+        <br/>
+        <input id="defenderName" ng-model="m.defenderName" name="defenderName"
+               type="text"
+               class="input-xxlarge"
+               data-val="true"
+               data-val-required="Defensor es un campo requerido"/>
+        <br/>
+            <span class="field-validation-valid" data-valmsg-for="defenderName"
+                  data-valmsg-replace="true"></span>
+    </div>
+
+</div>
+<br/>
+</div>
+</div>
+
+</div>
 
 
 </div>
@@ -611,7 +682,7 @@
 
                         <div class="radio">
                             <label ng-click="chnExtDate(1);"
-                                   ng-show="(m.disableAll==true)||(m.hasPrevHF==false&&m.ext>0&&m.ext<3) || (m.canEdit==true&&m.hasPrevHF==false)">
+                                   ng-show="(m.disableAll==true)||(m.hasPrevHF==false&&m.ext&&m.ext>0&&m.ext<3) || (m.canEdit==true&&m.hasPrevHF==false)">
                                 <input name="extension" class="ace" type="radio" value="1" ng-model="m.ext"
                                        ng-checked="m.ext==1" data-val="true"
                                        data-val-required="Debe seleccionar un valor">
@@ -747,6 +818,69 @@
 <br/>
 </div>
 </div>
+</div>
+<br/>
+
+<div class="row" ng-show="m.vincProcess==1" id="divCitaUmeca">
+    <div class="widget-box">
+        <div class="widget-header">Cita UMECA</div>
+        <div class="widget-body">
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <br/>
+
+                    <div row>
+                        <div class="col-xs-3">
+                            <label for="appointmentDateStr">Cita en la UMECA:</label>
+                            <br/>
+
+                            <div class="input-group">
+                                <input id="umecaDateStr" name="umecaDateStr"
+                                       ng-model="m.umecaDate"
+                                       class="form-control date-picker" id="id-date-picker-umeca" type="text"
+                                       data-date-format="yyyy/mm/dd" data-val="true" readonly
+                                       data-val-required="Cita en la UMECA es un campo requerido"/>
+                                    <span class="input-group-addon">
+                                        <i class="icon-calendar bigger-110"></i>
+                                    </span>
+                            </div>
+                                <span class="field-validation-valid" data-valmsg-for="umecaDateStr"
+                                      data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="col-xs-3">
+                            <label for="umecaTimeStr">Hora de la cita UMECA</label>
+
+                            <div class="input-group bootstrap-timepicker">
+                                <input id="umecaTimeStr" name="umecaTimeStr" ng-model="m.umecaTime"
+                                       readonly type="text" class="form-control" data-val="true"
+                                       data-val-required="Hora de inicio es un campo requerido"/>
+                                                        <span class="input-group-addon"><i
+                                                                class="icon-time bigger-110"></i></span>
+                                <br/>
+                            </div>
+                        <span class="field-validation-valid" data-valmsg-for="umecaTimeStr"
+                              data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="col-xs-5">
+                            <label>Elige el nuevo supervisor para el caso</label>
+                            <br/>
+                            <select class="form-control element-center"
+                                    ng-model="m.umecaSupervisor"
+                                    ng-options="e.name for e in lstSupervisor"
+                                    ng-init='lstSupervisor = ${lstSupervisor};'></select>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <br/>

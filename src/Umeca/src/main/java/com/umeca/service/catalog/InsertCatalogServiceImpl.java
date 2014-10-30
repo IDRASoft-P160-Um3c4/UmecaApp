@@ -35,8 +35,8 @@ import java.util.List;
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
-    //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+    //private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -703,6 +703,25 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             electionNotApplyRepository.save(model);
         }
         electionNotApplyRepository.flush();
+    }
+
+    @Autowired
+    HearingTypeRepository hearingTypeRepository;
+
+    @Override
+    public void hearingType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "hearing_type.txt", "\\|", 5);
+
+        for (String[] data : lstDta) {
+            HearingType model = new HearingType();
+            model.setId(Long.parseLong(data[0]));
+            model.setDescription(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            model.setLock(data[3].equals("1"));
+            model.setSpecification(data[4].equals("1"));
+            hearingTypeRepository.save(model);
+        }
+        hearingTypeRepository.flush();
     }
 
 }
