@@ -288,6 +288,7 @@ public class HearingFormatController {
         model.addObject("hfView", conv.toJson(hfView));
         List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
         model.addObject("lstSupervisor", conv.toJson(lstSuper));
+
         model.addObject("hasPrevHF", hfView.getHasPrevHF());
 
         if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)

@@ -166,6 +166,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormat.setMpName(viewFormat.getMpName());
         hearingFormat.setDefenderName(viewFormat.getDefenderName());
 
+        hearingFormat.setPreviousHearing(viewFormat.getPreviousHearing());
+
         //if (hasFirstFH) {
         //hearingFormat.setHearingImputed(lastHF.getHearingImputed());
         //} else {
@@ -470,11 +472,15 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatView.setImputedPresence(existHF.getImputedPresence());
         hearingFormatView.setHearingResult(existHF.getHearingResult());
+        hearingFormatView.setPreviousHearing(existHF.getPreviousHearing());
 
-        if (existHF.getCaseDetention().getHearingFormats().size() > 1)
+        List<Long> idsFormats = hearingFormatRepository.findHearingFormatIdsByIdCase(existHF.getCaseDetention().getId());
+
+        if (existHF.getCaseDetention().getHearingFormats().size() > 0) {
             hearingFormatView.setHasPrevHF(true);
-        else
-            hearingFormatView.setHasPrevHF(false);
+            if (idsFormats != null && idsFormats.get(0) == idFormat)
+                hearingFormatView.setHasPrevHF(false);
+        }
 
         hearingFormatView.setIdAddres(existHF.getHearingImputed().getAddress().getId());
 
@@ -625,7 +631,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         return lstArrmntView;
     }
 
-    public List<ArrangementView> selectedAssignedArrangementForView(List<ArrangementView> existArrangements, List<AssignedArrangement> assignedArrangements) {
+    public List<ArrangementView> selectedAssignedArrangementForView
+            (List<ArrangementView> existArrangements, List<AssignedArrangement> assignedArrangements) {
 
         List<ArrangementView> lstArrmntView = new ArrayList<>();
 

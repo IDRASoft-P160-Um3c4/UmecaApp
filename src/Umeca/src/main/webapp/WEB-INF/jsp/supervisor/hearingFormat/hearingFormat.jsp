@@ -339,7 +339,7 @@
                               data-valmsg-replace="true"></span>
     </div>
 
-    <div class="col-xs-4" ng-show="m.isFinished==true">
+    <div class="col-xs-4" ng-show="false">
         <label for="endTimeStr">Hora t&eacute;rmino audiencia</label>
 
         <div class="input-group bootstrap-timepicker">
@@ -570,6 +570,40 @@
 
 <br/>
 
+<div class="row" id="divPreviousHearing" ng-show="m.hasPrevHF==false">
+    <div class="col-xs-12">
+        <div class="col-xs-10">
+            <label>&iquest;Existe el registro de una audiencia inicial?</label>
+            <br/>
+                        <span class="field-validation-valid" data-valmsg-for="previousHearing"
+                              data-valmsg-replace="true"></span>
+
+            <div class="radio">
+                <label>
+                    <input name="previousHearing" class="ace" type="radio" value="1"
+                           ng-model="m.previousHearing"
+                           ng-checked="m.previousHearing==1" data-val="true"
+                           data-val-required="Debe seleccionar un valor">
+                    <span class="lbl">&nbsp;&nbsp;Si</span>
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <label>
+                    <input name="previousHearing" class="ace" type="radio" value="2"
+                           ng-model="m.previousHearing"
+                           ng-checked="m.previousHearing==2" data-val="true"
+                           data-val-required="Debe seleccionar un valor">
+                    <span class="lbl">&nbsp;&nbsp;No</span>
+                </label>
+
+            </div>
+
+            <br/>
+        </div>
+    </div>
+</div>
+
+<br/>
+
 <div class="row">
     <div class="col-xs-6" id="divCtrlDet">
         <div class="widget-box">
@@ -582,7 +616,7 @@
                               data-valmsg-replace="true"></span>
 
                         <div class="radio">
-                            <label ng-click="clCrtlDet();">
+                            <label>
                                 <input name="controlDetention" class="ace" type="radio" value="1"
                                        ng-model="m.ctrlDet"
                                        ng-checked="m.ctrlDet==1" data-val="true"
@@ -590,13 +624,19 @@
                                 <span class="lbl">&nbsp;&nbsp;Legal</span>
                             </label>
                             <br/>
-                            <label ng-click="clCrtlDet();">
+                            <label>
                                 <input name="controlDetention" class="ace" type="radio" value="2"
                                        ng-model="m.ctrlDet"
                                        ng-checked="m.ctrlDet==2">
                                 <span class="lbl">&nbsp;&nbsp;Ilegal</span>
                             </label>
-
+                            <br/>
+                            <label ng-show="m.previousHearing==2">
+                                <input name="controlDetention" class="ace" type="radio" value="3"
+                                       ng-model="m.ctrlDet"
+                                       ng-checked="m.ctrlDet==3">
+                                <span class="lbl">&nbsp;&nbsp;Sin registro</span>
+                            </label>
                         </div>
 
                         <br/>
@@ -639,10 +679,17 @@
                                        ng-checked="m.formImp==2">
                                 <span class="lbl">&nbsp;&nbsp;No</span>
                             </label>
+                            <br/>
+                            <label ng-show="m.previousHearing==2">
+                                <input name="impForm" class="ace" type="radio" value="3"
+                                       ng-model="m.formImp"
+                                       ng-checked="m.formImp==3">
+                                <span class="lbl">&nbsp;&nbsp;Sin registro</span>
+                            </label>
                         </div>
                         <br/>
 
-                        <div class="col-xs-7" ng-show="m.formImp>0">
+                        <div class="col-xs-7" ng-show="m.formImp>0&&m.formImp<3">
                             <label><p ng-bind-html="m.labelImpForm"></p></label>
 
                             <div class="input-group">
@@ -692,13 +739,15 @@
                             <label ng-click="chnExtDate(2);"
                                    ng-show="(m.disableAll==true) || (m.hasPrevHF==false&&m.ext>0&&m.ext<3) || (m.canEdit==true&&m.hasPrevHF==false)">
                                 <input name="extension" class="ace" type="radio" value="2" ng-model="m.ext"
-                                       ng-checked="m.ext==2">
+                                       ng-checked="m.ext==2" data-val="true"
+                                       data-val-required="Debe seleccionar un valor">
                                 <span class="lbl">&nbsp;&nbsp;144 hrs</span>
                             </label>
                             <br/>
                             <label ng-click="chnExtDate(3);">
                                 <input name="extension" class="ace" type="radio" value="3" ng-model="m.ext"
-                                       ng-checked="m.ext==3">
+                                       ng-checked="m.ext==3" data-val="true"
+                                       data-val-required="Debe seleccionar un valor">
                                 <span class="lbl">&nbsp;&nbsp;No</span>
                             </label>
                         </div>
@@ -751,6 +800,13 @@
                                        ng-model="m.vincProcess"
                                        ng-checked="m.vincProcess==2">
                                 <span class="lbl">&nbsp;&nbsp;No</span>
+                            </label>
+                            <br/>
+                            <label ng-show="m.previousHearing==2">
+                                <input name="vincProcess" class="ace" type="radio" value="3"
+                                       ng-model="m.vincProcess"
+                                       ng-checked="m.vincProcess==3">
+                                <span class="lbl">&nbsp;&nbsp;Sin registro</span>
                             </label>
                         </div>
                         <br/>
@@ -884,6 +940,11 @@
 </div>
 
 <br/>
+
+<div id="divMedidasHidden">
+    <input type="hidden" name="nationalArrangement" value="{{m.nationalArrangement}}"/>
+    <input type="hidden" name="arrangementType" value="{{m.arrType}}"/>
+</div>
 
 <div class="row" ng-show="m.vincProcess==1" id="divMedidas">
     <div class="widget-box">
@@ -1178,6 +1239,12 @@
         <h3 class="header smaller lighter blue element left">
             <small>Nombre del supervisor:</small>
             &nbsp;&nbsp;{{m.userName}}
+        </h3>
+    </div>
+    <div class="col-xs-6" ng-show="m.isFinished==true">
+        <h3 class="header smaller lighter blue element left">
+            <small>Hora de t&eacute;rmino:</small>
+            &nbsp;&nbsp;{{m.endTime}}
         </h3>
     </div>
 

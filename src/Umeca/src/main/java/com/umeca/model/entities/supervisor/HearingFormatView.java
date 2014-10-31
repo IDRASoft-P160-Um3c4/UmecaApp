@@ -117,6 +117,8 @@ public class HearingFormatView {
 
     private Boolean hasPrevHF;
 
+    private Boolean isFirstFormat;
+
     private String comments;
 
     private Date umecaDate;
@@ -134,6 +136,8 @@ public class HearingFormatView {
     private Integer imputedPresence;
 
     private String hearingResult;
+
+    private Integer previousHearing;
 
     public String getLat() {
         return lat;
@@ -662,5 +666,21 @@ public class HearingFormatView {
 
     public void setHearingResult(String hearingResult) {
         this.hearingResult = hearingResult;
+    }
+
+    public Boolean getIsFirstFormat() {
+        return isFirstFormat;
+    }
+
+    public void setIsFirstFormat(Boolean isFirstFormat) {
+        this.isFirstFormat = isFirstFormat;
+    }
+
+    public Integer getPreviousHearing() {
+        return previousHearing;
+    }
+
+    public void setPreviousHearing(Integer previousHearing) {
+        this.previousHearing = previousHearing;
     }
 }

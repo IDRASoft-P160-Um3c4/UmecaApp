@@ -13,7 +13,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.m.labelImpForm = "";
 
         $scope.chnLblFormImp = function (id) {
-
             if ($scope.m.hasPrevHF == false) {
                 if (id == 1) {
                     $scope.m.labelImpForm = $sce.trustAsHtml("Fecha de imputaci&oacute;n");
@@ -124,44 +123,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         };
 
-        $scope.validateCrtlDet = function () {
-
-            if (!$scope.m.ctrlDet) {
-                $scope.hasError = true;
-                $scope.m.errCtrlDet = "Debe seleccionar una opción";
-            } else {
-                $scope.clCrtlDet();
-            }
-
-        };
-
-        $scope.validateExtension = function () {
-
-            if (!$scope.m.ext) {
-                $scope.hasError = true;
-                $scope.m.errExt = "Debe seleccionar una opción";
-            }
-
-        };
-
-        $scope.validateFormImp = function () {
-
-            if (!$scope.m.formImp) {
-                $scope.hasError = true;
-                $scope.m.errFormImp = "Debe seleccionar una opción";
-            }
-            else
-                $scope.m.errFormImp = "";
-
-            if ($scope.m.formImp == 1 && (!$scope.m.impDate || $scope.m.impDate == "")) {
-                $scope.hasError = true;
-                $scope.m.errFormImpDate = "Fecha es un campo requerido";
-            }
-            else {
-                $scope.m.errFormImpDate = "";
-            }
-        };
-
         $scope.addContact = function () {
 
             if ($scope.validateContact())
@@ -257,6 +218,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 $("#divMedidas :input").attr("disabled", true);
                 $("#divContact :input").attr("disabled", true);
                 $("#divCitaUmeca :input").attr("disabled", true);
+                $("#divPreviousHearing :input").attr("disabled", true);
             }
             else {
                 $("#divAudiencia :input").attr("disabled", false);
@@ -337,10 +299,21 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             //radios
             $scope.m.ctrlDet = data.controlDetention;
 
-            $scope.m.ext = data.extension;
-            $scope.m.extDate = $scope.myFormatDate(data.extDate);
+            if ($scope.m.isFinished == true) {
+                $scope.m.ext = data.extension;
+                $scope.m.extDate = $scope.myFormatDate(data.extDate);
+            } else {
+                $scope.m.extDate = "";
+            }
+
 
             $scope.m.formImp = data.impForm;
+
+            if ($scope.m.formImp == 1)
+                $scope.m.labelImpForm = $sce.trustAsHtml("Fecha de imputaci&oacute;n");
+            else if ($scope.m.formImp == 2)
+                $scope.m.labelImpForm = $sce.trustAsHtml("Nueva fecha de audiencia");
+
             $scope.m.impDate = $scope.myFormatDate(data.imputationDate);
 
             $scope.m.vincProcess = data.vincProcess;
@@ -386,10 +359,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 return false;
             }
 
-            if ($scope.m.vincProcess == 1)
-                $scope.submitReloadHF(formId, urlToPost)
-            else
+            if ($scope.m.vincProcess == 2)
                 $scope.showDlg();
+            else
+                $scope.submitReloadHF(formId, urlToPost)
+
         };
 
 
@@ -646,18 +620,22 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
 
         $scope.lockArrangements = function () {
-            if ($scope.m.hearingType && $scope.m.hearingType.lock == true)
+            if ($scope.m.hearingType && $scope.m.hearingType.lock == true) {
                 $("#divMedidas :input").attr("disabled", true);
-            else
+                $("#divMedidasHidden :input").attr("disabled", false);
+            }
+            else {
                 $("#divMedidas :input").attr("disabled", false);
+                $("#divMedidasHidden :input").attr("disabled", true);
+            }
         };
 
         $scope.init = function () {
             $scope.fillFormat($scope.m);
             $scope.fillSelSupervisor();
             $scope.fillSelHearingType();
-            $scope.lockArrangements();
             $scope.disableView($scope.m.disableAll);
+            $scope.lockArrangements();
         };
 
         $timeout(function () {

@@ -90,6 +90,9 @@ public class HearingFormat {
     @Column(name = "hearing_result")
     private String hearingResult;
 
+    @Column(name = "previous_hearing")
+    private Integer previousHearing;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_format_specs")
     private HearingFormatSpecs hearingFormatSpecs;
@@ -358,5 +361,13 @@ public class HearingFormat {
 
     public void setHearingResult(String hearingResult) {
         this.hearingResult = hearingResult;
+    }
+
+    public Integer getPreviousHearing() {
+        return previousHearing;
+    }
+
+    public void setPreviousHearing(Integer previousHearing) {
+        this.previousHearing = previousHearing;
     }
 }
