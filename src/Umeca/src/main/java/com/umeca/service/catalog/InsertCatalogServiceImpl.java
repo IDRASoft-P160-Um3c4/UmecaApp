@@ -705,4 +705,27 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         electionNotApplyRepository.flush();
     }
 
+
+    @Override
+    public void crime() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "academic_level.txt", "\\|", 3);
+        for (String[] data : lstDta) {
+            AcademicLevel model = new AcademicLevel();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
+            academicLevelRepository.save(model);
+        }
+        List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "degree.txt", "\\|", 4);
+        for (String[] data : lstDtaGrade) {
+            Degree model = new Degree();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setAcademicLevel(academicLevelRepository.findOne(Long.parseLong(data[2])));
+            model.setObsolete(data[3].equals("1"));
+            degreeRepository.save(model);
+        }
+        academicLevelRepository.flush();
+    }
+
 }

@@ -28,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 
 @Service
-public class MainPageServiceImpl implements MainPageService {
+public class CrimeServiceImpl implements MainPageService {
 
     @Autowired
     LogCommentRepository logCommentRepository;
