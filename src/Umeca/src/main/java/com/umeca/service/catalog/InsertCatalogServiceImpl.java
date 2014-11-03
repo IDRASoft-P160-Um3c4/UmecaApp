@@ -9,12 +9,10 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.VerificationMethod;
 import com.umeca.model.entities.shared.SystemSetting;
 import com.umeca.model.entities.supervisor.*;
-import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
@@ -728,4 +726,22 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         academicLevelRepository.flush();
     }
 
+    @Autowired
+    HearingTypeRepository hearingTypeRepository;
+
+    @Override
+    public void hearingType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "hearing_type.txt", "\\|", 5);
+
+        for (String[] data : lstDta) {
+            HearingType model = new HearingType();
+            model.setId(Long.parseLong(data[0]));
+            model.setDescription(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            model.setLock(data[3].equals("1"));
+            model.setSpecification(data[4].equals("1"));
+            hearingTypeRepository.save(model);
+        }
+        hearingTypeRepository.flush();
+    }
 }

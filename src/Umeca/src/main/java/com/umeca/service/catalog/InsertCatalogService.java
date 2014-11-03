@@ -43,4 +43,5 @@ public interface InsertCatalogService {
     void responseType();
     void electionNotApply();
     void hearingType();
+    void crime();
 }

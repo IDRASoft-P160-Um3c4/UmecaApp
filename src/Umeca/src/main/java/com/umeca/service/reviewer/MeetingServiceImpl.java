@@ -2,8 +2,8 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.model.catalog.*;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.AcademicLevelDto;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
@@ -326,13 +326,7 @@ public class MeetingServiceImpl implements MeetingService {
                 model.addObject("listCoDependant", gson.toJson(listCodefendantDto));
             }
             model.addObject("haveCoDependant",haveCoDependant);
-            if(ccp.getDomicileVictim()!=null){
-                addressService.fillModelAddress(model,ccp.getDomicileVictim().getId());
-            }
-            model.addObject("nameVictim",ccp.getNameVictim());
-            if(ccp.getRelationshipVictim()!=null){
-                model.addObject("relId",ccp.getRelationshipVictim().getId());
-            }
+
             model.addObject("additionalInfo",ccp.getAdditionalInfo());
             model.addObject("behaviorDetention", ccp.getBehaviorDetention());
             model.addObject("placeDetention",ccp.getPlaceDetention());
@@ -1096,29 +1090,16 @@ public class MeetingServiceImpl implements MeetingService {
     public void refreshCurrentProceeding(CriminalProceedingView cpv, Case c){
         Meeting m = c.getMeeting();
         CurrentCriminalProceeding ccpc = m.getCurrentCriminalProceeding();
-        Address av;
+
         if( ccpc == null){
             ccpc = new CurrentCriminalProceeding();
-            av = new Address();
+
             m.setCurrentCriminalProceeding(ccpc);
             ccpc.setMeeting(m);
-        }else{
-            av = ccpc.getDomicileVictim();
         }
-        if(cpv.getDomicileVictim().getLocation().getId() != null){
-            Long locationId = cpv.getDomicileVictim().getLocation().getId();
-            av.setLocation(locationRepository.findOne(locationId));
-        }
-        av.setStreet(cpv.getDomicileVictim().getStreet());
-        av.setInnNum(cpv.getDomicileVictim().getInnNum());
-        av.setOutNum(cpv.getDomicileVictim().getOutNum());
-        av.setAddressString(av.toString());
-        av = addressRepository.save(av);
         ccpc.setMeeting(c.getMeeting());
         ccpc.setBehaviorDetention(cpv.getBehaviorDetention());
-        ccpc.setDomicileVictim(av);
-        ccpc.setNameVictim(cpv.getNameVictim());
-        ccpc.setAdditionalInfo(cpv.getAdditionalInfo());
+         ccpc.setAdditionalInfo(cpv.getAdditionalInfo());
         List<Crime> listOldCrime = ccpc.getCrimeList();
         if(listOldCrime != null ){
             crimeRepository.delete(listOldCrime);
@@ -1133,10 +1114,7 @@ public class MeetingServiceImpl implements MeetingService {
         if (cpv.getListCoDefendant() != null && !cpv.getListCoDefendant().equals("")) {
             ccpc.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccpc));
         }
-        if(cpv.getRelVictimId()!=null){
-            ccpc.setRelationshipVictim(relationshipRepository.findOne(cpv.getRelVictimId()));
-        }
-        ccpc.setPlaceDetention(cpv.getPlaceDetention());
+       ccpc.setPlaceDetention(cpv.getPlaceDetention());
     }
 
     @Transactional
