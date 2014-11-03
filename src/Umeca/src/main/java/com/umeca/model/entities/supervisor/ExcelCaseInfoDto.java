@@ -2,7 +2,6 @@ package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.shared.Constants;
 
-import java.net.Inet4Address;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -127,9 +126,9 @@ public class ExcelCaseInfoDto {
                             String imputedLivedRelativeAbroadMedia,
                             String imputedLegalBehaviorDetention,
                             String imputedLegalPlaceDetention,
-                            String imputedLegalVictimName,
-                            String imputedLegalVictimRelationship,
-                            String imputedLegalVictimAddress,
+//                            String imputedLegalVictimName,
+//                            String imputedLegalVictimRelationship,
+//                            String imputedLegalVictimAddress,
                             String imputedLegalFirstProcess,
                             Integer imputedLegalOpenProcess,
                             Integer imputedLegalConvictions,
@@ -734,7 +733,7 @@ public class ExcelCaseInfoDto {
                     this.socialNetworkStr += ", " + act.getRelationship();
 
                 if (act.getDocument() != null && !act.getDocument().equals(""))
-                    this.socialNetworkStr += ", Identificación: " + act.getDocument();
+                    this.socialNetworkStr += ", Identificaciï¿½n: " + act.getDocument();
 
                 if (act.getAge() != null)
                     this.socialNetworkStr += ", Edad: " + act.getAge();
@@ -747,15 +746,15 @@ public class ExcelCaseInfoDto {
 
                 if (act.getAccompaniment() != null)
                     if (act.getAccompaniment().equals(true))
-                        this.socialNetworkStr += ", Acompaña durante el proceso: Si";
+                        this.socialNetworkStr += ", Acompaï¿½a durante el proceso: Si";
                     else
-                        this.socialNetworkStr += ", Acompaña durante el proceso: No";
+                        this.socialNetworkStr += ", Acompaï¿½a durante el proceso: No";
 
                 if (act.getLivingWith() != null && !act.getLivingWith().equals(""))
                     this.socialNetworkStr += ", Vive con el imputado: " + act.getLivingWith();
 
                 if (act.getAddress() != null && !act.getAddress().equals(""))
-                    this.socialNetworkStr += ", Dirección: " + act.getAddress();
+                    this.socialNetworkStr += ", Direcciï¿½n: " + act.getAddress();
 
             }
 
@@ -790,7 +789,7 @@ public class ExcelCaseInfoDto {
                     this.referencesStr += ", " + act.getRelationship();
 
                 if (act.getDocument() != null && !act.getDocument().equals(""))
-                    this.referencesStr += ", Identificación: " + act.getDocument();
+                    this.referencesStr += ", Identificaciï¿½n: " + act.getDocument();
 
                 if (act.getAge() != null)
                     this.referencesStr += ", Edad: " + act.getAge();
@@ -800,12 +799,12 @@ public class ExcelCaseInfoDto {
 
                 if (act.getAccompaniment() != null)
                     if (act.getAccompaniment().equals(true))
-                        this.referencesStr += ", Acompaña durante el proceso: Si";
+                        this.referencesStr += ", Acompaï¿½a durante el proceso: Si";
                     else
-                        this.referencesStr += ", Acompaña durante el proceso: No";
+                        this.referencesStr += ", Acompaï¿½a durante el proceso: No";
 
                 if (act.getAddress() != null && !act.getAddress().equals(""))
-                    this.referencesStr += ", Dirección: " + act.getAddress();
+                    this.referencesStr += ", Direcciï¿½n: " + act.getAddress();
 
             }
 
@@ -840,13 +839,13 @@ public class ExcelCaseInfoDto {
                     jobsStr += ", Puesto: " + act.getPost();
 
                 if (act.getNameHead() != null && !act.getNameHead().equals(""))
-                    jobsStr += ", Patrón: " + act.getNameHead();
+                    jobsStr += ", Patrï¿½n: " + act.getNameHead();
 
                 if (act.getPhone() != null && !act.getPhone().equals(""))
                     jobsStr += ", Tel.: " + act.getPhone();
 
                 if (act.getAddress() != null && !act.getAddress().equals(""))
-                    jobsStr += ", Dirección: " + act.getAddress();
+                    jobsStr += ", Direcciï¿½n: " + act.getAddress();
 
                 if (act.getRegisterType() != null && !act.getRegisterType().equals(""))
                     jobsStr += ", Tipo: " + act.getRegisterType();
@@ -896,13 +895,13 @@ public class ExcelCaseInfoDto {
                     drugsStr += ", Periocidad: " + act.getPeriodicity();
 
                 if (act.getSpecificationType() != null && !act.getSpecificationType().equals(""))
-                    drugsStr += ", Especificación: " + act.getSpecificationType();
+                    drugsStr += ", Especificaciï¿½n: " + act.getSpecificationType();
 
                 if (act.getQuantity() != null && !act.getQuantity().equals(""))
                     drugsStr += ", Cantidad: " + act.getQuantity();
 
                 if (act.getLastUse() != null)
-                    drugsStr += ", Útlimo consumo: " + dateFormat.format(act.getLastUse());
+                    drugsStr += ", ï¿½tlimo consumo: " + dateFormat.format(act.getLastUse());
             }
 
         return drugsStr;
@@ -930,7 +929,7 @@ public class ExcelCaseInfoDto {
                 if (act.getCrime() != null && !act.getCrime().equals(""))
                     crimesStr += "-" + act.getCrime();
                 if (act.getArticle() != null && !act.getArticle().equals(""))
-                    crimesStr += ", Artículo: " + act.getArticle();
+                    crimesStr += ", Artï¿½culo: " + act.getArticle();
                 if (act.getFederal() != null && !act.getFederal().equals(""))
                     crimesStr += ", Delito federal: " + act.getFederal();
             }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("academicLevelRepository")
+@Repository("groupCrimeRepository")
 public interface GroupCrimelRepository extends JpaRepository<AcademicLevel,Long> {
 
     @Query("select ad from AcademicLevel as ad where ad.isObsolete=false")

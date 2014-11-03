@@ -36,7 +36,7 @@ import java.util.List;
  * Created by Vmware on 06/06/2014.
  */
 
-@Service("caseService")
+@Service("victimService")
 public class VictimServiceImpl implements CaseService {
 
     @Autowired
