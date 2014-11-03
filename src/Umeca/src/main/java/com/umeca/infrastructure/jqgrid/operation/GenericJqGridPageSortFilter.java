@@ -88,6 +88,7 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
     }
 
     public JqGridResultModel find(JqGridFilterModel opts, SelectFilterFields selFil, boolean distinct,  Class<T> tClass, Class<V> vClass){
+        try{
         JqGridResultModel result = new JqGridResultModel();
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -146,6 +147,9 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
         result.setRows(rows);
 
         return result;
+        }catch (Exception e){
+            return  null;
+        }
     }
 
     private Expression<?> selectExpression(Root<T> r, String field, SelectFilterFields selFil) {

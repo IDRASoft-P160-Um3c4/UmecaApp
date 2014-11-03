@@ -9,12 +9,10 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.VerificationMethod;
 import com.umeca.model.entities.shared.SystemSetting;
 import com.umeca.model.entities.supervisor.*;
-import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
@@ -35,8 +33,8 @@ import java.util.List;
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
-    //private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
+    //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -707,6 +705,29 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         electionNotApplyRepository.flush();
     }
 
+
+    @Override
+    public void crime() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "academic_level.txt", "\\|", 3);
+        for (String[] data : lstDta) {
+            AcademicLevel model = new AcademicLevel();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
+            academicLevelRepository.save(model);
+        }
+        List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "degree.txt", "\\|", 4);
+        for (String[] data : lstDtaGrade) {
+            Degree model = new Degree();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setAcademicLevel(academicLevelRepository.findOne(Long.parseLong(data[2])));
+            model.setObsolete(data[3].equals("1"));
+            degreeRepository.save(model);
+        }
+        academicLevelRepository.flush();
+    }
+
     @Autowired
     HearingTypeRepository hearingTypeRepository;
 
@@ -725,5 +746,4 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         hearingTypeRepository.flush();
     }
-
 }
