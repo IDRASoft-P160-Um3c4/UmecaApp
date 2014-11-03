@@ -13,12 +13,15 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.HearingFormatTypeRepository;
+import com.umeca.repository.supervisor.HearingTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.reviewer.CaseService;
@@ -192,6 +195,12 @@ public class HearingFormatController {
     @Autowired
     HearingFormatRepository hearingFormatRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    HearingTypeRepository hearingTypeRepository;
+
     @RequestMapping(value = "/supervisor/hearingFormat/newHearingFormat", method = RequestMethod.GET)
     public ModelAndView newHearingFormat(@RequestParam(required = true) Long idCase) {
 
@@ -219,9 +228,18 @@ public class HearingFormatController {
             model.addObject("hfView", conv.toJson(hfView));
             model.addObject("hasPrevHF", hfView.getHasPrevHF());
 
+            if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+                model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
+            else
+                model.addObject("lstHearingType", "[]");
+
             addressService.fillCatalogAddress(model);
 
             model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
+
+            List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+
+            model.addObject("lstSupervisor", conv.toJson(lstSuper));
 
             if (hfView.getIdAddres() != null)
                 addressService.fillModelAddress(model, hfView.getIdAddres());
@@ -242,6 +260,16 @@ public class HearingFormatController {
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
         model.addObject("returnId", conv.toJson(returnId));
+        List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+        model.addObject("lstSupervisor", conv.toJson(lstSuper));
+
+        model.addObject("hasPrevHF", hfView.getHasPrevHF());
+
+        if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+            model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
+        else
+            model.addObject("lstHearingType", "[]");
+
         addressService.fillCatalogAddress(model);
 
         if (hfView.getIdAddres() != null)
@@ -258,6 +286,16 @@ public class HearingFormatController {
         HearingFormatView hfView = hearingFormatService.fillIncompleteFormatForView(idFormat);
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
+        List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+        model.addObject("lstSupervisor", conv.toJson(lstSuper));
+
+        model.addObject("hasPrevHF", hfView.getHasPrevHF());
+
+        if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+            model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
+        else
+            model.addObject("lstHearingType", "[]");
+
         addressService.fillCatalogAddress(model);
 
         if (hfView.getIdAddres() != null)

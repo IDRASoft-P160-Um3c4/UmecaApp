@@ -42,4 +42,5 @@ public interface InsertCatalogService {
     void requestType();
     void responseType();
     void electionNotApply();
+    void hearingType();
 }

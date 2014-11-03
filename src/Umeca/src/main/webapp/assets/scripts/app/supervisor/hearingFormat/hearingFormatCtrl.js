@@ -13,7 +13,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.m.labelImpForm = "";
 
         $scope.chnLblFormImp = function (id) {
-
             if ($scope.m.hasPrevHF == false) {
                 if (id == 1) {
                     $scope.m.labelImpForm = $sce.trustAsHtml("Fecha de imputaci&oacute;n");
@@ -124,44 +123,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         };
 
-        $scope.validateCrtlDet = function () {
-
-            if (!$scope.m.ctrlDet) {
-                $scope.hasError = true;
-                $scope.m.errCtrlDet = "Debe seleccionar una opción";
-            } else {
-                $scope.clCrtlDet();
-            }
-
-        };
-
-        $scope.validateExtension = function () {
-
-            if (!$scope.m.ext) {
-                $scope.hasError = true;
-                $scope.m.errExt = "Debe seleccionar una opción";
-            }
-
-        };
-
-        $scope.validateFormImp = function () {
-
-            if (!$scope.m.formImp) {
-                $scope.hasError = true;
-                $scope.m.errFormImp = "Debe seleccionar una opción";
-            }
-            else
-                $scope.m.errFormImp = "";
-
-            if ($scope.m.formImp == 1 && (!$scope.m.impDate || $scope.m.impDate == "")) {
-                $scope.hasError = true;
-                $scope.m.errFormImpDate = "Fecha es un campo requerido";
-            }
-            else {
-                $scope.m.errFormImpDate = "";
-            }
-        };
-
         $scope.addContact = function () {
 
             if ($scope.validateContact())
@@ -256,6 +217,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 $("#divVincProc :input").attr("disabled", true);
                 $("#divMedidas :input").attr("disabled", true);
                 $("#divContact :input").attr("disabled", true);
+                $("#divCitaUmeca :input").attr("disabled", true);
+                $("#divPreviousHearing :input").attr("disabled", true);
             }
             else {
                 $("#divAudiencia :input").attr("disabled", false);
@@ -336,10 +299,21 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             //radios
             $scope.m.ctrlDet = data.controlDetention;
 
-            $scope.m.ext = data.extension;
-            $scope.m.extDate = $scope.myFormatDate(data.extDate);
+            if ($scope.m.isFinished == true) {
+                $scope.m.ext = data.extension;
+                $scope.m.extDate = $scope.myFormatDate(data.extDate);
+            } else {
+                $scope.m.extDate = "";
+            }
+
 
             $scope.m.formImp = data.impForm;
+
+            if ($scope.m.formImp == 1)
+                $scope.m.labelImpForm = $sce.trustAsHtml("Fecha de imputaci&oacute;n");
+            else if ($scope.m.formImp == 2)
+                $scope.m.labelImpForm = $sce.trustAsHtml("Nueva fecha de audiencia");
+
             $scope.m.impDate = $scope.myFormatDate(data.imputationDate);
 
             $scope.m.vincProcess = data.vincProcess;
@@ -352,7 +326,16 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.comments = data.comments;
 
             $scope.m.userName = data.userName;
+
+            $scope.m.hearingTypeId = data.hearingTypeId;
+            $scope.m.imputedPresence = data.imputedPresence;
+            $scope.m.hearingTypeSpecification = data.hearingTypeSpecification;
+            $scope.m.hearingResult = data.hearingResult;
             //
+
+            $scope.m.umecaDate = $scope.myFormatDate(data.umecaDate);
+            $scope.m.umecaTime = data.umecaTime;
+            $scope.m.umecaSupervisorId = data.umecaSupervisorId;
 
             if (data.lstArrangement != undefined)
                 $scope.m.lstArrangementShow = $.parseJSON(data.lstArrangement);
@@ -362,6 +345,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             else
                 $scope.m.lstContactData = [];
 
+            $scope.$apply();
         };
 
 
@@ -375,10 +359,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 return false;
             }
 
-            if ($scope.m.vincProcess == 1)
-                $scope.submitReloadHF(formId, urlToPost)
-            else
+            if ($scope.m.vincProcess == 2)
                 $scope.showDlg();
+            else
+                $scope.submitReloadHF(formId, urlToPost)
+
         };
 
 
@@ -552,16 +537,13 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             if (noSel < 1) {
                 $scope.hasError = true;
                 $scope.m.errArrmntSel = $sce.trustAsHtml("Debe seleccionar al menos una obligaci&oacute;n procesal");
-                $scope.$apply();
                 return;
             } else if (noSel > noDesc) {
                 $scope.hasError = true;
                 $scope.m.errArrmntSel = $sce.trustAsHtml("Debe indicar una descripci&oacute;n para cada obligaci&oacute;n procesal seleccionada");
-                $scope.$apply();
                 return;
             } else {
                 $scope.m.errArrmntSel = $sce.trustAsHtml("");
-                $scope.$apply();
             }
         };
 
@@ -592,9 +574,68 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             }
         }
 
+        $scope.fillSelSupervisor = function () {
+
+            if ($scope.lstSupervisor === undefined || $scope.lstSupervisor.length <= 0)
+                return;
+
+            if ($scope.m.umecaSupervisorId === undefined) {
+                $scope.m.umecaSupervisor = $scope.lstSupervisor[0];
+                $scope.m.umecaSupervisorId = $scope.m.umecaSupervisor.id;
+            }
+            else {
+                for (var i = 0; i < $scope.lstSupervisor.length; i++) {
+                    var rel = $scope.lstSupervisor[i];
+
+                    if (rel.id === $scope.m.umecaSupervisorId) {
+                        $scope.m.umecaSupervisor = rel;
+                        break;
+                    }
+                }
+            }
+        };
+
+        $scope.fillSelHearingType = function () {
+
+            if ($scope.m.hasPrevHF == true) {
+                if ($scope.lstHearingType === undefined || $scope.lstHearingType.length <= 0)
+                    return;
+
+                if ($scope.m.hearingTypeId === undefined) {
+                    $scope.m.hearingType = $scope.lstHearingType[0];
+                    $scope.m.hearingTypeId = $scope.m.hearingType.id;
+                }
+                else {
+                    for (var i = 0; i < $scope.lstHearingType.length; i++) {
+                        var rel = $scope.lstHearingType[i];
+
+                        if (rel.id === $scope.m.hearingTypeId) {
+                            $scope.m.hearingType = rel;
+                            break;
+                        }
+                    }
+                }
+            }
+        };
+
+
+        $scope.lockArrangements = function () {
+            if ($scope.m.hearingType && $scope.m.hearingType.lock == true) {
+                $("#divMedidas :input").attr("disabled", true);
+                $("#divMedidasHidden :input").attr("disabled", false);
+            }
+            else {
+                $("#divMedidas :input").attr("disabled", false);
+                $("#divMedidasHidden :input").attr("disabled", true);
+            }
+        };
+
         $scope.init = function () {
             $scope.fillFormat($scope.m);
+            $scope.fillSelSupervisor();
+            $scope.fillSelHearingType();
             $scope.disableView($scope.m.disableAll);
+            $scope.lockArrangements();
         };
 
         $timeout(function () {

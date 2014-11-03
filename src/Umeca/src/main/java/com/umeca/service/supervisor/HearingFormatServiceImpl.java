@@ -18,10 +18,7 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
-import com.umeca.repository.supervisor.AssignedArrangementRepository;
-import com.umeca.repository.supervisor.ContactDataRepository;
-import com.umeca.repository.supervisor.HearingFormatRepository;
-import com.umeca.repository.supervisor.MonitoringPlanRepository;
+import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.CatalogService;
@@ -77,6 +74,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     @Autowired
     SharedLogExceptionService logException;
 
+    @Autowired
+    HearingTypeRepository hearingTypeRepository;
+
     private Gson conv = new Gson();
 
     @Override
@@ -106,6 +106,15 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         if (hasFirstFH) {
             hearingFormat.setIdFolder(lastHF.getIdFolder());
             hearingFormat.setIdJudicial(lastHF.getIdJudicial());
+
+            if (viewFormat.getHearingTypeId() != null) {
+                hearingFormat.setHearingType(hearingTypeRepository.findOne(viewFormat.getHearingTypeId()));
+                hearingFormat.setHearingTypeSpecification(viewFormat.getHearingTypeSpecification());
+            }
+
+            hearingFormat.setImputedPresence(viewFormat.getImputedPresence());
+            hearingFormat.setHearingResult(viewFormat.getHearingResult());
+
         } else {
             hearingFormat.setIdFolder(viewFormat.getIdFolder());
             hearingFormat.setIdJudicial(viewFormat.getIdJudicial());
@@ -133,6 +142,19 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             else
                 hearingFormat.setEndTime(null);
 
+            if (viewFormat.getUmecaDateStr() != null && !viewFormat.getUmecaDateStr().trim().equals(""))
+                hearingFormat.setUmecaDate(sdf.parse(viewFormat.getUmecaDateStr()));
+            else
+                hearingFormat.setAppointmentDate(null);
+
+            if (viewFormat.getUmecaTimeStr() != null && !viewFormat.getUmecaTimeStr().trim().equals(""))
+                hearingFormat.setUmecaTime(new Time(sdfA.parse(viewFormat.getUmecaTimeStr()).getTime()));
+            else
+                hearingFormat.setUmecaTime(null);
+
+            if (viewFormat.getUmecaSupervisorId() != null)
+                hearingFormat.setUmecaSupervisor(userRepository.findOne(viewFormat.getUmecaSupervisorId()));
+
         } catch (Exception e) {
             System.out.println("Ha ocurrido un error");
             e.printStackTrace();
@@ -143,6 +165,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormat.setJudgeName(viewFormat.getJudgeName());
         hearingFormat.setMpName(viewFormat.getMpName());
         hearingFormat.setDefenderName(viewFormat.getDefenderName());
+
+        hearingFormat.setPreviousHearing(viewFormat.getPreviousHearing());
 
         //if (hasFirstFH) {
         //hearingFormat.setHearingImputed(lastHF.getHearingImputed());
@@ -436,6 +460,28 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setImputedBirthDate(existHF.getHearingImputed().getBirthDate());
         hearingFormatView.setImputedTel(existHF.getHearingImputed().getImputeTel());
 
+        hearingFormatView.setUmecaDate(existHF.getUmecaDate());
+        hearingFormatView.setUmecaTime(existHF.getUmecaTime());
+        if (existHF.getUmecaSupervisor() != null)
+            hearingFormatView.setUmecaSupervisorId(existHF.getUmecaSupervisor().getId());
+
+        if (existHF.getHearingType() != null) {
+            hearingFormatView.setHearingTypeId(existHF.getHearingType().getId());
+            hearingFormatView.setHearingTypeSpecification(existHF.getHearingTypeSpecification());
+        }
+
+        hearingFormatView.setImputedPresence(existHF.getImputedPresence());
+        hearingFormatView.setHearingResult(existHF.getHearingResult());
+        hearingFormatView.setPreviousHearing(existHF.getPreviousHearing());
+
+        List<Long> idsFormats = hearingFormatRepository.findHearingFormatIdsByIdCase(existHF.getCaseDetention().getId());
+
+        if (existHF.getCaseDetention().getHearingFormats().size() > 0) {
+            hearingFormatView.setHasPrevHF(true);
+            if (idsFormats != null && idsFormats.get(0) == idFormat)
+                hearingFormatView.setHasPrevHF(false);
+        }
+
         hearingFormatView.setIdAddres(existHF.getHearingImputed().getAddress().getId());
 
         if (existHF.getHearingFormatSpecs() != null) {
@@ -491,6 +537,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setCanEdit(true);
         hearingFormatView.setDisableAll(false);
 
+        if (existHF.getCaseDetention().getHearingFormats().size() > 1)
+            hearingFormatView.setHasPrevHF(true);
+        else
+            hearingFormatView.setHasPrevHF(false);
+
         hearingFormatView.setIdFolder(existHF.getIdFolder());
         hearingFormatView.setIdJudicial(existHF.getIdJudicial());
         hearingFormatView.setAppointmentDate(existHF.getAppointmentDate());
@@ -506,6 +557,19 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setImputedSLastName(existHF.getHearingImputed().getLastNameM());
         hearingFormatView.setImputedBirthDate(existHF.getHearingImputed().getBirthDate());
         hearingFormatView.setImputedTel(existHF.getHearingImputed().getImputeTel());
+
+        hearingFormatView.setUmecaDate(existHF.getUmecaDate());
+        hearingFormatView.setUmecaTime(existHF.getUmecaTime());
+        if (existHF.getUmecaSupervisor() != null)
+            hearingFormatView.setUmecaSupervisorId(existHF.getUmecaSupervisor().getId());
+
+        if (existHF.getHearingType() != null) {
+            hearingFormatView.setHearingTypeId(existHF.getHearingType().getId());
+            hearingFormatView.setHearingTypeSpecification(existHF.getHearingTypeSpecification());
+        }
+
+        hearingFormatView.setImputedPresence(existHF.getImputedPresence());
+        hearingFormatView.setHearingResult(existHF.getHearingResult());
 
         if (existHF.getHearingImputed().getAddress() != null) {
             hearingFormatView.setIdAddres(existHF.getHearingImputed().getAddress().getId());
@@ -567,7 +631,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         return lstArrmntView;
     }
 
-    public List<ArrangementView> selectedAssignedArrangementForView(List<ArrangementView> existArrangements, List<AssignedArrangement> assignedArrangements) {
+    public List<ArrangementView> selectedAssignedArrangementForView
+            (List<ArrangementView> existArrangements, List<AssignedArrangement> assignedArrangements) {
 
         List<ArrangementView> lstArrmntView = new ArrayList<>();
 

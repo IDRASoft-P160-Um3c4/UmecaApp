@@ -74,6 +74,11 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
             "WHERE mp.id =:monPlanId and hf.isFinished=true order by hf.registerTime asc")
     List<SelectList> getInfoResolution(@Param("monPlanId") Long monPlanId);
 
+    @Query("SELECT hf.id from HearingFormat hf " +
+            "INNER JOIN hf.caseDetention cd " +
+            "WHERE cd.id =:caseId ORDER BY hf.id asc")
+    List<Long> findHearingFormatIdsByIdCase(@Param("caseId") Long caseId);
+
 }
 
 

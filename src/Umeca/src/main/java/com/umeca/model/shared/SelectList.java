@@ -15,6 +15,8 @@ public class SelectList {
     private String name;
     private String description;
     private Long aux;
+    private Boolean lock;
+    private Boolean specification;
 
     public SelectList(Long id, String name) {
         this.id = id;
@@ -48,6 +50,13 @@ public class SelectList {
         this.name = name;
         this.description = description;
         this.aux = aux;
+    }
+
+    public SelectList(Long id, String description, Boolean lock, Boolean specification) {
+        this.id = id;
+        this.description = description;
+        this.lock = lock;
+        this.specification = specification;
     }
 
     public SelectList(Long id, Long aux) {
@@ -100,5 +109,21 @@ public class SelectList {
 
     public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
+    }
+
+    public Boolean getLock() {
+        return lock;
+    }
+
+    public void setLock(Boolean lock) {
+        this.lock = lock;
+    }
+
+    public Boolean getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(Boolean specification) {
+        this.specification = specification;
     }
 }

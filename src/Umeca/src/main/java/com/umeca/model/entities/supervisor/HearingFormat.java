@@ -67,6 +67,32 @@ public class HearingFormat {
     @Column(name = "comments")
     private String comments;
 
+    @Column(name = "umeca_date")
+    private Date umecaDate;
+
+    @Column(name = "umeca_time")
+    private Time umecaTime;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user_umeca")
+    private User umecaSupervisor;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_hearing_type")
+    private HearingType hearingType;
+
+    @Column(name = "hearing_type_spec")
+    private String hearingTypeSpecification;
+
+    @Column(name = "imputed_presence")
+    private Integer imputedPresence;
+
+    @Column(name = "hearing_result")
+    private String hearingResult;
+
+    @Column(name = "previous_hearing")
+    private Integer previousHearing;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_format_specs")
     private HearingFormatSpecs hearingFormatSpecs;
@@ -279,5 +305,69 @@ public class HearingFormat {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Date getUmecaDate() {
+        return umecaDate;
+    }
+
+    public void setUmecaDate(Date umecaDate) {
+        this.umecaDate = umecaDate;
+    }
+
+    public Time getUmecaTime() {
+        return umecaTime;
+    }
+
+    public void setUmecaTime(Time umecaTime) {
+        this.umecaTime = umecaTime;
+    }
+
+    public User getUmecaSupervisor() {
+        return umecaSupervisor;
+    }
+
+    public void setUmecaSupervisor(User umecaSupervisor) {
+        this.umecaSupervisor = umecaSupervisor;
+    }
+
+    public HearingType getHearingType() {
+        return hearingType;
+    }
+
+    public void setHearingType(HearingType hearingType) {
+        this.hearingType = hearingType;
+    }
+
+    public String getHearingTypeSpecification() {
+        return hearingTypeSpecification;
+    }
+
+    public void setHearingTypeSpecification(String hearingTypeSpecification) {
+        this.hearingTypeSpecification = hearingTypeSpecification;
+    }
+
+    public Integer getImputedPresence() {
+        return imputedPresence;
+    }
+
+    public void setImputedPresence(Integer imputedPresence) {
+        this.imputedPresence = imputedPresence;
+    }
+
+    public String getHearingResult() {
+        return hearingResult;
+    }
+
+    public void setHearingResult(String hearingResult) {
+        this.hearingResult = hearingResult;
+    }
+
+    public Integer getPreviousHearing() {
+        return previousHearing;
+    }
+
+    public void setPreviousHearing(Integer previousHearing) {
+        this.previousHearing = previousHearing;
     }
 }
