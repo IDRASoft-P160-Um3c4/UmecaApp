@@ -247,8 +247,13 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             hearingSpecs.setArrangementType(viewFormat.getArrangementType());
             hearingSpecs.setNationalArrangement(viewFormat.getNationalArrangement());
-            hearingFormat.setTerms(viewFormat.getTerms());
 
+            String[] terms = viewFormat.getTerms().split(",");
+
+            if (terms.length > 0)
+                hearingFormat.setTerms(terms[0]);
+            else
+                viewFormat.getTerms();
 
             List<ArrangementView> lstAssignedArrnmtView;
             Type type = new TypeToken<List<ArrangementView>>() {
@@ -624,7 +629,12 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             ArrangementView arrV = new ArrangementView();
             arrV.setId(arrmnt.getId());
             arrV.setName(arrmnt.getDescription());
-            arrV.setSelVal(false);
+            arrV.setIsDefault(arrmnt.getIsDefault());
+            if (arrV.getIsDefault() == true)
+                arrV.setSelVal(true);
+            else
+                arrV.setSelVal(false);
+            arrV.setIsExclusive(arrmnt.getIsExclusive());
             lstArrmntView.add(arrV);
         }
 
@@ -634,21 +644,24 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     public List<ArrangementView> selectedAssignedArrangementForView
             (List<ArrangementView> existArrangements, List<AssignedArrangement> assignedArrangements) {
 
-        List<ArrangementView> lstArrmntView = new ArrayList<>();
+        List<Long> idsSelected = new ArrayList<>();
+        for (AssignedArrangement assArr : assignedArrangements) {
+            idsSelected.add(assArr.getArrangement().getId());
+        }
 
         for (ArrangementView existArr : existArrangements) {
             for (AssignedArrangement assArr : assignedArrangements) {
-
                 if (assArr.getArrangement().getId() == existArr.getId()) {
                     existArr.setSelVal(true);
                     existArr.setDescription(assArr.getDescription());
                 }
-//                ArrangementView arrV = new ArrangementView();
-//                arrV.setId(assArr.getId());
-//                arrV.setName(assArr.getArrangement().getDescription());
-//                arrV.setDescription(assArr.getDescription());
-//                arrV.setSelVal(true);
-//                lstArrmntView.add(arrV);
+            }
+        }
+
+        for (ArrangementView existArr : existArrangements) {
+            if (!idsSelected.contains(existArr.getId())) {
+                existArr.setSelVal(false);
+                existArr.setDescription("");
             }
         }
 

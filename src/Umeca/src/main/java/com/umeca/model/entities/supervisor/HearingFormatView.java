@@ -15,6 +15,8 @@ public class HearingFormatView {
 
     private Long idCase;
 
+    private Boolean isView;
+
     private Long idFormat;
 
     private Boolean canSave;
@@ -682,5 +684,13 @@ public class HearingFormatView {
 
     public void setPreviousHearing(Integer previousHearing) {
         this.previousHearing = previousHearing;
+    }
+
+    public Boolean getIsView() {
+        return isView;
+    }
+
+    public void setIsView(Boolean isView) {
+        this.isView = isView;
     }
 }

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Comparator;
 
 @Entity
-@Table(name="cat_arrangement")
+@Table(name = "cat_arrangement")
 public class Arrangement {
     @Id
     @GeneratedValue
@@ -28,11 +28,17 @@ public class Arrangement {
     @Column(name = "is_obsolete", nullable = false)
     private Boolean isObsolete;
 
+    @Column(name = "is_default", nullable = false)
+    private Boolean isDefault;
+
+    @Column(name = "is_exclusive", nullable = false)
+    private Boolean isExclusive;
+
     @Transient
     public static final Comparator<Arrangement> arrangementComparator = new Comparator<Arrangement>() {
         @Override
         public int compare(Arrangement q1, Arrangement q2) {
-            return  q1.getIndex().compareTo(q2.getIndex());
+            return q1.getIndex().compareTo(q2.getIndex());
         }
     };
 
@@ -82,5 +88,21 @@ public class Arrangement {
 
     public void setIsNational(Boolean isNational) {
         this.isNational = isNational;
+    }
+
+    public Boolean getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public Boolean getIsExclusive() {
+        return isExclusive;
+    }
+
+    public void setIsExclusive(Boolean isExclusive) {
+        this.isExclusive = isExclusive;
     }
 }

@@ -258,6 +258,8 @@ public class HearingFormatController {
 
         HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat, false);
         Gson conv = new Gson();
+
+        hfView.setIsView(true);
         model.addObject("hfView", conv.toJson(hfView));
         model.addObject("returnId", conv.toJson(returnId));
         List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);

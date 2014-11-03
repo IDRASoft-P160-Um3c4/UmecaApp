@@ -13,6 +13,10 @@ public class ArrangementView {
 
     public Boolean selVal;
 
+    public Boolean isDefault;
+
+    public Boolean isExclusive;
+
     public Long getId() {
         return id;
     }
@@ -43,5 +47,21 @@ public class ArrangementView {
 
     public void setSelVal(Boolean selVal) {
         this.selVal = selVal;
+    }
+
+    public Boolean getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public Boolean getIsExclusive() {
+        return isExclusive;
+    }
+
+    public void setIsExclusive(Boolean isExclusive) {
+        this.isExclusive = isExclusive;
     }
 }

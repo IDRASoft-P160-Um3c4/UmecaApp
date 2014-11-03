@@ -309,7 +309,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void arrangement() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "arrangement.txt", "\\|", 6);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "arrangement.txt", "\\|", 8);
         for (String[] data : lstDta) {
             Arrangement model = new Arrangement();
             model.setId(Long.parseLong(data[0]));
@@ -318,6 +318,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setIndex(Integer.parseInt(data[3]));
             model.setIsObsolete(data[4].equals("1"));
             model.setIsNational(data[5].equals("1"));
+            model.setIsDefault(data[6].equals("1"));
+            model.setIsExclusive(data[7].equals("1"));
             repositoryArr.save(model);
         }
         repositoryArr.flush();

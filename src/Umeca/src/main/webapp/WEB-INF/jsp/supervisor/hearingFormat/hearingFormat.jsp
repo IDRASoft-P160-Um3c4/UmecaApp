@@ -1007,7 +1007,7 @@
                                         </div>
 
 
-                                        <div ng-show="m.arrType==2" class="col-xs-6">
+                                        <div ng-show="m.arrType==2" ng-disabled="m.arrType!=2" class="col-xs-6">
                                             <label>Plazo</label>
                                             <br/>
 
@@ -1022,7 +1022,7 @@
                                               data-valmsg-replace="true"></span>
                                         </div>
 
-                                        <div ng-show="m.arrType==1" class="col-xs-6">
+                                        <div ng-show="m.arrType==1" ng-disabled="m.arrType!=1" class="col-xs-6">
                                             <label ng-show="m.arrType==1">Plazo de investigaci&oacute;n</label>
                                             <br/>
                                             <textarea class="form-control limited" name="terms"
@@ -1046,7 +1046,7 @@
 
                                         <div class="row" ng-repeat="arrangment in m.lstArrangementShow">
                                             <div class="checkbox">
-                                                <label ng-click="validateArrangementSel();">
+                                                <label ng-click="validateArrangementSel($index,arrangment.id);">
                                                     <input class="ace" ng-disabled="m.disableAll==true"
                                                            type="checkbox"
                                                            ng-model="m.lstArrangementShow[$index].selVal">

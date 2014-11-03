@@ -295,6 +295,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             $scope.m.crimes = data.crimes;
             $scope.m.additionalData = data.additionalData;
+            $scope.m.isView = data.isView;
 
             //radios
             $scope.m.ctrlDet = data.controlDetention;
@@ -513,13 +514,63 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             }
         };
 
-        $scope.validateArrangementSel = function () {
+        $scope.exclusiveSelected = function (idArr) {
+            for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+                if ($scope.m.lstArrangementShow[i].id != idArr && $scope.m.lstArrangementShow[i].selVal == true && $scope.m.lstArrangementShow[i].isExclusive == true) {
+                    return $scope.m.lstArrangementShow[i].id
+                }
+            }
+
+            return -1;
+        };
+
+        $scope.clearOthers = function (idExclusive) {
+            for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+                if ($scope.m.lstArrangementShow[i].id == idExclusive);
+                else {
+                    $scope.m.lstArrangementShow[i].selVal = false;
+                    $scope.m.lstArrangementShow[i].description = "";
+                }
+            }
+        };
+
+        $scope.selectDefaults = function () {
+            for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+                if ($scope.m.lstArrangementShow[i].isDefault == true) {
+                    $scope.m.lstArrangementShow[i].selVal = true;
+                    $scope.m.lstArrangementShow[i].description = "";
+                }
+            }
+        };
+
+        $scope.validateArrangementSel = function (idx, idArr) {
 
             var noSel = 0;
             var noDesc = 0;
 
+            var idExclusive = -1;
+
             if (!$scope.m.lstArrangementShow || $scope.m.disableAll == true)
                 return;
+
+            if (idArr != undefined)
+                idExclusive = $scope.exclusiveSelected(idArr);
+
+            if (idExclusive > 0) {
+                $scope.clearOthers(idExclusive);
+                $scope.m.errArrmntSel = $sce.trustAsHtml("No puede seleccionar otra medida cautelar. Debe deseleccionar la medida cautelar exclusiva.");
+                return;
+            }
+
+            if (idArr != undefined && idx != undefined)
+                if ($scope.m.lstArrangementShow[idx].isExclusive == true) {
+                    $scope.clearOthers(idArr);
+                }
+
+            if (idArr != undefined && idx != undefined)
+                if ($scope.m.lstArrangementShow[idx].isExclusive == true && $scope.m.lstArrangementShow[idx].selVal == false) {
+                    $scope.selectDefaults();
+                }
 
             for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
 
@@ -620,7 +671,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
 
         $scope.lockArrangements = function () {
-            if ($scope.m.hearingType && $scope.m.hearingType.lock == true) {
+            if ($scope.m.hearingType && $scope.m.hearingType.lock == true || $scope.m.isView == true) {
                 $("#divMedidas :input").attr("disabled", true);
                 $("#divMedidasHidden :input").attr("disabled", false);
             }
