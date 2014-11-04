@@ -1,7 +1,5 @@
 package com.umeca.model.entities.reviewer;
 
-import com.umeca.model.catalog.Election;
-import com.umeca.model.catalog.Relationship;
 import com.umeca.model.entities.shared.Victim;
 
 import javax.persistence.*;
@@ -100,5 +98,13 @@ public class CurrentCriminalProceeding {
 
     public void setCoDefendantList(List<CoDefendant> coDefendantList) {
         this.coDefendantList = coDefendantList;
+    }
+
+    public List<Victim> getVictims() {
+        return victims;
+    }
+
+    public void setVictims(List<Victim> victims) {
+        this.victims = victims;
     }
 }

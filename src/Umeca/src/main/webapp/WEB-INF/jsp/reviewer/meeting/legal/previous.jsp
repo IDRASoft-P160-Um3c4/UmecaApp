@@ -33,7 +33,7 @@
                            data-val-length-max="3" data-val-length-min="1"
                            data-val-required="Procesos abiertos es un campo requerido"
                            ng-init='m.openProcessNumber="${openProcessNumber==null?'':openProcessNumber}";'
-                           data-val-regex-pattern="([0-9]+)"
+                           data-val-regex-pattern="([0-9]+)" ng-change="verifNumber();"
                            data-val-regex="El n&uacute;mero de procesos abiertos s&oacute;lo puede contener n&uacute;meros"
                            type="text" ng-model="m.openProcessNumber" id="openProcessNumber"
                            name="openProcessNumber">
@@ -47,7 +47,7 @@
                            data-val-length-max="3" data-val-length-min="1"
                            ng-init='m.numberConvictions="${numberConvictions==null? '' :numberConvictions }";'
                            data-val-required="Sentencias condenatorias es un campo requerido"
-                           data-val-regex-pattern="([0-9]+)"
+                           data-val-regex-pattern="([0-9]+)"  ng-change="verifNumber();"
                            data-val-regex="El n&uacute;mero de sentencias condenatorias s&oacute;lo puede contener n&uacute;meros"
                            type="text" ng-model="m.numberConvictions" id="numberConvictions"
                            name="numberConvictions">
@@ -59,8 +59,8 @@
             <div class="row">
                 <div class="col-xs-4">
                 </div>
-                <div class="col-xs-4" ng-show = "m.openProcessNumber > 0">
-                    Especif&iacute;que: <br/>
+                <div class="col-xs-4" ng-show = "m.openProcessNumber > 0"> <br/>
+                    Especif&iacute;que n&uacute;mero de procesos abiertos: <br/>
                     <input class="form-control" data-val="true"
                            data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
                            data-val-length-max="255" data-val-length-min="1"
@@ -72,7 +72,7 @@
                           data-valmsg-replace="true"></span>
                 </div>
                 <div class="col-xs-4" ng-show="m.numberConvictions > 0">
-                    Especif&iacute;que: <br/>
+                    Especif&iacute;que n&uacute;mero de sentencias condenatorias: <br/>
                     <input class="form-control" data-val="true"
                            data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
                            data-val-length-max="255" data-val-length-min="1"

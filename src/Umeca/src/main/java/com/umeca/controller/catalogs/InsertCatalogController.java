@@ -232,6 +232,11 @@ public class InsertCatalogController {
         return "hearingType OK!";
     }
 
+    @RequestMapping(value = "/catalogs/crime", method = RequestMethod.GET)
+    public String crime() {
+        service.crime();
+        return "crime OK!";
+    }
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
@@ -270,6 +275,7 @@ public class InsertCatalogController {
         service.responseType();
         service.electionNotApply();
         service.hearingType();
+        service.crime();
         return "insertCatalog OK!!";
     }
 }

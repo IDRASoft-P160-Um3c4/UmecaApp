@@ -13,7 +13,8 @@
         <intercept-url pattern="/index.html" access="permitAll"/>
         <intercept-url pattern="/session/checkout.json" access="permitAll"/>
         <intercept-url pattern="/management/**" access="hasRole('ROLE_ADMIN')"/>
-
+        <intercept-url pattern="/victim/**"
+                       access="hasAnyRole('ROLE_SUPERVISOR','ROLE_REVIEWER','ROLE_EVALUATION_MANAGER','ROLE_SUPERVISOR_MANAGER')"/>
         <intercept-url pattern="/reviewer/technicalReview/generateFile.html"
                        access="hasAnyRole('ROLE_SUPERVISOR','ROLE_REVIEWER')"/>
         <intercept-url pattern="/reviewer/technicalReview/generateFileCase.html"

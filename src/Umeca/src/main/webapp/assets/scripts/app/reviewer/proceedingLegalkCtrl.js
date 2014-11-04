@@ -26,22 +26,6 @@ app.controller('proceedingLegalController', function($scope, $timeout, $sce) {
                 $( this ).attr('disabled','disabled');
             });
         }
-        if($scope.lstRelationship === undefined || $scope.lstRelationship.length <= 0)
-            return;
-
-        if($scope.m.relId === undefined){
-            $scope.m.rel = $scope.lstRelationship[0];
-            $scope.m.relId = $scope.m.rel.id;
-        }else{
-            for (var i = 0; i < $scope.lstRelationship.length; i++) {
-                var rel = $scope.lstRelationship[i];
-
-                if (rel.id === $scope.m.relId) {
-                    $scope.m.rel = rel;
-                    break;
-                }
-            }
-        }
         if($scope.listElection === undefined || $scope.listElection.length <= 0)
             return;
 
@@ -85,6 +69,19 @@ app.controller('proceedingLegalController', function($scope, $timeout, $sce) {
 
     };
 
+    $scope.verifNumber = function (){
+      if($scope.m.openProcessNumber == 0 && $scope.m.numberConvictions == 0){
+          for(var i=0; i<$scope.listElection.length; i++){
+              var n = $scope.listElection[i];
+              if(n.name =="No aplica"){
+                  $scope.m.complyProcessAbove = n;
+                  $scope.m.complyProcessAboveId = n.id;
+                  $scope.m.complyCSPP = n;
+                  $scope.m.complyCSPPId = n.id;
+              }
+          }
+      }
+    };
 
     $timeout(function() {
         $scope.init();

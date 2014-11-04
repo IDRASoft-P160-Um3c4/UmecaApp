@@ -1,246 +1,147 @@
+
 package com.umeca.service.shared;
 
+import com.google.gson.Gson;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.catalog.StatusCase;
-import com.umeca.model.catalog.StatusMeeting;
-import com.umeca.model.entities.account.User;
+import com.umeca.model.dto.victim.VictimDto;
+import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.Imputed;
-import com.umeca.model.entities.reviewer.Meeting;
-import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
-import com.umeca.model.shared.Constants;
-import com.umeca.model.shared.MonitoringConstants;
+import com.umeca.model.entities.reviewer.CurrentCriminalProceeding;
+import com.umeca.model.entities.shared.Victim;
 import com.umeca.repository.CaseRepository;
-import com.umeca.repository.StatusCaseRepository;
-import com.umeca.repository.catalog.StatusMeetingRepository;
-import com.umeca.repository.reviewer.ImputedRepository;
-import com.umeca.repository.supervisor.FolderConditionalReprieveRepository;
-import com.umeca.repository.supervisor.HearingFormatRepository;
-import com.umeca.repository.supervisorManager.LogCommentRepository;
+import com.umeca.repository.catalog.LocationRepository;
+import com.umeca.repository.catalog.RelationshipRepository;
+import com.umeca.repository.reviewer.AddressRepository;
+import com.umeca.repository.reviewer.CurrentCriminalProceedingRepository;
+import com.umeca.repository.shared.VictimRepository;
 import com.umeca.service.account.SharedUserService;
-import com.umeca.service.reviewer.CaseService;
+import com.umeca.service.catalog.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Vmware on 06/06/2014.
  */
 
 @Service("victimService")
-public class VictimServiceImpl implements CaseService {
+public class VictimServiceImpl implements VictimService {
 
     @Autowired
-    ImputedRepository imputedRepository;
-
+    RelationshipRepository relationshipRepository;
     @Autowired
-    StatusMeetingRepository statusMeetingRepository;
-
+    VictimRepository victimRepository;
+    @Autowired
+    AddressService addressService;
     @Autowired
     CaseRepository caseRepository;
-
     @Autowired
-    StatusCaseRepository statusCaseRepository;
-    private Long idCase;
-    private String statusCase;
-
+    AddressRepository addressRepository;
     @Autowired
-    FolderConditionalReprieveRepository folderConditionalReprieveRepository;
-
+    LocationRepository locationRepository;
     @Autowired
     SharedLogExceptionService logException;
+    @Autowired
+    SharedUserService userService;
+
+    @Override
+    public ModelAndView upsertVictim(Long id, Long idCase) {
+        ModelAndView model = new ModelAndView("/victim/upsert");
+        try{
+        Gson gson = new Gson();
+        model.addObject("lstRelationship", gson.toJson(relationshipRepository.findNotObsolete()));
+        model.addObject("idCase", idCase);
+        addressService.fillCatalogAddress(model);
+        if(id!=null && id > 0){
+            Victim victim = victimRepository.findOne(id);
+            model.addObject("victim",gson.toJson(new VictimDto().dtoVictim(victim)));
+            if(victim.getAddress()!=null){
+                addressService.fillModelAddress(model,victim.getAddress().getId());
+            }
+        }
+        }catch (Exception e){
+            logException.Write(e, this.getClass(), "upsertVictim", userService);
+        }finally {
+            return model;
+        }
+    }
 
     @Autowired
-    SharedUserService sharedUserService;
+    CurrentCriminalProceedingRepository currentCriminalProceedingRepository;
 
-
-    @Override
-    public Case generateNewCase(Imputed imputed, Integer type) {
-
-        Case caseDet = new Case();
-
-        if (imputedRepository.findImputedRegister(imputed.getName(), imputed.getLastNameP(), imputed.getLastNameM(), imputed.getBirthDate()).size() > 0)
-            caseDet.setRecidivist(true);
-        else
-            caseDet.setRecidivist(false);
-
-        Meeting meeting = new Meeting();
-        StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
-        meeting.setStatus(statusMeeting);
-        meeting.setDateCreate(new Date());
-        imputed.setMeeting(meeting);
-
-        imputed.setFoneticString(imputed.getName().trim().toLowerCase() + imputed.getLastNameP().trim().toLowerCase() + imputed.getLastNameM().trim().toLowerCase());
-
-        meeting.setImputed(imputed);
-        meeting.setCaseDetention(caseDet);
-        meeting.setMeetingType(type);
-        caseDet.setMeeting(meeting);
-        caseDet.setDateCreate(new Date());
-        return caseDet;
-    }
-
-    @Override
     @Transactional
-    public Case save(Case caseDet) {
-
-        try {
-            caseDet = caseRepository.save(caseDet);
-            caseRepository.flush();
-        } catch (Exception e) {
-            logException.Write(e, this.getClass(), "save", sharedUserService);
-            System.out.println("Error al guardar el caso!!");
-            System.out.println(e.getMessage());
-        }
-
-        return caseDet;
-    }
-
     @Override
-    @Transactional
-    public ResponseMessage saveConditionaReprieveCase(Case caseDet) {
+    public ResponseMessage doUpsertVictim(Victim victim, Long idCase, String type) {
+        try{
+            Victim sVictim;
 
-        ResponseMessage resp = new ResponseMessage();
-
-        try {
-            //FolderConditionalReprieve folderObj = new FolderConditionalReprieve();
-
-            //folderObj = folderConditionalReprieveRepository.save(folderObj);
-
-            //StringBuilder sb = new StringBuilder();
-
-            //sb.append(HearingFormatConstants.FOLDER_CONDITIONAL_REPRIEVE_PREFIX);
-            //sb.append(folderObj.getId());
-
-            //caseDet.setIdFolder(sb.toString());
-            //caseDet.setFolderConditionalReprieve(folderObj);
-            //folderObj.setCaseDetention(caseDet);
-
-            caseDet.setIdFolder("SIN EVALUACI�N REGISTRADA");
-            caseRepository.save(caseDet);
-
-            resp.setHasError(false);
-            resp.setMessage("Se ha guardado el caso con exito.");
-
-        } catch (Exception e) {
-            logException.Write(e, this.getClass(), "saveConditionaReprieveCase", sharedUserService);
-            resp.setHasError(true);
-            resp.setMessage("Ha ocurrido un error en el servidor, intente mas tarde");
-        }
-
-        return resp;
-    }
-
-    @Override
-    public Boolean validateStatus(Long idCase, String statusCase) {
-        return validateStatus(idCase, statusCase, Case.class, "");
-    }
-
-
-    @Override
-    public Boolean validateStatus(Long idCase, String statusCase, Class entityClass, String statusEntity) {
-        Case c = caseRepository.findOne(idCase);
-        if (c == null) {
-            return false;
-        }
-        if (!c.getStatus().getName().equals(statusCase)) {
-            return false;
-        }
-        if (entityClass == null && statusEntity == null) {
-            return true;
-        } else {
-            Field[] fields = c.getClass().getDeclaredFields();
-            String entityName = "";
-            for (Field field : fields) {
-                if (entityClass == field.getType()) {
-                    entityName = field.getName();
-                    break;
-                }
+            if(victim.getId()!= null){
+                sVictim = victimRepository.findOne(victim.getId());
+            }else{
+                sVictim = new Victim();
+                sVictim.setAddress(new Address());
             }
-            try {
-                for (PropertyDescriptor pd : Introspector.getBeanInfo(Case.class).getPropertyDescriptors()) {
-                    if (pd.getReadMethod() != null && pd.getName().equals(entityName)) {
-                        Object entity = pd.getReadMethod().invoke(c);
-                        for (PropertyDescriptor pdEntity : Introspector.getBeanInfo(entity.getClass()).getPropertyDescriptors()) {
-                            if (pdEntity.getReadMethod() != null && pdEntity.getName().equals("status")) {
-                                Object status = pdEntity.getReadMethod().invoke(entity);
-                                for (PropertyDescriptor pdStatus : Introspector.getBeanInfo(status.getClass()).getPropertyDescriptors()) {
-                                    if (pdStatus.getReadMethod() != null && pdStatus.getName().equals("name")) {
-                                        String statusCode = (String) pdStatus.getReadMethod().invoke(status);
-                                        if (statusCode.equals(statusEntity)) {
-                                            return true;
-                                        }
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                        break;
+            sVictim.setFullname(victim.getFullname());
+            sVictim.setAge(victim.getAge());
+            sVictim.setPhone(victim.getPhone());
+
+            sVictim.getAddress().setStreet(victim.getAddress().getStreet());
+            sVictim.getAddress().setInnNum(victim.getAddress().getInnNum());
+            sVictim.getAddress().setOutNum(victim.getAddress().getOutNum());
+            sVictim.setSpecification(victim.getSpecification());
+            sVictim.getAddress().setLocation(locationRepository.findOne(victim.getAddress().getLocation().getId()));
+            sVictim.getAddress().setLng(victim.getAddress().getLng());
+            sVictim.getAddress().setLat(victim.getAddress().getLat());
+            sVictim.getAddress().setAddressString(sVictim.getAddress().toString());
+            sVictim.setAddress(addressRepository.save(sVictim.getAddress()));
+            if(victim.getRelationship()!=null){
+                sVictim.setRelationship(relationshipRepository.findOne(victim.getRelationship().getId()));
+            }
+            if(type==null){
+                CurrentCriminalProceeding ccp = currentCriminalProceedingRepository.findByIdCase(idCase);
+                if(ccp==null){
+                    Case c = caseRepository.findOne(idCase);
+                    ccp = new CurrentCriminalProceeding();
+                    c.getMeeting().setCurrentCriminalProceeding(ccp);
+                    ccp.setMeeting(c.getMeeting());
+                    ccp.setVictims(new ArrayList<Victim>());
+                    sVictim.setCriminalProceeding(ccp);
+                    ccp.getVictims().add(sVictim);
+                    caseRepository.save(c);
+                }else{
+                    if(ccp.getVictims()==null){
+                        ccp.setVictims(new ArrayList<Victim>());
                     }
+                    sVictim.setCriminalProceeding(ccp);
+                    ccp.getVictims().add(sVictim);
+                    victimRepository.save(sVictim);
+                    System.out.println("despues de guardar");
                 }
-            } catch (IllegalAccessException e) {
-                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                logException.Write(e, this.getClass(), "validateStatus", sharedUserService);
-            } catch (IntrospectionException e) {
-                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                logException.Write(e, this.getClass(), "validateStatus", sharedUserService);
-            } catch (InvocationTargetException e) {
-                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                logException.Write(e, this.getClass(), "validateStatus", sharedUserService);
             }
-            return false;
+            return new ResponseMessage(false, "se ha actualizado con exito");
+        }catch (Exception e){
+            logException.Write(e, this.getClass(), "doUpsertVictim", userService);
+            return new ResponseMessage(true, "Ha ocurrdio un error al actualizar");
         }
     }
 
-    @Override
-    public List<Case> findByIdFolder(String idFolder) {
-        return caseRepository.findByIdFolder(idFolder);
-    }
-
-    @Autowired
-    LogCommentRepository logCommentRepository;
-
-    @Autowired
-    HearingFormatRepository hearingFormatRepository;
-
-    @Override
     @Transactional
-    public void saveAuthRejectCloseCase(AuthorizeRejectMonPlan model, User user, Case caseDet) {
-        String statusAction;
-        StatusCase statusCase;
-
-        if (model.getAuthorized() == 1) {
-            statusAction = MonitoringConstants.STATUS_AUTHORIZED;
-            statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
-        } else {
-            statusAction = MonitoringConstants.STATUS_REJECTED_AUTHORIZED;
-            statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
-        }
-
-        List<Long> lstUserIds = hearingFormatRepository.findLastSupervisorIdByCaseId(caseDet.getId(), new PageRequest(0, 1));
-        User supervisor = new User();
-        supervisor.setId(lstUserIds.get(0));
-
-        caseDet.setStatus(statusCase);
-        SharedLogCommentService.generateLogComment(model.getComments(), user, caseDet, statusAction, supervisor,
-                MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
-        caseRepository.save(caseDet);
-    }
-
-
     @Override
-    public boolean isValidCase(Long caseId) {
-        return caseRepository.existsCaseNotClosed(caseId, Constants.CASE_STATUS_CLOSED) == 1;
+    public ResponseMessage deleteVictim(Long id) {
+        try{
+            Victim v = victimRepository.findOne(id);
+            v.setCriminalProceeding(null);
+            Address a= v.getAddress();
+            v.setAddress(null);
+            victimRepository.delete(v);
+            addressRepository.delete(a.getId());
+            return  new ResponseMessage(false, "Se ah eliminado correctamente");
+        }catch (Exception e){
+            logException.Write(e, this.getClass(), "deleteVictim", userService);
+            return  new ResponseMessage(true,"Ha ocurrido un error al eliminar", "Error al eliminar");
+        }
     }
-
 }

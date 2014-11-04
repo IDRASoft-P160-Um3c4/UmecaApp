@@ -27,6 +27,7 @@ import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.MessageRepository;
+import com.umeca.repository.shared.VictimRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
@@ -1291,7 +1292,8 @@ public class MeetingServiceImpl implements MeetingService {
         }
     }
 
-
+    @Autowired
+    VictimRepository victimRepository;
 
     public List<String> validateProceedingLegal(CriminalProceedingView cpv, TerminateMeetingMessageDto v) {
         List<String> current = new ArrayList<>(), previous = new ArrayList<>();
@@ -1305,7 +1307,7 @@ public class MeetingServiceImpl implements MeetingService {
             current.add(sharedUserService.convertToValidString(v.template.replace(e,"El lugar de detenci&oacute;n")));
         if (cpv.getBehaviorDetention().trim().equals(""))
             current.add(sharedUserService.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
-        if (cpv.getNameVictim().trim().equals(""))
+        if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()) == 0)
             current.add(sharedUserService.convertToValidString(v.template.replace(e, "Debe agregar al menos una v&iactue;ctima")));
         if (cpv.getFirstProceeding().trim().equals(""))
             previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El primer caso ")));
@@ -1313,7 +1315,6 @@ public class MeetingServiceImpl implements MeetingService {
             previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El n&uacute;mero de procesos abiertos")));
         if (cpv.getNumberConvictions() == null)
             previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El n&uacute;mero de sentencias condenatorias")));
-        current.addAll(addressService.validateAddress(cpv.getDomicileVictim()));
         v.getGroupMessage().add(new GroupMessageMeetingDto("legalActual", current));
         v.getGroupMessage().add(new GroupMessageMeetingDto("legalPrevious", previous));
         return messageError;

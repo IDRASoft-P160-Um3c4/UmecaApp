@@ -3,7 +3,6 @@ package com.umeca.model.entities.shared;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.CurrentCriminalProceeding;
-import com.umeca.model.entities.reviewer.Job;
 
 import javax.persistence.*;
 
@@ -15,6 +14,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
+@Table(name = "victim")
 public class Victim {
 
     @Id
@@ -23,15 +23,18 @@ public class Victim {
     private Long id;
 
     @Column(name = "name_victim", nullable = false)
-    private String nameVictim;
+    private String fullname;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="id_relationship_victim", nullable = false)
-    private Relationship relationshipVictim;
+    @JoinColumn(name="id_relationship", nullable = false)
+    private Relationship relationship;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_domicile_victim", nullable = false)
-    private Address domicileVictim;
+    @JoinColumn(name="id_address", nullable = false)
+    private Address address;
+
+    @Column(name="specification", nullable = true, length = 255)
+    private String specification;
 
     @OneToOne(fetch=FetchType.LAZY, cascade ={CascadeType.ALL})
     @JoinColumn(name="id_legal", nullable = true)
@@ -51,28 +54,28 @@ public class Victim {
         this.id = id;
     }
 
-    public String getNameVictim() {
-        return nameVictim;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setNameVictim(String nameVictim) {
-        this.nameVictim = nameVictim;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public Relationship getRelationshipVictim() {
-        return relationshipVictim;
+    public Relationship getRelationship() {
+        return relationship;
     }
 
-    public void setRelationshipVictim(Relationship relationshipVictim) {
-        this.relationshipVictim = relationshipVictim;
+    public void setRelationship(Relationship relationship) {
+        this.relationship = relationship;
     }
 
-    public Address getDomicileVictim() {
-        return domicileVictim;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setDomicileVictim(Address domicileVictim) {
-        this.domicileVictim = domicileVictim;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public CurrentCriminalProceeding getCriminalProceeding() {
@@ -97,5 +100,13 @@ public class Victim {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 }
