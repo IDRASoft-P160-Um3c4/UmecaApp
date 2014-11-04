@@ -223,8 +223,8 @@ public class ExcelConv {
                 if (crimesString != "")
                     crimesString += "\n";
 
-                crimesString += "-" + act.getName();
-                crimesString += ", Art?culo: " + act.getArticle();
+                crimesString += "-" + act.getCrime().getName();
+                crimesString += ", Art&iacute;culo: " + act.getArticle();
                 crimesString += ", Delito federal: " + act.getFederal().getName();
             }
 

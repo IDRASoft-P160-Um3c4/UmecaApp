@@ -11,7 +11,10 @@ import com.umeca.model.catalog.dto.ElectionDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
-import com.umeca.model.entities.reviewer.dto.*;
+import com.umeca.model.entities.reviewer.dto.CoDefendantDto;
+import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
+import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
+import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.entities.shared.Message;
 import com.umeca.model.entities.shared.RelMessageUserReceiver;
 import com.umeca.model.shared.ConsMessage;
@@ -27,6 +30,7 @@ import com.umeca.repository.shared.MessageRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
+import com.umeca.service.shared.CrimeService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -263,6 +267,8 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Autowired
     ElectionNotApplyRepository electionNotApplyRepository;
+    @Autowired
+    CrimeService crimeService;
 
     @Override
     public ModelAndView showLegalProcess(Long id, Integer showCase) {
@@ -305,16 +311,11 @@ public class MeetingServiceImpl implements MeetingService {
         model.addObject("listRelationship", gson.toJson(catalogDtoList));
         String listLegalBefore =  findLegalBefore(id, c.getMeeting().getImputed().getName(), c.getMeeting().getImputed().getLastNameP(), c.getMeeting().getImputed().getLastNameM());
         model.addObject("listLegalBefore",listLegalBefore);
+        crimeService.fillCatalogModel(model);
+        crimeService.getListCrimeLegalByCase(id, model);
         CurrentCriminalProceeding ccp = c.getMeeting().getCurrentCriminalProceeding();
         if (ccp != null) {
-            List<Crime> listCrime = ccp.getCrimeList();
-            List<CrimeDto> listCrimeDto = new ArrayList<>();
-            if (listCrime != null) {
-                for (Crime crime : listCrime) {
-                    listCrimeDto.add(new CrimeDto().dtoCrime(crime));
-                }
-                model.addObject("listCrime", gson.toJson(listCrimeDto));
-            }
+
             List<CoDefendant> listCoDefendant = ccp.getCoDefendantList();
             Boolean haveCoDependant= false;
             if (listCoDefendant != null) {
@@ -1207,7 +1208,7 @@ public class MeetingServiceImpl implements MeetingService {
             if (validate.existsMessageProperties()) {
                 Gson gson = new Gson();
                 List<String> listGeneral = new ArrayList<>();
-                listGeneral.add(sharedUserService.convertToValidString("No se puede guardar la información legal puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección"));
+                listGeneral.add(sharedUserService.convertToValidString("No se puede guardar la informaci&oacute;n legal puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
                 result.setHasError(true);
                 validate.formatMessages(sharedUserService);
@@ -1301,17 +1302,17 @@ public class MeetingServiceImpl implements MeetingService {
         if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
             current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
         if (cpv.getPlaceDetention().trim().equals(""))
-            current.add(sharedUserService.convertToValidString(v.template.replace(e,"El lugar de detención")));
+            current.add(sharedUserService.convertToValidString(v.template.replace(e,"El lugar de detenci&oacute;n")));
         if (cpv.getBehaviorDetention().trim().equals(""))
-            current.add(sharedUserService.convertToValidString(v.template.replace(e, "El comportamiento durante la detención")));
+            current.add(sharedUserService.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
         if (cpv.getNameVictim().trim().equals(""))
-            current.add(sharedUserService.convertToValidString(v.template.replace(e, "El nombre completo de la víctima")));
+            current.add(sharedUserService.convertToValidString(v.template.replace(e, "Debe agregar al menos una v&iactue;ctima")));
         if (cpv.getFirstProceeding().trim().equals(""))
             previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El primer caso ")));
         if (cpv.getOpenProcessNumber() == null)
-            previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El número de procesos abiertos")));
+            previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El n&uacute;mero de procesos abiertos")));
         if (cpv.getNumberConvictions() == null)
-            previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El número de sentencias condenatorias")));
+            previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El n&uacute;mero de sentencias condenatorias")));
         current.addAll(addressService.validateAddress(cpv.getDomicileVictim()));
         v.getGroupMessage().add(new GroupMessageMeetingDto("legalActual", current));
         v.getGroupMessage().add(new GroupMessageMeetingDto("legalPrevious", previous));

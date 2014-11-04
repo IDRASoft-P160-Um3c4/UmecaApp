@@ -705,27 +705,32 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         electionNotApplyRepository.flush();
     }
 
+    @Autowired
+    GroupCrimeRepository groupCrimeRepository;
+
+    @Autowired
+    CrimeCatalogRepository crimeCatalogRepository;
 
     @Override
     public void crime() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "academic_level.txt", "\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "group_crime.txt", "\\|", 3);
         for (String[] data : lstDta) {
-            AcademicLevel model = new AcademicLevel();
+            GroupCrime model = new GroupCrime();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            model.setObsolete(data[2].equals("1"));
-            academicLevelRepository.save(model);
+            model.setDescription(data[2]);
+            groupCrimeRepository.save(model);
         }
-        List<String[]> lstDtaGrade = ReaderFile.readFile(PATH + "degree.txt", "\\|", 4);
-        for (String[] data : lstDtaGrade) {
-            Degree model = new Degree();
+        List<String[]> lstDtaCrime = ReaderFile.readFile(PATH + "crime.txt", "\\|", 5);
+        for (String[] data : lstDtaCrime) {
+            CrimeCatalog model = new CrimeCatalog();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
-            model.setAcademicLevel(academicLevelRepository.findOne(Long.parseLong(data[2])));
+            model.setDescription(data[2]);
             model.setObsolete(data[3].equals("1"));
-            degreeRepository.save(model);
+            model.setGroupCrime(groupCrimeRepository.findOne(Long.parseLong(data[4])));
+            crimeCatalogRepository.save(model);
         }
-        academicLevelRepository.flush();
     }
 
     @Autowired

@@ -255,11 +255,12 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds)")
     List<ExcelDrugDto> getInfoDrugs(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelCrimeDto(CDET.id,CRM.name,FED.name,CRM.article) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelCrimeDto(CDET.id,CC.name,FED.name,CRM.article) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
             "left join MEET.currentCriminalProceeding CCP " +
             "left join CCP.crimeList CRM " +
+            "left join CRM.crime as CC " +
             "left join CRM.federal FED " +
             "where CDET.id in (:casesIds)")
     List<ExcelCrimeDto> getInfoCrimes(@Param("casesIds") List<Long> lstCasesIds);

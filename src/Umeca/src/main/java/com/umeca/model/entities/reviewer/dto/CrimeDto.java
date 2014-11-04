@@ -1,21 +1,19 @@
 package com.umeca.model.entities.reviewer.dto;
 
-import com.umeca.model.catalog.Election;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.entities.reviewer.Crime;
-import com.umeca.model.entities.reviewer.CurrentCriminalProceeding;
-
-import javax.persistence.*;
 
 public class CrimeDto {
 
-    private String name;
+    private String comment;
     private String article;
+    private CatalogDto crime;
     private CatalogDto federal;
 
 
     public CrimeDto dtoCrime(Crime crime){
-        name = crime.getName();
+        this.comment = crime.getComment();
+        this.crime =new CatalogDto(crime.getCrime().getId(), crime.getCrime().getName());
         article = crime.getArticle();
         CatalogDto aux =new CatalogDto();
         aux.setName(crime.getFederal().getName());
@@ -24,12 +22,20 @@ public class CrimeDto {
         return this;
     }
 
-    public String getName() {
-        return name;
+    public String getComment() {
+        return comment;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public CatalogDto getCrime() {
+        return crime;
+    }
+
+    public void setCrime(CatalogDto crime) {
+        this.crime = crime;
     }
 
     public String getArticle() {
