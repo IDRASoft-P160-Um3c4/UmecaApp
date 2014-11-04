@@ -3,9 +3,11 @@ app.controller('crimeController', function ($scope, $timeout) {
     $scope.listElection = [];
     $scope.c.federal = 0;
     $scope.listCrime = [];
+    $scope.optionsCrime = [];
 
 
     $scope.init = function () {
+        $(".chosen-select").chosen();
         if ($scope.listCrime == undefined) {
             $scope.listCrime = [];
         }
@@ -15,6 +17,9 @@ app.controller('crimeController', function ($scope, $timeout) {
         if ($scope.c.federalId === undefined) {
             $scope.c.federal = $scope.listElection[0];
             $scope.c.federalId = $scope.c.federal.id;
+        }
+        if($scope.optionsCrime.length>0){
+            $scope.c.crime =$scope.optionsCrime[0];
         }
         $scope.cleanArray();
     };
@@ -26,21 +31,16 @@ app.controller('crimeController', function ($scope, $timeout) {
 
     $scope.validateCrime = function(){
         $scope.listMsgError = [];
-        var valid = true;
-        if ($scope.c.name == undefined || $scope.c.article == undefined || $scope.c.name == "" || $scope.c.article == "") {
-            $scope.listMsgError.push("Para agregar un delito debe ingresar un nombre y un artículo.");
-            return false;
-        }
-        var strName= $scope.c.name+"";
-        if (strName.length > 200 || strName.length < 5){
-            $scope.listMsgError.push("La longitud del delito debe ser entre 5 y 200 caracteres");
-            valid = false;
-        }
+        valid = true;
         var strArticle = $scope.c.article+"";
         if (strArticle.length > 100 || strArticle.length < 1){
                 $scope.listMsgError.push("La longitud del artículo debe ser entre 1 y 100 caracteres");
                 valid = false;
             }
+        if ($scope.c.comment!=undefined && $scope.c.comment.length > 255 ){
+            $scope.listMsgError.push("La longitud del comentario debe ser entre 1 y 255 caracteres");
+            valid = false;
+        }
         return valid;
     }
     $scope.addCrime = function () {
@@ -50,14 +50,17 @@ app.controller('crimeController', function ($scope, $timeout) {
 
         var a = {};
         a.federal = {};
+        a.crime=  {};
+        a.crime=$scope.c.crime;
+        a.comment = $scope.c.comment;
         a.federal.id = $scope.c.federal.id;
         a.federal.name = $scope.c.federal.name;
-        a.name = $scope.c.name;
         a.article = $scope.c.article;
         $scope.listCrime.push(a);
         $scope.c.federal = $scope.listElection[0];
-        $scope.c.name = undefined;
+        $scope.c.comment = undefined;
         $scope.c.article = undefined;
+        $scope.c.crime = $scope.optionsCrime[0];
         $scope.cleanArray();
 
     };

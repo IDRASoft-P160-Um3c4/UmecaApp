@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.CrimeCatalog;
 import com.umeca.model.catalog.Election;
 
 import javax.persistence.*;
@@ -20,11 +21,15 @@ public class Crime {
     @Column(name="id_crime")
     private Long id;
 
-    @Column(name="nombre", nullable = false, length = 200)
-    private String name;
+    @Column(name="comment", nullable = true, length = 200)
+    private String comment;
 
     @Column(name="article", nullable = false, length = 100)
     private String article;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_crime_cat", nullable = false)
+    private CrimeCatalog crime;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_federal", nullable = false)
@@ -46,12 +51,20 @@ public class Crime {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getComment() {
+        return comment;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public CrimeCatalog getCrime() {
+        return crime;
+    }
+
+    public void setCrime(CrimeCatalog crime) {
+        this.crime = crime;
     }
 
     public String getArticle() {

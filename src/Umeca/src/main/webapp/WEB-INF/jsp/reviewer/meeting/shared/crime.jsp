@@ -1,4 +1,11 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/crimeCtrl.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/chosen.min.css"/>
+<script src="${pageContext.request.contextPath}/assets/scripts/umeca/chosen.jquery.min.js"></script>
+<style>
+    .chosen-container-single .chosen-search:after {
+        content: "" !important;
+    }
+</style>
 <div class="row element-center" ng-controller="crimeController">
     <div class="row element-left">
         <b>Delitos:</b>
@@ -10,9 +17,12 @@
         <div class="row"  ng-show="managereval == false">
     <div class="col-xs-5 element-center">
        Delito<br/><br/>
-        <input type="text" class="form-control" ng-model="c.name"/>
+        <select class="width-95 element-center chosen-select" ng-model="c.crime"
+                ng-options="e.name for e in optionsCrime"
+                ng-change="c.crimeId = c.crime.id"
+                ng-init='optionsCrime = ${optionsCrime};'></select>
     </div>
-    <div class="col-xs-4 element-center">
+    <div class="col-xs-1 element-center">
        Art&iacute;culo<br/><br/>
             <input type="text" class="form-control" ng-model="c.article"/>
     </div>
@@ -23,6 +33,10 @@
                 ng-change="c.federalId = c.federal.id"
                 ng-init='listElection = ${listElection};'></select>
     </div>
+     <div class="col-xs-3">
+         Observaciones<br/><br/>
+        <textarea class="width-100" ng-model="c.comment"></textarea>
+     </div>
     <div class="col-xs-1 element-center">
         Acciones<br/><br/><div class="space-5"></div>
         <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addCrime()"></i>
@@ -37,13 +51,13 @@
                 <br/>
             </div>
         </div>
-        <div class="col-xs-10 col-xs-offset-1" ng-show ="listCrime.length > 0">
+        <div class="col-xs-12" ng-show ="listCrime.length > 0">
          <div class="row center">
              <div class="col-xs-5">
                  <h5 class="smaller lighter blue">Delito</h5>
                  <div class="hr hr-2"></div>
              </div>
-             <div class="col-xs-2">
+             <div class="col-xs-1">
                  <h5 class="smaller lighter blue">Art&iacute;culo</h5>
                  <div class="hr hr-2"></div>
              </div>
@@ -52,21 +66,28 @@
                  <div class="hr hr-2"></div>
              </div>
              <div class="col-xs-3">
+                 <h5 class="smaller lighter blue">Observaciones</h5>
+                 <div class="hr hr-2"></div>
+             </div>
+             <div class="col-xs-1">
                  <h5 class="smaller lighter blue">Acciones</h5>
                  <div class="hr hr-2"></div>
              </div>
          </div>
             <div class="row center" ng-repeat ="crime in listCrime">
                 <div class="col-xs-5">
-                    {{crime.name}}
+                    {{crime.crime.name}}
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-1">
                      {{crime.article}}
                 </div>
                 <div class="col-xs-2">
                     {{crime.federal.name}}
                 </div>
-                <div class="col-xs-3" ng-show="managereval == false">
+                <div class="col-xs-3">
+                    {{crime.comment}}
+                </div>
+                <div class="col-xs-1" ng-show="managereval == false">
                     <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteCrime($index)"></i>
                 </div>
             </div>
