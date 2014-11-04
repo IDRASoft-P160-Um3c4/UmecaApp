@@ -2,8 +2,8 @@ app.controller('framingActivitiesController', function ($scope, $timeout, $http)
 
     $scope.act = {};
 
-    $scope.actErrorMsg ="";
-    $scope.actSuccessMsg="";
+    $scope.actErrorMsg = "";
+    $scope.actSuccessMsg = "";
     $scope.specification = {};
     $scope.lstActivity = [];
     $scope.activityModel = [];
@@ -49,9 +49,9 @@ app.controller('framingActivitiesController', function ($scope, $timeout, $http)
             }
             $scope.relActivities.push(model);
         }
-        if($scope.relActivities.length==0){
+        if ($scope.relActivities.length == 0) {
             $scope.activities = "";
-        }else{
+        } else {
             $scope.activities = JSON.stringify($scope.relActivities);
         }
         return true;
@@ -91,10 +91,11 @@ app.controller('framingActivitiesController', function ($scope, $timeout, $http)
 
 
     $scope.fillActivities = function (data) {
-        $scope.act.occName=data.occName;
-        $scope.act.occPlace=data.occPlace;
-        $scope.act.occPhone=data.occPhone;
-        $scope.act.activities=data.activities;
+        $scope.act.occName = data.occName;
+        $scope.act.occPlace = data.occPlace;
+        $scope.act.occPhone = data.occPhone;
+        $scope.act.activities = data.activities;
+        $scope.act.activitiesComments = data.activitiesComments;
     };
 
 
@@ -109,8 +110,8 @@ app.controller('framingActivitiesController', function ($scope, $timeout, $http)
         $scope.WaitFor = true;
 
         var url = urlToPost + id;
-        $scope.actSuccessMsg="";
-        $scope.actErrorMsg="";
+        $scope.actSuccessMsg = "";
+        $scope.actErrorMsg = "";
         $.post(url, $(formId).serialize())
             .success($scope.handleSuccess)
             .error($scope.handleError);

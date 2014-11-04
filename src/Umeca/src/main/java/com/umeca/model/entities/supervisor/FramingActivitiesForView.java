@@ -6,6 +6,7 @@ public class FramingActivitiesForView {
     private String occPlace;
     private String occPhone;
     private String activities;
+    private String activitiesComments;
 
     public String getOccName() {
         return occName;
@@ -37,5 +38,13 @@ public class FramingActivitiesForView {
 
     public void setActivities(String activities) {
         this.activities = activities;
+    }
+
+    public String getActivitiesComments() {
+        return activitiesComments;
+    }
+
+    public void setActivitiesComments(String activitiesComments) {
+        this.activitiesComments = activitiesComments;
     }
 }

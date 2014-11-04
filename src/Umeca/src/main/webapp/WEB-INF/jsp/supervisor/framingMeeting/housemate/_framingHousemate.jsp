@@ -24,14 +24,14 @@
             url: urlGridHousemate,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre', 'Edad', 'Parentesco', 'Ocupaci&oacute;n','Acompa&ntilde;ar&aacute<br/>en el proceso', 'Acci&oacute;n'],
+            colNames: ['ID', 'Nombre', 'Edad', 'Parentesco', 'Ocupaci&oacute;n', 'Acompa&ntilde;ar&aacute<br/>en el proceso', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'age', index: 'age', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'relationshipName', index: 'relationshipName', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'occupation', index: 'occupation', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 100, align: "center", search:false },
+                { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 100, align: "center", search: false },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
@@ -90,6 +90,17 @@
     <input type="hidden" id="canTerminateHousemate" value="{{fm.objView.canTerminate}}"/>
 
     <div class="col-xs-12">
+        <div ng-show="housemateSuccessMsg&&housemateSuccessMsg!=''"
+             class="col-xs-12 alert alert-success element-center success-font" ng-bind-html="housemateSuccessMsg">
+        </div>
+        <div ng-show="housemateErrorMsg&&housemateErrorMsg!=''" class="alert alert-danger element-center error-font"
+             ng-bind-html="housemateErrorMsg">
+        </div>
+    </div>
+    <br/>
+    <br/>
+
+    <div class="col-xs-12">
         <h2><i class="blue icon-group bigger-100">&nbsp;</i>Personas con las que vive el imputado</h2>
         <br/>
 
@@ -99,6 +110,38 @@
             <div class="blocker" ng-show="working">
                 <div>
                     Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+
+        <div class="element-left">
+            <form id="FormCommentHousemate" class="form-horizontal" role="form">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <div class="col-xs-8">
+                        <label for="housemateComments">Observaciones</label>
+                        <br/>
+                        <textarea ng-model="fm.objView.housemateComments"
+                                  id="housemateComments"
+                                  name="housemateComments"
+                                  type="text" class="input-xxlarge"
+                                  data-val="true"
+                                  data-val-required="Observaciones es un campo requerido">
+                        </textarea>
+                        <br/>
+            <span class="field-validation-valid" data-valmsg-for="housemateComments"
+                  data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+            </form>
+            <div class="col-xs-12">
+                <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="submitComments('#FormCommentHousemate', '<c:url value="/supervisor/framingMeeting/upsertHousemateComments.json?idCase="/>',fm.objView.idCase);">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                    Guardar
+                    </span>
                 </div>
             </div>
         </div>

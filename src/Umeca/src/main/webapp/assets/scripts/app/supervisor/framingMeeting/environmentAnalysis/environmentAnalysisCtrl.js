@@ -93,9 +93,10 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         $scope.lstThreat = $.parseJSON(data.lstThreat);
 
         $scope.lstSelectedSources = $.parseJSON(data.lstSelectedSources);
-        $scope.lstSelectedArrangement=$.parseJSON(data.lstSelectedArrangement);
+        $scope.lstSelectedArrangement = $.parseJSON(data.lstSelectedArrangement);
         $scope.lstSelectedRisk = $.parseJSON(data.lstSelectedRisk);
         $scope.lstSelectedThreat = $.parseJSON(data.lstSelectedThreat);
+        $scope.environmentComments = data.environmentComments;
     };
 
     $scope.loadEnvironmentAnalysis = function () {
@@ -141,9 +142,10 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     $scope.validateSel = function () {
 
-        $scope.errorThreats="";
-        $scope.errorSources="";
-        $scope.errorRisks ="";
+        $scope.errorThreats = "";
+        $scope.errorSources = "";
+        $scope.errorRisks = "";
+        $scope.errorComments = "";
 
         if ($scope.lstSelectedSources == undefined || $scope.lstSelectedSources.length <= 0)
             $scope.errorSources = "Debe seleccionar al menos un vinculo";
@@ -154,7 +156,10 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         if ($scope.lstSelectedThreat == undefined || $scope.lstSelectedThreat.length <= 0)
             $scope.errorThreats = "Debe seleccionar al menos una amenaza";
 
-        if($scope.errorSources!=""||$scope.errorRisks!=""||$scope.errorThreats!="")
+        if ($scope.environmentComments == undefined || $scope.environmentComments == "")
+            $scope.errorComments = "Observaciones es un campo requerido";
+
+        if ($scope.errorSources != "" || $scope.errorRisks != "" || $scope.errorThreats != "" || $scope.errorComments != "")
             return false;
 
         return true;

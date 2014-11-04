@@ -87,6 +87,17 @@
     <input type="hidden" id="canTerminateDrugs" value="{{fm.objView.canTerminate}}"/>
 
     <div class="col-xs-12">
+        <div ng-show="drugsSuccessMsg&&drugsSuccessMsg!=''"
+             class="col-xs-12 alert alert-success element-center success-font" ng-bind-html="drugsSuccessMsg">
+        </div>
+        <div ng-show="drugsErrorMsg&&drugsErrorMsg!=''" class="alert alert-danger element-center error-font"
+             ng-bind-html="drugsErrorMsg">
+        </div>
+    </div>
+    <br/>
+    <br/>
+
+    <div class="col-xs-12">
         <h2><i class="green icon-warning-sign  bigger-100">&nbsp;</i>Consumo de sustancias</h2>
         <br/>
 
@@ -99,5 +110,38 @@
                 </div>
             </div>
         </div>
+        <br/>
+        <br/>
+
+        <div class="element-left">
+            <form id="FormCommentDrugs" class="form-horizontal" role="form">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <div class="col-xs-8">
+                        <label for="drugsComments">Observaciones</label>
+                        <br/>
+                        <textarea ng-model="fm.objView.drugsComments"
+                                  id="drugsComments"
+                                  name="drugsComments"
+                                  type="text" class="input-xxlarge"
+                                  data-val="true"
+                                  data-val-required="Observaciones es un campo requerido">
+                        </textarea>
+                        <br/>
+            <span class="field-validation-valid" data-valmsg-for="drugsComments"
+                  data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+            </form>
+            <div class="col-xs-12">
+                <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="submitComments('#FormCommentDrugs', '<c:url value="/supervisor/framingMeeting/upsertDrugsComments.json?idCase="/>',fm.objView.idCase);">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                    Guardar
+                    </span>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

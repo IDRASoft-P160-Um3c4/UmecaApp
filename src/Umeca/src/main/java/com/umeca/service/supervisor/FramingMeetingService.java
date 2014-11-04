@@ -15,27 +15,43 @@ import java.util.List;
  */
 public interface FramingMeetingService {
     ResponseMessage save(FramingMeeting framingMeeting);
+
     FramingMeeting fillFramingMeeting(FramingMeetingView viewFraming);
+
     FramingMeetingView fillForView(Case existCase);
+
     List<FramingReferenceForView> loadExistSources(Long idCase);
+
     List<FramingSelectedSourceRel> generateSourceRel(Long idCase, String lstJson);
+
     ResponseMessage saveSelectedItems(Long idCase, FramingEnvironmentAnalysisForView view);
+
     ResponseMessage saveReference(Case existCase, FramingReference newReference);
+
     ProcessAccompaniment fillProcessAccompaniment(Long idCase, ProcessAccompanimentForView view);
+
     ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase);
+
     ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment);
-    FramingMeeting setActivities(FramingMeeting existFraming,FramingActivitiesForView view);
+
+    FramingMeeting setActivities(FramingMeeting existFraming, FramingActivitiesForView view);
 
     ResponseMessage deleteReference(Long id);
 
-    FramingEnvironmentAnalysisForView loadEnvironmentAnalysis (Long idCase);
+    FramingEnvironmentAnalysisForView loadEnvironmentAnalysis(Long idCase);
+
     FramingImputedPersonalData fillPersonalData(Long idCase, FramingPersonalDataView view);
+
     FramingPersonalDataView fillPersonalDataForView(Long idCase);
+
     ResponseMessage saveFramingAddress(Long idCase, AddressDto view);
+
     ResponseMessage deleteFramingAddress(Long id);
+
     FramingActivitiesForView fillActivitiesForView(Long idCase);
 
     ResponseMessage doUpsertDrug(Drug drug, Long idCase);
+
     ResponseMessage deleteDrug(Long id);
 
     AdditionalQuestionsForView fillAddtionalQuestionsForView(Long idCase);
@@ -45,4 +61,6 @@ public interface FramingMeetingService {
     ResponseMessage doTerminate(Long idCase);
 
     void fillSaveVerifiedInfo(FramingMeeting existFraming, Meeting verifMeeting);
+
+    ResponseMessage upsertComments(Long idCase, Integer commentType, String comments);
 }

@@ -43,6 +43,7 @@
 
                                 <div class="row">
                                     <br/>
+
                                     <div ng-show="errorSources&&errorSources!=''"
                                          class="field-validation-error col-xs-10 col-xs-offset-1">
                                         <span>{{errorSources}}</span>
@@ -58,7 +59,7 @@
                                                        ng-checked='lstSelectedSources.indexOf(source.id)>=0'
                                                        ng-click="selectSource(source.id);"
                                                        class="ace" type="checkbox"
-                                                        ng-disabled="{{fm.objView.canTerminate==false}}">
+                                                       ng-disabled="{{fm.objView.canTerminate==false}}">
                                                 <span class="lbl">&nbsp;&nbsp;{{source.description}}</span>
                                             </label>
                                         </div>
@@ -76,9 +77,11 @@
                                 <div class="row">
                                     <div class="col-xs-10 col-xs-offset-1">
                                         <br/>
+
                                         <div class="row" ng-repeat="arrangement in lstSelectedArrangement">
                                             <label>
-                                                <i class="icon-check"></i><span class="lbl">&nbsp;&nbsp;{{arrangement}}</span>
+                                                <i class="icon-check"></i><span
+                                                    class="lbl">&nbsp;&nbsp;{{arrangement}}</span>
                                             </label>
                                         </div>
                                     </div>
@@ -97,8 +100,10 @@
                             <div class="widget-header">Riesgos</div>
                             <div class="widget-body">
                                 <br/>
+
                                 <div class="row">
-                                    <div ng-show="errorRisks&&errorRisks!=''" class="field-validation-error col-xs-10 col-xs-offset-1">
+                                    <div ng-show="errorRisks&&errorRisks!=''"
+                                         class="field-validation-error col-xs-10 col-xs-offset-1">
                                         <span>{{errorRisks}}</span>
                                     </div>
                                 </div>
@@ -130,6 +135,7 @@
                             <div class="widget-body">
                                 <div class="row">
                                     <br/>
+
                                     <div ng-show="errorThreats&&errorThreats!=''"
                                          class="field-validation-error col-xs-10 col-xs-offset-1">
                                         <span>{{errorThreats}}</span>
@@ -155,6 +161,25 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="col-xs-8">
+                    <label for="environmentComments">Observaciones</label>
+                    <br/>
+                    <textarea ng-model="environmentComments"
+                              id="environmentComments"
+                              name="environmentComments"
+                              type="text" class="input-xxlarge"
+                              data-val="true"
+                              data-val-required="Observaciones es un campo requerido">
+                    </textarea>
+                    <br/>
+
+                    <div ng-show="errorComments&&errorComments!=''"
+                         class="field-validation-error col-xs-10">
+                        <span>{{errorComments}}</span>
                     </div>
                 </div>
 

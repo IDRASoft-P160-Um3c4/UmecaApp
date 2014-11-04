@@ -61,6 +61,12 @@ public class FramingImputedPersonalData {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "social_networking")
+    private String socialNetworking;
+
+    @Column(name = "comments")
+    private String comments;
+
     public Long getId() {
         return id;
     }
@@ -179,5 +185,21 @@ public class FramingImputedPersonalData {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSocialNetworking() {
+        return socialNetworking;
+    }
+
+    public void setSocialNetworking(String socialNetworking) {
+        this.socialNetworking = socialNetworking;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

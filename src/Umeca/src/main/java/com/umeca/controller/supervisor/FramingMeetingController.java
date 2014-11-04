@@ -698,7 +698,9 @@ public class FramingMeetingController {
     ResponseMessage activitiesDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute FramingActivitiesForView view) {
 
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+        existFraming.setActivitiesComments(view.getActivitiesComments());
         existFraming = framingMeetingService.setActivities(existFraming, view);
+
         return framingMeetingService.save(existFraming);
     }
 
@@ -772,4 +774,31 @@ public class FramingMeetingController {
         return framingMeetingService.doTerminate(idCase);
     }
 
+    @RequestMapping(value = "/supervisor/framingMeeting/upsertAddressComments", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage addressComments(@RequestParam(required = true) Long idCase, @RequestParam String addressComments) {
+        return framingMeetingService.upsertComments(idCase, 1, addressComments);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/upsertHousemateComments", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage housemateComments(@RequestParam(required = true) Long idCase, @RequestParam String housemateComments) {
+        return framingMeetingService.upsertComments(idCase, 2, housemateComments);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/upsertReferencesComments", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage referencesComments(@RequestParam(required = true) Long idCase, @RequestParam String referencesComments) {
+        return framingMeetingService.upsertComments(idCase, 3, referencesComments);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/upsertDrugsComments", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage drugsComments(@RequestParam(required = true) Long idCase, @RequestParam String drugsComments) {
+        return framingMeetingService.upsertComments(idCase, 4, drugsComments);
+    }
 }

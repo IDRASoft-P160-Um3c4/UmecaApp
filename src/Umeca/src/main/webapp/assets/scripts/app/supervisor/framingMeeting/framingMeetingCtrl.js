@@ -8,6 +8,15 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
     $scope.FMerrorMsgLst = "";
     $scope.listMsgError = {};
 
+    $scope.addressSuccessMsg = "";
+    $scope.housemateSuccessMsg = "";
+    $scope.referencesSuccessMsg = "";
+    $scope.drugsSuccessMsg = "";
+    $scope.addressErrorMsg = "";
+    $scope.housemateErrorMsg = "";
+    $scope.referencesErrorMsg = "";
+    $scope.drugsErrorMsg = "";
+
     $scope.disableView = function () {
 
         if ($scope.fm.objView.canTerminate == false) {
@@ -107,4 +116,94 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
         window.goToNewUrl(url, params, {opts: "fullscreen=no, top=0, left=0, width=500, height=300"});
     };
 
-});
+    $scope.submitComments = function (formId, urlToPost, id) {
+        $(formId).validate();
+
+        if ($(formId).valid() == false) {
+            $scope.Invalid = true;
+            return false;
+        }
+        $scope.WaitFor = true;
+
+        var url = urlToPost + id;
+
+        $scope.actSuccessMsg = "";
+        $scope.actErrorMsg = "";
+
+        $.post(url, $(formId).serialize())
+            .success(function (resp) {
+                $scope.handleSuccessComment(resp, formId);
+            })
+            .error($scope.handleErrorComments(formId));
+
+        return true;
+    };
+
+    $scope.handleSuccessComment = function (resp, formId) {
+        $scope.WaitFor = false;
+
+        try {
+            if (resp.hasError === undefined) {
+                resp = resp.responseMessage;
+            }
+            if (resp.hasError === false) {
+                var arrMsg = resp.message.split('|');
+                var idMsg = arrMsg[0];
+                var msg = arrMsg[1];
+
+                switch (idMsg) {
+                    case "1":
+                        $scope.addressSuccessMsg = $sce.trustAsHtml(msg);
+                        break;
+                    case "2":
+                        $scope.housemateSuccessMsg = $sce.trustAsHtml(msg);
+                        break;
+                    case "3":
+                        $scope.referencesSuccessMsg = $sce.trustAsHtml(msg);
+                        break;
+                    case "4":
+                        $scope.drugsSuccessMsg = $sce.trustAsHtml(msg);
+                        break;
+                }
+            }
+        } catch (e) {
+            switch (formId) {
+                case "FormCommentAddress":
+                    $scope.addressErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                    break;
+                case "FormCommentHousemate":
+                    $scope.housemateErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                    break;
+                case "FormCommentReferences":
+                    $scope.referencesErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                    break;
+                case "FormCommentDrugs":
+                    $scope.drugsErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                    break;
+            }
+        }
+        $scope.$apply();
+        return;
+    };
+
+    $scope.handleErrorComments = function (formId) {
+        $scope.WaitFor = false;
+
+        switch (formId) {
+            case "FormCommentAddress":
+                $scope.addressErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                break;
+            case "FormCommentHousemate":
+                $scope.housemateErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                break;
+            case "FormCommentReferences":
+                $scope.referencesErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                break;
+            case "FormCommentDrugs":
+                $scope.drugsErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                break;
+        }
+    };
+
+})
+;

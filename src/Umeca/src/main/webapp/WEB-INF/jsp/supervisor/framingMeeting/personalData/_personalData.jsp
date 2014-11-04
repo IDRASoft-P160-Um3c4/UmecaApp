@@ -229,6 +229,17 @@
                         <span class="field-validation-valid" data-valmsg-for="email"
                               data-valmsg-replace="true"></span>
                     </div>
+                    <div class="col-xs-5">
+                        <label>Redes sociales <label class="info-example">(Facebook, twiter, etc.)</label></label>
+                        <br/>
+                        <textarea class="input-xxlarge form-control limited" name="socialNetworking"
+                                  ng-model="pd.socialNetworking"
+                                  maxlength="980" data-val="true"
+                                  data-val-required="Redes sociales es un campo requerido">
+                        </textarea>
+                    <span class="field-validation-valid" data-valmsg-for="socialNetworking"
+                          data-valmsg-replace="true"></span>
+                    </div>
                 </div>
                 <br/>
             </div>
@@ -338,6 +349,21 @@
                 <br/>
             </div>
         </div>
+    </div>
+</div>
+<br/>
+
+<div class="row">
+    <div class="col-xs-12">
+        <label>Observaciones</label>
+        <br/>
+        <textarea class="input-xxlarge form-control limited" name="comments"
+                  ng-model="pd.comments"
+                  maxlength="980" data-val="true"
+                  data-val-required="Observaciones es un campo requerido">
+        </textarea>
+                    <span class="field-validation-valid" data-valmsg-for="comments"
+                          data-valmsg-replace="true"></span>
     </div>
 </div>
 </form>

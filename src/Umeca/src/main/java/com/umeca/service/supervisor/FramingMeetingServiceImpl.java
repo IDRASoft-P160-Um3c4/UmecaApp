@@ -179,6 +179,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setPhone(existFraming.getPersonalData().getPhone());
             view.setCelPhone(existFraming.getPersonalData().getCelPhone());
             view.setEmail(existFraming.getPersonalData().getEmail());
+            view.setSocialNetworking(existFraming.getPersonalData().getSocialNetworking());
+            view.setComments(existFraming.getPersonalData().getComments());
 
             if (existFraming.getPersonalData().getBirthStateCmb() != null) {
                 view.setBirthStateId(existFraming.getPersonalData().getBirthStateCmb().getId());
@@ -263,6 +265,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         personalData.setPhone(view.getPhone());
         personalData.setCelPhone(view.getCelPhone());
         personalData.setEmail(view.getEmail());
+        personalData.setSocialNetworking(view.getSocialNetworking());
+        personalData.setComments(view.getComments());
+
         if (view.getBirthStateId() != null && view.getBirthStateId() > 0 && view.getIsMexico() != null && view.getIsMexico() == true)
             personalData.setBirthStateCmb(stateRepository.findOne(view.getBirthStateId()));
 
@@ -278,6 +283,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         framingMeetingView.setIdCase(existCase.getId());
         framingMeetingView.setCanTerminate(true);
         framingMeetingView.setUserName(existCase.getFramingMeeting().getSupervisor().getFullname());
+
+        framingMeetingView.setAddressComments(existCase.getFramingMeeting().getAddressComments());
+        framingMeetingView.setHousemateComments(existCase.getFramingMeeting().getHousemateComments());
+        framingMeetingView.setReferencesComments(existCase.getFramingMeeting().getReferencesComments());
+        framingMeetingView.setDrugsComments(existCase.getFramingMeeting().getDrugsComments());
 
         if (existCase.getFramingMeeting().getIsTerminated() == true)
             framingMeetingView.setCanTerminate(false);
@@ -438,6 +448,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             existFraming.setSelectedThreatsRel((this.generateThreatRel(idCase, view.getLstSelectedThreat())));
+
+            existFraming.setEnvironmentComments(view.getEnvironmentComments());
 
             existFraming = framingMeetingRepository.save(existFraming);
             framingMeetingRepository.flush();
@@ -666,6 +678,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
 
+        view.setEnvironmentComments(existFraming.getEnvironmentComments());
+
         List<Long> lstSelectedSources = new ArrayList<>();
 
         if (existFraming.getSelectedSourcesRel() != null && existFraming.getSelectedSourcesRel().size() > 0) {
@@ -741,6 +755,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setOccName(existFraming.getOccupation().getName());
             view.setOccPlace(existFraming.getOccupation().getPlace());
             view.setOccPhone(existFraming.getOccupation().getPhone());
+            view.setActivitiesComments(existFraming.getActivitiesComments());
         }
         return view;
     }
@@ -1392,4 +1407,45 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     }
 
+
+    public ResponseMessage upsertComments(Long idCase, Integer commentType, String comments) {
+        ResponseMessage resp = new ResponseMessage();
+
+        try {
+            Case existCase = caseRepository.findOne(idCase);
+
+            if (existCase != null && existCase.getFramingMeeting() != null) {
+                switch (commentType) {
+                    case 1:
+                        existCase.getFramingMeeting().setAddressComments(comments);
+                        resp.setMessage("1|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        break;
+                    case 2:
+                        existCase.getFramingMeeting().setHousemateComments(comments);
+                        resp.setMessage("2|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        break;
+                    case 3:
+                        existCase.getFramingMeeting().setReferencesComments(comments);
+                        resp.setMessage("3|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        break;
+                    case 4:
+                        existCase.getFramingMeeting().setDrugsComments(comments);
+                        resp.setMessage("4|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        break;
+                }
+                caseRepository.save(existCase);
+
+                resp.setHasError(false);
+            } else {
+                resp.setHasError(false);
+                resp.setMessage("Ha ocurrido un error. Intente m&acute;s tarde");
+            }
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "upsertComments", sharedUserService);
+            resp.setHasError(false);
+            resp.setMessage("Ha ocurrido un error. Intente m&acute;s tarde");
+        } finally {
+            return resp;
+        }
+    }
 }

@@ -265,7 +265,7 @@
 
 <div class="row">
     <div>
-        <label>Comentarios</label>
+        <label>Observaciones</label>
         <br/>
         <textarea class="input-xxlarge form-control limited" name="observations"
                   ng-model="aq.observations"

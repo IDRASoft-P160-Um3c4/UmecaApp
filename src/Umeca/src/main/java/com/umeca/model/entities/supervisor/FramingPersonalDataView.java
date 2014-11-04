@@ -21,6 +21,8 @@ public class FramingPersonalDataView {
     private Long birthStateId;
     private Boolean isMexico;
     private Integer age;
+    private String socialNetworking;
+    private String comments;
 
     public String getName() {
         return name;
@@ -148,5 +150,21 @@ public class FramingPersonalDataView {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSocialNetworking() {
+        return socialNetworking;
+    }
+
+    public void setSocialNetworking(String socialNetworking) {
+        this.socialNetworking = socialNetworking;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

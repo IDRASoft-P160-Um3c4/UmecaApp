@@ -16,7 +16,7 @@ public class FramingMeeting {
     @Column(name = "id_framing_meeting")
     private Long id;
 
-    @OneToMany (mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RelFramingMeetingActivity> relFramingMeetingActivities;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -69,6 +69,24 @@ public class FramingMeeting {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     private User supervisor;
+
+    @Column(name = "activities_comments")
+    private String activitiesComments;
+
+    @Column(name = "environment_comments")
+    private String environmentComments;
+
+    @Column(name = "address_comments")
+    private String addressComments;
+
+    @Column(name = "housemate_comments")
+    private String housemateComments;
+
+    @Column(name = "references_comments")
+    private String referencesComments;
+
+    @Column(name = "drugs_comments")
+    private String drugsComments;
 
     public Long getId() {
         return id;
@@ -204,5 +222,53 @@ public class FramingMeeting {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getActivitiesComments() {
+        return activitiesComments;
+    }
+
+    public void setActivitiesComments(String activitiesComments) {
+        this.activitiesComments = activitiesComments;
+    }
+
+    public String getEnvironmentComments() {
+        return environmentComments;
+    }
+
+    public void setEnvironmentComments(String environmentComments) {
+        this.environmentComments = environmentComments;
+    }
+
+    public String getAddressComments() {
+        return addressComments;
+    }
+
+    public void setAddressComments(String addressComments) {
+        this.addressComments = addressComments;
+    }
+
+    public String getHousemateComments() {
+        return housemateComments;
+    }
+
+    public void setHousemateComments(String housemateComments) {
+        this.housemateComments = housemateComments;
+    }
+
+    public String getReferencesComments() {
+        return referencesComments;
+    }
+
+    public void setReferencesComments(String referencesComments) {
+        this.referencesComments = referencesComments;
+    }
+
+    public String getDrugsComments() {
+        return drugsComments;
+    }
+
+    public void setDrugsComments(String drugsComments) {
+        this.drugsComments = drugsComments;
     }
 }

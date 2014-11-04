@@ -107,6 +107,8 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
             $scope.pd.phone = data.phone;
             $scope.pd.celPhone = data.celPhone;
             $scope.pd.email = data.email;
+            $scope.pd.socialNetworking = data.socialNetworking;
+            $scope.pd.comments = data.comments;
 
 
             if ($scope.pd.birthDate != undefined && $scope.pd.birthDate != "")

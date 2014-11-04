@@ -9,6 +9,10 @@ public class FramingMeetingView {
     private String initDate;
     private String endDate;
     private String userName;
+    private String addressComments;
+    private String housemateComments;
+    private String referencesComments;
+    private String drugsComments;
 
     public String getIdFolder() {
         return idFolder;
@@ -64,5 +68,37 @@ public class FramingMeetingView {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getAddressComments() {
+        return addressComments;
+    }
+
+    public void setAddressComments(String addressComments) {
+        this.addressComments = addressComments;
+    }
+
+    public String getHousemateComments() {
+        return housemateComments;
+    }
+
+    public void setHousemateComments(String housemateComments) {
+        this.housemateComments = housemateComments;
+    }
+
+    public String getReferencesComments() {
+        return referencesComments;
+    }
+
+    public void setReferencesComments(String referencesComments) {
+        this.referencesComments = referencesComments;
+    }
+
+    public String getDrugsComments() {
+        return drugsComments;
+    }
+
+    public void setDrugsComments(String drugsComments) {
+        this.drugsComments = drugsComments;
     }
 }
