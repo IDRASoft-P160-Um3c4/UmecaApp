@@ -12,10 +12,15 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
     $scope.housemateSuccessMsg = "";
     $scope.referencesSuccessMsg = "";
     $scope.drugsSuccessMsg = "";
+    $scope.activitesSuccessMsg = "";
+    $scope.jobSuccessMsg = "";
+
     $scope.addressErrorMsg = "";
     $scope.housemateErrorMsg = "";
     $scope.referencesErrorMsg = "";
     $scope.drugsErrorMsg = "";
+    $scope.activitesErrorMsg = "";
+    $scope.jobErrorMsg = ""
 
     $scope.disableView = function () {
 
@@ -163,6 +168,11 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                         break;
                     case "4":
                         $scope.drugsSuccessMsg = $sce.trustAsHtml(msg);
+                    case "5":
+                        $scope.activitesSuccessMsg = $sce.trustAsHtml(msg);
+                        break;
+                    case "6":
+                        $scope.jobSuccessMsg = $sce.trustAsHtml(msg);
                         break;
                 }
             }
@@ -179,6 +189,12 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                     break;
                 case "FormCommentDrugs":
                     $scope.drugsErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                    break;
+                case "FormCommentActivities":
+                    $scope.activitesErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                    break;
+                case "FormCommentJob":
+                    $scope.jobErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
                     break;
             }
         }

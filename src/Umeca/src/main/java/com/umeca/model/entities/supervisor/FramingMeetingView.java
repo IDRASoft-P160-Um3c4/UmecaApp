@@ -13,6 +13,8 @@ public class FramingMeetingView {
     private String housemateComments;
     private String referencesComments;
     private String drugsComments;
+    private String activitiesComments;
+    private String jobComments;
 
     public String getIdFolder() {
         return idFolder;
@@ -100,5 +102,21 @@ public class FramingMeetingView {
 
     public void setDrugsComments(String drugsComments) {
         this.drugsComments = drugsComments;
+    }
+
+    public String getActivitiesComments() {
+        return activitiesComments;
+    }
+
+    public void setActivitiesComments(String activitiesComments) {
+        this.activitiesComments = activitiesComments;
+    }
+
+    public String getJobComments() {
+        return jobComments;
+    }
+
+    public void setJobComments(String jobComments) {
+        this.jobComments = jobComments;
     }
 }

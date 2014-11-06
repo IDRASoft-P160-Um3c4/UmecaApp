@@ -2,6 +2,8 @@
 package com.umeca.controller.supervisor;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -24,10 +26,7 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.shared.SelectFilterFields;
-import com.umeca.repository.supervisor.FramingAddressRepository;
-import com.umeca.repository.supervisor.FramingMeetingRepository;
-import com.umeca.repository.supervisor.FramingReferenceRepository;
-import com.umeca.repository.supervisor.HearingFormatRepository;
+import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.supervisor.FramingMeetingService;
@@ -438,6 +437,40 @@ public class FramingMeetingController {
 
     }
 
+    @RequestMapping(value = "/supervisor/framingMeeting/listActivities", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listActivities(@RequestParam final Long idCase, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.join("activity").get("name"));
+                    add(r.get("description"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idCase")) {
+                    return r.join("framingMeeting").join("caseDetention").get("id");
+                }
+                if (field.equals("name")) {
+                    return r.join("activity").get("name");
+                }
+                return null;
+            }
+        }, FramingActivity.class, FramingActivityView.class);
+
+        return result;
+    }
+
     @Autowired
     FramingAddressRepository framingAddressRepository;
 
@@ -683,27 +716,6 @@ public class FramingMeetingController {
         return framingMeetingService.save(existFraming);
     }
 
-
-    @RequestMapping(value = "/supervisor/framingMeeting/framingActivities/loadAFramingActivities", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    FramingActivitiesForView loadActivities(@RequestParam(required = true) Long idCase) {
-
-        return framingMeetingService.fillActivitiesForView(idCase);
-    }
-
-    @RequestMapping(value = "/supervisor/framingMeeting/activities/doUpsert", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage activitiesDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute FramingActivitiesForView view) {
-
-        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
-        existFraming.setActivitiesComments(view.getActivitiesComments());
-        existFraming = framingMeetingService.setActivities(existFraming, view);
-
-        return framingMeetingService.save(existFraming);
-    }
-
     @RequestMapping(value = "/supervisor/framingMeeting/additionalQuestions/loadAdditionalQuestion", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -800,5 +812,32 @@ public class FramingMeetingController {
     @ResponseBody
     ResponseMessage drugsComments(@RequestParam(required = true) Long idCase, @RequestParam String drugsComments) {
         return framingMeetingService.upsertComments(idCase, 4, drugsComments);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/upsertActivitiesComments", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage activitiesComments(@RequestParam(required = true) Long idCase, @RequestParam String activitiesComments) {
+        return framingMeetingService.upsertComments(idCase, 5, activitiesComments);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/upsertJobComments", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage jobComments(@RequestParam(required = true) Long idCase, @RequestParam String jobComments) {
+        return framingMeetingService.upsertComments(idCase, 6, jobComments);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/activities/upsert", method = RequestMethod.POST)
+    public ModelAndView showActivitiesUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
+        ModelAndView model = new ModelAndView("/supervisor/framingMeeting/activities/upsert");
+        model.addObject("activity", new Gson().toJson(framingMeetingService.fillActivityForView(id, idCase)));
+        model.addObject("lstActivities", new Gson().toJson(activityRepository.getActivitiesNoObsolete()));
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/activities/doUpsert", method = RequestMethod.POST)
+    public ResponseMessage activityDoUpsert(@RequestParam(required = false) Long idCase, @ModelAttribute FramingActivityView view) {
+        return framingMeetingService.saveFramingActivity(view, idCase);
     }
 }

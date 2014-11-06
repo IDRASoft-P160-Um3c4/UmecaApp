@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.DayWeek;
+import com.umeca.model.entities.supervisor.FramingActivity;
 
 import javax.persistence.*;
 
@@ -12,7 +13,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="schedule")
+@Table(name = "schedule")
 public class Schedule {
 
     public Schedule() {
@@ -20,29 +21,33 @@ public class Schedule {
 
     @Id
     @GeneratedValue
-    @Column(name="id_schedule")
+    @Column(name = "id_schedule")
     private Long id;
 
-    @Column(name="day", nullable = false, length = 50)
+    @Column(name = "day", nullable = false, length = 50)
     private String day;
 
-    @Column(name="start", nullable = true, length = 5)
+    @Column(name = "start", nullable = true, length = 5)
     private String start;
 
-    @Column(name="end", nullable = true, length = 5)
+    @Column(name = "end", nullable = true, length = 5)
     private String end;
 
-    @OneToOne(fetch=FetchType.LAZY, cascade ={CascadeType.ALL})
-    @JoinColumn(name="id_imputed_home", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "id_imputed_home", nullable = true)
     private ImputedHome imputedHome;
 
-    @OneToOne(fetch=FetchType.LAZY, cascade ={CascadeType.ALL})
-    @JoinColumn(name="id_job", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "id_job", nullable = true)
     private Job job;
 
-    @OneToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinColumn(name="id_school", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "id_school", nullable = true)
     private School school;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "id_framing_activity", nullable = true)
+    private FramingActivity framingActivity;
 
     @Transient
     private String $$hashKey;
@@ -109,5 +114,13 @@ public class Schedule {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public FramingActivity getFramingActivity() {
+        return framingActivity;
+    }
+
+    public void setFramingActivity(FramingActivity framingActivity) {
+        this.framingActivity = framingActivity;
     }
 }

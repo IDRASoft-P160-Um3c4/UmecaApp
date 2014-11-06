@@ -16,8 +16,6 @@ import java.util.List;
 public interface FramingMeetingService {
     ResponseMessage save(FramingMeeting framingMeeting);
 
-    FramingMeeting fillFramingMeeting(FramingMeetingView viewFraming);
-
     FramingMeetingView fillForView(Case existCase);
 
     List<FramingReferenceForView> loadExistSources(Long idCase);
@@ -34,8 +32,6 @@ public interface FramingMeetingService {
 
     ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment);
 
-    FramingMeeting setActivities(FramingMeeting existFraming, FramingActivitiesForView view);
-
     ResponseMessage deleteReference(Long id);
 
     FramingEnvironmentAnalysisForView loadEnvironmentAnalysis(Long idCase);
@@ -47,8 +43,6 @@ public interface FramingMeetingService {
     ResponseMessage saveFramingAddress(Long idCase, AddressDto view);
 
     ResponseMessage deleteFramingAddress(Long id);
-
-    FramingActivitiesForView fillActivitiesForView(Long idCase);
 
     ResponseMessage doUpsertDrug(Drug drug, Long idCase);
 
@@ -63,4 +57,10 @@ public interface FramingMeetingService {
     void fillSaveVerifiedInfo(FramingMeeting existFraming, Meeting verifMeeting);
 
     ResponseMessage upsertComments(Long idCase, Integer commentType, String comments);
+
+    FramingActivityView fillActivityForView(Long idActivity, Long idCase);
+
+    ResponseMessage saveFramingActivity(FramingActivityView view, Long idCase);
+
+
 }

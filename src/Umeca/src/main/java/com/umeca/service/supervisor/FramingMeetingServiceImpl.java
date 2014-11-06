@@ -1,10 +1,12 @@
 package com.umeca.service.supervisor;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.AddressDto;
+import com.umeca.model.catalog.dto.ScheduleDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
@@ -18,6 +20,7 @@ import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.reviewer.ImputedHomeRepository;
+import com.umeca.repository.reviewer.ScheduleRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
@@ -125,7 +128,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     private AccompanimentInfoRepository accompanimentInfoRepository;
 
-
     @Transactional
     @Override
     public ResponseMessage save(FramingMeeting framingMeeting) {
@@ -143,15 +145,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         } finally {
             return response;
         }
-    }
-
-    @Override
-    public FramingMeeting fillFramingMeeting(FramingMeetingView viewFraming) {
-
-        FramingMeeting framingMeeting = new FramingMeeting();
-
-
-        return framingMeeting;
     }
 
     @Autowired
@@ -218,7 +211,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 view.setIsMexico(true);
             }
 
-            view.setBirthState(existVerifMeet.getImputed().getBirthState());//TODO AGREGAR EL ESTADO SI ES UN COMBO
+            view.setBirthState(existVerifMeet.getImputed().getBirthState());
 
             view.setPhysicalCondition(existVerifMeet.getSocialEnvironment().getPhysicalCondition());
 
@@ -288,6 +281,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         framingMeetingView.setHousemateComments(existCase.getFramingMeeting().getHousemateComments());
         framingMeetingView.setReferencesComments(existCase.getFramingMeeting().getReferencesComments());
         framingMeetingView.setDrugsComments(existCase.getFramingMeeting().getDrugsComments());
+        framingMeetingView.setActivitiesComments(existCase.getFramingMeeting().getActivitiesComments());
+        framingMeetingView.setJobComments(existCase.getFramingMeeting().getJobComments());
 
         if (existCase.getFramingMeeting().getIsTerminated() == true)
             framingMeetingView.setCanTerminate(false);
@@ -621,46 +616,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     ActivityRepository activityRepository;
 
-    @Transactional
-    public FramingMeeting setActivities(FramingMeeting existFraming, FramingActivitiesForView view) {
 
-        Occupation occ = existFraming.getOccupation();
-
-        if (occ == null)
-            occ = new Occupation();
-
-        occ.setName(view.getOccName());
-        occ.setPlace(view.getOccPlace());
-        occ.setPhone(view.getOccPhone());
-
-        existFraming.setOccupation(occ);
-        Gson gson = new Gson();
-        if (existFraming.getRelFramingMeetingActivities() != null) {
-            List<RelFramingMeetingActivity> relAux = existFraming.getRelFramingMeetingActivities();
-            existFraming.setRelFramingMeetingActivities(null);
-            for (RelFramingMeetingActivity r : relAux) {
-                r.setFramingMeeting(null);
-                r.setActivity(null);
-                relFramingActivityRepository.delete(r);
-            }
-        }
-        List<RelFramingMeetingActivity> rel = gson.fromJson(view.getActivities(), new TypeToken<List<RelFramingMeetingActivity>>() {
-        }.getType());
-        if (rel != null) {
-            existFraming.setRelFramingMeetingActivities(new ArrayList<RelFramingMeetingActivity>());
-            for (RelFramingMeetingActivity r : rel) {
-                RelFramingMeetingActivity newRel = new RelFramingMeetingActivity();
-                newRel.setActivity(activityRepository.findOne(r.getActivity().getId()));
-                newRel.setSpecification(r.getSpecification());
-                newRel.setFramingMeeting(existFraming);
-                existFraming.getRelFramingMeetingActivities().add(newRel);
-            }
-        }
-
-        return existFraming;
-    }
-
-    public FramingEnvironmentAnalysisForView loadEnvironmentAnalysis(Long idCase) {//todo
+    public FramingEnvironmentAnalysisForView loadEnvironmentAnalysis(Long idCase) {
         Gson conv = new Gson();
         FramingEnvironmentAnalysisForView view = new FramingEnvironmentAnalysisForView();
 
@@ -745,20 +702,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         return address;
     }
 
-    public FramingActivitiesForView fillActivitiesForView(Long idCase) {
-
-        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
-
-        FramingActivitiesForView view = new FramingActivitiesForView();
-
-        if (existFraming.getOccupation() != null) {
-            view.setOccName(existFraming.getOccupation().getName());
-            view.setOccPlace(existFraming.getOccupation().getPlace());
-            view.setOccPhone(existFraming.getOccupation().getPhone());
-            view.setActivitiesComments(existFraming.getActivitiesComments());
-        }
-        return view;
-    }
 
     public ResponseMessage saveFramingAddress(Long idCase, AddressDto view) {
 
@@ -834,7 +777,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsertDrug", sharedUserService);
             result.setHasError(true);
-            result.setMessage("Ocurrio un error al guardar la informaci&oacute;n. Int�nte m&aacute;s tarde.");
+            result.setMessage("Ocurrio un error al guardar la informaci&oacute;n. Int&eacute;nte m&aacute;s tarde.");
         }
         return result;
     }
@@ -1234,7 +1177,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (validate.existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
-                listGeneral.add(sharedUserService.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para más detalles revise los mensajes de cada sección"));
+                listGeneral.add(sharedUserService.convertToValidString("No se puede terminar la entrevista ya que faltan preguntas por responder, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
                 Gson gson = new Gson();
                 validate.formatMessages();
@@ -1247,7 +1190,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existCase.getFramingMeeting().setEndDate(new Date());
 
             //para agregar al imputado en el listado de fuentes para las actividades
-
 
             if (framingReferenceRepository.findImputedReference(existFraming.getId(), Constants.NAME_RELATIONSHIP_IMPUTED) == null) {
                 FramingReference imputedReference = new FramingReference();
@@ -1432,6 +1374,14 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                         existCase.getFramingMeeting().setDrugsComments(comments);
                         resp.setMessage("4|Se ha guardado la informaci&oacute;n con &eacute;xito");
                         break;
+                    case 5:
+                        existCase.getFramingMeeting().setActivitiesComments(comments);
+                        resp.setMessage("5|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        break;
+                    case 6:
+                        existCase.getFramingMeeting().setJobComments(comments);
+                        resp.setMessage("6|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        break;
                 }
                 caseRepository.save(existCase);
 
@@ -1448,4 +1398,94 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             return resp;
         }
     }
+
+    @Autowired
+    private FramingActivityRepository framingActivityRepository;
+
+    public FramingActivityView fillActivityForView(Long idActivity, Long idCase) {
+
+        FramingActivity fAct = null;
+
+        if (idActivity != null)
+            fAct = framingActivityRepository.findOne(idActivity);
+
+        FramingActivityView view = new FramingActivityView();
+        view.setIdCase(idCase);
+
+        if (fAct != null) {
+            view.setId(fAct.getId());
+            view.setIdActivity(fAct.getActivity().getId());
+            view.setDescription(fAct.getDescription());
+
+            List<ScheduleDto> lstScheduleDto = new ArrayList<>();
+
+            for (Schedule actSch : fAct.getListSchedule()) {
+                ScheduleDto schDto = new ScheduleDto();
+                schDto.setDay(actSch.getDay());
+                schDto.setStart(actSch.getStart());
+                schDto.setEnd(actSch.getEnd());
+                lstScheduleDto.add(schDto);
+            }
+
+            Gson conv = new Gson();
+            view.setLstSchedule(conv.toJson(lstScheduleDto));
+        }
+
+        return view;
+    }
+
+    @Autowired
+    private ScheduleRepository scheduleRepository;
+
+    @Transactional
+    @Override
+    public ResponseMessage saveFramingActivity(FramingActivityView view, Long idCase) {
+
+        ResponseMessage resp = new ResponseMessage();
+
+        try {
+            FramingActivity exisAct = new FramingActivity();
+
+            if (view.getId() != null && view.getId() > 0) {
+                for (Schedule actSch : scheduleRepository.getSchedulesActivty(view.getId())) {
+                    actSch.setFramingActivity(null);
+                    scheduleRepository.delete(actSch);
+                }
+                exisAct = framingActivityRepository.findOne(view.getId());
+                exisAct.setListSchedule(null);
+                framingActivityRepository.save(exisAct);
+            }
+
+            exisAct.setDescription(view.getDescription());
+            exisAct.setActivity(activityRepository.findOne(view.getIdActivity()));
+
+            List<Schedule> lstSchedule = new ArrayList<>();
+            List<ScheduleDto> lstSchDto = new Gson().fromJson(view.getLstSchedule(), new TypeToken<List<ScheduleDto>>() {
+            }.getType());
+            ;
+
+            for (ScheduleDto actDto : lstSchDto) {
+                Schedule newObj = new Schedule();
+                newObj.setDay(actDto.getDay());
+                newObj.setStart(actDto.getStart());
+                newObj.setEnd(actDto.getEnd());
+                newObj.setFramingActivity(exisAct);
+                lstSchedule.add(newObj);
+            }
+
+            exisAct.setListSchedule(lstSchedule);
+            exisAct.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
+
+            framingActivityRepository.save(exisAct);
+            resp.setHasError(false);
+            resp.setMessage("Se ha guardado la informaci&oacute;n con &eacute;xito.");
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "saveFramingActivity", sharedUserService);
+            resp.setHasError(true);
+            resp.setMessage("Ha ocurrido un error. Intente m&aacute;s tarde.");
+        } finally {
+            return resp;
+        }
+    }
+
 }

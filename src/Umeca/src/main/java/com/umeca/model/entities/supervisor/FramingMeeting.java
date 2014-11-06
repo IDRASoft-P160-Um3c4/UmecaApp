@@ -70,9 +70,6 @@ public class FramingMeeting {
     @JoinColumn(name = "id_user")
     private User supervisor;
 
-    @Column(name = "activities_comments")
-    private String activitiesComments;
-
     @Column(name = "environment_comments")
     private String environmentComments;
 
@@ -87,6 +84,15 @@ public class FramingMeeting {
 
     @Column(name = "drugs_comments")
     private String drugsComments;
+
+    @Column(name = "activities_comments")
+    private String activitiesComments;
+
+    @Column(name = "job_comments")
+    private String jobComments;
+
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FramingActivity> activities;
 
     public Long getId() {
         return id;
@@ -270,5 +276,13 @@ public class FramingMeeting {
 
     public void setDrugsComments(String drugsComments) {
         this.drugsComments = drugsComments;
+    }
+
+    public String getJobComments() {
+        return jobComments;
+    }
+
+    public void setJobComments(String jobComments) {
+        this.jobComments = jobComments;
     }
 }

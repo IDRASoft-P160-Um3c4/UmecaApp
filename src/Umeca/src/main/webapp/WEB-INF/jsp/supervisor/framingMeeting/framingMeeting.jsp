@@ -18,7 +18,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/references/referencesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/environmentAnalysis/environmentAnalysisCtrl.js"></script>
     <%--<script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/processAcompaniment/processAccompanimentCtrl.js"></script>--%>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/framingActivities/framingActivitiesCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/activities/activitiesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/addtionalQuestions/additionalQuestionsCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/personalData/personalDataCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/address/addressCtrl.js"></script>
@@ -244,7 +244,56 @@
         </div>
     </a>
 </li>
-
+<li id="liSchool">
+    <a data-toggle="tab" href="#">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="pink icon-briefcase  bigger-200"></i>
+                Historia escolar
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['school']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liSchool');"></i>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['school']">
+                                </span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="liJobs">
+    <a data-toggle="tab" href="#">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="pink icon-briefcase  bigger-200"></i>
+                Historia laboral
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['jobs']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liJobs');"></i>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['jobs']">
+                                </span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
 <li id="liActivities">
     <a data-toggle="tab" href="#activities">
         <div class="row">
@@ -268,7 +317,6 @@
                 </div>
             </div>
         </div>
-
     </a>
 </li>
 <li id="liDrug">
@@ -400,7 +448,7 @@
 
     <div id="activities" class="tab-pane">
         <%@ include
-                file="/WEB-INF/jsp/supervisor/framingMeeting/framingActivities/_framingActivities.jsp" %>
+                file="/WEB-INF/jsp/supervisor/framingMeeting/activities/_framingActivities.jsp" %>
     </div>
 
     <div id="drugs" class="tab-pane">
