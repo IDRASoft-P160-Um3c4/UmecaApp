@@ -23,6 +23,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/personalData/personalDataCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/address/addressCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/drugs/drugsCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/job/jobCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
@@ -248,7 +249,7 @@
     <a data-toggle="tab" href="#">
         <div class="row">
             <div class="col-xs-10">
-                <i class="pink icon-briefcase  bigger-200"></i>
+                <i class="purple icon-book  bigger-200"></i>
                 Historia escolar
             </div>
             <div class="col-xs-2" ng-show="listMsgError['school']">
@@ -269,22 +270,22 @@
         </div>
     </a>
 </li>
-<li id="liJobs">
-    <a data-toggle="tab" href="#">
+<li id="liJob">
+    <a data-toggle="tab" href="#job">
         <div class="row">
             <div class="col-xs-10">
                 <i class="pink icon-briefcase  bigger-200"></i>
                 Historia laboral
             </div>
-            <div class="col-xs-2" ng-show="listMsgError['jobs']">
+            <div class="col-xs-2" ng-show="listMsgError['job']">
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liJobs');"></i>
+                           data-toggle="dropdown" ng-click="changeZIndex('liJob');"></i>
                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
                             style="width: 400px; z-index: 100000; padding: 0 0;">
                             <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['jobs']">
+                                <span ng-bind-html="listMsgError['job']">
                                 </span>
                             </div>
                         </ul>
@@ -298,7 +299,7 @@
     <a data-toggle="tab" href="#activities">
         <div class="row">
             <div class="col-xs-10">
-                <i class="pink icon-briefcase  bigger-200"></i>
+                <i class="black icon-male bigger-200"></i>
                 Actividades que realiza el imputado
             </div>
             <div class="col-xs-2" ng-show="listMsgError['activities']">
@@ -349,7 +350,7 @@
 
         <div class="row">
             <div class="col-xs-10">
-                <i class="red icon-list bigger-200"></i>
+                <i class="red icon-question bigger-200"></i>
                 Formulario de preguntas al supervisado
             </div>
             <div class="col-xs-2" ng-show="listMsgError['question']">
@@ -444,6 +445,11 @@
 
     <div id="references" class="tab-pane">
         <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/references/_framingReferences.jsp" %>
+    </div>
+
+    <div id="job" class="tab-pane">
+        <%@ include
+                file="/WEB-INF/jsp/supervisor/framingMeeting/job/_framingJob.jsp" %>
     </div>
 
     <div id="activities" class="tab-pane">

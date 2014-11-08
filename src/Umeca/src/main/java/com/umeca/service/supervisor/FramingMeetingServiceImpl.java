@@ -9,6 +9,7 @@ import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.ScheduleDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
+import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.entities.supervisor.*;
@@ -20,6 +21,7 @@ import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.reviewer.ImputedHomeRepository;
+import com.umeca.repository.reviewer.JobRepository;
 import com.umeca.repository.reviewer.ScheduleRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.*;
@@ -1481,6 +1483,191 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             resp.setMessage("Se ha guardado la informaci&oacute;n con &eacute;xito.");
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "saveFramingActivity", sharedUserService);
+            resp.setHasError(true);
+            resp.setMessage("Ha ocurrido un error. Intente m&aacute;s tarde.");
+        } finally {
+            return resp;
+        }
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage deleteFramingActivity(Long id) {
+
+        ResponseMessage resp = new ResponseMessage();
+
+        try {
+            FramingActivity exisAct = framingActivityRepository.findOne(id);
+
+            for (Schedule actSch : scheduleRepository.getSchedulesActivty(id)) {
+                actSch.setFramingActivity(null);
+                scheduleRepository.delete(actSch);
+            }
+            exisAct.setListSchedule(null);
+            framingActivityRepository.delete(exisAct);
+            resp.setHasError(false);
+            resp.setMessage("Se ha eliminado la informaci&oacute;n con &eacute;xito.");
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "deleteFramingActivity", sharedUserService);
+            resp.setHasError(true);
+            resp.setMessage("Ha ocurrido un error. Intente m&aacute;s tarde.");
+        } finally {
+            return resp;
+        }
+    }
+
+
+    @Autowired
+    private JobRepository jobRepository;
+    @Autowired
+    private RegisterTypeRepository registerTypeRepository;
+
+    @Override
+    public JobDto fillJobForView(Long idJob, Long idCase) {
+        JobDto view = new JobDto();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+        if (idJob != null && idJob > 0) {
+
+            Job existJob = jobRepository.findOne(idJob);
+            view.setId(existJob.getId());
+
+            view.setPost(existJob.getPost());
+            view.setNameHead(existJob.getNameHead());
+            view.setCompany(existJob.getCompany());
+            view.setPhone(existJob.getPhone());
+            view.setAddress(existJob.getAddress());
+            view.setRegisterTypeId(existJob.getRegisterType().getId());
+            view.setBlock(existJob.getBlock());
+
+            if (existJob.getBlock() == true) {
+                if (existJob.getStart() != null)
+                    view.setStart(sdf.format(existJob.getStart()));
+                if (existJob.getStartPrev() != null)
+                    view.setStartPrev(sdf.format(existJob.getStartPrev()));
+                if (existJob.getEnd() != null)
+                    view.setEnd(sdf.format(existJob.getEnd()));
+
+                view.setSalaryWeek(existJob.getSalaryWeek());
+                view.setReasonChange(existJob.getReasonChange());
+
+
+                List<Schedule> lstExistSch = jobRepository.getJobSchedule(idJob);
+                List<ScheduleDto> lstDtoSch = new ArrayList<>();
+
+                for (Schedule act : lstExistSch) {
+                    ScheduleDto newDto = new ScheduleDto();
+                    newDto.setStart(act.getStart());
+                    newDto.setEnd(act.getEnd());
+                    newDto.setDay(act.getDay());
+                    lstDtoSch.add(newDto);
+                }
+
+                view.setSchedule(new Gson().toJson(lstDtoSch));
+            }
+        } else
+            view.setBlock(true);
+
+        view.setIdCase(idCase);
+
+        return view;
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage saveFramingJob(JobDto view, Long idCase) {
+
+        ResponseMessage resp = new ResponseMessage();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+        try {
+            Job existJob = new Job();
+
+            if (view.getId() != null && view.getId() > 0) {
+                for (Schedule actSch : jobRepository.getJobSchedule(view.getId())) {
+                    actSch.setJob(null);
+                    scheduleRepository.delete(actSch);
+                }
+                existJob = jobRepository.findOne(view.getId());
+                existJob.setSchedule(null);
+                jobRepository.save(existJob);
+            }
+
+            existJob.setPost(view.getPost());
+            existJob.setNameHead(view.getNameHead());
+            existJob.setCompany(view.getCompany());
+            existJob.setPhone(view.getPhone());
+            existJob.setAddress(view.getAddress());
+            existJob.setBlock(view.getBlock());
+            existJob.setRegisterType(registerTypeRepository.findOne(view.getRegisterTypeId()));
+
+            if (view.getBlock() == true) {
+                if (view.getRegisterTypeId() != 3) {
+                    existJob.setStart(sdf.parse(view.getStart()));
+                    existJob.setSalaryWeek(view.getSalaryWeek());
+
+                    List<Schedule> lstSchedule = new ArrayList<>();
+                    List<ScheduleDto> lstSchDto = new Gson().fromJson(view.getSchedule(), new TypeToken<List<ScheduleDto>>() {
+                    }.getType());
+                    ;
+
+                    for (ScheduleDto actDto : lstSchDto) {
+                        Schedule newObj = new Schedule();
+                        newObj.setDay(actDto.getDay());
+                        newObj.setStart(actDto.getStart());
+                        newObj.setEnd(actDto.getEnd());
+                        newObj.setJob(existJob);
+                        lstSchedule.add(newObj);
+                    }
+
+                    existJob.setSchedule(lstSchedule);
+                    existJob.setStartPrev(null);
+                    existJob.setEnd(null);
+                    existJob.setReasonChange(null);
+                } else {
+                    existJob.setStartPrev(sdf.parse(view.getStartPrev()));
+                    existJob.setEnd(sdf.parse(view.getEnd()));
+                    existJob.setReasonChange(view.getReasonChange());
+                    existJob.setStart(null);
+                    existJob.setSalaryWeek(null);
+                    existJob.setSchedule(null);
+                }
+            }
+
+            existJob.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
+
+            jobRepository.save(existJob);
+            resp.setHasError(false);
+            resp.setMessage("Se ha guardado la informaci&oacute;n con &eacute;xito.");
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "saveFramingJob", sharedUserService);
+            resp.setHasError(true);
+            resp.setMessage("Ha ocurrido un error. Intente m&aacute;s tarde.");
+        } finally {
+            return resp;
+        }
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage deleteFramingJob(Long id) {
+
+        ResponseMessage resp = new ResponseMessage();
+
+        try {
+            Job existJob = jobRepository.findOne(id);
+
+            for (Schedule actSch : jobRepository.getJobSchedule(id)) {
+                actSch.setJob(null);
+                scheduleRepository.delete(actSch);
+            }
+            existJob.setSchedule(null);
+            jobRepository.delete(existJob);
+            resp.setHasError(false);
+            resp.setMessage("Se ha eliminado la informaci&oacute;n con &eacute;xito.");
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "deleteFramingActivity", sharedUserService);
             resp.setHasError(true);
             resp.setMessage("Ha ocurrido un error. Intente m&aacute;s tarde.");
         } finally {

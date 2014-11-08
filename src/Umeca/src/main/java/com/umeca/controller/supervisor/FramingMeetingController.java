@@ -15,6 +15,7 @@ import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.StateDto;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
@@ -471,6 +472,47 @@ public class FramingMeetingController {
         return result;
     }
 
+    @RequestMapping(value = "/supervisor/framingMeeting/listJob", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listJob(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long idCase) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                final javax.persistence.criteria.Join<Job, RegisterType> joinRT = r.join("registerType");
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("company"));
+                    add(r.get("post"));
+                    add(r.get("nameHead"));
+                    add(r.get("phone"));
+                    add(joinRT.get("name").alias("registerTypeString"));
+                    add(joinRT.get("id").alias("registerTypeId"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idCase")) {
+                    return r.join("framingMeeting").join("caseDetention").get("id");
+                } else if (field.equals("registerTypeId")) {
+                    return r.join("registerType").get("id");
+                } else if (field.equals("registerTypeString")) {
+                    return r.join("registerType").get("name");
+                }
+                return null;
+            }
+        }, Job.class, Job.class);
+
+        return result;
+
+    }
+
     @Autowired
     FramingAddressRepository framingAddressRepository;
 
@@ -840,4 +882,31 @@ public class FramingMeetingController {
     public ResponseMessage activityDoUpsert(@RequestParam(required = false) Long idCase, @ModelAttribute FramingActivityView view) {
         return framingMeetingService.saveFramingActivity(view, idCase);
     }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/activities/delete", method = RequestMethod.POST)
+    public ResponseMessage activityDelete(@RequestParam(required = false) Long id) {
+        return framingMeetingService.deleteFramingActivity(id);
+    }
+
+    @Autowired
+    private RegisterTypeRepository registerTypeRepository;
+
+    @RequestMapping(value = "/supervisor/framingMeeting/job/upsert", method = RequestMethod.POST)
+    public ModelAndView showJobUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
+        ModelAndView model = new ModelAndView("/supervisor/framingMeeting/job/upsert");
+        model.addObject("job", new Gson().toJson(framingMeetingService.fillJobForView(id, idCase)));
+        model.addObject("lstRegisterType", new Gson().toJson(registerTypeRepository.getAllRegisterType()));
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/job/doUpsert", method = RequestMethod.POST)
+    public ResponseMessage jobDoUpsert(@RequestParam(required = false) Long idCase, @ModelAttribute JobDto view) {
+        return framingMeetingService.saveFramingJob(view, idCase);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/job/delete", method = RequestMethod.POST)
+    public ResponseMessage jobDelete(@RequestParam(required = false) Long id) {
+        return framingMeetingService.deleteFramingJob(id);
+    }
+
 }

@@ -6,6 +6,7 @@ import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Drug;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.supervisor.*;
 
 import java.util.List;
@@ -62,5 +63,12 @@ public interface FramingMeetingService {
 
     ResponseMessage saveFramingActivity(FramingActivityView view, Long idCase);
 
+    ResponseMessage deleteFramingActivity(Long id);
+
+    JobDto fillJobForView(Long idJob, Long idCase);
+
+    ResponseMessage saveFramingJob(JobDto view, Long idCase);
+
+    ResponseMessage deleteFramingJob(Long id);
 
 }

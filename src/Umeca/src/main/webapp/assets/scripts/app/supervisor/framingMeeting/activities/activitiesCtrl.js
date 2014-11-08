@@ -95,6 +95,7 @@ app.controller('activitiesController', function ($scope, $timeout, $rootScope, $
                 $scope.MsgErrorSchedule = "Debe proporcionar todos los campos para poder agregar una disponibilidad.";
                 return;
             }
+            $scope.MsgErrorSchedule = "";
 
             var newObj = {"day": $scope.activity.day, "start": $scope.activity.start, "end": $scope.activity.end}
             $scope.activity.lstSchedule.push(newObj);
@@ -115,6 +116,7 @@ app.controller('activitiesController', function ($scope, $timeout, $rootScope, $
                 $scope.hasError = true;
                 return false;
             }
+            $scope.MsgErrorSchedule = "";
             return true;
         };
 

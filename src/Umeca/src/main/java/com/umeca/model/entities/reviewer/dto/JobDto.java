@@ -15,9 +15,9 @@ import java.util.Date;
  * Time: 10:53 AM
  * To change this template use File | Settings | File Templates.
  */
-public class JobDto
-{
+public class JobDto {
     private Long id;
+    private Long idCase;
     private String post;
     private String nameHead;
     private String company;
@@ -30,8 +30,9 @@ public class JobDto
     private String address;
     private Long registerTypeId;
     private String schedule;
+    private Boolean block;
 
-    public JobDto dtoJob(Job job, String schedule){
+    public JobDto dtoJob(Job job, String schedule) {
         this.id = job.getId();
         this.post = job.getPost();
         this.nameHead = job.getNameHead();
@@ -39,22 +40,22 @@ public class JobDto
         this.phone = job.getPhone();
         Date date = Calendar.getInstance().getTime();
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        if(job.getStartPrev()!=null){
+        if (job.getStartPrev() != null) {
             date.setTime(job.getStartPrev().getTime());
             this.startPrev = formatter.format(date);
         }
-        if(job.getStart()!=null){
+        if (job.getStart() != null) {
             date.setTime(job.getStart().getTime());
             this.start = formatter.format(date);
         }
         this.salaryWeek = job.getSalaryWeek();
-        if(job.getEnd()!=null){
+        if (job.getEnd() != null) {
             date.setTime(job.getEnd().getTime());
             this.end = formatter.format(date);
         }
         this.reasonChange = job.getReasonChange();
         this.address = job.getAddress();
-        if(job.getRegisterType() !=null){
+        if (job.getRegisterType() != null) {
             this.registerTypeId = job.getRegisterType().getId();
         }
         this.schedule = schedule;
@@ -163,5 +164,21 @@ public class JobDto
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public Long getIdCase() {
+        return idCase;
+    }
+
+    public void setIdCase(Long idCase) {
+        this.idCase = idCase;
+    }
+
+    public Boolean getBlock() {
+        return block;
+    }
+
+    public void setBlock(Boolean block) {
+        this.block = block;
     }
 }

@@ -94,6 +94,9 @@ public class FramingMeeting {
     @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingActivity> activities;
 
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Job> jobs;
+
     public Long getId() {
         return id;
     }
@@ -284,5 +287,13 @@ public class FramingMeeting {
 
     public void setJobComments(String jobComments) {
         this.jobComments = jobComments;
+    }
+
+    public List<FramingActivity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<FramingActivity> activities) {
+        this.activities = activities;
     }
 }

@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.RegisterType;
+import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.shared.EntityGrid;
 
 import javax.persistence.*;
@@ -13,17 +14,17 @@ import java.util.List;
  * Date: 9/05/14
  * Time: 11:08 AM
  * To change this template use File | Settings | File Templates.
- * */
+ */
 
 @Entity
-@Table(name="job")
-public class Job implements EntityGrid{
+@Table(name = "job")
+public class Job implements EntityGrid {
 
     public Job() {
     }
 
-    public Job(Long id,String company, String post, String nameHead, String phone, String registerTypeString, Long registerTypeId) {
-        this.id= id;
+    public Job(Long id, String company, String post, String nameHead, String phone, String registerTypeString, Long registerTypeId) {
+        this.id = id;
         this.post = post;
         this.nameHead = nameHead;
         this.company = company;
@@ -34,51 +35,55 @@ public class Job implements EntityGrid{
 
     @Id
     @GeneratedValue
-    @Column(name="id_job")
+    @Column(name = "id_job")
     private Long id;
 
-    @Column(name="post", length = 50, nullable = false)
+    @Column(name = "post", length = 50, nullable = false)
     private String post;
 
-    @Column(name="name_head", length = 150, nullable = false)
+    @Column(name = "name_head", length = 150, nullable = false)
     private String nameHead;
 
-    @Column(name="company", length = 150, nullable = false)
+    @Column(name = "company", length = 150, nullable = false)
     private String company;
 
     @Column(name = "phone", nullable = false, length = 20)
     private String phone;
 
-    @Column(name="start_prev")
+    @Column(name = "start_prev")
     private Date startPrev;
 
-    @Column(name ="start")
+    @Column(name = "start")
     private Date start;
 
     @Column(name = "salary_week", nullable = true)
     private Float salaryWeek;
 
-    @Column(name="end", nullable = true)
+    @Column(name = "end", nullable = true)
     private Date end;
 
-    @Column(name="reason_change", nullable = true, length = 1000)
+    @Column(name = "reason_change", nullable = true, length = 1000)
     private String reasonChange;
 
-     @Column(name="address", nullable = true, length = 1000)
+    @Column(name = "address", nullable = true, length = 1000)
     private String address;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_register_type", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_register_type", nullable = false)
     private RegisterType registerType;
 
-    @OneToMany(mappedBy="job", cascade={CascadeType.ALL})
+    @OneToMany(mappedBy = "job", cascade = {CascadeType.ALL})
     private List<Schedule> schedule;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_meeting")
     private Meeting meeting;
 
-    @Column(name="block")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_framing_meeting")
+    private FramingMeeting framingMeeting;
+
+    @Column(name = "block")
     private Boolean block;
 
     @Transient
@@ -232,5 +237,13 @@ public class Job implements EntityGrid{
 
     public void setBlock(Boolean block) {
         this.block = block;
+    }
+
+    public FramingMeeting getFramingMeeting() {
+        return framingMeeting;
+    }
+
+    public void setFramingMeeting(FramingMeeting framingMeeting) {
+        this.framingMeeting = framingMeeting;
     }
 }
