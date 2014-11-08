@@ -37,6 +37,9 @@ public class Case {
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Meeting meeting;
 
+    @Column(name="date_not_prosecute", nullable = true)
+    private Date dateNotProsecute;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_status", nullable = false)
     private StatusCase status;
@@ -179,5 +182,13 @@ public class Case {
 
     public void setDateCreate(Date dateCreate) {
         this.dateCreate = dateCreate;
+    }
+
+    public Date getDateNotProsecute() {
+        return dateNotProsecute;
+    }
+
+    public void setDateNotProsecute(Date dateNotProsecute) {
+        this.dateNotProsecute = dateNotProsecute;
     }
 }

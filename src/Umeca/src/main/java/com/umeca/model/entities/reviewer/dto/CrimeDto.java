@@ -22,6 +22,17 @@ public class CrimeDto {
         return this;
     }
 
+    public String toStringCrime(Crime c){
+        String s = "";
+        s+="Delito: "+c.getCrime().getName() +", Art&iacute;culo: "+c.getArticle()+", Federal: "+c.getFederal().getName();
+        if(c.getComment()!=null && !c.getComment().equals("")){
+            s+=", Observaciones: "+c.getComment()+".";
+        }else{
+            s+=".";
+        }
+        return s;
+    }
+
     public String getComment() {
         return comment;
     }

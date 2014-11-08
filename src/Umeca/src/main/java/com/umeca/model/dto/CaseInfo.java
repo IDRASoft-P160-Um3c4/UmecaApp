@@ -1,5 +1,8 @@
 package com.umeca.model.dto;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CaseInfo {
 
     private Long caseId;
@@ -7,6 +10,8 @@ public class CaseInfo {
     private String folderId;
     private String personName;
     private String status;
+    private String stringNotProsecute;
+    private Date dateNotProsecute;
 
     public CaseInfo(Long caseId, String mpId, String folderId, String firstName, String lastNameP, String lastNameM, String status) {
         this.caseId = caseId;
@@ -15,6 +20,19 @@ public class CaseInfo {
         this.personName = firstName + " " + lastNameP + " " + lastNameM;
         this.status = status;
     }
+
+    public CaseInfo(Long caseId, String mpId, String folderId, String firstName, String lastNameP, String lastNameM, String status,Date dateNotProsecute) {
+        this.caseId = caseId;
+        this.mpId = mpId;
+        this.folderId = folderId;
+        this.personName = firstName + " " + lastNameP + " " + lastNameM;
+        this.status = status;
+        this.dateNotProsecute = dateNotProsecute;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        stringNotProsecute = sdf.format(dateNotProsecute);
+    }
+
+
 
     public Long getCaseId() {
         return caseId;

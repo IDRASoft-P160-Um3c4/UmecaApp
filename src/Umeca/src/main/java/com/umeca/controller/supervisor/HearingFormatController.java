@@ -28,7 +28,6 @@ import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -86,6 +85,7 @@ public class HearingFormatController {
                     add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
                     add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
                     add(Constants.CASE_STATUS_FRAMING_COMPLETE);
+                    add(Constants.CASE_STATUS_NOT_PROSECUTE_OPEN);
 
                 }}, JqGridFilterModel.COMPARE_IN
         );

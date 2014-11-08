@@ -1,7 +1,5 @@
 package com.umeca.model.shared;
 
-import com.umeca.model.catalog.RequestType;
-
 import java.text.DateFormat;
 
 /**
@@ -64,7 +62,8 @@ public class Constants {
     public static final String CASE_STATUS_FRAMING_COMPLETE = "ST_CASE_FRAMING_MEETING_COMPLETE";
     public static final String CASE_STATUS_REQUEST = "ST_CASE_REQUEST";
     public static final String CASE_STATUS_EDIT_TEC_REV = "ST_CASE_EDIT_TEC_REV";
-
+    public static final String CASE_STATUS_NOT_PROSECUTE = "NOT_PROSECUTE";
+    public static final String CASE_STATUS_NOT_PROSECUTE_OPEN = "NOT_PROSECUTE_OPEN";
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW = "DONT_KNOW";
     public static final String ST_FIELD_VERIF_EQUALS = "EQUALS";
@@ -149,7 +148,7 @@ public class Constants {
 
 
     public static final String ST_REQUEST_AUTHORIZE_SOURCE = "AUTHORIZE_SOURCES";
-
+    public static final String ST_REQUEST_NOT_PROSECUTE = "NOT_PROSECUTE";
 
     public static final String NAME_RELATIONSHIP_IMPUTED = "Imputado";
 }
