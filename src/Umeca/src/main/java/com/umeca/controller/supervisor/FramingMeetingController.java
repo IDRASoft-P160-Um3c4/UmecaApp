@@ -2,8 +2,6 @@
 package com.umeca.controller.supervisor;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -27,9 +25,13 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.shared.SelectFilterFields;
-import com.umeca.repository.supervisor.*;
+import com.umeca.repository.supervisor.FramingAddressRepository;
+import com.umeca.repository.supervisor.FramingMeetingRepository;
+import com.umeca.repository.supervisor.FramingReferenceRepository;
+import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
+import com.umeca.service.shared.CrimeService;
 import com.umeca.service.supervisor.FramingMeetingService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +44,6 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
-import java.awt.print.PageFormat;
-import java.awt.print.Pageable;
-import java.awt.print.Printable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,6 +163,8 @@ public class FramingMeetingController {
     HearingFormatRepository hearingFormatRepository;
     @Autowired
     ActivityRepository activityRepository;
+    @Autowired
+    CrimeService crimeService;
 
 
     @RequestMapping(value = "/supervisor/framingMeeting/framingMeeting", method = RequestMethod.GET)
@@ -181,7 +181,7 @@ public class FramingMeetingController {
         model.addObject("imputedId", i.getId());
         model.addObject("hasMeeting", caseDet.getMeeting().getSchool() != null);
         model.addObject("hasTR", caseDet.getTechnicalReview() != null);
-
+        model.addObject("listCrime",crimeService.getListCrimeHearingformatByCase(id));
         List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id, new PageRequest(0, 1));
         if (lstHF != null && lstHF.size() > 0) {
             HearingFormatSpecs hfs = lstHF.get(0).getHearingFormatSpecs();

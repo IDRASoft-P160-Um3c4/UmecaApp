@@ -3,7 +3,6 @@ package com.umeca.model.entities.supervisor;
 import com.umeca.model.shared.HearingFormatConstants;
 
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,7 +56,7 @@ public class HearingFormatInfo {
 
     public HearingFormatInfo(Long idCase, Long idFormat, String idFolder, String idJudicial, String room, Date initTime, Date endTime,
                              String judgeName, String mpName, String defName, String impName, String impLNP, String impLNM,
-                             Date birthDate, String phone, String addressStr, String crimes, String additional,
+                             Date birthDate, String phone, String addressStr,
                              Integer contDet, Integer impForm, Integer ext, Date extDate, Integer vincProc, String vincRoom, Date vincDate, Date vincTime,
                              Integer arrangementType, Boolean isNational, String terms, Calendar registerTime) {
 

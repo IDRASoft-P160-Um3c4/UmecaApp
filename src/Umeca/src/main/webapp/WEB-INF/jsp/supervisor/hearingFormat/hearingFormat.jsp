@@ -536,30 +536,10 @@
             <div class="widget-header">Delitos</div>
             <div class="widget-body">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <div class="col-xs-6">
-                            <label>Delito(s)</label>
-                            <br/>
-                            <textarea class="input-xxlarge form-control limited" name="crimes"
-                                      ng-model="m.crimes"
-                                      maxlength="980" data-val="true"
-                                      data-val-required="Delito(s) adicionales es un campo requerido">
-                            </textarea>
-        <span class="field-validation-valid" data-valmsg-for="crimes"
-              data-valmsg-replace="true"></span>
-                        </div>
-                        <div class="col-xs-6">
-                            <label>Datos adicionales</label>
-                            <br/>
-
-                            <textarea class="input-xxlarge form-control limited" name="additionalData"
-                                      ng-model="m.additionalData"
-                                      maxlength="980" data-val="true"
-                                      data-val-required="Datos adicionales es un campo requerido">
-                            </textarea>
-        <span class="field-validation-valid" data-valmsg-for="additionalData"
-              data-valmsg-replace="true"></span>
-                        </div>
+                    <div class="col-xs-10 col-xs-offset-1" ng-init="readonlyBand = ${readonlyBand == null ? false: readonlyBand};">
+                        <br/>
+                    <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/crime.jsp" %>
+                        <br/>
                     </div>
                 </div>
                 <br/>

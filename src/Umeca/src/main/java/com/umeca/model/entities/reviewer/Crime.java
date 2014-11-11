@@ -2,6 +2,7 @@ package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.CrimeCatalog;
 import com.umeca.model.catalog.Election;
+import com.umeca.model.entities.supervisor.HearingFormat;
 
 import javax.persistence.*;
 
@@ -38,6 +39,10 @@ public class Crime {
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_criminal_proceeding", nullable = true)
     private CurrentCriminalProceeding criminalProceeding;
+
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="hearingFormat", nullable = true)
+    private HearingFormat hearingFormat;
 
 
     @Transient
@@ -97,5 +102,13 @@ public class Crime {
 
     public void set$$hashKey(String $$hashKey) {
         this.$$hashKey = $$hashKey;
+    }
+
+    public HearingFormat getHearingFormat() {
+        return hearingFormat;
+    }
+
+    public void setHearingFormat(HearingFormat hearingFormat) {
+        this.hearingFormat = hearingFormat;
     }
 }

@@ -37,6 +37,14 @@
             window.goToUrlMvcUrl(goTo);
         };
     </script>
+    <style>
+        .header {
+            line-height: 16px !important;
+            margin-bottom: 10px !important;
+            margin-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+    </style>
 
     <title>Entrevista de encuadre</title>
 </head>
@@ -103,6 +111,67 @@
 <br/>
 
 <div class="row">
+<div class="col-xs-10 col-xs-offset-1">
+    <div class="widget-box transparent">
+        <div class="widget-header widget-header-flat">
+            <h4 class="lighter">
+                <i class="icon-legal orange"></i>
+                Delitos
+            </h4>
+
+            <div class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="widget-body" ng-init='listCrime=${listCrime};'>
+            <div class="widget-main no-padding">
+                <table class="table table-bordered table-striped">
+                    <thead class="thin-border-bottom">
+                    <tr>
+                        <th>
+                            <i class="icon-caret-right blue"></i>
+                            Delito
+                        </th>
+
+                        <th>
+                            <i class="icon-caret-right blue"></i>
+                            Art&iacute;culo
+                        </th>
+
+                        <th class="hidden-480">
+                            <i class="icon-caret-right blue"></i>
+                            Federal
+                        </th>
+
+                        <th class="hidden-480">
+                            <i class="icon-caret-right blue"></i>
+                            Comentarios
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="c in listCrime">
+                        <td>{{c.crime.name}}</td>
+                        <td>{{c.article}}</td>
+                        <td>{{c.federal.name}}</td>
+                        <td>{{c.comment}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /widget-main -->
+        </div>
+        <!-- /widget-body -->
+    </div>
+    <!-- /widget-box -->
+</div>
+<br/>
+
+<div class="row">
     <div ng-show="FMsuccessMsg&&FMsuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
         {{FMsuccessMsg}}
         <br/>
@@ -127,7 +196,7 @@
 <br/>
 
 <div class="row">
-<div class="col-sm-12">
+<div class="col-sm-10 col-xs-offset-1">
 <div class="tabbable tabs-left">
 <ul class="nav nav-tabs" id="tabFramingMeeting">
 

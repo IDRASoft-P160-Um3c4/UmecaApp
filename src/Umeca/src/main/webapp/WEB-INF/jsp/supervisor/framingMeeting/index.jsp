@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.umeca.model.shared.Constants" %>
 <!--
 * Project: Umeca
 * User: Israel
@@ -22,7 +21,6 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
     <title>Casos para entrevista de encuadre</title>
 </head>
-
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 

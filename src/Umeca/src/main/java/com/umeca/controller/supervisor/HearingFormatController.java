@@ -25,6 +25,7 @@ import com.umeca.repository.supervisor.HearingTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.reviewer.CaseService;
+import com.umeca.service.shared.CrimeService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -201,6 +202,9 @@ public class HearingFormatController {
     @Autowired
     HearingTypeRepository hearingTypeRepository;
 
+    @Autowired
+    CrimeService crimeService;
+
     @RequestMapping(value = "/supervisor/hearingFormat/newHearingFormat", method = RequestMethod.GET)
     public ModelAndView newHearingFormat(@RequestParam(required = true) Long idCase) {
 
@@ -227,7 +231,9 @@ public class HearingFormatController {
             Gson conv = new Gson();
             model.addObject("hfView", conv.toJson(hfView));
             model.addObject("hasPrevHF", hfView.getHasPrevHF());
-
+            model.addObject("listCrime", hfView.getListCrime());
+            crimeService.fillCatalogModel(model);
+            model.addObject("readonlyBand", false); //TODO validar con adrian donde se debe poner esta bandera en verdadero
             if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
                 model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
             else
@@ -264,7 +270,9 @@ public class HearingFormatController {
         model.addObject("returnId", conv.toJson(returnId));
         List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
         model.addObject("lstSupervisor", conv.toJson(lstSuper));
-
+        crimeService.fillCatalogModel(model);
+        model.addObject("readonlyBand",true);
+        model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
         model.addObject("hasPrevHF", hfView.getHasPrevHF());
 
         if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
@@ -290,7 +298,7 @@ public class HearingFormatController {
         model.addObject("hfView", conv.toJson(hfView));
         List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
         model.addObject("lstSupervisor", conv.toJson(lstSuper));
-
+        model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
         model.addObject("hasPrevHF", hfView.getHasPrevHF());
 
         if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
@@ -302,7 +310,7 @@ public class HearingFormatController {
 
         if (hfView.getIdAddres() != null)
             addressService.fillModelAddress(model, hfView.getIdAddres());
-
+         crimeService.fillCatalogModel(model);
         return model;
     }
 

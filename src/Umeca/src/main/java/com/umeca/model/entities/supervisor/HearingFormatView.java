@@ -1,8 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
-import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.dto.LocationDto;
-import com.umeca.model.entities.reviewer.Case;
 
 import java.sql.Time;
 import java.util.Date;
@@ -85,7 +83,7 @@ public class HearingFormatView {
 
     private String additionalData;
 
-    private String crimes;
+    private String listCrime;
 
     private String terms;
 
@@ -389,12 +387,12 @@ public class HearingFormatView {
         this.lstArrangement = lstArrangement;
     }
 
-    public String getCrimes() {
-        return crimes;
+    public String getListCrime() {
+        return listCrime;
     }
 
-    public void setCrimes(String crimes) {
-        this.crimes = crimes;
+    public void setListCrime(String listCrime) {
+        this.listCrime = listCrime;
     }
 
     public Boolean getCanEdit() {
