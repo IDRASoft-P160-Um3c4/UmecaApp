@@ -7,7 +7,7 @@
     }
 </style>
 <div class="row element-center" ng-controller="crimeController">
-    <div class="row element-left">
+    <div class="row element-left" ng-init="readonlyBand = ${readonlyBand == null? false: readonlyBand};">
         <b>Delitos:</b>
     </div>
     <input type="hidden" ng-update-hidden ng-init='listCrime = ${(listCrime == null) ? '[]': listCrime};'>

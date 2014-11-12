@@ -238,6 +238,13 @@ public class InsertCatalogController {
         return "crime OK!";
     }
 
+    @RequestMapping(value = "/catalogs/typeName", method = RequestMethod.GET)
+    public String typeName() {
+        service.crime();
+        return "crime OK!";
+    }
+
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();

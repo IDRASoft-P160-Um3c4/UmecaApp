@@ -40,7 +40,7 @@
     </div>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
     <div ng-controller="proceedingLegalController">
-    <div class="row" ng-init="managereval = ${managereval}; idCase = ${idCase};">
+    <div class="row" ng-init="managereval = ${managereval == null ? false: managereval}; idCase = ${idCase};">
         <div class="col-sm-12">
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs" id="tabMeeting">

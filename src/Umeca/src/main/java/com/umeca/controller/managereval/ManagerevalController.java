@@ -189,7 +189,7 @@ public class ManagerevalController {
                     add(joinMee.get("name"));
                     add(joinMee.get("lastNameP"));
                     add(joinMee.get("lastNameM"));
-                    add(joinC.get("name").alias("crime"));
+                    add(joinC.join("crime").get("name").alias("crime"));
                 }};
 
                 return result;

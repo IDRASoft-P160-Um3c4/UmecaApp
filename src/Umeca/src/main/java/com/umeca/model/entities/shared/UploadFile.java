@@ -1,6 +1,7 @@
 package com.umeca.model.entities.shared;
 
 import com.umeca.model.catalog.CatFileType;
+import com.umeca.model.catalog.catalog.TypeNameFile;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
@@ -54,6 +55,10 @@ public class UploadFile {
 
     @Column(name="is_obsolete")
     private Boolean isObsolete;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_type_name", nullable = false)
+    private TypeNameFile typeNameFile;
 
     public UploadFile() {
     }
