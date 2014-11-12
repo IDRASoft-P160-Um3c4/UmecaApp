@@ -238,10 +238,10 @@ public class InsertCatalogController {
         return "crime OK!";
     }
 
-    @RequestMapping(value = "/catalogs/typeName", method = RequestMethod.GET)
-    public String typeName() {
-        service.crime();
-        return "crime OK!";
+    @RequestMapping(value = "/catalogs/typeFileName", method = RequestMethod.GET)
+    public String typeFileName() {
+        service.typeFileName();
+        return "typeName OK!";
     }
 
 
@@ -283,6 +283,7 @@ public class InsertCatalogController {
         service.electionNotApply();
         service.hearingType();
         service.crime();
+        service.typeFileName();
         return "insertCatalog OK!!";
     }
 }

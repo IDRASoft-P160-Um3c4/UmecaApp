@@ -6,11 +6,6 @@
 * Date: 4/30/14
 * Time: 9:53 AM
 -->
-<style>
-    .ui-jqgrid tr.jqgrow td {
-        white-space: normal !important;
-    }
-</style>
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>

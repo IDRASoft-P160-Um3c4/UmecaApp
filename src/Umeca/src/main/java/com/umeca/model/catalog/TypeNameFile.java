@@ -1,4 +1,4 @@
-package com.umeca.model.catalog.catalog;
+package com.umeca.model.catalog;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="cat_document_type")
+@Table(name="cat_type_name_file")
 public class TypeNameFile {
     @Id
     @Column(name="id_document_type")

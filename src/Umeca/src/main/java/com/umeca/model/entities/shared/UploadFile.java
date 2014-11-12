@@ -1,7 +1,7 @@
-package com.umeca.model.entities.shared;
+ package com.umeca.model.entities.shared;
 
 import com.umeca.model.catalog.CatFileType;
-import com.umeca.model.catalog.catalog.TypeNameFile;
+import com.umeca.model.catalog.TypeNameFile;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
