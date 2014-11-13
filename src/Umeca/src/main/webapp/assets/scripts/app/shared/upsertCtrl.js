@@ -3,6 +3,7 @@
     $scope.MsgError = "";
     $scope.Model = {};
 
+
     $scope.submit = function (formId, urlToPost, hasReturnId) {
 
         if ($(formId).valid() == false) {
@@ -158,5 +159,9 @@
         }
     }
 
+
+    $scope.formatHtml = function(sHtml){
+        return $sce.trustAsHtml(sHtml);
+    };
 
 });

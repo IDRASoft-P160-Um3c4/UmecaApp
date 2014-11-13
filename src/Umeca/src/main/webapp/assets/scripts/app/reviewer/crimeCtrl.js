@@ -21,6 +21,7 @@ app.controller('crimeController', function ($scope, $timeout) {
         if($scope.optionsCrime.length>0){
             $scope.c.crime =$scope.optionsCrime[0];
         }
+        $scope.c.crime =  undefined;
         $scope.cleanArray();
     };
 
@@ -60,7 +61,7 @@ app.controller('crimeController', function ($scope, $timeout) {
         $scope.c.federal = $scope.listElection[0];
         $scope.c.comment = undefined;
         $scope.c.article = undefined;
-        $scope.c.crime = $scope.optionsCrime[0];
+        $scope.c.crime =  undefined;
         $scope.cleanArray();
 
     };

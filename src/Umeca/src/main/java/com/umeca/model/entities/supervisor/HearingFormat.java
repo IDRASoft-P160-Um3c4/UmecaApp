@@ -2,10 +2,10 @@ package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Crime;
 
 import javax.persistence.*;
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
@@ -48,12 +48,6 @@ public class HearingFormat {
 
     @Column(name = "defender_name")
     private String defenderName;
-
-    @Column(name = "crimes", length = 5000)
-    private String crimes;
-
-    @Column(name = "additional_data", length = 5000)
-    private String additionalData;
 
     @Column(name = "terms", length = 1000)
     private String terms;
@@ -114,6 +108,9 @@ public class HearingFormat {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_hearing_format_imputed")
     private HearingFormatImputed hearingImputed;
+
+    @OneToMany(mappedBy="hearingFormat", cascade={CascadeType.ALL})
+    private List<Crime> crimeList;
 
     @Transient
     public static final Comparator<HearingFormat> hearingFormatComparator = new Comparator<HearingFormat>() {
@@ -211,20 +208,12 @@ public class HearingFormat {
         this.defenderName = defenderName;
     }
 
-    public String getCrimes() {
-        return crimes;
+    public List<Crime> getCrimeList() {
+        return crimeList;
     }
 
-    public void setCrimes(String crimes) {
-        this.crimes = crimes;
-    }
-
-    public String getAdditionalData() {
-        return additionalData;
-    }
-
-    public void setAdditionalData(String additionalData) {
-        this.additionalData = additionalData;
+    public void setCrimeList(List<Crime> crimeList) {
+        this.crimeList = crimeList;
     }
 
     public String getTerms() {

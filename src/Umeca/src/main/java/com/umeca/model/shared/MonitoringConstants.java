@@ -43,6 +43,7 @@ public class MonitoringConstants {
     public final static String TYPE_COMMENT_MONITORING_PLAN_END = "TERMINAR PLAN";
     public final static String TYPE_COMMENT_CASE_END = "TERMINAR CASO";
     public final static String TYPE_COMMENT_ASSIGNED_CASE = "CASO ASIGNADO";
+    public final static String TYPE_INFORMATION = "INFORMATION";
 
     public static final int ACTIVITY_ARRANGEMENT_UNDEFINED = -1;
     public static final int ACTIVITY_ARRANGEMENT_FAILED = 0;
@@ -56,6 +57,7 @@ public class MonitoringConstants {
     public static final String LOG_MSG_INFO_PENDING_ACTIVITY_AUTHORIZATION =
             "Se crearon, modificaron o eliminaron actividades del plan de seguimiento, se espera autorización. Si no autoriza se suspenderá el plan.";
 
+    public static final String LOG_MSG_INFO_OPEN_CASE_NOT_PROSECUTE ="Se abri&oacute; un caso no judicializado";
     public static final int AUTHORIZATION_MONPLAN = 1;
     public static final int AUTHORIZATION_ACTMONPLAN = 2;
     public static final int AUTHORIZATION_OK = 0;

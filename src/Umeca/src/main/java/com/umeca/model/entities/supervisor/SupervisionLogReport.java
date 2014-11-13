@@ -12,11 +12,11 @@ public class SupervisionLogReport {
     private String moralName;
     private String moralPhone;
 
-    public SupervisionLogReport(String sImpName, String sImpLastNameP, String sImpLastNameM, String crime, String judge, String defender, String mp, String imputedTel,
+    public SupervisionLogReport(String sImpName, String sImpLastNameP, String sImpLastNameM, String judge, String defender, String mp, String imputedTel,
                                 String imputedStreet, String imputedOutNum, String address, String sMoralName, String sMoralLastNameP, String sMoralLastNameM, String sMoralPhone){
 
         this.imputedName = sImpName + " " + sImpLastNameP + " " + sImpLastNameM;
-        this.crime = crime;
+
         this.judge = judge;
         this.defender = defender;
         this.mp = mp;

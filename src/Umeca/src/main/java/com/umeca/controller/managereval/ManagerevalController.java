@@ -3,24 +3,34 @@ package com.umeca.controller.managereval;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
+import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
+import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.catalog.*;
+import com.umeca.model.catalog.Relationship;
+import com.umeca.model.catalog.RequestType;
+import com.umeca.model.catalog.StatusCase;
+import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.managereval.ResponseRequestView;
 import com.umeca.model.entities.reviewer.*;
-import com.umeca.model.entities.reviewer.View.RequestEvaluationView;
 import com.umeca.model.entities.reviewer.dto.RequestDto;
 import com.umeca.model.entities.reviewer.dto.SourceVerificationDto;
 import com.umeca.model.entities.shared.Message;
 import com.umeca.model.entities.shared.RelMessageUserReceiver;
-import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.managereval.ManagerevalView;
 import com.umeca.model.shared.Constants;
-import com.umeca.model.shared.SelectList;
+import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.catalog.*;
+import com.umeca.repository.reviewer.CaseRequestRepository;
+import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
+import com.umeca.repository.reviewer.VerificationRepository;
+import com.umeca.repository.shared.MessageRepository;
+import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -29,15 +39,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import com.umeca.repository.reviewer.*;
-import com.umeca.repository.reviewer.VerificationRepository;
-import com.umeca.repository.catalog.*;
-import com.umeca.repository.CaseRepository;
-import com.umeca.repository.*;
-
-import com.umeca.infrastructure.jqgrid.model.*;
-import com.umeca.repository.shared.*;
-import com.umeca.repository.catalog.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.*;
@@ -188,7 +189,7 @@ public class ManagerevalController {
                     add(joinMee.get("name"));
                     add(joinMee.get("lastNameP"));
                     add(joinMee.get("lastNameM"));
-                    add(joinC.get("name").alias("crime"));
+                    add(joinC.join("crime").get("name").alias("crime"));
                 }};
 
                 return result;
@@ -458,6 +459,10 @@ public class ManagerevalController {
                         case Constants.ST_REQUEST_EDIT_MEETING:
                             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
                             c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE));
+                            break;
+                        case Constants.ST_REQUEST_NOT_PROSECUTE:
+                            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+                            c.setDateNotProsecute(new Date());
                             break;
                     }
                     break;

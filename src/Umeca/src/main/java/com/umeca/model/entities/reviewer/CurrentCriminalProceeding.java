@@ -43,6 +43,8 @@ public class CurrentCriminalProceeding {
     @OneToMany(mappedBy="criminalProceeding", cascade={CascadeType.ALL})
     private List<Victim> victims;
 
+
+
     public Long getId() {
         return id;
     }

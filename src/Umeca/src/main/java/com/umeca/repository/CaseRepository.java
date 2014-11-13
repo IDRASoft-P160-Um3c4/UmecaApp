@@ -113,6 +113,12 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "WHERE c.id = :idCase")
     CaseInfo getInfoById(@Param("idCase") Long idCase);
 
+    @Query("select  new com.umeca.model.dto.CaseInfo(c.id, c.idMP, c.idFolder, i.name, i.lastNameP, i.lastNameM, s.description, c.dateNotProsecute) from Case as c " +
+            "INNER JOIN c.status as s " +
+            "INNER JOIN c.meeting.imputed as i " +
+            "WHERE c.id = :idCase")
+    CaseInfo getInfoByIdNotProsecute(@Param("idCase") Long idCase);
+
 
     /* consultas para obtener informacion para el excel*/
     @Query("select new com.umeca.model.entities.supervisor.ExcelCaseInfoDto(" +

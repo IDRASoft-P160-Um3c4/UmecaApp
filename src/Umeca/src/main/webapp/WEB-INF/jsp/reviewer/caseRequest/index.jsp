@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.umeca.model.shared.Constants" %>
 <!--
 * Project: Umeca
 * User: Israel
 * Date: 4/30/14
 * Time: 9:53 AM
 -->
-<style>
-    .ui-jqgrid tr.jqgrow td {
-        white-space: normal !important;
-    }
-</style>
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
@@ -78,8 +72,8 @@
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Cambiar el estado de las fuentes de verificaci&oacute;n\" onclick=\"window.makeRequest('CHANGE_STATUS_SOURCE','" + cl + "');\"><span class=\"icon-group\"></span></a>";
                         }if(status.indexOf(".D.")!=-1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar Instrumento de evaluaci&oacute;n de riesgos\" onclick=\"window.makeRequest('EDIT_TECHNICAL_REVIEW','" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
-                        }if(status.indexOf(".F.")!=1){
-
+                        }if(status.indexOf(".G.")!=-1){
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"El caso no se judicializ&oacute;\" onclick=\"window.makeRequest('NOT_PROSECUTE','" + cl + "');\"><span class=\"icon-folder-close\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

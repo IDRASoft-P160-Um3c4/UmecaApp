@@ -15,3 +15,5 @@
 14|ST_CASE_OBSOLETE|Caso eliminado
 15|ST_CASE_HEARING_FORMAT_INCOMPLETE|Formato de audiencia incompleto.
 16|ST_CASE_TECHNICAL_REVIEW_INCOMPLETE|Opinión técnica incompleta.
+17|ST_CASE_NOT_PROSECUTE|No judializado.
+18|ST_CASE_NOT_PROSECUTE_OPEN|No judicializado abierto.

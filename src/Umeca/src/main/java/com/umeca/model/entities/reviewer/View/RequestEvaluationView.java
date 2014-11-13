@@ -20,13 +20,26 @@ public class RequestEvaluationView implements EntityGrid {
     private String status;
     private String description;
 
+    public RequestEvaluationView() {
+    }
+
+    public RequestEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM) {
+        this.id = id;
+        this.idFolder = idFolder;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.fullName = name + " " +lastNameP + " " + lastNameM;
+    }
+
     /*codigos de evaluacion
-     A= edit meeting
-     B=edit legal information
-     C=change status source
-     D= edit technical review
-     E = delete meeting(obsolete)
-    */
+             A= edit meeting
+             B=edit legal information
+             C=change status source
+             D= edit technical review
+             E = delete meeting(obsolete)
+             G = case not prosecute
+            */
     public RequestEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, String statusCase) {
         this.id = id;
         this.idFolder = idFolder;
@@ -37,13 +50,16 @@ public class RequestEvaluationView implements EntityGrid {
         this.statusVerification = statusVerification;
         this.fullName = this.name+" "+this.lastNameP+" "+this.lastNameM;
         this.statusCase = statusCase;
-        status ="";
+        status= "";
+        if(!this.statusCase.equals(Constants.CASE_STATUS_REQUEST)){
+            status =".G.";
+        }
         if(this.statusCase.equals(Constants.CASE_STATUS_MEETING)){
             if(this.statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)){
                 description="Por agregar informaci&oacute;n legal";
                 status+= ".A.";
             }else if(this.statusMeeting.equals(Constants.S_MEETING_INCOMPLETE)){
-                status = ".E.";
+                status += ".E.";
                 description="Entrevista de riesgos procesales incompleta";
             }
         }else if(this.statusCase.equals(Constants.CASE_STATUS_SOURCE_VALIDATION)){

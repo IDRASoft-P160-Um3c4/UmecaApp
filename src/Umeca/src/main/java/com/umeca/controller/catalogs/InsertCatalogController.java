@@ -238,6 +238,13 @@ public class InsertCatalogController {
         return "crime OK!";
     }
 
+    @RequestMapping(value = "/catalogs/typeFileName", method = RequestMethod.GET)
+    public String typeFileName() {
+        service.typeFileName();
+        return "typeName OK!";
+    }
+
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -276,6 +283,7 @@ public class InsertCatalogController {
         service.electionNotApply();
         service.hearingType();
         service.crime();
+        service.typeFileName();
         return "insertCatalog OK!!";
     }
 }

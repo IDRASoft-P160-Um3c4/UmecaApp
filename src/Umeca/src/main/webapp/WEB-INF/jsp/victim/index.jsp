@@ -1,11 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<style>
-    .ui-jqgrid tr.jqgrow td {
-        white-space: normal !important;
-    }
-</style>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/vitim/victimCtrl.js"></script>
 <script>
     window.upsertVictim = function(id) {

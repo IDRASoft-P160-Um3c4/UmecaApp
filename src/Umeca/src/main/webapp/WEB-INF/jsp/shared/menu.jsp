@@ -6,6 +6,15 @@
 
 <div class="navbar navbar-default navbar-static-top"
      ng-init="urlCheckSession = '<c:url value="/session/checkout.json"/>'; urlHome = '<c:url value='/index.html' />'; initValueSession = ${pageContext.session.maxInactiveInterval};">
+<style>
+    .navbar>.container {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+    .container {
+        max-width: 100% !important;
+    }
+</style>
 <script type="text/javascript">
     try {
         ace.settings.check('navbar', 'fixed')
@@ -75,7 +84,7 @@
                             class="glyphicon glyphicon-folder-close"></i>
                         <%--&nbsp;&nbsp;Bit&aacute;coras--%>
                         <%--<i class="icon-caret-down"></i>--%>
-                        &nbsp;&nbsp;Historial
+                        &nbsp;&nbsp;Historiales
                         <i class="icon-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -85,16 +94,20 @@
                             <li><a href="<c:url value='/supervisor/log/index.html'/>"><i
                                     class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Historial de
                                 supervisi&oacute;n y cumplimiento</a></li>
+                            <li><a
+                                    href="<c:url value='/shared/messageHistory/index.html' />"><i
+                                    class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+                            </li>
                     </ul>
                 </li>
                 <li class="nav-li-blue"><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>"><i
                         class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
                     supervisi&oacute;n</a>
                 </li>
-                <li class="nav-li-blue"><a
-                        href="<c:url value='/shared/messageHistory/index.html' />"><i
-                        class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+                <li class="nav-li-blue"><a href="<c:url value='/supervisor/caseNotProsecute/index.html'/>"><i
+                        class=" icon-folder-close"></i>&nbsp;&nbsp;Casos no judicializados</a>
                 </li>
+
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
                 <li class="nav-li-blue"><a href="<c:url value='/managereval/index.html'/>"><i

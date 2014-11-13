@@ -7,14 +7,14 @@
     }
 </style>
 <div class="row element-center" ng-controller="crimeController">
-    <div class="row element-left">
+    <div class="row element-left" ng-init="readonlyBand = ${readonlyBand == null? false: readonlyBand};">
         <b>Delitos:</b>
     </div>
     <input type="hidden" ng-update-hidden ng-init='listCrime = ${(listCrime == null) ? '[]': listCrime};'>
     <input type="hidden" ng-update-hidden ng-model="crimeString" name='listCrime'>
     <div class="col-xs-12">
 
-        <div class="row"  ng-show="managereval == false">
+        <div class="row"  ng-show="readonlyBand == false">
     <div class="col-xs-5 element-center">
        Delito<br/><br/>
         <select class="width-95 element-center chosen-select" ng-model="c.crime"
@@ -69,7 +69,7 @@
                  <h5 class="smaller lighter blue">Observaciones</h5>
                  <div class="hr hr-2"></div>
              </div>
-             <div class="col-xs-1">
+             <div class="col-xs-1" ng-show="readonlyBand == false">
                  <h5 class="smaller lighter blue">Acciones</h5>
                  <div class="hr hr-2"></div>
              </div>
@@ -87,7 +87,7 @@
                 <div class="col-xs-3">
                     {{crime.comment}}
                 </div>
-                <div class="col-xs-1" ng-show="managereval == false">
+                <div class="col-xs-1" ng-show="readonlyBand == false">
                     <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteCrime($index)"></i>
                 </div>
             </div>

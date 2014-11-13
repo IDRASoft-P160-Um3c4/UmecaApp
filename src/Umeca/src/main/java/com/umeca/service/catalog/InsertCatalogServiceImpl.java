@@ -34,7 +34,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
     //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -731,6 +731,23 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setGroupCrime(groupCrimeRepository.findOne(Long.parseLong(data[4])));
             crimeCatalogRepository.save(model);
         }
+    }
+
+    @Autowired
+    TypeNameFileRepository typeNameFileRepository;
+    @Override
+    public void typeFileName() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "type_file_name.txt", "\\|", 5);
+        for (String[] data : lstDta) {
+            TypeNameFile model = new TypeNameFile();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setCode(data[2]);
+            model.setOnly(data[3].equals("1"));
+            model.setObsolete(data[4].equals("1"));
+            typeNameFileRepository.save(model);
+        }
+        typeNameFileRepository.flush();
     }
 
     @Autowired

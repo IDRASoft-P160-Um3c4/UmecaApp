@@ -16,7 +16,7 @@
                         <span class="blue">{{n.timestamp}}</span>
                     </div>
 
-                    <div class="text">
+                    <div class="text" ng-show="n.action!= 'INFORMATION'">
                         <i class="icon-quote-left"></i>
                         <span class="lbl"><strong>{{n.typeName}}</strong></span>
                             <span ng-class="(n.action === 'RECHAZADO AUTORIZAR' || n.action === 'RECHAZADO REPORTE INCUMPLIMIENTO' ||  n.action === 'RECHAZADO TERMINAR' ? 'red'
@@ -25,6 +25,14 @@
                             Caso {{n.caseId}} (<strong>{{n.mpId}}</strong>) Imputado: <strong>{{n.personName}}</strong> <br/></span>
                         <div class="font-size-sm">
                             <span style="display: inline; word-wrap: break-word;">{{n.comments}}</span>
+                        </div>
+                    </div>
+                    <div class="text" ng-show="n.action == 'INFORMATION'">
+                        <i class="icon-quote-left"></i>
+                        <strong><span class="lbl" ng-bind-html="formatHtml(n.type)"></span></strong>
+                            <span ng-class="'green'">&nbsp;(INFORMATIVO)</span><br/>
+                        <div class="font-size-sm">
+                            <span style="display: inline; word-wrap: break-word;"><p ng-bind-html="formatHtml(n.comments)"></p></span>
                         </div>
                     </div>
                 </div>

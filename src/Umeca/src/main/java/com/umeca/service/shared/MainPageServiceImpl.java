@@ -25,7 +25,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class MainPageServiceImpl implements MainPageService {
@@ -141,6 +144,7 @@ public class MainPageServiceImpl implements MainPageService {
                     add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
                     add(MonitoringConstants.STATUS_PENDING_END);
                     add(MonitoringConstants.STATUS_END);
+                    add(MonitoringConstants.TYPE_INFORMATION);
                 }}, userId
         );
         String sLstGeneric = json.toJson(lstGen);
@@ -202,7 +206,7 @@ public class MainPageServiceImpl implements MainPageService {
         Collections.sort(lstActivities, LogNotificationDto.dateSorter);
 
         Gson conv = new Gson();
-        List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getManagerEvalNotifications(Constants.ROLE_REVIEWER);
+        List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getManagerEvalNotifications(Constants.ROLE_EVALUATION_MANAGER);
 
         List<LogNotificationDto> top10 = new ArrayList<>();
         int top = 0;

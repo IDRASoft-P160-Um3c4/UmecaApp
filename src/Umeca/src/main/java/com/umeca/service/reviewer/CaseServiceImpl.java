@@ -7,10 +7,8 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
-import com.umeca.model.entities.supervisor.FolderConditionalReprieve;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.Constants;
-import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
@@ -128,7 +126,7 @@ public class CaseServiceImpl implements CaseService {
             //caseDet.setFolderConditionalReprieve(folderObj);
             //folderObj.setCaseDetention(caseDet);
 
-            caseDet.setIdFolder("SIN EVALUACIÓN REGISTRADA");
+            caseDet.setIdFolder("SIN EVALUACIÓN");
             caseRepository.save(caseDet);
 
             resp.setHasError(false);

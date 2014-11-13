@@ -1,14 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
 <style>
-    .ui-jqgrid tr.jqgrow td {
-        white-space: normal !important;
-    }
 </style>
 <script>
-    window.upsertAddress = function(id) {
+    window.upsertAddress = function (id) {
         window.showUpsertWithIdCase(id, "#angJsjqGridIdAddress", "<c:url value='/reviewer/meeting/address/upsert.html'/>", "#GridIdAddress",undefined, ${m.caseDetention.id});
     };
 

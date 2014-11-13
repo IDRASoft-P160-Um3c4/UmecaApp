@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.umeca.model.shared.Constants" %>
 <html>
 
 <head>
@@ -75,6 +74,9 @@
                         switch (status[i]) {
 
                             case 'ST_CASE_TECHNICAL_REVIEW_COMPLETE':
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Gestionar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+                                break;
+                            case 'ST_CASE_NOT_PROSECUTE_OPEN':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Gestionar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
                                 break;
                             case 'ST_CASE_CONDITIONAL_REPRIEVE':

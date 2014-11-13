@@ -18,8 +18,10 @@ public interface LogNotificationReviewerRepository extends JpaRepository<LogNoti
     @Query("select new com.umeca.model.entities.reviewer.dto.LogNotificationDto(nr.id,nr.subject,nr.message,nr.timestamp) " +
             "from LogNotificationReviewer nr " +
             "inner join nr.senderUser SU "+
+            "inner join nr.receiveUser RU " +
+            "inner join RU.roles r "+
             "inner join SU.roles RO " +
-            "where nr.isObsolete=false and RO.role=:managerEval")
+            "where nr.isObsolete=false and r.role = :managerEval")
     List<LogNotificationDto> getManagerEvalNotifications(@Param("managerEval")String role);
 
 }

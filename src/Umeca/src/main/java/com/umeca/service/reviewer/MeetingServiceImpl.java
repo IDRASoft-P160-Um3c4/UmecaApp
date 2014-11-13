@@ -263,7 +263,9 @@ public class MeetingServiceImpl implements MeetingService {
         Boolean band = false;
         if (u.getRoles().get(0).getRole().equals(Constants.ROLE_EVALUATION_MANAGER))
             band = true;
+        model.addObject("readonlyBand", band);
         model.addObject("managereval", band);
+
     }
 
     @Autowired
@@ -355,6 +357,7 @@ public class MeetingServiceImpl implements MeetingService {
             model.addObject("numberConvictions","0");
         }
         if(showCase!=null && showCase.equals(1)){
+            model.addObject("readonlyBand", true);
             model.addObject("managereval", true);
         }else {
             userConfigToView(model);
