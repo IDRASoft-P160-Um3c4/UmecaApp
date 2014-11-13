@@ -91,11 +91,17 @@ public class FramingMeeting {
     @Column(name = "job_comments")
     private String jobComments;
 
+    @Column(name = "school_comments")
+    private String schoolComments;
+
     @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingActivity> activities;
 
     @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Job> jobs;
+
+    @OneToOne(mappedBy = "framingMeeting", cascade = CascadeType.ALL)
+    private School school;
 
     public Long getId() {
         return id;
@@ -295,5 +301,29 @@ public class FramingMeeting {
 
     public void setActivities(List<FramingActivity> activities) {
         this.activities = activities;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+
+    public String getSchoolComments() {
+        return schoolComments;
+    }
+
+    public void setSchoolComments(String schoolComments) {
+        this.schoolComments = schoolComments;
     }
 }

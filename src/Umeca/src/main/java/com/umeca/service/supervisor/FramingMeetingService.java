@@ -71,4 +71,8 @@ public interface FramingMeetingService {
 
     ResponseMessage deleteFramingJob(Long id);
 
+    SchoolDto fillSchoolForView(Long idCase);
+
+    ResponseMessage saveSchool(SchoolDto view);
+
 }

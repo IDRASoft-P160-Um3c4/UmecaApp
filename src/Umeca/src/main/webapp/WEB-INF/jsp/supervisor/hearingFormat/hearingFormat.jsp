@@ -877,7 +877,7 @@
 </div>
 <br/>
 
-<div class="row" ng-show="m.vincProcess==1" id="divCitaUmeca">
+<div class="row" ng-show="m.vincProcess==1||m.vincProcess==3" id="divCitaUmeca">
     <div class="widget-box">
         <div class="widget-header">Cita UMECA</div>
         <div class="widget-body">
@@ -946,7 +946,7 @@
     <input type="hidden" name="arrangementType" value="{{m.arrType}}"/>
 </div>
 
-<div class="row" ng-show="m.vincProcess==1" id="divMedidas">
+<div class="row" ng-show="m.vincProcess==1||m.vincProcess==3" id="divMedidas">
     <div class="widget-box">
         <div class="widget-header">Obligaciones procesales</div>
         <div class="widget-body">
@@ -1077,7 +1077,7 @@
 
 <br/>
 
-<div class="row" ng-show="m.vincProcess==1" id="divContact">
+<div class="row" ng-show="m.vincProcess==1||m.vincProcess==3" id="divContact">
     <div class="widget-box">
         <div class="widget-header">Datos de contacto</div>
         <div class="widget-body">

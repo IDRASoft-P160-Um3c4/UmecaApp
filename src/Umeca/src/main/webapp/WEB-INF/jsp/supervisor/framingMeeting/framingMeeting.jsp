@@ -24,6 +24,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/address/addressCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/drugs/drugsCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/job/jobCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/school/schoolCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
@@ -246,7 +247,7 @@
     </a>
 </li>
 <li id="liSchool">
-    <a data-toggle="tab" href="#">
+    <a data-toggle="tab" href="#school">
         <div class="row">
             <div class="col-xs-10">
                 <i class="purple icon-book  bigger-200"></i>
@@ -447,6 +448,10 @@
         <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/references/_framingReferences.jsp" %>
     </div>
 
+    <div id="school" class="tab-pane">
+        <%@ include
+                file="/WEB-INF/jsp/supervisor/framingMeeting/school/_school.jsp" %>
+    </div>
     <div id="job" class="tab-pane">
         <%@ include
                 file="/WEB-INF/jsp/supervisor/framingMeeting/job/_framingJob.jsp" %>

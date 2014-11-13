@@ -80,7 +80,7 @@ public class FramingMeetingController {
     private HearingFormatService hearingFormatService;
 
     @Autowired
-    private AddressRepository addressRepository;
+    private DegreeRepository degreeRepository;
 
     @Autowired
     private AcademicLevelRepository academicLevelRepository;
@@ -266,6 +266,7 @@ public class FramingMeetingController {
         }
 
         model.addObject("lstRelationship", conv.toJson(relationships));
+        model.addObject("lstAcademicLvl", new Gson().toJson(academicLevelRepository.findNoObsolete()));
 
         if (returnId == null)
             returnId = -1;
@@ -907,6 +908,26 @@ public class FramingMeetingController {
     @RequestMapping(value = "/supervisor/framingMeeting/job/delete", method = RequestMethod.POST)
     public ResponseMessage jobDelete(@RequestParam(required = false) Long id) {
         return framingMeetingService.deleteFramingJob(id);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/school/getAcademicLvl", method = RequestMethod.POST)
+    public ResponseMessage getAcademicLvls() {
+        return new ResponseMessage(false, new Gson().toJson(academicLevelRepository.findNoObsolete()));
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/school/getDegree", method = RequestMethod.POST)
+    public ResponseMessage getDegrees(@RequestParam(required = false) Long id) {
+        return new ResponseMessage(false, new Gson().toJson(degreeRepository.findNoObsoleteByAcademicLvlId(id)));
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/school/loadSchool", method = RequestMethod.POST)
+    public ResponseMessage showSchool(@RequestParam(required = true) Long idCase) {
+        return new ResponseMessage(false, new Gson().toJson(framingMeetingService.fillSchoolForView(idCase)));
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/school/doUpsert", method = RequestMethod.POST)
+    public ResponseMessage upsertSchool(@ModelAttribute SchoolDto view) {
+        return framingMeetingService.saveSchool(view);
     }
 
 }

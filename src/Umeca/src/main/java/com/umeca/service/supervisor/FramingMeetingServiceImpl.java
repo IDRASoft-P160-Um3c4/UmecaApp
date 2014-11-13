@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.Degree;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.ScheduleDto;
@@ -19,10 +20,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.reviewer.DrugRepository;
-import com.umeca.repository.reviewer.ImputedHomeRepository;
-import com.umeca.repository.reviewer.JobRepository;
-import com.umeca.repository.reviewer.ScheduleRepository;
+import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
@@ -143,7 +141,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "save", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;ss tarde");
+            response.setMessage("Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;s tarde");
         } finally {
             return response;
         }
@@ -1135,11 +1133,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (lsR.size() > 0) {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("reference", lsR));
             }
-            if (existFraming.getOccupation() == null || existFraming.getRelFramingMeetingActivities() == null || !(existFraming.getRelFramingMeetingActivities().size() > 0)) {
-                List<String> ls = new ArrayList<>();
-                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Actividades que realiza el imputado\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", ls));
-            }
+//            if (existFraming.getOccupation() == null || existFraming.getRelFramingMeetingActivities() == null || !(existFraming.getRelFramingMeetingActivities().size() > 0)) {
+//                List<String> ls = new ArrayList<>();
+//                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Actividades que realiza el imputado\".");
+//                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", ls));
+//            }
             if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0)) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe registrar al menos una registro en en la secci&oacute;n \"Consumo de sustancias\".");
@@ -1176,6 +1174,24 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     ls.add("Debe registrar al menos una huella dactilar en la secci&oacute;n \"Enrolamiento\".");
                     validate.getGroupMessage().add(new GroupMessageMeetingDto("fingerprint", ls));
                 }
+
+            if (existFraming.getSchool() == null) {
+                List<String> arrMsg = new ArrayList<>();
+                arrMsg.add(sharedUserService.convertToValidString("Debe proporcionar la información faltante en la sección \"Historia escolar\"."));
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("school", arrMsg));
+            }
+
+            if (existFraming.getJobs() == null || !(existFraming.getJobs().size() > 0)) {
+                List<String> arrMsg = new ArrayList<>();
+                arrMsg.add("Debe registrar al menos un trabajo en la secci&oacute;n \"Historia laboral\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("job", arrMsg));
+            }
+
+            if (existFraming.getActivities() == null || !(existFraming.getActivities().size() > 0)) {
+                List<String> arrMsg = new ArrayList<>();
+                arrMsg.add("Debe registrar al menos una actividad en la secci&oacute;n \"Actividades que realiza el imputado\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", arrMsg));
+            }
 
             if (validate.existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
@@ -1672,6 +1688,106 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             resp.setMessage("Ha ocurrido un error. Intente m&aacute;s tarde.");
         } finally {
             return resp;
+        }
+    }
+
+    @Autowired
+    private SchoolRepository schoolRepository;
+    @Autowired
+    private DegreeRepository degreeRepository;
+
+    @Override
+    public SchoolDto fillSchoolForView(Long idCase) {
+        SchoolDto view = new SchoolDto();
+        view.setIdCase(idCase);
+
+        School existSchool = schoolRepository.getSchoolByIdCase(idCase);
+
+        if (existSchool != null) {
+
+            view.setId(existSchool.getId());
+            view.setName(existSchool.getName());
+            view.setPhone(existSchool.getPhone());
+            view.setAddress(existSchool.getAddress());
+            view.setSpecification(existSchool.getSpecification());
+            view.setCommentSchool(existSchool.getFramingMeeting().getSchoolComments());
+            view.setHasActualSchool(existSchool.getBlock());
+            view.setAcademicLvlId(existSchool.getDegree().getAcademicLevel().getId());
+            view.setDegreeId(existSchool.getDegree().getId());
+
+            List<ScheduleDto> lstSchDto = new ArrayList<>();
+
+            for (Schedule schedule : existSchool.getSchedule()) {
+                ScheduleDto newDto = new ScheduleDto();
+                newDto.setDay(schedule.getDay());
+                newDto.setStart(schedule.getStart());
+                newDto.setEnd(schedule.getEnd());
+                lstSchDto.add(newDto);
+            }
+
+            view.setSchedule(new Gson().toJson(lstSchDto));
+        }
+
+        return view;
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage saveSchool(SchoolDto view) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+
+            School existSchool = new School();
+
+            if (view.getId() != null) {
+                existSchool = schoolRepository.findOne(view.getId());
+                for (Schedule act : existSchool.getSchedule()) {
+                    act.setSchool(null);
+                    scheduleRepository.delete(act);
+                }
+                existSchool.setSchedule(null);
+                schoolRepository.save(existSchool);
+            }
+
+            existSchool.setName(view.getName());
+            existSchool.setPhone(view.getPhone());
+            existSchool.setAddress(view.getAddress());
+            existSchool.setDegree(degreeRepository.findOne(view.getDegreeId()));
+            existSchool.setBlock(view.getHasActualSchool());
+
+            List<ScheduleDto> lstSchDto = new Gson().fromJson(view.getSchedule(), new TypeToken<List<ScheduleDto>>() {
+            }.getType());
+            ;
+
+            List<Schedule> lstSchedule = new ArrayList<>();
+
+            for (ScheduleDto act : lstSchDto) {
+                Schedule newSch = new Schedule();
+                newSch.setDay(act.getDay());
+                newSch.setStart(act.getStart());
+                newSch.setEnd(act.getEnd());
+                newSch.setSchool(existSchool);
+                lstSchedule.add(newSch);
+            }
+
+            FramingMeeting existFraming = caseRepository.findOne(view.getIdCase()).getFramingMeeting();
+            existFraming.setSchoolComments(view.getCommentSchool());
+
+            framingMeetingRepository.save(existFraming);
+
+            existSchool.setSchedule(lstSchedule);
+            existSchool.setFramingMeeting(existFraming);
+
+            schoolRepository.save(existSchool);
+
+            response.setHasError(false);
+            response.setMessage("Se ha guardado la informaci&oacute;n con &eacute;xito.");
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "saveSchool", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;s tarde");
+        } finally {
+            return response;
         }
     }
 
