@@ -12,6 +12,7 @@ public class HearingFormatConstants {
 
     public static final Integer PROCESS_VINC_YES = 1;
     public static final Integer PROCESS_VINC_NO = 2;
+    public static final Integer PROCESS_VINC_NO_REGISTER = 3;
 
 
     public static final Integer EXTENSION_72 = 1;

@@ -28,13 +28,13 @@
                 colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'company', index: 'company', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'post', index: 'post', width: 150, align: "center", sorttype: 'string', search: false },
-                    { name: 'nameHead', index: 'nameHead', width: 160, align: "center", search: false },
-                    { name: 'phone', index: 'phone', width: 150, align: "center", search: false },
-                    { name: 'registerTypeString', index: 'registerTypeString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'company', index: 'company', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'post', index: 'post', width: 100, align: "center", sorttype: 'string', search: false },
+                    { name: 'nameHead', index: 'nameHead', width: 120, align: "center", search: false },
+                    { name: 'phone', index: 'phone', width: 120, align: "center", search: false },
+                    { name: 'registerTypeString', index: 'registerTypeString', width: 120, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'registerTypeId', index: 'registerTypeId', hidden: true},
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 50, align: "center", sortable: false, search: false }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

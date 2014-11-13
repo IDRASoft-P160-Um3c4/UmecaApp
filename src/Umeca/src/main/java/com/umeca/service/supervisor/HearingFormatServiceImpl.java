@@ -239,7 +239,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingSpecs.setLinkageRoom(viewFormat.getLinkageRoom());
 
 
-        if (viewFormat.getVincProcess() != null && viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+        if (viewFormat.getVincProcess() != null && (viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
 
             hearingSpecs.setArrangementType(viewFormat.getArrangementType());
             hearingSpecs.setNationalArrangement(viewFormat.getNationalArrangement());
@@ -339,15 +339,15 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         } else {
             hearingFormat.setConfirmComment(viewFormat.getConfirmComment());
         }
-        List<Crime> auxCrime =hearingFormat.getCrimeList();
-        if(auxCrime!=null){
+        List<Crime> auxCrime = hearingFormat.getCrimeList();
+        if (auxCrime != null) {
             hearingFormat.setCrimeList(null);
-            for(Crime c: auxCrime){
+            for (Crime c : auxCrime) {
                 c.setHearingFormat(null);
                 crimeRepository.delete(c);
             }
         }
-        hearingFormat.setCrimeList(crimeService.getListOfString(viewFormat.getListCrime(),hearingFormat));
+        hearingFormat.setCrimeList(crimeService.getListOfString(viewFormat.getListCrime(), hearingFormat));
         hearingFormat.setHearingFormatSpecs(hearingSpecs);
         hearingFormat.setIsFinished(viewFormat.getIsFinished());
         hearingFormat.setComments(viewFormat.getComments());
@@ -410,35 +410,35 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormatView.setIdFolder(existCase.getIdFolder());
                 hearingFormatView.setIdJudicial(existCase.getIdMP());
                 Meeting verif = new Meeting();
-                if(existCase.getVerification()!=null && existCase.getVerification().getMeetingVerified()!=null){
-                     verif = existCase.getVerification().getMeetingVerified();
-                }else{
+                if (existCase.getVerification() != null && existCase.getVerification().getMeetingVerified() != null) {
+                    verif = existCase.getVerification().getMeetingVerified();
+                } else {
                     verif = existCase.getMeeting();
                 }
 
 
-                    if (verif.getImputed() != null) {
-                        hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
-                        hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
-                        hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
-                        hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
-                    }
-
-                    List<ImputedHome> homes = verif.getImputedHomes();
-
-                    if (homes != null && homes.size() > 0) {
-                        Collections.sort(homes, ImputedHome.imputedHomeComparator);
-                        hearingFormatView.setIdAddres(homes.get(0).getAddress().getId());
-                    }
-
-                    User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
-                    hearingFormatView.setUserName(us.getFullname());
-
-                    hearingFormatView.setCanSave(true);
-                    hearingFormatView.setCanEdit(true);
-                    hearingFormatView.setDisableAll(false);
-                    hearingFormatView.setHasPrevHF(false);
+                if (verif.getImputed() != null) {
+                    hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
+                    hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
+                    hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
+                    hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
                 }
+
+                List<ImputedHome> homes = verif.getImputedHomes();
+
+                if (homes != null && homes.size() > 0) {
+                    Collections.sort(homes, ImputedHome.imputedHomeComparator);
+                    hearingFormatView.setIdAddres(homes.get(0).getAddress().getId());
+                }
+
+                User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
+                hearingFormatView.setUserName(us.getFullname());
+
+                hearingFormatView.setCanSave(true);
+                hearingFormatView.setCanEdit(true);
+                hearingFormatView.setDisableAll(false);
+                hearingFormatView.setHasPrevHF(false);
+            }
 
         }
 
@@ -518,7 +518,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
 
 
-        if (existHF.getHearingFormatSpecs() != null && existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+        if (existHF.getHearingFormatSpecs() != null && (existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
             hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
             hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
             hearingFormatView.setTerms(existHF.getTerms());
@@ -603,7 +603,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
 
-        if (existHF.getHearingFormatSpecs() != null && existHF.getHearingFormatSpecs().getLinkageProcess() != null && existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+        if (existHF.getHearingFormatSpecs() != null && existHF.getHearingFormatSpecs().getLinkageProcess() != null && (existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
             hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
             hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
             hearingFormatView.setTerms(existHF.getTerms());

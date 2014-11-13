@@ -1,5 +1,5 @@
 id|name|isObsolete
-1|Sin instrucción académica|0
+1|Sin instrucciÃ³n acadÃ©mica|0
 2|Primaria|0
 3|Secundaria|0
 4|Bachillerato|0

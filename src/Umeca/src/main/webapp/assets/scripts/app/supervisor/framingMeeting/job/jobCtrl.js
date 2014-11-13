@@ -1,9 +1,9 @@
 app.controller('framingJobController', function ($scope, $timeout, $rootScope, $sce) {
 
         $scope.job = {};
-        $scope.job.day = "";
-        $scope.job.start = "";
-        $scope.job.end = "";
+        $scope.day = "";
+        $scope.timeStart = "";
+        $scope.timeEnd = "";
         $scope.MsgErrorJob = "";
         $scope.MsgErrorSchedule = "";
 
@@ -96,20 +96,18 @@ app.controller('framingJobController', function ($scope, $timeout, $rootScope, $
         };
 
         $scope.addSchedule = function () {
-            if ($scope.day == "" || $scope.timeStart == "" || $scope.timeEnd == "") {
+            if ($scope.day && $scope.day != "" && $scope.timeStart && $scope.timeStart != "" && $scope.timeEnd && $scope.timeEnd != "") {
+                $scope.MsgErrorSchedule = "";
+
+                var newObj = {"day": $scope.day, "start": $scope.timeStart, "end": $scope.timeEnd}
+                $scope.job.schedule.push(newObj);
+
+                $scope.day = "";
+                $scope.timeStart = "";
+                $scope.timeEnd = "";
+            } else {
                 $scope.MsgErrorSchedule = "Debe proporcionar todos los campos para poder agregar una disponibilidad.";
-                return;
             }
-
-            $scope.MsgErrorSchedule = "";
-
-            var newObj = {"day": $scope.day, "start": $scope.timeStart, "end": $scope.timeEnd}
-            $scope.job.schedule.push(newObj);
-
-            $scope.day = "";
-            $scope.timeStart = "";
-            $scope.timeEnd = "";
-
         };
 
         $scope.removeSchedule = function (idx) {

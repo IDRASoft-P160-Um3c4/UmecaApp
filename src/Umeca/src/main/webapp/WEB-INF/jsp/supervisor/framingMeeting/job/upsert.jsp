@@ -4,7 +4,7 @@
         window.showModalFormDlg("#dlgUpModalId", "#FormJobId");
     });
 
-    $('#timeStart').timepicker({
+    $('#timeJobStart').timepicker({
         minuteStep: 1,
         showSeconds: false,
         showMeridian: false
@@ -12,7 +12,7 @@
         $(this).prev().focus();
     });
 
-    $('#timeEnd').timepicker({
+    $('#timeJobEnd').timepicker({
         minuteStep: 1,
         showSeconds: false,
         showMeridian: false
@@ -26,6 +26,8 @@
     $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function () {
         $(this).next().focus();
     });
+
+
 </script>
 
 <div>
@@ -268,7 +270,7 @@
                                 <br/>
 
                                 <div class="input-group bootstrap-timepicker">
-                                    <input id="timeStart" ng-model="timeStart"
+                                    <input id="timeJobStart" ng-model="timeStart"
                                            readonly type="text" class="form-control">
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
@@ -280,7 +282,7 @@
                                 <br/>
 
                                 <div class="input-group bootstrap-timepicker">
-                                    <input id="timeEnd" ng-model="timeEnd"
+                                    <input id="timeJobEnd" ng-model="timeEnd"
                                            readonly type="text" class="form-control">
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>

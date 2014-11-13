@@ -34,7 +34,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
     //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -735,6 +735,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Autowired
     TypeNameFileRepository typeNameFileRepository;
+
     @Override
     public void typeFileName() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "type_file_name.txt", "\\|", 5);
