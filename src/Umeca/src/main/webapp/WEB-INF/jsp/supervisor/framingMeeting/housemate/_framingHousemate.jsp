@@ -27,12 +27,12 @@
             colNames: ['ID', 'Nombre', 'Edad', 'Parentesco', 'Ocupaci&oacute;n', 'Acompa&ntilde;ar&aacute<br/>en el proceso', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
-                { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'age', index: 'age', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'relationshipName', index: 'relationshipName', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'occupation', index: 'occupation', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'name', index: 'name', width: 190, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'age', index: 'age', width: 140, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'relationshipName', index: 'relationshipName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'occupation', index: 'occupation', width: 140, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 100, align: "center", search: false },
-                { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 60, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],

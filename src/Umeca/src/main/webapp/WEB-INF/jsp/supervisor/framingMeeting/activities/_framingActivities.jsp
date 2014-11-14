@@ -26,9 +26,9 @@
             colNames: ['ID', 'Nombre', 'Descripci&oacute;n', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
-                { name: 'name', index: 'name', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'description', index: 'description', align: "center", width: 350, sortable: false},
-                { name: 'Action', width: 120, align: "center", sortable: false, search: false }
+                { name: 'name', index: 'name', width: 310, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'description', index: 'description', align: "center", width: 310, sortable: false},
+                { name: 'Action', width: 100, align: "center", sortable: false, search: false }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],

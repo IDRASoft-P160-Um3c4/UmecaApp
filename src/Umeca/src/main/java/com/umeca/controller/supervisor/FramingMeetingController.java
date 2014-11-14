@@ -997,10 +997,8 @@ public class FramingMeetingController {
 
         if (id != null)
             victim = new FramingReferenceDto(framingReferenceRepository.findOne(id));
-        else {
+        else
             victim = new FramingReferenceDto();
-            victim.setIsAccompaniment(true);
-        }
 
         victim.setIdCase(idCase);
         model.addObject("victim", conv.toJson(victim));
@@ -1040,7 +1038,7 @@ public class FramingMeetingController {
         if (existCase == null)
             return new ResponseMessage(true, "Ocurrio un error al guardar la información. Intente mas tarde.");
 
-        return framingMeetingService.saveReference(existCase, framingReference);
+        return framingMeetingService.saveVictim(existCase, framingReference);
     }
 
 }

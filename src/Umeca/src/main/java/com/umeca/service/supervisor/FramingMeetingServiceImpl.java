@@ -319,7 +319,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         List<FramingReferenceForView> lstView = new ArrayList<>();
 
-        List<FramingReference> existSources = framingReferenceRepository.getFramingReferencesHousematesByIdCase(idCase);
+        List<FramingReference> existSources = framingReferenceRepository.getAccompanimentReferencesByIdCase(idCase);
 
         for (FramingReference fr : existSources) {
             if (fr.getIsAccompaniment() == true) {
@@ -463,14 +463,14 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         try {
 
+            List<AccompanimentInfo> lstAccomInf = accompanimentInfoRepository.getAccompanimentInfoByIdRef(newReference.getId(), new PageRequest(0, 1));
+
+            AccompanimentInfo accompanimentInfo = null;
+
+            if (lstAccomInf != null && lstAccomInf.size() > 0)
+                accompanimentInfo = lstAccomInf.get(0);
+
             if (newReference.getIsAccompaniment() != null && newReference.getIsAccompaniment() == true) {
-
-                List<AccompanimentInfo> lstAccomInf = accompanimentInfoRepository.getAccompanimentInfoByIdRef(newReference.getId(), new PageRequest(0, 1));
-
-                AccompanimentInfo accompanimentInfo = null;
-
-                if (lstAccomInf != null && lstAccomInf.size() > 0)
-                    accompanimentInfo = lstAccomInf.get(0);
 
                 if (accompanimentInfo == null)
                     accompanimentInfo = new AccompanimentInfo();
@@ -505,17 +505,23 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     address.setAddressString(address.toString());
                     accompanimentInfo.setAddress(address);
 
+                    newReference.setAddress(null);
                 }
 
                 newReference.setAccompanimentInfo(accompanimentInfo);
             } else {
                 newReference.setIsAccompaniment(false);
+                if (accompanimentInfo != null) {
+                    newReference.setAccompanimentInfo(null);
+                    accompanimentInfoRepository.delete(accompanimentInfo);
+                }
             }
 
             newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
             if (!newReference.getRelationship().getSpecification()) {
                 newReference.setSpecificationRelationship("");
             }
+
             newReference.setFramingMeeting(existCase.getFramingMeeting());
             framingReferenceRepository.save(newReference);
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
@@ -560,6 +566,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             accompanimentInfo.setAddress(address);
 
             newReference.setAccompanimentInfo(accompanimentInfo);
+            newReference.setIsAccompaniment(true);
 
             newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
             if (!newReference.getRelationship().getSpecification()) {

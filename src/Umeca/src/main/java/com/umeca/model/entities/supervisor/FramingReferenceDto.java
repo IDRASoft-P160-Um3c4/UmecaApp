@@ -8,6 +8,7 @@ public class FramingReferenceDto {
     private String name;
     private String phone;
     private Long relationshipId;
+    private String personType;
     private String address;
     private String age;
     private String occupation;
@@ -33,13 +34,16 @@ public class FramingReferenceDto {
         this.relationshipId = ref.getRelationship().getId();
         this.address = ref.getAddress();
         this.age = ref.getAge();
-        if (ref.getIsAccompaniment() == null)
+        this.isAccompaniment = ref.getIsAccompaniment();
+        if (this.isAccompaniment == null)
             this.isAccompaniment = false;
+
         this.timeAgo = ref.getTimeAgo();
         addressRef = ref.getAddressRef();
         this.specificationRelationship = ref.getSpecificationRelationship();
+        this.personType = ref.getPersonType();
 
-        if (ref.getPersonType() != null && ref.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
+        if (this.personType != null && this.personType.equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
 
             if (ref.getAccompanimentInfo() != null) {
                 this.location = new LocationDto();
@@ -56,7 +60,8 @@ public class FramingReferenceDto {
 
             }
 
-        } else if (ref.getPersonType() != null && ref.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
+        }
+        if (this.personType != null && this.personType.equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
 
             if (ref.getAccompanimentInfo() != null) {
                 this.location = new LocationDto();
@@ -73,7 +78,7 @@ public class FramingReferenceDto {
                 this.gender = ref.getAccompanimentInfo().getGender();
 
             }
-        } else if (ref.getPersonType() != null && (ref.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM) || ref.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))) {
+        } else if (this.personType != null && (this.personType.equals(FramingMeetingConstants.PERSON_TYPE_VICTIM) || this.personType.equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))) {
 
             if (ref.getAccompanimentInfo() != null) {
                 this.location = new LocationDto();
@@ -222,5 +227,13 @@ public class FramingReferenceDto {
 
     public void setSpecificationRelationship(String specificationRelationship) {
         this.specificationRelationship = specificationRelationship;
+    }
+
+    public String getPersonType() {
+        return personType;
+    }
+
+    public void setPersonType(String personType) {
+        this.personType = personType;
     }
 }

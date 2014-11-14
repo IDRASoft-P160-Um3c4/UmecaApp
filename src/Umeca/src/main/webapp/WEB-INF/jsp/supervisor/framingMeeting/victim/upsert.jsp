@@ -20,6 +20,7 @@
                     <form id="FormVictimId" class="form-horizontal" role="form">
                         <input type="hidden" name="id" value="{{victim.id}}">
                         <input type="hidden" name="relationshipId" value="{{victim.relationship.id}}">
+                        <input type="hidden" name="isAccompaniment" value="true">
 
                         <br/>
 
