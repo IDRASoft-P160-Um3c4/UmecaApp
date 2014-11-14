@@ -25,6 +25,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/drugs/drugsCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/job/jobCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/school/schoolCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/victim/victimCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
@@ -315,6 +316,31 @@
         </div>
     </a>
 </li>
+<li id="liVictim">
+    <a data-toggle="tab" href="#victim">
+        <div class="row">
+            <div class="col-xs-10">
+                <i class="orange icon-eye-open bigger-200"></i>
+                Victimas y testigos
+            </div>
+            <div class="col-xs-2" ng-show="listMsgError['victim']">
+                <div class="tools">
+                    <div class="inline position-relative">
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
+                           data-toggle="dropdown" ng-click="changeZIndex('liVictim');"></i>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                            style="width: 400px; z-index: 100000; padding: 0 0;">
+                            <div class="alert-danger element-center error-font">
+                                <span ng-bind-html="listMsgError['victim']">
+                                </span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
 <li id="liSchool">
     <a data-toggle="tab" href="#school">
         <div class="row">
@@ -515,6 +541,10 @@
 
     <div id="references" class="tab-pane">
         <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/references/_framingReferences.jsp" %>
+    </div>
+
+    <div id="victim" class="tab-pane">
+        <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/victim/_framingVictim.jsp" %>
     </div>
 
     <div id="school" class="tab-pane">

@@ -75,4 +75,6 @@ public interface FramingMeetingService {
 
     ResponseMessage saveSchool(SchoolDto view);
 
+    ResponseMessage saveVictim(Case existCase, FramingReference newReference);
+
 }

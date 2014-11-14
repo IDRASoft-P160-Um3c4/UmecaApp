@@ -94,6 +94,9 @@ public class FramingMeeting {
     @Column(name = "school_comments")
     private String schoolComments;
 
+    @Column(name = "victim_comments")
+    private String victimComments;
+
     @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingActivity> activities;
 
@@ -325,5 +328,13 @@ public class FramingMeeting {
 
     public void setSchoolComments(String schoolComments) {
         this.schoolComments = schoolComments;
+    }
+
+    public String getVictimComments() {
+        return victimComments;
+    }
+
+    public void setVictimComments(String victimComments) {
+        this.victimComments = victimComments;
     }
 }

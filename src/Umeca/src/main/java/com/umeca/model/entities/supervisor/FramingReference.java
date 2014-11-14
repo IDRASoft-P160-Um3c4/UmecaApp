@@ -148,6 +148,16 @@ public class FramingReference implements EntityGrid {
         this.isAccompanimentString = isAccompaniment ? "Si" : "No";
     }
 
+    public FramingReference(Long id, String name, String age, String relationship, String phone, String address, String type) {
+        this.id = id;
+        this.name = name;
+        this.relationshipName = relationship;
+        this.age = age;
+        this.phone = phone;
+        this.address = address;
+        this.personType = type;
+    }
+
     public Long getId() {
         return id;
     }

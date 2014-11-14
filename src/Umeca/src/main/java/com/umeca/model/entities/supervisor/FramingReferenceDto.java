@@ -73,7 +73,16 @@ public class FramingReferenceDto {
                 this.gender = ref.getAccompanimentInfo().getGender();
 
             }
+        } else if (ref.getPersonType() != null && (ref.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM) || ref.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))) {
 
+            if (ref.getAccompanimentInfo() != null) {
+                this.location = new LocationDto();
+
+                if (ref.getAccompanimentInfo().getAddress() != null) {
+                    this.location.setId(ref.getAccompanimentInfo().getAddress().getLocation().getId());
+                    this.addressId = ref.getAccompanimentInfo().getAddress().getId();
+                }
+            }
         }
 
         this.occupation = ref.getOccupation();

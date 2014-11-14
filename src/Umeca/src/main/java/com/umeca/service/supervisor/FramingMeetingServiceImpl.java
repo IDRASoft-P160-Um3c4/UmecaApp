@@ -283,6 +283,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         framingMeetingView.setDrugsComments(existCase.getFramingMeeting().getDrugsComments());
         framingMeetingView.setActivitiesComments(existCase.getFramingMeeting().getActivitiesComments());
         framingMeetingView.setJobComments(existCase.getFramingMeeting().getJobComments());
+        framingMeetingView.setVictimComments(existCase.getFramingMeeting().getVictimComments());
 
         if (existCase.getFramingMeeting().getIsTerminated() == true)
             framingMeetingView.setCanTerminate(false);
@@ -318,7 +319,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         List<FramingReferenceForView> lstView = new ArrayList<>();
 
-        List<FramingReference> existSources = caseRepository.findOne(idCase).getFramingMeeting().getReferences();
+        List<FramingReference> existSources = framingReferenceRepository.getFramingReferencesHousematesByIdCase(idCase);
 
         for (FramingReference fr : existSources) {
             if (fr.getIsAccompaniment() == true) {
@@ -456,6 +457,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
     }
 
+    @Override
+    @Transactional
     public ResponseMessage saveReference(Case existCase, FramingReference newReference) {
 
         try {
@@ -523,6 +526,56 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
 
     }
+
+    @Override
+    @Transactional
+    public ResponseMessage saveVictim(Case existCase, FramingReference newReference) {
+
+        try {
+
+
+            List<AccompanimentInfo> lstAccomInf = accompanimentInfoRepository.getAccompanimentInfoByIdRef(newReference.getId(), new PageRequest(0, 1));
+
+            AccompanimentInfo accompanimentInfo = null;
+
+            if (lstAccomInf != null && lstAccomInf.size() > 0)
+                accompanimentInfo = lstAccomInf.get(0);
+
+            if (accompanimentInfo == null)
+                accompanimentInfo = new AccompanimentInfo();
+
+            Address address = accompanimentInfo.getAddress();
+
+            if (address == null) {
+                address = new Address();
+            }
+
+            address.setStreet(newReference.getStreetComponent());
+            address.setOutNum(newReference.getOutNumComponent());
+            address.setInnNum(newReference.getInnNumComponent());
+            address.setLat(newReference.getLat());
+            address.setLng(newReference.getLng());
+            address.setLocation(locationRepository.findOne(newReference.getLocation().getId()));
+            address.setAddressString(address.toString());
+            accompanimentInfo.setAddress(address);
+
+            newReference.setAccompanimentInfo(accompanimentInfo);
+
+            newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
+            if (!newReference.getRelationship().getSpecification()) {
+                newReference.setSpecificationRelationship("");
+            }
+            newReference.setFramingMeeting(existCase.getFramingMeeting());
+            framingReferenceRepository.save(newReference);
+            return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "saveReference", sharedUserService);
+            e.printStackTrace();
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;s tarde.");
+        }
+
+    }
+
 
     public ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase) {
 
@@ -1215,7 +1268,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 imputedReference.setRelationship(relationshipRepository.findImputedRelationship());
                 imputedReference.setFramingMeeting(existFraming);
                 imputedReference.setName(existFraming.getPersonalData().getName() + " " + existFraming.getPersonalData().getLastNameP() + " " + existFraming.getPersonalData().getLastNameM());
-                //existFraming.getReferences().add(imputedReference);
+                imputedReference.setPersonType("");
                 imputedReference = framingReferenceRepository.save(imputedReference);
                 //caseRepository.save(existCase);
 
@@ -1400,10 +1453,15 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                         existCase.getFramingMeeting().setJobComments(comments);
                         resp.setMessage("6|Se ha guardado la informaci&oacute;n con &eacute;xito");
                         break;
+                    case 7:
+                        existCase.getFramingMeeting().setVictimComments(comments);
+                        resp.setMessage("7|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        break;
                 }
                 caseRepository.save(existCase);
 
                 resp.setHasError(false);
+
             } else {
                 resp.setHasError(false);
                 resp.setMessage("Ha ocurrido un error. Intente m&acute;s tarde");

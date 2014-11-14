@@ -14,13 +14,17 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
     $scope.drugsSuccessMsg = "";
     $scope.activitesSuccessMsg = "";
     $scope.jobSuccessMsg = "";
+    $scope.victimSuccessMsg = "";
+
 
     $scope.addressErrorMsg = "";
     $scope.housemateErrorMsg = "";
     $scope.referencesErrorMsg = "";
     $scope.drugsErrorMsg = "";
     $scope.activitesErrorMsg = "";
-    $scope.jobErrorMsg = ""
+    $scope.jobErrorMsg = "";
+    $scope.victimErrorMsg = "";
+
 
     $scope.disableView = function () {
 
@@ -174,6 +178,9 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                     case "6":
                         $scope.jobSuccessMsg = $sce.trustAsHtml(msg);
                         break;
+                    case "7":
+                        $scope.victimSuccessMsg = $sce.trustAsHtml(msg);
+                        break;
                 }
             }
         } catch (e) {
@@ -195,6 +202,9 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                     break;
                 case "FormCommentJob":
                     $scope.jobErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                    break;
+                case "FormCommentVictim":
+                    $scope.victimErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
                     break;
             }
         }
