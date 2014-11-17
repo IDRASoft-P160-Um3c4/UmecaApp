@@ -22,6 +22,7 @@ public class FramingReferenceDto {
     private String timeAgo;
     private String addressRef;
     private String specificationRelationship;
+    private Boolean hasVictimWitnessInfo;
 
     public FramingReferenceDto() {
 
@@ -37,6 +38,8 @@ public class FramingReferenceDto {
         this.isAccompaniment = ref.getIsAccompaniment();
         if (this.isAccompaniment == null)
             this.isAccompaniment = false;
+
+        this.hasVictimWitnessInfo = ref.getHasVictimWitnessInfo();
 
         this.timeAgo = ref.getTimeAgo();
         addressRef = ref.getAddressRef();
@@ -235,5 +238,13 @@ public class FramingReferenceDto {
 
     public void setPersonType(String personType) {
         this.personType = personType;
+    }
+
+    public Boolean getHasVictimWitnessInfo() {
+        return hasVictimWitnessInfo;
+    }
+
+    public void setHasVictimWitnessInfo(Boolean hasVictimWitnessInfo) {
+        this.hasVictimWitnessInfo = hasVictimWitnessInfo;
     }
 }

@@ -46,6 +46,9 @@ public class FramingReference implements EntityGrid {
     @Column(name = "is_accompaniment")
     private Boolean isAccompaniment;
 
+    @Column(name = "has_victim_witness_info")
+    private Boolean hasVictimWitnessInfo;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_accompaniment_info")
     private AccompanimentInfo accompanimentInfo;
@@ -380,5 +383,13 @@ public class FramingReference implements EntityGrid {
 
     public void setIsAccompanimentString(String accompanimentString) {
         isAccompanimentString = accompanimentString;
+    }
+
+    public Boolean getHasVictimWitnessInfo() {
+        return hasVictimWitnessInfo;
+    }
+
+    public void setHasVictimWitnessInfo(Boolean hasVictimWitnessInfo) {
+        this.hasVictimWitnessInfo = hasVictimWitnessInfo;
     }
 }

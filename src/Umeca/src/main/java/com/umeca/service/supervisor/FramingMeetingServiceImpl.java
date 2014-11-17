@@ -533,12 +533,14 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     }
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     @Override
     @Transactional
     public ResponseMessage saveVictim(Case existCase, FramingReference newReference) {
 
         try {
-
 
             List<AccompanimentInfo> lstAccomInf = accompanimentInfoRepository.getAccompanimentInfoByIdRef(newReference.getId(), new PageRequest(0, 1));
 
@@ -547,30 +549,41 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (lstAccomInf != null && lstAccomInf.size() > 0)
                 accompanimentInfo = lstAccomInf.get(0);
 
-            if (accompanimentInfo == null)
-                accompanimentInfo = new AccompanimentInfo();
+            if (newReference.getHasVictimWitnessInfo() != null && newReference.getHasVictimWitnessInfo() == false) {
 
-            Address address = accompanimentInfo.getAddress();
+                if (accompanimentInfo != null) {
+                    newReference.setAccompanimentInfo(null);
+                    accompanimentInfoRepository.delete(accompanimentInfo);
+                }
+                newReference.setRelationship(relationshipRepository.findNoneRelationship());
 
-            if (address == null) {
-                address = new Address();
-            }
+            } else if (newReference.getHasVictimWitnessInfo() != null && newReference.getHasVictimWitnessInfo() == true) {
 
-            address.setStreet(newReference.getStreetComponent());
-            address.setOutNum(newReference.getOutNumComponent());
-            address.setInnNum(newReference.getInnNumComponent());
-            address.setLat(newReference.getLat());
-            address.setLng(newReference.getLng());
-            address.setLocation(locationRepository.findOne(newReference.getLocation().getId()));
-            address.setAddressString(address.toString());
-            accompanimentInfo.setAddress(address);
+                if (accompanimentInfo == null)
+                    accompanimentInfo = new AccompanimentInfo();
 
-            newReference.setAccompanimentInfo(accompanimentInfo);
-            newReference.setIsAccompaniment(true);
+                Address address = accompanimentInfo.getAddress();
 
-            newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
-            if (!newReference.getRelationship().getSpecification()) {
-                newReference.setSpecificationRelationship("");
+                if (address == null) {
+                    address = new Address();
+                }
+
+                address.setStreet(newReference.getStreetComponent());
+                address.setOutNum(newReference.getOutNumComponent());
+                address.setInnNum(newReference.getInnNumComponent());
+                address.setLat(newReference.getLat());
+                address.setLng(newReference.getLng());
+                address.setLocation(locationRepository.findOne(newReference.getLocation().getId()));
+                address.setAddressString(address.toString());
+                accompanimentInfo.setAddress(address);
+
+                newReference.setAccompanimentInfo(accompanimentInfo);
+                newReference.setIsAccompaniment(true);
+                newReference.setRelationship(relationshipRepository.findOne(newReference.getRelationshipId()));
+
+                if (!newReference.getRelationship().getSpecification()) {
+                    newReference.setSpecificationRelationship("");
+                }
             }
             newReference.setFramingMeeting(existCase.getFramingMeeting());
             framingReferenceRepository.save(newReference);
@@ -1134,7 +1147,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (existFraming.getFramingAddresses() == null || !(existFraming.getFramingAddresses().size() > 0)) {
                 List<String> ls = new ArrayList<>();
-                ls.add("Debe registrar al menos un registro en la secci&oacute;n \"Domicilios\".");
+                ls.add("Debe capturar al menos un registro en la secci&oacute;n \"Domicilios\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome", ls));
             }
 //            if (existFraming.getProcessAccompaniment() == null)
@@ -1144,25 +1157,34 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 //                    sb.append("|Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Persona que acompa?a en el proceso\".");
 
             if (existFraming.getReferences() != null && existFraming.getReferences().size() > 0) {
-                int noHousemate = 0, noReferences = 0;
+                int noHousemate = 0, noReferences = 0, noVictims = 0;
 
                 for (FramingReference fr : existFraming.getReferences()) {
-                    if (fr.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
-                        noHousemate++;
-                    if (fr.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
-                        noReferences++;
+                    if (fr.getPersonType() != null) {
+                        if (fr.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
+                            noHousemate++;
+                        else if (fr.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
+                            noReferences++;
+                        else if (fr.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM) || fr.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
+                            noVictims++;
+                    }
                 }
 
                 if (noHousemate == 0) {
-                    lsSN.add("Debe registrar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
+                    lsSN.add("Debe capturar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
                 }
                 if (noReferences == 0) {
-                    lsR.add("Debe registrar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
+                    lsR.add("Debe capturar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
+                }
+                if (noVictims == 0) {
+                    List<String> ls = new ArrayList<>();
+                    ls.add("Debe capturar al menos una registro en en la secci&oacute;n \"V&iacute;ctimas o testigos\".");
+                    validate.getGroupMessage().add(new GroupMessageMeetingDto("victim", ls));
                 }
 
             } else {
-                lsSN.add("Debe registrar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
-                lsR.add("Debe registrar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
+                lsSN.add("Debe capturar al menos una registro en en la secci&oacute;n \"Personas que viven con el imputado\".");
+                lsR.add("Debe capturar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
             }
 
             int bandHM = 0;
@@ -1180,11 +1202,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             if (bandHM > 0) {
-                lsSN.add("Ha marcado que alguna persona registrada en la secci&oacute;n \"Personas que viven con el imputado\" como acompa&ntilde;ante durante el proceso. Debe registrar la informaci&oacute;n adicional requerida.");
+                lsSN.add("Alguna persona registrada en la secci&oacute;n \"Personas que viven con el imputado\" ha sido marcada como acompa&ntilde;ante durante el proceso. Debe capturar la informaci&oacute;n adicional requerida.");
             }
 
             if (bandREF > 0) {
-                lsR.add("Ha marcado que alguna persona registrada en la secci&oacute;n \"Referencias personales\" como acompa&ntilde;ante durante el proceso. Debe registrar la informaci&oacute;n adicional requerida.");
+                lsR.add("Alguna persona registrada en la secci&oacute;n \"Referencias personales\" ha sido marcada como acompa&ntilde;ante durante el proceso. Debe capturar la informaci&oacute;n adicional requerida.");
             }
 
             if (lsSN.size() > 0) {
@@ -1193,6 +1215,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (lsR.size() > 0) {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("reference", lsR));
             }
+
 //            if (existFraming.getOccupation() == null || existFraming.getRelFramingMeetingActivities() == null || !(existFraming.getRelFramingMeetingActivities().size() > 0)) {
 //                List<String> ls = new ArrayList<>();
 //                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Actividades que realiza el imputado\".");
@@ -1200,7 +1223,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 //            }
             if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0)) {
                 List<String> ls = new ArrayList<>();
-                ls.add("Debe registrar al menos una registro en en la secci&oacute;n \"Consumo de sustancias\".");
+                ls.add("Debe capturar al menos una registro en en la secci&oacute;n \"Consumo de sustancias\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("drug", ls));
             }
             if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
@@ -1231,7 +1254,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (validateFingerprint != null && validateFingerprint == true)
                 if (!(framingMeetingRepository.getFingerIdsByImputed(existFraming.getCaseDetention().getMeeting().getImputed().getId()).size() > 0)) {
                     List<String> ls = new ArrayList<>();
-                    ls.add("Debe registrar al menos una huella dactilar en la secci&oacute;n \"Enrolamiento\".");
+                    ls.add("Debe capturar al menos una huella dactilar en la secci&oacute;n \"Enrolamiento\".");
                     validate.getGroupMessage().add(new GroupMessageMeetingDto("fingerprint", ls));
                 }
 
@@ -1243,13 +1266,13 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (existFraming.getJobs() == null || !(existFraming.getJobs().size() > 0)) {
                 List<String> arrMsg = new ArrayList<>();
-                arrMsg.add("Debe registrar al menos un trabajo en la secci&oacute;n \"Historia laboral\".");
+                arrMsg.add("Debe capturar al menos un trabajo en la secci&oacute;n \"Historia laboral\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("job", arrMsg));
             }
 
             if (existFraming.getActivities() == null || !(existFraming.getActivities().size() > 0)) {
                 List<String> arrMsg = new ArrayList<>();
-                arrMsg.add("Debe registrar al menos una actividad en la secci&oacute;n \"Actividades que realiza el imputado\".");
+                arrMsg.add("Debe capturar al menos una actividad en la secci&oacute;n \"Actividades que realiza el imputado\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", arrMsg));
             }
 
@@ -1303,6 +1326,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doTerminate", sharedUserService);
+            e.printStackTrace();
             return new ResponseMessage(false, "Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;s tarde.");
         }
     }

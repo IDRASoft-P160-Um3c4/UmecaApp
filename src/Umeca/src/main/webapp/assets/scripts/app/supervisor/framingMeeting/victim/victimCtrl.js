@@ -1,9 +1,13 @@
 app.controller('victimController', function ($scope, $timeout, $rootScope) {
 
     $scope.victim = {};
+    $scope.victim.hasVictimWitnessInfo = true;
 
     $scope.init = function () {
         $scope.fillSelRelationship();
+        if ($scope.victim.hasVictimWitnessInfo == undefined || $scope.victim.hasVictimWitnessInfo == null)
+            $scope.victim.hasVictimWitnessInfo = true;
+        $scope.disableFields($scope.victim.hasVictimWitnessInfo);
     };
 
     $timeout(function () {
@@ -34,6 +38,34 @@ app.controller('victimController', function ($scope, $timeout, $rootScope) {
             }
         }
 
+    };
+
+    $scope.existVictim = function (val) {
+
+        $scope.victim.personType = "VICTIM";
+
+        if (val == false) {
+            $scope.victim.name = "NO APLICA";
+            $scope.victim.age = "NO APLICA";
+            $scope.victim.phone = "NO APLICA";
+            $scope.victim.isAccompaniment = false;
+        } else {
+            $scope.victim.name = "";
+            $scope.victim.age = "";
+            $scope.victim.phone = "";
+            $scope.victim.isAccompaniment = true;
+        }
+        $scope.disableFields(val);
+    };
+
+    $scope.disableFields = function (val) {
+        if (val == false) {
+            $("#divVictim :input").attr("disabled", true);
+            $("#divHiddenVictim :input").attr("disabled", false);
+        } else {
+            $("#divVictim :input").attr("disabled", false);
+            $("#divHiddenVictim :input").attr("disabled", true);
+        }
     };
 
     $scope.submitIdCaseParam = function (formId, urlToPost, id) {

@@ -205,36 +205,36 @@ public class VerificationServiceImpl implements VerificationService {
                 }
                 Boolean result = fms.getStatusFieldVerification().getName().equals(status) && fms.getSourceVerification().getId().equals(idImputed);
                 fms.setFinal(result);
-                if(result){
+                if (result) {
                     fms.setReason(comment);
                 }
             }
             if (status.equals(Constants.ST_FIELD_VERIF_UNABLE)) {
                 for (FieldMeetingSource fms : fmsList) {
                     if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
-                            sListImputed.remove(fms.getFieldVerification().getCode());
-                        if(sListImputed.size()==0){
+                        sListImputed.remove(fms.getFieldVerification().getCode());
+                        if (sListImputed.size() == 0) {
                             break;
                         }
                     }
                 }
-                if(sListImputed.size()>0){
-                    List<FieldMeetingSource>  addNew= new ArrayList<>();
-                   for(FieldMeetingSource fms : fmsList){
-                       if(sListImputed.contains(fms.getFieldVerification().getCode())){
-                           FieldMeetingSource fmsAux = new FieldMeetingSource();
-                           fmsAux.setFieldVerification(fms.getFieldVerification());
-                           fmsAux.setFinal(true);
-                           fmsAux.setValue(fms.getValue());
-                           fmsAux.setJsonValue(fms.getJsonValue());
-                           fmsAux.setSourceVerification(fms.getSourceVerification());
-                           fmsAux.setStatusFieldVerification(statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_UNABLE));
-                           fmsAux.setIdFieldList(fms.getIdFieldList());
-                           fmsAux.setReason(comment);
-                           addNew.add(fmsAux);
-                       }
+                if (sListImputed.size() > 0) {
+                    List<FieldMeetingSource> addNew = new ArrayList<>();
+                    for (FieldMeetingSource fms : fmsList) {
+                        if (sListImputed.contains(fms.getFieldVerification().getCode())) {
+                            FieldMeetingSource fmsAux = new FieldMeetingSource();
+                            fmsAux.setFieldVerification(fms.getFieldVerification());
+                            fmsAux.setFinal(true);
+                            fmsAux.setValue(fms.getValue());
+                            fmsAux.setJsonValue(fms.getJsonValue());
+                            fmsAux.setSourceVerification(fms.getSourceVerification());
+                            fmsAux.setStatusFieldVerification(statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_UNABLE));
+                            fmsAux.setIdFieldList(fms.getIdFieldList());
+                            fmsAux.setReason(comment);
+                            addNew.add(fmsAux);
+                        }
 
-                   }
+                    }
                     fmsList.addAll(addNew);
                 }
             }
@@ -249,10 +249,10 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     public ResponseMessage searchInformationByeSourceCode(Long idCase, Long idSource, String code, Long idList) {
         ResponseMessage response = new ResponseMessage(true, "La fuente no  ha proporcionado informaci&oacute;n para &eacute;ste campo");
-        try{
+        try {
             List<FieldMeetingSource> result = new ArrayList<>();
             List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
-            String aux= "";
+            String aux = "";
             for (Long idFv : listFieldSection) {
                 FieldVerification fv = fieldVerificationRepository.findOne(idFv);
                 if (fv != null) {
@@ -264,32 +264,32 @@ public class VerificationServiceImpl implements VerificationService {
                         fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, fv.getCode(), idList);
                     }
 
-                    if(fieldMeetingSourceId!=null){
+                    if (fieldMeetingSourceId != null) {
                         FieldMeetingSource fmsAux = fieldMeetingSourceRepository.findOne(fieldMeetingSourceId);
-                        if(!fmsAux.getValue().trim().equals("")){
-                        switch (fmsAux.getStatusFieldVerification().getName()){
-                            case Constants.ST_FIELD_VERIF_EQUALS:
-                                    aux += "<i class=\"icon-ok green  icon-only bigger-120\"></i>&nbsp;&nbsp;"+fmsAux.getFieldVerification().getFieldName()+": " + fmsAux.getValue()+"<br/>";
-                                break;
-                            case Constants.ST_FIELD_VERIF_NOEQUALS:
-                                aux += "<i class=\"icon-remove red  icon-only bigger-120\"></i>&nbsp;&nbsp;"+fmsAux.getFieldVerification().getFieldName()+": " + fmsAux.getValue()+"<br/>";
-                                break;
-                            case Constants.ST_FIELD_VERIF_DONTKNOW:
-                                aux += "<i class=\"icon-ban-circle grey  icon-only bigger-120\"></i>&nbsp;&nbsp;"+fmsAux.getFieldVerification().getFieldName()+": " + fmsAux.getValue()+"<br/>";
-                                break;
-                        }
+                        if (!fmsAux.getValue().trim().equals("")) {
+                            switch (fmsAux.getStatusFieldVerification().getName()) {
+                                case Constants.ST_FIELD_VERIF_EQUALS:
+                                    aux += "<i class=\"icon-ok green  icon-only bigger-120\"></i>&nbsp;&nbsp;" + fmsAux.getFieldVerification().getFieldName() + ": " + fmsAux.getValue() + "<br/>";
+                                    break;
+                                case Constants.ST_FIELD_VERIF_NOEQUALS:
+                                    aux += "<i class=\"icon-remove red  icon-only bigger-120\"></i>&nbsp;&nbsp;" + fmsAux.getFieldVerification().getFieldName() + ": " + fmsAux.getValue() + "<br/>";
+                                    break;
+                                case Constants.ST_FIELD_VERIF_DONTKNOW:
+                                    aux += "<i class=\"icon-ban-circle grey  icon-only bigger-120\"></i>&nbsp;&nbsp;" + fmsAux.getFieldVerification().getFieldName() + ": " + fmsAux.getValue() + "<br/>";
+                                    break;
+                            }
                         }
 
                     }
                 }
             }
-            if(!aux.equals("")){
+            if (!aux.equals("")) {
                 response.setHasError(false);
                 response.setMessage(aux);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logException.Write(e, this.getClass(), "searchInformationByeSourceCode", userService);
-        }finally {
+        } finally {
             return response;
         }
     }
@@ -324,7 +324,7 @@ public class VerificationServiceImpl implements VerificationService {
                 } else {
                     result = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(e.getIdSource(), e.getIdSubsection(), idList, Constants.ST_FIELD_VERIF_UNABLE);
                 }
-                if (result != null ) {
+                if (result != null) {
                     //for(FieldMeetingSource fAux: result){
                     //  if(!fAux.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)){
                     //    List<FieldMeetingSource> a = new ArrayList<>();
@@ -374,7 +374,7 @@ public class VerificationServiceImpl implements VerificationService {
             for (FieldMeetingSource f : fmsAuxSecond) {
                 f.setId(Long.valueOf(-1));
             }
-            if(fmsAuxSecond.size()>0){
+            if (fmsAuxSecond.size() > 0) {
                 list.add(new ChoiceView().choiceDto(fmsAuxSecond));
             }
         }
@@ -486,7 +486,7 @@ public class VerificationServiceImpl implements VerificationService {
                     if (idList == null) {
                         fmsAuxSecond = fieldMeetingSourceRepository.getGroupFieldMeeting(template.getSourceVerification().getId(), template.getFieldVerification().getIdSubsection(), Constants.ST_FIELD_VERIF_IMPUTED);
                     } else {
-                            fmsAuxSecond = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(template.getSourceVerification().getId(), template.getFieldVerification().getIdSubsection(), idList, Constants.ST_FIELD_VERIF_IMPUTED);
+                        fmsAuxSecond = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(template.getSourceVerification().getId(), template.getFieldVerification().getIdSubsection(), idList, Constants.ST_FIELD_VERIF_IMPUTED);
                     }
                 } else {
                     if (idList == null) {
@@ -588,6 +588,7 @@ public class VerificationServiceImpl implements VerificationService {
                 return new ResponseMessage(false, "Se ha terminado con exito la verificación");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             logException.Write(e, this.getClass(), "terminateVerification", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al terminar la verificación");
         }
@@ -656,9 +657,9 @@ public class VerificationServiceImpl implements VerificationService {
         ModelAndView model = new ModelAndView("/reviewer/verification/choiceInformation");
         setImputedData(idCase, model);
         fillMeeting(model, idCase);
-        if(read!=null){
+        if (read != null) {
             model.addObject("managereval", true);
-        }else{
+        } else {
             userConfigToView(model);
         }
         return model;
@@ -824,13 +825,13 @@ public class VerificationServiceImpl implements VerificationService {
         model.addObject("age", userService.calculateAge(i.getBirthDate()));
         model.addObject("idCase", id);
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        model.addObject("tStart",format.format(m.getDateCreate()));
-        if(m.getDateTerminate()!=null){
-            model.addObject("tEnd",format.format(m.getDateTerminate()));
-        }else{
-            model.addObject("tEnd","sin terminar");
+        model.addObject("tStart", format.format(m.getDateCreate()));
+        if (m.getDateTerminate() != null) {
+            model.addObject("tEnd", format.format(m.getDateTerminate()));
+        } else {
+            model.addObject("tEnd", "sin terminar");
         }
-        model.addObject("reviewerFullname",m.getReviewer().getFullname());
+        model.addObject("reviewerFullname", m.getReviewer().getFullname());
     }
 
     @Autowired
@@ -967,7 +968,7 @@ public class VerificationServiceImpl implements VerificationService {
                     Long fieldMeetingSourceId, fieldMeetingSourceImputedId;
                     if (idList == null) {
                         fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, fv.getCode());
-                        fieldMeetingSourceImputedId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase,idSourceImputed, fv.getCode());
+                        fieldMeetingSourceImputedId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSourceImputed, fv.getCode());
 
                     } else {
                         fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, fv.getCode(), idList);
@@ -976,8 +977,8 @@ public class VerificationServiceImpl implements VerificationService {
                     fmsNew.setId(fieldMeetingSourceId);
                     fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource));
                     fmsNew.setFieldVerification(fv);
-                    if(fieldMeetingSourceImputedId!=null){
-                    fmsAux = fieldMeetingSourceRepository.findOne(fieldMeetingSourceImputedId);
+                    if (fieldMeetingSourceImputedId != null) {
+                        fmsAux = fieldMeetingSourceRepository.findOne(fieldMeetingSourceImputedId);
                         fmsNew.setValue(fmsAux.getValue());
                         fmsNew.setJsonValue(fmsAux.getJsonValue());
                         fmsNew.setStatusFieldVerification(st);
@@ -1010,7 +1011,7 @@ public class VerificationServiceImpl implements VerificationService {
                         fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, fv.getCode(), idList);
                         fieldMeetingImputedId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSourceImputed, fv.getCode(), idList);
                     }
-                    if(fieldMeetingImputedId!=null){
+                    if (fieldMeetingImputedId != null) {
                         fmsNew.setId(fieldMeetingSourceId);
                         fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource));
                         fmsNew.setFieldVerification(fv);
