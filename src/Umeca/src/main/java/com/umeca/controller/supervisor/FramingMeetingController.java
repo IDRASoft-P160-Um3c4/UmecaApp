@@ -24,6 +24,7 @@ import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
+import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.FramingAddressRepository;
 import com.umeca.repository.supervisor.FramingMeetingRepository;
@@ -160,12 +161,13 @@ public class FramingMeetingController {
     }
 
     @Autowired
-    HearingFormatRepository hearingFormatRepository;
+    private HearingFormatRepository hearingFormatRepository;
     @Autowired
-    ActivityRepository activityRepository;
+    private ActivityRepository activityRepository;
     @Autowired
-    CrimeService crimeService;
-
+    private CrimeService crimeService;
+    @Autowired
+    private TechnicalReviewRepository technicalReviewRepository;
 
     @RequestMapping(value = "/supervisor/framingMeeting/framingMeeting", method = RequestMethod.GET)
     public ModelAndView framingMeeting(@RequestParam(required = true) Long id, Integer returnId) {
@@ -182,6 +184,10 @@ public class FramingMeetingController {
         model.addObject("hasMeeting", caseDet.getMeeting().getSchool() != null);
         model.addObject("hasTR", caseDet.getTechnicalReview() != null);
         model.addObject("listCrime", crimeService.getListCrimeHearingformatByCase(id));
+
+        model.addObject("lstCL", new Gson().toJson(technicalReviewRepository.getCommunityLinksByCaseId(id)));
+        model.addObject("lstPR", new Gson().toJson(technicalReviewRepository.getProceduralRiskByCaseId(id)));
+
         List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id, new PageRequest(0, 1));
         if (lstHF != null && lstHF.size() > 0) {
             HearingFormatSpecs hfs = lstHF.get(0).getHearingFormatSpecs();

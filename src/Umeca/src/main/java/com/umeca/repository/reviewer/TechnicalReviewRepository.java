@@ -39,4 +39,18 @@ public interface TechnicalReviewRepository extends JpaRepository<TechnicalReview
             "INNER JOIN qSel.question Q " +
             "WHERE ver.id=:idVer")
     List<SelectList> getQuestionValuesByCaseId(@Param("idVer") Long idVer);
+
+    @Query("Select new com.umeca.model.shared.SelectList(Q.id, Q.question) from Case cd " +
+            "INNER JOIN cd.technicalReview tecR " +
+            "INNER JOIN tecR.questionsSel qSel " +
+            "INNER JOIN qSel.question Q " +
+            "WHERE cd.id=:idCase and Q.value <0")
+    List<SelectList> getProceduralRiskByCaseId(@Param("idCase") Long idCase);
+
+    @Query("Select new com.umeca.model.shared.SelectList(Q.id, Q.question) from Case cd " +
+            "INNER JOIN cd.technicalReview tecR " +
+            "INNER JOIN tecR.questionsSel qSel " +
+            "INNER JOIN qSel.question Q " +
+            "WHERE cd.id=:idCase and Q.value >0")
+    List<SelectList> getCommunityLinksByCaseId(@Param("idCase") Long idCase);
 }
