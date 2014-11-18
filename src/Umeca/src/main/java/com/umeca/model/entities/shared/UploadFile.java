@@ -172,4 +172,12 @@ public class UploadFile {
     public void setRealFileName(String realFileName) {
         this.realFileName = realFileName;
     }
+
+    public TypeNameFile getTypeNameFile() {
+        return typeNameFile;
+    }
+
+    public void setTypeNameFile(TypeNameFile typeNameFile) {
+        this.typeNameFile = typeNameFile;
+    }
 }

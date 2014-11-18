@@ -50,8 +50,7 @@
                     <br/>
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
-                            Infromaci&oacute;n adicional <br/>
-                            <label class="info-example">En caso de existir m&aacute;s de una v&iacute;ctima escribir los nombres y direcciones de cada una de ellas</label>
+                            Observaciones <br/>
                                 <br/>
                             <textarea class="width-100" ng-model="m.additionalInfo" id="additionalInfo" name="additionalInfo"
                                       data-val="true" ng-init='m.additionalInfo="${additionalInfo==null?'':additionalInfo}";'

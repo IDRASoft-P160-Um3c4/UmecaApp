@@ -15,6 +15,7 @@ import com.umeca.model.catalog.dto.StateDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
+import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -22,7 +23,6 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.shared.SelectFilterFields;
@@ -33,6 +33,7 @@ import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.shared.CrimeService;
+import com.umeca.service.shared.UpDwFileService;
 import com.umeca.service.supervisor.FramingMeetingService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,7 +166,9 @@ public class FramingMeetingController {
     @Autowired
     private ActivityRepository activityRepository;
     @Autowired
-    private CrimeService crimeService;
+    CrimeService crimeService;
+    @Autowired
+    UpDwFileService upDwFileService;
     @Autowired
     private TechnicalReviewRepository technicalReviewRepository;
 
@@ -277,8 +280,17 @@ public class FramingMeetingController {
         if (returnId == null)
             returnId = -1;
 
-        model.addObject("returnId", returnId);
 
+        model.addObject("returnId", returnId);
+        Long idFileTR = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_TECH_REVIEW,id);
+        model.addObject("fileIdTR",idFileTR);
+        Long idFilePhoto = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_IMPUTED_PHOTO,id);
+        model.addObject("fileIdPhoto",idFilePhoto);
+        if(idFilePhoto!=null){
+            UploadFile file= upDwFileService.getPathAndFilename(idFilePhoto);
+            String path = new File(file.getPath(), file.getRealFileName()).toString();
+            model.addObject("pathPhoto",path);
+        }
         return model;
     }
 
@@ -520,60 +532,8 @@ public class FramingMeetingController {
 
     }
 
-    @RequestMapping(value = "/supervisor/framingMeeting/listVictim", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    JqGridResultModel listVictims(@RequestParam final Long idCase, @ModelAttribute JqGridFilterModel opts) {
-
-        opts.extraFilters = new ArrayList<>();
-
-        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
-        opts.extraFilters.add(extraFilter);
-
-        JqGridRulesModel extraFilterA = new JqGridRulesModel("personType",
-                new ArrayList<String>() {{
-                    add(FramingMeetingConstants.PERSON_TYPE_VICTIM);
-                    add(FramingMeetingConstants.PERSON_TYPE_WITNESS);
-                }}, JqGridFilterModel.COMPARE_IN
-        );
-        opts.extraFilters.add(extraFilter);
-        opts.extraFilters.add(extraFilterA);
-
-        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
-            @Override
-            public <T> List<Selection<?>> getFields(final Root<T> r) {
-                return new ArrayList<Selection<?>>() {{
-                    add(r.get("id"));
-                    add(r.get("name"));
-                    add(r.get("age"));
-                    add(r.join("relationship").get("name"));
-                    add(r.get("phone"));
-                    add(r.join("accompanimentInfo", JoinType.LEFT).join("address", JoinType.LEFT).get("addressString"));
-                    add(r.get("personType"));
-                }};
-            }
-
-            @Override
-            public <T> Expression<String> setFilterField(Root<T> r, String field) {
-
-                if (field.equals("idCase"))
-                    return r.join("framingMeeting").join("caseDetention").get("id");
-
-                if (field.equals("personType"))
-                    return r.get("personType");
-
-                return null;
-            }
-        }, FramingReference.class, FramingReference.class);
-
-        return result;
-    }
-
-
     @Autowired
     FramingAddressRepository framingAddressRepository;
-    @Autowired
-    HomeTypeRepository homeTypeRepository;
 
     @RequestMapping(value = "/supervisor/framingMeeting/address/upsert", method = RequestMethod.POST)
     public ModelAndView showAddressUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
@@ -592,14 +552,11 @@ public class FramingMeetingController {
             addressService.fillCatalogAddress(model);
         }
 
-        FramingAddressDto addDto = framingMeetingService.fillFramingAddressForView(existFramingAddress);
-
+        AddressDto addDto = new AddressDto();
         addDto.setIdCase(idCase);
-
+        if (existFramingAddress != null)
+            addDto.setAddressRef(existFramingAddress.getAddressRef());
         model.addObject("addObj", conv.toJson(addDto));
-
-        model.addObject("lstHomeType", conv.toJson(homeTypeRepository.getAllHomeType()));
-        model.addObject("lstRegisterType", conv.toJson(registerTypeRepository.getAllRegisterType()));
 
         List<StateDto> states = new ArrayList<>();
         for (State act : stateRepository.findStatesByCountryAlpha2("MX")) {
@@ -700,7 +657,7 @@ public class FramingMeetingController {
     @RequestMapping(value = "/supervisor/framingMeeting/address/doAddressUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doAddressUpsert(@RequestParam Long idCase, @ModelAttribute FramingAddressDto view) {
+    ResponseMessage doAddressUpsert(@RequestParam Long idCase, @ModelAttribute AddressDto view) {
 
         return framingMeetingService.saveFramingAddress(idCase, view);
     }
@@ -932,13 +889,6 @@ public class FramingMeetingController {
         return framingMeetingService.upsertComments(idCase, 6, jobComments);
     }
 
-    @RequestMapping(value = "/supervisor/framingMeeting/upsertVictimComments", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage victimComments(@RequestParam(required = true) Long idCase, @RequestParam String victimComments) {
-        return framingMeetingService.upsertComments(idCase, 7, victimComments);
-    }
-
     @RequestMapping(value = "/supervisor/framingMeeting/activities/upsert", method = RequestMethod.POST)
     public ModelAndView showActivitiesUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/activities/upsert");
@@ -996,60 +946,6 @@ public class FramingMeetingController {
     @RequestMapping(value = "/supervisor/framingMeeting/school/doUpsert", method = RequestMethod.POST)
     public ResponseMessage upsertSchool(@ModelAttribute SchoolDto view) {
         return framingMeetingService.saveSchool(view);
-    }
-
-    @RequestMapping(value = "/supervisor/framingMeeting/victim/upsert", method = RequestMethod.POST)
-    public ModelAndView showVictimUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
-
-        ModelAndView model = new ModelAndView("/supervisor/framingMeeting/victim/upsert");
-
-        FramingReferenceDto victim;
-        Gson conv = new Gson();
-
-        if (id != null)
-            victim = new FramingReferenceDto(framingReferenceRepository.findOne(id));
-        else
-            victim = new FramingReferenceDto();
-
-        victim.setIdCase(idCase);
-        model.addObject("victim", conv.toJson(victim));
-
-        List<CatalogDto> relationships = new ArrayList<>();
-        for (Relationship act : relationshipRepository.findNotObsolete()) {
-
-            CatalogDto rel = new CatalogDto();
-            rel.setId(act.getId());
-            rel.setName(act.getName());
-            rel.setSpecification(act.getSpecification());
-            relationships.add(rel);
-        }
-
-        model.addObject("lstRelationship", conv.toJson(relationships));
-
-        List<StateDto> states = new ArrayList<>();
-        for (State act : stateRepository.findStatesByCountryAlpha2("MX")) {
-            states.add(new StateDto().stateDto(act));
-        }
-
-        model.addObject("listState", conv.toJson(states));
-
-        if (victim.getAddressId() != null)
-            addressService.fillModelAddress(model, victim.getAddressId());
-
-        return model;
-    }
-
-    @RequestMapping(value = "/supervisor/framingMeeting/victim/doVictimUpsert", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doVictimUpsert(@RequestParam Long idCase, @ModelAttribute FramingReference framingReference) {
-
-        Case existCase = caseRepository.findOne(idCase);
-
-        if (existCase == null)
-            return new ResponseMessage(true, "Ocurrio un error al guardar la información. Intente mas tarde.");
-
-        return framingMeetingService.saveVictim(existCase, framingReference);
     }
 
 }

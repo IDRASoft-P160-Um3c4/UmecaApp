@@ -126,7 +126,7 @@ public class CaseServiceImpl implements CaseService {
             //caseDet.setFolderConditionalReprieve(folderObj);
             //folderObj.setCaseDetention(caseDet);
 
-            caseDet.setIdFolder("SIN EVALUACIÓN");
+            caseDet.setIdFolder("SIN EVALUACIÓN REGISTRADA");
             caseRepository.save(caseDet);
 
             resp.setHasError(false);

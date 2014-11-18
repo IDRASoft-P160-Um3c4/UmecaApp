@@ -32,11 +32,35 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
     </script>
+    <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
+          type="text/css">
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/colorbox.css" />
+    <script src="${pageContext.request.contextPath}/assets/scripts/jquery.colorbox-min.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upload/uploadFileCtrl.js"></script>
 
     <script>
         generateFile = function (id) {
             var goTo = "<c:url value='/reviewer/technicalReview/generateFileCase.html'/>" + "?id=" + id;
             window.goToUrlMvcUrl(goTo);
+        };
+
+        downloadTecReview = function (id) {
+            var goTo = "<c:url value='/shared/uploadFile/downloadFile.html'/>" + "?id=" + id;
+            window.goToUrlMvcUrl(goTo);
+        };
+        var uploadPhoto = function () {
+            var id = ${idCase};
+            window.showUpsert(id, "#divPhoto", '<c:url value='/shared/uploadFile/uploadFile.html?type=PHOTO' />', undefined, undefined);
+
+        };
+
+        window.setPhoto = function (resp) {
+            alert("hola!");
         };
     </script>
     <style>
@@ -46,6 +70,12 @@
             margin-top: 10px !important;
             padding-bottom: 10px !important;
         }
+        .containerPhoto {
+            position: relative;
+            text-align: center;
+            max-width: 100%;
+            max-height: 100%;
+        }
     </style>
 
     <title>Entrevista de encuadre</title>
@@ -53,7 +83,10 @@
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content" id="divFM" ng-controller="framingMeetingController"
+<div id="divPhoto" ng-controller="modalDlgController">
+</div>
+
+<div clss="container body-content" id="divFM" ng-controller="framingMeetingController"
      ng-init='fm.objView=${objView}; returnId=${returnId};
      urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";
      urlIndex="<c:url value='/supervisor/framingMeeting/index.html'/>";'
@@ -62,54 +95,124 @@
 
 
 <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
-<%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
-<div class="row"
-     ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true;">
-    <div class="col-xs-10">
-        <h3 class="header smaller lighter blue">
-            <small>Actividades de evaluaci&oacute;n:</small>
-            &nbsp;
-            <i class="icon-check" ng-show="hasMeeting"></i><i class="icon-unchecked"
-                                                              ng-show="!hasMeeting"></i>&nbsp;<label>Entrevista de
-            riesgos procesales</label>&nbsp;&nbsp;
-            <i class="icon-check" ng-show="hasTR"></i><i class="icon-unchecked" ng-show="!hasTR"></i>&nbsp;<label>Opini&oacute;n
-            T&eacute;cnica</label>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a ng-show="hasMeeting && hasTR" href="javascript:;"
-                                             style="display:inline-block;" title="Descargar informaci&oacute;n"
-                                             onclick="generateFile(${idCase});"><span
-                class="glyphicon glyphicon-download"></span>&nbsp;&nbsp;<label>Descargar informaci&oacute;n</label></a>
-        </h3>
-    </div>
-    <div class="col-xs-2 element-center">
-        <h3 class="header smaller lighter blue">
-            <small>Resoluci&oacute;n:</small>
-            &nbsp;&nbsp;&nbsp;<label>${resolution}</label>
-        </h3>
-    </div>
-</div>
+
 <div class="row">
-    <div class="col-xs-4">
-        <h3 class="header smaller lighter blue">
-            <small>Inicio:</small>
-            &nbsp;
-            &nbsp;<label>{{fm.objView.initDate}}</label>
-        </h3>
+    <div class="col-xs-10">
+        <div class="row">
+            <div class="col-sm-5">
+                <h3 class="header smaller lighter blue">
+                    <small>Carpeta de investigaci&oacute;n:</small>
+                    &nbsp;${idFolder}
+                </h3>
+            </div>
+            <div class="col-xs-2">
+                <h3 class="header smaller lighter blue">
+                    <small>Resoluci&oacute;n:</small>
+                    &nbsp;&nbsp;&nbsp;<label>${resolution}</label>
+                </h3>
+            </div>
+            <div class="col-xs-5">
+                <h3 class="header smaller lighter blue">
+                    <small>Supervisor:</small>
+                    &nbsp;
+                    &nbsp;<label>{{fm.objView.userName}}</label>
+                </h3>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <h3 class="header smaller lighter blue">
+                    <small>Nombre del imputado:</small>
+                    &nbsp;${fullNameImputed}
+                </h3>
+            </div>
+            <div class="col-sm-2">
+                <h3 class="header smaller lighter blue">
+                    <small>Edad:</small>
+                    &nbsp;${age}
+                </h3>
+            </div>
+        </div>
+        <div class="row" ng-show="${tStart==null?false:true}">
+            <div class="col-sm-8">
+                <h3 class="header smaller lighter blue">
+                    <small>Entrevista de riesgos procesales:</small>
+                    &nbsp;${tStart}&nbsp;-&nbsp;${tEnd}
+                </h3>
+            </div>
+            <div class="col-sm-4">
+                <h3 class="header smaller lighter blue">
+                    <small>Evaluador:</small>
+                    &nbsp;${reviewerFullname}
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div
+                    ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true; fileIdTR = ${fileIdTR == null?0:fileIdTR};">
+                <div class="col-xs-10">
+                    <h3 class="header smaller lighter blue">
+                        <br/>
+                        <small>Actividades de evaluaci&oacute;n:</small>
+                        &nbsp;
+                        <i class="icon-check" ng-show="hasMeeting"></i><i class="icon-unchecked"
+                                                                          ng-show="!hasMeeting"></i>&nbsp;<label>Entrevista
+                        de
+                        riesgos procesales</label>&nbsp;&nbsp;
+                        <i class="icon-check" ng-show="hasTR"></i><i class="icon-unchecked"
+                                                                     ng-show="!hasTR"></i>&nbsp;<label>Opini&oacute;n
+                        T&eacute;cnica</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a ng-show="hasMeeting && hasTR" href="javascript:;"
+                                                         style="display:inline-block;"
+                                                         title="Descargar opini&oacute;n t&eacute;cnica generada por el sistema"
+                                                         onclick="generateFile(${idCase});"><span
+                            class="icon-cloud-download"></span>&nbsp;<label>Opini&oacute;n
+                        t&eacute;cnica(sistema)</label></a>
+                        &nbsp;&nbsp;
+                        <a ng-show="fileIdTR!=0" href="javascript:;"
+                           style="display:inline-block;" title="Descargar opini&oacute;n t&eacute;cnica final"
+                           onclick="downloadTecReview(${fileIdTR});"><span
+                                class="icon-cloud-download"></span>&nbsp;<label>Opini&oacute;n
+                            t&eacute;cnica(final)</label></a>
+                    </h3>
+                </div>
+                <div class="col-xs-2">
+                    <h3 class="header smaller lighter blue">
+                        <small>Inicio:</small>
+                        &nbsp;
+                        &nbsp;<label>{{fm.objView.initDate}}</label> <br/>
+                        <small>Fin:</small>
+                        &nbsp;
+                        &nbsp;<label>{{fm.objView.endDate}}</label>
+                    </h3>
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="col-xs-4">
-        <h3 class="header smaller lighter blue">
-            <small>Fin:</small>
-            &nbsp;
-            &nbsp;<label>{{fm.objView.endDate}}</label>
-        </h3>
-    </div>
-    <div class="col-xs-4">
-        <h3 class="header smaller lighter blue">
-            <small>Supervisor:</small>
-            &nbsp;
-            &nbsp;<label>{{fm.objView.userName}}</label>
-        </h3>
+    <div class="col-xs-1" >
+        <div class="row-fluid" >
+            <ul class="ace-thumbnails" >
+                <li>
+                    <a href="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
+                       data-rel="colorbox" id="idLinkPhotoImputed">
+                        <img src="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
+                             id="photoImputed" class="containerPhoto"/>
+                    </a>
+
+                    <div class="tools tools-right">
+                        <a href="#" onclick="uploadPhoto()" title="Cambiar foto">
+                            <i class="icon-pencil"></i>
+                        </a>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
+
 <br/>
 
 <div class="row">
@@ -149,7 +252,7 @@
                         </th>
 
                         <th class="hidden-480">
-                            <i class="icon-caret-right blue"></i>
+                      nb       <i class="icon-caret-right blue"></i>
                             Comentarios
                         </th>
                     </tr>

@@ -66,7 +66,7 @@ app.controller('proceedingLegalController', function($scope, $timeout, $sce) {
                 }
             }
         }
-
+        $scope.verifNumber();
     };
 
     $scope.verifNumber = function (){

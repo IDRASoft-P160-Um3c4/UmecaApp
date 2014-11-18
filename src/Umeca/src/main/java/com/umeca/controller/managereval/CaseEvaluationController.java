@@ -1,37 +1,26 @@
 package com.umeca.controller.managereval;
 
-import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
-import com.umeca.model.catalog.Relationship;
-import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.managereval.CaseEvaluationView;
 import com.umeca.model.entities.reviewer.*;
-import com.umeca.model.managereval.ManagerevalView;
 import com.umeca.model.shared.Constants;
-import com.umeca.repository.CaseRepository;
-import com.umeca.repository.StatusCaseRepository;
-import com.umeca.repository.catalog.StatusVerificationRepository;
-import com.umeca.repository.catalog.VerificationMethodRepository;
-import com.umeca.repository.managereval.SourceVerificationRepository;
-import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
-import com.umeca.service.reviewer.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -57,6 +46,7 @@ public class CaseEvaluationController {
                 new ArrayList<String>() {{
                     add(Constants.S_MEETING_INCOMPLETE_LEGAL);
                     add(Constants.S_MEETING_COMPLETE);
+                    add(Constants.S_MEETING_INCOMPLETE);
                 }}
                 , JqGridFilterModel.COMPARE_IN
         );

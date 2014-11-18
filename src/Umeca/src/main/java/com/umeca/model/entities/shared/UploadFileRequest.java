@@ -4,6 +4,8 @@ public class UploadFileRequest {
 
     private Long caseId;
     private String description;
+    private Long typeId;
+    private Boolean closeUploadFile;
 
     public Long getCaseId() {
         return caseId;
@@ -19,5 +21,21 @@ public class UploadFileRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
+    }
+
+    public Boolean getCloseUploadFile() {
+        return closeUploadFile;
+    }
+
+    public void setCloseUploadFile(Boolean closeUploadFile) {
+        this.closeUploadFile = closeUploadFile;
     }
 }

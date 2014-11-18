@@ -49,11 +49,12 @@
                     url: '<c:url value='/shared/uploadFile/list.json?caseId=' />' + ${caseId},
                     datatype: "json",
                     mtype: 'POST',
-                    colNames: ['ID', 'Archivo', 'Descripción', 'Tamaño (bytes)', 'Usuario', 'Fecha creaci&oacute;n', 'Caso', 'Acción'],
+                    colNames: ['ID', 'Archivo', 'Descripci&oacute;n','Tipo', 'Tama&ntilde;o (bytes)', 'Usuario', 'Fecha creaci&oacute;n', 'Caso', 'Acci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'filename', index: 'filename', width: 280, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                         { name: 'description', index: 'description', width: 220, align: "center", sortable: false, search: false },
+                        { name: 'typeName', index: 'typeName', width: 220, align: "center", sortable: false, search: false },
                         { name: 'size', index: 'size', width: 150, align: "center", sortable: true, search: false },
                         { name: 'fullname', index: 'fullname', width: 130, align: "center", sortable: true, search: false },
                         { name: 'stCreationTime', index: 'stCreationTime', width: 140, align: "center", sortable: true, search: false },

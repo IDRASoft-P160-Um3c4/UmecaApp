@@ -1,9 +1,9 @@
 package com.umeca.model.catalog;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.umeca.model.entities.account.Role;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,6 +30,10 @@ public class TypeNameFile {
 
     @Column(name="obsolete", length=255, nullable=false)
     private Boolean obsolete;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="type_file_role", joinColumns ={@JoinColumn(name = "id_type_file")}, inverseJoinColumns = {@JoinColumn(name = "id_role")})
+    private List<Role> roles;
 
     public Long getId() {
         return id;
@@ -79,6 +83,14 @@ public class TypeNameFile {
 
     public void setObsolete(Boolean obsolete) {
         this.obsolete = obsolete;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
 

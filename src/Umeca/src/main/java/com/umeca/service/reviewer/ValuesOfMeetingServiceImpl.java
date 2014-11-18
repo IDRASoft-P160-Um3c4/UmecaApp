@@ -2,8 +2,11 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.model.catalog.*;
-import com.umeca.model.catalog.dto.*;
+import com.umeca.model.catalog.Activity;
+import com.umeca.model.catalog.Location;
+import com.umeca.model.catalog.dto.AddressDto;
+import com.umeca.model.catalog.dto.CatalogDto;
+import com.umeca.model.catalog.dto.DegreeDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.catalog.*;
@@ -108,12 +111,12 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         listFMS.add(new FieldMeetingSource(imputed.getBirthLocation(), imputed.getBirthLocation()));
                         break;
                     case "location":
-                        Location l =imputed.getLocation();
-                        if(l!=null){
+                        Location l = imputed.getLocation();
+                        if (l != null) {
                             cdto.setName(l.getName());
                             cdto.setId(l.getId());
 
-                            listFMS.add(new FieldMeetingSource("Estado: "+l.getMunicipality().getState().getName()+", Municipio; "+l.getMunicipality().getName()+", Localidad: "+l.getName()+".", gson.toJson(cdto)));
+                            listFMS.add(new FieldMeetingSource("Estado: " + l.getMunicipality().getState().getName() + ", Municipio; " + l.getMunicipality().getName() + ", Localidad: " + l.getName() + ".", gson.toJson(cdto)));
                         }
                         break;
                 }
@@ -130,27 +133,27 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         break;
                     case "activities":
 
-                        try{
+                        try {
                             List<RelSocialEnvironmentActivity> rels = se.getRelSocialEnvironmentActivities();
-                            if(rels!= null && rels.size() >0){
-                                String val="";
+                            if (rels != null && rels.size() > 0) {
+                                String val = "";
                                 List<RelSocialEnvironmentActivity> raux = new ArrayList<>();
-                                for(RelSocialEnvironmentActivity r : rels){
+                                for (RelSocialEnvironmentActivity r : rels) {
                                     RelSocialEnvironmentActivity rs = new RelSocialEnvironmentActivity();
                                     rs.setActivity(new Activity());
                                     rs.getActivity().setId(r.getActivity().getId());
                                     rs.setSpecification(r.getSpecification());
                                     raux.add(rs);
-                                    val = val+ r.getActivity().getName();
-                                    if(r.getSpecification()!=null && !r.getSpecification().equals("")){
-                                        val = val +": "+r.getSpecification()+"; ";
-                                    }else{
-                                        val = val+"; ";
+                                    val = val + r.getActivity().getName();
+                                    if (r.getSpecification() != null && !r.getSpecification().equals("")) {
+                                        val = val + ": " + r.getSpecification() + "; ";
+                                    } else {
+                                        val = val + "; ";
                                     }
                                 }
-                                listFMS.add(new FieldMeetingSource(val,gson.toJson(raux)));
+                                listFMS.add(new FieldMeetingSource(val, gson.toJson(raux)));
                             }
-                        }catch (Exception e ){
+                        } catch (Exception e) {
                             e.printStackTrace();
                             System.out.println(e.getMessage());
                         }
@@ -193,84 +196,84 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                 listFMS.add(new FieldMeetingSource(ih.getDescription(), ih.getDescription(), ih.getId()));
                             break;
                         case "specification":
-                            if (ih.getSpecification()!=null && !ih.getSpecification().equals("")) {
+                            if (ih.getSpecification() != null && !ih.getSpecification().equals("")) {
                                 listFMS.add(new FieldMeetingSource(ih.getSpecification(), ih.getSpecification(), ih.getId()));
                             }
                             break;
                         case "schedule":
                             String s = (String) scheduleService.getSchedules(ih.getId(), ImputedHome.class);
-                            if (!s.equals("[]") && ih.getRegisterType()!=null && !ih.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
+                            if (!s.equals("[]") && ih.getRegisterType() != null && !ih.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
                                 listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(ih.getId(), ImputedHome.class), s, ih.getId()));
                             }
                             break;
                         case "phone":
-                            if (ih.getPhone()!=null && !ih.getPhone().equals("")) {
-                                listFMS.add(new FieldMeetingSource(ih.getPhone(),ih.getPhone(),ih.getId()));
+                            if (ih.getPhone() != null && !ih.getPhone().equals("")) {
+                                listFMS.add(new FieldMeetingSource(ih.getPhone(), ih.getPhone(), ih.getId()));
                             }
                             break;
                     }
                 }
                 break;
             case "socialNetwork":
-                if(name[1].equals("comment")){
+                if (name[1].equals("comment")) {
                     SocialNetwork s = m.getSocialNetwork();
                     listFMS.add(new FieldMeetingSource(s.getComment(), s.getComment()));
-                }else {
+                } else {
                     List<PersonSocialNetwork> listp = m.getSocialNetwork().getPeopleSocialNetwork();
-                for (PersonSocialNetwork psn : listp) {
-                    CatalogDto cDto = new CatalogDto();
-                    switch (name[1]) {
-                        case "name":
-                            listFMS.add(new FieldMeetingSource(psn.getName(), psn.getName(), psn.getId()));
-                            break;
-                        case "relationship":
-                            cDto.setName(psn.getRelationship().getName());
-                            cDto.setId(psn.getRelationship().getId());
-                            listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
-                            break;
-                        case "specificationRelationship":
-                            if(psn.getSpecificationRelationship()!=null && !psn.getSpecificationRelationship().equals("")){
-                                listFMS.add(new FieldMeetingSource(psn.getSpecificationRelationship(), psn.getSpecificationRelationship(),psn.getId()));
-                            }
-                            break;
-                        case "phone":
-                            listFMS.add(new FieldMeetingSource(psn.getPhone(), psn.getPhone(), psn.getId()));
-                            break;
-                        case "documentType":
-                            cDto.setName(psn.getDocumentType().getName());
-                            cDto.setId(psn.getDocumentType().getId());
-                            listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
-                            break;
-                        case "specification":
-                            if (psn.getSpecification() != null && !psn.getSpecification().equals("")) {
-                                listFMS.add(new FieldMeetingSource(psn.getSpecification(), psn.getSpecification(), psn.getId()));
-                            }
-                            break;
-                        case "age":
-                            listFMS.add(new FieldMeetingSource(psn.getAge().toString(), psn.getAge().toString(), psn.getId()));
-                            break;
-                        case "dependent":
-                            cDto.setName(psn.getDependent().getName());
-                            cDto.setId(psn.getDependent().getId());
-                            listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
-                            break;
-                        case "livingWith":
-                            cDto.setName(psn.getLivingWith().getName());
-                            cDto.setId(psn.getLivingWith().getId());
-                            listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
-                            break;
-                        case "address":
-                            listFMS.add(new FieldMeetingSource(psn.getAddress(), psn.getAddress(), psn.getId()));
-                            break;
-                        case "isAccompaniment":
-                            String acString = psn.getIsAccompaniment() ? "Si": "No";
-                            String acValue = psn.getIsAccompaniment()?"1":"0";
-                            FieldMeetingSource fmsAc= new FieldMeetingSource(acString,acValue,psn.getId());
-                            fmsAc.setFinal(true);
-                            listFMS.add(fmsAc);
-                            break;
+                    for (PersonSocialNetwork psn : listp) {
+                        CatalogDto cDto = new CatalogDto();
+                        switch (name[1]) {
+                            case "name":
+                                listFMS.add(new FieldMeetingSource(psn.getName(), psn.getName(), psn.getId()));
+                                break;
+                            case "relationship":
+                                cDto.setName(psn.getRelationship().getName());
+                                cDto.setId(psn.getRelationship().getId());
+                                listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
+                                break;
+                            case "specificationRelationship":
+                                if (psn.getSpecificationRelationship() != null && !psn.getSpecificationRelationship().equals("")) {
+                                    listFMS.add(new FieldMeetingSource(psn.getSpecificationRelationship(), psn.getSpecificationRelationship(), psn.getId()));
+                                }
+                                break;
+                            case "phone":
+                                listFMS.add(new FieldMeetingSource(psn.getPhone(), psn.getPhone(), psn.getId()));
+                                break;
+                            case "documentType":
+                                cDto.setName(psn.getDocumentType().getName());
+                                cDto.setId(psn.getDocumentType().getId());
+                                listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
+                                break;
+                            case "specification":
+                                if (psn.getSpecification() != null && !psn.getSpecification().equals("")) {
+                                    listFMS.add(new FieldMeetingSource(psn.getSpecification(), psn.getSpecification(), psn.getId()));
+                                }
+                                break;
+                            case "age":
+                                listFMS.add(new FieldMeetingSource(psn.getAge().toString(), psn.getAge().toString(), psn.getId()));
+                                break;
+                            case "dependent":
+                                cDto.setName(psn.getDependent().getName());
+                                cDto.setId(psn.getDependent().getId());
+                                listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
+                                break;
+                            case "livingWith":
+                                cDto.setName(psn.getLivingWith().getName());
+                                cDto.setId(psn.getLivingWith().getId());
+                                listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
+                                break;
+                            case "address":
+                                listFMS.add(new FieldMeetingSource(psn.getAddress(), psn.getAddress(), psn.getId()));
+                                break;
+                            case "isAccompaniment":
+                                String acString = psn.getIsAccompaniment() ? "Si" : "No";
+                                String acValue = psn.getIsAccompaniment() ? "1" : "0";
+                                FieldMeetingSource fmsAc = new FieldMeetingSource(acString, acValue, psn.getId());
+                                fmsAc.setFinal(true);
+                                listFMS.add(fmsAc);
+                                break;
+                        }
                     }
-                }
                 }
                 break;
             case "references":
@@ -286,8 +289,8 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), r.getId()));
                             break;
                         case "specificationRelationship":
-                            if(r.getSpecificationRelationship()!=null && !r.getSpecificationRelationship().equals("")){
-                                listFMS.add(new FieldMeetingSource(r.getSpecificationRelationship(), r.getSpecificationRelationship(),r.getId()));
+                            if (r.getSpecificationRelationship() != null && !r.getSpecificationRelationship().equals("")) {
+                                listFMS.add(new FieldMeetingSource(r.getSpecificationRelationship(), r.getSpecificationRelationship(), r.getId()));
                             }
                             break;
                         case "phone":
@@ -310,9 +313,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             listFMS.add(new FieldMeetingSource(r.getAddress(), r.getAddress(), r.getId()));
                             break;
                         case "isAccompaniment":
-                            String acString = r.getIsAccompaniment() ? "Si": "No";
-                            String acValue = r.getIsAccompaniment()?"1":"0";
-                            FieldMeetingSource fmsAc=new FieldMeetingSource(acString,acValue,r.getId());
+                            String acString = r.getIsAccompaniment() ? "Si" : "No";
+                            String acValue = r.getIsAccompaniment() ? "1" : "0";
+                            FieldMeetingSource fmsAc = new FieldMeetingSource(acString, acValue, r.getId());
                             fmsAc.setFinal(true);
                             listFMS.add(fmsAc);
                             break;
@@ -366,7 +369,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             break;
                         case "schedule":
                             String s = (String) scheduleService.getSchedules(j.getId(), Job.class);
-                            if (!s.equals("[]") && j.getRegisterType()!=null && !j.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
+                            if (!s.equals("[]") && j.getRegisterType() != null && !j.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
                                 listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(j.getId(), Job.class), s, j.getId()));
                             }
                             break;
@@ -390,8 +393,8 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         listFMS.add(new FieldMeetingSource(level, gson.toJson(new DegreeDto().dtoGrade(s.getDegree()))));
                         break;
                     case "specification":
-                        if(!s.getSpecification().trim().equals("")){
-                            listFMS.add(new FieldMeetingSource(s.getSpecification().trim(),s.getSpecification().trim()));
+                        if (!s.getSpecification().trim().equals("")) {
+                            listFMS.add(new FieldMeetingSource(s.getSpecification().trim(), s.getSpecification().trim()));
                         }
                         break;
                     case "schedule":
@@ -500,7 +503,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
             fms.setFieldVerification(template.getFieldVerification());
             fms.setSourceVerification(template.getSourceVerification());
             fms.setStatusFieldVerification(template.getStatusFieldVerification());
-            if(fms.getFinal()==null)
+            if (fms.getFinal() == null)
                 fms.setFinal(false);
         }
         return listFMS;
@@ -574,11 +577,11 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         listFMS.add(new FieldMeetingSource(imputed.getBirthLocation(), imputed.getBirthLocation()));
                         break;
                     case "location":
-                        Location l =imputed.getLocation();
-                        if(l!=null){
+                        Location l = imputed.getLocation();
+                        if (l != null) {
                             cdto.setName(l.getName());
                             cdto.setId(l.getId());
-                            listFMS.add(new FieldMeetingSource("Estado: "+l.getMunicipality().getState().getName()+", Municipio; "+l.getMunicipality().getName()+", Localidad: "+l.getName()+".", gson.toJson(cdto)));
+                            listFMS.add(new FieldMeetingSource("Estado: " + l.getMunicipality().getState().getName() + ", Municipio; " + l.getMunicipality().getName() + ", Localidad: " + l.getName() + ".", gson.toJson(cdto)));
                         }
                         break;
                 }
@@ -595,27 +598,27 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         break;
                     case "activities":
 
-                        try{
+                        try {
                             List<RelSocialEnvironmentActivity> rels = se.getRelSocialEnvironmentActivities();
-                            if(rels!= null && rels.size() >0){
-                                String val="";
+                            if (rels != null && rels.size() > 0) {
+                                String val = "";
                                 List<RelSocialEnvironmentActivity> raux = new ArrayList<>();
-                                for(RelSocialEnvironmentActivity r : rels){
+                                for (RelSocialEnvironmentActivity r : rels) {
                                     RelSocialEnvironmentActivity rs = new RelSocialEnvironmentActivity();
                                     rs.setActivity(new Activity());
                                     rs.getActivity().setId(r.getActivity().getId());
                                     rs.setSpecification(r.getSpecification());
                                     raux.add(rs);
-                                    val = val+ r.getActivity().getName();
-                                    if(r.getSpecification()!=null && !r.getSpecification().equals("")){
-                                        val = val +": "+r.getSpecification()+"; ";
-                                    }else{
-                                        val = val+"; ";
+                                    val = val + r.getActivity().getName();
+                                    if (r.getSpecification() != null && !r.getSpecification().equals("")) {
+                                        val = val + ": " + r.getSpecification() + "; ";
+                                    } else {
+                                        val = val + "; ";
                                     }
                                 }
-                                listFMS.add(new FieldMeetingSource(val,gson.toJson(raux)));
+                                listFMS.add(new FieldMeetingSource(val, gson.toJson(raux)));
                             }
-                        }catch (Exception e ){
+                        } catch (Exception e) {
                             e.printStackTrace();
                             System.out.println(e.getMessage());
                         }
@@ -659,19 +662,19 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     listFMS.add(new FieldMeetingSource(ih.getDescription(), ih.getDescription(), ih.getId()));
                                 break;
                             case "specification":
-                                if (ih.getSpecification()!=null && !ih.getSpecification().equals("")) {
-                                    listFMS.add(new FieldMeetingSource(ih.getSpecification(),ih.getSpecification(),ih.getId()));
+                                if (ih.getSpecification() != null && !ih.getSpecification().equals("")) {
+                                    listFMS.add(new FieldMeetingSource(ih.getSpecification(), ih.getSpecification(), ih.getId()));
                                 }
                                 break;
                             case "schedule":
                                 String s = (String) scheduleService.getSchedules(ih.getId(), ImputedHome.class);
-                                if (!s.equals("[]") && ih.getRegisterType()!=null && !ih.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
+                                if (!s.equals("[]") && ih.getRegisterType() != null && !ih.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
                                     listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(ih.getId(), ImputedHome.class), s, ih.getId()));
                                 }
                                 break;
                             case "phone":
-                                if (ih.getPhone()!=null && !ih.getPhone().equals("")) {
-                                    listFMS.add(new FieldMeetingSource(ih.getPhone(),ih.getPhone(),ih.getId()));
+                                if (ih.getPhone() != null && !ih.getPhone().equals("")) {
+                                    listFMS.add(new FieldMeetingSource(ih.getPhone(), ih.getPhone(), ih.getId()));
                                 }
                                 break;
                         }
@@ -681,67 +684,67 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                 }
                 break;
             case "socialNetwork":
-                if(name[1].equals("comment")){
+                if (name[1].equals("comment")) {
                     SocialNetwork s = m.getSocialNetwork();
                     listFMS.add(new FieldMeetingSource(s.getComment(), s.getComment()));
-                }else {
+                } else {
                     List<PersonSocialNetwork> listp = m.getSocialNetwork().getPeopleSocialNetwork();
-                for (PersonSocialNetwork psn : listp) {
-                    if (psn.getId().equals(idList)) {
-                        CatalogDto cDto = new CatalogDto();
-                        switch (name[1]) {
-                            case "name":
-                                listFMS.add(new FieldMeetingSource(psn.getName(), psn.getName(), psn.getId()));
-                                break;
-                            case "relationship":
-                                cDto.setName(psn.getRelationship().getName());
-                                cDto.setId(psn.getRelationship().getId());
-                                listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
-                                break;
-                            case "specificationRelationship":
-                                if(psn.getSpecificationRelationship()!=null && !psn.getSpecificationRelationship().equals("")){
-                                    listFMS.add(new FieldMeetingSource(psn.getSpecificationRelationship(), psn.getSpecificationRelationship(),psn.getId()));
-                                }
-                                break;
-                            case "phone":
-                                listFMS.add(new FieldMeetingSource(psn.getPhone(), psn.getPhone(), psn.getId()));
-                                break;
-                            case "documentType":
-                                cDto.setName(psn.getDocumentType().getName());
-                                cDto.setId(psn.getDocumentType().getId());
-                                listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
-                                break;
-                            case "specification":
-                                if (psn.getSpecification() != null && !psn.getSpecification().equals("")) {
-                                    listFMS.add(new FieldMeetingSource(psn.getSpecification(), psn.getSpecification(), psn.getId()));
-                                }
-                                break;
-                            case "age":
-                                listFMS.add(new FieldMeetingSource(psn.getAge().toString(), psn.getAge().toString(), psn.getId()));
-                                break;
-                            case "dependent":
-                                cDto.setName(psn.getDependent().getName());
-                                cDto.setId(psn.getDependent().getId());
-                                listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
-                                break;
-                            case "livingWith":
-                                cDto.setName(psn.getLivingWith().getName());
-                                cDto.setId(psn.getLivingWith().getId());
-                                listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
-                                break;
-                            case "address":
-                                listFMS.add(new FieldMeetingSource(psn.getAddress(), psn.getAddress(), psn.getId()));
-                                break;
-                            case "isAccompaniment":
-                                String acString = psn.getIsAccompaniment() ? "Si": "No";
-                                String acValue = psn.getIsAccompaniment()?"1":"0";
-                                listFMS.add(new FieldMeetingSource(acString,acValue,psn.getId()));
-                                break;
+                    for (PersonSocialNetwork psn : listp) {
+                        if (psn.getId().equals(idList)) {
+                            CatalogDto cDto = new CatalogDto();
+                            switch (name[1]) {
+                                case "name":
+                                    listFMS.add(new FieldMeetingSource(psn.getName(), psn.getName(), psn.getId()));
+                                    break;
+                                case "relationship":
+                                    cDto.setName(psn.getRelationship().getName());
+                                    cDto.setId(psn.getRelationship().getId());
+                                    listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
+                                    break;
+                                case "specificationRelationship":
+                                    if (psn.getSpecificationRelationship() != null && !psn.getSpecificationRelationship().equals("")) {
+                                        listFMS.add(new FieldMeetingSource(psn.getSpecificationRelationship(), psn.getSpecificationRelationship(), psn.getId()));
+                                    }
+                                    break;
+                                case "phone":
+                                    listFMS.add(new FieldMeetingSource(psn.getPhone(), psn.getPhone(), psn.getId()));
+                                    break;
+                                case "documentType":
+                                    cDto.setName(psn.getDocumentType().getName());
+                                    cDto.setId(psn.getDocumentType().getId());
+                                    listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
+                                    break;
+                                case "specification":
+                                    if (psn.getSpecification() != null && !psn.getSpecification().equals("")) {
+                                        listFMS.add(new FieldMeetingSource(psn.getSpecification(), psn.getSpecification(), psn.getId()));
+                                    }
+                                    break;
+                                case "age":
+                                    listFMS.add(new FieldMeetingSource(psn.getAge().toString(), psn.getAge().toString(), psn.getId()));
+                                    break;
+                                case "dependent":
+                                    cDto.setName(psn.getDependent().getName());
+                                    cDto.setId(psn.getDependent().getId());
+                                    listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
+                                    break;
+                                case "livingWith":
+                                    cDto.setName(psn.getLivingWith().getName());
+                                    cDto.setId(psn.getLivingWith().getId());
+                                    listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), psn.getId()));
+                                    break;
+                                case "address":
+                                    listFMS.add(new FieldMeetingSource(psn.getAddress(), psn.getAddress(), psn.getId()));
+                                    break;
+                                case "isAccompaniment":
+                                    String acString = psn.getIsAccompaniment() ? "Si" : "No";
+                                    String acValue = psn.getIsAccompaniment() ? "1" : "0";
+                                    listFMS.add(new FieldMeetingSource(acString, acValue, psn.getId()));
+                                    break;
+                            }
+                            break;
                         }
-                        break;
-                    }
 
-                }
+                    }
                 }
                 break;
             case "references":
@@ -758,8 +761,8 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                 listFMS.add(new FieldMeetingSource(cDto.getName(), gson.toJson(cDto), r.getId()));
                                 break;
                             case "specificationRelationship":
-                                if(r.getSpecificationRelationship()!=null && !r.getSpecificationRelationship().equals("")){
-                                    listFMS.add(new FieldMeetingSource(r.getSpecificationRelationship(), r.getSpecificationRelationship(),r.getId()));
+                                if (r.getSpecificationRelationship() != null && !r.getSpecificationRelationship().equals("")) {
+                                    listFMS.add(new FieldMeetingSource(r.getSpecificationRelationship(), r.getSpecificationRelationship(), r.getId()));
                                 }
                                 break;
                             case "phone":
@@ -782,9 +785,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                 listFMS.add(new FieldMeetingSource(r.getAddress(), r.getAddress(), r.getId()));
                                 break;
                             case "isAccompaniment":
-                                String acString = r.getIsAccompaniment() ? "Si": "No";
-                                String acValue = r.getIsAccompaniment()?"1":"0";
-                                listFMS.add(new FieldMeetingSource(acString,acValue,r.getId()));
+                                String acString = r.getIsAccompaniment() ? "Si" : "No";
+                                String acValue = r.getIsAccompaniment() ? "1" : "0";
+                                listFMS.add(new FieldMeetingSource(acString, acValue, r.getId()));
                                 break;
                         }
                         break;
@@ -839,7 +842,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                 break;
                             case "schedule":
                                 String s = (String) scheduleService.getSchedules(j.getId(), Job.class);
-                                if (!s.equals("[]") && j.getRegisterType()!=null && !j.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
+                                if (!s.equals("[]") && j.getRegisterType() != null && !j.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
                                     listFMS.add(new FieldMeetingSource(scheduleService.getSchedulesVerificationValue(j.getId(), Job.class), s, j.getId()));
                                 }
                                 break;
@@ -865,8 +868,8 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         listFMS.add(new FieldMeetingSource(level, gson.toJson(new DegreeDto().dtoGrade(s.getDegree()))));
                         break;
                     case "specification":
-                        if(!s.getSpecification().trim().equals("")){
-                            listFMS.add(new FieldMeetingSource(s.getSpecification().trim(),s.getSpecification().trim()));
+                        if (!s.getSpecification().trim().equals("")) {
+                            listFMS.add(new FieldMeetingSource(s.getSpecification().trim(), s.getSpecification().trim()));
                         }
                         break;
                     case "schedule":
@@ -1011,8 +1014,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
     AddressService addressService;
     @Autowired
     HomeTypeRepository homeTypeRepository;
-@Autowired
-ActivityRepository activityRepository;
+    @Autowired
+    ActivityRepository activityRepository;
+
     @Override
     public void createMeetingVirified(Long idCase, Verification verification) {
         Meeting meeting = new Meeting();
@@ -1024,27 +1028,27 @@ ActivityRepository activityRepository;
             switch (name[0]) {
                 case "imputed":
                     CatalogDto cdto = new CatalogDto();
-                    if (meeting.getImputed() == null){
+                    if (meeting.getImputed() == null) {
                         meeting.setImputed(new Imputed());
                         meeting.getImputed().setMeeting(meeting);
                     }
                     switch (name[1]) {
                         case "name":
                             meeting.getImputed().setName(fms.getJsonValue());
-                            if(meeting.getImputed().getName()!= null && meeting.getImputed().getLastNameP()!=null && meeting.getImputed().getLastNameM()!=null){
-                                meeting.getImputed().setFoneticString(meeting.getImputed().getName().trim().toLowerCase()+meeting.getImputed().getLastNameP().trim().toLowerCase()+meeting.getImputed().getLastNameM().trim().toLowerCase());
+                            if (meeting.getImputed().getName() != null && meeting.getImputed().getLastNameP() != null && meeting.getImputed().getLastNameM() != null) {
+                                meeting.getImputed().setFoneticString(meeting.getImputed().getName().trim().toLowerCase() + meeting.getImputed().getLastNameP().trim().toLowerCase() + meeting.getImputed().getLastNameM().trim().toLowerCase());
                             }
                             break;
                         case "lastNameP":
                             meeting.getImputed().setLastNameP(fms.getJsonValue());
-                            if(meeting.getImputed().getName()!= null && meeting.getImputed().getLastNameP()!=null && meeting.getImputed().getLastNameM()!=null){
-                                meeting.getImputed().setFoneticString(meeting.getImputed().getName().trim().toLowerCase()+meeting.getImputed().getLastNameP().trim().toLowerCase()+meeting.getImputed().getLastNameM().trim().toLowerCase());
+                            if (meeting.getImputed().getName() != null && meeting.getImputed().getLastNameP() != null && meeting.getImputed().getLastNameM() != null) {
+                                meeting.getImputed().setFoneticString(meeting.getImputed().getName().trim().toLowerCase() + meeting.getImputed().getLastNameP().trim().toLowerCase() + meeting.getImputed().getLastNameM().trim().toLowerCase());
                             }
                             break;
                         case "lastNameM":
                             meeting.getImputed().setLastNameM(fms.getJsonValue());
-                            if(meeting.getImputed().getName()!= null && meeting.getImputed().getLastNameP()!=null && meeting.getImputed().getLastNameM()!=null){
-                                meeting.getImputed().setFoneticString(meeting.getImputed().getName().trim().toLowerCase()+meeting.getImputed().getLastNameP().trim().toLowerCase()+meeting.getImputed().getLastNameM().trim().toLowerCase());
+                            if (meeting.getImputed().getName() != null && meeting.getImputed().getLastNameP() != null && meeting.getImputed().getLastNameM() != null) {
+                                meeting.getImputed().setFoneticString(meeting.getImputed().getName().trim().toLowerCase() + meeting.getImputed().getLastNameP().trim().toLowerCase() + meeting.getImputed().getLastNameM().trim().toLowerCase());
                             }
                             break;
                         case "birthDate":
@@ -1053,7 +1057,7 @@ ActivityRepository activityRepository;
                             try {
                                 birthDate = formatter.parse(fms.getJsonValue());
                             } catch (ParseException e) {
-                                logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
+                                logException.Write(e, this.getClass(), "createMeetingVirified", sharedUserService);
                             }
                             meeting.getImputed().setBirthDate(birthDate);
                             break;
@@ -1072,7 +1076,7 @@ ActivityRepository activityRepository;
                                 meeting.getImputed().setMaritalStatus(maritalStatusRepository.findOne(catalogDto.getId()));
                             break;
                         case "yearsMaritalStatus":
-                            if(fms.getJsonValue()!=null && !fms.getJsonValue().equals("")){
+                            if (fms.getJsonValue() != null && !fms.getJsonValue().equals("")) {
                                 meeting.getImputed().setYearsMaritalStatus(Integer.parseInt(fms.getJsonValue()));
                             }
                             break;
@@ -1098,8 +1102,8 @@ ActivityRepository activityRepository;
                             meeting.getImputed().setBirthLocation(fms.getJsonValue());
                             break;
                         case "location":
-                            CatalogDto locC = gson.fromJson(fms.getJsonValue(),CatalogDto.class);
-                            if(locC!=null && locC.getId()!=null){
+                            CatalogDto locC = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
+                            if (locC != null && locC.getId() != null) {
                                 meeting.getImputed().setLocation(locationRepository.findOne(locC.getId()));
                             }
                             break;
@@ -1118,17 +1122,18 @@ ActivityRepository activityRepository;
                             meeting.getSocialEnvironment().setComment(fms.getJsonValue());
                             break;
                         case "activities":
-                            try{
-                                List<RelSocialEnvironmentActivity> relSE = gson.fromJson(fms.getJsonValue(),new TypeToken<List<RelSocialEnvironmentActivity>>(){}.getType());
-                                if(relSE!=null){
-                                    for(RelSocialEnvironmentActivity r : relSE){
+                            try {
+                                List<RelSocialEnvironmentActivity> relSE = gson.fromJson(fms.getJsonValue(), new TypeToken<List<RelSocialEnvironmentActivity>>() {
+                                }.getType());
+                                if (relSE != null) {
+                                    for (RelSocialEnvironmentActivity r : relSE) {
                                         r.setActivity(activityRepository.findOne(r.getActivity().getId()));
                                         r.setSocialEnvironment(meeting.getSocialEnvironment());
                                         r.setRelId(null);
                                     }
                                     meeting.getSocialEnvironment().setRelSocialEnvironmentActivities(relSE);
                                 }
-                            }catch (Exception e ){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                                 System.out.println(e.getMessage());
                             }
@@ -1227,78 +1232,84 @@ ActivityRepository activityRepository;
                         meeting.getSocialNetwork().setPeopleSocialNetwork(new ArrayList<PersonSocialNetwork>());
                         meeting.getSocialNetwork().setMeeting(meeting);
                     }
-                    Boolean existS = false;
-                    for (PersonSocialNetwork personSocialNetwork : meeting.getSocialNetwork().getPeopleSocialNetwork()) {
-                        if (personSocialNetwork.getIdAux().equals(fms.getIdFieldList())) {
-                            existS = true;
-                        }
-                    }
-                    if (!existS) {
-                        PersonSocialNetwork psn = new PersonSocialNetwork();
-                        psn.setIdAux(fms.getIdFieldList());
-                        psn.setSocialNetwork(meeting.getSocialNetwork());
-                        meeting.getSocialNetwork().getPeopleSocialNetwork().add(psn);
-                    }
-                    for (PersonSocialNetwork psn : meeting.getSocialNetwork().getPeopleSocialNetwork()) {
-                        if (psn.getIdAux().equals(fms.getIdFieldList())) {
-                            CatalogDto cDto = new CatalogDto();
-                            switch (name[1]) {
-                                case "name":
-                                    psn.setName(fms.getJsonValue());
-                                    break;
-                                case "relationship":
-                                    cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
-                                    if (cDto != null) {
-                                        psn.setRelationship(relationshipRepository.findOne(cDto.getId()));
-                                    }
-                                    break;
-                                case "specificationRelationship":
-                                    if(!fms.getJsonValue().equals("")){
-                                        psn.setSpecificationRelationship(fms.getJsonValue());
-                                    }
-                                    break;
-                                case "phone":
-                                    psn.setPhone(fms.getJsonValue());
-                                    break;
-                                case "documentType":
-                                    cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
-                                    if (cDto != null) {
-                                        psn.setDocumentType(documentTypeRepository.findOne(cDto.getId()));
-                                    }
-                                    break;
-                                case "specification":
-                                    if (!fms.getJsonValue().equals("")) {
-                                        psn.setSpecification(fms.getJsonValue());
-                                    }
-                                    break;
-                                case "age":
-                                    psn.setAge(Integer.parseInt(fms.getJsonValue()));
-                                    break;
-                                case "dependent":
-                                    cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
-                                    if (cDto != null) {
-                                        psn.setDependent(electionRepository.findOne(cDto.getId()));
-                                    }
-                                    break;
-                                case "livingWith":
-                                    cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
-                                    if (cDto != null) {
-                                        psn.setLivingWith(electionRepository.findOne(cDto.getId()));
-                                    }
-                                    break;
-                                case "address":
-                                    if (!fms.getJsonValue().equals("")) {
-                                        psn.setAddress(fms.getJsonValue());
-                                    }
-                                    break;
-                                case "isAccompaniment":
-                                    Boolean ac = fms.getJsonValue().equals("1");
-                                    psn.setIsAccompaniment(ac);
-                                    break;
+                    if (fms.getIdFieldList() != null) {
+                        Boolean existS = false;
+                        for (PersonSocialNetwork personSocialNetwork : meeting.getSocialNetwork().getPeopleSocialNetwork()) {
+                            if (personSocialNetwork.getIdAux().equals(fms.getIdFieldList())) {
+                                existS = true;
                             }
-                            break;
                         }
+                        if (!existS) {
+                            PersonSocialNetwork psn = new PersonSocialNetwork();
+                            psn.setIdAux(fms.getIdFieldList());
+                            psn.setSocialNetwork(meeting.getSocialNetwork());
+                            meeting.getSocialNetwork().getPeopleSocialNetwork().add(psn);
+                        }
+                        for (PersonSocialNetwork psn : meeting.getSocialNetwork().getPeopleSocialNetwork()) {
 
+                            if (psn.getIdAux().equals(fms.getIdFieldList())) {
+                                CatalogDto cDto = new CatalogDto();
+                                switch (name[1]) {
+                                    case "name":
+                                        psn.setName(fms.getJsonValue());
+                                        break;
+                                    case "relationship":
+                                        cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
+                                        if (cDto != null) {
+                                            psn.setRelationship(relationshipRepository.findOne(cDto.getId()));
+                                        }
+                                        break;
+                                    case "specificationRelationship":
+                                        if (!fms.getJsonValue().equals("")) {
+                                            psn.setSpecificationRelationship(fms.getJsonValue());
+                                        }
+                                        break;
+                                    case "phone":
+                                        psn.setPhone(fms.getJsonValue());
+                                        break;
+                                    case "documentType":
+                                        cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
+                                        if (cDto != null) {
+                                            psn.setDocumentType(documentTypeRepository.findOne(cDto.getId()));
+                                        }
+                                        break;
+                                    case "specification":
+                                        if (!fms.getJsonValue().equals("")) {
+                                            psn.setSpecification(fms.getJsonValue());
+                                        }
+                                        break;
+                                    case "age":
+                                        psn.setAge(Integer.parseInt(fms.getJsonValue()));
+                                        break;
+                                    case "dependent":
+                                        cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
+                                        if (cDto != null) {
+                                            psn.setDependent(electionRepository.findOne(cDto.getId()));
+                                        }
+                                        break;
+                                    case "livingWith":
+                                        cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
+                                        if (cDto != null) {
+                                            psn.setLivingWith(electionRepository.findOne(cDto.getId()));
+                                        }
+                                        break;
+                                    case "address":
+                                        if (!fms.getJsonValue().equals("")) {
+                                            psn.setAddress(fms.getJsonValue());
+                                        }
+                                        break;
+                                    case "isAccompaniment":
+                                        Boolean ac = fms.getJsonValue().equals("1");
+                                        psn.setIsAccompaniment(ac);
+                                        break;
+                                }
+                                break;
+                            }
+
+
+                        }
+                    } else if (name[1].equals("comment")) {
+                        meeting.getSocialNetwork().setComment(fms.getValue());
                     }
                     break;
                 case "references":
@@ -1331,7 +1342,7 @@ ActivityRepository activityRepository;
                                     }
                                     break;
                                 case "specificationRelationship":
-                                    if(!fms.getJsonValue().equals("")){
+                                    if (!fms.getJsonValue().equals("")) {
                                         r.setSpecificationRelationship(fms.getJsonValue());
                                     }
                                     break;
@@ -1411,7 +1422,7 @@ ActivityRepository activityRepository;
                                     try {
                                         dateS = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
+                                        logException.Write(e, this.getClass(), "createMeetingVirified", sharedUserService);
                                     }
                                     j.setStart(dateS);
                                     break;
@@ -1423,7 +1434,7 @@ ActivityRepository activityRepository;
                                     try {
                                         date = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
+                                        logException.Write(e, this.getClass(), "createMeetingVirified", sharedUserService);
                                     }
                                     j.setStartPrev(date);
                                     break;
@@ -1432,7 +1443,7 @@ ActivityRepository activityRepository;
                                     try {
                                         dateE = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
+                                        logException.Write(e, this.getClass(), "createMeetingVirified", sharedUserService);
                                     }
                                     j.setEnd(dateE);
                                     break;
@@ -1440,7 +1451,7 @@ ActivityRepository activityRepository;
                                     j.setReasonChange(fms.getJsonValue());
                                     break;
                                 case "schedule":
-                                   List<Schedule> listSchedules = gson.fromJson(fms.getJsonValue(), new TypeToken<List<Schedule>>() {
+                                    List<Schedule> listSchedules = gson.fromJson(fms.getJsonValue(), new TypeToken<List<Schedule>>() {
                                     }.getType());
                                     j.setSchedule(listSchedules);
                                     for (Schedule schedule : listSchedules) {
@@ -1538,7 +1549,7 @@ ActivityRepository activityRepository;
                                     try {
                                         lastUse = formatter.parse(fms.getJsonValue());
                                     } catch (ParseException e) {
-                                        logException.Write(e,this.getClass(),"createMeetingVirified",sharedUserService);
+                                        logException.Write(e, this.getClass(), "createMeetingVirified", sharedUserService);
                                     }
                                     d.setLastUse(lastUse);
                                     break;

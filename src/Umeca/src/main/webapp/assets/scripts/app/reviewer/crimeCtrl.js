@@ -34,7 +34,12 @@ app.controller('crimeController', function ($scope, $timeout) {
         $scope.listMsgError = [];
         valid = true;
         var strArticle = $scope.c.article+"";
-        if (strArticle.length > 100 || strArticle.length < 1){
+        if($scope.c.crime == undefined){
+            $scope.listMsgError.push("Debe seleccionar un delito");
+            valid=false;
+        }
+
+        if ( $scope.c.article== undefined || (strArticle.length > 100 || strArticle.length < 1)){
                 $scope.listMsgError.push("La longitud del artículo debe ser entre 1 y 100 caracteres");
                 valid = false;
             }
