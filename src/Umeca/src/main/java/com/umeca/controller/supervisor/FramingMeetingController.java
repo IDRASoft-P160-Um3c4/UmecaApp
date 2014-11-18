@@ -572,6 +572,8 @@ public class FramingMeetingController {
 
     @Autowired
     FramingAddressRepository framingAddressRepository;
+    @Autowired
+    HomeTypeRepository homeTypeRepository;
 
     @RequestMapping(value = "/supervisor/framingMeeting/address/upsert", method = RequestMethod.POST)
     public ModelAndView showAddressUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
@@ -590,11 +592,14 @@ public class FramingMeetingController {
             addressService.fillCatalogAddress(model);
         }
 
-        AddressDto addDto = new AddressDto();
+        FramingAddressDto addDto = framingMeetingService.fillFramingAddressForView(existFramingAddress);
+
         addDto.setIdCase(idCase);
-        if (existFramingAddress != null)
-            addDto.setAddressRef(existFramingAddress.getAddressRef());
+
         model.addObject("addObj", conv.toJson(addDto));
+
+        model.addObject("lstHomeType", conv.toJson(homeTypeRepository.getAllHomeType()));
+        model.addObject("lstRegisterType", conv.toJson(registerTypeRepository.getAllRegisterType()));
 
         List<StateDto> states = new ArrayList<>();
         for (State act : stateRepository.findStatesByCountryAlpha2("MX")) {
@@ -695,7 +700,7 @@ public class FramingMeetingController {
     @RequestMapping(value = "/supervisor/framingMeeting/address/doAddressUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doAddressUpsert(@RequestParam Long idCase, @ModelAttribute AddressDto view) {
+    ResponseMessage doAddressUpsert(@RequestParam Long idCase, @ModelAttribute FramingAddressDto view) {
 
         return framingMeetingService.saveFramingAddress(idCase, view);
     }

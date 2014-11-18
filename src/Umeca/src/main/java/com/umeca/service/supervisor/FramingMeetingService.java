@@ -41,7 +41,7 @@ public interface FramingMeetingService {
 
     FramingPersonalDataView fillPersonalDataForView(Long idCase);
 
-    ResponseMessage saveFramingAddress(Long idCase, AddressDto view);
+    ResponseMessage saveFramingAddress(Long idCase, FramingAddressDto view);
 
     ResponseMessage deleteFramingAddress(Long id);
 
@@ -76,5 +76,7 @@ public interface FramingMeetingService {
     ResponseMessage saveSchool(SchoolDto view);
 
     ResponseMessage saveVictim(Case existCase, FramingReference newReference);
+
+    FramingAddressDto fillFramingAddressForView(FramingAddress existAddress);
 
 }

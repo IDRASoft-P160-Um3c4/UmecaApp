@@ -1,8 +1,12 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.HomeType;
+import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.entities.reviewer.Address;
+import com.umeca.model.entities.reviewer.Schedule;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "framing_address")
@@ -17,12 +21,41 @@ public class FramingAddress {
     @JoinColumn(name = "id_framing_meeting")
     private FramingMeeting framingMeeting;
 
+    @OneToMany(mappedBy = "framingAddress", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Schedule> schedule;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_address")
     private Address address;
 
+    @Column(name = "time_ago")
+    private String timeAgo;
+
+    @Column(name = "time_live")
+    private String timeLive;
+
     @Column(name = "address_ref")
     private String addressRef;
+
+    @Column(name = "reason_another")
+    private String reasonAnother;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "reason_change")
+    private String reasonChange;
+
+    @Column(name = "specification")
+    private String specification;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_register_type")
+    private RegisterType registerType;
+
+    @ManyToOne
+    @JoinColumn(name = "id_belong")
+    private HomeType homeType;
 
     public Long getId() {
         return id;
@@ -54,6 +87,78 @@ public class FramingAddress {
 
     public void setAddressRef(String addressRef) {
         this.addressRef = addressRef;
+    }
+
+    public List<Schedule> getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(List<Schedule> schedule) {
+        this.schedule = schedule;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public String getTimeLive() {
+        return timeLive;
+    }
+
+    public void setTimeLive(String timeLive) {
+        this.timeLive = timeLive;
+    }
+
+    public String getReasonAnother() {
+        return reasonAnother;
+    }
+
+    public void setReasonAnother(String reasonAnother) {
+        this.reasonAnother = reasonAnother;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getReasonChange() {
+        return reasonChange;
+    }
+
+    public void setReasonChange(String reasonChange) {
+        this.reasonChange = reasonChange;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
+
+    public RegisterType getRegisterType() {
+        return registerType;
+    }
+
+    public void setRegisterType(RegisterType registerType) {
+        this.registerType = registerType;
+    }
+
+    public HomeType getHomeType() {
+        return homeType;
+    }
+
+    public void setHomeType(HomeType homeType) {
+        this.homeType = homeType;
     }
 }
 

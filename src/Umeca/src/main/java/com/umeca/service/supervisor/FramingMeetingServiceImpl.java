@@ -761,7 +761,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         return view;
     }
 
-    public Address fillAddress(Address address, AddressDto view) {
+    public Address fillAddress(Address address, FramingAddressDto view) {
 
         if (address == null)
             address = new Address();
@@ -775,27 +775,93 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         return address;
     }
 
+    @Autowired
+    private HomeTypeRepository homeTypeRepository;
 
-    public ResponseMessage saveFramingAddress(Long idCase, AddressDto view) {
+    public FramingAddressDto fillFramingAddressForView(FramingAddress existAddress) {
+
+        FramingAddressDto obj = new FramingAddressDto();
+
+        if (existAddress != null) {
+            obj.setPhone(existAddress.getPhone());
+            obj.setHomeTypeId(existAddress.getHomeType().getId());
+            obj.setSpecification(existAddress.getSpecification());
+            obj.setRegisterTypeId(existAddress.getRegisterType().getId());
+            obj.setTimeAgo(existAddress.getTimeAgo());
+            obj.setAddressRef(existAddress.getAddressRef());
+            obj.setReasonAnother(existAddress.getReasonAnother());
+            obj.setTimeLive(existAddress.getTimeLive());
+            obj.setReasonChange(existAddress.getReasonChange());
+
+            List<ScheduleDto> scheduleDto = new ArrayList<>();
+
+            for (Schedule act : existAddress.getSchedule()) {
+                ScheduleDto newObj = new ScheduleDto();
+                newObj.setDay(act.getDay());
+                newObj.setStart(act.getStart());
+                newObj.setEnd(act.getEnd());
+                scheduleDto.add(newObj);
+            }
+
+            obj.setSchedule(new Gson().toJson(scheduleDto));
+        }
+
+        return obj;
+    }
+
+    @Override
+    @Transactional
+    public ResponseMessage saveFramingAddress(Long idCase, FramingAddressDto view) {
 
         try {
 
+            FramingAddress existFramingAddress = null;
+
             if (view.getId() != null) {
-                //Address existAddress = addressRepository.findOne(view.getId());
-                //existAddress = this.fillAddress(existAddress, view);
-                FramingAddress existFramingAddress = framingAddressRepository.findFramingAddressByIdAddress(view.getId());
+                existFramingAddress = framingAddressRepository.findFramingAddressByIdAddress(view.getId());
                 this.fillAddress(existFramingAddress.getAddress(), view);
-                existFramingAddress.setAddressRef(view.getAddressRef());
+
+                List<Schedule> existSche = existFramingAddress.getSchedule();
+
+                for (Schedule act : existSche) {
+                    act.setFramingAddress(null);
+                    scheduleRepository.delete(act);
+                }
+
+                existFramingAddress.setSchedule(null);
                 framingAddressRepository.save(existFramingAddress);
-                //Address existAddress = addressRepository.findOne(view.getId());
-                //addressRepository.save(existAddress);
+
             } else {
-                FramingAddress framingAddress = new FramingAddress();
-                framingAddress.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
-                framingAddress.setAddress(this.fillAddress(null, view));
-                framingAddress.setAddressRef(view.getAddressRef());
-                framingAddressRepository.save(framingAddress);
+                existFramingAddress = new FramingAddress();
+                existFramingAddress.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
+                existFramingAddress.setAddress(this.fillAddress(null, view));
             }
+
+            existFramingAddress.setPhone(view.getPhone());
+            existFramingAddress.setHomeType(homeTypeRepository.findOne(view.getHomeTypeId()));
+            existFramingAddress.setSpecification(view.getSpecification());
+            existFramingAddress.setRegisterType(registerTypeRepository.findOne(view.getRegisterTypeId()));
+            existFramingAddress.setTimeAgo(view.getTimeAgo());
+            existFramingAddress.setAddressRef(view.getAddressRef());
+            existFramingAddress.setReasonAnother(view.getReasonAnother());
+            existFramingAddress.setTimeLive(view.getTimeLive());
+            existFramingAddress.setReasonChange(view.getReasonChange());
+
+            List<ScheduleDto> scheduleDto = new Gson().fromJson(view.getSchedule(), new TypeToken<List<ScheduleDto>>() {
+            }.getType());
+            List<Schedule> schedule = new ArrayList<>();
+
+            for (ScheduleDto act : scheduleDto) {
+                Schedule newObj = new Schedule();
+                newObj.setDay(act.getDay());
+                newObj.setStart(act.getStart());
+                newObj.setEnd(act.getEnd());
+                newObj.setFramingAddress(existFramingAddress);
+                schedule.add(newObj);
+            }
+
+            existFramingAddress.setSchedule(schedule);
+            framingAddressRepository.save(existFramingAddress);
 
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
         } catch (Exception e) {
@@ -805,6 +871,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
     }
 
+    @Override
+    @Transactional
     public ResponseMessage deleteFramingAddress(Long id) {
 
         try {
@@ -818,6 +886,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
     }
 
+    @Override
+    @Transactional
     public ResponseMessage deleteReference(Long id) {
 
         try {
@@ -834,6 +904,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
     }
 
+    @Override
     @Transactional
     public ResponseMessage doUpsertDrug(Drug drug, Long idCase) {
         ResponseMessage result = new ResponseMessage();
@@ -855,6 +926,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         return result;
     }
 
+    @Override
     @Transactional
     public ResponseMessage deleteDrug(Long id) {
         ResponseMessage result = new ResponseMessage();
@@ -1065,6 +1137,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     }
 
+    @Override
     @Transactional
     public ResponseMessage saveAddQuest(Long idCase, AdditionalQuestionsForView view) {
 
@@ -1131,6 +1204,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     private SystemSettingRepository systemSettingRepository;
 
+    @Override
+    @Transactional
     public ResponseMessage doTerminate(Long idCase) {
 
 
@@ -1334,6 +1409,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     private ImputedHomeRepository imputedHomeRepository;
 
+    @Override
     @Transactional
     public void fillSaveVerifiedInfo(FramingMeeting existFraming, Meeting verifMeeting) {
 

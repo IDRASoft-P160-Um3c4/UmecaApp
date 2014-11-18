@@ -59,6 +59,12 @@ public class SelectList {
         this.specification = specification;
     }
 
+    public SelectList(Long id, String name, Boolean specification) {
+        this.id = id;
+        this.name = name;
+        this.specification = specification;
+    }
+
     public SelectList(Long id, Long aux) {
 
     }

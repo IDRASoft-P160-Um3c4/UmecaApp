@@ -2,6 +2,7 @@ package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.DayWeek;
 import com.umeca.model.entities.supervisor.FramingActivity;
+import com.umeca.model.entities.supervisor.FramingAddress;
 
 import javax.persistence.*;
 
@@ -48,6 +49,10 @@ public class Schedule {
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "id_framing_activity", nullable = true)
     private FramingActivity framingActivity;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "id_framing_address", nullable = true)
+    private FramingAddress framingAddress;
 
     @Transient
     private String $$hashKey;
@@ -122,5 +127,13 @@ public class Schedule {
 
     public void setFramingActivity(FramingActivity framingActivity) {
         this.framingActivity = framingActivity;
+    }
+
+    public FramingAddress getFramingAddress() {
+        return framingAddress;
+    }
+
+    public void setFramingAddress(FramingAddress framingAddress) {
+        this.framingAddress = framingAddress;
     }
 }
