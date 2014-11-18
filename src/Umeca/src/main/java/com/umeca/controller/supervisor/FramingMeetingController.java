@@ -8,7 +8,6 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.*;
-import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.StateDto;
@@ -46,6 +45,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -294,6 +294,55 @@ public class FramingMeetingController {
         return model;
     }
 
+    @RequestMapping(value = "/supervisor/framingMeeting/listVictim", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listVictims(@RequestParam final Long idCase, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        JqGridRulesModel extraFilterA = new JqGridRulesModel("personType",
+                new ArrayList<String>() {{
+                    add(FramingMeetingConstants.PERSON_TYPE_VICTIM);
+                    add(FramingMeetingConstants.PERSON_TYPE_WITNESS);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+        opts.extraFilters.add(extraFilterA);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("name"));
+                    add(r.get("age"));
+                    add(r.join("relationship").get("name"));
+                    add(r.get("phone"));
+                    add(r.join("accompanimentInfo", JoinType.LEFT).join("address", JoinType.LEFT).get("addressString"));
+                    add(r.get("personType"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+
+                if (field.equals("idCase"))
+                    return r.join("framingMeeting").join("caseDetention").get("id");
+
+                if (field.equals("personType"))
+                    return r.get("personType");
+
+                return null;
+            }
+        }, FramingReference.class, FramingReference.class);
+
+        return result;
+    }
+
 
     @RequestMapping(value = "/supervisor/framingMeeting/listHousemate", method = RequestMethod.POST)
     public
@@ -534,6 +583,9 @@ public class FramingMeetingController {
 
     @Autowired
     FramingAddressRepository framingAddressRepository;
+    @Autowired
+    HomeTypeRepository homeTypeRepository;
+
 
     @RequestMapping(value = "/supervisor/framingMeeting/address/upsert", method = RequestMethod.POST)
     public ModelAndView showAddressUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
@@ -552,11 +604,14 @@ public class FramingMeetingController {
             addressService.fillCatalogAddress(model);
         }
 
-        AddressDto addDto = new AddressDto();
+        FramingAddressDto addDto = framingMeetingService.fillFramingAddressForView(existFramingAddress);
+
         addDto.setIdCase(idCase);
-        if (existFramingAddress != null)
-            addDto.setAddressRef(existFramingAddress.getAddressRef());
+
         model.addObject("addObj", conv.toJson(addDto));
+
+        model.addObject("lstHomeType", conv.toJson(homeTypeRepository.getAllHomeType()));
+        model.addObject("lstRegisterType", conv.toJson(registerTypeRepository.getAllRegisterType()));
 
         List<StateDto> states = new ArrayList<>();
         for (State act : stateRepository.findStatesByCountryAlpha2("MX")) {
@@ -571,12 +626,13 @@ public class FramingMeetingController {
         return model;
     }
 
+
     @RequestMapping(value = "/supervisor/framingMeeting/drugs/upsert", method = RequestMethod.POST)
     public ModelAndView showDrugUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
 
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/drugs/upsert");
         Gson gson = new Gson();
-        model.addObject("lstDrugType", gson.toJson(drugTypeRepository.findNotObsolete()));
+        model.addObject("lis supervision", gson.toJson(drugTypeRepository.findNotObsolete()));
         model.addObject("lstPeriodicity", gson.toJson(periodicityRepository.findNotObsolete()));
         if (id != null && id != 0) {
             Drug d = drugRepository.findOne(id);
@@ -654,10 +710,11 @@ public class FramingMeetingController {
         return model;
     }
 
+
     @RequestMapping(value = "/supervisor/framingMeeting/address/doAddressUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doAddressUpsert(@RequestParam Long idCase, @ModelAttribute AddressDto view) {
+    ResponseMessage doAddressUpsert(@RequestParam Long idCase, @ModelAttribute FramingAddressDto view) {
 
         return framingMeetingService.saveFramingAddress(idCase, view);
     }

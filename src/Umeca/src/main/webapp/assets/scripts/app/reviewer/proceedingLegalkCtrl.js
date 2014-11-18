@@ -78,6 +78,8 @@ app.controller('proceedingLegalController', function($scope, $timeout, $sce) {
                   $scope.m.complyProcessAboveId = n.id;
                   $scope.m.complyCSPP = n;
                   $scope.m.complyCSPPId = n.id;
+                  $scope.m.complyPMId = n.id;
+                  $scope.m.complyPM = n;
               }
           }
       }
