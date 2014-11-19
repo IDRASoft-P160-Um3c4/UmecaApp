@@ -784,9 +784,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         if (existAddress != null) {
             obj.setPhone(existAddress.getPhone());
-            obj.setHomeTypeId(existAddress.getHomeType().getId());
+            if (existAddress.getRegisterType() != null)
+                obj.setRegisterTypeId(existAddress.getRegisterType().getId());
+            if (existAddress.getHomeType() != null)
+                obj.setHomeTypeId(existAddress.getHomeType().getId());
             obj.setSpecification(existAddress.getSpecification());
-            obj.setRegisterTypeId(existAddress.getRegisterType().getId());
             obj.setTimeAgo(existAddress.getTimeAgo());
             obj.setAddressRef(existAddress.getAddressRef());
             obj.setReasonAnother(existAddress.getReasonAnother());

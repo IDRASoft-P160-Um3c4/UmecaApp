@@ -1,5 +1,6 @@
 package com.umeca.repository.supervisor;
 
+import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.supervisor.AccomplishmentLogReport;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.SupervisionLogReport;
@@ -82,6 +83,14 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
             "INNER JOIN hf.caseDetention cd " +
             "WHERE cd.id =:caseId ORDER BY hf.id asc")
     Long lastHearingFormatIdsByIdCase(@Param("caseId") Long caseId);
+
+
+    @Query("SELECT max(addr.id) from HearingFormat hf " +
+            "INNER JOIN hf.caseDetention cd " +
+            "INNER JOIN hf.hearingImputed hi " +
+            "INNER JOIN hi.address addr " +
+            "WHERE cd.id =:caseId ORDER BY hf.id asc")
+    Long getLastFormatAddressByIdCase(@Param("caseId") Long caseId);
 
 }
 
