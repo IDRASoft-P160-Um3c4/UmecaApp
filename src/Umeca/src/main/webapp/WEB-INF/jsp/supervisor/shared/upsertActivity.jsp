@@ -33,6 +33,19 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group" ng-show="m.activity.specification==true">
+                        <label for="activitySpec">Especifique actividad</label>
+                        <div class="col-xs-4">
+                            <br/>
+                            <input id="activitySpec" ng-model="m.activitySpec"
+                                   type="text"
+                                   class="input-xxlarge" data-val="true"
+                                   data-val-required="Especifique actividad es un campo requerido"/>
+                            <br/>
+                        <span class="field-validation-valid" data-valmsg-for="idJudicial"
+                              data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="selectGoal" class="col-xs-3 control-label">Objetivo de la actividad:</label>
                         <div class="col-xs-9">
@@ -41,6 +54,19 @@
                                     ng-change="m.goalId = m.goal.id"
                                     ng-disabled = "isReadOnly">
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="m.goal.specification==true">
+                        <label for="goalSpec">Especifique objetivo de la actividad</label>
+                        <div class="col-xs-4">
+                            <br/>
+                            <input id="goalSpec" ng-model="m.goalSpec"
+                                   type="text"
+                                   class="input-xxlarge" data-val="true"
+                                   data-val-required="Especifique objetivo es un campo requerido"/>
+                            <br/>
+                        <span class="field-validation-valid" data-valmsg-for="idJudicial"
+                              data-valmsg-replace="true"></span>
                         </div>
                     </div>
                     <div class="form-group">

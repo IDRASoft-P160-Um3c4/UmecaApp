@@ -27,6 +27,9 @@ public class ActivityGoal {
     @Column(name = "is_obsolete", nullable = false)
     private Boolean isObsolete;
 
+    @Column(name = "specification", nullable = false)
+    private Boolean specification;
+
     public Long getId() {
         return id;
     }
@@ -51,11 +54,19 @@ public class ActivityGoal {
         this.description = description;
     }
 
-    public Boolean getObsolete() {
+    public Boolean getIsObsolete() {
         return isObsolete;
     }
 
-    public void setObsolete(Boolean obsolete) {
-        isObsolete = obsolete;
+    public void setIsObsolete(Boolean isObsolete) {
+        this.isObsolete = isObsolete;
+    }
+
+    public Boolean getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(Boolean specification) {
+        this.specification = specification;
     }
 }

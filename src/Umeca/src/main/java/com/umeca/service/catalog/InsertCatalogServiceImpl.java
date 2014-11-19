@@ -34,7 +34,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
     //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -235,13 +235,14 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void supervisionActivity() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "supervision_activity.txt", "\\|", 4);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "supervision_activity.txt", "\\|", 5);
         for (String[] data : lstDta) {
             SupervisionActivity model = new SupervisionActivity();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
-            model.setObsolete(Boolean.parseBoolean(data[3]));
+            model.setIsObsolete(Boolean.parseBoolean(data[3]));
+            model.setSpecification(Boolean.parseBoolean(data[4]));
             supervisionActivityRepository.save(model);
         }
         supervisionActivityRepository.flush();
@@ -257,13 +258,14 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void insertActivityGoal() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity_goals.txt", "\\|", 4);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity_goals.txt", "\\|", 5);
         for (String[] data : lstDta) {
             ActivityGoal model = new ActivityGoal();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
-            model.setObsolete(Boolean.parseBoolean(data[3]));
+            model.setIsObsolete(Boolean.parseBoolean(data[3]));
+            model.setSpecification(Boolean.parseBoolean(data[4]));
             activityGoalRepository.save(model);
         }
         activityGoalRepository.flush();
@@ -748,7 +750,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setObsolete(data[4].equals("1"));
             String[] roles = data[5].split(",");
             model.setRoles(new ArrayList<Role>());
-            for(String s : roles){
+            for (String s : roles) {
                 model.getRoles().add(repositoryRole.findByCode(s));
             }
             typeNameFileRepository.save(model);
