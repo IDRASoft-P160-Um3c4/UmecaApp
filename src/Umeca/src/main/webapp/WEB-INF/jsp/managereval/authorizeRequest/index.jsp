@@ -108,7 +108,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a Coordinador</h2>
+    <h2 class="element-center"><i class="icon icon-envelope"></i>&nbsp;&nbsp;Autorizaci&oacute;n de Solicitudes</h2>
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>
         <div id="GridPager"></div>

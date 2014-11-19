@@ -449,8 +449,12 @@ public class ManagerevalController {
                                 List<FieldMeetingSource> fmsList = sv.getFieldMeetingSourceList();
                                 sv.setFieldMeetingSourceList(null);
                                 if(fmsList!=null && fmsList.size()>0){
-                                    fieldMeetingSourceRepository.delete(fmsList);
+                                    for(FieldMeetingSource fms: fmsList){
+                                        fms.setSourceVerification(null);
+                                        fieldMeetingSourceRepository.delete(fmsList);
+                                    }
                                 }
+
                             }
                             sourceVerificationRepository.delete(svList);
                             c.setVerification(null);

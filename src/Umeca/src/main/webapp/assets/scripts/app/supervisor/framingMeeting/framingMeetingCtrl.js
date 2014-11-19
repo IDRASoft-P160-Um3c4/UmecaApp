@@ -65,6 +65,30 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
 
     $scope.init = function () {
         $scope.disableView();
+        var colorbox_params = {
+            reposition:true,
+            scalePhotos:true,
+            scrolling:false,
+            previous:'<i class="icon-arrow-left"></i>',
+            next:'<i class="icon-arrow-right"></i>',
+            close:'&times;',
+            current:'{current} of {total}',
+            maxWidth:'100%',
+            maxHeight:'100%',
+            onOpen:function(){
+                document.body.style.overflow = 'hidden';
+            },
+            onClosed:function(){
+                document.body.style.overflow = 'auto';
+            },
+            onComplete:function(){
+                $.colorbox.resize();
+            }
+        };
+
+        $('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+
+
     };
 
     $timeout(function () {
@@ -230,6 +254,35 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                 break;
         }
     };
+
+//    $scope.framingMeetingController = function (url){
+//        var idCase = $scope.fm.objView.idCase;
+//        var ajaxConf = {
+//            method: "GET",
+//            params: {id: idCase}
+//        };
+//
+//        ajaxConf.url = url;
+//        $http(ajaxConf)
+//            .success(function (data) {
+//
+//                if (data.hasError == undefined) {
+//                    data = data.responseMesage;
+//                }
+//
+//                if (data.hasError == false) {
+//                    var obj = JSON.parse(data.message);
+//                    if (obj.groupMessage != undefined) {
+//                        for (var i = 0; i < obj.groupMessage.length; i++) {
+//                            var g1 = obj.groupMessage[i];
+//                            $scope.listMsgError[g1.section] = $sce.trustAsHtml(g1.messages);
+//                        }
+//                    }
+//                }
+//                else
+//                    $scope.listMsgError['general'] = $sce.trustAsHtml("Error de red, intente m&acute;s tarde.");
+//            });
+//    }
 
 })
 ;

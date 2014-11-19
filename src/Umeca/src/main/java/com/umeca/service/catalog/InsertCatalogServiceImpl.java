@@ -34,7 +34,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
     //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -738,7 +738,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void typeFileName() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "type_file_name.txt", "\\|", 5);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "type_file_name.txt", "\\|", 6);
         for (String[] data : lstDta) {
             TypeNameFile model = new TypeNameFile();
             model.setId(Long.parseLong(data[0]));
@@ -746,6 +746,11 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setCode(data[2]);
             model.setOnly(data[3].equals("1"));
             model.setObsolete(data[4].equals("1"));
+            String[] roles = data[5].split(",");
+            model.setRoles(new ArrayList<Role>());
+            for(String s : roles){
+                model.getRoles().add(repositoryRole.findByCode(s));
+            }
             typeNameFileRepository.save(model);
         }
         typeNameFileRepository.flush();

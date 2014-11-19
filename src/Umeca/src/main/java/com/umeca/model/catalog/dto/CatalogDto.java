@@ -1,7 +1,5 @@
 package com.umeca.model.catalog.dto;
 
-import com.umeca.model.catalog.Election;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
@@ -13,10 +11,18 @@ public class CatalogDto {
     private Long id;
     private String name;
     private Boolean specification;
+    private String code;
 
     public CatalogDto(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public CatalogDto(Long id, String name, Boolean specification, String code) {
+        this.id = id;
+        this.name = name;
+        this.specification = specification;
+        this.code = code;
     }
 
     public CatalogDto() {
@@ -44,5 +50,13 @@ public class CatalogDto {
 
     public void setSpecification(Boolean specification) {
         this.specification = specification;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

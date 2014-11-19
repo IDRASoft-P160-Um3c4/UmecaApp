@@ -33,4 +33,16 @@ public interface UploadFileRepository extends JpaRepository<UploadFile, Long> {
 
     @Query("SELECT new com.umeca.model.entities.shared.UploadFile(UP.path, UP.realFileName, UP.fileName) FROM UploadFile UP INNER JOIN UP.caseDetention CD WHERE CD.id =:caseId AND UP.isObsolete = false")
     List<UploadFile> getUploadFilesByCaseId(@Param("caseId")Long caseId);
+
+    @Query("select uf.id from UploadFile uf " +
+            "inner join uf.caseDetention c " +
+            "inner join uf.typeNameFile tnf " +
+            "where c.id = :idCase and tnf.id = :typeId and tnf.isOnly = true and uf.isObsolete=false")
+    Long validateNotExistOnlyFile(@Param("typeId")Long typeId,@Param("idCase") Long idCase);
+
+    @Query("select uf.id from UploadFile uf " +
+            "inner join uf.caseDetention c " +
+            "inner join uf.typeNameFile tnf " +
+            "where c.id = :idCase and tnf.code = :code and uf.isObsolete = false")
+    Long getIdFileByCodeType(@Param("code")String code,@Param("idCase") Long id);
 }

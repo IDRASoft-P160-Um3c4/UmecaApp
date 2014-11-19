@@ -26,7 +26,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1059,14 +1061,14 @@ public class VerificationServiceImpl implements VerificationService {
     private List<FieldMeetingSource> createFieldVerification(List<FieldVerified> list, Long idCase, Long idSource, Long idList, StatusFieldVerification st, List<Long> fmsToDelete) {
         try {
             List<FieldMeetingSource> listFieldVerficiation = new ArrayList<>();
-//            if(list.size()>0){
-//                Integer idSub = fieldVerificationRepository.getIdSubsectionByCode(list.get(0).getName());
-//                if(idList==null){
-//                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsection(idCase,idSource,idSub);
-//                }else{
-//                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsectionWithIdList(idCase, idSource, idSub, idList);
-//                }
-//            }
+            if(list.size()>0){
+                Integer idSub = fieldVerificationRepository.getIdSubsectionByCode(list.get(0).getName());
+                if(idList==null){
+                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsection(idCase,idSource,idSub);
+                }else{
+                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsectionWithIdList(idCase, idSource, idSub, idList);
+                }
+            }
 
             for (FieldVerified field : list) {
                 if (!field.getValue().equals("")) {
@@ -1089,10 +1091,10 @@ public class VerificationServiceImpl implements VerificationService {
                     if (adding) {
                         listFieldVerficiation.add(fms);
                     }
-//                int result = fmsToDelete.indexOf(fieldMeetingSourceId);
-//                if(result>0){
-//                    fmsToDelete.remove(result);
-//                }
+                int result = fmsToDelete.indexOf(fieldMeetingSourceId);
+                if(result>0){
+                    fmsToDelete.remove(result);
+                }
                 }
             }
             return listFieldVerficiation;

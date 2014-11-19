@@ -2,12 +2,14 @@ package com.umeca.service.shared;
 
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.CatFileType;
+import com.umeca.model.catalog.TypeNameFile;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.shared.SystemSetting;
 import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.catalog.TypeNameFileRepository;
 import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.UploadFileRepository;
 import com.umeca.service.account.SharedUserService;
@@ -19,7 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UpDwFileServiceImpl implements UpDwFileService{
@@ -85,6 +90,8 @@ public class UpDwFileServiceImpl implements UpDwFileService{
         return true;
     }
 
+    @Autowired
+    TypeNameFileRepository typeNameFileRepository;
     @Override
     public void fillUploadFile(MultipartFile mpf, UploadFile file, UploadFileRequest uploadRequest, User user) {
         Case caseDetention = new Case();
@@ -96,6 +103,7 @@ public class UpDwFileServiceImpl implements UpDwFileService{
         file.setCreationTime(Calendar.getInstance());
         file.setCaseDetention(caseDetention);
         file.setCreationUser(user);
+        file.setTypeNameFile(typeNameFileRepository.findOne(uploadRequest.getTypeId()));
         //Crear y guardar el nombre del archivo real
         file.setRealFileName(UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(mpf.getOriginalFilename()));
     }
@@ -105,7 +113,7 @@ public class UpDwFileServiceImpl implements UpDwFileService{
     CatFileTypeRepository catFileTypeRepository;
 
     @Override
-    public boolean isValidExtension(MultipartFile mpf, UploadFile file, ResponseMessage resMsg) {
+    public boolean isValidExtension(MultipartFile mpf, UploadFile file, ResponseMessage resMsg, Long typeNameId) {
         String filename = mpf.getOriginalFilename();
         String extension = FilenameUtils.getExtension(filename);
 
@@ -122,8 +130,14 @@ public class UpDwFileServiceImpl implements UpDwFileService{
             resMsg.setMessage("Tipo de archivo no permitido");
             resMsg.setHasError(true);
             return false;
+        }else{
+            TypeNameFile tnf = typeNameFileRepository.findOne(typeNameId);
+            if(tnf.getCode().equals(Constants.CODE_FILE_IMPUTED_PHOTO) && !fileTypeId.equals(1L)){
+                resMsg.setMessage("La foto del imputado debe ser una im&aacute;gen");
+                resMsg.setHasError(true);
+                return false;
+            }
         }
-
         file.setFileType(new CatFileType(){{setId(fileTypeId);}});
 
         return true;
@@ -186,5 +200,20 @@ public class UpDwFileServiceImpl implements UpDwFileService{
     @Override
     public List<UploadFile> getUploadFilesByCaseId(Long id) {
         return uploadFileRepository.getUploadFilesByCaseId(id);
+    }
+
+    @Override
+    public Long validateNotExistIfOnlyFile(Long typeId, Long idCase) {
+        return uploadFileRepository.validateNotExistOnlyFile(typeId, idCase);
+    }
+
+    @Override
+    public Long getIdFileByCodeType(String code, Long id) {
+        return uploadFileRepository.getIdFileByCodeType(code,id);
+    }
+
+    @Override
+    public UploadFile findOne(Long fileId) {
+        return uploadFileRepository.findOne(fileId);
     }
 }

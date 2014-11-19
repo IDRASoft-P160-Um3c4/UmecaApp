@@ -15,8 +15,9 @@ public class UploadFileView implements EntityGrid{
     private Calendar creationTime;
     private String stCreationTime;
     private Long caseId;
+    private String typeName;
 
-    public UploadFileView(Long id, String filename, String description, Long size, String fullname, Calendar creationTime, Long caseId) {
+    public UploadFileView(Long id, String filename, String description, Long size, String fullname, Calendar creationTime, Long caseId, String typeName) {
         this.id = id;
         this.filename = filename;
         this.description = description;
@@ -24,6 +25,7 @@ public class UploadFileView implements EntityGrid{
         this.fullname = fullname;
         this.creationTime = creationTime;
         this.caseId = caseId;
+        this.typeName = typeName;
     }
 
     public Long getId() {
@@ -86,5 +88,13 @@ public class UploadFileView implements EntityGrid{
 
     public void setCaseId(Long caseId) {
         this.caseId = caseId;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 }

@@ -59,27 +59,28 @@
             <div class="row">
                 <div class="col-xs-4">
                 </div>
-                <div class="col-xs-4" ng-show = "m.openProcessNumber > 0"> <br/>
+                <div class="col-xs-4" ng-show = "m.openProcessNumber > 0">
                     Especif&iacute;que n&uacute;mero de procesos abiertos: <br/>
-                    <input class="form-control" data-val="true"
+                    <textarea class="form-control" data-val="true"
                            data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
                            data-val-length-max="255" data-val-length-min="1"
                            data-val-required="Procesos abiertos es un campo requerido"
-                           ng-init='m.specificationOpenProcess="${specificationOpenProcess==null? 0 :specificationOpenProcess}";'
-                           type="text" ng-model="m.specificationOpenProcess" id="specificationOpenProcess"
-                           name="specificationOpenProcess">
+                           ng-init='m.specificationOpenProcess="${specificationOpenProcess==null? '' :specificationOpenProcess}";'
+                            ng-model="m.specificationOpenProcess" id="specificationOpenProcess"
+                           name="specificationOpenProcess"></textarea>
                     <span class="field-validation-valid" data-valmsg-for="specificationOpenProcess"
                           data-valmsg-replace="true"></span>
                 </div>
                 <div class="col-xs-4" ng-show="m.numberConvictions > 0">
                     Especif&iacute;que n&uacute;mero de sentencias condenatorias: <br/>
-                    <input class="form-control" data-val="true"
+                    <textarea class="form-control" data-val="true"
                            data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
                            data-val-length-max="255" data-val-length-min="1"
                            ng-init='m.specificationNumberConvictions="${specificationNumberConvictions==null?'':specificationNumberConvictions }";'
                            data-val-required="Sentencias condenatorias es un campo requerido"
-                           type="text" ng-model="m.specificationNumberConvictions" id="specificationNumberConvictions"
-                           name="specificationNumberConvictions">
+                           ng-model="m.specificationNumberConvictions" id="specificationNumberConvictions"
+                           name="specificationNumberConvictions"></textarea>
+
                     <span class="field-validation-valid" data-valmsg-for="specificationNumberConvictions"
                           data-valmsg-replace="true"></span>
                 </div>

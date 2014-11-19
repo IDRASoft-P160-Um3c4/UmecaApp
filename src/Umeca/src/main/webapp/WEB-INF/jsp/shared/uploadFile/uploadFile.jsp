@@ -25,7 +25,12 @@
                         scope.setOutError(data.result.message);
                         return;
                     }
-
+                    if(data.result.urlToGo == "close"){
+                        $("#photoImputed").attr("src", "${pageContext.request.contextPath}/"+data.result.returnData);
+                        $("#idLinkPhotoImputed").attr("href", "${pageContext.request.contextPath}/"+data.result.returnData);
+                        scope.cancel(true);
+                        return;
+                    }
                     scope.setSuccess(data.result.message);
 
                 }catch(e){
@@ -80,7 +85,9 @@
                           role="form" ng-controller="uploadFileController">
                         <br/>
                         <input type="hidden" ng-update-hidden ng-model="m.caseId" name="caseId" id="caseId"
-                               ng-init="m.caseId = ${caseId};">
+                               ng-init="m.caseId = ${caseId}; m.closeUploadFile = ${closeUploadFile == null? false: closeUploadFile};">
+                        <input type="hidden" ng-update-hidden ng-model="m.closeUploadFile" name="closeUploadFile" id="closeUploadFile"
+                               ng-init=" m.closeUploadFile = ${closeUploadFile == null? false: closeUploadFile};">
 
                         <div class="row">
                             <div class="col-xs-8 col-xs-offset-2">
@@ -92,6 +99,23 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-xs-12">
+                                                <div class="row">
+                                                    <div class="col-xs-3 element-right" ng-init='defaultType= ${defaultType==null?'undefined':defaultType}'>
+                                                       Tipo:
+                                                    </div>
+                                                    <div class="col-xs-8" ng-show="!defaultType">
+                                                        <select class="form-control element-center" ng-model="m.typeNameFile"
+                                                                ng-options="e.name for e in listTypeName"
+                                                                ng-change="m.typeNameFileId = m.typeNameFile.Id"
+                                                                ng-init='listTypeName = ${listTypeName == null? "[]":listTypeName};'></select>
+                                                    </div>
+                                                    <div class="col-xs-8" ng-show="defaultType">
+                                                        <h5 class="smaller lighter blue">
+                                                           {{defaultType.name}}</h5>
+                                                    </div>
+                                                    <input name="typeId" ng-model="m.typeNameFileId" ng-update-hidden type="hidden"/>
+                                                </div>
+                                                <br/>
                                                 <div class="row">
                                                     <div class="col-xs-3 element-right">
                                                         Descripci&oacute;n:

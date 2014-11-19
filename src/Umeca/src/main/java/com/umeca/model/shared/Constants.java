@@ -151,6 +151,9 @@ public class Constants {
     public static final String ST_REQUEST_NOT_PROSECUTE = "NOT_PROSECUTE";
 
     public static final String NAME_RELATIONSHIP_IMPUTED = "Imputado";
+    public static String CODE_FILE_TECH_REVIEW = "FILE_TECHNICAL_REVIEW";
+    public static String CODE_FILE_IMPUTED_PHOTO = "IMPUTED_PHOTO";
+
     public static final String NAME_RELATIONSHIP_NONE = "Ninguno";
 
 }

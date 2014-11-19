@@ -1,10 +1,13 @@
 package com.umeca.controller.shared;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.TypeNameFile;
+import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.shared.UploadFile;
@@ -12,6 +15,7 @@ import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.entities.shared.UploadFileView;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.catalog.TypeNameFileRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.CaseService;
@@ -106,6 +110,7 @@ public class UploadFileController {
                     add(r.join("creationUser").get("fullname"));
                     add(r.get("creationTime"));
                     add(r.join("caseDetention").get("id"));
+                    add(r.join("typeNameFile").get("name").alias("typeName"));
                 }};
             }
 
@@ -115,14 +120,19 @@ public class UploadFileController {
                     return r.join("creationUser").get("fullname");
                 if(field.equals("caseId"))
                     return r.join("caseDetention").get("id");
+                if(field.equals("typeName"))
+                    return r.join("typeNameFile").get("name");
                 return null;
             }
         }, UploadFile.class, UploadFileView.class);
         return result;
     }
 
+    @Autowired
+    TypeNameFileRepository  typeNameFileRepository;
+
     @RequestMapping(value = "/shared/uploadFile/uploadFile", method = RequestMethod.POST)
-    public @ResponseBody ModelAndView uploadFile(@RequestParam Long id){
+    public @ResponseBody ModelAndView uploadFile(@RequestParam Long id, @RequestParam(required = false) String type){
         ModelAndView model = new ModelAndView("/shared/uploadFile/uploadFile");
         model.addObject("caseId",id);
         CaseInfo caseInfo = caseRepository.getInfoById(id);
@@ -133,6 +143,20 @@ public class UploadFileController {
         model.addObject("mpId",caseInfo.getMpId());
         model.addObject("folderId",caseInfo.getFolderId());
         model.addObject("fullname",caseInfo.getPersonName());
+        Gson gson = new Gson();
+        if(type==null){
+        List<TypeNameFile> typeNameFiles = typeNameFileRepository.findNotExistByIdCase(id,userService.GetLoggedUserId());
+        List<CatalogDto> catalogDtoList = new ArrayList<>();
+        for(TypeNameFile tmf: typeNameFiles){
+           catalogDtoList.add(new CatalogDto(tmf.getId(), tmf.getName(),tmf.getIsOnly(), tmf.getCode() ));
+        }
+        model.addObject("listTypeName",gson.toJson(catalogDtoList));
+        }else if(type.equals("PHOTO")){
+            TypeNameFile typePhoto = typeNameFileRepository.findByCode(Constants.CODE_FILE_IMPUTED_PHOTO);
+            CatalogDto cPhoto = new CatalogDto(typePhoto.getId(),typePhoto.getName());
+            model.addObject("defaultType",gson.toJson(cPhoto));
+            model.addObject("closeUploadFile",true);
+        }
         return model;
     }
 
@@ -167,11 +191,17 @@ public class UploadFileController {
                 resMsg.setMessage("No existe el caso al que desea subir el archivo o ya está terminado el caso.");
                 return resMsg;
             }
+            if(uploadRequest.getTypeId()==null){
+                resMsg.setHasError(true);
+                resMsg.setMessage("Debe seleccionar un tipo de archivo para continuar");
+                return resMsg;
+            }
+
 
             UploadFile uploadFile = new UploadFile();
 
             MultipartFile mpf = request.getFile(itr.next());
-            if(upDwFileService.isValidExtension(mpf, uploadFile, resMsg) == false)
+            if(upDwFileService.isValidExtension(mpf, uploadFile, resMsg, uploadRequest.getTypeId()) == false)
                 return resMsg;
 
             User user = new User();
@@ -180,6 +210,20 @@ public class UploadFileController {
 
             if(upDwFileService.hasAvailability(uploadFile, resMsg) == false)
                 return resMsg;
+
+            Long fileId = upDwFileService.validateNotExistIfOnlyFile(uploadRequest.getTypeId(), uploadRequest.getCaseId());
+            if(fileId!=null){
+                if(uploadRequest.getCloseUploadFile()!=null && uploadRequest.getCloseUploadFile()){
+                    String path = request.getSession().getServletContext().getRealPath("");
+                    UploadFile uf=  upDwFileService.findOne(fileId);
+                    upDwFileService.deleteFile(path, uf, user);
+                }else{
+                    resMsg.setHasError(true);
+                    resMsg.setMessage("S&oacute;lo se puede agregar un archivo de este tipo,primero debe eliminar el archivo existente si desea reemplazarlo.");
+                    return resMsg;
+                }
+            }
+
 
             String path = request.getSession().getServletContext().getRealPath("");
             path = new File(path, uploadFile.getPath()).toString();
@@ -193,10 +237,15 @@ public class UploadFileController {
 
             resMsg.setMessage("El archivo " + uploadFile.getFileName() +"fue subido de forma correcta, usted puede continuar subiendo archivos, sin cerrar la ventana");
             resMsg.setHasError(false);
+            if(uploadRequest.getCloseUploadFile()!=null && uploadRequest.getCloseUploadFile()){
+
+                resMsg.setUrlToGo("close");
+                resMsg.setReturnData(uploadFile.getPath()+"/"+uploadFile.getRealFileName());
+            }
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUploadFile", sharedUserService);
             resMsg.setHasError(true);
-            resMsg.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            resMsg.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
         }
 
         return resMsg;
