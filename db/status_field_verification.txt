@@ -4,3 +4,4 @@
 3|NO_EQUALS|La fuente no coincide con el imputado
 4|UNABLE_VERIFICATION|No es posible verificar la información
 5|IS_IMPUTED|La fuente es el imputado
+

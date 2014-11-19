@@ -1311,7 +1311,7 @@ public class MeetingServiceImpl implements MeetingService {
         if (cpv.getBehaviorDetention().trim().equals(""))
             current.add(sharedUserService.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
         if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()) == 0)
-            current.add(sharedUserService.convertToValidString(v.template.replace(e, "Debe agregar al menos una v&iactue;ctima")));
+            current.add(sharedUserService.convertToValidString("Debe agregar al menos una v&iacute;ctima"));
         if (cpv.getFirstProceeding().trim().equals(""))
             previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El primer caso ")));
         if (cpv.getOpenProcessNumber() == null)

@@ -245,7 +245,19 @@
     </div>
     <br/>
 
-<div class="row">
+<div class="row"  ng-show="!verification">
+    <div class="col-xs-3 element-left">
+        Comentarios:  <br/>
+        <label class="info-example">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>
+    </div>
+    <div class="col-xs-9">
+        <textarea class="form-control" name="leaveCountry.commentSocialEnvironment"  ng-show="!verification"
+                  data-val-required="Los comentarios es un campo requerido">${m.socialEnvironment.comment}</textarea>
+         <span class="field-validation-valid" data-valmsg-for="leaveCountry.commentSocialEnvironment"
+               data-valmsg-replace="true"></span>
+    </div>
+</div>
+<div class="row"  ng-show="verification">
     <div class="col-xs-3 element-left">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('socialEnvironment.comment')"></i>
@@ -258,10 +270,10 @@
         <label class="info-example">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>
     </div>
     <div class="col-xs-9">
-        <textarea class="form-control" name="leaveCountry.commentSocialEnvironment"
+        <textarea class="form-control" name="socialEnvironment.comment"
                   data-val-required="Los comentarios es un campo requerido">${m.socialEnvironment.comment}</textarea>
-         <span class="field-validation-valid" data-valmsg-for=""leaveCountry.commentSocialEnvironment"
-               data-valmsg-replace="true"></span>
+        <span class="field-validation-valid" data-valmsg-for="socialEnvironment.comment"
+              data-valmsg-replace="true"></span>
     </div>
 </div>
 </div>

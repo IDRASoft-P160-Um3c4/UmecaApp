@@ -84,7 +84,7 @@
             Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Materno:
         </div>
         <div class="col-xs-7">
-            <input class="form-control" type="text" ng-model="i.lastNameM" value="i.lastNameM   "
+            <input class="form-control" type="text" ng-model="i.lastNameM" value="{{i.lastNameM}}"
                    name="imputed.lastNameM" data-val-required="El nombre es un campo requerido"
                    data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
                    data-val-length-max="50" data-val-length-min="2"/>
