@@ -15,6 +15,7 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
+import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.CrimeRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
@@ -239,17 +240,21 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingSpecs.setLinkageRoom(viewFormat.getLinkageRoom());
 
 
-        if (viewFormat.getVincProcess() != null && (viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
+        if (viewFormat.getVincProcess() != null &&
+                (viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
 
             hearingSpecs.setArrangementType(viewFormat.getArrangementType());
             hearingSpecs.setNationalArrangement(viewFormat.getNationalArrangement());
 
-            String[] terms = viewFormat.getTerms().split(",");
 
-            if (terms.length > 0)
+            String[] terms = null;
+            if (viewFormat.getTerms() != null)
+                viewFormat.getTerms().split(",");
+
+            if (terms != null && terms.length > 0)
                 hearingFormat.setTerms(terms[0]);
             else
-                viewFormat.getTerms();
+                hearingFormat.setTerms(viewFormat.getTerms());
 
             List<ArrangementView> lstAssignedArrnmtView;
             Type type = new TypeToken<List<ArrangementView>>() {
@@ -518,7 +523,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
 
 
-        if (existHF.getHearingFormatSpecs() != null && (existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
+        if (existHF.getHearingFormatSpecs() != null &&
+                (existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
             hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
             hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
             hearingFormatView.setTerms(existHF.getTerms());
@@ -603,7 +609,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
 
-        if (existHF.getHearingFormatSpecs() != null && existHF.getHearingFormatSpecs().getLinkageProcess() != null && (existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
+        if (existHF.getHearingFormatSpecs() != null && existHF.getHearingFormatSpecs().getLinkageProcess() != null &&
+                (existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
             hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
             hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
             hearingFormatView.setTerms(existHF.getTerms());
@@ -718,18 +725,26 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     @Autowired
     private MonitoringPlanRepository monitoringPlanRepository;
 
+    @Autowired
+    private FramingAddressRepository framingAddressRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
     @Override
     @Transactional
     public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
         ResponseMessage response = new ResponseMessage();
         StringBuilder sb = new StringBuilder();
-
+        String idFolder = hearingFormat.getCaseDetention().getIdFolder();
+        String idJudicial = hearingFormat.getCaseDetention().getIdMP();
+        Long idCase = hearingFormat.getCaseDetention().getId();
         try {
 
             if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true) {
                 hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
                 hearingFormat.setEndTime(new Time(new Date().getTime()));
-                if (hearingFormat.getCaseDetention().getIdMP() == null || hearingFormat.getCaseDetention().getIdMP().trim().equals("")) {
+                if (idJudicial == null || idJudicial.trim().equals("")) {
                     hearingFormat.getCaseDetention().setIdMP(hearingFormat.getIdJudicial());
                 }
             } else {
@@ -742,7 +757,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
 
                 sb.append("Solicitud de cierre de caso: ");
-                sb.append(hearingFormat.getCaseDetention().getIdFolder());
+                sb.append(idFolder);
                 sb.append(". Comentario: ");
                 sb.append(hearingFormat.getConfirmComment());
                 sb.append(".");
@@ -751,14 +766,47 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                         hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
             }
 
-            if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
-                    hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+            if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null &&
+                    hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
+                    (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
                 MonitoringPlan monP = hearingFormat.getCaseDetention().getMonitoringPlan();
 
                 if (monP != null) {
                     monP.setResolution(hearingFormat.getHearingFormatSpecs().getArrangementType());
                     monitoringPlanRepository.save(monP);
                 }
+
+                FramingMeeting existFramning = hearingFormat.getCaseDetention().getFramingMeeting();
+                if (existFramning != null) { //si tiene una entrevista de encuadre se verifica si se ha cambiado la direccion en el formato de audiencia
+
+                    Address lastFormatAddress = addressRepository.findOne(hearingFormatRepository.getLastFormatAddressByIdCase(idCase));
+                    Address newFormatAddress = hearingFormat.getHearingImputed().getAddress();
+
+                    if (lastFormatAddress == null || !lastFormatAddress.equals(newFormatAddress)) {
+                        FramingMeeting existFraming = hearingFormat.getCaseDetention().getFramingMeeting();
+
+                        if (existFraming != null) {
+                            Address fAddress = addressRepository.findOne(framingAddressRepository.getLastIdAddressByIdCase(idCase));
+
+                            if (fAddress != null && !newFormatAddress.equals(fAddress)) {
+                                FramingAddress newFramAddr = new FramingAddress();
+
+                                newFramAddr.setFramingMeeting(existFraming);
+                                Address addrObj = new Address();
+                                addrObj.setStreet(newFormatAddress.getStreet());
+                                addrObj.setOutNum(newFormatAddress.getOutNum());
+                                addrObj.setInnNum(newFormatAddress.getInnNum());
+                                addrObj.setLocation(newFormatAddress.getLocation());
+                                addrObj.setAddressString(addrObj.toString());
+                                newFramAddr.setAddress(addrObj);
+                                framingAddressRepository.save(newFramAddr);
+                            }
+                        }
+
+                    }
+
+                }
+
             }
 
             response.setHasError(false);

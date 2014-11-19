@@ -202,6 +202,7 @@ public class FramingMeetingController {
                 }
             }
         }
+
         if (caseDet.getFramingMeeting() == null) {
             FramingMeeting framingMeeting = new FramingMeeting();
             framingMeeting.setIsTerminated(false);
@@ -217,6 +218,23 @@ public class FramingMeetingController {
 
             if (existVer != null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
                 framingMeetingService.fillSaveVerifiedInfo(framingMeeting, existVer.getMeetingVerified());
+            }
+
+            HearingFormat lastFormat = lstHF.get(0); //busca si existe un formato y trae la ultima direccion //todo verificar que sucede cuando viene de evaluacion
+
+            if (lastFormat != null) {
+                FramingAddress newFA = new FramingAddress();
+                Address newAddr = new Address();
+                Address formatAddr = lastFormat.getHearingImputed().getAddress();
+                newAddr.setStreet(formatAddr.getStreet());
+                newAddr.setOutNum(formatAddr.getOutNum());
+                newAddr.setInnNum(formatAddr.getInnNum());
+                newAddr.setLocation(formatAddr.getLocation());
+                newAddr.setAddressString(newAddr.toString());
+                newFA.setAddress(newAddr);
+                newFA.setFramingMeeting(framingMeeting);
+                framingAddressRepository.save(newFA);
+
             }
         }
 
