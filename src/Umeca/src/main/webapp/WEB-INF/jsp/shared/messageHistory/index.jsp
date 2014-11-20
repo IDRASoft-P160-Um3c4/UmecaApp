@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.umeca.model.shared.Constants" %>
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
@@ -76,12 +75,13 @@
                         url: '<c:url value='/shared/messageHistory/detail.json?idCase=' />' + row_id,
                         datatype: "json",
                         mtype: 'POST',
-                        colNames: ['ID', 'Solicitante', 'Solicitud', 'Mensaje', 'Respuesta', 'Mensaje'],
+                        colNames: ['ID', 'Solicitante', 'Solicitud', 'Mensaje','Atendido por', 'Respuesta', 'Mensaje'],
                         colModel: [
                             { name: 'id', hidden: true },
                             { name: 'sender', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                             { name: 'requestType', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                             { name: 'requestMessage', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                            { name: 'response', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                             { name: 'responseType', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                             { name: "responseMessage", width: 250, align: "center", sortable: false },
                         ],

@@ -19,6 +19,7 @@ public class MessageHistoryDetailView implements EntityGrid {
     public String requestType;
     public String requestMessage;
     public String responseType;
+    public String response;
 
     public String getResponseMessage() {
         return responseMessage;
@@ -60,15 +61,24 @@ public class MessageHistoryDetailView implements EntityGrid {
         this.sender = sender;
     }
 
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
     public String responseMessage;
 
-    public MessageHistoryDetailView(Long id, String sender, String requestType, String requestMessage, String responseType, String responseMessage){
+    public MessageHistoryDetailView(Long id, String sender, String requestType, String requestMessage, String responseType, String responseMessage, String response){
         this.id = id;
         this.sender = sender;
         this.requestType = requestType;
         this.requestMessage = requestMessage;
         this.responseType = responseType;
         this.responseMessage = responseMessage;
+        this.response = response;
 
     }
 }

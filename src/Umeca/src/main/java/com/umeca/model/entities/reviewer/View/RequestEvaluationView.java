@@ -64,13 +64,12 @@ public class RequestEvaluationView implements EntityGrid {
             }
         }else if(this.statusCase.equals(Constants.CASE_STATUS_SOURCE_VALIDATION)){
             description="Autorizaci&oacute; de fuentes pendiente";
-            status+= ".A.";
             status+=".B.";
         }
         else if(this.statusCase.equals(Constants.CASE_STATUS_VERIFICATION)) {
             if(this.statusVerification.equals(Constants.VERIFICATION_STATUS_NEW_SOURCE)){
                 description="Autorizaci&oacute; de fuentes pendiente";
-                status+=".A..B.";
+                status+=".B.";
             }
             if(this.statusVerification.equals(Constants.VERIFICATION_STATUS_AUTHORIZED)){
                 description="En verificaci&oacute;n";

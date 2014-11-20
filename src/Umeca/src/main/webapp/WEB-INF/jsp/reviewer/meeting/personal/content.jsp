@@ -184,7 +184,7 @@
 																		<i class="icon-calendar bigger-110"></i>
 																	</span>
                 </div>
-                 <span class="field-validation-valid" data-valmsg-for="imputed.yearsMaritalStatus"
+                 <span class="field-validation-valid" data-valmsg-for="imputed.birthDate"
                        data-valmsg-replace="true"></span>
             </div>
         </div>
@@ -286,7 +286,7 @@
                             <input type="text" class="input-mini" id="spinnder1"
                                    value="${m.imputed.yearsMaritalStatus ==null ? '': m.imputed.yearsMaritalStatus}"
                                    name="imputed.yearsMaritalStatus" id="imputed.yearsMaritalStatus" data-val="true"
-                                   data-val-regex-pattern="([0-9]+)"
+                                   data-val-regex-pattern="([0-9]+)" ng-model="m.imputed.yearsMaritalStatus"
                                    data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
                                    data-val-length-max="3" data-val-length-min="1"
                                    data-val-required="El n&uacute;mero de a&ntilde;os es un campo requerido"
@@ -451,7 +451,7 @@
 
                     </div>
                     <div class="col-xs-2 element-right"  ng-show="m.countryId != 1">
-                        Localidad/Ciudad:
+                        Localidad/Colonia:
                     </div>
                     <div class="col-xs-3"  ng-show="m.countryId != 1">
                         <input class="form-control"
