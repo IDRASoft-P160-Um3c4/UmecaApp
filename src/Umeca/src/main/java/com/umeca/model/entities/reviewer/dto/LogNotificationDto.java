@@ -2,7 +2,6 @@ package com.umeca.model.entities.reviewer.dto;
 
 import com.umeca.model.shared.Constants;
 
-import javax.persistence.Transient;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
@@ -50,7 +49,7 @@ public class LogNotificationDto {
         }
         else
         if(status.equals(Constants.VERIFICATION_STATUS_NEW_SOURCE)) {
-            title="Autorización de fuentes.";
+            title="Autorizaci&oacute;n de fuentes.";
             message="Se ha completado el registro de datos legales. Debe autorizar las fuentes para el caso con carpeta de investigaci&oacute;n "+this.idFolder+" para el imputado "+this.imputedName+".";
         }
         else

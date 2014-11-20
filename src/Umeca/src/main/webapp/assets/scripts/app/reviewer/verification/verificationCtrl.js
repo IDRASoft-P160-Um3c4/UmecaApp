@@ -1,7 +1,6 @@
 app.controller('verificationController', function ($scope, $timeout, $q, sharedSvc) {
     $scope.def = $q.defer();
     $scope.verification = true;
-    $scope.nameScope = "estoy en verificationController";
     $scope.init = function () {
         if ($scope.managereval != undefined && $scope.managereval == true) {
             $scope.verification = false;
@@ -150,6 +149,7 @@ app.controller('verificationController', function ($scope, $timeout, $q, sharedS
 app.controller('innerVerificationController', function ($scope, $timeout, $http) {
     $scope.init = function () {
 
+
         $('.date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
             $(this).prev().focus();
         });
@@ -237,6 +237,9 @@ app.controller('innerVerificationController', function ($scope, $timeout, $http)
                 }
             }
         });
+        if($scope.locationId != undefined){
+            $scope.setState();
+        }
     };
 
     $scope.setLocation = function () {

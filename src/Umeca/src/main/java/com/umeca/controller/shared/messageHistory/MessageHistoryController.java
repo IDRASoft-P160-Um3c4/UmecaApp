@@ -6,12 +6,14 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.catalog.RequestType;
 import com.umeca.model.catalog.ResponseType;
-import com.umeca.model.entities.reviewer.*;
-import com.umeca.model.entities.reviewer.dto.ImpHomeVerifDto;
+import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.CaseRequest;
+import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.shared.Message;
 import com.umeca.model.entities.shared.MessageHistoryDetailView;
 import com.umeca.model.entities.shared.MessageHistoryView;
-import com.umeca.model.managereval.ManagerevalView;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
@@ -19,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import com.umeca.model.entities.account.User;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -136,6 +137,7 @@ public class MessageHistoryController {
                     add(messageRequest.get("text"));
                     add(responseType.get("description"));
                     add(messageResponse.get("text"));
+                    add(messageResponse.join("sender").get("fullname"));
                 }};
 
                 return result;

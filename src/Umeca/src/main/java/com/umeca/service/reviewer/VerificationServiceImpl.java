@@ -917,6 +917,14 @@ public class VerificationServiceImpl implements VerificationService {
             }
             StatusFieldVerification st = statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_NOEQUALS);
             List<Long> fmsToDelete = new ArrayList<>();
+            if(list.size()>0){
+                Integer idSub = fieldVerificationRepository.getIdSubsectionByCode(list.get(0).getName());
+                if(idList==null){
+                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsection(idCase,idSource,idSub);
+                }else{
+                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsectionWithIdList(idCase, idSource, idSub, idList);
+                }
+            }
             List<FieldMeetingSource> result = createFieldVerification(list, idCase, idSource, idList, st, fmsToDelete);
             if (result == null) {
                 return new ResponseMessage(true, "Ha ocurrido un error al crear la lista.");
@@ -1061,14 +1069,7 @@ public class VerificationServiceImpl implements VerificationService {
     private List<FieldMeetingSource> createFieldVerification(List<FieldVerified> list, Long idCase, Long idSource, Long idList, StatusFieldVerification st, List<Long> fmsToDelete) {
         try {
             List<FieldMeetingSource> listFieldVerficiation = new ArrayList<>();
-            if(list.size()>0){
-                Integer idSub = fieldVerificationRepository.getIdSubsectionByCode(list.get(0).getName());
-                if(idList==null){
-                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsection(idCase,idSource,idSub);
-                }else{
-                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsectionWithIdList(idCase, idSource, idSub, idList);
-                }
-            }
+
 
             for (FieldVerified field : list) {
                 if (!field.getValue().equals("")) {
@@ -1091,10 +1092,14 @@ public class VerificationServiceImpl implements VerificationService {
                     if (adding) {
                         listFieldVerficiation.add(fms);
                     }
-                int result = fmsToDelete.indexOf(fieldMeetingSourceId);
-                if(result>0){
-                    fmsToDelete.remove(result);
-                }
+                    if(fieldMeetingSourceId!=null){
+                    for(int i = 0; i< fmsToDelete.size(); i++){
+                        if(fieldMeetingSourceId.equals(fmsToDelete.get(i))){
+                            fmsToDelete.remove(i);
+                            break;
+                        }
+                    }
+                    }
                 }
             }
             return listFieldVerficiation;

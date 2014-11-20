@@ -184,6 +184,13 @@
         if ($scope.idList == undefined) {
             $scope.idList = "";
         }
+        if(result[0]!= undefined && result[0].name == "imputed.birthCountry.id" && result[0].value != "1"){
+                for(var i = 1; i<result.length;i++){
+                         if(result[i].name == "imputed.location.id"){
+                             result.splice(i, 1);
+                         }
+                }
+        }
         var content = JSON.stringify(result);
         content = "val=" + content + "&&idCase=" + $scope.idCase + "&&idSource=" + $scope.idSource + "&&idList=" + $scope.idList;
         $scope.WaitFor = true;
