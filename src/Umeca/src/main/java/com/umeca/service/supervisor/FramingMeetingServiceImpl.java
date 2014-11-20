@@ -1386,8 +1386,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 imputedSourceRel = framingSelectedSourceRelRepository.save(imputedSourceRel);
                 //para agregar al imputado en el listado de fuentes para las actividades
             }
-            caseRepository.save(existCase);
 
+            caseRepository.save(existCase);
 
             StringBuilder sb = new StringBuilder();
             sb.append("Entrevista de encuadre terminada: ");

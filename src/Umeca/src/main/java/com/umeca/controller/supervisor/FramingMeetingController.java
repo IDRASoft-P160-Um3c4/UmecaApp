@@ -8,6 +8,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.*;
+import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.StateDto;
@@ -22,6 +23,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
+import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.shared.SelectFilterFields;
@@ -298,7 +300,6 @@ public class FramingMeetingController {
         if (returnId == null)
             returnId = -1;
 
-
         model.addObject("returnId", returnId);
         Long idFileTR = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_TECH_REVIEW,id);
         model.addObject("fileIdTR",idFileTR);
@@ -311,56 +312,6 @@ public class FramingMeetingController {
         }
         return model;
     }
-
-    @RequestMapping(value = "/supervisor/framingMeeting/listVictim", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    JqGridResultModel listVictims(@RequestParam final Long idCase, @ModelAttribute JqGridFilterModel opts) {
-
-        opts.extraFilters = new ArrayList<>();
-
-        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
-        opts.extraFilters.add(extraFilter);
-
-        JqGridRulesModel extraFilterA = new JqGridRulesModel("personType",
-                new ArrayList<String>() {{
-                    add(FramingMeetingConstants.PERSON_TYPE_VICTIM);
-                    add(FramingMeetingConstants.PERSON_TYPE_WITNESS);
-                }}, JqGridFilterModel.COMPARE_IN
-        );
-        opts.extraFilters.add(extraFilter);
-        opts.extraFilters.add(extraFilterA);
-
-        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
-            @Override
-            public <T> List<Selection<?>> getFields(final Root<T> r) {
-                return new ArrayList<Selection<?>>() {{
-                    add(r.get("id"));
-                    add(r.get("name"));
-                    add(r.get("age"));
-                    add(r.join("relationship").get("name"));
-                    add(r.get("phone"));
-                    add(r.join("accompanimentInfo", JoinType.LEFT).join("address", JoinType.LEFT).get("addressString"));
-                    add(r.get("personType"));
-                }};
-            }
-
-            @Override
-            public <T> Expression<String> setFilterField(Root<T> r, String field) {
-
-                if (field.equals("idCase"))
-                    return r.join("framingMeeting").join("caseDetention").get("id");
-
-                if (field.equals("personType"))
-                    return r.get("personType");
-
-                return null;
-            }
-        }, FramingReference.class, FramingReference.class);
-
-        return result;
-    }
-
 
     @RequestMapping(value = "/supervisor/framingMeeting/listHousemate", method = RequestMethod.POST)
     public
@@ -599,6 +550,56 @@ public class FramingMeetingController {
 
     }
 
+    @RequestMapping(value = "/supervisor/framingMeeting/listVictim", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listVictims(@RequestParam final Long idCase, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idCase", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        JqGridRulesModel extraFilterA = new JqGridRulesModel("personType",
+                new ArrayList<String>() {{
+                    add(FramingMeetingConstants.PERSON_TYPE_VICTIM);
+                    add(FramingMeetingConstants.PERSON_TYPE_WITNESS);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+        opts.extraFilters.add(extraFilterA);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("name"));
+                    add(r.get("age"));
+                    add(r.join("relationship").get("name"));
+                    add(r.get("phone"));
+                    add(r.join("accompanimentInfo", JoinType.LEFT).join("address", JoinType.LEFT).get("addressString"));
+                    add(r.get("personType"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+
+                if (field.equals("idCase"))
+                    return r.join("framingMeeting").join("caseDetention").get("id");
+
+                if (field.equals("personType"))
+                    return r.get("personType");
+
+                return null;
+            }
+        }, FramingReference.class, FramingReference.class);
+
+        return result;
+    }
+
+
     @Autowired
     FramingAddressRepository framingAddressRepository;
     @Autowired
@@ -650,7 +651,7 @@ public class FramingMeetingController {
 
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/drugs/upsert");
         Gson gson = new Gson();
-        model.addObject("lis supervision", gson.toJson(drugTypeRepository.findNotObsolete()));
+        model.addObject("lstDrugType", gson.toJson(drugTypeRepository.findNotObsolete()));
         model.addObject("lstPeriodicity", gson.toJson(periodicityRepository.findNotObsolete()));
         if (id != null && id != 0) {
             Drug d = drugRepository.findOne(id);
@@ -964,6 +965,13 @@ public class FramingMeetingController {
         return framingMeetingService.upsertComments(idCase, 6, jobComments);
     }
 
+    @RequestMapping(value = "/supervisor/framingMeeting/upsertVictimComments", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage victimComments(@RequestParam(required = true) Long idCase, @RequestParam String victimComments) {
+        return framingMeetingService.upsertComments(idCase, 7, victimComments);
+    }
+
     @RequestMapping(value = "/supervisor/framingMeeting/activities/upsert", method = RequestMethod.POST)
     public ModelAndView showActivitiesUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/activities/upsert");
@@ -1021,6 +1029,60 @@ public class FramingMeetingController {
     @RequestMapping(value = "/supervisor/framingMeeting/school/doUpsert", method = RequestMethod.POST)
     public ResponseMessage upsertSchool(@ModelAttribute SchoolDto view) {
         return framingMeetingService.saveSchool(view);
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/victim/upsert", method = RequestMethod.POST)
+    public ModelAndView showVictimUpsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
+
+        ModelAndView model = new ModelAndView("/supervisor/framingMeeting/victim/upsert");
+
+        FramingReferenceDto victim;
+        Gson conv = new Gson();
+
+        if (id != null)
+            victim = new FramingReferenceDto(framingReferenceRepository.findOne(id));
+        else
+            victim = new FramingReferenceDto();
+
+        victim.setIdCase(idCase);
+        model.addObject("victim", conv.toJson(victim));
+
+        List<CatalogDto> relationships = new ArrayList<>();
+        for (Relationship act : relationshipRepository.findNotObsolete()) {
+
+            CatalogDto rel = new CatalogDto();
+            rel.setId(act.getId());
+            rel.setName(act.getName());
+            rel.setSpecification(act.getSpecification());
+            relationships.add(rel);
+        }
+
+        model.addObject("lstRelationship", conv.toJson(relationships));
+
+        List<StateDto> states = new ArrayList<>();
+        for (State act : stateRepository.findStatesByCountryAlpha2("MX")) {
+            states.add(new StateDto().stateDto(act));
+        }
+
+        model.addObject("listState", conv.toJson(states));
+
+        if (victim.getAddressId() != null)
+            addressService.fillModelAddress(model, victim.getAddressId());
+
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/victim/doVictimUpsert", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doVictimUpsert(@RequestParam Long idCase, @ModelAttribute FramingReference framingReference) {
+
+        Case existCase = caseRepository.findOne(idCase);
+
+        if (existCase == null)
+            return new ResponseMessage(true, "Ocurrio un error al guardar la información. Intente mas tarde.");
+
+        return framingMeetingService.saveVictim(existCase, framingReference);
     }
 
 }

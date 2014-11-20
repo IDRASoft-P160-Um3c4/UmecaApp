@@ -12,7 +12,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
     $scope.housemateSuccessMsg = "";
     $scope.referencesSuccessMsg = "";
     $scope.drugsSuccessMsg = "";
-    $scope.activitesSuccessMsg = "";
+    $scope.activitiesSuccessMsg = "";
     $scope.jobSuccessMsg = "";
     $scope.victimSuccessMsg = "";
 
@@ -21,7 +21,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
     $scope.housemateErrorMsg = "";
     $scope.referencesErrorMsg = "";
     $scope.drugsErrorMsg = "";
-    $scope.activitesErrorMsg = "";
+    $scope.activitiesErrorMsg = "";
     $scope.jobErrorMsg = "";
     $scope.victimErrorMsg = "";
 
@@ -197,7 +197,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                     case "4":
                         $scope.drugsSuccessMsg = $sce.trustAsHtml(msg);
                     case "5":
-                        $scope.activitesSuccessMsg = $sce.trustAsHtml(msg);
+                        $scope.activitiesSuccessMsg = $sce.trustAsHtml(msg);
                         break;
                     case "6":
                         $scope.jobSuccessMsg = $sce.trustAsHtml(msg);
@@ -222,7 +222,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                     $scope.drugsErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
                     break;
                 case "FormCommentActivities":
-                    $scope.activitesErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                    $scope.activitiesErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
                     break;
                 case "FormCommentJob":
                     $scope.jobErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");

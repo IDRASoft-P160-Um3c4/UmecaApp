@@ -242,7 +242,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setName(data[1]);
             model.setDescription(data[2]);
             model.setIsObsolete(Boolean.parseBoolean(data[3]));
-            model.setSpecification(Boolean.parseBoolean(data[4]));
+            model.setSpecification(data[4].equals("1"));
             supervisionActivityRepository.save(model);
         }
         supervisionActivityRepository.flush();
@@ -265,7 +265,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setName(data[1]);
             model.setDescription(data[2]);
             model.setIsObsolete(Boolean.parseBoolean(data[3]));
-            model.setSpecification(Boolean.parseBoolean(data[4]));
+            model.setSpecification(data[4].equals("1"));
             activityGoalRepository.save(model);
         }
         activityGoalRepository.flush();
