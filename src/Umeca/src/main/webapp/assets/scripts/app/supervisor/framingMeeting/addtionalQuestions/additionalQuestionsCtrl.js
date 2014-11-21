@@ -1,4 +1,4 @@
-app.controller('additionalQuestionsController', function ($scope, $timeout, $http, $rootScope) {
+app.controller('additionalQuestionsController', function ($scope, $timeout, $http, $rootScope, $sce) {
 
     $scope.aq = {};
     $scope.aqErrorMsg = "";
@@ -233,22 +233,22 @@ app.controller('additionalQuestionsController', function ($scope, $timeout, $htt
                 resp = resp.responseMessage;
             }
             if (resp.hasError === false) {
-                $scope.aqSuccessMsg = resp.message;
+                $scope.aqSuccessMsg = $sce.trustAsHtml(resp.message);
                 $scope.$apply();
                 return;
             }
 
-            $scope.aqErrorMsg = resp.message;
+            $scope.aqErrorMsg = $sce.trustAsHtml(resp.message);
             $scope.$apply();
 
         } catch (e) {
-            $scope.aqErrorMsg = "Error inesperado de datos. Por favor intente más tarde.";
+            $scope.aqErrorMsg = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
         }
     };
 
     $scope.handleError = function () {
         $scope.WaitFor = false;
-        $scope.aqErrorMsg = "Error de red. Por favor intente más tarde.";
+        $scope.aqErrorMsg = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
         $scope.$apply();
     };
 

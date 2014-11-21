@@ -7,6 +7,8 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         $scope.m.lstArrangements = {};
         $scope.goalSpecError = "";
         $scope.activitySpecError = "";
+        $scope.sourceSpecError = "";
+        $scope.m.isOtherSourceSelected = false;
 
         $scope.config = function (cfg, lstArrangements, lstActivities, lstGoals, lstSources) {
             $scope.cfg = cfg;
@@ -39,6 +41,10 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             $scope.m.activity = event.infoActivity.activity;
             $scope.m.goal = event.infoActivity.goal;
             $scope.m.source = event.infoActivity.source;
+            $scope.m.activitySpec = event.infoActivity.activitySpec;
+            $scope.m.goalSpec = event.infoActivity.goalSpec;
+            $scope.m.sourceSpec = event.infoActivity.sourceSpec
+            $scope.changeSource();
 
         };
 
@@ -172,21 +178,62 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
 
             $scope.goalSpecError = "";
             $scope.activitySpecError = "";
+            $scope.sourceSpecError = "";
 
-            if ($scope.m.activity.specification == true && ($scope.m.activitySpec == "" || $scope.m.activitySpec == undefined)) {
-                $scope.activitySpecError = "Especifique actividad es un campo requerido";
-                band = false;
+            if ($scope.m.activity.specification == true) {
+                if ($scope.m.activitySpec == "" || $scope.m.activitySpec == undefined) {
+                    $scope.activitySpecError = "Especifique actividad es un campo requerido";
+                    band = false;
+                }
+            }
+            else {
+                $scope.m.activitySpec = "";
             }
 
-            if ($scope.m.goal.specification == true && ($scope.m.goalSpec == "" || $scope.m.goalSpec == undefined)) {
-                $scope.goalSpecError = "Especifique objetivo es un campo requerido";
-                band = false;
+            if ($scope.m.goal.specification == true) {
+                if (
+                    ($scope.m.goalSpec == "" || $scope.m.goalSpec == undefined)) {
+                    $scope.goalSpecError = "Especifique objetivo es un campo requerido";
+                    band = false;
+                }
+            } else {
+                $scope.m.goalSpec = "";
+            }
+
+            if ($scope.m.isOtherSourceSelected == true) {
+                if ($scope.m.sourceSpec == undefined || $scope.m.sourceSpec == "") {
+                    $scope.sourceSpecError = "Especifique fuente es un campo requerido";
+                    band = false;
+                }
+            }
+            else {
+                $scope.m.sourceSpec = "";
             }
 
             if (band == false)
                 return false;
 
             return true;
+        };
+
+        $scope.changeSource = function () {
+            var nameAux = undefined, arrName = [], nameSource = $scope.m.source.name;
+
+            arrName = nameSource.split("/");
+
+            if (arrName.length > 0) {
+                nameAux = arrName[0];
+            }
+
+            if (nameAux != undefined && nameAux != "") {
+                if ("otro" == nameAux.toLowerCase().trim()) {
+                    $scope.m.isOtherSourceSelected = true;
+                    return true;
+                }
+            }
+
+            $scope.m.isOtherSourceSelected = false;
+            return false;
         };
 
         $scope.generateActivities = function () {
@@ -269,7 +316,8 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                             caseInfo: $scope.cfg.caseInfo,
                             //se agrega la especificacion de actividad, objetivo y fuente
                             goalSpec: $scope.m.goalSpec,
-                            activitySpec: $scope.m.activitySpec
+                            activitySpec: $scope.m.activitySpec,
+                            sourceSpec: $scope.m.sourceSpec
                         },
                         groupEvt: group
                     };
@@ -345,6 +393,9 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                 activity: $scope.m.activity,
                 goal: $scope.m.goal,
                 source: $scope.m.source,
+                activitySpec: $scope.m.activitySpec,
+                goalSpec: $scope.m.goalSpec,
+                sourceSpec: $scope.m.sourceSpec,
                 caseInfo: $scope.cfg.caseInfo
             };
 

@@ -1375,7 +1375,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 imputedReference.setRelationship(relationshipRepository.findImputedRelationship());
                 imputedReference.setFramingMeeting(existFraming);
                 imputedReference.setName(existFraming.getPersonalData().getName() + " " + existFraming.getPersonalData().getLastNameP() + " " + existFraming.getPersonalData().getLastNameM());
-                imputedReference.setPersonType("");
+                imputedReference.setPersonType("IMPUTED");
                 imputedReference = framingReferenceRepository.save(imputedReference);
                 //caseRepository.save(existCase);
 
@@ -1385,6 +1385,23 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 imputedSourceRel.setFramingReference(imputedReference);
                 imputedSourceRel = framingSelectedSourceRelRepository.save(imputedSourceRel);
                 //para agregar al imputado en el listado de fuentes para las actividades
+            }
+
+            if (framingReferenceRepository.findReferenceOther(existFraming.getId(), Constants.NAME_RELATIONSHIP_OTHER) == null) {
+                FramingReference otherReference = new FramingReference();
+
+                otherReference.setRelationship(relationshipRepository.findOtherRelationship());
+                otherReference.setFramingMeeting(existFraming);
+                otherReference.setName("Otro");
+                otherReference.setPersonType("OTHER");
+                otherReference = framingReferenceRepository.save(otherReference);
+
+                FramingSelectedSourceRel otherSourceRel = new FramingSelectedSourceRel();
+                otherSourceRel.setFramingMeeting(existFraming);
+                existFraming.getSelectedSourcesRel().add(otherSourceRel);
+                otherSourceRel.setFramingReference(otherReference);
+                otherSourceRel = framingSelectedSourceRelRepository.save(otherSourceRel);
+                //para agregar la opcion otro al combo para las actividades
             }
 
             caseRepository.save(existCase);
@@ -1818,7 +1835,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 }
             }
 
-            existJob.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
+            Case existCase = caseRepository.findOne(idCase);
+
+            existJob.setFramingMeeting(existCase.getFramingMeeting());
 
             jobRepository.save(existJob);
             resp.setHasError(false);
@@ -1904,17 +1923,17 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         ResponseMessage response = new ResponseMessage();
         try {
 
-            School existSchool = new School();
+            School existSchool = caseRepository.findOne(view.getIdCase()).getFramingMeeting().getSchool();
 
-            if (view.getId() != null) {
-                existSchool = schoolRepository.findOne(view.getId());
+            if (existSchool != null) {
                 for (Schedule act : existSchool.getSchedule()) {
                     act.setSchool(null);
                     scheduleRepository.delete(act);
                 }
                 existSchool.setSchedule(null);
                 schoolRepository.save(existSchool);
-            }
+            } else
+                existSchool = new School();
 
             existSchool.setName(view.getName());
             existSchool.setPhone(view.getPhone());

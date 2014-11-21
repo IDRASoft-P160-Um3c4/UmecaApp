@@ -80,11 +80,24 @@
     <div class="col-xs-9">
         <select class="form-control element-center" ng-model="m.source" id="selectSource"
                 ng-options="e.name for e in lstSources"
-                ng-change="m.sourceId = m.source.id"
+                ng-change="m.sourceId = m.source.id; changeSource();"
                 ng-disabled="isReadOnly">
         </select>
     </div>
 </div>
+<div class="form-group" ng-show="m.isOtherSourceSelected==true">
+    <label class="col-xs-3 control-label" for="sourceSpec">Especifique fuente</label>
+
+    <div class="col-xs-4">
+        <textarea ng-model="m.sourceSpec"
+                  id="sourceSpec"
+                  type="text" class="input-xxlarge">
+        </textarea>
+        <br/>
+        <span class="field-validation-error" ng-show="sourceSpecError!=''">{{sourceSpecError}}</span>
+    </div>
+</div>
+
 <div class="row">
 <div class="col-xs-10 col-xs-offset-1">
 <div class="widget-box light-border">

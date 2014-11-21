@@ -17,6 +17,9 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Long
     @Query("select r from Relationship as r where r.name=com.umeca.model.shared.Constants.NAME_RELATIONSHIP_IMPUTED")
     Relationship findImputedRelationship();
 
+    @Query("select r from Relationship as r where r.name=com.umeca.model.shared.Constants.NAME_RELATIONSHIP_OTHER")
+    Relationship findOtherRelationship();
+
     @Query("select r from Relationship as r where r.name=com.umeca.model.shared.Constants.NAME_RELATIONSHIP_NONE")
     Relationship findNoneRelationship();
 

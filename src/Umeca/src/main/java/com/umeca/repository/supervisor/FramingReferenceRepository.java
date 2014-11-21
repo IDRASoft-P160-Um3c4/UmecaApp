@@ -49,6 +49,13 @@ public interface FramingReferenceRepository extends JpaRepository<FramingReferen
             "WHERE fm.id=:idFramingMeeting and rs.name=:relImputed")
     public FramingReference findImputedReference(@Param("idFramingMeeting") Long idFramingMeeting, @Param("relImputed") String relImputed);
 
+    @Query("SELECT fr FROM FramingMeeting fm " +
+            "INNER JOIN fm.selectedSourcesRel ssr " +
+            "INNER JOIN ssr.framingReference fr " +
+            "INNER JOIN fr.relationship rs " +
+            "WHERE fm.id=:idFramingMeeting and rs.name=:relImputed and fr.personType='OTHER'")
+    public FramingReference findReferenceOther(@Param("idFramingMeeting") Long idFramingMeeting, @Param("relImputed") String relImputed);
+
     @Query("SELECT ref FROM FramingMeeting fm " +
             "INNER JOIN fm.references ref " +
             "INNER JOIN fm.caseDetention cd " +

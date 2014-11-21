@@ -12,11 +12,11 @@
 <br/>
 
 <div class="row">
-    <div ng-show="aqSuccessMsg&&aqSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
-        {{aqSuccessMsg}}
+    <div ng-show="aqSuccessMsg&&aqSuccessMsg!=''" class="col-xs-12 alert alert-success element-center success-font"
+         ng-bind-html="aqSuccessMsg">
     </div>
-    <div ng-show="aqErrorMsg&&aqErrorMsg!=''" class="alert alert-danger element-center error-font">
-        {{aqErrorMsg}}
+    <div ng-show="aqErrorMsg&&aqErrorMsg!=''" class="alert alert-danger element-center error-font"
+         ng-bind-html="aqErrorMsg">
     </div>
 </div>
 

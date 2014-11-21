@@ -21,6 +21,9 @@ public class ActivityMonitoringPlanDto {
     private List<Long> lstArrangements;
     private String status;
     private String group;
+    private String goalSpec;
+    private String activitySpec;
+    private String sourceSpec;
 
     public Long getActivityId() {
         return activityId;
@@ -96,7 +99,7 @@ public class ActivityMonitoringPlanDto {
 
     public Calendar getEndCalendar() {
 
-        if(endCalendar != null)
+        if (endCalendar != null)
             return endCalendar;
 
         endCalendar = CalendarExt.stringToCalendar(end);
@@ -105,7 +108,7 @@ public class ActivityMonitoringPlanDto {
     }
 
     public Calendar getStartCalendar() {
-        if(startCalendar != null)
+        if (startCalendar != null)
             return startCalendar;
 
         startCalendar = CalendarExt.stringToCalendar(start);
@@ -140,17 +143,20 @@ public class ActivityMonitoringPlanDto {
     public static List<ActivityMonitoringPlanDto> convertToDtos(List<ActivityMonitoringPlan> lstActivities) {
         List<ActivityMonitoringPlanDto> lstDtos = new ArrayList<>();
 
-        for(ActivityMonitoringPlan actMonPlan: lstActivities){
+        for (ActivityMonitoringPlan actMonPlan : lstActivities) {
             ActivityMonitoringPlanDto dto = new ActivityMonitoringPlanDto();
             dto.setActivityId(actMonPlan.getId());
 
             dto.setActivityMonId(actMonPlan.getSupervisionActivity().getId());
             dto.setGoalId(actMonPlan.getActivityGoal().getId());
             dto.setSourceId(actMonPlan.getFramingSelectedSourceRel().getId());
+            dto.setActivitySpec(actMonPlan.getActivitySpec());
+            dto.setGoalSpec(actMonPlan.getGoalSpec());
+            dto.setSourceSpec(actMonPlan.getSourceSpec());
 
             List<ActivityMonitoringPlanArrangement> lstAssArr = actMonPlan.getLstAssignedArrangement();
             List<Long> lstAssArrId = new ArrayList<>();
-            for(ActivityMonitoringPlanArrangement arr: lstAssArr){
+            for (ActivityMonitoringPlanArrangement arr : lstAssArr) {
                 lstAssArrId.add(arr.getAssignedArrangement().getId());
             }
             dto.setLstArrangements(lstAssArrId);
@@ -167,5 +173,29 @@ public class ActivityMonitoringPlanDto {
             lstDtos.add(dto);
         }
         return lstDtos;
+    }
+
+    public String getGoalSpec() {
+        return goalSpec;
+    }
+
+    public void setGoalSpec(String goalSpec) {
+        this.goalSpec = goalSpec;
+    }
+
+    public String getActivitySpec() {
+        return activitySpec;
+    }
+
+    public void setActivitySpec(String activitySpec) {
+        this.activitySpec = activitySpec;
+    }
+
+    public String getSourceSpec() {
+        return sourceSpec;
+    }
+
+    public void setSourceSpec(String sourceSpec) {
+        this.sourceSpec = sourceSpec;
     }
 }

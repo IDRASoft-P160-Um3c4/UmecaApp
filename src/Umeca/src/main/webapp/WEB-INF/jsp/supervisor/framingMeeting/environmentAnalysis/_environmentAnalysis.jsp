@@ -16,11 +16,9 @@
 </div>
 
 <div class="row">
-    <div ng-show="errorMsg&&errorMsg!=''" class="alert alert-danger element-center">
-        {{errorMsg}}
+    <div ng-show="errorMsgEnv&&errorMsgEnv!=''" class="alert alert-danger element-center" ng-bind-html="errorMsgEnv">
     </div>
-    <div ng-show="successMsg&&successMsg!=''" class="col-xs-12 alert alert-success element-center success-font">
-        {{successMsg}}
+    <div ng-show="successMsgEnv&&successMsgEnv!=''" class="col-xs-12 alert alert-success element-center success-font" ng-bind-html="successMsgEnv">
     </div>
 </div>
 

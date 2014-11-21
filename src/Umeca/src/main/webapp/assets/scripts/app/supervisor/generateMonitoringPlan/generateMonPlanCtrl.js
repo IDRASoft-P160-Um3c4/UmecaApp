@@ -5,30 +5,30 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
     $scope.waitFor = false;
 
 
-    $scope.addActivityToDelete = function(id){
-        if(id === -1)
+    $scope.addActivityToDelete = function (id) {
+        if (id === -1)
             return;
         $scope.lstActivityDelIds.push(id);
     }
 
-    $scope.returnToCases = function(url){
+    $scope.returnToCases = function (url) {
         $scope.waitFor = true;
         window.goToUrlMvcUrl(url);
     }
 
-    $scope.saveActivities = function(caseId, monPlanId, urlToPost){
+    $scope.saveActivities = function (caseId, monPlanId, urlToPost) {
         $scope.msgError = undefined;
         $scope.waitFor = true;
 
-        try{
+        try {
             var lstEvents = $scope.m.calendar.fullCalendar('clientEvents');
 
             var lstActivities = [];
 
-            for(var i=0; i<lstEvents.length; i++){
+            for (var i = 0; i < lstEvents.length; i++) {
                 var event = lstEvents[i];
 
-                if(event.isModified !== true)
+                if (event.isModified !== true)
                     continue;
 
                 var infoAct = event.infoActivity;
@@ -39,14 +39,14 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
 
                 var lstArrangements = [];
 
-                for(var key in infoAct.lstArrangements){
-                    if(infoAct.lstArrangements[key] === true)
+                for (var key in infoAct.lstArrangements) {
+                    if (infoAct.lstArrangements[key] === true)
                         lstArrangements.push(key);
                 }
 
                 lstActivities.push({
                     activityId: event.idActivity,
-                    eventId : event._id,
+                    eventId: event._id,
                     caseId: caseInfo.caseId,
                     monitoringPlanId: caseInfo.monitoringPlanId,
                     end: end,
@@ -54,17 +54,20 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
                     lstArrangements: lstArrangements,
                     activityMonId: infoAct.activity.id,
                     goalId: infoAct.goal.id,
-                    sourceId: infoAct.source.id
+                    sourceId: infoAct.source.id,
+                    activitySpec: infoAct.activitySpec,
+                    goalSpec: infoAct.goalSpec,
+                    sourceSpec: infoAct.sourceSpec
                 });
             }
 
-            if(lstActivities.length === 0 && $scope.lstActivityDelIds.length === 0){
-                sharedSvc.showMsg({title: "Plan de seguimiento",message: "No existen actividades para agregar, actualizar o eliminar",type: "info"});
+            if (lstActivities.length === 0 && $scope.lstActivityDelIds.length === 0) {
+                sharedSvc.showMsg({title: "Plan de seguimiento", message: "No existen actividades para agregar, actualizar o eliminar", type: "info"});
                 $scope.waitFor = false;
                 return false;
             }
 
-            var activityUpsert = {lstActivitiesUpsert:lstActivities, lstActivitiesDel: $scope.lstActivityDelIds, caseId:caseId, monitoringPlanId: monPlanId};
+            var activityUpsert = {lstActivitiesUpsert: lstActivities, lstActivitiesDel: $scope.lstActivityDelIds, caseId: caseId, monitoringPlanId: monPlanId};
 
             $.ajax({
                 url: urlToPost,
@@ -75,15 +78,15 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
                 dataType: "json",
                 contentType: "application/json"
             });
-        }catch(e){
+        } catch (e) {
             $scope.waitFor = false;
         }
 
 
     }
 
-    $scope.handleSuccess = function(resp){
-        try{
+    $scope.handleSuccess = function (resp) {
+        try {
             $scope.waitFor = false;
 
             if (resp.hasError === undefined || resp.hasError === true) {
@@ -91,16 +94,16 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
                 $scope.$apply();
                 return;
             }
-            else if(resp.hasError === false){
+            else if (resp.hasError === false) {
 
-                try{
+                try {
                     $scope.lstActivityDelIds = [];
                     var lstEvents = JSON.parse(resp.returnData);
-                    for(var i=0; i<lstEvents.length; i++){
+                    for (var i = 0; i < lstEvents.length; i++) {
                         var eventInfo = lstEvents[i];
                         var event = $scope.m.calendar.fullCalendar('clientEvents', eventInfo.eventId);
 
-                        if(event !== undefined && event.length > 0){
+                        if (event !== undefined && event.length > 0) {
                             var fstEvent = event[0];
                             fstEvent.idActivity = eventInfo.activityMonitoringPlanId;
                             fstEvent.groupEvt = eventInfo.group;
@@ -110,8 +113,9 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
                         }
                     }
 
-                }catch(eIn){}
-                sharedSvc.showMsg({title: "Plan de seguimiento",message: resp.message,type: "success"}).then();
+                } catch (eIn) {
+                }
+                sharedSvc.showMsg({title: "Plan de seguimiento", message: resp.message, type: "success"}).then();
             }
             $scope.$apply();
         } catch (e) {
@@ -121,7 +125,7 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
     };
 
 
-    $scope.handleError = function(){
+    $scope.handleError = function () {
         $scope.waitFor = false;
         $scope.msgError = "Error de red. Por favor intente más tarde.";
         $scope.$apply();

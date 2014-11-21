@@ -1,4 +1,4 @@
-app.controller('environmentAnalysisController', function ($scope, $timeout, $http, $rootScope) {
+app.controller('environmentAnalysisController', function ($scope, $timeout, $http, $rootScope, $sce) {
 
     $scope.envir = {};
 
@@ -18,9 +18,9 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     $scope.lstSelectedThreat = [];
 
-    $scope.errorMsg = "";
+    $scope.errorMsgEnv = "";
 
-    $scope.successMsg = "";
+    $scope.successMsgEnv = "";
 
     $scope.selectSource = function (id) {
 
@@ -198,22 +198,22 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
                 resp = resp.responseMessage;
             }
             if (resp.hasError === false) {
-                $scope.successMsg = resp.message;
+                $scope.successMsgEnv = $sce.trustAsHtml(resp.message);
                 $scope.$apply();
                 return;
             }
 
-            $scope.errorMsg = resp.message;
+            $scope.errorMsgEnv = $sce.trustAsHtml(resp.message);
             $scope.$apply();
 
         } catch (e) {
-            $scope.errorMsg = "Error inesperado de datos. Por favor intente más tarde.";
+            $scope.errorMsgEnv = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
         }
     };
 
     $scope.handleError = function () {
         $scope.WaitFor = false;
-        $scope.errorMsg = "Error de red. Por favor intente más tarde.";
+        $scope.errorMsg = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
         $scope.$apply();
     };
 

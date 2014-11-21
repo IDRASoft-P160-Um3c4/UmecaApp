@@ -26,73 +26,76 @@ public class ActivityMonitoringPlan {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_case", nullable = false)
+    @JoinColumn(name = "id_case", nullable = false)
     private Case caseDetention;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_monitoring_plan", nullable = false)
+    @JoinColumn(name = "id_monitoring_plan", nullable = false)
     private MonitoringPlan monitoringPlan;
 
     @Column(name = "start", nullable = false)
     private Calendar start;
 
-    @Column(name= "search_start", nullable = false)
+    @Column(name = "search_start", nullable = false)
     private int searchStart;
 
     @Column(name = "end", nullable = false)
     private Calendar end;
 
-    @Column(name= "search_end", nullable = false)
+    @Column(name = "search_end", nullable = false)
     private int searchEnd;
 
-    @OneToMany(mappedBy = "activityMonitoringPlan", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "activityMonitoringPlan", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<ActivityMonitoringPlanArrangement> lstAssignedArrangement;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_supervision_activity", nullable = false)
+    @JoinColumn(name = "id_supervision_activity", nullable = false)
     private SupervisionActivity supervisionActivity;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_activity_goal", nullable = false)
+    @JoinColumn(name = "id_activity_goal", nullable = false)
     private ActivityGoal activityGoal;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_framing_source", nullable = false)
+    @JoinColumn(name = "id_framing_source", nullable = false)
     private FramingSelectedSourceRel framingSelectedSourceRel;
 
     @Column(name = "status", length = 100, nullable = false)
     private String status;
 
-    @Lob @Basic(fetch=FetchType.LAZY)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "assigned_arrangements", nullable = false)
     private String assignedArrangements;
 
-    @Lob @Basic(fetch=FetchType.LAZY)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "assigned_arrangements_ids", nullable = false)
     private String assignedArrangementsIds;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_user_create", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user_create", nullable = false)
     private User supervisorCreate;
 
     @Column(name = "creation_time", nullable = false)
     private Calendar creationTime;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_user_modify", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user_modify", nullable = true)
     private User supervisorModify;
 
     @Column(name = "modify_time", nullable = true)
     private Calendar modifyTime;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_user_done", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user_done", nullable = true)
     private User supervisorDone;
 
     @Column(name = "done_time", nullable = true)
     private Calendar doneTime;
 
-    @Lob @Basic(fetch=FetchType.LAZY)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "comments", nullable = true)
     private String comments;
 
@@ -112,6 +115,15 @@ public class ActivityMonitoringPlan {
 
     @Column(name = "is_replaced", nullable = true)
     private Boolean isReplaced;
+
+    @Column(name = "activity_spec")
+    private String activitySpec;
+
+    @Column(name = "goal_spec")
+    private String goalSpec;
+
+    @Column(name = "source_spec")
+    private String sourceSpec;
 
     public Long getId() {
         return id;
@@ -319,5 +331,29 @@ public class ActivityMonitoringPlan {
 
     public void setActMonPlanReplaced(ActivityMonitoringPlan actMonPlanReplaced) {
         this.actMonPlanReplaced = actMonPlanReplaced;
+    }
+
+    public String getActivitySpec() {
+        return activitySpec;
+    }
+
+    public void setActivitySpec(String activitySpec) {
+        this.activitySpec = activitySpec;
+    }
+
+    public String getGoalSpec() {
+        return goalSpec;
+    }
+
+    public void setGoalSpec(String goalSpec) {
+        this.goalSpec = goalSpec;
+    }
+
+    public String getSourceSpec() {
+        return sourceSpec;
+    }
+
+    public void setSourceSpec(String sourceSpec) {
+        this.sourceSpec = sourceSpec;
     }
 }

@@ -85,7 +85,7 @@
     <input type="hidden" id="canTerminateActivities" value="{{fm.objView.canTerminate}}"/>
 
     <div class="col-xs-12">
-        <div ng-show="activitiesSuccessMsg&&housemateSuccessMsg!=''"
+        <div ng-show="activitiesSuccessMsg&&activitiesSuccessMsg!=''"
              class="col-xs-12 alert alert-success element-center success-font" ng-bind-html="activitiesSuccessMsg">
         </div>
         <div ng-show="activitiesErrorMsg&&activitiesErrorMsg!=''" class="alert alert-danger element-center error-font"
