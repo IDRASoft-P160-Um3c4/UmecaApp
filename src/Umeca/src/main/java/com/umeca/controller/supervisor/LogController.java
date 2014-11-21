@@ -150,10 +150,7 @@ public class LogController {
             }
 
             model.addObject("moralName", cad);
-            //model.addObject("moralPhone", slr.getMoralPhone());
-
             List<SelectList> lstResol = hearingFormatRepository.getInfoResolution(id);
-
             String lastResol = "", allResol = "";
 
             if (lstResol != null && lstResol.size() > 0) {
@@ -185,7 +182,7 @@ public class LogController {
 
             model.addObject("closeComment", closeComment);
 
-            List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByCaseId(caseId);
+            List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByIdCaseForLog(caseId);
             Gson gson = new Gson();
             String sLstGeneric = gson.toJson(lstGeneric);
             model.addObject("lstHfAssignedArrangement", sLstGeneric);
@@ -210,6 +207,9 @@ public class LogController {
             sLstGeneric = gson.toJson(lstActMonPlanArrangement);
             model.addObject("lstActMonPlanArrangement", sLstGeneric);
 
+            model.addObject("lstRisk", gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
+            model.addObject("lstThreat", gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
+
             return model;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "supervisionLog", userService);
@@ -217,15 +217,17 @@ public class LogController {
         }
     }
 
-    //TODO DISEÑAR LA BITACORA PARA PODER DESCARGARLA EN FORMATO WORD
-/*    @RequestMapping(value = {"/supervisor/log/supervisionLogDownload", "/supervisorManager/log/supervisionLogDownload"}, method = RequestMethod.GET)
-    public ModelAndView supervisionLogDownload(@RequestParam Long id) {
-        ModelAndView model = new ModelAndView("/supervisor/log/supervisionLogDown");
+    @Autowired
+    private FramingMeetingRepository framingMeetingRepository;
+
+    @RequestMapping(value = {"/supervisor/log/accomplishmentLog", "/supervisorManager/log/accomplishmentLog"}, method = RequestMethod.GET)
+    public ModelAndView accomplishmentLog(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/supervisor/log/accomplishmentLog");
 
         try {
             Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
 
-            //Find last hearing format to get last assigned arrangements
+            /******PARA AGREGAR EL RESUMEN*****/
             List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
             Long lHearingFormatId = lastHearingFormatId.get(0);
             SupervisionLogReport slr = hearingFormatRepository.findSupervisionLogReportById(lHearingFormatId);
@@ -239,7 +241,6 @@ public class LogController {
             model.addObject("imputedTel", slr.getImputedTel());
             model.addObject("imputedAddr", slr.getImputedAddr());
 
-
             List<SelectList> lstMoral = framingReferenceRepository.findAccompanimentReferences(id);
 
             String cad = "";
@@ -250,9 +251,7 @@ public class LogController {
             }
 
             model.addObject("moralName", cad);
-
             List<SelectList> lstResol = hearingFormatRepository.getInfoResolution(id);
-
             String lastResol = "", allResol = "";
 
             if (lstResol != null && lstResol.size() > 0) {
@@ -284,29 +283,9 @@ public class LogController {
 
             model.addObject("closeComment", closeComment);
 
-            List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByCaseId(caseId);
-            Gson gson = new Gson();
-            //String sLstGeneric = gson.toJson(lstGeneric);
-            model.addObject("lstHfAssignedArrangement", lstGeneric);
-
-            return model;
-        } catch (Exception ex) {
-            logException.Write(ex, this.getClass(), "supervisionLog", userService);
-            return null;
-        }
-    }*/
-    //TODO DISEÑAR LA BITACORA PARA PODER DESCARGARLA EN FORMATO WORD
-
-    @RequestMapping(value = {"/supervisor/log/accomplishmentLog", "/supervisorManager/log/accomplishmentLog"}, method = RequestMethod.GET)
-    public ModelAndView accomplishmentLog(@RequestParam Long id) {
-        ModelAndView model = new ModelAndView("/supervisor/log/accomplishmentLog");
-
-        try {
-            Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
+            /**********************************/
 
             //Find last hearing format to get last assigned arrangements
-            List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
-            Long lHearingFormatId = lastHearingFormatId.get(0);
             AccomplishmentLogReport alr = hearingFormatRepository.findSupervisionLogAccomplishmentById(lHearingFormatId);
 
             model.addObject("imputedName", alr.getImputedName());
@@ -337,6 +316,10 @@ public class LogController {
             List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement = activityMonitoringPlanRepository.getListAccomplishmentActMonPlanArrangementByMonPlanId(id);
             sLstGeneric = gson.toJson(lstActMonPlanArrangement);
             model.addObject("lstActMonPlanArrangement", sLstGeneric);
+
+            model.addObject("lstRisk", gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
+            model.addObject("lstThreat", gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
+
 
             return model;
         } catch (Exception ex) {

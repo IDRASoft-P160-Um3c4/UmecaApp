@@ -1,5 +1,7 @@
 package com.umeca.model.shared;
 
+import com.umeca.model.entities.supervisor.HearingFormat;
+
 import java.util.Calendar;
 
 /**
@@ -43,6 +45,18 @@ public class SelectList {
         this.id = id;
         this.name = description + " / " + name;
         this.description = secDescription;
+    }
+
+    public SelectList(Long id, String arrangement, String description, Integer typeArrangement) {
+        this.id = id;
+        this.description = description;
+        this.name = arrangement;
+        if (typeArrangement.equals(HearingFormatConstants.HEARING_TYPE_SCP))
+            this.name += " - SCP";
+        else if (typeArrangement.equals(HearingFormatConstants.HEARING_TYPE_MC))
+            this.name += " - MC";
+
+        this.name += " / " + description;
     }
 
     public SelectList(Long id, String name, String description, Long aux) {

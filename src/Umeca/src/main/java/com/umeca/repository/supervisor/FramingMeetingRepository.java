@@ -47,6 +47,20 @@ public interface FramingMeetingRepository extends JpaRepository<FramingMeeting, 
             "inner join F.imputed IMP " +
             "where IMP.id=:imputedId")
     Boolean getValidateFingerConf();
+
+    @Query("select new com.umeca.model.shared.SelectList(FT.id,FT.description) from Case C " +
+            "inner join C.framingMeeting FM " +
+            "inner join FM.selectedThreatsRel STR " +
+            "inner join STR.framingThreat FT " +
+            "where C.id=:idCase")
+    List<Long> getSelectedThreatByIdCase(@Param("idCase") Long idCase);
+
+    @Query("select new com.umeca.model.shared.SelectList(FR.id,FR.description) from Case C " +
+            "inner join C.framingMeeting FM " +
+            "inner join FM.selectedRisksRel SRR " +
+            "inner join SRR.framingRisk FR " +
+            "where C.id=:idCase")
+    List<Long> getSelectedTRiskByIdCase(@Param("idCase") Long idCase);
 }
 
 

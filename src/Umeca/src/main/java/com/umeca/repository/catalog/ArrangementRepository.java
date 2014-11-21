@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("qArrangementRepository")
-public interface ArrangementRepository extends JpaRepository<Arrangement, Long>{
+public interface ArrangementRepository extends JpaRepository<Arrangement, Long> {
 
     @Query("SELECT arr FROM Arrangement arr WHERE arr.type =:typeId and arr.isNational=:isNational and arr.isObsolete=false")
-    List<Arrangement> findByType(@Param("isNational")Boolean national, @Param("typeId")Integer typeId);
+    List<Arrangement> findByType(@Param("isNational") Boolean national, @Param("typeId") Integer typeId);
 
     @Query("SELECT new com.umeca.model.shared.SelectList(aa.id, arr.description, aa.description) FROM HearingFormat hf " +
             "INNER JOIN hf.assignedArrangements aa INNER JOIN aa.arrangement arr  " +
@@ -24,6 +24,11 @@ public interface ArrangementRepository extends JpaRepository<Arrangement, Long>{
             "INNER JOIN hf.assignedArrangements aa INNER JOIN aa.arrangement arr INNER JOIN hf.caseDetention cd " +
             "WHERE cd.id =:caseId")
     List<SelectList> findLstArrangementByCaseId(@Param("caseId") Long caseId);
+
+    @Query("SELECT DISTINCT new com.umeca.model.shared.SelectList(aa.id, arr.description, aa.description, arr.type) FROM HearingFormat hf " +
+            "INNER JOIN hf.assignedArrangements aa INNER JOIN aa.arrangement arr INNER JOIN hf.caseDetention cd " +
+            "WHERE cd.id =:caseId")
+    List<SelectList> findLstArrangementByIdCaseForLog(@Param("caseId") Long caseId);
 
     /*@Query("SELECT new com.umeca.model.shared.SelectList(aa.id, arr.description, aa.description) FROM ActivityMonitoringPlan amp " +
             "INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa INNER JOIN aa.arrangement arr " +
