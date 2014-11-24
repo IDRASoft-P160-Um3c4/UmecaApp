@@ -30,7 +30,7 @@
 <div class="row">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
-            Parentesco:
+            Relaci&oacute;n:
         </div>
         <div class="col-xs-8">
             <select class="form-control element-center" ng-model="r.rel"

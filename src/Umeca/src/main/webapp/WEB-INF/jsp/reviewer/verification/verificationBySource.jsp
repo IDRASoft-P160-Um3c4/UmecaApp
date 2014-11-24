@@ -116,7 +116,7 @@
                         </div>
                         <div class="col-xs-5 col-xs-offset-1">
                             <div class="col-xs-2 smaller lighter blue">
-                                Parentesco:
+                                Relaci&oacute;n:
                             </div>
                             <div class="col-xs-10 ">
                                 {{source.relationship}}

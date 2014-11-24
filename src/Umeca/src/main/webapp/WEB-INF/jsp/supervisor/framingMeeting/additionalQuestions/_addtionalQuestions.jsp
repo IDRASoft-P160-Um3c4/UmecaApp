@@ -123,7 +123,7 @@
     <br/>
 
     <div ng-show="aq.addictedAcquaintance==1">
-        <label>&iquest;Qu&eacute; parentesco/relaci&oacute;n tienes con ellos?</label>
+        <label>&iquest;Qu&eacute; relaci&oacute;n tienes con ellos?</label>
         <br/>
 
         <div ng-show="errorSelAddAcq&&errorSelAddAcq!=''"
@@ -170,7 +170,7 @@
     <br/>
 
     <div ng-show="aq.relativeAbroad==1">
-        <label>&iquest;Qu&eacute; parentesco/relaci&oacute;n tienes con esa persona?</label>
+        <label>&iquest;Qu&eacute; relaci&oacute;n tienes con esa persona?</label>
         <br/>
         <input type="hidden" name="selectedRelativesAbroad" value="{{selectedRelativesAbroad}}">
 

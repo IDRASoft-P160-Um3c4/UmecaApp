@@ -194,7 +194,8 @@ public class ActiveMonitoringPlanController {
     TrackMonPlanService trackMonPlanService;
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectAccomplishment", method = RequestMethod.POST)
-    public @ResponseBody
+    public
+    @ResponseBody
     ResponseMessage doAuthorizeRejectAccomplishment(@ModelAttribute AuthorizeRejectMonPlan model) {
 
         ResponseMessage response = new ResponseMessage();
@@ -299,7 +300,9 @@ public class ActiveMonitoringPlanController {
     }
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/doChangeSupervisor", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doChangeSupervisor(@ModelAttribute ChangeSupervisor model) {
+    public
+    @ResponseBody
+    ResponseMessage doChangeSupervisor(@ModelAttribute ChangeSupervisor model) {
 
         ResponseMessage response = new ResponseMessage();
         response.setHasError(true);
@@ -310,7 +313,7 @@ public class ActiveMonitoringPlanController {
                 return response;
 
             if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
-                response.setMessage("La contraseña no corresponde al usuario en sesión");
+                response.setMessage("La contrase&ntilde;a no corresponde al usuario en sesi&oacuten");
                 return response;
             }
 
@@ -322,12 +325,17 @@ public class ActiveMonitoringPlanController {
             MonitoringPlan monPlan = monitoringPlanRepository.findOne(model.getMonPlanId());
 
             if (monPlan == null) {
-                response.setMessage("No se encontró el plan de seguimiento. Por favor reinicie su navegador e intente de nuevo");
+                response.setMessage("No se encontr&oacute el plan de seguimiento. Por favor reinicie su navegador e intente de nuevo");
+                return response;
+            }
+
+            if (MonitoringPlanView.calculateHasActPreAuth(monPlan.getAuthorizationTime(), monPlan.getPosAuthorizationChangeTime()) == true) {
+                response.setMessage("El plan de supervisi&oacute;n tiene una modificaci&oacute;n pendiente de autorizar, no es posible cambiar de supervisor");
                 return response;
             }
 
             if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END) == true) {
-                response.setMessage("El plan de supervisión se encuentra en estado " + monPlan.getStatus() + ", por ello ya no es posible cambiar de supervisor");
+                response.setMessage("El plan de supervisi&oacuten se encuentra en estado " + monPlan.getStatus() + ", por ello ya no es posible cambiar de supervisor");
                 return response;
             }
 
@@ -336,7 +344,7 @@ public class ActiveMonitoringPlanController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doChangeSupervisor", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se present&oacute un error inesperado. Por favor revise la informaci&oacuten e intente de nuevo");
         }
         return response;
     }
@@ -357,8 +365,11 @@ public class ActiveMonitoringPlanController {
             model.addObject("status", monPlan.getMonStatus());
 
             List<ActivityMonitoringPlanNotice> lstActivities = activityMonitoringPlanRepository.getAllActivitiesByMonPlanIdInStatus(id,
-                    new ArrayList<String>(){{add(MonitoringConstants.STATUS_ACTIVITY_PRE_NEW);
-                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED);add(MonitoringConstants.STATUS_ACTIVITY_PRE_DELETED); }});
+                    new ArrayList<String>() {{
+                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_NEW);
+                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED);
+                        add(MonitoringConstants.STATUS_ACTIVITY_PRE_DELETED);
+                    }});
 
             Gson gson = new Gson();
             String sLstGeneric = gson.toJson(lstActivities);
@@ -372,13 +383,14 @@ public class ActiveMonitoringPlanController {
     }
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/showMonActDetail", method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseMessage showMonActDetail(@RequestBody Long id){
+    public
+    @ResponseBody
+    ResponseMessage showMonActDetail(@RequestBody Long id) {
         ResponseMessage response = new ResponseMessage();
-        try{
+        try {
             trackMonPlanService.getActivityToShow(id, response);
             response.setHasError(false);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "showMonActDetail", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
@@ -390,35 +402,37 @@ public class ActiveMonitoringPlanController {
     ManageMonitoringPlanService manageMonitoringPlanService;
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/authRejLstMonAct", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage authRejLstMonAct(@RequestBody AuthRejMonActivitiesRequest model){
+    public
+    @ResponseBody
+    ResponseMessage authRejLstMonAct(@RequestBody AuthRejMonActivitiesRequest model) {
         ResponseMessage response = new ResponseMessage();
         response.setHasError(true);
-        try{
+        try {
             //Validar contraseña y validar los comentarios
             User user = new User();
-            if(sharedUserService.isValidUser(user, response) == false)
+            if (sharedUserService.isValidUser(user, response) == false)
                 return response;
 
-            if(sharedUserService.isValidPasswordForUser(user.getId(), model.getPs()) == false){
+            if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPs()) == false) {
                 response.setMessage("La contraseña no corresponde al usuario en sesión");
                 return response;
             }
 
-            if(model.getComments() == null || model.getComments().trim().isEmpty()){
+            if (model.getComments() == null || model.getComments().trim().isEmpty()) {
                 response.setMessage("Debe ingresar un comentario para continuar");
                 return response;
             }
 
-            if(model.getLstAutRejActMon() == null || model.getLstAutRejActMon().size() <= 0){
+            if (model.getLstAutRejActMon() == null || model.getLstAutRejActMon().size() <= 0) {
                 response.setMessage("Debe tener al menos una actividad para autorizar o rechazar");
                 return response;
             }
 
-            if(manageMonitoringPlanService.authRejLstMonAct(model, sharedUserService, response) == false)
+            if (manageMonitoringPlanService.authRejLstMonAct(model, sharedUserService, response) == false)
                 return response;
 
             response.setHasError(false);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "authRejLstMonAct", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");

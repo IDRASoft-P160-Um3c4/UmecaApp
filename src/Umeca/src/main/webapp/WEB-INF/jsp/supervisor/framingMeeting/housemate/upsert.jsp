@@ -63,8 +63,8 @@
 
                     <div class="col-xs-6">
 
-                        <label>Parentesco con el imputado:</label><label class="info-example">(En
-                        caso de no tener parentesco explique por cu&aacute;nto tiempo lo conoce)</label>
+                        <label>Relaci&oacute;n con el imputado:</label><label class="info-example">(En
+                        caso de no tener relaci&oacute;n explique por cu&aacute;nto tiempo lo conoce)</label>
                         <br/>
                         <select class="form-control element-center" ng-model="hm.relationship"
                                 ng-options="e.name for e in lstRelationship"
@@ -86,7 +86,7 @@
                 <div class="col-xs-12" ng-show="hm.relationship.specification == true">
                     <br/>
                     <div class="col-xs-6">
-                            Especif&iacute;que parentesco:
+                            Especif&iacute;que relaci&oacute;n:
                       <br/>
                             <input class="form-control" data-val="true"
                                    data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"

@@ -119,7 +119,7 @@
 
                                     <div class="col-xs-6">
 
-                                        <label>Parentesco con el imputado:</label>
+                                        <label>Relaci&oacute;n con el imputado:</label>
                                         <br/>
                                         <select class="form-control element-center"
                                                 ng-model="victim.relationship"
@@ -154,7 +154,7 @@
                                     <br/>
 
                                     <div class="col-xs-6">
-                                        Especif&iacute;que parentesco:
+                                        Especif&iacute;que relaci&oacute;n:
                                         <br/>
                                         <input class="form-control" data-val="true"
                                                data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"

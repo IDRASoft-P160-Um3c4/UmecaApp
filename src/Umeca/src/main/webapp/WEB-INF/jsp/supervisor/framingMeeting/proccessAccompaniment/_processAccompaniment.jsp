@@ -187,7 +187,7 @@
 <br/>
 
 <div class="widget-box">
-    <div class="widget-header">Parentesco con el imputado</div>
+    <div class="widget-header">Relaci&oacute;n con el imputado</div>
     <div class="widget-body">
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
@@ -195,7 +195,7 @@
                     <br/>
 
                     <div class="col-xs-6">
-                        <label>Parentesco:</label>
+                        <label>Relaci&oacute;n:</label>
                         <br/>
                         <select class="form-control element-center" ng-model="pa.relationship"
                                 ng-options="e.name for e in lstRelationship"

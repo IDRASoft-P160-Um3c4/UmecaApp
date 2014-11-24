@@ -3,15 +3,15 @@
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormCatId");
     });
-    $("input").keypress(function(event) {
+    $("input").keypress(function (event) {
         if (event.which == 13) {
             event.preventDefault();
-            $( "#btnMakeRequest" ).trigger( "click" );
+            $("#btnMakeRequest").trigger("click");
         }
     });
 </script>
 <style>
-    input,textarea {
+    input, textarea {
         max-width: none !important;
     }
 </style>
@@ -29,10 +29,11 @@
                     <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal"
                           role="form">
                         <div class="row">
-                                       <div class="col-xs-10 col-xs-offset-1">
-                                           <h4 class="header smaller lighter blue"><small>Tipo de solicitud:  </small>
-                                           &nbsp;${requestTypeDes}</h4>
-                                       </div>
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <h4 class="header smaller lighter blue">
+                                    <small>Tipo de solicitud:</small>
+                                    &nbsp;${requestTypeDes}</h4>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
@@ -73,6 +74,7 @@
                             </div>
                         </div>
                         <br/>
+
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div ng-init='requestType = "${requestType}"; listSources = ${sources};'
@@ -91,7 +93,7 @@
                                                     Nombre
                                                 </th>
                                                 <th>
-                                                    Parentesco
+                                                    Relaci&oacute;n
                                                 </th>
                                                 <th>
                                                     Edad
@@ -131,7 +133,9 @@
                         </div>
 
                         <br/>
-                        <div class="row" ng-show="requestType != 'CHANGE_STATUS_SOURCE' || (requestType == 'CHANGE_STATUS_SOURCE' && listSources.length > 0)">
+
+                        <div class="row"
+                             ng-show="requestType != 'CHANGE_STATUS_SOURCE' || (requestType == 'CHANGE_STATUS_SOURCE' && listSources.length > 0)">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="widget-box">
                                     <div class="widget-header widget-header-small header-color-blue2">
@@ -142,14 +146,16 @@
                                             <input type="hidden" value="${requestType}" name="requestType">
                                             <input type="hidden" value="${caseInfo.caseId}" name="caseId">
                                             <textarea id="comment" name="reason" ng-model="comment"
-                                                      class="form-control" ></textarea>
+                                                      class="form-control"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br/>
-                        <div class="row"  ng-show="requestType != 'CHANGE_STATUS_SOURCE' || (requestType == 'CHANGE_STATUS_SOURCE' && listSources.length > 0)">
+
+                        <div class="row"
+                             ng-show="requestType != 'CHANGE_STATUS_SOURCE' || (requestType == 'CHANGE_STATUS_SOURCE' && listSources.length > 0)">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="widget-box">
                                     <div class="widget-header widget-header-small header-color-blue2">
@@ -169,7 +175,7 @@
 
                     <div class="row" ng-show="MsgError">
                         <div class="col-xs-10 col-xs-offset-1">
-                            <div class="alert alert-danger element-center" ng-bind-html="MsgError" >
+                            <div class="alert alert-danger element-center" ng-bind-html="MsgError">
                             </div>
                         </div>
                     </div>
@@ -178,7 +184,7 @@
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
-                    <span class="btn btn-default btn-primary btn-sm"   id="btnMakeRequest"
+                    <span class="btn btn-default btn-primary btn-sm" id="btnMakeRequest"
                           ng-disabled="WaitFor==true || comment=='' || comment == undefined || (listSources.length == 0 && requestType == 'CHANGE_STATUS_SOURCE')"
                           ng-click="submit('#FormCatId', '<c:url value="/reviewer/caseRequest/doMakeRequest.json"/>');">
                           Enviar Solicitud

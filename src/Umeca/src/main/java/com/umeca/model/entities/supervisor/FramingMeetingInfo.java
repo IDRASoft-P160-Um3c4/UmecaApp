@@ -341,7 +341,7 @@ public class FramingMeetingInfo {
                             if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
                                 relationship += ": "+actRef.getSpecificationRelationship();
                             }
-                            returnStr += ", Parentesco: " + relationship;
+                            returnStr += ", Relación: " + relationship;
                             returnStr += ", Ocupación" + actRef.getOccupation();
                             returnStr += ", Lugar de ocupación: " + actRef.getOccupationPlace();
                             returnStr += ", Teléfono: " + actRef.getPhone();
@@ -354,8 +354,8 @@ public class FramingMeetingInfo {
                             if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
                                 relationship += ": "+actRef.getSpecificationRelationship();
                             }
-                            returnStr += ", Parentesco: " + relationship;
-                            returnStr += ", Esta persona acompañ ara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                            returnStr += ", Relación: " + relationship;
+                            returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
                         }
                     }
                 }
@@ -387,7 +387,7 @@ public class FramingMeetingInfo {
                             if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
                                 relationship += ": "+actRef.getSpecificationRelationship();
                             }
-                            returnStr += ", Parentesco: " + relationship;
+                            returnStr += ", Relación: " + relationship;
                             returnStr += ", Ocupación: " + actRef.getOccupation();
                             returnStr += ", Lugar de ocupación: " + actRef.getOccupationPlace();
                             returnStr += ", Teléfono: " + actRef.getPhone();
@@ -401,7 +401,7 @@ public class FramingMeetingInfo {
                             if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
                                 relationship += ": "+actRef.getSpecificationRelationship();
                             }
-                            returnStr += ", Parentesco: " + relationship;
+                            returnStr += ", Relación: " + relationship;
                             returnStr += ", Ocupación: " + actRef.getOccupation();
                             returnStr += ", " + actRef.getAddress();
                             returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";

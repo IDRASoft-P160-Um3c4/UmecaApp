@@ -24,7 +24,7 @@
             url: urlGridReferences,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre', 'Tel&eacute;fono', 'Parentesco', 'Direcci&oacute;n', 'Acompa&ntilde;ar&aacute<br/>en el proceso', 'Acci&oacute;n'],
+            colNames: ['ID', 'Nombre', 'Tel&eacute;fono', 'Relaci&oacute;n', 'Direcci&oacute;n', 'Acompa&ntilde;ar&aacute<br/>en el proceso', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

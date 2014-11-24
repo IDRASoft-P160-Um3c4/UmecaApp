@@ -24,7 +24,7 @@
             url: urlGridVictim,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre', 'Edad', 'Parentesco', 'T&eacute;lefono', 'Direcci&oacute;n', 'Acci&oacute;n'],
+            colNames: ['ID', 'Nombre', 'Edad', 'Relaci&oacute;n', 'T&eacute;lefono', 'Direcci&oacute;n', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

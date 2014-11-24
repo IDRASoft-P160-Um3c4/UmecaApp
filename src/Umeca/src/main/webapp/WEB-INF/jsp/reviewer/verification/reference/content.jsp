@@ -24,7 +24,7 @@
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="references.relationship.id" id-element="{{r.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.relationship.id',r.id);"></i>
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.relationship.id',r.id)"></i>
-            Parentesco:
+            Relaci&oacute;n:
         </div>
         <div class="col-xs-8">
             <input type="hidden" ng-model="r.relId" ng-update-hidden name="references.relationship.id">
@@ -39,7 +39,7 @@
     </div>
     <div  class="col-xs-6" ng-show="r.rel.specification == true">
         <div class="col-xs-4 element-left">
-            Especif&iacute;que<br/>parentesco:
+            Especif&iacute;que<br/>relaci&oacute;n:
         </div>
         <div class="col-xs-8">
             <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres" value="{{r.specificationRelationship}}"

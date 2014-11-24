@@ -22,7 +22,8 @@
                 <div class="modal-header">
                     <div class="alert alert-info ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center"><i class="icon icon-envelope"></i>&nbsp;&nbsp;Responder solicitud</h4>
+                        <h4 class="element-center"><i class="icon icon-envelope"></i>&nbsp;&nbsp;Responder solicitud
+                        </h4>
                     </div>
                 </div>
                 <div class="modal-body">
@@ -98,14 +99,15 @@
                                 <h5 class="smaller lighter blue">
                                     <small> Fuente(s):
                                     </small>
-                                    </h5>
+                                </h5>
                             </div>
                             <div class="col-xs-9">
                                 <h5 class="smaller lighter blue">
                                     <ul>
-                                    <li ng-repeat="s in sources">
-                                        {{s.fullName}}. Edad: {{s.age}}. Parentesco: {{s.relationship}} <br/>
-                                    </li></ul>
+                                        <li ng-repeat="s in sources">
+                                            {{s.fullName}}. Edad: {{s.age}}. Relaci&oacute;n: {{s.relationship}} <br/>
+                                        </li>
+                                    </ul>
                                 </h5>
                             </div>
                         </div>
@@ -113,9 +115,13 @@
                             <div class="col-xs-10 col-xs-offset-1">
                                 <h5 class="smaller lighter blue">
                                     <small> Respuesta de la solitud:
-                                    </small> &nbsp;&nbsp;
-                                    <input type="radio" name="response" checked="true" value="ACCEPTED">&nbsp;Aceptar solicitud
-                                &nbsp; &nbsp; &nbsp; <input type="radio" name="response" value="REJECTED">&nbsp;Rechazar solicitud</h5>
+                                    </small>
+                                    &nbsp;&nbsp;
+                                    <input type="radio" name="response" checked="true" value="ACCEPTED">&nbsp;Aceptar
+                                    solicitud
+                                    &nbsp; &nbsp; &nbsp; <input type="radio" name="response" value="REJECTED">&nbsp;Rechazar
+                                    solicitud
+                                </h5>
                             </div>
                         </div>
                         <br/>

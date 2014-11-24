@@ -64,7 +64,7 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
-                Parentesco:
+                Relaci&oacute;n:
             </div>
             <div class="col-xs-8">
                 <select class="form-control element-center" ng-model="p.rel"
@@ -96,7 +96,7 @@
     <div class="row" ng-show="p.rel.specification == true">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
-                Especif&iacute;que<br/>parentesco:
+                Especif&iacute;que<br/>relaci&oacute;n:
             </div>
             <div class="col-xs-8">
                 <input class="form-control" data-val="true"

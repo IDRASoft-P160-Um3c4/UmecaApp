@@ -64,8 +64,8 @@
                     <div class="col-xs-12">
                         <div class="col-xs-6">
 
-                            <label>Parentesco con el imputado:</label>&nbsp;&nbsp;<label class="info-example">(En
-                            caso de no tener parentesco explique por cu&aacute;nto tiempo lo conoce)</label>
+                            <label>Relaci&oacute;n con el imputado:</label>&nbsp;&nbsp;<label class="info-example">(En
+                            caso de no tener relaci&oacute;n explique por cu&aacute;nto tiempo lo conoce)</label>
                             <br/>
                             <select class="form-control element-center"
                                     ng-model="refe.relationship"
@@ -111,7 +111,7 @@
                 <div class="row" ng-show="refe.relationship.specification == true">
                     <div class="col-xs-6">
                         <div class="col-xs-4 element-left">
-                            Especif&iacute;que<br/>parentesco:
+                            Especif&iacute;que<br/>relaci&oacute;n:
                         </div>
                         <div class="col-xs-8">
                             <input class="form-control" data-val="true"
