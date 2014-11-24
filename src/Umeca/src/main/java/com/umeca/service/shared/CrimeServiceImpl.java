@@ -68,7 +68,7 @@ public class CrimeServiceImpl implements CrimeService {
     @Override
     public String getListCrimeHearingformatByCase(Long idCase) {
          Long hearingFormatId = hearingFormatRepository.lastHearingFormatIdsByIdCase(idCase);
-         List<Crime> crimes = crimeRepository.findListCrimeHearingFormatByIdCase(hearingFormatId);
+         List<Crime> crimes = crimeRepository.findListCrimeHearingFormatByIdHF(hearingFormatId);
          if(crimes.size()>0){
              Gson gson = new Gson();
              List<CrimeDto> crimeDtoList = new ArrayList<>();
@@ -98,7 +98,7 @@ public class CrimeServiceImpl implements CrimeService {
 
     @Override
     public String getListCrimeHearingformatByIdFormat(Long idFormat) {
-        List<Crime> crimes = crimeRepository.findListCrimeHearingFormatByIdCase(idFormat);
+        List<Crime> crimes = crimeRepository.findListCrimeHearingFormatByIdHF(idFormat);
         if(crimes.size()>0){
             Gson gson = new Gson();
             List<CrimeDto> crimeDtoList = new ArrayList<>();

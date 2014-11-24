@@ -21,5 +21,5 @@ public interface CrimeRepository extends JpaRepository<Crime,Long> {
     @Query("select cr from Crime as cr " +
             "inner join cr.hearingFormat as hf " +
             "where hf.id=:id")
-    List<Crime> findListCrimeHearingFormatByIdCase(@Param("id")Long id);
+    List<Crime> findListCrimeHearingFormatByIdHF(@Param("id") Long id);
 }

@@ -12,6 +12,7 @@ public class CatalogDto {
     private String name;
     private Boolean specification;
     private String code;
+    private String content;
 
     public CatalogDto(Long id, String name) {
         this.id = id;
@@ -25,6 +26,10 @@ public class CatalogDto {
         this.code = code;
     }
 
+    public CatalogDto(String name, String content){
+        this.name = name;
+        this.content = content;
+    }
     public CatalogDto() {
     }
 
@@ -58,5 +63,13 @@ public class CatalogDto {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

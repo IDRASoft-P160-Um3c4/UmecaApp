@@ -2,10 +2,16 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.catalog.Activity;
 import com.umeca.model.catalog.dto.ScheduleDto;
+import com.umeca.model.catalog.dto.ScheduleLogDto;
+import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.repository.CaseRepository;
-import com.umeca.repository.reviewer.*;
+import com.umeca.repository.catalog.ActivityRepository;
+import com.umeca.repository.reviewer.ImputedHomeRepository;
+import com.umeca.repository.reviewer.JobRepository;
+import com.umeca.repository.reviewer.ScheduleRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,5 +139,34 @@ public class ScheduleServiceImpl implements ScheduleService {
         } else {
             return false;
         }
+    }
+
+    @Autowired
+    ActivityRepository activityRepository;
+    @Override
+    public List<ScheduleLogDto> getFramingScheduleByIdCase(Long id){
+        Gson gson =new Gson();
+        List<ScheduleLogDto> result = new ArrayList<>();
+        List<ScheduleDto> schedules = scheduleRepository.getSchedulesAdressFramingByCaseId(id);
+        List<String> scheduleString=new ArrayList<>();
+        if(schedules.size()>0){
+            result.add(new ScheduleLogDto(ConstantsLogCase.SCHEDULE_ADDRESS,schedules));
+        }
+        schedules = scheduleRepository.getSchedulesSchoolFramingByCaseId(id);
+        if(schedules.size()>0){
+            result.add(new ScheduleLogDto(ConstantsLogCase.SCHEDULE_SCHOOL,schedules));
+        }
+        schedules = scheduleRepository.getSchedulesJobFramingByCaseId(id);
+        if(schedules.size()>0){
+            result.add(new ScheduleLogDto(ConstantsLogCase.SCHEDULE_JOB,schedules));
+        }
+        List<Activity> lstAct = activityRepository.findNotObsolete();
+        for(Activity act: lstAct){
+            schedules = scheduleRepository.getSchedulesActivityFramingByCaseId(id,act.getId());
+            if(schedules.size()>0){
+                result.add(new ScheduleLogDto(ConstantsLogCase.SCHEDULE_ACTIVITY+" "+act.getName(),schedules));
+            }
+        }
+        return result;
     }
 }
