@@ -1,8 +1,8 @@
 package com.umeca.service.reviewer;
 
-import com.umeca.model.ResponseMessage;
-import com.umeca.model.entities.reviewer.*;
-import org.springframework.web.servlet.ModelAndView;
+import com.umeca.model.catalog.dto.ScheduleLogDto;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,4 +16,6 @@ public interface ScheduleService {
     Boolean saveSchedules(String schedules, Long id, Class classType);
 
     String getSchedulesVerificationValue(Long id, Object classObjetc);
+
+    List<ScheduleLogDto> getFramingScheduleByIdCase(Long id);
 }

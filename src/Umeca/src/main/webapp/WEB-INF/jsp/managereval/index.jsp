@@ -46,7 +46,7 @@ $(document).ready(function () {
         url: '<c:url value='/managereval/list.json' />',
         datatype: "json",
         mtype: 'POST',
-        colNames: ['ID', 'Carpeta de Investigaci&oacute;n', 'Nombre completo', 'Crimen', 'Acci&oacute;n'],
+        colNames: ['ID', 'Carpeta de Investigaci&oacute;n', 'Nombre completo', 'Delito', 'Acci&oacute;n'],
         colModel: [
             { name: 'id', hidden: true },
             { name: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },

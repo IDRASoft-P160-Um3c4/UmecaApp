@@ -15,12 +15,28 @@ public class ScheduleDto {
     private String start;
     private String end;
 
+    public ScheduleDto() {
+    }
+
+    public ScheduleDto(Long id, String day, String start, String end) {
+        this.id = id;
+        this.day = day;
+        this.start = start;
+        this.end = end;
+    }
+
     public ScheduleDto dtoSchedule (Schedule schedule){
         this.id=schedule.getId();
         this.day = schedule.getDay();
         this.start = schedule.getStart();
         this.end = schedule.getEnd();
         return this;
+    }
+
+    public String scheduleString(Schedule schedule){
+        String r = "";
+        r = schedule.getDay()+" "+schedule.getStart()+"-"+schedule.getEnd();
+        return  r;
     }
 
     public Long getId() {

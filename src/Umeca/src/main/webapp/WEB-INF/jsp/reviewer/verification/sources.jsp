@@ -11,7 +11,7 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
-    <title>Fuentes de verificaci&oacute;n</title>
+    <title>Fuentes de verificaci&oacute;n autorizadas</title>
     <style>
         .ui-jqgrid tr.jqgrow td {
             white-space: normal !important;

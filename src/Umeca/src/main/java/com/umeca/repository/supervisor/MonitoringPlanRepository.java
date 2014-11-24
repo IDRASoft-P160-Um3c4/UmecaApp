@@ -3,7 +3,6 @@ package com.umeca.repository.supervisor;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlanDto;
 import com.umeca.model.entities.supervisor.MonitoringPlanInfo;
-import com.umeca.model.shared.SelectList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -56,6 +55,8 @@ public interface MonitoringPlanRepository extends JpaRepository<MonitoringPlan, 
             "WHERE monP.id =:monPlanId and cst.name =:stClosed and lg.action=:actionLogCom")
     String getCloseComment(@Param("monPlanId") Long monPlanId, @Param("actionLogCom") String stLogCom, @Param("stClosed") String stClosed);
 
+    @Query("SELECT mp.id FROM MonitoringPlan mp INNER JOIN mp.caseDetention cd WHERE cd.id =:caseId")
+    Long getMonPlanIdByCaseId(@Param("caseId")Long caseId);
 }
 
 

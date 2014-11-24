@@ -1,4 +1,4 @@
-app.controller("supervisionLogController", function ($scope, $timeout) {
+app.controller("supervisionLogController", function($scope, $timeout){
 
     $scope.reconstructedLstActMonPlan = [];
     $scope.assignedArrangementFilter = [];
@@ -15,7 +15,18 @@ app.controller("supervisionLogController", function ($scope, $timeout) {
 
     };
 
-    $scope.fillByFilter = function () {
+    $scope.passToJson = function(str){
+        str = "{\"sch\":"+str+"}";
+        return str;
+//        var a =str.split(',');
+//        var b = [];
+//        for(var i  = 0 ; i< a.length; i++){
+//            b.push(JSON.stringify(a[i]));
+//        }
+        //return JSON.parse(str);
+    };
+
+    $scope.fillByFilter = function(){
         $scope.WaitFor = true;
         $scope.MsgError = "";
         var data = {};
@@ -98,9 +109,14 @@ app.controller("supervisionLogController", function ($scope, $timeout) {
         }
 
         return lstAssignedArrangements;
-    }
+    };
+    
+    $scope.formatHtml = function(sHtml){
+        return $sce.trustAsHtml(sHtml);
+    };
 
-    $scope.constructActMonPlan = function () {
+
+    $scope.constructActMonPlan = function(){
 
         $scope.reconstructedLstActMonPlan = [];
 

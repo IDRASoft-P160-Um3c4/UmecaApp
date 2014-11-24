@@ -444,19 +444,22 @@ public class ManagerevalController {
                             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
                             c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
                             Verification v =c.getVerification();
+
                             List<SourceVerification> svList = v.getSourceVerifications();
+                            v.setSourceVerifications(null);
                             for(SourceVerification sv:svList){
                                 List<FieldMeetingSource> fmsList = sv.getFieldMeetingSourceList();
                                 sv.setFieldMeetingSourceList(null);
                                 if(fmsList!=null && fmsList.size()>0){
                                     for(FieldMeetingSource fms: fmsList){
                                         fms.setSourceVerification(null);
-                                        fieldMeetingSourceRepository.delete(fmsList);
+                                        fieldMeetingSourceRepository.delete(fms);
                                     }
                                 }
-
+                                sv.setVerification(null);
+                                sourceVerificationRepository.delete(sv);
                             }
-                            sourceVerificationRepository.delete(svList);
+
                             c.setVerification(null);
                             verificationRepository.delete(v);
                         break;
