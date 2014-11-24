@@ -271,7 +271,11 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
             }
         }
 
-        activityMonitoringPlan.getLstAssignedArrangement().clear();
+        if (activityMonitoringPlan.getLstAssignedArrangement() != null)
+            activityMonitoringPlan.getLstAssignedArrangement().clear();
+        else
+            activityMonitoringPlan.setLstAssignedArrangement(new ArrayList<ActivityMonitoringPlanArrangement>());
+
         activityMonitoringPlan.getLstAssignedArrangement().addAll(lstAssignedArrangements);
         activityMonitoringPlan.setAssignedArrangements(sAssignedArrangements);
         activityMonitoringPlan.setAssignedArrangementsIds(sAssignedArrangementsIds);

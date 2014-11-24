@@ -1,13 +1,13 @@
-app.controller("supervisionLogController", function($scope, $timeout){
+app.controller("supervisionLogController", function ($scope, $timeout) {
 
     $scope.reconstructedLstActMonPlan = [];
     $scope.assignedArrangementFilter = [];
-    $scope.b={};
+    $scope.b = {};
 
-    $scope.init = function(){
+    $scope.init = function () {
         var element = {};
-        element.id=0;
-        element.name="Todas";
+        element.id = 0;
+        element.name = "Todas";
         element.description = "";
         $scope.assignedArrangementFilter.push(element);
         $scope.assignedArrangementFilter = $scope.assignedArrangementFilter.concat($scope.lstHfAssignedArrangement);
@@ -15,11 +15,11 @@ app.controller("supervisionLogController", function($scope, $timeout){
 
     };
 
-    $scope.fillByFilter = function(){
+    $scope.fillByFilter = function () {
         $scope.WaitFor = true;
-        $scope.MsgError= "";
-        var data= {};
-        data.id= $scope.mpId;
+        $scope.MsgError = "";
+        var data = {};
+        data.id = $scope.mpId;
         data.activityId = $scope.b.filter.id;
         var settings = {
             dataType: "json",
@@ -32,13 +32,13 @@ app.controller("supervisionLogController", function($scope, $timeout){
                     resp = resp.responseMessage;
                 }
                 if (resp.hasError === true) {
-                    $scope.MsgError= "Ha ocurrido un error al filtrar las actividades.";
+                    $scope.MsgError = "Ha ocurrido un error al filtrar las actividades.";
                     $scope.$apply();
                 }
                 else {
                     $scope.lstActMonPlan = JSON.parse(resp.returnData);
                     $scope.constructActMonPlan();
-                        $scope.$apply();
+                    $scope.$apply();
                 }
             },
             error: function () {
@@ -50,22 +50,22 @@ app.controller("supervisionLogController", function($scope, $timeout){
         $.ajax(settings);
     };
 
-    $timeout(function() {
+    $timeout(function () {
         $scope.init();
     }, 0);
 
-    $scope.idToObject = function(id, lstCat){
-        for(var i=0; i<lstCat.length; i++){
+    $scope.idToObject = function (id, lstCat) {
+        for (var i = 0; i < lstCat.length; i++) {
             var cat = lstCat[i];
-            if(cat.id == id){
+            if (cat.id == id) {
                 return cat;
             }
         }
         return undefined;
     };
 
-    $scope.setStatus = function(status){
-        switch(status){
+    $scope.setStatus = function (status) {
+        switch (status) {
             case -1:
                 return "No definido";
             case 0:
@@ -77,12 +77,12 @@ app.controller("supervisionLogController", function($scope, $timeout){
         }
     }
 
-    $scope.generateAssignedArrangements = function(actMonPlanId){
+    $scope.generateAssignedArrangements = function (actMonPlanId) {
         var bFound = false;
         var lstAssignedArrangements = [];
-        for(var i=$scope.lstActMonPlanArrangement.length-1; i>=0; i--){
+        for (var i = $scope.lstActMonPlanArrangement.length - 1; i >= 0; i--) {
             var mpArr = $scope.lstActMonPlanArrangement[i];
-            if(mpArr.actMonPlanId === actMonPlanId){
+            if (mpArr.actMonPlanId === actMonPlanId) {
                 bFound = true;
                 var assArr = $scope.idToObject(mpArr.assignedArrangementId, $scope.lstHfAssignedArrangement);
                 lstAssignedArrangements.push({
@@ -93,18 +93,18 @@ app.controller("supervisionLogController", function($scope, $timeout){
                 //$scope.lstActMonPlanArrangement.splice(i,1);   Se comenta para poder filtrar las actividades
             }
 
-            if(bFound === true && mpArr.actMonPlanId !== actMonPlanId)
+            if (bFound === true && mpArr.actMonPlanId !== actMonPlanId)
                 break;
         }
 
         return lstAssignedArrangements;
     }
 
-    $scope.constructActMonPlan = function(){
+    $scope.constructActMonPlan = function () {
 
         $scope.reconstructedLstActMonPlan = [];
 
-        for(var i=0; i<$scope.lstActMonPlan.length; i++){
+        for (var i = 0; i < $scope.lstActMonPlan.length; i++) {
             var act = $scope.lstActMonPlan[i];
 
             var actSup = $scope.idToObject(act.actSupervisionId, $scope.lstActivities);
@@ -114,11 +114,18 @@ app.controller("supervisionLogController", function($scope, $timeout){
             var lstAssignedArrangements = $scope.generateAssignedArrangements(act.id);
             var comments = (act.comments === undefined || act.comments === null) ? "NA" : act.comments;
 
+            var descAux = "";
+
+            if (aidSource.description == undefined)
+                descAux = "NA";
+            else
+                descAux = aidSource.description;
+
             var actRec = {
                 start: act.start,
                 end: act.end,
                 supActivity: (actSup === undefined ? "NA" : actSup.name),
-                aidSource: (aidSource === undefined ? "NA" : aidSource.name + " / " + aidSource.description),
+                aidSource: (aidSource === undefined ? "NA" : aidSource.name + " / " + descAux),
                 lstAssignedArrangements: lstAssignedArrangements,
                 status: act.status,
                 comments: comments,
@@ -132,18 +139,18 @@ app.controller("supervisionLogController", function($scope, $timeout){
     }
 
 
-    $scope.splitAssignedArrangements = function(actMonPlanId){
+    $scope.splitAssignedArrangements = function (actMonPlanId) {
         var bFound = false;
         var lstAssignedArrangementsOk = [];
         var lstAssignedArrangementsFailed = [];
 
-        for(var i=$scope.lstActMonPlanArrangement.length-1; i>=0; i--){
+        for (var i = $scope.lstActMonPlanArrangement.length - 1; i >= 0; i--) {
             var mpArr = $scope.lstActMonPlanArrangement[i];
-            if(mpArr.actMonPlanId === actMonPlanId){
+            if (mpArr.actMonPlanId === actMonPlanId) {
                 bFound = true;
                 var assArr = $scope.idToObject(mpArr.assignedArrangementId, $scope.lstHfAssignedArrangement);
 
-                switch(mpArr.status){
+                switch (mpArr.status) {
                     case 1:
                         lstAssignedArrangementsOk.push({
                             name: assArr.name,
@@ -162,10 +169,10 @@ app.controller("supervisionLogController", function($scope, $timeout){
                         break;
                 }
 
-                $scope.lstActMonPlanArrangement.splice(i,1);
+                $scope.lstActMonPlanArrangement.splice(i, 1);
             }
 
-            if(bFound === true && mpArr.actMonPlanId !== actMonPlanId)
+            if (bFound === true && mpArr.actMonPlanId !== actMonPlanId)
                 break;
         }
 
@@ -173,11 +180,11 @@ app.controller("supervisionLogController", function($scope, $timeout){
             lstFailed: lstAssignedArrangementsFailed, hasFailed: (lstAssignedArrangementsFailed.length > 0)};
     }
 
-    $scope.constructActMonPlanAccomplishment = function(){
+    $scope.constructActMonPlanAccomplishment = function () {
         $scope.reconstructedLstActMonPlanOk = [];
         $scope.reconstructedLstActMonPlanFailed = [];
 
-        for(var i=0; i<$scope.lstActMonPlan.length; i++){
+        for (var i = 0; i < $scope.lstActMonPlan.length; i++) {
             var act = $scope.lstActMonPlan[i];
 
             var actSup = $scope.idToObject(act.actSupervisionId, $scope.lstActivities);
@@ -187,7 +194,7 @@ app.controller("supervisionLogController", function($scope, $timeout){
             var splitInfo = $scope.splitAssignedArrangements(act.id);
             var comments = (act.comments === undefined || act.comments === null) ? "NA" : act.comments;
 
-            if(splitInfo.hasOk){
+            if (splitInfo.hasOk) {
                 var actRec = {
                     start: act.start,
                     end: act.end,
@@ -201,7 +208,7 @@ app.controller("supervisionLogController", function($scope, $timeout){
                 $scope.reconstructedLstActMonPlanOk.push(actRec);
             }
 
-            if(splitInfo.hasFailed){
+            if (splitInfo.hasFailed) {
                 var actRec = {
                     start: act.start,
                     end: act.end,
@@ -218,7 +225,7 @@ app.controller("supervisionLogController", function($scope, $timeout){
         }
     }
 
-    $scope.createLabel = function(status){
+    $scope.createLabel = function (status) {
         return 'label ' + window.colorActMonPlan(status);
     };
 });

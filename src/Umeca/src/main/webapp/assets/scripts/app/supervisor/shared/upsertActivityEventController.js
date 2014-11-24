@@ -43,9 +43,20 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             $scope.m.source = event.infoActivity.source;
             $scope.m.activitySpec = event.infoActivity.activitySpec;
             $scope.m.goalSpec = event.infoActivity.goalSpec;
-            $scope.m.sourceSpec = event.infoActivity.sourceSpec
+            $scope.m.sourceSpec = event.infoActivity.sourceSpec;
             $scope.changeSource();
 
+        };
+
+        $scope.clearFields = function () {
+            $scope.m.lstArrangements = [];
+            $scope.m.activity = $scope.m.lstActivities[0];
+            $scope.m.goal = $scope.m.lstGoals[0];
+            $scope.m.source = $scope.m.lstSources[0];
+            $scope.m.activitySpec = "";
+            $scope.m.goalSpec = "";
+            $scope.m.sourceSpec = "";
+            $scope.changeSource();
         };
 
         $scope.showDlg = function (params) {
@@ -79,6 +90,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             }
             else {
                 $scope.m.event = undefined;
+                $scope.clearFields();
             }
 
             var startTime = window.getTimeFormat($scope.startDt, false);
@@ -294,6 +306,8 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                     return false;
                 }
 
+                var arrAux = angular.copy($scope.m.lstArrangements);
+
                 if (hasEvent) {
                     var eventAct = {
                         title: "",
@@ -309,7 +323,8 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                         isModified: true,
                         className: ($scope.cfg.caseInfo.isInAuthorizeReady ? 'label-pre-new' : 'label-info'),
                         infoActivity: {
-                            lstArrangements: $scope.m.lstArrangements,
+//                            lstArrangements: $scope.m.lstArrangements.slice(),
+                            lstArrangements: arrAux,
                             activity: $scope.m.activity,
                             goal: $scope.m.goal,
                             source: $scope.m.source,
@@ -365,6 +380,19 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             $scope.hideMsg();
         };
 
+        $scope.clearFields = function () {
+            if ($scope.lstActivities.length > 0) $scope.m.activity = $scope.lstActivities[0];
+            if ($scope.lstGoals.length > 0) $scope.m.goal = $scope.lstGoals[0];
+            if ($scope.lstSources.length > 0) $scope.m.source = $scope.lstSources[0];
+
+            $scope.m.isOtherSourceSelected = false;
+
+            for (var key in $scope.m.lstArrangements) {
+                if ($scope.m.lstArrangements[key] = false) {
+                }
+            }
+        };
+
         $scope.save = function () {
             var today = new Date();
             today.setHours(0, 0, 0, 0);
@@ -398,6 +426,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                 sourceSpec: $scope.m.sourceSpec,
                 caseInfo: $scope.cfg.caseInfo
             };
+
 
             $scope.m.event.doTitle(true);
 

@@ -161,8 +161,7 @@
             <div class="profile-info-row two-lines">
                 <div class="profile-info-name"> TIPO DE MEDIDA JUDICIAL</div>
                 <div class="profile-info-value element-left">
-                    <div ng-repeat="i in lstHfAssignedArrangement"><i class="icon-bookmark blue"></i>&nbsp;&nbsp;{{i.name}}
-                        / {{i.description}} </span>
+                    <div ng-repeat="i in lstHfAssignedArrangement"><i class="icon-bookmark blue"></i>&nbsp;&nbsp;{{i.name}}</span>
                     </div>
                 </div>
             </div>
@@ -216,7 +215,7 @@
             <div class="profile-info-row three-lines">
                 <div class="profile-info-name"> RIESGOS</div>
                 <div class="profile-info-value element-left">
-                    <div ng-repeat="i in lstRisk"><i class="icon-rss blue"></i>&nbsp;&nbsp;{{i.name}}</span>
+                    <div ng-repeat="i in lstRisk"><i class="icon-info-sign blue"></i>&nbsp;&nbsp;{{i.name}}</span>
                     </div>
                 </div>
             </div>
@@ -229,7 +228,8 @@
             <div class="profile-info-row three-lines">
                 <div class="profile-info-name"> AMENAZAS</div>
                 <div class="profile-info-value element-left">
-                    <div ng-repeat="i in lstThreat"><i class="icon-rss blue"></i>&nbsp;&nbsp;{{i.name}}</span>
+                    <div ng-repeat="i in lstThreat"><i
+                            class="icon-exclamation-sign blue"></i>&nbsp;&nbsp;{{i.name}}</span>
                     </div>
                 </div>
             </div>
