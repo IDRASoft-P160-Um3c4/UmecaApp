@@ -40,6 +40,8 @@ public class LogCaseServiceImpl implements LogCaseService {
     CrimeRepository crimeRepository;
     @Autowired
     ScheduleService scheduleService;
+    @Autowired
+    FramingMeetingRepository framingMeetingRepository;
 
     @Override
     public void fillgeneralDataLog(Long caseId, ModelAndView model) {
@@ -119,6 +121,9 @@ public class LogCaseServiceImpl implements LogCaseService {
         model.addObject("lstGoals", sLstGeneric);
 
         model.addObject("schedules",gson.toJson(scheduleService.getFramingScheduleByIdCase(caseId)));
+
+        model.addObject("lstRisk", gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
+        model.addObject("lstThreat", gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
 
 
     }

@@ -226,9 +226,7 @@ public class LogController {
             /**********************************/
 
             //Find last hearing format to get last assigned arrangements
-            List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
-            Long lHearingFormatId = lastHearingFormatId.get(0);
-            AccomplishmentLogReport alr = hearingFormatRepository.findSupervisionLogAccomplishmentById(lHearingFormatId);
+              AccomplishmentLogReport alr = hearingFormatRepository.findSupervisionLogAccomplishmentById(lHearingFormatId);
 
             model.addObject("imputedName", alr.getImputedName());
             model.addObject("mpId", alr.getMpId());
@@ -258,9 +256,6 @@ public class LogController {
             List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement = activityMonitoringPlanRepository.getListAccomplishmentActMonPlanArrangementByMonPlanId(id);
             sLstGeneric = gson.toJson(lstActMonPlanArrangement);
             model.addObject("lstActMonPlanArrangement", sLstGeneric);
-
-            model.addObject("lstRisk", gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
-            model.addObject("lstThreat", gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
 
 
             return model;

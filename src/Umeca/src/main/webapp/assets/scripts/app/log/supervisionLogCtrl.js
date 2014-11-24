@@ -116,8 +116,6 @@ app.controller("supervisionLogController", function($scope, $timeout){
     };
 
 
-    $scope.constructActMonPlan = function () {
-   
     $scope.constructActMonPlan = function(){
 
         $scope.reconstructedLstActMonPlan = [];

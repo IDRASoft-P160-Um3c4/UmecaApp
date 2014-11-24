@@ -126,7 +126,7 @@
             <div class="col-xs-12">
                 <div class="profile-user-info profile-user-info-striped">
                     <div class="profile-info-row two-lines">
-                        <div class="profile-info-name"> RESOLUCI&Oacute;N ACTUAL</div>
+                        <div class="profile-info-name"><b>RESOLUCI&Oacute;N ACTUAL</b></div>
                         <div class="profile-info-value element-left">
                             <span id="resolution">${lastResolution}&nbsp;&nbsp;</span>
                         </div>
@@ -204,6 +204,34 @@
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon-rss blue"></i>  {{sd.day}} &nbsp;&nbsp;&nbsp;&nbsp;{{sd.start}}-{{sd.end}}
                                 </div>
                                 <div class="hr hr8"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="profile-user-info profile-user-info-striped">
+                    <div class="profile-info-row three-lines" ng-init='lstRisk = ${lstRisk};'>
+                        <div class="profile-info-name"> RIESGOS</div>
+                        <div class="profile-info-value element-left">
+                            <div ng-repeat="i in lstRisk"><i class="icon-info-sign blue"></i>&nbsp;&nbsp;{{i.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="profile-user-info profile-user-info-striped">
+                    <div class="profile-info-row three-lines" ng-init='lstThreat = ${lstThreat};'>
+                        <div class="profile-info-name"> AMENAZAS</div>
+                        <div class="profile-info-value element-left">
+                            <div ng-repeat="i in lstThreat"><i
+                                    class="icon-exclamation-sign blue"></i>&nbsp;&nbsp;{{i.name}}</span>
                             </div>
                         </div>
                     </div>
