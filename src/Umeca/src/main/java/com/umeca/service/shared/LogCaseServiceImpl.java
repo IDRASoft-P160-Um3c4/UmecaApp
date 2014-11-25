@@ -125,7 +125,6 @@ public class LogCaseServiceImpl implements LogCaseService {
         model.addObject("lstRisk", gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
         model.addObject("lstThreat", gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
 
-
     }
 
 

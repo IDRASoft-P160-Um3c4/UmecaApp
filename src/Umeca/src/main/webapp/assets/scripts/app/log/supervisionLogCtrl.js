@@ -1,4 +1,4 @@
-app.controller("supervisionLogController", function($scope, $timeout){
+app.controller("supervisionLogController", function($scope, $timeout,$sce){
 
     $scope.reconstructedLstActMonPlan = [];
     $scope.assignedArrangementFilter = [];
@@ -153,6 +153,11 @@ app.controller("supervisionLogController", function($scope, $timeout){
         }
 
     }
+
+    $scope.formatHtml = function(sHtml){
+        return $sce.trustAsHtml(sHtml);
+    };
+
 
 
     $scope.splitAssignedArrangements = function (actMonPlanId) {
