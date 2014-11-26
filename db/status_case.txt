@@ -17,3 +17,4 @@
 16|ST_CASE_TECHNICAL_REVIEW_INCOMPLETE|Opinión técnica incompleta.
 17|ST_CASE_NOT_PROSECUTE|No judializado.
 18|ST_CASE_NOT_PROSECUTE_OPEN|No judicializado abierto.
+19|ST_CASE_PRISON_CLOSED|Cerrado por prisión preventiva.

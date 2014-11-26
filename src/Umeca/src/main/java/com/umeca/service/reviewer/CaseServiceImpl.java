@@ -7,11 +7,13 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.StatusMeetingRepository;
 import com.umeca.repository.reviewer.ImputedRepository;
 import com.umeca.repository.supervisor.FolderConditionalReprieveRepository;
@@ -238,10 +240,31 @@ public class CaseServiceImpl implements CaseService {
         caseRepository.save(caseDet);
     }
 
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public boolean isValidCase(Long caseId) {
         return caseRepository.existsCaseNotClosed(caseId, Constants.CASE_STATUS_CLOSED) == 1;
+    }
+
+    @Override
+    @Transactional
+    public void doClosePrisonCase(Case caseDet, AuthorizeRejectMonPlan model) {
+        caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRISON_CLOSED));
+        StringBuilder sb = new StringBuilder();
+        sb.append("Cierre de caso por prisión preventiva: ");
+        sb.append(caseDet.getIdFolder());
+        sb.append(". Comentario: ");
+        sb.append(model.getComments());
+        sb.append(".");
+
+        Long idLastFormat = hearingFormatRepository.lastHearingFormatIdsByIdCase(caseDet.getId());
+        HearingFormat lastFormat = hearingFormatRepository.findOne(idLastFormat);
+
+        caseRepository.save(caseDet);
+        SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
+                caseDet, MonitoringConstants.STATUS_END, lastFormat.getSupervisor(), MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
     }
 
 }

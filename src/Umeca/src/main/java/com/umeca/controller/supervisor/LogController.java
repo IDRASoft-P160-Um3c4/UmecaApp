@@ -257,6 +257,9 @@ public class LogController {
             sLstGeneric = gson.toJson(lstActMonPlanArrangement);
             model.addObject("lstActMonPlanArrangement", sLstGeneric);
 
+            model.addObject("lstRisk", gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
+            model.addObject("lstThreat", gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
+
 
             return model;
         } catch (Exception ex) {

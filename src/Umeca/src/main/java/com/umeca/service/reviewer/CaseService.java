@@ -12,11 +12,20 @@ import java.util.List;
 public interface CaseService {
 
     List<Case> findByIdFolder(String idFolder);
+
     Case generateNewCase(Imputed imputed, Integer type);
+
     Case save(Case caseDet);
+
     Boolean validateStatus(Long idCase, String statusCase);
+
     Boolean validateStatus(Long idCase, String statusCase, Class entityCase, String statusEntity);
+
     ResponseMessage saveConditionaReprieveCase(Case caseDet);
+
     void saveAuthRejectCloseCase(AuthorizeRejectMonPlan model, User user, Case caseDet);
+
     boolean isValidCase(Long caseId);
+
+    void doClosePrisonCase(Case caseDet, AuthorizeRejectMonPlan model);
 }
