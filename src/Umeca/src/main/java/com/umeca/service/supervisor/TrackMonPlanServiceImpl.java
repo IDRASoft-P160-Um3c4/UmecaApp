@@ -53,7 +53,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         response.setLstMonPlanActivities(lstAllActivities);
 
         List<SelectList> lstActivities = supervisionActivityRepository.findAllSl();
-        List<SelectList> lstGoals = activityGoalRepository.findAllSl();
+        List<SelectList> lstGoals = activityGoalRepository.findAllSlMonitoring();
         response.setLstActivities(lstActivities);
         response.setLstGoals(lstGoals);
         response.setHasError(false);
@@ -88,7 +88,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
 
 
         List<SelectList> lstActivities = supervisionActivityRepository.findAllSl();
-        List<SelectList> lstGoals = activityGoalRepository.findAllSl();
+        List<SelectList> lstGoals = activityGoalRepository.findAllSlMonitoring();
         response.setLstActivities(lstActivities);
         response.setLstGoals(lstGoals);
         response.setHasError(false);

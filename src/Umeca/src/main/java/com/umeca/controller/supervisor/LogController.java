@@ -1,7 +1,6 @@
 package com.umeca.controller.supervisor;
 
 import com.google.gson.Gson;
-import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -13,8 +12,6 @@ import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.shared.CommentRequest;
 import com.umeca.model.entities.supervisor.*;
-import com.umeca.model.shared.Constants;
-import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
@@ -164,67 +161,9 @@ public class LogController {
         try {
             Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
 
-            /******PARA AGREGAR EL RESUMEN*****/
             List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
             Long lHearingFormatId = lastHearingFormatId.get(0);
-            SupervisionLogReport slr = hearingFormatRepository.findSupervisionLogReportById(lHearingFormatId);
-
-            model.addObject("imputedName", slr.getImputedName());
-            model.addObject("mpId", id);
-            model.addObject("crime", slr.getCrime());
-            model.addObject("judge", slr.getJudge());
-            model.addObject("defender", slr.getDefender());
-            model.addObject("mp", slr.getMp());
-            model.addObject("imputedTel", slr.getImputedTel());
-            model.addObject("imputedAddr", slr.getImputedAddr());
-
-
-            List<SelectList> lstMoral = framingReferenceRepository.findAccompanimentReferences(id);
-
-            String cad = "";
-            for (SelectList act : lstMoral) {
-                if (cad != "")
-                    cad += " / ";
-                cad += act.getName() + " - " + act.getDescription();
-            }
-
-            model.addObject("moralName", cad);
-
-            List<SelectList> lstResol = hearingFormatRepository.getInfoResolution(id);
-
-            String lastResol = "", allResol = "";
-
-            if (lstResol != null && lstResol.size() > 0) {
-                for (int i = 0; i < lstResol.size(); i++) {
-
-                    if (allResol != "")
-                        allResol += " , ";
-
-                    allResol += CalendarExt.calendarToFormatString(lstResol.get(i).getCalendar(), Constants.FORMAT_CALENDAR_I);
-
-                    if (lstResol.get(i).getIdAux() == HearingFormatConstants.HEARING_TYPE_MC)
-                        allResol += " - MC";
-                    else if (lstResol.get(i).getIdAux() == HearingFormatConstants.HEARING_TYPE_SCP)
-                        allResol += " - SCPP";
-                }
-            }
-
-            String[] arr = allResol.split(",");
-            if (arr.length > 0)
-                lastResol = arr[arr.length - 1];
-            else
-                lastResol = allResol;
-
-            model.addObject("prevResolution", allResol);
-            model.addObject("lastResolution", lastResol);
-
-            String closeComment = "";
-            closeComment = monitoringPlanRepository.getCloseComment(id, MonitoringConstants.STATUS_PENDING_END, Constants.CASE_STATUS_CLOSED);
-
-            model.addObject("closeComment", closeComment);
-
-            /**********************************/
-
+            logCaseService.fillgeneralDataLog(id,model);
             //Find last hearing format to get last assigned arrangements
               AccomplishmentLogReport alr = hearingFormatRepository.findSupervisionLogAccomplishmentById(lHearingFormatId);
 

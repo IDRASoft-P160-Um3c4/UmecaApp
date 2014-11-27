@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.entities.reviewer.Crime;
 import com.umeca.model.entities.reviewer.dto.CrimeDto;
+import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.supervisor.SupervisionLogReport;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,8 @@ public class LogCaseServiceImpl implements LogCaseService {
     ScheduleService scheduleService;
     @Autowired
     FramingMeetingRepository framingMeetingRepository;
+    @Autowired
+    UpDwFileService upDwFileService;
 
     @Override
     public void fillgeneralDataLog(Long caseId, ModelAndView model) {
@@ -124,8 +128,20 @@ public class LogCaseServiceImpl implements LogCaseService {
 
         model.addObject("lstRisk", gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
         model.addObject("lstThreat", gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
-
+        Long idFilePhoto = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_IMPUTED_PHOTO,id);
+        model.addObject("fileIdPhoto",idFilePhoto);
+        if(idFilePhoto!=null){
+            UploadFile file= upDwFileService.getPathAndFilename(idFilePhoto);
+            String path = new File(file.getPath(), file.getRealFileName()).toString();
+            model.addObject("pathPhoto",path);
+        }
     }
 
+    /**
+     *
+     */
+    public void addLog(String activityCode, String comment,Long idCase ){
+
+    }
 
 }

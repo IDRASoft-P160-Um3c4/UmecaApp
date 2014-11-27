@@ -255,10 +255,22 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Autowired
     ActivityGoalRepository activityGoalRepository;
+    @Autowired
+    ActivityGroupRepository activityGroupRepository;
+
 
     @Override
     public void insertActivityGoal() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity_goals.txt", "\\|", 5);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "activity_group.txt", "\\|", 3);
+        for (String[] data : lstDta) {
+            ActivityGroup model = new ActivityGroup();
+            model.setId(Long.parseLong(data[0]));
+            model.setCode(data[1]);
+            model.setDescription(data[2]);
+            activityGroupRepository.save(model);
+        }
+
+        lstDta = ReaderFile.readFile(PATH + "activity_goals.txt", "\\|", 6);
         for (String[] data : lstDta) {
             ActivityGoal model = new ActivityGoal();
             model.setId(Long.parseLong(data[0]));
@@ -266,6 +278,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setDescription(data[2]);
             model.setIsObsolete(Boolean.parseBoolean(data[3]));
             model.setSpecification(data[4].equals("1"));
+            model.setActivityGroup(activityGroupRepository.findOne(Long.parseLong(data[5])));
             activityGoalRepository.save(model);
         }
         activityGoalRepository.flush();
@@ -758,6 +771,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         typeNameFileRepository.flush();
     }
 
+
     @Autowired
     HearingTypeRepository hearingTypeRepository;
 
@@ -776,4 +790,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         hearingTypeRepository.flush();
     }
+
+
 }
