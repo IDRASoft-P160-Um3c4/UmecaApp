@@ -2,26 +2,77 @@
 <html>
 <head>
     <title></title>
+    <style>
+        .photoRow{
+            padding-right: 0px;!important
+        }
+    </style>
 </head>
 <body>
 
 <div class="panel panel-default panel-primary">
-    <div class="panel-heading">
-        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;PLAN DE ESTRATEGIAS Y BIT&Aacute;CORA DE SUPERVISI&Oacute;N
+    <div class="panel-heading" ng-init='titleDoc = "${titleDoc == null? "PLAN DE ESTRATEGIAS Y BIT&Aacute;CORA DE SUPERVISI&Oacute;N":titleDoc}"'>
+        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;<span ng-bind-html="formatHtml(titleDoc)">
     </div>
     <div class="panel-body">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="profile-user-info profile-user-info-striped">
-                    <div class="profile-info-row">
-                        <div class="profile-info-name"> IMPUTADO</div>
-                        <div class="profile-info-value element-left">
-                            <span id="imputedName">${imputedName}&nbsp;</span>
+        <div class="row" style="position: relative;">
+            <div class="col-xs-10 photoRow" style="position: absolute; bottom: 0;" >
+                    <div class="row">
+                        <div class="col-xs-12 photoRow">
+                            <div class="profile-user-info profile-user-info-striped">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> IMPUTADO</div>
+                                    <div class="profile-info-value element-left">
+                                        <span id="imputedName">${imputedName}&nbsp;</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-xs-12 photoRow">
+                            <div class="profile-user-info profile-user-info-striped">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> JUEZ</div>
+                                    <div class="profile-info-value element-left">
+                                        <span id="judge">${judge}&nbsp;</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 photoRow">
+                            <div class="profile-user-info profile-user-info-striped">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> DEFENSOR</div>
+                                    <div class="profile-info-value element-left">
+                                        <span id="defender">${defender}&nbsp;</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 photoRow">
+                            <div class="profile-user-info profile-user-info-striped">
+                                <div class="profile-info-row two-lines">
+                                    <div class="profile-info-name"> MINISTERIO P&Uacute;BLICO</div>
+                                    <div class="profile-info-value element-left">
+                                        <span id="mp">${mp}&nbsp;</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+            <div class="col-xs-2 pull-right">
+                <img src="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
+                     style="width: 100%; min-height: 140px; padding-right: 12px; padding-left: 5px;"/>
             </div>
         </div>
+
         <div class="row">
             <div class="col-xs-12">
                 <div class="profile-user-info profile-user-info-striped">
@@ -35,42 +86,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="profile-user-info profile-user-info-striped">
-                    <div class="profile-info-row">
-                        <div class="profile-info-name"> JUEZ</div>
-                        <div class="profile-info-value element-left">
-                            <span id="judge">${judge}&nbsp;</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="profile-user-info profile-user-info-striped">
-                    <div class="profile-info-row">
-                        <div class="profile-info-name"> DEFENSOR</div>
-                        <div class="profile-info-value element-left">
-                            <span id="defender">${defender}&nbsp;</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="profile-user-info profile-user-info-striped">
-                    <div class="profile-info-row two-lines">
-                        <div class="profile-info-name"> MINISTERIO P&Uacute;BLICO</div>
-                        <div class="profile-info-value element-left">
-                            <span id="mp">${mp}&nbsp;</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="row">
             <div class="col-xs-12">
                 <div class="profile-user-info profile-user-info-striped">

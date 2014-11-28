@@ -1,6 +1,7 @@
 package com.umeca.controller.shared;
 
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.LogCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +21,15 @@ import org.springframework.web.servlet.ModelAndView;
 public class LogCaseController {
     @Autowired
     SharedUserService userService;
+    @Autowired
+    LogCaseService logCaseService;
 
     @RequestMapping(value = "/shared/logCase/index", method = RequestMethod.GET)
     public @ResponseBody
     ModelAndView index(@RequestParam Long id){
-        ModelAndView model = new ModelAndView("/shared/uploadFile/index");
+        ModelAndView model = new ModelAndView("/shared/logCase/index");
+        logCaseService.fillgeneralDataLog(id,model);
+        model.addObject("titleDoc","Bit&aacute;cora del caso");
         return model;
     }
 

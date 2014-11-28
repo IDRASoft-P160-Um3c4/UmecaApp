@@ -60,6 +60,14 @@
             window.goToNewUrl("<c:url value='/supervisor/log/supervisionLog.html?id=idParam' />", params);
         };
 
+
+        window.showLogCase = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            window.goToNewUrl("<c:url value='/shared/logCase/index.html?id=idParam' />", params);
+        };
+
+
         window.updwFiles = function (id) {
             var params = [];
             params["idParam"] = id;
@@ -131,6 +139,8 @@
 
                         be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Subir / Descargar archivos del caso\" onclick=\"window.updwFiles('" + cl + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
 
+                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&aacute;cora del caso\" onclick=\"window.showLogCase('" + cl + "');\"><i class=\"icon icon-book\"></i></a>  ";
+
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },
@@ -145,7 +155,7 @@
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                 edit: false, editicon: 'icon-pencil blue',
-                add: true, addfunc: window.newMeeting, addicon: 'icon-plus-sign purple',
+                add: false,
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
                 search: false});

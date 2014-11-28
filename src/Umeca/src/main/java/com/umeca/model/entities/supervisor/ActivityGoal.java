@@ -30,6 +30,10 @@ public class ActivityGoal {
     @Column(name = "specification", nullable = false)
     private Boolean specification;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_activity_group", nullable = false)
+    private ActivityGroup activityGroup;
+
     public Long getId() {
         return id;
     }
@@ -68,5 +72,13 @@ public class ActivityGoal {
 
     public void setSpecification(Boolean specification) {
         this.specification = specification;
+    }
+
+    public ActivityGroup getActivityGroup() {
+        return activityGroup;
+    }
+
+    public void setActivityGroup(ActivityGroup activityGroup) {
+        this.activityGroup = activityGroup;
     }
 }

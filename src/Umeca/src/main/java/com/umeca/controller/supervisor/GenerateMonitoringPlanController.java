@@ -10,7 +10,6 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
-import com.umeca.model.entities.reviewer.TechnicalReview;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
@@ -152,7 +151,7 @@ public class GenerateMonitoringPlanController {
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstActivities", sLstGeneric);
 
-        lstGeneric = activityGoalRepository.findAllValid();
+        lstGeneric = activityGoalRepository.findAllValidMonitoring();
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstGoals", sLstGeneric);
 

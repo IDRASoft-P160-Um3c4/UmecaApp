@@ -244,6 +244,11 @@ public class InsertCatalogController {
         return "typeName OK!";
     }
 
+    @RequestMapping(value = "/catalogs/activityGroup", method = RequestMethod.GET)
+    public String activityGroup() {
+        return "activityGroup OK!";
+    }
+
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
