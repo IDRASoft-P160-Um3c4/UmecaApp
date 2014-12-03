@@ -8,6 +8,7 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
@@ -23,6 +24,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.shared.CrimeService;
+import com.umeca.service.shared.LogCaseService;
 import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -731,6 +733,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    LogCaseService logCaseService;
+
     @Override
     @Transactional
     public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
@@ -815,6 +820,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
 
             if (hearingFormat.getIsFinished() == true) {
+                logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT,hearingFormat.getCaseDetention().getId(),hearingFormat.getId());
                 sb = new StringBuilder();
                 sb.append(request.getContextPath());
                 sb.append("/supervisor/hearingFormat/indexFormats.html?id=");

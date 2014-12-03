@@ -470,6 +470,7 @@ public class ManagerevalController {
                         case Constants.ST_REQUEST_NOT_PROSECUTE:
                             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
                             c.setDateNotProsecute(new Date());
+
                             break;
                     }
                     break;

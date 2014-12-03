@@ -2,9 +2,9 @@ package com.umeca.model.entities.shared;
 
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.supervisor.ActivityGoal;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -18,6 +18,19 @@ import java.util.Calendar;
 @Table(name="log_case")
 public class LogCase {
 
+    public LogCase() {
+    }
+
+    public LogCase(Calendar date, String activity, String userName, String title, String resume) {
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        this.date = date;
+        this.dateString = format1.format(date.getTime());
+        this.activity = activity;
+        this.userName = userName;
+        this.title = title;
+        this.resume = resume;
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "id_log_case", nullable = false)
@@ -26,9 +39,8 @@ public class LogCase {
     @Column(name="date")
     private Calendar date;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_activity_goal", nullable = false)
-    private ActivityGoal activity;
+    @JoinColumn(name = "activity", nullable = false)
+    private String activity;
 
     @Column(name="resume", length = 1500)
     private String resume;
@@ -43,6 +55,16 @@ public class LogCase {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
+
+    @Transient
+    private String activityString;
+
+    @Transient
+    private String userName;
+
+    @Transient
+    private String dateString;
+
 
     public Long getId() {
         return id;
@@ -60,11 +82,11 @@ public class LogCase {
         this.date = date;
     }
 
-    public ActivityGoal getActivity() {
+    public String getActivity() {
         return activity;
     }
 
-    public void setActivity(ActivityGoal activity) {
+    public void setActivity(String activity) {
         this.activity = activity;
     }
 
@@ -99,4 +121,29 @@ public class LogCase {
     public void setCaseDetention(Case caseDetention) {
         this.caseDetention = caseDetention;
     }
+
+    public String getActivityString() {
+        return activityString;
+    }
+
+    public void setActivityString(String activityString) {
+        this.activityString = activityString;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+    }
+
 }
