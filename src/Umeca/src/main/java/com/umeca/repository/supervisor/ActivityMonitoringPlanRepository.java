@@ -1,8 +1,6 @@
 package com.umeca.repository.supervisor;
 
 import com.umeca.model.entities.supervisor.*;
-import com.umeca.model.shared.SelectList;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -146,6 +144,11 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
     List<MonitoringPlanDto> getAllMonPlanWithFilters(@Param("userId")Long userId, @Param("lstStatus") List<String> lstStatus,
                                                      @Param("lstActStatus") List<String> lstActStatus, @Param("yearmonthStart")int yearmonthStart,
                                                      @Param("yearmonthEnd")int yearmonthEnd);
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangementLog(laa.status, concat(arr.description,'/',aa.description)) " +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa " +
+            "INNER JOIN aa.arrangement arr WHERE amp.id =:activityId")
+    List<ActivityMonitoringPlanArrangementLog> getListActMonPlanArrangementByActivityIdToShow(@Param("activityId")Long activityId);
 }
 
 

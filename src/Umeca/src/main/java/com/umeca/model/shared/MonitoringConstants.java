@@ -49,6 +49,10 @@ public class MonitoringConstants {
     public static final int ACTIVITY_ARRANGEMENT_FAILED = 0;
     public static final int ACTIVITY_ARRANGEMENT_DONE = 1;
 
+    public static final String ACTIVITY_ARRANGEMENT_UNDEFINED_STRING = "No definido";
+    public static final String ACTIVITY_ARRANGEMENT_FAILED_STRING = "Incumplido";
+    public static final String ACTIVITY_ARRANGEMENT_DONE_STRING = "Cumplido";
+
     public static final String LOG_PENDING_ACCOMPLISHMENT = "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO";
     public static final String LOG_ACCOMPLISHMENT_AUTHORIZED = "AUTORIZAR REPORTE INCUMPLIMIENTO";
     public static final String LOG_ACCOMPLISHMENT_REJECTED = "RECHAZADO REPORTE INCUMPLIMIENTO";

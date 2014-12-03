@@ -2,7 +2,6 @@ package com.umeca.model.entities.supervisor;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.shared.Constants;
-import org.apache.commons.lang.time.StopWatch;
 
 import java.util.Calendar;
 
@@ -247,4 +246,25 @@ public class ActivityMonitoringPlanInfo {
     public void setSuspended(boolean suspended) {
         isSuspended = suspended;
     }
+
+    public String stringToLogCase(String aux){
+        String result = "";
+        if(supervisionActivityName!=null)
+            result+="<strong>Actividad de supervisi&oacute;n: </strong>"+supervisionActivityName+"<br/>";
+        if(activityGoalName!=null)
+            result+="<strong>Objetivo de la actividad: </strong>"+activityGoalName+"<br/>";
+        if(aidSourceName!=null)
+            result+="<strong>Fuente: </strong>"+aidSourceName+"<br/>";
+        if(startSt!=null){
+            result+="<strong>Duraci&oacute;n: </strong>"+startSt+" - ";
+            result+=endSt != null ? endSt+"<br/>": "Sin registrar </br>";
+        }
+        if(actStatus!=null)
+            result+="<strong>Status: </strong>"+actStatus+"<br/>";
+        if(aux!=null)
+            result+="<strong>Obligaciones procesales: </strong>"+aux;
+        if(comments!=null)
+            result+="<strong>Comentarios: </strong>"+comments+"<br/>";
+        return result;
+     }
 }

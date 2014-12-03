@@ -3,26 +3,41 @@
 
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headUm.jsp" %>
-    <script src="${pageContext.request.contextPath}/assets/scripts/commonActMonPlan.js"></script>
+    <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/logCaseCtrl.js"></script>
 
     <%--<title>Bit&aacute;cora de supervisi&oacute;n</title>--%>
     <title>Historial de supervisi&oacute;n</title>
+    <script>
+        window.addSpontaneousActivity = function() {
+
+            window.showUpsert(${caseId}, "#angJsjqGridId", "<c:url value='/shared/logCase/addActivity.html' />");
+        };
+    </script>
 </head>
-<body scroll="no" ng-app="ptlUmc" style="width: 1100px; margin: auto" class="element-center">
-
+<body scroll="no" ng-app="ptlUmc" >
+<div class="row">
+    <div class="col-xs-12">
+        <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
+    </div>
+</div>
 <div class="container body-content" ng-controller="logCaseController">
-
-<div ng-init='lstHfAssignedArrangement = ${lstHfAssignedArrangement}; lstActivities = ${lstActivities};  mpId =${mpId};
-    lstGoals = ${lstGoals};'></div>
-
+    <div class="col-xs-10 col-xs-offset-1">
+<div ng-init='lstHfAssignedArrangement = ${lstHfAssignedArrangement== null ? "[]":lstHfAssignedArrangement}; lstActivities = ${lstActivities==null?"[]":lstActivities};
+    lstGoals = ${lstGoals== null ? "[]":lstGoals};'></div>
+<br/>
 <h4 class="element-center">DIRECCI&Oacute;N DE EJECUCI&Oacute;N DE PENAS Y MEDIDAS JUDICIALES</h4>
 <h4 class="element-center">UNIDAD DE VIGILANCIA Y SEGUIMIENTO DE MEDIDAS JUDICIALES</h4>
 
 <div class="hr hr8"></div>
-    <%@ include file="/WEB-INF/jsp/shared/generalDataLog.jsp" %>
+    <%@ include file="/WEB-INF/jsp/shared/generalDataLog.jsp"%>
 <br/>
+
+<div class="row">
+   <div class="col-xs-12 align-left">
+       <i class="glyphicon glyphicon-plus-sign purple">&nbsp; </i><a href="#" onclick="addSpontaneousActivity()">Agrgar actividad espont&aacute;nea</a>
+   </div>
+</div>
 
 <div class="row">
     <div class="col-xs-12">
@@ -33,7 +48,7 @@
     <br/>
 </div>
 <div class="panel panel-default panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" ng-init='listLog=${listLog};'>
         <span class="icon-tasks"></span>&nbsp;&nbsp;LISTADO DE ACTIVIDADES
     </div>
     <div class="panel-body">
@@ -64,26 +79,14 @@
                             </tr>
                             </thead>
 
-                            <tbody ng-repeat="a in reconstructedLstActMonPlan">
+                            <tbody ng-repeat="a in listLog">
                             <tr>
-                                <td>Inicio: {{a.start}}<br/>Fin: {{a.end}}</td>
-                                <td>Descripci&oacute;n:<br/> {{a.supActivity}}
-                                    <br/> <br/>
-                                    Registrada por:<br/> {{a.user}}
+                                <td><span ng-bind-html="formatHtml(a.dateString)"></span></td>
+                                <td><span ng-bind-html="formatHtml(a.activity)"></span>
                                 </td>
-                                <td>{{a.aidSource}}</td>
-                                <td>
-                                    <table>
-                                        <tr ng-repeat="i in a.lstAssignedArrangements">
-                                            <td class="col-xs-8 element-left">{{i.name}}</td>
-                                            <td class="col-xs-4 element-left">{{i.status}}</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td>
-                                    <span ng-class="createLabel(a.status)">{{a.status}}</span>
-                                    <br/>
-                                    {{a.comments}}
+                                <td><span ng-bind-html="formatHtml(a.userName)"></span></td>
+                                <td class="align-left"><strong><span ng-show="a.title" ng-bind-html="formatHtml(a.title)" class="text-primary"></span></strong><br/>
+                                    <span ng-bind-html="formatHtml(a.resume)"></span>
                                 </td>
                             </tr>
                             </tbody>
@@ -95,5 +98,15 @@
     </div>
 </div>
 </div>
+</div>
+<div id="angJsjqGridId" ng-controller="modalDlgController">
+    <div class="blocker" ng-show="working">
+        <div>
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+        </div>
+    </div>
+</div>
+<%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
+
 </body>
 </html>
