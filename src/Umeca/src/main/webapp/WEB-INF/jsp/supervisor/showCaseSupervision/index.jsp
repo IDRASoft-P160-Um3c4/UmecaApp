@@ -64,7 +64,7 @@
         window.showLogCase = function (id) {
             var params = [];
             params["idParam"] = id;
-            window.goToNewUrl("<c:url value='/shared/logCase/index.html?id=idParam' />", params);
+            window.goToUrlMvcUrl("<c:url value='/shared/logCase/index.html?id=idParam' />", params);
         };
 
 

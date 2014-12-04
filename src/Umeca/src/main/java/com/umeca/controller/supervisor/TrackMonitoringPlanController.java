@@ -10,12 +10,16 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.OptionList;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.shared.SelectFilterFields;
-import com.umeca.repository.supervisor.*;
+import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
+import com.umeca.repository.supervisor.MonitoringPlanRepository;
+import com.umeca.repository.supervisor.SupervisionActivityRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.LogCaseService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.TrackMonPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,6 +217,9 @@ public class TrackMonitoringPlanController {
         }
     }
 
+    @Autowired
+    LogCaseService logCaseService;
+
     @RequestMapping(value = "/supervisor/trackMonitoringPlan/doActionActivity", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -339,7 +346,7 @@ public class TrackMonitoringPlanController {
             activityMonitoringPlanRepository.save(activityMonitoringPlan);
 
             response.setReturnData(sStatus);
-
+            logCaseService.addLog(ConstantsLogCase.LOG_SUPERVISION_ACTIVITY,activityMonitoringPlan.getCaseDetention().getId(),activityMonitoringPlan.getId());
 
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doActionActivity", sharedUserService);

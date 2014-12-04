@@ -1,8 +1,8 @@
 package com.umeca.repository.supervisor;
 
-import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.supervisor.AccomplishmentLogReport;
 import com.umeca.model.entities.supervisor.HearingFormat;
+import com.umeca.model.entities.supervisor.HearingFormatDto;
 import com.umeca.model.entities.supervisor.SupervisionLogReport;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.domain.Pageable;
@@ -91,6 +91,22 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
             "INNER JOIN hi.address addr " +
             "WHERE cd.id =:caseId ORDER BY hf.id asc")
     Long getLastFormatAddressByIdCase(@Param("caseId") Long caseId);
+
+    @Query("select new com.umeca.model.entities.supervisor.HearingFormatDto(" +
+            "hf.room," +
+            " hf.appointmentDate," +
+            " hf.mpName, " +
+            "hf.imputedPresence," +
+            "ht.description, " +
+            "hfs.arrangementType," +
+            " hfs.linkageProcess," +
+            "hfs.nationalArrangement" +
+            ") " +
+            "from HearingFormat hf " +
+            "inner join hf.hearingFormatSpecs hfs " +
+            "left join hf.hearingType ht " +
+            "where hf.id=:idFormat")
+    HearingFormatDto getInfoToLogCase(@Param("idFormat")Long idFormat);
 
 }
 

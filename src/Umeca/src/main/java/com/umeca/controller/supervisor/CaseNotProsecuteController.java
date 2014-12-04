@@ -13,6 +13,7 @@ import com.umeca.model.entities.reviewer.View.RequestEvaluationView;
 import com.umeca.model.entities.reviewer.dto.CrimeDto;
 import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
@@ -23,6 +24,7 @@ import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.LogCaseService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,6 +141,8 @@ public class CaseNotProsecuteController {
     HearingFormatService hearingFormatService;
     @Autowired
     LogCommentRepository logCommentRepository;
+    @Autowired
+    LogCaseService logCaseService;
 
     @Transactional
     @RequestMapping(value = "/supervisor/caseNotProsecute/doOpen", method = RequestMethod.POST)
@@ -183,7 +187,7 @@ public class CaseNotProsecuteController {
             logComment.setObsolete(false);
 
             logCommentRepository.save(logComment);
-
+            logCaseService.addLog(ConstantsLogCase.OPEN_CASE_NOT_PROSECUTE,id,null);
             return  new ResponseMessage(false,"Se abrio el caso con exito");
         }catch (Exception e){
             logException.Write(e, this.getClass(), "doMakeRequest", userService);

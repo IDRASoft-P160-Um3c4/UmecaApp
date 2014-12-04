@@ -18,4 +18,7 @@ public interface CrimeService {
 
     String getListCrimeHearingformatByIdFormat(Long idFormat);
 
+    public List<String> getListStringCrimeHFByHF(Long idH);
+
+
 }
