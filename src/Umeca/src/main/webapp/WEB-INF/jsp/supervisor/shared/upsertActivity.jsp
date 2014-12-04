@@ -98,6 +98,62 @@
     </div>
 </div>
 
+<div class="row" ng-show="!isNew && m.groupCount > 1">
+<div class="col-xs-10 col-xs-offset-1">
+<div class="widget-box light-border">
+<div class="widget-header header-color-dark">
+    <h5>Informaci&oacute;n del grupo de actividades</h5>
+</div>
+<div class="widget-body">
+<div class="widget-main">
+<div class="widget-box transparent">
+    <div class="widget-body">
+        <div class="row">
+            <div class="col-xs-6">
+                <label for="id-date-picker-end" class="control-label">Fecha inicial:</label>
+                <div class="row">
+                    <div class="col-xs-10">
+                        <div class="input-group">
+                            <input class="form-control date-picker" id="id-date-picker-group-start" readonly="readonly"
+                                   type="text" data-date-format="dd-mm-yyyy"/>
+                                                                <span class="input-group-addon">
+                                                                    <i class="icon-calendar bigger-110"></i>
+                                                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <label for="id-date-picker-end" class="control-label">Fecha final:</label>
+                <div class="row">
+                    <div class="col-xs-10">
+                        <div class="input-group">
+                            <input class="form-control date-picker" id="id-date-picker-group-end" readonly="readonly"
+                                   type="text" data-date-format="dd-mm-yyyy"/>
+                                                                <span class="input-group-addon">
+                                                                    <i class="icon-calendar bigger-110"></i>
+                                                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <label class="control-label">*Total: {{m.groupCount}} actividad(es)</label>
+            </div>
+            <br/>
+            <div class="col-xs-12">
+                <span><small>*Las actividades pre-eliminadas son contadas en el total, ya que a&uacute;n no se eliminan.</small></span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
 <div class="row">
 <div class="col-xs-10 col-xs-offset-1">
 <div class="widget-box light-border">
@@ -106,7 +162,17 @@
 </div>
 <div class="widget-body">
 <div class="widget-main">
-<div class="row">
+<div class="widget-box transparent" ng-show="isNew">
+    <div class="widget-body">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="m.isForToday" ng-change="onIsForToday()"/>
+                <span class="control-label"><strong>Solo por hoy&nbsp;&nbsp;({{m.dToday}})</strong></span>
+            </label>
+        </div>
+    </div>
+</div>
+<div class="row" ng-show="!m.isForToday">
     <div class="col-xs-6">
         <label for="id-date-picker-start" class="control-label">Fecha inicial:</label>
 
@@ -170,9 +236,9 @@
 </div>
 <br/>
 
-<div class="row" ng-show="isNew">
+<div class="row" ng-show="isNew && !m.isForToday">
     <div class="col-xs-10 col-xs-offset-1 widget-container-span">
-        <div class="widget-box transparent">
+        <div class="widget-box transparent" ng-show="!m.isForToday">
             <div class="widget-header">
                 <h6 class="lighter">Elige la periodicidad por: &nbsp; <select class="element-center"
                                                                               ng-model="m.periodicity"
@@ -335,7 +401,7 @@
 </div>
 <div class="row" ng-show="isNew && !isReadOnly">
     <div class="col-xs-8 col-xs-offset-3 element-right">
-        <div class="tinyfont">*Si usted elige un periodo, se crea&aacute; un grupo de actividades, el cual, podr&aacute;
+        <div class="tinyfont">*Si usted elige un periodo, se crear&aacute; un grupo de actividades, el cual, podr&aacute;
             eliminar posteriormente
         </div>
     </div>

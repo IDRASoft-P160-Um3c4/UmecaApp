@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="login('#loginForm', 'Error de red. Intente m�s tarde', '<c:url value="/j_spring_security_check" />')">Ingresar</button>
+                    <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="login('#loginForm', 'Error de red. Intente m&aacute;s tarde', '<c:url value="/j_spring_security_check" />')">Ingresar</button>
                 </div>
             </div>
         </div>

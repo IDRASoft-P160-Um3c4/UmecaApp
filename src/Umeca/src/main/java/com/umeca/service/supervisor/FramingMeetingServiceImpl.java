@@ -1590,7 +1590,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             } else {
                 resp.setHasError(false);
-                resp.setMessage("Ha ocurrido un error. Intente m&acute;s tarde");
+                resp.setMessage("Ha ocurrido un error. Intente m&aacute;s tarde");
             }
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "upsertComments", sharedUserService);

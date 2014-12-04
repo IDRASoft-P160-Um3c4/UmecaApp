@@ -1,4 +1,4 @@
-app.controller('generateMonPlanController', function ($scope, sharedSvc) {
+app.controller('generateMonPlanController', function ($scope, $sce, sharedSvc) {
 
     $scope.lstActivityDelIds = [];
     $scope.msgError = undefined;
@@ -130,5 +130,9 @@ app.controller('generateMonPlanController', function ($scope, sharedSvc) {
         $scope.msgError = "Error de red. Por favor intente más tarde.";
         $scope.$apply();
 
+    };
+
+    $scope.formatHtml = function(sHtml){
+        return $sce.trustAsHtml(sHtml);
     };
 });

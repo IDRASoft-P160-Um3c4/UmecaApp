@@ -11,6 +11,7 @@ public class ActivityMonitoringPlanRequest {
     private List<Long> lstActivitiesDel;
     private List<ActivityMonitoringPlanEvent> lstActivitiesUpserted;
     private List<ActivityMonitoringPlanDto> lstActivitiesUpsert;
+    private String password;
 
     private long actsIns;
     private long actsUpd;
@@ -179,5 +180,13 @@ public class ActivityMonitoringPlanRequest {
         if(actsPreDel > 0 || actsPreIns > 0 || actsPreUpd > 0 )
             return true;
         return false;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

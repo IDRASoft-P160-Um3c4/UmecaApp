@@ -47,13 +47,60 @@ var idToObject = function (id, lstCat) {
     return null;
 };
 
-var convertToEvents = function (lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources) {
+var deleteGroupInfo = function (event) {
+    event.groupInfo[event.groupEvt] = null;
+    delete event.groupInfo[event.groupEvt];
+};
+
+var fixGroupInfoDel = function(evOld, evNew){
+    if (evOld.groupEvt === evNew.groupEvt && evOld._id != evNew._id) {
+        updateGroupInfo(evNew.groupInfo, evNew.groupEvt, 1, evOld.start, evOld.end);
+    }
+};
+
+var fixGroupInfo = function(calendar, event){
+    deleteGroupInfo(event);
+    var lstEvents = calendar.fullCalendar('clientEvents');
+
+    for(var i=lstEvents.length-1; i>=0; i--){
+        var ev = lstEvents[i];
+        if (ev.groupEvt === event.groupEvt) {
+            updateGroupInfo(event.groupInfo, event.groupEvt, 1, ev.start, ev.end);
+        }
+    }
+};
+
+var updateGroupInfo = function(groupInfo, group, count, actStart, actEnd) {
+    try{
+        var infoGr = groupInfo[group];
+        if (infoGr === undefined) {
+            groupInfo[group] = {count: count, start: actStart, end: actEnd};
+        }
+        else {
+            infoGr.count++;
+            if (infoGr.start > actStart)
+                infoGr.start = actStart;
+            if (infoGr.end < actEnd)
+                infoGr.end = actEnd;
+        }
+    }catch(e){
+        console.log(e);
+    }
+};
+
+var convertToEvents = function (lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources, groupInfo) {
     var lstEvents = [];
     var today = new Date();
     today.setHours(0, 0, 0, 0);
 
+
     for (var i = 0; i < lstActivitiesMonPlan.length; i++) {
         var act = lstActivitiesMonPlan[i];
+        var actStart = window.stringToDate(act.start);
+        var actEnd = window.stringToDate(act.end);
+
+        updateGroupInfo(groupInfo, act.group, 1, actStart, actEnd);
+
         var event = {
             title: "",
             doTitle: function (isModified) {
@@ -62,8 +109,8 @@ var convertToEvents = function (lstActivitiesMonPlan, caseInfo, lstArrangements,
                         + this.infoActivity.caseInfo.personName + " / " + this.infoActivity.activity.name + " / " + this.infoActivity.goal.name;
             },
             idActivity: act.activityId,
-            start: window.stringToDate(act.start),
-            end: window.stringToDate(act.end),
+            start: actStart,
+            end: actEnd,
             allDay: false,
             isModified: false,
             infoActivity: {
@@ -76,7 +123,8 @@ var convertToEvents = function (lstActivitiesMonPlan, caseInfo, lstArrangements,
                 sourceSpec: act.sourceSpec,
                 caseInfo: caseInfo
             },
-            groupEvt: act.group
+            groupEvt: act.group,
+            groupInfo: groupInfo
         };
 
         event.className = window.colorActMonPlan(act.status, window.stringToDate(act.end), today);
@@ -85,7 +133,7 @@ var convertToEvents = function (lstActivitiesMonPlan, caseInfo, lstArrangements,
         lstEvents.push(event);
     }
     return lstEvents;
-}
+};
 
 jQuery(function ($) {
     var lstActivitiesMonPlan = ${lstActivitiesMonPlan};
@@ -93,13 +141,14 @@ jQuery(function ($) {
     var lstActivities = ${lstActivities};
     var lstGoals = ${lstGoals};
     var lstSources = ${lstSources};
+    var groupInfo = {};
 
     var caseInfo = {caseId: "${caseId}", mpId: "${mpId}", personName: "${personName}",
         monStatus: "${monStatus}", monitoringPlanId: "${monitoringPlanId}", isInAuthorizeReady: ${isInAuthorizeReady}};
-    lstEventsAct = convertToEvents(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources);
+    lstEventsAct = convertToEvents(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources, groupInfo);
 
     var date = new Date();
-    $('#id-date-picker-start,#id-date-picker-end').datepicker({autoclose: true, startDate: new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1)}).next().on(ace.click_event, function () {
+    $('#id-date-picker-start,#id-date-picker-end,#id-date-picker-group-start,#id-date-picker-group-end').datepicker({autoclose: true, startDate: new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1)}).next().on(ace.click_event, function () {
         $(this).prev().focus();
     });
 
@@ -117,7 +166,8 @@ jQuery(function ($) {
     var scopeMon = angular.element($("#GenerateMonPlanControllerId")).scope();
 
     scope.config({startDateId: "#id-date-picker-start", endDateId: "#id-date-picker-end",
-                startTimeId: "#id-timepicker-start", endTimeId: "#id-timepicker-end", caseInfo: caseInfo},
+                groupStartDateId: "#id-date-picker-group-start", groupEndDateId: "#id-date-picker-group-end",
+                startTimeId: "#id-timepicker-start", endTimeId: "#id-timepicker-end", caseInfo: caseInfo, groupInfo:groupInfo, updateGroupInfo:updateGroupInfo},
             lstArrangements, lstActivities, lstGoals, lstSources);
 
 
@@ -229,6 +279,7 @@ jQuery(function ($) {
                                 calendar.fullCalendar('removeEvents', function (ev) {
                                     return (ev._id == event._id);
                                 });
+                                fixGroupInfo(calendar, event);
                                 scopeMon.addActivityToDelete(event.idActivity);
                                 break;
                             case 'PRE_REMOVE':
@@ -236,6 +287,7 @@ jQuery(function ($) {
                                     calendar.fullCalendar('removeEvents', function (ev) {
                                         return (ev._id == event._id);
                                     });
+                                    fixGroupInfo(calendar, event);
                                 } else {
                                     event.className = 'label-pre-delete';
                                     calendar.fullCalendar('updateEvent', event);
@@ -249,6 +301,7 @@ jQuery(function ($) {
                                         return true;
                                     }
                                 });
+                                deleteGroupInfo(event);
                                 break;
                             case 'PRE_REMOVE_GROUP':
                                 calendar.fullCalendar('removeEvents', function (ev) {
@@ -262,8 +315,14 @@ jQuery(function ($) {
                                         }
                                     }
                                 });
+
+                                if(event.idActivity === -1){
+                                    deleteGroupInfo(event);
+                                }
+
                                 break;
                             case 'UPDATE':
+                                fixGroupInfo(calendar, event);
                                 calendar.fullCalendar('updateEvent', event);
                                 break;
                             default:
@@ -326,7 +385,8 @@ jQuery(function ($) {
                     <br/>
 
                     <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
-                        <span class="control-label element-center">{{msgError}}</span>
+                        <span class="control-label element-center"><div ng-bind-html="formatHtml(msgError);"></div></span>
+
                     </div>
                 </div>
                 <div class="row">

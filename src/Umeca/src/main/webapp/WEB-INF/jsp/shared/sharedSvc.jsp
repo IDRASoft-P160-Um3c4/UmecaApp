@@ -8,7 +8,7 @@
 <script>
     app.service('sharedSvc', function ($timeout, $q) {
 
-        //Dialogo para la espera de alg�n evento
+        //Dialogo para la espera de algun evento
         var dlgProcessing = $('#ProcessingDlgId');
         var th = this;
         this.cfgProc = { toProcessing: undefined, procCount: 0 };
@@ -31,7 +31,7 @@
             dlgProcessing.modal('hide');
         };
 
-        //Dialogo para mensajes con acciones de �xito, informaci�n, advertencia o error
+        //Dialogo para mensajes con acciones de exito, informacion, advertencia o error
         var dlgMsgBox = $('#MessageBoxDlgId');
 
         this.cfgMsg = { title: '', message: '', type: '' };
@@ -45,7 +45,7 @@
                 dlgMsgBox.modal('show');
                 dlgMsgBox.on('hidden.bs.modal', function () {
                     if (th.respMsg.IsOk === true) {
-                        def.resolve();
+                        def.resolve(th.respMsg);
                     }
                     else {
                         def.reject();
@@ -72,6 +72,54 @@
             dlgMsgBox.modal('hide');
         };
 
+        this.showConfPass = function(cfg){
+            dlgMsgBox = $('#ConfirmationPassDlgId');
+            return th.showDlg(cfg);
+        };
+
+        this.doPost = function (data, urlToGo, redirect) {
+            var def = $q.defer();
+            var settings = {
+                dataType: "json",
+                type: "POST",
+                url: urlToGo,
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (resp) {
+                    if (resp.hasError === undefined) {
+                        resp = resp.responseMessage;
+                    }
+                    if (resp.hasError === true) {
+                        th.showMsg(
+                                {
+                                    title: resp.title,
+                                    message: resp.message,
+                                    type: "danger"
+                                }).then(function () {
+                                    def.reject({ isError: true });
+                                });
+                    }
+                    else {
+                        def.resolve({msg: resp.message});
+                        if (redirect != undefined && redirect == true) {
+                            window.cancelMeetingSource();
+                        }
+                    }
+                },
+                error: function () {
+                    th.showMsg(
+                            {
+                                title: "Error de red",
+                                message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente m&aacute;s tarde",
+                                type: "danger"
+                            }).then(function () {
+                                def.reject({ isError: true });
+                            });
+                }
+            };
+            $.ajax(settings);
+            return def.promise;
+        };
     });
 
 
@@ -112,6 +160,30 @@
             $scope.Title = cfg.title;
             $scope.Message = $sce.trustAsHtml(cfg.message);
             $scope.Type = cfg.type;
+        });
+
+        $scope.yes = function() {
+            $scope.IsOk = true;
+            sharedSvc.hideMsg($scope);
+        };
+
+        $scope.no = function() {
+            $scope.IsOk = false;
+            sharedSvc.hideMsg($scope);
+        };
+    });
+
+    app.controller('confirmationPassController', function ($scope, $sce, sharedSvc) {
+        $scope.sharedSvc = sharedSvc;
+        $scope.m = {};
+
+        $scope.$watch('sharedSvc.cfgMsg', function (cfg) {
+            $scope.Title = $sce.trustAsHtml(cfg.title);
+            $scope.Message = $sce.trustAsHtml(cfg.message);
+            $scope.AgreeCheck = $sce.trustAsHtml(cfg.agreeCheck);
+            $scope.Type = cfg.type;
+            $scope.m.isAgree = false;
+            $scope.m.password = "";
         });
 
         $scope.yes = function() {
@@ -179,6 +251,59 @@
         </div>
     </div>
 </div>
+
+<div id="ConfirmationPassDlgId" class="modal fade" ng-controller="confirmationPassController" data-backdrop="static" ng-cloak>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="alert alert-{{Type=='primary'?'info':Type}}">
+                    <button type="button" class="close" ng-click="no()">&times;</button>
+                    <h4 class="modal-title element-center">
+                        <div class="element-center" ng-bind-html="Title"></div>
+                    </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-center" ng-bind-html="Message"></div>
+            </div>
+            <br/>
+            <div class="hr hr-2"></div>
+            <div class="row">
+                <div class="col-xs-8 col-xs-offset-2">
+                    <div class="checkbox element-left">
+                        <input name="form-field-checkbox" type="checkbox" ng-model="m.isAgree" ng-init="m.isAgree=false;" />
+                        <span class="lbl" ng-bind-html="AgreeCheck"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="hr hr-2"></div>
+            <div class="row" ng-show="m.isAgree">
+                <div class="col-xs-8 col-xs-offset-2 widget-container-span">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-small header-color-dark">
+                            <h6>Ingrese su contrase&ntilde;a para validar su usuario</h6>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main padding-12">
+                                <input id="password" type="password" name="password"
+                                       ng-model="m.password" class="form-control"
+                                       rows="8">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-{{Type}}" ng-show="m.isAgree && m.password" ng-click="yes()">Continuar</button>
+                <button type="button" class="btn btn-default" ng-click="no()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <hr />
 <div id="dlgUpsert"></div>
