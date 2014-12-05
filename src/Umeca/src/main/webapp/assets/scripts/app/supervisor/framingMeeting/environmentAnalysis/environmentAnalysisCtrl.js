@@ -10,6 +10,8 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     $scope.lstSelectedSources = [];
 
+    $scope.lstDependentSources = [];
+
     $scope.lstRisk = {};
 
     $scope.lstSelectedRisk = [];
@@ -25,6 +27,8 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
     $scope.selectSource = function (id) {
 
         var idx = $scope.findSource(id);
+
+        $scope.errorSources = "";
 
         if (idx != null) {
             $scope.lstSelectedSources.splice(idx, 1);
@@ -66,6 +70,14 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         return null;
     }
 
+    $scope.findDependentSource = function (id) {
+        for (var i = 0; i < $scope.lstDependentSources.length; i++) {
+            if ($scope.lstDependentSources[i] == id)
+                return true;
+        }
+        return false;
+    }
+
     $scope.findRisk = function (id) {
         for (var i = 0; i < $scope.lstSelectedRisk.length; i++) {
             if ($scope.lstSelectedRisk[i] == id)
@@ -93,6 +105,7 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         $scope.lstThreat = $.parseJSON(data.lstThreat);
 
         $scope.lstSelectedSources = $.parseJSON(data.lstSelectedSources);
+        $scope.lstDependentSources = $.parseJSON(data.lstDependentSources);
         $scope.lstSelectedArrangement = $.parseJSON(data.lstSelectedArrangement);
         $scope.lstSelectedRisk = $.parseJSON(data.lstSelectedRisk);
         $scope.lstSelectedThreat = $.parseJSON(data.lstSelectedThreat);
@@ -147,8 +160,8 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         $scope.errorRisks = "";
         $scope.errorComments = "";
 
-        if ($scope.lstSelectedSources == undefined || $scope.lstSelectedSources.length <= 0)
-            $scope.errorSources = "Debe seleccionar al menos un vinculo";
+//        if ($scope.lstSelectedSources == undefined || $scope.lstSelectedSources.length <= 0)
+//            $scope.errorSources = "Debe seleccionar al menos un vinculo";
 
         if ($scope.lstSelectedRisk == undefined || $scope.lstSelectedRisk.length <= 0)
             $scope.errorRisks = "Debe seleccionar al menos un riesgo";

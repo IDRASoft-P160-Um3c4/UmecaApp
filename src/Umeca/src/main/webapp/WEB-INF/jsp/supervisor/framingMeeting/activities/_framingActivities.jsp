@@ -10,13 +10,13 @@
         var canTerminate = $('#canTerminateActivities').attr("value");
 
         upsertActivity = function (id) {
-            if (canTerminate == 'true')
-                window.showUpsertWithIdCase(id, "#angJsjqGridIdActivities", "<c:url value='/supervisor/framingMeeting/activities/upsert.html'/>", "#GridActivities", undefined, idCase);
+            //if (canTerminate == 'true')
+            window.showUpsertWithIdCase(id, "#angJsjqGridIdActivities", "<c:url value='/supervisor/framingMeeting/activities/upsert.html'/>", "#GridActivities", undefined, idCase);
         };
 
         deleteActivity = function (id) {
-            if (canTerminate == 'true')
-                window.showObsolete(id, "#angJsjqGridIdActivities", "<c:url value='/supervisor/framingMeeting/activities/delete.json'/>", "#GridActivities");
+            //if (canTerminate == 'true')
+            window.showObsolete(id, "#angJsjqGridIdActivities", "<c:url value='/supervisor/framingMeeting/activities/delete.json'/>", "#GridActivities");
         };
 
         jQuery("#GridActivities").jqGrid({
@@ -131,7 +131,8 @@
                 </div>
             </form>
             <div class="col-xs-12">
-                <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
+                <%--<div class="modal-footer" ng-show="fm.objView.canTerminate==true">--%>
+                <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submitComments('#FormCommentActivities', '<c:url value="/supervisor/framingMeeting/upsertActivitiesComments.json?idCase="/>',fm.objView.idCase);">
                     <span class="glyphicon glyphicon-cloud-upload"></span>

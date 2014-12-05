@@ -536,9 +536,10 @@
             <div class="widget-header">Delitos</div>
             <div class="widget-body">
                 <div class="row">
-                    <div class="col-xs-10 col-xs-offset-1" ng-init="readonlyBand = ${readonlyBand == null ? false: readonlyBand};">
+                    <div class="col-xs-10 col-xs-offset-1"
+                         ng-init="readonlyBand = ${readonlyBand == null ? false: readonlyBand};">
                         <br/>
-                    <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/crime.jsp" %>
+                        <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/crime.jsp" %>
                         <br/>
                     </div>
                 </div>
@@ -1027,7 +1028,8 @@
                                         <div class="row" ng-repeat="arrangment in m.lstArrangementShow">
                                             <div class="checkbox">
                                                 <label ng-click="validateArrangementSel($index,arrangment.id);">
-                                                    <input class="ace" ng-disabled="m.disableAll==true"
+                                                    <input class="ace" id="arrangement{{arrangment.id}}"
+                                                           ng-disabled=" (m.disableAll==true) || (arrangment.isDefault==true && arrangment.selVal==true) "
                                                            type="checkbox"
                                                            ng-model="m.lstArrangementShow[$index].selVal">
                                                     <span class="lbl col-xs-10">&nbsp;&nbsp;{{arrangment.name}}</span>

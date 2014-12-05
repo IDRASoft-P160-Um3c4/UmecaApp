@@ -3,6 +3,8 @@ package com.umeca.service.supervisor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Degree;
 import com.umeca.model.catalog.Relationship;
@@ -16,6 +18,7 @@ import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -35,10 +38,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service("framingMeetingService")
 public class FramingMeetingServiceImpl implements FramingMeetingService {
@@ -49,6 +50,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     @Autowired
     private StatusCaseRepository statusCaseRepository;
+
+    @Autowired
+    private FramingMeetingLogRepository framingMeetingLogRepository;
 
     @Autowired
     private CaseRepository caseRepository;
@@ -335,7 +339,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         return lstView;
     }
 
-    public List<FramingSelectedSourceRel> generateSourceRel(Long idCase, String lstJson) {
+    private List<FramingSelectedSourceRel> generateSourceRel(Long idCase, String lstJson, List<Long> lstDependentSources) {
 
         Type listType = new TypeToken<List<Long>>() {
         }.getType();
@@ -344,21 +348,20 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
 
-
         List<FramingSelectedSourceRel> sourceRel = new ArrayList<>();
 
         for (Long currId : ids) {
+            if (!lstDependentSources.contains(currId)) {
+                FramingSelectedSourceRel rel = new FramingSelectedSourceRel();
+                rel.setFramingMeeting(existFraming);
 
-            FramingSelectedSourceRel rel = new FramingSelectedSourceRel();
-            rel.setFramingMeeting(existFraming);
+                FramingReference existRef = framingReferenceRepository.findOne(currId);
 
-            FramingReference existRef = framingReferenceRepository.findOne(currId);
-
-            if (existRef != null) {
-                rel.setFramingReference(existRef);
-                sourceRel.add(rel);
+                if (existRef != null) {
+                    rel.setFramingReference(existRef);
+                    sourceRel.add(rel);
+                }
             }
-
         }
 
         return sourceRel;
@@ -414,16 +417,24 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
             FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
 
-            List<FramingSelectedSourceRel> lstExistSources = existFraming.getSelectedSourcesRel();
+            Iterator<FramingSelectedSourceRel> lstExistSources = existFraming.getSelectedSourcesRel().iterator();
+            List<Long> lstDependentSourceRel = framingReferenceRepository.findDependentSourceRel(idCase);
+            List<Long> lstDependentSources = framingReferenceRepository.findDependentReferences(idCase);
 
-            if (lstExistSources != null && lstExistSources.size() > 0) {
-                for (FramingSelectedSourceRel sel : lstExistSources) {
+            while (lstExistSources.hasNext()) {
+                FramingSelectedSourceRel sel = lstExistSources.next();
+                if (!lstDependentSourceRel.contains(sel.getId()) &&
+                        !sel.getFramingReference().getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_IMPUTED) &&
+                        !sel.getFramingReference().getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_OTHER)) {
+
+                    lstExistSources.remove();
+                    sel.setFramingReference(null);
+                    sel.setFramingMeeting(null);
                     framingSelectedSourceRelRepository.delete(sel);
                 }
             }
 
-            existFraming.setSelectedSourcesRel((this.generateSourceRel(idCase, view.getLstSelectedSources())));
-
+            existFraming.getSelectedSourcesRel().addAll((this.generateSourceRel(idCase, view.getLstSelectedSources(), lstDependentSources)));
 
             List<FramingSelectedRiskRel> lstExistRisk = existFraming.getSelectedRisksRel();
 
@@ -448,10 +459,15 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existFraming.setEnvironmentComments(view.getEnvironmentComments());
 
             existFraming = framingMeetingRepository.save(existFraming);
+
+            if (existFraming.getIsTerminated() != null && existFraming.getIsTerminated().equals(true))
+                framingMeetingLogRepository.save(getEnvironmentAnalysisLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
+
             framingMeetingRepository.flush();
 
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
         } catch (Exception e) {
+            e.printStackTrace();
             logException.Write(e, this.getClass(), "saveSelectedItems", sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;s tarde.");
         }
@@ -523,6 +539,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             newReference.setFramingMeeting(existCase.getFramingMeeting());
+
+            Boolean isTerm = existCase.getFramingMeeting().getIsTerminated();
+
+            if (isTerm != null && isTerm.equals(true)) {
+                String logType = "";
+                if (newReference.getId() != null && newReference.getId() > 0)
+                    logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
+                else
+                    logType = FramingMeetingConstants.LOG_TYPE_ADDED;
+
+                framingMeetingLogRepository.save(getFramingReferenceLog(existCase.getFramingMeeting(), newReference, logType));
+            }
+
             framingReferenceRepository.save(newReference);
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
         } catch (Exception e) {
@@ -542,9 +571,14 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         try {
 
+            Boolean isNew = true;
+
             List<AccompanimentInfo> lstAccomInf = accompanimentInfoRepository.getAccompanimentInfoByIdRef(newReference.getId(), new PageRequest(0, 1));
 
             AccompanimentInfo accompanimentInfo = null;
+
+            if (newReference.getId() != null && newReference.getId() > 0)
+                isNew = false;
 
             if (lstAccomInf != null && lstAccomInf.size() > 0)
                 accompanimentInfo = lstAccomInf.get(0);
@@ -585,7 +619,22 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     newReference.setSpecificationRelationship("");
                 }
             }
-            newReference.setFramingMeeting(existCase.getFramingMeeting());
+
+            FramingMeeting existFraming = existCase.getFramingMeeting();
+
+            if (existFraming.getIsTerminated() != null && existFraming.getIsTerminated().equals(true)) {
+                String logType;
+
+                if (isNew == true)
+                    logType = FramingMeetingConstants.LOG_TYPE_ADDED;
+                else
+                    logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
+
+                framingMeetingLogRepository.save(getFramingReferenceLog(existFraming, newReference, logType));
+            }
+
+            newReference.setFramingMeeting(existFraming);
+
             framingReferenceRepository.save(newReference);
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
         } catch (Exception e) {
@@ -596,7 +645,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     }
 
-
+/*
     public ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase) {
 
         ProcessAccompaniment processAccompaniment = caseRepository.findOne(idCase).getFramingMeeting().getProcessAccompaniment();
@@ -682,7 +731,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             logException.Write(e, this.getClass(), "saveProcessAccompaniment", sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;s tarde.");
         }
-    }
+    }*/
 
     @Autowired
     RelFramingMeetingActivityRepository relFramingActivityRepository;
@@ -692,70 +741,40 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     public FramingEnvironmentAnalysisForView loadEnvironmentAnalysis(Long idCase) {
         Gson conv = new Gson();
-        FramingEnvironmentAnalysisForView view = new FramingEnvironmentAnalysisForView();
 
-        view.setLstSources(conv.toJson(this.loadExistSources(idCase)));
+        FramingEnvironmentAnalysisForView view = new FramingEnvironmentAnalysisForView();
+        view.setLstSources(conv.toJson(framingReferenceRepository.getAccompanimentRefByIdCase(idCase)));
 
         List<FramingRisk> lstRisks = framingRiskRepository.findNoObsolete();
-        //Collections.sort(lstRisks, FramingRisk.framingRiskComparator);
-
         view.setLstRisk(conv.toJson(lstRisks));
 
         List<FramingThreat> lstThreat = framingThreatRepository.findAll();
-        //Collections.sort(lstThreat, FramingThreat.framingThreatComparator);
-
         view.setLstThreat(conv.toJson(lstThreat));
 
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
 
         view.setEnvironmentComments(existFraming.getEnvironmentComments());
 
-        List<Long> lstSelectedSources = new ArrayList<>();
-
-        if (existFraming.getSelectedSourcesRel() != null && existFraming.getSelectedSourcesRel().size() > 0) {
-            for (FramingSelectedSourceRel rel : existFraming.getSelectedSourcesRel()) {
-                lstSelectedSources.add(rel.getFramingReference().getId());
-            }
-        }
-
+        List<Long> lstSelectedSources = framingReferenceRepository.findSelectedReferences(idCase, new ArrayList<String>() {{
+            add(FramingMeetingConstants.PERSON_TYPE_IMPUTED);
+            add(FramingMeetingConstants.PERSON_TYPE_OTHER);
+        }});
         view.setLstSelectedSources(conv.toJson(lstSelectedSources));
 
-        List<Long> lstSelectedRisk = new ArrayList<>();
+        List<Long> lstDependentSources = framingReferenceRepository.findDependentReferences(idCase);
+        view.setLstDependentSources(conv.toJson(lstDependentSources));
 
-        if (existFraming.getSelectedRisksRel() != null && existFraming.getSelectedRisksRel().size() > 0) {
-            for (FramingSelectedRiskRel rel : existFraming.getSelectedRisksRel()) {
-                lstSelectedRisk.add(rel.getFramingRisk().getId());
-            }
-        }
-
+        List<Long> lstSelectedRisk = framingRiskRepository.findSelectedRisk(idCase);
         view.setLstSelectedRisk(conv.toJson(lstSelectedRisk));
 
-        List<Long> lstSelectedThreat = new ArrayList<>();
-
-        if (existFraming.getSelectedThreatsRel() != null && existFraming.getSelectedThreatsRel().size() > 0) {
-            for (FramingSelectedThreatRel rel : existFraming.getSelectedThreatsRel()) {
-                lstSelectedThreat.add(rel.getFramingThreat().getId());
-            }
-        }
+        List<Long> lstSelectedThreat = framingThreatRepository.findSelectedThreat(idCase);
         view.setLstSelectedThreat(conv.toJson(lstSelectedThreat));
 
         List<HearingFormat> lstFormats = caseRepository.findOne(idCase).getHearingFormats();
         Collections.sort(lstFormats, HearingFormat.hearingFormatComparator);
         HearingFormat lastFormat = lstFormats.get(lstFormats.size() - 1);
 
-
-        List<String> lstAssArrg = new ArrayList<>();
-
-        if (lastFormat.getAssignedArrangements() != null && lastFormat.getAssignedArrangements().size() > 0) {
-            for (AssignedArrangement rel : lastFormat.getAssignedArrangements()) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(rel.getArrangement().getDescription());
-                sb.append(", ");
-                sb.append(rel.getDescription());
-                lstAssArrg.add(sb.toString());
-            }
-        }
-
+        List<String> lstAssArrg = arrangementRepository.findArrangementsByIdFormat(lastFormat.getId());
         view.setLstSelectedArrangement(conv.toJson(lstAssArrg));
 
         return view;
@@ -783,6 +802,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         FramingAddressDto obj = new FramingAddressDto();
 
         if (existAddress != null) {
+            obj.setAddressStr(existAddress.getAddress().getAddressString());
             obj.setPhone(existAddress.getPhone());
             if (existAddress.getRegisterType() != null)
                 obj.setRegisterTypeId(existAddress.getRegisterType().getId());
@@ -816,10 +836,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     public ResponseMessage saveFramingAddress(Long idCase, FramingAddressDto view) {
 
         try {
-
+            Boolean isNew = true;
             FramingAddress existFramingAddress = null;
+            FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
 
             if (view.getId() != null) {
+                isNew = false;
                 existFramingAddress = framingAddressRepository.findFramingAddressByIdAddress(view.getId());
                 this.fillAddress(existFramingAddress.getAddress(), view);
 
@@ -835,7 +857,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             } else {
                 existFramingAddress = new FramingAddress();
-                existFramingAddress.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
+                existFramingAddress.setFramingMeeting(existFraming);
                 existFramingAddress.setAddress(this.fillAddress(null, view));
             }
 
@@ -863,7 +885,20 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             existFramingAddress.setSchedule(schedule);
+
             framingAddressRepository.save(existFramingAddress);
+
+            if (existFraming.getIsTerminated() == true) {
+                String logType = "";
+                view.setAddressStr(existFramingAddress.getAddress().getAddressString());
+
+                if (isNew == true)
+                    logType = FramingMeetingConstants.LOG_TYPE_ADDED;
+                else
+                    logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
+
+                framingMeetingLogRepository.save(getFramingAddressLog(existFraming, view, logType));
+            }
 
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
         } catch (Exception e) {
@@ -878,6 +913,20 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     public ResponseMessage deleteFramingAddress(Long id) {
 
         try {
+
+            FramingAddress existAddress = framingAddressRepository.findOne(id);
+
+            FramingMeetingLog log = new FramingMeetingLog();
+            log.setFramingMeeting(existAddress.getFramingMeeting());
+            log.setLogType(FramingMeetingConstants.LOG_TYPE_DELETED);
+            log.setLogDate(CalendarExt.getToday());
+            log.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+            log.setTitle("Domicilio");
+            FramingLogElement element = new FramingLogElement();
+            element.setFieldName("Direcci&oacute;n");
+            element.setValue(existAddress.getAddress().getAddressString());
+            log.setFinalValue(new Gson().toJson(element));
+            framingMeetingLogRepository.save(log);
 
             framingAddressRepository.delete(id);
 
@@ -897,7 +946,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (framingSelectedSourceRelRepository.findSourceRelByIdSource(id) != null)
                 return new ResponseMessage(true, "No se puede eliminar la informaci&oacute;n. El registro ha sido seleccionado en la secci&oacute;n An&aacute;lisis del entorno.");
 
-            framingReferenceRepository.delete(id);
+            FramingReference existReference = framingReferenceRepository.findOne(id);
+            framingMeetingLogRepository.save(getFramingReferenceLog(existReference.getFramingMeeting(), existReference, FramingMeetingConstants.LOG_TYPE_DELETED));
+            framingReferenceRepository.delete(existReference);
 
             return new ResponseMessage(false, "Se ha eliminado el registro con &eacute;xito.");
         } catch (Exception e) {
@@ -911,12 +962,26 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     public ResponseMessage doUpsertDrug(Drug drug, Long idCase) {
         ResponseMessage result = new ResponseMessage();
         try {
+            Boolean isNew = false;
             drug.setDrugType(drugTypeRepository.findOne(drug.getDrugType().getId()));
             drug.setPeriodicity(periodicityRepository.findOne(drug.getPeriodicity().getId()));
-            drug.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
+            FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+            drug.setFramingMeeting(existFraming);
             if (drug.getId() != null && drug.getId() == 0) {
                 drug.setId(null);
+                isNew = true;
             }
+
+            if (existFraming.getIsTerminated() == true) {
+                String logType;
+                if (isNew == true)
+                    logType = FramingMeetingConstants.LOG_TYPE_ADDED;
+                else
+                    logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
+
+                framingMeetingLogRepository.save(getDrugLog(existFraming, drug, logType));
+            }
+
             drugRepository.save(drug);
             result.setHasError(false);
             result.setMessage("Se ha guardado la informaci&oacute;n con &eacute;xito");
@@ -932,14 +997,21 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Transactional
     public ResponseMessage deleteDrug(Long id) {
         ResponseMessage result = new ResponseMessage();
+        Drug existDrug = drugRepository.findOne(id);
+        FramingMeeting existFraming = existDrug.getFramingMeeting();
         try {
-            drugRepository.delete(drugRepository.findOne(id));
+
+            if (existFraming.getIsTerminated() == true) {
+                framingMeetingLogRepository.save(getDrugLog(existFraming, existDrug, FramingMeetingConstants.LOG_TYPE_DELETED));
+            }
+
+            drugRepository.delete(existDrug);
             result.setHasError(false);
             result.setMessage("Se elimino la sustancia con &eacute;xito");
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "deleteDrug", sharedUserService);
             result.setHasError(true);
-            result.setMessage("Ocurrio un error al eliminar la sustancia. Int�nte m&aacute;s tarde");
+            result.setMessage("Ocurrio un error al eliminar la sustancia. Int?nte m&aacute;s tarde");
         }
         return result;
     }
@@ -1192,6 +1264,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             existFraming.setAdditionalFramingQuestions(addQuest);
 
+            if (existFraming.getIsTerminated() == true) {
+                framingMeetingLogRepository.save(getAdditionalQuestionLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
+            }
+
             this.save(existFraming);
 
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
@@ -1227,6 +1303,13 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 ls.add("Debe capturar al menos un registro en la secci&oacute;n \"Domicilios\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome", ls));
             }
+
+            if (existFraming.getAddressComments() == null) {
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe capturar las observaiones para la secci&oacute;n \"Domicilios\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome", ls));
+            }
+
 //            if (existFraming.getProcessAccompaniment() == null)
 //                if (sb.toString().equals(""))
 //                    sb.append("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Persona que acompa?a en el proceso\".");
@@ -1286,12 +1369,26 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 lsR.add("Alguna persona registrada en la secci&oacute;n \"Referencias personales\" ha sido marcada como acompa&ntilde;ante durante el proceso. Debe capturar la informaci&oacute;n adicional requerida.");
             }
 
+            if (existFraming.getHousemateComments() == null)
+                lsSN.add("Debe capturar las observaciones para la secci&oacute;n \"Personas que viven con el imputado\".");
+
+            if (existFraming.getReferencesComments() == null)
+                lsSN.add("Debe capturar las observaciones para la secci&oacute;n \"Referencias personales\".");
+
+            if (existFraming.getVictimComments() == null) {
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe capturar las observaciones para la secci&oacute;n \"V&iacute;ctimas y testigos\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("victim", ls));
+            }
+
+
             if (lsSN.size() > 0) {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("socialNetwork", lsSN));
             }
             if (lsR.size() > 0) {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("reference", lsR));
             }
+
 
 //            if (existFraming.getOccupation() == null || existFraming.getRelFramingMeetingActivities() == null || !(existFraming.getRelFramingMeetingActivities().size() > 0)) {
 //                List<String> ls = new ArrayList<>();
@@ -1303,6 +1400,13 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 ls.add("Debe capturar al menos una registro en en la secci&oacute;n \"Consumo de sustancias\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("drug", ls));
             }
+
+            if (existFraming.getDrugsComments() == null) {
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe capturar las observaciones para la secci&oacute;n \"Consumo de sustancias\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("drug", ls));
+            }
+
             if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
                     existFraming.getSelectedRisksRel() == null || !(existFraming.getSelectedRisksRel().size() > 0) ||
                     existFraming.getSelectedThreatsRel() == null || !(existFraming.getSelectedThreatsRel().size() > 0)) {
@@ -1328,18 +1432,25 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (cad != null && !cad.trim().equals(""))
                 validateFingerprint = Boolean.valueOf(cad);
 
-            if (validateFingerprint != null && validateFingerprint == true)
+            if (validateFingerprint != null && validateFingerprint == true) {
                 if (!(framingMeetingRepository.getFingerIdsByImputed(existFraming.getCaseDetention().getMeeting().getImputed().getId()).size() > 0)) {
                     List<String> ls = new ArrayList<>();
                     ls.add("Debe capturar al menos una huella dactilar en la secci&oacute;n \"Enrolamiento\".");
                     validate.getGroupMessage().add(new GroupMessageMeetingDto("fingerprint", ls));
                 }
+            }
 
             if (existFraming.getSchool() == null) {
                 List<String> arrMsg = new ArrayList<>();
-                arrMsg.add(sharedUserService.convertToValidString("Debe proporcionar la información faltante en la sección \"Historia escolar\"."));
+                arrMsg.add(sharedUserService.convertToValidString("Debe proporcionar la información faltante en la secci&oacute;n \"Historia escolar\"."));
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("school", arrMsg));
             }
+            if (existFraming.getSchoolComments() == null) {
+                List<String> ls = new ArrayList<>();
+                ls.add("Debe capturar las observaciones para la secci&oacute;n \"Historia escolar\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("school", ls));
+            }
+
 
             if (existFraming.getJobs() == null || !(existFraming.getJobs().size() > 0)) {
                 List<String> arrMsg = new ArrayList<>();
@@ -1347,9 +1458,21 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("job", arrMsg));
             }
 
+            if (existFraming.getJobs() == null || !(existFraming.getJobs().size() > 0)) {
+                List<String> arrMsg = new ArrayList<>();
+                arrMsg.add("Debe capturar las observaciones para la secci&oacute;n \"Historia laboral\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("job", arrMsg));
+            }
+
             if (existFraming.getActivities() == null || !(existFraming.getActivities().size() > 0)) {
                 List<String> arrMsg = new ArrayList<>();
                 arrMsg.add("Debe capturar al menos una actividad en la secci&oacute;n \"Actividades que realiza el imputado\".");
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", arrMsg));
+            }
+
+            if (existFraming.getActivities() == null || !(existFraming.getActivities().size() > 0)) {
+                List<String> arrMsg = new ArrayList<>();
+                arrMsg.add("Debe capturar las observaciones para la secci&oacute;n \"Actividades que realiza el imputado\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", arrMsg));
             }
 
@@ -1375,7 +1498,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 imputedReference.setRelationship(relationshipRepository.findImputedRelationship());
                 imputedReference.setFramingMeeting(existFraming);
                 imputedReference.setName(existFraming.getPersonalData().getName() + " " + existFraming.getPersonalData().getLastNameP() + " " + existFraming.getPersonalData().getLastNameM());
-                imputedReference.setPersonType("IMPUTED");
+                imputedReference.setPersonType(FramingMeetingConstants.PERSON_TYPE_IMPUTED);
                 imputedReference = framingReferenceRepository.save(imputedReference);
                 //caseRepository.save(existCase);
 
@@ -1393,7 +1516,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 otherReference.setRelationship(relationshipRepository.findOtherRelationship());
                 otherReference.setFramingMeeting(existFraming);
                 otherReference.setName("Otro");
-                otherReference.setPersonType("OTHER");
+                otherReference.setPersonType(FramingMeetingConstants.PERSON_TYPE_OTHER);
                 otherReference = framingReferenceRepository.save(otherReference);
 
                 FramingSelectedSourceRel otherSourceRel = new FramingSelectedSourceRel();
@@ -1405,6 +1528,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             caseRepository.save(existCase);
+            framingMeetingLogRepository.save(getTerminateLog(idCase, existFraming));
 
             StringBuilder sb = new StringBuilder();
             sb.append("Entrevista de encuadre terminada: ");
@@ -1419,6 +1543,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito");
 
         } catch (Exception e) {
+            e.printStackTrace();
             logException.Write(e, this.getClass(), "doTerminate", sharedUserService);
             e.printStackTrace();
             return new ResponseMessage(false, "Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;s tarde.");
@@ -1552,41 +1677,54 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         try {
             Case existCase = caseRepository.findOne(idCase);
+            String msg = "", title = "";
 
             if (existCase != null && existCase.getFramingMeeting() != null) {
                 switch (commentType) {
                     case 1:
                         existCase.getFramingMeeting().setAddressComments(comments);
-                        resp.setMessage("1|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        msg = "1|";
+                        title = "Domicilios";
                         break;
                     case 2:
                         existCase.getFramingMeeting().setHousemateComments(comments);
-                        resp.setMessage("2|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        msg = "2|";
+                        title = "Personas que viven con el imputado";
                         break;
                     case 3:
                         existCase.getFramingMeeting().setReferencesComments(comments);
-                        resp.setMessage("3|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        msg = "3|";
+                        title = "Referencias persoanales";
                         break;
                     case 4:
                         existCase.getFramingMeeting().setDrugsComments(comments);
-                        resp.setMessage("4|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        msg = "4|";
+                        title = "Consumo de sustancias";
                         break;
                     case 5:
                         existCase.getFramingMeeting().setActivitiesComments(comments);
-                        resp.setMessage("5|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        msg = "5|";
+                        title = "Actividades que realiza el imputado";
                         break;
                     case 6:
                         existCase.getFramingMeeting().setJobComments(comments);
-                        resp.setMessage("6|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        msg = "6|";
+                        title = "Historia laboral";
                         break;
                     case 7:
                         existCase.getFramingMeeting().setVictimComments(comments);
-                        resp.setMessage("7|Se ha guardado la informaci&oacute;n con &eacute;xito");
+                        msg = "7|";
+                        title = "V&iacute;ctimas y testigos";
                         break;
                 }
+
                 caseRepository.save(existCase);
+                FramingMeeting existFraming = existCase.getFramingMeeting();
+                if (existFraming.getIsTerminated() != null && existFraming.getIsTerminated().equals(true))
+                    framingMeetingLogRepository.save(getCommentLog(existFraming, comments, title, FramingMeetingConstants.LOG_TYPE_MODIFIED));
 
                 resp.setHasError(false);
+                resp.setMessage(msg + "Se ha guardado la informaci&oacute;n con &eacute;xito");
 
             } else {
                 resp.setHasError(false);
@@ -1644,7 +1782,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     public ResponseMessage saveFramingActivity(FramingActivityView view, Long idCase) {
 
         ResponseMessage resp = new ResponseMessage();
-
+        Boolean isNew = true;
         try {
             FramingActivity exisAct = new FramingActivity();
 
@@ -1656,6 +1794,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 exisAct = framingActivityRepository.findOne(view.getId());
                 exisAct.setListSchedule(null);
                 framingActivityRepository.save(exisAct);
+                isNew = false;
             }
 
             exisAct.setDescription(view.getDescription());
@@ -1675,8 +1814,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 lstSchedule.add(newObj);
             }
 
+            FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
             exisAct.setListSchedule(lstSchedule);
-            exisAct.setFramingMeeting(caseRepository.findOne(idCase).getFramingMeeting());
+            exisAct.setFramingMeeting(existFraming);
+
+            if (existFraming.getIsTerminated() == true) {
+                String logType;
+                if (isNew == true)
+                    logType = FramingMeetingConstants.LOG_TYPE_ADDED;
+                else
+                    logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
+
+                framingMeetingLogRepository.save(getActivityLog(existFraming, view, logType));
+            }
 
             framingActivityRepository.save(exisAct);
             resp.setHasError(false);
@@ -1699,10 +1849,17 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
             FramingActivity exisAct = framingActivityRepository.findOne(id);
 
+            FramingMeeting existFraming = exisAct.getFramingMeeting();
+
+            if (existFraming.getIsTerminated() == true) {
+                framingMeetingLogRepository.save(getActivityLog(existFraming, fillActivityForView(exisAct.getId(), existFraming.getCaseDetention().getId()), FramingMeetingConstants.LOG_TYPE_DELETED));
+            }
+
             for (Schedule actSch : scheduleRepository.getSchedulesActivty(id)) {
                 actSch.setFramingActivity(null);
                 scheduleRepository.delete(actSch);
             }
+
             exisAct.setListSchedule(null);
             framingActivityRepository.delete(exisAct);
             resp.setHasError(false);
@@ -1715,7 +1872,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             return resp;
         }
     }
-
 
     @Autowired
     private JobRepository jobRepository;
@@ -1778,8 +1934,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     public ResponseMessage saveFramingJob(JobDto view, Long idCase) {
 
         ResponseMessage resp = new ResponseMessage();
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Boolean isNew = true;
 
         try {
             Job existJob = new Job();
@@ -1792,6 +1948,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 existJob = jobRepository.findOne(view.getId());
                 existJob.setSchedule(null);
                 jobRepository.save(existJob);
+                isNew = false;
             }
 
             existJob.setPost(view.getPost());
@@ -1836,8 +1993,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             Case existCase = caseRepository.findOne(idCase);
-
             existJob.setFramingMeeting(existCase.getFramingMeeting());
+
+            Boolean isTerm = existCase.getFramingMeeting().getIsTerminated();
+
+            if (isTerm != null && isTerm.equals(true)) {
+                String logType;
+                if (isNew == true)
+                    logType = FramingMeetingConstants.LOG_TYPE_ADDED;
+                else
+                    logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
+
+                framingMeetingLogRepository.save(getJobLog(existCase.getFramingMeeting(), view, logType));
+            }
 
             jobRepository.save(existJob);
             resp.setHasError(false);
@@ -1859,6 +2027,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         try {
             Job existJob = jobRepository.findOne(id);
+
+            FramingMeeting existFraming = existJob.getFramingMeeting();
+
+            if (existFraming.getIsTerminated() == true) {
+                framingMeetingLogRepository.save(getJobLog(existFraming, fillJobForView(existJob.getId(), existFraming.getCaseDetention().getId()), FramingMeetingConstants.LOG_TYPE_DELETED));
+            }
 
             for (Schedule actSch : jobRepository.getJobSchedule(id)) {
                 actSch.setJob(null);
@@ -1964,6 +2138,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existSchool.setSchedule(lstSchedule);
             existSchool.setFramingMeeting(existFraming);
 
+            if (existFraming.getIsTerminated() != null && existFraming.getIsTerminated() != true)
+                framingMeetingLogRepository.save(getSchoolLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
+
             schoolRepository.save(existSchool);
 
             response.setHasError(false);
@@ -1975,6 +2152,1100 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         } finally {
             return response;
         }
+    }
+
+    public FramingMeetingLog getFramingPersonalDataLog(FramingMeeting framingMeeting, FramingPersonalDataView personalData, String logType) {
+        FramingMeetingLog framingMeetingLog = new FramingMeetingLog();
+
+        List<FramingLogElement> lstElements = new ArrayList<>();
+
+        FramingLogElement element = new FramingLogElement();
+        element.setFieldName("Nombre");
+        element.setValue(personalData.getName());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Apellido paterno");
+        element.setValue(personalData.getLastNameP());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Apellido materno");
+        element.setValue(personalData.getLastNameM());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("G&eacute;nero");
+        if (personalData.getGender() == 1)
+            element.setValue("Femenino");
+        else if (personalData.getGender() == 2)
+            element.setValue("Masculino");
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Estado civil");
+        switch (personalData.getMaritalStatus().intValue()) {
+            case 1:
+                element.setValue("Soltero");
+                break;
+            case 2:
+                element.setValue("Casado");
+                break;
+            case 3:
+                element.setValue("Divorciado");
+                break;
+            case 4:
+                element.setValue("Uni&oacute;n libre");
+                break;
+            case 5:
+                element.setValue("Viudo");
+                break;
+        }
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("A&ntilde;os estado civil");
+        element.setValue(personalData.getMaritalStatusYears());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Pa&iacute;s de nacimiento");
+        element.setValue(countryRepository.findOne(personalData.getBirthCountryId()).getName());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Estado de nacimiento");
+        if (personalData.getIsMexico() == true) {
+            element.setValue(stateRepository.findOne(personalData.getBirthStateId()).getName());
+        } else {
+            element.setValue(personalData.getBirthState());
+        }
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        element.setFieldName("Fecha de nacimiento");
+
+        try {
+            element.setValue(sdf.format(personalData.getBirthDate()));
+            lstElements.add(element);
+        } catch (Exception e) {
+            System.out.println("error al convertir la fecha");
+        }
+
+        element = new FramingLogElement();
+        element.setFieldName("Enfermedad / Condici&oacute;n f&iacute;sica");
+        element.setValue(personalData.getPhysicalCondition());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("T&eacute;lefono");
+        element.setValue(personalData.getPhone());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Celular");
+        element.setValue(personalData.getCelPhone());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Email");
+        element.setValue(personalData.getEmail());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Redes sociales");
+        element.setValue(personalData.getSocialNetworking());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Observaciones");
+        element.setValue(personalData.getComments());
+        lstElements.add(element);
+
+        Gson gson = new Gson();
+
+        framingMeetingLog.setTitle("Datos personales y entorno social");
+        framingMeetingLog.setFramingMeeting(framingMeeting);
+        framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        framingMeetingLog.setLogDate(CalendarExt.getToday());
+        framingMeetingLog.setLogType(logType);
+        framingMeetingLog.setFinalValue(gson.toJson(lstElements));
+
+        return framingMeetingLog;
+    }
+
+    public FramingMeetingLog getFramingAddressLog(FramingMeeting framingMeeting, FramingAddressDto framingAddressDto, String logType) {
+        FramingMeetingLog framingMeetingLog = new FramingMeetingLog();
+
+        List<FramingLogElement> lstElements = new ArrayList<>();
+
+        Gson gson = new Gson();
+
+        FramingLogElement element = new FramingLogElement();
+
+        element.setFieldName("Direcci&oacute;n");
+        element.setValue(framingAddressDto.getAddressStr());
+        element.setNewRow(true);
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Referencias");
+        element.setValue(framingAddressDto.getAddressRef());
+        lstElements.add(element);
+
+        String registerTypeName = registerTypeRepository.findOne(framingAddressDto.getRegisterTypeId()).getName();
+        String homeTypeName = homeTypeRepository.findOne(framingAddressDto.getHomeTypeId()).getName();
+
+        element = new FramingLogElement();
+        element.setFieldName("Tipo de propiedad");
+        element.setValue(homeTypeName);
+        lstElements.add(element);
+
+        if (homeTypeName.toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_OTHER)) {
+            element = new FramingLogElement();
+            element.setFieldName("Especificaci&oacute;n");
+            element.setValue(framingAddressDto.getSpecification());
+            lstElements.add(element);
+        }
+
+        element = new FramingLogElement();
+        element.setFieldName("Tipo de domicilio");
+        element.setValue(registerTypeName);
+        lstElements.add(element);
+
+        if (registerTypeName.toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL) || registerTypeName.toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_SECONDARY)) {
+            element = new FramingLogElement();
+            element.setFieldName("Tiempo de vivir (actual/secundario)");
+            element.setValue(framingAddressDto.getTimeAgo());
+            lstElements.add(element);
+        }
+
+        if (registerTypeName.toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_PREV)) {
+            element = new FramingLogElement();
+            element.setFieldName("Tiempo de residencia (anterior)");
+            element.setValue(framingAddressDto.getTimeLive());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Motivo de la mudanza");
+            element.setValue(framingAddressDto.getReasonChange());
+            lstElements.add(element);
+        }
+
+        if (registerTypeName.toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_SECONDARY)) {
+            element = new FramingLogElement();
+            element.setFieldName("Raz&oacute;n de domicilio secundario");
+            element.setValue(framingAddressDto.getReasonAnother());
+            lstElements.add(element);
+        }
+
+        element = new FramingLogElement();
+        element.setFieldName("Tel&eacute;fono");
+        element.setValue(framingAddressDto.getPhone());
+        lstElements.add(element);
+
+        if (registerTypeName.toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL) || registerTypeName.toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_SECONDARY)) {
+            element = new FramingLogElement();
+            element.setFieldName("Disponibilidad");
+            element.setValue(framingAddressDto.getSchedule());
+            lstElements.add(element);
+        }
+
+        framingMeetingLog.setTitle("Domicilio");
+        framingMeetingLog.setFramingMeeting(framingMeeting);
+        framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        framingMeetingLog.setLogDate(CalendarExt.getToday());
+        framingMeetingLog.setLogType(logType);
+        if (logType.equals(FramingMeetingConstants.LOG_TYPE_FINISHED))
+            framingMeetingLog.setLstElements(lstElements);
+        framingMeetingLog.setFinalValue(gson.toJson(lstElements));
+
+        return framingMeetingLog;
+    }
+
+    private FramingMeetingLog getFramingReferenceLog(FramingMeeting framingMeeting, FramingReference reference, String logType) {
+        FramingMeetingLog framingMeetingLog = new FramingMeetingLog();
+
+        List<FramingLogElement> lstElements = new ArrayList<>();
+        FramingLogElement element = new FramingLogElement();
+        String gndr = "";
+
+        element.setFieldName("Nombre");
+        element.setValue(reference.getName());
+        element.setNewRow(true);
+        lstElements.add(element);
+
+        if (reference.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
+
+            framingMeetingLog.setTitle("Personas que viven con el imputado");
+
+            element = new FramingLogElement();
+            element.setFieldName("Relaci&oacute;n");
+            element.setValue(reference.getRelationship().getName());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Edad");
+            element.setValue(reference.getAge());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Ocupaci&oacute;n");
+            element.setValue(reference.getOccupation());
+            lstElements.add(element);
+
+
+            if (reference.getIsAccompaniment() == true) {
+
+                element = new FramingLogElement();
+                element.setFieldName("Acompa&ntilde;a durante el proceso");
+                element.setValue("Si");
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Direcci&oacute;n");
+                element.setValue(reference.getAddress());
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Referencias del domicilio");
+                element.setValue(reference.getAddressRef());
+                lstElements.add(element);
+
+                if (reference.getAccompanimentInfo() != null) {
+                    element = new FramingLogElement();
+                    element.setFieldName("G&eacute;nero");
+
+                    if (reference.getAccompanimentInfo().getGender().equals(1))
+                        gndr = "Femenino";
+                    else if (reference.getAccompanimentInfo().getGender().equals(2))
+                        gndr = "Masculino";
+                    element.setValue(gndr);
+                    lstElements.add(element);
+
+
+                    element = new FramingLogElement();
+                    element.setFieldName("Escolaridad");
+                    element.setValue(reference.getAccompanimentInfo().getAcademicLevel().getName());
+                    lstElements.add(element);
+
+                    element = new FramingLogElement();
+                    element.setFieldName("Lugar de ocupaci&oacute;n");
+                    element.setValue(reference.getAccompanimentInfo().getOccupationPlace());
+                    lstElements.add(element);
+                }
+
+                element = new FramingLogElement();
+                element.setFieldName("Tel&eacute;fono");
+                element.setValue(reference.getPhone());
+                lstElements.add(element);
+            } else {
+                element.setValue("No");
+            }
+
+        } else if (reference.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
+
+            framingMeetingLog.setTitle("Referencias personales");
+
+            element = new FramingLogElement();
+            element.setFieldName("Relaci&oacute;n");
+            element.setValue(reference.getRelationship().getName());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Tel&eacute;fono");
+            element.setValue(reference.getPhone());
+            lstElements.add(element);
+
+            if (reference.getIsAccompaniment() == true) {
+
+                if (reference.getAccompanimentInfo().getGender().equals(1))
+                    gndr = "Femenino";
+                else if (reference.getAccompanimentInfo().getGender().equals(2))
+                    gndr = "Masculino";
+                element.setValue(gndr);
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Edad");
+                element.setValue(reference.getAge());
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Ocupaci&oacute;n");
+                element.setValue(reference.getOccupation());
+                lstElements.add(element);
+
+                if (reference.getIsAccompaniment() != null) {
+                    element = new FramingLogElement();
+                    element.setFieldName("Lugar de ocupaci&oacute;n");
+                    element.setValue(reference.getAccompanimentInfo().getOccupationPlace());
+                    lstElements.add(element);
+
+                    element = new FramingLogElement();
+                    element.setFieldName("Direcci&oacute;n");
+                    element.setValue(reference.getAccompanimentInfo().getAddress().getAddressString());
+                    lstElements.add(element);
+                }
+
+                element = new FramingLogElement();
+                element.setFieldName("Acompa&ntilde;a durante el proceso");
+                element.setValue("Si");
+                lstElements.add(element);
+            } else {
+                element = new FramingLogElement();
+                element.setFieldName("Acompa&ntilde;a durante el proceso");
+                element.setValue("No");
+                lstElements.add(element);
+            }
+
+        } else if (reference.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM) ||
+                reference.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS)) {
+
+            framingMeetingLog.setTitle("V&iacute;ctima y testigos");
+
+            if (reference.getHasVictimWitnessInfo() != null && reference.getHasVictimWitnessInfo() == true) {
+
+                element = new FramingLogElement();
+                element.setFieldName("Tipo");
+
+                if (reference.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM)) {
+                    element.setValue("V&iacute;ctima");
+                } else if (reference.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS)) {
+                    element.setValue("Testigo");
+                }
+
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Relaci&oacute;n");
+                element.setValue(reference.getRelationship().getName());
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Edad");
+                element.setValue(reference.getAge());
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Tel&eacute;fono");
+                element.setValue(reference.getPhone());
+                lstElements.add(element);
+
+                if (reference.getAccompanimentInfo() != null) {
+                    element = new FramingLogElement();
+                    element.setFieldName("Direcci&oacute;n");
+                    element.setValue(reference.getAccompanimentInfo().getAddress().getAddressString());
+                    lstElements.add(element);
+                }
+            }
+        }
+
+        framingMeetingLog.setFramingMeeting(framingMeeting);
+        framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        framingMeetingLog.setLogDate(CalendarExt.getToday());
+        framingMeetingLog.setLogType(logType);
+        if (logType.equals(FramingMeetingConstants.LOG_TYPE_FINISHED))
+            framingMeetingLog.setLstElements(lstElements);
+        framingMeetingLog.setFinalValue(new Gson().toJson(lstElements));
+
+        return framingMeetingLog;
+    }
+
+    private FramingMeetingLog getSchoolLog(FramingMeeting framingMeeting, SchoolDto view, String logType) {
+        FramingMeetingLog framingMeetingLog = new FramingMeetingLog();
+
+        List<FramingLogElement> lstElements = new ArrayList<>();
+        FramingLogElement element = new FramingLogElement();
+
+        if (view.getHasActualSchool() != null && view.getHasActualSchool() == true) {
+            element.setFieldName("Escuela");
+            element.setValue(view.getName());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("T&eacute;lefono");
+            element.setValue(view.getPhone());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Direcci&oacute;n");
+            element.setValue(view.getAddress());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Nivel acad&eacute;mico");
+            element.setValue(academicLevelRepository.findOne(view.getAcademicLvlId()).getName());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Grado");
+            element.setValue(academicLevelRepository.findOne(view.getDegreeId()).getName());
+            lstElements.add(element);
+
+            if (view.getSpecification() != null && !view.getSpecification().trim().equals("")) {
+                element = new FramingLogElement();
+                element.setFieldName("Especificaci&oacute;n");
+                element.setValue(view.getSpecification());
+                lstElements.add(element);
+            }
+
+            if (view.getSchedule() != null) {
+                element = new FramingLogElement();
+                element.setFieldName("Disponibilidad");
+                element.setValue(view.getSchedule());
+                lstElements.add(element);
+            }
+        } else {
+            element = new FramingLogElement();
+            element.setFieldName("Sin estudios actuales");
+            element.setValue("");
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("&Uacute;ltimo vivel acad&eacute;mico");
+            element.setValue(academicLevelRepository.findOne(view.getAcademicLvlId()).getName());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("&Uacute;ltimo grado");
+            element.setValue(academicLevelRepository.findOne(view.getDegreeId()).getName());
+            lstElements.add(element);
+
+            if (view.getSpecification() != null && !view.getSpecification().trim().equals("")) {
+                element = new FramingLogElement();
+                element.setFieldName("Especificaci&oacute;n");
+                element.setValue(view.getSpecification());
+                lstElements.add(element);
+            }
+        }
+
+        framingMeetingLog.setTitle("Historia escolar");
+        framingMeetingLog.setFramingMeeting(framingMeeting);
+        framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        framingMeetingLog.setLogDate(CalendarExt.getToday());
+        framingMeetingLog.setLogType(logType);
+        framingMeetingLog.setFinalValue(new Gson().toJson(lstElements));
+
+        return framingMeetingLog;
+    }
+
+    private FramingMeetingLog getJobLog(FramingMeeting framingMeeting, JobDto view, String logType) {
+        FramingMeetingLog framingMeetingLog = new FramingMeetingLog();
+
+        List<FramingLogElement> lstElements = new ArrayList<>();
+        FramingLogElement element = new FramingLogElement();
+
+        if (view.getBlock() != null && view.getBlock().equals(true)) {
+            element.setFieldName("Empresa");
+            element.setValue(view.getCompany());
+            element.setNewRow(true);
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Puesto");
+            element.setValue(view.getPost());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Tel&eacute;fono");
+            element.setValue(view.getPhone());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Nombre del patr&oacute;n");
+            element.setValue(view.getNameHead());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Direcci&oacute;n");
+            element.setValue(view.getAddress());
+            lstElements.add(element);
+
+            String registerTypeStr = homeTypeRepository.findOne(view.getRegisterTypeId()).getName();
+
+            element = new FramingLogElement();
+            element.setFieldName("Tipo");
+            element.setValue(registerTypeStr);
+            lstElements.add(element);
+
+
+            if (registerTypeStr.toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL) ||
+                    registerTypeStr.equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_SECONDARY)) {
+
+                element = new FramingLogElement();
+                element.setFieldName("Inicio");
+                element.setValue(view.getStart());
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Salario");
+                element.setValue(view.getStart());
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Disponibilidad");
+                element.setValue(view.getSchedule());
+                lstElements.add(element);
+
+            } else if (registerTypeStr.toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_PREV)) {
+                element = new FramingLogElement();
+                element.setFieldName("Inicio");
+                element.setValue(view.getStartPrev());
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Fin");
+                element.setValue(view.getEnd());
+                lstElements.add(element);
+
+                element = new FramingLogElement();
+                element.setFieldName("Motivo de cambio");
+                element.setValue(view.getReasonChange());
+                lstElements.add(element);
+            }
+        } else {
+            element = new FramingLogElement();
+            element.setFieldName("Sin trabajo actual");
+            element.setValue("");
+            lstElements.add(element);
+        }
+
+        framingMeetingLog.setTitle("Historia laboral");
+        framingMeetingLog.setFramingMeeting(framingMeeting);
+        framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        framingMeetingLog.setLogDate(CalendarExt.getToday());
+        framingMeetingLog.setLogType(logType);
+        if (logType.equals(FramingMeetingConstants.LOG_TYPE_FINISHED))
+            framingMeetingLog.setLstElements(lstElements);
+        framingMeetingLog.setFinalValue(new Gson().toJson(lstElements));
+
+        return framingMeetingLog;
+    }
+
+    private FramingMeetingLog getActivityLog(FramingMeeting framingMeeting, FramingActivityView view, String logType) {
+        FramingMeetingLog framingMeetingLog = new FramingMeetingLog();
+
+        List<FramingLogElement> lstElements = new ArrayList<>();
+        FramingLogElement element = new FramingLogElement();
+
+        element.setFieldName("Actividad");
+        element.setValue(activityRepository.findOne(view.getIdActivity()).getName());
+        element.setNewRow(true);
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Descripci&oacute;n");
+        element.setValue(view.getDescription());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Disponibilidad");
+        element.setValue(view.getLstSchedule());
+        lstElements.add(element);
+
+        framingMeetingLog.setTitle("Actividades que realiza el imputado");
+        framingMeetingLog.setFramingMeeting(framingMeeting);
+        framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        framingMeetingLog.setLogDate(CalendarExt.getToday());
+        framingMeetingLog.setLogType(logType);
+        if (logType.equals(FramingMeetingConstants.LOG_TYPE_FINISHED))
+            framingMeetingLog.setLstElements(lstElements);
+        framingMeetingLog.setFinalValue(new Gson().toJson(lstElements));
+
+        return framingMeetingLog;
+    }
+
+    private FramingMeetingLog getDrugLog(FramingMeeting framingMeeting, Drug drug, String logType) {
+        FramingMeetingLog framingMeetingLog = new FramingMeetingLog();
+
+        List<FramingLogElement> lstElements = new ArrayList<>();
+        FramingLogElement element = new FramingLogElement();
+
+        String drugType = drug.getDrugType().getName();
+        if (drugType.toLowerCase().equals(FramingMeetingConstants.LOW_CASE_DRUG_TYPE_NONE)) {
+            element.setFieldName("No consume sustancias");
+            element.setValue("");
+            lstElements.add(element);
+        } else {
+
+            element.setFieldName("Sustancia");
+            element.setValue(drug.getDrugType().getName());
+            element.setNewRow(true);
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Frecuencia");
+            element.setValue(drug.getPeriodicity().getName());
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Cantidad");
+            element.setValue(drug.getQuantity());
+            lstElements.add(element);
+
+            try {
+                element = new FramingLogElement();
+                element.setFieldName("&Uacute;ltimo consumo");
+                element.setValue(drug.getFormatter().format(drug.getLastUse()));
+                lstElements.add(element);
+            } catch (Exception e) {
+                System.out.println("error al parsear la fecha de ultimo consumo");
+            }
+
+            element = new FramingLogElement();
+            element.setFieldName("Edad de inicio");
+            element.setValue(drug.getOnsetAge());
+            lstElements.add(element);
+        }
+
+        framingMeetingLog.setTitle("Consumo de sustancias");
+        framingMeetingLog.setFramingMeeting(framingMeeting);
+        framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        framingMeetingLog.setLogDate(CalendarExt.getToday());
+        framingMeetingLog.setLogType(logType);
+        if (logType.equals(FramingMeetingConstants.LOG_TYPE_FINISHED))
+            framingMeetingLog.setLstElements(lstElements);
+        framingMeetingLog.setFinalValue(new Gson().toJson(lstElements));
+        return framingMeetingLog;
+    }
+
+    private FramingMeetingLog getAdditionalQuestionLog(FramingMeeting framingMeeting, AdditionalQuestionsForView view, String logType) {
+        FramingMeetingLog framingMeetingLog = new FramingMeetingLog();
+        List<FramingLogElement> lstElements = new ArrayList<>();
+        FramingLogElement element = new FramingLogElement();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+        element.setFieldName("Se encuentra en tratamiento de adicciones");
+
+        if (view.getAddictedAcquaintance().equals(1)) {
+            element.setValue("Si");
+            lstElements.add(element);
+
+            element = new FramingLogElement();
+            element.setFieldName("Instituci&oacute;n");
+            element.setValue(view.getAddictionTreatmentInstitute());
+            lstElements.add(element);
+
+            try {
+                element = new FramingLogElement();
+                element.setFieldName("Desde cu&aacute;ando");
+                element.setValue(sdf.format(view.getAddictionTreatmentDate()));
+                lstElements.add(element);
+            } catch (Exception e) {
+                System.out.println("error al parsear la fecha");
+            }
+
+        } else {
+            element.setValue("No");
+            lstElements.add(element);
+        }
+
+        element = new FramingLogElement();
+        element.setFieldName("Familiares y/o amigos consumen substancias adictivas");
+
+        if (view.getAddictedAcquaintance().equals(1)) {
+
+            element.setValue("Si");
+            lstElements.add(element);
+
+            Type listType = new TypeToken<List<RelativeAbroadView>>() {
+            }.getType();
+
+            List<RelativeAbroadView> viewLst = new Gson().fromJson(view.getSelectedAddictedAcquaintances(), listType);
+
+            String addictedAcquaintancesStr = "";
+            for (RelativeAbroadView act : viewLst) {
+                if (act.getSelVal() == true) {
+                    if (addictedAcquaintancesStr != "")
+                        addictedAcquaintancesStr += ", ";
+                    addictedAcquaintancesStr += act.getName();
+                }
+            }
+
+            element = new FramingLogElement();
+            element.setFieldName("Relaci&oacute;n");
+            element.setValue(addictedAcquaintancesStr);
+            lstElements.add(element);
+
+        } else {
+            element.setValue("No");
+            lstElements.add(element);
+        }
+
+        element = new FramingLogElement();
+        element.setFieldName("Familiares en el extranjero");
+
+        if (view.getRelativeAbroad().equals(1)) {
+
+            element.setValue("Si");
+            lstElements.add(element);
+
+            Type listType = new TypeToken<List<RelativeAbroadView>>() {
+            }.getType();
+
+            List<RelativeAbroadView> viewLst = new Gson().fromJson(view.getSelectedRelativesAbroad(), listType);
+
+            String relativeAbroadStr = "";
+            for (RelativeAbroadView act : viewLst) {
+                if (act.getSelVal() == true) {
+                    if (relativeAbroadStr != "")
+                        relativeAbroadStr += "- ";
+                    relativeAbroadStr += act.getName() + ", vive en " + act.getDescription();
+                }
+            }
+
+            element = new FramingLogElement();
+            element.setFieldName("Relaci&oacute;n");
+            element.setValue(relativeAbroadStr);
+            lstElements.add(element);
+
+        } else {
+            element.setValue("No");
+            lstElements.add(element);
+        }
+
+        element = new FramingLogElement();
+        element.setFieldName("Dificultades para cumplir obligaciones");
+
+        if (view.getRelativeAbroad().equals(1)) {
+
+            element.setValue("Si");
+            lstElements.add(element);
+
+            Type listType = new TypeToken<List<RelativeAbroadView>>() {
+            }.getType();
+
+            List<RelativeAbroadView> viewLst = new Gson().fromJson(view.getSelectedObligationIssues(), listType);
+
+            String relativeAbroadStr = "";
+            for (RelativeAbroadView act : viewLst) {
+                if (act.getSelVal() == true) {
+                    if (relativeAbroadStr != "")
+                        relativeAbroadStr += "- ";
+                    relativeAbroadStr += act.getName() + ", " + act.getDescription();
+                }
+            }
+
+            element = new FramingLogElement();
+            element.setFieldName("Causas");
+            element.setValue(relativeAbroadStr);
+            lstElements.add(element);
+
+        } else {
+            element.setValue("No");
+            lstElements.add(element);
+        }
+
+        element = new FramingLogElement();
+        element.setFieldName("Observaciones");
+        element.setValue(view.getObservations());
+        lstElements.add(element);
+
+        framingMeetingLog.setTitle("Formulario de preguntas al supervisado");
+        framingMeetingLog.setFramingMeeting(framingMeeting);
+        framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        framingMeetingLog.setLogDate(CalendarExt.getToday());
+        framingMeetingLog.setLogType(logType);
+        framingMeetingLog.setFinalValue(new Gson().toJson(lstElements));
+
+        return framingMeetingLog;
+    }
+
+    private FramingMeetingLog getEnvironmentAnalysisLog(FramingMeeting framingMeeting, FramingEnvironmentAnalysisForView view, String logType) {
+
+        FramingMeetingLog framingMeetingLog = new FramingMeetingLog();
+        List<FramingLogElement> lstElements = new ArrayList<>();
+        FramingLogElement element = new FramingLogElement();
+
+        Type listType = new TypeToken<List<Long>>() {
+        }.getType();
+
+        List<Long> idsSelectedSources = new Gson().fromJson(view.getLstSelectedSources(), listType);
+        List<Long> idsSelectedRisks = new Gson().fromJson(view.getLstSelectedRisk(), listType);
+        List<Long> idsSelectedThreats = new Gson().fromJson(view.getLstSelectedThreat(), listType);
+
+
+        List<SelectList> sources = framingMeetingRepository.getEnvironmentSources(framingMeeting.getId(), idsSelectedSources);
+        List<String> risk = framingMeetingRepository.getRiskByFramingId(framingMeeting.getId(), idsSelectedRisks);
+        List<String> threat = framingMeetingRepository.getRThreatByFramingId(framingMeeting.getId(), idsSelectedThreats);
+        List<String> arrangements = new Gson().fromJson(view.getLstSelectedArrangement(), new TypeToken<List<String>>() {
+        }.getType());
+
+        element.setFieldName("V&iacute;nculos, v&iacute;ctimas y testigos");
+        String cad = "";
+        for (SelectList act : sources) {
+
+            if (cad != "")
+                cad += "; ";
+            cad += act.getName();
+            if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
+                cad += ", vive con el imputado";
+            else if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
+                cad += ", referencia personal";
+            else if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM))
+                cad += ", v&iacute;ctima";
+            else if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
+                cad += ", testigo";
+        }
+        element.setValue(cad);
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Riesgos");
+        cad = "";
+        for (String act : risk) {
+            if (cad != "")
+                cad += ", ";
+            cad += act;
+        }
+        element.setValue(cad);
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Amenzas");
+        cad = "";
+        for (String act : threat) {
+            if (cad != "")
+                cad += ", ";
+            cad += act;
+        }
+        element.setValue(cad);
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Obligaciones procesales");
+        cad = "";
+        for (String act : arrangements) {
+            if (cad != "")
+                cad += ", ";
+            cad += act;
+        }
+        element.setValue(cad);
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Observaciones");
+        element.setValue(view.getEnvironmentComments());
+        lstElements.add(element);
+
+        framingMeetingLog.setTitle("An&aacute;lisis del entorno");
+        framingMeetingLog.setFramingMeeting(framingMeeting);
+        framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        framingMeetingLog.setLogDate(CalendarExt.getToday());
+        framingMeetingLog.setLogType(logType);
+        framingMeetingLog.setFinalValue(new Gson().toJson(lstElements));
+
+        return framingMeetingLog;
+    }
+
+    private List<FramingMeetingLog> getTerminateLog(Long idCase, FramingMeeting framingMeeting) {
+
+        List<FramingMeetingLog> lstLog = new ArrayList<>();
+        List<FramingLogElement> lstElements = new ArrayList<>();
+        FramingMeetingLog obj;
+        FramingLogElement obs;
+
+        //datos personales
+        obj = getFramingPersonalDataLog(framingMeeting, fillPersonalDataForView(idCase), FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setLogIndex(1);
+        lstLog.add(obj);
+
+        //domicilios
+        obj = new FramingMeetingLog();
+        lstElements = new ArrayList<>();
+        for (FramingAddress fa : framingMeeting.getFramingAddresses()) {
+            lstElements.addAll(getFramingAddressLog(framingMeeting, fillFramingAddressForView(fa), FramingMeetingConstants.LOG_TYPE_FINISHED).getLstElements());
+        }
+
+        obj.setTitle("Domicilios");
+        obj.setFramingMeeting(framingMeeting);
+        obj.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        obj.setLogDate(CalendarExt.getToday());
+        obj.setLogType(FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setFinalValue(new Gson().toJson(lstElements));
+        obj.setLogIndex(2);
+        lstLog.add(obj);
+
+        //personas que viven con el
+        obj = new FramingMeetingLog();
+        lstElements = new ArrayList<>();
+        for (FramingReference fr : framingMeetingRepository.getReferencesByPersonType(framingMeeting.getId(), new ArrayList<String>() {{
+            add(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE);
+        }})) {
+            lstElements.addAll(getFramingReferenceLog(framingMeeting, fr, FramingMeetingConstants.LOG_TYPE_FINISHED).getLstElements());
+        }
+
+        obs = new FramingLogElement();
+        obs.setFieldName("Observaciones");
+        obs.setValue(framingMeeting.getHousemateComments());
+        lstElements.add(obs);
+
+        obj.setTitle("Personas que viven con el imputado");
+        obj.setFramingMeeting(framingMeeting);
+        obj.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        obj.setLogDate(CalendarExt.getToday());
+        obj.setLogType(FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setFinalValue(new Gson().toJson(lstElements));
+        obj.setLogIndex(3);
+        lstLog.add(obj);
+
+
+        //refencias personales
+        obj = new FramingMeetingLog();
+        lstElements = new ArrayList<>();
+        for (FramingReference fr : framingMeetingRepository.getReferencesByPersonType(framingMeeting.getId(), new ArrayList<String>() {{
+            add(FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+        }})) {
+            lstElements.addAll(getFramingReferenceLog(framingMeeting, fr, FramingMeetingConstants.LOG_TYPE_FINISHED).getLstElements());
+        }
+
+        obs = new FramingLogElement();
+        obs.setFieldName("Observaciones");
+        obs.setValue(framingMeeting.getReferencesComments());
+        lstElements.add(obs);
+
+        obj.setTitle("Referencias personales");
+        obj.setFramingMeeting(framingMeeting);
+        obj.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        obj.setLogDate(CalendarExt.getToday());
+        obj.setLogType(FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setFinalValue(new Gson().toJson(lstElements));
+        obj.setLogIndex(4);
+        lstLog.add(obj);
+
+        //victimas y testigos
+
+        obj = new FramingMeetingLog();
+        lstElements = new ArrayList<>();
+        for (FramingReference fr : framingMeetingRepository.getReferencesByPersonType(framingMeeting.getId(), new ArrayList<String>() {{
+            add(FramingMeetingConstants.PERSON_TYPE_VICTIM);
+            add(FramingMeetingConstants.PERSON_TYPE_WITNESS);
+        }})) {
+            lstElements.addAll(getFramingReferenceLog(framingMeeting, fr, FramingMeetingConstants.LOG_TYPE_FINISHED).getLstElements());
+        }
+
+        obs = new FramingLogElement();
+        obs.setFieldName("Observaciones");
+        obs.setValue(framingMeeting.getVictimComments());
+        lstElements.add(obs);
+
+        obj.setTitle("V&iacute;ctimas y testigos");
+        obj.setFramingMeeting(framingMeeting);
+        obj.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        obj.setLogDate(CalendarExt.getToday());
+        obj.setLogType(FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setFinalValue(new Gson().toJson(lstElements));
+        obj.setLogIndex(5);
+        lstLog.add(obj);
+
+        //historia escolar
+
+        obj = new FramingMeetingLog();
+        obj = getSchoolLog(framingMeeting, fillSchoolForView(idCase), FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setLogIndex(6);
+        lstLog.add(obj);
+
+        //historia laboral
+
+        obj = new FramingMeetingLog();
+        lstElements = new ArrayList<>();
+        for (Job job : framingMeeting.getJobs()) {
+            lstElements.addAll(getJobLog(framingMeeting, fillJobForView(job.getId(), idCase), FramingMeetingConstants.LOG_TYPE_FINISHED).getLstElements());
+        }
+        obs = new FramingLogElement();
+        obs.setFieldName("Observaciones");
+        obs.setValue(framingMeeting.getJobComments());
+        lstElements.add(obs);
+
+        obj.setTitle("Historia laboral");
+        obj.setFramingMeeting(framingMeeting);
+        obj.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        obj.setLogDate(CalendarExt.getToday());
+        obj.setLogType(FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setFinalValue(new Gson().toJson(lstElements));
+        obj.setLogIndex(7);
+        lstLog.add(obj);
+
+        //actividades
+
+        obj = new FramingMeetingLog();
+        lstElements = new ArrayList<>();
+        for (FramingActivity activity : framingMeeting.getActivities()) {
+            lstElements.addAll(getActivityLog(framingMeeting, fillActivityForView(activity.getId(), idCase), FramingMeetingConstants.LOG_TYPE_FINISHED).getLstElements());
+        }
+
+        obs = new FramingLogElement();
+        obs.setFieldName("Observaciones");
+        obs.setValue(framingMeeting.getActivitiesComments());
+        lstElements.add(obs);
+
+        obj.setTitle("Actividades que realiza el imputado");
+        obj.setFramingMeeting(framingMeeting);
+        obj.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        obj.setLogDate(CalendarExt.getToday());
+        obj.setLogType(FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setFinalValue(new Gson().toJson(lstElements));
+        obj.setLogIndex(8);
+        lstLog.add(obj);
+
+        //consumo de sustancias
+
+        obj = new FramingMeetingLog();
+        lstElements = new ArrayList<>();
+        for (Drug drug : framingMeeting.getDrugs()) {
+            lstElements.addAll(getDrugLog(framingMeeting, drug, FramingMeetingConstants.LOG_TYPE_FINISHED).getLstElements());
+        }
+
+        obs = new FramingLogElement();
+        obs.setFieldName("Observaciones");
+        obs.setValue(framingMeeting.getDrugsComments());
+        lstElements.add(obs);
+
+        obj.setTitle("Consumo de sustancias");
+        obj.setFramingMeeting(framingMeeting);
+        obj.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        obj.setLogDate(CalendarExt.getToday());
+        obj.setLogType(FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setFinalValue(new Gson().toJson(lstElements));
+        obj.setLogIndex(9);
+        lstLog.add(obj);
+
+        //formulario de preguntas
+
+        obj = new FramingMeetingLog();
+        obj = getAdditionalQuestionLog(framingMeeting, fillAddtionalQuestionsForView(idCase), FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setLogIndex(10);
+        lstLog.add(obj);
+
+        //analisis del entorno
+
+        obj = new FramingMeetingLog();
+        obj = getEnvironmentAnalysisLog(framingMeeting, loadEnvironmentAnalysis(idCase), FramingMeetingConstants.LOG_TYPE_FINISHED);
+        obj.setLogIndex(11);
+        lstLog.add(obj);
+
+        return lstLog;
+    }
+
+    private FramingMeetingLog getCommentLog(FramingMeeting framingMeeting, String comment, String title, String logType) {
+        FramingMeetingLog framingMeetingLog = new FramingMeetingLog();
+        List<FramingLogElement> lstElements = new ArrayList<>();
+        FramingLogElement element = new FramingLogElement();
+
+        element.setFieldName("Observaciones");
+        element.setValue(comment);
+        lstElements.add(element);
+
+        framingMeetingLog.setTitle(title);
+        framingMeetingLog.setFramingMeeting(framingMeeting);
+        framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        framingMeetingLog.setLogDate(CalendarExt.getToday());
+        framingMeetingLog.setLogType(logType);
+        framingMeetingLog.setFinalValue(new Gson().toJson(lstElements));
+
+        return framingMeetingLog;
     }
 
 }

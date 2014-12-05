@@ -29,5 +29,6 @@ public class HearingFormatConstants {
 
     public static final Long ID_PRISON_ARRANGEMENT_NAC = 4L;
     public static final Long ID_PRISON_ARRANGEMENT_LOC = 36L;
+    public static final Long ID_IMPUTED_PROMISE_ARRANGEMENT_LOC = 37L;
 
 }

@@ -19,6 +19,7 @@ import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -27,10 +28,7 @@ import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.shared.SelectFilterFields;
-import com.umeca.repository.supervisor.FramingAddressRepository;
-import com.umeca.repository.supervisor.FramingMeetingRepository;
-import com.umeca.repository.supervisor.FramingReferenceRepository;
-import com.umeca.repository.supervisor.HearingFormatRepository;
+import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.shared.CrimeService;
@@ -49,6 +47,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Controller
@@ -107,6 +106,9 @@ public class FramingMeetingController {
 
     @Autowired
     private FramingMeetingRepository framingMeetingRepository;
+
+    @Autowired
+    private FramingMeetingLogRepository framingMeetingLogRepository;
 
     @RequestMapping(value = "/supervisor/framingMeeting/index", method = RequestMethod.GET)
     public String index() {
@@ -301,14 +303,14 @@ public class FramingMeetingController {
             returnId = -1;
 
         model.addObject("returnId", returnId);
-        Long idFileTR = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_TECH_REVIEW,id);
-        model.addObject("fileIdTR",idFileTR);
-        Long idFilePhoto = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_IMPUTED_PHOTO,id);
-        model.addObject("fileIdPhoto",idFilePhoto);
-        if(idFilePhoto!=null){
-            UploadFile file= upDwFileService.getPathAndFilename(idFilePhoto);
+        Long idFileTR = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_TECH_REVIEW, id);
+        model.addObject("fileIdTR", idFileTR);
+        Long idFilePhoto = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_IMPUTED_PHOTO, id);
+        model.addObject("fileIdPhoto", idFilePhoto);
+        if (idFilePhoto != null) {
+            UploadFile file = upDwFileService.getPathAndFilename(idFilePhoto);
             String path = new File(file.getPath(), file.getRealFileName()).toString();
-            model.addObject("pathPhoto",path);
+            model.addObject("pathPhoto", path);
         }
         return model;
     }
@@ -734,7 +736,6 @@ public class FramingMeetingController {
     public
     @ResponseBody
     ResponseMessage doAddressUpsert(@RequestParam Long idCase, @ModelAttribute FramingAddressDto view) {
-
         return framingMeetingService.saveFramingAddress(idCase, view);
     }
 
@@ -833,25 +834,25 @@ public class FramingMeetingController {
         return framingMeetingService.saveSelectedItems(idCase, view);
     }
 
-    @RequestMapping(value = "/supervisor/framingMeeting/processAccompaniment/loadProcessAccompaniment", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ProcessAccompanimentForView loadProcessAccompaniment(@RequestParam(required = true) Long idCase) {
-
-        return framingMeetingService.fillProcessAccompanimentForView(idCase);
-    }
-
-    @RequestMapping(value = "/supervisor/framingMeeting/processAccompaniment/doUpsert", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage processAccompanimentDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute ProcessAccompanimentForView view) {
-
-        ProcessAccompaniment processAccompaniment = framingMeetingService.fillProcessAccompaniment(idCase, view);
-        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
-        existFraming.setProcessAccompaniment(processAccompaniment);
-
-        return framingMeetingService.save(existFraming);
-    }
+//    @RequestMapping(value = "/supervisor/framingMeeting/processAccompaniment/loadProcessAccompaniment", method = RequestMethod.POST)
+//    public
+//    @ResponseBody
+//    ProcessAccompanimentForView loadProcessAccompaniment(@RequestParam(required = true) Long idCase) {
+//
+//        return framingMeetingService.fillProcessAccompanimentForView(idCase);
+//    }
+//
+//    @RequestMapping(value = "/supervisor/framingMeeting/processAccompaniment/doUpsert", method = RequestMethod.POST)
+//    public
+//    @ResponseBody
+//    ResponseMessage processAccompanimentDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute ProcessAccompanimentForView view) {
+//
+//        ProcessAccompaniment processAccompaniment = framingMeetingService.fillProcessAccompaniment(idCase, view);
+//        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+//        existFraming.setProcessAccompaniment(processAccompaniment);
+//
+//        return framingMeetingService.save(existFraming);
+//    }
 
     @RequestMapping(value = "/supervisor/framingMeeting/additionalQuestions/loadAdditionalQuestion", method = RequestMethod.GET)
     public
@@ -885,6 +886,9 @@ public class FramingMeetingController {
         FramingImputedPersonalData personalData = framingMeetingService.fillPersonalData(idCase, view);
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
         existFraming.setPersonalData(personalData);
+
+        if (existFraming.getIsTerminated() == true)
+            framingMeetingLogRepository.save(framingMeetingService.getFramingPersonalDataLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
 
         return framingMeetingService.save(existFraming);
     }
@@ -1084,5 +1088,31 @@ public class FramingMeetingController {
 
         return framingMeetingService.saveVictim(existCase, framingReference);
     }
+
+    @RequestMapping(value = "/supervisor/framingMeeting/framingMeetingLog", method = RequestMethod.GET)
+    public ModelAndView showLog(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/supervisor/framingMeeting/framingMeetingLog");
+
+        List<SelectList> lstLog = framingMeetingLogRepository.getLogByIdFraming(id, new ArrayList<String>() {{
+            add(FramingMeetingConstants.LOG_TYPE_ADDED);
+            add(FramingMeetingConstants.LOG_TYPE_MODIFIED);
+            add(FramingMeetingConstants.LOG_TYPE_DELETED);
+        }});
+        model.addObject("lstAlterLog", new Gson().toJson(lstLog));
+        model.addObject("lstDayChanges", new Gson().toJson(framingMeetingLogRepository.getChangeLogDatesByIdFraming(id,
+                new ArrayList<String>() {{
+                    add(FramingMeetingConstants.LOG_TYPE_ADDED);
+                    add(FramingMeetingConstants.LOG_TYPE_MODIFIED);
+                    add(FramingMeetingConstants.LOG_TYPE_DELETED);
+                }})));
+
+        List<SelectList> lstTerminateLog = framingMeetingLogRepository.getTerminatedLogByIdFraming(id, new ArrayList<String>() {{
+            add(FramingMeetingConstants.LOG_TYPE_FINISHED);
+        }});
+        model.addObject("lstTerminateLog", new Gson().toJson(lstTerminateLog));
+
+        return model;
+    }
+
 
 }

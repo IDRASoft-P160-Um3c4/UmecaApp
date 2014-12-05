@@ -6,6 +6,7 @@ app.controller('housemateController', function ($scope, $timeout, $rootScope) {
     $scope.init = function () {
         $scope.fillSelRelationship();
         $scope.fillSelAcademicLvl();
+        $scope.disableFields($scope.hm.hasVictimWitnessInfo);
     };
 
     $timeout(function () {
@@ -55,6 +56,48 @@ app.controller('housemateController', function ($scope, $timeout, $rootScope) {
                     $scope.hm.academicLvl = rel;
                     break;
                 }
+            }
+        }
+    };
+
+    $scope.existHousemate = function (val) {
+
+        if (val == false) {
+            $scope.hm.name = "NO APLICA";
+            $scope.hm.age = "NO APLICA";
+            $scope.hm.occupation = "NO APLICA";
+            $scope.hm.timeAgo = "NO APLICA";
+            $scope.hm.isAccompaniment = false;
+        } else {
+            $scope.hm.name = "";
+            $scope.hm.age = "";
+            $scope.hm.occupation = "";
+            $scope.hm.timeAgo = "";
+            $scope.hm.isAccompaniment = true;
+        }
+        $scope.disableFields(val);
+    };
+
+    $scope.disableFields = function (val) {
+
+        if (val == false) {
+            $("#divHM :input").attr("disabled", true);
+            $("#divHiddenHm :input").attr("disabled", false);
+            $scope.selRelationshipNone();
+        } else {
+            $("#divHM :input").attr("disabled", false);
+            $("#divHiddenHm :input").attr("disabled", true);
+        }
+
+    };
+
+    $scope.selRelationshipNone = function () {
+
+        for (var i = 0; i < $scope.lstRelationship.length; i++) {
+            var rel = $scope.lstRelationship[i];
+            if (rel.name.toLowerCase() == "ninguno") {
+                $scope.hm.relationship = rel;
+                break;
             }
         }
     };
@@ -144,4 +187,5 @@ app.controller('housemateController', function ($scope, $timeout, $rootScope) {
             dlg.replaceWith("");
         });
     };
-});
+})
+;

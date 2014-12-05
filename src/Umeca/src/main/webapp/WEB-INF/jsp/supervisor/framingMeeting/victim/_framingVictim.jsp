@@ -11,13 +11,13 @@
         var canTerminate = $('#canTerminateVictim').attr("value");
 
         upsertVictim = function (id) {
-            if (canTerminate == 'true')
-                window.showUpsertWithIdCase(id, "#angJsjqGridIdVictim", "<c:url value='/supervisor/framingMeeting/victim/upsert.html'/>", "#GridVictim", undefined, idCase);
+            //if (canTerminate == 'true')
+            window.showUpsertWithIdCase(id, "#angJsjqGridIdVictim", "<c:url value='/supervisor/framingMeeting/victim/upsert.html'/>", "#GridVictim", undefined, idCase);
         };
 
         deleteVictim = function (id) {
-            if (canTerminate == 'true')
-                window.showObsolete(id, "#angJsjqGridIdVictim", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridVictim");
+            //if (canTerminate == 'true')
+            window.showObsolete(id, "#angJsjqGridIdVictim", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridVictim");
         };
 
         jQuery("#GridVictim").jqGrid({
@@ -136,7 +136,8 @@
                 </div>
             </form>
             <div class="col-xs-12">
-                <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
+                <%--<div class="modal-footer" ng-show="fm.objView.canTerminate==true">--%>
+                <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submitComments('#FormCommentVictim', '<c:url value="/supervisor/framingMeeting/upsertVictimComments.json?idCase="/>',fm.objView.idCase);">
                     <span class="glyphicon glyphicon-cloud-upload"></span>

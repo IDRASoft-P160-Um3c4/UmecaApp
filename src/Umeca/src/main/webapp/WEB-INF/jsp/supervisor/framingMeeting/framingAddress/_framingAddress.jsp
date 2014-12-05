@@ -16,16 +16,14 @@
         var canTerminate = $('#canTerminateAddress').attr("value");
 
         upsertAddress = function (id) {
-            if (canTerminate == 'true')
-                window.showUpsertWithIdCase(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/upsert.html'/>", "#GridAddress", undefined, idCase);
+            //if (canTerminate == 'true')
+            window.showUpsertWithIdCase(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/upsert.html'/>", "#GridAddress", undefined, idCase);
         };
 
 
         deleteAddress = function (id) {
-            if (canTerminate == 'true') {
-                window.showObsolete(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/delete.json'/>", "#GridAddress");
-
-            }
+            //if (canTerminate == 'true')
+            window.showObsolete(id, "#angJsjqGridIdAddress", "<c:url value='/supervisor/framingMeeting/address/delete.json'/>", "#GridAddress");
         };
 
 
@@ -140,7 +138,8 @@
                 </div>
             </form>
             <div class="col-xs-12">
-                <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
+                <%--<div class="modal-footer" ng-show="fm.objView.canTerminate==true">--%>
+                <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submitComments('#FormCommentAddress', '<c:url value="/supervisor/framingMeeting/upsertAddressComments.json?idCase="/>',fm.objView.idCase);">
                     <span class="glyphicon glyphicon-cloud-upload"></span>

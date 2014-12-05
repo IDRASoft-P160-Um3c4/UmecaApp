@@ -38,4 +38,10 @@ public interface ArrangementRepository extends JpaRepository<Arrangement, Long> 
             "INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa INNER JOIN aa.arrangement arr " +
             "WHERE amp.id =:id")
     List<SelectList> findArrangementById(@Param("id") Long id);
+
+    @Query("SELECT concat(arr.description,', ',aa.description) FROM HearingFormat hf " +
+            "INNER JOIN hf.assignedArrangements aa " +
+            "INNER JOIN aa.arrangement arr " +
+            "WHERE hf.id =:idFormat")
+    List<String> findArrangementsByIdFormat(@Param("idFormat") Long idFormat);
 }

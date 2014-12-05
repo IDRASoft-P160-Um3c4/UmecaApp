@@ -25,6 +25,10 @@ public class FramingAddressDto {
     private Long registerTypeId;
     private Long homeTypeId;
 
+    private String addressStr;
+    private String registerTypeStr;
+    private String homeTypeStr;
+
     public FramingAddressDto framingAddressDto(Address address) {
         this.id = address.getId();
         this.street = address.getStreet();
@@ -36,6 +40,25 @@ public class FramingAddressDto {
             this.zipCode = address.getLocation().getZipCode();
         }
         return this;
+    }
+
+    public FramingAddressDto() {
+    }
+
+    public FramingAddressDto(Long id, String addressString, String addressRef, String timeAgo, String timeLive,
+                             String reasonAnother, String phone, String reasonChange, String specification,
+                             String registerType, String homeType) {
+        this.id = id;
+        this.addressStr = addressString;
+        this.addressRef = addressRef;
+        this.timeAgo = timeAgo;
+        this.timeLive = timeLive;
+        this.reasonAnother = reasonAnother;
+        this.phone = phone;
+        this.reasonChange = reasonChange;
+        this.specification = specification;
+        this.registerTypeStr = registerType;
+        this.homeTypeStr = homeType;
     }
 
     public Long getId() {
@@ -188,5 +211,29 @@ public class FramingAddressDto {
 
     public void setHomeTypeId(Long homeTypeId) {
         this.homeTypeId = homeTypeId;
+    }
+
+    public String getAddressStr() {
+        return addressStr;
+    }
+
+    public void setAddressStr(String addressStr) {
+        this.addressStr = addressStr;
+    }
+
+    public String getRegisterTypeStr() {
+        return registerTypeStr;
+    }
+
+    public void setRegisterTypeStr(String registerTypeStr) {
+        this.registerTypeStr = registerTypeStr;
+    }
+
+    public String getHomeTypeStr() {
+        return homeTypeStr;
+    }
+
+    public void setHomeTypeStr(String homeTypeStr) {
+        this.homeTypeStr = homeTypeStr;
     }
 }

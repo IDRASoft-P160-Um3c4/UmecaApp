@@ -33,106 +33,150 @@
         </div>
         <div class="widget-body">
             <div class="row">
-                <div class="col-xs-12">
+
+                <div class="col-xs-12 element-center">
+                    <label>&iquest;El imputado vive con alguna persona?</label>
+                    <br/>
+                      <span class="field-validation-valid" data-valmsg-for="hasVictimWitnessInfo"
+                            data-valmsg-replace="true"></span>
                     <br/>
 
-                    <div class="col-xs-7">
-                        <label>Nombre</label>
+                    <div class="radio">
+                        <label>
+                            <input name="hasVictimWitnessInfo" class="ace" type="radio" ng-value="true"
+                                   ng-model="hm.hasVictimWitnessInfo"
+                                   ng-checked="hm.hasVictimWitnessInfo==true" data-val="true"
+                                   data-val-required="Debe seleccionar un valor"
+                                   ng-change="existHousemate(hm.hasVictimWitnessInfo);">
+                            <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input name="hasVictimWitnessInfo" class="ace" type="radio"
+                                   ng-value="false"
+                                   ng-model="hm.hasVictimWitnessInfo"
+                                   ng-checked="hm.hasVictimWitnessInfo==false" data-val="true"
+                                   data-val-required="Debe seleccionar un valor"
+                                   ng-change="existHousemate(hm.hasVictimWitnessInfo);">
+                            <span class="lbl">&nbsp;&nbsp;No</span>
+                        </label>
+                    </div>
+
+                    <div id="divHiddenHm">
+                        <input type="hidden" name="name" value="{{hm.name}}">
+                        <input type="hidden" name="age" value="{{hm.age}}">
+                        <input type="hidden" name="occupation" value="{{hm.occupation}}">
+                        <input type="hidden" name="timeAgo" value="{{hm.timeAgo}}">
+                    </div>
+
+                </div>
+
+                <div id="divHM">
+                    <div class="col-xs-12">
                         <br/>
-                        <input id="name" ng-model="hm.name" name="name" type="text"
-                               class="input-xxlarge" data-val="true"
-                               data-val-required="Nombre es un campo requerido"/>
-                        <br/>
+
+                        <div class="col-xs-7">
+                            <label>Nombre</label>
+                            <br/>
+                            <input id="name" ng-model="hm.name" name="name" type="text"
+                                   class="input-xxlarge" data-val="true"
+                                   data-val-required="Nombre es un campo requerido"/>
+                            <br/>
                                         <span class="field-validation-valid" data-valmsg-for="name"
                                               data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="col-xs-4">
-                        <label>Edad</label>
-                        <br/>
-                        <input id="age" ng-model="hm.age" name="age" type="text"
-                               class="input-xxlarge" data-val="true"
-                               data-val-required="Edad es un campo requerido"/>
-                        <br/>
+                        </div>
+                        <div class="col-xs-4">
+                            <label>Edad</label>
+                            <br/>
+                            <input id="age" ng-model="hm.age" name="age" type="text"
+                                   class="input-xxlarge" data-val="true"
+                                   data-val-required="Edad es un campo requerido"/>
+                            <br/>
                                         <span class="field-validation-valid" data-valmsg-for="age"
                                               data-valmsg-replace="true"></span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-xs-12">
-                    <br/>
+                    <div class="col-xs-12">
+                        <br/>
 
-                    <div class="col-xs-6">
+                        <div class="col-xs-6">
 
-                        <label>Relaci&oacute;n con el imputado:</label><label class="info-example">(En
-                        caso de no tener relaci&oacute;n explique por cu&aacute;nto tiempo lo conoce)</label>
-                        <br/>
-                        <select class="form-control element-center" ng-model="hm.relationship"
-                                ng-options="e.name for e in lstRelationship"
-                                ng-init='lstRelationship = ${lstRelationship};'></select>
-                    </div>
-                    <div class="col-xs-6" ng-show="hm.relationship.id==8">
-                        <label>Tiempo de conocerlo</label>
-                        <br/>
-                        <input id="timeAgo" ng-model="hm.timeAgo" name="timeAgo" type="text"
-                               class="input-xxlarge" data-val="true"
-                               data-val-required="Tiempo de conocerlo es un campo requerido"/>
-                        <br/>
+                            <label>Relaci&oacute;n con el imputado:</label><label class="info-example">(En
+                            caso de no tener relaci&oacute;n explique por cu&aacute;nto tiempo lo conoce)</label>
+                            <br/>
+                            <select class="form-control element-center" ng-model="hm.relationship"
+                                    ng-options="e.name for e in lstRelationship"
+                                    ng-init='lstRelationship = ${lstRelationship};'></select>
+                        </div>
+                        <div class="col-xs-6" ng-show="hm.relationship.id==8">
+                            <label>Tiempo de conocerlo</label>
+                            <br/>
+                            <input id="timeAgo" ng-model="hm.timeAgo" name="timeAgo" type="text"
+                                   class="input-xxlarge" data-val="true"
+                                   data-val-required="Tiempo de conocerlo es un campo requerido"/>
+                            <br/>
                                         <span class="field-validation-valid" data-valmsg-for="timeAgo"
                                               data-valmsg-replace="true"></span>
+                        </div>
                     </div>
-                </div>
-                <br/>
-
-                <div class="col-xs-12" ng-show="hm.relationship.specification == true">
                     <br/>
-                    <div class="col-xs-6">
+
+                    <div class="col-xs-12" ng-show="hm.relationship.specification == true">
+                        <br/>
+
+                        <div class="col-xs-6">
                             Especif&iacute;que relaci&oacute;n:
-                      <br/>
+                            <br/>
                             <input class="form-control" data-val="true"
                                    data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
                                    data-val-length-max="255" data-val-length-min="2"
                                    data-val-required="La especificaci&oacute;n es un campo requerido"
                                    type="text" ng-model="hm.specificationRelationship"
                                    id="specificationRelationship" name="specificationRelationship">
-                        <br/>
-                        <div class="col-xs-9 col-xs-offset-3">
-                            <span class="field-validation-valid" data-valmsg-for="specificationRelationship" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
+                            <br/>
 
-                </div>
-                <br/>
-                <div class="col-xs-12">
-                    <div class="col-xs-11">
-                        <label>Ocupaci&oacute;n</label>
-                        <br/>
-                        <input id="occupation" ng-model="hm.occupation" name="occupation" type="text"
-                               class="input-xxlarge" data-val="true"
-                               data-val-required="Ocupaci&oacute;n es un campo requerido"/>
-                        <br/>
+                            <div class="col-xs-9 col-xs-offset-3">
+                            <span class="field-validation-valid" data-valmsg-for="specificationRelationship"
+                                  data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br/>
+
+                    <div class="col-xs-12">
+                        <div class="col-xs-11">
+                            <label>Ocupaci&oacute;n</label>
+                            <br/>
+                            <input id="occupation" ng-model="hm.occupation" name="occupation" type="text"
+                                   class="input-xxlarge" data-val="true"
+                                   data-val-required="Ocupaci&oacute;n es un campo requerido"/>
+                            <br/>
                                         <span class="field-validation-valid" data-valmsg-for="occupation"
                                               data-valmsg-replace="true"></span>
+                        </div>
                     </div>
-                </div>
-                <br/>
-
-                <br/>
-
-                <div class="col-xs-12">
                     <br/>
 
-                    <div class="checkbox">
-                        <label>
-                            <input class="ace"
-                                   type="checkbox"
-                                   name="isAccompaniment"
-                                   ng-model="hm.isAccompaniment"
-                                   ng-checked="hm.isAccompaniment==true">
+                    <br/>
+
+                    <div class="col-xs-12">
+                        <br/>
+
+                        <div class="checkbox">
+                            <label>
+                                <input class="ace"
+                                       type="checkbox"
+                                       name="isAccompaniment"
+                                       ng-model="hm.isAccompaniment"
+                                       ng-checked="hm.isAccompaniment==true">
                                         <span class="lbl col-xs-10">&nbsp;&nbsp;&iquest;&Eacute;sta persona lo acompa&ntilde;ar&aacute;
                                             durante el proceso?</span>
-                        </label>
+                            </label>
+                        </div>
+                        <br/>
                     </div>
-                    <br/>
                 </div>
             </div>
         </div>

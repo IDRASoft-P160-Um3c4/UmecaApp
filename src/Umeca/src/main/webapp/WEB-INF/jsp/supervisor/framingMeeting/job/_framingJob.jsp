@@ -11,13 +11,13 @@
         var canTerminate = $('#canTerminateJob').attr("value");
 
         upsertJob = function (id) {
-            if (canTerminate == 'true')
-                window.showUpsertWithIdCase(id, "#angJsjqGridIdJob", "<c:url value='/supervisor/framingMeeting/job/upsert.html'/>", "#GridIdJob", undefined, idCase);
+            //if (canTerminate == 'true')
+            window.showUpsertWithIdCase(id, "#angJsjqGridIdJob", "<c:url value='/supervisor/framingMeeting/job/upsert.html'/>", "#GridIdJob", undefined, idCase);
         };
 
         deleteJob = function (id) {
-            if (canTerminate == 'true')
-                window.showObsolete(id, "#angJsjqGridIdJob", "<c:url value='/supervisor/framingMeeting/job/delete.json'/>", "#GridIdJob");
+            //if (canTerminate == 'true')
+            window.showObsolete(id, "#angJsjqGridIdJob", "<c:url value='/supervisor/framingMeeting/job/delete.json'/>", "#GridIdJob");
         };
 
         $(document).ready(function () {
@@ -140,7 +140,8 @@
                 </div>
             </form>
             <div class="col-xs-12">
-                <div class="modal-footer" ng-show="fm.objView.canTerminate==true">
+                <%--<div class="modal-footer" ng-show="fm.objView.canTerminate==true">--%>
+                <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submitComments('#FormCommentJob', '<c:url value="/supervisor/framingMeeting/upsertJobComments.json?idCase="/>',fm.objView.idCase);">
                     <span class="glyphicon glyphicon-cloud-upload"></span>

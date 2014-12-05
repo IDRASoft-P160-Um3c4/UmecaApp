@@ -27,13 +27,12 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
 
 
     $scope.disableView = function () {
-
-        if ($scope.fm.objView.canTerminate == false) {
-            $("#divFM :input").attr("disabled", true);
-        }
-        else {
-            $("#divFM :input").attr("disabled", false);
-        }
+        /*if ($scope.fm.objView.canTerminate == false) {
+         $("#divFM :input").attr("disabled", true);
+         }
+         else {
+         $("#divFM :input").attr("disabled", false);
+         }*/
     };
 
     $scope.changeZIndex = function (elementClick) {
@@ -64,24 +63,24 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
     };
 
     $scope.init = function () {
-        $scope.disableView();
+        //$scope.disableView();
         var colorbox_params = {
-            reposition:true,
-            scalePhotos:true,
-            scrolling:false,
-            previous:'<i class="icon-arrow-left"></i>',
-            next:'<i class="icon-arrow-right"></i>',
-            close:'&times;',
-            current:'{current} of {total}',
-            maxWidth:'100%',
-            maxHeight:'100%',
-            onOpen:function(){
+            reposition: true,
+            scalePhotos: true,
+            scrolling: false,
+            previous: '<i class="icon-arrow-left"></i>',
+            next: '<i class="icon-arrow-right"></i>',
+            close: '&times;',
+            current: '{current} of {total}',
+            maxWidth: '100%',
+            maxHeight: '100%',
+            onOpen: function () {
                 document.body.style.overflow = 'hidden';
             },
-            onClosed:function(){
+            onClosed: function () {
                 document.body.style.overflow = 'auto';
             },
-            onComplete:function(){
+            onComplete: function () {
                 $.colorbox.resize();
             }
         };

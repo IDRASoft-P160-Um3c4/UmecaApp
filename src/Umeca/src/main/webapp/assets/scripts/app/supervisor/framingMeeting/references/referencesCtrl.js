@@ -5,6 +5,7 @@ app.controller('referencesController', function ($scope, $timeout, $rootScope) {
 
     $scope.init = function () {
         $scope.fillSelRelationship();
+        $scope.disableFields($scope.refe.hasVictimWitnessInfo);
     };
 
     $timeout(function () {
@@ -15,26 +16,63 @@ app.controller('referencesController', function ($scope, $timeout, $rootScope) {
     $scope.MsgError = "";
     $scope.Model = {};
 
-    $scope.fillSelRelationship=function(){
+    $scope.fillSelRelationship = function () {
 
-        if($scope.lstRelationship === undefined || $scope.lstRelationship.length <= 0)
+        if ($scope.lstRelationship === undefined || $scope.lstRelationship.length <= 0)
             return;
 
-        if($scope.refe.relationshipId === undefined){
+        if ($scope.refe.relationshipId === undefined) {
             $scope.refe.relationship = $scope.lstRelationship[0];
             $scope.refe.relationshipId = $scope.refe.relationship.id;
         }
-        else{
-            for(var i=0; i < $scope.lstRelationship.length; i++){
+        else {
+            for (var i = 0; i < $scope.lstRelationship.length; i++) {
                 var rel = $scope.lstRelationship[i];
 
-                if(rel.id === $scope.refe.relationshipId){
+                if (rel.id === $scope.refe.relationshipId) {
                     $scope.refe.relationship = rel;
                     break;
                 }
             }
         }
-        
+
+    };
+
+    $scope.existHousemate = function (val) {
+
+        if (val == false) {
+            $scope.refe.name = "NO APLICA";
+            $scope.refe.phone = "NO APLICA";
+            $scope.refe.address = "NO APLICA";
+            $scope.refe.timeAgo = "NO APLICA";
+        } else {
+            $scope.refe.name = "";
+            $scope.refe.phone = "";
+            $scope.refe.address = "";
+            $scope.refe.timeAgo = "";
+        }
+        $scope.disableFields(val);
+    };
+
+    $scope.disableFields = function (val) {
+        if (val == false) {
+            $("#divRefe :input").attr("disabled", true);
+            $("#divHiddenRefe :input").attr("disabled", false);
+            $scope.selRelationshipNone();
+        } else {
+            $("#divRefe :input").attr("disabled", false);
+            $("#divHiddenRefe :input").attr("disabled", true);
+        }
+    };
+
+    $scope.selRelationshipNone = function () {
+        for (var i = 0; i < $scope.lstRelationship.length; i++) {
+            var rel = $scope.lstRelationship[i];
+            if (rel.name.toLowerCase() == "ninguno") {
+                $scope.refe.relationship = rel;
+                break;
+            }
+        }
     };
 
     $scope.submitIdCaseParam = function (formId, urlToPost, id) {
@@ -47,7 +85,7 @@ app.controller('referencesController', function ($scope, $timeout, $rootScope) {
         }
         $scope.WaitFor = true;
 
-        var url = urlToPost+id;
+        var url = urlToPost + id;
 
         $.post(url, $(formId).serialize())
             .success($scope.handleSuccess)

@@ -19,6 +19,8 @@ public class SelectList {
     private Long aux;
     private Boolean lock;
     private Boolean specification;
+    private String strDate;
+    private String logType;
 
     public SelectList(Long id, String name) {
         this.id = id;
@@ -77,6 +79,13 @@ public class SelectList {
         this.id = id;
         this.name = name;
         this.specification = specification;
+    }
+
+    public SelectList(String name, String description, String strDate, String logType) {
+        this.name = name;
+        this.description = description;
+        this.strDate = strDate;
+        this.logType = logType;
     }
 
     public SelectList(Long id, Long aux) {
@@ -145,5 +154,21 @@ public class SelectList {
 
     public void setSpecification(Boolean specification) {
         this.specification = specification;
+    }
+
+    public String getStrDate() {
+        return strDate;
+    }
+
+    public void setStrDate(String strDate) {
+        this.strDate = strDate;
+    }
+
+    public String getLogType() {
+        return logType;
+    }
+
+    public void setLogType(String logType) {
+        this.logType = logType;
     }
 }

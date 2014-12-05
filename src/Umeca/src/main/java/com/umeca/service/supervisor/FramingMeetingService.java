@@ -21,17 +21,14 @@ public interface FramingMeetingService {
 
     List<FramingReferenceForView> loadExistSources(Long idCase);
 
-    List<FramingSelectedSourceRel> generateSourceRel(Long idCase, String lstJson);
 
     ResponseMessage saveSelectedItems(Long idCase, FramingEnvironmentAnalysisForView view);
 
     ResponseMessage saveReference(Case existCase, FramingReference newReference);
 
-    ProcessAccompaniment fillProcessAccompaniment(Long idCase, ProcessAccompanimentForView view);
-
-    ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase);
-
-    ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment);
+//    ProcessAccompaniment fillProcessAccompaniment(Long idCase, ProcessAccompanimentForView view);
+//    ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase);
+//    ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment);
 
     ResponseMessage deleteReference(Long id);
 
@@ -78,5 +75,9 @@ public interface FramingMeetingService {
     ResponseMessage saveVictim(Case existCase, FramingReference newReference);
 
     FramingAddressDto fillFramingAddressForView(FramingAddress existAddress);
+
+    FramingMeetingLog getFramingPersonalDataLog(FramingMeeting framingMeeting, FramingPersonalDataView personalData, String logType);
+
+    FramingMeetingLog getFramingAddressLog(FramingMeeting framingMeeting, FramingAddressDto framingAddressDto, String logType);
 
 }

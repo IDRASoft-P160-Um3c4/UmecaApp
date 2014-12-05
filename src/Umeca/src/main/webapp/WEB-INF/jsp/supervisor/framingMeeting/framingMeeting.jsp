@@ -35,7 +35,7 @@
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
           type="text/css">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/colorbox.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/colorbox.css"/>
     <script src="${pageContext.request.contextPath}/assets/scripts/jquery.colorbox-min.js"></script>
 
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
@@ -62,6 +62,13 @@
         window.setPhoto = function (resp) {
             alert("hola!");
         };
+
+        window.framingMeetingLog = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            window.goToNewUrl("<c:url value='/supervisor/framingMeeting/framingMeetingLog.html?id=idParam' />", params);
+        };
+
     </script>
     <style>
         .header {
@@ -70,6 +77,7 @@
             margin-top: 10px !important;
             padding-bottom: 10px !important;
         }
+
         .containerPhoto {
             position: relative;
             text-align: center;
@@ -99,7 +107,7 @@
 <div class="row">
     <div class="col-xs-10">
         <div class="row">
-            <div class="col-sm-5">
+            <div class="col-sm-5 col-xs-offset-1">
                 <h3 class="header smaller lighter blue">
                     <small>Carpeta de investigaci&oacute;n:</small>
                     &nbsp;${idFolder}
@@ -121,7 +129,7 @@
 
         </div>
         <div class="row">
-            <div class="col-sm-10">
+            <div class="col-sm-9 col-xs-offset-1">
                 <h3 class="header smaller lighter blue">
                     <small>Nombre del imputado:</small>
                     &nbsp;${fullNameImputed}
@@ -135,7 +143,7 @@
             </div>
         </div>
         <div class="row" ng-show="${tStart==null?false:true}">
-            <div class="col-sm-8">
+            <div class="col-sm-7 col-xs-offset-1">
                 <h3 class="header smaller lighter blue">
                     <small>Entrevista de riesgos procesales:</small>
                     &nbsp;${tStart}&nbsp;-&nbsp;${tEnd}
@@ -151,7 +159,7 @@
         <div class="row">
             <div
                     ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true; fileIdTR = ${fileIdTR == null?0:fileIdTR};">
-                <div class="col-xs-10">
+                <div class="col-xs-9 col-xs-offset-1">
                     <h3 class="header smaller lighter blue">
                         <br/>
                         <small>Actividades de evaluaci&oacute;n:</small>
@@ -191,9 +199,9 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-1" >
-        <div class="row-fluid" >
-            <ul class="ace-thumbnails" >
+    <div class="col-xs-1">
+        <div class="row-fluid">
+            <ul class="ace-thumbnails">
                 <li>
                     <a href="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
                        data-rel="colorbox" id="idLinkPhotoImputed">
@@ -210,6 +218,21 @@
                 </li>
             </ul>
         </div>
+    </div>
+</div>
+
+<br/>
+
+<div class="row" ng-show="fm.objView.canTerminate==false">
+    <div class="col-xs-4 col-xs-offset-1">
+        <h3 class="header smaller lighter blue">
+            &nbsp;<a href="javascript:;" style="display:inline-block;"
+                     title="Ver registro de cambios en entrevista de encuadre"
+                     onclick="window.framingMeetingLog(${idCase});">
+            <small><span>Ver registro de cambios en entrevista de
+            encuadre</span></small>
+        </a>
+        </h3>
     </div>
 </div>
 
@@ -252,7 +275,7 @@
                         </th>
 
                         <th class="hidden-480">
-                      nb       <i class="icon-caret-right blue"></i>
+                            nb <i class="icon-caret-right blue"></i>
                             Comentarios
                         </th>
                     </tr>

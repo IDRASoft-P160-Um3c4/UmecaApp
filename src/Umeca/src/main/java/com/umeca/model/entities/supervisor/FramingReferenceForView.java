@@ -6,6 +6,15 @@ public class FramingReferenceForView {
     private String description;
     private Boolean valSel;
 
+    public FramingReferenceForView(Long id, String nameRef, String nameRel) {
+        this.id = id;
+        this.description = nameRef + ", " + nameRel;
+        this.valSel = false;
+    }
+
+    public FramingReferenceForView() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -29,4 +38,5 @@ public class FramingReferenceForView {
     public void setValSel(Boolean valSel) {
         this.valSel = valSel;
     }
+
 }

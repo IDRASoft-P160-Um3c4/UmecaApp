@@ -115,6 +115,7 @@ public class CaseActiveController {
                 new ArrayList<String>() {{
                     add(HearingFormatConstants.ID_PRISON_ARRANGEMENT_LOC.toString());
                     add(HearingFormatConstants.ID_PRISON_ARRANGEMENT_NAC.toString());
+                    add(HearingFormatConstants.ID_IMPUTED_PROMISE_ARRANGEMENT_LOC.toString());
                 }}, JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter);

@@ -32,122 +32,168 @@
 
             <div class="col-xs-12">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <div class="col-xs-6">
-                            <label>Nombre</label>
-                            <br/>
-                            <input id="name" ng-model="refe.name" name="name" type="text"
-                                   class="input-xxlarge" data-val="true"
-                                   data-val-required="Nombre es un campo requerido"/>
-                            <br/>
+                    <div class="col-xs-12 element-center">
+                        <label>&iquest;El imputado cuenta con alguna referencia personal?</label>
+                        <br/>
+                      <span class="field-validation-valid" data-valmsg-for="hasVictimWitnessInfo"
+                            data-valmsg-replace="true"></span>
+                        <br/>
+
+                        <div class="radio">
+                            <label>
+                                <input name="hasVictimWitnessInfo" class="ace" type="radio" ng-value="true"
+                                       ng-model="refe.hasVictimWitnessInfo"
+                                       ng-checked="refe.hasVictimWitnessInfo==true" data-val="true"
+                                       data-val-required="Debe seleccionar un valor"
+                                       ng-change="existHousemate(refe.hasVictimWitnessInfo);">
+                                <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
+                            </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <label>
+                                <input name="hasVictimWitnessInfo" class="ace" type="radio"
+                                       ng-value="false"
+                                       ng-model="refe.hasVictimWitnessInfo"
+                                       ng-checked="refe.hasVictimWitnessInfo==false" data-val="true"
+                                       data-val-required="Debe seleccionar un valor"
+                                       ng-change="existHousemate(refe.hasVictimWitnessInfo);">
+                                <span class="lbl">&nbsp;&nbsp;No</span>
+                            </label>
+                        </div>
+
+                        <div id="divHiddenRefe">
+                            <input type="hidden" name="name" value="{{refe.name}}">
+                            <input type="hidden" name="phone" value="{{refe.phone}}">
+                            <input type="hidden" name="address" value="{{refe.address}}">
+                            <input type="hidden" name="timeAgo" value="{{refe.timeAgo}}">
+                        </div>
+
+                    </div>
+                    <br/>
+                </div>
+
+
+                <div id="divRefe">
+                    <div class="row">
+                        <br/>
+
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <label>Nombre</label>
+                                <br/>
+                                <input id="name" ng-model="refe.name" name="name" type="text"
+                                       class="input-xxlarge" data-val="true"
+                                       data-val-required="Nombre es un campo requerido"/>
+                                <br/>
                                                     <span class="field-validation-valid" data-valmsg-for="name"
                                                           data-valmsg-replace="true"></span>
-                        </div>
-                        <div class="col-xs-6">
-                            <label>Tel&eacute;fono</label>
-                            <br/>
-                            <textarea class="input-xxlarge form-control limited"
-                                      id="phone" ng-model="refe.phone" name="phone"
-                                      maxlength="980" data-val="true"
-                                      data-val-required="Tel&eacute;fono  es un campo requerido">
-                            </textarea>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>Tel&eacute;fono</label>
+                                <br/>
+                                <textarea class="input-xxlarge form-control limited"
+                                          id="phone" ng-model="refe.phone" name="phone"
+                                          maxlength="980" data-val="true"
+                                          data-val-required="Tel&eacute;fono  es un campo requerido">
+                                </textarea>
                                 <span class="field-validation-valid"
                                       data-valmsg-for="phone"
                                       data-valmsg-replace="true"></span>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <br/>
+                    <br/>
 
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
 
-                            <label>Relaci&oacute;n con el imputado:</label>&nbsp;&nbsp;<label class="info-example">(En
-                            caso de no tener relaci&oacute;n explique por cu&aacute;nto tiempo lo conoce)</label>
-                            <br/>
-                            <select class="form-control element-center"
-                                    ng-model="refe.relationship"
-                                    id="relationshipId" name="relationshipId"
-                                    ng-options="e.name for e in lstRelationship"
-                                    ng-init='lstRelationship = ${lstRelationship};'></select>
-                        </div>
-                        <div class="col-xs-6" ng-show="refe.relationship.id==8">
-                            <label>Tiempo de conocerlo</label><br/>
-                            <br/>
-                            <input id="timeAgo" ng-model="refe.timeAgo" name="timeAgo" type="text"
-                                   class="input-xxlarge" data-val="true"
-                                   data-val-required="Tiempo de conocerlo es un campo requerido"/>
-                            <br/>
+                                <label>Relaci&oacute;n con el imputado:</label>&nbsp;&nbsp;<label class="info-example">(En
+                                caso de no tener relaci&oacute;n explique por cu&aacute;nto tiempo lo conoce)</label>
+                                <br/>
+                                <select class="form-control element-center"
+                                        ng-model="refe.relationship"
+                                        id="relationshipId" name="relationshipId"
+                                        ng-options="e.name for e in lstRelationship"
+                                        ng-init='lstRelationship = ${lstRelationship};'></select>
+                            </div>
+                            <div class="col-xs-6" ng-show="refe.relationship.id==8">
+                                <label>Tiempo de conocerlo</label><br/>
+                                <br/>
+                                <input id="timeAgo" ng-model="refe.timeAgo" name="timeAgo" type="text"
+                                       class="input-xxlarge" data-val="true"
+                                       data-val-required="Tiempo de conocerlo es un campo requerido"/>
+                                <br/>
                                                     <span class="field-validation-valid" data-valmsg-for="timeAgo"
                                                           data-valmsg-replace="true"></span>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <br/>
+                    <br/>
 
-                <div class="row" ng-show="refe.isAccompaniment==false">
-                    <div class="col-xs-12">
-                        <div class="col-xs-6">
-                            <label>Direcci&oacute;n</label>
-                            <br/>
-                            <textarea class="input-xxlarge form-control limited"
-                                      id="address"
-                                      name="address"
-                                      ng-model="refe.address"
-                                      maxlength="980" data-val="true"
-                                      data-val-required="Direcci&oacute;n es un campo requerido">
-                            </textarea>
+                    <div class="row" ng-show="refe.isAccompaniment==false">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <label>Direcci&oacute;n</label>
+                                <br/>
+                                <textarea class="input-xxlarge form-control limited"
+                                          id="address"
+                                          name="address"
+                                          ng-model="refe.address"
+                                          maxlength="980" data-val="true"
+                                          data-val-required="Direcci&oacute;n es un campo requerido">
+                                </textarea>
                                                         <span class="field-validation-valid"
                                                               data-valmsg-for="address"
                                                               data-valmsg-replace="true"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <br/>
+                    <br/>
 
-                <div class="row" ng-show="refe.relationship.specification == true">
-                    <div class="col-xs-6">
-                        <div class="col-xs-4 element-left">
-                            Especif&iacute;que<br/>relaci&oacute;n:
-                        </div>
-                        <div class="col-xs-8">
-                            <input class="form-control" data-val="true"
-                                   data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
-                                   data-val-length-max="255" data-val-length-min="2"
-                                   data-val-required="La especificaci&oacute;n es un campo requerido"
-                                   type="text" ng-model="refe.specificationRelationship"
-                                   id="specificationRelationship" name="specificationRelationship">
-                        </div>
-                        <div class="col-xs-9 col-xs-offset-3">
+                    <div class="row" ng-show="refe.relationship.specification == true">
+                        <div class="col-xs-6">
+                            <div class="col-xs-4 element-left">
+                                Especif&iacute;que<br/>relaci&oacute;n:
+                            </div>
+                            <div class="col-xs-8">
+                                <input class="form-control" data-val="true"
+                                       data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                                       data-val-length-max="255" data-val-length-min="2"
+                                       data-val-required="La especificaci&oacute;n es un campo requerido"
+                                       type="text" ng-model="refe.specificationRelationship"
+                                       id="specificationRelationship" name="specificationRelationship">
+                            </div>
+                            <div class="col-xs-9 col-xs-offset-3">
                             <span class="field-validation-valid" data-valmsg-for="specificationRelationship"
                                   data-valmsg-replace="true"></span>
+                            </div>
                         </div>
+
                     </div>
+                    <br/>
 
-                </div>
-                <br/>
-
-                <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox">
-                            <br/>
-                            <label>
-                                <input class="ace"
-                                       type="checkbox"
-                                       name="isAccompaniment"
-                                       ng-model="refe.isAccompaniment"
-                                       ng-checked="refe.isAccompaniment==true">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="checkbox">
+                                <br/>
+                                <label>
+                                    <input class="ace"
+                                           type="checkbox"
+                                           name="isAccompaniment"
+                                           ng-model="refe.isAccompaniment"
+                                           ng-checked="refe.isAccompaniment==true">
                                         <span class="lbl col-xs-10">&nbsp;&nbsp;&iquest;&Eacute;sta persona lo acompa&ntilde;ar&aacute;
                                             durante el proceso?</span>
-                            </label>
+                                </label>
+                            </div>
                         </div>
                     </div>
+                    <br/>
                 </div>
-                <br/>
             </div>
+
         </div>
         <br/>
     </div>

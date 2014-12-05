@@ -136,7 +136,8 @@
             <div class="col-xs-offset-10 col-xs-offset-1">
                 <label>
                     <input class="ace" ng-model="selectedAddictedAcquaintances[$index].selVal"
-                           type="checkbox" ng-disabled="{{fm.objView.canTerminate==false}}">
+                    <%--type="checkbox" ng-disabled="{{fm.objView.canTerminate==false}}">--%>
+                           type="checkbox">
                     <span class="lbl">&nbsp;&nbsp;{{addictedAcq.name}}</span>
                 </label>
             </div>
@@ -185,7 +186,7 @@
                         <input class="ace"
                                ng-model="selectedRelativesAbroad[$index].selVal"
                                type="checkbox"
-                               ng-disabled="{{fm.objView.canTerminate==false}}">
+                        <%--ng-disabled="{{fm.objView.canTerminate==false}}"--%>>
                         <span class="lbl">&nbsp;&nbsp;{{relativeAbroad.name}}</span>
                     </label>
                 </div>
@@ -194,7 +195,7 @@
                     <textarea class="form-control limited"
                               maxlength="980" ng-blur="validateRelAbroad();"
                               ng-model="selectedRelativesAbroad[$index].description"
-                              ng-disabled="{{fm.objView.canTerminate==false}}"
+                    <%--ng-disabled="{{fm.objView.canTerminate==false}}"--%>
                             ></textarea>
                 </div>
 
@@ -243,7 +244,8 @@
                     <label ng-click="validateOblIssues();">
                         <input class="ace"
                                ng-model="selectedObligationIssues[$index].selVal"
-                               type="checkbox" ng-disabled="{{fm.objView.canTerminate==false}}">
+                        <%--type="checkbox" ng-disabled="{{fm.objView.canTerminate==false}}">--%>
+                               type="checkbox">
                         <span class="lbl">&nbsp;&nbsp;{{obliIssue.name}}</span>
                     </label>
                 </div>
@@ -253,7 +255,7 @@
                               maxlength="980"
                               ng-model="selectedObligationIssues[$index].description"
                               ng-blur="validateOblIssues();"
-                              ng-disabled="{{fm.objView.canTerminate==false}}"
+                              <%--ng-disabled="{{fm.objView.canTerminate==false}}"--%>
                             ></textarea>
                 </div>
             </div>
@@ -291,10 +293,10 @@
 
 </div>
 
+<%--<div class="col-xs-12" ng-show="{{fm.objView.canTerminate==true}}">--%>
 <div class="col-xs-12">
     <div class="modal-footer">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-              ng-show="{{fm.objView.canTerminate==true}}"
               ng-click="submitIdCaseParam('#FormAddQuest', '<c:url value="/supervisor/framingMeeting/additionalQuestions/doUpsert.json?idCase="/>',fm.objView.idCase);">
             <span class="glyphicon glyphicon-cloud-upload"></span>
               Guardar

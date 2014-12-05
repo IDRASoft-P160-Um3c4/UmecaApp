@@ -32,7 +32,7 @@
                         <div class="col-xs-12">
 
                             <div class="col-xs-12 element-center">
-                                <label>&iquest;Cuenta con informaci&oacute; de alguna v&iacute;ctima o
+                                <label>&iquest;Cuenta con informaci&oacute;n de alguna v&iacute;ctima o
                                     testigo?</label>
                                 <br/>
                       <span class="field-validation-valid" data-valmsg-for="hasVictimWitnessInfo"
@@ -43,7 +43,7 @@
                                     <label>
                                         <input name="hasVictimWitnessInfo" class="ace" type="radio" ng-value="true"
                                                ng-model="victim.hasVictimWitnessInfo"
-                                               ng-checked="victim.personType==true" data-val="true"
+                                               ng-checked="victim.hasVictimWitnessInfo==true" data-val="true"
                                                data-val-required="Debe seleccionar un valor"
                                                ng-change="existVictim(victim.hasVictimWitnessInfo);">
                                         <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
@@ -194,12 +194,10 @@
         <br/>
 
         <div id="divHiddenVictim">
-
             <input type="hidden" name="name" value="{{victim.name}}">
             <input type="hidden" name="age" value="{{victim.age}}">
             <input type="hidden" name="phone" value="{{victim.phone}}">
             <input type="hidden" name="personType" value="{{victim.personType}}">
-
         </div>
 
     </form>

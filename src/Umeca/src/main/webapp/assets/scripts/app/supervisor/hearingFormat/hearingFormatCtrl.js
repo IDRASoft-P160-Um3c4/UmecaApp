@@ -669,7 +669,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             }
         };
 
-
         $scope.lockArrangements = function () {
             if ($scope.m.hearingType && $scope.m.hearingType.lock == true || $scope.m.isView == true) {
                 $("#divMedidas :input").attr("disabled", true);
@@ -678,6 +677,15 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             else {
                 $("#divMedidas :input").attr("disabled", false);
                 $("#divMedidasHidden :input").attr("disabled", true);
+            }
+            $scope.lockDefaultArrangements();
+        };
+
+        $scope.lockDefaultArrangements = function () {
+
+            for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+                if ($scope.m.lstArrangementShow[i].isDefault == true)
+                    $("#arrangement" + $scope.m.lstArrangementShow[i].id).attr("disabled", true);
             }
         };
 

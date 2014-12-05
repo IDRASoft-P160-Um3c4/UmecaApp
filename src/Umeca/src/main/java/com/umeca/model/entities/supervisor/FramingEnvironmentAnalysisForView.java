@@ -13,6 +13,7 @@ public class FramingEnvironmentAnalysisForView {
     private String lstThreat;
 
     private String environmentComments;
+    private String lstDependentSources;
 
     public String getLstSelectedSources() {
         return lstSelectedSources;
@@ -84,5 +85,13 @@ public class FramingEnvironmentAnalysisForView {
 
     public void setEnvironmentComments(String environmentComments) {
         this.environmentComments = environmentComments;
+    }
+
+    public String getLstDependentSources() {
+        return lstDependentSources;
+    }
+
+    public void setLstDependentSources(String lstDependentSources) {
+        this.lstDependentSources = lstDependentSources;
     }
 }

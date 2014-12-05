@@ -106,6 +106,9 @@ public class FramingMeeting {
     @OneToOne(mappedBy = "framingMeeting", cascade = CascadeType.ALL)
     private School school;
 
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FramingMeetingLog> framingMeetingLogs;
+
     public Long getId() {
         return id;
     }
@@ -336,5 +339,13 @@ public class FramingMeeting {
 
     public void setVictimComments(String victimComments) {
         this.victimComments = victimComments;
+    }
+
+    public List<FramingMeetingLog> getFramingMeetingLogs() {
+        return framingMeetingLogs;
+    }
+
+    public void setFramingMeetingLogs(List<FramingMeetingLog> framingMeetingLogs) {
+        this.framingMeetingLogs = framingMeetingLogs;
     }
 }

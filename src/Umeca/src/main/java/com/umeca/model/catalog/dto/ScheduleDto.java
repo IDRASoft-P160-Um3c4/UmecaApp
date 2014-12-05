@@ -15,6 +15,8 @@ public class ScheduleDto {
     private String start;
     private String end;
 
+    private Long idFramingAddress;
+
     public ScheduleDto() {
     }
 
@@ -25,18 +27,27 @@ public class ScheduleDto {
         this.end = end;
     }
 
-    public ScheduleDto dtoSchedule (Schedule schedule){
-        this.id=schedule.getId();
+    public ScheduleDto(Long id, Long idFramingAddress, String day, String start, String end) {
+
+        this.id = id;
+        this.idFramingAddress = idFramingAddress;
+        this.day = day;
+        this.start = start;
+        this.end = end;
+    }
+
+    public ScheduleDto dtoSchedule(Schedule schedule) {
+        this.id = schedule.getId();
         this.day = schedule.getDay();
         this.start = schedule.getStart();
         this.end = schedule.getEnd();
         return this;
     }
 
-    public String scheduleString(Schedule schedule){
+    public String scheduleString(Schedule schedule) {
         String r = "";
-        r = schedule.getDay()+" "+schedule.getStart()+"-"+schedule.getEnd();
-        return  r;
+        r = schedule.getDay() + " " + schedule.getStart() + "-" + schedule.getEnd();
+        return r;
     }
 
     public Long getId() {
@@ -69,5 +80,13 @@ public class ScheduleDto {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public Long getIdFramingAddress() {
+        return idFramingAddress;
+    }
+
+    public void setIdFramingAddress(Long idFramingAddress) {
+        this.idFramingAddress = idFramingAddress;
     }
 }

@@ -27,6 +27,9 @@ public class Drug implements EntityGrid {
     public Drug() {
     }
 
+    @Transient
+    public DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+
     public Drug(Long id, String perName, Date lastUse, String drugName, String quantity) {
         this.id = id;
         this.perName = perName;
@@ -37,7 +40,7 @@ public class Drug implements EntityGrid {
             Date date = Calendar.getInstance().getTime();
             date.setTime(lastUse.getTime());
 //            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+
             this.lastUseFormat = formatter.format(date);
         }
     }
@@ -213,5 +216,14 @@ public class Drug implements EntityGrid {
 
     public void setOnsetAge(String onsetAge) {
         this.onsetAge = onsetAge;
+    }
+
+    @JsonIgnore
+    public DateFormat getFormatter() {
+        return formatter;
+    }
+
+    public void setFormatter(DateFormat formatter) {
+        this.formatter = formatter;
     }
 }

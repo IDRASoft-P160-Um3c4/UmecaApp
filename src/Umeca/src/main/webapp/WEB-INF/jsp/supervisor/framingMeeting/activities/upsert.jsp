@@ -31,7 +31,7 @@
                 <div class="modal-header">
                     <div class="alert alert-info ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center"><i class="icon-group "></i>&nbsp;&nbsp;Actividades que realiza e
+                        <h4 class="element-center"><i class="icon-group "></i>&nbsp;&nbsp;Actividades que realiza el
                             imputado
                         </h4>
                     </div>
