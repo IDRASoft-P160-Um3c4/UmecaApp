@@ -1,8 +1,6 @@
 package com.umeca.repository.supervisor;
 
 import com.umeca.model.entities.supervisor.*;
-import com.umeca.model.shared.SelectList;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,6 +21,12 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
     @Query("SELECT amp FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
             "WHERE mp.id =:monPlanId AND amp.status<>:status AND amp.isReplaced IS NULL")
     List<ActivityMonitoringPlan> findValidActivitiesBy(@Param("monPlanId")Long monitoringPlanId, @Param("status")String status);
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringGroupInfo(amp.group, COUNT(amp.id)) " +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
+            "WHERE mp.id =:monPlanId AND amp.status<>:status AND amp.isReplaced IS NULL " +
+            "GROUP BY amp.group")
+    List<ActivityMonitoringGroupInfo> findGroupInfoBy(@Param("monPlanId")Long monitoringPlanId, @Param("status")String status);
 
     @Query("SELECT count(amp.id) FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
             "WHERE mp.id =:monPlanId AND amp.status NOT IN :lstStatus")
@@ -66,9 +70,11 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp " +
             "INNER JOIN amp.supervisorCreate as user " +
             "INNER JOIN amp.lstAssignedArrangement as lstAA " +
-            "WHERE mp.id =:monPlanId AND lstAA.assignedArrangement.id = :activityId " +
+            "WHERE mp.id =:monPlanId AND (lstAA.assignedArrangement.id = :assignedArrangementId OR 0 = :assignedArrangementId) " +
+            "AND (amp.supervisionActivity.id = :activityId  OR 0 = :activityId)" +
             "ORDER BY amp.start ")
-    List<ActivityMonitoringPlanLog> getListByMonPlanIdWhitArrangementId(@Param("monPlanId")Long monPlanId, @Param("activityId") Long activityId);
+    List<ActivityMonitoringPlanLog> getListByMonPlanIdWhitArrangementId(@Param("monPlanId")Long monPlanId, @Param("assignedArrangementId") Long assignedArrangementId,
+                                                                        @Param("activityId") Long activityId);
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangementLog(laa.id, amp.id, aa.id, laa.status) " +
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa " +
@@ -146,6 +152,11 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
     List<MonitoringPlanDto> getAllMonPlanWithFilters(@Param("userId")Long userId, @Param("lstStatus") List<String> lstStatus,
                                                      @Param("lstActStatus") List<String> lstActStatus, @Param("yearmonthStart")int yearmonthStart,
                                                      @Param("yearmonthEnd")int yearmonthEnd);
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangementLog(laa.status, concat(arr.description,'/',aa.description)) " +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa " +
+            "INNER JOIN aa.arrangement arr WHERE amp.id =:activityId")
+    List<ActivityMonitoringPlanArrangementLog> getListActMonPlanArrangementByActivityIdToShow(@Param("activityId")Long activityId);
 }
 
 

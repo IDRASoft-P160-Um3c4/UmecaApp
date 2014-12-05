@@ -1,17 +1,26 @@
-app.controller("supervisionLogController", function($scope, $timeout,$sce){
+app.controller("supervisionLogController", function($scope, $timeout,$sce, sharedSvc){
 
     $scope.reconstructedLstActMonPlan = [];
     $scope.assignedArrangementFilter = [];
+    $scope.activitiesTypeFilter = [];
     $scope.b = {};
+    $scope.m = {};
+    $scope.m.lstMonActPlanSel = {};
 
     $scope.init = function () {
         var element = {};
         element.id = 0;
         element.name = "Todas";
         element.description = "";
+
         $scope.assignedArrangementFilter.push(element);
         $scope.assignedArrangementFilter = $scope.assignedArrangementFilter.concat($scope.lstHfAssignedArrangement);
-        $scope.b.filter = $scope.assignedArrangementFilter[0];
+        $scope.b.filterAssArr = $scope.assignedArrangementFilter[0];
+
+        $scope.activitiesTypeFilter.push(element);
+        $scope.activitiesTypeFilter = $scope.activitiesTypeFilter.concat($scope.lstActivities);
+        $scope.b.filterActTyp = $scope.activitiesTypeFilter[0];
+
 
     };
 
@@ -31,7 +40,8 @@ app.controller("supervisionLogController", function($scope, $timeout,$sce){
         $scope.MsgError = "";
         var data = {};
         data.id = $scope.mpId;
-        data.activityId = $scope.b.filter.id;
+        data.assignedArrangementId = $scope.b.filterAssArr.id;
+        data.activityId = $scope.b.filterActTyp.id;
         var settings = {
             dataType: "json",
             type: "POST",
@@ -138,6 +148,7 @@ app.controller("supervisionLogController", function($scope, $timeout,$sce){
                 descAux = aidSource.description;
 
             var actRec = {
+                id: act.id,
                 start: act.start,
                 end: act.end,
                 supActivity: (actSup === undefined ? "NA" : actSup.name),
@@ -248,5 +259,55 @@ app.controller("supervisionLogController", function($scope, $timeout,$sce){
 
     $scope.createLabel = function (status) {
         return 'label ' + window.colorActMonPlan(status);
+    };
+
+    $scope.selectedAll = function(){
+        var bSelection = false;
+        if($scope.m.isSelectedAll === true){
+            bSelection = true;
+        }
+        for (var key in $scope.m.lstMonActPlanSel) {
+            if($scope.m.lstMonActPlanSel.hasOwnProperty(key))
+                $scope.m.lstMonActPlanSel[key] = bSelection;
+        }
+    };
+
+    $scope.deleteActivities = function(urlToGo){
+
+        var lstActivitiesDel=[];
+        for (var key in $scope.m.lstMonActPlanSel) {
+            if($scope.m.lstMonActPlanSel.hasOwnProperty(key))
+                if($scope.m.lstMonActPlanSel[key]) lstActivitiesDel.push(key);
+        }
+
+        if(lstActivitiesDel.length === 0){
+            sharedSvc.showMsg(
+                {
+                    title: "Eliminar actividades",
+                    message: "Al menos debe seleccionar una actividad para eliminar",
+                    type: "danger"
+                });
+            return;
+        }
+
+
+        sharedSvc.showConfPass({ title: "Eliminar actividades", message: "&iquest;Est&aacute; seguro de que desea elimnar la(s) " +
+            lstActivitiesDel.length + " actividad(es) del plan de monitoreo?", type: "warning", agreeCheck: "Estoy de acuerdo con eliminar la(s) actividad(es)" })
+            .then(function (respMsg) {
+                sharedSvc.doPost({lstActivitiesDel:lstActivitiesDel, caseId:$scope.caseId, monitoringPlanId:$scope.mpId, password:respMsg.m.password}, urlToGo)
+                    .then($scope.onSuccessDel);
+            });
+    };
+
+    $scope.onSuccessDel = function(resp){
+        debugger;
+        sharedSvc.showMsg(
+            {
+                title: "Eliminar actividades",
+                type: "info",
+                message: resp
+            });
+
+        $scope.fillByFilter();
     };
 });

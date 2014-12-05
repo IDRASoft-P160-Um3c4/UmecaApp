@@ -422,3 +422,20 @@ body {
 .ui-jqgrid tr.jqgrow td {
     white-space: normal !important;
 }
+
+.col-xs-3_6
+.col-xs-0_4{
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    float: left;
+}
+
+.col-xs-3_6{
+    width: 29%;
+}
+
+.col-xs-0_4{
+    width: 4.3333333333333%;
+}

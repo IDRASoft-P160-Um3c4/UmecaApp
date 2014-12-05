@@ -1,5 +1,9 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.shared.MonitoringConstants;
+
+import java.util.List;
+
 /**
  * Project: Umeca
  * User: Israel
@@ -11,13 +15,41 @@ public class ActivityMonitoringPlanArrangementLog {
     private Long actMonPlanId;
     private Long assignedArrangementId;
     private Integer status;
+    private String statusSt;
+    private String arrangementName;
+
+    public ActivityMonitoringPlanArrangementLog() {
+    }
 
     public ActivityMonitoringPlanArrangementLog(Long id, Long actMonPlanId, Long assignedArrangementId, Integer status){
         this.id = id;
         this.actMonPlanId = actMonPlanId;
         this.assignedArrangementId = assignedArrangementId;
         this.status = status;
+    }
 
+    public ActivityMonitoringPlanArrangementLog(Integer status, String arrangementName) {
+        this.status = status;
+        this.arrangementName = arrangementName;
+        switch (status){
+            case MonitoringConstants.ACTIVITY_ARRANGEMENT_UNDEFINED:
+                this.statusSt = MonitoringConstants.ACTIVITY_ARRANGEMENT_UNDEFINED_STRING;
+                break;
+            case MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED:
+                this.statusSt = MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED_STRING;
+                break;
+            case MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE:
+                this.statusSt = MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE_STRING;
+                break;
+        }
+    }
+
+    public String getArrangementName() {
+        return arrangementName;
+    }
+
+    public void setArrangementName(String arrangementName) {
+        this.arrangementName = arrangementName;
     }
 
     public Long getId() {
@@ -51,4 +83,21 @@ public class ActivityMonitoringPlanArrangementLog {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    public String getStatusSt() {
+        return statusSt;
+    }
+
+    public void setStatusSt(String statusSt) {
+        this.statusSt = statusSt;
+    }
+
+     public String stringToLogCase(List<ActivityMonitoringPlanArrangementLog> list){
+         String result="<ul>";
+         for(ActivityMonitoringPlanArrangementLog am: list){
+             result+="<li>"+am.getArrangementName()+" - "+am.getStatusSt()+"</li>";
+         }
+         result+="</ul>";
+         return result;
+     }
 }

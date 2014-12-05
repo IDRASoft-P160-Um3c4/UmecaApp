@@ -171,6 +171,11 @@ public class GenerateMonitoringPlanController {
 
         model.addObject("isInAuthorizeReady", MonitoringConstants.LST_STATUS_AUTHORIZE_READY.contains(mpi.getMonStatus()));
 
+        //It's done on client side
+        //List<ActivityMonitoringGroupInfo> lstGroupInfo = activityMonitoringPlanRepository.findGroupInfoBy(id, MonitoringConstants.STATUS_ACTIVITY_DELETED);
+        //sLstGeneric = gson.toJson(lstGroupInfo);
+        //model.addObject("lstGroupInfo", sLstGeneric);
+
         List<ActivityMonitoringPlan> lstActivities = activityMonitoringPlanRepository.findValidActivitiesBy(id, MonitoringConstants.STATUS_ACTIVITY_DELETED);
         List<ActivityMonitoringPlanDto> lstDtoActivities = ActivityMonitoringPlanDto.convertToDtos(lstActivities);
 
@@ -201,8 +206,56 @@ public class GenerateMonitoringPlanController {
 
             if(model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0
                     && model.getActsPreIns() == 0 && model.getActsPreUpd() == 0 && model.getActsPreDel() == 0){
-                response.setMessage("No fue posible realizar la operaci&oacute;n, revise que su informaci&oacute;n est&eacute; correcta o que la(s) actividad(es) que desea modificar y/o eliminar a&uacute;n no est&eacute; finalizada.");
+                response.setMessage("No fue posible realizar la operaci&oacute;n, revise que su informaci&oacute;n est&eacute; correcta o que la(s)" +
+                        " actividad(es) que desea modificar y/o eliminar a&uacute;n no est&eacute;(n) finalizada(s) o sean actividades actuales y/o futuras.");
                 response.setHasError(true);
+            }else{
+                Gson gson = new Gson();
+                response.setReturnData(gson.toJson(model.getLstActivitiesUpserted()));
+                response.setHasError(false);
+                response.setMessage("La operaci&oacute;n se realiz&oacute; de forma correcta." +
+                        (model.getActsIns() == 0 ? "" : ("<br/>" + model.getActsIns() + " actividad(es) fue(ron) insertada(s)")) +
+                        (model.getActsUpd() == 0 ? "" : ("<br/>" + model.getActsUpd() + " actividad(es) fue(ron) actualizada(s)")) +
+                        (model.getActsDel() == 0 ? "" : ("<br/>" + model.getActsDel() + " actividad(es) fue(ron) eliminada(s)")) +
+                        (model.getActsPreIns() == 0 ? "" : ("<br/>" + model.getActsPreIns() + " actividad(es) fue(ron) insertada(s) en espera de autorizaci&oacute;n")) +
+                        (model.getActsPreUpd() == 0 ? "" : ("<br/>" + model.getActsPreUpd() + " actividad(es) fue(ron) actualizada(s) en espera de autorizaci&oacute;n")) +
+                        (model.getActsPreDel() == 0 ? "" : ("<br/>" + model.getActsPreDel() + " actividad(es) fue(ron) eliminada(s) en espera de autorizaci&oacute;n")));
+
+            }
+            return response;
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
+            response.setHasError(true);
+        }
+        response.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
+        return response;
+    }
+
+    @RequestMapping(value = "/supervisor/generateMonitoringPlan/deleteActMonPlan", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage deleteActMonPlan(@RequestBody ActivityMonitoringPlanRequest model){
+        ResponseMessage response = new ResponseMessage();
+        response.setTitle("Eliminar actividades");
+
+        try {
+            User user = new User();
+            if(sharedUserService.isValidUser(user, response) == false)
+                return response;
+
+            if(sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false){
+                response.setHasError(true);
+                response.setMessage("La contrase&ntilde;a no corresponde al usuario en sesi&oacute;n");
+                return response;
+            }
+
+            if(monitoringPlanService.doUpsertDelete(monitoringPlanRepository, model, user, response) == false)
+                return response;
+
+
+            if(model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0
+                    && model.getActsPreIns() == 0 && model.getActsPreUpd() == 0 && model.getActsPreDel() == 0){
+                response.setHasError(true);
+                response.setMessage("No fue posible realizar la operaci&oacute;n, revise que su informaci&oacute;n est&eacute; correcta o que la(s)" +
+                        " actividad(es) que desea modificar y/o eliminar a&uacute;n no est&eacute;(n) finalizada(s) o sean actividades actuales y/o futuras.");
             }else{
                 Gson gson = new Gson();
                 response.setReturnData(gson.toJson(model.getLstActivitiesUpserted()));

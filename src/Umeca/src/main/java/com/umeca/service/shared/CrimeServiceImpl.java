@@ -81,6 +81,20 @@ public class CrimeServiceImpl implements CrimeService {
     }
 
     @Override
+    public List<String> getListStringCrimeHFByHF(Long idH) {
+        List<String> result = new ArrayList<>();
+        List<Crime> crimes = crimeRepository.findListCrimeHearingFormatByIdHF(idH);
+        if(crimes.size()>0){
+            Gson gson = new Gson();
+            for(Crime c: crimes){
+                result.add(new CrimeDto().toStringCrime(c));
+            }
+            return result;
+        }else
+            return result;
+    }
+
+    @Override
     public List<Crime> getListOfString(String listCrime, HearingFormat hearingFormat) {
         Gson gson = new Gson();
         List<Crime> crimes;

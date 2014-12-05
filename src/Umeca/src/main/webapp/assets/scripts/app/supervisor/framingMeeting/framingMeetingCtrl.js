@@ -279,7 +279,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
 //                    }
 //                }
 //                else
-//                    $scope.listMsgError['general'] = $sce.trustAsHtml("Error de red, intente m&acute;s tarde.");
+//                    $scope.listMsgError['general'] = $sce.trustAsHtml("Error de red, intente m&aacute;s tarde.");
 //            });
 //    }
 

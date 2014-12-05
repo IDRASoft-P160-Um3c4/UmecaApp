@@ -142,7 +142,7 @@
                                                         <div class="widget-main padding-12">
                                                             <input id="password" type="password" name="password"
                                                                    ng-model="m.password" class="form-control"
-                                                                   rows="8"></textarea>
+                                                                   rows="8"/>
                                                         </div>
                                                     </div>
                                                 </div>

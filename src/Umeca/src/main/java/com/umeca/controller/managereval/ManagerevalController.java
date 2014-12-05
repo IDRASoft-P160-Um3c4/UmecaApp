@@ -404,7 +404,7 @@ public class ManagerevalController {
                 return new ResponseMessage(true, "La contrase&ntilde;a es incorrecta, verfifique los datos.");
             }
             if(requestDto.getReason().equals("")){
-                return new ResponseMessage(true, "Debes ingresar una raz&oacute;n por la cu&acute;l quieres realizar la solicitud");
+                return new ResponseMessage(true, "Debes ingresar una raz&oacute;n por la cu&aacute;l quieres realizar la solicitud");
             }
             Gson gson = new Gson();
             Long userId = userService.GetLoggedUserId();
@@ -470,6 +470,7 @@ public class ManagerevalController {
                         case Constants.ST_REQUEST_NOT_PROSECUTE:
                             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
                             c.setDateNotProsecute(new Date());
+
                             break;
                     }
                     break;

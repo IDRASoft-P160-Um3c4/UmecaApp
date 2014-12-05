@@ -9,6 +9,8 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         $scope.activitySpecError = "";
         $scope.sourceSpecError = "";
         $scope.m.isOtherSourceSelected = false;
+        var today = new Date();
+        $scope.m.dToday = today.getDate() + "/" + (today.getMonth()+1) + "/" + today.getFullYear();
 
         $scope.config = function (cfg, lstArrangements, lstActivities, lstGoals, lstSources) {
             $scope.cfg = cfg;
@@ -44,6 +46,21 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             $scope.m.activitySpec = event.infoActivity.activitySpec;
             $scope.m.goalSpec = event.infoActivity.goalSpec;
             $scope.m.sourceSpec = event.infoActivity.sourceSpec;
+            $scope.m.groupCount = 0;
+
+            var groupInfo = event.groupInfo[event.groupEvt];
+            if(groupInfo !== undefined){
+                $scope.m.groupCount = groupInfo.count;
+                var gDateStart = new Date(groupInfo.start);
+                var gDateEnd = new Date(groupInfo.end);
+                gDateStart.setHours(0, 0, 0, 0);
+                gDateEnd.setHours(0, 0, 0, 0);
+
+                $($scope.cfg.groupStartDateId).datepicker('update', gDateStart);
+                $($scope.cfg.groupEndDateId).datepicker('update', gDateEnd);
+
+            }
+
             $scope.changeSource();
 
         };
@@ -61,6 +78,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
 
         $scope.showDlg = function (params) {
             $scope.msgError = "";
+            $scope.m.isForToday = false;
             $scope.clearDaysOfWeek();
             $scope.Title = params.title;
             $scope.startDt = params.start;
@@ -259,6 +277,14 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
 
             $scope.activities = [];
 
+            if($scope.isNew && $scope.m.isForToday){
+                d.dateInit = new Date();
+                d.dateEnd = d.dateInit;
+                $scope.clearDaysOfWeek();
+                $scope.m.daysOfWeek[d.dateInit.getDay()] = true;
+            }
+
+
             var dateStepInit = new Date(d.dateInit);
             var dateStepEnd = new Date(d.dateInit);
             dateStepInit.setHours(d.timeInit.hours, d.timeInit.minutes, 0, 0);
@@ -267,7 +293,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             var iCount = 0;
             var hasEvent, stepMonth, itMonth, isNextBusinessDay = false, group = window.generateUuid();
 
-            if ($scope.m.periodicityId > 2) {
+            if ($scope.m.periodicityId > 2 && !$scope.m.isForToday) {
                 switch ($scope.m.periodicityId) {
                     case 4:
                         stepMonth = 2;
@@ -282,6 +308,9 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             }
 
             itMonth = 0;
+
+            //groupInfo:groupInfo, updateGroupInfo:updateGroupInfo
+
 
             while (dateStepInit < d.dateEnd || isNextBusinessDay) {
                 hasEvent = false;
@@ -306,9 +335,12 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                     return false;
                 }
 
-                var arrAux = angular.copy($scope.m.lstArrangements);
+                var lstArrangements = angular.copy($scope.m.lstArrangements);
 
                 if (hasEvent) {
+
+                    $scope.cfg.updateGroupInfo($scope.cfg.groupInfo, group, 1, dateStepInit, dateStepEnd);
+
                     var eventAct = {
                         title: "",
                         doTitle: function (isModified) {
@@ -324,7 +356,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                         className: ($scope.cfg.caseInfo.isInAuthorizeReady ? 'label-pre-new' : 'label-info'),
                         infoActivity: {
 //                            lstArrangements: $scope.m.lstArrangements.slice(),
-                            lstArrangements: arrAux,
+                            lstArrangements: lstArrangements,
                             activity: $scope.m.activity,
                             goal: $scope.m.goal,
                             source: $scope.m.source,
@@ -334,7 +366,8 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                             activitySpec: $scope.m.activitySpec,
                             sourceSpec: $scope.m.sourceSpec
                         },
-                        groupEvt: group
+                        groupEvt: group,
+                        groupInfo: $scope.cfg.groupInfo
                     };
 
                     eventAct.doTitle(true);
@@ -388,8 +421,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             $scope.m.isOtherSourceSelected = false;
 
             for (var key in $scope.m.lstArrangements) {
-                if ($scope.m.lstArrangements[key] = false) {
-                }
+                $scope.m.lstArrangements[key] = false;
             }
         };
 

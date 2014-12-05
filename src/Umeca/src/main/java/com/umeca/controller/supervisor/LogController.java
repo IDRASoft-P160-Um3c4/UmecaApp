@@ -129,6 +129,9 @@ public class LogController {
             List<SelectList> lstGeneric = new ArrayList<>();
             //Find last hearing format to get last assigned arrangements
             logCaseService.fillgeneralDataLog(caseId, model);
+
+            model.addObject("caseId", caseId);
+
             lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
             sLstGeneric = gson.toJson(lstGeneric);
             model.addObject("lstSources", sLstGeneric);
@@ -210,7 +213,7 @@ public class LogController {
     @RequestMapping(value = "/supervisor/log/fillByFilter", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage filterLog(@RequestParam Long id, @RequestParam Long activityId) { //Id de MonitoringPlan
+    ResponseMessage filterLog(@RequestParam Long id, @RequestParam Long assignedArrangementId, @RequestParam Long activityId) { //Id de MonitoringPlan
         ResponseMessage response = new ResponseMessage();
 
         try {
@@ -219,7 +222,7 @@ public class LogController {
             if (activityId == 0) {
                 lstActMonPlan = activityMonitoringPlanRepository.getListByMonPlanId(id);
             } else {
-                lstActMonPlan = activityMonitoringPlanRepository.getListByMonPlanIdWhitArrangementId(id, activityId);
+                lstActMonPlan = activityMonitoringPlanRepository.getListByMonPlanIdWhitArrangementId(id, assignedArrangementId, activityId);
             }
             response.setReturnData(gson.toJson(lstActMonPlan));
             response.setHasError(false);
