@@ -29,23 +29,12 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-xs-6">
+                                            <div class="col-xs-12">
                                                 <div class="profile-user-info profile-user-info-striped">
                                                     <div class="profile-info-row">
-                                                        <div class="profile-info-name"> Caso</div>
+                                                        <div class="profile-info-name"> Imputado</div>
                                                         <div class="profile-info-value">
-                                                            <span id="case">${caseId}&nbsp;</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-6">
-                                                <div class="profile-user-info profile-user-info-striped">
-                                                    <div class="profile-info-row">
-                                                        <div class="profile-info-name"> Carpeta Judicial</div>
-
-                                                        <div class="profile-info-value">
-                                                            <span id="mpId">${mpId}&nbsp;</span>
+                                                            <span id="fullName">${fullName}&nbsp;</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -55,9 +44,10 @@
                                             <div class="col-xs-6">
                                                 <div class="profile-user-info profile-user-info-striped">
                                                     <div class="profile-info-row">
-                                                        <div class="profile-info-name"> Imputado</div>
+                                                        <div class="profile-info-name"> Carpeta Judicial</div>
+
                                                         <div class="profile-info-value">
-                                                            <span id="fullName">${fullName}&nbsp;</span>
+                                                            <span id="mpId">${mpId}&nbsp;</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -74,6 +64,33 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-xs-5 col-xs-offset-1">
+                                 <div class="row">
+                                     <input type="radio" ng-change="changeAll()" ng-model="m.authAll" value="1" name="p">
+                                     <span class="green">Autorizar todas</span>
+                                     <strong><i class="glyphicon glyphicon-thumbs-up green"></i></strong><br/>
+                                 </div>
+                                 <div class="row">
+                                     <input type="radio" ng-change="changeAll()" ng-model="m.authAll" value="0" name="p">
+                                     <span class="red">Rechazar todas</span>
+                                     <strong><i class="glyphicon glyphicon-thumbs-down red"></i></strong>
+                                 </div>
+                             </div>
+                            <div class="col-xs-6 align-right" ng-model="filterStatusActivity">
+                                <div class="col-xs-4">
+                                    Ver actividades:
+                                </div>
+                                <div class="col-xs-7">
+                                    <select class="form-control" ng-change="filterActivities();" ng-model="filterSelected">
+                                        <option value="ALL">Todas</option>
+                                        <option value="PRE_NUEVA">Nueva</option>
+                                        <option value="PRE_MODIFICADA">Modificada</option>
+                                        <option value="PRE_ELIMINADA">Eliminada</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +132,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr ng-repeat="act in lstActivities">
+                                            <tr ng-repeat="act in lstActivities" ng-show="act.visible">
                                                 <td class="">
                                                     <input type="radio" name="rd{{act.activityMonId}}"
                                                            ng-change="onChangeRejAuth()" ng-model="m.lstAutRejActMon[$index].value" value="1">

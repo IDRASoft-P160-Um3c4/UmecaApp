@@ -31,6 +31,10 @@ public class ActivityMonitoringPlanArrangementLog {
     public ActivityMonitoringPlanArrangementLog(Integer status, String arrangementName) {
         this.status = status;
         this.arrangementName = arrangementName;
+        this.setStatusString();
+    }
+
+    public void  setStatusString(){
         switch (status){
             case MonitoringConstants.ACTIVITY_ARRANGEMENT_UNDEFINED:
                 this.statusSt = MonitoringConstants.ACTIVITY_ARRANGEMENT_UNDEFINED_STRING;

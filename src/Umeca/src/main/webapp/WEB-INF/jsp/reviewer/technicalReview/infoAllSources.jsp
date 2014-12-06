@@ -42,7 +42,7 @@
     </table></blockquote>
     <br/>
     <c:if test="${fn:length(source.sections) gt 0}">
-    <table border="5">
+    <table border="1">
         <c:forEach var="section" items="${source.sections}">
             <tr>
                 <td>${section.name}</td>
