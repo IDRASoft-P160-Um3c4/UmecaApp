@@ -20,6 +20,7 @@ import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogChangeSupervisorRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
+import com.umeca.service.reviewer.CaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ import java.util.List;
  * Time: 9:47 AM
  */
 @Service
-public class TrackMonPlanServiceImpl implements TrackMonPlanService{
+public class TrackMonPlanServiceImpl implements TrackMonPlanService {
 
     @Autowired
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
@@ -70,18 +71,18 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
                 (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
 
         MonitoringPlanDto monitoringPlanDto = null;
-        for(ActivityMonitoringPlanResponse act : lstAllActivities){
-            if(monitoringPlanDto == null || monitoringPlanDto.getMonPlanId() != act.getMonitoringPlanId()){
+        for (ActivityMonitoringPlanResponse act : lstAllActivities) {
+            if (monitoringPlanDto == null || monitoringPlanDto.getMonPlanId() != act.getMonitoringPlanId()) {
                 monitoringPlanDto = null;
-                for(MonitoringPlanDto monPlan : lstMonPlanSus){
-                    if(act.getMonitoringPlanId() != monPlan.getMonPlanId())
+                for (MonitoringPlanDto monPlan : lstMonPlanSus) {
+                    if (act.getMonitoringPlanId() != monPlan.getMonPlanId())
                         continue;
                     monitoringPlanDto = monPlan;
                     break;
                 }
             }
             //Si está suspendido, se debe marcar
-            if(monitoringPlanDto != null && monitoringPlanDto.getMonPlanSuspended()){
+            if (monitoringPlanDto != null && monitoringPlanDto.getMonPlanSuspended()) {
                 act.setSuspended(true);
             }
         }
@@ -124,11 +125,11 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         String status = actMonPlanInfo.getActStatus();
         boolean isReadOnly = true;
 
-        if(status.equals(MonitoringConstants.STATUS_ACTIVITY_MODIFIED) || status.equals(MonitoringConstants.STATUS_ACTIVITY_NEW)){
+        if (status.equals(MonitoringConstants.STATUS_ACTIVITY_MODIFIED) || status.equals(MonitoringConstants.STATUS_ACTIVITY_NEW)) {
             isReadOnly = false;
         }
 
-        if(actMonPlanInfo.getSuspended())
+        if (actMonPlanInfo.getSuspended())
             isReadOnly = true;
 
         Gson gson = new Gson();
@@ -154,11 +155,16 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         final ActivityMonitoringPlanInfo actMonPlanInfo = activityMonitoringPlanRepository.getActivityInfoFull(id);
 
         Long actMonPlanToReplaceId = actMonPlanInfo.getActMonPlanToReplaceId();
-        if(actMonPlanToReplaceId != null){
+        if (actMonPlanToReplaceId != null) {
             final ActivityMonitoringPlanInfo actMonPlanInfoRep = activityMonitoringPlanRepository.getActivityInfoFull(actMonPlanToReplaceId);
-            response.setReturnData(new PreActivityMonitoringPlan(){{setNewActMonPlanInfo(actMonPlanInfo);setOldActMonPlanInfo(actMonPlanInfoRep);}});
-        }else{
-            response.setReturnData(new PreActivityMonitoringPlan(){{setNewActMonPlanInfo(actMonPlanInfo);}});
+            response.setReturnData(new PreActivityMonitoringPlan() {{
+                setNewActMonPlanInfo(actMonPlanInfo);
+                setOldActMonPlanInfo(actMonPlanInfoRep);
+            }});
+        } else {
+            response.setReturnData(new PreActivityMonitoringPlan() {{
+                setNewActMonPlanInfo(actMonPlanInfo);
+            }});
         }
     }
 
@@ -168,6 +174,12 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
     MonitoringPlanRepository monitoringPlanRepository;
     @Autowired
     LogChangeDataRepository logChangeDataRepository;
+
+    @Autowired
+    CaseService caseService;
+
+    @Autowired
+    SupervisionCloseCaseLogRepository supervisionCloseCaseLogRepository;
 
     @Override
     @Transactional
@@ -191,7 +203,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
         monPlan.setAuthorizationTime(now);
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
 
-        if(type.equals(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END) && model.getAuthorized() == 1){
+        if (type.equals(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END) && model.getAuthorized() == 1) {
             Case caseDetention = monPlan.getCaseDetention();
             StatusCase status = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
             caseDetention.setStatus(status);
@@ -200,6 +212,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService{
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         logCommentRepository.save(commentModel);
+        supervisionCloseCaseLogRepository.save(caseService.generateCloseLog(monPlan.getCaseDetention()));
         monitoringPlanRepository.save(monPlan);
     }
 

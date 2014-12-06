@@ -10,18 +10,22 @@ import java.util.List;
  * Time: 2:21 PM
  */
 public class MonitoringConstants {
-    public final static String STATUS_NEW ="NUEVO";
-    public final static String STATUS_PENDING_CREATION ="EN PROCESO DE GENERAR";
-    public final static String STATUS_PENDING_AUTHORIZATION ="EN PROCESO DE AUTORIZAR";
-    public final static String STATUS_AUTHORIZED ="AUTORIZADO";
-    public final static String STATUS_REJECTED_AUTHORIZED ="RECHAZADO AUTORIZAR";
-    public final static String STATUS_MONITORING ="EN SEGUIMIENTO";
-    public final static String STATUS_PENDING_END ="EN PROCESO DE TERMINAR";
-    public final static String STATUS_REJECTED_END ="RECHAZADO TERMINAR";
-    public final static String STATUS_END ="TERMINADO";
+    public final static String STATUS_NEW = "NUEVO";
+    public final static String STATUS_PENDING_CREATION = "EN PROCESO DE GENERAR";
+    public final static String STATUS_PENDING_AUTHORIZATION = "EN PROCESO DE AUTORIZAR";
+    public final static String STATUS_AUTHORIZED = "AUTORIZADO";
+    public final static String STATUS_REJECTED_AUTHORIZED = "RECHAZADO AUTORIZAR";
+    public final static String STATUS_MONITORING = "EN SEGUIMIENTO";
+    public final static String STATUS_PENDING_END = "EN PROCESO DE TERMINAR";
+    public final static String STATUS_REJECTED_END = "RECHAZADO TERMINAR";
+    public final static String STATUS_END = "TERMINADO";
 
     public final static List<String> LST_STATUS_AUTHORIZE_READY =
-            new ArrayList<String>(){{add(STATUS_AUTHORIZED);add(STATUS_MONITORING);add(STATUS_REJECTED_END);}};
+            new ArrayList<String>() {{
+                add(STATUS_AUTHORIZED);
+                add(STATUS_MONITORING);
+                add(STATUS_REJECTED_END);
+            }};
 
     public final static String STATUS_ACTIVITY_NEW = "NUEVA";
     public final static String STATUS_ACTIVITY_PRE_NEW = "PRE_NUEVA";
@@ -33,15 +37,25 @@ public class MonitoringConstants {
     public final static String STATUS_ACTIVITY_PRE_DELETED = "PRE_ELIMINADA";
 
     public final static List<String> LST_STATUS_ACTIVITY_END =
-            new ArrayList<String>(){{add(STATUS_ACTIVITY_DELETED);add(STATUS_ACTIVITY_DONE);add(STATUS_ACTIVITY_FAILED);add(STATUS_ACTIVITY_PRE_DELETED);}};
+            new ArrayList<String>() {{
+                add(STATUS_ACTIVITY_DELETED);
+                add(STATUS_ACTIVITY_DONE);
+                add(STATUS_ACTIVITY_FAILED);
+                add(STATUS_ACTIVITY_PRE_DELETED);
+            }};
 
     public final static List<String> LST_STATUS_ACTIVITY_PRE_AUTH =
-            new ArrayList<String>(){{add(STATUS_ACTIVITY_PRE_NEW);add(STATUS_ACTIVITY_PRE_MODIFIED);add(STATUS_ACTIVITY_PRE_DELETED);}};
+            new ArrayList<String>() {{
+                add(STATUS_ACTIVITY_PRE_NEW);
+                add(STATUS_ACTIVITY_PRE_MODIFIED);
+                add(STATUS_ACTIVITY_PRE_DELETED);
+            }};
 
     public final static String TYPE_COMMENT_AUTHORIZED = "AUTORIZAR";
     public final static String TYPE_COMMENT_LOG_ACCOMPLISHMENT = "REPORTE INCUMPLIMIENTO";
     public final static String TYPE_COMMENT_MONITORING_PLAN_END = "TERMINAR PLAN";
     public final static String TYPE_COMMENT_CASE_END = "TERMINAR CASO";
+    public final static String TYPE_COMMENT_REOPEN_CASE = "REABRIR CASO";
     public final static String TYPE_COMMENT_ASSIGNED_CASE = "CASO ASIGNADO";
     public final static String TYPE_INFORMATION = "INFORMATION";
 
@@ -61,7 +75,7 @@ public class MonitoringConstants {
     public static final String LOG_MSG_INFO_PENDING_ACTIVITY_AUTHORIZATION =
             "Se crearon, modificaron o eliminaron actividades del plan de seguimiento, se espera autorización. Si no autoriza se suspenderá el plan.";
 
-    public static final String LOG_MSG_INFO_OPEN_CASE_NOT_PROSECUTE ="Se abri&oacute; un caso no judicializado";
+    public static final String LOG_MSG_INFO_OPEN_CASE_NOT_PROSECUTE = "Se abri&oacute; un caso no judicializado";
     public static final int AUTHORIZATION_MONPLAN = 1;
     public static final int AUTHORIZATION_ACTMONPLAN = 2;
     public static final int AUTHORIZATION_OK = 0;

@@ -5,19 +5,24 @@ import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.StatusCase;
+import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.ForFramingMeetingGrid;
+import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
@@ -33,6 +38,8 @@ public class CaseClosedController {
     SharedLogExceptionService logException;
     @Autowired
     SharedUserService sharedUserService;
+    @Autowired
+    CaseService caseService;
 
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
@@ -51,6 +58,7 @@ public class CaseClosedController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_CLOSED);
+                    add(Constants.CASE_STATUS_PRISON_CLOSED);
                 }}, JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter);
@@ -90,5 +98,46 @@ public class CaseClosedController {
         }, Case.class, ForFramingMeetingGrid.class);
 
         return result;
+    }
+
+    @Autowired
+    CaseRepository caseRepository;
+    @Autowired
+    HearingFormatRepository hearingFormatRepository;
+
+    @RequestMapping(value = "/supervisorManager/caseClosed/showReopenCase", method = RequestMethod.POST)
+    public ModelAndView showReopen(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/supervisorManager/caseClosed/reopenCase");
+
+        try {
+            GetCaseInfo(id, model, caseRepository, hearingFormatRepository);
+            model.addObject("isAuthorized", 1);
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "showReopen", sharedUserService);
+            return null;
+        }
+    }
+
+    public static void GetCaseInfo(Long id, ModelAndView model, CaseRepository caseRepository, HearingFormatRepository hearingFormatRepository) {
+        CaseInfo caseInfo = caseRepository.getInfoById(id);
+        model.addObject("caseId", caseInfo.getCaseId());
+        model.addObject("mpId", caseInfo.getMpId());
+        model.addObject("fullName", caseInfo.getPersonName());
+        model.addObject("status", caseInfo.getStatus());
+        model.addObject("folderId", caseInfo.getFolderId());
+        model.addObject("msgPlan", "reabrir el caso");
+        model.addObject("urlToGo", "/supervisorManager/caseClosed/doReopenCase.json");
+
+        List<String> lstSupervisor = hearingFormatRepository.findLastFullNameSupervisorByCaseId(id, new PageRequest(0, 1));
+        model.addObject("supervisor", lstSupervisor.get(0));
+    }
+
+
+    @RequestMapping(value = "/supervisorManager/caseClosed/doReopenCase", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doReopenCase(@ModelAttribute AuthorizeRejectMonPlan model) {
+        return caseService.doReopenCase(model);
     }
 }

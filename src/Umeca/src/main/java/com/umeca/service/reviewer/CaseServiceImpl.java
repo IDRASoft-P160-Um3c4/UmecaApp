@@ -1,5 +1,6 @@
 package com.umeca.service.reviewer;
 
+import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.StatusMeeting;
@@ -8,6 +9,8 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
+import com.umeca.model.entities.supervisor.MonitoringPlan;
+import com.umeca.model.entities.supervisor.SupervisionCloseCaseLog;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
@@ -18,6 +21,7 @@ import com.umeca.repository.catalog.StatusMeetingRepository;
 import com.umeca.repository.reviewer.ImputedRepository;
 import com.umeca.repository.supervisor.FolderConditionalReprieveRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
+import com.umeca.repository.supervisor.SupervisionCloseCaseLogRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogCommentService;
@@ -216,6 +220,9 @@ public class CaseServiceImpl implements CaseService {
     @Autowired
     HearingFormatRepository hearingFormatRepository;
 
+    @Autowired
+    SupervisionCloseCaseLogRepository supervisionCloseCaseLogRepository;
+
     @Override
     @Transactional
     public void saveAuthRejectCloseCase(AuthorizeRejectMonPlan model, User user, Case caseDet) {
@@ -240,6 +247,15 @@ public class CaseServiceImpl implements CaseService {
         caseRepository.save(caseDet);
     }
 
+    @Override
+    public SupervisionCloseCaseLog generateCloseLog(Case caseDetention) {
+        SupervisionCloseCaseLog closeLog = new SupervisionCloseCaseLog();
+        closeLog.setCloseDate(CalendarExt.getToday());
+        closeLog.setCloseAuthorizer(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        closeLog.setCaseDetention(caseDetention);
+        return closeLog;
+    }
+
     @Autowired
     private UserRepository userRepository;
 
@@ -253,7 +269,7 @@ public class CaseServiceImpl implements CaseService {
     public void doClosePrisonCase(Case caseDet, AuthorizeRejectMonPlan model) {
         caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRISON_CLOSED));
         StringBuilder sb = new StringBuilder();
-        sb.append("Cierre de caso por prisión preventiva: ");
+        sb.append("Cierre de caso por prisión preventiva / promesa del imputado : ");
         sb.append(caseDet.getIdFolder());
         sb.append(". Comentario: ");
         sb.append(model.getComments());
@@ -262,9 +278,77 @@ public class CaseServiceImpl implements CaseService {
         Long idLastFormat = hearingFormatRepository.lastHearingFormatIdsByIdCase(caseDet.getId());
         HearingFormat lastFormat = hearingFormatRepository.findOne(idLastFormat);
 
+        supervisionCloseCaseLogRepository.save(generateCloseLog(caseDet));
+
         caseRepository.save(caseDet);
         SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
                 caseDet, MonitoringConstants.STATUS_END, lastFormat.getSupervisor(), MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
+    }
+
+    @Transactional
+    public ResponseMessage doReopenCase(AuthorizeRejectMonPlan model) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+
+            User user = new User();
+            if (sharedUserService.isValidUser(user, response) == false)
+                return response;
+
+            if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
+                response.setHasError(true);
+                response.setMessage("La contraseña no corresponde al usuario en sesión");
+                return response;
+            }
+
+            Case caseDet = caseRepository.findOne(model.getCaseId());
+
+            if (caseDet == null) {
+                response.setHasError(true);
+                response.setMessage("No se encontró el caso. Por favor reinicie su navegador e intente de nuevo");
+                return response;
+            }
+            SupervisionCloseCaseLog lastLog;
+            List<SupervisionCloseCaseLog> lstLog = supervisionCloseCaseLogRepository.findLastCloseLog(caseDet.getId(), new PageRequest(0, 1));
+
+            if (lstLog != null & lstLog.size() > 0)
+                lastLog = lstLog.get(0);
+            else {
+                response.setHasError(true);
+                response.setMessage("No se puede reabrir el caso, no existe registro de que haya sido cerrado.");
+                return response;
+            }
+
+            lastLog.setReopenAuthorizer(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+            lastLog.setReopenDate(CalendarExt.getToday());
+            supervisionCloseCaseLogRepository.save(lastLog);
+
+            MonitoringPlan existMonitoringPlan = caseDet.getMonitoringPlan();
+            if (existMonitoringPlan != null) {
+                existMonitoringPlan.setStatus(MonitoringConstants.STATUS_PENDING_CREATION);
+                caseDet.setMonitoringPlan(existMonitoringPlan);
+            }
+
+            caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
+
+            List<Long> lstUserIds = hearingFormatRepository.findLastSupervisorIdByCaseId(caseDet.getId(), new PageRequest(0, 1));
+            User supervisor = new User();
+            supervisor.setId(lstUserIds.get(0));
+
+            SharedLogCommentService.generateLogComment(model.getComments(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
+                    caseDet, MonitoringConstants.STATUS_AUTHORIZED, supervisor, MonitoringConstants.TYPE_COMMENT_REOPEN_CASE, logCommentRepository);
+
+            caseRepository.save(caseDet);
+
+            response.setHasError(false);
+            response.setMessage("El caso ha sido reabierto, debe registrar un formato de audiencia.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "doReopenCase", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente m&aacute;as tarde.");
+        } finally {
+            return response;
+        }
     }
 
 }

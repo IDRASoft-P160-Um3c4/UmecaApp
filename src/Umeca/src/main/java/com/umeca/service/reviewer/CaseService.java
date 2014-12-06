@@ -4,6 +4,7 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.supervisor.SupervisionCloseCaseLog;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 
 import javax.xml.ws.Response;
@@ -28,4 +29,8 @@ public interface CaseService {
     boolean isValidCase(Long caseId);
 
     void doClosePrisonCase(Case caseDet, AuthorizeRejectMonPlan model);
+
+    SupervisionCloseCaseLog generateCloseLog(Case caseDetention);
+
+    ResponseMessage doReopenCase(AuthorizeRejectMonPlan model);
 }

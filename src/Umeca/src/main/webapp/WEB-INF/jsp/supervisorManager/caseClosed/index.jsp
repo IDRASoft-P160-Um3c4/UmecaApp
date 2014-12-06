@@ -12,7 +12,8 @@
 
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
-    <title>Casos activos</title>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/authorizeMonitoringPlan/authRejectCtrl.js"></script>
+    <title>Casos cerrados</title>
 </head>
 
 <body scroll="no" ng-app="ptlUmc">
@@ -22,6 +23,9 @@
 
     <script>
 
+        reopenCase = function (idCase) {
+            window.showUpsert(idCase, "#angJsjqGridId", "<c:url value='/supervisorManager/caseClosed/showReopenCase.html'/>", "#GridId");
+        };
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
@@ -48,6 +52,19 @@
                 sortorder: "desc",
                 caption: "&nbsp;",
                 altRows: true,
+                gridComplete: function () {
+                    var ids = $(this).jqGrid('getDataIDs');
+                    var status = $(this).jqGrid('getCol', 'codeStatus', false);
+
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        var be = "";
+                        if (status[i] == 'ST_CASE_CLOSED' || status[i] == 'ST_CASE_PRISON_CLOSED') {
+                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reabrir caso\" onclick=\"reopenCase('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                            $(this).jqGrid('setRowData', ids[i], { Action: be });
+                        }
+                    }
+                },
                 loadComplete: function () {
                     var table = this;
                     setTimeout(function () {
@@ -73,7 +90,7 @@
 
                         onClickButton: function () {
                             try {
-                                $("#GridId").jqGrid('toExcelFile',{nombre:"datosXls",formato:"excel"});
+                                $("#GridId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                             } catch (e) {
                             }
                         }});

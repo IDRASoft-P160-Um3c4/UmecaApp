@@ -128,6 +128,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                     }
 
                     if (data.hasError == true) {
+                        $scope.listMsgError = [];
                         var obj = JSON.parse(data.message);
                         if (obj.groupMessage != undefined) {
                             for (var i = 0; i < obj.groupMessage.length; i++) {

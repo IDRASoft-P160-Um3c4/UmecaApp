@@ -550,51 +550,54 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             var idExclusive = -1;
 
-            if (!$scope.m.lstArrangementShow || $scope.m.disableAll == true)
-                return;
+            if ($scope.m.vincProcess != 2) {
 
-            if (idArr != undefined)
-                idExclusive = $scope.exclusiveSelected(idArr);
+                if (!$scope.m.lstArrangementShow || $scope.m.disableAll == true)
+                    return;
 
-            if (idExclusive > 0) {
-                $scope.clearOthers(idExclusive);
-                $scope.m.errArrmntSel = $sce.trustAsHtml("No puede seleccionar otra medida cautelar. Debe deseleccionar la medida cautelar exclusiva.");
-                return;
-            }
+                if (idArr != undefined)
+                    idExclusive = $scope.exclusiveSelected(idArr);
 
-            if (idArr != undefined && idx != undefined)
-                if ($scope.m.lstArrangementShow[idx].isExclusive == true) {
-                    $scope.clearOthers(idArr);
+                if (idExclusive > 0) {
+                    $scope.clearOthers(idExclusive);
+                    $scope.m.errArrmntSel = $sce.trustAsHtml("No puede seleccionar otra medida cautelar. Debe deseleccionar la medida cautelar exclusiva.");
+                    return;
                 }
 
-            if (idArr != undefined && idx != undefined)
-                if ($scope.m.lstArrangementShow[idx].isExclusive == true && $scope.m.lstArrangementShow[idx].selVal == false) {
-                    $scope.selectDefaults();
-                }
-
-            for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
-
-                if ($scope.m.lstArrangementShow[i].selVal == true) {
-                    noSel++;
-                    if ($scope.m.lstArrangementShow[i].description != "" && $scope.m.lstArrangementShow[i].description != undefined) {
-                        noDesc++;
+                if (idArr != undefined && idx != undefined)
+                    if ($scope.m.lstArrangementShow[idx].isExclusive == true) {
+                        $scope.clearOthers(idArr);
                     }
-                } else {
-                    $scope.m.lstArrangementShow[i].description = "";
+
+                if (idArr != undefined && idx != undefined)
+                    if ($scope.m.lstArrangementShow[idx].isExclusive == true && $scope.m.lstArrangementShow[idx].selVal == false) {
+                        $scope.selectDefaults();
+                    }
+
+                for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+
+                    if ($scope.m.lstArrangementShow[i].selVal == true) {
+                        noSel++;
+                        if ($scope.m.lstArrangementShow[i].description != "" && $scope.m.lstArrangementShow[i].description != undefined) {
+                            noDesc++;
+                        }
+                    } else {
+                        $scope.m.lstArrangementShow[i].description = "";
+                    }
+
                 }
 
-            }
-
-            if (noSel < 1) {
-                $scope.hasError = true;
-                $scope.m.errArrmntSel = $sce.trustAsHtml("Debe seleccionar al menos una obligaci&oacute;n procesal");
-                return;
-            } else if (noSel > noDesc) {
-                $scope.hasError = true;
-                $scope.m.errArrmntSel = $sce.trustAsHtml("Debe indicar una descripci&oacute;n para cada obligaci&oacute;n procesal seleccionada");
-                return;
-            } else {
-                $scope.m.errArrmntSel = $sce.trustAsHtml("");
+                if (noSel < 1) {
+                    $scope.hasError = true;
+                    $scope.m.errArrmntSel = $sce.trustAsHtml("Debe seleccionar al menos una obligaci&oacute;n procesal");
+                    return;
+                } else if (noSel > noDesc) {
+                    $scope.hasError = true;
+                    $scope.m.errArrmntSel = $sce.trustAsHtml("Debe indicar una descripci&oacute;n para cada obligaci&oacute;n procesal seleccionada");
+                    return;
+                } else {
+                    $scope.m.errArrmntSel = $sce.trustAsHtml("");
+                }
             }
         };
 
@@ -683,9 +686,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         $scope.lockDefaultArrangements = function () {
 
-            for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
-                if ($scope.m.lstArrangementShow[i].isDefault == true)
-                    $("#arrangement" + $scope.m.lstArrangementShow[i].id).attr("disabled", true);
+            if ($scope.m.lstArrangementShow != undefined) {
+                for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+                    if ($scope.m.lstArrangementShow[i].isDefault == true)
+                        $("#arrangement" + $scope.m.lstArrangementShow[i].id).attr("disabled", true);
+                }
             }
         };
 
