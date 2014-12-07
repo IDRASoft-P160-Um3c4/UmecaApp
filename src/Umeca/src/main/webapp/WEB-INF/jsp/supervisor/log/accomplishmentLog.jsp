@@ -8,6 +8,13 @@
 
     <%--<title>Bit&aacute;cora de supervisi&oacute;n</title>--%>
     <title>Plan estrat&eacute;gico</title>
+    <script>
+        window.downloadAccomplishmentFile = function () {
+            var goTo = "<c:url value='/supervisor/log/accomplishmentFile.html?id=${caseId}'/>";
+            window.goToUrlMvcUrl(goTo);
+        };
+
+    </script>
 </head>
 <body scroll="no" ng-app="ptlUmc" style="width: 1100px; margin: auto" class="element-center">
 
@@ -19,7 +26,11 @@
 
 <h4 class="element-center">REPORTE DE INCUMPLIMIENTO Y CUMPLIMIENTO DE LAS ACTIVIDADES </h4>
 <h4 class="element-center">DEL PLAN DE SEGUIMIENTO</h4>
-
+<div class="row">
+    <div class="col-xs-12 align-right">
+        <i class="icon-cloud-download icon-animated-wrench purple">&nbsp; </i><a href="#" onclick="downloadAccomplishmentFile()">Descargar reporte</a>
+    </div>
+</div>
 <div class="hr hr8"></div>
 <%@ include file="/WEB-INF/jsp/shared/generalDataLog.jsp" %>
 <%--<div class="panel panel-default panel-primary">--%>
@@ -77,7 +88,7 @@
 <div class="panel panel-default panel-primary">
     <div class="panel-heading">
         <span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;FUENTES Y MEDIOS DE VERIFICACI&Oacute;N
-        UTILIZADAS
+        UTILIZADOS
     </div>
     <div class="panel-body">
         <div class="row">
@@ -96,27 +107,27 @@
         </div>
     </div>
 </div>
-<div class="panel panel-default panel-primary">
-    <div class="panel-heading">
-        <span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;ACTIVIDADES DE SUPERVISI&Oacute;N
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="profile-user-info profile-user-info-striped">
-                    <div class="profile-info-row two-lines">
-                        <div class="profile-info-name"> ACTIVIDADES DE SUPERVISI&Oacute;N</div>
-                        <div class="profile-info-value element-left">
-                            <div ng-repeat="i in lstActivities"><i
-                                    class="icon-tasks blue"></i>&nbsp;&nbsp;{{i.name}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<%--<div class="panel panel-default panel-primary">--%>
+    <%--<div class="panel-heading">--%>
+        <%--<span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;ACTIVIDADES DE SUPERVISI&Oacute;N--%>
+    <%--</div>--%>
+    <%--<div class="panel-body">--%>
+        <%--<div class="row">--%>
+            <%--<div class="col-xs-12">--%>
+                <%--<div class="profile-user-info profile-user-info-striped">--%>
+                    <%--<div class="profile-info-row two-lines">--%>
+                        <%--<div class="profile-info-name"> ACTIVIDADES DE SUPERVISI&Oacute;N</div>--%>
+                        <%--<div class="profile-info-value element-left">--%>
+                            <%--<div ng-repeat="i in lstActivities"><i--%>
+                                    <%--class="icon-tasks blue"></i>&nbsp;&nbsp;{{i.name}}</span>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+<%--</div>--%>
 
 <div class="panel panel-default panel-primary">
     <div class="panel-heading">

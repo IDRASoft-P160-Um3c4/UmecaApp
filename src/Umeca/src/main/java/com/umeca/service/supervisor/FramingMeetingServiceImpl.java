@@ -1373,7 +1373,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 lsSN.add("Debe capturar las observaciones para la secci&oacute;n \"Personas que viven con el imputado\".");
 
             if (existFraming.getReferencesComments() == null)
-                lsSN.add("Debe capturar las observaciones para la secci&oacute;n \"Referencias personales\".");
+                lsR.add("Debe capturar las observaciones para la secci&oacute;n \"Referencias personales\".");
 
             if (existFraming.getVictimComments() == null) {
                 List<String> ls = new ArrayList<>();
@@ -1407,8 +1407,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("drug", ls));
             }
 
-            if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
-                    existFraming.getSelectedRisksRel() == null || !(existFraming.getSelectedRisksRel().size() > 0) ||
+//            if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
+            if (existFraming.getSelectedRisksRel() == null || !(existFraming.getSelectedRisksRel().size() > 0) ||
                     existFraming.getSelectedThreatsRel() == null || !(existFraming.getSelectedThreatsRel().size() > 0)) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"An&aacute;isis del entorno\".");
@@ -1458,7 +1458,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("job", arrMsg));
             }
 
-            if (existFraming.getJobs() == null || !(existFraming.getJobs().size() > 0)) {
+            if (existFraming.getJobComments() == null) {
                 List<String> arrMsg = new ArrayList<>();
                 arrMsg.add("Debe capturar las observaciones para la secci&oacute;n \"Historia laboral\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("job", arrMsg));
@@ -1470,7 +1470,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", arrMsg));
             }
 
-            if (existFraming.getActivities() == null || !(existFraming.getActivities().size() > 0)) {
+            if (existFraming.getActivitiesComments() == null) {
                 List<String> arrMsg = new ArrayList<>();
                 arrMsg.add("Debe capturar las observaciones para la secci&oacute;n \"Actividades que realiza el imputado\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", arrMsg));
@@ -2138,7 +2138,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existSchool.setSchedule(lstSchedule);
             existSchool.setFramingMeeting(existFraming);
 
-            if (existFraming.getIsTerminated() != null && existFraming.getIsTerminated() != true)
+            if (existFraming.getIsTerminated() != null && existFraming.getIsTerminated() == true)
                 framingMeetingLogRepository.save(getSchoolLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
 
             schoolRepository.save(existSchool);

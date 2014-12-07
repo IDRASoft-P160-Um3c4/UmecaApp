@@ -8,12 +8,10 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Crime;
 import com.umeca.model.entities.reviewer.dto.CrimeDto;
+import com.umeca.model.entities.shared.ActMonPlanDto;
 import com.umeca.model.entities.shared.LogCase;
 import com.umeca.model.entities.shared.UploadFile;
-import com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangementLog;
-import com.umeca.model.entities.supervisor.ActivityMonitoringPlanInfo;
-import com.umeca.model.entities.supervisor.HearingFormatDto;
-import com.umeca.model.entities.supervisor.SupervisionLogReport;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.*;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -61,7 +59,14 @@ public class LogCaseServiceImpl implements LogCaseService {
     CaseRepository caseRepository;
 
     @Override
-    public void fillgeneralDataLog(Long caseId, ModelAndView model) {
+    public void fillgeneralDataLog(Long caseId, ModelAndView model){
+        fillInfoCase(caseId,model,false);
+    }
+
+    public void fillInfoCase(Long caseId, ModelAndView model, Boolean isFile) {
+        if(isFile== null){
+            isFile =false;
+        }
         Long lHearingFormatId = hearingFormatRepository.lastHearingFormatIdsByIdCase(caseId);
         SupervisionLogReport slr = hearingFormatRepository.findSupervisionLogReportById(lHearingFormatId);
         Long id = monitoringPlanRepository.getMonPlanIdByCaseId(caseId);
@@ -74,7 +79,11 @@ public class LogCaseServiceImpl implements LogCaseService {
         if(slr!=null){
             model.addObject("imputedName", slr.getImputedName());
             model.addObject("mpId", id);
-            model.addObject("crime", gson.toJson(listCrimeDtos));
+            if(isFile){
+                model.addObject("crime", listCrimeDtos);
+            }else{
+                model.addObject("crime", gson.toJson(listCrimeDtos));
+            }
             model.addObject("judge", slr.getJudge());
             model.addObject("defender", slr.getDefender());
             model.addObject("mp", slr.getMp());
@@ -105,7 +114,7 @@ public class LogCaseServiceImpl implements LogCaseService {
             for (int i = 0; i < lstResol.size(); i++) {
 
                 if (allResol != "")
-                    allResol += " , ";
+                    allResol += " <br/> ";
 
                 allResol += CalendarExt.calendarToFormatString(lstResol.get(i).getCalendar(), Constants.FORMAT_CALENDAR_I);
 
@@ -116,7 +125,7 @@ public class LogCaseServiceImpl implements LogCaseService {
             }
         }
 
-        String[] arr = allResol.split(",");
+        String[] arr = allResol.split("<br/>");
         if (arr.length > 0)
             lastResol = arr[arr.length - 1];
         else
@@ -131,22 +140,14 @@ public class LogCaseServiceImpl implements LogCaseService {
         model.addObject("closeComment", closeComment);
 
         List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByCaseId(caseId);
-
-        String sLstGeneric = gson.toJson(lstGeneric);
-        model.addObject("lstHfAssignedArrangement", sLstGeneric);
-
+        model.addObject("lstHfAssignedArrangement", isFile?lstGeneric:gson.toJson(lstGeneric));
         lstGeneric = supervisionActivityRepository.findByMonPlanId(id);
-        sLstGeneric = gson.toJson(lstGeneric);
-        model.addObject("lstActivities", sLstGeneric);
-
+        model.addObject("lstActivities", isFile?lstGeneric:gson.toJson(lstGeneric));
         lstGeneric = activityGoalRepository.findByMonPlanId(id);
-        sLstGeneric = gson.toJson(lstGeneric);
-        model.addObject("lstGoals", sLstGeneric);
-
-        model.addObject("schedules",gson.toJson(scheduleService.getFramingScheduleByIdCase(caseId)));
-
-        model.addObject("lstRisk", gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
-        model.addObject("lstThreat", gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
+        model.addObject("lstGoals", isFile?lstGeneric:gson.toJson(lstGeneric));
+        model.addObject("schedules",isFile?scheduleService.getFramingScheduleByIdCase(caseId):gson.toJson(scheduleService.getFramingScheduleByIdCase(caseId)));
+        model.addObject("lstRisk", isFile?framingMeetingRepository.getSelectedTRiskByIdCase(caseId):gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
+        model.addObject("lstThreat", isFile?framingMeetingRepository.getSelectedThreatByIdCase(caseId):gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
         Long idFilePhoto = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_IMPUTED_PHOTO,id);
         model.addObject("fileIdPhoto",idFilePhoto);
         if(idFilePhoto!=null){
@@ -161,6 +162,69 @@ public class LogCaseServiceImpl implements LogCaseService {
         List<LogCase> logs = logCaseRepository.findAllByCase(id);
         Gson gson = new Gson();
         model.addObject("listLog",gson.toJson(logs));
+    }
+
+
+    @Override
+    public void fillModelLogCaseFile(Long id, ModelAndView model) {
+       fillInfoCase(id, model,true);
+       model.addObject("activities",logCaseRepository.findAllByCase(id));
+    }
+
+    @Override
+    public void fillModelAccomplishmentFile(Long caseId, ModelAndView model) {
+        fillInfoCase(caseId, model, true);
+        Gson gson = new Gson();
+        List<SelectList> lstSources = framingReferenceRepository.findAllValidByCaseId(caseId);
+        model.addObject("lstSources", lstSources);
+        fillDtoOfActivities(lstSources,model, caseId);
+    }
+
+    private void fillDtoOfActivities(List<SelectList> lstSources, ModelAndView model, Long caseId) {
+        Long idMon = monitoringPlanRepository.getMonPlanIdByCaseId(caseId);
+        List<SelectList> lstActivities = supervisionActivityRepository.findByMonPlanId(idMon);
+        List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement = activityMonitoringPlanRepository.getListAccomplishmentActMonPlanArrangementByMonPlanId(idMon);
+        List<ActivityMonitoringPlanLog> lstActMonPlan = activityMonitoringPlanRepository.getListAccomplishmentByMonPlanId(idMon);
+        List<SelectList> assigmentArringment = arrangementRepository.findLstArrangementByCaseId(caseId);
+        List<ActMonPlanDto> lstActivityOk = new ArrayList<>(), lstActivityFailed = new ArrayList<>();
+        List<String> lstArrangement=new ArrayList<>();
+
+        for(ActivityMonitoringPlanLog ampl: lstActMonPlan){
+           String sourceName = findElement(lstSources, ampl.getAidSourceId(), true);
+           String supActivity = findElement(lstActivities, ampl.getActSupervisionId(),false);
+            assigmentArringment = new ArrayList<>();
+           fillInfoActivity(ampl.getId(),lstArrangement, lstActMonPlanArrangement,assigmentArringment,MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE);
+           lstActivityOk.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(),supActivity,sourceName,lstArrangement,ampl.getStatus(), ampl.getComments()));
+            assigmentArringment = new ArrayList<>();
+           fillInfoActivity(ampl.getId(),lstArrangement, lstActMonPlanArrangement,assigmentArringment,MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED);
+           lstActivityFailed.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(), supActivity, sourceName, lstArrangement, ampl.getStatus(), ampl.getComments()));
+
+        }
+        model.addObject("lstActivityFailed",lstActivityFailed);
+        model.addObject("lstActivityOk",lstActivityOk);
+    }
+
+    private void fillInfoActivity(Long idActivity, List<String> lstArrangement, List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement, List<SelectList> assigmentArringment, int status){
+            for (ActivityMonitoringPlanArrangementLog ampal:lstActMonPlanArrangement){
+                if(ampal.getActMonPlanId().equals(idActivity)){
+                    ampal.setStatusString();
+                    String assArr=findElement(assigmentArringment,ampal.getAssignedArrangementId(),true);
+                    if(ampal.getStatus() == (status)){
+                        lstArrangement.add(assArr +" - "+ ampal.getStatusSt());
+                    }
+                }
+            }
+    }
+
+    private String findElement(List<SelectList> lst, Long id, Boolean addDescription){
+        for(SelectList sl: lst){
+            if(sl.getId().equals(id)){
+                if(addDescription)
+                    return sl.getName()+" / "+sl.getDescription();
+                return sl.getName();
+            }
+        }
+        return "NA";
     }
 
     @Autowired
@@ -311,5 +375,6 @@ public class LogCaseServiceImpl implements LogCaseService {
         Gson gson = new Gson();
         return gson.toJson(logs);
     }
+
 
 }

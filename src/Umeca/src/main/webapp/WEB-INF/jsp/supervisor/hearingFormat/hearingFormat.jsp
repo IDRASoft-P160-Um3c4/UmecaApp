@@ -118,7 +118,7 @@
 <br/>
 
 <div class="container body-content" ng-controller="hearingFormatController"
-     ng-init='m=${hfView}; m.rdHasContacts = 1;'>
+     ng-init='m=${hfView}; m.rdHasContacts = 1;' style="padding:50px;">
 
 <%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp" %>
 

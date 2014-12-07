@@ -135,6 +135,8 @@ public class CommentMonitoringPlanNotice {
                 return "TERMINACIÓN DEL CASO";
             case MonitoringConstants.TYPE_COMMENT_ASSIGNED_CASE:
                 return "ASIGNACIÓN DE CASO";
+            case MonitoringConstants.TYPE_COMMENT_REOPEN_CASE:
+                return "REABRIR EL CASO";
             default:
                 return "NA";
         }

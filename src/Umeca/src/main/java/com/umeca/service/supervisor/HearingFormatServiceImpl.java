@@ -336,10 +336,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     List<ContactData> oldContacts = hearingFormat.getContacts();
                     hearingFormat.setContacts(null);
 
-                    for (ContactData act : oldContacts) {
-                        act.setHearingFormat(null);
-                        contactDataRepository.delete(act);
-                    }
+                    if (oldContacts != null && oldContacts.size() > 0)
+                        for (ContactData act : oldContacts) {
+                            act.setHearingFormat(null);
+                            contactDataRepository.delete(act);
+                        }
                 }
             }
 
@@ -820,7 +821,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
 
             if (hearingFormat.getIsFinished() == true) {
-                logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT,hearingFormat.getCaseDetention().getId(),hearingFormat.getId());
+                logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
                 sb = new StringBuilder();
                 sb.append(request.getContextPath());
                 sb.append("/supervisor/hearingFormat/indexFormats.html?id=");

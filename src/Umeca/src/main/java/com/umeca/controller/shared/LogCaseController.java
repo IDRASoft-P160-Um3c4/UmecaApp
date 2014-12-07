@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Desarrollo
@@ -59,5 +61,17 @@ public class LogCaseController {
             logException.Write(e, this.getClass(), "addLog", sharedUserService);
             return new ResponseMessage(true,"Ha ocurrido un error al guardar la actividad.");
         }
+    }
+
+    @RequestMapping(value = "/shared/logCase/generateFile", method = RequestMethod.GET)
+    public ModelAndView generateFile(@RequestParam(required = true) Long id, HttpServletResponse response) {
+
+        ModelAndView model = new ModelAndView("/shared/logCase/logCaseFile");
+        logCaseService.fillModelLogCaseFile(id, model);
+        response.setContentType("application/force-download");
+        response.setHeader("Content-Disposition", "attachment; filename=\"bitacora.doc\"");
+
+
+        return model;
     }
 }
