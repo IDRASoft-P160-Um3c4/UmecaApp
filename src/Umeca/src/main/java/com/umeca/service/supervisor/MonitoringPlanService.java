@@ -4,6 +4,7 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.supervisor.ActivityMonitoringPlanRequest;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
+import com.umeca.service.account.SharedUserService;
 
 /**
  * Project: Umeca
@@ -12,5 +13,5 @@ import com.umeca.repository.supervisor.MonitoringPlanRepository;
  * Time: 5:47 PM
  */
 public interface MonitoringPlanService {
-    boolean doUpsertDelete(MonitoringPlanRepository monitoringPlanRepository, ActivityMonitoringPlanRequest model, User user, ResponseMessage response);
+    boolean doUpsertDelete(SharedUserService sharedUserService, MonitoringPlanRepository monitoringPlanRepository, ActivityMonitoringPlanRequest model, User user, ResponseMessage response);
 }

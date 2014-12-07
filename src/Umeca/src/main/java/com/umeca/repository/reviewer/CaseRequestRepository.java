@@ -2,6 +2,7 @@ package com.umeca.repository.reviewer;
 import com.umeca.model.entities.director.view.CaseRequestDto;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.CaseRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,5 +41,12 @@ public interface CaseRequestRepository extends JpaRepository<CaseRequest,Long> {
             "inner join r.requestType as rt " +
             "where c.id=:idCase and rt.name=:type")
     Long findLastRequestAuhtorizeIdByCase(@Param("idCase")Long c, @Param("type")String stRequestAuthorizeSource);
+
+    @Query("SELECT cr FROM CaseRequest AS cr " +
+            "INNER JOIN cr.requestMessage.caseDetention AS c " +
+            "INNER JOIN cr.requestType AS rt " +
+            "WHERE c.id=:idCase AND rt.name=:type " +
+            "ORDER BY cr.id DESC")
+    List<CaseRequest> findCaseRequestByCaseAndType(@Param("idCase")Long c, @Param("type")String stRequestType, Pageable pageable);
 
 }

@@ -140,7 +140,7 @@
                                             <div class="slim-scroll" data-height="100">
                                                 <div class="row">
                                                     <div class="col-xs-4">
-                                                        <h6>Actividad de supervisi�n</h6>
+                                                        <h6>Actividad de supervisi&oacute;n</h6>
                                                     </div>
                                                     <div class="col-xs-8">
                                                         <select class="form-control element-center"

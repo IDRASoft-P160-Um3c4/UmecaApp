@@ -48,11 +48,6 @@
             window.goToNewUrl("<c:url value='/supervisorManager/log/accomplishmentLog.html?id=idParam' />", params);
         };
 
-        window.requestAccomplishmentLog = function (id) {
-            window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/log/requestAccomplishmentLog.json' />", "#GridId",
-                    "Plan de seguimiento", "&iquest;Est&aacute; seguro de que desea solicitar la autorizaci&oacute;n del reporte de incumplimiento?", "warning");
-        };
-
         window.supervisionLog = function (id) {
             var params = [];
             params["idParam"] = id;

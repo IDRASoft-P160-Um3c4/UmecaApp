@@ -15,6 +15,7 @@ import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
+import com.umeca.repository.catalog.FulfillmentReportTypeRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
@@ -40,10 +41,20 @@ public class LogController {
     SharedLogExceptionService logException;
     @Autowired
     private SharedUserService userService;
+    @Autowired
+    private FulfillmentReportTypeRepository fulfillmentReportTypeRepository;
 
-    @RequestMapping(value = "/supervisor/log /index", method = RequestMethod.GET)
-    public String index() {
-        return "/supervisor/log/index";
+    @RequestMapping(value = "/supervisor/log/index", method = RequestMethod.GET)
+    public ModelAndView  index() {
+        ModelAndView model = new ModelAndView("/supervisor/log/index");
+
+        Gson gson = new Gson();
+        String sLstGeneric ;
+        List<SelectList> lstGeneric = fulfillmentReportTypeRepository.findNotObsolete();
+        sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstFulfillmentReport", sLstGeneric);
+
+        return model;
     }
 
     @Autowired
@@ -242,7 +253,7 @@ public class LogController {
     @RequestMapping(value = "/supervisor/log/requestAccomplishmentLog", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage requestAccomplishmentLog(@RequestParam Long id) { //Id de MonitoringPlan
+    ResponseMessage requestAccomplishmentLog(@RequestParam Long id, @RequestParam Long fulfillmentReportId) { //Id de MonitoringPlan
         ResponseMessage response = new ResponseMessage();
 
         try {
@@ -252,7 +263,7 @@ public class LogController {
             if (userService.isValidUser(user, response) == false)
                 return response;
 
-            if (manageMonitoringPlanService.requestAccomplishmentLog(id, user, MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT,
+            if (manageMonitoringPlanService.requestAccomplishmentLog(id, fulfillmentReportId, user, MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT,
                     "Solicitud de la autorización del reporte de incumplimiento por parte del usuario " + user.getUsername(), response) == false) {
                 response.setHasError(true);
                 return response;

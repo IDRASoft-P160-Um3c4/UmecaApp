@@ -1,6 +1,7 @@
 package com.umeca.controller.supervisorManager;
 
 import com.google.gson.Gson;
+import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -19,12 +20,14 @@ import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
+import com.umeca.repository.supervisor.FulfillmentReportRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ManageMonitoringPlanService;
 import com.umeca.service.supervisor.TrackMonPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -148,12 +151,16 @@ public class ActiveMonitoringPlanController {
     }
 
 
+    @Autowired
+    FulfillmentReportRepository fulfillmentReportRepository;
+
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/authorizeAccomplishment", method = RequestMethod.POST)
     public ModelAndView authorizeAccomplishment(@RequestParam Long id) {
         ModelAndView model = new ModelAndView("/supervisorManager/authorizeMonitoringPlan/authorizeRejectMonPlan");
 
         try {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
+            GetFulFillmentReportInfo(id, model, fulfillmentReportRepository);
             model.addObject("isAuthorized", 1);
             model.addObject("msgPlan", "reporte de incumplimiento");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectAccomplishment.json");
@@ -164,6 +171,18 @@ public class ActiveMonitoringPlanController {
         }
     }
 
+    private static void GetFulFillmentReportInfo(Long id, ModelAndView model, FulfillmentReportRepository fulfillmentReportRepository) {
+        try {
+            List<FulfillmentReportInfo> fulfillmentReportInfo = fulfillmentReportRepository.getFulfillmentReportInfoByMonPlanId(id, new PageRequest(0,1)); //Top 1
+            if(fulfillmentReportInfo == null || fulfillmentReportInfo.size() == 0)
+                return;
+            model.addObject("fulfillmentReportType", fulfillmentReportInfo.get(0).getType());
+            model.addObject("fulfillmentReportTimestamp", CalendarExt.calendarToFormatString(fulfillmentReportInfo.get(0).getTimestamp(), "dd/MM/yyyy HH:mm"));
+        }catch (Exception ex){
+            return;
+        }
+    }
+
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/rejectAccomplishment", method = RequestMethod.POST)
     public ModelAndView rejectAccomplishment(@RequestParam Long id) {
@@ -171,6 +190,7 @@ public class ActiveMonitoringPlanController {
 
         try {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
+            GetFulFillmentReportInfo(id, model, fulfillmentReportRepository);
             model.addObject("isAuthorized", 0);
             model.addObject("msgPlan", "reporte de incumplimiento");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectAccomplishment.json");
@@ -264,7 +284,7 @@ public class ActiveMonitoringPlanController {
                 return response;
             }
 
-            trackMonPlanService.saveAuthRejectMonPlan(model, user, monPlan, MonitoringConstants.STATUS_END,
+            trackMonPlanService.saveAuthRejectMonPlan(sharedUserService, logException, model, user, monPlan, MonitoringConstants.STATUS_END,
                     MonitoringConstants.STATUS_REJECTED_END, MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END);
 
             response.setHasError(false);
@@ -428,7 +448,7 @@ public class ActiveMonitoringPlanController {
                 return response;
             }
 
-            if (manageMonitoringPlanService.authRejLstMonAct(model, sharedUserService, response) == false)
+            if (manageMonitoringPlanService.authRejLstMonAct(model, sharedUserService, user, response) == false)
                 return response;
 
             response.setHasError(false);

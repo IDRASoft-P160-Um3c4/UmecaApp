@@ -25,8 +25,8 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="row">
-                                        <div class="col-xs-10 col-xs-offset-1" ng-init="msgBody=${body}">
-                                            <span ng-bind-html="msgBody"> </span>
+                                        <div class="col-xs-10 col-xs-offset-1" ng-init="msgBody='${body}'">
+                                            <span ng-bind-html="formatHtml(msgBody)"> </span>
                                         </div>
                                     </div>
                                 </div>

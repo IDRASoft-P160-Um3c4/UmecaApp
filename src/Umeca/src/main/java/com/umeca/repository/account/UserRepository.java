@@ -44,6 +44,10 @@ public interface UserRepository extends JpaRepository<User, Long>{
             "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true ORDER BY u.username ASC")
     List<SelectList> getLstValidUsersByRole(@Param("sRole") String sRole);
 
+    @Query("SELECT DISTINCT new com.umeca.model.entities.account.User(u.id, u.username) FROM User u " +
+            "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true ORDER BY u.username ASC")
+    List<User> getLstValidUserIdsByRole(@Param("sRole") String sRole);
+
     @Query("SELECT DISTINCT u.id FROM User u " +
             "INNER JOIN u.roles r WHERE r.role=:sRole AND u.enabled = true ORDER BY u.username ASC")
     List<Long> getIdValidUsersByRole(@Param("sRole") String sRole);

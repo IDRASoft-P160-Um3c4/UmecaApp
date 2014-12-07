@@ -70,6 +70,11 @@ public class User implements EntityGrid {
         this.enabled = enabled;
     }
 
+    public User(Long id, String username){
+        this.id = id;
+        this.username = username;
+    }
+
     public Long getId() {
         return id;
     }
