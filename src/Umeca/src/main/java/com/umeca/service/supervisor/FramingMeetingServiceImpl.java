@@ -15,6 +15,7 @@ import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
+import com.umeca.model.entities.shared.Victim;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
@@ -916,17 +917,20 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             FramingAddress existAddress = framingAddressRepository.findOne(id);
 
-            FramingMeetingLog log = new FramingMeetingLog();
-            log.setFramingMeeting(existAddress.getFramingMeeting());
-            log.setLogType(FramingMeetingConstants.LOG_TYPE_DELETED);
-            log.setLogDate(CalendarExt.getToday());
-            log.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
-            log.setTitle("Domicilio");
-            FramingLogElement element = new FramingLogElement();
-            element.setFieldName("Direcci&oacute;n");
-            element.setValue(existAddress.getAddress().getAddressString());
-            log.setFinalValue(new Gson().toJson(element));
-            framingMeetingLogRepository.save(log);
+            Boolean isTerminated = existAddress.getFramingMeeting().getIsTerminated();
+            if (isTerminated != null && isTerminated == true) {
+                FramingMeetingLog log = new FramingMeetingLog();
+                log.setFramingMeeting(existAddress.getFramingMeeting());
+                log.setLogType(FramingMeetingConstants.LOG_TYPE_DELETED);
+                log.setLogDate(CalendarExt.getToday());
+                log.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+                log.setTitle("Domicilio");
+                FramingLogElement element = new FramingLogElement();
+                element.setFieldName("Direcci&oacute;n");
+                element.setValue(existAddress.getAddress().getAddressString());
+                log.setFinalValue(new Gson().toJson(element));
+                framingMeetingLogRepository.save(log);
+            }
 
             framingAddressRepository.delete(id);
 
@@ -947,7 +951,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 return new ResponseMessage(true, "No se puede eliminar la informaci&oacute;n. El registro ha sido seleccionado en la secci&oacute;n An&aacute;lisis del entorno.");
 
             FramingReference existReference = framingReferenceRepository.findOne(id);
-            framingMeetingLogRepository.save(getFramingReferenceLog(existReference.getFramingMeeting(), existReference, FramingMeetingConstants.LOG_TYPE_DELETED));
+
+            if (existReference.getFramingMeeting().getIsTerminated() != null && existReference.getFramingMeeting().getIsTerminated() == true)
+                framingMeetingLogRepository.save(getFramingReferenceLog(existReference.getFramingMeeting(), existReference, FramingMeetingConstants.LOG_TYPE_DELETED));
+
             framingReferenceRepository.delete(existReference);
 
             return new ResponseMessage(false, "Se ha eliminado el registro con &eacute;xito.");
@@ -1557,118 +1564,196 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Transactional
     public void fillSaveVerifiedInfo(FramingMeeting existFraming, Meeting verifMeeting) {
 
-        //actividades
+        try {
+            //actividades
 
-        List<RelSocialEnvironmentActivity> relAct = verifMeeting.getSocialEnvironment().getRelSocialEnvironmentActivities();
+            List<RelSocialEnvironmentActivity> relAct = verifMeeting.getSocialEnvironment().getRelSocialEnvironmentActivities();
+            List<FramingActivity> lstFramingActivities = new ArrayList<>();
 
-        if (relAct != null && relAct.size() > 0) {
-            List<RelFramingMeetingActivity> relFramingMeetingActivities = new ArrayList<>();
+            if (relAct != null && relAct.size() > 0) {
 
-            for (RelSocialEnvironmentActivity rel : relAct) {
-                RelFramingMeetingActivity actRel = new RelFramingMeetingActivity();
-                actRel.setFramingMeeting(existFraming);
-                actRel.setSpecification(rel.getSpecification());
-                actRel.setActivity(rel.getActivity());
-                relFramingMeetingActivities.add(actRel);
+
+                for (RelSocialEnvironmentActivity rel : relAct) {
+                    FramingActivity fAct = new FramingActivity();
+                    fAct.setFramingMeeting(existFraming);
+                    fAct.setDescription(rel.getSpecification());
+                    fAct.setActivity(rel.getActivity());
+                    lstFramingActivities.add(fAct);
+                }
             }
 
-            existFraming.setRelFramingMeetingActivities(relFramingMeetingActivities);
-        }
+            existFraming.setActivities(lstFramingActivities);
 
-        //domicilios
-        List<FramingAddress> listAddress = new ArrayList<>();
+            //domicilios
+            List<FramingAddress> listAddress = new ArrayList<>();
 
-        for (ImputedHome act : verifMeeting.getImputedHomes()) {
-            FramingAddress framingAddress = new FramingAddress();
-            framingAddress.setFramingMeeting(existFraming);
+            for (ImputedHome act : verifMeeting.getImputedHomes()) {
+                FramingAddress framingAddress = new FramingAddress();
 
-            Address existAddress = act.getAddress();
+                framingAddress.setAddressRef(act.getDescription());
+                framingAddress.setSpecification(act.getSpecification());
+                framingAddress.setTimeLive(act.getTimeLive());
+                framingAddress.setTimeAgo(act.getTimeLive());
+                framingAddress.setReasonAnother(act.getReasonSecondary());
+                framingAddress.setReasonChange(act.getReasonChange());
+                framingAddress.setPhone(act.getPhone());
+                List<Schedule> lstSch = scheduleRepository.getScheduleByImputedHomeId(act.getId());
 
-            Address address = new Address();
-            address.setLng(existAddress.getLng());
-            address.setLat(existAddress.getLat());
-            address.setInnNum(existAddress.getInnNum());
-            address.setOutNum(existAddress.getOutNum());
-            address.setStreet(existAddress.getStreet());
-            address.setLocation(existAddress.getLocation());
-            address.setAddressString(existAddress.getAddressString());
+                for (Schedule addSch : lstSch) {
+                    addSch.setFramingAddress(framingAddress);
+                }
 
-            framingAddress.setAddress(address);
+                framingAddress.setSchedule(lstSch);
+                framingAddress.setSpecification(act.getSpecification());
+                framingAddress.setRegisterType(act.getRegisterType());
+                framingAddress.setHomeType(act.getHomeType());
 
-            listAddress.add(framingAddress);
+                framingAddress.setFramingMeeting(existFraming);
 
-        }
+                Address existAddress = act.getAddress();
 
-        existFraming.setFramingAddresses(listAddress);
+                Address address = new Address();
+                address.setLng(existAddress.getLng());
+                address.setLat(existAddress.getLat());
+                address.setInnNum(existAddress.getInnNum());
+                address.setOutNum(existAddress.getOutNum());
+                address.setStreet(existAddress.getStreet());
+                address.setLocation(existAddress.getLocation());
+                address.setAddressString(existAddress.getAddressString());
 
-        //personas que viven con el imputado y referencias personales
-        List<FramingReference> references = new ArrayList<>();
+                framingAddress.setAddress(address);
 
-        for (PersonSocialNetwork person : verifMeeting.getSocialNetwork().getPeopleSocialNetwork()) {
+                listAddress.add(framingAddress);
+            }
 
-            if (person.getLivingWith().getId() == Constants.ELECTION_YES) {
+            existFraming.setFramingAddresses(listAddress);
+
+            //personas que viven con el imputado y referencias personales
+            List<FramingReference> references = new ArrayList<>();
+
+            for (PersonSocialNetwork person : verifMeeting.getSocialNetwork().getPeopleSocialNetwork()) {
+
+                if (person.getLivingWith().getId() == Constants.ELECTION_YES) {
+
+                    FramingReference fRef = new FramingReference();
+
+                    fRef.setFramingMeeting(existFraming);
+                    fRef.setHasVictimWitnessInfo(person.getBlock());
+                    fRef.setPersonType(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE);
+                    fRef.setAddress(person.getAddress());
+                    fRef.setName(person.getName());
+                    fRef.setAge(person.getAge().toString());
+                    fRef.setPhone(person.getPhone());
+                    fRef.setRelationship(person.getRelationship());
+                    fRef.setIsAccompaniment(person.getIsAccompaniment());
+
+                    List<String> actualHomes = imputedHomeRepository.getActualAddressStringByVerificationId(verifMeeting.getId(), new PageRequest(0, 1));
+
+                    if (actualHomes != null && actualHomes.size() > 0)
+                        fRef.setAddress(actualHomes.get(0));
+                    else
+                        fRef.setAddress(null);
+
+                    references.add(fRef);
+
+                }
+            }
+
+            for (Reference reference : verifMeeting.getReferences()) {
 
                 FramingReference fRef = new FramingReference();
 
                 fRef.setFramingMeeting(existFraming);
-                fRef.setPersonType(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE);
-                fRef.setAddress(person.getAddress());
-                fRef.setName(person.getName());
-                fRef.setAge(person.getAge().toString());
-                fRef.setPhone(person.getPhone());
-                fRef.setRelationship(person.getRelationship());
-                fRef.setIsAccompaniment(person.getIsAccompaniment());
-
-                List<String> actualHomes = imputedHomeRepository.getActualAddressStringByVerificationId(verifMeeting.getId(), new PageRequest(0, 1));
-
-                if (actualHomes != null && actualHomes.size() > 0)
-                    fRef.setAddress(actualHomes.get(0));
-                else
-                    fRef.setAddress(null);
+                fRef.setPersonType(FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+                fRef.setAddress(reference.getAddress());
+                fRef.setHasVictimWitnessInfo(reference.getBlock());
+                fRef.setName(reference.getFullName());
+                fRef.setAge(reference.getAge().toString());
+                fRef.setPhone(reference.getPhone());
+                fRef.setRelationship(reference.getRelationship());
+                fRef.setIsAccompaniment(reference.getIsAccompaniment());
 
                 references.add(fRef);
-
             }
+
+            List<Victim> lstVictims = existFraming.getCaseDetention().getMeeting().getCurrentCriminalProceeding().getVictims();
+
+            for (Victim victim : lstVictims) {
+
+                FramingReference fRef = new FramingReference();
+
+                fRef.setFramingMeeting(existFraming);
+                fRef.setPersonType(FramingMeetingConstants.PERSON_TYPE_VICTIM);
+                fRef.setName(victim.getFullname());
+                fRef.setPhone(victim.getPhone());
+                fRef.setRelationship(victim.getRelationship());
+                fRef.setAge(victim.getAge().toString());
+                fRef.setIsAccompaniment(true);
+                fRef.setHasVictimWitnessInfo(true);
+
+                AccompanimentInfo accInf = new AccompanimentInfo();
+                Address add = new Address(victim.getAddress());
+                accInf.setAddress(add);
+                fRef.setAccompanimentInfo(accInf);
+
+                references.add(fRef);
+            }
+
+            existFraming.setReferences(references);
+
+            List<Drug> drugs = new ArrayList<>();
+
+            for (Drug drug : verifMeeting.getDrugs()) {
+
+                Drug fDrug = new Drug();
+
+                fDrug.setFramingMeeting(existFraming);
+                fDrug.setDrugType(drug.getDrugType());
+                fDrug.setPeriodicity(drug.getPeriodicity());
+                fDrug.setQuantity(drug.getQuantity());
+                fDrug.setLastUse(drug.getLastUse());
+                fDrug.setSpecificationPeriodicity(drug.getSpecificationPeriodicity());
+
+                drugs.add(fDrug);
+            }
+
+            existFraming.setDrugs(drugs);
+
+            //historia laboral
+            List<Job> lstExistJobs = verifMeeting.getJobs();
+            List<Job> lstNewJobs = new ArrayList<>();
+
+            for (Job actJob : lstExistJobs) {
+                Job newObj = new Job(actJob);
+                List<Schedule> lstSch = scheduleRepository.getScheduleByJobId(actJob.getId());
+                for (Schedule sch : lstSch) {
+                    sch.setJob(newObj);
+                }
+                newObj.setSchedule(lstSch);
+                actJob.setFramingMeeting(existFraming);
+
+                lstNewJobs.add(actJob);
+            }
+
+            existFraming.setJobs(lstNewJobs);
+
+            //historia escolar
+
+            School existSchool = verifMeeting.getSchool();
+            School framingSchool = new School(existSchool);
+            List<Schedule> lstSch = scheduleRepository.getScheduleBySchoolId(existSchool.getId());
+            for (Schedule sch : lstSch) {
+                sch.setSchool(framingSchool);
+            }
+            framingSchool.setSchedule(lstSch);
+            framingSchool.setFramingMeeting(existFraming);
+            existFraming.setSchool(framingSchool);
+
+            framingMeetingRepository.save(existFraming);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "fillSaveVerifiedInfo", sharedUserService);
         }
-
-        for (Reference reference : verifMeeting.getReferences()) {
-
-            FramingReference fRef = new FramingReference();
-
-            fRef.setFramingMeeting(existFraming);
-            fRef.setPersonType(FramingMeetingConstants.PERSON_TYPE_REFERENCE);
-            fRef.setAddress(reference.getAddress());
-            fRef.setName(reference.getFullName());
-            fRef.setAge(reference.getAge().toString());
-            fRef.setPhone(reference.getPhone());
-            fRef.setRelationship(reference.getRelationship());
-            fRef.setIsAccompaniment(reference.getIsAccompaniment());
-
-            references.add(fRef);
-        }
-
-        existFraming.setReferences(references);
-
-        List<Drug> drugs = new ArrayList<>();
-
-        for (Drug drug : verifMeeting.getDrugs()) {
-
-            Drug fDrug = new Drug();
-
-            fDrug.setFramingMeeting(existFraming);
-            fDrug.setDrugType(drug.getDrugType());
-            fDrug.setPeriodicity(drug.getPeriodicity());
-            fDrug.setQuantity(drug.getQuantity());
-            fDrug.setLastUse(drug.getLastUse());
-            fDrug.setSpecificationPeriodicity(drug.getSpecificationPeriodicity());
-
-            drugs.add(fDrug);
-        }
-
-        existFraming.setDrugs(drugs);
-
-        framingMeetingRepository.save(existFraming);
-
     }
 
 
@@ -2396,7 +2481,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             lstElements.add(element);
 
 
-            if (reference.getIsAccompaniment() == true) {
+            if (reference.getIsAccompaniment() != null && reference.getIsAccompaniment() == true) {
 
                 element = new FramingLogElement();
                 element.setFieldName("Acompa&ntilde;a durante el proceso");
@@ -2417,9 +2502,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     element = new FramingLogElement();
                     element.setFieldName("G&eacute;nero");
 
-                    if (reference.getAccompanimentInfo().getGender().equals(1))
+                    if (reference.getAccompanimentInfo().getGender() != null && reference.getAccompanimentInfo().getGender().equals(1))
                         gndr = "Femenino";
-                    else if (reference.getAccompanimentInfo().getGender().equals(2))
+                    else if (reference.getAccompanimentInfo().getGender() != null && reference.getAccompanimentInfo().getGender().equals(2))
                         gndr = "Masculino";
                     element.setValue(gndr);
                     lstElements.add(element);
@@ -2427,7 +2512,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
                     element = new FramingLogElement();
                     element.setFieldName("Escolaridad");
-                    element.setValue(reference.getAccompanimentInfo().getAcademicLevel().getName());
+                    if (reference.getAccompanimentInfo().getAcademicLevel() != null)
+                        element.setValue(reference.getAccompanimentInfo().getAcademicLevel().getName());
+                    else
+                        element.setValue("");
                     lstElements.add(element);
 
                     element = new FramingLogElement();
@@ -2458,11 +2546,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             element.setValue(reference.getPhone());
             lstElements.add(element);
 
-            if (reference.getIsAccompaniment() == true) {
+            if (reference.getIsAccompaniment() != null && reference.getIsAccompaniment() == true) {
 
-                if (reference.getAccompanimentInfo().getGender().equals(1))
+                if (reference.getAccompanimentInfo().getGender() != null && reference.getAccompanimentInfo().getGender().equals(1))
                     gndr = "Femenino";
-                else if (reference.getAccompanimentInfo().getGender().equals(2))
+                else if (reference.getAccompanimentInfo().getGender() != null && reference.getAccompanimentInfo().getGender().equals(2))
                     gndr = "Masculino";
                 element.setValue(gndr);
                 lstElements.add(element);
@@ -2477,7 +2565,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 element.setValue(reference.getOccupation());
                 lstElements.add(element);
 
-                if (reference.getIsAccompaniment() != null) {
+                if (reference.getAccompanimentInfo() != null) {
                     element = new FramingLogElement();
                     element.setFieldName("Lugar de ocupaci&oacute;n");
                     element.setValue(reference.getAccompanimentInfo().getOccupationPlace());
@@ -2485,7 +2573,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
                     element = new FramingLogElement();
                     element.setFieldName("Direcci&oacute;n");
-                    element.setValue(reference.getAccompanimentInfo().getAddress().getAddressString());
+                    if (reference.getAccompanimentInfo().getAddress() != null)
+                        element.setValue(reference.getAccompanimentInfo().getAddress().getAddressString());
+                    else
+                        element.setValue("");
                     lstElements.add(element);
                 }
 
@@ -2536,7 +2627,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 if (reference.getAccompanimentInfo() != null) {
                     element = new FramingLogElement();
                     element.setFieldName("Direcci&oacute;n");
-                    element.setValue(reference.getAccompanimentInfo().getAddress().getAddressString());
+                    if (reference.getAccompanimentInfo().getAddress() != null)
+                        element.setValue(reference.getAccompanimentInfo().getAddress().getAddressString());
+                    else
+                        element.setValue("");
                     lstElements.add(element);
                 }
             }

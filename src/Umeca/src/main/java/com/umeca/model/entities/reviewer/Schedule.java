@@ -20,6 +20,12 @@ public class Schedule {
     public Schedule() {
     }
 
+    public Schedule(String day, String start, String end) {
+        this.day=day;
+        this.start=start;
+        this.end=end;
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "id_schedule")

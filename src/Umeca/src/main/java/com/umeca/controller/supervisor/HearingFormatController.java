@@ -232,6 +232,7 @@ public class HearingFormatController {
             model.addObject("hfView", conv.toJson(hfView));
             model.addObject("hasPrevHF", hfView.getHasPrevHF());
             model.addObject("listCrime", hfView.getListCrime());
+
             crimeService.fillCatalogModel(model);
             model.addObject("readonlyBand", false);
             if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)

@@ -33,6 +33,20 @@ public class Job implements EntityGrid {
         this.registerTypeId = registerTypeId;
     }
 
+    public Job(Job other) {
+        this.post = other.getPost();
+        this.nameHead = other.getNameHead();
+        this.company = other.getCompany();
+        this.phone = other.getPhone();
+        this.registerType = other.getRegisterType();
+        this.start = other.getStart();
+        this.startPrev = other.getStartPrev();
+        this.end = other.getEnd();
+        this.salaryWeek = other.getSalaryWeek();
+        this.reasonChange = other.getReasonChange();
+        this.block = other.getBlock();
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "id_job")

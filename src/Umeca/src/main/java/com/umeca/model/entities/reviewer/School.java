@@ -20,6 +20,19 @@ import java.util.List;
 @Table(name = "school")
 public class School {
 
+    public School() {
+
+    }
+
+    public School(School other) {
+        this.name = other.getName();
+        this.phone = other.getPhone();
+        this.address = other.getAddress();
+        this.degree = other.getDegree();
+        this.specification = other.getSpecification();
+        this.block = other.getBlock();
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "id_school")

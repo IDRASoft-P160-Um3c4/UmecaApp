@@ -238,7 +238,6 @@ public class FramingMeetingController {
                 newFA.setAddress(newAddr);
                 newFA.setFramingMeeting(framingMeeting);
                 framingAddressRepository.save(newFA);
-
             }
         }
 

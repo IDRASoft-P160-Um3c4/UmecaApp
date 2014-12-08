@@ -442,6 +442,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
                 hearingFormatView.setUserName(us.getFullname());
 
+                List<Crime> lstCrime = existCase.getMeeting().getCurrentCriminalProceeding().getCrimeList();
+                hearingFormatView.setListCrime(new Gson().toJson(crimeService.fromListToStringCrime(lstCrime)));
+
                 hearingFormatView.setCanSave(true);
                 hearingFormatView.setCanEdit(true);
                 hearingFormatView.setDisableAll(false);

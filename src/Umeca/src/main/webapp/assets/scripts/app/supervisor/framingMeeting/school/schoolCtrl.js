@@ -50,6 +50,7 @@ app.controller('framingSchoolController', function ($scope, $timeout, $rootScope
             $scope.school.academicLvlId = msg.academicLvlId;
             $scope.school.degreeId = msg.degreeId;
             $scope.school.comments = msg.commentSchool;
+            $scope.school.specification = msg.specification;
 
             $scope.hasActualSchool = msg.hasActualSchool;
             if ($scope.hasActualSchool == undefined || $scope.hasActualSchool == null)

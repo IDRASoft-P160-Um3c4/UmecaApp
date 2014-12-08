@@ -37,16 +37,16 @@ public class CrimeServiceImpl implements CrimeService {
         Gson gson = new Gson();
         List<CatalogDto> catalogDtoList = new ArrayList<>();
         List<CrimeCatalog> crimes = crimeCatalogRepository.findNotObsolete();
-        for(CrimeCatalog c: crimes){
-            catalogDtoList.add(new CatalogDto(c.getId(),c.getName()));
+        for (CrimeCatalog c : crimes) {
+            catalogDtoList.add(new CatalogDto(c.getId(), c.getName()));
         }
-        model.addObject("optionsCrime",gson.toJson(catalogDtoList));
+        model.addObject("optionsCrime", gson.toJson(catalogDtoList));
         List<CatalogDto> catalogDtoList1 = new ArrayList<>();
         List<Election> electionList = electionRepository.findAll();
-        for(Election e: electionList){
-            catalogDtoList1.add(new CatalogDto(e.getId(),e.getName()));
+        for (Election e : electionList) {
+            catalogDtoList1.add(new CatalogDto(e.getId(), e.getName()));
         }
-        model.addObject("listElection",gson.toJson(catalogDtoList1));
+        model.addObject("listElection", gson.toJson(catalogDtoList1));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class CrimeServiceImpl implements CrimeService {
         Gson gson = new Gson();
         List<Crime> listCrime = crimeRepository.findListCrimeLegalByIdCase(id);
         List<CrimeDto> listCrimeDto = new ArrayList<>();
-        if (listCrime != null && listCrime.size()>0) {
+        if (listCrime != null && listCrime.size() > 0) {
             for (Crime crime : listCrime) {
                 listCrimeDto.add(new CrimeDto().dtoCrime(crime));
             }
@@ -67,41 +67,52 @@ public class CrimeServiceImpl implements CrimeService {
 
     @Override
     public String getListCrimeHearingformatByCase(Long idCase) {
-         Long hearingFormatId = hearingFormatRepository.lastHearingFormatIdsByIdCase(idCase);
-         List<Crime> crimes = crimeRepository.findListCrimeHearingFormatByIdHF(hearingFormatId);
-         if(crimes.size()>0){
-             Gson gson = new Gson();
-             List<CrimeDto> crimeDtoList = new ArrayList<>();
-             for(Crime c: crimes){
-                 crimeDtoList.add(new CrimeDto().dtoCrime(c));
-             }
-             return gson.toJson(crimeDtoList);
-         }else
-          return "[]";
+        Long hearingFormatId = hearingFormatRepository.lastHearingFormatIdsByIdCase(idCase);
+        List<Crime> crimes = crimeRepository.findListCrimeHearingFormatByIdHF(hearingFormatId);
+        if (crimes.size() > 0) {
+            Gson gson = new Gson();
+            List<CrimeDto> crimeDtoList = new ArrayList<>();
+            for (Crime c : crimes) {
+                crimeDtoList.add(new CrimeDto().dtoCrime(c));
+            }
+            return gson.toJson(crimeDtoList);
+        } else
+            return "[]";
     }
 
     @Override
     public List<String> getListStringCrimeHFByHF(Long idH) {
         List<String> result = new ArrayList<>();
         List<Crime> crimes = crimeRepository.findListCrimeHearingFormatByIdHF(idH);
-        if(crimes.size()>0){
+        if (crimes.size() > 0) {
             Gson gson = new Gson();
-            for(Crime c: crimes){
+            for (Crime c : crimes) {
                 result.add(new CrimeDto().toStringCrime(c));
             }
             return result;
-        }else
+        } else
             return result;
+    }
+
+    @Override
+    public List<CrimeDto> fromListToStringCrime(List<Crime> lstCrimes) {
+        List<CrimeDto> result = new ArrayList<>();
+        if (lstCrimes != null && lstCrimes.size() > 0) {
+            for (Crime c : lstCrimes) {
+                result.add(new CrimeDto().dtoCrime(c));
+            }
+        }
+        return result;
     }
 
     @Override
     public List<Crime> getListOfString(String listCrime, HearingFormat hearingFormat) {
         Gson gson = new Gson();
         List<Crime> crimes;
-        crimes = gson.fromJson(listCrime, new TypeToken<List<Crime>>(){
+        crimes = gson.fromJson(listCrime, new TypeToken<List<Crime>>() {
         }.getType());
-        if(crimes!=null){
-            for(Crime c : crimes){
+        if (crimes != null) {
+            for (Crime c : crimes) {
                 c.setCrime(crimeCatalogRepository.findOne(c.getCrime().getId()));
                 c.setFederal(electionRepository.findOne(c.getFederal().getId()));
                 c.setHearingFormat(hearingFormat);
@@ -113,14 +124,14 @@ public class CrimeServiceImpl implements CrimeService {
     @Override
     public String getListCrimeHearingformatByIdFormat(Long idFormat) {
         List<Crime> crimes = crimeRepository.findListCrimeHearingFormatByIdHF(idFormat);
-        if(crimes.size()>0){
+        if (crimes.size() > 0) {
             Gson gson = new Gson();
             List<CrimeDto> crimeDtoList = new ArrayList<>();
-            for(Crime c: crimes){
+            for (Crime c : crimes) {
                 crimeDtoList.add(new CrimeDto().dtoCrime(c));
             }
             return gson.toJson(crimeDtoList);
-        }else
+        } else
             return "[]";
     }
 }

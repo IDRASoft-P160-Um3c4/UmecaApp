@@ -15,6 +15,20 @@ import javax.persistence.*;
 @Entity
 @Table(name = "address")
 public class Address implements EntityGrid {
+    public Address() {
+
+    }
+
+    public Address(Address other) {
+        this.street = other.getStreet();
+        this.outNum = other.getOutNum();
+        this.innNum = other.getInnNum();
+        this.lat = other.getLat();
+        this.lng = other.getLng();
+        this.addressString = other.getAddressString();
+        this.location = other.getLocation();
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "id_address")
