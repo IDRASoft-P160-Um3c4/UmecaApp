@@ -150,6 +150,8 @@ public class Constants {
 
     public static final String ST_REQUEST_AUTHORIZE_SOURCE = "AUTHORIZE_SOURCES";
     public static final String ST_REQUEST_NOT_PROSECUTE = "NOT_PROSECUTE";
+    public static final String ST_REQUEST_MONPLAN_AUTH = "MONPLAN_AUTH";
+    public static final String ST_REQUEST_UPDATE_MONPLAN_AUTH = "UPDATE_MONPLAN_AUTH";
 
     public static final String NAME_RELATIONSHIP_IMPUTED = "Imputado";
     public static final String NAME_RELATIONSHIP_OTHER = "Otro";

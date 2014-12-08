@@ -56,7 +56,7 @@ public class SharedUserService {
         User userToValidate = userRepository.getInfoToValidate(sUsername);
 
         if(userToValidate.getEnabled() == false){
-            response.setMessage("Usted no tiene permisos para realizar esta acci?n. Por favor solicite los permisos suficientes para realizar esta acci?n e intente de nuevo.");
+            response.setMessage("Usted no tiene permisos para realizar esta acci&oacute;n. Por favor solicite los permisos suficientes para realizar esta acci&oacute;n e intente de nuevo.");
             response.setHasError(true);
             return false;
         }
@@ -87,6 +87,10 @@ public class SharedUserService {
         return userRepository.getLstValidUsersByRole(sRole);
     }
 
+    public List<User> getLstValidUserIdsByRole(String sRole) {
+        return userRepository.getLstValidUserIdsByRole(sRole);
+    }
+
     public List<SelectList> getLstValidUsersByRoleExceptUserId(String sRole, Long supervisorId) {
         return userRepository.getLstValidUsersByRoleExceptUserId(supervisorId, sRole);
     }
@@ -101,19 +105,19 @@ public class SharedUserService {
     }
 
     public static String convertToValidString(String s){
-        s = s.replace("á","&aacute;");
-        s = s.replace("é","&eacute;");
-        s = s.replace("í","&iacute;");
-        s = s.replace("ó","&oacute;");
-        s = s.replace("ú","&uacute;");
-        s = s.replace("Á","&Aacute;");
-        s = s.replace("É","&Eacute;");
-        s = s.replace("Í","&Iacute;");
-        s = s.replace("Ó","&Oacute;");
-        s = s.replace("Ú","&Uacute;");
-        s = s.replace("ñ","&ntilde;");
-        s = s.replace("Ñ","&Ntilde;");
-        s = s.replace("¿","&iquest;");
+        s = s.replace("ï¿½","&aacute;");
+        s = s.replace("ï¿½","&eacute;");
+        s = s.replace("ï¿½","&iacute;");
+        s = s.replace("ï¿½","&oacute;");
+        s = s.replace("ï¿½","&uacute;");
+        s = s.replace("ï¿½","&Aacute;");
+        s = s.replace("ï¿½","&Eacute;");
+        s = s.replace("ï¿½","&Iacute;");
+        s = s.replace("ï¿½","&Oacute;");
+        s = s.replace("ï¿½","&Uacute;");
+        s = s.replace("ï¿½","&ntilde;");
+        s = s.replace("ï¿½","&Ntilde;");
+        s = s.replace("ï¿½","&iquest;");
         return s;
     }
 

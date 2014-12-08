@@ -36,6 +36,7 @@
 
         this.cfgMsg = { title: '', message: '', type: '' };
         this.respMsg = {};
+        this.respData = {};
 
         this.showDlg = function (cfg) {
             th.cfgMsg = cfg;
@@ -67,8 +68,9 @@
             return th.showDlg(cfg);
         };
 
-        this.hideMsg = function (rMsg) {
+        this.hideMsg = function (rMsg, data) {
             th.respMsg = rMsg;
+            th.respData = data;
             dlgMsgBox.modal('hide');
         };
 
@@ -155,16 +157,31 @@
 
     app.controller('confirmationController', function ($scope, $sce, sharedSvc) {
         $scope.sharedSvc = sharedSvc;
+        $scope.m = {};
 
         $scope.$watch('sharedSvc.cfgMsg', function (cfg) {
             $scope.Title = cfg.title;
             $scope.Message = $sce.trustAsHtml(cfg.message);
             $scope.Type = cfg.type;
+
+            try{
+                if(cfg.choiceA === undefined || cfg.choiceA.lstItems === undefined || cfg.choiceA.lstItems.length === 0){
+                    $scope.LstChoiceA = [];
+                    $scope.TitleChoiceA = "";
+                }
+                else{
+                    $scope.TitleChoiceA = $sce.trustAsHtml(cfg.choiceA.title);
+                    $scope.LstChoiceA = cfg.choiceA.lstItems;
+                    $scope.m.choiceA = $scope.LstChoiceA[0];
+                }
+            }catch(e){
+                $scope.LstChoiceA = [];
+            }
         });
 
         $scope.yes = function() {
             $scope.IsOk = true;
-            sharedSvc.hideMsg($scope);
+            sharedSvc.hideMsg($scope, $scope.m);
         };
 
         $scope.no = function() {
@@ -243,6 +260,28 @@
             </div>
             <div class="modal-body">
                 <div class="element-center" ng-bind-html="Message"></div>
+                <div ng-show="LstChoiceA !== undefined && LstChoiceA.length > 0">
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-6 col-xs-offset-3">
+                            <div class="row">
+                                <div class="col-xs-12 element-center">
+                                    <span ng-bind-html="TitleChoiceA"></span>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <select class="form-control element-center"
+                                            ng-model="m.choiceA"
+                                            ng-options="e.name for e in LstChoiceA">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-{{Type}}" ng-click="yes()">Si</button>

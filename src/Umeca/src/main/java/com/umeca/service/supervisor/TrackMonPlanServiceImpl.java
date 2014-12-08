@@ -17,9 +17,16 @@ import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
+import com.umeca.repository.catalog.RequestTypeRepository;
+import com.umeca.repository.catalog.ResponseTypeRepository;
+import com.umeca.repository.reviewer.CaseRequestRepository;
+import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogChangeSupervisorRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.CaseRequestService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.reviewer.CaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -183,7 +190,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
 
     @Override
     @Transactional
-    public void saveAuthRejectMonPlan(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String statusAuth, String statusReject, String type) {
+    public void saveAuthRejectMonPlan(SharedUserService sharedUserService, SharedLogExceptionService logException, AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String statusAuth, String statusReject, String type) {
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
         //String statusAction = (model.getAuthorized() == 1 ? MonitoringConstants.STATUS_AUTHORIZED : MonitoringConstants.STATUS_REJECTED_AUTHORIZED);
@@ -210,11 +217,28 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
             caseRepository.save(caseDetention);
         }
 
+        //CaseRequest... Response
+        if(type.equals(MonitoringConstants.TYPE_COMMENT_AUTHORIZED)){
+            CaseRequestService.CreateCaseResponseToUser(responseTypeRepository, caseRequestRepository, messageRepository,
+                    sharedUserService, logException, user, monPlan.getCaseDetention(),
+                    "El plan de monitoreo fue " + (model.getAuthorized() == 1 ? "autorizado" : "rechazado") + ". Comentarios: " + model.getComments(),
+                    Constants.ST_REQUEST_MONPLAN_AUTH);
+        }
+
+
+
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         logCommentRepository.save(commentModel);
         supervisionCloseCaseLogRepository.save(caseService.generateCloseLog(monPlan.getCaseDetention()));
         monitoringPlanRepository.save(monPlan);
     }
+
+    @Autowired
+    ResponseTypeRepository responseTypeRepository;
+    @Autowired
+    CaseRequestRepository caseRequestRepository;
+    @Autowired
+    MessageRepository messageRepository;
 
     @Autowired
     LogChangeSupervisorRepository logChangeSupervisorRepository;

@@ -92,9 +92,9 @@ window.showAction = function (id, divScope, urlToGo, jqGridToUse, title, message
         then(function () { $(jqGridToUse).trigger("reloadGrid"); });
 };
 
-window.showConfirmFull = function (id, divScope, urlToGo, jqGridToUse, title, message, type) {
+window.showConfirmFull = function (id, divScope, urlToGo, jqGridToUse, title, message, type, choiceA) {
     var scope = angular.element($(divScope)).scope();
-    scope.doConfirmFull({ id: id }, urlToGo, title, message, type).
+    scope.doConfirmFull({ id: id }, urlToGo, title, message, type, choiceA).
         then(function () { $(jqGridToUse).trigger("reloadGrid"); });
 };
 

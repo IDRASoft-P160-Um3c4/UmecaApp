@@ -13,6 +13,11 @@
 
             window.showUpsert(${caseId}, "#angJsjqGridId", "<c:url value='/shared/logCase/addActivity.html' />");
         };
+        window.downloadLogCase = function () {
+            var goTo = "<c:url value='/shared/logCase/generateFile.html?id=${caseId}'/>";
+            window.goToUrlMvcUrl(goTo);
+        };
+
     </script>
 </head>
 <body scroll="no" ng-app="ptlUmc" >
@@ -28,13 +33,16 @@
 <br/>
 <h4 class="element-center">DIRECCI&Oacute;N DE EJECUCI&Oacute;N DE PENAS Y MEDIDAS JUDICIALES</h4>
 <h4 class="element-center">UNIDAD DE VIGILANCIA Y SEGUIMIENTO DE MEDIDAS JUDICIALES</h4>
-
+        <div class="row">
+            <div class="col-xs-12 align-right">
+                <i class="icon-cloud-download icon-animated-wrench purple">&nbsp; </i><a href="#" onclick="downloadLogCase()">Descargar bit&aacute;cora</a>
+            </div>
+        </div>
 <div class="hr hr8"></div>
     <%@ include file="/WEB-INF/jsp/shared/generalDataLog.jsp"%>
 <br/>
-
 <div class="row">
-   <div class="col-xs-12 align-left">
+   <div class="col-xs-6 align-left">
        <i class="glyphicon glyphicon-plus-sign purple">&nbsp; </i><a href="#" onclick="addSpontaneousActivity()">Agrgar actividad espont&aacute;nea</a>
    </div>
 </div>

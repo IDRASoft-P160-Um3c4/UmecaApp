@@ -48,11 +48,20 @@
     };
 
 
-    $scope.doConfirmFull = function (data, urlToGo, title, message, type) {
+    $scope.doConfirmFull = function (data, urlToGo, title, message, type, choiceA) {
         var def = $q.defer();
-        sharedSvc.showConf({ title: title, message: message, type: type }).
-            then(function () {
-                $scope.doPost(data, urlToGo, def);
+        sharedSvc.showConf({ title: title, message: message, type: type, choiceA: choiceA }).
+            then(function (res) {
+                var dataToSend = data;
+                if(choiceA !== undefined){
+                    try{
+                        dataToSend = choiceA.prepareData(data, res);
+                    }
+                    catch(e){
+                        dataToSend = data;
+                    }
+                }
+                $scope.doPost(dataToSend, urlToGo, def);
             }, def.reject);
         return def.promise;
     };

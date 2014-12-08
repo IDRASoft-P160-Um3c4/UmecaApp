@@ -34,7 +34,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
     //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\IDRASoft\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -703,6 +703,23 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             responseTypeRepository.save(model);
         }
         responseTypeRepository.flush();
+    }
+
+    @Autowired
+    FulfillmentReportTypeRepository fulfillmentReportTypeRepository;
+
+    @Override
+    public void fulfillmentReport() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "fulfillment_report.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            FulfillmentReportType model = new FulfillmentReportType();
+            model.setId(Long.parseLong(data[0]));
+            model.setCode(data[1]);
+            model.setName(data[2]);
+            model.setObsolete(data[3].equals("1"));
+            fulfillmentReportTypeRepository.save(model);
+        }
+        fulfillmentReportTypeRepository.flush();
     }
 
     @Autowired

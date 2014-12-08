@@ -275,7 +275,7 @@
                         </th>
 
                         <th class="hidden-480">
-                            nb <i class="icon-caret-right blue"></i>
+                            <i class="icon-caret-right blue"></i>
                             Comentarios
                         </th>
                     </tr>

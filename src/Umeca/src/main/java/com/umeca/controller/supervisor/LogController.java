@@ -11,10 +11,14 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.shared.CommentRequest;
-import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangementLog;
+import com.umeca.model.entities.supervisor.ActivityMonitoringPlanLog;
+import com.umeca.model.entities.supervisor.MonitoringPlan;
+import com.umeca.model.entities.supervisor.MonitoringPlanView;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
+import com.umeca.repository.catalog.FulfillmentReportTypeRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
@@ -31,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +45,20 @@ public class LogController {
     SharedLogExceptionService logException;
     @Autowired
     private SharedUserService userService;
+    @Autowired
+    private FulfillmentReportTypeRepository fulfillmentReportTypeRepository;
 
-    @RequestMapping(value = "/supervisor/log /index", method = RequestMethod.GET)
-    public String index() {
-        return "/supervisor/log/index";
+    @RequestMapping(value = "/supervisor/log/index", method = RequestMethod.GET)
+    public ModelAndView  index() {
+        ModelAndView model = new ModelAndView("/supervisor/log/index");
+
+        Gson gson = new Gson();
+        String sLstGeneric ;
+        List<SelectList> lstGeneric = fulfillmentReportTypeRepository.findNotObsolete();
+        sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstFulfillmentReport", sLstGeneric);
+
+        return model;
     }
 
     @Autowired
@@ -166,29 +181,10 @@ public class LogController {
 
             List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
             Long lHearingFormatId = lastHearingFormatId.get(0);
-            logCaseService.fillgeneralDataLog(id,model);
-            //Find last hearing format to get last assigned arrangements
-              AccomplishmentLogReport alr = hearingFormatRepository.findSupervisionLogAccomplishmentById(lHearingFormatId);
-
-            model.addObject("imputedName", alr.getImputedName());
-            model.addObject("mpId", alr.getMpId());
-            model.addObject("address", alr.getAddress());
-
-            List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByCaseId(caseId);
+            logCaseService.fillgeneralDataLog(caseId,model);
             Gson gson = new Gson();
+            List<SelectList> lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
             String sLstGeneric = gson.toJson(lstGeneric);
-            model.addObject("lstHfAssignedArrangement", sLstGeneric);
-
-            lstGeneric = supervisionActivityRepository.findByMonPlanId(id);
-            sLstGeneric = gson.toJson(lstGeneric);
-            model.addObject("lstActivities", sLstGeneric);
-
-            lstGeneric = activityGoalRepository.findByMonPlanId(id);
-            sLstGeneric = gson.toJson(lstGeneric);
-            model.addObject("lstGoals", sLstGeneric);
-
-            lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
-            sLstGeneric = gson.toJson(lstGeneric);
             model.addObject("lstSources", sLstGeneric);
 
             List<ActivityMonitoringPlanLog> lstActMonPlan = activityMonitoringPlanRepository.getListAccomplishmentByMonPlanId(id);
@@ -198,16 +194,25 @@ public class LogController {
             List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement = activityMonitoringPlanRepository.getListAccomplishmentActMonPlanArrangementByMonPlanId(id);
             sLstGeneric = gson.toJson(lstActMonPlanArrangement);
             model.addObject("lstActMonPlanArrangement", sLstGeneric);
-
-            model.addObject("lstRisk", gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
-            model.addObject("lstThreat", gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
-
+            model.addObject("titleDoc","REPORTE DE INCUMPLIMIENTO Y CUMPLIMIENTO");
 
             return model;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "supervisionLog", userService);
             return null;
         }
+    }
+
+    @RequestMapping(value = "/supervisor/log/accomplishmentFile", method = RequestMethod.GET)
+    public ModelAndView generateFile(@RequestParam(required = true) Long id, HttpServletResponse response) {
+
+        ModelAndView model = new ModelAndView("/supervisor/log/accomplishmentFile");
+        logCaseService.fillModelAccomplishmentFile(id, model);
+        response.setContentType("application/force-download");
+        response.setHeader("Content-Disposition", "attachment; filename=\"bitacora.doc\"");
+
+
+        return model;
     }
 
     @RequestMapping(value = "/supervisor/log/fillByFilter", method = RequestMethod.POST)
@@ -242,7 +247,7 @@ public class LogController {
     @RequestMapping(value = "/supervisor/log/requestAccomplishmentLog", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage requestAccomplishmentLog(@RequestParam Long id) { //Id de MonitoringPlan
+    ResponseMessage requestAccomplishmentLog(@RequestParam Long id, @RequestParam Long fulfillmentReportId) { //Id de MonitoringPlan
         ResponseMessage response = new ResponseMessage();
 
         try {
@@ -252,7 +257,7 @@ public class LogController {
             if (userService.isValidUser(user, response) == false)
                 return response;
 
-            if (manageMonitoringPlanService.requestAccomplishmentLog(id, user, MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT,
+            if (manageMonitoringPlanService.requestAccomplishmentLog(id, fulfillmentReportId, user, MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT,
                     "Solicitud de la autorización del reporte de incumplimiento por parte del usuario " + user.getUsername(), response) == false) {
                 response.setHasError(true);
                 return response;

@@ -41,9 +41,9 @@ public interface InsertCatalogService {
     void systemSettings();
     void requestType();
     void responseType();
+    void fulfillmentReport();
     void electionNotApply();
     void hearingType();
     void crime();
     void typeFileName();
-
 }

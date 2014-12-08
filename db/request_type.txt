@@ -6,3 +6,5 @@
 5|EDIT_TECHNICAL_REVIEW|Modificar instrumento de evaluación de riesgos|0
 6|AUTHORIZE_SOURCES|Autorizar fuentes para verificación|0
 7|NOT_PROSECUTE|El caso no se judicializó|0
+8|MONPLAN_AUTH|Solicitar autorización plan seguimiento|0
+9|UPDATE_MONPLAN_AUTH|Solicitar autorización plan seguimiento modificado|0

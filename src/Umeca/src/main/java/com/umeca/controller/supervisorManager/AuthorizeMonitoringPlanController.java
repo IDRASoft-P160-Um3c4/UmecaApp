@@ -249,7 +249,7 @@ public class AuthorizeMonitoringPlanController {
                 return response;
             }
 
-            trackMonPlanService.saveAuthRejectMonPlan(model, user, monPlan, MonitoringConstants.STATUS_AUTHORIZED,
+            trackMonPlanService.saveAuthRejectMonPlan(sharedUserService, logException, model, user, monPlan, MonitoringConstants.STATUS_AUTHORIZED,
                     MonitoringConstants.STATUS_REJECTED_AUTHORIZED, MonitoringConstants.TYPE_COMMENT_AUTHORIZED);
 
             response.setHasError(false);

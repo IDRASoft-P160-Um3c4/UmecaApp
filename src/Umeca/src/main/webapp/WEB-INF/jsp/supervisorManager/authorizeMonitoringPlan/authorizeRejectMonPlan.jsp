@@ -8,7 +8,9 @@
 
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
-        <div class="modal-dialog" style="width:900px" ng-controller="authRejectController" ng-init="isAuthorized=${isAuthorized};">
+        <div class="modal-dialog" style="width:900px" ng-controller="authRejectController" ng-init="isAuthorized=${isAuthorized};
+        fulfillmentReportType='${fulfillmentReportType == null ? "" : fulfillmentReportType}';
+        fulfillmentReportTimestamp='${fulfillmentReportTimestamp == null ? "" : fulfillmentReportTimestamp}';">
             <div class="modal-content">
                 <div class="modal-header">
                     <div  ng-class="(isAuthorized ? 'alert alert-info' : 'alert alert-warning')">
@@ -59,6 +61,29 @@
                                                         <div class="profile-info-name"> Estatus </div>
                                                         <div class="profile-info-value">
                                                             <span id="status">${status}&nbsp;</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-show="fulfillmentReportType">
+                                            <div class="col-xs-6">
+                                                <div class="profile-user-info profile-user-info-striped">
+                                                    <div class="profile-info-row two-lines">
+                                                        <div class="profile-info-name"> Tipo de reporte de cumplimiento </div>
+
+                                                        <div class="profile-info-value">
+                                                            <span>{{fulfillmentReportType}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="profile-user-info profile-user-info-striped">
+                                                    <div class="profile-info-row two-lines">
+                                                        <div class="profile-info-name"> Fecha de la solicitud </div>
+                                                        <div class="profile-info-value">
+                                                            <span>{{fulfillmentReportTimestamp}}</span>
                                                         </div>
                                                     </div>
                                                 </div>

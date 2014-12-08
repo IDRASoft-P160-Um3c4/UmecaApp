@@ -7,7 +7,7 @@ import com.umeca.service.account.SharedUserService;
 
 public interface ManageMonitoringPlanService {
 
-    boolean preAuthorize(Long monPlanId, User user, ResponseMessage message);
-    boolean requestAccomplishmentLog(Long id, User user, String sAction, String sComments, ResponseMessage response);
-    boolean authRejLstMonAct(AuthRejMonActivitiesRequest model, SharedUserService sharedUserService, ResponseMessage response);
+    boolean preAuthorize(SharedUserService sharedUserService, Long monPlanId, User user, ResponseMessage message);
+    boolean requestAccomplishmentLog(Long id, Long fulfillmentReportId, User user, String sAction, String sComments, ResponseMessage response);
+    boolean authRejLstMonAct(AuthRejMonActivitiesRequest model, SharedUserService sharedUserService, User user, ResponseMessage response);
 }

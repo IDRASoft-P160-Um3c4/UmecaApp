@@ -124,7 +124,7 @@ public class ManageMonitoringPlanController {
             if(sharedUserService.isValidUser(user, response) == false)
                 return response;
 
-            if(manageMonitoringPlanService.preAuthorize(id, user, response) == false){
+            if(manageMonitoringPlanService.preAuthorize(sharedUserService, id, user, response) == false){
                 response.setHasError(true);
                 return response;
             }
@@ -134,7 +134,7 @@ public class ManageMonitoringPlanController {
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "preAuthorize", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
             return response;
         }
     }

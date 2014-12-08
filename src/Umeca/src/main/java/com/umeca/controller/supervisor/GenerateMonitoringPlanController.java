@@ -200,7 +200,7 @@ public class GenerateMonitoringPlanController {
             if(sharedUserService.isValidUser(user, response) == false)
                 return response;
 
-            if(monitoringPlanService.doUpsertDelete(monitoringPlanRepository, model, user, response) == false)
+            if(monitoringPlanService.doUpsertDelete(sharedUserService, monitoringPlanRepository, model, user, response) == false)
                 return response;
 
 
@@ -247,7 +247,7 @@ public class GenerateMonitoringPlanController {
                 return response;
             }
 
-            if(monitoringPlanService.doUpsertDelete(monitoringPlanRepository, model, user, response) == false)
+            if(monitoringPlanService.doUpsertDelete(sharedUserService, monitoringPlanRepository, model, user, response) == false)
                 return response;
 
 

@@ -11,11 +11,16 @@ import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.model.shared.SharedSystemSetting;
 import com.umeca.repository.catalog.ArrangementRepository;
+import com.umeca.repository.catalog.RequestTypeRepository;
+import com.umeca.repository.reviewer.CaseRequestRepository;
+import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.LogChangeDataRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.CaseRequestService;
 import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.SystemSettingService;
@@ -57,7 +62,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
     LogCommentRepository logCommentRepository;
 
     @Override
-    public boolean doUpsertDelete(MonitoringPlanRepository monitoringPlanRepository, ActivityMonitoringPlanRequest fullModel, User user, ResponseMessage response) {
+    public boolean doUpsertDelete(SharedUserService sharedUserService, MonitoringPlanRepository monitoringPlanRepository, ActivityMonitoringPlanRequest fullModel, User user, ResponseMessage response) {
 
         MonitoringPlan monitoringPlan = monitoringPlanRepository.getStatus(user.getId(), fullModel.getCaseId(), fullModel.getMonitoringPlanId());
 
@@ -107,11 +112,26 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
             SharedLogCommentService.generateLogComment(LOG_MSG_INFO_PENDING_ACTIVITY_AUTHORIZATION, user, monitoringPlan.getCaseDetention(),
                     STATUS_PENDING_AUTHORIZATION, null, TYPE_COMMENT_AUTHORIZED, logCommentRepository);
             monitoringPlan.setPosAuthorizationChangeTime(fullModel.getNow());
+
+            try{
+                CaseRequestService.CreateCaseRequestToRole(requestTypeRepository, caseRequestRepository, messageRepository,
+                        sharedUserService, user, monitoringPlan, "El usuario " + user.getUsername() + " realizó modificaciones al plan de seguimiento y solicita que se autorice.",
+                        Constants.ROLE_SUPERVISOR_MANAGER, Constants.ST_REQUEST_UPDATE_MONPLAN_AUTH);
+            }catch (Exception ex)  {
+                logException.Write(ex, this.getClass(), "doUpsertDelete", user.getUsername());
+            }
         }
 
         actMpRepository.flush();
         return true;
     }
+
+    @Autowired
+    RequestTypeRepository requestTypeRepository;
+    @Autowired
+    CaseRequestRepository caseRequestRepository;
+    @Autowired
+    MessageRepository messageRepository;
 
     private boolean validateDates(Calendar startCalendar, Calendar endCalendar) {
         if (startCalendar.before(today) || endCalendar.before(today))

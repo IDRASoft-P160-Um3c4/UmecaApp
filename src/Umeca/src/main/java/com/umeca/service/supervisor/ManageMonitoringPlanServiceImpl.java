@@ -2,23 +2,33 @@ package com.umeca.service.supervisor;
 
 import com.google.gson.Gson;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.FulfillmentReportType;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.shared.LogChangeData;
 import com.umeca.model.entities.shared.LogCommentJson;
 import com.umeca.model.entities.supervisor.ActivityMonitoringPlan;
+import com.umeca.model.entities.supervisor.FulfillmentReport;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlanJson;
 import com.umeca.model.entities.supervisorManager.AuthRejMonActivitiesRequest;
 import com.umeca.model.entities.supervisorManager.AuthRejMonActivitiesResponse;
 import com.umeca.model.entities.supervisorManager.LogComment;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.OptionListSimple;
+import com.umeca.repository.catalog.FulfillmentReportTypeRepository;
+import com.umeca.repository.catalog.RequestTypeRepository;
+import com.umeca.repository.catalog.ResponseTypeRepository;
+import com.umeca.repository.reviewer.CaseRequestRepository;
+import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
+import com.umeca.repository.supervisor.FulfillmentReportRepository;
 import com.umeca.repository.supervisor.LogChangeDataRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.CaseRequestService;
 import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +48,29 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     MonitoringPlanRepository monPlanRepository;
 
     @Autowired
+    CaseRequestRepository caseRequestRepository;
+
+    @Autowired
+    RequestTypeRepository requestTypeRepository;
+
+    @Autowired
+    ResponseTypeRepository responseTypeRepository;
+
+    @Autowired
     ActivityMonitoringPlanRepository actMonPlanRepository;
 
     @Autowired
     LogChangeDataRepository logChangeDataRepository;
 
     @Autowired
+    MessageRepository messageRepository;
+
+    @Autowired
     LogCommentRepository logCommentRepository;
 
     @Override
     @Transactional
-    public boolean preAuthorize(Long monPlanId, User user, ResponseMessage message) {
+    public boolean preAuthorize(SharedUserService sharedUserService, Long monPlanId, User user, ResponseMessage message) {
         if(validatePreAuthorize(monPlanId, user.getId(), message) == false)
             return false;
 
@@ -64,17 +86,40 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlanId));
         monPlanRepository.save(monPlan);
+
+        //Create caseRequest
+        CaseRequestService.CreateCaseRequestToRole(requestTypeRepository, caseRequestRepository, messageRepository, sharedUserService,
+                user, monPlan, "El usuario " + user.getUsername() + " solicita que se autorice el plan de seguimiento.",
+                Constants.ROLE_SUPERVISOR_MANAGER, Constants.ST_REQUEST_MONPLAN_AUTH);
+        //End caseRequest
+
         return true;
     }
+
+
 
     @Autowired
     LogCommentRepository logCommentMonPlanRepository;
 
+    @Autowired
+    FulfillmentReportRepository fulfillmentReportRepository;
+
+    @Autowired
+    FulfillmentReportTypeRepository fulfillmentReportTypeRepository;
+
     @Override
-    public boolean requestAccomplishmentLog(Long monPlanId, User user, String sAction, String sComments, ResponseMessage message) {
+    public boolean requestAccomplishmentLog(Long monPlanId, Long fulfillmentReportId, User user, String sAction, String sComments, ResponseMessage message) {
 
         if(validatePreAccomplishmentLog(monPlanId, user.getId(), message) == false)
             return false;
+
+        FulfillmentReportType fulfillmentReportType = fulfillmentReportTypeRepository.findOne(fulfillmentReportId);
+
+        if(fulfillmentReportType == null){
+            message.setMessage("No se encontr&oacute; el tipo de reporte de cumplimiento.");
+            message.setHasError(true);
+            return false;
+        }
 
         MonitoringPlan monPlan = monPlanRepository.findOne(monPlanId);
 
@@ -98,15 +143,23 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         monPlan.setStatusLog(json.toJson(logJson));
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
 
+        FulfillmentReport fulfillmentReport = new FulfillmentReport();
+        fulfillmentReport.setCaseDetention(monPlan.getCaseDetention());
+        fulfillmentReport.setFulfillmentReportType(fulfillmentReportType);
+        fulfillmentReport.setMonitoringPlan(monPlan);
+        fulfillmentReport.setTimestamp(now);
+        fulfillmentReport.setUserRequest(user);
+
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlanId));
         monPlanRepository.save(monPlan);
         logCommentMonPlanRepository.save(commentModel);
+        fulfillmentReportRepository.save(fulfillmentReport);
         return true;
     }
 
     @Override
     @Transactional
-    public boolean authRejLstMonAct(AuthRejMonActivitiesRequest model, final SharedUserService sharedUserService, ResponseMessage response) {
+    public boolean authRejLstMonAct(AuthRejMonActivitiesRequest model, final SharedUserService sharedUserService, User user, ResponseMessage response) {
 
         Long monPlanId = null;
         AuthRejMonActivitiesResponse authRejMonActRes = new AuthRejMonActivitiesResponse();
@@ -159,6 +212,12 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         if(activitiesInPre == null || activitiesInPre == 0){
             monitoringPlan.setPosAuthorizationChangeTime(null);
             message = ".<br/>Todas las actividades fueron autorizada(s) o rechazada(s).";
+            //CaseRequest... Response
+            CaseRequestService.CreateCaseResponseToUser(responseTypeRepository, caseRequestRepository, messageRepository,
+                    sharedUserService, logException, user, monitoringPlan.getCaseDetention(),
+                    "Todas las actividades fueron autorizada(s) y/o rechazada(s). Comentarios: " + model.getComments(),
+                    Constants.ST_REQUEST_UPDATE_MONPLAN_AUTH);
+
         }
         else{
             message = ".<br/>No todas las actividades fueron autorizada(s) o rechazada(s). Debe revisar si durante la autorización se insertaron, modificaron o eliminaron actividades.";
@@ -169,7 +228,6 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
                 sharedUserService.GetLoggedUsername(), monitoringPlan.getCaseDetention().getId(), model.getComments());
         logChangeDataRepository.save(logChangeData);
 
-        User user = new User(){{setId(sharedUserService.GetLoggedUserId());}};
         SharedLogCommentService.generateLogComment(model.getComments() + "<br/>" + authRejMonActRes.getResult(), user, caseDet, MonitoringConstants.STATUS_AUTHORIZED, monitoringPlan.getSupervisor(),
                 MonitoringConstants.TYPE_COMMENT_AUTHORIZED, logCommentRepository);
 
