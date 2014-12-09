@@ -23,12 +23,19 @@ public class HearingFormatConstants {
 
     public static final Integer CONT_DET_LEGAL = 1;
     public static final Integer CONT_DET_ILEGAL = 2;
+    public static final Integer CONT_DET_NO_REGISTER = 3;
 
     public static final Integer IMP_FORM_YES = 1;
     public static final Integer IMP_FORM_NO = 2;
+    public static final Integer IMP_FORM_NO_REGISTER = 3;
+
 
     public static final Long ID_PRISON_ARRANGEMENT_NAC = 4L;
     public static final Long ID_PRISON_ARRANGEMENT_LOC = 36L;
     public static final Long ID_IMPUTED_PROMISE_ARRANGEMENT_LOC = 37L;
+
+    public static final Integer IMPUTED_PRESENCE_YES = 1;
+    public static final Integer IMPUTED_PRESENCE_NO = 2;
+
 
 }

@@ -53,12 +53,17 @@ public class HearingFormatInfo {
     private String vincProcStr;
     private String arrangementTypeStr;
     private String isNationalStr;
+    private String hearingType;
+    private Integer imputedPresence;
+    private String imputedPresenceStr;
+    private String result;
+    private String specification;
 
     public HearingFormatInfo(Long idCase, Long idFormat, String idFolder, String idJudicial, String room, Date initTime, Date endTime,
                              String judgeName, String mpName, String defName, String impName, String impLNP, String impLNM,
                              Date birthDate, String phone, String addressStr,
                              Integer contDet, Integer impForm, Integer ext, Date extDate, Integer vincProc, String vincRoom, Date vincDate, Date vincTime,
-                             Integer arrangementType, Boolean isNational, String terms, Calendar registerTime) {
+                             Integer arrangementType, Boolean isNational, String terms, Calendar registerTime, String hearingType, Integer imputedPresence, String result, String specification) {
 
         this.idCase = idCase;
         this.idFormat = idFormat;
@@ -76,8 +81,8 @@ public class HearingFormatInfo {
         this.birthDate = birthDate;
         this.phone = phone;
         this.addressStr = addressStr;
-        this.crimes = crimes;
-        this.additional = additional;
+//        this.crimes = crimes;
+//        this.additional = additional;
         this.contDet = contDet;
         this.impForm = impForm;
         this.ext = ext;
@@ -90,6 +95,10 @@ public class HearingFormatInfo {
         this.isNational = isNational;
         this.terms = terms;
         this.registerTime = registerTime;
+        this.hearingType = hearingType;
+        this.imputedPresence = imputedPresence;
+        this.result = result;
+        this.specification = specification;
     }
 
     public String dateToStr(Date date) {
@@ -223,14 +232,6 @@ public class HearingFormatInfo {
 
     public void setAddressStr(String addressStr) {
         this.addressStr = addressStr;
-    }
-
-    public String getCrimes() {
-        return crimes;
-    }
-
-    public void setCrimes(String crimes) {
-        this.crimes = crimes;
     }
 
     public String getAdditional() {
@@ -422,6 +423,8 @@ public class HearingFormatInfo {
             this.contDetStr = "Legal";
         else if (this.contDet != null && this.contDet.equals(HearingFormatConstants.CONT_DET_ILEGAL))
             this.contDetStr = "Ilegal";
+        else if (this.contDet != null && this.contDet.equals(HearingFormatConstants.CONT_DET_NO_REGISTER))
+            this.contDetStr = "Sin registro";
 
         return contDetStr;
     }
@@ -435,6 +438,9 @@ public class HearingFormatInfo {
             this.impFormStr = "Si";
         else if (this.impForm != null && this.impForm.equals(HearingFormatConstants.IMP_FORM_NO))
             this.impFormStr = "No";
+        else if (this.impForm != null && this.impForm.equals(HearingFormatConstants.IMP_FORM_NO_REGISTER))
+            this.impFormStr = "Sin registro";
+
 
         return impFormStr;
     }
@@ -463,6 +469,8 @@ public class HearingFormatInfo {
             this.vincProcStr = "No";
         else if (this.vincProc != null && this.vincProc.equals(HearingFormatConstants.PROCESS_VINC_YES))
             this.vincProcStr = "Si";
+        else if (this.vincProc != null && this.vincProc.equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))
+            this.vincProcStr = "Sin registro";
 
         return vincProcStr;
     }
@@ -500,6 +508,66 @@ public class HearingFormatInfo {
 
     public void setIsNationalStr(String isNationalStr) {
         this.isNationalStr = isNationalStr;
+    }
+
+    public String getHearingType() {
+        if (hearingType == null)
+            return "Audiencia inicial";
+        return hearingType;
+    }
+
+    public void setHearingType(String hearingType) {
+        this.hearingType = hearingType;
+    }
+
+    public Integer getImputedPresence() {
+        return imputedPresence;
+    }
+
+    public void setImputedPresence(Integer imputedPresence) {
+        this.imputedPresence = imputedPresence;
+    }
+
+    public String getImputedPresenceStr() {
+        if (imputedPresence == null)
+            return "NA";
+        if (imputedPresence == HearingFormatConstants.IMPUTED_PRESENCE_YES)
+            imputedPresenceStr = "Si";
+        else if (imputedPresence == HearingFormatConstants.IMPUTED_PRESENCE_NO)
+            imputedPresenceStr = "No";
+        return imputedPresenceStr;
+    }
+
+    public void setImputedPresenceStr(String imputedPresenceStr) {
+        this.imputedPresenceStr = imputedPresenceStr;
+    }
+
+    public String getResult() {
+        if (result == null)
+            return "NA";
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getCrimes() {
+        return crimes;
+    }
+
+    public void setCrimes(String crimes) {
+        this.crimes = crimes;
+    }
+
+    public String getSpecification() {
+        if (specification == null || specification.equals(""))
+            return "NA";
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 }
 

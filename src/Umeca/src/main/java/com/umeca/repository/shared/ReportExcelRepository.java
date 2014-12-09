@@ -2,7 +2,9 @@ package com.umeca.repository.shared;
 
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.dto.CrimeDto;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.service.shared.CrimeService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -177,13 +179,15 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
 
     @Query("select new com.umeca.model.entities.supervisor.HearingFormatInfo(C.id,HF.id,HF.idFolder, HF.idJudicial,HF.room,HF.initTime,HF.endTime, HF.judgeName, HF.mpName, HF.defenderName, " +
             "HFIM.name, HFIM.lastNameP, HFIM.lastNameM, HFIM.birthDate, HFIM.imputeTel, HFIMA.addressString,HFSP.controlDetention, HFSP.imputationFormulation, " +
-            "HFSP.extension, HFSP.extDate, HFSP.linkageProcess, HFSP.linkageRoom, HFSP.linkageDate, HFSP.linkageTime, HFSP.arrangementType, HFSP.nationalArrangement, HF.terms, HF.registerTime) " +
+            "HFSP.extension, HFSP.extDate, HFSP.linkageProcess, HFSP.linkageRoom, HFSP.linkageDate, HFSP.linkageTime, HFSP.arrangementType, HFSP.nationalArrangement, HF.terms, HF.registerTime," +
+            "HT.description, HF.imputedPresence, HF.hearingResult, HF.hearingTypeSpecification) " +
             "from Case C " +
             "inner join C.hearingFormats HF " +
             "inner join HF.hearingImputed HFIM " +
             "inner join HFIM.address HFIMA " +
             "inner join HF.hearingFormatSpecs HFSP " +
             "inner join HF.supervisor HFUSR " +
+            "left join HF.hearingType HT " +
             "where (C.id in(:lstCasesIds))")
     List<HearingFormatInfo> getHearingFormatInfo(@Param("lstCasesIds") List<Long> lstCasesIds);
 
@@ -306,4 +310,5 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "left join RFMA.activity ACT " +
             "where CDET.id in (:casesIds)")
     List<ExcelActivitiesDto> getFramingImputedActivities(@Param("casesIds") List<Long> lstCasesIds);
+
 }

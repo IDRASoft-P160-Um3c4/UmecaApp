@@ -11,24 +11,24 @@ public class CrimeDto {
     private CatalogDto federal;
 
 
-    public CrimeDto dtoCrime(Crime crime){
+    public CrimeDto dtoCrime(Crime crime) {
         this.comment = crime.getComment();
-        this.crime =new CatalogDto(crime.getCrime().getId(), crime.getCrime().getName());
+        this.crime = new CatalogDto(crime.getCrime().getId(), crime.getCrime().getName());
         article = crime.getArticle();
-        CatalogDto aux =new CatalogDto();
+        CatalogDto aux = new CatalogDto();
         aux.setName(crime.getFederal().getName());
         aux.setId(crime.getFederal().getId());
         federal = aux;
         return this;
     }
 
-    public String toStringCrime(Crime c){
+    public static final String toStringCrime(Crime c) {
         String s = "";
-        s+="Delito: "+c.getCrime().getName() +", Art&iacute;culo: "+c.getArticle()+", Federal: "+c.getFederal().getName();
-        if(c.getComment()!=null && !c.getComment().equals("")){
-            s+=", Observaciones: "+c.getComment()+".";
-        }else{
-            s+=".";
+        s += "Delito: " + c.getCrime().getName() + ", Art. : " + c.getArticle() + ", Federal: " + c.getFederal().getName();
+        if (c.getComment() != null && !c.getComment().equals("")) {
+            s += ", Observaciones: " + c.getComment() + ".";
+        } else {
+            s += ".";
         }
         return s;
     }

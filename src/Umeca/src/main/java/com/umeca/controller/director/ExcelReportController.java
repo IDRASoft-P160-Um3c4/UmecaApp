@@ -13,10 +13,8 @@ import com.umeca.model.catalog.Municipality;
 import com.umeca.model.catalog.State;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
-import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.FieldMeetingSource;
-import com.umeca.model.entities.reviewer.Imputed;
-import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.dto.CrimeDto;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
@@ -25,11 +23,13 @@ import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.MunicipalityRepository;
 import com.umeca.repository.catalog.StateRepository;
+import com.umeca.repository.reviewer.CrimeRepository;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.shared.ReportExcelRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.CrimeService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -398,6 +398,8 @@ public class ExcelReportController {
     FramingReferenceRepository framingReferenceRepository;
     @Autowired
     ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
+    @Autowired
+    CrimeRepository crimeRepository;
 
     @RequestMapping(value = "/director/excelReport/jxls", method = RequestMethod.GET)
     public
@@ -557,6 +559,16 @@ public class ExcelReportController {
 
                     actHF.setAssignedArran(reportExcelRepository.getArrangementsByFormat(actHF.getIdFormat()));
                     actHF.setContacts(reportExcelRepository.getContactsByFormat(actHF.getIdFormat()));
+
+                    String crimesStr = "";
+
+                    for (Crime actCrime : crimeRepository.findListCrimeHearingFormatByIdHF(actHF.getIdFormat())) {
+                        if (crimesStr != "")
+                            crimesStr += "\n";
+                        crimesStr += CrimeDto.toStringCrime(actCrime);
+                    }
+
+                    actHF.setCrimes(crimesStr);
 
                     if (actHF.getIdCase() == actCase.getIdCase()) {
                         lstFormats.add(actHF);
