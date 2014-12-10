@@ -184,7 +184,7 @@ public class LogCaseServiceImpl implements LogCaseService {
         Long idMon = monitoringPlanRepository.getMonPlanIdByCaseId(caseId);
         List<SelectList> lstActivities = supervisionActivityRepository.findByMonPlanId(idMon);
         List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement = activityMonitoringPlanRepository.getListAccomplishmentActMonPlanArrangementByMonPlanId(idMon);
-        List<ActivityMonitoringPlanLog> lstActMonPlan = activityMonitoringPlanRepository.getListAccomplishmentByMonPlanId(idMon);
+        List<ActivityMonitoringPlanLog> lstActMonPlan = activityMonitoringPlanRepository.getListAccomplishmentByMonPlanIdToFile(idMon);
         List<SelectList> assigmentArringment = arrangementRepository.findLstArrangementByCaseId(caseId);
         List<ActMonPlanDto> lstActivityOk = new ArrayList<>(), lstActivityFailed = new ArrayList<>();
         List<String> lstArrangement=new ArrayList<>();
@@ -192,13 +192,17 @@ public class LogCaseServiceImpl implements LogCaseService {
         for(ActivityMonitoringPlanLog ampl: lstActMonPlan){
            String sourceName = findElement(lstSources, ampl.getAidSourceId(), true);
            String supActivity = findElement(lstActivities, ampl.getActSupervisionId(),false);
-            assigmentArringment = new ArrayList<>();
-           fillInfoActivity(ampl.getId(),lstArrangement, lstActMonPlanArrangement,assigmentArringment,MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE);
-           lstActivityOk.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(),supActivity,sourceName,lstArrangement,ampl.getStatus(), ampl.getComments()));
-            assigmentArringment = new ArrayList<>();
-           fillInfoActivity(ampl.getId(),lstArrangement, lstActMonPlanArrangement,assigmentArringment,MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED);
-           lstActivityFailed.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(), supActivity, sourceName, lstArrangement, ampl.getStatus(), ampl.getComments()));
-
+            lstArrangement = new ArrayList<>();
+            fillInfoActivity(ampl.getId(),lstArrangement, lstActMonPlanArrangement,assigmentArringment,ampl.getLaaStatus());
+            if(ampl.getLaaStatus() == MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE){
+                if(lstArrangement.size()>0){
+                    lstActivityOk.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(),supActivity,sourceName,lstArrangement,ampl.getStatus(), ampl.getComments()));
+                }
+            }else if(ampl.getLaaStatus() == MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED){
+                if(lstArrangement.size()>0){
+                    lstActivityFailed.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(), supActivity, sourceName, lstArrangement, ampl.getStatus(), ampl.getComments()));
+                }
+            }
         }
         model.addObject("lstActivityFailed",lstActivityFailed);
         model.addObject("lstActivityOk",lstActivityOk);

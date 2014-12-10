@@ -25,6 +25,7 @@ import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogChangeSupervisorRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.CaseRequestService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.reviewer.CaseService;
@@ -69,6 +70,21 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
 
     @Override
     public void getLstActivitiesByUserAndFilters(RequestActivities req, Long userId, ArrayList<String> lstMonPlanStatus, ArrayList<String> lstActStatus, ResponseActivities response) {
+        List<Long> lstCaseId = new ArrayList<>();
+        if(req.getCaseFilterId()>0){
+            lstCaseId.add(req.getCaseFilterId());
+        }else{
+            Integer filterCase = Integer.parseInt(req.getCaseFilterId().toString());
+            switch (filterCase){
+                case 0:
+//                    lstCaseId = monitoringPlanRepository.findAllCaseIdByIdSupervisor(userId);
+                    break;
+                case -1:
+                    break;
+                case -2:
+                    break;
+            }
+        }
         List<ActivityMonitoringPlanResponse> lstAllActivities =
                 activityMonitoringPlanRepository.getAllActivitiesWithFilters(userId, lstMonPlanStatus, lstActStatus,
                         (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd(), req.getActivityId());
@@ -309,6 +325,32 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         lstGeneric.add(0, new SelectList(0l, "--Todas las actividades--"));
         String sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstActivities", sLstGeneric);
+    }
+
+    @Autowired
+    SharedUserService sharedUserService;
+    @Override
+    public void setListCaseFilter(ModelAndView model, Long idUser) {
+        Gson gson = new Gson();
+        List<SelectList> lstGeneric = monitoringPlanRepository.findAllCaseByIdSupervisor(idUser, MonitoringConstants.LST_STATUS_AUTHORIZE_READY);
+        lstGeneric.add(0,new SelectList(0L, "--Todos los casos--",""));
+        lstGeneric.add(1,new SelectList(-1L, "Casos activos",""));
+        lstGeneric.add(2,new SelectList(-2L, "Casos suspendidos",""));
+        String sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstCases", sLstGeneric);
+    }
+
+    @Override
+    public void setListUserFilter(ModelAndView model, Long idUser) {
+        List<SelectList> lstGeneric = new ArrayList<>();
+        Gson gson = new Gson();
+        if(!idUser.equals(0L)){
+            lstGeneric.add(new SelectList(idUser,"UserLog"));
+        }else{
+            lstGeneric = sharedUserService.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+            lstGeneric.add(new SelectList(0L,"--Todos--",""));
+        }
+        model.addObject("lstUser",gson.toJson(lstGeneric));
     }
 
     @Override

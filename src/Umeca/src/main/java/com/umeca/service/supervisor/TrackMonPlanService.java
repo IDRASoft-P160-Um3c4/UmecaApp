@@ -29,5 +29,6 @@ public interface TrackMonPlanService {
     void saveChangeSupervisorMonPlan(ChangeSupervisor model, User user, MonitoringPlan monPlan);
     void saveAuthRejectAccomplishment(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String typeCommentLogAccomplishment);
     void setLstActivitiesSupervision(ModelAndView model);
-
+    void setListCaseFilter(ModelAndView model, Long idUser);
+    void setListUserFilter(ModelAndView model, Long idUser);
 }

@@ -10,6 +10,7 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.OptionList;
@@ -152,8 +153,15 @@ public class TrackMonitoringPlanController {
         } else if (redirect.equals(1)) {
             model.addObject("urlReturn", "/supervisor/manageMonitoringPlan/index.html");
         }
+        Long idUser = sharedUserService.GetLoggedUserId();
+        List<String> rolesUser = sharedUserService.getLstRolesByUserId(idUser);
+        if(!rolesUser.contains(Constants.ROLE_SUPERVISOR)){
+           idUser = 0L;
+        }
+        model.addObject("idUser", idUser);
         trackMonPlanService.setLstActivitiesSupervision(model);
-
+        trackMonPlanService.setListCaseFilter(model, idUser);
+        trackMonPlanService.setListUserFilter(model, idUser);
 
         Long idCase = monitoringPlanRepository.getCaseIdByMonPlan(id);
 

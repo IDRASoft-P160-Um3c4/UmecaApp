@@ -130,7 +130,7 @@
                     <div class="col-xs-6 widget-container-span col-xs-offset-3">
                         <div class="widget-box transparent">
                             <div class="widget-header">
-                                <h4 class="lighter">Filtro</h4>
+                                <h4 class="lighter">Filtros</h4>
                             </div>
 
                             <div class="widget-body">
@@ -151,6 +151,32 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="row" ng-show="${monitoringPlanId == -1 ? true: false}">
+                                                    <div class="col-xs-4">
+                                                        <h6>Casos</h6>
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        <select class="form-control element-center"
+                                                                ng-model="m.case"
+                                                                ng-options="e.name for e in lstCases"
+                                                                ng-change="onChangeSelect();"
+                                                                ng-init='lstCases = ${lstCases}; initCaseSelect();'>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <%--<div class="row" ng-show="${idUser == 0 ? true: false}">--%>
+                                                    <%--<div class="col-xs-4">--%>
+                                                        <%--<h6>Casos</h6>--%>
+                                                    <%--</div>--%>
+                                                    <%--<div class="col-xs-8">--%>
+                                                        <%--<select class="form-control element-center"--%>
+                                                                <%--ng-model="m.case"--%>
+                                                                <%--ng-options="e.name for e in lstCases"--%>
+                                                                <%--ng-change="onChangeSelect();"--%>
+                                                                <%--ng-init='lstCases = ${lstCases}; initCaseSelect();'>--%>
+                                                        <%--</select>--%>
+                                                    <%--</div>--%>
+                                                <%--</div>--%>
                                             </div>
                                         </div>
                                     </div>

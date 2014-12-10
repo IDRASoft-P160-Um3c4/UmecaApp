@@ -87,6 +87,14 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "WHERE mp.id =:monPlanId AND (laa.status = 0 OR laa.status = 1) ORDER BY amp.start ")
     List<ActivityMonitoringPlanLog> getListAccomplishmentByMonPlanId(@Param("monPlanId")Long monPlanId);
 
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanLog(amp.id, amp.start, amp.end, amp.status, amp.supervisionActivity.id, " +
+            "amp.framingSelectedSourceRel.id, amp.comments, laa.status) " +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN amp.lstAssignedArrangement laa " +
+            "WHERE mp.id =:monPlanId AND (laa.status = 0 OR laa.status = 1) ORDER BY amp.start ")
+    List<ActivityMonitoringPlanLog> getListAccomplishmentByMonPlanIdToFile(@Param("monPlanId")Long monPlanId);
+
+
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangementLog(laa.id, amp.id, aa.id, laa.status) " +
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa " +
             "WHERE mp.id =:monPlanId  AND (laa.status = 0 OR laa.status = 1) ORDER BY amp.id ")

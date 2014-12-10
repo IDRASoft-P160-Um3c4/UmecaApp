@@ -209,7 +209,7 @@ public class LogController {
         ModelAndView model = new ModelAndView("/supervisor/log/accomplishmentFile");
         logCaseService.fillModelAccomplishmentFile(id, model);
         response.setContentType("application/force-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"bitacora.doc\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"reporteIncumplimiento.doc\"");
 
 
         return model;

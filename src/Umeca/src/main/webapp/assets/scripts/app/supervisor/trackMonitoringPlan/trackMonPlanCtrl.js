@@ -17,6 +17,9 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
         if($scope.m.activity === undefined){
             $scope.m.activity = {id: 0};
         }
+        if($scope.m.case === undefined){
+            $scope.m.case = {id:0};
+        }
 
         var yearStart = dateStart.getFullYear();
         var monthStart = dateStart.getMonth();
@@ -53,7 +56,7 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
             url: urlToPost,
             type: "POST",
             data: JSON.stringify({monPlanId: monPlanId, yearStart: $scope.yearStart, monthStart: ($scope.monthStart+1),
-                yearEnd: $scope.yearEnd, monthEnd: ($scope.monthEnd+1), activityId: $scope.m.activity.id}),
+                yearEnd: $scope.yearEnd, monthEnd: ($scope.monthEnd+1), activityId: $scope.m.activity.id, caseFilterId: $scope.m.   case.id}),
             success: $scope.handleSuccess,
             error: $scope.handleError,
             dataType: "json",
@@ -144,6 +147,15 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
         if($scope.lstActivities !== undefined && $scope.lstActivities.length > 0){
             $timeout(function(){
                 $scope.m.activity = $scope.lstActivities[0];
+            }, 1);
+        }
+    }
+
+
+    $scope.initCaseSelect = function(){
+        if($scope.lstCases !== undefined && $scope.lstCases.length > 0){
+            $timeout(function(){
+                $scope.m.case = $scope.lstCases[0];
             }, 1);
         }
     }

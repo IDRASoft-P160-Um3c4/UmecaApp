@@ -21,6 +21,7 @@ public class ActivityMonitoringPlanLog {
     private Long aidSourceId;
     private String comments;
     private String user;
+    private int laaStatus;
 
     public ActivityMonitoringPlanLog(Long id, Calendar start, Calendar end, String status, Long actSupervisionId, Long aidSourceId, String comments, String user){
         this.id = id;
@@ -41,6 +42,17 @@ public class ActivityMonitoringPlanLog {
         this.actSupervisionId = actSupervisionId;
         this.aidSourceId = aidSourceId;
         this.comments = comments;
+    }
+
+    public ActivityMonitoringPlanLog(Long id, Calendar start, Calendar end, String status, Long actSupervisionId, Long aidSourceId, String comments,int laaStatus){
+        this.id = id;
+        this.start = CalendarExt.calendarToFormatString(start, Constants.FORMAT_CALENDAR_I);
+        this.end = CalendarExt.calendarToFormatString(end, Constants.FORMAT_CALENDAR_I);
+        this.status = status;
+        this.actSupervisionId = actSupervisionId;
+        this.aidSourceId = aidSourceId;
+        this.comments = comments;
+        this.laaStatus = laaStatus;
     }
 
     public Long getId() {
@@ -105,5 +117,13 @@ public class ActivityMonitoringPlanLog {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public int getLaaStatus() {
+        return laaStatus;
+    }
+
+    public void setLaaStatus(int laaStatus) {
+        this.laaStatus = laaStatus;
     }
 }

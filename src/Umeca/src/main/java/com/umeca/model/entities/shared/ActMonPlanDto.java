@@ -22,6 +22,7 @@ public class ActMonPlanDto {
     }
 
     public ActMonPlanDto(String start, String end, String supActivity, String aidSource, List<String> lstAssignedArrangements, String status, String comments) {
+        if(lstAssignedArrangements.size()>0){
         this.start = start;
         this.end = end;
         this.supActivity = supActivity;
@@ -29,6 +30,7 @@ public class ActMonPlanDto {
         this.lstAssignedArrangements = lstAssignedArrangements;
         this.status = status;
         this.comments = comments != null ? comments:"NA";
+        }
     }
 
     public String getStart() {

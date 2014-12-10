@@ -240,5 +240,6 @@
     </div>
 </div>
 </div>
+<%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
 </body>
 </html>
