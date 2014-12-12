@@ -108,6 +108,8 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
             "where hf.id=:idFormat")
     HearingFormatDto getInfoToLogCase(@Param("idFormat")Long idFormat);
 
+    @Query("select hf.showNotification from HearingFormat hf where hf.id = :idFormat")
+    Boolean getShowNotificationByIdFormat(@Param("idFormat")Long idFormat);
 }
 
 

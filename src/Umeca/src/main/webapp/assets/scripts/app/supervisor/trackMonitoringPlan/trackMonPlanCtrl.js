@@ -4,6 +4,8 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
     $scope.yearStart = -1;
     $scope.monthStart = -1;
     $scope.activityIdCurrent = -1;
+    $scope.caseIdCurrent = -1;
+    $scope.supIdCurrent = -1;
     $scope.yearEnd = -1;
     $scope.monthEnd = -1;
     $scope.mainMonPlanId = -1;
@@ -17,6 +19,12 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
         if($scope.m.activity === undefined){
             $scope.m.activity = {id: 0};
         }
+        if($scope.m.case === undefined){
+            $scope.m.case = {id:0};
+        }
+        if($scope.m.user === undefined){
+            $scope.m.user = {id:0};
+        }
 
         var yearStart = dateStart.getFullYear();
         var monthStart = dateStart.getMonth();
@@ -24,7 +32,7 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
         var monthEnd = dateEnd.getMonth();
         $scope.mainMonPlanId = monPlanId;
 
-        if($scope.activityIdCurrent === $scope.m.activity.id &&
+        if($scope.filtersAreEqual() &&
             yearStart === yearEnd && monthStart === monthEnd){
             if($scope.yearStart === yearStart && $scope.monthStart === monthStart ||
                 $scope.yearEnd === yearEnd && $scope.monthEnd === monthEnd){
@@ -32,14 +40,17 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
             }
         }
         else{
-            if($scope.activityIdCurrent === $scope.m.activity.id &&
+            if($scope.filtersAreEqual() &&
                 $scope.yearStart === yearStart && $scope.monthStart === monthStart &&
                 $scope.yearEnd === yearEnd && $scope.monthEnd === monthEnd){
                 return;
             }
         }
 
+
         $scope.activityIdCurrent = $scope.m.activity.id;
+        $scope.caseIdCurrent = $scope.m.case.id;
+        $scope.supIdCurrent = $scope.m.user.id;
         $scope.yearStart = dateStart.getFullYear();
         $scope.monthStart = dateStart.getMonth();
 
@@ -53,12 +64,19 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
             url: urlToPost,
             type: "POST",
             data: JSON.stringify({monPlanId: monPlanId, yearStart: $scope.yearStart, monthStart: ($scope.monthStart+1),
-                yearEnd: $scope.yearEnd, monthEnd: ($scope.monthEnd+1), activityId: $scope.m.activity.id}),
+                yearEnd: $scope.yearEnd, monthEnd: ($scope.monthEnd+1), activityId: $scope.m.activity.id, caseFilterId: $scope.m.case.id,
+                userFilterId: $scope.m.user.id}),
             success: $scope.handleSuccess,
             error: $scope.handleError,
             dataType: "json",
             contentType: "application/json"
         });
+    }
+
+    $scope.filtersAreEqual = function(){
+        if($scope.activityIdCurrent == $scope.m.activity.id && $scope.caseIdCurrent == $scope.m.case.id &&$scope.supIdCurrent == $scope.m.user.id)
+            return true;
+        return false;
     }
 
     $scope.idToName = function(id, lstCat){
@@ -144,6 +162,23 @@ app.controller('trackMonPlanController', function($scope, $timeout, sharedSvc){
         if($scope.lstActivities !== undefined && $scope.lstActivities.length > 0){
             $timeout(function(){
                 $scope.m.activity = $scope.lstActivities[0];
+            }, 1);
+        }
+    }
+
+
+    $scope.initCaseSelect = function(){
+        if($scope.lstCases !== undefined && $scope.lstCases.length > 0){
+            $timeout(function(){
+                $scope.m.case = $scope.lstCases[0];
+            }, 1);
+        }
+    }
+
+   $scope.initUserSelect = function(){
+        if($scope.lstUser !== undefined && $scope.lstUser.length > 0){
+            $timeout(function(){
+                $scope.m.user = $scope.lstUser[0];
             }, 1);
         }
     }

@@ -126,11 +126,42 @@
                         </div>
                     </div>
                 </div>
+                <div class="row" ng-show =" ${infoHearingFormat == null? false:true}">
+                    <div class="col-xs-6 widget-container-span col-xs-offset-3">
+                        <div class="widget-box transparent">
+                            <div class="widget-header">
+                                <span class="badge badge-danger">&nbsp;&nbsp;Nuevo formato de audiencia registrado&nbsp;&nbsp;</span>
+
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="icon-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-12 no-padding-left no-padding-right">
+                                    <div class="tab-content padding-4">
+                                        <div id="notification" class="tab-pane in active">
+                                            <div class="slim-scroll" data-height="100">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                     ${infoHearingFormat}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xs-6 widget-container-span col-xs-offset-3">
                         <div class="widget-box transparent">
                             <div class="widget-header">
-                                <h4 class="lighter">Filtro</h4>
+                                <h4 class="lighter">Filtros</h4>
                             </div>
 
                             <div class="widget-body">
@@ -148,6 +179,32 @@
                                                                 ng-options="e.name for e in lstActivities"
                                                                 ng-change="onChangeSelect();"
                                                                 ng-init='lstActivities = ${lstActivities}; initActivitySelect();'>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row" ng-show="${monitoringPlanId == -1 ? true: false}">
+                                                    <div class="col-xs-4">
+                                                        <h6>Casos</h6>
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        <select class="form-control element-center"
+                                                                ng-model="m.case"
+                                                                ng-options="e.name for e in lstCases"
+                                                                ng-change="onChangeSelect();"
+                                                                ng-init='lstCases = ${lstCases}; initCaseSelect();'>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row" ng-show="${idUser == 0 ? true: false}">
+                                                    <div class="col-xs-4">
+                                                        <h6>Supervisor</h6>
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        <select class="form-control element-center"
+                                                                ng-model="m.user"
+                                                                ng-options="e.name for e in lstUser"
+                                                                ng-change="onChangeSelect();"
+                                                                ng-init='lstUser = ${lstUser}; initUserSelect();'>
                                                         </select>
                                                     </div>
                                                 </div>

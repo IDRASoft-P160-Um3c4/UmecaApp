@@ -134,4 +134,17 @@ public class CrimeServiceImpl implements CrimeService {
         } else
             return "[]";
     }
+
+    @Override
+    public String convertListCaseToCaseLog(List<String> listCrime){
+        String result = "Sin delitos registrados";
+        if(listCrime.size()>0){
+            result = "<strong>Delitos: </strong><br/><ul>";
+            for(String crime : listCrime){
+                result += "<li>"+crime+"</li>";
+            }
+            result+="</ul>";
+        }
+        return result;
+    }
 }

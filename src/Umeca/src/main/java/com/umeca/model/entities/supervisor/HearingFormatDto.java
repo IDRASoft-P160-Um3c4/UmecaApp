@@ -1,9 +1,11 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.model.shared.SelectList;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -41,8 +43,7 @@ public class HearingFormatDto {
     private Integer arrangementTypeInt;
     private String arrangementType;
 
-    @Override
-    public String toString() {
+    public String toString(String crimes, List<SelectList> arrangementAssigned) {
         String result = "";
         if(room!=null)
             result+="<strong>Distrito judicial: </strong>"+room+"<br/>";
@@ -56,6 +57,7 @@ public class HearingFormatDto {
         if(hearingType!=null)
             result+="<strong>Tipo de audiencia: </strong>"+hearingType+"<br/>";
         result+=(ip!=null && ip.equals(HearingFormatConstants.IMP_FORM_NO)? "<strong>No</strong> se present&oacute; el imputado<br/>":"<strong>Si</strong> se present&oacute; el imputado<br/>");
+        result += crimes;
         if(linkageProcces!=null){
             result+="<strong>Vinculaci&oacute;n a proceso: </strong>";
             if( linkageProcces.equals(HearingFormatConstants.PROCESS_VINC_NO)){
@@ -66,9 +68,9 @@ public class HearingFormatDto {
                 result+="Sin registro<br/>";
             }
         }
-        if(arrangementType!=null && nationalArrangement!=null){
+        if(arrangementTypeInt!=null && nationalArrangement!=null){
             result +="<strong>Audiencia:</strong> ";
-            if(arrangementType.equals(HearingFormatConstants.HEARING_TYPE_SCP)){
+            if(arrangementTypeInt.equals(HearingFormatConstants.HEARING_TYPE_SCP)){
                 result+="SCP ";
             }else{
                 result+="MC ";
@@ -80,7 +82,13 @@ public class HearingFormatDto {
             }
 
         }
-
+        if(arrangementAssigned!=null && arrangementAssigned.size()>0){
+            result+="<ul>";
+            for (SelectList aux : arrangementAssigned){
+                result += "<li>"+aux.getName()+"/"+aux.getDescription()+"</li>";
+            }
+            result+="</ul>";
+        }
          return result;
     }
 

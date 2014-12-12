@@ -79,4 +79,6 @@ public class MonitoringConstants {
     public static final int AUTHORIZATION_MONPLAN = 1;
     public static final int AUTHORIZATION_ACTMONPLAN = 2;
     public static final int AUTHORIZATION_OK = 0;
+    public static final Long FILTER_ACTIVE_CASE = -1L;
+    public static final Long FILTER_SUSPENDED_CASE = -2L;
 }

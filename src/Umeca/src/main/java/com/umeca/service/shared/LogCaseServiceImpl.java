@@ -184,7 +184,7 @@ public class LogCaseServiceImpl implements LogCaseService {
         Long idMon = monitoringPlanRepository.getMonPlanIdByCaseId(caseId);
         List<SelectList> lstActivities = supervisionActivityRepository.findByMonPlanId(idMon);
         List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement = activityMonitoringPlanRepository.getListAccomplishmentActMonPlanArrangementByMonPlanId(idMon);
-        List<ActivityMonitoringPlanLog> lstActMonPlan = activityMonitoringPlanRepository.getListAccomplishmentByMonPlanId(idMon);
+        List<ActivityMonitoringPlanLog> lstActMonPlan = activityMonitoringPlanRepository.getListAccomplishmentByMonPlanIdToFile(idMon);
         List<SelectList> assigmentArringment = arrangementRepository.findLstArrangementByCaseId(caseId);
         List<ActMonPlanDto> lstActivityOk = new ArrayList<>(), lstActivityFailed = new ArrayList<>();
         List<String> lstArrangement=new ArrayList<>();
@@ -192,13 +192,17 @@ public class LogCaseServiceImpl implements LogCaseService {
         for(ActivityMonitoringPlanLog ampl: lstActMonPlan){
            String sourceName = findElement(lstSources, ampl.getAidSourceId(), true);
            String supActivity = findElement(lstActivities, ampl.getActSupervisionId(),false);
-            assigmentArringment = new ArrayList<>();
-           fillInfoActivity(ampl.getId(),lstArrangement, lstActMonPlanArrangement,assigmentArringment,MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE);
-           lstActivityOk.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(),supActivity,sourceName,lstArrangement,ampl.getStatus(), ampl.getComments()));
-            assigmentArringment = new ArrayList<>();
-           fillInfoActivity(ampl.getId(),lstArrangement, lstActMonPlanArrangement,assigmentArringment,MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED);
-           lstActivityFailed.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(), supActivity, sourceName, lstArrangement, ampl.getStatus(), ampl.getComments()));
-
+            lstArrangement = new ArrayList<>();
+            fillInfoActivity(ampl.getId(),lstArrangement, lstActMonPlanArrangement,assigmentArringment,ampl.getLaaStatus());
+            if(ampl.getLaaStatus() == MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE){
+                if(lstArrangement.size()>0){
+                    lstActivityOk.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(),supActivity,sourceName,lstArrangement,ampl.getStatus(), ampl.getComments()));
+                }
+            }else if(ampl.getLaaStatus() == MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED){
+                if(lstArrangement.size()>0){
+                    lstActivityFailed.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(), supActivity, sourceName, lstArrangement, ampl.getStatus(), ampl.getComments()));
+                }
+            }
         }
         model.addObject("lstActivityFailed",lstActivityFailed);
         model.addObject("lstActivityOk",lstActivityOk);
@@ -238,8 +242,18 @@ public class LogCaseServiceImpl implements LogCaseService {
     @Autowired
     ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
 
+    @Override
+    public String generateResumeOfHearingFormat(Long idHearingFormat){
+        HearingFormatDto hfdto =hearingFormatRepository.getInfoToLogCase(idHearingFormat);
+        List<String> listCrime = crimeService.getListStringCrimeHFByHF(idHearingFormat);
+        String crimes = crimeService.convertListCaseToCaseLog(listCrime);
+        List<SelectList> aa = arrangementRepository.findLstArrangementByHearingFormatId(idHearingFormat);
+        return hfdto.toString(crimes,aa);
+    }
 
-    public void addLog(String activityCode, Long idCase, Object detail){
+
+    public List<LogCase> addLog(String activityCode, Long idCase, Object detail){
+        List<LogCase> newLogs = new ArrayList<>();
         try{
         Long rCount = logCaseRepository.countLogByIdCase(idCase);
         Long idUser = sharedUserService.GetLoggedUserId();
@@ -247,7 +261,6 @@ public class LogCaseServiceImpl implements LogCaseService {
         Case cd = new Case();
         String resume="";
         cd.setId(idCase);
-        List<LogCase> newLogs = new ArrayList<>();
 
         if(rCount.equals(0L)){
             LogCase firstLog = new LogCase();
@@ -262,16 +275,7 @@ public class LogCaseServiceImpl implements LogCaseService {
         switch (activityCode){
             case ConstantsLogCase.NEW_HEARING_FORMAT:
                 Long idObject = (Long) detail;
-                HearingFormatDto hfdto =hearingFormatRepository.getInfoToLogCase(idObject);
-                List<String> listCrime = crimeService.getListStringCrimeHFByHF(idObject);
-               resume = hfdto.toString();
-                if(listCrime.size()>0){
-                    resume += "<strong>Delitos: </strong><br/><ul>";
-                    for(String crime : listCrime){
-                        resume += "<li>"+crime+"</li>";
-                    }
-                    resume+="</ul>";
-                }
+                resume = generateResumeOfHearingFormat(idObject);
                 logCase.setResume(resume);
                 logCase.setDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_ADD_HEARING_FORMAT);
@@ -366,6 +370,8 @@ public class LogCaseServiceImpl implements LogCaseService {
             logCaseRepository.save(newLogs);
         }catch (Exception e){
             logException.Write(e, this.getClass(), "addLog", sharedUserService);
+        }finally {
+            return newLogs;
         }
     }
 

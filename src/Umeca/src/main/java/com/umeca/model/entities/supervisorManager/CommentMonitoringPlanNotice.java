@@ -2,6 +2,7 @@ package com.umeca.model.entities.supervisorManager;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.MonitoringConstants;
 
 import java.util.Calendar;
@@ -130,13 +131,15 @@ public class CommentMonitoringPlanNotice {
             case MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT:
                 return "REPORTE DE INCUMPLIMIENTO";
             case MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END:
-                return "TERMINACIÓN DEL PLAN DE SEGUIMIENTO";
+                return "TERMINACI&Oacute;N DEL PLAN DE SEGUIMIENTO";
             case MonitoringConstants.TYPE_COMMENT_CASE_END:
-                return "TERMINACIÓN DEL CASO";
+                return "TERMINACI&Oacute;N DEL CASO";
             case MonitoringConstants.TYPE_COMMENT_ASSIGNED_CASE:
-                return "ASIGNACIÓN DE CASO";
+                return "ASIGNACI&Oacute;N DE CASO";
             case MonitoringConstants.TYPE_COMMENT_REOPEN_CASE:
                 return "REABRIR EL CASO";
+            case ConstantsLogCase.NEW_HEARING_FORMAT:
+                return "FORMATO DE AUDIENCIA";
             default:
                 return "NA";
         }

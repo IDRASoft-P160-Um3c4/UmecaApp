@@ -87,6 +87,14 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "WHERE mp.id =:monPlanId AND (laa.status = 0 OR laa.status = 1) ORDER BY amp.start ")
     List<ActivityMonitoringPlanLog> getListAccomplishmentByMonPlanId(@Param("monPlanId")Long monPlanId);
 
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanLog(amp.id, amp.start, amp.end, amp.status, amp.supervisionActivity.id, " +
+            "amp.framingSelectedSourceRel.id, amp.comments, laa.status) " +
+            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN amp.lstAssignedArrangement laa " +
+            "WHERE mp.id =:monPlanId AND (laa.status = 0 OR laa.status = 1) ORDER BY amp.start ")
+    List<ActivityMonitoringPlanLog> getListAccomplishmentByMonPlanIdToFile(@Param("monPlanId")Long monPlanId);
+
+
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangementLog(laa.id, amp.id, aa.id, laa.status) " +
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa " +
             "WHERE mp.id =:monPlanId  AND (laa.status = 0 OR laa.status = 1) ORDER BY amp.id ")
@@ -119,11 +127,17 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "amp.end, amp.start, amp.supervisionActivity.id, amp.activityGoal.id, amp.status, im.name, im.lastNameP, im.lastNameM)" +
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
             "INNER JOIN mp.supervisor s INNER JOIN amp.supervisionActivity sa " +
-            "WHERE s.id =:userId AND mp.status IN :lstStatus AND amp.isReplaced IS NULL AND (0l = :activityId OR sa.id = :activityId)" +
-            "AND amp.status NOT IN :lstActStatus AND (amp.searchStart =:yearmonthStart OR amp.searchEnd =:yearmonthStart OR amp.searchStart =:yearmonthEnd OR amp.searchEnd =:yearmonthEnd)")
-    List<ActivityMonitoringPlanResponse> getAllActivitiesWithFilters(@Param("userId")Long userId, @Param("lstStatus") List<String> lstStatus,
+            "WHERE mp.status IN :lstStatus AND amp.isReplaced IS NULL AND (0l = :activityId OR sa.id = :activityId)" +
+            "AND amp.status NOT IN :lstActStatus AND (amp.searchStart =:yearmonthStart OR amp.searchEnd =:yearmonthStart OR amp.searchStart =:yearmonthEnd OR amp.searchEnd =:yearmonthEnd) " +
+            "AND (:idSup = 0l OR s.id=:idSup) AND (:idCase = 0l OR cd.id = :idCase) " +
+            "AND (:findBlock =0 OR ((mp.generationTime < :refTime AND mp.authorizationTime IS NULL) OR (mp.authorizationTime IS NOT NULL AND mp.posAuthorizationChangeTime < :refTime )))" +
+            "AND (:findActive = 0 OR (mp.authorizationTime IS NOT NULL " +
+            "AND ((mp.posAuthorizationChangeTime IS NOT NULL AND mp.posAuthorizationChangeTime > :refTime) OR (mp.posAuthorizationChangeTime IS NULL))))")
+    List<ActivityMonitoringPlanResponse> getAllActivitiesWithFilters( @Param("lstStatus") List<String> lstStatus,
                                                                      @Param("lstActStatus") List<String> lstActStatus, @Param("yearmonthStart")int yearmonthStart,
-                                                                     @Param("yearmonthEnd")int yearmonthEnd, @Param("activityId")Long activityId);
+                                                                     @Param("yearmonthEnd")int yearmonthEnd, @Param("activityId")Long activityId,
+                                                                     @Param("idSup") Long idSup,@Param("idCase") Long idCase, @Param("findBlock") Integer findBlock,
+                                                                     @Param("refTime") Calendar refTime,@Param("findActive") Integer findActive);
 
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanNotice(amp.id, amp.end, amp.start, sa.name, amp.status) " +

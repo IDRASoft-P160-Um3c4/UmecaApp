@@ -6,7 +6,9 @@ import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.shared.LogCase;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -779,7 +781,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
                     (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
                 MonitoringPlan monP = hearingFormat.getCaseDetention().getMonitoringPlan();
-
+                   hearingFormat.setShowNotification(true);
                 if (monP != null) {
                     monP.setResolution(hearingFormat.getHearingFormatSpecs().getArrangementType());
                     monitoringPlanRepository.save(monP);
@@ -824,7 +826,30 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
 
             if (hearingFormat.getIsFinished() == true) {
-                logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
+                        List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
+                if(logs.size()>0){
+                    LogCase l = logs.get(logs.size()-1);
+                    LogComment logComment = new LogComment();
+                    logComment.setComments(l.getResume());
+                    logComment.setAction(l.getTitle());
+                    Case c = l.getCaseDetention();
+                    logComment.setCaseDetention(c);
+                    logComment.setSenderUser(hearingFormat.getSupervisor());
+                    Long mp = monitoringPlanRepository.getMonPlanIdByCaseId(c.getId());
+                    logComment.setAction(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
+                    if(mp!=null){
+                        Long uid = monitoringPlanRepository.getUserIdByMonPlanId(mp);
+                        User u = new User();
+                        u.setId(uid);
+                        logComment.setReceiveUser(u);
+                    }else{
+                        logComment.setReceiveUser(hearingFormat.getSupervisor());
+                    }
+                    logComment.setTimestamp(Calendar.getInstance());
+                    logComment.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
+                    logComment.setObsolete(false);
+                    logCommentRepository.save(logComment);
+                }
                 sb = new StringBuilder();
                 sb.append(request.getContextPath());
                 sb.append("/supervisor/hearingFormat/indexFormats.html?id=");

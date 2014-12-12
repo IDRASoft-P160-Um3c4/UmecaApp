@@ -1,19 +1,14 @@
 package com.umeca.service.supervisor;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.catalog.Degree;
 import com.umeca.model.catalog.Relationship;
-import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.ScheduleDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.JobDto;
-import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.entities.shared.Victim;
 import com.umeca.model.entities.supervisor.*;
@@ -40,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service("framingMeetingService")
 public class FramingMeetingServiceImpl implements FramingMeetingService {
@@ -3059,9 +3053,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<Long> idsSelectedSources = new Gson().fromJson(view.getLstSelectedSources(), listType);
         List<Long> idsSelectedRisks = new Gson().fromJson(view.getLstSelectedRisk(), listType);
         List<Long> idsSelectedThreats = new Gson().fromJson(view.getLstSelectedThreat(), listType);
-
-
-        List<SelectList> sources = framingMeetingRepository.getEnvironmentSources(framingMeeting.getId(), idsSelectedSources);
+        List<SelectList> sources = new ArrayList<>();
+        if(idsSelectedSources!= null && idsSelectedSources.size()>0){
+            sources = framingMeetingRepository.getEnvironmentSources(framingMeeting.getId(), idsSelectedSources);
+        }
         List<String> risk = framingMeetingRepository.getRiskByFramingId(framingMeeting.getId(), idsSelectedRisks);
         List<String> threat = framingMeetingRepository.getRThreatByFramingId(framingMeeting.getId(), idsSelectedThreats);
         List<String> arrangements = new Gson().fromJson(view.getLstSelectedArrangement(), new TypeToken<List<String>>() {

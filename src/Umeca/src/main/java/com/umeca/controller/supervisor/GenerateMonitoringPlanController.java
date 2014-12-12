@@ -6,6 +6,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.dto.ScheduleLogDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
@@ -18,6 +19,7 @@ import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.reviewer.ScheduleService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.MonitoringPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,7 +132,8 @@ public class GenerateMonitoringPlanController {
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
     @Autowired
     private TechnicalReviewRepository qTechnicalReviewRepository;
-
+    @Autowired
+    private ScheduleService scheduleService;
 
 
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/generate", method = RequestMethod.GET)
@@ -181,7 +184,8 @@ public class GenerateMonitoringPlanController {
 
         sLstGeneric = gson.toJson(lstDtoActivities);
         model.addObject("lstActivitiesMonPlan",sLstGeneric);
-
+        List<ScheduleLogDto> listSchedules = scheduleService.getFramingScheduleByIdCase(caseId);
+        model.addObject("lstSchedules",gson.toJson(listSchedules));
         return model;
     }
 

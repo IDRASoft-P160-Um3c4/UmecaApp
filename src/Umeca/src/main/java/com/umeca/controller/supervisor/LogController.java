@@ -144,7 +144,7 @@ public class LogController {
             List<SelectList> lstGeneric = new ArrayList<>();
             //Find last hearing format to get last assigned arrangements
             logCaseService.fillgeneralDataLog(caseId, model);
-
+            model.addObject("titleDoc","ESTRATEGIA DE SUPERVISI&Oacute;N");
             model.addObject("caseId", caseId);
 
             lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
@@ -209,7 +209,7 @@ public class LogController {
         ModelAndView model = new ModelAndView("/supervisor/log/accomplishmentFile");
         logCaseService.fillModelAccomplishmentFile(id, model);
         response.setContentType("application/force-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"bitacora.doc\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"reporteIncumplimiento.doc\"");
 
 
         return model;

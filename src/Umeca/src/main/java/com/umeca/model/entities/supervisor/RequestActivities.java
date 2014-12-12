@@ -8,6 +8,8 @@ public class RequestActivities {
     public int yearEnd;
     public int monthEnd;
     public Long activityId;
+    public Long caseFilterId;
+    public Long userFilterId;
 
     public Long getMonPlanId() {
         return monPlanId;
@@ -55,5 +57,22 @@ public class RequestActivities {
 
     public void setActivityId(Long activityId) {
         this.activityId = activityId;
+    }
+
+    public Long getCaseFilterId() {
+        return caseFilterId;
+    }
+
+    public void setCaseFilterId(Long caseFilterId) {
+        this.caseFilterId = caseFilterId;
+    }
+
+    public Long getUserFilterId() {
+
+        return userFilterId;
+    }
+
+    public void setUserFilterId(Long userFilterId) {
+        this.userFilterId = userFilterId;
     }
 }
