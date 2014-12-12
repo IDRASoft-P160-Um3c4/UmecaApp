@@ -31,7 +31,7 @@
 <div ng-init='lstHfAssignedArrangement = ${lstHfAssignedArrangement== null ? "[]":lstHfAssignedArrangement}; lstActivities = ${lstActivities==null?"[]":lstActivities};
     lstGoals = ${lstGoals== null ? "[]":lstGoals};'></div>
 <br/>
-<h4 class="element-center">DIRECCI&Oacute;N DE EJECUCI&Oacute;N DE PENAS Y MEDIDAS JUDICIALES</h4>
+<h4 class="element-center">${titleDoc == null? "BIT&Aacute;CORA DE SUPERVISI&Oacute;N":titleDoc}</h4>
 <h4 class="element-center">UNIDAD DE VIGILANCIA Y SEGUIMIENTO DE MEDIDAS JUDICIALES</h4>
         <div class="row">
             <div class="col-xs-12 align-right">
