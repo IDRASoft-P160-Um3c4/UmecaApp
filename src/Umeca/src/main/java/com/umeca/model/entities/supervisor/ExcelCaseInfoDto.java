@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.dto.victim.VictimDto;
 import com.umeca.model.shared.Constants;
 
 import java.text.SimpleDateFormat;
@@ -33,6 +34,7 @@ public class ExcelCaseInfoDto {
     private Integer imputedChildren;
     private Integer imputedChildrenDependant;
     private String imputedPhysicalCondition;
+    private Boolean imputedActualSchool;
     private String imputedSchoolName;
     private String imputedSchoolPhone;
     private String imputedSchoolAddress;
@@ -82,6 +84,8 @@ public class ExcelCaseInfoDto {
     private String coDefStr;
     private List<ExcelTecRevSelQuestDto> lstSelQuest;
     private String selQuestStr;
+    private List<VictimDto> lstVictim;
+    private String victimStr;
 
     private String imputedGenderStr;
     private String tecRevCommentsStr;
@@ -104,12 +108,16 @@ public class ExcelCaseInfoDto {
                             String imputedBirthState,
                             String imputedBirthMunicipality,
                             String imputedBirthLocation,
+                            String imputedBirthStateCmb,
+                            String imputedBirthMunicipalityCmb,
+                            String imputedBirthLocationCmb,
                             String imputedCelPhone,
                             String imputedMaritalStatus,
                             Integer imputedYearsMaritalStatus,
                             Integer imputedChildren,
                             Integer imputedChildrenDependant,
                             String imputedPhysicalCondition,
+                            Boolean block,
                             String imputedSchoolName,
                             String imputedSchoolPhone,
                             String imputedSchoolAddress,
@@ -153,15 +161,24 @@ public class ExcelCaseInfoDto {
         this.imputedGender = imputedGender;
         this.imputedBirthDate = imputedBirthDate;
         this.imputedBirthCountry = imputedBirthCountry;
-        this.imputedBirthState = imputedBirthState;
-        this.imputedBirthMunicipality = imputedBirthMunicipality;
-        this.imputedBirthLocation = imputedBirthLocation;
+
+        if (imputedBirthLocationCmb != null && !imputedBirthLocationCmb.equals("")) {
+            this.imputedBirthState = imputedBirthStateCmb;
+            this.imputedBirthMunicipality = imputedBirthMunicipalityCmb;
+            this.imputedBirthLocation = imputedBirthLocationCmb;
+        } else {
+            this.imputedBirthState = imputedBirthState;
+            this.imputedBirthMunicipality = imputedBirthMunicipality;
+            this.imputedBirthLocation = imputedBirthLocation;
+        }
+
         this.imputedCelPhone = imputedCelPhone;
         this.imputedMaritalStatus = imputedMaritalStatus;
         this.imputedYearsMaritalStatus = imputedYearsMaritalStatus;
         this.imputedChildren = imputedChildren;
         this.imputedChildrenDependant = imputedChildrenDependant;
         this.imputedPhysicalCondition = imputedPhysicalCondition;
+        this.imputedActualSchool = block;
         this.imputedSchoolName = imputedSchoolName;
         this.imputedSchoolPhone = imputedSchoolPhone;
         this.imputedSchoolAddress = imputedSchoolAddress;
@@ -722,43 +739,48 @@ public class ExcelCaseInfoDto {
         this.socialNetworkStr = "";
 
         if (this.lstSN != null && this.lstSN.size() > 0)
+
             for (ExcelSocialNetworkDto act : this.lstSN) {
-                if (this.socialNetworkStr != "")
-                    this.socialNetworkStr += "\n";
 
-                if (act.getName() != null && !act.getName().equals(""))
-                    this.socialNetworkStr += "-" + act.getName();
+                if (act.getBlock() == true) {
 
-                if (act.getRelationship() != null && !act.getRelationship().equals(""))
-                    this.socialNetworkStr += ", " + act.getRelationship();
+                    if (this.socialNetworkStr != "")
+                        this.socialNetworkStr += "\n";
 
-                if (act.getDocument() != null && !act.getDocument().equals(""))
-                    this.socialNetworkStr += ", Identificaci�n: " + act.getDocument();
+                    if (act.getName() != null && !act.getName().equals(""))
+                        this.socialNetworkStr += "-" + act.getName();
 
-                if (act.getAge() != null)
-                    this.socialNetworkStr += ", Edad: " + act.getAge();
+                    if (act.getRelationship() != null && !act.getRelationship().equals(""))
+                        this.socialNetworkStr += ", " + act.getRelationship();
 
-                if (act.getPhone() != null && !act.getPhone().equals(""))
-                    this.socialNetworkStr += ", Tel.: " + act.getPhone();
+                    if (act.getDocument() != null && !act.getDocument().equals(""))
+                        this.socialNetworkStr += ", Identificaci�n: " + act.getDocument();
 
-                if (act.getDependent() != null && !act.getDependent().equals(""))
-                    this.socialNetworkStr += ", Dependiente: " + act.getDependent();
+                    if (act.getAge() != null)
+                        this.socialNetworkStr += ", Edad: " + act.getAge();
 
-                if (act.getAccompaniment() != null)
-                    if (act.getAccompaniment().equals(true))
-                        this.socialNetworkStr += ", Acompa�a durante el proceso: Si";
-                    else
-                        this.socialNetworkStr += ", Acompa�a durante el proceso: No";
+                    if (act.getPhone() != null && !act.getPhone().equals(""))
+                        this.socialNetworkStr += ", Tel.: " + act.getPhone();
 
-                if (act.getLivingWith() != null && !act.getLivingWith().equals(""))
-                    this.socialNetworkStr += ", Vive con el imputado: " + act.getLivingWith();
+                    if (act.getDependent() != null && !act.getDependent().equals(""))
+                        this.socialNetworkStr += ", Dependiente: " + act.getDependent();
 
-                if (act.getAddress() != null && !act.getAddress().equals(""))
-                    this.socialNetworkStr += ", Direcci�n: " + act.getAddress();
+                    if (act.getAccompaniment() != null)
+                        if (act.getAccompaniment().equals(true))
+                            this.socialNetworkStr += ", Acompa�a durante el proceso: Si";
+                        else
+                            this.socialNetworkStr += ", Acompa�a durante el proceso: No";
 
+                    if (act.getLivingWith() != null && !act.getLivingWith().equals(""))
+                        this.socialNetworkStr += ", Vive con el imputado: " + act.getLivingWith();
+
+                    if (act.getAddress() != null && !act.getAddress().equals(""))
+                        this.socialNetworkStr += ", Direcci�n: " + act.getAddress();
+                } else
+                    this.socialNetworkStr = "El imputado no cuenta con personas en su red social.";
             }
 
-        return socialNetworkStr;
+        return this.socialNetworkStr;
     }
 
     public void setSocialNetworkStr(String socialNetworkStr) {
@@ -779,36 +801,39 @@ public class ExcelCaseInfoDto {
         if (this.lstRef != null && this.lstRef.size() > 0)
             for (ExcelReferenceDto act : this.lstRef) {
 
-                if (this.referencesStr != "")
-                    this.referencesStr += "\n";
+                if (act.getBlock() == true) {
+                    if (this.referencesStr != "")
+                        this.referencesStr += "\n";
 
-                if (act.getName() != null && !act.getName().equals(""))
-                    this.referencesStr += "-" + act.getName();
+                    if (act.getName() != null && !act.getName().equals(""))
+                        this.referencesStr += "-" + act.getName();
 
-                if (act.getRelationship() != null && !act.getRelationship().equals(""))
-                    this.referencesStr += ", " + act.getRelationship();
+                    if (act.getRelationship() != null && !act.getRelationship().equals(""))
+                        this.referencesStr += ", " + act.getRelationship();
 
-                if (act.getDocument() != null && !act.getDocument().equals(""))
-                    this.referencesStr += ", Identificaci�n: " + act.getDocument();
+                    if (act.getDocument() != null && !act.getDocument().equals(""))
+                        this.referencesStr += ", Identificaci�n: " + act.getDocument();
 
-                if (act.getAge() != null)
-                    this.referencesStr += ", Edad: " + act.getAge();
+                    if (act.getAge() != null)
+                        this.referencesStr += ", Edad: " + act.getAge();
 
-                if (act.getPhone() != null && !act.getPhone().equals(""))
-                    this.referencesStr += ", Tel.: " + act.getPhone();
+                    if (act.getPhone() != null && !act.getPhone().equals(""))
+                        this.referencesStr += ", Tel.: " + act.getPhone();
 
-                if (act.getAccompaniment() != null)
-                    if (act.getAccompaniment().equals(true))
-                        this.referencesStr += ", Acompa�a durante el proceso: Si";
-                    else
-                        this.referencesStr += ", Acompa�a durante el proceso: No";
+                    if (act.getAccompaniment() != null)
+                        if (act.getAccompaniment().equals(true))
+                            this.referencesStr += ", Acompa�a durante el proceso: Si";
+                        else
+                            this.referencesStr += ", Acompa�a durante el proceso: No";
 
-                if (act.getAddress() != null && !act.getAddress().equals(""))
-                    this.referencesStr += ", Direcci�n: " + act.getAddress();
+                    if (act.getAddress() != null && !act.getAddress().equals(""))
+                        this.referencesStr += ", Direcci�n: " + act.getAddress();
+                } else
+                    this.referencesStr = "El imputado no cuenta con referencias personales.";
 
             }
 
-        return referencesStr;
+        return this.referencesStr;
     }
 
     public void setReferencesStr(String referencesStr) {
@@ -829,38 +854,43 @@ public class ExcelCaseInfoDto {
 
         if (this.lstJob != null && this.lstJob.size() > 0)
             for (ExcelJobDto act : this.lstJob) {
-                if (jobsStr != "")
-                    jobsStr += "\n";
+                if (act.getBlock() == true) {
+                    if (jobsStr != "")
+                        jobsStr += "\n";
 
-                if (act.getCompany() != null && !act.getCompany().equals(""))
-                    jobsStr += "-" + act.getCompany();
+                    if (act.getCompany() != null && !act.getCompany().equals(""))
+                        jobsStr += "-" + act.getCompany();
 
-                if (act.getPost() != null && !act.getPost().equals(""))
-                    jobsStr += ", Puesto: " + act.getPost();
+                    if (act.getPost() != null && !act.getPost().equals(""))
+                        jobsStr += ", Puesto: " + act.getPost();
 
-                if (act.getNameHead() != null && !act.getNameHead().equals(""))
-                    jobsStr += ", Patr�n: " + act.getNameHead();
+                    if (act.getNameHead() != null && !act.getNameHead().equals(""))
+                        jobsStr += ", Patr�n: " + act.getNameHead();
 
-                if (act.getPhone() != null && !act.getPhone().equals(""))
-                    jobsStr += ", Tel.: " + act.getPhone();
+                    if (act.getPhone() != null && !act.getPhone().equals(""))
+                        jobsStr += ", Tel.: " + act.getPhone();
 
-                if (act.getAddress() != null && !act.getAddress().equals(""))
-                    jobsStr += ", Direcci�n: " + act.getAddress();
+                    if (act.getAddress() != null && !act.getAddress().equals(""))
+                        jobsStr += ", Direcci�n: " + act.getAddress();
 
-                if (act.getRegisterType() != null && !act.getRegisterType().equals(""))
-                    jobsStr += ", Tipo: " + act.getRegisterType();
+                    if (act.getRegisterType() != null && !act.getRegisterType().equals(""))
+                        jobsStr += ", Tipo: " + act.getRegisterType();
 
-                Long idType = act.getRegisterTypeId();
+                    Long idType = act.getRegisterTypeId();
 
-                if (idType != null && (idType.equals(Constants.REGYSTER_TYPE_CURRENT) || idType.equals(Constants.REGYSTER_TYPE_SECONDARY))) {
+                    if (idType != null && (idType.equals(Constants.REGYSTER_TYPE_CURRENT) || idType.equals(Constants.REGYSTER_TYPE_SECONDARY))) {
 
-                    jobsStr += ", Inicio: " + dateFormat.format(act.getStart());
-                    jobsStr += ", Salario semanal: $" + act.getSalary();
+                        jobsStr += ", Inicio: " + dateFormat.format(act.getStart());
+                        jobsStr += ", Salario semanal: $" + act.getSalary();
 
-                } else if (idType != null && idType.equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
-                    jobsStr += ", Inicio: " + dateFormat.format(act.getStartPrev());
-                    jobsStr += ", Fin: " + dateFormat.format(act.getEnd());
-                    jobsStr += ", Motivo de cambio: " + act.getReasonChange();
+                    } else if (idType != null && idType.equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
+                        jobsStr += ", Inicio: " + dateFormat.format(act.getStartPrev());
+                        jobsStr += ", Fin: " + dateFormat.format(act.getEnd());
+                        jobsStr += ", Motivo de cambio: " + act.getReasonChange();
+                    }
+                } else {
+                    jobsStr = "El imputado no tiene trabajo actual";
+                    break;
                 }
             }
 
@@ -885,25 +915,29 @@ public class ExcelCaseInfoDto {
 
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
-                if (drugsStr != "")
-                    drugsStr += "\n";
+                if (act.getBlock() == true) {
+                    if (drugsStr != "")
+                        drugsStr += "\n";
 
-                if (act.getDrugType() != null && !act.getDrugType().equals(""))
-                    drugsStr += "-" + act.getDrugType();
+                    if (act.getDrugType() != null && !act.getDrugType().equals(""))
+                        drugsStr += "-" + act.getDrugType();
 
-                if (act.getPeriodicity() != null && !act.getPeriodicity().equals(""))
-                    drugsStr += ", Periocidad: " + act.getPeriodicity();
+                    if (act.getPeriodicity() != null && !act.getPeriodicity().equals(""))
+                        drugsStr += ", Periocidad: " + act.getPeriodicity();
 
-                if (act.getSpecificationType() != null && !act.getSpecificationType().equals(""))
-                    drugsStr += ", Especificaci�n: " + act.getSpecificationType();
+                    if (act.getSpecificationType() != null && !act.getSpecificationType().equals(""))
+                        drugsStr += ", Especificaci�n: " + act.getSpecificationType();
 
-                if (act.getQuantity() != null && !act.getQuantity().equals(""))
-                    drugsStr += ", Cantidad: " + act.getQuantity();
+                    if (act.getQuantity() != null && !act.getQuantity().equals(""))
+                        drugsStr += ", Cantidad: " + act.getQuantity();
 
-                if (act.getLastUse() != null)
-                    drugsStr += ", �tlimo consumo: " + dateFormat.format(act.getLastUse());
+                    if (act.getLastUse() != null)
+                        drugsStr += ", �tlimo consumo: " + dateFormat.format(act.getLastUse());
+                } else {
+                    drugsStr = "El imputado no consume sustancias.";
+                    break;
+                }
             }
-
         return drugsStr;
     }
 
@@ -929,9 +963,11 @@ public class ExcelCaseInfoDto {
                 if (act.getCrime() != null && !act.getCrime().equals(""))
                     crimesStr += "-" + act.getCrime();
                 if (act.getArticle() != null && !act.getArticle().equals(""))
-                    crimesStr += ", Art�culo: " + act.getArticle();
+                    crimesStr += ", Art.: " + act.getArticle();
                 if (act.getFederal() != null && !act.getFederal().equals(""))
-                    crimesStr += ", Delito federal: " + act.getFederal();
+                    crimesStr += ", Federal: " + act.getFederal();
+                if (act.getComment() != null && !act.getComment().equals(""))
+                    crimesStr += ", Comentario: " + act.getComment();
             }
 
         return crimesStr;
@@ -1078,6 +1114,14 @@ public class ExcelCaseInfoDto {
         return dateFormat;
     }
 
+    public Boolean getImputedActualSchool() {
+        return imputedActualSchool;
+    }
+
+    public void setImputedActualSchool(Boolean imputedActualSchool) {
+        this.imputedActualSchool = imputedActualSchool;
+    }
+
     public Long getIdMonP() {
         return idMonP;
     }
@@ -1085,5 +1129,58 @@ public class ExcelCaseInfoDto {
     public void setIdMonP(Long idMonP) {
         this.idMonP = idMonP;
     }
-}
 
+    public String schoolToStr() {
+        String returnStr = "";
+
+        if (this.imputedActualSchool == true) {
+            returnStr += "Nombre: " + this.imputedSchoolName;
+            returnStr += ", Teléfono: " + this.imputedSchoolPhone;
+            returnStr += ", Dirección: " + this.imputedSchoolAddress + ", ";
+        } else
+            returnStr += "Sin estudios actuales. Último grado de estudios:\n ";
+
+        returnStr += "Nivel: " + this.imputedSchoolLevel;
+        returnStr += " Grado: " + this.imputedSchoolDegree;
+
+        return returnStr;
+    }
+
+    public List<VictimDto> getLstVictim() {
+        return lstVictim;
+    }
+
+    public void setLstVictim(List<VictimDto> lstVictim) {
+        this.lstVictim = lstVictim;
+    }
+
+    public String getVictimStr() {
+
+        victimStr = "";
+        if (this.lstVictim != null && this.lstVictim.size() > 0)
+            for (VictimDto act : this.lstVictim) {
+                if (victimStr != "")
+                    victimStr += "\n";
+
+                if (act.getFullname() != null && !act.getFullname().equals(""))
+                    victimStr += "-Nombre: " + act.getFullname();
+                if (act.getRelName() != null && !act.getRelName().equals(""))
+                    victimStr += ", Relación: " + act.getRelName();
+                if (act.getSpecification() != null && !act.getSpecification().equals(""))
+                    victimStr += " - " + act.getSpecification();
+                if (act.getAge() != null)
+                    victimStr += ", Edad: " + act.getAge();
+                if (act.getPhone() != null && !act.getPhone().equals(""))
+                    victimStr += ", Teléfono: " + act.getPhone();
+                if (act.getAddressString() != null && !act.getAddressString().equals(""))
+                    victimStr += ", Dirección: " + act.getAddressString();
+
+            }
+
+        return victimStr;
+    }
+
+    public void setVictimStr(String victimStr) {
+        this.victimStr = victimStr;
+    }
+}

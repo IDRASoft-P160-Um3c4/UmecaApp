@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.dto.CatalogDto;
+import com.umeca.model.entities.reviewer.School;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -63,6 +64,7 @@ public class FramingMeetingInfo {
     private List<CatalogDto> homes;
 
     private List<ExcelActivitiesDto> activities;
+    private SchoolDto school;
 
     public FramingMeetingInfo() {
     }
@@ -327,36 +329,40 @@ public class FramingMeetingInfo {
             if (this.references != null && this.references.size() > 0) {
                 for (FramingReferenceInfo actRef : this.references) {
 
-                    if (returnStr != "") {
-                        returnStr += "\n";
-                    }
-
                     if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
-
-                        if (actRef.getIsAccompaniment() == true) {
-                            returnStr += "-" + actRef.getName();
-                            returnStr += "," + actRef.getGenderStr();
-                            returnStr += ", " + actRef.getAge() + " años";
-                            String relationship = actRef.getRelationship();
-                            if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
-                                relationship += ": "+actRef.getSpecificationRelationship();
-                            }
-                            returnStr += ", Relación: " + relationship;
-                            returnStr += ", Ocupación" + actRef.getOccupation();
-                            returnStr += ", Lugar de ocupación: " + actRef.getOccupationPlace();
-                            returnStr += ", Teléfono: " + actRef.getPhone();
-                            returnStr += ", " + actRef.getAddressStr();
-                            returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
-                        } else {
-                            returnStr += "-" + actRef.getName();
-                            returnStr += ", Teléfono: " + actRef.getPhone();
-                            String relationship= actRef.getRelationship();
-                            if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
-                                relationship += ": "+actRef.getSpecificationRelationship();
-                            }
-                            returnStr += ", Relación: " + relationship;
-                            returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                        if (returnStr != "") {
+                            returnStr += "\n";
                         }
+
+                        if (actRef.getHasInfo() == true) {
+                            if (actRef.getIsAccompaniment() == true) {
+                                returnStr += "-" + actRef.getName();
+                                returnStr += "," + actRef.getGenderStr();
+                                returnStr += ", " + actRef.getAge() + " años";
+                                String relationship = actRef.getRelationship();
+                                if (actRef.getSpecificationRelationship() != null && !actRef.getSpecificationRelationship().equals("")) {
+                                    relationship += ": " + actRef.getSpecificationRelationship();
+                                }
+                                returnStr += ", Relación: " + relationship;
+                                returnStr += ", Ocupación" + actRef.getOccupation();
+                                returnStr += ", Lugar de ocupación: " + actRef.getOccupationPlace();
+                                returnStr += ", Teléfono: " + actRef.getPhone();
+                                returnStr += ", " + actRef.getAddressStr();
+                                returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                            } else {
+                                returnStr += "-" + actRef.getName();
+                                returnStr += ", Teléfono: " + actRef.getPhone();
+                                String relationship = actRef.getRelationship();
+                                if (actRef.getSpecificationRelationship() != null && !actRef.getSpecificationRelationship().equals("")) {
+                                    relationship += ": " + actRef.getSpecificationRelationship();
+                                }
+                                returnStr += ", Relación: " + relationship;
+                                returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                            }
+                        }
+                    } else {
+                        returnStr = "El imputado no cuenta con referencias personales.";
+                        break;
                     }
                 }
             }
@@ -374,38 +380,85 @@ public class FramingMeetingInfo {
             if (this.references != null && this.references.size() > 0) {
                 for (FramingReferenceInfo actRef : this.references) {
 
-                    if (returnStr != "") {
-                        returnStr += "\n";
-                    }
 
                     if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
-                        if (actRef.getIsAccompaniment() == true) {
-                            returnStr += "-" + actRef.getName();
-                            returnStr += "," + actRef.getGenderStr();
-                            returnStr += ", " + actRef.getAge() + " años";
-                            String relationship = actRef.getRelationship();
-                            if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
-                                relationship += ": "+actRef.getSpecificationRelationship();
-                            }
-                            returnStr += ", Relación: " + relationship;
-                            returnStr += ", Ocupación: " + actRef.getOccupation();
-                            returnStr += ", Lugar de ocupación: " + actRef.getOccupationPlace();
-                            returnStr += ", Teléfono: " + actRef.getPhone();
-                            returnStr += ", " + actRef.getAddress();
-                            returnStr += ", Escolaridad: " + actRef.getAcademicLvl() + ".";
-                            returnStr += ", Esta persona acompañará durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
-                        } else {
-                            returnStr += "-" + actRef.getName();
-                            returnStr += ", " + actRef.getAge() + " años";
-                            String relationship = actRef.getRelationship();
-                            if(actRef.getSpecificationRelationship()!=null && !actRef.getSpecificationRelationship().equals("")){
-                                relationship += ": "+actRef.getSpecificationRelationship();
-                            }
-                            returnStr += ", Relación: " + relationship;
-                            returnStr += ", Ocupación: " + actRef.getOccupation();
-                            returnStr += ", " + actRef.getAddress();
-                            returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                        if (returnStr != "") {
+                            returnStr += "\n";
                         }
+
+                        if (actRef.getHasInfo() == true) {
+                            if (actRef.getIsAccompaniment() == true) {
+                                returnStr += "-" + actRef.getName();
+                                returnStr += "," + actRef.getGenderStr();
+                                returnStr += ", " + actRef.getAge() + " años";
+                                String relationship = actRef.getRelationship();
+                                if (actRef.getSpecificationRelationship() != null && !actRef.getSpecificationRelationship().equals("")) {
+                                    relationship += ": " + actRef.getSpecificationRelationship();
+                                }
+                                returnStr += ", Relación: " + relationship;
+                                returnStr += ", Ocupación: " + actRef.getOccupation();
+                                returnStr += ", Lugar de ocupación: " + actRef.getOccupationPlace();
+                                returnStr += ", Teléfono: " + actRef.getPhone();
+                                returnStr += ", " + actRef.getAddress();
+                                returnStr += ", Escolaridad: " + actRef.getAcademicLvl() + ".";
+                                returnStr += ", Esta persona acompañará durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                            } else {
+                                returnStr += "-" + actRef.getName();
+                                returnStr += ", " + actRef.getAge() + " años";
+                                String relationship = actRef.getRelationship();
+                                if (actRef.getSpecificationRelationship() != null && !actRef.getSpecificationRelationship().equals("")) {
+                                    relationship += ": " + actRef.getSpecificationRelationship();
+                                }
+                                returnStr += ", Relación: " + relationship;
+                                returnStr += ", Ocupación: " + actRef.getOccupation();
+                                returnStr += ", " + actRef.getAddress();
+                                returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                            }
+                        }
+                    } else {
+                        returnStr = "El imputado vive solo.";
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return returnStr;
+    }
+
+    public String victimToString() {
+        String returnStr = "";
+
+        try {
+            if (this.references != null && this.references.size() > 0) {
+                for (FramingReferenceInfo actRef : this.references) {
+
+                    if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM) || actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS)) {
+
+                        if (returnStr != "") {
+                            returnStr += "\n";
+                        }
+
+                        if (actRef.getHasInfo() == true) {
+                            returnStr += "-" + actRef.getName();
+                            returnStr += ", " + actRef.getAge() + " años";
+                            if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
+                                returnStr += ", Testigo";
+                            else
+                                returnStr += ", Víctima";
+                            String relationship = actRef.getRelationship();
+                            if (actRef.getSpecificationRelationship() != null && !actRef.getSpecificationRelationship().equals("")) {
+                                relationship += ": " + actRef.getSpecificationRelationship();
+                            }
+                            returnStr += ", Relación: " + relationship;
+                            returnStr += ", Teléfono: " + actRef.getPhone();
+                            returnStr += ", " + actRef.getAddressStr();
+                        }
+                    } else {
+                        returnStr = "No existe información de víctimas o testigos";
+                        break;
                     }
                 }
             }
@@ -768,5 +821,29 @@ public class FramingMeetingInfo {
 
     public void setSpecificationRelationship(String specificationRelationship) {
         this.specificationRelationship = specificationRelationship;
+    }
+
+    public SchoolDto getSchool() {
+        return school;
+    }
+
+    public void setSchool(SchoolDto school) {
+        this.school = school;
+    }
+
+    public String schoolToStr() {
+        String returnStr = "";
+
+        if (this.school.getHasActualSchool() == true) {
+            returnStr += "Nombre: " + this.school.getName();
+            returnStr += ", Teléfono: " + this.school.getPhone();
+            returnStr += ", Dirección: " + this.school.getAddress() + ", ";
+        } else
+            returnStr += "Sin estudios actuales. Último grado de estudios:\n ";
+
+        returnStr += "Nivel: " + this.school.getAcademicLvlStr() + ", ";
+        returnStr += " Grado: " + this.school.getDegreeStr();
+
+        return returnStr;
     }
 }

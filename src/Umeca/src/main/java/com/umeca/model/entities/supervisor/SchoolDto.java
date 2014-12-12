@@ -14,6 +14,42 @@ public class SchoolDto {
     private String specification;
     private Boolean hasActualSchool;
 
+    private String academicLvlStr;
+    private String degreeStr;
+
+    public SchoolDto() {
+
+    }
+
+    public SchoolDto(Long idCase, String name, String phone, String address, String commentSchool, String specification, Boolean hasActualSchool, String academicLvlStr, String degreeStr) {
+        this.idCase = idCase;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.commentSchool = commentSchool;
+        this.specification = specification;
+        this.hasActualSchool = hasActualSchool;
+        this.academicLvlStr = academicLvlStr;
+        this.degreeStr = degreeStr;
+    }
+
+    public String getAcademicLvlStr() {
+
+        return academicLvlStr;
+    }
+
+    public void setAcademicLvlStr(String academicLvlStr) {
+        this.academicLvlStr = academicLvlStr;
+    }
+
+    public String getDegreeStr() {
+        return degreeStr;
+    }
+
+    public void setDegreeStr(String degreeStr) {
+        this.degreeStr = degreeStr;
+    }
+
     public Long getId() {
         return id;
     }

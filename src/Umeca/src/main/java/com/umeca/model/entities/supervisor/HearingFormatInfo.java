@@ -104,7 +104,8 @@ public class HearingFormatInfo {
     public String dateToStr(Date date) {
         String str = "";
         try {
-            str = dateFormat.format(date);
+            if (date != null)
+                str = dateFormat.format(date);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -115,7 +116,8 @@ public class HearingFormatInfo {
     public String timeToStr(Date time) {
         String str = "";
         try {
-            str = timeFormat.format(time);
+            if (time != null)
+                str = timeFormat.format(time);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -126,7 +128,8 @@ public class HearingFormatInfo {
     public String calendarToStr(Calendar calendar) {
         String str = "";
         try {
-            str = timeStampFormat.format(calendar.getTime());
+            if (calendar != null)
+                str = timeStampFormat.format(calendar.getTime());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

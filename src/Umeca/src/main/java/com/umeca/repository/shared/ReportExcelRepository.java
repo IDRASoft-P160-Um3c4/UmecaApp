@@ -225,7 +225,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
 
     @Query("select new com.umeca.model.entities.supervisor.FramingReferenceInfo" +
             "(CD.id,REF.name,REF.phone,REL.name,REF.address,REF.age,REF.occupation,REF.personType,REF.isAccompaniment," +
-            "AI.gender,AI.occupationPlace,AL.name,ADD.addressString,REF.specificationRelationship) " +
+            "AI.gender,AI.occupationPlace,AL.name,ADD.addressString,REF.specificationRelationship, REF.hasVictimWitnessInfo) " +
             "from Case CD " +
             "inner join CD.framingMeeting FM " +
             "inner join FM.references REF " +
@@ -233,7 +233,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "left join REF.accompanimentInfo AI " +
             "left join AI.address ADD " +
             "left join AI.academicLevel AL " +
-            "where (CD.id in (:lstCasesIds))")
+            "where (CD.id in (:lstCasesIds)) group by REf.personType, REF.hasVictimWitnessInfo")
     List<FramingReferenceInfo> getFramingReferenceInfo(@Param("lstCasesIds") List<Long> lstCasesIds);
 
     @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id,ADD.addressString) from Case CD " +
@@ -243,13 +243,13 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (CD.id in (:lstCasesIds))")
     List<CatalogDto> getFramingHomes(@Param("lstCasesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelDrugDto(CDET.id, DT.name, PER.name, DRUG.quantity, DRUG.lastUse, DRUG.specificationType, DRUG.specificationPeriodicity) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelDrugDto(CDET.id, DT.name, PER.name, DRUG.quantity, DRUG.lastUse, DRUG.specificationType, DRUG.specificationPeriodicity, DRUG.block) " +
             "from Case CDET " +
             "left join CDET.framingMeeting FM " +
             "left join FM.drugs DRUG " +
             "left join DRUG.periodicity PER " +
             "left join DRUG.drugType DT " +
-            "where CDET.id in (:lstCasesIds)")
+            "where CDET.id in (:lstCasesIds) order by DRUG.block")
     List<ExcelDrugDto> getFramingInfoDrugs(@Param("lstCasesIds") List<Long> lstCasesIds);
 
     @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id,REL.name) from Case CD " +
@@ -310,5 +310,15 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "left join RFMA.activity ACT " +
             "where CDET.id in (:casesIds)")
     List<ExcelActivitiesDto> getFramingImputedActivities(@Param("casesIds") List<Long> lstCasesIds);
+
+
+    @Query("select new com.umeca.model.entities.supervisor.SchoolDto(CD.id,SCH.name, SCH.name, SCH.address, FM.schoolComments, SCH.specification,SCH.block,AL.name, DEG.name) from Case CD " +
+            "inner join CD.framingMeeting FM " +
+            "inner join FM.school SCH " +
+            "inner join SCH.degree DEG " +
+            "inner join DEG.academicLevel AL " +
+            "inner join FM.school SCH " +
+            "where CD.id in (:casesIds)")
+    List<SchoolDto> getAllFramingSchool(@Param("casesIds") List<Long> lstCasesIds);
 
 }
