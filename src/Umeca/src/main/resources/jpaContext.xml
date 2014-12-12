@@ -29,7 +29,7 @@
 		<property name="jpaPropertyMap">
 			<map>
 				<entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
-				<entry key="hibernate.hbm2ddl.auto" value="none" />
+				<entry key="hibernate.hbm2ddl.auto" value="update" />
 				<entry key="hibernate.format_sql" value="true" />
 			</map>
 		</property>
@@ -58,9 +58,9 @@
         <!--<property name="url" value="jdbc:mysql://s155.eatj.com:3307/inademo?autoReconnect=true" />-->
         <!--<property name="username" value="inademo" />-->
         <!--<property name="password" value="bemeinademo" />-->
-		<property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true" />
+		<property name="url" value="jdbc:mysql://localhost:3306/sgumecatest?autoReconnect=true" />
 		<property name="username" value="root" />
-        <property name="password" value="s@lp@ssw04rD$$" />
+        <property name="password" value="root" />
 	</bean>
 
 </beans>

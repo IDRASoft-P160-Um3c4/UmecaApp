@@ -23,4 +23,5 @@ public interface CrimeService {
 
     List<CrimeDto> fromListToStringCrime(List<Crime> lstCrimes);
 
+    String convertListCaseToCaseLog(List<String> listCrime);
 }

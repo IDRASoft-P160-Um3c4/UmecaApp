@@ -112,6 +112,9 @@ public class HearingFormat {
     @OneToMany(mappedBy="hearingFormat", cascade={CascadeType.ALL})
     private List<Crime> crimeList;
 
+    @Column(name="show_notification")
+    private Boolean showNotification;
+
     @Transient
     public static final Comparator<HearingFormat> hearingFormatComparator = new Comparator<HearingFormat>() {
         @Override
@@ -358,5 +361,13 @@ public class HearingFormat {
 
     public void setPreviousHearing(Integer previousHearing) {
         this.previousHearing = previousHearing;
+    }
+
+    public Boolean getShowNotification() {
+        return showNotification;
+    }
+
+    public void setShowNotification(Boolean showNotification) {
+        this.showNotification = showNotification;
     }
 }

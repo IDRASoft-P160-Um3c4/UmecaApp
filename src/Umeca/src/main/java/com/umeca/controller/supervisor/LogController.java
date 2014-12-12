@@ -144,7 +144,7 @@ public class LogController {
             List<SelectList> lstGeneric = new ArrayList<>();
             //Find last hearing format to get last assigned arrangements
             logCaseService.fillgeneralDataLog(caseId, model);
-
+            model.addObject("titleDoc","ESTRATEGIA DE SUPERVISI&Oacute;N");
             model.addObject("caseId", caseId);
 
             lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);

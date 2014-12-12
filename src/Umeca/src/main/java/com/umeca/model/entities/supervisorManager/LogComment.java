@@ -2,7 +2,7 @@ package com.umeca.model.entities.supervisorManager;
 
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisor.MonitoringPlan;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -42,7 +42,7 @@ public class LogComment {
     private Calendar timestamp;
 
     @Lob @Basic(fetch=FetchType.LAZY)
-    @Column(name = "comments", nullable = false, length = 500)
+    @Column(name = "comments", nullable = false, length = 1000)
     private String comments;
 
     @OneToOne(fetch=FetchType.LAZY)

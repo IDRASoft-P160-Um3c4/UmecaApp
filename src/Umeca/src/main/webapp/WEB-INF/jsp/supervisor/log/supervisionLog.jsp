@@ -17,8 +17,8 @@
 <div ng-init='lstHfAssignedArrangement = ${lstHfAssignedArrangement}; lstActivities = ${lstActivities};  mpId =${mpId}; caseId =${caseId};
     lstGoals = ${lstGoals}; lstSources = ${lstSources}; lstActMonPlan = ${lstActMonPlan}; lstActMonPlanArrangement = ${lstActMonPlanArrangement}; constructActMonPlan();'></div>
 
-<h4 class="element-center">DIRECCI&Oacute;N DE EJECUCI&Oacute;N DE PENAS Y MEDIDAS JUDICIALES</h4>
-<h4 class="element-center">UNIDAD DE VIGILANCIA Y SEGUIMIENTO DE MEDIDAS JUDICIALES</h4>
+<h4 class="element-center">${titleDoc == null? "ESTRATEGIA DE SUPERVISI&Oacute;N":titleDoc}</h4>
+
 
 <div class="hr hr8"></div>
 <%@ include file="/WEB-INF/jsp/shared/generalDataLog.jsp" %>

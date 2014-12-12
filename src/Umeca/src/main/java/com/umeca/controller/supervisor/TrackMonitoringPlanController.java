@@ -144,6 +144,7 @@ public class TrackMonitoringPlanController {
             model.addObject("monitoringPlanId", -1);
         } else {
             model.addObject("monitoringPlanId", id);
+            trackMonPlanService.notificationNewHearingFormat(id, model);
         }
 
         model.addObject("urlGetActivities", "/supervisor/trackMonitoringPlan/getActivities.json");

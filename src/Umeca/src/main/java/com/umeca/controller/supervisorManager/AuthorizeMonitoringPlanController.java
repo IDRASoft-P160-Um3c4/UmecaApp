@@ -1,21 +1,22 @@
 package com.umeca.controller.supervisorManager;
 
-import com.umeca.infrastructure.PojoValidator;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
-import com.umeca.infrastructure.security.BcryptUtil;
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
-import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisor.MonitoringPlan;
+import com.umeca.model.entities.supervisor.MonitoringPlanView;
+import com.umeca.model.entities.supervisor.RequestActivities;
+import com.umeca.model.entities.supervisor.ResponseActivities;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.shared.SelectFilterFields;
-import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -107,7 +108,11 @@ public class AuthorizeMonitoringPlanController {
     ModelAndView generate(@RequestParam(required = false) Long id, @RequestParam(required = false) Long ret){ //Id monitoring plan
         try{
             ModelAndView model = new ModelAndView("/supervisor/trackMonitoringPlan/trackCalendar");
-
+            Long idUser = sharedUserService.GetLoggedUserId();
+            if(sharedUserService.isUserInRole(idUser,Constants.ROLE_SUPERVISOR_MANAGER)){
+                idUser = 0L;
+                id = null;
+            }
             if(id == null){
                 model.addObject("monitoringPlanId",-1);
             }
@@ -118,6 +123,11 @@ public class AuthorizeMonitoringPlanController {
             model.addObject("urlGetActivities","/supervisorManager/authorizeMonitoringPlan/getActivities.json");
             model.addObject("urlShowActivity","/supervisorManager/authorizeMonitoringPlan/showActivity.html");
 
+
+            model.addObject("idUser", idUser);
+            trackMonPlanService.setLstActivitiesSupervision(model);
+            trackMonPlanService.setListCaseFilter(model, idUser);
+            trackMonPlanService.setListUserFilter(model, idUser);
             if(ret == null || ret == 0){
                 model.addObject("urlReturn","/supervisorManager/authorizeMonitoringPlan/index.html");
             }else if(ret == 1){
@@ -125,7 +135,8 @@ public class AuthorizeMonitoringPlanController {
             }
 
             trackMonPlanService.setLstActivitiesSupervision(model);
-
+            Long idCase = monitoringPlanRepository.getCaseIdByMonPlan(id);
+            model.addObject("caseId", idCase);
             return model;
         }catch(Exception e){
             return null;

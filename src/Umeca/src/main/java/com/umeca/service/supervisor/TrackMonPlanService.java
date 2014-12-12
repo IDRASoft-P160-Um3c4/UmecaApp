@@ -31,4 +31,6 @@ public interface TrackMonPlanService {
     void setLstActivitiesSupervision(ModelAndView model);
     void setListCaseFilter(ModelAndView model, Long idUser);
     void setListUserFilter(ModelAndView model, Long idUser);
+
+    void notificationNewHearingFormat(Long monId, ModelAndView model);
 }

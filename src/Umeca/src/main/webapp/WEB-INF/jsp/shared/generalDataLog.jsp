@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="panel panel-default panel-primary">
-    <div class="panel-heading" ng-init='titleDoc = "${titleDoc == null? "PLAN DE ESTRATEGIAS Y BIT&Aacute;CORA DE SUPERVISI&Oacute;N":titleDoc}"'>
+    <div class="panel-heading" ng-init='titleDoc = "${titleDoc == null? "ESTRATEGIA DE SUPERVISI&Oacute;N":titleDoc}"'>
         <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;<span ng-bind-html="formatHtml(titleDoc)"></span>
 
     </div>

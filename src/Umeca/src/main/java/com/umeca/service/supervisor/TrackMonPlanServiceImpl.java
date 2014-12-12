@@ -14,10 +14,10 @@ import com.umeca.model.entities.supervisorManager.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
+import com.umeca.model.shared.SharedSystemSetting;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
-import com.umeca.repository.catalog.RequestTypeRepository;
 import com.umeca.repository.catalog.ResponseTypeRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.shared.MessageRepository;
@@ -25,11 +25,12 @@ import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogChangeSupervisorRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
-import com.umeca.service.account.SharedUserService;
-import com.umeca.service.shared.CaseRequestService;
-import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.reviewer.CaseService;
+import com.umeca.service.shared.CaseRequestService;
+import com.umeca.service.shared.LogCaseService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
@@ -70,24 +71,25 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
 
     @Override
     public void getLstActivitiesByUserAndFilters(RequestActivities req, Long userId, ArrayList<String> lstMonPlanStatus, ArrayList<String> lstActStatus, ResponseActivities response) {
-        List<Long> lstCaseId = new ArrayList<>();
-        if(req.getCaseFilterId()>0){
-            lstCaseId.add(req.getCaseFilterId());
-        }else{
-            Integer filterCase = Integer.parseInt(req.getCaseFilterId().toString());
-            switch (filterCase){
-                case 0:
-//                    lstCaseId = monitoringPlanRepository.findAllCaseIdByIdSupervisor(userId);
-                    break;
-                case -1:
-                    break;
-                case -2:
-                    break;
-            }
+        Calendar referenceDate = Calendar.getInstance();
+        Long milDate = referenceDate.getTimeInMillis();
+        Long millisecondsToAuthorize = SharedSystemSetting.MonPlanHoursToAuthorize*SharedSystemSetting.MILISECONDS_PER_HOUR;
+        milDate = milDate-millisecondsToAuthorize;
+        referenceDate.setTimeInMillis(milDate);
+        Integer findActive = 0, findBlock= 0;
+        Long findCase = req.getCaseFilterId() < 0 ? 0L: req.getCaseFilterId();
+        if(req.getCaseFilterId().equals(MonitoringConstants.FILTER_ACTIVE_CASE)){
+           findActive = 1;
+        }else if(req.getCaseFilterId().equals(MonitoringConstants.FILTER_SUSPENDED_CASE)){
+            findBlock = 1;
+        }
+        if(sharedUserService.isUserInRole(userId,Constants.ROLE_SUPERVISOR)){
+            req.setUserFilterId(userId);
         }
         List<ActivityMonitoringPlanResponse> lstAllActivities =
-                activityMonitoringPlanRepository.getAllActivitiesWithFilters(userId, lstMonPlanStatus, lstActStatus,
-                        (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd(), req.getActivityId());
+                activityMonitoringPlanRepository.getAllActivitiesWithFilters(lstMonPlanStatus, lstActStatus,
+                        (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd(), req.getActivityId(),
+                        req.getUserFilterId(),findCase, findBlock,referenceDate,findActive);
         response.setLstMonPlanActivities(lstAllActivities);
 
         List<MonitoringPlanDto> lstMonPlanSus = activityMonitoringPlanRepository.getAllMonPlanWithFilters(userId, lstMonPlanStatus, lstActStatus,
@@ -333,6 +335,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     public void setListCaseFilter(ModelAndView model, Long idUser) {
         Gson gson = new Gson();
         List<SelectList> lstGeneric = monitoringPlanRepository.findAllCaseByIdSupervisor(idUser, MonitoringConstants.LST_STATUS_AUTHORIZE_READY);
+
         lstGeneric.add(0,new SelectList(0L, "--Todos los casos--",""));
         lstGeneric.add(1,new SelectList(-1L, "Casos activos",""));
         lstGeneric.add(2,new SelectList(-2L, "Casos suspendidos",""));
@@ -348,9 +351,36 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
             lstGeneric.add(new SelectList(idUser,"UserLog"));
         }else{
             lstGeneric = sharedUserService.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-            lstGeneric.add(new SelectList(0L,"--Todos--",""));
+            lstGeneric.add(0,new SelectList(0L,"--Todos los supervisores--",""));
         }
         model.addObject("lstUser",gson.toJson(lstGeneric));
+    }
+
+    @Autowired
+    HearingFormatRepository hearingFormatRepository;
+    @Autowired
+    LogCaseService logCaseService;
+
+    @Transactional
+    @Override
+    public void notificationNewHearingFormat(Long monId, ModelAndView model) {
+        try{
+        List<Long> listId = hearingFormatRepository.getLastHearingFormatByMonPlan(monId, new PageRequest(0, 1));
+        Long hearingFormatId =listId.get(0);
+        Boolean showNotification = hearingFormatRepository.getShowNotificationByIdFormat(hearingFormatId);
+        if(showNotification){
+            HearingFormat hf = hearingFormatRepository.findOne(listId.get(0));
+            String resume = "<strong>Registrado por:</strong> "+hf.getSupervisor().getFullname()+"<br/>";
+            resume += logCaseService.generateResumeOfHearingFormat(hearingFormatId);
+            model.addObject("infoHearingFormat",resume);
+            hf.setShowNotification(false);
+            hearingFormatRepository.save(hf);
+        }
+        }catch (Exception e){
+            model.addObject("infoHearingFormat","No fue posible obtener informaci&oacute;n del &uacute;ltimo formato de audiencia registrado.");
+        }
+
+
     }
 
     @Override
