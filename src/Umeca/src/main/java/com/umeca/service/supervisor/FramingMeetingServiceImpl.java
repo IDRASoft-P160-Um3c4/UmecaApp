@@ -1293,23 +1293,40 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
             List<String> lsSN = new ArrayList<>();
             List<String> lsR = new ArrayList<>();
+            List<String> lsVic = new ArrayList<>();
+            List<String> lsJob = new ArrayList<>();
+            List<String> lsSchool = new ArrayList<>();
+            List<String> lsDrug = new ArrayList<>();
+
             if (existFraming.getPersonalData() == null) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Datos personales y entorno social\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("imputed", ls));
             }
 
+            List<String> lsDom = new ArrayList<>();
+
             if (existFraming.getFramingAddresses() == null || !(existFraming.getFramingAddresses().size() > 0)) {
-                List<String> ls = new ArrayList<>();
-                ls.add("Debe capturar al menos un registro en la secci&oacute;n \"Domicilios\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome", ls));
+                lsDom.add("Debe capturar al menos un registro en la secci&oacute;n \"Domicilios\".");
+            } else {
+                Boolean isComplete = true;
+                for (FramingAddress act : existFraming.getFramingAddresses()) {
+                    if (act.isComplete() == false) {
+                        isComplete = false;
+                        break;
+                    }
+                }
+                if (isComplete == false) {
+                    lsDom.add("Debe proporcionar toda la informaci&oacute;n para cada domicilio.");
+                }
             }
 
             if (existFraming.getAddressComments() == null) {
-                List<String> ls = new ArrayList<>();
-                ls.add("Debe capturar las observaiones para la secci&oacute;n \"Domicilios\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome", ls));
+                lsDom.add("Debe capturar las observaiones para la secci&oacute;n \"Domicilios\".");
             }
+
+            if (lsDom.size() > 0)
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome", lsDom));
 
 //            if (existFraming.getProcessAccompaniment() == null)
 //                if (sb.toString().equals(""))
@@ -1338,9 +1355,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     lsR.add("Debe capturar al menos una registro en en la secci&oacute;n \"Referencias personales\".");
                 }
                 if (noVictims == 0) {
-                    List<String> ls = new ArrayList<>();
-                    ls.add("Debe capturar al menos una registro en en la secci&oacute;n \"V&iacute;ctimas o testigos\".");
-                    validate.getGroupMessage().add(new GroupMessageMeetingDto("victim", ls));
+                    lsVic.add("Debe capturar al menos una registro en en la secci&oacute;n \"V&iacute;ctimas o testigos\".");
                 }
 
             } else {
@@ -1350,16 +1365,24 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             int bandHM = 0;
             int bandREF = 0;
+            int bandIncompHM = 0;
 
             if (existFraming.getReferences() != null && existFraming.getReferences().size() > 0) {
                 for (FramingReference act : existFraming.getReferences()) {
                     if (act.getIsAccompaniment() != null && act.getIsAccompaniment() == true && act.getAccompanimentInfo() == null) {
-                        if (act.getPersonType() != null && act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
+                        if (act.getPersonType() != null && act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
                             bandHM++;
-                        else if (act.getPersonType() != null && act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
+//                            if (act.getOccupation() == null || act.getOccupation().trim().equals(""))
+//                                bandIncompHM++;
+                        } else if (act.getPersonType() != null && act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
                             bandREF++;
                     }
                 }
+            }
+
+
+            if (bandIncompHM > 0) {
+                lsSN.add("Debe completar la informaci&oacute;n de todas las persona registrada en la secci&oacute;n \"Personas que viven con el imputado\".");
             }
 
             if (bandHM > 0) {
@@ -1377,9 +1400,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 lsR.add("Debe capturar las observaciones para la secci&oacute;n \"Referencias personales\".");
 
             if (existFraming.getVictimComments() == null) {
-                List<String> ls = new ArrayList<>();
-                ls.add("Debe capturar las observaciones para la secci&oacute;n \"V&iacute;ctimas y testigos\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("victim", ls));
+                lsVic.add("Debe capturar las observaciones para la secci&oacute;n \"V&iacute;ctimas y testigos\".");
             }
 
 
@@ -1389,7 +1410,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (lsR.size() > 0) {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("reference", lsR));
             }
-
+            if (lsVic.size() > 0) {
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("victim", lsVic));
+            }
 
 //            if (existFraming.getOccupation() == null || existFraming.getRelFramingMeetingActivities() == null || !(existFraming.getRelFramingMeetingActivities().size() > 0)) {
 //                List<String> ls = new ArrayList<>();
@@ -1397,15 +1420,13 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 //                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", ls));
 //            }
             if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0)) {
-                List<String> ls = new ArrayList<>();
-                ls.add("Debe capturar al menos una registro en en la secci&oacute;n \"Consumo de sustancias\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("drug", ls));
+                lsDrug.add("Debe capturar al menos una registro en en la secci&oacute;n \"Consumo de sustancias\".");
             }
-
             if (existFraming.getDrugsComments() == null) {
-                List<String> ls = new ArrayList<>();
-                ls.add("Debe capturar las observaciones para la secci&oacute;n \"Consumo de sustancias\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("drug", ls));
+                lsDrug.add("Debe capturar las observaciones para la secci&oacute;n \"Consumo de sustancias\".");
+            }
+            if (lsDrug.size() > 0) {
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("drug", lsDrug));
             }
 
 //            if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
@@ -1415,12 +1436,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"An&aacute;isis del entorno\".");
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("analysis", ls));
             }
-            if (existFraming.getAdditionalFramingQuestions() == null) {
-                List<String> ls = new ArrayList<>();
-                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Formulario de preguntas al supervisado\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("question", ls));
-            }
-
             if (existFraming.getAdditionalFramingQuestions() == null) {
                 List<String> ls = new ArrayList<>();
                 ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Formulario de preguntas al supervisado\".");
@@ -1442,39 +1457,53 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             if (existFraming.getSchool() == null) {
-                List<String> arrMsg = new ArrayList<>();
-                arrMsg.add(sharedUserService.convertToValidString("Debe proporcionar la información faltante en la secci&oacute;n \"Historia escolar\"."));
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("school", arrMsg));
+                lsSchool.add(sharedUserService.convertToValidString("Debe proporcionar la informaci&oacute;n faltante en la secci&oacute;n \"Historia escolar\"."));
+            } else if (existFraming.getSchool().getBlock() == true && (existFraming.getSchool().getSchedule() == null || !(existFraming.getSchool().getSchedule().size() > 0))) {
+                lsSchool.add(sharedUserService.convertToValidString("Debe proporcionar la informaci&oacute;n faltante en la secci&oacute;n \"Historia escolar\"."));
             }
             if (existFraming.getSchoolComments() == null) {
-                List<String> ls = new ArrayList<>();
-                ls.add("Debe capturar las observaciones para la secci&oacute;n \"Historia escolar\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("school", ls));
+                lsSchool.add("Debe capturar las observaciones para la secci&oacute;n \"Historia escolar\".");
             }
 
+            if (lsSchool.size() > 0) {
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("school", lsSchool));
+            }
 
             if (existFraming.getJobs() == null || !(existFraming.getJobs().size() > 0)) {
-                List<String> arrMsg = new ArrayList<>();
-                arrMsg.add("Debe capturar al menos un trabajo en la secci&oacute;n \"Historia laboral\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("job", arrMsg));
+                lsJob.add("Debe capturar al menos un trabajo en la secci&oacute;n \"Historia laboral\".");
             }
 
             if (existFraming.getJobComments() == null) {
-                List<String> arrMsg = new ArrayList<>();
-                arrMsg.add("Debe capturar las observaciones para la secci&oacute;n \"Historia laboral\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("job", arrMsg));
+                lsJob.add("Debe capturar las observaciones para la secci&oacute;n \"Historia laboral\".");
             }
 
+            if (lsJob.size() > 0) {
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("job", lsJob));
+            }
+
+            List<String> arrMsgAct = new ArrayList<>();
             if (existFraming.getActivities() == null || !(existFraming.getActivities().size() > 0)) {
-                List<String> arrMsg = new ArrayList<>();
-                arrMsg.add("Debe capturar al menos una actividad en la secci&oacute;n \"Actividades que realiza el imputado\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", arrMsg));
+                arrMsgAct.add("Debe capturar al menos una actividad en la secci&oacute;n \"Actividades que realiza el imputado\".");
+            } else {
+                Boolean bandAct = true;
+                for (FramingActivity act : existFraming.getActivities()) {
+                    if (act.getListSchedule() == null || act.getListSchedule().size() == 0) {
+                        bandAct = false;
+                        break;
+                    }
+                }
+
+                if (bandAct == false) {
+                    arrMsgAct.add("Debe capturar la informaci&oacute;n faltante para cada actividad.");
+                }
             }
 
             if (existFraming.getActivitiesComments() == null) {
-                List<String> arrMsg = new ArrayList<>();
-                arrMsg.add("Debe capturar las observaciones para la secci&oacute;n \"Actividades que realiza el imputado\".");
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", arrMsg));
+                arrMsgAct.add("Debe capturar las observaciones para la secci&oacute;n \"Actividades que realiza el imputado\".");
+            }
+
+            if (arrMsgAct.size() > 0) {
+                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", arrMsgAct));
             }
 
             if (validate.existsMessageProperties()) {
@@ -1975,7 +2004,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setRegisterTypeId(existJob.getRegisterType().getId());
             view.setBlock(existJob.getBlock());
 
-            if (existJob.getBlock() == true) {
+            if (existJob.getBlock() != null && existJob.getBlock() == true) {
                 if (existJob.getStart() != null)
                     view.setStart(sdf.format(existJob.getStart()));
                 if (existJob.getStartPrev() != null)
@@ -2338,6 +2367,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         lstElements.add(element);
 
         element = new FramingLogElement();
+        element.setFieldName("");
+        element.setNewRow(true);
+        lstElements.add(element);
+
+        element = new FramingLogElement();
         element.setFieldName("Observaciones");
         element.setValue(personalData.getComments());
         lstElements.add(element);
@@ -2365,7 +2399,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         element.setFieldName("Direcci&oacute;n");
         element.setValue(framingAddressDto.getAddressStr());
-        element.setNewRow(true);
         lstElements.add(element);
 
         element = new FramingLogElement();
@@ -2431,6 +2464,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             lstElements.add(element);
         }
 
+        element = new FramingLogElement();
+        element.setFieldName("");
+        element.setNewRow(true);
+        lstElements.add(element);
+
         framingMeetingLog.setTitle("Domicilio");
         framingMeetingLog.setFramingMeeting(framingMeeting);
         framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
@@ -2452,7 +2490,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         element.setFieldName("Nombre");
         element.setValue(reference.getName());
-        element.setNewRow(true);
         lstElements.add(element);
 
         if (reference.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
@@ -2630,6 +2667,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
         }
 
+        element = new FramingLogElement();
+        element.setFieldName("");
+        element.setNewRow(true);
+        lstElements.add(element);
+
         framingMeetingLog.setFramingMeeting(framingMeeting);
         framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
         framingMeetingLog.setLogDate(CalendarExt.getToday());
@@ -2709,6 +2751,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
         }
 
+        element = new FramingLogElement();
+        element.setFieldName("");
+        element.setNewRow(true);
+        lstElements.add(element);
+
         framingMeetingLog.setTitle("Historia escolar");
         framingMeetingLog.setFramingMeeting(framingMeeting);
         framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
@@ -2728,7 +2775,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         if (view.getBlock() != null && view.getBlock().equals(true)) {
             element.setFieldName("Empresa");
             element.setValue(view.getCompany());
-            element.setNewRow(true);
             lstElements.add(element);
 
             element = new FramingLogElement();
@@ -2800,6 +2846,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             lstElements.add(element);
         }
 
+        element = new FramingLogElement();
+        element.setFieldName("");
+        element.setNewRow(true);
+        lstElements.add(element);
+
         framingMeetingLog.setTitle("Historia laboral");
         framingMeetingLog.setFramingMeeting(framingMeeting);
         framingMeetingLog.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
@@ -2820,7 +2871,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         element.setFieldName("Actividad");
         element.setValue(activityRepository.findOne(view.getIdActivity()).getName());
-        element.setNewRow(true);
         lstElements.add(element);
 
         element = new FramingLogElement();
@@ -2831,6 +2881,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         element = new FramingLogElement();
         element.setFieldName("Disponibilidad");
         element.setValue(view.getLstSchedule());
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("");
+        element.setNewRow(true);
         lstElements.add(element);
 
         framingMeetingLog.setTitle("Actividades que realiza el imputado");
@@ -2860,7 +2915,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             element.setFieldName("Sustancia");
             element.setValue(drug.getDrugType().getName());
-            element.setNewRow(true);
             lstElements.add(element);
 
             element = new FramingLogElement();
@@ -2887,6 +2941,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             element.setValue(drug.getOnsetAge());
             lstElements.add(element);
         }
+
+        element = new FramingLogElement();
+        element.setFieldName("");
+        element.setNewRow(true);
+        lstElements.add(element);
 
         framingMeetingLog.setTitle("Consumo de sustancias");
         framingMeetingLog.setFramingMeeting(framingMeeting);
@@ -3027,6 +3086,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         }
 
         element = new FramingLogElement();
+        element.setFieldName("");
+        element.setNewRow(true);
+        lstElements.add(element);
+
+        element = new FramingLogElement();
         element.setFieldName("Observaciones");
         element.setValue(view.getObservations());
         lstElements.add(element);
@@ -3054,9 +3118,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<Long> idsSelectedRisks = new Gson().fromJson(view.getLstSelectedRisk(), listType);
         List<Long> idsSelectedThreats = new Gson().fromJson(view.getLstSelectedThreat(), listType);
         List<SelectList> sources = new ArrayList<>();
-        if(idsSelectedSources!= null && idsSelectedSources.size()>0){
+
+        if (idsSelectedSources != null && idsSelectedSources.size() > 0) {
             sources = framingMeetingRepository.getEnvironmentSources(framingMeeting.getId(), idsSelectedSources);
         }
+
         List<String> risk = framingMeetingRepository.getRiskByFramingId(framingMeeting.getId(), idsSelectedRisks);
         List<String> threat = framingMeetingRepository.getRThreatByFramingId(framingMeeting.getId(), idsSelectedThreats);
         List<String> arrangements = new Gson().fromJson(view.getLstSelectedArrangement(), new TypeToken<List<String>>() {
@@ -3064,20 +3130,26 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         element.setFieldName("V&iacute;nculos, v&iacute;ctimas y testigos");
         String cad = "";
-        for (SelectList act : sources) {
 
-            if (cad != "")
-                cad += "; ";
-            cad += act.getName();
-            if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
-                cad += ", vive con el imputado";
-            else if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
-                cad += ", referencia personal";
-            else if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM))
-                cad += ", v&iacute;ctima";
-            else if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
-                cad += ", testigo";
+        if (sources != null && sources.size() > 0) {
+            for (SelectList act : sources) {
+
+                if (cad != "")
+                    cad += "; ";
+                cad += act.getName();
+                if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
+                    cad += ", vive con el imputado";
+                else if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
+                    cad += ", referencia personal";
+                else if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM))
+                    cad += ", v&iacute;ctima";
+                else if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
+                    cad += ", testigo";
+            }
+        } else {
+            cad = "No se seleccion&oacute; ninguno.";
         }
+
         element.setValue(cad);
         lstElements.add(element);
 
@@ -3112,6 +3184,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             cad += act;
         }
         element.setValue(cad);
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("");
+        element.setNewRow(true);
         lstElements.add(element);
 
         element = new FramingLogElement();

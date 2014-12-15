@@ -94,7 +94,7 @@
 <div id="divPhoto" ng-controller="modalDlgController">
 </div>
 
-<div clss="container body-content" id="divFM" ng-controller="framingMeetingController"
+<div class="container body-content" id="divFM" ng-controller="framingMeetingController"
      ng-init='fm.objView=${objView}; returnId=${returnId};
      urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";
      urlIndex="<c:url value='/supervisor/framingMeeting/index.html'/>";'
@@ -104,6 +104,7 @@
 
 <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
 
+<div class="col-xs-12">
 <div class="row">
     <div class="col-xs-10">
         <div class="row">
@@ -119,7 +120,7 @@
                     &nbsp;&nbsp;&nbsp;<label>${resolution}</label>
                 </h3>
             </div>
-            <div class="col-xs-5">
+            <div class="col-xs-4">
                 <h3 class="header smaller lighter blue">
                     <small>Supervisor:</small>
                     &nbsp;
@@ -738,10 +739,10 @@
                     </span>
     </div>
 </div>
-
+</div>
 <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
 <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>
-
+</div>
 </body>
 </html>
