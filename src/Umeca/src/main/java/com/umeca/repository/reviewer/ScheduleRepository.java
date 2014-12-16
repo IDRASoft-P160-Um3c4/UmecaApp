@@ -62,4 +62,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             "inner join S.job J " +
             "where J.id = :jobId")
     List<Schedule> getScheduleByJobId(@Param("jobId") Long jobId);
+
+    @Query("select  new com.umeca.model.catalog.dto.ScheduleDto(S.id, S.day,S.start,S.end) from Schedule S " +
+            "inner join S.framingActivity ACT " +
+            "where ACT.id = :activityId")
+    List<ScheduleDto> getScheduleByFramingActivityId(@Param("activityId") Long activityId);
+
+    @Query("select  new com.umeca.model.catalog.dto.ScheduleDto(S.id,S.day,S.start,S.end) from Schedule S " +
+            "inner join S.school SCH " +
+            "where SCH.id = :schoolId")
+    List<ScheduleDto> getScheduleDtoBySchoolId(@Param("schoolId") Long schoolId);
 }

@@ -233,7 +233,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "left join REF.accompanimentInfo AI " +
             "left join AI.address ADD " +
             "left join AI.academicLevel AL " +
-            "where (CD.id in (:lstCasesIds)) group by REf.personType, REF.hasVictimWitnessInfo")
+            "where (CD.id in (:lstCasesIds))")
     List<FramingReferenceInfo> getFramingReferenceInfo(@Param("lstCasesIds") List<Long> lstCasesIds);
 
     @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id,ADD.addressString) from Case CD " +
@@ -278,7 +278,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (CD.id in (:lstCasesIds))")
     List<ObligationIssuesInfo> getFramingObligationIssues(@Param("lstCasesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id,REL.name) " +
+    @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id,FR.name,REL.name, FR.personType) " +
             "from Case CD " +
             "left join CD.framingMeeting FM " +
             "left join FM.selectedSourcesRel SSR " +
@@ -303,16 +303,15 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (CD.id in (:lstCasesIds))")
     List<CatalogDto> getFramingSelectedRiskRel(@Param("lstCasesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelActivitiesDto(CDET.id,ACT.name,RFMA.specification) " +
-            "from Case CDET " +
-            "inner join CDET.framingMeeting FM " +
-            "left join FM.relFramingMeetingActivities RFMA " +
-            "left join RFMA.activity ACT " +
-            "where CDET.id in (:casesIds)")
-    List<ExcelActivitiesDto> getFramingImputedActivities(@Param("casesIds") List<Long> lstCasesIds);
+//    @Query("select new com.umeca.model.entities.supervisor.ExcelActivitiesDto(CDET.id,ACT.name,RFMA.specification) " +
+//            "from Case CDET " +
+//            "inner join CDET.framingMeeting FM " +
+//            "left join FM.relFramingMeetingActivities RFMA " +
+//            "left join RFMA.activity ACT " +
+//            "where CDET.id in (:casesIds)")
+//    List<ExcelActivitiesDto> getFramingImputedActivities(@Param("casesIds") List<Long> lstCasesIds);
 
-
-    @Query("select new com.umeca.model.entities.supervisor.SchoolDto(CD.id,SCH.name, SCH.name, SCH.address, FM.schoolComments, SCH.specification,SCH.block,AL.name, DEG.name) from Case CD " +
+    @Query("select new com.umeca.model.entities.supervisor.SchoolDto(CD.id,SCH.id,SCH.name, SCH.name, SCH.address, FM.schoolComments, SCH.specification,SCH.block,AL.name, DEG.name) from Case CD " +
             "inner join CD.framingMeeting FM " +
             "inner join FM.school SCH " +
             "inner join SCH.degree DEG " +
@@ -321,4 +320,20 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where CD.id in (:casesIds)")
     List<SchoolDto> getAllFramingSchool(@Param("casesIds") List<Long> lstCasesIds);
 
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelJobDto(CDET.id,JOB.id,JOB.company,JOB.post,JOB.nameHead,JOB.phone,RT.name,JOB.start,JOB.startPrev,JOB.end,JOB.salaryWeek,JOB.reasonChange,JOB.address, JOB.block) " +
+            "from Case CDET " +
+            "inner join CDET.framingMeeting FM " +
+            "inner join FM.jobs JOB " +
+            "inner join JOB.registerType RT " +
+            "where CDET.id in (:lstCasesIds) order by JOB.block desc")
+    List<ExcelJobDto> getFramingInfoJobs(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelActivitiesDto(CDET.id,ACT.id,ACT.name,FA.description) " +
+            "from Case CDET " +
+            "inner join CDET.framingMeeting FM " +
+            "inner join FM.activities FA " +
+            "inner join FA.activity ACT " +
+            "where CDET.id in (:lstCasesIds)")
+    List<ExcelActivitiesDto> getFramingInfoActivities(@Param("lstCasesIds") List<Long> lstCasesIds);
 }

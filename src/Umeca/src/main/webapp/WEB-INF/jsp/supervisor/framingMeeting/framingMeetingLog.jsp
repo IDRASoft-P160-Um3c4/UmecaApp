@@ -76,9 +76,11 @@
                                         <div class="profile-info-value element-left three-lines"
                                              style='padding-left: 50px !important'>
                                             <div ng-repeat="elmnt in actLog.lstElements">
-                                                <b><span ng-bind-html='formatHtml(elmnt.fieldName)'>
+                                                <div ng-if="elmnt.newRow!=true">
+                                                    <b><span ng-bind-html='formatHtml(elmnt.fieldName)'>
                                             </span></b>:&nbsp;<span ng-bind-html='formatHtml(elmnt.value)'>
                                             </span> &nbsp;
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

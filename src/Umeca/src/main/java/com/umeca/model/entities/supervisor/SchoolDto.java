@@ -1,5 +1,9 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.dto.ScheduleDto;
+
+import java.util.List;
+
 public class SchoolDto {
 
     private Long id;
@@ -13,6 +17,7 @@ public class SchoolDto {
     private String commentSchool;
     private String specification;
     private Boolean hasActualSchool;
+    private List<ScheduleDto> lstSchedule;
 
     private String academicLvlStr;
     private String degreeStr;
@@ -23,6 +28,19 @@ public class SchoolDto {
 
     public SchoolDto(Long idCase, String name, String phone, String address, String commentSchool, String specification, Boolean hasActualSchool, String academicLvlStr, String degreeStr) {
         this.idCase = idCase;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.commentSchool = commentSchool;
+        this.specification = specification;
+        this.hasActualSchool = hasActualSchool;
+        this.academicLvlStr = academicLvlStr;
+        this.degreeStr = degreeStr;
+    }
+
+    public SchoolDto(Long idCase, Long id, String name, String phone, String address, String commentSchool, String specification, Boolean hasActualSchool, String academicLvlStr, String degreeStr) {
+        this.idCase = idCase;
+        this.id = id;
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -137,4 +155,26 @@ public class SchoolDto {
     public void setSpecification(String specification) {
         this.specification = specification;
     }
+
+    public List<ScheduleDto> getLstSchedule() {
+        return lstSchedule;
+    }
+
+    public void setLstSchedule(List<ScheduleDto> lstSchedule) {
+        this.lstSchedule = lstSchedule;
+    }
+
+    public String scheduleToStr() {
+        String schStr = "";
+
+        if (this.lstSchedule != null && this.lstSchedule.size() > 0) {
+            for (ScheduleDto act : this.lstSchedule) {
+                if (schStr != "")
+                    schStr += "; ";
+                schStr += act.getDay() + ", de " + act.getStart() + " a " + act.getEnd();
+            }
+        }
+        return schStr;
+    }
+
 }

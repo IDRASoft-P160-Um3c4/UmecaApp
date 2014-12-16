@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.ResponseMessage;
+import com.umeca.model.catalog.Degree;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.ScheduleDto;
 import com.umeca.model.entities.reviewer.*;
@@ -2704,14 +2705,16 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             element.setValue(view.getAddress());
             lstElements.add(element);
 
+            Degree selDeg = degreeRepository.findOne(view.getDegreeId());
+
             element = new FramingLogElement();
             element.setFieldName("Nivel acad&eacute;mico");
-            element.setValue(academicLevelRepository.findOne(view.getAcademicLvlId()).getName());
+            element.setValue(selDeg.getAcademicLevel().getName());
             lstElements.add(element);
 
             element = new FramingLogElement();
             element.setFieldName("Grado");
-            element.setValue(academicLevelRepository.findOne(view.getDegreeId()).getName());
+            element.setValue(selDeg.getName());
             lstElements.add(element);
 
             if (view.getSpecification() != null && !view.getSpecification().trim().equals("")) {
@@ -2754,6 +2757,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         element = new FramingLogElement();
         element.setFieldName("");
         element.setNewRow(true);
+        lstElements.add(element);
+
+        element = new FramingLogElement();
+        element.setFieldName("Observaciones");
+        element.setValue(framingMeeting.getSchoolComments());
         lstElements.add(element);
 
         framingMeetingLog.setTitle("Historia escolar");

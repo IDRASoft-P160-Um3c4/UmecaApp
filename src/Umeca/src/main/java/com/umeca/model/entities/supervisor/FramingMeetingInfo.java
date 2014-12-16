@@ -1,7 +1,9 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.dto.CatalogDto;
+import com.umeca.model.catalog.dto.ScheduleDto;
 import com.umeca.model.entities.reviewer.School;
+import com.umeca.model.entities.reviewer.dto.JobDto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -65,6 +67,7 @@ public class FramingMeetingInfo {
 
     private List<ExcelActivitiesDto> activities;
     private SchoolDto school;
+    private List<ExcelJobDto> jobs;
 
     public FramingMeetingInfo() {
     }
@@ -360,12 +363,12 @@ public class FramingMeetingInfo {
                                 returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
                             }
                         }
-                    } else {
-                        returnStr = "El imputado no cuenta con referencias personales.";
-                        break;
                     }
                 }
             }
+            if (returnStr == "")
+                returnStr = "El imputado no cuenta con referencias personales.";
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -415,12 +418,12 @@ public class FramingMeetingInfo {
                                 returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
                             }
                         }
-                    } else {
-                        returnStr = "El imputado vive solo.";
-                        break;
                     }
                 }
             }
+
+            if (returnStr == "")
+                returnStr = "El imputado vive solo.";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -428,7 +431,7 @@ public class FramingMeetingInfo {
         return returnStr;
     }
 
-    public String victimToString() {
+    public String victimsToString() {
         String returnStr = "";
 
         try {
@@ -443,7 +446,7 @@ public class FramingMeetingInfo {
 
                         if (actRef.getHasInfo() == true) {
                             returnStr += "-" + actRef.getName();
-                            returnStr += ", " + actRef.getAge() + " años";
+                            returnStr += ", Edad: " + actRef.getAge();
                             if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
                                 returnStr += ", Testigo";
                             else
@@ -456,12 +459,11 @@ public class FramingMeetingInfo {
                             returnStr += ", Teléfono: " + actRef.getPhone();
                             returnStr += ", " + actRef.getAddressStr();
                         }
-                    } else {
-                        returnStr = "No existe información de víctimas o testigos";
-                        break;
                     }
                 }
             }
+            if (returnStr == "")
+                returnStr = "No existe información de víctimas o testigos";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -524,6 +526,19 @@ public class FramingMeetingInfo {
                 }
                 if (actLink.getName() != null)
                     returnStr += "-" + actLink.getName();
+                if (actLink.getContent() != null)
+                    returnStr += ", " + actLink.getContent();
+                if (actLink.getCode() != null) {
+                    if (actLink.getCode().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
+                        returnStr += ", vive con el imputado";
+                    else if (actLink.getCode().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
+                        returnStr += ", referencia personal";
+                    else if (actLink.getCode().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM))
+                        returnStr += ", víctima";
+                    else if (actLink.getCode().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
+                        returnStr += ", testigo";
+                }
+
             }
         }
 
@@ -809,6 +824,8 @@ public class FramingMeetingInfo {
                     returnStr += "-" + act.getNameAct();
                 if (act.getDescription() != null && !act.getDescription().trim().equals(""))
                     returnStr += ": " + act.getDescription();
+                if (act.getSchedule() != null)
+                    returnStr += ", Disponibilidad: " + act.scheduleToStr();
             }
         }
 
@@ -843,6 +860,52 @@ public class FramingMeetingInfo {
 
         returnStr += "Nivel: " + this.school.getAcademicLvlStr() + ", ";
         returnStr += " Grado: " + this.school.getDegreeStr();
+
+        if (this.school.getHasActualSchool() == true && this.school.getLstSchedule() != null && this.school.getLstSchedule().size() > 0)
+            returnStr += ", Disponibilidad: " + this.school.scheduleToStr();
+
+        return returnStr;
+    }
+
+    public List<ExcelJobDto> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<ExcelJobDto> jobs) {
+        this.jobs = jobs;
+    }
+
+    public String jobsToString() {
+        String returnStr = "";
+
+        if (this.jobs != null && this.jobs.size() > 0) {
+            for (ExcelJobDto act : jobs) {
+                if (act.getBlock() == true) {
+                    if (returnStr != "")
+                        returnStr += "\n";
+
+                    returnStr += "- " + act.getCompany();
+                    returnStr += ", Puesto: " + act.getPost();
+                    returnStr += ", Tel. " + act.getPhone();
+                    returnStr += ", Patrón " + act.getNameHead();
+                    returnStr += ", Dirección " + act.getAddress();
+                    returnStr += ", " + act.getRegisterType();
+
+                    if (act.getRegisterType().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_PREV)) {
+                        returnStr += ", Inicio: " + act.getStartPrevStr();
+                        returnStr += ", Fin: " + act.getEndStr();
+                        returnStr += ", Motivo de cambio: " + act.getReasonChange();
+                    } else {
+                        returnStr += ", Inicio: " + act.getStartStr();
+                        returnStr += ", Salario Semanal: " + act.getSalary();
+                        returnStr += ", Disponibilidad: " + act.scheduleToStr();
+                    }
+                } else {
+                    returnStr += "El imputado no cuenta con trabajo actual";
+                    break;
+                }
+            }
+        }
 
         return returnStr;
     }

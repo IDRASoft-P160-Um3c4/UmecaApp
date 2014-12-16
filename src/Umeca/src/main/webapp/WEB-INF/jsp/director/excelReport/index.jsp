@@ -29,7 +29,7 @@
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content">
+<div class="container body-content col-xs-12 col-xs-offset-1">
 
 <script>
 
@@ -178,6 +178,7 @@
 
 
 <div class="row">
+<div class="col-xs-10 col-xs-offset-1">
 <div class="widget-box">
 <div class="widget-header">Filtros de b&uacute;squeda</div>
 <div class="widget-body">
@@ -767,6 +768,7 @@
 </div>
 </div>
 </div>
+</div>
 <br/>
 </form>
 <div class="row">
@@ -779,7 +781,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
