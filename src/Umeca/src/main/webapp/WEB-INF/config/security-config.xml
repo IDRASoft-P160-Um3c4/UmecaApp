@@ -19,7 +19,7 @@
                        access="hasAnyRole('ROLE_SUPERVISOR','ROLE_REVIEWER')"/>
         <intercept-url pattern="/reviewer/technicalReview/generateFileCase.html"
                        access="hasAnyRole('ROLE_SUPERVISOR','ROLE_REVIEWER')"/>
-        <intercept-url pattern="/managereval/showCaseEvaluation/index.html"
+        <intercept-url pattern="/managereval/showCaseEvaluation/**"
                        access="hasAnyRole('ROLE_REVIEWER','ROLE_EVALUATION_MANAGER','ROLE_DIRECTOR')"/>
         <intercept-url pattern="/managereval/showCaseEvaluation/list.json"
                        access="hasAnyRole('ROLE_REVIEWER','ROLE_EVALUATION_MANAGER','ROLE_DIRECTOR')"/>

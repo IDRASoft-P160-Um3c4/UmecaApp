@@ -115,7 +115,8 @@ public class Constants {
     public static final String RESPONSE_TYPE_PENDING = "PENDING";
     public static final String RESPONSE_TYPE_ACCEPTED = "ACCEPTED";
     public static final String RESPONSE_TYPE_REJECTED = "REJECTED";
-    public static String CASE_STATUS_OBSOLETE = "ST_CASE_OBSOLETE";
+    public static String CASE_STATUS_OBSOLETE_EVALUATION = "ST_CASE_OBSOLETE_EVALUATION";
+    public static String CASE_STATUS_OBSOLETE_SUPERVISION = "ST_CASE_OBSOLETE_SUPERVISION";
 
 
     public static final Long MARITAL_SINGLE = 1L;
@@ -160,4 +161,5 @@ public class Constants {
 
     public static final String NAME_RELATIONSHIP_NONE = "Ninguno";
 
+    public static String S_MEETING_OBSOLETE="OBSOLETE";
 }

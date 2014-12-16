@@ -49,5 +49,6 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/enterKeyDrct.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/exportXls/jqgridExcelExportClientSide-libs.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/exportXls/jqgridExcelExportClientSide.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/confirmDrct.js"></script>
 
 

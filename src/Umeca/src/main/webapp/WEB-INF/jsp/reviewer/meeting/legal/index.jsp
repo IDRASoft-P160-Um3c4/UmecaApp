@@ -133,7 +133,10 @@
                           Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormCurrentLegalId,#FormPreviousLegalId','<c:url value="/reviewer/meeting/saveProceedingLegal.json?idCase=${idCase}"/>');">
+                          ng-disabled="WaitFor==true" ng-confirm-action
+                          confirm-message="&iquest;Est&aacute; seguro que desea terminar el llenado de informaci&oacute;n legal?"
+                          confirm-title = "Terminar informaci&oacute;n legal" confirm-type="info"
+                          confirmed-click-action="submit('#FormCurrentLegalId,#FormPreviousLegalId','<c:url value="/reviewer/meeting/saveProceedingLegal.json?idCase=${idCase}"/>');">
                           Terminar
                     </span>
         </div>
