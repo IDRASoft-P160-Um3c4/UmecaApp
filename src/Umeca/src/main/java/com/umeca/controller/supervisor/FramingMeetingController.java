@@ -224,20 +224,32 @@ public class FramingMeetingController {
                 framingMeetingService.fillSaveVerifiedInfo(framingMeeting, existVer.getMeetingVerified());
             }
 
-            HearingFormat lastFormat = lstHF.get(0); //busca si existe un formato y trae la ultima direccion //todo verificar que sucede cuando viene de evaluacion
+            HearingFormat lastFormat = lstHF.get(0); //busca si existe un formato y trae la ultima direccion
 
             if (lastFormat != null) {
-                FramingAddress newFA = new FramingAddress();
-                Address newAddr = new Address();
-                Address formatAddr = lastFormat.getHearingImputed().getAddress();
-                newAddr.setStreet(formatAddr.getStreet());
-                newAddr.setOutNum(formatAddr.getOutNum());
-                newAddr.setInnNum(formatAddr.getInnNum());
-                newAddr.setLocation(formatAddr.getLocation());
-                newAddr.setAddressString(newAddr.toString());
-                newFA.setAddress(newAddr);
-                newFA.setFramingMeeting(framingMeeting);
-                framingAddressRepository.save(newFA);
+                //valida que no exista la direccion en la entrevista
+                Boolean existAddress = false;
+                Address formatAddress = lastFormat.getHearingImputed().getAddress();
+
+                for (FramingAddress fAdd : framingMeeting.getFramingAddresses()) {
+                    if (fAdd.getAddress().equals(formatAddress)) {
+                        existAddress = true;
+                        break;
+                    }
+                }
+
+                if (existAddress == false) {
+                    FramingAddress newFA = new FramingAddress();
+                    Address newAddr = new Address();
+                    newAddr.setStreet(formatAddress.getStreet());
+                    newAddr.setOutNum(formatAddress.getOutNum());
+                    newAddr.setInnNum(formatAddress.getInnNum());
+                    newAddr.setLocation(formatAddress.getLocation());
+                    newAddr.setAddressString(newAddr.toString());
+                    newFA.setAddress(newAddr);
+                    newFA.setFramingMeeting(framingMeeting);
+                    framingAddressRepository.save(newFA);
+                }
             }
         }
 
@@ -1091,21 +1103,23 @@ public class FramingMeetingController {
     @RequestMapping(value = "/supervisor/framingMeeting/framingMeetingLog", method = RequestMethod.GET)
     public ModelAndView showLog(@RequestParam Long id) {
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/framingMeetingLog");
+        Long framingId = caseRepository.findOne(id).getFramingMeeting().getId();
 
-        List<SelectList> lstLog = framingMeetingLogRepository.getLogByIdFraming(id, new ArrayList<String>() {{
+
+        List<SelectList> lstLog = framingMeetingLogRepository.getLogByIdFraming(framingId, new ArrayList<String>() {{
             add(FramingMeetingConstants.LOG_TYPE_ADDED);
             add(FramingMeetingConstants.LOG_TYPE_MODIFIED);
             add(FramingMeetingConstants.LOG_TYPE_DELETED);
         }});
         model.addObject("lstAlterLog", new Gson().toJson(lstLog));
-        model.addObject("lstDayChanges", new Gson().toJson(framingMeetingLogRepository.getChangeLogDatesByIdFraming(id,
+        model.addObject("lstDayChanges", new Gson().toJson(framingMeetingLogRepository.getChangeLogDatesByIdFraming(framingId,
                 new ArrayList<String>() {{
                     add(FramingMeetingConstants.LOG_TYPE_ADDED);
                     add(FramingMeetingConstants.LOG_TYPE_MODIFIED);
                     add(FramingMeetingConstants.LOG_TYPE_DELETED);
                 }})));
 
-        List<SelectList> lstTerminateLog = framingMeetingLogRepository.getTerminatedLogByIdFraming(id, new ArrayList<String>() {{
+        List<SelectList> lstTerminateLog = framingMeetingLogRepository.getTerminatedLogByIdFraming(framingId, new ArrayList<String>() {{
             add(FramingMeetingConstants.LOG_TYPE_FINISHED);
         }});
         model.addObject("lstTerminateLog", new Gson().toJson(lstTerminateLog));

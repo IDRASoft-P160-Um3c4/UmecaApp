@@ -17,8 +17,9 @@ public class ExcelSocialNetworkDto {
     private String phone;
     private String address;
     private String specificationRelationship;
+    private Boolean block;
 
-    public ExcelSocialNetworkDto(Long idCase, String name, String relationship, Integer age, String document, String dependent, String livingWith, Boolean accompaniment,String phone, String address, String specificationRelationship) {
+    public ExcelSocialNetworkDto(Long idCase, String name, String relationship, Integer age, String document, String dependent, String livingWith, Boolean accompaniment, String phone, String address, String specificationRelationship, Boolean block) {
         this.idCase = idCase;
         this.name = name;
         this.relationship = relationship;
@@ -29,9 +30,10 @@ public class ExcelSocialNetworkDto {
         this.accompaniment = accompaniment;
         this.phone = phone;
         this.address = address;
-        if(specificationRelationship!=null && !specificationRelationship.equals("")){
-            this.relationship += ": "+specificationRelationship;
+        if (specificationRelationship != null && !specificationRelationship.equals("")) {
+            this.relationship += ": " + specificationRelationship;
         }
+        this.block = block;
     }
 
     public Long getIdCase() {
@@ -136,5 +138,13 @@ public class ExcelSocialNetworkDto {
 
     public void setSpecificationRelationship(String specificationRelationship) {
         this.specificationRelationship = specificationRelationship;
+    }
+
+    public Boolean getBlock() {
+        return block;
+    }
+
+    public void setBlock(Boolean block) {
+        this.block = block;
     }
 }

@@ -20,8 +20,9 @@ public class ExcelJobDto {
     private String address;
     private String registerType;
     private Long registerTypeId;
+    private Boolean block;
 
-    public ExcelJobDto(Long idCase, String post, String nameHead, String company, String phone, Date startPrev, Date start, Float salary, Date end, String reasonChange, String address, String registerType, Long registerTypeId) {
+    public ExcelJobDto(Long idCase, String post, String nameHead, String company, String phone, Date startPrev, Date start, Float salary, Date end, String reasonChange, String address, String registerType, Long registerTypeId, Boolean block) {
         this.idCase = idCase;
         this.post = post;
         this.nameHead = nameHead;
@@ -35,6 +36,7 @@ public class ExcelJobDto {
         this.address = address;
         this.registerType = registerType;
         this.registerTypeId = registerTypeId;
+        this.block = block;
     }
 
     public String getRegisterType() {
@@ -139,5 +141,13 @@ public class ExcelJobDto {
 
     public void setRegisterTypeId(Long registerTypeId) {
         this.registerTypeId = registerTypeId;
+    }
+
+    public Boolean getBlock() {
+        return block;
+    }
+
+    public void setBlock(Boolean block) {
+        this.block = block;
     }
 }

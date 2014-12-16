@@ -2,8 +2,8 @@ app.controller('framingSchoolController', function ($scope, $timeout, $rootScope
 
         $scope.school = {};
         $scope.day = "";
-        $scope.start = "";
-        $scope.end = "";
+        $scope.timeStart = "";
+        $scope.timeEnd = "";
         $scope.MsgSuccessSchool = "";
         $scope.MsgErrorSchool = "";
         $scope.MsgErrorSchedule = "";
@@ -71,6 +71,10 @@ app.controller('framingSchoolController', function ($scope, $timeout, $rootScope
         $scope.submitSchool = function (formId, urlToPost, id) {
 
             $scope.Invalid = false;
+
+            if ($scope.validateSchedule() == false) {
+                $scope.Invalid = true;
+            }
 
             if ($(formId).valid() == false) {
                 $scope.Invalid = true;

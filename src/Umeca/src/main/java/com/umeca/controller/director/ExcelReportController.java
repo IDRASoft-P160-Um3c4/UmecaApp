@@ -12,6 +12,7 @@ import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.Municipality;
 import com.umeca.model.catalog.State;
 import com.umeca.model.catalog.dto.CatalogDto;
+import com.umeca.model.dto.victim.VictimDto;
 import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.CrimeDto;
@@ -429,6 +430,7 @@ public class ExcelReportController {
             List<ExcelJobDto> lstJob = caseRepository.getInfoJobs(casesIds);
             List<ExcelDrugDto> lstDrug = caseRepository.getInfoDrugs(casesIds);
             List<ExcelCrimeDto> lstCrimes = caseRepository.getInfoCrimes(casesIds);
+            List<VictimDto> lstVictims = caseRepository.getInfoVictims(casesIds);
             List<ExcelCoDefDto> lstCoDef = caseRepository.getInfoCoDef(casesIds);
             List<ExcelTecRevSelQuestDto> lstSelQuest = caseRepository.getInfoTecRevSelQuest(casesIds);
             List<ExcelVerificationDto> lstVerif = caseRepository.getInfoVerification(casesIds);
@@ -546,6 +548,14 @@ public class ExcelReportController {
                     }
                 }
                 cAct.setLstSelQuest(lstQu);
+
+                List<VictimDto> lstVict = new ArrayList<>();
+                for (VictimDto hAct : lstVictims) {
+                    if (hAct.getId() == cAct.getIdCase()) {
+                        lstVict.add(hAct);
+                    }
+                }
+                cAct.setLstVictim(lstVict);
             }
 
             /*supervision*/
@@ -581,6 +591,7 @@ public class ExcelReportController {
 
             List<FramingMeetingInfo> allFramingMeeting = reportExcelRepository.getFramingMeetingInfo(casesIds);
             List<FramingReferenceInfo> allReferences = reportExcelRepository.getFramingReferenceInfo(casesIds);
+            List<SchoolDto> allFramingSchool = reportExcelRepository.getAllFramingSchool(casesIds);
             List<ExcelActivitiesDto> allFramingActivities = reportExcelRepository.getFramingImputedActivities(casesIds);
             List<CatalogDto> allFramingHomes = reportExcelRepository.getFramingHomes(casesIds);
             List<ExcelDrugDto> allDrugs = reportExcelRepository.getFramingInfoDrugs(casesIds);
@@ -592,7 +603,15 @@ public class ExcelReportController {
             List<CatalogDto> allSelectedThreatsRel = reportExcelRepository.getFramingSelectedThreatsRel(casesIds);
             List<CatalogDto> allSelectedRiskRel = reportExcelRepository.getFramingSelectedRiskRel(casesIds);
 
+
             for (FramingMeetingInfo actFM : allFramingMeeting) {
+
+                for (SchoolDto actSch : allFramingSchool) {
+                    if (actSch.getIdCase() == actFM.getIdCase()) {
+                        actFM.setSchool(actSch);
+                        break;
+                    }
+                }
 
                 List<FramingReferenceInfo> refs = new ArrayList<>();
                 for (FramingReferenceInfo actRef : allReferences) {
@@ -730,8 +749,6 @@ public class ExcelReportController {
 
                 actCase.setMonitoringPlanExcelInfo(monInfo);
             }
-
-
             /*supervision*/
 
             /*summary*/

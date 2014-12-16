@@ -6,12 +6,14 @@ public class ExcelCrimeDto {
     private String crime;
     private String federal;
     private String article;
+    private String comment;
 
-    public ExcelCrimeDto(Long idCase, String crime, String federal, String article) {
+    public ExcelCrimeDto(Long idCase, String crime, String federal, String article, String comment) {
         this.idCase = idCase;
         this.crime = crime;
         this.federal = federal;
         this.article = article;
+        this.comment = comment;
     }
 
     public Long getIdCase() {
@@ -44,5 +46,13 @@ public class ExcelCrimeDto {
 
     public void setArticle(String article) {
         this.article = article;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

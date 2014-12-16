@@ -1,6 +1,7 @@
 package com.umeca.repository;
 
 import com.umeca.model.dto.CaseInfo;
+import com.umeca.model.dto.victim.VictimDto;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.FindLegalBefore;
 import com.umeca.model.entities.reviewer.StatusEvaluation;
@@ -135,12 +136,16 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "IMP.birthState," +
             "IMP.birthMunicipality," +
             "IMP.birthLocation," +
+            "IBS.name," +
+            "IBM.name," +
+            "IBL.name," +
             "IMP.celPhone," +
             "IMS.name," +
             "IMP.yearsMaritalStatus," +
             "IMP.boys," +
             "IMP.dependentBoys," +
             "SE.physicalCondition," +
+            "SCH.block," +
             "SCH.name," +
             "SCH.phone," +
             "SCH.address, " +
@@ -179,6 +184,9 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "inner join MEET.imputed IMP " +
             "left join IMP.birthCountry IBC " +
             "left join IMP.maritalStatus IMS " +
+            "left join IMP.location IBL " +
+            "left join IBL.municipality IBM " +
+            "left join IBM.state IBS " +
             "left join MEET.socialEnvironment SE " +
             "left join MEET.school SCH " +
             "left join SCH.degree DEG " +
@@ -223,7 +231,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds)")
     List<ExcelImputedHomeDto> getInfoImputedHomes(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelSocialNetworkDto(CDET.id,PSN.name,REL.name,PSN.age,DT.name,DEP.name,LW.name,PSN.isAccompaniment,PSN.phone,PSN.address,PSN.specificationRelationship) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelSocialNetworkDto(CDET.id,PSN.name,REL.name,PSN.age,DT.name,DEP.name,LW.name,PSN.isAccompaniment,PSN.phone,PSN.address,PSN.specificationRelationship,PSN.block) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
             "left join MEET.socialNetwork SN " +
@@ -232,36 +240,36 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join PSN.documentType DT " +
             "left join PSN.livingWith LW " +
             "left join PSN.relationship REL " +
-            "where CDET.id in (:casesIds)")
+            "where CDET.id in (:casesIds) order by PSN.block")
     List<ExcelSocialNetworkDto> getInfoSocialNetwork(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelReferenceDto(CDET.id,REF.fullName,REF.age,DT.name,REL.name,REF.address,REF.phone,REF.isAccompaniment, REF.specificationRelationship) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelReferenceDto(CDET.id,REF.fullName,REF.age,DT.name,REL.name,REF.address,REF.phone,REF.isAccompaniment, REF.specificationRelationship, REF.block) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
             "left join MEET.references REF " +
             "left join REF.documentType DT " +
             "left join REF.relationship REL " +
-            "where CDET.id in (:casesIds)")
+            "where CDET.id in (:casesIds) order by REF.block")
     List<ExcelReferenceDto> getInfoReference(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelJobDto(CDET.id,JOB.post,JOB.nameHead,JOB.company,JOB.phone,JOB.startPrev,JOB.start,JOB.salaryWeek,JOB.end,JOB.reasonChange,JOB.address,RT.name,RT.id) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelJobDto(CDET.id,JOB.post,JOB.nameHead,JOB.company,JOB.phone,JOB.startPrev,JOB.start,JOB.salaryWeek,JOB.end,JOB.reasonChange,JOB.address,RT.name,RT.id, JOB.block) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
             "left join MEET.jobs JOB " +
             "left join JOB.registerType RT " +
-            "where CDET.id in (:casesIds)")
+            "where CDET.id in (:casesIds) order by JOB.block")
     List<ExcelJobDto> getInfoJobs(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelDrugDto(CDET.id, DT.name, PER.name, DRUG.quantity, DRUG.lastUse, DRUG.specificationType, DRUG.specificationPeriodicity) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelDrugDto(CDET.id, DT.name, PER.name, DRUG.quantity, DRUG.lastUse, DRUG.specificationType, DRUG.specificationPeriodicity, DRUG.block) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
             "left join MEET.drugs DRUG " +
             "left join DRUG.periodicity PER " +
             "left join DRUG.drugType DT " +
-            "where CDET.id in (:casesIds)")
+            "where CDET.id in (:casesIds) order by DRUG.block")
     List<ExcelDrugDto> getInfoDrugs(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelCrimeDto(CDET.id,CC.name,FED.name,CRM.article) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelCrimeDto(CDET.id,CC.name,FED.name,CRM.article, CRM.comment) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
             "left join MEET.currentCriminalProceeding CCP " +
@@ -270,6 +278,15 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join CRM.federal FED " +
             "where CDET.id in (:casesIds)")
     List<ExcelCrimeDto> getInfoCrimes(@Param("casesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.dto.victim.VictimDto(CD.id, VIC.fullname, R.name, VIC.age, VIC.phone, ADD.addressString, VIC.specification) from Case CD " +
+            "inner join CD.meeting M " +
+            "inner join M.currentCriminalProceeding CCP " +
+            "inner join CCP.victims VIC " +
+            "inner join VIC.address ADD " +
+            "inner join VIC.relationship R " +
+            "where CD.id in (:casesIds)")
+    List<VictimDto> getInfoVictims(@Param("casesIds") List<Long> lstCasesIds);
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelCoDefDto(CDET.id, CODF.fullName,REL.name) " +
             "from Case CDET " +
