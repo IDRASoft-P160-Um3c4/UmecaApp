@@ -4,6 +4,10 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.EntityGrid;
 import com.umeca.model.shared.HearingFormatConstants;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by dcortesr on 30/06/14.
  */
@@ -21,6 +25,8 @@ public class CaseEvaluationView implements EntityGrid {
     private String statusString;
     private Integer status;
     private String userName;
+    private String reviewer;
+    private String date;
 
     private Long idHF;
     private Long idFM;
@@ -64,6 +70,8 @@ public class CaseEvaluationView implements EntityGrid {
         }
     }
 
+
+
     public CaseEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, Long idFM, Long idHF, Long idMonP, Long idTec, Boolean fmTerminated, String userName) {
         this.id = id;
         this.idFolder = idFolder;
@@ -96,6 +104,18 @@ public class CaseEvaluationView implements EntityGrid {
             resolutionStr = "MC";
         else if (resolution != null && resolution == HearingFormatConstants.HEARING_TYPE_SCP)
             resolutionStr = "SCPP";
+    }
+
+    public CaseEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String reviewer, Date date) {
+        this.id = id;
+        this.idFolder = idFolder;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.fullname = this.name+" "+this.lastNameP+" "+this.lastNameM;
+        this.reviewer = reviewer;
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        this.date = formatter.format(date);
     }
 
     public Long getId() {
@@ -240,5 +260,21 @@ public class CaseEvaluationView implements EntityGrid {
 
     public void setResolutionStr(String resolutionStr) {
         this.resolutionStr = resolutionStr;
+    }
+
+    public String getReviewer() {
+        return reviewer;
+    }
+
+    public void setReviewer(String reviewer) {
+        this.reviewer = reviewer;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

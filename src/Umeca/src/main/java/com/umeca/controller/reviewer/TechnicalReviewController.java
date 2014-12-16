@@ -12,7 +12,6 @@ import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.ForTechnicalReviewGrid;
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileAllSourcesView;
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
-import com.umeca.model.entities.supervisor.HearingFormatView;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
@@ -256,7 +255,7 @@ public class TechnicalReviewController {
 
         model.addObject("data", dataFile);
         response.setContentType("application/force-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"datos_opinion_tecnica.doc\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"formato_de_opinion.doc\"");
 
 
         return model;
@@ -270,7 +269,7 @@ public class TechnicalReviewController {
         TechnicalReviewInfoFileView dataFile = technicalReviewService.fillInfoFile(c.getVerification().getId());
         model.addObject("data", dataFile);
         response.setContentType("application/force-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"datos_opinion_tecnica.doc\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"formato_de_opinion.doc\"");
 
 
         return model;
@@ -285,7 +284,7 @@ public class TechnicalReviewController {
 
         model.addObject("data", dataFile);
         response.setContentType("application/force-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"datos_opinion_tecnica.doc\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"informacion_fuentes_entrevistadas.doc\"");
 
 
         return model;

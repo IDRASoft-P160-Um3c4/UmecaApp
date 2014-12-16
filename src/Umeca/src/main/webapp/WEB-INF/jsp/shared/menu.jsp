@@ -52,10 +52,25 @@
             </li>
             <li class="nav-li-blue"><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i
                     class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a Coordinador</a></li>
-            <li class="nav-li-blue"><a
-                    href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
-                    class="icon icon-envelope"></i>&nbsp;&nbsp;Consulta de casos en evaluaci&oacute;n</a>
+            <li class="dropdown nav-li-blue">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                        class="glyphicon glyphicon-folder-close"></i>
+                    &nbsp;&nbsp;Casos en evaluaci&oacute;n
+                    <i class="icon-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                           <li><a
+                                    href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
+                                    class="icon icon-eye-open"></i>&nbsp;&nbsp;Consulta de casos en evaluaci&oacute;n</a>
+                            </li>
+                            <li><a
+                                    href="<c:url value='/managereval/showCaseEvaluation/obsoleteCase.html' />"><i
+                                    class="icon icon-trash"></i>&nbsp;&nbsp;Casos eliminados</a>
+                            </li>
+                </ul>
             </li>
+
+
             <li class="nav-li-blue"><a
                     href="<c:url value='/shared/messageHistory/index.html' />"><i
                     class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
@@ -113,8 +128,23 @@
         <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
             <li class="nav-li-blue"><a href="<c:url value='/managereval/index.html'/>"><i
                     class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Autorizar fuentes</a></li>
-            <li class="nav-li-blue"><a href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
-                    class="icon-check"></i>&nbsp;&nbsp;Consulta de casos en evaluaci&oacute;n</a></li>
+            <li class="dropdown nav-li-blue">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                        class="glyphicon glyphicon-folder-close"></i>
+                    &nbsp;&nbsp;Casos en evaluaci&oacute;n
+                    <i class="icon-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a
+                            href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
+                            class="icon icon-eye-open"></i>&nbsp;&nbsp;Consulta de casos en evaluaci&oacute;n</a>
+                    </li>
+                    <li><a
+                            href="<c:url value='/managereval/showCaseEvaluation/obsoleteCase.html' />"><i
+                            class="icon icon-trash"></i>&nbsp;&nbsp;Casos eliminados</a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-li-blue"><a href="<c:url value='/director/excelReport/index.html'/>"><i
                     class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a></li>
             <li class="nav-li-blue"><a href="<c:url value='/managereval/authorizeRequest/index.html' />"><i

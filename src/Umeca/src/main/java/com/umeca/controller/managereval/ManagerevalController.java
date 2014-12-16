@@ -428,7 +428,9 @@ public class ManagerevalController {
                     caseRequest.setResponseType(responseTypeRepository.findByCode(Constants.RESPONSE_TYPE_ACCEPTED));
                     switch (requestDto.getRequestType()){
                         case Constants.ST_REQUEST_CASE_OBSOLETE:
-                            c.setStatus(statusCase.findByCode(Constants.CASE_STATUS_OBSOLETE));
+                            c.setStatus(statusCase.findByCode(Constants.CASE_STATUS_OBSOLETE_EVALUATION));
+                            c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_OBSOLETE));
+                            c.setDateObsolete(new Date());
                             break;
                         case Constants.ST_REQUEST_EDIT_TECHNICAL_REVIEW:
                             c.setStatus(statusCase.findByCode(Constants.CASE_STATUS_EDIT_TEC_REV));
@@ -491,7 +493,7 @@ public class ManagerevalController {
             notif.setIsObsolete(false);
             User uSender = userRepository.findOne(userService.GetLoggedUserId());
             notif.setSenderUser(uSender);
-            String request = requestDto.getResponse().equals(Constants.RESPONSE_TYPE_ACCEPTED)? " acept&oacute; ":" rechaz&oacute;";
+            String request = requestDto.getResponse().equals(Constants.RESPONSE_TYPE_ACCEPTED)? " acept&oacute; ":" rechaz&oacute; ";
             notif.setSubject("El Coordinador de Evaluaci&oacute;n "+uSender.getFullname()+request+"la solcitud");
             notif.setMessage("Carpeta de investigaci&oacute;n: "+c.getIdFolder()+"<br/>Solicitud: "+caseRequest.getRequestType().getDescription()+"<br/>Raz&oacute;n: "+requestDto.getReason());
             notif.setReceiveUser(caseRequest.getRequestMessage().getSender());
