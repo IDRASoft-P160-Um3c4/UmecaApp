@@ -1253,6 +1253,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     case "name":
                                         psn.setName(fms.getJsonValue());
                                         break;
+                                    case "block":
+                                        psn.setBlock(fms.getJsonValue().equals("1"));
+                                        break;
                                     case "relationship":
                                         cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
                                         if (cDto != null) {
@@ -1335,6 +1338,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                 case "fullName":
                                     r.setFullName(fms.getJsonValue());
                                     break;
+                                case "block":
+                                    r.setBlock(fms.getJsonValue().equals("1"));
+                                    break;
                                 case "relationship":
                                     cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
                                     if (cDto != null) {
@@ -1398,6 +1404,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             switch (name[1]) {
                                 case "company":
                                     j.setCompany(fms.getJsonValue());
+                                    break;
+                                case "block":
+                                    j.setBlock(fms.getJsonValue().equals("1"));
                                     break;
                                 case "post":
                                     j.setPost(fms.getJsonValue());
@@ -1473,6 +1482,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         case "name":
                             meeting.getSchool().setName(fms.getJsonValue());
                             break;
+                        case "block":
+                            meeting.getSchool().setBlock(fms.getJsonValue().equals("1"));
+                            break;
                         case "phone":
                             meeting.getSchool().setPhone(fms.getJsonValue());
                             break;
@@ -1529,6 +1541,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                 case "specificationType":
                                     if (!fms.getJsonValue().equals(""))
                                         d.setSpecificationType(fms.getJsonValue());
+                                    break;
+                                case "block":
+                                    d.setBlock(fms.getJsonValue().equals("1"));
                                     break;
                                 case "periodicity":
                                     cdtod = gson.fromJson(fms.getJsonValue(), CatalogDto.class);

@@ -13,37 +13,35 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="current_criminal_proceeding")
+@Table(name = "current_criminal_proceeding")
 public class CurrentCriminalProceeding {
 
     @Id
     @GeneratedValue
-    @Column(name="id_current_criminal_proceeding")
+    @Column(name = "id_current_criminal_proceeding")
     private Long id;
 
-    @OneToMany(mappedBy="criminalProceeding", cascade={CascadeType.ALL})
+    @OneToMany(mappedBy = "criminalProceeding", cascade = {CascadeType.ALL})
     private List<Crime> crimeList;
 
-    @OneToMany(mappedBy="criminalProceeding", cascade={CascadeType.ALL})
+    @OneToMany(mappedBy = "criminalProceeding", cascade = {CascadeType.ALL})
     private List<CoDefendant> coDefendantList;
 
-    @Column(name="place_detention", length = 500, nullable = true)
+    @Column(name = "place_detention", length = 500, nullable = true)
     private String placeDetention;
 
     @Column(name = "behavior_detention", nullable = true, length = 255)
     private String behaviorDetention;
 
-    @Column(name="additional_info",length = 1000, nullable = true)
+    @Column(name = "additional_info", length = 1000, nullable = true)
     private String additionalInfo;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_meeting", nullable = true)
     private Meeting meeting;
 
-    @OneToMany(mappedBy="criminalProceeding", cascade={CascadeType.ALL})
+    @OneToMany(mappedBy = "criminalProceeding", cascade = {CascadeType.ALL})
     private List<Victim> victims;
-
-
 
     public Long getId() {
         return id;

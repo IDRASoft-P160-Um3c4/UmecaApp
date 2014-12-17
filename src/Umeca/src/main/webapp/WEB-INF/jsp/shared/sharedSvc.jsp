@@ -159,8 +159,14 @@
         $scope.sharedSvc = sharedSvc;
         $scope.m = {};
 
+        $scope.setParametersModal= function(msg,type,title){
+            $scope.Title = $sce.trustAsHtml(title);
+            $scope.Message = $sce.trustAsHtml(msg);
+            $scope.Type = type;
+        }
+
         $scope.$watch('sharedSvc.cfgMsg', function (cfg) {
-            $scope.Title = cfg.title;
+            $scope.Title = $sce.trustAsHtml(cfg.title);
             $scope.Message = $sce.trustAsHtml(cfg.message);
             $scope.Type = cfg.type;
 
@@ -255,7 +261,7 @@
             <div class="modal-header">
                 <div class="alert alert-{{Type=='primary'?'info':Type}}">
                     <button type="button" class="close" ng-click="no()">&times;</button>
-                    <h4 class="modal-title element-center">{{Title}}</h4>
+                    <h4 class="modal-title element-center" ng-bind-html="Title"></h4>
                 </div>
             </div>
             <div class="modal-body">
@@ -341,8 +347,6 @@
         </div>
     </div>
 </div>
-
-
 
 <hr />
 <div id="dlgUpsert"></div>

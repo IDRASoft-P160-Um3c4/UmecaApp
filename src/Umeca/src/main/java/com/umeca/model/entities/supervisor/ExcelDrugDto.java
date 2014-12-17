@@ -14,8 +14,9 @@ public class ExcelDrugDto {
     private Date lastUse;
     private String specificationType;
     private String specificationPeriodicity;
+    private Boolean block;
 
-    public ExcelDrugDto(Long idCase, String drugType, String periodicity, String quantity, Date lastUse, String specificationType, String specificationPeriodicity) {
+    public ExcelDrugDto(Long idCase, String drugType, String periodicity, String quantity, Date lastUse, String specificationType, String specificationPeriodicity, Boolean block) {
         this.idCase = idCase;
         this.drugType = drugType;
         this.periodicity = periodicity;
@@ -23,6 +24,7 @@ public class ExcelDrugDto {
         this.lastUse = lastUse;
         this.specificationType = specificationType;
         this.specificationPeriodicity = specificationPeriodicity;
+        this.block = block;
     }
 
     public Long getIdCase() {
@@ -79,5 +81,13 @@ public class ExcelDrugDto {
 
     public void setSpecificationPeriodicity(String specificationPeriodicity) {
         this.specificationPeriodicity = specificationPeriodicity;
+    }
+
+    public Boolean getBlock() {
+        return block;
+    }
+
+    public void setBlock(Boolean block) {
+        this.block = block;
     }
 }

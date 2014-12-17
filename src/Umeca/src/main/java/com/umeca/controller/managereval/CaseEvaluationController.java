@@ -106,4 +106,76 @@ public class CaseEvaluationController {
         return result;
     }
 
+    @RequestMapping(value = "/managereval/showCaseEvaluation/obsoleteCase", method = RequestMethod.GET)
+    public String obsoleteCase() {
+        return "/managereval/showCaseEvaluation/obsoleteCase";
+    }
+
+    @RequestMapping(value = {"/managereval/showCaseEvaluation/obsoleteCase/list"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listObsoleteCase(@ModelAttribute JqGridFilterModel opts) {
+        opts.extraFilters = new ArrayList<>();
+
+        JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",Constants.S_MEETING_OBSOLETE
+                , JqGridFilterModel.COMPARE_EQUAL
+        );
+
+        opts.extraFilters.add(extraFilter);
+
+        extraFilter = new JqGridRulesModel("statusCase",
+                Constants.CASE_STATUS_OBSOLETE_EVALUATION
+                , JqGridFilterModel.COMPARE_EQUAL
+        );
+
+        opts.extraFilters.add(extraFilter);
+        Long userId =userService.GetLoggedUserId();
+        if (userService.isUserInRole(userId,Constants.ROLE_REVIEWER)) {
+                extraFilter = new JqGridRulesModel("user", userId.toString()
+                        , JqGridFilterModel.COMPARE_EQUAL
+                );
+                opts.extraFilters.add(extraFilter);
+            }
+
+
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                final Join<Meeting, Case> joinMeCa = r.join("caseDetention");
+                final Join<Meeting, Imputed> joinMeIm = r.join("imputed");
+                final Join<Meeting, StatusMeeting> joinMeSt = r.join("status", JoinType.INNER);
+                final Join<Verification, StatusVerification> joinCdSt = joinMeCa.join("status", JoinType.INNER);
+                final Join<Meeting, User> joinUsr = r.join("reviewer", JoinType.INNER);
+
+                ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
+                    add(joinMeCa.get("id"));
+                    add(joinMeCa.get("idFolder"));
+                    add(joinMeIm.get("name"));
+                    add(joinMeIm.get("lastNameP"));
+                    add(joinMeIm.get("lastNameM"));
+                    add(joinUsr.get("fullname").alias("reviewer"));
+                    add(joinMeCa.get("dateObsolete"));
+                }};
+
+                return result;
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idFolder"))
+                    return r.join("caseDetention").get("idFolder");
+                else if (field.equals("statusMeeting"))
+                    return r.join("status").get("name");
+                else if (field.equals("user"))
+                    return r.join("reviewer").get("id");
+                else if(field.equals("statusCase"))
+                    return r.join("caseDetention").join("status").get("name");
+
+                return null;
+            }
+        }, Meeting.class, CaseEvaluationView.class);
+        return result;
+    }
+
 }

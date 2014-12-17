@@ -29,8 +29,8 @@
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'age', index: 'age', width: 60, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'relationshipName', index: 'relationshipName', width: 140, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'phone', index: 'phone', width: 120, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'relationshipName', index: 'relationshipName', width: 120, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'phone', index: 'phone', width: 110, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'address', index: 'address', width: 250, align: "center", search: false },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false }
             ],

@@ -24,6 +24,8 @@ app.controller('activitiesController', function ($scope, $timeout, $rootScope, $
 
         $scope.submitActivity = function (formId, urlToPost, id) {
 
+            $scope.Invalid = false;
+
             if ($(formId).valid() == false) {
                 $scope.Invalid = true;
             }

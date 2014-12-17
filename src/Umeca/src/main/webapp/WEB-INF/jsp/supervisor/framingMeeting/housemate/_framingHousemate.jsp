@@ -28,7 +28,7 @@
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 190, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'age', index: 'age', width: 140, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                { name: 'age', index: 'age', width: 80, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'relationshipName', index: 'relationshipName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'occupation', index: 'occupation', width: 140, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 100, align: "center", search: false },

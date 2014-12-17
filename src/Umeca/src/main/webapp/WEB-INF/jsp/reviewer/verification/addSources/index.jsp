@@ -131,7 +131,10 @@
                     <span class="btn btn-default btn-sm" onclick="window.cancelShowSource()">
                         Regresar
                     </span>
-                    <span class="btn btn-primary btn-sm" ng-click="terminateAddSource('<c:url value="/reviewer/verification/addSource/terminate.json?idCase=${idCase}"/>');" ng-disabled="WaitFor == true">
+                    <span class="btn btn-primary btn-sm" ng-confirm-action
+                          confirm-message="&iquest;Est&aacute; seguro que desea finalizar el agregado de fuentes?"
+                          confirm-title = "Terminar agregado de fuentes" confirm-type="info"
+                          confirmed-click-action="terminateAddSource('<c:url value="/reviewer/verification/addSource/terminate.json?idCase=${idCase}"/>');" ng-disabled="WaitFor == true">
                         <span class="icon-group align-top- bigger-125"></span> &nbsp;&nbsp;Finalizar agregado de fuentes
                     </span>
         </div>

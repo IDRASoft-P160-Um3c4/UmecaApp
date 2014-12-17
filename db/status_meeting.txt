@@ -3,3 +3,4 @@
 2|INCOMPLETE_LEGAL|Por agregar información legal
 3|COMPLETE|Finalizado
 4|COMPLETE_VERIFICATION|Verificación finalizada
+5|OBSOLETE|Caso eliminado

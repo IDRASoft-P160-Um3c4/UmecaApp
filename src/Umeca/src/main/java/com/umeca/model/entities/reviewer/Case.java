@@ -40,6 +40,9 @@ public class Case {
     @Column(name="date_not_prosecute", nullable = true)
     private Date dateNotProsecute;
 
+    @Column(name="date_obsolete", nullable = true)
+    private Date dateObsolete;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_status", nullable = false)
     private StatusCase status;
@@ -190,5 +193,13 @@ public class Case {
 
     public void setDateNotProsecute(Date dateNotProsecute) {
         this.dateNotProsecute = dateNotProsecute;
+    }
+
+    public Date getDateObsolete() {
+        return dateObsolete;
+    }
+
+    public void setDateObsolete(Date dateObsolete) {
+        this.dateObsolete = dateObsolete;
     }
 }

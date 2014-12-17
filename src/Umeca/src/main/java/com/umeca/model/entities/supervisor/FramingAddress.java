@@ -160,5 +160,53 @@ public class FramingAddress {
     public void setHomeType(HomeType homeType) {
         this.homeType = homeType;
     }
+
+    public Boolean isComplete() {
+
+        if (this.homeType == null || this.registerType == null)
+            return false;
+
+        if (this.homeType.getName().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_OTHER) && (this.specification == null || this.specification.trim().equals("")))
+            return false;
+
+        if (this.phone == null || this.phone.trim().equals(""))
+            return false;
+
+        if (this.registerType.getName().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL)) {
+
+            if (this.timeAgo == null || this.timeAgo.trim().equals(""))
+                return false;
+
+            if (this.addressRef == null || this.addressRef.trim().equals(""))
+                return false;
+
+            if (this.schedule == null || !(this.schedule.size() > 0))
+                return false;
+
+        } else if (this.registerType.getName().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_PREV)) {
+
+            if (this.timeLive == null || this.timeLive.trim().equals(""))
+                return false;
+
+            if (this.reasonChange == null || this.reasonChange.trim().equals(""))
+                return false;
+
+        } else if (this.registerType.getName().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_SECONDARY)) {
+
+            if (this.timeAgo == null || this.timeAgo.trim().equals(""))
+                return false;
+
+            if (this.addressRef == null || this.addressRef.trim().equals(""))
+                return false;
+
+            if (this.reasonAnother == null || this.reasonAnother.trim().equals(""))
+                return false;
+
+            if (this.schedule == null || !(this.schedule.size() > 0))
+                return false;
+        }
+
+        return true;
+    }
 }
 

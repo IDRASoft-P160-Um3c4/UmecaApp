@@ -12,9 +12,11 @@ import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.Municipality;
 import com.umeca.model.catalog.State;
 import com.umeca.model.catalog.dto.CatalogDto;
+import com.umeca.model.dto.victim.VictimDto;
 import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.CrimeDto;
+import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
@@ -25,6 +27,7 @@ import com.umeca.repository.catalog.MunicipalityRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.reviewer.CrimeRepository;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
+import com.umeca.repository.reviewer.ScheduleRepository;
 import com.umeca.repository.shared.ReportExcelRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
@@ -400,6 +403,8 @@ public class ExcelReportController {
     ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
     @Autowired
     CrimeRepository crimeRepository;
+    @Autowired
+    ScheduleRepository scheduleRepository;
 
     @RequestMapping(value = "/director/excelReport/jxls", method = RequestMethod.GET)
     public
@@ -429,6 +434,7 @@ public class ExcelReportController {
             List<ExcelJobDto> lstJob = caseRepository.getInfoJobs(casesIds);
             List<ExcelDrugDto> lstDrug = caseRepository.getInfoDrugs(casesIds);
             List<ExcelCrimeDto> lstCrimes = caseRepository.getInfoCrimes(casesIds);
+            List<VictimDto> lstVictims = caseRepository.getInfoVictims(casesIds);
             List<ExcelCoDefDto> lstCoDef = caseRepository.getInfoCoDef(casesIds);
             List<ExcelTecRevSelQuestDto> lstSelQuest = caseRepository.getInfoTecRevSelQuest(casesIds);
             List<ExcelVerificationDto> lstVerif = caseRepository.getInfoVerification(casesIds);
@@ -546,6 +552,14 @@ public class ExcelReportController {
                     }
                 }
                 cAct.setLstSelQuest(lstQu);
+
+                List<VictimDto> lstVict = new ArrayList<>();
+                for (VictimDto hAct : lstVictims) {
+                    if (hAct.getId() == cAct.getIdCase()) {
+                        lstVict.add(hAct);
+                    }
+                }
+                cAct.setLstVictim(lstVict);
             }
 
             /*supervision*/
@@ -581,7 +595,11 @@ public class ExcelReportController {
 
             List<FramingMeetingInfo> allFramingMeeting = reportExcelRepository.getFramingMeetingInfo(casesIds);
             List<FramingReferenceInfo> allReferences = reportExcelRepository.getFramingReferenceInfo(casesIds);
-            List<ExcelActivitiesDto> allFramingActivities = reportExcelRepository.getFramingImputedActivities(casesIds);
+            List<SchoolDto> allFramingSchool = reportExcelRepository.getAllFramingSchool(casesIds);
+
+            List<ExcelJobDto> allFramingJobs = reportExcelRepository.getFramingInfoJobs(casesIds);
+            List<ExcelActivitiesDto> allFramingActivities = reportExcelRepository.getFramingInfoActivities(casesIds);
+
             List<CatalogDto> allFramingHomes = reportExcelRepository.getFramingHomes(casesIds);
             List<ExcelDrugDto> allDrugs = reportExcelRepository.getFramingInfoDrugs(casesIds);
             List<CatalogDto> allAddictedAcquaintances = reportExcelRepository.getFramingAddictedAcquaintances(casesIds);
@@ -594,6 +612,14 @@ public class ExcelReportController {
 
             for (FramingMeetingInfo actFM : allFramingMeeting) {
 
+                for (SchoolDto actSch : allFramingSchool) {
+                    if (actSch.getIdCase() == actFM.getIdCase()) {
+                        actSch.setLstSchedule(scheduleRepository.getScheduleDtoBySchoolId(actSch.getId()));
+                        actFM.setSchool(actSch);
+                        break;
+                    }
+                }
+
                 List<FramingReferenceInfo> refs = new ArrayList<>();
                 for (FramingReferenceInfo actRef : allReferences) {
                     if (actRef.getId() == actFM.getIdCase())
@@ -601,19 +627,30 @@ public class ExcelReportController {
                 }
                 actFM.setReferences(refs);
 
-                List<ExcelActivitiesDto> activs = new ArrayList<>();
-                for (ExcelActivitiesDto actAct : allFramingActivities) {
-                    if (actAct.getIdCase() == actFM.getIdCase())
-                        activs.add(actAct);
-                }
-                actFM.setActivities(activs);
-
                 List<CatalogDto> homes = new ArrayList<>();
                 for (CatalogDto actHome : allFramingHomes) {
                     if (actHome.getId() == actFM.getIdCase())
                         homes.add(actHome);
                 }
                 actFM.setHomes(homes);
+
+                List<ExcelActivitiesDto> activities = new ArrayList<>();
+                for (ExcelActivitiesDto actAct : allFramingActivities) {
+                    if (actAct.getIdCase() == actFM.getIdCase()) {
+                        actAct.setSchedule(scheduleRepository.getScheduleByFramingActivityId(actAct.getId()));
+                        activities.add(actAct);
+                    }
+                }
+                actFM.setActivities(activities);
+
+                List<ExcelJobDto> jobs = new ArrayList<>();
+                for (ExcelJobDto actJob : allFramingJobs) {
+                    if (actJob.getIdCase() == actFM.getIdCase()) {
+                        actJob.setSchedule(scheduleRepository.getScheduleByFramingActivityId(actJob.getId()));
+                        jobs.add(actJob);
+                    }
+                }
+                actFM.setJobs(jobs);
 
                 List<ExcelDrugDto> drugs = new ArrayList<>();
                 for (ExcelDrugDto actDrug : allDrugs) {
@@ -730,8 +767,6 @@ public class ExcelReportController {
 
                 actCase.setMonitoringPlanExcelInfo(monInfo);
             }
-
-
             /*supervision*/
 
             /*summary*/
