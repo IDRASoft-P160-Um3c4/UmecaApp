@@ -94,6 +94,16 @@ public class Constants {
     public static final String SYSTEM_SETTINGS_MONPLAN = "MONPLAN";
     public static final String SYSTEM_SETTINGS_MONPLAN_HOURS_TO_AUTHORIZE = "HoursToAuthorize";
 
+    public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING = "SCHEDULE_HEARING";
+        public static final String SYSTEM_SETTINGS_SCHEDULE_LST_IDS_ARRANGEMENT = "LstIdsArrangement";
+    public static final String SYSTEM_SETTINGS_SCHEDULE_LST_IDS_ARRANGEMENT_REMINDER = "LstIdsArrangementReminder";
+    public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING_SUPERVISION_ACTIVITY_ID = "SupervisionActivityId";
+    public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING_SUPERVISION_ACTIVITY_ID_REMINDER = "SupervisionActivityIdReminder";
+    public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING_GOAL_ACTIVITY_ID = "GoalActivityId";
+    public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING_GOAL_ACTIVITY_ID_REMINDER = "GoalActivityIdReminder";
+    public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING_DAYS_BEFORE_FOR_REMINDER = "DaysBeforeForReminder";
+
+
     public static String VERIFICATION_STATUS_COMPLETE = "VERIFICATION_COMPLETE";
 
     public static String STR_REVIEWER_NOTIF_NO_SOURCES = "NO_SOURCES";

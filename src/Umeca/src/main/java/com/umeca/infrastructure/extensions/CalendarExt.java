@@ -39,6 +39,16 @@ public class CalendarExt {
         return today;
     }
 
+
+    public static Calendar getFloorDate(Calendar date){
+        Calendar dateFloor= (Calendar)date.clone();
+        dateFloor.set(Calendar.HOUR_OF_DAY, 0);
+        dateFloor.set(Calendar.MINUTE, 0);
+        dateFloor.set(Calendar.SECOND, 0);
+        dateFloor.set(Calendar.MILLISECOND, 0);
+        return dateFloor;
+    }
+
     //2014/MM/DD|14:15
     public static String calendarToString(Calendar calendar) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd|HH:mm");

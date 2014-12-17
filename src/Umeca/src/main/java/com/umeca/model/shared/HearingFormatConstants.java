@@ -37,5 +37,5 @@ public class HearingFormatConstants {
     public static final Integer IMPUTED_PRESENCE_YES = 1;
     public static final Integer IMPUTED_PRESENCE_NO = 2;
 
-
+    public static final String DESCRIPTION_ASSIGNED_ARRANGEMENT_BY_SYSTEM = "ASIGNADA POR SISTEMA";
 }

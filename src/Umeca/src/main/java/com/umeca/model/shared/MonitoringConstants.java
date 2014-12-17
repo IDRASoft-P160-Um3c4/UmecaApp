@@ -57,6 +57,8 @@ public class MonitoringConstants {
     public final static String TYPE_COMMENT_CASE_END = "TERMINAR CASO";
     public final static String TYPE_COMMENT_REOPEN_CASE = "REABRIR CASO";
     public final static String TYPE_COMMENT_ASSIGNED_CASE = "CASO ASIGNADO";
+    public final static String TYPE_COMMENT_SCHEDULE_HEARING = "AUDIENCIA AGENDADA";
+
     public final static String TYPE_INFORMATION = "INFORMATION";
 
     public static final int ACTIVITY_ARRANGEMENT_UNDEFINED = -1;
