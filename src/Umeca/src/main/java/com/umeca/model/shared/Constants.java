@@ -172,4 +172,5 @@ public class Constants {
     public static final String NAME_RELATIONSHIP_NONE = "Ninguno";
 
     public static String S_MEETING_OBSOLETE="OBSOLETE";
+    public static String ROLE_DIRECTOR="ROLE_DIRECTOR";
 }

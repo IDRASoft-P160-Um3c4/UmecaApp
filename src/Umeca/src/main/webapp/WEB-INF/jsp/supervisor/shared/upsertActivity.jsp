@@ -14,7 +14,7 @@
     <div class="col-xs-10 col-xs-offset-1 widget-container-span">
         <div class="widget-box">
             <div class="widget-header widget-hea1der-small header-color-dark">
-                <h6>Diponibilidad</h6>
+                <h6>Diponibilidad del imputado</h6>
 
                 <div class="widget-toolbar">
                     <a href="#" data-action="collapse">
@@ -28,24 +28,14 @@
 
                         <div class="content" ng-init='lstSchedules = ${lstSchedules == null ? "[]":lstSchedules}'>
                             <div class="row" ng-repeat="ls in lstSchedules">
-                                <div class = "col-xs-10 col-offset-2">
+                                <div class = "col-xs-12">
                                     <label class="smaller lighter blue">{{ls.name}}</label><br/>
                                     <div class="row">
-
-                                        <div class="col-xs-9 col-sx-offset-3" ng-repeat="sch in ls.sch">
-                                            <div class="col-xs-1">
-                                                <i class="icon-asterisk">
+                                        <div class="col-xs-5" ng-repeat="sch in ls.sch">
+                                                <i class="icon-asterisk green">
                                                 </i>
-                                            </div>
-                                            <div class="col-xs-6">
-                                                {{sch.day}}
-                                            </div>
-                                            <div class="col-xs-1">
-                                                <i class="glyphicon glyphicon-minus infobox-blue2">  </i>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                {{sch.start}} - {{sch.end}}
-                                            </div>
+                                                {{sch.day}} / {{sch.start}} - {{sch.end}}
+
                                         </div>
                                     </div>
 

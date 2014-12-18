@@ -40,6 +40,32 @@ public class MessageHistoryController {
         return new ModelAndView("/shared/messageHistory/index");
     }
 
+    private void setFiltersGridUser(JqGridFilterModel opts){
+        Long userId = userService.GetLoggedUserId();
+        if(!userService.isUserInRole(userId,Constants.ROLE_DIRECTOR)){
+            Boolean isManagerEval = userService.isUserInRole(userId, Constants.ROLE_EVALUATION_MANAGER);
+            Boolean isManagerSup = userService.isUserInRole(userId, Constants.ROLE_SUPERVISOR_MANAGER);
+            if(isManagerSup || isManagerEval){
+                String role;
+                if(isManagerEval){
+                    role = Constants.ROLE_REVIEWER;
+                }else{
+                    role = Constants.ROLE_SUPERVISOR;
+                }
+                opts.extraFilters = new ArrayList<>();
+                JqGridRulesModel extraFilter = new JqGridRulesModel("role",
+                        role, JqGridFilterModel.COMPARE_EQUAL);
+                opts.extraFilters.add(extraFilter);
+            }else{
+                opts.extraFilters = new ArrayList<>();
+                JqGridRulesModel extraFilter = new JqGridRulesModel("user",
+                        userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
+                opts.extraFilters.add(extraFilter);
+
+            }
+        }
+    }
+
     @RequestMapping(value = {"/shared/messageHistory/list"}, method = RequestMethod.POST)
     @ResponseBody
     public JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
@@ -53,17 +79,19 @@ public class MessageHistoryController {
         opts.extraFilters.add(extraFilter2);
         */
 
-        List<String> usrRoles = userService.getLstRolesByUserId(userService.GetLoggedUserId());
-        if (usrRoles != null && usrRoles.size() > 0) {
-            if (usrRoles.contains(Constants.ROLE_REVIEWER)) {
-                JqGridRulesModel extraFilter = new JqGridRulesModel("user", userService.GetLoggedUserId().toString()
-                        , JqGridFilterModel.COMPARE_EQUAL
-                );
-                opts.setExtraFilters(new ArrayList<JqGridRulesModel>());
-                opts.extraFilters.add(extraFilter);
-            }
-        }
 
+//
+//        List<String> usrRoles = userService.getLstRolesByUserId(userService.GetLoggedUserId());
+//        if (usrRoles != null && usrRoles.size() > 0) {
+//            if (usrRoles.contains(Constants.ROLE_REVIEWER)) {
+//                JqGridRulesModel extraFilter = new JqGridRulesModel("user", userService.GetLoggedUserId().toString()
+//                        , JqGridFilterModel.COMPARE_EQUAL
+//                );
+//                opts.setExtraFilters(new ArrayList<JqGridRulesModel>());
+//                opts.extraFilters.add(extraFilter);
+//            }
+//        }
+        setFiltersGridUser(opts);
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
@@ -99,6 +127,8 @@ public class MessageHistoryController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("user"))
                     return r.join("requestMessage").join("sender").get("id");
+                if (field.equals("role"))
+                    return r.join("requestMessage").join("sender").join("roles").get("role");
                 if(field.equals("fullName"))
                     return r.join("requestMessage").join("caseDetention").join("meeting").join("imputed").get("name");
                 if(field.equals("idFolder"))
@@ -116,7 +146,7 @@ public class MessageHistoryController {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("caseDetention", idCase.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
-
+        setFiltersGridUser(opts);
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
@@ -145,7 +175,10 @@ public class MessageHistoryController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-
+                if (field.equals("user"))
+                    return r.join("requestMessage").join("sender").get("id");
+                if (field.equals("role"))
+                    return r.join("requestMessage").join("sender").join("roles").get("role");
                 if (field.equals("caseDetention"))
                     return r.join("requestMessage").join("caseDetention").get("id");
 

@@ -223,6 +223,10 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     for (PersonSocialNetwork psn : listp) {
                         CatalogDto cDto = new CatalogDto();
                         switch (name[1]) {
+                            case "block":
+                                Boolean block = psn.getBlock();
+                                listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true, psn.getId()));
+                                break;
                             case "name":
                                 listFMS.add(new FieldMeetingSource(psn.getName(), psn.getName(), psn.getId()));
                                 break;
@@ -280,6 +284,10 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                 for (Reference r : m.getReferences()) {
                     CatalogDto cDto = new CatalogDto();
                     switch (name[1]) {
+                        case "block":
+                            Boolean block = r.getBlock();
+                            listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,r.getId()));
+                            break;
                         case "fullName":
                             listFMS.add(new FieldMeetingSource(r.getFullName(), r.getFullName(), r.getId()));
                             break;
@@ -327,6 +335,10 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     CatalogDto cDto = new CatalogDto();
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                     switch (name[1]) {
+                        case "block":
+                            Boolean block = j.getBlock();
+                            listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,j.getId()));
+                            break;
                         case "company":
                             listFMS.add(new FieldMeetingSource(j.getCompany(), j.getCompany(), j.getId()));
                             break;
@@ -379,6 +391,10 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
             case "school":
                 School s = m.getSchool();
                 switch (name[1]) {
+                    case "block":
+                        Boolean block = s.getBlock();
+                        listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true));
+                        break;
                     case "name":
                         listFMS.add(new FieldMeetingSource(s.getName(), s.getName()));
                         break;
@@ -410,6 +426,10 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                     CatalogDto cdtod = new CatalogDto();
                     switch (name[1]) {
+                        case "block":
+                            Boolean block = d.getBlock();
+                            listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,d.getId()));
+                            break;
                         case "drugType":
                             cdtod.setName(d.getDrugType().getName());
                             cdtod.setId(d.getDrugType().getId());
@@ -431,6 +451,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             break;
                         case "quantity":
                             listFMS.add(new FieldMeetingSource(d.getQuantity(), d.getQuantity(), d.getId()));
+                            break;
+                        case "onsetAge":
+                            listFMS.add(new FieldMeetingSource(d.getOnsetAge(), d.getOnsetAge(), d.getId()));
                             break;
                         case "lastUse":
                             listFMS.add(new FieldMeetingSource(formatter.format(d.getLastUse()), String.valueOf(d.getLastUse()), d.getId()));
@@ -693,6 +716,10 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         if (psn.getId().equals(idList)) {
                             CatalogDto cDto = new CatalogDto();
                             switch (name[1]) {
+                                case "block":
+                                    Boolean block = psn.getBlock();
+                                    listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,psn.getId()));
+                                    break;
                                 case "name":
                                     listFMS.add(new FieldMeetingSource(psn.getName(), psn.getName(), psn.getId()));
                                     break;
@@ -752,6 +779,10 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     if (r.getId().equals(idList)) {
                         CatalogDto cDto = new CatalogDto();
                         switch (name[1]) {
+                            case "block":
+                                Boolean block = r.getBlock();
+                                listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,r.getId()));
+                                break;
                             case "fullName":
                                 listFMS.add(new FieldMeetingSource(r.getFullName(), r.getFullName(), r.getId()));
                                 break;
@@ -800,6 +831,10 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         CatalogDto cDto = new CatalogDto();
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                         switch (name[1]) {
+                            case "block":
+                                Boolean block = j.getBlock();
+                                listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,j.getId()));
+                                break;
                             case "company":
                                 listFMS.add(new FieldMeetingSource(j.getCompany(), j.getCompany(), j.getId()));
                                 break;
@@ -854,6 +889,10 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
             case "school":
                 School s = m.getSchool();
                 switch (name[1]) {
+                    case "block":
+                        Boolean block = s.getBlock();
+                        listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true));
+                        break;
                     case "name":
                         listFMS.add(new FieldMeetingSource(s.getName(), s.getName()));
                         break;
@@ -886,6 +925,10 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                         CatalogDto cdtod = new CatalogDto();
                         switch (name[1]) {
+                            case "block":
+                                Boolean block = d.getBlock();
+                                listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,d.getId()));
+                                break;
                             case "drugType":
                                 cdtod.setName(d.getDrugType().getName());
                                 cdtod.setId(d.getDrugType().getId());
@@ -907,6 +950,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                 break;
                             case "quantity":
                                 listFMS.add(new FieldMeetingSource(d.getQuantity(), d.getQuantity(), d.getId()));
+                                break;
+                            case "onsetAge":
+                                listFMS.add(new FieldMeetingSource(d.getOnsetAge(), d.getOnsetAge(), d.getId()));
                                 break;
                             case "lastUse":
                                 listFMS.add(new FieldMeetingSource(formatter.format(d.getLastUse()), String.valueOf(d.getLastUse()), d.getId()));
@@ -1558,6 +1604,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     break;
                                 case "quantity":
                                     d.setQuantity(fms.getJsonValue());
+                                    break;
+                                case "onsetAge":
+                                    d.setOnsetAge(fms.getJsonValue());
                                     break;
                                 case "lastUse":
                                     Date lastUse = new Date();

@@ -24,9 +24,21 @@ public class FieldMeetingSource {
         this.jsonValue = jsonValue;
     }
 
+    public FieldMeetingSource(String value, String jsonValue, Boolean isFinal) {
+        this.value = value;
+        this.jsonValue = jsonValue;
+        this.isFinal  = isFinal;
+    }
     public FieldMeetingSource(String value, String jsonValue, Long idFieldList) {
         this.value = value;
         this.jsonValue = jsonValue;
+        this.idFieldList = idFieldList;
+    }
+
+    public FieldMeetingSource(String value, String jsonValue, Boolean aFinal, Long idFieldList) {
+        this.value = value;
+        this.jsonValue = jsonValue;
+        this.isFinal = aFinal;
         this.idFieldList = idFieldList;
     }
 
