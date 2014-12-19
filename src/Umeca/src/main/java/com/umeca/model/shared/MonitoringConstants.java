@@ -70,8 +70,9 @@ public class MonitoringConstants {
     public static final String ACTIVITY_ARRANGEMENT_DONE_STRING = "Cumplido";
 
     public static final String LOG_PENDING_ACCOMPLISHMENT = "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO";
-    public static final String LOG_ACCOMPLISHMENT_AUTHORIZED = "AUTORIZAR REPORTE INCUMPLIMIENTO";
+    public static final String LOG_ACCOMPLISHMENT_AUTHORIZED = "AUTORIZADO REPORTE INCUMPLIMIENTO";
     public static final String LOG_ACCOMPLISHMENT_REJECTED = "RECHAZADO REPORTE INCUMPLIMIENTO";
+    public static final String LOG_ACCOMPLISHMENT_PENDING = "PENDIENTE";
 
     public static final String LOG_MSG_INFO_PENDING_AUTHORIZATION = "En espera de la autorización del plan de seguimiento";
     public static final String LOG_MSG_INFO_PENDING_AUTHORIZATION_OBSOLETE = "En espera de respuesta a la solicitud de eliminar caso";

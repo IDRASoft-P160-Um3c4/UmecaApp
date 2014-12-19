@@ -6,6 +6,7 @@ public class AuthorizeRejectMonPlan {
     private Integer authorized;
     private String comments;
     private String password;
+    private Long fulfillmentReportId;
 
     public Long getCaseId() {
         return caseId;
@@ -45,5 +46,13 @@ public class AuthorizeRejectMonPlan {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getFulfillmentReportId() {
+        return fulfillmentReportId;
+    }
+
+    public void setFulfillmentReportId(Long fulfillmentReportId) {
+        this.fulfillmentReportId = fulfillmentReportId;
     }
 }
