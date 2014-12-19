@@ -69,6 +69,8 @@ public class FramingMeetingInfo {
     private SchoolDto school;
     private List<ExcelJobDto> jobs;
 
+    private List<CatalogDto> summaryHomes;
+
     public FramingMeetingInfo() {
     }
 
@@ -909,4 +911,134 @@ public class FramingMeetingInfo {
 
         return returnStr;
     }
+
+    public List<CatalogDto> getSummaryHomes() {
+        return summaryHomes;
+    }
+
+    public void setSummaryHomes(List<CatalogDto> summaryHomes) {
+        this.summaryHomes = summaryHomes;
+    }
+
+    public String summaryFramingHomes() {
+        String returnStr = "";
+        for (CatalogDto act : summaryHomes) {
+            if (returnStr != "")
+                returnStr += "\n";
+            returnStr += "-" + act.getName();
+        }
+        return returnStr;
+    }
+
+    public String summaryFramingHousemates() {
+        String returnStr = "";
+        for (FramingReferenceInfo act : this.references) {
+            if (returnStr != "")
+                returnStr += "\n";
+            if (act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
+                returnStr += "-" + act.getRelationship();
+        }
+        return returnStr;
+    }
+
+    public String summaryFramingReferences() {
+        String returnStr = "";
+        for (FramingReferenceInfo act : this.references) {
+            if (returnStr != "")
+                returnStr += "\n";
+            if (act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
+                returnStr += "-" + act.getRelationship();
+        }
+        return returnStr;
+    }
+
+    public String summaryFramingActivities() {
+
+        String returnStr = "";
+        for (ExcelActivitiesDto act : this.activities) {
+            if (returnStr != "")
+                returnStr += "\n";
+            returnStr += "-" + act.getNameAct();
+        }
+        return returnStr;
+    }
+
+    public String summaryFramingJobs() {
+
+        Boolean hasACt = false;
+        for (ExcelJobDto act : this.jobs) {
+            if (act.getBlock() == true) {
+                hasACt = true;
+                break;
+            } else {
+                break;
+            }
+        }
+
+        if (hasACt == true)
+            return "Tiene trabajo actual";
+        else
+            return "No tiene trabajo actual";
+    }
+
+    public String summaryFramingDrugs() {
+        String drugsStr = "";
+        if (this.drugs != null && this.drugs.size() > 0)
+            for (ExcelDrugDto act : this.drugs) {
+                if (drugsStr != "")
+                    drugsStr += "\n";
+                if (act.getBlock() == true) {
+                    if (act.getDrugType() != null && !act.getDrugType().equals(""))
+                        drugsStr += "-" + act.getDrugType();
+                } else {
+                    drugsStr = "No consume sustancias.";
+                }
+            }
+        return drugsStr;
+    }
+
+    public String summaryFramingLinks() {
+        Boolean hasLinks = false;
+
+        if (this.links != null && this.links.size() > 0) {
+            for (CatalogDto actLink : this.links) {
+                if (actLink.getCode() != null) {
+                    if (actLink.getCode().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE) ||
+                            actLink.getCode().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
+                        hasLinks = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (hasLinks == true)
+            return "El imputado cuenta con vínculos";
+        else
+            return "El imputado no cuenta con vínculos";
+    }
+
+    public String summaryFramingRiskThreats() {
+        String returnStr = "";
+        String riskStr = this.riskToString();
+        String threatsStr = this.threatsToString();
+        if (riskStr != "")
+            returnStr = "Riesgos: " + riskStr + "\n";
+        if (threatsStr != "")
+            returnStr += "Amenzas: " + threatsStr;
+
+        return returnStr;
+    }
+
+    public String summaryFramingAdditionalQuestions() {
+        String returnStr = "";
+        if (this.getAddictionTreatmentStr() != "")
+            returnStr += "-¿Se encuentra en algún tipo de tratamiento de adicciones?: " + this.getAddictionTreatmentStr() + "\n";
+        if (this.getRelativeAbroadStr() != "")
+            returnStr += "-¿Cuenta con familiares en el extranjero?: " + this.getRelativeAbroadStr() + "\n";
+        if (this.getObligationIssueStr() != "")
+            returnStr += "-¿Consideras que alguna de las obligaciones impuestas será difícil de cumplir?: " + this.getObligationIssueStr();
+        return returnStr;
+    }
+
 }

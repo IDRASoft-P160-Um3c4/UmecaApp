@@ -41,6 +41,15 @@ public class ReportExcelFiltersDto {
     private String lstHearingTypeStr;
     private List<Integer> lstHearingType;
 
+    private String lstCrimeStr;
+    private List<Long> lstCrime;
+
+    private String lstArrangementStr;
+    private List<Long> lstArrangement;
+
+    private String lstActivitiesStr;
+    private List<Long> lstActivities;
+
     private Boolean hasMonP;
 
     private Boolean hasJob;
@@ -255,5 +264,56 @@ public class ReportExcelFiltersDto {
 
     public void setIdLoc(Long idLoc) {
         this.idLoc = idLoc;
+    }
+
+    public String getLstCrimeStr() {
+        return lstCrimeStr;
+    }
+
+    public void setLstCrimeStr(String lstCrimeStr) {
+        this.lstCrimeStr = lstCrimeStr;
+    }
+
+    public List<Long> getLstCrime() {
+        lstCrime = conv.fromJson(lstCrimeStr, longListType);
+        return lstCrime;
+    }
+
+    public void setLstCrime(List<Long> lstCrime) {
+        this.lstCrime = lstCrime;
+    }
+
+    public String getLstArrangementStr() {
+        return lstArrangementStr;
+    }
+
+    public void setLstArrangementStr(String lstArrangementStr) {
+        this.lstArrangementStr = lstArrangementStr;
+    }
+
+    public List<Long> getLstArrangement() {
+        lstArrangement = conv.fromJson(lstArrangementStr, longListType);
+        return lstArrangement;
+    }
+
+    public void setLstArrangement(List<Long> lstArrangement) {
+        this.lstArrangement = lstArrangement;
+    }
+
+    public String getLstActivitiesStr() {
+        return lstActivitiesStr;
+    }
+
+    public void setLstActivitiesStr(String lstActivitiesStr) {
+        this.lstActivitiesStr = lstActivitiesStr;
+    }
+
+    public List<Long> getLstActivities() {
+        lstActivities = conv.fromJson(lstActivitiesStr, longListType);
+        return lstActivities;
+    }
+
+    public void setLstActivities(List<Long> lstActivities) {
+        this.lstActivities = lstActivities;
     }
 }

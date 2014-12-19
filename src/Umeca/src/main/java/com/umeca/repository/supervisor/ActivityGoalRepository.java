@@ -30,6 +30,10 @@ public interface ActivityGoalRepository extends JpaRepository<ActivityGoal, Long
             "INNER JOIN amp.monitoringPlan mp INNER JOIN amp.activityGoal ag " +
             "WHERE mp.id =:id")
     List<SelectList> findByMonPlanId(@Param("id") Long id);
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(ag.id, ag.name) FROM ActivityGoal ag " +
+            "WHERE ag.isObsolete=false")
+    List<SelectList> findAllForView();
 }
 
 

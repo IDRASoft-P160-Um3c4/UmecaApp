@@ -125,6 +125,36 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where ((c.id in (:lstCases)) and ((rt.id <> 1) or (rt.id is null)))")
     List<Long> findIdCasesWithOutActualJob(@Param("lstCases") List<Long> lstCases);
 
+    @Query("select distinct (cd.id) from Case as cd " +
+            "inner join cd.meeting as m " +
+            "inner join m.currentCriminalProceeding as ccp " +
+            "inner join ccp.crimeList as ccpc " +
+            "inner join ccpc.crime c " +
+            "inner join c.groupCrime gc " +
+            "where ((cd.id in (:lstCases)) and (gc.id in (:lstCrimes)))")
+    List<Long> findIdCasesByCrimesInLegal(@Param("lstCases") List<Long> lstCases, @Param("lstCrimes") List<Long> lstCrimes);//casos con crimenes en legales
+
+    @Query("select distinct (cd.id) from Case as cd " +
+            "inner join cd.hearingFormats as hf " +
+            "inner join hf.crimeList as hfc " +
+            "inner join hfc.crime c " +
+            "inner join c.groupCrime gc " +
+            "where ((cd.id in (:lstCases)) and (gc.id in (:lstCrimes)))")
+    List<Long> findIdCasesByCrimesInFormat(@Param("lstCases") List<Long> lstCases, @Param("lstCrimes") List<Long> lstCrimes);//casos con crimenes en legales
+
+    @Query("select distinct (cd.id) from ActivityMonitoringPlan amp " +
+            "inner join amp.supervisionActivity sa " +
+            "inner join amp.caseDetention cd " +
+            "where ((cd.id in (:lstCases)) and (sa.id in (:lstActivities)))")
+    List<Long> findIdCasesByMonitoringActivities(@Param("lstCases") List<Long> lstCases, @Param("lstActivities") List<Long> lstActivities);//casos con actividades en el plan de monitoreo
+
+    @Query("select distinct (cd.id) from Case cd " +
+            "inner join cd.hearingFormats as hf " +
+            "inner join hf.assignedArrangements as aa " +
+            "inner join aa.arrangement as arr " +
+            "where ((cd.id in (:lstCases)) and (arr.id in (:lstArrangement)))")
+    List<Long> findIdCasesByArrangements(@Param("lstCases") List<Long> lstCases, @Param("lstArrangement") List<Long> lstArrangement);//casos con obligaciones en los formatos
+
     /*summary querys*/
 
     @Query("select count(c.id) from Case as c " +
@@ -188,7 +218,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "inner join HF.hearingFormatSpecs HFSP " +
             "inner join HF.supervisor HFUSR " +
             "left join HF.hearingType HT " +
-            "where (C.id in(:lstCasesIds))")
+            "where (C.id in(:lstCasesIds)) order by Hf.registerTime asc")
     List<HearingFormatInfo> getHearingFormatInfo(@Param("lstCasesIds") List<Long> lstCasesIds);
 
     @Query("select ARR.description from HearingFormat HF " +
@@ -242,6 +272,16 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "left join FMA.address ADD " +
             "where (CD.id in (:lstCasesIds))")
     List<CatalogDto> getFramingHomes(@Param("lstCasesIds") List<Long> lstCasesIds);
+
+    @Query("select new com.umeca.model.catalog.dto.CatalogDto(CD.id,concat(ST.name,', ',MUN.name,', ',LOC.name)) from Case CD " +
+            "left join CD.framingMeeting FM " +
+            "left join FM.framingAddresses FMA " +
+            "left join FMA.address ADD " +
+            "left join ADD.location LOC " +
+            "left join LOC.municipality MUN " +
+            "left join MUN.state ST " +
+            "where (CD.id in (:lstCasesIds))")
+    List<CatalogDto> getSummaryFramingHomes(@Param("lstCasesIds") List<Long> lstCasesIds);
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelDrugDto(CDET.id, DT.name, PER.name, DRUG.quantity, DRUG.lastUse, DRUG.specificationType, DRUG.specificationPeriodicity, DRUG.block) " +
             "from Case CDET " +

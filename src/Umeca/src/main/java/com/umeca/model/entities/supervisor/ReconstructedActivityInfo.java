@@ -118,11 +118,13 @@ public class ReconstructedActivityInfo {
         return returnStr;
     }
 
-        public String supervisionDetailToStr() {
+    public String supervisionDetailToStr() {
         String returnStr = "";
 
-        returnStr += "-Estatus: " + status;
-        returnStr += "\n-Comentarios: " + comments;
+        if (status != null)
+            returnStr += "-Estatus: " + status;
+        if (comments != null)
+            returnStr += "\n-Comentarios: " + comments;
 
         return returnStr;
     }

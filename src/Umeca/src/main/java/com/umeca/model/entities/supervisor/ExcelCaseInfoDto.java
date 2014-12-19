@@ -95,6 +95,9 @@ public class ExcelCaseInfoDto {
     private Long idMonP;
     private MonitoringPlanExcelInfo monitoringPlanExcelInfo;
 
+    private List<ExcelVerificationDto> summaryVerificationSources;
+    private HearingFormatInfo lastFormatInfo;
+
     public ExcelCaseInfoDto(Long idCase,
                             String idFolder,
                             String idMP,
@@ -776,8 +779,10 @@ public class ExcelCaseInfoDto {
 
                     if (act.getAddress() != null && !act.getAddress().equals(""))
                         this.socialNetworkStr += ", Direcci�n: " + act.getAddress();
-                } else
+                } else {
                     this.socialNetworkStr = "El imputado no cuenta con personas en su red social.";
+                    break;
+                }
             }
 
         return this.socialNetworkStr;
@@ -828,8 +833,10 @@ public class ExcelCaseInfoDto {
 
                     if (act.getAddress() != null && !act.getAddress().equals(""))
                         this.referencesStr += ", Direcci�n: " + act.getAddress();
-                } else
+                } else {
                     this.referencesStr = "El imputado no cuenta con referencias personales.";
+                    break;
+                }
 
             }
 
@@ -1161,7 +1168,6 @@ public class ExcelCaseInfoDto {
             for (VictimDto act : this.lstVictim) {
                 if (victimStr != "")
                     victimStr += "\n";
-
                 if (act.getFullname() != null && !act.getFullname().equals(""))
                     victimStr += "-Nombre: " + act.getFullname();
                 if (act.getRelName() != null && !act.getRelName().equals(""))
@@ -1174,7 +1180,6 @@ public class ExcelCaseInfoDto {
                     victimStr += ", Teléfono: " + act.getPhone();
                 if (act.getAddressString() != null && !act.getAddressString().equals(""))
                     victimStr += ", Dirección: " + act.getAddressString();
-
             }
 
         return victimStr;
@@ -1183,4 +1188,231 @@ public class ExcelCaseInfoDto {
     public void setVictimStr(String victimStr) {
         this.victimStr = victimStr;
     }
+
+    public String summaryEvaluationHomes() {
+
+        String returnStr = "";
+
+        if (this.lstHomes != null && this.lstHomes.size() > 0)
+            for (ExcelImputedHomeDto act : this.lstHomes) {
+                if (returnStr != "")
+                    returnStr += "\n";
+
+                if (act.getSummaryStr() != null)
+                    returnStr += "-" + act.getSummaryStr();
+            }
+
+        return returnStr;
+    }
+
+    public String summaryEvaluationSocialNetwork() {
+
+        String returnStr = "";
+        if (this.lstSN != null && this.lstSN.size() > 0) {
+
+            for (ExcelSocialNetworkDto act : this.lstSN) {
+
+                if (act.getBlock() == true) {
+
+                    if (returnStr != "")
+                        returnStr += "\n";
+
+                    if (act.getRelationship() != null && !act.getRelationship().equals(""))
+                        returnStr += "- " + act.getRelationship();
+
+                    if (act.getDependent() != null && !act.getDependent().equals(""))
+                        returnStr += ", Dependiente: " + act.getDependent();
+
+                } else {
+                    returnStr = "El imputado no cuenta con personas en su red social.";
+                    break;
+                }
+            }
+        }
+
+        return returnStr;
+    }
+
+    public String summaryEvaluationReferences() {
+        String returnStr = "";
+        if (this.lstRef != null && this.lstRef.size() > 0) {
+            for (ExcelReferenceDto act : this.lstRef) {
+                if (act.getBlock() == true) {
+                    if (returnStr != "")
+                        returnStr += "\n";
+
+                    if (act.getRelationship() != null && !act.getRelationship().equals(""))
+                        returnStr += "- " + act.getRelationship();
+                } else {
+                    returnStr = "El imputado no cuenta con referencias personales.";
+                    break;
+                }
+            }
+        }
+        return returnStr;
+    }
+
+    public String summaryEvaluationJobs() {
+        String returnStr = "";
+        Boolean hasAct = false;
+
+        if (this.lstJob != null && this.lstJob.size() > 0) {
+            for (ExcelJobDto act : this.lstJob) {
+                if (act.getBlock() == true) {
+                    if (act.getRegisterType() != null && act.getRegisterType().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL)) {
+                        hasAct = true;
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        if (hasAct == true)
+            returnStr = "El imputado tiene trabajo actual";
+        else
+            returnStr = "El imputado no tiene trabajo actual";
+
+        return returnStr;
+    }
+
+    public String summaryEvaluationSchool() {
+        String returnStr = "";
+
+        if (this.imputedActualSchool == true) {
+            returnStr += "El imputado estudia actualmente. Grado actual - ";
+        } else {
+            returnStr += "El imputado no estudia actualmente. Último grado de estudios ";
+        }
+
+        returnStr += "Nivel: " + this.imputedSchoolLevel;
+        returnStr += " Grado: " + this.imputedSchoolDegree;
+
+        return returnStr;
+    }
+
+
+    public String summaryEvaluationDrugs() {
+        String returnStr = "";
+
+        if (lstDrug != null && lstDrug.size() > 0)
+            for (ExcelDrugDto act : lstDrug) {
+                if (act.getBlock() == true) {
+                    if (returnStr != "")
+                        returnStr += "\n";
+                    if (act.getDrugType() != null && !act.getDrugType().equals(""))
+                        returnStr += "-" + act.getDrugType();
+                } else {
+                    returnStr = "El imputado no consume sustancias.";
+                    break;
+                }
+            }
+
+        return returnStr;
+    }
+
+    public String summaryEvaluationLeaveCountry() {
+        String returnStr = "";
+
+        if (this.officialDoc != null)
+            returnStr += "-¿El imputado cuenta con documentación oficial que facilite que abandone el país?: " + this.officialDoc + "\n";
+        if (this.imputedLivedAnotherCountry != null)
+            returnStr += "-¿El detenido ha vivido en otro país?: " + this.imputedLivedAnotherCountry + "\n";
+        if (this.imputedLivedRelativeAbroad != null)
+            returnStr += "-¿El detenido cuenta con familiares y/o amigos cercanos en otro país?: " + this.imputedLivedRelativeAbroad;
+
+        return returnStr;
+    }
+
+    public String summaryEvaluationHasCodef() {
+        if (this.getCoDefStr().equals(""))
+            return "No";
+        else
+            return "Si";
+    }
+
+    public String summaryEvaluationVictims() {
+        String returnStr = "";
+        if (this.lstVictim != null && this.lstVictim.size() > 0) {
+            for (VictimDto act : this.lstVictim) {
+                if (returnStr != "")
+                    returnStr += "\n";
+                if (act.getRelName() != null && !act.getRelName().equals(""))
+                    returnStr += "-" + act.getRelName();
+            }
+        }
+        return returnStr;
+    }
+
+    public String summaryEvaluationPrevProcess() {
+        String returnStr = "";
+
+        if (this.imputedLegalFirstProcess != null)
+            returnStr += "-Primer proceso: " + this.imputedLegalFirstProcess + "\n";
+
+        if (this.imputedLegalOpenProcess != null)
+            returnStr += "-Número de procesos abiertos: " + this.imputedLegalOpenProcess + "\n";
+
+        if (this.imputedLegalConvictions != null)
+            returnStr += "-Número de sentencias condenatorias: " + this.imputedLegalConvictions + "\n";
+
+        if (this.imputedLegalAccomplishAssignedArrangement != null)
+            returnStr += "-Cumplió con medidas cautelares: " + this.imputedLegalAccomplishAssignedArrangement + "\n";
+
+        if (this.imputedLegalAccomplishSCPP != null)
+            returnStr += "-Cumplio con SCPP: " + this.imputedLegalAccomplishSCPP + "\n";
+
+        if (this.imputedLegalAccomplishProcessAbove != null)
+            returnStr += "-Permitió y/o colaboró con procesos anteriores:" + this.imputedLegalAccomplishProcessAbove + "\n";
+
+        return returnStr;
+    }
+
+    public List<ExcelVerificationDto> getSummaryVerificationSources() {
+        return summaryVerificationSources;
+    }
+
+    public void setSummaryVerificationSources(List<ExcelVerificationDto> summaryVerificationSources) {
+        this.summaryVerificationSources = summaryVerificationSources;
+    }
+
+    public String summaryEvaluationVerificationSources() {
+        String returnStr = "";
+
+        for (ExcelVerificationDto actSource : summaryVerificationSources) {
+            if (returnStr != "")
+                returnStr += "\n";
+            returnStr += "-" + actSource.getSourceRelationship();
+            returnStr += ", " + actSource.getVerificationMethod();
+        }
+        return returnStr;
+    }
+
+    public HearingFormatInfo getLastFormatInfo() {
+        return lastFormatInfo;
+    }
+
+    public void setLastFormatInfo(HearingFormatInfo lastFormatInfo) {
+        this.lastFormatInfo = lastFormatInfo;
+    }
+
+    public String summarySupervisionLasFormat() {
+        String returnStr = "";
+
+        if (this.lastFormatInfo != null) {
+            returnStr += "-Fecha: " + this.lastFormatInfo.calendarToStr(this.lastFormatInfo.getRegisterTime()) + "\n";
+            returnStr += "-Delitos: " + this.lastFormatInfo.getSummaryCrimes() + "\n";
+            returnStr += "-Control de detención: " + this.lastFormatInfo.getContDetStr() + "\n";
+            returnStr += "-Formulación de imputación: " + this.lastFormatInfo.getImpFormStr() + "\n";
+            returnStr += "-Extensión: " + this.lastFormatInfo.getExtStr() + "\n";
+            returnStr += "-Vinculación a proceso: " + this.lastFormatInfo.getVincProcStr() + "\n";
+            returnStr += "-Término o plazo: " + this.lastFormatInfo.getTerms() + "\n";
+            returnStr += "-Tipo de audiencia: " + this.lastFormatInfo.getHearingType() + "\n";
+            returnStr += "-Tipo de obligaciones: " + this.lastFormatInfo.getArrangementTypeStr() + "\n";
+            returnStr += "-Total de formatos de audiencia: " + this.lastFormatInfo.getTotalFormats() + "\n";
+        }
+        return returnStr;
+    }
+
 }

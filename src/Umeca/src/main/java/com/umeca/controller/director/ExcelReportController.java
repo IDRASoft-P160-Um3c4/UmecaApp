@@ -21,10 +21,7 @@ import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
-import com.umeca.repository.catalog.ArrangementRepository;
-import com.umeca.repository.catalog.LocationRepository;
-import com.umeca.repository.catalog.MunicipalityRepository;
-import com.umeca.repository.catalog.StateRepository;
+import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.CrimeRepository;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.ScheduleRepository;
@@ -119,6 +116,8 @@ public class ExcelReportController {
     private MunicipalityRepository municipalityRepository;
     @Autowired
     private LocationRepository locationRepository;
+    @Autowired
+    private GroupCrimeRepository groupCrimeRepository;
 
     @RequestMapping(value = "/director/excelReport/index", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -137,7 +136,19 @@ public class ExcelReportController {
 
         Gson conv = new Gson();
 
+        List<SelectList> lstCrimes = new ArrayList<>();
+        lstCrimes = groupCrimeRepository.findAllCrimeGroupsForView();
+
+        List<ArrangementView> lstArrangement = new ArrayList<>();
+        lstArrangement = arrangementRepository.findAllArrangementForView();
+
+        List<SelectList> lstActivities = new ArrayList<>();
+        lstActivities = supervisionActivityRepository.findAllValidSl();
+
         model.addObject("lstStates", conv.toJson(lstStates));
+        model.addObject("lstCrimes", conv.toJson(lstCrimes));
+        model.addObject("lstArrangement", conv.toJson(lstArrangement));
+        model.addObject("lstActivities", conv.toJson(lstActivities));
 
         return model;
     }
@@ -235,13 +246,17 @@ public class ExcelReportController {
         List<Long> idsAcademicLvl = null;
         List<Long> idsActualJob = null;
         List<Long> idsDrugs = null;
-
         List<Long> idsRiskLvl = null;
         List<Long> idsHearingType = null;
-
         List<Long> idsWithMonP = null;
-
         List<Long> idsHomePlace = null;
+
+        List<Long> idsCrimesInLegal = null;
+        List<Long> idsCrimesInFormat = null;
+        List<Long> idsFinalCrimes = null;
+
+        List<Long> idsArrangements = null;
+        List<Long> idsActivities = null;
 
         List<Long> finalIds = null;
 
@@ -273,7 +288,6 @@ public class ExcelReportController {
                 idsStatusVerfi = reportExcelRepository.findIdCasesByStatusVerification(filtersDto.getLstStatusVerification(), idsCasesInDateRange);
             }
 
-
             if (filtersDto.getLstMaritalSt().size() > 0) {
                 idsMartialSt = reportExcelRepository.findIdCasesByMaritalSt(filtersDto.getLstMaritalSt(), idsCasesInDateRange);
             }
@@ -304,6 +318,22 @@ public class ExcelReportController {
 
             if (filtersDto.getHomePlace() != null && filtersDto.getHomePlace() == true) {
                 idsHomePlace = reportExcelRepository.findIdCasesByLocation(idsCasesInDateRange, filtersDto.getIdLoc());
+            }
+
+            if (filtersDto.getLstCrime().size() > 0) {
+                idsCrimesInLegal = reportExcelRepository.findIdCasesByCrimesInLegal(idsCasesInDateRange, filtersDto.getLstCrime());
+            }
+
+            if (filtersDto.getLstCrime().size() > 0) {
+                idsCrimesInFormat = reportExcelRepository.findIdCasesByCrimesInFormat(idsCasesInDateRange, filtersDto.getLstCrime());
+            }
+
+            if (filtersDto.getLstActivities().size() > 0) {
+                idsActivities = reportExcelRepository.findIdCasesByMonitoringActivities(idsCasesInDateRange, filtersDto.getLstActivities());
+            }
+
+            if (filtersDto.getLstArrangement().size() > 0) {
+                idsArrangements = reportExcelRepository.findIdCasesByArrangements(idsCasesInDateRange, filtersDto.getLstArrangement());
             }
 
             //intersecciones de las listas
@@ -359,6 +389,25 @@ public class ExcelReportController {
 
             if (idsHomePlace != null) {
                 finalIds = this.intersectIds(finalIds, idsHomePlace);
+            }
+
+            if (idsCrimesInLegal == null && idsCrimesInFormat != null)
+                idsFinalCrimes = idsCrimesInFormat;
+            else if (idsCrimesInLegal != null && idsCrimesInFormat == null)
+                idsFinalCrimes = idsCrimesInLegal;
+            else if (idsCrimesInLegal != null && idsCrimesInFormat != null)
+                idsFinalCrimes = this.intersectIds(idsCrimesInLegal, idsCrimesInFormat);
+
+            if (idsFinalCrimes != null) {
+                finalIds = this.intersectIds(finalIds, idsFinalCrimes);
+            }
+
+            if (idsActivities != null) {
+                finalIds = this.intersectIds(finalIds, idsActivities);
+            }
+
+            if (idsArrangements != null) {
+                finalIds = this.intersectIds(finalIds, idsArrangements);
             }
         }
 
@@ -438,6 +487,8 @@ public class ExcelReportController {
             List<ExcelCoDefDto> lstCoDef = caseRepository.getInfoCoDef(casesIds);
             List<ExcelTecRevSelQuestDto> lstSelQuest = caseRepository.getInfoTecRevSelQuest(casesIds);
             List<ExcelVerificationDto> lstVerif = caseRepository.getInfoVerification(casesIds);
+            List<ExcelVerificationDto> lstAllSourcesVerif = caseRepository.getSourcesVerification(casesIds);
+
             String template = "{0}: {1} \n";
             for (ExcelVerificationDto evdto : lstVerif) {
                 for (int i = 0; i < Constants.NAMES_MEETING.length; i++) {
@@ -560,6 +611,14 @@ public class ExcelReportController {
                     }
                 }
                 cAct.setLstVictim(lstVict);
+
+                List<ExcelVerificationDto> lstSources = new ArrayList<>();
+                for (ExcelVerificationDto actSource : lstAllSourcesVerif) {
+                    if (actSource.getIdCase() == cAct.getIdCase()) {
+                        lstSources.add(actSource);
+                    }
+                }
+                cAct.setSummaryVerificationSources(lstSources);
             }
 
             /*supervision*/
@@ -575,22 +634,32 @@ public class ExcelReportController {
                     actHF.setContacts(reportExcelRepository.getContactsByFormat(actHF.getIdFormat()));
 
                     String crimesStr = "";
+                    String crimesSummaryStr = "";
 
                     for (Crime actCrime : crimeRepository.findListCrimeHearingFormatByIdHF(actHF.getIdFormat())) {
                         if (crimesStr != "")
                             crimesStr += "\n";
                         crimesStr += CrimeDto.toStringCrime(actCrime);
+
+                        if (crimesSummaryStr != "")
+                            crimesSummaryStr += ", ";
+                        crimesSummaryStr += actCrime.getCrime().getName();
                     }
 
                     actHF.setCrimes(crimesStr);
+                    actHF.setSummaryCrimes(crimesSummaryStr);
 
                     if (actHF.getIdCase() == actCase.getIdCase()) {
                         lstFormats.add(actHF);
                     }
-
                 }
 
                 actCase.setFormatsInfo(lstFormats);
+
+                if (lstFormats.size() > 0) {
+                    actCase.setLastFormatInfo(lstFormats.get(lstFormats.size() - 1));
+                    actCase.getLastFormatInfo().setTotalFormats(Integer.toString(lstFormats.size()));
+                }
             }
 
             List<FramingMeetingInfo> allFramingMeeting = reportExcelRepository.getFramingMeetingInfo(casesIds);
@@ -601,6 +670,8 @@ public class ExcelReportController {
             List<ExcelActivitiesDto> allFramingActivities = reportExcelRepository.getFramingInfoActivities(casesIds);
 
             List<CatalogDto> allFramingHomes = reportExcelRepository.getFramingHomes(casesIds);
+            List<CatalogDto> allSummaryFramingHomes = reportExcelRepository.getSummaryFramingHomes(casesIds);
+
             List<ExcelDrugDto> allDrugs = reportExcelRepository.getFramingInfoDrugs(casesIds);
             List<CatalogDto> allAddictedAcquaintances = reportExcelRepository.getFramingAddictedAcquaintances(casesIds);
             List<ObligationIssuesInfo> allObligationIssues = reportExcelRepository.getFramingObligationIssues(casesIds);
@@ -633,6 +704,13 @@ public class ExcelReportController {
                         homes.add(actHome);
                 }
                 actFM.setHomes(homes);
+
+                List<CatalogDto> summaryFramingHomes = new ArrayList<>();
+                for (CatalogDto actHome : allSummaryFramingHomes) {
+                    if (actHome.getId() == actFM.getIdCase())
+                        summaryFramingHomes.add(actHome);
+                }
+                actFM.setSummaryHomes(summaryFramingHomes);
 
                 List<ExcelActivitiesDto> activities = new ArrayList<>();
                 for (ExcelActivitiesDto actAct : allFramingActivities) {

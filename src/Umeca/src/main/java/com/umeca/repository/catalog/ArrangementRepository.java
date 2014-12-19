@@ -1,6 +1,7 @@
 package com.umeca.repository.catalog;
 
 import com.umeca.model.catalog.Arrangement;
+import com.umeca.model.entities.supervisor.ArrangementView;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -44,4 +45,8 @@ public interface ArrangementRepository extends JpaRepository<Arrangement, Long> 
             "INNER JOIN aa.arrangement arr " +
             "WHERE hf.id =:idFormat")
     List<String> findArrangementsByIdFormat(@Param("idFormat") Long idFormat);
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ArrangementView(arr.id, arr.description, arr.isNational, arr.type) FROM Arrangement arr " +
+            "WHERE arr.isObsolete = false")
+    List<ArrangementView> findAllArrangementForView();
 }

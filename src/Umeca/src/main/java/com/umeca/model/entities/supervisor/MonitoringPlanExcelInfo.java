@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 
 import java.util.ArrayList;
@@ -139,7 +140,14 @@ public class MonitoringPlanExcelInfo {
                 actRec.setEnd(act.getEnd());
                 actRec.setSupActivity(actSup.getName());
                 actRec.setLstAssignedArrangements(this.generateAssignedArrangements(act.getId()));
-                actRec.setAidSource(actSource.getName() + " - " + actSource.getDescription());
+
+                String aidSource = actSource.getName();
+                if (actSource.getDescription() != null)
+                    aidSource += " - " + actSource.getDescription();
+                else
+                    aidSource += "";
+                actRec.setAidSource(aidSource);
+
                 actRec.setStatus(act.getStatus());
                 actRec.setComments(act.getComments());
                 actRec.setUser(act.getUser());
@@ -157,7 +165,7 @@ public class MonitoringPlanExcelInfo {
 
                 ActivityMonitoringPlanArrangementLog mpArr = lstActMonPlanArrangement.get(i);
 
-                if (mpArr.getId() == actMonPlanId) {
+                if (mpArr.getActMonPlanId() == actMonPlanId) {
                     flg = true;
                     SelectList assArr = this.idToObject(mpArr.getAssignedArrangementId(), lstArrangement);
                     SelectList newObj = new SelectList(assArr.getId(), assArr.getName(), this.setStatus(mpArr.getStatus()));
@@ -205,6 +213,55 @@ public class MonitoringPlanExcelInfo {
 
     public void setLstReconstructed(List<ReconstructedActivityInfo> lstReconstructed) {
         this.lstReconstructed = lstReconstructed;
+    }
+
+
+    public String summarySupervisionActivities() {
+        String returnStr = "";
+
+        if (this.lstReconstructed != null && this.lstReconstructed.size() > 0) {
+            returnStr += "-Actividades registradas: " + Integer.toString(this.lstReconstructed.size()) + "\n";
+            returnStr += "-Tipo: " + this.summaryActsToStr() + "\n";
+            returnStr += "-Realizadas por el supervisor: " + this.summaryNoActsByStatus(MonitoringConstants.STATUS_ACTIVITY_DONE) + "\n";
+            returnStr += "-No realizadas por el supervisor: " + this.summaryNoActsByStatus(MonitoringConstants.STATUS_ACTIVITY_FAILED) + "\n";
+            returnStr += "-Obligaciones no definidas: " + this.summaryNoArrangementsByStatus(-1) + "\n";
+            returnStr += "-Obligaciones incumplidas: " + this.summaryNoArrangementsByStatus(0) + "\n";
+            returnStr += "-Obligaciones cumplidas: " + this.summaryNoArrangementsByStatus(1) + "\n";
+        }
+
+        return returnStr;
+    }
+
+    public String summaryActsToStr() {
+        String returnStr = "";
+
+        for (ReconstructedActivityInfo activityInfo : this.lstReconstructed) {
+            if (returnStr != "")
+                returnStr += ",";
+            returnStr += activityInfo.getSupActivity();
+        }
+
+        return returnStr;
+    }
+
+    public String summaryNoActsByStatus(String status) {
+        Integer noActs = 0;
+        for (ActivityMonitoringPlanLog act : this.lstActMonPlan) {
+            if (act.getStatus().equals(status))
+                noActs++;
+        }
+
+        return noActs.toString();
+    }
+
+    public String summaryNoArrangementsByStatus(Integer status){
+        Integer noActs = 0;
+
+        for (ActivityMonitoringPlanArrangementLog act : this.lstActMonPlanArrangement) {
+            if (act.getStatus().equals(status))
+                noActs++;
+        }
+        return noActs.toString();
     }
 
 }

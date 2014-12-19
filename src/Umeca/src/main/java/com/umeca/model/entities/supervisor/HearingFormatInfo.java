@@ -58,6 +58,8 @@ public class HearingFormatInfo {
     private String imputedPresenceStr;
     private String result;
     private String specification;
+    private String totalFormats;
+    private String summaryCrimes;
 
     public HearingFormatInfo(Long idCase, Long idFormat, String idFolder, String idJudicial, String room, Date initTime, Date endTime,
                              String judgeName, String mpName, String defName, String impName, String impLNP, String impLNM,
@@ -459,6 +461,8 @@ public class HearingFormatInfo {
             this.extStr = "72 Hrs.";
         else if (this.ext != null && this.ext.equals(HearingFormatConstants.EXTENSION_NO))
             this.extStr = "No";
+        else
+            this.extStr = "NA";
 
         return extStr;
     }
@@ -571,6 +575,22 @@ public class HearingFormatInfo {
 
     public void setSpecification(String specification) {
         this.specification = specification;
+    }
+
+    public String getTotalFormats() {
+        return totalFormats;
+    }
+
+    public void setTotalFormats(String totalFormats) {
+        this.totalFormats = totalFormats;
+    }
+
+    public String getSummaryCrimes() {
+        return summaryCrimes;
+    }
+
+    public void setSummaryCrimes(String summaryCrimes) {
+        this.summaryCrimes = summaryCrimes;
     }
 }
 

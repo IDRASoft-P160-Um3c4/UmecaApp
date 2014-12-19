@@ -37,6 +37,8 @@ public class ExcelVerificationDto {
     private String drug;
     private String leaveCountry;
 
+    private String verificationMethod;
+
     public ExcelVerificationDto(Long idCase,
                                 String idFolder,
                                 String idMP,
@@ -61,6 +63,12 @@ public class ExcelVerificationDto {
         this.sourceAddress = sourceAddress;
         this.idSource = idSource;
         this.statusCase = statusCase;
+    }
+
+    public ExcelVerificationDto(Long idCase, String sourceRelationship, String verificationMethod) {
+        this.idCase = idCase;
+        this.sourceRelationship = sourceRelationship;
+        this.verificationMethod = verificationMethod;
     }
 
     public String getStatusCase() {
@@ -238,6 +246,14 @@ public class ExcelVerificationDto {
 
     public void setLeaveCountry(String leaveCountry) {
         this.leaveCountry = leaveCountry;
+    }
+
+    public String getVerificationMethod() {
+        return verificationMethod;
+    }
+
+    public void setVerificationMethod(String verificationMethod) {
+        this.verificationMethod = verificationMethod;
     }
 }
 

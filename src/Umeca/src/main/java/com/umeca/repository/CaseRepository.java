@@ -221,11 +221,14 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds)")
     List<ExcelActivitiesDto> getInfoImputedActivities(@Param("casesIds") List<Long> lstCasesIds);
 
-    @Query("select new com.umeca.model.entities.supervisor.ExcelImputedHomeDto(CDET.id,IADD.addressString,HT.name, RT.name) " +
+    @Query("select new com.umeca.model.entities.supervisor.ExcelImputedHomeDto(CDET.id,IADD.addressString,HT.name, RT.name, concat(ST.name,', ',MUN.name,', ',LOC.name)) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
             "left join MEET.imputedHomes IH " +
             "left join IH.address IADD " +
+            "left join IADD.location LOC " +
+            "left join LOC.municipality MUN " +
+            "left join MUN.state ST " +
             "left join IH.homeType HT " +
             "left join IH.registerType RT " +
             "where CDET.id in (:casesIds)")
@@ -346,5 +349,14 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "INNER JOIN M.imputed IMP " +
             "WHERE C.idMP=:idMP AND IMP.foneticString=:foneticName AND IMP.birthDate=:bthDate")
     Long findJudicialFoneticBrthDayImputed(@Param("idMP") String idMP, @Param("foneticName") String foneticName, @Param("bthDate") Date bthDate);
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelVerificationDto(CDET.id, rel.name, vm.name) from Case as CDET " +
+            "INNER JOIN CDET.verification as V " +
+            "INNER JOIN V.sourceVerifications as sv " +
+            "INNER JOIN sv.relationship as rel " +
+            "INNER JOIN sv.verificationMethod as vm " +
+            "WHERE (sv.isAuthorized = true) and (CDET.id in (:listCaseId)) ")
+    List<ExcelVerificationDto> getSourcesVerification(@Param("listCaseId") List<Long> listCaseId);
+
 
 }

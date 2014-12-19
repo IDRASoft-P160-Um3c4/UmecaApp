@@ -10,6 +10,9 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
         $scope.lstDrugs = [];
         $scope.lstLvlRisk = [];
         $scope.lstHearingType = [];
+        $scope.lstCrimes = [];
+        $scope.lstArrangement = [];
+        $scope.lstActivities = [];
 
         $scope.lstStCaseStr = [];
         $scope.lstGenderStr = [];
@@ -19,6 +22,12 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
         $scope.lstDrugsStr = [];
         $scope.lstLvlRkStr = [];
         $scope.lstHearingTpStr = [];
+        $scope.lstCrimesSel = [];
+        $scope.lstCrimesStr = [];
+        $scope.lstArrangementSel = [];
+        $scope.lstArrangementStr = [];
+        $scope.lstActivitiesSel = [];
+        $scope.lstActivitiesStr = [];
 
         $scope.lstStates = [];
         $scope.lstMuns = [];
@@ -27,7 +36,7 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
 
         $scope.urlGetMun = "";
         $scope.urlGetLoc = "";
-        $scope.homePlace=false;
+        $scope.homePlace = false;
 
         $scope.m = {};
         $scope.m.filtersModel = {};
@@ -182,6 +191,9 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
             $scope.m.filtersModel["l8"] = $scope.lstDrugs;
             $scope.m.filtersModel["l9"] = $scope.lstLvlRisk;
             $scope.m.filtersModel["l10"] = $scope.lstHearingType;
+            $scope.m.filtersModel["l11"] = $scope.lstCrimesSel;
+            $scope.m.filtersModel["l12"] = $scope.lstArrangementSel;
+            $scope.m.filtersModel["l13"] = $scope.lstActivitiesSel;
 
             $scope.m.filtersModel["lstStCaseStr"] = $scope.lstStCaseStr;
             $scope.m.filtersModel["lstGenderStr"] = $scope.lstGenderStr;
@@ -190,6 +202,10 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
             $scope.m.filtersModel["lstDrugsStr"] = $scope.lstDrugsStr;
             $scope.m.filtersModel["lstLvlRkStr"] = $scope.lstLvlRkStr;
             $scope.m.filtersModel["lstHearingTpStr"] = $scope.lstHearingTpStr;
+            $scope.m.filtersModel["lstCrimeStr"] = $scope.lstCrimesStr;
+            $scope.m.filtersModel["lstArrangementStr"] = $scope.lstArrangementStr;
+            $scope.m.filtersModel["lstActivitiesStr"] = $scope.lstActivitiesStr;
+
         };
 
 

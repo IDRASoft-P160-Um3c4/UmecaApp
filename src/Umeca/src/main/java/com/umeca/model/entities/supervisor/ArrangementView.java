@@ -5,17 +5,33 @@ package com.umeca.model.entities.supervisor;
  */
 public class ArrangementView {
 
-    public Long id;
+    private Long id;
 
-    public String name;
+    private String name;
 
-    public String description;
+    private String description;
 
-    public Boolean selVal;
+    private Boolean selVal;
 
-    public Boolean isDefault;
+    private Boolean isDefault;
 
-    public Boolean isExclusive;
+    private Boolean isExclusive;
+
+    //para el reporteador
+
+    private Boolean isNational;
+    private Integer type;
+
+    public ArrangementView() {
+
+    }
+
+    public ArrangementView(Long id, String description, Boolean isNational, Integer type) {
+        this.id = id;
+        this.description = description;
+        this.isNational = isNational;
+        this.type = type;
+    }
 
     public Long getId() {
         return id;
@@ -63,5 +79,21 @@ public class ArrangementView {
 
     public void setIsExclusive(Boolean isExclusive) {
         this.isExclusive = isExclusive;
+    }
+
+    public Boolean getIsNational() {
+        return isNational;
+    }
+
+    public void setIsNational(Boolean isNational) {
+        this.isNational = isNational;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

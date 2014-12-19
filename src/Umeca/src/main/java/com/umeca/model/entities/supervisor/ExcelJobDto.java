@@ -58,9 +58,13 @@ public class ExcelJobDto {
         this.company = company;
         this.phone = phone;
         try {
-            this.startPrevStr = sdf.format(startPrev);
-            this.startStr = sdf.format(start);
-            this.endStr = sdf.format(end);
+
+            if (startPrev != null)
+                this.startPrevStr = sdf.format(startPrev);
+            if (start != null)
+                this.startStr = sdf.format(start);
+            if (end != null)
+                this.endStr = sdf.format(end);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("error al parsear las fechas, constructor ExcelJobDto");
