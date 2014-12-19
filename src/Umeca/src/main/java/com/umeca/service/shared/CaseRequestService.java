@@ -116,9 +116,9 @@ public class CaseRequestService {
 
     public static void ResponseRequestCase(CaseRequestRepository caseRequestRepository,SharedUserService sharedUserService,
                                            MessageRepository messageRepository, RequestTypeRepository requestTypeRepository,
-                                           Case caseDetention, String text, String requestType){
+                                           Case caseDetention, String text, String requestType, String typeResponse){
         List<CaseRequest> lstCaseRequest = caseRequestRepository.findCaseRequestByCaseAndType(caseDetention.getId(), requestType, new PageRequest(0,1));
-        if(lstCaseRequest == null && lstCaseRequest.size() <= 0){
+        if(lstCaseRequest == null && !(lstCaseRequest.size() > 0)){
             return;
         }
         final CaseRequest caseRequest = lstCaseRequest.get(0);
@@ -141,7 +141,7 @@ public class CaseRequestService {
         messageRepository.save(msg);
 
         caseRequest.setRequestMessage(msg);
-        caseRequest.setRequestType(requestTypeRepository.findByCode(requestType));
+        caseRequest.setRequestType(requestTypeRepository.findByCode(typeResponse));
         caseRequestRepository.save(caseRequest);
     }
 }

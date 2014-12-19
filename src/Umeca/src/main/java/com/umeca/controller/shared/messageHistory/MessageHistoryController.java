@@ -52,12 +52,10 @@ public class MessageHistoryController {
                 }else{
                     role = Constants.ROLE_SUPERVISOR;
                 }
-                opts.extraFilters = new ArrayList<>();
                 JqGridRulesModel extraFilter = new JqGridRulesModel("role",
                         role, JqGridFilterModel.COMPARE_EQUAL);
                 opts.extraFilters.add(extraFilter);
             }else{
-                opts.extraFilters = new ArrayList<>();
                 JqGridRulesModel extraFilter = new JqGridRulesModel("user",
                         userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
                 opts.extraFilters.add(extraFilter);
@@ -69,28 +67,7 @@ public class MessageHistoryController {
     @RequestMapping(value = {"/shared/messageHistory/list"}, method = RequestMethod.POST)
     @ResponseBody
     public JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
-        /*
         opts.extraFilters = new ArrayList<>();
-        JqGridRulesModel extraFilter = new JqGridRulesModel("statusCode",
-                Constants.VERIFICATION_STATUS_NEW_SOURCE, JqGridFilterModel.COMPARE_EQUAL);
-        opts.extraFilters.add(extraFilter);
-        JqGridRulesModel extraFilter2 = new JqGridRulesModel("statusCaseCode",
-                Constants.CASE_STATUS_SOURCE_VALIDATION, JqGridFilterModel.COMPARE_EQUAL);
-        opts.extraFilters.add(extraFilter2);
-        */
-
-
-//
-//        List<String> usrRoles = userService.getLstRolesByUserId(userService.GetLoggedUserId());
-//        if (usrRoles != null && usrRoles.size() > 0) {
-//            if (usrRoles.contains(Constants.ROLE_REVIEWER)) {
-//                JqGridRulesModel extraFilter = new JqGridRulesModel("user", userService.GetLoggedUserId().toString()
-//                        , JqGridFilterModel.COMPARE_EQUAL
-//                );
-//                opts.setExtraFilters(new ArrayList<JqGridRulesModel>());
-//                opts.extraFilters.add(extraFilter);
-//            }
-//        }
         setFiltersGridUser(opts);
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -152,7 +129,6 @@ public class MessageHistoryController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
                 final Join<CaseRequest, Message> messageRequest = r.join("requestMessage");
-                final Join<Message, Case> messageRequestCase = messageRequest.join("caseDetention");
                 final Join<Message, User> sender = messageRequest.join("sender");
                 final Join<CaseRequest, RequestType> requestType = r.join("requestType");
                 final Join<CaseRequest, ResponseType> responseType = r.join("responseType");
@@ -182,7 +158,7 @@ public class MessageHistoryController {
                 if (field.equals("caseDetention"))
                     return r.join("requestMessage").join("caseDetention").get("id");
 
-                return null;
+                 return null;
             }
         }, true, CaseRequest.class, MessageHistoryDetailView.class);
         return result;
