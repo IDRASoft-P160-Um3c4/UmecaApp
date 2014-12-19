@@ -178,9 +178,6 @@ public class LogController {
 
         try {
             Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
-
-            List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
-            Long lHearingFormatId = lastHearingFormatId.get(0);
             logCaseService.fillgeneralDataLog(caseId,model);
             Gson gson = new Gson();
             List<SelectList> lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
