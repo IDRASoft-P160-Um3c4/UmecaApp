@@ -1,6 +1,8 @@
 package com.umeca.repository.catalog;
 
 import com.umeca.model.catalog.Arrangement;
+import com.umeca.model.entities.supervisor.ArrangementView;
+import com.umeca.model.shared.RelationModel;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

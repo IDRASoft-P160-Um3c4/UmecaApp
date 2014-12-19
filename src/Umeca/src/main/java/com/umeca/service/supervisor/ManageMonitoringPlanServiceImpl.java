@@ -97,7 +97,6 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     }
 
 
-
     @Autowired
     LogCommentRepository logCommentMonPlanRepository;
 
