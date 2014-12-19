@@ -7,7 +7,6 @@ import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.supervisor.SupervisionCloseCaseLog;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 public interface CaseService {
@@ -33,4 +32,6 @@ public interface CaseService {
     SupervisionCloseCaseLog generateCloseLog(Case caseDetention);
 
     ResponseMessage doReopenCase(AuthorizeRejectMonPlan model);
+
+    void saveAuthRejectObsoleteCase(AuthorizeRejectMonPlan model, User user, Case caseDet);
 }

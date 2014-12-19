@@ -140,6 +140,8 @@ public class CommentMonitoringPlanNotice {
                 return "REABRIR EL CASO";
             case ConstantsLogCase.NEW_HEARING_FORMAT:
                 return "FORMATO DE AUDIENCIA";
+            case Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION:
+                return "ELIMINAR CASO";
             default:
                 return "NA";
         }

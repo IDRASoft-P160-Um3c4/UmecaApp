@@ -28,7 +28,7 @@
                                         </li>
                                         <li>
                                             <i class="icon-caret-right blue"></i>
-                                            Versi&oacute;n <b class="red">1.0</b>
+                                            Versi&oacute;n <b class="red">1.14.1211</b>
                                         </li>
                                     </ul>
                                 </div>

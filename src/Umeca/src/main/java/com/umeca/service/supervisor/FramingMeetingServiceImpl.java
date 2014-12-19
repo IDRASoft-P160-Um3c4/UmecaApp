@@ -1736,6 +1736,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 fDrug.setPeriodicity(drug.getPeriodicity());
                 fDrug.setQuantity(drug.getQuantity());
                 fDrug.setLastUse(drug.getLastUse());
+                fDrug.setOnsetAge(drug.getOnsetAge());
                 fDrug.setSpecificationPeriodicity(drug.getSpecificationPeriodicity());
 
                 drugs.add(fDrug);

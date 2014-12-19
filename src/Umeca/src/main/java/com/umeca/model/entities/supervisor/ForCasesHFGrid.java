@@ -13,7 +13,8 @@ public class ForCasesHFGrid implements EntityGrid {
     private String lastNameP;
     private String lastNameM;
     private String fullName;
-
+    private Long framingMeetingId;
+    private Long idTR;
     private StringBuilder sb;
 
 
@@ -34,10 +35,13 @@ public class ForCasesHFGrid implements EntityGrid {
         this.fullName = sb.toString();
     }
 
-    public ForCasesHFGrid(Long id, String status, String statusDesc, String idFolder, String idMP, String name, String lastNameP, String lastNameM) {
+    public ForCasesHFGrid(Long id, String status, String statusDesc, String idFolder, String idMP, String name, String lastNameP,
+                          String lastNameM, Long framingMeetingId, Long  idTR) {
         this(id, status, idMP, name, lastNameP, lastNameM);
         this.statusDesc = statusDesc;
         this.idFolder = idFolder;
+        this.framingMeetingId = framingMeetingId;
+        this.idTR = idTR;
     }
 
     public Long getId() {
@@ -111,4 +115,21 @@ public class ForCasesHFGrid implements EntityGrid {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
+    public Long getFramingMeetingId() {
+        return framingMeetingId;
+    }
+
+    public void setFramingMeetingId(Long framingMeetingId) {
+        this.framingMeetingId = framingMeetingId;
+    }
+
+    public Long getIdTR() {
+        return idTR;
+    }
+
+    public void setIdTR(Long idTR) {
+        this.idTR = idTR;
+    }
+
 }

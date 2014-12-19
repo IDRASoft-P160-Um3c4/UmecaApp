@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
@@ -97,7 +98,8 @@ public class HearingFormatController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
                 final javax.persistence.criteria.Join<Meeting, Imputed> joinIm = r.join("meeting").join("imputed");
-
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinFrMe = r.join("framingMeeting", JoinType.LEFT);
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinTR = r.join("technicalReview", JoinType.LEFT);
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.join("status").get("name"));
@@ -107,6 +109,8 @@ public class HearingFormatController {
                     add(joinIm.get("name"));
                     add(joinIm.get("lastNameP"));
                     add(joinIm.get("lastNameM"));
+                    add(joinFrMe.get("id"));
+                    add(joinTR.get("id").alias("idTR"));
                 }};
             }
 
@@ -376,6 +380,18 @@ public class HearingFormatController {
         String jsonLst = conv.toJson(lstArrangementView);
 
         return jsonLst;
+    }
+
+    @RequestMapping(value = "supervisor/hearingFormat/obsoleteCase", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage obsoleteCase(@RequestParam(required = true) Long id) {
+        try{
+           return hearingFormatService.requestObsoleteCase(id);
+        }catch (Exception e){
+            logException.Write(e, this.getClass(), "obsoleteCase", sharedUserService);
+            return new ResponseMessage(true,"Ha ocurrido un error, intente nuevamente");
+        }
     }
 
     @Autowired

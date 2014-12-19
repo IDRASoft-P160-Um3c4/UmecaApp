@@ -18,17 +18,17 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
+import com.umeca.repository.catalog.RequestTypeRepository;
 import com.umeca.repository.reviewer.AddressRepository;
+import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.CrimeRepository;
+import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
-import com.umeca.service.shared.CrimeService;
-import com.umeca.service.shared.LogCaseService;
-import com.umeca.service.shared.SharedLogCommentService;
-import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.shared.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
@@ -687,6 +687,37 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         }
 
         return existArrangements;
+    }
+
+    @Autowired
+    FramingMeetingRepository framingMeetingRepository;
+    @Autowired
+    RequestTypeRepository requestTypeRepository;
+    @Autowired
+    CaseRequestRepository caseRequestRepository;
+    @Autowired
+    MessageRepository messageRepository;
+
+
+
+    @Transactional
+    @Override
+    public ResponseMessage requestObsoleteCase(Long id) {
+
+        if(framingMeetingRepository.getIdByIdCase(id)!=null)
+            return  new ResponseMessage(true,"No es posible eliminar el caso ya que cuenta con una entrevista de encuadre.","Error al mandar la solicitud");
+        Case c  = caseRepository.findOne(id);
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        User userReceiver = sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_SUPERVISOR_MANAGER).get(0);
+        CaseRequestService.CreateCaseRequestByCase(requestTypeRepository, caseRequestRepository, sharedUserService, messageRepository, c,
+                "Se solicita eliminar el caso", Constants.ST_REQUEST_CASE_OBSOLETE_SUPERVISION, c.getStatus().getName(), Constants.ROLE_SUPERVISOR_MANAGER);
+        c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_REQUEST_SUPERVISION));
+        c.setDateObsolete(new Date());
+        caseRepository.save(c);
+        SharedLogCommentService.generateLogComment(MonitoringConstants.LOG_MSG_INFO_PENDING_AUTHORIZATION_OBSOLETE, u,c,
+                Constants.ACTION_AUTHORIZE_LOG_COMMENT, userReceiver, Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION , logCommentRepository);
+        return new ResponseMessage(false, "Se ha mandado la solictud satisfactoriamente");
     }
 
     public List<ArrangementView> assignedArrangementForView(List<AssignedArrangement> assignedArrangements) {

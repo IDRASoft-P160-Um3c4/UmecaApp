@@ -17,7 +17,6 @@ import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.parsing.SourceExtractor;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -142,19 +141,15 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         Long idCase= ver.getCaseDetention().getId();
         file.setAddress(sharedUserService.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString()));
         String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";
+        String templateUnable = "Campo: {0} <br/>Valor: {1}<br/>Raz&oacute;n: {3}<br/>";
         for (int i = 0; i < Constants.NAMES_MEETING.length; i++) {
             List<FieldMeetingSource> listFMS = fieldMeetingSourceRepository.getAllFinalByIdCaseAndSectionCode(idCase, (i + 1));
             if (listFMS.size() > 0 && listFMS.get(0) != null) {
                 Section section = new Section(listFMS.get(0).getFieldVerification().getSection());
                 for (FieldMeetingSource fms : listFMS) {
-                    String v = template;
-                    v = v.replace("{0}", fms.getFieldVerification().getFieldName());
-                    v = v.replace("{2}", fms.getSourceVerification().getFullName());
-                    if (fms.getReason() == null) {
-                        fms.setReason("Sin raz&oacute;n registrada.");
-                    }
-                    v = v.replace("{3}", fms.getReason());
+                    String v;
                     if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
+                        v = templateUnable;
                         List<ChoiceView> list = new ArrayList<>();
                         List<SearchToChoiceIds> idSources = new ArrayList<>();
                         if (fms.getIdFieldList() == null) {
@@ -163,7 +158,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                         } else {
                             idSources = fieldMeetingSourceRepository.getIdSourceByCodeWhithIdListWithoutState(idCase, fms.getFieldVerification().getCode(), fms.getIdFieldList(), Constants.ST_FIELD_VERIF_UNABLE);
                         }
-                        String sourcessay="<br/>Informaci&oacuten recopilada:<br/>";
+                        String sourcessay="<br/>Informaci&oacute; recopilada:<br/>";
                         for (SearchToChoiceIds e : idSources) {
                                 List<FieldMeetingSource> result = new ArrayList<>();
                                 if (fms.getIdFieldList() == null) {
@@ -185,9 +180,15 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                         v = v.replace("{1}", finalText);
 
                     } else {
+                        v = template;
+                        v = v.replace("{2}", fms.getSourceVerification().getFullName());
                         v = v.replace("{1}", fms.getValue());
                     }
-
+                    if (fms.getReason() == null) {
+                        fms.setReason("Sin raz&oacute;n registrada.");
+                    }
+                    v = v.replace("{3}", fms.getReason());
+                    v = v.replace("{0}", fms.getFieldVerification().getFieldName());
                     section.getValues().add(sharedUserService.convertToValidString(v));
                 }
                 file.getSections().add(section);

@@ -6,6 +6,7 @@ import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.CaseRequest;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
@@ -17,13 +18,17 @@ import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.catalog.ResponseTypeRepository;
 import com.umeca.repository.catalog.StatusMeetingRepository;
+import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.ImputedRepository;
+import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.supervisor.FolderConditionalReprieveRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.SupervisionCloseCaseLogRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.CaseRequestService;
 import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -349,6 +354,34 @@ public class CaseServiceImpl implements CaseService {
         } finally {
             return response;
         }
+    }
+
+    @Autowired
+    CaseRequestRepository caseRequestRepository;
+    @Autowired
+    ResponseTypeRepository responseTypeRepository;
+    @Autowired
+    MessageRepository messageRepository;
+    @Transactional
+    @Override
+    public void saveAuthRejectObsoleteCase(AuthorizeRejectMonPlan model, User user, Case caseDet) {
+        List<CaseRequest> lstCaseRequest = caseRequestRepository.findCaseRequestByCaseAndType(caseDet.getId(), Constants.ST_REQUEST_CASE_OBSOLETE_SUPERVISION, new PageRequest(0,1));
+        String typeRequest, status, commentNotification;
+        CaseRequest request = lstCaseRequest.get(0);
+        if(model.getAuthorized()== 1){
+            status = Constants.CASE_STATUS_OBSOLETE_SUPERVISION;
+            typeRequest = Constants.RESPONSE_TYPE_ACCEPTED;
+            commentNotification ="Solicitud aceptada. Comentarios: "+model.getComments();
+        }else{
+            status = request.getStateBefore();
+            typeRequest = Constants.RESPONSE_TYPE_REJECTED;
+            commentNotification = "Solicitud rechazada. Comentarios: "+model.getComments();
+        }
+        caseDet.setStatus(statusCaseRepository.findByCode(status));
+        CaseRequestService.CreateCaseResponseToUser(responseTypeRepository,caseRequestRepository,messageRepository, sharedUserService,logException,user,caseDet,model.getComments(),typeRequest);
+        SharedLogCommentService.generateLogComment(commentNotification, userRepository.findOne(sharedUserService.GetLoggedUserId()),caseDet,
+                Constants.RESPONSE_OBSOLETE_CASE_SUPERVISION, request.getRequestMessage().getSender(), Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION , logCommentRepository);
+        caseRepository.save(caseDet);
     }
 
 }

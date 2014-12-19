@@ -98,4 +98,21 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-2">
+        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.onsetAge',d.id);"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.onsetAge" id-element="{{d.id}}"></i>
+        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.onsetAge',d.id);"></i>
+        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('drugs.onsetAge',d.id)"></i>
+
+        Edad de inicio:
+    </div>
+    <div class="col-xs-4">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m&aacute;ximo 25 caracteres"
+               data-val-length-max="25" data-val-length-min="1" data-val-required="La edad de inicio es un campo requerido"  ng-readonly="!blockD"
+               type="text"  ng-model="d.onsetAge" ng-init='d.onsetAge="${(d.onsetAge == null) ? '' : d.onsetAge}";' name="onsetAge" id="onsetAge">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="onsetAge" data-valmsg-replace="true"></span>
+    </div>
+</div>
 

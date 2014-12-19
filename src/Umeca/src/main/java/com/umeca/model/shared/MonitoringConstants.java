@@ -75,6 +75,7 @@ public class MonitoringConstants {
     public static final String LOG_ACCOMPLISHMENT_PENDING = "PENDIENTE";
 
     public static final String LOG_MSG_INFO_PENDING_AUTHORIZATION = "En espera de la autorización del plan de seguimiento";
+    public static final String LOG_MSG_INFO_PENDING_AUTHORIZATION_OBSOLETE = "En espera de respuesta a la solicitud de eliminar caso";
     public static final String LOG_MSG_INFO_PENDING_ACTIVITY_AUTHORIZATION =
             "Se crearon, modificaron o eliminaron actividades del plan de seguimiento, se espera autorización. Si no autoriza se suspenderá el plan.";
 

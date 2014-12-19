@@ -22,7 +22,7 @@
                             <span ng-class="(n.action === 'RECHAZADO AUTORIZAR' || n.action === 'RECHAZADO REPORTE INCUMPLIMIENTO' ||  n.action === 'RECHAZADO TERMINAR' ? 'red'
                                 : (n.action === 'SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO' || n.action === 'EN PROCESO DE TERMINAR' ? 'color-warning' : 'green'))">&nbsp;({{n.action}})</span><br/>
                             <span>
-                            Caso {{n.caseId}} (<strong>{{n.mpId}}</strong>) Imputado: <strong>{{n.personName}}</strong> <br/></span>
+                            Capeta Judicial: <strong>{{n.mpId}}</strong> Imputado: <strong>{{n.personName}}</strong> <br/></span>
                         <div class="font-size-sm">
                             <span style="display: inline; word-wrap: break-word;">{{n.comments}}</span>
                         </div>

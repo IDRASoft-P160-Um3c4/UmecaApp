@@ -34,7 +34,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
     //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -745,12 +745,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void crime() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "group_crime.txt", "\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "group_crime.txt", "\\|", 4);
         for (String[] data : lstDta) {
             GroupCrime model = new GroupCrime();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
             groupCrimeRepository.save(model);
         }
         List<String[]> lstDtaCrime = ReaderFile.readFile(PATH + "crime.txt", "\\|", 5);
