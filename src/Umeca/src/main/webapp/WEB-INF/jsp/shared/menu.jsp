@@ -171,6 +171,8 @@
                             class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrados</a></li>
                     <li><a href="<c:url value='/supervisorManager/caseActive/prisonCases.html' />"><i
                             class="glyphicon glyphicon-link"></i>&nbsp;&nbsp;Prisi&oacute;n preventiva</a></li>
+                    <li><a href="<c:url value='/supervisorManager/caseObsolete.html' />"><i
+                            class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Casos eliminados</a></li>
                 </ul>
             </li>
             <li class="dropdown nav-li-blue">

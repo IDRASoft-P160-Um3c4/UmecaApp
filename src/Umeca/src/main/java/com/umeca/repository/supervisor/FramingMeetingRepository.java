@@ -4,7 +4,6 @@ import com.umeca.model.catalog.dto.ScheduleDto;
 import com.umeca.model.entities.supervisor.FramingAddressDto;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisor.FramingReference;
-import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -111,6 +110,10 @@ public interface FramingMeetingRepository extends JpaRepository<FramingMeeting, 
             "inner join FM.references FR " +
             "where FM.id=:idFraming and FR.personType in (:lstPersonType)")
     List<FramingReference> getReferencesByPersonType(@Param("idFraming") Long idFraming, @Param("lstPersonType") List<String> lstPersonType);
+
+    @Query("select fm.id from FramingMeeting fm " +
+            "where fm.caseDetention.id = :idCase")
+    Long getIdByIdCase(@Param("idCase")Long id);
 }
 
 

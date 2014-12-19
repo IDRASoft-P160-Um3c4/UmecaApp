@@ -28,6 +28,10 @@ public class Constants {
     public static final String ST_REQUEST_EDIT_LEGAL_INFORMATION = "EDIT_LEGAL_INFORMATION";
     public static final String ST_REQUEST_EDIT_TECHNICAL_REVIEW = "EDIT_TECHNICAL_REVIEW";
     public static final String RESPONSE_TYPE_DRESSED = "DRESSED";
+    public static final String ST_REQUEST_CASE_OBSOLETE_SUPERVISION = "CASE_OBSOLETE_SUPERVISION";
+    public static final String CASE_STATUS_REQUEST_SUPERVISION = "ST_CASE_REQUEST_SUPERVISION";
+    public static final String TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION = "OBSOLETE_CASE_SUPERVISION";
+    public static final String RESPONSE_OBSOLETE_CASE_SUPERVISION = "Respuesta a solicitud de eliminar un caso";
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE = "COMPLETE";
@@ -172,5 +176,7 @@ public class Constants {
     public static final String NAME_RELATIONSHIP_NONE = "Ninguno";
 
     public static String S_MEETING_OBSOLETE="OBSOLETE";
-    public static String ROLE_DIRECTOR="ROLE_DIRECTOR";
+    public static final String ROLE_DIRECTOR="ROLE_DIRECTOR";
+
+    public static final String ACTION_AUTHORIZE_LOG_COMMENT = "AUTORIZAR ELIMINAR CASO";
 }

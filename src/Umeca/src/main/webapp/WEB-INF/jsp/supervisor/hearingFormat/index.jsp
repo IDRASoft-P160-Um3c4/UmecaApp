@@ -37,12 +37,15 @@
             window.showUpsert(null, "#angJsjqGridId", "<c:url value='/supervisor/hearingFormat/newConditionalReprieve.html'/>", "#GridCasesId");
         };
 
+        window.obsoleteCase = function (id) {
+            window.showObsolete(id, "#angJsjqGridId", "<c:url value='/supervisor/hearingFormat/obsoleteCase.json'/>", "#GridCasesId");
+        };
         $(document).ready(function () {
             jQuery("#GridCasesId").jqGrid({
                 url: '<c:url value='/supervisor/hearingFormat/listCases.json' />',
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Acci&oacute;n'],
+                colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Acci&oacute;n','framingMeetingId','idTR'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'status', index: 'status', hidden: true },
@@ -50,7 +53,9 @@
                     { name: 'idMP', index: 'idMP', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'statusDesc', index: 'statusDesc', width: 350, align: "center", search: false},
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 70, align: "center", sortable: false, search: false },
+                    { name: 'framingMeetingId', index: 'framingMeetingId', hidden: true },
+                    { name: 'idTR', index: 'idTR', hidden: true },
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -67,10 +72,8 @@
                     var status = $(this).jqGrid('getCol', 'status', false);
 
                     for (var i = 0; i < ids.length; i++) {
-
                         var cl = ids[i];
                         var be = "";
-
                         switch (status[i]) {
 
                             case 'ST_CASE_TECHNICAL_REVIEW_COMPLETE':
@@ -101,7 +104,12 @@
                              be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                              break;*/
                         }
-
+                        var row = $(this).getRowData(cl);
+                        var framingMeetingId = row.framingMeetingId;
+                        var idTR = row.idTR;
+                        if(framingMeetingId == '' && idTR == ''){
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar caso\" onclick=\"obsoleteCase('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },
