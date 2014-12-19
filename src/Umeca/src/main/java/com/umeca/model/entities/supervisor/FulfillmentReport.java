@@ -39,10 +39,12 @@ public class FulfillmentReport {
     @Column(name = "timestamp", nullable = false)
     private Calendar timestamp;
 
+    @Column(name = "status", nullable = false)
+    private String status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user_request", nullable = false)
     private User userRequest;
-
 
 
     public Long getId() {
@@ -91,6 +93,14 @@ public class FulfillmentReport {
 
     public void setUserRequest(User userRequest) {
         this.userRequest = userRequest;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
 

@@ -149,6 +149,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         fulfillmentReport.setMonitoringPlan(monPlan);
         fulfillmentReport.setTimestamp(now);
         fulfillmentReport.setUserRequest(user);
+        fulfillmentReport.setStatus(MonitoringConstants.LOG_ACCOMPLISHMENT_PENDING);
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlanId));
         monPlanRepository.save(monPlan);

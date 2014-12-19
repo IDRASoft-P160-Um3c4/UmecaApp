@@ -10,12 +10,22 @@ import java.util.Calendar;
  */
 public class FulfillmentReportInfo {
 
+    private Long id;
     private String type;
     private Calendar timestamp;
 
-    public FulfillmentReportInfo(String type, Calendar timestamp) {
+    public FulfillmentReportInfo(Long id, String type, Calendar timestamp) {
+        this.id = id;
         this.type = type;
         this.timestamp = timestamp;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getType() {

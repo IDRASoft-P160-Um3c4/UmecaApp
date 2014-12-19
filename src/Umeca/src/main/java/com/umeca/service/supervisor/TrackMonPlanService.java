@@ -2,6 +2,7 @@ package com.umeca.service.supervisor;
 
 import com.umeca.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.supervisor.FulfillmentReport;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.RequestActivities;
 import com.umeca.model.entities.supervisor.ResponseActivities;
@@ -27,10 +28,12 @@ public interface TrackMonPlanService {
     void saveReqEndMonPlan(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan);
     void saveAuthRejectMonPlan(SharedUserService sharedUserService, SharedLogExceptionService logException, AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String statusAuth, String statusReject, String type);
     void saveChangeSupervisorMonPlan(ChangeSupervisor model, User user, MonitoringPlan monPlan);
-    void saveAuthRejectAccomplishment(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String typeCommentLogAccomplishment);
+    void saveAuthRejectAccomplishment(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String typeCommentLogAccomplishment, FulfillmentReport fulfillmentReport);
     void setLstActivitiesSupervision(ModelAndView model);
     void setListCaseFilter(ModelAndView model, Long idUser);
     void setListUserFilter(ModelAndView model, Long idUser);
 
     void notificationNewHearingFormat(Long monId, ModelAndView model);
+
+
 }

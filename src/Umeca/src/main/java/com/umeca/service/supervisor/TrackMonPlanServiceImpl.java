@@ -290,9 +290,12 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     @Autowired
     CaseRepository caseRepository;
 
+    @Autowired
+    FulfillmentReportRepository fulfillmentReportRepository;
+
     @Override
     @Transactional
-    public void saveAuthRejectAccomplishment(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String type) {
+    public void saveAuthRejectAccomplishment(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String type, FulfillmentReport fulfillmentReport) {
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
         commentModel.setComments(model.getComments());
@@ -314,10 +317,12 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
         monPlan.setStatusLog(json.toJson(logJson));
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
+        fulfillmentReport.setStatus(sAction);
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         monitoringPlanRepository.save(monPlan);
         logCommentRepository.save(commentModel);
+        fulfillmentReportRepository.save(fulfillmentReport);
     }
 
     @Override

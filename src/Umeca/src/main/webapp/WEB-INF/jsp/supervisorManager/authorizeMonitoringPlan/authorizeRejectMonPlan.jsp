@@ -23,6 +23,7 @@
                     <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal"
                           role="form">
                         <input type="hidden" name="monPlanId" id="monPlanId" value="${monPlanId}" />
+                        <input type="hidden" name="fulfillmentReportId" id="fulfillmentReportId" value="${fulfillmentReportId}" />
                         <input type="hidden" name="authorized" id="authorized" value="${isAuthorized}" />
                         <div class="row">
                             <div class="col-xs-12">

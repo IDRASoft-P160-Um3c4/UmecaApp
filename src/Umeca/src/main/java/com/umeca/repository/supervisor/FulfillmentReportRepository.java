@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository("fulfillmentReportRepository")
 public interface FulfillmentReportRepository extends JpaRepository<FulfillmentReport,Long> {
-    @Query("SELECT  new com.umeca.model.entities.supervisor.FulfillmentReportInfo(frt.name, fr.timestamp) FROM FulfillmentReport AS fr " +
+    @Query("SELECT  new com.umeca.model.entities.supervisor.FulfillmentReportInfo(fr.id, frt.name, fr.timestamp) FROM FulfillmentReport AS fr " +
             "INNER JOIN fr.fulfillmentReportType AS frt " +
             "WHERE fr.monitoringPlan.id=:monPlanId ORDER BY fr.id DESC")
     List<FulfillmentReportInfo> getFulfillmentReportInfoByMonPlanId(@Param("monPlanId") Long monPlanId, Pageable pageable);
