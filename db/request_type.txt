@@ -8,3 +8,4 @@
 7|NOT_PROSECUTE|El caso no se judicializó|0
 8|MONPLAN_AUTH|Solicitar autorización plan seguimiento|0
 9|UPDATE_MONPLAN_AUTH|Solicitar autorización plan seguimiento modificado|0
+10|CASE_OBSOLETE_SUPERVISION|Eliminar caso en supervisión|0

@@ -62,7 +62,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" ng-show="${supervisor == null? false:true}">
                                             <div class="col-xs-12">
                                                 <div class="profile-user-info profile-user-info-striped">
                                                     <div class="profile-info-row">
@@ -133,7 +133,8 @@
                                                     </div>
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">
-                                                            <input id="password" type="password" name="password" ng-model="m.password" class="form-control" rows="8"></textarea>
+                                                            <input id="password" type="password" name="password" ng-enter-key for-element-id="btn-def-ck"
+                                                                   ng-model="m.password" class="form-control" rows="8"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -155,7 +156,7 @@
                 </div>
                 <div class="modal-footer" id="btn-act-footer">
                     <button class="btn btn-default btn-sm" ng-click="cancel()">Cancelar</button>
-                        <button class="btn btn-default btn-primary btn-sm" ng-show = "m.password && m.comments"
+                        <button class="btn btn-default btn-primary btn-sm" ng-show = "m.password && m.comments" id="btn-def-ck"
                               ng-click="submit('#FormCatId', '<c:url value='${urlToGo}' />')">
                               Aceptar
                         </button>

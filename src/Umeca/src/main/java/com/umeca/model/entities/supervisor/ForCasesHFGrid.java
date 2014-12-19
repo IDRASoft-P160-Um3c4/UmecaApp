@@ -2,9 +2,6 @@ package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.shared.EntityGrid;
 
-/**
- * Created by Vmware on 22/05/2014.
- */
 public class ForCasesHFGrid implements EntityGrid {
 
     private Long id;
@@ -16,19 +13,19 @@ public class ForCasesHFGrid implements EntityGrid {
     private String lastNameP;
     private String lastNameM;
     private String fullName;
-
+    private Long framingMeetingId;
+    private Long idTR;
     private StringBuilder sb;
 
 
-    public ForCasesHFGrid(Long id, String status, String statusDesc, String idFolder, String idMP, String name, String lastNameP, String lastNameM) {
+    public ForCasesHFGrid(Long id, String status, String idMP, String name, String lastNameP, String lastNameM) {
         this.id = id;
         this.status = status;
-        this.statusDesc = statusDesc;
-        this.idFolder = idFolder;
         this.idMP = idMP;
         this.name = name;
-        this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
+        this.lastNameP = lastNameP;
+
         sb = new StringBuilder();
         sb.append(this.name);
         sb.append(" ");
@@ -36,6 +33,15 @@ public class ForCasesHFGrid implements EntityGrid {
         sb.append(" ");
         sb.append(this.lastNameM);
         this.fullName = sb.toString();
+    }
+
+    public ForCasesHFGrid(Long id, String status, String statusDesc, String idFolder, String idMP, String name, String lastNameP,
+                          String lastNameM, Long framingMeetingId, Long  idTR) {
+        this(id, status, idMP, name, lastNameP, lastNameM);
+        this.statusDesc = statusDesc;
+        this.idFolder = idFolder;
+        this.framingMeetingId = framingMeetingId;
+        this.idTR = idTR;
     }
 
     public Long getId() {
@@ -109,4 +115,21 @@ public class ForCasesHFGrid implements EntityGrid {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
+    public Long getFramingMeetingId() {
+        return framingMeetingId;
+    }
+
+    public void setFramingMeetingId(Long framingMeetingId) {
+        this.framingMeetingId = framingMeetingId;
+    }
+
+    public Long getIdTR() {
+        return idTR;
+    }
+
+    public void setIdTR(Long idTR) {
+        this.idTR = idTR;
+    }
+
 }

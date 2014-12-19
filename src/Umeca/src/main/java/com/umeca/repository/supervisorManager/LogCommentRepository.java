@@ -25,7 +25,7 @@ public interface LogCommentRepository extends JpaRepository<LogComment, Long>{
             "INNER JOIN cd.meeting.imputed im " +
             "INNER JOIN lcmp.senderUser su " +
             "LEFT JOIN lcmp.receiveUser ru " +
-            "WHERE (s.id =:userId OR ru.id =:userId) AND su.id <>:userId AND lcmp.isObsolete = false ORDER BY lcmp.id DESC")
+            "WHERE (s.id =:userId OR ru.id =:userId) AND (su.id <>:userId OR ru.id =:userId) AND lcmp.isObsolete = false ORDER BY lcmp.id DESC")
     List<CommentMonitoringPlanNotice> getEnabledCommentsByUserId(@Param("userId")Long userId);
 
     @Query("SELECT new com.umeca.model.entities.supervisorManager.CommentMonitoringPlanNotice(lcmp.id, lcmp.type, lcmp.action, su.fullname, ru.fullname, " +

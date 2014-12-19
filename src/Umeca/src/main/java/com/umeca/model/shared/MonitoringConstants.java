@@ -57,6 +57,8 @@ public class MonitoringConstants {
     public final static String TYPE_COMMENT_CASE_END = "TERMINAR CASO";
     public final static String TYPE_COMMENT_REOPEN_CASE = "REABRIR CASO";
     public final static String TYPE_COMMENT_ASSIGNED_CASE = "CASO ASIGNADO";
+    public final static String TYPE_COMMENT_SCHEDULE_HEARING = "AUDIENCIA AGENDADA";
+
     public final static String TYPE_INFORMATION = "INFORMATION";
 
     public static final int ACTIVITY_ARRANGEMENT_UNDEFINED = -1;
@@ -72,6 +74,7 @@ public class MonitoringConstants {
     public static final String LOG_ACCOMPLISHMENT_REJECTED = "RECHAZADO REPORTE INCUMPLIMIENTO";
 
     public static final String LOG_MSG_INFO_PENDING_AUTHORIZATION = "En espera de la autorización del plan de seguimiento";
+    public static final String LOG_MSG_INFO_PENDING_AUTHORIZATION_OBSOLETE = "En espera de respuesta a la solicitud de eliminar caso";
     public static final String LOG_MSG_INFO_PENDING_ACTIVITY_AUTHORIZATION =
             "Se crearon, modificaron o eliminaron actividades del plan de seguimiento, se espera autorización. Si no autoriza se suspenderá el plan.";
 

@@ -25,11 +25,10 @@
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="showSql" value="true" />
 			</bean>
-		</property>
-		<property name="jpaPropertyMap">
+		</property> <property name="jpaPropertyMap">
 			<map>
 				<entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
-				<entry key="hibernate.hbm2ddl.auto" value="none" />
+				<entry key="hibernate.hbm2ddl.auto" value="update" />
 				<entry key="hibernate.format_sql" value="true" />
 			</map>
 		</property>

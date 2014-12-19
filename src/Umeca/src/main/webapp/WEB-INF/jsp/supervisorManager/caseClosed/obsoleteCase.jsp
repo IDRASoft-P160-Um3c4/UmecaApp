@@ -5,8 +5,7 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/authorizeMonitoringPlan/authRejectCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/enterKeyDrct.js"></script>
-    <title>Casos activos</title>
+    <title>Casos con prisi&oacute;n preventiva</title>
 </head>
 
 <body scroll="no" ng-app="ptlUmc">
@@ -16,25 +15,14 @@
 
     <script>
 
-        window.authCloseCase = function(id){
-            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisorManager/caseActive/authClose.html' />', "#GridId");
+        window.closeCase = function (id) {
+            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisorManager/caseActive/closePrisonCase.html' />', "#GridId");
         };
 
-        window.rejectCloseCase = function(id){
-            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisorManager/caseActive/rejectClose.html' />', "#GridId");
-        };
-
-        window.authObsoleteCase = function(id){
-            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisorManager/caseActive/authClose.html?authObs=1' />', "#GridId");
-        };
-
-        window.rejectObsoleteCase = function(id){
-            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisorManager/caseActive/rejectClose.html?authObs=1' />', "#GridId");
-        };
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/supervisorManager/caseActive/list.json' />',
+                url: '<c:url value='/supervisorManager/caseObsolete/list.json' />',
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento', 'Estatus', 'Acci&oacute;n'],
@@ -58,23 +46,6 @@
                 caption: "&nbsp;",
                 altRows: true,
                 gridComplete: function () {
-                    var ids = $(this).jqGrid('getDataIDs');
-                    var status = $(this).jqGrid('getCol', 'codeStatus', false);
-                    for (var i = 0; i < ids.length; i++) {
-                        var cl = ids[i];
-                        var be = "";
-                        switch (status[i]) {
-                            case 'ST_CASE_PRE_CLOSED':
-                                be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar el cierre del caso\" onclick=\"window.authCloseCase('" + cl + "');\"><span class=\"glyphicon glyphicon-check\"></span></a>";
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar el cierre del caso\" onclick=\"window.rejectCloseCase('" + cl + "');\"><span class=\"glyphicon glyphicon-remove color-danger\"></span></a>";
-                                break;
-                            case 'ST_CASE_REQUEST_SUPERVISION':
-                                be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar la eliminaci&oacute;n del caso\" onclick=\"window.authObsoleteCase('" + cl + "');\"><span class=\"glyphicon glyphicon-check\"></span></a>";
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar la eliminaci&oacute;n del caso\" onclick=\"window.rejectObsoleteCase('" + cl + "');\"><span class=\"glyphicon glyphicon-remove color-danger\"></span></a>";
-                                break;
-                        }
-                        $(this).jqGrid('setRowData', ids[i], { Action: be });
-                    }
                 },
                 loadComplete: function () {
                     var table = this;
@@ -101,7 +72,7 @@
 
                         onClickButton: function () {
                             try {
-                                $("#GridId").jqGrid('toExcelFile',{nombre:"datosXls",formato:"excel"});
+                                $("#GridId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                             } catch (e) {
                             }
                         }});
@@ -117,7 +88,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Casos activos
+    <h2 class="element-center"><i class="glyphicon icon-trash "></i>&nbsp;&nbsp;Casos eliminados
     </h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">

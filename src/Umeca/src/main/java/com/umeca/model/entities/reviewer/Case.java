@@ -202,4 +202,5 @@ public class Case {
     public void setDateObsolete(Date dateObsolete) {
         this.dateObsolete = dateObsolete;
     }
+
 }

@@ -144,6 +144,7 @@ public class MainPageServiceImpl implements MainPageService {
                     add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
                     add(MonitoringConstants.STATUS_PENDING_END);
                     add(MonitoringConstants.STATUS_END);
+                    add(Constants.ACTION_AUTHORIZE_LOG_COMMENT);
                     add(MonitoringConstants.TYPE_INFORMATION);
                 }}, userId
         );

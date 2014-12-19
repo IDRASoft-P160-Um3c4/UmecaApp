@@ -54,6 +54,11 @@ public class CaseActiveController {
         return "/supervisorManager/caseActive/prisonCases";
     }
 
+    @RequestMapping(value = "/supervisorManager/caseObsolete", method = RequestMethod.GET)
+    public String indexObsoleteCase() {
+        return "/supervisorManager/caseClosed/obsoleteCase";
+    }
+
     @RequestMapping(value = "/supervisorManager/caseActive/list", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -63,6 +68,8 @@ public class CaseActiveController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_CLOSED);
+                    add(Constants.CASE_STATUS_OBSOLETE_EVALUATION);
+                    add(Constants.CASE_STATUS_OBSOLETE_SUPERVISION);
                 }}, JqGridFilterModel.COMPARE_NOT_IN
         );
         opts.extraFilters.add(extraFilter);
@@ -159,18 +166,68 @@ public class CaseActiveController {
         return result;
     }
 
+    @RequestMapping(value = "/supervisorManager/caseObsolete/list", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listObsolete(@ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("status",Constants.CASE_STATUS_OBSOLETE_SUPERVISION, JqGridFilterModel.COMPARE_EQUAL
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
+                final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
+
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(joinSt.get("name"));
+                    add(joinSt.get("description"));
+                    add(r.get("idMP"));
+                    add(joinM.get("name"));
+                    add(joinM.get("lastNameP"));
+                    add(joinM.get("lastNameM"));
+                    add(joinM.get("birthDate"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idMP"))
+                    return r.get("idMP");
+                else if (field.equals("fullName"))
+                    return r.join("meeting").join("imputed").get("name");
+                else if (field.equals("status"))
+                    return r.join("status").get("name");
+                else if (field.equals("arrangement"))
+                    return r.join("hearingFormats").join("assignedArrangements").join("arrangement").get("id");
+                else
+                    return null;
+            }
+        }, Case.class, ForFramingMeetingGrid.class);
+
+        return result;
+    }
+
     @Autowired
     CaseRepository caseRepository;
     @Autowired
     HearingFormatRepository hearingFormatRepository;
 
     @RequestMapping(value = "/supervisorManager/caseActive/authClose", method = RequestMethod.POST)
-    public ModelAndView authorize(@RequestParam Long id) { //Case Id
+    public ModelAndView authorize(@RequestParam Long id,@RequestParam(required = false) Integer authObs) { //Case Id
         ModelAndView model = new ModelAndView("/supervisorManager/caseActive/authorizeRejectClose");
 
         try {
-            GetCaseInfo(id, model, caseRepository, hearingFormatRepository);
+            GetCaseInfo(id, model, caseRepository, hearingFormatRepository,authObs);
             model.addObject("isAuthorized", 1);
+            model.addObject("isAuthObs",authObs);
             return model;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "authorize", sharedUserService);
@@ -180,12 +237,13 @@ public class CaseActiveController {
 
 
     @RequestMapping(value = "/supervisorManager/caseActive/rejectClose", method = RequestMethod.POST)
-    public ModelAndView reject(@RequestParam Long id) {
+    public ModelAndView reject(@RequestParam Long id,@RequestParam(required = false) Integer authObs) {
         ModelAndView model = new ModelAndView("/supervisorManager/caseActive/authorizeRejectClose");
 
         try {
-            GetCaseInfo(id, model, caseRepository, hearingFormatRepository);
+            GetCaseInfo(id, model, caseRepository, hearingFormatRepository,authObs);
             model.addObject("isAuthorized", 0);
+            model.addObject("isAuthObs",authObs);
             return model;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "reject", sharedUserService);
@@ -194,18 +252,27 @@ public class CaseActiveController {
     }
 
 
-    public static void GetCaseInfo(Long id, ModelAndView model, CaseRepository caseRepository, HearingFormatRepository hearingFormatRepository) {
+
+
+    public static void GetCaseInfo(Long id, ModelAndView model, CaseRepository caseRepository, HearingFormatRepository hearingFormatRepository,Integer isAuthObs) {
         CaseInfo caseInfo = caseRepository.getInfoById(id);
         model.addObject("caseId", caseInfo.getCaseId());
         model.addObject("mpId", caseInfo.getMpId());
         model.addObject("fullName", caseInfo.getPersonName());
         model.addObject("status", caseInfo.getStatus());
         model.addObject("folderId", caseInfo.getFolderId());
-        model.addObject("msgPlan", "el cierre del caso");
+
+        if(isAuthObs!=null){
+            model.addObject("urlToGo", "/supervisorManager/caseActive/doObsoleteCase.json");
+            model.addObject("msgPlan", "la eliminaci&oacute;n del caso");
+        }else{
         model.addObject("urlToGo", "/supervisorManager/caseActive/doAuthorizeRejectCase.json");
+            model.addObject("msgPlan", "el cierre del caso");
+        }
 
         List<String> lstSupervisor = hearingFormatRepository.findLastFullNameSupervisorByCaseId(id, new PageRequest(0, 1));
-        model.addObject("supervisor", lstSupervisor.get(0));
+        if(lstSupervisor!=null && lstSupervisor.size()>0)
+          model.addObject("supervisor", lstSupervisor.get(0));
     }
 
 
@@ -254,12 +321,54 @@ public class CaseActiveController {
         return response;
     }
 
+    @RequestMapping(value = "/supervisorManager/caseActive/doObsoleteCase", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doObsoleteCase(@ModelAttribute AuthorizeRejectMonPlan model) {
+
+        ResponseMessage response = new ResponseMessage();
+        response.setHasError(true);
+
+        try {
+            User user = new User();
+            if (sharedUserService.isValidUser(user, response) == false)
+                return response;
+
+            if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
+                response.setMessage("La contraseña no corresponde al usuario en sesión");
+                return response;
+            }
+
+            Case caseDet = caseRepository.findOne(model.getCaseId());
+
+            if (caseDet == null) {
+                response.setMessage("No se encontró el caso. Por favor reinicie su navegador e intente de nuevo");
+                return response;
+            }
+
+            String caseStatus = caseDet.getStatus().getName();
+            if (caseStatus.equals(Constants.CASE_STATUS_REQUEST_SUPERVISION) == false) {
+                response.setMessage("El caso se encuentra en estado " + caseStatus + ", por ello no puede ser autorizado\rechazado para eliminar");
+                return response;
+            }
+
+            caseService.saveAuthRejectObsoleteCase(model, user, caseDet);
+
+            response.setHasError(false);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doObsoleteCase", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+        }
+        return response;
+    }
+
     @RequestMapping(value = "/supervisorManager/caseActive/closePrisonCase", method = RequestMethod.POST)
     public ModelAndView closePrisonCase(@RequestParam Long id) { //Case Id
         ModelAndView model = new ModelAndView("/supervisorManager/caseActive/closePrisonCase");
 
         try {
-            GetCaseInfo(id, model, caseRepository, hearingFormatRepository);
+            GetCaseInfo(id, model, caseRepository, hearingFormatRepository,null);
             model.addObject("isAuthorized", 1);
             model.addObject("urlToGo", "/supervisorManager/caseActive/doClosePrisonCase.json");
             return model;

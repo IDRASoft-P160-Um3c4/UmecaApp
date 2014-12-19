@@ -1,4 +1,4 @@
-id|name|description
-1|grupo uno|grupo uno
-2|grupo dos|grupo dos
-3|grupo tres|grupo tres
+id|name|description|obsolete
+1|grupo uno|grupo uno|0
+2|grupo dos|grupo dos|0
+3|grupo tres|grupo tres|0

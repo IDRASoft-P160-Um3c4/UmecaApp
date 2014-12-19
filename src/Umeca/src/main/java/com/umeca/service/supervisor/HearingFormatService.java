@@ -1,7 +1,6 @@
 package com.umeca.service.supervisor;
 
 import com.umeca.model.ResponseMessage;
-import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.ArrangementView;
 import com.umeca.model.entities.supervisor.AssignedArrangement;
 import com.umeca.model.entities.supervisor.HearingFormat;
@@ -32,4 +31,6 @@ public interface HearingFormatService {
     List<ArrangementView> assignedArrangementForView(List<AssignedArrangement> assignedArrangements);
 
     List<ArrangementView> selectedAssignedArrangementForView(List<ArrangementView> existArrangements, List<AssignedArrangement> assignedArrangements);
+
+    ResponseMessage requestObsoleteCase(Long id);
 }

@@ -78,7 +78,11 @@
         </sec:authorize>
         <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
             <li class="nav-li-blue"><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i
-                    class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Formato de audiencia</a></li>
+                    class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Formato de audiencia</a>
+            </li>
+            <li class="nav-li-blue"><a href="<c:url value='/supervisor/scheduleHearings/index.html'/>">
+                <i class="icon icon-calendar"></i>&nbsp;&nbsp;Agenda de audiencias</a>
+            </li>
             <li class="nav-li-blue"><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i
                     class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre</a></li>
             <li class="dropdown nav-li-blue">
@@ -116,12 +120,12 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-li-blue"><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>"><i
-                    class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
+            <li class="nav-li-blue"><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
+                <i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
                 supervisi&oacute;n</a>
             </li>
-            <li class="nav-li-blue"><a href="<c:url value='/supervisor/caseNotProsecute/index.html'/>"><i
-                    class=" icon-folder-close"></i>&nbsp;&nbsp;Casos no judicializados</a>
+            <li class="nav-li-blue"><a href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
+                <i class="icon icon-folder-close"></i>&nbsp;&nbsp;Casos no judicializados</a>
             </li>
 
         </sec:authorize>
@@ -167,6 +171,8 @@
                             class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrados</a></li>
                     <li><a href="<c:url value='/supervisorManager/caseActive/prisonCases.html' />"><i
                             class="glyphicon glyphicon-link"></i>&nbsp;&nbsp;Prisi&oacute;n preventiva</a></li>
+                    <li><a href="<c:url value='/supervisorManager/caseObsolete.html' />"><i
+                            class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Casos eliminados</a></li>
                 </ul>
             </li>
             <li class="dropdown nav-li-blue">

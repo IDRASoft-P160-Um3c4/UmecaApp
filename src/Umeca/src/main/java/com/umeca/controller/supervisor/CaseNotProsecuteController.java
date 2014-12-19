@@ -112,7 +112,7 @@ public class CaseNotProsecuteController {
 
     @RequestMapping(value = {"/supervisor/caseNotProsecute/openNotProsecute"}, method = RequestMethod.POST)
     public ModelAndView openNotProsecute(@RequestParam Long id) {
-        ModelAndView model = new ModelAndView("//supervisor/caseNotProsecute/openNotProsecute");
+        ModelAndView model = new ModelAndView("/supervisor/caseNotProsecute/openNotProsecute");
         CaseInfo caseInfo = caseRepository.getInfoByIdNotProsecute(id);
         List<Crime> crimes = crimeRepository.findListCrimeLegalByIdCase(id);
         Gson gson = new Gson();
