@@ -1,6 +1,6 @@
 package com.umeca.repository.reviewer;
+
 import com.umeca.model.entities.director.view.CaseRequestDto;
-import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.CaseRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,7 +24,7 @@ public interface CaseRequestRepository extends JpaRepository<CaseRequest,Long> {
             "respms.fullname," +
             "rt.description) " +
             "from CaseRequest as cr " +
-            "INNER JOIN cr.responseType as rt " +
+            "LEFT JOIN cr.responseType as rt " +
             "INNER JOIN cr.requestType as rtcr " +
             "INNER JOIN cr.requestMessage as rm " +
             "INNER JOIN rm.sender as rms " +

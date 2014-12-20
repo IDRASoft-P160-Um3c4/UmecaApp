@@ -9,6 +9,8 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.CaseRequest;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.shared.Message;
+import com.umeca.model.entities.shared.RelMessageUserReceiver;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.SupervisionCloseCaseLog;
@@ -18,6 +20,7 @@ import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.catalog.RequestTypeRepository;
 import com.umeca.repository.catalog.ResponseTypeRepository;
 import com.umeca.repository.catalog.StatusMeetingRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
@@ -28,7 +31,6 @@ import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.SupervisionCloseCaseLogRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
-import com.umeca.service.shared.CaseRequestService;
 import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -359,9 +362,11 @@ public class CaseServiceImpl implements CaseService {
     @Autowired
     CaseRequestRepository caseRequestRepository;
     @Autowired
-    ResponseTypeRepository responseTypeRepository;
+    RequestTypeRepository requestTypeRepository;
     @Autowired
     MessageRepository messageRepository;
+    @Autowired
+    ResponseTypeRepository responseTypeRepository;
     @Transactional
     @Override
     public void saveAuthRejectObsoleteCase(AuthorizeRejectMonPlan model, User user, Case caseDet) {
@@ -378,10 +383,30 @@ public class CaseServiceImpl implements CaseService {
             commentNotification = "Solicitud rechazada. Comentarios: "+model.getComments();
         }
         caseDet.setStatus(statusCaseRepository.findByCode(status));
-        CaseRequestService.CreateCaseResponseToUser(responseTypeRepository,caseRequestRepository,messageRepository, sharedUserService,logException,user,caseDet,model.getComments(),typeRequest);
+        caseRepository.save(caseDet);
+        if(lstCaseRequest == null && !(lstCaseRequest.size() > 0)){
+            return;
+        }
+        Message msg = new Message();
+        msg.setCaseDetention(caseDet);
+        msg.setCreationDate(new Date());
+        Long userId = sharedUserService.GetLoggedUserId();
+        User u = new User();
+        u.setId(userId);
+        msg.setSender(u);
+        msg.setText(model.getComments());
+        List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
+        RelMessageUserReceiver  rmur = new RelMessageUserReceiver();
+        rmur.setMessage(msg);
+        rmur.setUser(request.getRequestMessage().getSender());
+        msg.setMessageUserReceivers(lstRmUr);
+        messageRepository.save(msg);
+        request.setResponseMessage(msg);
+        request.setResponseType(responseTypeRepository.findByCode(typeRequest));
+        caseRequestRepository.save(request);
         SharedLogCommentService.generateLogComment(commentNotification, userRepository.findOne(sharedUserService.GetLoggedUserId()),caseDet,
                 Constants.RESPONSE_OBSOLETE_CASE_SUPERVISION, request.getRequestMessage().getSender(), Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION , logCommentRepository);
-        caseRepository.save(caseDet);
+
     }
 
 }
