@@ -454,6 +454,8 @@ public class ExcelReportController {
     CrimeRepository crimeRepository;
     @Autowired
     ScheduleRepository scheduleRepository;
+    @Autowired
+    FulfillmentReportRepository fulfillmentReportRepository;
 
     @RequestMapping(value = "/director/excelReport/jxls", method = RequestMethod.GET)
     public
@@ -802,12 +804,14 @@ public class ExcelReportController {
                     actCase.setFramingMeetingInfo(new FramingMeetingInfo());
             }
 
+            List<SelectList> allFulfillmentReport = fulfillmentReportRepository.finAllSummaryInfoFulfillmentReportInfo(casesIds);
 
             for (ExcelCaseInfoDto actCase : listCases) {
 
                 MonitoringPlanExcelInfo monInfo = new MonitoringPlanExcelInfo();
 
                 List<Long> idsHF = reportExcelRepository.getLastHearingFormatByCase(actCase.getIdCase(), new PageRequest(0, 1));
+
 
                 SupervisionLogReport slr = null;
                 Long lastFormatId = null;
@@ -843,9 +847,20 @@ public class ExcelReportController {
                 monInfo.setLstActMonPlanArrangement(lstActMonPlanArrangement);
                 monInfo.doReconstructedActivityInfo();
 
+
+                List<SelectList> lstFulfimentRep = new ArrayList<>();
+                for (SelectList actRep : allFulfillmentReport) {
+                    if (actRep.getId() == actCase.getIdCase()) {
+                        lstFulfimentRep.add(actRep);
+                    }
+                }
+
+                monInfo.setLstFulfillment(lstFulfimentRep);
                 actCase.setMonitoringPlanExcelInfo(monInfo);
+
             }
             /*supervision*/
+
 
             /*summary*/
 

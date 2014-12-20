@@ -21,6 +21,8 @@ public class MonitoringPlanExcelInfo {
 
     private List<ReconstructedActivityInfo> lstReconstructed;
 
+    private List<SelectList> lstFulfillment;
+
     public SupervisionLogReport getSupervisionLogReport() {
         return supervisionLogReport;
     }
@@ -254,7 +256,7 @@ public class MonitoringPlanExcelInfo {
         return noActs.toString();
     }
 
-    public String summaryNoArrangementsByStatus(Integer status){
+    public String summaryNoArrangementsByStatus(Integer status) {
         Integer noActs = 0;
 
         for (ActivityMonitoringPlanArrangementLog act : this.lstActMonPlanArrangement) {
@@ -264,4 +266,37 @@ public class MonitoringPlanExcelInfo {
         return noActs.toString();
     }
 
+    public List<SelectList> getLstFulfillment() {
+        return lstFulfillment;
+    }
+
+    public void setLstFulfillment(List<SelectList> lstFulfillment) {
+        this.lstFulfillment = lstFulfillment;
+    }
+
+    public String summarySupervisionFulfillmentReport() {
+        String returnStr = "";
+        Integer total = 0;
+        Integer partial = 0;
+        Integer accomplished = 0;
+
+        if (this.lstFulfillment != null & this.lstFulfillment.size() > 0) {
+
+            for (SelectList act : this.lstFulfillment) {
+                if (act.getDescription().equals(MonitoringConstants.FULFILLMENT_TYPE_CODE_FULFILLMENT))
+                    accomplished++;
+                else if (act.getDescription().equals(MonitoringConstants.FULFILLMENT_TYPE_CODE_PARTIAL))
+                    partial++;
+                else if (act.getDescription().equals(MonitoringConstants.FULFILLMENT_TYPE_CODE_TOTAL))
+                    total++;
+            }
+
+            returnStr += "-Incumplimiento parcial: " + partial + "\n";
+            returnStr += "-Incumplimiento total: " + total + "\n";
+            returnStr += "-Cumplimiento: " + accomplished + "\n";
+
+        }
+
+        return returnStr;
+    }
 }

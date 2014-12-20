@@ -85,4 +85,9 @@ public class MonitoringConstants {
     public static final int AUTHORIZATION_OK = 0;
     public static final Long FILTER_ACTIVE_CASE = -1L;
     public static final Long FILTER_SUSPENDED_CASE = -2L;
+
+    public static final String FULFILLMENT_TYPE_CODE_FULFILLMENT = "FULFILLMENT";
+    public static final String FULFILLMENT_TYPE_CODE_PARTIAL = "PARTIAL_NON_FULFILLMENT";
+    public static final String FULFILLMENT_TYPE_CODE_TOTAL = "TOTAL_NON_FULFILLMENT";
+
 }

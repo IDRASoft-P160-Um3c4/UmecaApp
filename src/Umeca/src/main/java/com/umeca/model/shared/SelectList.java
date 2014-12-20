@@ -92,6 +92,13 @@ public class SelectList {
 
     }
 
+    public SelectList(Long id, Long aux, String code, String status) {
+        this.id = id;
+        this.aux = aux;
+        this.description = code;
+        this.name = status;
+    }
+
     public Long getId() {
         return id;
     }
