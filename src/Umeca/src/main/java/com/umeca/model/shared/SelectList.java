@@ -22,9 +22,17 @@ public class SelectList {
     private String strDate;
     private String logType;
 
+    public SelectList() {
+    }
+
     public SelectList(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public SelectList(Long id, Boolean lock) {
+        this.id = id;
+        this.lock = lock;
     }
 
     public SelectList(Integer id, String description) {
@@ -89,7 +97,13 @@ public class SelectList {
     }
 
     public SelectList(Long id, Long aux) {
+        this.id = id;
+        this.aux = aux;
+    }
 
+    public SelectList(Long id, Integer idAux) {
+        this.id = id;
+        this.idAux = idAux;
     }
 
     public SelectList(Long id, Long aux, String code, String status) {

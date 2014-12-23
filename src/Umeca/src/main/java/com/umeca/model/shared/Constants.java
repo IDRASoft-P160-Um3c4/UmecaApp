@@ -68,6 +68,7 @@ public class Constants {
     public static final String CASE_STATUS_EDIT_TEC_REV = "ST_CASE_EDIT_TEC_REV";
     public static final String CASE_STATUS_NOT_PROSECUTE = "ST_CASE_NOT_PROSECUTE";
     public static final String CASE_STATUS_NOT_PROSECUTE_OPEN = "ST_CASE_NOT_PROSECUTE_OPEN";
+    public static final String CASE_STATUS_DELETED = "ST_CASE_DELETED";
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW = "DONT_KNOW";
     public static final String ST_FIELD_VERIF_EQUALS = "EQUALS";
@@ -99,7 +100,7 @@ public class Constants {
     public static final String SYSTEM_SETTINGS_MONPLAN_HOURS_TO_AUTHORIZE = "HoursToAuthorize";
 
     public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING = "SCHEDULE_HEARING";
-        public static final String SYSTEM_SETTINGS_SCHEDULE_LST_IDS_ARRANGEMENT = "LstIdsArrangement";
+    public static final String SYSTEM_SETTINGS_SCHEDULE_LST_IDS_ARRANGEMENT = "LstIdsArrangement";
     public static final String SYSTEM_SETTINGS_SCHEDULE_LST_IDS_ARRANGEMENT_REMINDER = "LstIdsArrangementReminder";
     public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING_SUPERVISION_ACTIVITY_ID = "SupervisionActivityId";
     public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING_SUPERVISION_ACTIVITY_ID_REMINDER = "SupervisionActivityIdReminder";
@@ -175,8 +176,8 @@ public class Constants {
 
     public static final String NAME_RELATIONSHIP_NONE = "Ninguno";
 
-    public static String S_MEETING_OBSOLETE="OBSOLETE";
-    public static final String ROLE_DIRECTOR="ROLE_DIRECTOR";
+    public static String S_MEETING_OBSOLETE = "OBSOLETE";
+    public static final String ROLE_DIRECTOR = "ROLE_DIRECTOR";
 
     public static final String ACTION_AUTHORIZE_LOG_COMMENT = "AUTORIZAR ELIMINAR CASO";
 }

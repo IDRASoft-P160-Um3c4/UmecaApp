@@ -36,12 +36,20 @@ public class ForCasesHFGrid implements EntityGrid {
     }
 
     public ForCasesHFGrid(Long id, String status, String statusDesc, String idFolder, String idMP, String name, String lastNameP,
-                          String lastNameM, Long framingMeetingId, Long  idTR) {
+                          String lastNameM, Long framingMeetingId, Long idTR) {
         this(id, status, idMP, name, lastNameP, lastNameM);
         this.statusDesc = statusDesc;
         this.idFolder = idFolder;
         this.framingMeetingId = framingMeetingId;
         this.idTR = idTR;
+    }
+
+    public ForCasesHFGrid(Long id, String status, String statusDesc, String idFolder, String idMP, String name, String lastNameP,
+                          String lastNameM) {
+        this(id, status, idMP, name, lastNameP, lastNameM);
+        this.statusDesc = statusDesc;
+        this.idFolder = idFolder;
+        this.idMP = idMP;
     }
 
     public Long getId() {
