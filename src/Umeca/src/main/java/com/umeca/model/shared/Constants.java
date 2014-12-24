@@ -68,7 +68,7 @@ public class Constants {
     public static final String CASE_STATUS_EDIT_TEC_REV = "ST_CASE_EDIT_TEC_REV";
     public static final String CASE_STATUS_NOT_PROSECUTE = "ST_CASE_NOT_PROSECUTE";
     public static final String CASE_STATUS_NOT_PROSECUTE_OPEN = "ST_CASE_NOT_PROSECUTE_OPEN";
-    public static final String CASE_STATUS_DELETED = "ST_CASE_DELETED";
+
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW = "DONT_KNOW";
     public static final String ST_FIELD_VERIF_EQUALS = "EQUALS";
@@ -130,8 +130,8 @@ public class Constants {
     public static final String RESPONSE_TYPE_PENDING = "PENDING";
     public static final String RESPONSE_TYPE_ACCEPTED = "ACCEPTED";
     public static final String RESPONSE_TYPE_REJECTED = "REJECTED";
-    public static String CASE_STATUS_OBSOLETE_EVALUATION = "ST_CASE_OBSOLETE_EVALUATION";
-    public static String CASE_STATUS_OBSOLETE_SUPERVISION = "ST_CASE_OBSOLETE_SUPERVISION";
+    public static final String CASE_STATUS_OBSOLETE_EVALUATION = "ST_CASE_OBSOLETE_EVALUATION";
+    public static final String CASE_STATUS_OBSOLETE_SUPERVISION = "ST_CASE_OBSOLETE_SUPERVISION";
 
 
     public static final Long MARITAL_SINGLE = 1L;

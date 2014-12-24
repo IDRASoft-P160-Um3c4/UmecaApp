@@ -1,30 +1,65 @@
-app.controller('tecRevController', function ($scope, $timeout) {
+app.controller('tecRevController', function ($scope, $timeout, $sce) {
 
     $scope.m = {};
-
     $scope.m.isEval = false;
-
     $scope.m.totRisk;
-
     $scope.m.actTab = 0;
-
     $scope.m.secIdx = 0;
-
     $scope.m.extras = [];
-
     $scope.sectionList = [];
-
     $scope.subSectionList = [];
-
     $scope.lstTot = [];
-
     $scope.lstSubtotSrv = [];
-
     $scope.lstQuestSel = [];
-
     $scope.lstSelValidator = [];
-
     $scope.MsgErrorLst = [];
+    $scope.MsgSuccessTecRev = "";
+
+    $scope.submitTecRev = function (formId, urlToPost, hasReturnId) {
+
+        if ($(formId).valid() == false) {
+            $scope.Invalid = true;
+            return false;
+        }
+
+        $scope.WaitFor = true;
+        $.post(urlToPost, $(formId).serialize())
+            .success($scope.handleSuccessTR)
+            .error($scope.handleErrorTR);
+        return true;
+    };
+
+    $scope.handleSuccessTR = function (resp) {
+        $scope.WaitFor = false;
+
+        try {
+
+            if (resp.hasError === undefined) {
+                resp = resp.responseMessage;
+            }
+
+            if (resp.hasError === false) {
+                $scope.MsgError = $sce.trustAsHtml("");
+                $scope.MsgSuccessTecRev = $sce.trustAsHtml(resp.message);
+                $scope.$apply();
+                return;
+            }
+
+            $scope.MsgError = $sce.trustAsHtml(resp.message);
+            $scope.$apply();
+
+        } catch (e) {
+            $scope.MsgSuccessTecRev = $sce.trustAsHtml("");
+            $scope.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+        }
+    };
+
+    $scope.handleErrorTR = function () {
+        $scope.WaitFor = false;
+        $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
+        $scope.$apply();
+    };
+
 
     $scope.toObject = function (json) {
         return JSON.parse(json);

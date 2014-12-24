@@ -99,6 +99,14 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
 
 </div>
 
+<div class="row">
+    <div ng-show="MsgSuccessTecRev!=''" class="alert alert-success element-center success-font">
+        <span ng-bind-html="MsgSuccessTecRev"></span>
+    </div>
+    <div ng-show="MsgError!=''" class="alert alert-danger element-center error-font">
+        <span ng-bind-html="MsgError"></span>
+    </div>
+</div>
 
 <div class="tabbable tabs-left">
 <br/>
@@ -171,7 +179,7 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
                     <div class="col-xs-3 col-xs-offset-8">
                         &nbsp;&nbsp;&nbsp;&nbsp;
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="submitRedirect('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>',false)"
+                                  ng-click="submitTecRev('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>',false)"
                                   ng-show="flgIsEvaluated == false || canEdit==true">
                                   Guardar
                             </span>

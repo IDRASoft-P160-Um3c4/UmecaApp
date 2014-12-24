@@ -234,7 +234,7 @@ public class TechnicalReviewController {
                 response.setUrlToGo("index.html");
             } else {
                 response.setHasError(false);
-                response.setUrlToGo("#");
+                response.setMessage("Se ha guardado la informaci&oacute;n correctamente.");
             }
 
         } catch (Exception ex) {
