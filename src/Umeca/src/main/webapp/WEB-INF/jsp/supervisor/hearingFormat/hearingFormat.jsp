@@ -1035,6 +1035,8 @@
                                                     <span class="lbl col-xs-10">&nbsp;&nbsp;{{arrangment.name}}</span>
                                                 </label>
                                             </div>
+                                            <br/>
+
                                             <div class="col-xs-offset-1">
                                                 <textarea class="form-control limited" ng-disabled="m.disableAll==true"
                                                           ng-blur="validateArrangementSel()"
