@@ -2737,14 +2737,16 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             element.setValue("");
             lstElements.add(element);
 
+            Degree deg = degreeRepository.findOne(view.getDegreeId());
+
             element = new FramingLogElement();
             element.setFieldName("&Uacute;ltimo vivel acad&eacute;mico");
-            element.setValue(academicLevelRepository.findOne(view.getAcademicLvlId()).getName());
+            element.setValue(deg.getAcademicLevel().getName());
             lstElements.add(element);
 
             element = new FramingLogElement();
             element.setFieldName("&Uacute;ltimo grado");
-            element.setValue(academicLevelRepository.findOne(view.getDegreeId()).getName());
+            element.setValue(deg.getName());
             lstElements.add(element);
 
             if (view.getSpecification() != null && !view.getSpecification().trim().equals("")) {
