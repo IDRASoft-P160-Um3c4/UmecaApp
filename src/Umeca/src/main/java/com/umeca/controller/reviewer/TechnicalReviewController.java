@@ -72,13 +72,13 @@ public class TechnicalReviewController {
     public
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
+        opts.extraFilters = new ArrayList<>();
         Long userId = sharedUserService.GetLoggedUserId();
         if(sharedUserService.isUserInRole(userId,Constants.ROLE_REVIEWER)){
                 JqGridRulesModel extraFilter = new JqGridRulesModel("user",
                         userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
                 opts.extraFilters.add(extraFilter);
         }
-        opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
@@ -116,7 +116,7 @@ public class TechnicalReviewController {
                 else if (field.equals("statusName"))
                     return r.join("caseDetention").join("status").get("name");
                 else if (field.equals("user"))
-                    return r.join("meetingVerified").join("reviewer").get("id");
+                    return r.join("caseDetention").join("meeting").join("reviewer").get("id");
                 else
                     return null;
             }
