@@ -345,7 +345,7 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
 
     <div class="row">
         <div class="col-xs-12">
-            <div ng-show="MsgErrorLst.length > 0" class="alert alert-danger element-center">
+            <div ng-show="MsgErrorLst.length > 0" class="alert alert-danger element-center technicalReview/technicalReview">
                 <ul ng-repeat="error in MsgErrorLst">
                     <li>{{error}}</li>
                 </ul>

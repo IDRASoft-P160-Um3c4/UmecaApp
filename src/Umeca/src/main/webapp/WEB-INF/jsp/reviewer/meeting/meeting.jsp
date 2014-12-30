@@ -43,20 +43,17 @@
             window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/index.html'/>");
         };
 
-        function controller($scope)
-        {
+        function controller($scope) {
             $scope.showflag = true;
-            setTimeout(function ()
-            {
-                $scope.$apply(function()
-                {
+            setTimeout(function () {
+                $scope.$apply(function () {
                     $scope.showflag = false;
                 });
             }, 1000);
         }
     </script>
     <style>
-        .width-100{
+        .width-100 {
             max-width: none !important;
             width: 100% !important;
         }
@@ -78,30 +75,34 @@
     </button>
     <br/>
     <span ng-bind-html="listMsgError[entityError]"></span>
-    <br />
+    <br/>
 </div>
 <div class="row">
     <br/>
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluaci&oacute;n de riesgos
+
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluaci&oacute;n
+        de riesgos
         procesales</h2>
 </div>
 <br/>
+
 <div class="row">
     <div class="col-sm-3">
         <h3 class="header smaller lighter blue">
-            <small>Carpeta de investigaci&oacute;n:  </small>
+            <small>Carpeta de investigaci&oacute;n:</small>
             &nbsp;${m.caseDetention.idFolder}
         </h3>
     </div>
-    <div class="col-sm-8" ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';" >
+    <div class="col-sm-8"
+         ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';">
         <h3 class="header smaller lighter blue">
-            <small>Nombre del imputado:  </small>
+            <small>Nombre del imputado:</small>
             &nbsp;&nbsp;{{i.name}} &nbsp; {{i.lastNameP}} &nbsp; {{i.lastNameM}}
         </h3>
     </div>
     <div class="col-sm-1">
         <h3 class="header smaller lighter blue">
-            <small>Edad:  </small>
+            <small>Edad:</small>
             &nbsp;${age}
         </h3>
     </div>
@@ -109,19 +110,19 @@
 <div class="row">
     <div class="col-sm-4">
         <h3 class="header smaller lighter blue">
-            <small>Inicio:  </small>
+            <small>Inicio:</small>
             &nbsp;${tStart}
         </h3>
     </div>
     <div class="col-sm-4">
         <h3 class="header smaller lighter blue">
-            <small>Fin:  </small>
+            <small>Fin:</small>
             &nbsp;${tEnd}
         </h3>
     </div>
     <div class="col-sm-4">
         <h3 class="header smaller lighter blue">
-            <small>Evaluador:  </small>
+            <small>Evaluador:</small>
             &nbsp;${reviewerFullname}
         </h3>
     </div>
@@ -138,6 +139,7 @@
                                 <i class="purple glyphicon glyphicon-user bigger-200"></i>
                                 Datos personales
                                 <br/>
+
                                 <div class="col-xs-offset-3">y entorno social</div>
                             </div>
                             <div class="col-xs-2" ng-show="listMsgError['personalData']">
@@ -153,11 +155,11 @@
                 </li>
 
                 <li id="liImputedHome">
-                    <a data-toggle="tab" href="#address" >
+                    <a data-toggle="tab" href="#address">
                         <div class="row">
                             <div class="col-xs-10">
                                 <i class="green  icon-home  bigger-200"></i>
-                                Domicilios    <br/>
+                                Domicilios <br/>
                                 <label class="info-example">De los &uacute;ltimos 5 a&ntilde;os</label>
                             </div>
                             <div class="col-xs-2" ng-show="listMsgError['imputedHome']">
@@ -177,7 +179,7 @@
                         <div class="row">
                             <div class="col-xs-10">
                                 <i class="blue icon-group bigger-200"></i>
-                                Red social               <br/>
+                                Red social <br/>
                                 <label class="info-example">Personas con las que vive</label>
                             </div>
                             <div class="col-xs-2" ng-show="listMsgError['socialNetwork']">
@@ -334,15 +336,14 @@
                         Regresar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action
-                           confirm-message="&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?"
-                           confirm-title = "Terminar entrevista" confirm-type="info"
+                          confirm-message="&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?"
+                          confirm-title="Terminar entrevista" confirm-type="info"
                           confirmed-click-action="submit('#FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId','<c:url value="/reviewer/meeting/terminateMeeting.json?idCase=${idCase}"/>');">
                           Terminar
                     </span>
 
     </div>
 </div>
-
 
 
 <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
