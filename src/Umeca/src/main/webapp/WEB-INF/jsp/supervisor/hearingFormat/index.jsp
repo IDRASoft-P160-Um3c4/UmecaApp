@@ -55,7 +55,7 @@
                     { name: 'statusDesc', index: 'statusDesc', width: 350, align: "center", search: false},
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false },
                     { name: 'framingMeetingId', index: 'framingMeetingId', hidden: true },
-                    { name: 'idTR', index: 'idTR', hidden: true },
+                    { name: 'idTR', index: 'idTR', hidden: true }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -104,12 +104,12 @@
                              be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                              break;*/
                         }
-                        var row = $(this).getRowData(cl);
-                        var framingMeetingId = row.framingMeetingId;
-                        var idTR = row.idTR;
-                        if(framingMeetingId == '' && idTR == ''){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar caso\" onclick=\"obsoleteCase('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                        }
+//                        var row = $(this).getRowData(cl);
+//                        var framingMeetingId = row.framingMeetingId;
+//                        var idTR = row.idTR;
+//                        if(framingMeetingId == '' && idTR == ''){
+//                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar caso\" onclick=\"obsoleteCase('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+//                        }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },

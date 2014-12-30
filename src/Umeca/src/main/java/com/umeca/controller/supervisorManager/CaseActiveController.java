@@ -11,6 +11,8 @@ import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.ForFramingMeetingGrid;
+import com.umeca.model.entities.supervisor.FramingMeeting;
+import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
@@ -68,6 +71,7 @@ public class CaseActiveController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_CLOSED);
+                    add(Constants.CASE_STATUS_PRISON_CLOSED);
                     add(Constants.CASE_STATUS_OBSOLETE_EVALUATION);
                     add(Constants.CASE_STATUS_OBSOLETE_SUPERVISION);
                 }}, JqGridFilterModel.COMPARE_NOT_IN
@@ -82,6 +86,9 @@ public class CaseActiveController {
                 final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
 
+                final javax.persistence.criteria.Join<Case, MonitoringPlan> joinMP = r.join("monitoringPlan", JoinType.LEFT);
+                final javax.persistence.criteria.Join<Case, FramingMeeting> joinFM = r.join("framingMeeting", JoinType.LEFT);
+
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -92,6 +99,8 @@ public class CaseActiveController {
                     add(joinM.get("lastNameP"));
                     add(joinM.get("lastNameM"));
                     add(joinM.get("birthDate"));
+                    add(joinMP.get("id"));
+                    add(joinFM.get("id"));
                 }};
             }
 
@@ -172,7 +181,7 @@ public class CaseActiveController {
     JqGridResultModel listObsolete(@ModelAttribute JqGridFilterModel opts) {
 
         opts.extraFilters = new ArrayList<>();
-        JqGridRulesModel extraFilter = new JqGridRulesModel("status",Constants.CASE_STATUS_OBSOLETE_SUPERVISION, JqGridFilterModel.COMPARE_EQUAL
+        JqGridRulesModel extraFilter = new JqGridRulesModel("status", Constants.CASE_STATUS_OBSOLETE_SUPERVISION, JqGridFilterModel.COMPARE_EQUAL
         );
         opts.extraFilters.add(extraFilter);
 
@@ -221,13 +230,13 @@ public class CaseActiveController {
     HearingFormatRepository hearingFormatRepository;
 
     @RequestMapping(value = "/supervisorManager/caseActive/authClose", method = RequestMethod.POST)
-    public ModelAndView authorize(@RequestParam Long id,@RequestParam(required = false) Integer authObs) { //Case Id
+    public ModelAndView authorize(@RequestParam Long id, @RequestParam(required = false) Integer authObs) { //Case Id
         ModelAndView model = new ModelAndView("/supervisorManager/caseActive/authorizeRejectClose");
 
         try {
-            GetCaseInfo(id, model, caseRepository, hearingFormatRepository,authObs);
+            GetCaseInfo(id, model, caseRepository, hearingFormatRepository, authObs);
             model.addObject("isAuthorized", 1);
-            model.addObject("isAuthObs",authObs);
+            model.addObject("isAuthObs", authObs);
             return model;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "authorize", sharedUserService);
@@ -237,13 +246,13 @@ public class CaseActiveController {
 
 
     @RequestMapping(value = "/supervisorManager/caseActive/rejectClose", method = RequestMethod.POST)
-    public ModelAndView reject(@RequestParam Long id,@RequestParam(required = false) Integer authObs) {
+    public ModelAndView reject(@RequestParam Long id, @RequestParam(required = false) Integer authObs) {
         ModelAndView model = new ModelAndView("/supervisorManager/caseActive/authorizeRejectClose");
 
         try {
-            GetCaseInfo(id, model, caseRepository, hearingFormatRepository,authObs);
+            GetCaseInfo(id, model, caseRepository, hearingFormatRepository, authObs);
             model.addObject("isAuthorized", 0);
-            model.addObject("isAuthObs",authObs);
+            model.addObject("isAuthObs", authObs);
             return model;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "reject", sharedUserService);
@@ -252,9 +261,7 @@ public class CaseActiveController {
     }
 
 
-
-
-    public static void GetCaseInfo(Long id, ModelAndView model, CaseRepository caseRepository, HearingFormatRepository hearingFormatRepository,Integer isAuthObs) {
+    public static void GetCaseInfo(Long id, ModelAndView model, CaseRepository caseRepository, HearingFormatRepository hearingFormatRepository, Integer isAuthObs) {
         CaseInfo caseInfo = caseRepository.getInfoById(id);
         model.addObject("caseId", caseInfo.getCaseId());
         model.addObject("mpId", caseInfo.getMpId());
@@ -262,17 +269,17 @@ public class CaseActiveController {
         model.addObject("status", caseInfo.getStatus());
         model.addObject("folderId", caseInfo.getFolderId());
 
-        if(isAuthObs!=null){
+        if (isAuthObs != null) {
             model.addObject("urlToGo", "/supervisorManager/caseActive/doObsoleteCase.json");
             model.addObject("msgPlan", "la eliminaci&oacute;n del caso");
-        }else{
-        model.addObject("urlToGo", "/supervisorManager/caseActive/doAuthorizeRejectCase.json");
+        } else {
+            model.addObject("urlToGo", "/supervisorManager/caseActive/doAuthorizeRejectCase.json");
             model.addObject("msgPlan", "el cierre del caso");
         }
 
         List<String> lstSupervisor = hearingFormatRepository.findLastFullNameSupervisorByCaseId(id, new PageRequest(0, 1));
-        if(lstSupervisor!=null && lstSupervisor.size()>0)
-          model.addObject("supervisor", lstSupervisor.get(0));
+        if (lstSupervisor != null && lstSupervisor.size() > 0)
+            model.addObject("supervisor", lstSupervisor.get(0));
     }
 
 
@@ -368,7 +375,7 @@ public class CaseActiveController {
         ModelAndView model = new ModelAndView("/supervisorManager/caseActive/closePrisonCase");
 
         try {
-            GetCaseInfo(id, model, caseRepository, hearingFormatRepository,null);
+            GetCaseInfo(id, model, caseRepository, hearingFormatRepository, null);
             model.addObject("isAuthorized", 1);
             model.addObject("urlToGo", "/supervisorManager/caseActive/doClosePrisonCase.json");
             return model;
