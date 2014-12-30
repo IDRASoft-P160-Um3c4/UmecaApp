@@ -5,7 +5,7 @@
 <script>
     window.upsertJob = function (id) {
         window.showUpsertWithIdCase(id, "#angJsjqGridIdJob", "<c:url value='/reviewer/meeting/job/upsert.html'/>", "#GridIdJob", undefined, ${m.caseDetention.id});
-    };
+   
 
     window.deleteJob = function (id) {
         window.showObsolete(id, "#angJsjqGridIdJob", "<c:url value='/reviewer/meeting/job/delete.json'/>", "#GridIdJob");
@@ -43,15 +43,15 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar trabajo\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar registro\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar trabajo\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                    $(this).jqGrid('setRowData', ids[i], { Action: be });
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar registro\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                          $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },
-            loadComplete: function () {
+            loadComplete : function() {
                 var table = this;
-                setTimeout(function () {
+                setTimeout(function(){
                     updatePagerIcons(table);
                     enableTooltips(table);
                 }, 0);

@@ -15,6 +15,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/showMessageErrorDrct.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
     </script>
    <title>Usuarios</title>
@@ -40,6 +41,14 @@
     </div>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
     <div ng-controller="proceedingLegalController">
+        <div id="divErrorMessage" class="alert alert-danger" style="display: none;">
+            <button type="button" class="close" ng-click="hideMessageError();">
+                <i class="icon-remove"></i>
+            </button>
+            <br/>
+            <span ng-bind-html="listMsgError[entityError]"></span>
+            <br />
+        </div>
     <div class="row" ng-init="managereval = ${managereval == null ? false: managereval}; idCase = ${idCase};">
         <div class="col-sm-12">
             <div class="tabbable tabs-left">
@@ -56,15 +65,7 @@
                                     <div class="tools">
                                         <div class="inline position-relative">
                                             <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                                               data-toggle="dropdown" ng-click="changeZIndex('liLegalActual');"></i>
-
-                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                                                style="width: 400px; z-index: 100000; padding: 0 0;">
-                                                <div class="alert-danger element-center error-font">
-                                                    <span ng-bind-html="listMsgError['legalActual']">
-                                                        </span>
-                                                </div>
-                                            </ul>
+                                               ng-click="showMessageError('legalActual');"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -83,15 +84,7 @@
                                     <div class="tools">
                                         <div class="inline position-relative">
                                             <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                                               data-toggle="dropdown" ng-click="changeZIndex('liLegalPrevious');"></i>
-
-                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                                                style="width: 400px; z-index: 100000; padding: 0 0;">
-                                                <div class="alert-danger element-center error-font">
-                                                    <span ng-bind-html="listMsgError['legalPrevious']">
-                                                    </span>
-                                                </div>
-                                            </ul>
+                                               ng-click="showMessageError('legalPrevious');"></i>
                                         </div>
                                     </div>
                                 </div>

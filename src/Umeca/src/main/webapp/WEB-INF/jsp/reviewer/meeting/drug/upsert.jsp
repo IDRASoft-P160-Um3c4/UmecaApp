@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col-xs-12 element-center" ng-init="blockD=${d.block == null ? true: d.block};">
                                 <div class="col-xs-6 element-right">
-                                    ¿El imputado consume sustancias actualmente?
+                                    &iquest;El imputado consume sustancias actualmente?
                                 </div>
                                 <div class="col-xs-2">
                                     <input type="radio"  name="block"

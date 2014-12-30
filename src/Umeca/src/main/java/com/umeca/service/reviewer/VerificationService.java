@@ -24,7 +24,7 @@ public interface VerificationService {
 
     void setImputedData(Long id, ModelAndView model);
 
-    ResponseMessage saveFieldVerifiedInocrrect(List<FieldVerified> list, Long idCase, Long idSource,Long idList);
+    ResponseMessage saveFieldVerifiedIncorrect(List<FieldVerified> list, Long idCase, Long idSource, Long idList);
 
     ResponseMessage saveFieldVerifiedEqual(String code, Long idCase, Long idSource, Long idList);
 

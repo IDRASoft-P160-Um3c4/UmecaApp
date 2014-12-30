@@ -5,6 +5,8 @@
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/uniqueDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/enterKeyDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/showMessageErrorDrct.js"></script>
     <title>Autorizar fuentes</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -171,10 +173,10 @@ app.controller('managerEvalController', function ($scope, $sce) {
     $scope.comment = "";
     $scope.MsgError;
 
+
     $scope.no = function () {
         $("#ConfirmBoxDialog").modal("hide");
-        $scope.password = "";
-        $scope.comment = "";
+        $scope.cleanForm();
     };
 
     $scope.yes = function () {
@@ -217,7 +219,17 @@ app.controller('managerEvalController', function ($scope, $sce) {
                 });
     };
 
+    $scope.cleanForm = function(){
+//        $("#password").val("");
+//        $("#comment").val("");
+        $scope.password = "";
+        $scope.comment = "";
+        $scope.MsgError = "";
+//        $scope.$apply();
+    };
+
     $scope.prompt = function (idx) {
+        $scope.cleanForm();
         $scope.subGrid = "#GridId_" + idx + "_t";
         var list = $($scope.subGrid + ">tbody>tr[id!='']");
         var vS = [];
@@ -231,8 +243,7 @@ app.controller('managerEvalController', function ($scope, $sce) {
         });
         $scope.idx = idx;
         $scope.toSave = JSON.stringify(vS);
-        $scope.password = "";
-        $scope.comment = "";
+        $scope.cleanForm();
         $("#ConfirmBoxDialog").modal("show");
     };
 });
@@ -252,7 +263,7 @@ app.controller('managerEvalController', function ($scope, $sce) {
 
 <div id="managerEvalControllerId" ng-controller="managerEvalController" data-backdrop="static" ng-cloak>
 
-    <div id="ConfirmBoxDialog" class="modal fade">
+    <div id="ConfirmBoxDialog" class="modal fade" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -285,17 +296,22 @@ app.controller('managerEvalController', function ($scope, $sce) {
                         <div class="widget-body">
                             <div class="widget-main padding-12">
                                 <input type="password" id="password" name="password" ng-model="password"
-                                       class="form-control" rows="5"></textarea>
+                                       ng-enter-key for-element-id="btn-def-ck"
+                                       class="form-control" rows="5">
                             </div>
                         </div>
                     </div>
                 </form>
                 <div class="col-xs-12">
                     <div class="alert alert-danger element-center" ng-bind-html="MsgError"
-                         ng-show="MsgError&&MsgError!=''"></div>
+                         ng-show="MsgError" >
+                        <button type="button" class="close" ng-click="cleanMessage();">
+                            <i class="icon-remove"></i>
+                        </button>
+                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button ng-disabled="!(password&&password!=''&&comment&&comment!='')" type="button"
+                    <button ng-disabled="!(password&&password!=''&&comment&&comment!='')" type="button"  id="btn-def-ck"
                             class="btn btn-default btn-{{Type}}" ng-click="yes()">S&iacute;</button>
                     <button type="button" class="btn btn-default btn-secondary" ng-click="no()">No</button>
                 </div>

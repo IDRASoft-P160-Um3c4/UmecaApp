@@ -85,8 +85,10 @@ public class CaseRequestService {
 
     public static void CreateCaseRequestByCase(RequestTypeRepository requestTypeRepository,
                                          CaseRequestRepository caseRequestRepository,
-                                         SharedUserService sharedUserService, MessageRepository messageRepository,
-                                         Case caseDetention, String text, String requestType,String statusBefore,String roleSender){
+                                         SharedUserService sharedUserService,
+                                         MessageRepository messageRepository,
+                                         Case caseDetention, String text,
+                                         String requestType,String statusBefore,String roleSender){
 
         CaseRequest caseRequest = new CaseRequest();
         caseRequest.setStateBefore(statusBefore);

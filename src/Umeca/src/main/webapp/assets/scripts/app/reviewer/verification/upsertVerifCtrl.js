@@ -113,7 +113,8 @@
             var allElement = $("[name='" + psEqual[0] + "']");
             $("#divElementVerif").find(allElement).each(function () {
                 var message = "";
-                if (e.value == undefined || e.value == "") {
+                var adding = true;
+
                     var elementAux = $(this);
                     var isHide = false;
                     var isParent = false;
@@ -122,10 +123,14 @@
                         isParent = (elementAux.attr("id") == "divElementVerif");
                         elementAux = elementAux.parent();
                     } while (!isHide && !isParent);
+                    if(isHide){
+                      adding = false;
+                    }
+                if (e.value == undefined || e.value == "") {
                     if (!isHide && isParent) {
                         message = $(this).attr("data-val-required");
                     }
-                } else {
+                }else{
                     var valMax = $(this).attr("data-val-length-max");
                     var valMin = $(this).attr("data-val-length-min");
                     var pattern = $(this).attr("data-val-regex-pattern");
@@ -135,7 +140,7 @@
                     if (pattern != undefined && $(this).val().match("^[0-9]+$") == null) {
                         message = $(this).attr("data-val-regex");
                     }
-                }
+               }
                 var spanVal = $(this).siblings("span");
                 if (spanVal.hasClass("input-group-addon")) {
                     spanVal = $(this).parent().siblings('span');
@@ -154,7 +159,7 @@
                         spanVal.removeClass("field-validation-error");
                     }
                     if (e.value != "") {
-                        var adding = true;
+
                         if ($(this).is("input:radio")) {
                             for (var z = 0; z < submitElement.length; z++) {
                                 if (submitElement[z].name == e.name) {

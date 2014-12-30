@@ -18,10 +18,10 @@ public class GroupCrime {
     @Column(name = "id_group")
     private Long id;
 
-    @Column(name = "name", length = 50, nullable = false)
+    @Column(name = "name", length = 255, nullable = false)
     private String name;
 
-    @Column(name = "description", length = 100, nullable = false)
+    @Column(name = "description", length = 255, nullable = false)
     private String description;
 
     @Column(name = "is_obsolete")

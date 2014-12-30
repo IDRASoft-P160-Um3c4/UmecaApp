@@ -16,17 +16,17 @@ app.controller('meetingController', function($scope, $timeout, $sce) {
     $scope.Model = {};
     $scope.validf = {};
 
-    $scope.changeZIndex = function(elementClick){
-        $("#liPersonalData").css("z-index","0");
-        $("#liImputedHome").css("z-index","0");
-        $("#liReference").css("z-index","0");
-        $("#liSocialNetwork").css("z-index","0");
-        $("#liJob").css("z-index","0");
-        $("#liSchool").css("z-index","0");
-        $("#liDrug").css("z-index","0");
-        $("#liLeaveCountry").css("z-index","0");
-        $("#"+elementClick).css("z-index","1");
+    $scope.showMessageError = function(elementClick){
+        $("#divErrorMessage").show();
+        var position = $(".tab-content").position();
+        $("#divErrorMessage").css("left",position.left+5);
+        $("#divErrorMessage").addClass("errorMessageClass");
 
+        $scope.entityError=elementClick;
+    };
+
+    $scope.hideMessageError = function(){
+        $("#divErrorMessage").hide();
     };
 
     $scope.submit = function (formId, urlToPost, hasReturnId) {
@@ -103,6 +103,9 @@ app.controller('scController', function($scope, $timeout, $sce) {
 
         return true;
     };
+
+
+
 
     $scope.submit = function (formId, urlToPost, hasReturnId) {
         $scope.Invalid = true;

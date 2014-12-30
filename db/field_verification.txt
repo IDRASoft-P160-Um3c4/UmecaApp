@@ -1,4 +1,4 @@
-﻿id|code|sectionName|sectionCode|fieldName|index|is_obsolete|idSubsection|type
+id|code|sectionName|sectionCode|fieldName|index|is_obsolete|idSubsection|type
 1|imputed.name|Datos personales y entorno social|1|Nombre|1|0|1|String
 2|imputed.lastNameP|Datos personales y entorno social|1|Apellido Paterno|2|0|2|String
 3|imputed.lastNameM|Datos personales y entorno social|1|Apellido Materno|3|0|3|String
@@ -80,12 +80,17 @@
 79|drugs.lastUse|Sustancias|7|Último uso|7|0|41|Date
 80|drugs.onsetAge|Sustancias|7|Edad en que empezó el consumo|8|0|57|String
 81|leaveCountry.officialDocumentation.id|Facilidad de abandonar el país|8|El imputado cuenta con documentación oficial que facilita que abandone el país|1|0|42|Election
-82|leaveCountry.livedCountry.id|Facilidad de abandonar el país|8|El imputado ha vivido en otro país|2|0|43|Election
-83|leaveCountry.country.id|Facilidad de abandonar el país|8|País|3|0|43|Country
-84|leaveCountry.state|Facilidad de abandonar el país|8|Estado|4|0|43|String
-85|leaveCountry.timeAgo|Facilidad de abandonar el país|8|Hace cuanto tiempo|5|0|43|String
-86|leaveCountry.reason|Facilidad de abandonar el país|8|Motivo por el que ahora vive en México|6|0|43|String
-87|leaveCountry.address|Facilidad de abandonar el país|8|Dirección|7|0|43|String
-88|leaveCountry.familyAnotherCountry.id|Facilidad de abandonar el país|8|El imputado cuenta con familiares y/o amigos cercanos en otro país|8|0|44|Election
-89|leaveCountry.communicationFamily.id|Facilidad de abandonar el país|8|Mantiene comunicación con ellos|9|0|44|Election
-90|leaveCountry.media|Facilidad de abandonar el país|8|Medio de comunicación|10|0|44|String
+82|leaveCountry.immigrationDocument.id|Facilidad de abandonar el país|8|Documentación para salir del país|2|0|42|ImmigrationDocument
+83|leaveCountry.specficationImmigranDoc|Facilidad de abandonar el país|8|Especificación de documento|3|0|42|String
+84|leaveCountry.livedCountry.id|Facilidad de abandonar el país|8|El imputado ha vivido en otro país|4|0|43|Election
+85|leaveCountry.country.id|Facilidad de abandonar el país|8|País|5|0|43|Country
+86|leaveCountry.state|Facilidad de abandonar el país|8|Estado|6|0|43|String
+87|leaveCountry.timeAgo|Facilidad de abandonar el país|8|Hace cuanto tiempo|7|0|43|String
+88|leaveCountry.timeResidence|Facilidad de abandonar el país|8|Tiempo que vivió en otro país|8|0|43|String
+89|leaveCountry.reason|Facilidad de abandonar el país|8|Motivo por el que ahora vive en México|9|0|43|String
+90|leaveCountry.address|Facilidad de abandonar el país|8|Dirección|10|0|43|String
+91|leaveCountry.familyAnotherCountry.id|Facilidad de abandonar el país|8|El imputado cuenta con familiares y/o amigos cercanos en otro país|11|0|44|Election
+92|leaveCountry.communicationFamily.id|Facilidad de abandonar el país|8|Mantiene comunicación con ellos|12|0|44|Election
+93|leaveCountry.relationship.id|Facilidad de abandonar el país|8|Relación|13|0|44|Relationship
+94|leaveCountry.specificationRelationship|Facilidad de abandonar el país|8|Especificación de relación|14|0|44|String
+95|leaveCountry.media|Facilidad de abandonar el país|8|Medio de comunicación|15|0|44|String

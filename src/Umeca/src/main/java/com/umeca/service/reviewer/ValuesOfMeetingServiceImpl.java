@@ -3,7 +3,9 @@ package com.umeca.service.reviewer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.model.catalog.Activity;
+import com.umeca.model.catalog.ImmigrationDocument;
 import com.umeca.model.catalog.Location;
+import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.DegreeDto;
@@ -519,6 +521,37 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             listFMS.add(new FieldMeetingSource(l.getMedia(), l.getMedia()));
                         }
                         break;
+                    case "immigrationDocument":
+                        ImmigrationDocument im = l.getImmigrationDocument();
+                        if(im!=null){
+                            cdtol.setName(im.getName());
+                            cdtol.setId(im.getId());
+                            listFMS.add(new FieldMeetingSource(im.getName(), gson.toJson(cdtol)));
+                        }
+                        break;
+                    case "specficationImmigranDoc":
+                        if(l.getSpecficationImmigranDoc()!=null && !l.getSpecficationImmigranDoc().trim().equals("")){
+                            listFMS.add(new FieldMeetingSource(l.getSpecficationImmigranDoc(), l.getSpecficationImmigranDoc()));
+                        }
+                        break;
+                    case "realtionship":
+                        Relationship r = l.getRelationship();
+                        if(r!=null &&r.getId()!=null){
+                            cdtol.setName(r.getName());
+                            cdtol.setId(r.getId());
+                            listFMS.add(new FieldMeetingSource(r.getName(),gson.toJson(cdtol)));
+                        }
+                        break;
+                    case "specificationRelationship":
+                         if(l.getSpecificationRelationship()!=null&& !l.getSpecificationRelationship().trim().equals("")){
+                             listFMS.add(new FieldMeetingSource(l.getSpecificationRelationship(), l.getSpecificationRelationship()));
+                         }
+                        break;
+                    case "timeResidence":
+                        if(l.getTimeResidence()!=null&& !l.getTimeResidence().trim().equals("")){
+                            listFMS.add(new FieldMeetingSource(l.getTimeResidence(), l.getTimeResidence()));
+                        }
+                        break;
                 }
                 break;
         }
@@ -1020,6 +1053,37 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             listFMS.add(new FieldMeetingSource(l.getMedia(), l.getMedia()));
                         }
                         break;
+                    case "immigrationDocument":
+                        ImmigrationDocument im = l.getImmigrationDocument();
+                        if(im!=null){
+                            cdtol.setName(im.getName());
+                            cdtol.setId(im.getId());
+                            listFMS.add(new FieldMeetingSource(im.getName(), gson.toJson(cdtol)));
+                        }
+                        break;
+                    case "specficationImmigranDoc":
+                        if(l.getSpecficationImmigranDoc()!=null && !l.getSpecficationImmigranDoc().trim().equals("")){
+                            listFMS.add(new FieldMeetingSource(l.getSpecficationImmigranDoc(), l.getSpecficationImmigranDoc()));
+                        }
+                        break;
+                    case "realtionship":
+                        Relationship r = l.getRelationship();
+                        if(r!=null &&r.getId()!=null){
+                            cdtol.setName(r.getName());
+                            cdtol.setId(r.getId());
+                            listFMS.add(new FieldMeetingSource(r.getName(),gson.toJson(cdtol)));
+                        }
+                        break;
+                    case "specificationRelationship":
+                        if(l.getSpecificationRelationship()!=null&& !l.getSpecificationRelationship().trim().equals("")){
+                            listFMS.add(new FieldMeetingSource(l.getSpecificationRelationship(), l.getSpecificationRelationship()));
+                        }
+                        break;
+                    case "timeResidence":
+                        if(l.getTimeResidence()!=null&& !l.getTimeResidence().trim().equals("")){
+                            listFMS.add(new FieldMeetingSource(l.getTimeResidence(), l.getTimeResidence()));
+                        }
+                        break;
                 }
                 break;
         }
@@ -1062,6 +1126,8 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
     HomeTypeRepository homeTypeRepository;
     @Autowired
     ActivityRepository activityRepository;
+    @Autowired
+    ImmigrationDocumentRepository immigrationDocumentRepository;
 
     @Override
     public void createMeetingVirified(Long idCase, Verification verification) {
@@ -1673,6 +1739,27 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             break;
                         case "media":
                             meeting.getLeaveCountry().setMedia(fms.getJsonValue());
+                            break;
+                        case "immigrationDocument":
+                            cdtol = gson.fromJson(fms.getJsonValue(),CatalogDto.class);
+                            if(cdtol != null){
+                                meeting.getLeaveCountry().setImmigrationDocument(immigrationDocumentRepository.findOne(cdtol.getId()));
+                            }
+                            break;
+                        case "specficationImmigranDoc":
+                            meeting.getLeaveCountry().setSpecficationImmigranDoc(fms.getJsonValue());
+                            break;
+                        case "realtionship":
+                            cdtol= gson.fromJson(fms.getJsonValue(), CatalogDto.class);
+                            if(cdtol!=null){
+                                meeting.getLeaveCountry().setRelationship(relationshipRepository.findOne(cdtol.getId()));
+                            }
+                            break;
+                        case "specificationRelationship":
+                            meeting.getLeaveCountry().setSpecificationRelationship(fms.getJsonValue());
+                            break;
+                        case "timeResidence":
+                            meeting.getLeaveCountry().setTimeResidence(fms.getJsonValue());
                             break;
                     }
                     break;

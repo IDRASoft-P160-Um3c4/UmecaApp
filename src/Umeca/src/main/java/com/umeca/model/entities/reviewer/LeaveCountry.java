@@ -2,7 +2,8 @@ package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.Country;
 import com.umeca.model.catalog.Election;
-import com.umeca.model.catalog.State;
+import com.umeca.model.catalog.ImmigrationDocument;
+import com.umeca.model.catalog.Relationship;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.shared.Constants;
@@ -63,6 +64,24 @@ public class LeaveCountry {
 
     @Column(name="address", nullable = true, length = 500)
     private String address;
+
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_immigration_document", nullable = true)
+    private ImmigrationDocument immigrationDocument;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_relationship", nullable = true)
+    private Relationship relationship;
+
+    @Column(name="time_residence", length = 50 , nullable = true)
+    private String timeResidence;
+
+    @Column(name="specification_immigrant_doc")
+    private String specficationImmigranDoc;
+
+    @Column(name="specification_relationship", length = 255, nullable = true)
+    private String specificationRelationship;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_meeting", nullable = false)
@@ -187,17 +206,64 @@ public class LeaveCountry {
         this.commentSocialEnvironment = commentSocialEnvironment;
     }
 
+    public ImmigrationDocument getImmigrationDocument() {
+        return immigrationDocument;
+    }
+
+    public void setImmigrationDocument(ImmigrationDocument immigrationDocument) {
+        this.immigrationDocument = immigrationDocument;
+    }
+
+    public Relationship getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(Relationship relationship) {
+        this.relationship = relationship;
+    }
+
+    public String getTimeResidence() {
+        return timeResidence;
+    }
+
+    public void setTimeResidence(String timeResidence) {
+        this.timeResidence = timeResidence;
+    }
+
+    public String getSpecficationImmigranDoc() {
+        return specficationImmigranDoc;
+    }
+
+    public void setSpecficationImmigranDoc(String specficationImmigranDoc) {
+        this.specficationImmigranDoc = specficationImmigranDoc;
+    }
+
+    public String getSpecificationRelationship() {
+        return specificationRelationship;
+    }
+
+    public void setSpecificationRelationship(String specificationRelationship) {
+        this.specificationRelationship = specificationRelationship;
+    }
+
     public void validateMeeting(TerminateMeetingMessageDto t, String comment) {
         List<String> r=new ArrayList<>();
         String e="entity";
         if(officialDocumentation==null){
             r.add(t.template.replace(e,"Si cuenta con documentaci&oacute;n para salir del pa&iacute;s"));
+        }else if(officialDocumentation.getId()!=null && officialDocumentation.getId().equals(Constants.ELECTION_YES)){
+            if(immigrationDocument== null || immigrationDocument.getId()==null){
+                r.add(t.template.replace(e,"El tipo de documentaci&oacute;n"));
+            }
         }
         if(livedCountry==null){
             r.add(t.template.replace(e,"Si ha vivido en otro pa&iacute;s"));
         }else if(livedCountry.getId()!=null && livedCountry.getId().equals(Constants.ELECTION_YES)){
+            if(timeResidence==null || (timeResidence!=null && timeResidence.trim().equals(""))){
+                r.add(t.template.replace(e,"El tiempo que vivi&oacute; en otro pa&iacute;s"));
+            }
             if(timeAgo==null || (timeAgo!=null &&timeAgo.trim().equals(""))){
-                r.add(t.template.replace(e,"El tiempo que ha vivido en otro pa&iacute;s"));
+                r.add(t.template.replace(e,"Hace cuento tiempo vivi&oacute; en otro pa&iacute;s"));
             }
             if(reason==null || (reason!=null && reason.trim().equals(""))){
                 r.add(t.template.replace(e,"La razon por la que dejo de vivir en otro pa&iacute;s"));
@@ -215,6 +281,9 @@ public class LeaveCountry {
         if(familyAnotherCountry==null){
             r.add(t.template.replace(e,"Si tiene familia en otro pa&iacute;s"));
         }else if(familyAnotherCountry.getId()!=null && familyAnotherCountry.getId().equals(Constants.ELECTION_YES)){
+            if(relationship==null || relationship.getId()==null){
+                r.add(t.template.replace(e,"La relaci&oacute;n con el familiar"));
+            }
             if(communicationFamily== null){
                 r.add(t.template.replace(e,"Si tiene comunicaci&oacute;n con su familia"));
             }else if (communicationFamily.getId()!=null && communicationFamily.getId().equals(Constants.ELECTION_YES)){

@@ -46,4 +46,7 @@ public interface InsertCatalogService {
     void hearingType();
     void crime();
     void typeFileName();
+
+    void immigrationDocument();
+
 }

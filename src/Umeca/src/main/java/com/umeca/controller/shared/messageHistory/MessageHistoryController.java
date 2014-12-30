@@ -77,9 +77,9 @@ public class MessageHistoryController {
                 final Join<CaseRequest, Message> messageRequest = r.join("requestMessage");
                 final Join<Message, Case> messageRequestCase = messageRequest.join("caseDetention");
                 final Join<Case, Meeting> meetingCase = messageRequestCase.join("meeting");
-                final Join<CaseRequest, Message> messageResponse = r.join("responseMessage", JoinType.LEFT);
-                final Join<CaseRequest, RequestType> requestType = r.join("requestType");
-                final Join<CaseRequest, ResponseType> responseType = r.join("responseType");
+//                final Join<CaseRequest, Message> messageResponse = r.join("responseMessage", JoinType.LEFT);
+//                final Join<CaseRequest, RequestType> requestType = r.join("requestType");
+//                final Join<CaseRequest, ResponseType> responseType = r.join("responseType");
                 final Join<Meeting, Imputed> imputed = meetingCase.join("imputed");
 
 
@@ -131,7 +131,7 @@ public class MessageHistoryController {
                 final Join<CaseRequest, Message> messageRequest = r.join("requestMessage");
                 final Join<Message, User> sender = messageRequest.join("sender");
                 final Join<CaseRequest, RequestType> requestType = r.join("requestType");
-                final Join<CaseRequest, ResponseType> responseType = r.join("responseType");
+                final Join<CaseRequest, ResponseType> responseType = r.join("responseType",JoinType.LEFT);
                 final Join<CaseRequest, Message> messageResponse = r.join("responseMessage", JoinType.LEFT);
 
 
@@ -143,7 +143,7 @@ public class MessageHistoryController {
                     add(messageRequest.get("text"));
                     add(responseType.get("description"));
                     add(messageResponse.get("text"));
-                    add(messageResponse.join("sender").get("fullname"));
+                    add(messageResponse.join("sender",JoinType.LEFT).get("fullname"));
                 }};
 
                 return result;

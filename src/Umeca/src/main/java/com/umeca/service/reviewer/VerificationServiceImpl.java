@@ -16,10 +16,13 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
+import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
+import com.umeca.repository.shared.MessageRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
+import com.umeca.service.shared.CaseRequestService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -573,7 +576,7 @@ public class VerificationServiceImpl implements VerificationService {
             }
             if (v.existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
-                listGeneral.add("No se puede terminar la verificación puesto que falta por verificar campos y/o secciones, para más detalles revise los mensajes de cada sección");
+                listGeneral.add("No se puede terminar la verificaci&oacute;n puesto que falta por verificar campos y/o secciones, para m&oacute;s detalles revise los mensajes de cada secci&oacute;n");
                 v.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
                 v.formatMessages(sharedUserService);
                 return new ResponseMessage(true, gson.toJson(v));
@@ -582,10 +585,11 @@ public class VerificationServiceImpl implements VerificationService {
                 valuesOfMeetingService.createMeetingVirified(idCase, caseDetention.getVerification());
                 for (ImputedHome imputedHome : caseDetention.getVerification().getMeetingVerified().getImputedHomes()) {
                     imputedHome.setAddress(addressRepository.save(imputedHome.getAddress()));
-
                 }
                 caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_VERIFICATION_COMPLETE));
-                caseDetention.getVerification().setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_COMPLETE));
+                Verification verification = caseDetention.getVerification();
+                verification.setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_COMPLETE));
+                verification.setDateComplete(new Date());
                 caseRepository.save(caseDetention);
                 return new ResponseMessage(false, "Se ha terminado con exito la verificación");
             }
@@ -611,6 +615,13 @@ public class VerificationServiceImpl implements VerificationService {
         result.addObject("idCase", idCase);
         return result;
     }
+
+    @Autowired
+    RequestTypeRepository requestTypeRepository;
+    @Autowired
+    CaseRequestRepository caseRequestRepository;
+    @Autowired
+    MessageRepository messageRepository;
 
     @Transactional
     @Override
@@ -650,6 +661,8 @@ public class VerificationServiceImpl implements VerificationService {
         c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));
         c.getVerification().setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_NEW_SOURCE));
         caseRepository.save(c);
+        CaseRequestService.CreateCaseRequestByCase(requestTypeRepository,caseRequestRepository, sharedUserService,messageRepository,
+                c,"Se agregan o se modifican fuentes de verificaci&oacute;n del caso, se solicita la autorizaci&oacute;n",Constants.ST_REQUEST_AUTHORIZE_SOURCE,null,Constants.ROLE_EVALUATION_MANAGER);
         return new ResponseMessage(false, "Se ha modificado el caso exitosamente");
     }
 
@@ -808,6 +821,19 @@ public class VerificationServiceImpl implements VerificationService {
             }
             model.addObject("listReference", gson.toJson(lstReference));
         }
+        List<ImmigrationDocument> listImmDoc =  immigrationDocumentRepository.findNotObsolete();
+        List<CatalogDto> cdtoImm = new ArrayList<>();
+        List<CatalogDto> cdtoList = new ArrayList<>();
+        for(ImmigrationDocument immd: listImmDoc){
+            cdtoImm.add(new CatalogDto(immd.getId(),immd.getName(),immd.getSpecification()));
+        }
+        model.addObject("listImmigrationDoc",gson.toJson(cdtoImm));
+        List<Relationship> listRel = relationshipRepository.findNotObsolete();
+        cdtoList = new ArrayList<>();
+        for(Relationship r: listRel){
+            cdtoList.add(new CatalogDto(r.getId(),r.getName(),r.getSpecification()));
+        }
+        model.addObject("listRel",gson.toJson(cdtoList));
     }
 
     @Autowired
@@ -906,7 +932,7 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Transactional
     @Override
-    public ResponseMessage saveFieldVerifiedInocrrect(List<FieldVerified> list, Long idCase, Long idSource, Long idList) {
+    public ResponseMessage saveFieldVerifiedIncorrect(List<FieldVerified> list, Long idCase, Long idSource, Long idList) {
         try {
             if (!caseService.validateStatus(idCase, Constants.CASE_STATUS_VERIFICATION, Verification.class, Constants.VERIFICATION_STATUS_AUTHORIZED)) {
                 return new ResponseMessage(true, "De acuerdo al estado del caso y la verificación no se puede realizar esta acción");
@@ -935,7 +961,7 @@ public class VerificationServiceImpl implements VerificationService {
             }
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
-            logException.Write(e, this.getClass(), "saveFieldVerifiedInocrrect", userService);
+            logException.Write(e, this.getClass(), "saveFieldVerifiedIncorrect", userService);
             return new ResponseMessage(true, "Ha ocurrido un error ");
         }
 
@@ -1114,6 +1140,8 @@ public class VerificationServiceImpl implements VerificationService {
     DegreeRepository degreeRepository;
     @Autowired
     HomeTypeRepository homeTypeRepository;
+    @Autowired
+    ImmigrationDocumentRepository immigrationDocumentRepository;
 
     private Boolean setObjectNameOfCatalog(FieldMeetingSource fms, String[] name, String value, FieldVerification fv) {
         Long idCat = 0L;
@@ -1128,6 +1156,13 @@ public class VerificationServiceImpl implements VerificationService {
                 ca.setId(c.getId());
                 ca.setName(c.getName());
                 fms.setValue(c.getName());
+                fms.setJsonValue(gson.toJson(ca));
+                break;
+            case "ImmigrationDocument":
+                ImmigrationDocument immd = immigrationDocumentRepository.findOne(idCat);
+                ca.setId(immd.getId());
+                ca.setName(immd.getName());
+                fms.setValue(immd.getName());
                 fms.setJsonValue(gson.toJson(ca));
                 break;
             case "MaritalStatus":

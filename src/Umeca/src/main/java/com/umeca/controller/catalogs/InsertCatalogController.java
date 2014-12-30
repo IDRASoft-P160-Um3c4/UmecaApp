@@ -255,6 +255,12 @@ public class InsertCatalogController {
         return "activityGroup OK!";
     }
 
+    @RequestMapping(value="/catalogs/immigrationDocument", method = RequestMethod.GET)
+    public String immigrationDocument(){
+        service.immigrationDocument();
+        return  "immigrationDocument";
+    }
+
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
@@ -296,6 +302,7 @@ public class InsertCatalogController {
         service.crime();
         service.typeFileName();
         service.fulfillmentReport();
+        service.immigrationDocument();
         return "insertCatalog OK!!";
     }
 }

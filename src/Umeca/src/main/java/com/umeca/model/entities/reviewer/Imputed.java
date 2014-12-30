@@ -224,6 +224,15 @@ public class Imputed {
     public void validateMeeting(TerminateMeetingMessageDto t) {
         List<String> result = new ArrayList<>();
         String e = "entity";
+        if(this.name== null || (this.name!=null && this.name.trim().equals(""))){
+            result.add(t.template.replace(e, "El nombre"));
+        }
+        if(this.lastNameP== null || (this.lastNameP!=null && this.lastNameP.trim().equals(""))){
+            result.add(t.template.replace(e, "El apellido paterno"));
+        }
+        if(this.lastNameM== null || (this.lastNameM!=null && this.lastNameM.trim().equals(""))){
+            result.add(t.template.replace(e, "El apellido materno"));
+        }
         if (this.gender == null) {
             result.add(t.template.replace(e, "El g&eacute;nero"));
         }

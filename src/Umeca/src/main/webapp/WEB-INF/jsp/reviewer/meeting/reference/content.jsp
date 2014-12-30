@@ -56,7 +56,7 @@
                    ng-init='r.fullName="${(r.fullName)==null ? '' : r.fullName}";' name="fullName">
         </div>
         <div class="row">
-            <div class="col-xs-9 col-xs-offset-3">
+            <div class="col-xs-10 col-xs-offset-2">
                 <span class="field-validation-valid" data-valmsg-for="fullName" data-valmsg-replace="true"></span>
             </div>
         </div>
@@ -92,7 +92,7 @@
                       type="text" value="${r.phone}" ng-model="r.phone"
                       ng-init='r.phone="${(r.phone == null) ? '' : r.phone}"' name="phone"></textarea>
         </div>
-        <div class="col-xs-9 col-xs-offset-3">
+        <div class="col-xs-8 col-xs-offset-4    ">
             <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
         </div>
     </div>
@@ -102,7 +102,7 @@
 <div class="row" ng-show="r.rel.specification == true">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
-            Especif&iacute;que<br/>relaci&oacute;:
+            Especif&iacute;que<br/>relaci&oacute;n:
         </div>
         <div class="col-xs-8">
             <input class="form-control" data-val="true"
@@ -113,7 +113,7 @@
                    ng-init='r.specificationRelationship="${(r.specificationRelationship == null) ? '':r.specification}"'
                    id="specificationRelationship" name="specificationRelationship">
         </div>
-        <div class="col-xs-9 col-xs-offset-3">
+        <div class="col-xs-8 col-xs-offset-4">
             <span class="field-validation-valid" data-valmsg-for="specificationRelationship"
                   data-valmsg-replace="true"></span>
         </div>
@@ -132,7 +132,7 @@
                     ng-change="r.docId = r.doc.id" ng-readonly="!blockR"
                     ng-init='lstDoc = ${lstDocumentType};'></select>
         </div>
-        <div class="col-xs-9 col-xs-offset-3">
+        <div class="col-xs-8 col-xs-offset-4">
             <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
         </div>
     </div>
@@ -149,7 +149,7 @@
                    type="text" value="${r.age}" ng-model="r.age" ng-init='r.age="${(r.age == null) ? '':r.age}"'
                    id="age" name="age">
         </div>
-        <div class="col-xs-9 col-xs-offset-3">
+        <div class="col-xs-8 col-xs-offset-4">
             <span class="field-validation-valid" data-valmsg-for="age" data-valmsg-replace="true"></span>
         </div>
     </div>
@@ -170,7 +170,7 @@
                    ng-init='r.specification="${(r.specification == null) ? '':r.specification}"' id="specification"
                    name="specification">
         </div>
-        <div class="col-xs-9 col-xs-offset-3">
+        <div class="col-xs-8 col-xs-offset-4">
             <span class="field-validation-valid" data-valmsg-for="specification" data-valmsg-replace="true"></span>
         </div>
     </div>
@@ -182,7 +182,7 @@
         <div class="col-xs-2 element-left">Direcci&oacute;n:</div>
         <div class="col-xs-10">
             <textarea id="address" class="form-control" name="address" ng-model="r.address"
-                      data-val="true" data-val-required="La direcci&o00acute;n es un campo requerido"
+                      data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
                       data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
                       ng-init='r.address = "${r.address == null ? "":r.address}";' ng-readonly="!blockR"
                       data-val-length-max="500" data-val-length-min="6"></textarea>

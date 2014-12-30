@@ -39,7 +39,7 @@ app.controller('scheduleController', function($scope, $timeout) {
 
    $scope.addSchedule = function(){
       if($scope.s.day==undefined|| $scope.s.day.trim() == "" ||  $scope.s.start == undefined || $scope.s.end == undefined){
-          $scope.msgError="Favor de ingresar un día, una hora de incio y una hora de fin";
+          $scope.msgError="Favor de ingresar un día, una hora de inicio y una hora de fin";
       }else{
           $scope.msgError="";
           var a ={};

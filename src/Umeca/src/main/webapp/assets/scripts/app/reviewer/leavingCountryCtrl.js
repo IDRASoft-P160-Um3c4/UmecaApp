@@ -104,6 +104,32 @@ app.controller('leavingController', function($scope, $timeout,$q,$rootScope) {
                 }
             }
         }
+        if($scope.l.immigrationDocId == undefined){
+            $scope.l.immigrationDoc =$scope.listImmigrationDoc[0];
+            $scope.l.immigrationDocId = $scope.l.immigrationDoc.id;
+        } else{
+            for(var i=0; i < $scope.listImmigrationDoc.length; i++){
+                var fac = $scope.listImmigrationDoc[i];
+
+                if(fac.id === $scope.l.immigrationDocId){
+                    $scope.l.immigrationDoc = fac;
+                    break;
+                }
+            }
+        }
+        if($scope.l.relId == undefined){
+            $scope.l.rel =$scope.listRel[0];
+            $scope.l.relId = $scope.l.rel.id;
+        } else{
+            for(var i=0; i < $scope.listRel.length; i++){
+                var fac = $scope.listRel[i];
+
+                if(fac.id === $scope.l.relId){
+                    $scope.l.rel = fac;
+                    break;
+                }
+            }
+        }
     };
 
 

@@ -168,7 +168,7 @@
                         <i class="purple glyphicon glyphicon-user bigger-200"></i>
                         Datos personales y <br/>
 
-                        <div class="col-xs-offset-3"> Entorno social</div>
+                        <div class="col-xs-offset-3"> entorno social</div>
                     </a>
                 </li>
                 <li>
@@ -206,7 +206,7 @@
                 <li>
                     <a data-toggle="tab" href="#academyHistory">
                         <i class="orange icon-book  bigger-200"></i>
-                        Historia Escolar
+                        Historia escolar
                     </a>
                 </li>
                 <li>

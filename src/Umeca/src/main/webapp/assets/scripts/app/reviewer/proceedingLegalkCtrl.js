@@ -115,13 +115,17 @@ app.controller('proceedingLegalController', function($scope, $timeout, $sce) {
         return true;
     };
 
-    $scope.changeZIndex = function(elementClick){
-        $("#liLegalPrevious").css("z-index","0");
-        $("#liLegalActual").css("z-index","0");
-        $("#"+elementClick).css("z-index","1");
-
+    $scope.showMessageError = function(elementClick){
+        $("#divErrorMessage").show();
+        var position = $(".tab-content").position();
+        $("#divErrorMessage").css("left",position.left+5);
+        $("#divErrorMessage").addClass("errorMessageClass");
+        $scope.entityError=elementClick;
     };
 
+    $scope.hideMessageError = function(){
+        $("#divErrorMessage").hide();
+    };
     $scope.handleSuccess = function (resp) {
         $scope.WaitFor = false;
 

@@ -83,7 +83,7 @@
                 <textarea class="form-control" name="placeDetention"  ng-model="m.placeDetention" id="placeDetention"
                           ng-init='m.placeDetention="${placeDetention==null?'':placeDetention}";'
                           data-val="true"  data-val-required="El lugar de detenci&oacute;n es un campo requerido"
-                          data-val-length-max="255" data-val-length-min="5" data-val-length ="Debe tener al menos 5 y m&aacute;ximo 255 caracteres."></textarea>
+                          data-val-length-max="255" data-val-length-min="1" data-val-length ="Debe tener al menos 1 y m&aacute;ximo 255 caracteres."></textarea>
                 <span class="field-validation-valid" data-valmsg-for="placeDetention" data-valmsg-replace="true"></span>
             </div>
         </div>

@@ -172,6 +172,9 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     HomeTypeRepository homeTypeRepository;
 
+    @Autowired
+    ImmigrationDocumentRepository immigrationDocumentRepository;
+
     @Override
     public ModelAndView showMeeting(Long id) {
         if (!validateMeetingUser(id))
@@ -254,6 +257,19 @@ public class MeetingServiceImpl implements MeetingService {
                 model.addObject("listSchedule", scheduleService.getSchedules(caseDetention.getId(), School.class));
             }
         }
+        List<ImmigrationDocument> listImmDoc =  immigrationDocumentRepository.findNotObsolete();
+        List<CatalogDto> cdtoImm = new ArrayList<>();
+        for(ImmigrationDocument immd: listImmDoc){
+            cdtoImm.add(new CatalogDto(immd.getId(),immd.getName(),immd.getSpecification()));
+        }
+        model.addObject("listImmigrationDoc",gson.toJson(cdtoImm));
+        List<Relationship> listRel = relationshipRepository.findNotObsolete();
+        cdtoList = new ArrayList<>();
+        for(Relationship r: listRel){
+           cdtoList.add(new CatalogDto(r.getId(),r.getName(),r.getSpecification()));
+        }
+        model.addObject("listRel",gson.toJson(cdtoList));
+
         return model;
     }
 
@@ -948,6 +964,15 @@ public class MeetingServiceImpl implements MeetingService {
         l.setReason(leaveCountry.getReason());
         l.setAddress(leaveCountry.getAddress());
         l.setMedia(leaveCountry.getMedia());
+        l.setTimeResidence(leaveCountry.getTimeResidence());
+        l.setSpecficationImmigranDoc(leaveCountry.getSpecficationImmigranDoc());
+        l.setSpecificationRelationship(leaveCountry.getSpecificationRelationship());
+        if(leaveCountry.getImmigrationDocument()!=null && leaveCountry.getImmigrationDocument().getId()!=null){
+            l.setImmigrationDocument(immigrationDocumentRepository.findOne(leaveCountry.getImmigrationDocument().getId()));
+        }
+        if(leaveCountry.getRelationship()!=null && leaveCountry.getRelationship().getId()!=null){
+            l.setRelationship(relationshipRepository.findOne(leaveCountry.getRelationship().getId()));
+        }
         if(m.getSocialEnvironment()==null){
             m.setSocialEnvironment(new SocialEnvironment());
             m.getSocialEnvironment().setMeeting(m);

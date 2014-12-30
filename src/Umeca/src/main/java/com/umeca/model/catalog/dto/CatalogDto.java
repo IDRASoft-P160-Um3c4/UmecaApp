@@ -41,6 +41,12 @@ public class CatalogDto {
     public CatalogDto() {
     }
 
+    public CatalogDto(Long id, String name, Boolean specification) {
+        this.id = id;
+        this.name = name;
+        this.specification = specification;
+    }
+
     public Long getId() {
         return id;
     }

@@ -23,6 +23,7 @@ public class DrugDto {
     private String lastUse;
     private String specificationType;
     private String specificationPeriodicity;
+    private String onsetAge;
 
     public DrugDto dtoDrug(Drug d){
         id= d.getId();
@@ -41,6 +42,7 @@ public class DrugDto {
         }
         specificationType = d.getSpecificationType();
         specificationPeriodicity =d.getSpecificationPeriodicity();
+        onsetAge = d.getOnsetAge();
         return this;
     }
 
@@ -98,5 +100,13 @@ public class DrugDto {
 
     public void setSpecificationPeriodicity(String specificationPeriodicity) {
         this.specificationPeriodicity = specificationPeriodicity;
+    }
+
+    public String getOnsetAge() {
+        return onsetAge;
+    }
+
+    public void setOnsetAge(String onsetAge) {
+        this.onsetAge = onsetAge;
     }
 }

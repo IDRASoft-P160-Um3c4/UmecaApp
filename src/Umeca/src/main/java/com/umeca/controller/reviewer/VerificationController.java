@@ -17,7 +17,6 @@ import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.ActivityRepository;
-import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.shared.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
@@ -240,7 +239,7 @@ public class VerificationController {
     public ResponseMessage detailSource(@RequestParam(required = true) String val, @RequestParam(required = true) Long idCase, @RequestParam(required = true) Long idSource,@RequestParam(required = false)Long idList){
         Gson gson = new Gson();
         List<FieldVerified> list = gson.fromJson(val,new TypeToken<List<FieldVerified>>(){}.getType());
-        ResponseMessage saveFieldVerified = verificationService.saveFieldVerifiedInocrrect(list, idCase, idSource,idList);
+        ResponseMessage saveFieldVerified = verificationService.saveFieldVerifiedIncorrect(list, idCase, idSource, idList);
             return saveFieldVerified;
     }
 

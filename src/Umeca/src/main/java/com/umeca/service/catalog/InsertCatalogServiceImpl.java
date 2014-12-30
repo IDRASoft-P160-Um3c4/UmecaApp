@@ -789,6 +789,22 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         typeNameFileRepository.flush();
     }
 
+    @Autowired
+    ImmigrationDocumentRepository immigrationDocumentRepository;
+    @Override
+    public void immigrationDocument() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "immigrationDocument.txt","\\|",4);
+        for(String[] data: lstDta){
+            ImmigrationDocument model = new ImmigrationDocument();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setSpecification(data[2].equals("1"));
+            model.setObsolete(data[3].equals("1"));
+            immigrationDocumentRepository.save(model);
+        }
+        immigrationDocumentRepository.flush();
+    }
+
 
     @Autowired
     HearingTypeRepository hearingTypeRepository;

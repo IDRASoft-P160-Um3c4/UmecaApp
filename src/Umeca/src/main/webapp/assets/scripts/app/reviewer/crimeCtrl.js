@@ -8,6 +8,7 @@ app.controller('crimeController', function ($scope, $timeout) {
 
     $scope.init = function () {
         $(".chosen-select").chosen();
+        $(".chosen-single span:nth-child(1)").text("Seleccione una opción");
         if ($scope.listCrime == undefined) {
             $scope.listCrime = [];
         }
@@ -18,10 +19,9 @@ app.controller('crimeController', function ($scope, $timeout) {
             $scope.c.federal = $scope.listElection[0];
             $scope.c.federalId = $scope.c.federal.id;
         }
-        if($scope.optionsCrime.length>0){
-            $scope.c.crime =$scope.optionsCrime[0];
-        }
-        $scope.c.crime =  undefined;
+//        if($scope.listCrime.length>0){
+//            $scope.c.crime =$scope.listCrime[0];
+//        }
         $scope.cleanArray();
     };
 
@@ -66,7 +66,6 @@ app.controller('crimeController', function ($scope, $timeout) {
         $scope.c.federal = $scope.listElection[0];
         $scope.c.comment = undefined;
         $scope.c.article = undefined;
-        $scope.c.crime =  undefined;
         $scope.cleanArray();
 
     };

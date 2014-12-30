@@ -124,19 +124,19 @@ app.controller('choiceInformationController', function($scope, $timeout, $q,shar
             .error($scope.handleError);
     };
 
-    $scope.changeZIndex = function(elementClick){
-        $("#liImputed").css("z-index","0");
-        $("#liImputedHome").css("z-index","0");
-        $("#liReference").css("z-index","0");
-        $("#liSocialNetwork").css("z-index","0");
-        $("#liJob").css("z-index","0");
-        $("#liSchool").css("z-index","0");
-        $("#liDrug").css("z-index","0");
-        $("#liLeaveCountry").css("z-index","0");
-        $("#"+elementClick).css("z-index","1");
+    $scope.showMessageError = function(elementClick){
+        $("#divErrorMessage").show();
+        var position = $(".tab-content").position();
+        $("#divErrorMessage").css("left",position.left+5);
+        $("#divErrorMessage").addClass("errorMessageClass");
 
+        $scope.entityError=elementClick;
     };
 
+
+    $scope.hideMessageError = function(){
+        $("#divErrorMessage").hide();
+    };
 
     $scope.handleSuccess = function (resp) {
         $scope.WaitFor = false;

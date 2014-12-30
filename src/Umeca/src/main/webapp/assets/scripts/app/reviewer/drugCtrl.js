@@ -149,6 +149,7 @@ app.controller('drugController', function($scope, $timeout,$rootScope) {
     $scope.fillModel = function(){
         var template ="NO CONSUME";
         if($scope.blockD == false){
+            $scope.d.onsetAge =0;
             //$scope.d.other=template;
             //$scope.d.specificationPeriodicity = template;
             $scope.d.quantity = template;
@@ -178,6 +179,7 @@ app.controller('drugController', function($scope, $timeout,$rootScope) {
             $scope.d.specificationPeriodicity = "";
             $scope.d.quantity = "";
             $scope.d.lastUse = "";
+            $scope.d.onsetAge ="";
         }
     }
 });
