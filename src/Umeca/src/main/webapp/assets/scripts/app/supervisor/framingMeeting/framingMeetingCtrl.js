@@ -51,7 +51,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
         $("#liFinger").css("z-index", "0");
         $("#" + elementClick).css("z-index", "1");
 
-    };
+        };
 
     $scope.returnFM = function () {
 

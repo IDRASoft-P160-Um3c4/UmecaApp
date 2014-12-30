@@ -14,12 +14,27 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
     $scope.lstSelValidator = [];
     $scope.MsgErrorLst = [];
     $scope.MsgSuccessTecRev = "";
+    $scope.MsgSectionErrorLst = [];
 
-    $scope.submitTecRev = function (formId, urlToPost, hasReturnId) {
+
+    $scope.submitTecRev = function (formId, urlToPost, validate) {
+
+        $scope.Invalid = true;
+        $scope.isFinished = false;
 
         if ($(formId).valid() == false) {
             $scope.Invalid = true;
             return false;
+        }
+
+        if (validate != undefined) {
+            if (validate() == false) {
+                $scope.Invalid = true;
+                return false;
+            } else {
+                $scope.isFinished = true;
+                $scope.$apply();
+            }
         }
 
         $scope.WaitFor = true;
@@ -39,20 +54,26 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
             }
 
             if (resp.hasError === false) {
-                $scope.MsgError = $sce.trustAsHtml("");
-                $scope.MsgSuccessTecRev = $sce.trustAsHtml(resp.message);
-                $scope.$apply();
-                return;
+                if (resp.urlToGo && resp.urlToGo != "") {
+                    window.goToUrlMvcUrl(resp.urlToGo, "");
+                } else {
+                    $scope.MsgError = $sce.trustAsHtml("");
+                    $scope.MsgSuccessTecRev = $sce.trustAsHtml(resp.message);
+                }
+            } else {
+                $scope.MsgError = $sce.trustAsHtml(resp.message);
             }
 
-            $scope.MsgError = $sce.trustAsHtml(resp.message);
             $scope.$apply();
-
-        } catch (e) {
+            return;
+        }
+        catch
+            (e) {
             $scope.MsgSuccessTecRev = $sce.trustAsHtml("");
             $scope.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
         }
-    };
+    }
+    ;
 
     $scope.handleErrorTR = function () {
         $scope.WaitFor = false;
@@ -164,14 +185,43 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
         //finalArr contiene las secciones de las cuales se selecciono una pregunta
         //se compara con la lista completa de secciones
 
+        $scope.MsgSectionErrorLst = [];
         for (var i = 0; i < $scope.subSectionList.length; i++) {
-
             if (finalArr.indexOf($scope.subSectionList[i].code) < 0) {
-
-                $scope.MsgErrorLst.push("Debe contestar la sección " + $scope.subSectionList[i].name + ".");
+                var subsectNameArr = $scope.subSectionList[i].code.split("_");
+                var obj = {sect: subsectNameArr[0] + "_" + subsectNameArr[1], msg: "Debe contestar la secci&oacute;n " + $scope.subSectionList[i].name + "."};
+                $scope.MsgSectionErrorLst.push(obj);
             }
         }
 
+
+    };
+
+    $scope.sectionHasError = function (sect) {
+        for (var a = 0; a < $scope.MsgSectionErrorLst.length; a++) {
+            if ($scope.MsgSectionErrorLst[a].sect == sect) {
+                return true;
+                break;
+            }
+        }
+        return false;
+    };
+
+    $scope.changeZIndex = function (elementClick) {
+        for (var a = 0; a < $scope.sectionList.length; a++) {
+            $("#li" + $scope.sectionList[a].tabId).css("z-index", "0");
+        }
+        $("#li" + elementClick).css("z-index", "1");
+    };
+
+    $scope.getSectionMsg = function (sect) {
+        var errMsg = "";
+        for (var a = 0; a < $scope.MsgSectionErrorLst.length; a++) {
+            if ($scope.MsgSectionErrorLst[a].sect == sect) {
+                errMsg += "- " + $scope.MsgSectionErrorLst[a].msg + '<br/>';
+            }
+        }
+        return $sce.trustAsHtml(errMsg);
     };
 
     $scope.getSubSections = function (section) {
@@ -186,7 +236,7 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
 
         $scope.validateSelectedSections();
 
-        if ($scope.MsgErrorLst.length > 0)
+        if ($scope.MsgErrorLst.length > 0 || $scope.MsgSectionErrorLst.length > 0)
             return;
 
         $scope.totTecRev = 0;
@@ -216,9 +266,6 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
             return false;
         }
 
-        $scope.isFinished = true;
-        $scope.$apply();
-
         return true;
     };
 
@@ -234,16 +281,13 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
         for (var i = 0; i < $scope.sectionList.length; i++)
             $scope.getSubSections($scope.sectionList[i]);
 
-
         if ($scope.lstSubtotSrv != undefined) {
-
             for (sect in $scope.lstTot)
                 for (var i = 0; i < $scope.lstSubtotSrv.length; i++) {
                     if ($scope.lstSubtotSrv[i].subCode == sect) {
                         $scope.lstTot[sect] = $scope.lstSubtotSrv[i].val;
                     }
                 }
-
         }
 
     };
@@ -297,4 +341,5 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
     }, 0);
 
 
-});
+})
+;

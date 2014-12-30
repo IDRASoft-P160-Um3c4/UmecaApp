@@ -111,13 +111,33 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
 <div class="tabbable tabs-left">
 <br/>
 <ul class="nav nav-tabs">
-    <li ng-repeat="sect in sectionList"
+    <li ng-repeat="sect in sectionList" id='li{{sect.tabId}}'
         ng-init="m.extras[$index]=(toObject(sect.extras));"
         ng-class="m.actTab=={{$index}} ? 'active' : ''">
 
         <a data-toggle="tab" href="{{'#' + sect.tabId}}">
-            <i class="{{m.extras[$index].class}}"></i>
-            {{sect.sectionName}}
+            <div class="row">
+                <div class="col-xs-10">
+                    <i class="{{m.extras[$index].class}}"></i>
+                    {{sect.sectionName}}
+                </div>
+                <div class="col-xs-2" ng-show="sectionHasError(sect.tabId)">
+                    <div class="tools">
+                        <div class="inline position-relative">
+                            <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                               data-toggle="dropdown" ng-click="changeZIndex(sect.tabId);"></i>
+
+                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
+                                style="width: 400px; z-index: 100000; padding: 0 0;">
+                                <div class="alert-danger element-center error-font">
+                                    <span ng-bind-html="getSectionMsg(sect.tabId);">
+                                </span>
+                                </div>
+                            </ul>
+                        </div>
+                        </div>
+                </div>
+            </div>
         </a>
     </li>
 
@@ -179,7 +199,7 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
                     <div class="col-xs-3 col-xs-offset-8">
                         &nbsp;&nbsp;&nbsp;&nbsp;
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="submitTecRev('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>',false)"
+                                  ng-click="submitTecRev('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>')"
                                   ng-show="flgIsEvaluated == false || canEdit==true">
                                   Guardar
                             </span>
@@ -338,11 +358,18 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
                                   ng-click="returnUrl(returnId)">
                                 Cancelar
                             </span>
-                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="submitRedirect('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>',false,validateSave)"
-                                  ng-show="flgIsEvaluated == false || canEdit==true">
-                                  Terminar
-                            </span>
+        <%--<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"--%>
+        <%--ng-click="submitTecRev('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>',validateSave)"--%>
+        <%--ng-show="flgIsEvaluated == false || canEdit==true">--%>
+        <%--Terminar--%>
+        <%--</span>--%>
+        <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action
+              confirm-message="&iquest;Est&aacute; seguro que desea terminar el instrumento de evaluaci&oacute;n?"
+              confirm-title="Terminar instrumento de evaluaci&oacute;n" confirm-type="info"
+              confirmed-click-action="submitTecRev('#FormTecRevId', '<c:url
+            value='/reviewer/technicalReview/doUpsert.json'/>',validateSave)">
+        Terminar
+        </span>
     </div>
 
 </div>

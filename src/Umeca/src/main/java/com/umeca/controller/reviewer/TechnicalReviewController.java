@@ -143,13 +143,13 @@ public class TechnicalReviewController {
             Imputed imputed = caseDet.getVerification().getMeetingVerified().getImputed();
             String fullname = imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM();
 
-            System.out.println(caseDet.getIdFolder());
             model.addObject("idVerification", verification.getId());
             model.addObject("imputedFullName", fullname);
             model.addObject("foldId", verification.getCaseDetention().getIdFolder());
             model.addObject("idCase", verification.getCaseDetention().getId());
 
             if (tecRev_prev != null) {
+
                 model.addObject("hasRevTec", true);
 
                 if ((caseDet.getStatus().getName().equals(Constants.CASE_STATUS_EDIT_TEC_REV) && caseDet.getMeeting().getReviewer().getId().equals(sharedUserService.GetLoggedUserId()))
@@ -163,7 +163,10 @@ public class TechnicalReviewController {
                 else
                     model.addObject("returnId", returnId);
 
-                model.addObject("showRisk", true);
+                if(tecRev_prev.getIsFinished()!=null && tecRev_prev.getIsFinished()==true)
+                    model.addObject("showRisk", true);
+                else
+                    model.addObject("showRisk", false);
                 model.addObject("lstQuestSel_prev", technicalReviewService.genLstJsonQuesSel(tecRev_prev.getQuestionsSel()));
                 model.addObject("totRisk_prev", tecRev_prev.getTotalRisk());
                 model.addObject("lstSubtotTxt_prev", tecRev_prev.getSubtotalsTxt());

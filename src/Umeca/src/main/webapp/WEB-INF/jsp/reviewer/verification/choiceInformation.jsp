@@ -58,7 +58,7 @@
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/sources.html?id=${idCase}'/>");
         }
 
-        window.showChoicesSection  = function (idSection,idList){
+        window.showChoicesSection = function (idSection, idList) {
             var divScope = "#divChoiceInformation";
             var urlToGo = "<c:url value='/reviewer/verification/showChoicesBySection.html'/>";
             var scope = angular.element($(divScope)).scope();
@@ -86,7 +86,7 @@
             scope.show(data, urlToGo, undefined, undefined, true);
         };
 
-        window.closeShowChoicesSection = function (){
+        window.closeShowChoicesSection = function () {
             $("#VerifBySectionDialog").modal("hide");
         }
 
@@ -104,14 +104,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h4 class="modal-title element-center"><span  ng-bind-html="TitleV" class="label label-lg label-{{TypeV}}" style="font-size: large; display: block !important;"></span></h4>
+                    <h4 class="modal-title element-center"><span ng-bind-html="TitleV"
+                                                                 class="label label-lg label-{{TypeV}}"
+                                                                 style="font-size: large; display: block !important;"></span>
+                    </h4>
                 </div>
             </div>
             <div class="modal-body">
                 <div class="element-left" ng-bind-html="MessageV" ng-init="commentVerifSection = '';"></div>
                 <br/>
                 Raz&oacute;n por la que establece la informaci&oacute;n: <br/>
-                <textarea class="form-control" id="commentVerifSection" ng-model = "commentVerifSection">
+                <textarea class="form-control" id="commentVerifSection" ng-model="commentVerifSection">
                 </textarea>
             </div>
             <div class="modal-footer">
@@ -441,9 +444,15 @@
                     <span class="btn btn-default btn-sm" onclick="window.cancelChoiceInformation()">
                         Regresar
                     </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="terminateVerification('<c:url value="/reviewer/verification/terminateVerification.json?idCase=${idCase}"/>');">
-                          Terminar Verificaci&oacute;n
+        <%--<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"--%>
+        <%--ng-click=>--%>
+        <%--Terminar Verificaci&oacute;n--%>
+        <%--</span>--%>
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action
+                          confirm-message="&iquest;Est&aacute; seguro que desea terminar la verificaci&oacute;n con esta fuente?"
+                          confirm-title="Terminar verificaci&oacute;n" confirm-type="info"
+                          confirmed-click-action="terminateVerification('<c:url value="/reviewer/verification/terminateVerification.json?idCase=${idCase}"/>');">
+                          Terminar
                     </span>
     </div>
 </div>
