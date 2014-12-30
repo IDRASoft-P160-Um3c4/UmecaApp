@@ -1245,14 +1245,26 @@
     </div>
 </div>
 
-<div class="row element-right" ng-show="m.canSave==true">
-    <div>
-    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-          ng-click="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">
+<div class="row">
+    <div id="finishConfirm" class="modal-footer" ng-show="m.canSave==true">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action
+                          confirm-message="&iquest;Est&aacute; seguro que desea terminar el formato de audiencia?"
+                          confirm-title="Terminar formato de audiencia" confirm-type="info"
+                          confirmed-click-action="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">
                           Terminar
                     </span>
     </div>
 </div>
+
+
+<%--<div class="row element-right" ng-show="m.canSave==true">--%>
+<%--<div>--%>
+<%--<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="">--%>
+
+<%--Terminar--%>
+<%--</span>--%>
+<%--</div>--%>
+<%--</div>--%>
 
 <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
 <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
