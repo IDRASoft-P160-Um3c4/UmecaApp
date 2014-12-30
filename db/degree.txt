@@ -8,25 +8,28 @@ id|name|idLevel|isObsolete
 7|Quinto|2|0
 8|Sexto|2|0
 9|Terminado|2|0
-10|Primero|3|0
-11|Segundo|3|0
-12|Tercero|3|0
-13|Terminado|3|0
-14|Primero|4|0
-15|Segundo|4|0
-16|Tercero|4|0
-17|Terminado|4|0
-18|Primer semestre|5|0
-19|Segundo semestre|5|0
-20|Tercer semestre|5|0
-21|Cuarto semestre|5|0
-22|Quinto semestre|5|0
-23|Sexto semestre|5|0
-24|Séptimo semestre|5|0
-25|Octavo semestre|5|0
-26|Noveno semestre|5|0
-27|Décimo semestre|5|0
-28|Terminado|5|0
-29|Trunco|6|0
-30|Terminado|6|0
-31|Otro|7|0
+10|Trunco|2|0
+11|Primero|3|0
+12|Segundo|3|0
+13|Tercero|3|0
+14|Terminado|3|0
+15|Trunco|3|0
+16|Primero|4|0
+17|Segundo|4|0
+18|Tercero|4|0
+19|Terminado|4|0
+20|Trunco|4|0
+21|Primer semestre|5|0
+22|Segundo semestre|5|0
+23|Tercer semestre|5|0
+24|Cuarto semestre|5|0
+25|Quinto semestre|5|0
+26|Sexto semestre|5|0
+27|Séptimo semestre|5|0
+28|Octavo semestre|5|0
+29|Noveno semestre|5|0
+30|Décimo semestre|5|0
+31|Terminado|5|0
+32|Trunco|6|0
+33|Terminado|6|0
+34|Otro|7|0
