@@ -73,6 +73,11 @@ $(document).ready(function () {
                 var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar verificaci&oacute;n de fuentes\" onclick=\"verifySources('" + cl + "');\"><i class=\"icon-thumbs-up\"></i></a>";
                 $(this).jqGrid('setRowData', ids[i], { Action: be });
             }
+
+            $(".sgcollapsed").each(function () {
+                this.title = "Mostrar/ocultar fuentes";
+            });
+
         },
         loadComplete: function () {
             var table = this;

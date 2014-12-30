@@ -3,24 +3,24 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
 <script>
-    window.upsertJob = function(id) {
-        window.showUpsertWithIdCase(id, "#angJsjqGridIdJob", "<c:url value='/reviewer/meeting/job/upsert.html'/>", "#GridIdJob",undefined, ${m.caseDetention.id});
+    window.upsertJob = function (id) {
+        window.showUpsertWithIdCase(id, "#angJsjqGridIdJob", "<c:url value='/reviewer/meeting/job/upsert.html'/>", "#GridIdJob", undefined, ${m.caseDetention.id});
     };
 
     window.deleteJob = function (id) {
         window.showObsolete(id, "#angJsjqGridIdJob", "<c:url value='/reviewer/meeting/job/delete.json'/>", "#GridIdJob");
     };
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         jQuery("#GridIdJob").jqGrid({
             url: '<c:url value='/reviewer/meeting/listJob.json?idCase=${m.caseDetention.id}' />',
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Empresa','Puesto','Patr&oacute;n','Tel&eacute;fono','Tipo','TipoId','Acci&oacute;n'],
+            colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'company', index: 'company', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'post', index: 'post', width: 150, align: "center", sorttype: 'string',search: false },
+                { name: 'post', index: 'post', width: 150, align: "center", sorttype: 'string', search: false },
                 { name: 'nameHead', index: 'nameHead', width: 160, align: "center", search: false },
                 { name: 'phone', index: 'phone', width: 150, align: "center", search: false },
                 { name: 'registerTypeString', index: 'registerTypeString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
@@ -43,15 +43,15 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar trabajo\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                          $(this).jqGrid('setRowData', ids[i], { Action: be });
+                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar trabajo\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    $(this).jqGrid('setRowData', ids[i], { Action: be });
                 }
             },
-            loadComplete : function() {
+            loadComplete: function () {
                 var table = this;
-                setTimeout(function(){
+                setTimeout(function () {
                     updatePagerIcons(table);
                     enableTooltips(table);
                 }, 0);
@@ -59,9 +59,9 @@
         });
 
         jQuery("#GridIdJob").jqGrid('navGrid', '#GridPagerJob', {
-            edit: false, editicon : 'icon-pencil blue',
-            add: true, addfunc: window.upsertJob, addicon : 'icon-plus-sign purple',
-            refresh: true, refreshicon : 'icon-refresh green',
+            edit: false, editicon: 'icon-pencil blue',
+            add: true, addfunc: window.upsertJob, addicon: 'icon-plus-sign purple',
+            refresh: true, refreshicon: 'icon-refresh green',
             del: false,
             search: false});
 
@@ -78,14 +78,15 @@
 
 <div class="row element-center">
     <div class="col-xs-12">
-        <h2> <i class="pink icon-briefcase  bigger-100">&nbsp;</i>Historia Laboral</h2>
+        <h2><i class="pink icon-briefcase  bigger-100">&nbsp;</i>Historia Laboral</h2>
         <br/>
+
         <div id="angJsjqGridIdJob" ng-controller="modalDlgController">
             <table id="GridIdJob" class="element-center" style="margin: auto"></table>
             <div id="GridPagerJob"></div>
             <div class="blocker" ng-show="working">
                 <div>
-                    Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt="" />
+                    Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
                 </div>
             </div>
         </div>
@@ -93,6 +94,7 @@
 </div>
 <br/>
 <br/>
+
 <div class="row" ng-controller="scController">
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
@@ -104,7 +106,8 @@
             <label class="info-example">(Este campo no es verificable)</label></div>
         <div class="col-xs-8">
             <textarea class="width-100"
-                      data-val="true" ng-model = "comment" ng-init='comment = "${m.commentJob == null ? '' : m.commentJob}";'
+                      data-val="true" ng-model="comment"
+                      ng-init='comment = "${m.commentJob == null ? '' : m.commentJob}";'
                       data-val-required="Las observaciones es un campo requerido"
                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                       data-val-length-max="500"
@@ -115,6 +118,7 @@
         </div>
     </form>
     <br/>
+
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgError" class="alert alert-danger element-center error-font">
             <span ng-bind-html="msgError"></span>

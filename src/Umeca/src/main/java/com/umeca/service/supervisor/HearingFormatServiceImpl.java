@@ -905,7 +905,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     public ResponseMessage validatePassCredential(String pass) {
 
         if (!sharedUserService.isValidPasswordForUser(sharedUserService.GetLoggedUserId(), pass)) {
-            return new ResponseMessage(true, "El password es incorrecto, verfifique los datos.");
+            return new ResponseMessage(true, "El password es incorrecto, verifique los datos.");
         }
         return null;
     }

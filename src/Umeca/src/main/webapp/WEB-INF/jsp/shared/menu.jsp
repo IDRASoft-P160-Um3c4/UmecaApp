@@ -51,7 +51,7 @@
                     class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n de riesgos</a>
             </li>
             <li class="nav-li-blue"><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i
-                    class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a Coordinador</a></li>
+                    class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a coordinador</a></li>
             <li class="dropdown nav-li-blue">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                         class="glyphicon glyphicon-folder-close"></i>
@@ -152,7 +152,7 @@
             <li class="nav-li-blue"><a href="<c:url value='/director/excelReport/index.html'/>"><i
                     class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a></li>
             <li class="nav-li-blue"><a href="<c:url value='/managereval/authorizeRequest/index.html' />"><i
-                    class="icon icon-envelope"></i>&nbsp;&nbsp;Autorizaci&oacute;n de solcitudes</a></li>
+                    class="icon icon-envelope"></i>&nbsp;&nbsp;Autorizaci&oacute;n de solicitudes</a></li>
             <li class="nav-li-blue"><a
                     href="<c:url value='/shared/messageHistory/index.html' />"><i
                     class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>

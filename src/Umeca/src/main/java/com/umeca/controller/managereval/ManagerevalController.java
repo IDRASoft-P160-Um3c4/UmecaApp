@@ -401,7 +401,7 @@ public class ManagerevalController {
     ResponseMessage doMakeRequest(@ModelAttribute RequestDto requestDto) {
         try{
             if (!sharedUserService.isValidPasswordForUser(sharedUserService.GetLoggedUserId(), requestDto.getPassword())) {
-                return new ResponseMessage(true, "La contrase&ntilde;a es incorrecta, verfifique los datos.");
+                return new ResponseMessage(true, "La contrase&ntilde;a es incorrecta, verifique los datos.");
             }
             if(requestDto.getReason().equals("")){
                 return new ResponseMessage(true, "Debes ingresar una raz&oacute;n por la cu&aacute;l quieres realizar la solicitud");

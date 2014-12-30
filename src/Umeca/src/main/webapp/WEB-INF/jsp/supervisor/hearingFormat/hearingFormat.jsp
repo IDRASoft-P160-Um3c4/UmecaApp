@@ -860,7 +860,7 @@
 
 <div class="row" ng-show="m.vincProcess==1||m.vincProcess==3" id="divCitaUmeca">
     <div class="widget-box">
-        <div class="widget-header">Cita UMECA</div>
+        <div class="widget-header">Cita UMECA para entrevista de encuadre</div>
         <div class="widget-body">
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-1">
