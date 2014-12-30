@@ -207,11 +207,23 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
         return false;
     };
 
-    $scope.changeZIndex = function (elementClick) {
-        for (var a = 0; a < $scope.sectionList.length; a++) {
-            $("#li" + $scope.sectionList[a].tabId).css("z-index", "0");
-        }
-        $("#li" + elementClick).css("z-index", "1");
+//    $scope.changeZIndex = function (elementClick) {
+//        for (var a = 0; a < $scope.sectionList.length; a++) {
+//            $("#li" + $scope.sectionList[a].tabId).css("z-index", "0");
+//        }
+//        $("#li" + elementClick).css("z-index", "1");
+//    };
+
+    $scope.showMessageError = function(elementClick){
+        $("#divErrorMessage").show();
+        var position = $(".tab-content").position();
+        $("#divErrorMessage").css("left",position.left+5);
+        $("#divErrorMessage").addClass("errorMessageClass");
+        $scope.entityError=elementClick;
+    };
+
+    $scope.hideMessageError = function(){
+        $("#divErrorMessage").hide();
     };
 
     $scope.getSectionMsg = function (sect) {

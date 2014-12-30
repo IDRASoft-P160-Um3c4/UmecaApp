@@ -5,6 +5,7 @@
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/technicalReviewCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/hiddenDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/showMessageErrorDrct.js"></script>
     <script>
         var generateFileAllSources = function (id) {
             var goTo = "<c:url value='/reviewer/technicalReview/generateFileAllSources.html'/>" + "?id=" + id;
@@ -27,7 +28,14 @@
 <br/>
 
 <div class="container body-content" ng-controller="tecRevController">
-
+<div id="divErrorMessage" class="alert alert-danger" style="display: none;">
+    <button type="button" class="close" ng-click="hideMessageError();">
+        <i class="icon-remove"></i>
+    </button>
+    <br/>
+    <span ng-bind-html="getSectionMsg(entityError)"></span>
+    <br/>
+</div>
 <input type="hidden" name="idVerification" id="idVerification" value="${idVerification}"/>
 <input type="hidden" name="isFinished" id="isFinished" value="{{isFinished}}"/>
 <input type="hidden" name="txtListQuest" id="txtListQuest" ng-init="lstQuestSel=${lstQuestSel_prev}"
@@ -125,17 +133,9 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
                     <div class="tools">
                         <div class="inline position-relative">
                             <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                               data-toggle="dropdown" ng-click="changeZIndex(sect.tabId);"></i>
-
-                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                                style="width: 400px; z-index: 100000; padding: 0 0;">
-                                <div class="alert-danger element-center error-font">
-                                    <span ng-bind-html="getSectionMsg(sect.tabId);">
-                                </span>
-                                </div>
-                            </ul>
+                               ng-click="showMessageError(sect.tabId);"></i>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </a>
@@ -345,7 +345,7 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
 
     <div class="row">
         <div class="col-xs-12">
-            <div ng-show="MsgErrorLst.length > 0" class="alert alert-danger element-center technicalReview/technicalReview">
+            <div ng-show="MsgErrorLst.length > 0" class="alert alert-danger element-center ">
                 <ul ng-repeat="error in MsgErrorLst">
                     <li>{{error}}</li>
                 </ul>
