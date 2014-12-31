@@ -102,7 +102,7 @@
 <div class="row" ng-show="r.rel.specification == true">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
-            Especif&iacute;que<br/>relaci&oacute;n:
+            Especifique<br/>relaci&oacute;n:
         </div>
         <div class="col-xs-8">
             <input class="form-control" data-val="true"
@@ -159,7 +159,7 @@
 <div class="row" ng-show="r.doc.specification == true">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
-            Especif&iacute;que:
+            Especifique:
         </div>
         <div class="col-xs-8">
             <input class="form-control" data-val="true"

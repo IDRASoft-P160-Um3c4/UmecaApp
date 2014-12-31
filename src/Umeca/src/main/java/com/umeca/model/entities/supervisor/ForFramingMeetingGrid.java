@@ -26,10 +26,13 @@ public class ForFramingMeetingGrid implements EntityGrid {
     private String fullName;
     private Date brthDate;
     private String brthDateTxt;
+    private Long  idTR;
+    private Long framingMeetingId;
     //    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
-    public ForFramingMeetingGrid(Long id, String codeStatus, String descStatus, String idMP, String name, String lastNameP, String lastNameM, Date brthDate) {
+    public ForFramingMeetingGrid(Long id, String codeStatus, String descStatus, String idMP, String name, String lastNameP, String lastNameM, Date brthDate,
+                                 Long idTR, Long framingMeetingId) {
         this.id = id;
         this.codeStatus = codeStatus;
         this.descStatus = descStatus;
@@ -38,6 +41,8 @@ public class ForFramingMeetingGrid implements EntityGrid {
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
         this.brthDate = brthDate;
+        this.idTR = idTR;
+        this.framingMeetingId = framingMeetingId;
 
         StringBuilder strBld = new StringBuilder();
 
@@ -154,5 +159,21 @@ public class ForFramingMeetingGrid implements EntityGrid {
 
     public void setIdMP(String idMP) {
         this.idMP = idMP;
+    }
+
+    public Long getFramingMeetingId() {
+        return framingMeetingId;
+    }
+
+    public void setFramingMeetingId(Long framingMeetingId) {
+        this.framingMeetingId = framingMeetingId;
+    }
+
+    public Long getIdTR() {
+        return idTR;
+    }
+
+    public void setIdTR(Long idTR) {
+        this.idTR = idTR;
     }
 }
