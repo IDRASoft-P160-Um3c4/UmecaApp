@@ -101,7 +101,14 @@
      ng-cloak>
 <input type="hidden" name="idFolder" value="{{fm.objView.idFolder}}">
 
-
+<div id="divErrorMessage" class="alert alert-danger" style="display: none;">
+    <button type="button" class="close" ng-click="hideMessageError();">
+        <i class="icon-remove"></i>
+    </button>
+    <br/>
+    <span ng-bind-html="listMsgError[entityError]"></span>
+    <br/>
+</div>
 <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
 
 <div class="col-xs-12">
@@ -343,15 +350,7 @@
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liImputed');"></i>
-
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['imputed']">
-                                </span>
-                            </div>
-                        </ul>
+                           ng-click="showMessageError('imputed');"></i>
                     </div>
                 </div>
             </div>
@@ -367,17 +366,11 @@
             </div>
             <div class="col-xs-2" ng-show="listMsgError['imputedHome']">
                 <div class="tools">
-                    <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liImputedHome');"></i>
-
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['imputedHome']">
-                                    </span>
-                            </div>
-                        </ul>
+                    <div class="tools">
+                        <div class="inline position-relative">
+                            <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                               ng-click="showMessageError('imputedHome');"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -403,15 +396,7 @@
                 <div class="tools">
                     <div class="inline position-relative">
                         <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liSocialNetwork');"></i>
-
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['socialNetwork']">
-                                    </span>
-                            </div>
-                        </ul>
+                           ng-click="showMessageError('socialNetwork');"></i>
                     </div>
                 </div>
             </div>
@@ -428,15 +413,8 @@
             <div class="col-xs-2" ng-show="listMsgError['reference']">
                 <div class="tools">
                     <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liReference');"></i>
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['reference']">
-                                </span>
-                            </div>
-                        </ul>
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           ng-click="showMessageError('reference');"></i>
                     </div>
                 </div>
             </div>
@@ -453,15 +431,8 @@
             <div class="col-xs-2" ng-show="listMsgError['victim']">
                 <div class="tools">
                     <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liVictim');"></i>
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['victim']">
-                                </span>
-                            </div>
-                        </ul>
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           ng-click="showMessageError('victim');"></i>
                     </div>
                 </div>
             </div>
@@ -478,15 +449,8 @@
             <div class="col-xs-2" ng-show="listMsgError['school']">
                 <div class="tools">
                     <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liSchool');"></i>
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['school']">
-                                </span>
-                            </div>
-                        </ul>
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           ng-click="showMessageError('school');"></i>
                     </div>
                 </div>
             </div>
@@ -503,15 +467,8 @@
             <div class="col-xs-2" ng-show="listMsgError['job']">
                 <div class="tools">
                     <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liJob');"></i>
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['job']">
-                                </span>
-                            </div>
-                        </ul>
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           ng-click="showMessageError('job');"></i>
                     </div>
                 </div>
             </div>
@@ -528,15 +485,8 @@
             <div class="col-xs-2" ng-show="listMsgError['activities']">
                 <div class="tools">
                     <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liActivities');"></i>
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['activities']">
-                                </span>
-                            </div>
-                        </ul>
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           ng-click="showMessageError('activities');"></i>
                     </div>
                 </div>
             </div>
@@ -553,15 +503,8 @@
             <div class="col-xs-2" ng-show="listMsgError['drug']">
                 <div class="tools">
                     <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liDrug');"></i>
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['drug']">
-                                </span>
-                            </div>
-                        </ul>
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           ng-click="showMessageError('drug');"></i>
                     </div>
                 </div>
             </div>
@@ -579,15 +522,8 @@
             <div class="col-xs-2" ng-show="listMsgError['question']">
                 <div class="tools">
                     <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liQuestion');"></i>
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['question']">
-                                </span>
-                            </div>
-                        </ul>
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           ng-click="showMessageError('question');"></i>
                     </div>
                 </div>
             </div>
@@ -605,15 +541,8 @@
             <div class="col-xs-2" ng-show="listMsgError['fingerprint']">
                 <div class="tools">
                     <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liFinger');"></i>
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['fingerprint']">
-                                </span>
-                            </div>
-                        </ul>
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           ng-click="showMessageError('fingerprint');"></i>
                     </div>
                 </div>
             </div>
@@ -630,15 +559,8 @@
             <div class="col-xs-2" ng-show="listMsgError['analysis']">
                 <div class="tools">
                     <div class="inline position-relative">
-                        <i class=" icon-exclamation-sign red  icon-only bigger-120 dropdown-toggle"
-                           data-toggle="dropdown" ng-click="changeZIndex('liAnalysis');"></i>
-                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close"
-                            style="width: 400px; z-index: 100000; padding: 0 0;">
-                            <div class="alert-danger element-center error-font">
-                                <span ng-bind-html="listMsgError['analysis']">
-                                </span>
-                            </div>
-                        </ul>
+                        <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                           ng-click="showMessageError('analysis');"></i>
                     </div>
                 </div>
             </div>
