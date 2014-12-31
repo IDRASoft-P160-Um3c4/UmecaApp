@@ -1,4 +1,4 @@
-app.controller('hearingFormatController', function ($scope, $timeout, $http, $q, $sce) {
+app.controller('hearingFormatController', function ($scope, $timeout, $http, $q, $sce, $rootScope) {
 
         $scope.m = {};
         $scope.a = {};
@@ -353,6 +353,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.saveHF = function (formId, urlToPost, validate) {
             if (validate != undefined)
                 var stVal = validate();
+
+            $rootScope.$broadcast('valAddCrime');
 
             if ($(formId).valid() == false || stVal == false) {
                 $scope.Invalid = true;
@@ -711,11 +713,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             window.goToUrlMvcUrl(urlRet);
         }
         ;
-
-        $scope.clearError = function (msg) {
-            $scope[msg] = "";
-            //alert("aaaa");
-        };
     }
 )
 ;
