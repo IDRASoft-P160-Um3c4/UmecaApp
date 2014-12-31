@@ -279,6 +279,9 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.idJudicial = data.idJudicial;
             $scope.m.room = data.room;
             $scope.m.appointmentDate = $scope.myFormatDate(data.appointmentDate);
+            if ($scope.m.appointmentDate == "") {
+                $scope.m.appointmentDate = $scope.myFormatDate(new Date());
+            }
             $scope.m.initTime = data.initTime;
             $scope.m.endTime = data.endTime;
             $scope.m.judgeName = data.judgeName;
@@ -306,7 +309,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             } else {
                 $scope.m.extDate = "";
             }
-
 
             $scope.m.formImp = data.impForm;
 
@@ -345,6 +347,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 $scope.m.lstContactData = $.parseJSON(data.lstContactData);
             else
                 $scope.m.lstContactData = [];
+
+            $scope.m.previousHearing = data.previousHearing;
 
             $scope.$apply();
         };

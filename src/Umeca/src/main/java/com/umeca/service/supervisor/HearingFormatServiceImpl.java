@@ -632,6 +632,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
         }
 
+        hearingFormatView.setImputedPresence(existHF.getImputedPresence());
+        hearingFormatView.setHearingResult(existHF.getHearingResult());
+        hearingFormatView.setPreviousHearing(existHF.getPreviousHearing());
+
         hearingFormatView.setComments(existHF.getComments());
         hearingFormatView.setIsFinished(false);
 
