@@ -161,12 +161,18 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div ng-show="MsgError&&MsgError!=''" ng-clean-error msg="MsgError" class="umeca-toast element-center">
+        <div ng-show="MsgError&&MsgError!=''" ng-clean-error msg="MsgError" class="umeca-toast-error element-center">
             <p ng-bind-html="MsgError"></p>
         </div>
     </div>
 </div>
 <div class="row">
+    <div class="col-xs-12">
+        <div ng-show="MsgSuccess&&MsgSuccess!=''" ng-clean-error msg="MsgSuccess"
+             class="umeca-toast-success element-center">
+            <p ng-bind-html="MsgSuccess"></p>
+        </div>
+    </div>
     <div class="col-xs-12">
         <div ng-show="MsgSuccess&&MsgSuccess!=''" class="alert alert-success element-center">
             <p ng-bind-html="MsgSuccess"></p>
@@ -512,9 +518,7 @@
                 <br/>
 
                 <div class="row">
-
                     <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
-
                 </div>
 
                 <br/>
@@ -981,32 +985,14 @@
                                                 </label>
                                             </div>
                                         </div>
-
-
-                                        <div ng-show="m.arrType==2" ng-disabled="m.arrType!=2" class="col-xs-6">
-                                            <label>Plazo</label>
+                                        <div ng-show="m.arrType>0&&m.nationalArrangement!=undefined" class="col-xs-6">
+                                            <label ng-bind-html="lblTerms"></label>
                                             <br/>
-
                                             <textarea class="form-control limited" name="terms"
                                                       ng-model="m.terms"
-                                                      ng-disabled='m.arrType==1'
                                                       maxlength="980"
                                                       data-val="true"
                                                       data-val-required="Plazo es un campo requerido">
-                                            </textarea>
-                                        <span class="field-validation-valid" data-valmsg-for="terms"
-                                              data-valmsg-replace="true"></span>
-                                        </div>
-
-                                        <div ng-show="m.arrType==1" ng-disabled="m.arrType!=1" class="col-xs-6">
-                                            <label ng-show="m.arrType==1">Plazo de investigaci&oacute;n</label>
-                                            <br/>
-                                            <textarea class="form-control limited" name="terms"
-                                                      ng-model="m.terms"
-                                                      ng-disabled='m.arrType==2'
-                                                      maxlength="980"
-                                                      data-val="true"
-                                                      data-val-required="Plazo de investigaci&oacute;n es un campo requerido">
                                             </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>

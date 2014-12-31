@@ -7,6 +7,7 @@
     $scope.submit = function (formId, urlToPost, hasReturnId) {
 
         if ($(formId).valid() == false) {
+            $scope.MsgError = $sce.trustAsHtml("Debe proporcionar toda la informaci&oacute;n para guardar");
             $scope.Invalid = true;
             return false;
         }
@@ -160,7 +161,7 @@
     }
 
 
-    $scope.formatHtml = function(sHtml){
+    $scope.formatHtml = function (sHtml) {
         return $sce.trustAsHtml(sHtml);
     };
 

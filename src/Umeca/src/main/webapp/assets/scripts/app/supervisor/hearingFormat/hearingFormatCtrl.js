@@ -7,6 +7,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.hasError = false;
         $scope.MsgError;
         $scope.MsgErrorContact = "";
+        $scope.lblTerms = "";
 
         $scope.MsgErrorContact = "";
 
@@ -350,6 +351,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             $scope.m.previousHearing = data.previousHearing;
 
+            $scope.chgLblTerms();
+
             $scope.$apply();
         };
 
@@ -463,6 +466,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             if ((!$scope.m.arrType) || $scope.m.arrType == "" || $scope.m.disableAll == true) {
                 return;
             }
+            if ((!$scope.m.nationalArrangement) || $scope.m.nationalArrangement == "" || $scope.m.disableAll == true) {
+                return;
+            }
+
+            $scope.chgLblTerms();
 
             var currentTimeout = null;
             var urlType = $('#url3').attr("value");
@@ -706,6 +714,13 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.fillSelHearingType();
             $scope.disableView($scope.m.disableAll);
             $scope.lockArrangements();
+        };
+
+        $scope.chgLblTerms = function () {
+            if ($scope.m.arrType == 2)
+                $scope.lblTerms = $sce.trustAsHtml("Plazo");
+            else if ($scope.m.arrType == 1)
+                $scope.lblTerms = $sce.trustAsHtml("Plazo de investigaci&oacute;n");
         };
 
         $timeout(function () {

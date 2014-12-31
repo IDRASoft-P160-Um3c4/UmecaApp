@@ -408,9 +408,10 @@ public class HearingFormatController {
             return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, dene terminarlo para poder agregar un nuevo formato de audiencia.");
 
         if (result.getIsFinished() != null && result.getIsFinished()) {
-            if(result.getListCrime()==null || (result.getListCrime()!=null && result.getListCrime().equals("[]"))){
-                return new ResponseMessage(true, "Debe agregar al menos un delito al formato de audiencia.");
-            }else if(result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)){
+//            if(result.getListCrime()==null || (result.getListCrime()!=null && result.getListCrime().equals("[]"))){
+//                return new ResponseMessage(true, "Debe agregar al menos un delito al formato de audiencia.");
+//            }else
+            if(result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)){
                 ResponseMessage resp = hearingFormatService.validatePassCredential(result.getCredPass());
                 if (resp != null)
                     return resp;

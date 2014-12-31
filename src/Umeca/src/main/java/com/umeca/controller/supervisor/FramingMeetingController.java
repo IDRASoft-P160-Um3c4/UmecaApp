@@ -48,6 +48,7 @@ import javax.persistence.criteria.Selection;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -148,6 +149,10 @@ public class FramingMeetingController {
                     add(joinM.get("lastNameM"));
                     add(joinM.get("birthDate"));
                 }};
+
+//                Long id, String codeStatus, String descStatus, String idMP, String name, String lastNameP, String lastNameM, Date
+//                brthDate,
+//                        Long idTR, Long framingMeetingId)
             }
 
             @Override

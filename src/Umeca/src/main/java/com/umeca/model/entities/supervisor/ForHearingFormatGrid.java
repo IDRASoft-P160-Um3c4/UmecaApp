@@ -52,13 +52,15 @@ public class ForHearingFormatGrid implements EntityGrid {
             if (hType.equals(HearingFormatConstants.HEARING_TYPE_SCP))
                 hearingType = "SCPP";
         } else {
-            hearingType = "No aplica";
+            hearingType = "NA";
         }
 
         if (pVinc != null && pVinc.equals(HearingFormatConstants.PROCESS_VINC_NO))
-            processVinc = "NO";
+            processVinc = "No";
         else if (pVinc != null && pVinc.equals(HearingFormatConstants.PROCESS_VINC_YES))
-            processVinc = "SI";
+            processVinc = "Si";
+        if (pVinc != null && pVinc.equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))
+            processVinc = "Sin registro";
 
         if (ext != null && ext.equals(HearingFormatConstants.EXTENSION_144))
             extension = "144 hrs";
@@ -66,6 +68,8 @@ public class ForHearingFormatGrid implements EntityGrid {
             extension = "72 hrs";
         else if (ext != null && ext.equals(HearingFormatConstants.EXTENSION_NO))
             extension = "No";
+        else if (ext == null)
+            extension = "NA";
 
         this.registerTime = CalendarExt.calendarToFormatString(registerTime, Constants.FORMAT_CALENDAR_I);
 

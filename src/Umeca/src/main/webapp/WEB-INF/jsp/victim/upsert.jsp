@@ -12,23 +12,23 @@
                 <div class="modal-header">
                     <div class="alert alert-info ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center"><i class="glyphicon glyphicon-list "></i>&nbsp;&nbsp;V&iacute;ctima</h4>
+                        <h4 class="element-center"><i class="glyphicon glyphicon-list "></i>&nbsp;&nbsp;V&iacute;ctima
+                        </h4>
                     </div>
                 </div>
-                <div class="modal-body" >
-                    <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal" role="form">
-                        <br />
-                        <div ng-controller="victimController">
-                            <%@ include file="/WEB-INF/jsp/victim/content.jsp"%>
-                        </div>
-                    </form>
-                    <br />
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div ng-show="MsgError" class="alert alert-danger element-center">
-                                {{MsgError}}
+                <div class="modal-body">
+                    <div>
+                        <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal"
+                              role="form">
+                            <br/>
+
+                            <div ng-controller="victimController">
+                                <%@ include file="/WEB-INF/jsp/victim/content.jsp" %>
                             </div>
-                        </div>
+                        </form>
+                    </div>
+                    <div ng-show="MsgError!=''" class="alert alert-danger element-center">
+                        <p ng-bind-html="MsgError"></p>
                     </div>
                 </div>
                 <div class="modal-footer">

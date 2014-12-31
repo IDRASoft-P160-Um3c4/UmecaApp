@@ -173,7 +173,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         //hearingFormat.setHearingImputed(lastHF.getHearingImputed());
         //} else {
 
-        HearingFormatImputed hearingImputed = new HearingFormatImputed();
+        HearingFormatImputed hearingImputed = hearingFormat.getHearingImputed();
+
+        if (hearingImputed == null)
+            hearingImputed = new HearingFormatImputed();
 
         hearingImputed.setName(viewFormat.getImputedName());
         hearingImputed.setLastNameP(viewFormat.getImputedFLastName());
@@ -194,7 +197,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingImputed.setImputeTel(viewFormat.getImputedTel());
 
         if (viewFormat.getLocation() != null && viewFormat.getLocation().getId() != null) {
-            Address address = new Address();
+            Address address = hearingImputed.getAddress();
+            if(address==null)
+                address=new Address();
+
             address.setStreet(viewFormat.getStreet());
             address.setOutNum(viewFormat.getOutNum());
             address.setInnNum(viewFormat.getInnNum());
@@ -209,7 +215,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormat.setHearingImputed(hearingImputed);
         //}
 
-        HearingFormatSpecs hearingSpecs = new HearingFormatSpecs();
+        HearingFormatSpecs hearingSpecs = hearingFormat.getHearingFormatSpecs();
+        if (hearingSpecs == null) {
+            hearingSpecs = new HearingFormatSpecs();
+        }
         hearingSpecs.setControlDetention(viewFormat.getControlDetention());
         hearingSpecs.setExtension(viewFormat.getExtension());
         hearingSpecs.setImputationFormulation(viewFormat.getImpForm());
@@ -636,6 +645,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setHearingResult(existHF.getHearingResult());
         hearingFormatView.setPreviousHearing(existHF.getPreviousHearing());
 
+
         hearingFormatView.setComments(existHF.getComments());
         hearingFormatView.setIsFinished(false);
 
@@ -703,14 +713,13 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     MessageRepository messageRepository;
 
 
-
     @Transactional
     @Override
     public ResponseMessage requestObsoleteCase(Long id) {
 
-        if(framingMeetingRepository.getIdByIdCase(id)!=null)
-            return  new ResponseMessage(true,"No es posible eliminar el caso ya que cuenta con una entrevista de encuadre.","Error al mandar la solicitud");
-        Case c  = caseRepository.findOne(id);
+        if (framingMeetingRepository.getIdByIdCase(id) != null)
+            return new ResponseMessage(true, "No es posible eliminar el caso ya que cuenta con una entrevista de encuadre.", "Error al mandar la solicitud");
+        Case c = caseRepository.findOne(id);
         User u = new User();
         u.setId(sharedUserService.GetLoggedUserId());
         User userReceiver = sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_SUPERVISOR_MANAGER).get(0);
@@ -719,8 +728,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_REQUEST_SUPERVISION));
         c.setDateObsolete(new Date());
         caseRepository.save(c);
-        SharedLogCommentService.generateLogComment(MonitoringConstants.LOG_MSG_INFO_PENDING_AUTHORIZATION_OBSOLETE, u,c,
-                Constants.ACTION_AUTHORIZE_LOG_COMMENT, userReceiver, Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION , logCommentRepository);
+        SharedLogCommentService.generateLogComment(MonitoringConstants.LOG_MSG_INFO_PENDING_AUTHORIZATION_OBSOLETE, u, c,
+                Constants.ACTION_AUTHORIZE_LOG_COMMENT, userReceiver, Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION, logCommentRepository);
         return new ResponseMessage(false, "Se ha mandado la solictud satisfactoriamente");
     }
 
@@ -816,7 +825,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
                     (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
                 MonitoringPlan monP = hearingFormat.getCaseDetention().getMonitoringPlan();
-                   hearingFormat.setShowNotification(true);
+                hearingFormat.setShowNotification(true);
                 if (monP != null) {
                     monP.setResolution(hearingFormat.getHearingFormatSpecs().getArrangementType());
                     monitoringPlanRepository.save(monP);
@@ -861,9 +870,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
 
             if (hearingFormat.getIsFinished() == true) {
-                        List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
-                if(logs.size()>0){
-                    LogCase l = logs.get(logs.size()-1);
+                List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
+                if (logs.size() > 0) {
+                    LogCase l = logs.get(logs.size() - 1);
                     LogComment logComment = new LogComment();
                     logComment.setComments(l.getResume());
                     logComment.setAction(l.getTitle());
@@ -872,12 +881,12 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     logComment.setSenderUser(hearingFormat.getSupervisor());
                     Long mp = monitoringPlanRepository.getMonPlanIdByCaseId(c.getId());
                     logComment.setAction(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
-                    if(mp!=null){
+                    if (mp != null) {
                         Long uid = monitoringPlanRepository.getUserIdByMonPlanId(mp);
                         User u = new User();
                         u.setId(uid);
                         logComment.setReceiveUser(u);
-                    }else{
+                    } else {
                         logComment.setReceiveUser(hearingFormat.getSupervisor());
                     }
                     logComment.setTimestamp(Calendar.getInstance());

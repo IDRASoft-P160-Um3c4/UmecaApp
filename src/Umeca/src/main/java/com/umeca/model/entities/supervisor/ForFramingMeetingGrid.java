@@ -26,13 +26,12 @@ public class ForFramingMeetingGrid implements EntityGrid {
     private String fullName;
     private Date brthDate;
     private String brthDateTxt;
-    private Long  idTR;
+    private Long idTR;
     private Long framingMeetingId;
     //    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
-    public ForFramingMeetingGrid(Long id, String codeStatus, String descStatus, String idMP, String name, String lastNameP, String lastNameM, Date brthDate,
-                                 Long idTR, Long framingMeetingId) {
+    public ForFramingMeetingGrid(Long id, String codeStatus, String descStatus, String idMP, String name, String lastNameP, String lastNameM, Date brthDate) {
         this.id = id;
         this.codeStatus = codeStatus;
         this.descStatus = descStatus;
@@ -77,7 +76,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
             strBld.append(arrDt[2]);
 
         } catch (Exception e) {
-            logException.Write(e,this.getClass(),"ForFramingMeetingGrid",sharedUserService);
+            logException.Write(e, this.getClass(), "ForFramingMeetingGrid", sharedUserService);
         }
     }
 
