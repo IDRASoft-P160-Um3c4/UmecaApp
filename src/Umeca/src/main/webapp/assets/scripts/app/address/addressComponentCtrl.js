@@ -75,9 +75,10 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
             $scope.innNum = $scope.model.innNum;
             $scope.lat = $scope.model.lat;
             $scope.lng = $scope.model.lng;
+            $scope.idLocationSave =$scope.model.locationId;
             if($scope.model.lat != undefined){
                 $scope.point = new google.maps.LatLng( $scope.lat,$scope.lng);
-                if($scope.map != null){//TODO revisar porque es nulo en verificación
+                if($scope.map != null){
                     $scope.map.setCenter($scope.point);
                     $scope.addMarker($scope.point);
                     google.maps.event.trigger($scope.map, 'resize');
@@ -136,6 +137,9 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                                         // $scope.clear();
                                         return;
                                     }
+                                    if($scope.idLocationSave!=undefined){
+                                        firstLocation.id =  $scope.idLocationSave;
+                                    }
                                     $scope.listLocation = data.data;
                                     for (var i = 0; i < $scope.listLocation.length; i++) {
                                         if (firstLocation.id == $scope.listLocation[i].id) {
@@ -147,9 +151,9 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                                     }
                                 });
                         });
-                    $scope.listLocation = data.data;
-                    $scope.location = $scope.listLocation[0];
-                    $scope.locationId = $scope.location.id;
+//                    $scope.listLocation = data.data;
+//                    $scope.location = $scope.listLocation[0];
+//                    $scope.locationId = $scope.location.id;
 
                 });
         } else {

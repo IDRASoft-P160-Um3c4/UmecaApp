@@ -19,6 +19,7 @@ public class AddressDto {
     private String lat;
     private String lng;
     private Long idCase;
+    private Long locationId;
     private LocationDto location;
     private String addressRef;
 
@@ -30,6 +31,7 @@ public class AddressDto {
         this.lat = address.getLat();
         this.lng = address.getLng();
         if (address.getLocation() != null) {
+            this.locationId = address.getLocation().getId();
             this.zipCode = address.getLocation().getZipCode();
         }
         return this;
@@ -113,5 +115,13 @@ public class AddressDto {
 
     public void setAddressRef(String addressRef) {
         this.addressRef = addressRef;
+    }
+
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
     }
 }
