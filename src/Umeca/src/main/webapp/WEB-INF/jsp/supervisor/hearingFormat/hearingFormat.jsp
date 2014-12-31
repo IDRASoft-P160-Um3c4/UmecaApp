@@ -6,11 +6,7 @@
     <%@ include file="/WEB-INF/jsp/shared/headUm.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upsertCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/modalDlgCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/hiddenDrct.js"></script>
-
-
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/hearingFormat/hearingFormatCtrl.js"></script>
-
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
     <link rel="stylesheet"
@@ -103,6 +99,7 @@
 
         });
     </script>
+
     <title>Formato de audiencia</title>
 </head>
 
@@ -166,7 +163,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div ng-show="MsgError&&MsgError!=''" class="alert alert-danger element-center">
+        <div ng-show="MsgError&&MsgError!=''" ng-clean-error msg="MsgError" class="umeca-toast element-center">
             <p ng-bind-html="MsgError"></p>
         </div>
     </div>
@@ -1256,15 +1253,6 @@
     </div>
 </div>
 
-
-<%--<div class="row element-right" ng-show="m.canSave==true">--%>
-<%--<div>--%>
-<%--<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="">--%>
-
-<%--Terminar--%>
-<%--</span>--%>
-<%--</div>--%>
-<%--</div>--%>
 
 <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
 <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>

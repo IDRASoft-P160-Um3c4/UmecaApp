@@ -711,6 +711,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             window.goToUrlMvcUrl(urlRet);
         }
         ;
+
+        $scope.clearError = function (msg) {
+            $scope[msg] = "";
+            //alert("aaaa");
+        };
     }
 )
 ;

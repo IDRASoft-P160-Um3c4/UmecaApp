@@ -32,3 +32,4 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/ace-elements.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/ace.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/confirmDrct.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/clearErrorMsgDrct.js"></script>
