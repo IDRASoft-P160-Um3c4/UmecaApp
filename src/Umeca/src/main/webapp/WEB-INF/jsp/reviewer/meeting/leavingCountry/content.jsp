@@ -324,7 +324,7 @@
 </div>
 <br/>
 
-<div class="row" ng-show="!verification">
+<div class="row" ng-show="!verification && !selectSource">
     <div class="col-xs-3 element-left">
         Comentarios: <br/>
         <label class="info-example">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>
@@ -336,7 +336,7 @@
                data-valmsg-replace="true"></span>
     </div>
 </div>
-<div class="row" ng-show="verification">
+<div class="row">
     <div class="col-xs-3 element-left">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('socialEnvironment.comment')"></i>

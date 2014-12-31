@@ -148,6 +148,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                 Section section = new Section(listFMS.get(0).getFieldVerification().getSection());
                 for (FieldMeetingSource fms : listFMS) {
                     String v;
+                    if(!fms.getValue().trim().equals("")){
                     if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
                         v = templateUnable;
                         List<ChoiceView> list = new ArrayList<>();
@@ -190,8 +191,10 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                     v = v.replace("{3}", fms.getReason());
                     v = v.replace("{0}", fms.getFieldVerification().getFieldName());
                     section.getValues().add(sharedUserService.convertToValidString(v));
-                }
+
                 file.getSections().add(section);
+                    }
+                }
             }
         }
 

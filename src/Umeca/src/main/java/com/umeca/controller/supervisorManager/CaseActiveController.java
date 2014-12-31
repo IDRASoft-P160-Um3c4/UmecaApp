@@ -10,9 +10,9 @@ import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.TechnicalReview;
 import com.umeca.model.entities.supervisor.ForFramingMeetingGrid;
 import com.umeca.model.entities.supervisor.FramingMeeting;
-import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -86,7 +86,7 @@ public class CaseActiveController {
                 final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
 
-                final javax.persistence.criteria.Join<Case, MonitoringPlan> joinMP = r.join("monitoringPlan", JoinType.LEFT);
+                final javax.persistence.criteria.Join<Case, TechnicalReview> joinTR = r.join("technicalReview", JoinType.LEFT);
                 final javax.persistence.criteria.Join<Case, FramingMeeting> joinFM = r.join("framingMeeting", JoinType.LEFT);
 
 
@@ -99,7 +99,7 @@ public class CaseActiveController {
                     add(joinM.get("lastNameP"));
                     add(joinM.get("lastNameM"));
                     add(joinM.get("birthDate"));
-                    add(joinMP.get("id"));
+                    add(joinTR.get("id"));
                     add(joinFM.get("id"));
                 }};
             }

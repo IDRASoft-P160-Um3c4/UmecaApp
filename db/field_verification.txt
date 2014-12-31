@@ -16,7 +16,7 @@ id|code|sectionName|sectionCode|fieldName|index|is_obsolete|idSubsection|type
 15|imputed.birthLocation|Datos personales y entorno social|1|Ciudad de nacimiento|15|0|9|String
 16|imputed.location.id|Datos personales y entorno social|1||16|0|9|Location
 17|socialEnvironment.physicalCondition|Datos personales y entorno social|1|Enfermedades o condiciones físicas|17|0|10|String
-18|socialEnvironment.comment|Datos personales y entorno social|1|Comentarios|18|0|11|String
+18|socialEnvironment.comment|Datos personales y entorno social|8|Comentarios|18|0|11|String
 19|socialEnvironment.activities|Datos personales y entorno social|1|Actividades que realiza el imputado|19|0|46|Activity
 20|imputedHomes.address|Domicilios|2|Dirección|1|0|12|Address
 21|imputedHomes.homeType.id|Domicilios|2|Propiedad|2|0|13|HomeType
