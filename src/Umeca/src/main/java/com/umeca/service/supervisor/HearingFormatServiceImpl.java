@@ -794,7 +794,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         String idFolder = hearingFormat.getCaseDetention().getIdFolder();
         String idJudicial = hearingFormat.getCaseDetention().getIdMP();
         Long idCase = hearingFormat.getCaseDetention().getId();
-        try {
+        //try {
 
             if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true) {
                 hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
@@ -904,14 +904,14 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             }
 
 
-        } catch (Exception e) {
-            System.out.println("Ha ocurrido un error al guardar el formato de audiencia (serviceImpl)!!!");
-            e.printStackTrace();
-            logException.Write(e, this.getClass(), "saveHearingFormat", sharedUserService);
-            response.setHasError(true);
-        } finally {
+//        } catch (Exception e) {
+//            System.out.println("Ha ocurrido un error al guardar el formato de audiencia (serviceImpl)!!!");
+//            e.printStackTrace();
+//            logException.Write(e, this.getClass(), "saveHearingFormat", sharedUserService);
+//            response.setHasError(true);
+//        } finally {
             return response;
-        }
+        //}
     }
 
     @Override

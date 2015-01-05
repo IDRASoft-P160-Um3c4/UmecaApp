@@ -126,31 +126,11 @@ public class CaseServiceImpl implements CaseService {
 
         ResponseMessage resp = new ResponseMessage();
 
-        try {
-            //FolderConditionalReprieve folderObj = new FolderConditionalReprieve();
+        caseDet.setIdFolder("SIN EVALUACIÓN REGISTRADA");
+        caseRepository.save(caseDet);
 
-            //folderObj = folderConditionalReprieveRepository.save(folderObj);
-
-            //StringBuilder sb = new StringBuilder();
-
-            //sb.append(HearingFormatConstants.FOLDER_CONDITIONAL_REPRIEVE_PREFIX);
-            //sb.append(folderObj.getId());
-
-            //caseDet.setIdFolder(sb.toString());
-            //caseDet.setFolderConditionalReprieve(folderObj);
-            //folderObj.setCaseDetention(caseDet);
-
-            caseDet.setIdFolder("SIN EVALUACIÓN REGISTRADA");
-            caseRepository.save(caseDet);
-
-            resp.setHasError(false);
-            resp.setMessage("Se ha guardado el caso con exito.");
-
-        } catch (Exception e) {
-            logException.Write(e, this.getClass(), "saveConditionaReprieveCase", sharedUserService);
-            resp.setHasError(true);
-            resp.setMessage("Ha ocurrido un error en el servidor, intente mas tarde");
-        }
+        resp.setHasError(false);
+        resp.setMessage("Se ha guardado el caso con exito.");
 
         return resp;
     }
@@ -367,24 +347,25 @@ public class CaseServiceImpl implements CaseService {
     MessageRepository messageRepository;
     @Autowired
     ResponseTypeRepository responseTypeRepository;
+
     @Transactional
     @Override
     public void saveAuthRejectObsoleteCase(AuthorizeRejectMonPlan model, User user, Case caseDet) {
-        List<CaseRequest> lstCaseRequest = caseRequestRepository.findCaseRequestByCaseAndType(caseDet.getId(), Constants.ST_REQUEST_CASE_OBSOLETE_SUPERVISION, new PageRequest(0,1));
+        List<CaseRequest> lstCaseRequest = caseRequestRepository.findCaseRequestByCaseAndType(caseDet.getId(), Constants.ST_REQUEST_CASE_OBSOLETE_SUPERVISION, new PageRequest(0, 1));
         String typeRequest, status, commentNotification;
         CaseRequest request = lstCaseRequest.get(0);
-        if(model.getAuthorized()== 1){
+        if (model.getAuthorized() == 1) {
             status = Constants.CASE_STATUS_OBSOLETE_SUPERVISION;
             typeRequest = Constants.RESPONSE_TYPE_ACCEPTED;
-            commentNotification ="Solicitud aceptada. Comentarios: "+model.getComments();
-        }else{
+            commentNotification = "Solicitud aceptada. Comentarios: " + model.getComments();
+        } else {
             status = request.getStateBefore();
             typeRequest = Constants.RESPONSE_TYPE_REJECTED;
-            commentNotification = "Solicitud rechazada. Comentarios: "+model.getComments();
+            commentNotification = "Solicitud rechazada. Comentarios: " + model.getComments();
         }
         caseDet.setStatus(statusCaseRepository.findByCode(status));
         caseRepository.save(caseDet);
-        if(lstCaseRequest == null && !(lstCaseRequest.size() > 0)){
+        if (lstCaseRequest == null && !(lstCaseRequest.size() > 0)) {
             return;
         }
         Message msg = new Message();
@@ -396,7 +377,7 @@ public class CaseServiceImpl implements CaseService {
         msg.setSender(u);
         msg.setText(model.getComments());
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
-        RelMessageUserReceiver  rmur = new RelMessageUserReceiver();
+        RelMessageUserReceiver rmur = new RelMessageUserReceiver();
         rmur.setMessage(msg);
         rmur.setUser(request.getRequestMessage().getSender());
         msg.setMessageUserReceivers(lstRmUr);
@@ -404,8 +385,8 @@ public class CaseServiceImpl implements CaseService {
         request.setResponseMessage(msg);
         request.setResponseType(responseTypeRepository.findByCode(typeRequest));
         caseRequestRepository.save(request);
-        SharedLogCommentService.generateLogComment(commentNotification, userRepository.findOne(sharedUserService.GetLoggedUserId()),caseDet,
-                Constants.RESPONSE_OBSOLETE_CASE_SUPERVISION, request.getRequestMessage().getSender(), Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION , logCommentRepository);
+        SharedLogCommentService.generateLogComment(commentNotification, userRepository.findOne(sharedUserService.GetLoggedUserId()), caseDet,
+                Constants.RESPONSE_OBSOLETE_CASE_SUPERVISION, request.getRequestMessage().getSender(), Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION, logCommentRepository);
 
     }
 

@@ -276,7 +276,7 @@ public class HearingFormatController {
         List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
         model.addObject("lstSupervisor", conv.toJson(lstSuper));
         crimeService.fillCatalogModel(model);
-        model.addObject("readonlyBand",true);
+        model.addObject("readonlyBand", true);
         model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
         model.addObject("hasPrevHF", hfView.getHasPrevHF());
 
@@ -315,7 +315,7 @@ public class HearingFormatController {
 
         if (hfView.getIdAddres() != null)
             addressService.fillModelAddress(model, hfView.getIdAddres());
-         crimeService.fillCatalogModel(model);
+        crimeService.fillCatalogModel(model);
         return model;
     }
 
@@ -363,7 +363,7 @@ public class HearingFormatController {
             logException.Write(ex, this.getClass(), "doNewCase", sharedUserService);
             response.setHasError(true);
             response.setTitle("Formato de audiencia");
-            response.setMessage("Error al guardar el caso de suspensión condicional de proceso!!!");
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
 
         } finally {
             return response;
@@ -386,11 +386,11 @@ public class HearingFormatController {
     public
     @ResponseBody
     ResponseMessage obsoleteCase(@RequestParam(required = true) Long id) {
-        try{
-           return hearingFormatService.requestObsoleteCase(id);
-        }catch (Exception e){
+        try {
+            return hearingFormatService.requestObsoleteCase(id);
+        } catch (Exception e) {
             logException.Write(e, this.getClass(), "obsoleteCase", sharedUserService);
-            return new ResponseMessage(true,"Ha ocurrido un error, intente nuevamente");
+            return new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
         }
     }
 
@@ -402,27 +402,31 @@ public class HearingFormatController {
     @ResponseBody
     ResponseMessage doUpsert(@ModelAttribute HearingFormatView result, HttpServletRequest request) {
 
-        Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
+        try {
+            Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
 
-        if (incompleteHFId != null && incompleteHFId > 0 && incompleteHFId != result.getIdFormat())
-            return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, dene terminarlo para poder agregar un nuevo formato de audiencia.");
+            if (incompleteHFId != null && incompleteHFId > 0 && incompleteHFId != result.getIdFormat())
+                return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, dene terminarlo para poder agregar un nuevo formato de audiencia.");
 
-        if (result.getIsFinished() != null && result.getIsFinished()) {
+            if (result.getIsFinished() != null && result.getIsFinished()) {
 //            if(result.getListCrime()==null || (result.getListCrime()!=null && result.getListCrime().equals("[]"))){
 //                return new ResponseMessage(true, "Debe agregar al menos un delito al formato de audiencia.");
 //            }else
-            if(result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)){
-                ResponseMessage resp = hearingFormatService.validatePassCredential(result.getCredPass());
-                if (resp != null)
-                    return resp;
+                if (result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
+                    ResponseMessage resp = hearingFormatService.validatePassCredential(result.getCredPass());
+                    if (resp != null)
+                        return resp;
+                }
             }
+
+            HearingFormat hearingFormat = hearingFormatService.fillHearingFormat(result);
+            hearingFormat.setCaseDetention(caseRepository.findOne(result.getIdCase()));
+
+            return hearingFormatService.save(hearingFormat, request);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "doUpsert_hearing_format", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
         }
-
-        HearingFormat hearingFormat = hearingFormatService.fillHearingFormat(result);
-        hearingFormat.setCaseDetention(caseRepository.findOne(result.getIdCase()));
-
-        return hearingFormatService.save(hearingFormat, request);
     }
-
 
 }

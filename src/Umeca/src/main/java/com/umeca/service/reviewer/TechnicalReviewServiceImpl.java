@@ -3,13 +3,17 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeca.model.ResponseMessage;
 import com.umeca.model.catalog.Question;
 import com.umeca.model.catalog.QuestionarySection;
+import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.*;
 import com.umeca.model.entities.reviewer.dto.SourceVerificationDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
+import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
@@ -18,6 +22,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -36,6 +41,12 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
     @Autowired
     SharedUserService sharedUserService;
+
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+
+    @Autowired
+    CaseRepository caseRepository;
 
     @Override
     public QuestionarySectionView getSections(QuestionarySection obj) {
@@ -138,7 +149,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         file.setName(sharedUserService.convertToValidString(im.getName()));
         file.setLastNameP(sharedUserService.convertToValidString(im.getLastNameP()));
         file.setLastNameM(sharedUserService.convertToValidString(im.getLastNameM()));
-        Long idCase= ver.getCaseDetention().getId();
+        Long idCase = ver.getCaseDetention().getId();
         file.setAddress(sharedUserService.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString()));
         String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";
         String templateUnable = "Campo: {0} <br/>Valor: {1}<br/>Raz&oacute;n: {3}<br/>";
@@ -148,19 +159,19 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                 Section section = new Section(listFMS.get(0).getFieldVerification().getSection());
                 for (FieldMeetingSource fms : listFMS) {
                     String v;
-                    if(!fms.getValue().trim().equals("")){
-                    if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
-                        v = templateUnable;
-                        List<ChoiceView> list = new ArrayList<>();
-                        List<SearchToChoiceIds> idSources = new ArrayList<>();
-                        if (fms.getIdFieldList() == null) {
-                            idSources = fieldMeetingSourceRepository.getIdSourceByCodeWithoutState(idCase, fms.getFieldVerification().getCode(),Constants.ST_FIELD_VERIF_UNABLE);
+                    if (!fms.getValue().trim().equals("")) {
+                        if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
+                            v = templateUnable;
+                            List<ChoiceView> list = new ArrayList<>();
+                            List<SearchToChoiceIds> idSources = new ArrayList<>();
+                            if (fms.getIdFieldList() == null) {
+                                idSources = fieldMeetingSourceRepository.getIdSourceByCodeWithoutState(idCase, fms.getFieldVerification().getCode(), Constants.ST_FIELD_VERIF_UNABLE);
 
-                        } else {
-                            idSources = fieldMeetingSourceRepository.getIdSourceByCodeWhithIdListWithoutState(idCase, fms.getFieldVerification().getCode(), fms.getIdFieldList(), Constants.ST_FIELD_VERIF_UNABLE);
-                        }
-                        String sourcessay="<br/>Informaci&oacute; recopilada:<br/>";
-                        for (SearchToChoiceIds e : idSources) {
+                            } else {
+                                idSources = fieldMeetingSourceRepository.getIdSourceByCodeWhithIdListWithoutState(idCase, fms.getFieldVerification().getCode(), fms.getIdFieldList(), Constants.ST_FIELD_VERIF_UNABLE);
+                            }
+                            String sourcessay = "<br/>Informaci&oacute; recopilada:<br/>";
+                            for (SearchToChoiceIds e : idSources) {
                                 List<FieldMeetingSource> result = new ArrayList<>();
                                 if (fms.getIdFieldList() == null) {
                                     result = fieldMeetingSourceRepository.getGroupFieldMeeting(e.getIdSource(), e.getIdSubsection(), Constants.ST_FIELD_VERIF_UNABLE);
@@ -168,31 +179,31 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                                     result = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(e.getIdSource(), e.getIdSubsection(), fms.getIdFieldList(), Constants.ST_FIELD_VERIF_UNABLE);
                                 }
                                 list.add(new ChoiceView().choiceDto(result));
-                        }
-                        for(ChoiceView choice: list){
-                            sourcessay+=choice.getNameSource()+": ";
-                            for(String s: choice.getValues()){
-                                sourcessay+=s+",";
                             }
-                            sourcessay+="<br/>";
+                            for (ChoiceView choice : list) {
+                                sourcessay += choice.getNameSource() + ": ";
+                                for (String s : choice.getValues()) {
+                                    sourcessay += s + ",";
+                                }
+                                sourcessay += "<br/>";
 
+                            }
+                            String finalText = Constants.UNABLE_VERIF_TEXT_DOC + sourcessay;
+                            v = v.replace("{1}", finalText);
+
+                        } else {
+                            v = template;
+                            v = v.replace("{2}", fms.getSourceVerification().getFullName());
+                            v = v.replace("{1}", fms.getValue());
                         }
-                        String finalText= Constants.UNABLE_VERIF_TEXT_DOC + sourcessay;
-                        v = v.replace("{1}", finalText);
+                        if (fms.getReason() == null) {
+                            fms.setReason("Sin raz&oacute;n registrada.");
+                        }
+                        v = v.replace("{3}", fms.getReason());
+                        v = v.replace("{0}", fms.getFieldVerification().getFieldName());
+                        section.getValues().add(sharedUserService.convertToValidString(v));
 
-                    } else {
-                        v = template;
-                        v = v.replace("{2}", fms.getSourceVerification().getFullName());
-                        v = v.replace("{1}", fms.getValue());
-                    }
-                    if (fms.getReason() == null) {
-                        fms.setReason("Sin raz&oacute;n registrada.");
-                    }
-                    v = v.replace("{3}", fms.getReason());
-                    v = v.replace("{0}", fms.getFieldVerification().getFieldName());
-                    section.getValues().add(sharedUserService.convertToValidString(v));
-
-                file.getSections().add(section);
+                        file.getSections().add(section);
                     }
                 }
             }
@@ -319,6 +330,45 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
             return 4;//minimo
 
         return 0;
+    }
+
+    @Transactional
+    public ResponseMessage doUpsert(TechnicalReview result) {
+
+        ResponseMessage response = new ResponseMessage();
+
+        Case caseDetention = verificationRepository.findById(result.getIdVerification()).getCaseDetention();
+        TechnicalReview prevTecRev = caseDetention.getTechnicalReview();
+
+        if (prevTecRev != null) {
+
+            prevTecRev.setCaseDetention(null);
+            caseDetention.setTechnicalReview(null);
+            technicalReviewRepository.delete(prevTecRev);
+            caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_VERIFICATION_COMPLETE));
+            caseRepository.save(caseDetention);
+        }
+
+        result.setLevelRisk(this.calculateLevelRisk(result.getTotalRisk()));
+        result.setQuestionsSel(this.generateQuesRevRel(result, result.getTxtListQuest()));
+
+        if (result.getIsFinished() != null && result.getIsFinished() == true)
+            caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
+        else
+            caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW));
+
+        result.setCaseDetention(caseDetention);
+        technicalReviewRepository.save(result);
+
+        if (result.getIsFinished() != null && result.getIsFinished() == true) {
+            response.setHasError(false);
+            response.setUrlToGo("index.html");
+        } else {
+            response.setHasError(false);
+            response.setMessage("Se ha guardado la informaci&oacute;n correctamente.");
+        }
+
+        return response;
     }
 }
 

@@ -74,10 +74,10 @@ public class TechnicalReviewController {
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
         opts.extraFilters = new ArrayList<>();
         Long userId = sharedUserService.GetLoggedUserId();
-        if(sharedUserService.isUserInRole(userId,Constants.ROLE_REVIEWER)){
-                JqGridRulesModel extraFilter = new JqGridRulesModel("user",
-                        userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
-                opts.extraFilters.add(extraFilter);
+        if (sharedUserService.isUserInRole(userId, Constants.ROLE_REVIEWER)) {
+            JqGridRulesModel extraFilter = new JqGridRulesModel("user",
+                    userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
+            opts.extraFilters.add(extraFilter);
         }
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{
@@ -170,7 +170,7 @@ public class TechnicalReviewController {
                 else
                     model.addObject("returnId", returnId);
 
-                if(tecRev_prev.getIsFinished()!=null && tecRev_prev.getIsFinished()==true)
+                if (tecRev_prev.getIsFinished() != null && tecRev_prev.getIsFinished() == true)
                     model.addObject("showRisk", true);
                 else
                     model.addObject("showRisk", false);
@@ -192,7 +192,6 @@ public class TechnicalReviewController {
             }
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "technicalReview", sharedUserService);
-            System.out.println("Error al cargar los datos para la vista technical review !!!!!\n\n");
             e.printStackTrace();
             return null;
         }
@@ -209,51 +208,14 @@ public class TechnicalReviewController {
     @RequestMapping(value = "/reviewer/technicalReview/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
-    @Transactional
     ResponseMessage doUpsert(@ModelAttribute TechnicalReview result) {
 
-        ResponseMessage response = new ResponseMessage();
-
         try {
-
-            Case caseDetention = verificationRepository.findById(result.getIdVerification()).getCaseDetention();
-            TechnicalReview prevTecRev = caseDetention.getTechnicalReview();
-
-            if (prevTecRev != null) {
-
-                prevTecRev.setCaseDetention(null);
-                caseDetention.setTechnicalReview(null);
-                technicalReviewRepository.delete(prevTecRev);
-                caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_VERIFICATION_COMPLETE));
-                caseRepository.save(caseDetention);
-            }
-
-            result.setLevelRisk(technicalReviewService.calculateLevelRisk(result.getTotalRisk()));
-            result.setQuestionsSel(technicalReviewService.generateQuesRevRel(result, result.getTxtListQuest()));
-
-            if (result.getIsFinished() != null && result.getIsFinished() == true)
-                caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
-            else
-                caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW));
-
-            result.setCaseDetention(caseDetention);
-            technicalReviewRepository.save(result);
-
-            if (result.getIsFinished() != null && result.getIsFinished() == true) {
-                response.setHasError(false);
-                response.setUrlToGo("index.html");
-            } else {
-                response.setHasError(false);
-                response.setMessage("Se ha guardado la informaci&oacute;n correctamente.");
-            }
-
+            return technicalReviewService.doUpsert(result);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
-            response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo.");
+            return new ResponseMessage(true, "Se presentó un error inesperado. Por favor revise que la información e intente de nuevo.");
         }
-
-        return response;
     }
 
     @RequestMapping(value = "/reviewer/technicalReview/generateFile", method = RequestMethod.GET)
