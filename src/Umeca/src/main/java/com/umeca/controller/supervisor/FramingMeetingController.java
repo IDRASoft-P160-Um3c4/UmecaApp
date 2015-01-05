@@ -236,10 +236,14 @@ public class FramingMeetingController {
                 Boolean existAddress = false;
                 Address formatAddress = lastFormat.getHearingImputed().getAddress();
 
-                for (FramingAddress fAdd : framingMeeting.getFramingAddresses()) {
-                    if (fAdd.getAddress().equals(formatAddress)) {
-                        existAddress = true;
-                        break;
+                List<FramingAddress> lstExistFramingAddress = framingMeeting.getFramingAddresses();
+
+                if (lstExistFramingAddress != null && lstExistFramingAddress.size() > 0) {
+                    for (FramingAddress fAdd : framingMeeting.getFramingAddresses()) {
+                        if (fAdd.getAddress().equals(formatAddress)) {
+                            existAddress = true;
+                            break;
+                        }
                     }
                 }
 
