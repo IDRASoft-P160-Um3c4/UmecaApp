@@ -10,3 +10,4 @@
 9|SCHEDULE_HEARING|SupervisionActivityIdReminder|4|Identificador de la actividad de supervisión por defecto para el recordatorio
 10|SCHEDULE_HEARING|GoalActivityIdReminder|2|Identificador del objetivo de la actividad para el recordatorio
 11|SCHEDULE_HEARING|DaysBeforeForReminder|2|Número de día(s) anterior(es) para añadir el recordatorio de la audiencia
+12|FINGER_VAL|ValidateFingerPrint|false|Validar el enrolamiento en la entrevista de encuadre
