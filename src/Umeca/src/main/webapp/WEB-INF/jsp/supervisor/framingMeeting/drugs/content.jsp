@@ -7,6 +7,8 @@
            ng-init="d.perId = ${perId == null ? "undefined" : perId};">
     <input type="hidden" ng-update-hidden ng-model="id" name="id" id="id"
            ng-init='id = "${(d.id == null)? '':d.id}"'>
+    <input type="hidden" ng-update-hidden ng-model="blockD" name="block" id="block"
+           ng-init='blockD = "${d.block}"'>
 
     <div class="col-xs-2">
         Sustancia:

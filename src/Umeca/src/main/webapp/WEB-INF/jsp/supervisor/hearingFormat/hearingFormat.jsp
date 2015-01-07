@@ -827,16 +827,26 @@
                                 <br/>
                                 <label for="linkageTimeStr">Hora</label>
 
+                                <%--<div class="input-group bootstrap-timepicker">--%>
+                                    <%--<input id="linkageTimeStr" name="linkageTimeStr" readonly type="text"--%>
+                                           <%--ng-model="m.linkageTime" data-val="true"--%>
+                                           <%--data-val-required="Hora es un campo requerido">--%>
+                                            <%--<span class="input-group-addon">--%>
+                                                <%--<i class="icon-time bigger-110"></i>--%>
+                                            <%--</span>--%>
+                                <%--</div>--%>
+                                <%--<span class="field-validation-valid" data-valmsg-for="linkageTimeStr"--%>
+                                      <%--data-valmsg-replace="true"></span>--%>
                                 <div class="input-group bootstrap-timepicker">
-                                    <input id="linkageTimeStr" name="linkageTimeStr" readonly type="text"
-                                           ng-model="m.linkageTime" data-val="true"
-                                           data-val-required="Hora es un campo requerido">
-                                            <span class="input-group-addon">
-                                                <i class="icon-time bigger-110"></i>
-                                            </span>
+                                    <input id="linkageTimeStr" name="linkageTimeStr" ng-model="m.linkageTime"
+                                           readonly type="text" class="form-control" data-val="true"
+                                           data-val-required="Hora es un campo requerido"/>
+                                                        <span class="input-group-addon"><i
+                                                                class="icon-time bigger-110"></i></span>
+                                    <br/>
                                 </div>
-                                <span class="field-validation-valid" data-valmsg-for="linkageTimeStr"
-                                      data-valmsg-replace="true"></span>
+                        <span class="field-validation-valid" data-valmsg-for="initTimeStr"
+                              data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>

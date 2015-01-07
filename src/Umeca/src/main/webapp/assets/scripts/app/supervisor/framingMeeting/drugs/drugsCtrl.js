@@ -60,22 +60,9 @@ app.controller('drugsFMController', function ($scope, $timeout) {
             var month = today.getMonth();
             var date = today.getDate();
             $scope.d.lastUse = year + "/" + (month + 1) + "/" + date;
-            for (var i = 0; i < $scope.lstType.length; i++) {
-                var type = $scope.lstType[i];
-                if (type.name === "No consume") {
-                    $scope.d.type = type;
-                    $scope.d.typeId = type.id;
-                    break;
-                }
-            }
-            for (var i = 0; i < $scope.lstPer.length; i++) {
-                var per = $scope.lstPer[i];
-                if (per.name == "No consume") {
-                    $scope.d.per = per;
-                    $scope.d.perId = per.id;
-                    break;
-                }
-            }
+
+            $scope.fillSelectsNoDrugs();
+
         } else {
             $scope.d.other = "";
             $scope.d.specificationPeriodicity = "";
@@ -85,10 +72,33 @@ app.controller('drugsFMController', function ($scope, $timeout) {
         }
     };
 
+    $scope.fillSelectsNoDrugs = function () {
+        for (var i = 0; i < $scope.lstType.length; i++) {
+            var type = $scope.lstType[i];
+            if (type.name === "No consume") {
+                $scope.d.type = type;
+                $scope.d.typeId = type.id;
+                break;
+            }
+        }
+
+        for (var i = 0; i < $scope.lstPer.length; i++) {
+            var per = $scope.lstPer[i];
+            if (per.name == "No consume") {
+                $scope.d.per = per;
+                $scope.d.perId = per.id;
+                break;
+            }
+        }
+    }
+
 
     $timeout(function () {
         $scope.init();
-        $scope.blockD = true;
+        if ($scope.blockD != null && $scope.blockD != undefined && $scope.blockD != "")
+            $scope.blockD = ($scope.blockD == 'true');
+        else
+            $scope.blockD = true;
     }, 0);
 
     $scope.WaitFor = false;

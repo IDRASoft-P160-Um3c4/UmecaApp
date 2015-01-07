@@ -29,6 +29,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         };
 
         $scope.chnExtDate = function (id) {
+            $scope.chngVincProcess(1);
             if (id == 1) {
                 $scope.m.extDate = $scope.myFormatDate(((new Date()).getTime() + (86400000 * 3)));
             }
@@ -629,18 +630,16 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         };
 
         $scope.chngVincProcess = function (id) {
-            if (id == 1) {
-                if ($scope.m.ext == 3) {
-                    $scope.m.linkageRoom = $scope.m.room;
-                    $scope.m.linkageDate = $scope.m.appointmentDate;
-                    $scope.m.linkageTime = $scope.m.initTime;
-                } else {
-                    $scope.m.linkageRoom = "";
-                    $scope.m.linkageDate = "";
-                    $scope.m.linkageTime = "";
-                }
+            if (id == 1 && $scope.m.ext == 3) {
+                $scope.m.linkageRoom = $scope.m.room;
+                $scope.m.linkageDate = $scope.m.appointmentDate;
+                $scope.m.linkageTime = $scope.m.initTime;
+            } else {
+                $scope.m.linkageRoom = "";
+                $scope.m.linkageDate = "";
+                $scope.m.linkageTime = "";
             }
-        }
+        };
 
         $scope.fillSelSupervisor = function () {
 

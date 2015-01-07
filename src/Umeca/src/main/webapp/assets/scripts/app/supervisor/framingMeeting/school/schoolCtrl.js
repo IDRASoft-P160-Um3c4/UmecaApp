@@ -140,16 +140,6 @@ app.controller('framingSchoolController', function ($scope, $timeout, $rootScope
             $scope.job.schedule.splice(idx, 1);
         };
 
-        $scope.validateSchedule = function () {
-            if ($scope.job.schedule == null || $scope.job.schedule == undefined || !$scope.job.schedule.length > 0) {
-                $scope.MsgErrorSchedule = "Debe agregar al menos una disponibilidad para el trabajo.";
-                $scope.hasError = true;
-                return false;
-            }
-            $scope.MsgErrorSchedule = "";
-            return true;
-        };
-
         $scope.fillSelAcademicLvl = function () {
             if ($scope.lstAcademicLvl === undefined || $scope.lstAcademicLvl.length <= 0)
                 return;
@@ -251,10 +241,12 @@ app.controller('framingSchoolController', function ($scope, $timeout, $rootScope
         };
 
         $scope.validateSchedule = function () {
-            if ($scope.school.schedule == null || $scope.school.schedule == undefined || !$scope.school.schedule.length > 0) {
-                $scope.MsgErrorSchedule = "Debe agregar al menos una disponibilidad para la escuela.";
-                $scope.hasError = true;
-                return false;
+            if ($scope.hasActualSchool == true) {
+                if ($scope.school.schedule == null || $scope.school.schedule == undefined || !$scope.school.schedule.length > 0) {
+                    $scope.MsgErrorSchedule = "Debe agregar al menos una disponibilidad para la escuela.";
+                    $scope.hasError = true;
+                    return false;
+                }
             }
             $scope.MsgErrorSchedule = "";
             return true;
