@@ -1,6 +1,6 @@
 package com.umeca.service.shared;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.shared.CommentRequest;
 import org.springframework.web.servlet.ModelAndView;

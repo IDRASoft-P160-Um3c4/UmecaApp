@@ -1,6 +1,6 @@
 package com.umeca.service.reviewer;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import org.springframework.web.servlet.ModelAndView;

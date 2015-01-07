@@ -1,6 +1,6 @@
 package com.umeca.service.shared;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileRequest;

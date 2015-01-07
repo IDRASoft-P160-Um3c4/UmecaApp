@@ -1,7 +1,7 @@
 package com.umeca.service.catalog;
 
 import com.google.gson.Gson;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.ResponseMessageAddress;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.Municipality;

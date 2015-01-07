@@ -2,7 +2,8 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.Convert;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.AcademicLevelDto;
 import com.umeca.model.catalog.dto.CatalogDto;
@@ -1043,9 +1044,9 @@ public class MeetingServiceImpl implements MeetingService {
             m.validateMeeting(validate);
             if (validate .existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
-                listGeneral.add(sharedUserService.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
+                listGeneral.add(Convert.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
-                validate.formatMessages(sharedUserService);
+                validate.formatMessages();
                 return new ResponseMessage(true, gson.toJson(validate));
             }
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
@@ -1237,10 +1238,10 @@ public class MeetingServiceImpl implements MeetingService {
             if (validate.existsMessageProperties()) {
                 Gson gson = new Gson();
                 List<String> listGeneral = new ArrayList<>();
-                listGeneral.add(sharedUserService.convertToValidString("No se puede guardar la informaci&oacute;n legal puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
+                listGeneral.add(Convert.convertToValidString("No se puede guardar la informaci&oacute;n legal puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
                 result.setHasError(true);
-                validate.formatMessages(sharedUserService);
+                validate.formatMessages();
                 result.setMessage(gson.toJson(validate));
                 return result;
             }
@@ -1296,7 +1297,7 @@ public class MeetingServiceImpl implements MeetingService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "saveProceedingLegal", userService);
             result.setHasError(true);
-            result.setMessage(sharedUserService.convertToValidString("Ha ocurrido un error al guardar la información"));
+            result.setMessage(Convert.convertToValidString("Ha ocurrido un error al guardar la información"));
         } finally {
             return result;
         }
@@ -1332,17 +1333,17 @@ public class MeetingServiceImpl implements MeetingService {
         if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
             current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
         if (cpv.getPlaceDetention().trim().equals(""))
-            current.add(sharedUserService.convertToValidString(v.template.replace(e,"El lugar de detenci&oacute;n")));
+            current.add(Convert.convertToValidString(v.template.replace(e,"El lugar de detenci&oacute;n")));
         if (cpv.getBehaviorDetention().trim().equals(""))
-            current.add(sharedUserService.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
+            current.add(Convert.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
         if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()) == 0)
-            current.add(sharedUserService.convertToValidString("Debe agregar al menos una v&iacute;ctima"));
+            current.add(Convert.convertToValidString("Debe agregar al menos una v&iacute;ctima"));
         if (cpv.getFirstProceeding().trim().equals(""))
-            previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El primer caso ")));
+            previous.add(Convert.convertToValidString(v.template.replace(e, "El primer caso ")));
         if (cpv.getOpenProcessNumber() == null)
-            previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El n&uacute;mero de procesos abiertos")));
+            previous.add(Convert.convertToValidString(v.template.replace(e, "El n&uacute;mero de procesos abiertos")));
         if (cpv.getNumberConvictions() == null)
-            previous.add(sharedUserService.convertToValidString(v.template.replace(e, "El n&uacute;mero de sentencias condenatorias")));
+            previous.add(Convert.convertToValidString(v.template.replace(e, "El n&uacute;mero de sentencias condenatorias")));
         v.getGroupMessage().add(new GroupMessageMeetingDto("legalActual", current));
         v.getGroupMessage().add(new GroupMessageMeetingDto("legalPrevious", previous));
         return messageError;
@@ -1361,7 +1362,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     public ResponseMessage messageValidateMeetingUser(Long idCase) {
         if (!validateMeetingUser(idCase)) {
-            return new ResponseMessage(true, sharedUserService.convertToValidString("Este usuario no tiene permiso para ver la información solicitada"));
+            return new ResponseMessage(true, Convert.convertToValidString("Este usuario no tiene permiso para ver la información solicitada"));
         }
         return null;
     }

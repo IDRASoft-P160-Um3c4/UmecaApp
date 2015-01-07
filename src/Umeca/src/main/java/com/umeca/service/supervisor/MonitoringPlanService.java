@@ -1,6 +1,6 @@
 package com.umeca.service.supervisor;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.supervisor.ActivityMonitoringPlanRequest;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;

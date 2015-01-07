@@ -2,7 +2,7 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.*;
 import com.umeca.model.entities.account.User;
@@ -578,7 +578,7 @@ public class VerificationServiceImpl implements VerificationService {
                 List<String> listGeneral = new ArrayList<>();
                 listGeneral.add("No se puede terminar la verificaci&oacute;n puesto que falta por verificar campos y/o secciones, para m&oacute;s detalles revise los mensajes de cada secci&oacute;n");
                 v.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
-                v.formatMessages(sharedUserService);
+                v.formatMessages();
                 return new ResponseMessage(true, gson.toJson(v));
             } else {
                 Case caseDetention = caseRepository.findOne(idCase);

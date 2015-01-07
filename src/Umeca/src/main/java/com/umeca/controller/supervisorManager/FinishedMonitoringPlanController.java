@@ -10,7 +10,7 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlanView;
 import com.umeca.model.shared.MonitoringConstants;
-import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;

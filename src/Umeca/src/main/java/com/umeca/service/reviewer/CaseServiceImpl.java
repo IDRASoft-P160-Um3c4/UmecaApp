@@ -1,7 +1,7 @@
 package com.umeca.service.reviewer;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.account.User;
@@ -126,7 +126,7 @@ public class CaseServiceImpl implements CaseService {
 
         ResponseMessage resp = new ResponseMessage();
 
-        caseDet.setIdFolder("SIN EVALUACIÓN REGISTRADA");
+        caseDet.setIdFolder("SIN EVALUACIï¿½N REGISTRADA");
         caseRepository.save(caseDet);
 
         resp.setHasError(false);
@@ -257,7 +257,7 @@ public class CaseServiceImpl implements CaseService {
     public void doClosePrisonCase(Case caseDet, AuthorizeRejectMonPlan model) {
         caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRISON_CLOSED));
         StringBuilder sb = new StringBuilder();
-        sb.append("Cierre de caso por prisión preventiva / promesa del imputado : ");
+        sb.append("Cierre de caso por prisiï¿½n preventiva / promesa del imputado : ");
         sb.append(caseDet.getIdFolder());
         sb.append(". Comentario: ");
         sb.append(model.getComments());
@@ -284,7 +284,7 @@ public class CaseServiceImpl implements CaseService {
 
             if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
                 response.setHasError(true);
-                response.setMessage("La contraseña no corresponde al usuario en sesión");
+                response.setMessage("La contraseï¿½a no corresponde al usuario en sesiï¿½n");
                 return response;
             }
 
@@ -292,7 +292,7 @@ public class CaseServiceImpl implements CaseService {
 
             if (caseDet == null) {
                 response.setHasError(true);
-                response.setMessage("No se encontró el caso. Por favor reinicie su navegador e intente de nuevo");
+                response.setMessage("No se encontrï¿½ el caso. Por favor reinicie su navegador e intente de nuevo");
                 return response;
             }
             SupervisionCloseCaseLog lastLog;

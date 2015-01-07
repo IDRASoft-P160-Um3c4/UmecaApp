@@ -1,6 +1,6 @@
 package com.umeca.controller.shared;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.shared.Constants;
 import com.umeca.service.account.LoginService;

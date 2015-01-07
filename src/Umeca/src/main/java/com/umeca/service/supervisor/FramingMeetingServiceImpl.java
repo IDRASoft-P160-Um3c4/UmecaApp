@@ -2,8 +2,9 @@ package com.umeca.service.supervisor;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeca.infrastructure.Convert;
 import com.umeca.infrastructure.extensions.CalendarExt;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Degree;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.ScheduleDto;
@@ -1458,9 +1459,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             if (existFraming.getSchool() == null) {
-                lsSchool.add(sharedUserService.convertToValidString("Debe proporcionar la informaci&oacute;n faltante en la secci&oacute;n \"Historia escolar\"."));
+                lsSchool.add(Convert.convertToValidString("Debe proporcionar la informaci&oacute;n faltante en la secci&oacute;n \"Historia escolar\"."));
             } else if (existFraming.getSchool().getBlock() == true && (existFraming.getSchool().getSchedule() == null || !(existFraming.getSchool().getSchedule().size() > 0))) {
-                lsSchool.add(sharedUserService.convertToValidString("Debe proporcionar la informaci&oacute;n faltante en la secci&oacute;n \"Historia escolar\"."));
+                lsSchool.add(Convert.convertToValidString("Debe proporcionar la informaci&oacute;n faltante en la secci&oacute;n \"Historia escolar\"."));
             }
             if (existFraming.getSchoolComments() == null) {
                 lsSchool.add("Debe capturar las observaciones para la secci&oacute;n \"Historia escolar\".");
@@ -1509,7 +1510,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (validate.existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
-                listGeneral.add(sharedUserService.convertToValidString("No se puede terminar la entrevista ya que faltan preguntas por responder, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
+                listGeneral.add(Convert.convertToValidString("No se puede terminar la entrevista ya que faltan preguntas por responder, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
                 Gson gson = new Gson();
                 validate.formatMessages();

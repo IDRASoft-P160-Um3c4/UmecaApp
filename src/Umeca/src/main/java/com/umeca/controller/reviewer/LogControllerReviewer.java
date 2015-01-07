@@ -1,6 +1,6 @@
 package com.umeca.controller.reviewer;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.MainPageService;

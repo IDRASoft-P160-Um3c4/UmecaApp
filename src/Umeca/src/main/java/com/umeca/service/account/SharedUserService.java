@@ -1,7 +1,7 @@
 package com.umeca.service.account;
 
 import com.umeca.infrastructure.security.BcryptUtil;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
@@ -102,23 +102,6 @@ public class SharedUserService {
     public boolean isUserInRoles(Long supervisorId, List<String> lstRole) {
         return (userRepository.isUserInRoles(supervisorId, lstRole) > 0);
 
-    }
-
-    public static String convertToValidString(String s){
-        s = s.replace("�","&aacute;");
-        s = s.replace("�","&eacute;");
-        s = s.replace("�","&iacute;");
-        s = s.replace("�","&oacute;");
-        s = s.replace("�","&uacute;");
-        s = s.replace("�","&Aacute;");
-        s = s.replace("�","&Eacute;");
-        s = s.replace("�","&Iacute;");
-        s = s.replace("�","&Oacute;");
-        s = s.replace("�","&Uacute;");
-        s = s.replace("�","&ntilde;");
-        s = s.replace("�","&Ntilde;");
-        s = s.replace("�","&iquest;");
-        return s;
     }
 
     public List<String> getLstRolesByUserId(Long userId) {

@@ -15,7 +15,7 @@ import com.umeca.model.entities.shared.Message;
 import com.umeca.model.entities.shared.MessageHistoryDetailView;
 import com.umeca.model.entities.shared.MessageHistoryView;
 import com.umeca.model.shared.Constants;
-import com.umeca.repository.shared.SelectFilterFields;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,7 @@
 package com.umeca.service.supervisiorManager;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.supervisorManager.*;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.supervisor.RequestActivities;

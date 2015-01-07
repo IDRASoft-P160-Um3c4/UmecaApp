@@ -2,7 +2,7 @@ package com.umeca.service.supervisor;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;

@@ -3,7 +3,7 @@ package com.umeca.service.shared;
 
 import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.CalendarExt;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.LogNotificationReviewer;
 import com.umeca.model.entities.reviewer.dto.LogNotificationDto;

@@ -3,7 +3,8 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.Convert;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Question;
 import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.catalog.StatusCase;
@@ -145,12 +146,12 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         Meeting meeting = ver.getCaseDetention().getMeeting();
         Imputed im = meeting.getImputed();
-        file.setIdFolder(sharedUserService.convertToValidString(ver.getCaseDetention().getIdFolder()));
-        file.setName(sharedUserService.convertToValidString(im.getName()));
-        file.setLastNameP(sharedUserService.convertToValidString(im.getLastNameP()));
-        file.setLastNameM(sharedUserService.convertToValidString(im.getLastNameM()));
+        file.setIdFolder(Convert.convertToValidString(ver.getCaseDetention().getIdFolder()));
+        file.setName(Convert.convertToValidString(im.getName()));
+        file.setLastNameP(Convert.convertToValidString(im.getLastNameP()));
+        file.setLastNameM(Convert.convertToValidString(im.getLastNameM()));
         Long idCase = ver.getCaseDetention().getId();
-        file.setAddress(sharedUserService.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString()));
+        file.setAddress(Convert.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString()));
         String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";
         String templateUnable = "Campo: {0} <br/>Valor: {1}<br/>Raz&oacute;n: {3}<br/>";
         for (int i = 0; i < Constants.NAMES_MEETING.length; i++) {
@@ -201,7 +202,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                         }
                         v = v.replace("{3}", fms.getReason());
                         v = v.replace("{0}", fms.getFieldVerification().getFieldName());
-                        section.getValues().add(sharedUserService.convertToValidString(v));
+                        section.getValues().add(Convert.convertToValidString(v));
 
                         file.getSections().add(section);
                     }
@@ -215,14 +216,14 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         for (SourceVerification source : ver.getSourceVerifications()) {
             if (source.getVisible() == true && source.getAuthorized() == true) {
                 StringBuilder sb = new StringBuilder();
-                sb.append(sharedUserService.convertToValidString(source.getFullName()));
+                sb.append(Convert.convertToValidString(source.getFullName()));
                 sb.append(" relaci&oacute;n con el imputado ");
                 String relationship = source.getRelationship().getName();
                 if (source.getRelationship().getSpecification()) {
                     relationship += source.getSpecification();
                 }
-                sb.append(sharedUserService.convertToValidString(relationship));
-                sourcesTxt.add(sharedUserService.convertToValidString(sb.toString()));
+                sb.append(Convert.convertToValidString(relationship));
+                sourcesTxt.add(Convert.convertToValidString(sb.toString()));
             }
         }
 
@@ -238,7 +239,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
             if (!questSelTxt.contains(act.getDescription())) {
                 questSelTxt.add(act.getDescription());
 
-                String cad = SharedUserService.convertToValidString(act.getDescription());
+                String cad = Convert.convertToValidString(act.getDescription());
 
                 if (act.getIdAux() > 0)
                     questLinks.add(cad);
@@ -281,12 +282,12 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         Meeting meeting = ver.getCaseDetention().getMeeting();
         Imputed im = meeting.getImputed();
-        file.setIdFolder(sharedUserService.convertToValidString(ver.getCaseDetention().getIdFolder()));
-        file.setName(sharedUserService.convertToValidString(im.getName()));
-        file.setLastNameP(sharedUserService.convertToValidString(im.getLastNameP()));
-        file.setLastNameM(sharedUserService.convertToValidString(im.getLastNameM()));
+        file.setIdFolder(Convert.convertToValidString(ver.getCaseDetention().getIdFolder()));
+        file.setName(Convert.convertToValidString(im.getName()));
+        file.setLastNameP(Convert.convertToValidString(im.getLastNameP()));
+        file.setLastNameM(Convert.convertToValidString(im.getLastNameM()));
 
-        file.setAddress(sharedUserService.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString()));
+        file.setAddress(Convert.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString()));
         String template = "Campo: {0} <br/>Valor: {1}";
         Long idCase = ver.getCaseDetention().getId();
         List<Long> sourcesId = sourceVerificationRepository.getAllSourcesByCase(idCase);
@@ -301,8 +302,8 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                     Section s = new Section(fieldMeetingSources.get(0).getFieldVerification().getSection());
                     List<String> messages = new ArrayList<>();
                     for (FieldMeetingSource fms : fieldMeetingSources) {
-                        String finalString = template.replace("{0}", sharedUserService.convertToValidString(fms.getFieldVerification().getFieldName()));
-                        finalString = finalString.replace("{1}", sharedUserService.convertToValidString(fms.getValue()));
+                        String finalString = template.replace("{0}", Convert.convertToValidString(fms.getFieldVerification().getFieldName()));
+                        finalString = finalString.replace("{1}", Convert.convertToValidString(fms.getValue()));
                         //finalString = finalString;
                         messages.add(finalString);
                     }

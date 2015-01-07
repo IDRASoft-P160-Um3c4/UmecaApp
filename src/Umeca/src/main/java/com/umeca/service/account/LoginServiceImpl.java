@@ -1,6 +1,6 @@
 package com.umeca.service.account;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import org.springframework.stereotype.Service;
 

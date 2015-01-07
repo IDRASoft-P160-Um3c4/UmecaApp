@@ -1,6 +1,6 @@
 package com.umeca.controller.catalogs;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.ResponseMessageAddress;
 import com.umeca.service.catalog.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;

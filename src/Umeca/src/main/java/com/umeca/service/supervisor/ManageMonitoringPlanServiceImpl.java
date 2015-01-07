@@ -1,7 +1,7 @@
 package com.umeca.service.supervisor;
 
 import com.google.gson.Gson;
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.FulfillmentReportType;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;

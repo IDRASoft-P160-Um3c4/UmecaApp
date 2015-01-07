@@ -1,6 +1,6 @@
 package com.umeca.service.supervisiorManager;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.supervisorManager.ResponseRolActivities;
 import com.umeca.model.dto.supervisorManager.RolActivityRequest;
 import com.umeca.model.entities.account.User;

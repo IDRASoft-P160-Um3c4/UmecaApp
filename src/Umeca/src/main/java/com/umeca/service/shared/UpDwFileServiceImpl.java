@@ -1,6 +1,6 @@
 package com.umeca.service.shared;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.CatFileType;
 import com.umeca.model.catalog.TypeNameFile;
 import com.umeca.model.entities.account.User;

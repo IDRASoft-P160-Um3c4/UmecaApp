@@ -1,6 +1,6 @@
 package com.umeca.service.reviewer;
 
-import com.umeca.model.ResponseMessage;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.FieldVerified;
 import org.springframework.stereotype.Service;

@@ -5,7 +5,7 @@
  import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
  import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
  import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
- import com.umeca.model.ResponseMessage;
+ import com.umeca.infrastructure.model.ResponseMessage;
  import com.umeca.model.catalog.RequestType;
  import com.umeca.model.catalog.StatusCase;
  import com.umeca.model.catalog.StatusMeeting;
@@ -28,7 +28,7 @@
  import com.umeca.repository.reviewer.CaseRequestRepository;
  import com.umeca.repository.reviewer.SourceVerificationRepository;
  import com.umeca.repository.shared.MessageRepository;
- import com.umeca.repository.shared.SelectFilterFields;
+ import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
  import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
  import com.umeca.service.account.SharedUserService;
  import com.umeca.service.shared.SharedLogExceptionService;

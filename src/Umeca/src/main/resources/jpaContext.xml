@@ -58,9 +58,9 @@
         <!--<property name="url" value="jdbc:mysql://s155.eatj.com:3307/inademo?autoReconnect=true" />-->
         <!--<property name="username" value="inademo" />-->
         <!--<property name="password" value="bemeinademo" />-->
-        <property name="url" value="jdbc:mysql://localhost:3306/sgumecatest?autoReconnect=true"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true"/>
         <property name="username" value="root"/>
-        <property name="password" value="root"/>
+        <property name="password" value="s@lp@ssw04rD$$"/>
     </bean>
 
 </beans>
