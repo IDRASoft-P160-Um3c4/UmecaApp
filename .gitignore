@@ -24,3 +24,6 @@ src/Umeca/src/main/resources/jpaContext.xml
 src/Umeca/src.rar
 src/Umeca/src/main/resources/jpaContext.xml
 src/Umeca/src/main/webapp/WEB-INF/jxlsTemplate/reportCase _resp.xls
+src/holaMundo/src/com/opSolution/holaMundo/hellWord.java
+src/holaMundo/gen/com/opSolution/holaMundo/BuildConfig.java
+src/holaMundo/gen/com/opSolution/holaMundo/R.java
