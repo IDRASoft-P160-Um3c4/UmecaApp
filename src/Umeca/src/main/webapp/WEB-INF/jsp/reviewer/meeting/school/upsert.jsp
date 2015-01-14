@@ -49,4 +49,4 @@
         $(this).prev().focus();
     });
 </script>
-
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>

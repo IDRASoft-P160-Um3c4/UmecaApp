@@ -4,7 +4,7 @@
         window.showModalFormDlg("#dlgUpModalId", "#FormCatId");
     });
 </script>
-
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
         <div class="modal-dialog" style="width:500px">

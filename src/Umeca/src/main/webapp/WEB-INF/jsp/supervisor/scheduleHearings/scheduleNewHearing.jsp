@@ -37,7 +37,7 @@
         });
     });
 </script>
-
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div>
 <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
 <div class="modal-dialog" style="width:900px" ng-controller="scheduleHearingsController">
@@ -87,7 +87,7 @@
                                 <div class="profile-info-name"> Hora</div>
                                 <div class="profile-info-value">
                                     <div class="input-group bootstrap-timepicker">
-                                        <input class="form-control" id="hearingTimeSt" name="hearingTimeSt" readonly type="text"
+                                        <input class="form-control umeca-time-picker" id="hearingTimeSt" name="hearingTimeSt" readonly type="text"
                                                ng-model="m.hearingTime" data-val="true"
                                                data-val-required="Hora es un campo requerido">
                                         <span class="input-group-addon">
@@ -184,7 +184,7 @@
                                 <div class="profile-info-name"> Hora</div>
                                 <div class="profile-info-value">
                                     <div class="input-group bootstrap-timepicker">
-                                        <input class="form-control"
+                                        <input class="form-control umeca-time-picker"
                                                id="hearingReminderTimeSt" name="hearingReminderTimeSt" readonly type="text"
                                                ng-model="m.hearingReminderTime" data-val="true"
                                                data-val-required="Hora es un campo requerido" />

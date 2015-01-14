@@ -1,3 +1,4 @@
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div id="UpsertActivityEventDlgId" class="modal fade" ng-controller="upsertActivityEventController"
      data-backdrop="static" ng-cloak>
 <div class="modal-dialog modal-showhigh">
@@ -254,7 +255,7 @@
         <div class="row">
             <div class="col-xs-10">
                 <div class="input-group bootstrap-timepicker">
-                    <input id="id-timepicker-start" type="text" readonly="readonly" class="form-control"/>
+                    <input id="id-timepicker-start" type="text" readonly="readonly" class="form-control umeca-time-picker"/>
 															<span class="input-group-addon">
 																<i class="icon-time bigger-110"></i>
 															</span>
@@ -268,7 +269,7 @@
         <div class="row">
             <div class="col-xs-10">
                 <div class="input-group bootstrap-timepicker">
-                    <input id="id-timepicker-end" type="text" readonly="readonly" class="form-control"/>
+                    <input id="id-timepicker-end" type="text" readonly="readonly" class="form-control umeca-time-picker"/>
 															<span class="input-group-addon">
 																<i class="icon-time bigger-110"></i>
 															</span>

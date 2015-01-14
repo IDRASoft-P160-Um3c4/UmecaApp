@@ -1,3 +1,4 @@
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div class="row">
     <input type="hidden" ng-update-hidden ng-model="id" name="idCase" id="idCase"
            ng-init="idCase = ${(idCase == null) ? 0 : idCase};">

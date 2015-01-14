@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css" />
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 
 <div class="row element-center" ng-controller="scheduleController" id="divComponentSchedule">
     <input type="hidden" ng-update-hidden ng-model="schString" name='sch'>
@@ -16,7 +17,7 @@
     <div class="col-xs-3 element-center">
                     Inicio<br/>
         <div class="input-group bootstrap-timepicker">
-            <input id="timepickerStart{{content}}" type="text" class="form-control tp" ng-model="s.start"/>
+            <input id="timepickerStart{{content}}" type="text" class="form-control umeca-time-picker tp" ng-model="s.start"/>
             <span class="input-group-addon">
 				<i class="icon-time bigger-60"></i>
 			</span>
@@ -25,7 +26,7 @@
     <div class="col-xs-3 element-center">
         Fin <br/>
         <div class="input-group bootstrap-timepicker">
-            <input id="timepickerEnd{{content}}" type="text" class="form-control tp" ng-model="s.end"/>
+            <input id="timepickerEnd{{content}}" type="text" class="form-control umeca-time-picker tp" ng-model="s.end"/>
             <span class="input-group-addon">
 				<i class="icon-time  bigger-40"></i>
 			</span>

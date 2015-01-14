@@ -36,7 +36,7 @@
                 today.setHours(0,0,0,0);
                 if(event.start < today){
                     revertFunc();
-                    scope.showMsg({title:"Rol de supervisión", msg:'No es posible modificar una actividad para el rol de supervisión con fecha anterior a la fecha actual.', type: "danger"});
+                    scope.showMsg({title:"Rol de supervisiï¿½n", msg:'No es posible modificar una actividad para el rol de supervisiï¿½n con fecha anterior a la fecha actual.', type: "danger"});
                     return;
                 }
                 event.doTitle(true);
@@ -74,7 +74,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                allDayText: 'Todo el día',
+                allDayText: 'Todo el dï¿½a',
                 allDaySlot: false,
                 slotMinutes: 30,
                 axisFormat: 'HH:mm',
@@ -100,7 +100,7 @@
                     var today = new Date();
                     today.setHours(0,0,0,0);
                     if(start < today){
-                        scope.showMsg({title:"Rol de supervisión", msg:'No es posible agregar una actividad para el rol de supervisión con fecha anterior a la fecha actual.', type: "danger"});
+                        scope.showMsg({title:"Rol de supervisiï¿½n", msg:'No es posible agregar una actividad para el rol de supervisiï¿½n con fecha anterior a la fecha actual.', type: "danger"});
                         return;
                     }
 
@@ -147,8 +147,8 @@
 
         });
     </script>
-
-    <title>Rol de supervisión</title>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
+    <title>Rol de supervisiï¿½n</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -157,7 +157,7 @@
     <div class="page-content">
         <div class="page-header">
             <h1 class="element-center">
-                <i class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol de supervisión
+                <i class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol de supervisiï¿½n
             </h1>
         </div>
         <div class="row">

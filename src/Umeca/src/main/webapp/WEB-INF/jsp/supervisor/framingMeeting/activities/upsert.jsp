@@ -23,6 +23,7 @@
         $(this).prev().focus();
     });
 </script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="activitiesController" ng-cloak>
@@ -104,7 +105,7 @@
 
                                                 <div class="input-group bootstrap-timepicker">
                                                     <input id="start" name="start" ng-model="activity.start"
-                                                           readonly type="text" class="form-control">
+                                                           readonly type="text" class="form-control umeca-time-picker">
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
                                                     <br/>
@@ -116,7 +117,7 @@
 
                                                 <div class="input-group bootstrap-timepicker">
                                                     <input id="end" name="end" ng-model="activity.end"
-                                                           readonly type="text" class="form-control">
+                                                           readonly type="text" class="form-control umeca-time-picker">
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
                                                     <br/>

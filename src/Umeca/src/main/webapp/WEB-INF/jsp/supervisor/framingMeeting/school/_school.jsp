@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div class="row" ng-controller="framingSchoolController">
 
 <input type="hidden" id="getDegree"
@@ -198,7 +198,7 @@
 
                                     <div class="input-group bootstrap-timepicker">
                                         <input id="timeStart" ng-model="timeStart"
-                                               readonly type="text" class="form-control">
+                                               readonly type="text" class="form-control umeca-time-picker">
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
                                         <br/>
@@ -210,7 +210,7 @@
 
                                     <div class="input-group bootstrap-timepicker">
                                         <input id="timeEnd" ng-model="timeEnd"
-                                               readonly type="text" class="form-control">
+                                               readonly type="text" class="form-control umeca-time-picker">
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
                                         <br/>

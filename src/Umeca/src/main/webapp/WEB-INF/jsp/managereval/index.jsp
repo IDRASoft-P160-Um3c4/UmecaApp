@@ -108,12 +108,12 @@ $(document).ready(function () {
                 colNames: ['ID', 'Nombre', 'Relaci&oacute;n', 'Tel&eacute;fono', 'Direcci&oacute;n', 'Tipo de Verificaci&oacute;n', 'Autorizado'],
                 colModel: [
                     { name: 'id', hidden: true },
-                    { name: 'fullName', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'fullName', width: 180, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'relationshipString', width: 100, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'phone', width: 100, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'address', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: "idVerificationMethod", width: 100, align: "center", sortable: false },
-                    { name: "authorized", width: 30, align: "center", sortable: false }
+                    { name: 'address', width: 220, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: "idVerificationMethod", width: 160, align: "center", sortable: false },
+                    { name: "authorized", width: 85, align: "center", sortable: false }
                 ],
                 rowNum: 20,
                 pager: pager_id,

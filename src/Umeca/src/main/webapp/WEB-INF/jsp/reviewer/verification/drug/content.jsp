@@ -1,5 +1,5 @@
 <input type="hidden" ng-init="d = listDrug[$index]">
-
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div class="row">
     <div class="col-xs-2">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.drugType.id',d.id);"></i>

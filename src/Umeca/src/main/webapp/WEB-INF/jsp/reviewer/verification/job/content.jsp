@@ -1,4 +1,5 @@
 <input type="hidden" ng-init="j = listJob[$index]">
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <input type="hidden" ng-update-hidden ng-model="j.id" name="id" id="id">
 <div class="row">
     <div class="col-xs-2 element-left">
