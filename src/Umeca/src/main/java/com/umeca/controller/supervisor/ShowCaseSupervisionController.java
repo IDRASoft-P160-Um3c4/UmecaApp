@@ -3,27 +3,27 @@ package com.umeca.controller.supervisor;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
-import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.StatusCase;
-import com.umeca.model.catalog.StatusMeeting;
-import com.umeca.model.catalog.StatusVerification;
-import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.managereval.CaseEvaluationView;
-import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.reviewer.Verification;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.account.UserRepository;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -57,16 +57,8 @@ public class ShowCaseSupervisionController {
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
         Long userId = userService.GetLoggedUserId();
-        User user = userRepository.findOne(userId);
-        Boolean addFileter = false;
-        for (Role r : user.getRoles()) {
-            if (r.getRole().equals(Constants.ROLE_SUPERVISOR)) {
-                addFileter = true;
-                break;
-            }
-        }
-        if (addFileter) {
-            opts.extraFilters = new ArrayList<>();
+        opts.extraFilters = new ArrayList<>();
+        if(userService.isUserInRole(userId,Constants.ROLE_SUPERVISOR)) {
             JqGridRulesModel extraFilter = new JqGridRulesModel("supervisorId", userId.toString(), JqGridFilterModel.COMPARE_LEFT_JOIN_EQUAL);
             opts.extraFilters.add(extraFilter);
         }
