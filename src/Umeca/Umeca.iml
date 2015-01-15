@@ -86,5 +86,7 @@
     <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: net.sf.jxls:jxls-core:1.0.5" level="project" />
+    <orderEntry type="module" module-name="UmecaInfrastructure" />
+    <orderEntry type="module" module-name="UmecaRepository" />
   </component>
 </module>

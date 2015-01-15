@@ -130,7 +130,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             if ($scope.validateContact())
                 return;
 
-            var jsonRow = {"name": $scope.m.contactName, "phone": $scope.m.contactPhone, "address": $scope.m.contactAddress};
+            var jsonRow = {
+                "name": $scope.m.contactName,
+                "phone": $scope.m.contactPhone,
+                "address": $scope.m.contactAddress
+            };
 
             $scope.m.lstContactData.push(jsonRow);
 
@@ -145,7 +149,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             $scope.MsgErrorContact = "";
 
-            if ($scope.m.contactName == "" || $scope.m.contactPhone == "" || $scope.m.contactAddress == "" || !($scope.m.contactName) || !($scope.m.contactPhone) || !($scope.m.contactAddress)) {
+            if ($scope.m.contactName === "" || $scope.m.contactPhone === "" || $scope.m.contactAddress === "" || !($scope.m.contactName) || !($scope.m.contactPhone) || !($scope.m.contactAddress)) {
                 $scope.MsgErrorContact = "Debe proporcionar todos los campos para agregar el contacto."
                 return true;
             }
@@ -172,14 +176,14 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (!$scope.m.vincProcess) {
                 $scope.hasError = true;
-                $scope.m.errLinkProc = "Debe seleccionar una opción";
+                $scope.m.errLinkProc = "Debe seleccionar una opciï¿½n";
             }
             else
                 $scope.m.errLinkProc = "";
 
             if ($scope.m.vincProcess == 1) {
 
-                if (!$scope.m.linkageRoom || $scope.m.linkageRoom == "") {
+                if (!$scope.m.linkageRoom || $scope.m.linkageRoom === "") {
                     $scope.hasError = true;
                     $scope.m.errLnkRoom = "Sala es un campo requerido";
                 }
@@ -187,7 +191,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                     $scope.m.errLnkRoom = "";
                 }
 
-                if (!$scope.m.linkageDate || $scope.m.linkageDate == "") {
+                if (!$scope.m.linkageDate || $scope.m.linkageDate === "") {
                     $scope.hasError = true;
                     $scope.m.errLnkDt = "Fecha es un campo requerido";
                 }
@@ -195,7 +199,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                     $scope.m.errLnkDt = "";
                 }
 
-                if (!$scope.m.linkageTime || $scope.m.linkageTime == "") {
+                if (!$scope.m.linkageTime || $scope.m.linkageTime === "") {
                     $scope.hasError = true;
                     $scope.m.errLnkTm = "Hora es un campo requerido";
                 }
@@ -281,7 +285,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.idJudicial = data.idJudicial;
             $scope.m.room = data.room;
             $scope.m.appointmentDate = $scope.myFormatDate(data.appointmentDate);
-            if ($scope.m.appointmentDate == "") {
+            if ($scope.m.appointmentDate === "") {
                 $scope.m.appointmentDate = $scope.myFormatDate(new Date());
             }
             $scope.m.initTime = data.initTime;
@@ -413,7 +417,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 })
                 .error(function () {
                     $scope.WaitFor = false;
-                    $scope.MsgError = "Error de red. Por favor intente más tarde.";
+                    $scope.MsgError = "Error de red. Por favor intente mï¿½s tarde.";
                     $scope.$apply();
                 });
 
@@ -453,7 +457,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 })
                 .error(function () {
                     $scope.WaitFor = false;
-                    $scope.MsgError = "Error de red. Por favor intente más tarde.";
+                    $scope.MsgError = "Error de red. Por favor intente mï¿½s tarde.";
                     $scope.$apply();
                 });
 
@@ -464,10 +468,10 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         $scope.loadArrangements = function () {
 
-            if ((!$scope.m.arrType) || $scope.m.arrType == "" || $scope.m.disableAll == true) {
+            if ($scope.m.arrType == undefined || $scope.m.arrType === '' || $scope.m.disableAll == true) {
                 return;
             }
-            if ((!$scope.m.nationalArrangement) || $scope.m.nationalArrangement == "" || $scope.m.disableAll == true) {
+            if ($scope.m.nationalArrangement == undefined || ($scope.m.nationalArrangement === '') || $scope.m.disableAll == true) {
                 return;
             }
 
