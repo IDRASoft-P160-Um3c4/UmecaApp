@@ -50,7 +50,7 @@
 		<property name="poolPreparedStatements"><value>true</value></property>
 		<property name="maxActive"><value>10</value></property>
 		<property name="maxIdle"><value>10</value></property>
-		 s@lp@ssw04rD$$
+		  s@lp@ssw04rD$$
 	</bean>-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>

@@ -341,7 +341,8 @@
                                                     <div class="input-group bootstrap-timepicker">
                                                         <input id="initTimeStr" name="initTimeStr" ng-model="m.initTime"
                                                                ng-change="validateInitEnd();" readonly
-                                                               type="text" class="form-control umeca-time-picker" data-val="true"
+                                                               type="text" class="form-control umeca-time-picker"
+                                                               data-val="true"
                                                                data-val-required="Hora de inicio es un campo requerido"/>
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
@@ -357,7 +358,8 @@
                                                     <div class="input-group bootstrap-timepicker">
                                                         <input id="endTimeStr" name="endTimeStr"
                                                                ng-change="validateInitEnd();" ng-model="m.endTime"
-                                                               readonly type="text" class="form-control umeca-time-picker"
+                                                               readonly type="text"
+                                                               class="form-control umeca-time-picker"
                                                                min-time="6:00am"
                                                                data-val="true"
                                                                data-val-required="Hora de t&eacute;rmino es un campo requerido"/>
@@ -877,7 +879,8 @@
                                                             <div class="input-group bootstrap-timepicker">
                                                                 <input id="linkageTimeStr" name="linkageTimeStr"
                                                                        ng-model="m.linkageTime"
-                                                                       readonly type="text" class="form-control umeca-time-picker"
+                                                                       readonly type="text"
+                                                                       class="form-control umeca-time-picker"
                                                                        data-val="true"
                                                                        data-val-required="Hora es un campo requerido"/>
                                                         <span class="input-group-addon"><i
@@ -937,7 +940,8 @@
 
                                     <div class="input-group bootstrap-timepicker">
                                         <input id="umecaTimeStr" name="umecaTimeStr" ng-model="m.umecaTime"
-                                               readonly type="text" class="form-control umeca-time-picker" data-val="true"
+                                               readonly type="text" class="form-control umeca-time-picker"
+                                               data-val="true"
                                                data-val-required="Hora de inicio es un campo requerido"/>
                                                         <span class="input-group-addon"><i
                                                                 class="icon-time bigger-110"></i></span>
