@@ -205,7 +205,7 @@
 
                                                 <div class="row">
                                                     <div class="col-xs-4">
-                                                        <label>Tipo de audiencia</label>
+                                                        <label>Tipo de audiencia</label><label class="info-example">(Es muy importante realizar un correcto registro del tipo de audiencia ya que afectar&aacute; el plan de monitoreo)</label>
                                                         <br/>
                                                         <select class="form-control element-center"
                                                                 ng-model="m.hearingType"
