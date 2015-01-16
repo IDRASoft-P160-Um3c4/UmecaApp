@@ -25,7 +25,7 @@
     lstRisk=${lstRisk};lstThreat=${lstThreat};'></div>
 
 <h4 class="element-center">REPORTE DE INCUMPLIMIENTO Y CUMPLIMIENTO DE LAS ACTIVIDADES </h4>
-<h4 class="element-center">DEL PLAN DE SEGUIMIENTO</h4>
+<h4 class="element-center">DEL PLAN DE SUPERVISI&Oactue;N</h4>
 <div class="row">
     <div class="col-xs-12 align-right">
         <i class="icon-cloud-download icon-animated-wrench purple">&nbsp; </i><a href="#" onclick="downloadAccomplishmentFile()">Descargar reporte</a>

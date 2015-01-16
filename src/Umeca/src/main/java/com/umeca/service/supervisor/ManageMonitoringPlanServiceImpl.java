@@ -89,7 +89,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
 
         //Create caseRequest
         CaseRequestService.CreateCaseRequestToRole(requestTypeRepository, caseRequestRepository, messageRepository, sharedUserService,
-                user, monPlan, "El usuario " + user.getUsername() + " solicita que se autorice el plan de seguimiento.",
+                user, monPlan, "El usuario " + user.getUsername() + " solicita que se autorice el plan de supervisi&oacute;n.",
                 Constants.ROLE_SUPERVISOR_MANAGER, Constants.ST_REQUEST_MONPLAN_AUTH);
         //End caseRequest
 
@@ -325,7 +325,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         Long monPlanUserId = monPlanRepository.getIdByUserAndNotStatus(monPlanId, MonitoringConstants.STATUS_END, userId);
 
         if(monPlanUserId == null || monPlanUserId != monPlanId){
-            message.setMessage("El plan de seguimiento está en estado \"TERMINADO\" o usted ya no es propietario del plan de seguimiento, por favor contacte a su coordinador");
+            message.setMessage("El plan de supervisi&oacute;n est&aacute; en estado \"TERMINADO\" o usted ya no es propietario del plan de supervisi&oacute;n, por favor contacte a su coordinador");
             return false;
         }
 
@@ -338,7 +338,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         }});
 
         if(countValidActivities == 0){
-            message.setMessage("Al menos debe existir una actividad válida en el plan de seguimiento");
+            message.setMessage("Al menos debe existir una actividad válida en el plan de supervisi&oacute;n");
             return false;
         }
 
@@ -350,7 +350,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         Long monPlanUserId = monPlanRepository.getIdByUser(monPlanId, MonitoringConstants.STATUS_PENDING_CREATION, userId);
 
         if(monPlanUserId == null || monPlanUserId != monPlanId){
-            message.setMessage("El plan de seguimiento no está en estado \"EN PROCESO DE GENERAR\" o usted ya no es propietario del plan de seguimiento, por favor contacte a su coordinador");
+            message.setMessage("El plan de supervisi&oacute;n no está en estado \"EN PROCESO DE GENERAR\" o usted ya no es propietario del plan de supervisi&oacute;n, por favor contacte a su coordinador");
             return false;
         }
 

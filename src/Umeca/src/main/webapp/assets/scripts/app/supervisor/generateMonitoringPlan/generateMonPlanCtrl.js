@@ -62,7 +62,7 @@ app.controller('generateMonPlanController', function ($scope, $sce, sharedSvc) {
             }
 
             if (lstActivities.length === 0 && $scope.lstActivityDelIds.length === 0) {
-                sharedSvc.showMsg({title: "Plan de seguimiento", message: "No existen actividades para agregar, actualizar o eliminar", type: "info"});
+                sharedSvc.showMsg({title: "Plan de supervisi&oacute;n", message: "No existen actividades para agregar, actualizar o eliminar", type: "info"});
                 $scope.waitFor = false;
                 return false;
             }
@@ -115,7 +115,7 @@ app.controller('generateMonPlanController', function ($scope, $sce, sharedSvc) {
 
                 } catch (eIn) {
                 }
-                sharedSvc.showMsg({title: "Plan de seguimiento", message: resp.message, type: "success"}).then();
+                sharedSvc.showMsg({title: "Plan de supervisi&oacute;n", message: resp.message, type: "success"}).then();
             }
             $scope.$apply();
         } catch (e) {

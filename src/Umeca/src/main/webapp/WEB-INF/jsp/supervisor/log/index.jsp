@@ -21,7 +21,7 @@
 
             window.requestAccomplishmentLog = function(id) {
                 window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/log/requestAccomplishmentLog.json' />", "#GridId",
-                "Plan de seguimiento", "&iquest;Est&aacute; seguro de que desea solicitar la autorizaci&oacute;n del reporte de incumplimiento?",
+                "Plan de supervisi&oacute;n", "&iquest;Est&aacute; seguro de que desea solicitar la autorizaci&oacute;n del reporte de incumplimiento?",
                 "warning", {title:"Elige el tipo de reporte", lstItems:${lstFulfillmentReport},
                             prepareData:function(data, res){
                                 return {id:data.id, fulfillmentReportId:res.m.choiceA.id};

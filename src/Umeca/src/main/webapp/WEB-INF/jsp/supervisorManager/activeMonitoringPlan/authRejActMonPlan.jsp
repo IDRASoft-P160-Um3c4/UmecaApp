@@ -16,7 +16,7 @@
                         <div class="alert alert-info ">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             <h4 class="element-center"><i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Actividades
-                                nuevas, modificadas o eliminadas del plan de seguimiento</h4>
+                                nuevas, modificadas o eliminadas del plan de supervisi&oacute;n</h4>
                         </div>
                     </div>
                     <div class="modal-body">

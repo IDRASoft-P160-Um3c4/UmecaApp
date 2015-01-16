@@ -115,7 +115,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
 
             try{
                 CaseRequestService.CreateCaseRequestToRole(requestTypeRepository, caseRequestRepository, messageRepository,
-                        sharedUserService, user, monitoringPlan, "El usuario " + user.getUsername() + " realizó modificaciones al plan de seguimiento y solicita que se autorice.",
+                        sharedUserService, user, monitoringPlan, "El usuario " + user.getUsername() + " realizó modificaciones al plan de supervisi&oacute;n y solicita que se autorice.",
                         Constants.ROLE_SUPERVISOR_MANAGER, Constants.ST_REQUEST_UPDATE_MONPLAN_AUTH);
             }catch (Exception ex)  {
                 logException.Write(ex, this.getClass(), "doUpsertDelete", user.getUsername());
@@ -347,10 +347,10 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
             response.setHasError(true);
 
             if (typeSuspended == MonitoringConstants.AUTHORIZATION_MONPLAN)
-                response.setMessage("El plan de seguimiento está suspendido dado que ha excedido el tiempo de espera ("
-                        + SharedSystemSetting.MonPlanHoursToAuthorize + " horas) para la autorización del plan de seguimiento. Por favor consulte a su coordinador");
+                response.setMessage("El plan de supervisi&oacute;n está suspendido dado que ha excedido el tiempo de espera ("
+                        + SharedSystemSetting.MonPlanHoursToAuthorize + " horas) para la autorización del plan de supervisi&oacute;n. Por favor consulte a su coordinador");
             else if (typeSuspended != MonitoringConstants.AUTHORIZATION_ACTMONPLAN)
-                response.setMessage("El plan de seguimiento está suspendido dado que ha excedido el tiempo de espera ("
+                response.setMessage("El plan de supervisi&oacute;n está suspendido dado que ha excedido el tiempo de espera ("
                         + SharedSystemSetting.MonPlanHoursToAuthorize + " horas). Por favor consulte a su coordinador");
 
             return false;

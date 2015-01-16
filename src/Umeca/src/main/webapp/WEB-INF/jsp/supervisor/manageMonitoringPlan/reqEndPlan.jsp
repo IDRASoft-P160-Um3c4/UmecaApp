@@ -99,17 +99,17 @@
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">
                                                             <p ng-show="countMiss>0" class="element-center">
-                                                                El plan de seguimiento tiene a&uacute;n <strong>{{countMiss}}</strong>
+                                                                El plan de supervisi&oacute;n tiene a&uacute;n <strong>{{countMiss}}</strong>
                                                                 actividad(es) pendientes por concluir. <br/>
                                                                 A&uacute;n as&iacute;, &iquest;desea soliticitar la
-                                                                finalizaci&oacute;n del plan de seguimiento?
+                                                                finalizaci&oacute;n del plan de supervisi&oacute;n?
                                                             </p>
 
                                                             <p ng-show="countMiss===0" class="element-center">
-                                                                El plan de seguimiento ya no tiene actividades
+                                                                El plan de supervisi&oacute;n ya no tiene actividades
                                                                 pendientes por realizar. <br/>
                                                                 &iquest;Desea soliticitar la finalizaci&oacute;n del
-                                                                plan de seguimiento?
+                                                                plan de supervisi&oacute;n?
                                                             </p>
                                                         </div>
                                                     </div>

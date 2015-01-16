@@ -26,7 +26,7 @@
 
         window.preAuthorize = function (id) {
             window.showConfirmFull(id, "#angJsjqGridId", "<c:url value='/supervisor/generateMonitoringPlan/preAuthorize.json' />", "#GridId",
-                    "Plan de seguimiento", "&iquest;Est&aacute; seguro de que desea solicitar la autorizaci&oacute;n del plan de seguimiento para este caso?", "warning");
+                    "Plan de supervisi&oacute;n", "&iquest;Est&aacute; seguro de que desea solicitar la autorizaci&oacute;n del plan de supervisi&oacute;n para este caso?", "warning");
         };
 
         window.showRejectAuthMsg = function (id) {
@@ -79,9 +79,9 @@
                         }
                         else {
                             if (status === "NUEVO") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de seguimiento\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisi&oacute;n\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
                             } else if (status === "EN PROCESO DE GENERAR") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorizaci&oacute;n del plan de seguimiento\" onclick=\"window.preAuthorize('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar autorizaci&oacute;n del plan de supervisi&oacute;n\" onclick=\"window.preAuthorize('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
                             }
                             else if (status === "RECHAZADO AUTORIZAR") {
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar mensaje de rechazo de autorizaci&oacute;n\" onclick=\"window.showRejectAuthMsg('" + cl + "');\"><span class=\"glyphicon glyphicon-comment color-warning\"></span></a>";
@@ -91,7 +91,7 @@
                             }
 
                             if (status === "EN PROCESO DE GENERAR" || status === "AUTORIZADO" || status === "RECHAZADO AUTORIZAR" || status === "EN SEGUIMIENTO" || status === "RECHAZADO TERMINAR") {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar plan de seguimiento\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar plan de supervisi&oacute;n\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                             }
                         }
 
