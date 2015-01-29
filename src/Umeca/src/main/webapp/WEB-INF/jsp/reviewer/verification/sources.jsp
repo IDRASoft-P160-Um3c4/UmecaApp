@@ -46,6 +46,7 @@
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/verification/listSource.json?id=${idCase}' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Nombre','Edad', 'Relaci&oacute;n', 'Direcci&oacute;n', 'Tel&eacute;fono','Estatus','Complete','IdCase', 'Acci&oacute;n'],
@@ -56,10 +57,10 @@
                     { name: 'relationshipString', index: 'relationshipString', width: 100, align: "center", search:false},
                     { name: 'address', index: 'address', width: 300, align: "center", search:false},
                     { name: 'phone', index: 'phone', width: 150, align: "center", search:false},
-                    { name: 'statusString', index: 'statusString', width: 200, align: "center", search:false},
+                    { name: 'statusString', index: 'statusString', width: 200, align: "center", search:false, formatter:window.actionFormatter},
                     { name: 'dateComplete', index: 'dateComplete',hidden:true},
                     { name: 'idCase', index: 'idCase', hidden:true},
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 70, align: "center", sortable: false, search: false ,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

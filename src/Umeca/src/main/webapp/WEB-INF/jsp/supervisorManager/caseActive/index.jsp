@@ -35,6 +35,7 @@
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisorManager/caseActive/list.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento', 'Estatus', 'Acci&oacute;n'],
@@ -45,7 +46,7 @@
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'brthDateTxt', index: 'brthDateTxt', width: 160, align: "center", sortable: false, search: false },
                     { name: 'descStatus', index: 'descStatus', width: 250, align: "center", sortable: false, search: false },
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

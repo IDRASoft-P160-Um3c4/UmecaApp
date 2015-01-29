@@ -24,6 +24,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
     $scope.activitiesErrorMsg = "";
     $scope.jobErrorMsg = "";
     $scope.victimErrorMsg = "";
+    $scope.fm.WaitFor = false;
 
 
     $scope.disableView = function () {
@@ -35,16 +36,16 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
          }*/
     };
 
-    $scope.showMessageError = function(elementClick){
+    $scope.showMessageError = function (elementClick) {
         $("#divErrorMessage").show();
         var position = $(".tab-content").position();
-        $("#divErrorMessage").css("left",position.left+5);
+        $("#divErrorMessage").css("left", position.left + 5);
         $("#divErrorMessage").addClass("errorMessageClass");
 
-        $scope.entityError=elementClick;
+        $scope.entityError = elementClick;
     };
 
-    $scope.hideMessageError = function(){
+    $scope.hideMessageError = function () {
         $("#divErrorMessage").hide();
     };
 
@@ -114,9 +115,12 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
             $timeout.cancel(currentTimeout);
         }
 
+        $scope.fm.WaitFor = true;
+
         currentTimeout = $timeout(function () {
             $http(ajaxConf)
                 .success(function (data) {
+                    $scope.fm.WaitFor = false;
 
                     if (data.hasError == undefined) {
                         data = data.responseMesage;
@@ -134,6 +138,10 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                     }
                     else
                         $scope.returnFM();
+                })
+                .error(function () {
+                    $scope.fm.WaitFor = false;
+                    $scope.listMsgError['general'] = $sce.trustAsHtml("Error de red, intente m&aacute;s tarde.");
                 });
         }, 200);
     };
@@ -151,7 +159,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
             $scope.Invalid = true;
             return false;
         }
-        $scope.WaitFor = true;
+        $scope.fm.WaitFor = true;
 
         var url = urlToPost + id;
 
@@ -162,13 +170,15 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
             .success(function (resp) {
                 $scope.handleSuccessComment(resp, formId);
             })
-            .error($scope.handleErrorComments(formId));
+            .error(function () {
+                $scope.handleErrorComments(formId)
+            });
 
         return true;
     };
 
     $scope.handleSuccessComment = function (resp, formId) {
-        $scope.WaitFor = false;
+        $scope.fm.WaitFor = false;
 
         try {
             if (resp.hasError === undefined) {
@@ -232,7 +242,7 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
     };
 
     $scope.handleErrorComments = function (formId) {
-        $scope.WaitFor = false;
+        $scope.fm.WaitFor = false;
 
         switch (formId) {
             case "FormCommentAddress":

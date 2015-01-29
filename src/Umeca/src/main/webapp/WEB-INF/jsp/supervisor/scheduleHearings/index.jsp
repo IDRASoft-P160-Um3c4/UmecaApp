@@ -36,6 +36,7 @@
         $(document).ready(function() {
             jQuery("#GridIdReference").jqGrid({
                 url: '<c:url value='/supervisor/scheduleHearings/list.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', '', 'Estado plan de supervisi&oacute;n','Carpeta judicial', 'Nombre del imputado', 'Acci&oacute;n'],
@@ -45,7 +46,7 @@
                     { name: 'status', index: 'status', width: 300, align: "center", sorttype: 'string' },
                     { name: 'idMP', index: 'idFolder', width: 300, align: "center", sorttype: 'string' },
                     { name: 'fullName', index: 'fullName', width: 400, align: "center", sorttype: 'string'},
-                    { name: 'Action', width: 100, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 100, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -72,9 +73,10 @@
                     $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
                     $("#" + subgrid_table_id).jqGrid({
                         url: '<c:url value='/supervisor/scheduleHearings/sublist.json?monPlanId=' />' + row_id,
+                        autoencode:true,
                         datatype: "json",
                         mtype: 'POST',
-                        colNames: ['ID', 'Sala', 'Fecha audiencia','Fecha creación','Fecha recordatorio','Generado por', 'Tipo audiencia'],
+                        colNames: ['ID', 'Sala', 'Fecha audiencia','Fecha creaciï¿½n','Fecha recordatorio','Generado por', 'Tipo audiencia'],
                         colModel: [
                             { name: 'id', hidden: true },
                             { name: 'room', width: 150, align: "center", sorttype: 'string'},
@@ -175,7 +177,7 @@
             </button>
         </div>
         <div>
-            <small>*Usted puede seleccionar más de una casilla, si desea agendar la misma cita para todos los imputados seleccionados</small>
+            <small>*Usted puede seleccionar mï¿½s de una casilla, si desea agendar la misma cita para todos los imputados seleccionados</small>
         </div>
         <div class="col-xs-12">
             <div id="angJsjqGridIdReference" ng-controller="modalDlgController">

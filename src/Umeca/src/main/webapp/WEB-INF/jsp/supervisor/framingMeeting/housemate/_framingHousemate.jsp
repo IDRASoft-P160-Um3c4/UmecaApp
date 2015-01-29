@@ -21,6 +21,7 @@
         };
 
         jQuery("#GridHouseMate").jqGrid({
+            autoencode:true,
             url: urlGridHousemate,
             datatype: "json",
             mtype: 'POST',
@@ -32,7 +33,7 @@
                 { name: 'relationshipName', index: 'relationshipName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'occupation', index: 'occupation', width: 140, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 100, align: "center", search: false },
-                { name: 'Action', width: 60, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 60, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
             ],
             rowNum: 10,
             rowList: [10, 20, 30],

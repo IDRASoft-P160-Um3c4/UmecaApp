@@ -26,7 +26,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <p ng-bind-html="formatHtml(n.message)"></p>
+                                    <p> {{n.message}}</p>
                                 </div>
 
                             </div>

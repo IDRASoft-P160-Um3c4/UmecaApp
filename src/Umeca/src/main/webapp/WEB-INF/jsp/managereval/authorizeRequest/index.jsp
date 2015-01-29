@@ -36,6 +36,7 @@
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/managereval/authorizeRequest/list.json' />',
                 datatype: "json",
+                autoencode:true,
                 mtype: 'POST',
                 colNames: ['ID','Carpeta de Investigaci&oacute;n','Nombre','Evaluador','Tipo de solicitud','Acci&oacute;n'],
                 colModel: [
@@ -44,7 +45,7 @@
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullNameUser', index: 'fullNameUser', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'typeRequest', index: 'typeRequest', width: 300, align: "center", sortable: false, search: false},
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

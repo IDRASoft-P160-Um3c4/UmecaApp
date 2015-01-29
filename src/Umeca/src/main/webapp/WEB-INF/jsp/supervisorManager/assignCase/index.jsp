@@ -27,6 +27,7 @@
 
         $("#GridId").jqGrid({
             url: '<c:url value='/supervisorManager/assignCase/list.json' />',
+            autoencode:true,
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Carpeta de Investigaci&oacute;n', 'Nombre completo', 'Estado', 'Asignado a', 'Acci&oacute;n'],
@@ -36,7 +37,7 @@
                 { name: 'fullname', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'status', width: 280, align: "center", sortable: false, search: false },
                 { name: 'supervisor', width: 280, align: "center", sortable: false, search: false },
-                { name: 'action', width: 50, align: "center", sortable: false, search: false }
+                { name: 'action', width: 50, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
             ],
             rowNum: 10,
             rowList: [10, 20, 30],

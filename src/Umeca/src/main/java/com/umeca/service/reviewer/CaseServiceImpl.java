@@ -2,6 +2,7 @@ package com.umeca.service.reviewer;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.account.User;
@@ -101,6 +102,7 @@ public class CaseServiceImpl implements CaseService {
         meeting.setMeetingType(type);
         caseDet.setMeeting(meeting);
         caseDet.setDateCreate(new Date());
+        caseDet.setChangeArrangementType(false);
         return caseDet;
     }
 
@@ -126,7 +128,7 @@ public class CaseServiceImpl implements CaseService {
 
         ResponseMessage resp = new ResponseMessage();
 
-        caseDet.setIdFolder("SIN EVALUACI�N REGISTRADA");
+        caseDet.setIdFolder("SIN EVALUACIÓN REGISTRADA");
         caseRepository.save(caseDet);
 
         resp.setHasError(false);
@@ -284,7 +286,7 @@ public class CaseServiceImpl implements CaseService {
 
             if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
                 response.setHasError(true);
-                response.setMessage("La contrase�a no corresponde al usuario en sesi�n");
+                response.setMessage("La contraseña no corresponde al usuario en sesión");
                 return response;
             }
 
@@ -292,7 +294,7 @@ public class CaseServiceImpl implements CaseService {
 
             if (caseDet == null) {
                 response.setHasError(true);
-                response.setMessage("No se encontr� el caso. Por favor reinicie su navegador e intente de nuevo");
+                response.setMessage("No se encontró el caso. Por favor reinicie su navegador e intente de nuevo");
                 return response;
             }
             SupervisionCloseCaseLog lastLog;
@@ -375,7 +377,7 @@ public class CaseServiceImpl implements CaseService {
         User u = new User();
         u.setId(userId);
         msg.setSender(u);
-        msg.setText(model.getComments());
+        msg.setText(StringEscape.escapeText(model.getComments()));
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
         RelMessageUserReceiver rmur = new RelMessageUserReceiver();
         rmur.setMessage(msg);

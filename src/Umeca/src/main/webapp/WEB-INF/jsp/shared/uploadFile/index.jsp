@@ -47,6 +47,7 @@
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/shared/uploadFile/list.json?caseId=' />' + ${caseId},
+                    autoencode:true,
                     datatype: "json",
                     mtype: 'POST',
                     colNames: ['ID', 'Archivo', 'Descripci&oacute;n','Tipo', 'Tama&ntilde;o (bytes)', 'Usuario', 'Fecha creaci&oacute;n', 'Caso', 'Acci&oacute;n'],
@@ -59,7 +60,7 @@
                         { name: 'fullname', index: 'fullname', width: 130, align: "center", sortable: true, search: false },
                         { name: 'stCreationTime', index: 'stCreationTime', width: 140, align: "center", sortable: true, search: false },
                         { name: 'caseId', index: 'caseId', hidden: true},
-                        { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                        { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],

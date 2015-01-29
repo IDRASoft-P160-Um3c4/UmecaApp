@@ -59,6 +59,7 @@
 
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisor/hearingFormat/listFormats.json' />' + '?id=' +${idCase},
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'isFinished', 'Carpeta <br/>de Investigaci&oacute;n' , 'Carpeta Judicial', 'Nombre completo', 'Fecha de registro', 'Supervisor', 'Audiencia', 'Ampliaci&oacute;n <br/>de plazo', 'Vinculaci&oacute;n <br/>a proceso', 'Finalizado', 'Acci&oacute;n'],
@@ -74,7 +75,7 @@
                     { name: 'extension', index: 'extension', width: 90, align: "center", sortable: false, search: false },
                     { name: 'processVinc', index: 'processVinc', width: 90, align: "center", sortable: false, search: false },
                     { name: 'finishedStr', index: 'finishedStr', width: 85, align: "center", sortable: false, search: false },
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

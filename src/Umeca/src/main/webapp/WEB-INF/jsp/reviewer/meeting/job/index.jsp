@@ -13,6 +13,7 @@
     $(document).ready(function () {
         jQuery("#GridIdJob").jqGrid({
             url: '<c:url value='/reviewer/meeting/listJob.json?idCase=${m.caseDetention.id}' />',
+            autoencode:true,
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],
@@ -24,7 +25,7 @@
                 { name: 'phone', index: 'phone', width: 150, align: "center", search: false },
                 { name: 'registerTypeString', index: 'registerTypeString', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'registerTypeId', index: 'registerTypeId', hidden: true},
-                { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 70, align: "center", sortable: false, search: false, formatter: window.actionFormatter }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
@@ -95,6 +96,11 @@
 <br/>
 
 <div class="row" ng-controller="scController">
+    <div class="blocker" ng-show="WaitFor==true">
+        <div>
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+        </div>
+    </div>
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
             <span ng-bind-html="msgSuccess"></span>

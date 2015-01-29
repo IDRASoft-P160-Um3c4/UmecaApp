@@ -6,6 +6,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
@@ -155,8 +156,8 @@ public class AssignCaseController {
 
         LogComment logComment = new LogComment();
 
-        logComment.setComments(data.getComments());
-        logComment.setAction("Debe generar el plan de supervisi&oacute;n");
+        logComment.setComments(StringEscape.escapeText(data.getComments()));
+        logComment.setAction("Debe generar el plan de seguimiento");
         logComment.setCaseDetention(case_);
         logComment.setMonitoringPlan(monitoringPlan);
         logComment.setSenderUser(userSender);

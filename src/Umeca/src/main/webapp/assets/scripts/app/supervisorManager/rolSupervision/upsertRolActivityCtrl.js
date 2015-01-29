@@ -160,8 +160,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                     title: "",
                     doTitle: function (isModified) {
                         this.title = (isModified === true ? "*" : "") + "Usuario "
-                            + this.infoActivity.supervisor.name + "\nNombre: "
-                            + this.infoActivity.supervisor.description;
+                        + this.infoActivity.supervisor.name + "\nNombre: "
+                        + this.infoActivity.supervisor.description;
                     },
                     idActivity: -1,
                     start: dateStepInit,

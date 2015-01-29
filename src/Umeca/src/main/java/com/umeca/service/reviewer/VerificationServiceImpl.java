@@ -3,6 +3,7 @@ package com.umeca.service.reviewer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.*;
 import com.umeca.model.entities.account.User;
@@ -244,16 +245,16 @@ public class VerificationServiceImpl implements VerificationService {
                 }
             }
             fieldMeetingSourceRepository.save(fmsList);
-            return new ResponseMessage(false, "Se  ah guardado la i nformacion con exito");
+            return new ResponseMessage(false, "Se ha guardado la i nformacion con &eacute;xito");
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "showChoicesBySection", userService);
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la in formacion");
+            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci&oacute;n");
         }
     }
 
     @Override
     public ResponseMessage searchInformationByeSourceCode(Long idCase, Long idSource, String code, Long idList) {
-        ResponseMessage response = new ResponseMessage(true, "La fuente no  ha proporcionado informaci&oacute;n para &eacute;ste campo");
+        ResponseMessage response = new ResponseMessage(true, "La fuente no ha proporcionado informaci&oacute;n para &eacute;ste campo");
         try {
             List<FieldMeetingSource> result = new ArrayList<>();
             List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
@@ -274,13 +275,13 @@ public class VerificationServiceImpl implements VerificationService {
                         if (!fmsAux.getValue().trim().equals("")) {
                             switch (fmsAux.getStatusFieldVerification().getName()) {
                                 case Constants.ST_FIELD_VERIF_EQUALS:
-                                    aux += "<i class=\"icon-ok green  icon-only bigger-120\"></i>&nbsp;&nbsp;" + fmsAux.getFieldVerification().getFieldName() + ": " + fmsAux.getValue() + "<br/>";
+                                    aux += "<i class=\"icon-ok green  icon-only bigger-120\"></i>&nbsp;&nbsp;" + fmsAux.getFieldVerification().getFieldName() + ": " + StringEscape.escapeText(fmsAux.getValue()) + "<br/>";
                                     break;
                                 case Constants.ST_FIELD_VERIF_NOEQUALS:
-                                    aux += "<i class=\"icon-remove red  icon-only bigger-120\"></i>&nbsp;&nbsp;" + fmsAux.getFieldVerification().getFieldName() + ": " + fmsAux.getValue() + "<br/>";
+                                    aux += "<i class=\"icon-remove red  icon-only bigger-120\"></i>&nbsp;&nbsp;" + fmsAux.getFieldVerification().getFieldName() + ": " + StringEscape.escapeText(fmsAux.getValue()) + "<br/>";
                                     break;
                                 case Constants.ST_FIELD_VERIF_DONTKNOW:
-                                    aux += "<i class=\"icon-ban-circle grey  icon-only bigger-120\"></i>&nbsp;&nbsp;" + fmsAux.getFieldVerification().getFieldName() + ": " + fmsAux.getValue() + "<br/>";
+                                    aux += "<i class=\"icon-ban-circle grey  icon-only bigger-120\"></i>&nbsp;&nbsp;" + fmsAux.getFieldVerification().getFieldName() + ": " + StringEscape.escapeText(fmsAux.getValue()) + "<br/>";
                                     break;
                             }
                         }
@@ -591,12 +592,12 @@ public class VerificationServiceImpl implements VerificationService {
                 verification.setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_COMPLETE));
                 verification.setDateComplete(new Date());
                 caseRepository.save(caseDetention);
-                return new ResponseMessage(false, "Se ha terminado con exito la verificación");
+                return new ResponseMessage(false, "Se ha terminado con &eacute;xito la verificaci&oacute;n");
             }
         } catch (Exception e) {
             e.printStackTrace();
             logException.Write(e, this.getClass(), "terminateVerification", userService);
-            return new ResponseMessage(true, "Ha ocurrido un error al terminar la verificación");
+            return new ResponseMessage(true, "Ha ocurrido un error al terminar la verificaci&oacute;n");
         }
     }
 
@@ -655,14 +656,14 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     public ResponseMessage terminateAddSource(Long idCase) {
         if (!caseService.validateStatus(idCase, Constants.CASE_STATUS_VERIFICATION, Verification.class, Constants.VERIFICATION_STATUS_AUTHORIZED)) {
-            return new ResponseMessage(true, "Esta acción no se puede llevar a cabo para este caso");
+            return new ResponseMessage(true, "Esta acci&oacute;n no se puede llevar a cabo para este caso");
         }
         Case c = caseRepository.findOne(idCase);
         c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));
         c.getVerification().setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_NEW_SOURCE));
         caseRepository.save(c);
-        CaseRequestService.CreateCaseRequestByCase(requestTypeRepository,caseRequestRepository, sharedUserService,messageRepository,
-                c,"Se agregan o se modifican fuentes de verificaci&oacute;n del caso, se solicita la autorizaci&oacute;n",Constants.ST_REQUEST_AUTHORIZE_SOURCE,null,Constants.ROLE_EVALUATION_MANAGER);
+        CaseRequestService.CreateCaseRequestByCase(requestTypeRepository, caseRequestRepository, sharedUserService, messageRepository,
+                c, "Se agregan o se modifican fuentes de verificaci&oacute;n del caso, se solicita la autorizaci&oacute;n", Constants.ST_REQUEST_AUTHORIZE_SOURCE, null, Constants.ROLE_EVALUATION_MANAGER);
         return new ResponseMessage(false, "Se ha modificado el caso exitosamente");
     }
 
@@ -684,7 +685,13 @@ public class VerificationServiceImpl implements VerificationService {
         Gson gson = new Gson();
         Case c = caseRepository.findOne(idCase);
         model.addObject("idCase", idCase);
-        model.addObject("m", c.getMeeting());
+
+        Meeting m = c.getMeeting();
+
+        String[] arrProp = new String[]{"commentHome", "commentReference", "commentSchool","commentJob" ,"commentDrug","commentCountry"};
+        m = (Meeting)StringEscape.escapeAttrs(m, arrProp);
+
+        model.addObject("m", m);
         model.addObject("age", userService.calculateAge(c.getMeeting().getImputed().getBirthDate()));
         if (c.getMeeting().getSocialEnvironment() != null) {
             if (c.getMeeting().getSocialEnvironment().getRelSocialEnvironmentActivities() != null) {
@@ -821,19 +828,19 @@ public class VerificationServiceImpl implements VerificationService {
             }
             model.addObject("listReference", gson.toJson(lstReference));
         }
-        List<ImmigrationDocument> listImmDoc =  immigrationDocumentRepository.findNotObsolete();
+        List<ImmigrationDocument> listImmDoc = immigrationDocumentRepository.findNotObsolete();
         List<CatalogDto> cdtoImm = new ArrayList<>();
         List<CatalogDto> cdtoList = new ArrayList<>();
-        for(ImmigrationDocument immd: listImmDoc){
-            cdtoImm.add(new CatalogDto(immd.getId(),immd.getName(),immd.getSpecification()));
+        for (ImmigrationDocument immd : listImmDoc) {
+            cdtoImm.add(new CatalogDto(immd.getId(), immd.getName(), immd.getSpecification()));
         }
-        model.addObject("listImmigrationDoc",gson.toJson(cdtoImm));
+        model.addObject("listImmigrationDoc", gson.toJson(cdtoImm));
         List<Relationship> listRel = relationshipRepository.findNotObsolete();
         cdtoList = new ArrayList<>();
-        for(Relationship r: listRel){
-            cdtoList.add(new CatalogDto(r.getId(),r.getName(),r.getSpecification()));
+        for (Relationship r : listRel) {
+            cdtoList.add(new CatalogDto(r.getId(), r.getName(), r.getSpecification()));
         }
-        model.addObject("listRel",gson.toJson(cdtoList));
+        model.addObject("listRel", gson.toJson(cdtoList));
     }
 
     @Autowired
@@ -845,6 +852,10 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     public void setImputedData(Long id, ModelAndView model) {
         Case c = caseRepository.findOne(id);
+
+        String[] arrProp = new String[]{"idFolder", "meeting.imputed.name", "meeting.imputed.lastNameP", "meeting.imputed.lastNameM"};
+        StringEscape.escapeAttrs(c, arrProp);
+
         model.addObject("idFolder", c.getIdFolder());
         Imputed i = c.getMeeting().getImputed();
         Meeting m = c.getMeeting();
@@ -943,11 +954,11 @@ public class VerificationServiceImpl implements VerificationService {
             }
             StatusFieldVerification st = statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_NOEQUALS);
             List<Long> fmsToDelete = new ArrayList<>();
-            if(list.size()>0){
+            if (list.size() > 0) {
                 Integer idSub = fieldVerificationRepository.getIdSubsectionByCode(list.get(0).getName());
-                if(idList==null){
-                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsection(idCase,idSource,idSub);
-                }else{
+                if (idList == null) {
+                    fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsection(idCase, idSource, idSub);
+                } else {
                     fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsectionWithIdList(idCase, idSource, idSub, idList);
                 }
             }
@@ -1118,13 +1129,13 @@ public class VerificationServiceImpl implements VerificationService {
                     if (adding) {
                         listFieldVerficiation.add(fms);
                     }
-                    if(fieldMeetingSourceId!=null){
-                    for(int i = 0; i< fmsToDelete.size(); i++){
-                        if(fieldMeetingSourceId.equals(fmsToDelete.get(i))){
-                            fmsToDelete.remove(i);
-                            break;
+                    if (fieldMeetingSourceId != null) {
+                        for (int i = 0; i < fmsToDelete.size(); i++) {
+                            if (fieldMeetingSourceId.equals(fmsToDelete.get(i))) {
+                                fmsToDelete.remove(i);
+                                break;
+                            }
                         }
-                    }
                     }
                 }
             }

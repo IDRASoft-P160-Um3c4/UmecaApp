@@ -41,6 +41,11 @@
     </div>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
     <div ng-controller="proceedingLegalController">
+        <div class="blocker" ng-show="WaitFor==true">
+            <div>
+                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+            </div>
+        </div>
         <div id="divErrorMessage" class="alert alert-danger" style="display: none;">
             <button type="button" class="close" ng-click="hideMessageError();">
                 <i class="icon-remove"></i>

@@ -21,6 +21,7 @@
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/management/role/list.json' />',
+                    autoencode:true,
                     datatype: "json",
                     mtype: 'POST',
                     colNames: ['ID', 'Nombre', 'Descripci&oacute;n'],

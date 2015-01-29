@@ -28,7 +28,7 @@ public class Case {
     @Column(name = "id_folder", length = 25, nullable = false)
     private String idFolder;
 
-    @Column(name = "id_mp", length = 15, nullable = true)
+    @Column(name = "id_mp", length = 25, nullable = true)
     private String idMP;
 
     @Column(name = "recidivist", nullable = false)
@@ -37,10 +37,10 @@ public class Case {
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Meeting meeting;
 
-    @Column(name="date_not_prosecute", nullable = true)
+    @Column(name = "date_not_prosecute", nullable = true)
     private Date dateNotProsecute;
 
-    @Column(name="date_obsolete", nullable = true)
+    @Column(name = "date_obsolete", nullable = true)
     private Date dateObsolete;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -67,6 +67,8 @@ public class Case {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
 
+    @Column(name = "change_arrangement_type")
+    private Boolean changeArrangementType;
 
     public MonitoringPlan getMonitoringPlan() {
         return monitoringPlan;
@@ -203,4 +205,11 @@ public class Case {
         this.dateObsolete = dateObsolete;
     }
 
+    public Boolean getChangeArrangementType() {
+        return changeArrangementType;
+    }
+
+    public void setChangeArrangementType(Boolean changeArrangementType) {
+        this.changeArrangementType = changeArrangementType;
+    }
 }

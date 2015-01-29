@@ -3,6 +3,12 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
 <div class="row" ng-controller="upsertMeetingController">
+    <div class="blocker" ng-show="WaitFor==true">
+        <div>
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+        </div>
+    </div>
+
     <div class="col-xs-10 element-center col-xs-offset-1">
         <h2><i class="purple glyphicon glyphicon-user bigger-100"></i> &nbsp;Datos personales y entorno social</h2>
         <div ng-show="msgExito" class="alert alert-success element-center success-font">

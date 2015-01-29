@@ -43,6 +43,7 @@
         $(document).ready(function () {
             jQuery("#GridCasesId").jqGrid({
                 url: '<c:url value='/supervisor/hearingFormat/listCases.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Acci&oacute;n','framingMeetingId','idTR'],
@@ -53,7 +54,7 @@
                     { name: 'idMP', index: 'idMP', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'statusDesc', index: 'statusDesc', width: 350, align: "center", search: false},
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false },
+                    { name: 'Action', width: 70, align: "center", sortable: false, search: false, formatter:window.actionFormatter },
                     { name: 'framingMeetingId', index: 'framingMeetingId', hidden: true },
                     { name: 'idTR', index: 'idTR', hidden: true }
                 ],

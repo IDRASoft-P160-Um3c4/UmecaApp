@@ -3,7 +3,11 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
 <div class="row" ng-controller="environmentAnalysisController">
-
+    <div class="blocker" ng-show="WaitFor==true">
+        <div>
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+        </div>
+    </div>
 <input type="hidden" id="loadEnvironmentAnalysis"
        value="<c:url value='/supervisor/framingMeeting/environmentAnalysis/loadEnvironmentAnalysis.json'/>"/>
 <input type="hidden" id="envIdCase" value="{{fm.objView.idCase}}"/>

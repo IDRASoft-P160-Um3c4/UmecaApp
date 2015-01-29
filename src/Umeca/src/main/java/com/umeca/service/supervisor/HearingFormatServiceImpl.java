@@ -3,6 +3,7 @@ package com.umeca.service.supervisor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
@@ -157,7 +158,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormat.setUmecaSupervisor(userRepository.findOne(viewFormat.getUmecaSupervisorId()));
 
         } catch (Exception e) {
-            System.out.println("Ha ocurrido un error");
+            System.out.println("Ha ocurrido un error fillHearingFormat");
             e.printStackTrace();
             logException.Write(e, this.getClass(), "parsingDataHearingFormat", sharedUserService);
             return null;
@@ -188,7 +189,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             else
                 hearingImputed.setBirthDate(null);
         } catch (Exception e) {
-            System.out.println("Ha ocurrido un error ");
+            System.out.println("Ha ocurrido un error fillHearingFormat");
             e.printStackTrace();
             logException.Write(e, this.getClass(), "parsingBirthDateHearingFormat", sharedUserService);
             return null;
@@ -198,8 +199,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         if (viewFormat.getLocation() != null && viewFormat.getLocation().getId() != null) {
             Address address = hearingImputed.getAddress();
-            if(address==null)
-                address=new Address();
+            if (address == null)
+                address = new Address();
 
             address.setStreet(viewFormat.getStreet());
             address.setOutNum(viewFormat.getOutNum());
@@ -243,7 +244,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingSpecs.setLinkageTime(new Time(sdfA.parse(viewFormat.getLinkageTimeStr()).getTime()));
 
         } catch (Exception e) {
-            System.out.println("Ha ocurrido un error!!!");
+            System.out.println("Ha ocurrido un error fillHearingFormat");
             e.printStackTrace();
             logException.Write(e, this.getClass(), "parsingSpecsHearingFormat", sharedUserService);
             return null;
@@ -254,7 +255,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
 
         if (viewFormat.getVincProcess() != null &&
-                (viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
+                (viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)
+                        || viewFormat.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
 
             hearingSpecs.setArrangementType(viewFormat.getArrangementType());
             hearingSpecs.setNationalArrangement(viewFormat.getNationalArrangement());
@@ -340,7 +342,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                             contactDataRepository.delete(act);
                         }
                     }
-
 
                     hearingFormat.setContacts(lstNewContactData);
                 } else {
@@ -796,112 +797,118 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         Long idCase = hearingFormat.getCaseDetention().getId();
         //try {
 
-            if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true) {
-                hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
-                hearingFormat.setEndTime(new Time(new Date().getTime()));
-                if (idJudicial == null || idJudicial.trim().equals("")) {
-                    hearingFormat.getCaseDetention().setIdMP(hearingFormat.getIdJudicial());
-                }
-            } else {
-                hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE));
+        if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true) {
+            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
+            hearingFormat.setEndTime(new Time(new Date().getTime()));
+            if (idJudicial == null || idJudicial.trim().equals("")) {
+                hearingFormat.getCaseDetention().setIdMP(hearingFormat.getIdJudicial());
             }
 
-            if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
-                    hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
+            //List<HearingFormat>
 
-                hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
+            //if() aqui deb buscar el ultimo formato de audiencia y verificar si cambia de MC a SCPP o al reves
 
-                sb.append("Solicitud de cierre de caso: ");
-                sb.append(idFolder);
-                sb.append(". Comentario: ");
-                sb.append(hearingFormat.getConfirmComment());
-                sb.append(".");
+        } else {
+            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE));
+        }
 
-                SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
-                        hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
+        if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
+                hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
+
+            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
+
+            sb.append("Solicitud de cierre de caso: ");
+            sb.append(StringEscape.escapeText(idFolder));
+            sb.append(". Comentario: ");
+            sb.append(StringEscape.escapeText(hearingFormat.getConfirmComment()));
+            sb.append(".");
+
+            SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
+                    hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
+        }
+
+        if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null &&
+                hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
+                (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)
+                        || hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
+            MonitoringPlan monP = hearingFormat.getCaseDetention().getMonitoringPlan();
+            hearingFormat.setShowNotification(true);
+            if (monP != null) {
+                monP.setResolution(hearingFormat.getHearingFormatSpecs().getArrangementType());
+                monitoringPlanRepository.save(monP);
             }
 
-            if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null &&
-                    hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
-                    (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
-                MonitoringPlan monP = hearingFormat.getCaseDetention().getMonitoringPlan();
-                hearingFormat.setShowNotification(true);
-                if (monP != null) {
-                    monP.setResolution(hearingFormat.getHearingFormatSpecs().getArrangementType());
-                    monitoringPlanRepository.save(monP);
-                }
+            FramingMeeting existFramning = hearingFormat.getCaseDetention().getFramingMeeting();
+            if (existFramning != null) { //si tiene una entrevista de encuadre se verifica si se ha cambiado la direccion en el formato de audiencia
 
-                FramingMeeting existFramning = hearingFormat.getCaseDetention().getFramingMeeting();
-                if (existFramning != null) { //si tiene una entrevista de encuadre se verifica si se ha cambiado la direccion en el formato de audiencia
+                Address lastFormatAddress = addressRepository.findOne(hearingFormatRepository.getLastFormatAddressByIdCase(idCase));
+                Address newFormatAddress = hearingFormat.getHearingImputed().getAddress();
 
-                    Address lastFormatAddress = addressRepository.findOne(hearingFormatRepository.getLastFormatAddressByIdCase(idCase));
-                    Address newFormatAddress = hearingFormat.getHearingImputed().getAddress();
+                if (lastFormatAddress == null || !lastFormatAddress.equals(newFormatAddress)) {
+                    FramingMeeting existFraming = hearingFormat.getCaseDetention().getFramingMeeting();
 
-                    if (lastFormatAddress == null || !lastFormatAddress.equals(newFormatAddress)) {
-                        FramingMeeting existFraming = hearingFormat.getCaseDetention().getFramingMeeting();
+                    if (existFraming != null) {
+                        Address fAddress = addressRepository.findOne(framingAddressRepository.getLastIdAddressByIdCase(idCase));
 
-                        if (existFraming != null) {
-                            Address fAddress = addressRepository.findOne(framingAddressRepository.getLastIdAddressByIdCase(idCase));
+                        if (fAddress != null && !newFormatAddress.equals(fAddress)) {
+                            FramingAddress newFramAddr = new FramingAddress();
 
-                            if (fAddress != null && !newFormatAddress.equals(fAddress)) {
-                                FramingAddress newFramAddr = new FramingAddress();
-
-                                newFramAddr.setFramingMeeting(existFraming);
-                                Address addrObj = new Address();
-                                addrObj.setStreet(newFormatAddress.getStreet());
-                                addrObj.setOutNum(newFormatAddress.getOutNum());
-                                addrObj.setInnNum(newFormatAddress.getInnNum());
-                                addrObj.setLocation(newFormatAddress.getLocation());
-                                addrObj.setAddressString(addrObj.toString());
-                                newFramAddr.setAddress(addrObj);
-                                framingAddressRepository.save(newFramAddr);
-                            }
+                            newFramAddr.setFramingMeeting(existFraming);
+                            Address addrObj = new Address();
+                            addrObj.setStreet(newFormatAddress.getStreet());
+                            addrObj.setOutNum(newFormatAddress.getOutNum());
+                            addrObj.setInnNum(newFormatAddress.getInnNum());
+                            addrObj.setLocation(newFormatAddress.getLocation());
+                            addrObj.setAddressString(addrObj.toString());
+                            newFramAddr.setAddress(addrObj);
+                            framingAddressRepository.save(newFramAddr);
                         }
-
                     }
 
                 }
 
             }
 
-            response.setHasError(false);
+        }
 
-            hearingFormatRepository.save(hearingFormat);
+        response.setHasError(false);
+
+        hearingFormatRepository.save(hearingFormat);
 
 
-            if (hearingFormat.getIsFinished() == true) {
-                List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
-                if (logs.size() > 0) {
-                    LogCase l = logs.get(logs.size() - 1);
-                    LogComment logComment = new LogComment();
-                    logComment.setComments(l.getResume());
-                    logComment.setAction(l.getTitle());
-                    Case c = l.getCaseDetention();
-                    logComment.setCaseDetention(c);
-                    logComment.setSenderUser(hearingFormat.getSupervisor());
-                    Long mp = monitoringPlanRepository.getMonPlanIdByCaseId(c.getId());
-                    logComment.setAction(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
-                    if (mp != null) {
-                        Long uid = monitoringPlanRepository.getUserIdByMonPlanId(mp);
-                        User u = new User();
-                        u.setId(uid);
-                        logComment.setReceiveUser(u);
-                    } else {
-                        logComment.setReceiveUser(hearingFormat.getSupervisor());
-                    }
-                    logComment.setTimestamp(Calendar.getInstance());
-                    logComment.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
-                    logComment.setObsolete(false);
-                    logCommentRepository.save(logComment);
+        if (hearingFormat.getIsFinished() == true) {
+            List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
+            if (logs.size() > 0) {
+                LogCase l = logs.get(logs.size() - 1);
+                LogComment logComment = new LogComment();
+                logComment.setComments(StringEscape.escapeText(l.getResume()));
+                logComment.setAction(l.getTitle());
+                Case c = l.getCaseDetention();
+                logComment.setCaseDetention(c);
+                logComment.setSenderUser(hearingFormat.getSupervisor());
+                Long mp = monitoringPlanRepository.getMonPlanIdByCaseId(c.getId());
+                logComment.setAction(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
+                if (mp != null) {
+                    Long uid = monitoringPlanRepository.getUserIdByMonPlanId(mp);
+                    User u = new User();
+                    u.setId(uid);
+                    logComment.setReceiveUser(u);
+                } else {
+                    logComment.setReceiveUser(hearingFormat.getSupervisor());
                 }
-                sb = new StringBuilder();
-                sb.append(request.getContextPath());
-                sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
-                sb.append(hearingFormat.getCaseDetention().getId());
-                response.setUrlToGo(sb.toString());
-            } else {
-                response.setMessage(hearingFormat.getId() + "|Se ha registrado el formato de audiencia.");
+                logComment.setTimestamp(Calendar.getInstance());
+                logComment.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
+                logComment.setObsolete(false);
+                logCommentRepository.save(logComment);
             }
+            sb = new StringBuilder();
+            sb.append(request.getContextPath());
+            sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
+            sb.append(hearingFormat.getCaseDetention().getId());
+            response.setUrlToGo(sb.toString());
+        } else {
+            response.setMessage(hearingFormat.getId() + "|Se ha registrado el formato de audiencia.");
+        }
 
 
 //        } catch (Exception e) {
@@ -910,7 +917,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 //            logException.Write(e, this.getClass(), "saveHearingFormat", sharedUserService);
 //            response.setHasError(true);
 //        } finally {
-            return response;
+        return response;
         //}
     }
 
@@ -918,7 +925,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     public ResponseMessage validatePassCredential(String pass) {
 
         if (!sharedUserService.isValidPasswordForUser(sharedUserService.GetLoggedUserId(), pass)) {
-            return new ResponseMessage(true, "El password es incorrecto, verifique los datos.");
+            return new ResponseMessage(true, "La contraseña es incorrecta, verifique los datos.");
         }
         return null;
     }

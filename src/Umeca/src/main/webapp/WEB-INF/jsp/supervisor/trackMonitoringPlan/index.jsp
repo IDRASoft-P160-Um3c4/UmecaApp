@@ -35,6 +35,7 @@
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisor/trackMonitoringPlan/list.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Caso', 'Carpeta judicial', 'Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'idTec', 'Suspendido', 'Acci&oacute;n'],
@@ -50,7 +51,7 @@
                     { name: 'supervisor', index: 'supervisor', width: 130, align: "center", sortable: false, search: false },
                     { name: 'idTec', index: 'idTec', hidden: true},
                     { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden: true},
-                    { name: 'Action', width: 110, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 110, align: "center", sortable: false, search: false ,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

@@ -37,6 +37,7 @@
         $(document).ready(function() {
             jQuery("#GridIdReference").jqGrid({
                 url: '<c:url value='/supervisor/caseNotProsecute/list.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Carpeta de investigaci&oacute;n', 'Nombre', 'Acci&oacute;n'],
@@ -44,7 +45,7 @@
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 70, align: "center", sortable: false, search: false, formatter:window.actionFormatter }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

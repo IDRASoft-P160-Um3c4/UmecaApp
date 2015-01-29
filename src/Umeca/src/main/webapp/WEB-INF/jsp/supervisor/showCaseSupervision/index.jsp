@@ -77,6 +77,7 @@
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisor/showCaseEvaluation/list.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'IDFM', 'IDHF', 'IDMONP', 'IDVER', 'FMTERM', 'Carpeta Judicial', 'Nombre', 'Supervisor', 'Resoluci&oacute;n', 'Acci&oacute;n'],
@@ -91,7 +92,7 @@
                     { name: 'fullname', index: 'fullname', search: false, width: 400, align: "center"},
                     { name: 'userName', index: 'userName', search: false, width: 400, align: "center", hidden: hideCol},
                     { name: 'resolutionStr', index: 'resolutionStr', width: 100, align: "center", sorttype: 'string', search: false},
-                    { name: 'Action', width: 130, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 130, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

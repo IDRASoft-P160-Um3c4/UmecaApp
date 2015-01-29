@@ -97,6 +97,7 @@ app.controller("framingMeetingLogController", function ($scope, $timeout, $sce) 
     };
 
     $scope.formatHtml = function (sHtml) {
+
         return $sce.trustAsHtml(sHtml);
     };
 

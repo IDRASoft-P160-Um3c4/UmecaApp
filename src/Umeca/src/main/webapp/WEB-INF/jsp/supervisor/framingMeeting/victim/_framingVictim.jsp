@@ -22,6 +22,7 @@
 
         jQuery("#GridVictim").jqGrid({
             url: urlGridVictim,
+            autoencode:true,
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Nombre', 'Edad', 'Relaci&oacute;n', 'T&eacute;lefono', 'Direcci&oacute;n', 'Acci&oacute;n'],
@@ -32,7 +33,7 @@
                 { name: 'relationshipName', index: 'relationshipName', width: 120, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'phone', index: 'phone', width: 110, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'address', index: 'address', width: 250, align: "center", search: false },
-                { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 70, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
             ],
             rowNum: 10,
             rowList: [10, 20, 30],

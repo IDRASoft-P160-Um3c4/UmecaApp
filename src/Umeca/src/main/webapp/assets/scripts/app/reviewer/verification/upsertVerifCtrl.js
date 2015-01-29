@@ -115,22 +115,22 @@
                 var message = "";
                 var adding = true;
 
-                    var elementAux = $(this);
-                    var isHide = false;
-                    var isParent = false;
-                    do {
-                        isHide = elementAux.hasClass("ng-hide");
-                        isParent = (elementAux.attr("id") == "divElementVerif");
-                        elementAux = elementAux.parent();
-                    } while (!isHide && !isParent);
-                    if(isHide){
-                      adding = false;
-                    }
+                var elementAux = $(this);
+                var isHide = false;
+                var isParent = false;
+                do {
+                    isHide = elementAux.hasClass("ng-hide");
+                    isParent = (elementAux.attr("id") == "divElementVerif");
+                    elementAux = elementAux.parent();
+                } while (!isHide && !isParent);
+                if (isHide) {
+                    adding = false;
+                }
                 if (e.value == undefined || e.value == "") {
                     if (!isHide && isParent) {
                         message = $(this).attr("data-val-required");
                     }
-                }else{
+                } else {
                     var valMax = $(this).attr("data-val-length-max");
                     var valMin = $(this).attr("data-val-length-min");
                     var pattern = $(this).attr("data-val-regex-pattern");
@@ -140,7 +140,7 @@
                     if (pattern != undefined && $(this).val().match("^[0-9]+$") == null) {
                         message = $(this).attr("data-val-regex");
                     }
-               }
+                }
                 var spanVal = $(this).siblings("span");
                 if (spanVal.hasClass("input-group-addon")) {
                     spanVal = $(this).parent().siblings('span');
@@ -189,13 +189,19 @@
         if ($scope.idList == undefined) {
             $scope.idList = "";
         }
-        if(result[0]!= undefined && result[0].name == "imputed.birthCountry.id" && result[0].value != "1"){
-                for(var i = 1; i<result.length;i++){
-                         if(result[i].name == "imputed.location.id"){
-                             result.splice(i, 1);
-                         }
+        if (result[0] != undefined && result[0].name == "imputed.birthCountry.id" && result[0].value != "1") {
+            for (var i = 1; i < result.length; i++) {
+                if (result[i].name == "imputed.location.id") {
+                    result.splice(i, 1);
                 }
+            }
         }
+
+        for (var x = 0; x < result.length; x++) {
+            if (result[x] != undefined)
+                result[x].value = result[x].value.replace(/%22/g, "'");
+        }
+
         var content = JSON.stringify(result);
         content = "val=" + content + "&&idCase=" + $scope.idCase + "&&idSource=" + $scope.idSource + "&&idList=" + $scope.idList;
         $scope.WaitFor = true;
@@ -219,7 +225,7 @@
             if (resp.hasError === false) {
                 $scope.disableProperties();
                 $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                $scope.Model.def.resolve({isCancel: false});
                 return;
             }
 
@@ -245,7 +251,7 @@
             $scope.Model.dlg.modal('hide');
         }
         if ($scope.Model.def != undefined) {
-            $scope.Model.def.reject({ isCancel: true });
+            $scope.Model.def.reject({isCancel: true});
         }
     };
 

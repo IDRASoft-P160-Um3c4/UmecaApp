@@ -1,4 +1,3 @@
-
 <div id="tasks-tab" class="tab-pane active">
     <h4 class="smaller lighter green" ng-show="lstActivities.length > 0">
         <i class="icon-list"></i>
@@ -13,7 +12,7 @@
                     <div class="col-xs-9">
                         <label class="inline">
                             <i class="glyphicon glyphicon-paperclip green"></i> &nbsp;&nbsp;
-                                <strong><span class="lbl" ng-bind-html="formatHtml(a.title)"><br/>
+                            <strong><span class="lbl" ng-bind-html="formatHtml(a.title)"><br/>
                                     </span></strong>
                         </label>
                     </div>
@@ -23,12 +22,12 @@
                 </div>
 
                 <div class="row">
-                    <p ng-bind-html="formatHtml(a.message)"></p>
+                    <p>{{a.message}}</p>
                 </div>
             </div>
         </li>
         <li class="item-green clearfix" ng-show="{{lstActivities.length == 0}}">
-                No existen actividades pendientes.
+            No existen actividades pendientes.
         </li>
     </ul>
 </div>

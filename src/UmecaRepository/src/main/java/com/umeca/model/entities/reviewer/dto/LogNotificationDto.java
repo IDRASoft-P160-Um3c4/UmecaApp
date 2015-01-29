@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer.dto;
 
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.shared.Constants;
 
 import java.util.Calendar;
@@ -23,7 +24,7 @@ public class LogNotificationDto {
     public LogNotificationDto(Long notificationId, String title, String message, Calendar dateNotif) {
         this.id = notificationId;
         this.title = title;
-        this.message = message;
+        this.message = StringEscape.escapeText(message);
         this.dateNotif=dateNotif;
     }
 
@@ -35,32 +36,32 @@ public class LogNotificationDto {
 
         if(status.equals(Constants.S_MEETING_INCOMPLETE)) {
             title="Entrevista incompleta.";
-            message="Debe completar la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+this.idFolder+" para el imputado "+this.imputedName+".";
+            message="Debe completar la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+ StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
         }
         else
         if(status.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)) {
             title="Informaci&oacute;n legal incompleta.";
-            message="Debe completar la informaci&oacute;n legal de la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+this.idFolder+" para el imputado "+this.imputedName+".";
+            message="Debe completar la informaci&oacute;n legal de la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
         }
         else
         if(status.equals(Constants.VERIFICATION_STATUS_AUTHORIZED)) {
             title="Autorizaci&oacute;n de fuentes terminada.";
-            message="Ha finalizado autorizaci&oacute;n de fuentes para el caso con carpeta de investigaci&oacute;n "+this.idFolder+" para el imputado "+this.imputedName+".";
+            message="Ha finalizado autorizaci&oacute;n de fuentes para el caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
         }
         else
         if(status.equals(Constants.VERIFICATION_STATUS_NEW_SOURCE)) {
             title="Autorizaci&oacute;n de fuentes.";
-            message="Se ha completado el registro de datos legales. Debe autorizar las fuentes para el caso con carpeta de investigaci&oacute;n "+this.idFolder+" para el imputado "+this.imputedName+".";
+            message="Se ha completado el registro de datos legales. Debe autorizar las fuentes para el caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
         }
         else
         if(status.equals("NO_SOURCES")) {
             title="Fuentes no disponibles.";
-            message="Debe agregar fuentes para realizar la verificaci&oacute;n de la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+this.idFolder+" para el imputado "+this.imputedName+".";
+            message="Debe agregar fuentes para realizar la verificaci&oacute;n de la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
         }
         else
         if(status.equals("SOURCES_NO_MEETING")) {
             title="Fuentes disponibles.";
-            message="Debe realizar las entrevistas a las fuentes para la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+this.idFolder+" para el imputado "+this.imputedName+".";
+            message="Debe realizar las entrevistas a las fuentes para la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
         }
 
     }

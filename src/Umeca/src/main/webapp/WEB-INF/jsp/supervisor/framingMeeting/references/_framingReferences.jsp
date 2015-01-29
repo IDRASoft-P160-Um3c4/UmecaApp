@@ -21,6 +21,7 @@
         };
 
         jQuery("#GridReferences").jqGrid({
+            autoencode:true,
             url: urlGridReferences,
             datatype: "json",
             mtype: 'POST',
@@ -32,7 +33,7 @@
                 { name: 'relationshipName', index: 'relationshipName', width: 110, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'address', index: 'address', width: 230, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 100, align: "center", search: false },
-                { name: 'Action', width: 50, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 50, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
             ],
             rowNum: 10,
             rowList: [10, 20, 30],

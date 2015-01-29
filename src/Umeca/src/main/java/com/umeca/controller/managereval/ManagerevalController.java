@@ -8,6 +8,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.model.managerEval.ManagerevalView;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.RequestType;
 import com.umeca.model.catalog.StatusCase;
@@ -127,7 +128,7 @@ public class ManagerevalController {
 
         LogNotificationReviewer notif = new LogNotificationReviewer();
         notif.setIsObsolete(false);
-        notif.setSubject("Se han verificado las fuentes para el caso con carpeta de investigaci&oacute;n "+__case.getIdFolder()+".");
+        notif.setSubject("Se han verificado las fuentes para el caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(__case.getIdFolder())+".");
         notif.setMessage(sourcesInfo.getComment());
         User uSender = userRepository.findOne(userService.GetLoggedUserId());
         notif.setSenderUser(uSender);
@@ -149,7 +150,7 @@ public class ManagerevalController {
             rmur.add(r);
             m.setMessageUserReceivers(rmur);
             m.setCreationDate(new Date());
-            m.setText(sourcesInfo.getComment());
+            m.setText(StringEscape.escapeText(sourcesInfo.getComment()));
             messageRepository.save(m);
             caseRequest.setResponseMessage(m);
             caseRequest.setResponseType(responseTypeRepository.findByCode(Constants.RESPONSE_TYPE_DRESSED));
@@ -353,6 +354,10 @@ public class ManagerevalController {
             StatusCase st = statusCaseRepository.findByCode(statusBefore.getCaseDetention());
             model.addObject("statusCase",st.getDescription());
             CaseInfo caseInfo = qCaseRepository.getInfoById(caseRequest.getRequestMessage().getCaseDetention().getId());
+
+            String[] arrProp = new String[]{"folderId", "personName"};
+            caseInfo = (CaseInfo) StringEscape.escapeAttrs(caseInfo, arrProp);
+
             model.addObject("caseInfo", caseInfo);
             Message requestMessage= caseRequest.getRequestMessage();
             model.addObject("reason", requestMessage.getText());
@@ -413,7 +418,7 @@ public class ManagerevalController {
 
             Message messageResponse = new Message();
             messageResponse.setSender(userSender);
-            messageResponse.setText(requestDto.getReason());
+            messageResponse.setText(StringEscape.escapeText(requestDto.getReason()));
             messageResponse.setCreationDate(new Date());
             RelMessageUserReceiver lisRel = new RelMessageUserReceiver();
             lisRel.setMessage(messageResponse);
@@ -495,7 +500,7 @@ public class ManagerevalController {
             notif.setSenderUser(uSender);
             String request = requestDto.getResponse().equals(Constants.RESPONSE_TYPE_ACCEPTED)? " acept&oacute; ":" rechaz&oacute; ";
             notif.setSubject("El Coordinador de Evaluaci&oacute;n "+uSender.getFullname()+request+"la solcitud");
-            notif.setMessage("Carpeta de investigaci&oacute;n: "+c.getIdFolder()+"<br/>Solicitud: "+caseRequest.getRequestType().getDescription()+"<br/>Raz&oacute;n: "+requestDto.getReason());
+            notif.setMessage("Carpeta de investigaci&oacute;n: "+StringEscape.escapeText(c.getIdFolder())+"<br/>Solicitud: "+caseRequest.getRequestType().getDescription()+"<br/>Raz&oacute;n: "+requestDto.getReason());
             notif.setReceiveUser(caseRequest.getRequestMessage().getSender());
             logNotificationReviewerRepository.save(notif);
 
