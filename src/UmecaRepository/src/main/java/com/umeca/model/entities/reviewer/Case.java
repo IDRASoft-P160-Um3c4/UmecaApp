@@ -67,9 +67,6 @@ public class Case {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
 
-    @Column(name = "change_arrangement_type")
-    private Boolean changeArrangementType;
-
     public MonitoringPlan getMonitoringPlan() {
         return monitoringPlan;
     }
@@ -205,11 +202,4 @@ public class Case {
         this.dateObsolete = dateObsolete;
     }
 
-    public Boolean getChangeArrangementType() {
-        return changeArrangementType;
-    }
-
-    public void setChangeArrangementType(Boolean changeArrangementType) {
-        this.changeArrangementType = changeArrangementType;
-    }
 }
