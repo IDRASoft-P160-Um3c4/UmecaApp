@@ -1,32 +1,31 @@
 package com.umeca.controller.supervisorManager;
 
 import com.google.gson.Gson;
+import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
+import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
+import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
-import com.umeca.model.entities.reviewer.LogNotificationReviewer;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisorManager.AssignCaseView;
-import com.umeca.infrastructure.jqgrid.model.*;
 import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
-import com.umeca.repository.shared.*;
-
 import com.umeca.repository.supervisor.HearingFormatRepository;
-import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -157,7 +156,7 @@ public class AssignCaseController {
 
         LogComment logComment = new LogComment();
 
-        logComment.setComments(data.getComments());
+        logComment.setComments(StringEscape.escapeText(data.getComments()));
         logComment.setAction("Debe generar el plan de seguimiento");
         logComment.setCaseDetention(case_);
         logComment.setMonitoringPlan(monitoringPlan);

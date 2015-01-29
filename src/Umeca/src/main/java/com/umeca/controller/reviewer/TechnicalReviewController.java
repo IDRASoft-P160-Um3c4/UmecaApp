@@ -6,6 +6,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.Questionary;
 import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.*;
@@ -146,12 +147,17 @@ public class TechnicalReviewController {
 
             Verification verification = verificationRepository.findById(id);
             Case caseDet = verification.getCaseDetention();
+
             TechnicalReview tecRev_prev = caseDet.getTechnicalReview();
             Imputed imputed = caseDet.getVerification().getMeetingVerified().getImputed();
+
+            String[] arrProp = new String[]{"name","lastNameP", "lastNameM"};
+            imputed = (Imputed) StringEscape.escapeAttrs(imputed, arrProp);
+
             String fullname = imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM();
 
             model.addObject("idVerification", verification.getId());
-            model.addObject("imputedFullName", fullname);
+            model.addObject("imputedFullName", StringEscape.escapeText(fullname));
             model.addObject("foldId", verification.getCaseDetention().getIdFolder());
             model.addObject("idCase", verification.getCaseDetention().getId());
 
@@ -177,7 +183,7 @@ public class TechnicalReviewController {
                 model.addObject("lstQuestSel_prev", technicalReviewService.genLstJsonQuesSel(tecRev_prev.getQuestionsSel()));
                 model.addObject("totRisk_prev", tecRev_prev.getTotalRisk());
                 model.addObject("lstSubtotTxt_prev", tecRev_prev.getSubtotalsTxt());
-                model.addObject("comments", tecRev_prev.getComments());
+                model.addObject("comments", StringEscape.escapeText(tecRev_prev.getComments()));
                 model.addObject("isFinished", tecRev_prev.getIsFinished());
             } else {
                 model.addObject("hasRevTec", false);

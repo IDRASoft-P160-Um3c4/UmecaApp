@@ -6,6 +6,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
@@ -160,7 +161,7 @@ public class CaseNotProsecuteController {
             LogNotificationReviewer notif = new LogNotificationReviewer();
             notif.setIsObsolete(false);
             notif.setSubject("Se abri&oacute; un caso no judicializado en supervisi&oacute;n");
-            notif.setMessage("Se abri&oacute; el caso con Carpeta de Investigaci&oacute;n "+c.getIdFolder()+".<br/>El caso fue cerrado por el evaluador: "+c.getMeeting().getReviewer().getFullname()+".<br/>Raz&oacute;n: "+comment+".");
+            notif.setMessage("Se abri&oacute; el caso con Carpeta de Investigaci&oacute;n "+ StringEscape.escapeText(c.getIdFolder())+".<br/>El caso fue cerrado por el evaluador: "+c.getMeeting().getReviewer().getFullname()+".<br/>Raz&oacute;n: "+StringEscape.escapeText(comment)+".");
             User uSender = userRepository.findOne(userService.GetLoggedUserId());
             notif.setSenderUser(uSender);
             List<SelectList> userManagerEval = userRepository.getLstValidUsersByRole(Constants.ROLE_EVALUATION_MANAGER);
@@ -172,7 +173,7 @@ public class CaseNotProsecuteController {
 
             LogComment logComment = new LogComment();
 
-            logComment.setComments("Se abri&oacute; el caso con Carpeta de Investigaci&oacute;n "+c.getIdFolder()+".<br/>El caso fue abierto por el supervisor: "+uSender.getFullname()+".<br/>Raz&oacute;n: "+comment+".");
+            logComment.setComments("Se abri&oacute; el caso con Carpeta de Investigaci&oacute;n "+StringEscape.escapeText(c.getIdFolder())+".<br/>El caso fue abierto por el supervisor: "+uSender.getFullname()+".<br/>Raz&oacute;n: "+StringEscape.escapeText(comment+"."));
             logComment.setAction(MonitoringConstants.TYPE_INFORMATION);
             logComment.setCaseDetention(c);
             logComment.setSenderUser(uSender);

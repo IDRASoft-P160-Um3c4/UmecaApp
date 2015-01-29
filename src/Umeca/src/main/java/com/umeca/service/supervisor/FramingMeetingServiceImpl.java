@@ -642,94 +642,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     }
 
-/*
-    public ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase) {
-
-        ProcessAccompaniment processAccompaniment = caseRepository.findOne(idCase).getFramingMeeting().getProcessAccompaniment();
-
-        if (processAccompaniment == null)
-            return new ProcessAccompanimentForView();
-
-        ProcessAccompanimentForView view = new ProcessAccompanimentForView();
-
-        Gson conv = new Gson();
-
-        view.setName(processAccompaniment.getName());
-        view.setLastNameP(processAccompaniment.getLastNameP());
-        view.setLastNameM(processAccompaniment.getLastNameM());
-        view.setGender(processAccompaniment.getGender());
-        view.setAge(processAccompaniment.getAge());
-        view.setPhone(processAccompaniment.getPhone());
-        view.setCelphone(processAccompaniment.getCelphone());
-        view.setDegree(processAccompaniment.getDegree());
-        view.setOccName(processAccompaniment.getOccupation().getName());
-        view.setOccPlace(processAccompaniment.getOccupation().getPlace());
-        view.setOccPhone(processAccompaniment.getOccupation().getPhone());
-        view.setIdAddres(processAccompaniment.getAddress().getId());
-        view.setRelationshipId(processAccompaniment.getRelationship().getId());
-        //view.setAddress(conv.toJson(new AddressDto().addressDto(addressRepository.findOne(processAccompaniment.getAddress().getId()))));
-
-        return view;
-    }
-
-    public ProcessAccompaniment fillProcessAccompaniment(Long idCase, ProcessAccompanimentForView view) {
-        ProcessAccompaniment processAccompaniment = caseRepository.findOne(idCase).getFramingMeeting().getProcessAccompaniment();
-
-        if (processAccompaniment == null) {
-            processAccompaniment = new ProcessAccompaniment();
-        }
-
-        processAccompaniment.setName(view.getName());
-        processAccompaniment.setLastNameP(view.getLastNameP());
-        processAccompaniment.setLastNameM(view.getLastNameM());
-        processAccompaniment.setGender(view.getGender());
-        processAccompaniment.setAge(view.getAge());
-        processAccompaniment.setPhone(view.getPhone());
-        processAccompaniment.setCelphone(view.getCelphone());
-        processAccompaniment.setDegree(view.getDegree());
-
-        Relationship relationship = relationshipRepository.findOne(view.getRelationshipId());
-
-        processAccompaniment.setRelationship(relationship);
-
-        Occupation occup = processAccompaniment.getOccupation();
-
-        if (occup == null)
-            occup = new Occupation();
-
-        occup.setName(view.getOccName());
-        occup.setPlace(view.getOccPlace());
-        occup.setPhone(view.getOccPhone());
-
-        processAccompaniment.setOccupation(occup);
-
-        Address address = processAccompaniment.getAddress();
-
-        if (address == null)
-            address = new Address();
-
-        address.setStreet(view.getStreet());
-        address.setInnNum(view.getInnNum());
-        address.setOutNum(view.getOutNum());
-        address.setLocation(locationRepository.findOne(view.getLocation().getId()));
-        address.setAddressString(address.toString());
-
-        processAccompaniment.setAddress(address);
-
-        return processAccompaniment;
-    }
-
-    @Transactional
-    public ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment) {
-        try {
-            processAccompanimentRepository.save(processAccompaniment);
-            return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
-        } catch (Exception e) {
-            logException.Write(e, this.getClass(), "saveProcessAccompaniment", sharedUserService);
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;s tarde.");
-        }
-    }*/
-
     @Autowired
     RelFramingMeetingActivityRepository relFramingActivityRepository;
     @Autowired
@@ -991,7 +903,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsertDrug", sharedUserService);
             result.setHasError(true);
-            result.setMessage("Ocurrio un error al guardar la informaci&oacute;n. Int&eacute;nte m&aacute;s tarde.");
+            result.setMessage("Ocurri&oacute; un error al guardar la informaci&oacute;n. Int&eacute;nte m&aacute;s tarde.");
         }
         return result;
     }
@@ -1010,11 +922,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             drugRepository.delete(existDrug);
             result.setHasError(false);
-            result.setMessage("Se elimino la sustancia con &eacute;xito");
+            result.setMessage("Se elimin&oacute; la sustancia con &eacute;xito");
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "deleteDrug", sharedUserService);
             result.setHasError(true);
-            result.setMessage("Ocurrio un error al eliminar la sustancia. Int?nte m&aacute;s tarde");
+            result.setMessage("Ocurri&oacute; un error al eliminar la sustancia. Int&eacute;nte m&aacute;s tarde");
         }
         return result;
     }

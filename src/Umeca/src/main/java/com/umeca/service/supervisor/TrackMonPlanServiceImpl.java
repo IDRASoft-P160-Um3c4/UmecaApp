@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
@@ -213,7 +214,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         Calendar now = Calendar.getInstance();
         //String statusAction = (model.getAuthorized() == 1 ? MonitoringConstants.STATUS_AUTHORIZED : MonitoringConstants.STATUS_REJECTED_AUTHORIZED);
         String statusAction = (model.getAuthorized() == 1 ? statusAuth : statusReject);
-        commentModel.setComments(model.getComments());
+        commentModel.setComments(StringEscape.escapeText(model.getComments()));
         commentModel.setAction(statusAction);
         commentModel.setMonitoringPlan(monPlan);
         commentModel.setCaseDetention(monPlan.getCaseDetention());
@@ -239,7 +240,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         if(type.equals(MonitoringConstants.TYPE_COMMENT_AUTHORIZED)){
             CaseRequestService.CreateCaseResponseToUser(responseTypeRepository, caseRequestRepository, messageRepository,
                     sharedUserService, logException, user, monPlan.getCaseDetention(),
-                    "El plan de monitoreo fue " + (model.getAuthorized() == 1 ? "autorizado" : "rechazado") + ". Comentarios: " + model.getComments(),
+                    "El plan de monitoreo fue " + (model.getAuthorized() == 1 ? "autorizado" : "rechazado") + ". Comentarios: " + StringEscape.escapeText(model.getComments()),
                     Constants.ST_REQUEST_MONPLAN_AUTH);
         }
 
@@ -394,7 +395,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
 
-        commentModel.setComments(model.getComments());
+        commentModel.setComments(StringEscape.escapeText(model.getComments()));
         commentModel.setAction(MonitoringConstants.STATUS_PENDING_END);
         commentModel.setMonitoringPlan(monPlan);
         commentModel.setCaseDetention(monPlan.getCaseDetention());

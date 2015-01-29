@@ -1,5 +1,6 @@
 package com.umeca.service.shared;
 
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.CaseRequest;
@@ -27,7 +28,7 @@ public class CaseRequestService {
         msg.setCaseDetention(monPlan.getCaseDetention());
         msg.setCreationDate(new Date());
         msg.setSender(user);
-        msg.setText(text);
+        msg.setText(StringEscape.escapeText(text));
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(role);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
@@ -61,7 +62,7 @@ public class CaseRequestService {
             msg.setCaseDetention(caseDetention);
             msg.setCreationDate(new Date());
             msg.setSender(user);
-            msg.setText(text);
+            msg.setText(StringEscape.escapeText(text));
 
             List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
@@ -99,7 +100,7 @@ public class CaseRequestService {
         User u = new User();
         u.setId(userId);
         msg.setSender(u);
-        msg.setText(text);
+        msg.setText(StringEscape.escapeText(text));
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(roleSender);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
         for(final User userRcv : lstUserReceivers){
@@ -131,7 +132,7 @@ public class CaseRequestService {
         User u = new User();
         u.setId(userId);
         msg.setSender(u);
-        msg.setText(text);
+        msg.setText(StringEscape.escapeText(text));
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
         lstRmUr.add(new RelMessageUserReceiver(){{

@@ -6,6 +6,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.TypeNameFile;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.dto.CaseInfo;
@@ -54,25 +55,32 @@ public class UploadFileController {
     private CaseRepository caseRepository;
 
     @RequestMapping(value = "/shared/uploadFile/index", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView index(@RequestParam Long id){
+    public
+    @ResponseBody
+    ModelAndView index(@RequestParam Long id) {
         ModelAndView model = new ModelAndView("/shared/uploadFile/index");
-        model.addObject("caseId",id);
+        model.addObject("caseId", id);
         CaseInfo caseInfo = caseRepository.getInfoById(id);
 
+        String[] arrProp = new String[]{"folderId", "personName"};
+        caseInfo = (CaseInfo) StringEscape.escapeAttrs(caseInfo, arrProp);
+
         Long userId = userService.GetLoggedUserId();
-        if(userService.isUserInRoles(userId, new ArrayList<String>(){{add(Constants.ROLE_SUPERVISOR);add(Constants.ROLE_REVIEWER);}}) == false){
+        if (userService.isUserInRoles(userId, new ArrayList<String>() {{
+            add(Constants.ROLE_SUPERVISOR);
+            add(Constants.ROLE_REVIEWER);
+        }}) == false) {
             model.addObject("readOnly", 1);
-        }
-        else{
+        } else {
             model.addObject("readOnly", 0);
         }
 
-        if(caseInfo == null)
+        if (caseInfo == null)
             return model;
 
-        model.addObject("mpId",caseInfo.getMpId());
-        model.addObject("folderId",caseInfo.getFolderId());
-        model.addObject("fullname",caseInfo.getPersonName());
+        model.addObject("mpId", caseInfo.getMpId());
+        model.addObject("folderId", caseInfo.getFolderId());
+        model.addObject("fullname", caseInfo.getPersonName());
         return model;
     }
 
@@ -84,12 +92,13 @@ public class UploadFileController {
 
 
     @RequestMapping(value = "/shared/uploadFile/list", method = RequestMethod.POST)
-    public @ResponseBody
-    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long caseId){
+    public
+    @ResponseBody
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long caseId) {
 
         Long userId = userService.GetLoggedUserId();
 
-        if(userId == null)
+        if (userId == null)
             return null;
 
         opts.extraFilters = new ArrayList<>();
@@ -102,7 +111,7 @@ public class UploadFileController {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
-                return new ArrayList<Selection<?>>(){{
+                return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.get("fileName"));
                     add(r.get("description"));
@@ -116,11 +125,11 @@ public class UploadFileController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("fullname"))
+                if (field.equals("fullname"))
                     return r.join("creationUser").get("fullname");
-                if(field.equals("caseId"))
+                if (field.equals("caseId"))
                     return r.join("caseDetention").get("id");
-                if(field.equals("typeName"))
+                if (field.equals("typeName"))
                     return r.join("typeNameFile").get("name");
                 return null;
             }
@@ -129,33 +138,39 @@ public class UploadFileController {
     }
 
     @Autowired
-    TypeNameFileRepository  typeNameFileRepository;
+    TypeNameFileRepository typeNameFileRepository;
 
     @RequestMapping(value = "/shared/uploadFile/uploadFile", method = RequestMethod.POST)
-    public @ResponseBody ModelAndView uploadFile(@RequestParam Long id, @RequestParam(required = false) String type){
+    public
+    @ResponseBody
+    ModelAndView uploadFile(@RequestParam Long id, @RequestParam(required = false) String type) {
         ModelAndView model = new ModelAndView("/shared/uploadFile/uploadFile");
-        model.addObject("caseId",id);
+        model.addObject("caseId", id);
         CaseInfo caseInfo = caseRepository.getInfoById(id);
 
-        if(caseInfo == null)
+
+        String[] arrProp = new String[]{"folderId", "personName"};
+        caseInfo = (CaseInfo) StringEscape.escapeAttrs(caseInfo, arrProp);
+
+        if (caseInfo == null)
             return model;
 
-        model.addObject("mpId",caseInfo.getMpId());
-        model.addObject("folderId",caseInfo.getFolderId());
-        model.addObject("fullname",caseInfo.getPersonName());
+        model.addObject("mpId", caseInfo.getMpId());
+        model.addObject("folderId", caseInfo.getFolderId());
+        model.addObject("fullname", caseInfo.getPersonName());
         Gson gson = new Gson();
-        if(type==null){
-        List<TypeNameFile> typeNameFiles = typeNameFileRepository.findNotExistByIdCase(id,userService.GetLoggedUserId());
-        List<CatalogDto> catalogDtoList = new ArrayList<>();
-        for(TypeNameFile tmf: typeNameFiles){
-           catalogDtoList.add(new CatalogDto(tmf.getId(), tmf.getName(),tmf.getIsOnly(), tmf.getCode() ));
-        }
-        model.addObject("listTypeName",gson.toJson(catalogDtoList));
-        }else if(type.equals("PHOTO")){
+        if (type == null) {
+            List<TypeNameFile> typeNameFiles = typeNameFileRepository.findNotExistByIdCase(id, userService.GetLoggedUserId());
+            List<CatalogDto> catalogDtoList = new ArrayList<>();
+            for (TypeNameFile tmf : typeNameFiles) {
+                catalogDtoList.add(new CatalogDto(tmf.getId(), tmf.getName(), tmf.getIsOnly(), tmf.getCode()));
+            }
+            model.addObject("listTypeName", gson.toJson(catalogDtoList));
+        } else if (type.equals("PHOTO")) {
             TypeNameFile typePhoto = typeNameFileRepository.findByCode(Constants.CODE_FILE_IMPUTED_PHOTO);
-            CatalogDto cPhoto = new CatalogDto(typePhoto.getId(),typePhoto.getName());
-            model.addObject("defaultType",gson.toJson(cPhoto));
-            model.addObject("closeUploadFile",true);
+            CatalogDto cPhoto = new CatalogDto(typePhoto.getId(), typePhoto.getName());
+            model.addObject("defaultType", gson.toJson(cPhoto));//revisar cuando debe agregarse este elemento, genera un error en
+            model.addObject("closeUploadFile", true);
         }
         return model;
     }
@@ -166,32 +181,37 @@ public class UploadFileController {
     @Autowired
     CaseService caseService;
 
-    @RequestMapping(value="/shared/uploadFile/doUploadFile", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUploadFile(@ModelAttribute UploadFileRequest uploadRequest,
-            MultipartHttpServletRequest request) {
+    @RequestMapping(value = "/shared/uploadFile/doUploadFile", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doUploadFile(@ModelAttribute UploadFileRequest uploadRequest,
+                                 MultipartHttpServletRequest request) {
         ResponseMessage resMsg = new ResponseMessage();
 
         try {
 
             Long userId = sharedUserService.GetLoggedUserId();
-            if(userService.isUserInRoles(userId, new ArrayList<String>(){{add(Constants.ROLE_SUPERVISOR);add(Constants.ROLE_REVIEWER);}}) == false){
+            if (userService.isUserInRoles(userId, new ArrayList<String>() {{
+                add(Constants.ROLE_SUPERVISOR);
+                add(Constants.ROLE_REVIEWER);
+            }}) == false) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("Usted no tiene permisos para realizar esta acción.");
                 return resMsg;
             }
 
-            Iterator<String> itr =  request.getFileNames();
+            Iterator<String> itr = request.getFileNames();
 
-            if(upDwFileService.isValidRequestFile(itr, resMsg) == false){
+            if (upDwFileService.isValidRequestFile(itr, resMsg) == false) {
                 return resMsg;
             }
 
-            if(caseService.isValidCase(uploadRequest.getCaseId()) == false){
+            if (caseService.isValidCase(uploadRequest.getCaseId()) == false) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("No existe el caso al que desea subir el archivo o ya está terminado el caso.");
                 return resMsg;
             }
-            if(uploadRequest.getTypeId()==null){
+            if (uploadRequest.getTypeId() == null) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("Debe seleccionar un tipo de archivo para continuar");
                 return resMsg;
@@ -201,23 +221,23 @@ public class UploadFileController {
             UploadFile uploadFile = new UploadFile();
 
             MultipartFile mpf = request.getFile(itr.next());
-            if(upDwFileService.isValidExtension(mpf, uploadFile, resMsg, uploadRequest.getTypeId()) == false)
+            if (upDwFileService.isValidExtension(mpf, uploadFile, resMsg, uploadRequest.getTypeId()) == false)
                 return resMsg;
 
             User user = new User();
             user.setId(userId);
             upDwFileService.fillUploadFile(mpf, uploadFile, uploadRequest, user);
 
-            if(upDwFileService.hasAvailability(uploadFile, resMsg) == false)
+            if (upDwFileService.hasAvailability(uploadFile, resMsg) == false)
                 return resMsg;
 
             Long fileId = upDwFileService.validateNotExistIfOnlyFile(uploadRequest.getTypeId(), uploadRequest.getCaseId());
-            if(fileId!=null){
-                if(uploadRequest.getCloseUploadFile()!=null && uploadRequest.getCloseUploadFile()){
+            if (fileId != null) {
+                if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
                     String path = request.getSession().getServletContext().getRealPath("");
-                    UploadFile uf=  upDwFileService.findOne(fileId);
+                    UploadFile uf = upDwFileService.findOne(fileId);
                     upDwFileService.deleteFile(path, uf, user);
-                }else{
+                } else {
                     resMsg.setHasError(true);
                     resMsg.setMessage("S&oacute;lo se puede agregar un archivo de este tipo,primero debe eliminar el archivo existente si desea reemplazarlo.");
                     return resMsg;
@@ -230,17 +250,17 @@ public class UploadFileController {
             //uploadFile.setPath(new File(path, uploadFile.getPath()).toString());
 
 
-            if(upDwFileService.saveOnDiskUploadFile(mpf, path, uploadFile, resMsg, logException, sharedUserService)== false)
+            if (upDwFileService.saveOnDiskUploadFile(mpf, path, uploadFile, resMsg, logException, sharedUserService) == false)
                 return resMsg;
 
             upDwFileService.save(uploadFile);
 
-            resMsg.setMessage("El archivo " + uploadFile.getFileName() +"fue subido de forma correcta, usted puede continuar subiendo archivos, sin cerrar la ventana");
+            resMsg.setMessage("El archivo " + uploadFile.getFileName() + "fue subido de forma correcta, usted puede continuar subiendo archivos, sin cerrar la ventana");
             resMsg.setHasError(false);
-            if(uploadRequest.getCloseUploadFile()!=null && uploadRequest.getCloseUploadFile()){
+            if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
 
                 resMsg.setUrlToGo("close");
-                resMsg.setReturnData(uploadFile.getPath()+"/"+uploadFile.getRealFileName());
+                resMsg.setReturnData(uploadFile.getPath() + "/" + uploadFile.getRealFileName());
             }
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUploadFile", sharedUserService);
@@ -253,12 +273,17 @@ public class UploadFileController {
 
 
     @RequestMapping(value = "/shared/uploadFile/deleteFile", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage deleteFile(@RequestParam String id, HttpServletRequest request){
+    public
+    @ResponseBody
+    ResponseMessage deleteFile(@RequestParam String id, HttpServletRequest request) {
         ResponseMessage resMsg = new ResponseMessage();
         try {
             Long userId = sharedUserService.GetLoggedUserId();
 
-            if(userService.isUserInRoles(userId, new ArrayList<String>(){{add(Constants.ROLE_SUPERVISOR);add(Constants.ROLE_REVIEWER);}}) == false){
+            if (userService.isUserInRoles(userId, new ArrayList<String>() {{
+                add(Constants.ROLE_SUPERVISOR);
+                add(Constants.ROLE_REVIEWER);
+            }}) == false) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("Usted no tiene permisos para realizar esta acción.");
                 return resMsg;
@@ -268,7 +293,7 @@ public class UploadFileController {
             Long caseId = Long.parseLong(arrIds[0]);
             Long uploadFileId = Long.parseLong(arrIds[1]);
 
-            if(caseService.isValidCase(caseId) == false){
+            if (caseService.isValidCase(caseId) == false) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("No existe el caso al que desea subir el archivo o ya está terminado el caso.");
                 return resMsg;
@@ -279,7 +304,7 @@ public class UploadFileController {
 
             UploadFile uploadFile = upDwFileService.getValidUploadFileById(caseId, uploadFileId);
 
-            if(uploadFile == null){
+            if (uploadFile == null) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("El archivo no existe o ya fue eliminado.");
                 return resMsg;
@@ -297,25 +322,27 @@ public class UploadFileController {
     }
 
     @RequestMapping(value = "/shared/uploadFile/downloadFile", method = RequestMethod.GET)
-    @ResponseBody public FileSystemResource getFile(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
+    @ResponseBody
+    public FileSystemResource getFile(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
         UploadFile file = upDwFileService.getPathAndFilename(id);
         String path = new File(file.getPath(), file.getRealFileName()).toString();
         File finalFile = new File(request.getSession().getServletContext().getRealPath(""), path);
 
         response.setContentType("application/force-download");
-        response.setContentLength((int)finalFile.length());
+        response.setContentLength((int) finalFile.length());
         //response.setContentLength(-1);
         response.setHeader("Content-Transfer-Encoding", "binary");
-        response.setHeader("Content-Disposition","attachment; filename=\"" + file.getFileName() +  "\"");//fileName);
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");//fileName);
 
         return new FileSystemResource(finalFile);
     }
 
     @RequestMapping(value = "/shared/uploadFile/downloadFileByCase", method = RequestMethod.GET)
-    @ResponseBody public FileSystemResource downloadFileByCase(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
+    @ResponseBody
+    public FileSystemResource downloadFileByCase(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
         try {
             List<UploadFile> lstUpFiles = upDwFileService.getUploadFilesByCaseId(id);
-            if(lstUpFiles == null || lstUpFiles.size() == 0){
+            if (lstUpFiles == null || lstUpFiles.size() == 0) {
                 File file = new File(UUID.randomUUID().toString());
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>No existen archivos para generar el expediente.</h3></body></html>");
@@ -330,7 +357,7 @@ public class UploadFileController {
             ZipOutputStream zos = new ZipOutputStream(fos);
             byte[] buffer = new byte[1024];
 
-            for(UploadFile file : lstUpFiles){
+            for (UploadFile file : lstUpFiles) {
 
                 ZipEntry ze = new ZipEntry(file.getFileName());
                 zos.putNextEntry(ze);
@@ -349,9 +376,9 @@ public class UploadFileController {
             zos.close();
 
             response.setContentType("application/force-download");
-            response.setContentLength((int)fileOut.length());
+            response.setContentLength((int) fileOut.length());
             response.setHeader("Content-Transfer-Encoding", "binary");
-            response.setHeader("Content-Disposition","attachment; filename=\"" + fileOut.getName() +  "\"");//fileName);
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileOut.getName() + "\"");//fileName);
 
             return new FileSystemResource(fileOut);
 
@@ -363,7 +390,7 @@ public class UploadFileController {
                 writer.write("<html><body><h3>Ocurrió un error al momento de generar el expediente. Por favor intente de nuevo o contacte a soporte técnico.</h3></body></html>");
                 writer.flush();
                 return new FileSystemResource(file);
-            }catch (IOException ex){
+            } catch (IOException ex) {
                 logException.Write(ex, this.getClass(), "downloadFileByCase", sharedUserService);
                 return null;
             }

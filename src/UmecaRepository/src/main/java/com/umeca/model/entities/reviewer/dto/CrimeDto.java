@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer.dto;
 
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.entities.reviewer.Crime;
 
@@ -12,9 +13,9 @@ public class CrimeDto {
 
 
     public CrimeDto dtoCrime(Crime crime) {
-        this.comment = crime.getComment();
+        this.comment = StringEscape.escapeText(crime.getComment());
         this.crime = new CatalogDto(crime.getCrime().getId(), crime.getCrime().getName());
-        article = crime.getArticle();
+        article = StringEscape.escapeText(crime.getArticle());
         CatalogDto aux = new CatalogDto();
         aux.setName(crime.getFederal().getName());
         aux.setId(crime.getFederal().getId());
@@ -24,9 +25,9 @@ public class CrimeDto {
 
     public static final String toStringCrime(Crime c) {
         String s = "";
-        s += "Delito: " + c.getCrime().getName() + ", Art. : " + c.getArticle() + ", Federal: " + c.getFederal().getName();
+        s += "Delito: " + c.getCrime().getName() + ", Art. : " + StringEscape.escapeText(c.getArticle()) + ", Federal: " + c.getFederal().getName();
         if (c.getComment() != null && !c.getComment().equals("")) {
-            s += ", Observaciones: " + c.getComment() + ".";
+            s += ", Observaciones: " + StringEscape.escapeText(c.getComment()) + ".";
         } else {
             s += ".";
         }

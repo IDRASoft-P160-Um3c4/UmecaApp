@@ -2,6 +2,7 @@ package com.umeca.service.supervisor;
 
 import com.google.gson.Gson;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.FulfillmentReportType;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
@@ -124,7 +125,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
 
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
-        commentModel.setComments(sComments);
+        commentModel.setComments(StringEscape.escapeText(sComments));
         commentModel.setAction(sAction);
         commentModel.setCaseDetention(monPlan.getCaseDetention());
         commentModel.setMonitoringPlan(monPlan);
@@ -215,7 +216,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
             //CaseRequest... Response
             CaseRequestService.CreateCaseResponseToUser(responseTypeRepository, caseRequestRepository, messageRepository,
                     sharedUserService, logException, user, monitoringPlan.getCaseDetention(),
-                    "Todas las actividades fueron autorizada(s) y/o rechazada(s). Comentarios: " + model.getComments(),
+                    "Todas las actividades fueron autorizada(s) y/o rechazada(s). Comentarios: " + StringEscape.escapeText(model.getComments()),
                     Constants.ST_REQUEST_UPDATE_MONPLAN_AUTH);
 
         }
@@ -228,7 +229,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
                 sharedUserService.GetLoggedUsername(), monitoringPlan.getCaseDetention().getId(), model.getComments());
         logChangeDataRepository.save(logChangeData);
 
-        SharedLogCommentService.generateLogComment(model.getComments() + "<br/>" + authRejMonActRes.getResult(), user, caseDet, MonitoringConstants.STATUS_AUTHORIZED, monitoringPlan.getSupervisor(),
+        SharedLogCommentService.generateLogComment(StringEscape.escapeText(model.getComments()) + "<br/>" + authRejMonActRes.getResult(), user, caseDet, MonitoringConstants.STATUS_AUTHORIZED, monitoringPlan.getSupervisor(),
                 MonitoringConstants.TYPE_COMMENT_AUTHORIZED, logCommentRepository);
 
         response.setMessage(authRejMonActRes.getResult() + message);

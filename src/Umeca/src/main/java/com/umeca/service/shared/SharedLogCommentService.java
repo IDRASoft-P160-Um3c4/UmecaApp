@@ -1,5 +1,6 @@
 package com.umeca.service.shared;
 
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisorManager.LogComment;
@@ -13,7 +14,7 @@ public class SharedLogCommentService {
                                           String action, User userReceiver, String type, LogCommentRepository localLogCommentRepository) {
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
-        commentModel.setComments(comments);
+        commentModel.setComments(StringEscape.escapeText(comments));
         commentModel.setAction(action);
         commentModel.setCaseDetention(caseDet);
         commentModel.setReceiveUser(userReceiver);
