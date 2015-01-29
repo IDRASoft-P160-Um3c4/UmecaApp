@@ -3,6 +3,7 @@ package com.umeca.controller.supervisor;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
@@ -14,7 +15,6 @@ import com.umeca.model.entities.supervisor.MonitoringPlanInfo;
 import com.umeca.model.entities.supervisor.MonitoringPlanView;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.MonitoringConstants;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
@@ -118,7 +118,7 @@ public class ManageMonitoringPlanController {
         ResponseMessage response = new ResponseMessage();
 
         try{
-            response.setTitle("Plan de seguimiento");
+            response.setTitle("Plan de supervisi&oacute;n");
 
             User user = new User();
             if(sharedUserService.isValidUser(user, response) == false)
@@ -193,7 +193,7 @@ public class ManageMonitoringPlanController {
             MonitoringPlan monPlan = monitoringPlanRepository.findOne(model.getMonPlanId());
 
             if(monPlan == null){
-                response.setMessage("No se encontró el plan de seguimiento. Por favor reinicie su navegador e intente de nuevo");
+                response.setMessage("No se encontró el plan. Por favor reinicie su navegador e intente de nuevo");
                 return response;
             }
 
@@ -230,14 +230,14 @@ public class ManageMonitoringPlanController {
 
             model.addObject("type", "warning");
             model.addObject("title", "Comentarios del rechazo");
-            model.addObject("subtitle", "Su plan de seguimiento fue rechazado debido a:");
+            model.addObject("subtitle", "Su plan de supervisi&oacute;n fue rechazado debido a:");
             model.addObject("body", lstComment.get(0));
 
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "showRejectAuthMsg", sharedUserService);
             model.addObject("type", "warning");
             model.addObject("title", "Comentarios del rechazo");
-            model.addObject("subtitle", "Su plan de seguimiento fue rechazado debido a:");
+            model.addObject("subtitle", "Su plan de supervisi&oacute;n fue rechazado debido a:");
             model.addObject("body", "Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         }
         return model;
@@ -252,14 +252,14 @@ public class ManageMonitoringPlanController {
 
             model.addObject("type", "warning");
             model.addObject("title", "Comentarios del rechazo de la finalización");
-            model.addObject("subtitle", "La finalización del plan de seguimiento fue rechazado debido a:");
+            model.addObject("subtitle", "La finalización del plan de supervisi&oacute;n fue rechazado debido a:");
             model.addObject("body", lstComment.get(0));
 
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "showRejectAuthMsg", sharedUserService);
             model.addObject("type", "warning");
             model.addObject("title", "Comentarios del rechazo de la finalización");
-            model.addObject("subtitle", "La finalización del plan de seguimiento fue rechazado debido a:");
+            model.addObject("subtitle", "La finalización del plan de supervisi&oacute;n fue rechazado debido a:");
             model.addObject("body", "Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
         }
         return model;

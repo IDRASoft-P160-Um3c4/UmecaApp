@@ -130,7 +130,7 @@
                         }
 
                         if (hasActPreAuth === 'true') {
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar o rechazar creaciones, modificaciones o eliminaciones de las actividades del plan de seguimiento\" onclick=\"window.authRejActMonPlan('" + cl + "');\"><span class=\"glyphicon glyphicon-transfer red\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar o rechazar creaciones, modificaciones o eliminaciones de las actividades del plan de supervisi&oacute;n\" onclick=\"window.authRejActMonPlan('" + cl + "');\"><span class=\"glyphicon glyphicon-transfer red\"></span></a>";
                         }
 
                         $(this).jqGrid('setRowData', ids[i], { Action: be });

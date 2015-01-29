@@ -225,7 +225,7 @@ jQuery(function ($) {
             today.setHours(0, 0, 0, 0);
             if (event.start < today) {
                 revertFunc();
-                scope.showMsg({title: "Plan de seguimiento", msg: 'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
+                scope.showMsg({title: "Plan de supervisi&oacute;n", msg: 'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
                 return;
             }
             event.doTitle(true);
@@ -238,7 +238,7 @@ jQuery(function ($) {
             today.setHours(0, 0, 0, 0);
             if (event.start < today) {
                 revertFunc();
-                scope.showMsg({title: "Plan de seguimiento", msg: 'No es posible modificar una actividad a una fecha anterior a la fecha actual.', type: "danger"});
+                scope.showMsg({title: "Plan de supervisi&oacute;n", msg: 'No es posible modificar una actividad a una fecha anterior a la fecha actual.', type: "danger"});
                 return;
             }
             event.doTitle(true);
@@ -250,7 +250,7 @@ jQuery(function ($) {
             var today = new Date();
             today.setHours(0, 0, 0, 0);
             if (start < today) {
-                scope.showMsg({title: "Plan de seguimiento", msg: 'No es posible agregar una actividad con fecha anterior a la fecha actual.', type: "danger"});
+                scope.showMsg({title: "Plan de supervisi&oacute;n", msg: 'No es posible agregar una actividad con fecha anterior a la fecha actual.', type: "danger"});
                 return;
             }
 
@@ -338,7 +338,7 @@ jQuery(function ($) {
 });
 </script>
 
-<title>Plan de seguimiento</title>
+<title>Plan de supervisi&oacute;n</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -347,7 +347,7 @@ jQuery(function ($) {
     <div class="page-content">
         <div class="page-header">
             <h1 class="element-center">
-                <i class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Plan de seguimiento (Calendario)
+                <i class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Plan de supervisi&oacute;n (Calendario)
             </h1>
         </div>
         <div class="page-header" ng-init="idTec = ${idTec == null? 0: idTec};">

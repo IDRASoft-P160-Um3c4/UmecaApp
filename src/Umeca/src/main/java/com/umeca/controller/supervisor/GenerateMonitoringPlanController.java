@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.dto.ScheduleLogDto;
@@ -16,7 +17,6 @@ import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.ScheduleService;
@@ -197,7 +197,7 @@ public class GenerateMonitoringPlanController {
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/doUpsert", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage doUpsert(@RequestBody ActivityMonitoringPlanRequest model){
         ResponseMessage response = new ResponseMessage();
-        response.setTitle("Plan de seguimiento");
+        response.setTitle("Plan de supervisi&oacute;n");
 
         try {
             User user = new User();

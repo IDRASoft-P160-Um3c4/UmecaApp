@@ -74,10 +74,10 @@ public class MonitoringConstants {
     public static final String LOG_ACCOMPLISHMENT_REJECTED = "RECHAZADO REPORTE INCUMPLIMIENTO";
     public static final String LOG_ACCOMPLISHMENT_PENDING = "PENDIENTE";
 
-    public static final String LOG_MSG_INFO_PENDING_AUTHORIZATION = "En espera de la autorización del plan de seguimiento";
+    public static final String LOG_MSG_INFO_PENDING_AUTHORIZATION = "En espera de la autorización del plan de supervisi&oacute;n";
     public static final String LOG_MSG_INFO_PENDING_AUTHORIZATION_OBSOLETE = "En espera de respuesta a la solicitud de eliminar caso";
     public static final String LOG_MSG_INFO_PENDING_ACTIVITY_AUTHORIZATION =
-            "Se crearon, modificaron o eliminaron actividades del plan de seguimiento, se espera autorización. Si no autoriza se suspenderá el plan.";
+            "Se crearon, modificaron o eliminaron actividades del plan de supervisi&oacute;n, se espera autorización. Si no autoriza se suspenderá el plan.";
 
     public static final String LOG_MSG_INFO_OPEN_CASE_NOT_PROSECUTE = "Se abri&oacute; un caso no judicializado";
     public static final int AUTHORIZATION_MONPLAN = 1;

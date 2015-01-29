@@ -87,7 +87,7 @@
                     class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre</a></li>
             <li class="dropdown nav-li-blue">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                        class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Plan de seguimiento
+                        class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Plan de supervisi&oacute;n
                     <i class="icon-caret-down"></i> </a>
                 <ul class="dropdown-menu">
                     <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i

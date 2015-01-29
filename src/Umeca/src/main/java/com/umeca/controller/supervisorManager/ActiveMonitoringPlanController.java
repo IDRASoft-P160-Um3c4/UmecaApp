@@ -5,6 +5,7 @@ import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
@@ -18,7 +19,6 @@ import com.umeca.model.entities.supervisorManager.ChangeSupervisor;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.FulfillmentReportRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
@@ -123,7 +123,7 @@ public class ActiveMonitoringPlanController {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
             model.addObject("isAuthorized", 1);
             //model.addObject("isEnd", 1);
-            model.addObject("msgPlan", "finalización del plan de seguimiento");
+            model.addObject("msgPlan", "finalización del plan de supervisi&oacute;");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectEndMonPlan.json");
             return model;
         } catch (Exception ex) {
@@ -141,7 +141,7 @@ public class ActiveMonitoringPlanController {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
             //model.addObject("isEnd", 1);
             model.addObject("isAuthorized", 0);
-            model.addObject("msgPlan", "finalización del plan de seguimiento");
+            model.addObject("msgPlan", "finalización del plan de supervisi&oacute;n");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectEndMonPlan.json");
             return model;
         } catch (Exception ex) {
@@ -237,7 +237,7 @@ public class ActiveMonitoringPlanController {
             MonitoringPlan monPlan = monitoringPlanRepository.findOne(model.getMonPlanId());
 
             if (monPlan == null) {
-                response.setMessage("No se encontró el plan de seguimiento. Por favor reinicie su navegador e intente de nuevo");
+                response.setMessage("No se encontró el plan. Por favor reinicie su navegador e intente de nuevo");
                 return response;
             }
 
@@ -293,7 +293,7 @@ public class ActiveMonitoringPlanController {
             MonitoringPlan monPlan = monitoringPlanRepository.findOne(model.getMonPlanId());
 
             if (monPlan == null) {
-                response.setMessage("No se encontró el plan de seguimiento. Por favor reinicie su navegador e intente de nuevo");
+                response.setMessage("No se encontró el plan. Por favor reinicie su navegador e intente de nuevo");
                 return response;
             }
 
@@ -363,7 +363,7 @@ public class ActiveMonitoringPlanController {
             MonitoringPlan monPlan = monitoringPlanRepository.findOne(model.getMonPlanId());
 
             if (monPlan == null) {
-                response.setMessage("No se encontr&oacute el plan de seguimiento. Por favor reinicie su navegador e intente de nuevo");
+                response.setMessage("No se encontr&oacute el plan de supervisi&oacute;n. Por favor reinicie su navegador e intente de nuevo");
                 return response;
             }
 

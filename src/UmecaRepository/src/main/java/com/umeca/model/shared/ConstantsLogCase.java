@@ -30,11 +30,11 @@ public class ConstantsLogCase {
     public static final String ACT_LOG_SUPERVISION_ACTIVITY = "Registro de actividad";
     public static final String TT_LOG_SUPERVISION_ACTIVITY = "Se registra seguimiento de actividad del plan de supervisi&oacute;n";
     public static final String CREATE_MONITORING_PLAN ="CREATE_MONITORING_PLAN";
-    public static final String TT_CREATE_MONITORING_PLAN="Plan de seguimiento";
-    public static final String ACT_CREATE_MONITORING_PLAN = "Se autoriza el plan de seguimiento";
+    public static final String TT_CREATE_MONITORING_PLAN="Plan de supervisi&oacute;n";
+    public static final String ACT_CREATE_MONITORING_PLAN = "Se autoriza el plan de supervisi&oacute;n";
     public static final String EDIT_MONITORING_PLAN = "EDIT_MONITORING_PLAN";
-    public static final String TT_EDIT_MONITORING_PLAN = "Modificaci&oacute;n del plan de seguimiento";
-    public static final String ACT_EDIT_MONITORING_PLAN = "Se autoriza modificaci&oacute;n del plan de seguimiento";
+    public static final String TT_EDIT_MONITORING_PLAN = "Modificaci&oacute;n del plan de supervisi&oacute;n";
+    public static final String ACT_EDIT_MONITORING_PLAN = "Se autoriza modificaci&oacute;n del plan de supervisi&oacute;n";
     public static final String CREATE_FRAMING_MEETING = "CREATE_FRAMING_MEETING";
     public static final String TT_FRAMING_MEETING = "Se termina entrevista de encuadre";
     public static final String ACT_FRAMING_MEETING = "Entrevista de encuadre";
