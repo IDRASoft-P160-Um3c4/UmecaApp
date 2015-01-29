@@ -61,6 +61,7 @@
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisorManager/activeMonitoringPlan/list.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Caso', 'Carpeta judicial', 'Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', /*"Estatus bit&aacute;cora"*/"Estatus plan", "PreAuth", 'Suspender', 'Acci&oacute;n'],
@@ -77,7 +78,7 @@
                     { name: 'statusLog', hidden: true },
                     { name: 'hasActPreAuth', hidden: true },
                     { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden: true},
-                    { name: 'Action', width: 150, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 150, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

@@ -20,6 +20,7 @@
         };
 
         jQuery("#GridIdDrug").jqGrid({
+            autoencode:true,
             url: urlGridDrugs,
             datatype: "json",
             mtype: 'POST',
@@ -30,7 +31,7 @@
                 { name: 'perName', index: 'perName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'quantity', index: 'quantity', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'lastUseFormat', index: 'lastUseFormat', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 70, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
             ],
             rowNum: 10,
             rowList: [10, 20, 30],

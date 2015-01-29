@@ -11,9 +11,9 @@
         //Dialogo para la espera de algun evento
         var dlgProcessing = $('#ProcessingDlgId');
         var th = this;
-        this.cfgProc = { toProcessing: undefined, procCount: 0 };
+        this.cfgProc = {toProcessing: undefined, procCount: 0};
 
-        this.onProcTimeOut = function() {
+        this.onProcTimeOut = function () {
             th.cfgProc.procCount++;
             if (th.cfgProc.procCount > 100)
                 th.cfgProc.procCount = 0;
@@ -34,7 +34,7 @@
         //Dialogo para mensajes con acciones de exito, informacion, advertencia o error
         var dlgMsgBox = $('#MessageBoxDlgId');
 
-        this.cfgMsg = { title: '', message: '', type: '' };
+        this.cfgMsg = {title: '', message: '', type: ''};
         this.respMsg = {};
         this.respData = {};
 
@@ -74,7 +74,7 @@
             dlgMsgBox.modal('hide');
         };
 
-        this.showConfPass = function(cfg){
+        this.showConfPass = function (cfg) {
             dlgMsgBox = $('#ConfirmationPassDlgId');
             return th.showDlg(cfg);
         };
@@ -98,7 +98,7 @@
                                     message: resp.message,
                                     type: "danger"
                                 }).then(function () {
-                                    def.reject({ isError: true });
+                                    def.reject({isError: true});
                                 });
                     }
                     else {
@@ -115,7 +115,7 @@
                                 message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente m&aacute;s tarde",
                                 type: "danger"
                             }).then(function () {
-                                def.reject({ isError: true });
+                                def.reject({isError: true});
                             });
                 }
             };
@@ -134,12 +134,12 @@
         });
     });
 
-    app.controller('messageController', function ($scope, $sce, sharedSvc) {
+    app.controller('messageController', function ($scope, $sce, sharedSvc, $compile) {
         $scope.sharedSvc = sharedSvc;
 
         $scope.$watch('sharedSvc.cfgMsg', function (cfg) {
-            $scope.Title = cfg.title;
-            $scope.Message = $sce.trustAsHtml(cfg.message);
+            $scope.Title = window.returnTrustHtml($sce,cfg.title);
+            $scope.Message = window.returnTrustHtml($sce,cfg.message);
             $scope.Type = cfg.type;
         });
 
@@ -148,52 +148,55 @@
             sharedSvc.hideMsg($scope);
         };
 
-        $scope.alert = function(title, message, type) {
-            $scope.Title = title;
-            $scope.Message = $sce.trustAsHtml(message);
+        $scope.alert = function (title, message, type) {
+            $scope.Title = window.returnTrustHtml($sce,title);
+            $scope.Message = window.returnTrustHtml($sce,message);
             $scope.Type = type;
         };
+
+
     });
 
     app.controller('confirmationController', function ($scope, $sce, sharedSvc) {
         $scope.sharedSvc = sharedSvc;
         $scope.m = {};
 
-        $scope.setParametersModal= function(msg,type,title){
-            $scope.Title = $sce.trustAsHtml(title);
-            $scope.Message = $sce.trustAsHtml(msg);
+        $scope.setParametersModal = function (msg, type, title) {
+            $scope.Title = window.returnTrustHtml($sce,title);
+            $scope.Message = window.returnTrustHtml($sce,msg);
             $scope.Type = type;
         }
 
         $scope.$watch('sharedSvc.cfgMsg', function (cfg) {
-            $scope.Title = $sce.trustAsHtml(cfg.title);
-            $scope.Message = $sce.trustAsHtml(cfg.message);
+            $scope.Title = window.returnTrustHtml($sce,cfg.title);
+            $scope.Message = window.returnTrustHtml($sce,cfg.message);
             $scope.Type = cfg.type;
 
-            try{
-                if(cfg.choiceA === undefined || cfg.choiceA.lstItems === undefined || cfg.choiceA.lstItems.length === 0){
+            try {
+                if (cfg.choiceA === undefined || cfg.choiceA.lstItems === undefined || cfg.choiceA.lstItems.length === 0) {
                     $scope.LstChoiceA = [];
-                    $scope.TitleChoiceA = "";
+                    $scope.TitleChoiceA = window.returnTrustHtml($sce,"");
                 }
-                else{
-                    $scope.TitleChoiceA = $sce.trustAsHtml(cfg.choiceA.title);
+                else {
+                    $scope.TitleChoiceA = window.returnTrustHtml($sce,cfg.choiceA.title);
                     $scope.LstChoiceA = cfg.choiceA.lstItems;
                     $scope.m.choiceA = $scope.LstChoiceA[0];
                 }
-            }catch(e){
+            } catch (e) {
                 $scope.LstChoiceA = [];
             }
         });
 
-        $scope.yes = function() {
+        $scope.yes = function () {
             $scope.IsOk = true;
             sharedSvc.hideMsg($scope, $scope.m);
         };
 
-        $scope.no = function() {
+        $scope.no = function () {
             $scope.IsOk = false;
             sharedSvc.hideMsg($scope);
         };
+
     });
 
     app.controller('confirmationPassController', function ($scope, $sce, sharedSvc) {
@@ -201,33 +204,35 @@
         $scope.m = {};
 
         $scope.$watch('sharedSvc.cfgMsg', function (cfg) {
-            $scope.Title = $sce.trustAsHtml(cfg.title);
-            $scope.Message = $sce.trustAsHtml(cfg.message);
-            $scope.AgreeCheck = $sce.trustAsHtml(cfg.agreeCheck);
+            $scope.Title = window.returnTrustHtml($sce,cfg.title);
+            $scope.Message = window.returnTrustHtml($sce,cfg.message);
+            $scope.AgreeCheck = window.returnTrustHtml($sce,cfg.agreeCheck);
             $scope.Type = cfg.type;
             $scope.m.isAgree = false;
             $scope.m.password = "";
         });
 
-        $scope.yes = function() {
+        $scope.yes = function () {
             $scope.IsOk = true;
             sharedSvc.hideMsg($scope);
         };
 
-        $scope.no = function() {
+        $scope.no = function () {
             $scope.IsOk = false;
             sharedSvc.hideMsg($scope);
         };
+
     });
 
 </script>
 
-<div id="ProcessingDlgId" class="modal fade" ng-controller="processingController" data-backdrop="static" data-keyboard="false" ng-cloak>
+<div id="ProcessingDlgId" class="modal fade" ng-controller="processingController" data-backdrop="static"
+     data-keyboard="false" ng-cloak>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="alert alert-info"><h4>Procesando...</h4></div>
-                <br />
+                <br/>
                 <progressbar class="progress-striped active" value="count" type="info"></progressbar>
             </div>
         </div>
@@ -241,7 +246,7 @@
             <div class="modal-header">
                 <div class="alert alert-{{Type=='primary'?'info':Type}}">
                     <button type="button" class="close" ng-click="ok()">&times;</button>
-                    <h4 class="modal-title element-center">{{Title}}</h4>
+                    <h4 class="modal-title element-center" ng-bind-html="Title"></h4>
                 </div>
             </div>
             <div class="modal-body">
@@ -267,8 +272,9 @@
             <div class="modal-body">
                 <div class="element-center" ng-bind-html="Message"></div>
                 <div ng-show="LstChoiceA !== undefined && LstChoiceA.length > 0">
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
+
                     <div class="row">
                         <div class="col-xs-6 col-xs-offset-3">
                             <div class="row">
@@ -277,6 +283,7 @@
                                 </div>
                             </div>
                             <br/>
+
                             <div class="row">
                                 <div class="col-xs-12">
                                     <select class="form-control element-center"
@@ -297,7 +304,8 @@
     </div>
 </div>
 
-<div id="ConfirmationPassDlgId" class="modal fade" ng-controller="confirmationPassController" data-backdrop="static" ng-cloak>
+<div id="ConfirmationPassDlgId" class="modal fade" ng-controller="confirmationPassController" data-backdrop="static"
+     ng-cloak>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -312,11 +320,13 @@
                 <div class="element-center" ng-bind-html="Message"></div>
             </div>
             <br/>
+
             <div class="hr hr-2"></div>
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2">
                     <div class="checkbox element-left">
-                        <input name="form-field-checkbox" type="checkbox" ng-model="m.isAgree" ng-init="m.isAgree=false;" />
+                        <input name="form-field-checkbox" type="checkbox" ng-model="m.isAgree"
+                               ng-init="m.isAgree=false;"/>
                         <span class="lbl" ng-bind-html="AgreeCheck"></span>
                     </div>
                 </div>
@@ -341,12 +351,14 @@
 
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-{{Type}}" ng-show="m.isAgree && m.password" ng-click="yes()">Continuar</button>
+                <button type="button" class="btn btn-default btn-{{Type}}" ng-show="m.isAgree && m.password"
+                        ng-click="yes()">Continuar
+                </button>
                 <button type="button" class="btn btn-default" ng-click="no()">Cancelar</button>
             </div>
         </div>
     </div>
 </div>
 
-<hr />
+<hr/>
 <div id="dlgUpsert"></div>

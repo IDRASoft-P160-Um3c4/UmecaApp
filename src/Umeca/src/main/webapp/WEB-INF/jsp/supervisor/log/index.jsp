@@ -41,6 +41,7 @@
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/supervisor/log/list.json' />',
+                    autoencode:true,
                     datatype: "json",
                     mtype: 'POST',
                     colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', "Estatus bit&aacute;cora", 'Suspender','Acci&oacute;n'],
@@ -56,7 +57,7 @@
                         { name: 'supervisor', width: 130, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] }},
                         { name: 'statusLog', hidden: true },
                         { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden:true},
-                        { name: 'Action', width: 110, align: "center", sortable: false, search: false }
+                        { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],

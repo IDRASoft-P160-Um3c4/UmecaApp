@@ -4,6 +4,12 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div class="row" ng-controller="framingSchoolController">
 
+    <div class="blocker" ng-show="WaitFor==true">
+        <div>
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+        </div>
+    </div>
+
 <input type="hidden" id="getDegree"
        value="<c:url value='/supervisor/framingMeeting/school/getDegree.json?id='/>"/>
 

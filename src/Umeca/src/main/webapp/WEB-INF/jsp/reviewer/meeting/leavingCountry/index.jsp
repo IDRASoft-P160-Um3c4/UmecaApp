@@ -14,8 +14,9 @@
             <span ng-bind-html="msgExito"></span>
         </div>
         <br/>
-        <form id="FormLeaveCountry" name="FormLeaveCountry"   class="form-horizontal"  role="form">
-            <%@ include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry/content.jsp"%>
+
+        <form id="FormLeaveCountry" name="FormLeaveCountry" class="form-horizontal" role="form">
+            <%@ include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry/content.jsp" %>
         </form>
         <br/>
 
@@ -30,6 +31,11 @@
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>
+        </div>
+    </div>
+    <div class="blocker" ng-show="WaitFor==true">
+        <div>
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
         </div>
     </div>
 </div>

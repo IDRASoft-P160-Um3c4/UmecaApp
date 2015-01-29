@@ -32,6 +32,7 @@
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/verification/list.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Carpeta de <br/>investigaci&oacute;n','Nombre','G&eacute;nero', 'Estatus','Estatus Description', 'Acci&oacute;n'],
@@ -42,7 +43,7 @@
                     { name: 'genderString', index: 'genderString', width: 150, align: "center", search:false},
                     { name: 'statusDescription', index: 'statusDescription', width: 200, align: "center", search:false},
                     { name: 'statusCode', index: 'statusCode', hidden:true},
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

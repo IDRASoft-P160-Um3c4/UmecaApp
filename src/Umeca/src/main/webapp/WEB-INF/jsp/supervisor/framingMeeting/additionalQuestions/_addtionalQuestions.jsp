@@ -3,6 +3,11 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
 <div class="row" ng-controller="additionalQuestionsController">
+    <div class="blocker" ng-show="WaitFor==true">
+        <div>
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+        </div>
+    </div>
 <div class="col-xs-10 col-xs-offset-1">
 
 <div class="row element-center">

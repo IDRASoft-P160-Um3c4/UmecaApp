@@ -28,6 +28,7 @@
 
 
         jQuery("#GridAddress").jqGrid({
+            autoencode:true,
             url: urlGridAddress,
             datatype: "json",
             mtype: 'POST',
@@ -35,7 +36,7 @@
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'fullAddress', index: 'fullAddress', width: 600, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
@@ -140,7 +141,7 @@
             <div class="col-xs-12">
                 <%--<div class="modal-footer" ng-show="fm.objView.canTerminate==true">--%>
                 <div class="modal-footer">
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="fm.WaitFor==true"
                           ng-click="submitComments('#FormCommentAddress', '<c:url value="/supervisor/framingMeeting/upsertAddressComments.json?idCase="/>',fm.objView.idCase);">
                     <span class="glyphicon glyphicon-cloud-upload"></span>
                     Guardar

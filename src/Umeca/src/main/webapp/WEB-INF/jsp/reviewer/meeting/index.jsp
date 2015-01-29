@@ -49,6 +49,7 @@
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/meeting/list.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID','Carpeta de Investigaci&oacute;n','Nombre completo','Fecha de nacimiento','G&eacute;nero','Estatus','Id estatus','Status case','Acci&oacute;n'],
@@ -61,7 +62,7 @@
                     { name: 'description', index: 'description', width: 250, align: "center", sortable: false, search: false},
                     { name: 'statusCode', index: 'statusCode', hidden: true },
                     { name: 'reviewerId', index: 'reviewerId', hidden: true },
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 70, align: "center", sortable: false, search: false ,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

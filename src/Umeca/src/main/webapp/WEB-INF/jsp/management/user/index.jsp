@@ -37,6 +37,7 @@
         jQuery("#GridId").jqGrid({
             url: '<c:url value='/management/user/list.json' />',
             datatype: "json",
+            autoencode:true,
             mtype: 'POST',
             colNames: ['ID', 'Usuario', 'Nombre completo', 'Correo electr&oacute;nico', 'Perfil', 'Habilitado', 'Acci&oacute;n'],
             colModel: [
@@ -46,7 +47,7 @@
                 { name: 'email', index: 'email', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'role', index: 'role', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'enabled', index: 'enabled', hidden: true },
-                { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 70, align: "center", sortable: false, search: false ,formatter:window.actionFormatter}
             ],
             rowNum: 10,
             rowList: [10, 20, 30],

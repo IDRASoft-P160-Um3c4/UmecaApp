@@ -47,6 +47,7 @@
 
         jQuery("#GridCasesId").jqGrid({
             url: '<c:url value='/director/excelReport/listCases.json' />',
+            autoencode:true,
             datatype: "json",
             mtype: 'POST',
             postData: {

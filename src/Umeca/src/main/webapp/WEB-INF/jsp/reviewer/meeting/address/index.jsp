@@ -16,6 +16,7 @@
 
         jQuery("#GridIdAddress").jqGrid({
             url: '<c:url value='/reviewer/meeting/listAddress.json?idCase=${m.caseDetention.id}'/>',
+            autoencode:true,
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Direcci&oacute;n','Tel&eacute;fono','Tipo de domicilio','Tipo de propiedad', 'Acci&oacute;n'],
@@ -25,7 +26,7 @@
                 { name: 'timeLive', index: 'phone', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'registerTypeString', index: 'registerTypeString', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'belongString', index: 'belongString', width: 150, align: "center", search: false},
-                { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 70, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
@@ -127,6 +128,11 @@
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>
+        </div>
+    </div>
+    <div class="blocker" ng-show="WaitFor==true">
+        <div>
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
         </div>
     </div>
 </div>

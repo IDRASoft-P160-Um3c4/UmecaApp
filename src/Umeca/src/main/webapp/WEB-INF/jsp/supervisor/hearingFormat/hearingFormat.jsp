@@ -114,8 +114,16 @@
       role="form" ng-controller="upsertController" method="post">
     <br/>
 
+
+
     <div class="container body-content" ng-controller="hearingFormatController"
          ng-init='m=${hfView}; m.rdHasContacts = 1;' style="padding:50px;">
+
+        <div class="blocker" ng-show="WaitFor==true">
+            <div>
+                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+            </div>
+        </div>
 
         <%@ include file="/WEB-INF/jsp/supervisor/hearingFormat/confirmAction.jsp" %>
 
@@ -275,6 +283,8 @@
                                                     <input id="idFolder" ng-model="m.idFolder" name="idFolder"
                                                            type="text" class="input-xxlarge" data-val="true"
                                                            ng-disabled="m.canEdit==false"
+                                                           data-val-length-max="25"
+                                                           data-val-length="Debe tener m&aacute;ximo 25 caracteres"
                                                            data-val-required="Carpeta de investigaci&oacute;n es un campo requerido"/>
                                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="idFolder"
@@ -288,6 +298,8 @@
                                                            name="idJudicial" type="text"
                                                            class="input-xxlarge" data-val="true"
                                                            ng-disabled="m.canEdit==false"
+                                                           data-val-length-max="15"
+                                                           data-val-length="Debe tener m&aacute;ximo 15 caracteres"
                                                            data-val-required="Carpeta judicial es un campo requerido"/>
                                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="idJudicial"

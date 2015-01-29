@@ -9,10 +9,12 @@
 
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headUm.jsp"%>
-    <link href="${pageContext.request.contextPath}/assets/content/themes/umeca/fullcalendar.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css" />
+    <%@ include file="/WEB-INF/jsp/shared/headUm.jsp" %>
+    <link href="${pageContext.request.contextPath}/assets/content/themes/umeca/fullcalendar.css" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
 
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/typeahead-bs2.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/jquery-ui-1.10.3.custom.min.js"></script>
@@ -28,15 +30,19 @@
 
     <script>
 
-        jQuery(function($) {
+        jQuery(function ($) {
             var lstSupervisor = ${lstSupervisor};
 
-            window.calendarOnEventChange = function(event, revertFunc){
+            window.calendarOnEventChange = function (event, revertFunc) {
                 var today = new Date();
-                today.setHours(0,0,0,0);
-                if(event.start < today){
+                today.setHours(0, 0, 0, 0);
+                if (event.start < today) {
                     revertFunc();
-                    scope.showMsg({title:"Rol de supervisi�n", msg:'No es posible modificar una actividad para el rol de supervisi�n con fecha anterior a la fecha actual.', type: "danger"});
+                    scope.showMsg({
+                        title: "Rol de supervisi&oacute;n",
+                        msg: "No es posible modificar una actividad para el rol de supervisi&oacute;n con fecha anterior a la fecha actual.",
+                        type: "danger"
+                    });
                     return;
                 }
                 event.doTitle(true);
@@ -45,23 +51,28 @@
 
             var date = new Date();
             $('#id-date-picker-start,#id-date-picker-end').datepicker(
-                    {autoclose:true, startDate:new Date(date.getFullYear(), date.getMonth(), date.getDate()-1)}).next().on(ace.click_event, function(){
-                $(this).prev().focus();
-            });
+                    {
+                        autoclose: true,
+                        startDate: new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1)
+                    }).next().on(ace.click_event, function () {
+                        $(this).prev().focus();
+                    });
 
             $('#id-timepicker-start, #id-timepicker-end').timepicker({
                 minuteStep: 15,
                 showSeconds: false,
                 showMeridian: false
-            }).next().on(ace.click_event, function(){
+            }).next().on(ace.click_event, function () {
                 $(this).prev().focus();
             });
 
             var scope = angular.element($("#UpsertRolActivityDlgId")).scope();
             var scopeMon = angular.element($("#RolSupervisionControllerId")).scope();
 
-            scope.config({startDateId: "#id-date-picker-start", endDateId: "#id-date-picker-end",
-                startTimeId: "#id-timepicker-start", endTimeId: "#id-timepicker-end"}, lstSupervisor);
+            scope.config({
+                startDateId: "#id-date-picker-start", endDateId: "#id-date-picker-end",
+                startTimeId: "#id-timepicker-start", endTimeId: "#id-timepicker-end"
+            }, lstSupervisor);
 
             var calendar = $('#calendar').fullCalendar({
                 buttonText: {
@@ -87,47 +98,58 @@
                 editable: true,
                 selectable: true,
                 selectHelper: true,
-                viewRender: function( view, element ){
+                viewRender: function (view, element) {
                     scopeMon.loadActivities(view.start, view.end, '<c:url value='${urlGetActivities}' />');
                 },
-                eventResize: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+                eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
                     window.calendarOnEventChange(event, revertFunc);
                 },
-                eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+                eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
                     window.calendarOnEventChange(event, revertFunc);
                 },
-                select: function(start, end, allDay) {
+                select: function (start, end, allDay) {
                     var today = new Date();
-                    today.setHours(0,0,0,0);
-                    if(start < today){
-                        scope.showMsg({title:"Rol de supervisi�n", msg:'No es posible agregar una actividad para el rol de supervisi�n con fecha anterior a la fecha actual.', type: "danger"});
+                    today.setHours(0, 0, 0, 0);
+                    if (start < today) {
+                        scope.showMsg({
+                            title: "Rol de supervisi&oacute;n",
+                            msg: 'No es posible agregar una actividad para el rol de supervisi&oacute;n con fecha anterior a la fecha actual.',
+                            type: "danger"
+                        });
                         return;
                     }
 
                     scope.showDlg({start: start, end: end, isNew: true})
-                            .then(function(result){
-                                for(i=0; i<result.activities.length; i++){
+                            .then(function (result) {
+                                for (i = 0; i < result.activities.length; i++) {
                                     calendar.fullCalendar('renderEvent', result.activities[i], true);
                                 }
                             });
                     calendar.fullCalendar('unselect');
                 }
                 ,
-                eventClick: function(event, jsEvent, view) {
+                eventClick: function (event, jsEvent, view) {
                     var today = new Date();
-                    today.setHours(0,0,0,0);
+                    today.setHours(0, 0, 0, 0);
                     var isReadOnly = false;
-                    if(event.start < today){
+                    if (event.start < today) {
                         isReadOnly = true;
                         //scope.showMsg({title:"Plan de seguimiento", msg:'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
                         //return;
                     }
 
-                    scope.showDlg({title:'Modificar o eliminar actividad', start: event.start, end: event.end, isNew: false, event: event, isReadOnly: isReadOnly})
-                            .then(function(result){
-                                switch(result.option){
+                    scope.showDlg({
+                        title: 'Modificar o eliminar actividad',
+                        start: event.start,
+                        end: event.end,
+                        isNew: false,
+                        event: event,
+                        isReadOnly: isReadOnly
+                    })
+                            .then(function (result) {
+                                switch (result.option) {
                                     case 'REMOVE':
-                                        calendar.fullCalendar('removeEvents' , function(ev){
+                                        calendar.fullCalendar('removeEvents', function (ev) {
                                             return (ev._id == event._id);
                                         });
                                         scopeMon.addActivityToDelete(event.idActivity);
@@ -143,21 +165,21 @@
 
             });
 
-            scopeMon.m = {calendar:calendar, lstSupervisor: lstSupervisor};
+            scopeMon.m = {calendar: calendar, lstSupervisor: lstSupervisor};
 
         });
     </script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
-    <title>Rol de supervisi�n</title>
+    <title>Rol de supervisi&oacute;n</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content"  ng-controller="rolSupervisionController" id="RolSupervisionControllerId">
+<div class="container body-content" ng-controller="rolSupervisionController" id="RolSupervisionControllerId">
     <div class="page-content">
         <div class="page-header">
             <h1 class="element-center">
-                <i class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol de supervisi�n
+                <i class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol de supervisi&oacute;n
             </h1>
         </div>
         <div class="row">
@@ -166,11 +188,14 @@
                     <div class="space"></div>
                     <div class="col-xs-2 col-xs-offset-5 element-center">
                         <div class="btn btn-primary element-center" ng-disabled="waitFor==true"
-                             ng-click="saveRolActivities('<c:url value="/supervisorManager/rolSupervision/doUpsert.json" />')"><i class="glyphicon glyphicon-ok-circle"></i> &nbsp; Guardar</div>
+                             ng-click="saveRolActivities('<c:url value="/supervisorManager/rolSupervision/doUpsert.json" />')">
+                            <i class="glyphicon glyphicon-ok-circle"></i> &nbsp; Guardar
+                        </div>
                     </div>
                 </div>
                 <div class="row" ng-show="msgError">
                     <br/>
+
                     <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
                         <span class="control-label element-center">{{msgError}}</span>
                     </div>
@@ -185,9 +210,9 @@
         </div>
     </div>
 
-    <%@ include file="/WEB-INF/jsp/supervisorManager/rolSupervision/upsertRolActivity.jsp"%>
-    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
-    <%@ include file="/WEB-INF/jsp/shared/footer.jsp"%>
+    <%@ include file="/WEB-INF/jsp/supervisorManager/rolSupervision/upsertRolActivity.jsp" %>
+    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
+    <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>
 
 </body>

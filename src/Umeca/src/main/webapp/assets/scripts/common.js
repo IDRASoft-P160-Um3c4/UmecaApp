@@ -205,6 +205,17 @@ window.formatDateTime = function(dt){
     return dt.getFullYear() + '/' + (dt.getMonth() + 1) + '/' + dt.getDate() + '|' + dt.getHours() + ':' + dt.getMinutes();
 }
 
+window.actionFormatter=function(cellvalue, options, rowdata){
+    return cellvalue;
+};
+
+window.returnTrustHtml = function (sce, msg) {
+    try {
+        return sce.trustAsHtml(msg);
+    } catch (e) {
+        return msg;
+    }
+};
 
 //2014/MM/DD|14:15
 window.stringToDate = function(sDt){

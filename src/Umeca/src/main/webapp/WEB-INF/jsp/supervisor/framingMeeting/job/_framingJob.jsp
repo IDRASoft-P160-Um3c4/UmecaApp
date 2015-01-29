@@ -22,6 +22,7 @@
 
         $(document).ready(function () {
             jQuery("#GridIdJob").jqGrid({
+                autoencode:true,
                 url: urlGridJob,
                 datatype: "json",
                 mtype: 'POST',
@@ -34,7 +35,7 @@
                     { name: 'phone', index: 'phone', width: 120, align: "center", search: false },
                     { name: 'registerTypeString', index: 'registerTypeString', width: 120, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'registerTypeId', index: 'registerTypeId', hidden: true},
-                    { name: 'Action', width: 65, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 65, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

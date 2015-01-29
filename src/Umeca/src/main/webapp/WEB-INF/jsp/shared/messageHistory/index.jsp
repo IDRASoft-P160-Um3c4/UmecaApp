@@ -32,6 +32,7 @@
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/shared/messageHistory/list.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID','Carpeta de Investigaci&oacute;n','Imputado'],
@@ -73,6 +74,7 @@
                     $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
                     $("#" + subgrid_table_id).jqGrid({
                         url: '<c:url value='/shared/messageHistory/detail.json?idCase=' />' + row_id,
+                        autoencode:true,
                         datatype: "json",
                         mtype: 'POST',
                         colNames: ['ID', 'Solicitante', 'Solicitud', 'Mensaje','Atendido por', 'Respuesta', 'Mensaje'],
@@ -80,10 +82,10 @@
                             { name: 'id', hidden: true },
                             { name: 'sender', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                             { name: 'requestType', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                            { name: 'requestMessage', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                            { name: 'requestMessage', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] }, formatter:window.actionFormatter },
                             { name: 'response', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                             { name: 'responseType', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                            { name: "responseMessage", width: 250, align: "center", sortable: false },
+                            { name: "responseMessage", width: 250, align: "center", sortable: false,formatter:window.actionFormatter },
                         ],
                         rowNum: 20,
                         pager: pager_id,

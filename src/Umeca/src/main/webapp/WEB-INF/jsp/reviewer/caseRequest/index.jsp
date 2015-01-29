@@ -33,6 +33,7 @@
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/reviewer/caseRequest/list.json' />',
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID','Carpeta de Investigaci&oacute;n','Nombre','Estatus','Id estatus','Acci&oacute;n'],
@@ -40,9 +41,9 @@
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'description', index: 'description', width: 300, align: "center", sortable: false, search: false},
+                    { name: 'description', index: 'description', width: 300, align: "center", sortable: false, search: false, formatter:window.actionFormatter},
                     { name: 'status', index: 'status', hidden: true },
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 70, align: "center", sortable: false, search: false ,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],

@@ -14,6 +14,7 @@
     $(document).ready(function () {
         jQuery("#GridIdReference").jqGrid({
             url: '<c:url value='/shared/victim/listVictim.json?idCase=${idCase}' />',
+            autoencode:true,
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Nombre', 'Relaci&oacute;n', 'Edad', 'Tel&eacute;fono', 'Direcci&oacute;n', 'Acci&oacute;n'],
@@ -24,7 +25,7 @@
                 { name: 'age', index: 'age', width: 60, align: "center", sorttype: 'string', search: false },
                 { name: 'phone', index: 'phone', width: 100, align: "center", search: false  },
                 { name: 'addressString', index: 'addressString', width: 200, align: "center", search: false  },
-                { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
             ],
             rowNum: 10,
             rowList: [10, 20, 30],

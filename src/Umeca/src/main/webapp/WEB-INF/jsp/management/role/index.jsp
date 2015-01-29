@@ -21,13 +21,14 @@
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: "<c:url value='/management/role/list.json' />",
+                    autoencode:true,
                     datatype: "json",
                     mtype: 'POST',
                     colNames: ['ID', 'Nombre', 'Descripci&oacute;n'],
                     colModel: [
                         { name: 'id', index: 'id', hidden: true },
                         { name: 'role', index: 'role', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                        { name: 'description', index: 'description', width: 500, align: "center", search: false }
+                        { name: 'description', index: 'description', width: 500, align: "center", search: false}
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],

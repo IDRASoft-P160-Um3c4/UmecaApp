@@ -46,6 +46,7 @@ t.alert = function (title, message, icon) {
 $(document).ready(function () {
     $("#GridId").jqGrid({
         url: '<c:url value='/managereval/list.json' />',
+        autoencode:true,
         datatype: "json",
         mtype: 'POST',
         colNames: ['ID', 'Carpeta de Investigaci&oacute;n', 'Nombre completo', 'Delito', 'Acci&oacute;n'],
@@ -54,7 +55,7 @@ $(document).ready(function () {
             { name: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
             { name: 'fullname', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
             { name: 'crime', width: 300, align: "center", sortable: false, search: false },
-            { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+            { name: 'Action', width: 70, align: "center", sortable: false, search: false, formatter: window.actionFormatter}
         ],
         rowNum: 10,
         rowList: [10, 20, 30],
@@ -103,6 +104,7 @@ $(document).ready(function () {
             $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
             $("#" + subgrid_table_id).jqGrid({
                 url: '<c:url value='/managereval/listVerification.json?idCase=' />' + row_id,
+                autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Nombre', 'Relaci&oacute;n', 'Tel&eacute;fono', 'Direcci&oacute;n', 'Tipo de Verificaci&oacute;n', 'Autorizado'],
@@ -112,8 +114,8 @@ $(document).ready(function () {
                     { name: 'relationshipString', width: 100, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'phone', width: 100, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'address', width: 220, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: "idVerificationMethod", width: 160, align: "center", sortable: false },
-                    { name: "authorized", width: 85, align: "center", sortable: false }
+                    { name: "idVerificationMethod", width: 160, align: "center", sortable: false,formatter:window.actionFormatter},
+                    { name: "authorized", width: 85, align: "center", sortable: false, formatter: window.actionFormatter}
                 ],
                 rowNum: 20,
                 pager: pager_id,

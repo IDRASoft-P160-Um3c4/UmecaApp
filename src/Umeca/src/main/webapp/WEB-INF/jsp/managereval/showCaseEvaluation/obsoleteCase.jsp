@@ -32,6 +32,7 @@
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/managereval/showCaseEvaluation/obsoleteCase/list.json' />',
                 datatype: "json",
+                autoencode:true,
                 mtype: 'POST',
                 colNames: ['ID','Carpeta de Investigaci&oacute;n', 'Imputado', 'Evaludaor','Fecha de eliminaci&oacute;n'],
                 colModel: [

@@ -32,6 +32,7 @@
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
                     url: '<c:url value='/supervisorManager/finishedMonitoringPlan/list.json' />',
+                    autoencode:true,
                     datatype: "json",
                     mtype: 'POST',
                     colNames: ['ID', 'Caso', 'Carpeta judicial','Imputado', 'Fecha asignaci&oacute;n', 'Fecha generaci&oacute;n', 'Fecha autorizaci&oacute;n', 'Estatus', 'Asignado a', 'Acci&oacute;n'],
@@ -45,7 +46,7 @@
                         { name: 'stAuthorizationTime', width: 140, align: "center", sortable: true, search: false },
                         { name: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                         { name: 'supervisor', width: 130, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] }},
-                        { name: 'Action', width: 70, align: "center", sortable: false, search: false }
+                        { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                     ],
                     rowNum: 10,
                     rowList: [10, 20, 30],

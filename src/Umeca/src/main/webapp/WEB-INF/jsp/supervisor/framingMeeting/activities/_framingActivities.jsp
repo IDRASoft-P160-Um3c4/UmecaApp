@@ -20,6 +20,7 @@
         };
 
         jQuery("#GridActivities").jqGrid({
+            autoencode:true,
             url: urlGridActivities,
             datatype: "json",
             mtype: 'POST',
@@ -28,7 +29,7 @@
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'name', index: 'name', width: 310, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'description', index: 'description', align: "center", width: 310, sortable: false},
-                { name: 'Action', width: 100, align: "center", sortable: false, search: false }
+                { name: 'Action', width: 100, align: "center", sortable: false, search: false,formatter:window.actionFormatter }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],

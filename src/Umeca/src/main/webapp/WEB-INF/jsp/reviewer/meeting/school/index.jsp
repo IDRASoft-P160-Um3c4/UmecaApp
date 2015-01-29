@@ -32,4 +32,9 @@
             </div>
         </div>
     </div>
+    <div class="blocker" ng-show="WaitFor==true">
+        <div>
+            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+        </div>
+    </div>
 </div>

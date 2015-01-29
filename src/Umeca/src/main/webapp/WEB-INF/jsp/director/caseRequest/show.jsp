@@ -30,6 +30,7 @@
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/director/caseRequest/list.json' />',
                 datatype: "json",
+                autoencode:true,
                 mtype: 'POST',
                 colNames: ['ID', 'Carpeta de Investigaci&oacute;n', 'Nombre', 'Estatus', 'Acci&oacute;n'],
                 colModel: [
@@ -37,7 +38,7 @@
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullname', index: 'fullname', width: 400, align: "center", searchoptions: { sopt: ['bw'] } },
                     { name: 'statusString', index: 'statusString', hidden: false, width: 300, align:"center", searchoptions: { sopt: ['bw'] } },
-                    { name: 'Action', width: 130, align: "center", sortable: false, search: false }
+                    { name: 'Action', width: 130, align: "center", sortable: false, search: false,formatter:window.actionFormatter }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
