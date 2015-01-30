@@ -358,5 +358,9 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "WHERE (sv.isAuthorized = true) and (CDET.id in (:listCaseId)) ")
     List<ExcelVerificationDto> getSourcesVerification(@Param("listCaseId") List<Long> listCaseId);
 
+    @Query("select V.id from Case C " +
+            "inner join C.verification V " +
+            "where C.id=:caseId")
+    Long getVerifIdByCaseId(@Param("caseId") Long caseId);
 
 }
