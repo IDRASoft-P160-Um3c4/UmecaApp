@@ -5,11 +5,11 @@ import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.infrastructure.security.StringEscapeEditor;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.*;
-import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.StateDto;
@@ -25,10 +25,8 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.DrugRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
@@ -39,21 +37,15 @@ import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
@@ -192,6 +184,10 @@ public class FramingMeetingController {
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/framingMeeting");
 
         Case caseDet = caseRepository.findOne(id);
+
+        String[] propsArr = new String[]{"idFolder","meeting.imputed.name","meeting.imputed.lastNameP","meeting.imputed.lastNameM"};
+        caseDet = (Case)StringEscape.escapeAttrs(caseDet,propsArr);
+
         model.addObject("idFolder", caseDet.getIdFolder());
         Imputed i = caseDet.getMeeting().getImputed();
         String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
