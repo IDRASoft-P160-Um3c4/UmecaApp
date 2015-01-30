@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.Convert;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.Question;
 import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.catalog.StatusCase;
@@ -146,12 +147,12 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         Meeting meeting = ver.getCaseDetention().getMeeting();
         Imputed im = meeting.getImputed();
-        file.setIdFolder(Convert.convertToValidString(ver.getCaseDetention().getIdFolder()));
-        file.setName(Convert.convertToValidString(im.getName()));
-        file.setLastNameP(Convert.convertToValidString(im.getLastNameP()));
-        file.setLastNameM(Convert.convertToValidString(im.getLastNameM()));
+        file.setIdFolder(StringEscape.escapeText(Convert.convertToValidString(ver.getCaseDetention().getIdFolder())));
+        file.setName(StringEscape.escapeText(Convert.convertToValidString(im.getName())));
+        file.setLastNameP(StringEscape.escapeText(Convert.convertToValidString(im.getLastNameP())));
+        file.setLastNameM(StringEscape.escapeText(Convert.convertToValidString(im.getLastNameM())));
         Long idCase = ver.getCaseDetention().getId();
-        file.setAddress(Convert.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString()));
+        file.setAddress(StringEscape.escapeText(Convert.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString())));
         String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";
         String templateUnable = "Campo: {0} <br/>Valor: {1}<br/>Raz&oacute;n: {3}<br/>";
         for (int i = 0; i < Constants.NAMES_MEETING.length; i++) {
@@ -182,9 +183,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                                 list.add(new ChoiceView().choiceDto(result));
                             }
                             for (ChoiceView choice : list) {
-                                sourcessay += choice.getNameSource() + ": ";
+                                sourcessay += StringEscape.escapeText(choice.getNameSource()) + ": ";
                                 for (String s : choice.getValues()) {
-                                    sourcessay += s + ",";
+                                    sourcessay += StringEscape.escapeText(s) + ",";
                                 }
                                 sourcessay += "<br/>";
 
@@ -194,13 +195,13 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
                         } else {
                             v = template;
-                            v = v.replace("{2}", fms.getSourceVerification().getFullName());
-                            v = v.replace("{1}", fms.getValue());
+                            v = v.replace("{2}", StringEscape.escapeText(fms.getSourceVerification().getFullName()));
+                            v = v.replace("{1}", StringEscape.escapeText(fms.getValue()));
                         }
                         if (fms.getReason() == null) {
                             fms.setReason("Sin raz&oacute;n registrada.");
                         }
-                        v = v.replace("{3}", fms.getReason());
+                        v = v.replace("{3}", StringEscape.escapeText(fms.getReason()));
                         v = v.replace("{0}", fms.getFieldVerification().getFieldName());
                         section.getValues().add(Convert.convertToValidString(v));
 
@@ -253,7 +254,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         file.setQuestRisk(questRisks);
 
         TechnicalReview technicalReview = ver.getCaseDetention().getTechnicalReview();
-        file.setComment(technicalReview.getComments());
+        file.setComment(StringEscape.escapeText(technicalReview.getComments()));
 
         String risk = "";
         Integer total = technicalReview.getTotalRisk();
