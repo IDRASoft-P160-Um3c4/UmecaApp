@@ -36,7 +36,7 @@
                 { name: 'idFolder', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'fullname', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'status', width: 280, align: "center", sortable: false, search: false },
-                { name: 'supervisor', width: 280, align: "center", sortable: false, search: false },
+                { name: 'supervisor', width: 280, align: "center", sortable: false, search: false,formatter:window.actionFormatter},
                 { name: 'action', width: 50, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
             ],
             rowNum: 10,
@@ -56,8 +56,8 @@
                     var row = $(this).getRowData(cl);
                     var cbo = "cbo_" + row.id;
                     var vm = row.supervisor;
-                    if (vm == "") {
-                        var be = "<select id=\"" + cbo + "\"" + (row.supervisor != "" ? " disabled=\"disabled\"" : "") + "><option></option>";
+                    if (vm == ""||vm == 'null') {
+                        var be = "<select id=\"" + cbo + "\"" + ((row.supervisor != ""&&row.supervisor != "null") ? " disabled=\"disabled\"" : "") + "><option></option>";
                         $.each(users, function (idx, item) {
                             be += "<option value=\"" + item.id + "\"" + (item.id == vm ? " selected" : "") + ">" + item.description + "</option>";
                         });
@@ -72,7 +72,7 @@
                                 return false;
                             }
                         });
-                        $(this).jqGrid('setRowData', ids[i], { supervisor: be});
+                        $(this).jqGrid('setRowData', ids[i], { supervisor: be, action:""});
                     }
                 }
             },

@@ -358,7 +358,7 @@ jQuery(function ($) {
         </div>
         <div class="row" ng-show="idTec != 0">
             <div class="col-xs-12 text-info element-right">
-                <a href="<c:url  value='/reviewer/technicalReview/generateFile.html?id=${caseId}'/>">
+                <a href="<c:url  value='/reviewer/technicalReview/generateFile.html?id=${idVer}'/>">
                     <i class="icon-download-alt icon-animated-wrench bigger-120" id="downOT"></i>&nbsp;
                     <label for="downOT">Descargar opini&oacute;n t&eacutecnica.</label>
                 </a>

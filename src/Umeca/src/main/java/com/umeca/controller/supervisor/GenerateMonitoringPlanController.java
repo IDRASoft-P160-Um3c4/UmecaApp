@@ -7,6 +7,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.dto.ScheduleLogDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
@@ -15,6 +16,7 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.supervisor.*;
@@ -134,6 +136,8 @@ public class GenerateMonitoringPlanController {
     private TechnicalReviewRepository qTechnicalReviewRepository;
     @Autowired
     private ScheduleService scheduleService;
+    @Autowired
+    private CaseRepository caseRepository;
 
 
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/generate", method = RequestMethod.GET)
@@ -164,12 +168,19 @@ public class GenerateMonitoringPlanController {
         Long idTec = qTechnicalReviewRepository.getTechnicalReviewByCaseId(caseId);
         if(idTec!=null){
             model.addObject("idTec",idTec);
+            model.addObject("idVer",caseRepository.getVerifIdByCaseId(caseId));
+
         }
         MonitoringPlanInfo mpi =  monitoringPlanRepository.getInfoById(id);
+
+        String[] arrProp = new String[]{"personName","idMP"};
+        mpi = (MonitoringPlanInfo) StringEscape.escapeAttrs(mpi,arrProp);
+
         model.addObject("caseId",mpi.getIdCase());
         model.addObject("mpId",mpi.getIdMP());
         model.addObject("personName",mpi.getPersonName());
         model.addObject("monStatus",mpi.getMonStatus());
+        model.addObject("monitoringPlanId",mpi.getIdMonitoringPlan());
         model.addObject("monitoringPlanId",mpi.getIdMonitoringPlan());
 
         model.addObject("isInAuthorizeReady", MonitoringConstants.LST_STATUS_AUTHORIZE_READY.contains(mpi.getMonStatus()));
