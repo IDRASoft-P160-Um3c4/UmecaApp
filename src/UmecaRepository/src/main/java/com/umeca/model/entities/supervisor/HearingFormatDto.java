@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.SelectList;
 
@@ -53,7 +54,7 @@ public class HearingFormatDto {
             result += "<strong>Fecha y hora de audiencia: </strong>"+date+"<br/>";
         }
         if(mpName!=null)
-            result+="<strong>Ministerio p&uacute;blico: </strong>"+mpName+"<br/>";
+            result+="<strong>Ministerio p&uacute;blico: </strong>"+ StringEscape.escapeText(mpName)+"<br/>";
         if(hearingType!=null)
             result+="<strong>Tipo de audiencia: </strong>"+hearingType+"<br/>";
         result+=(ip!=null && ip.equals(HearingFormatConstants.IMP_FORM_NO)? "<strong>No</strong> se present&oacute; el imputado<br/>":"<strong>Si</strong> se present&oacute; el imputado<br/>");
@@ -85,7 +86,7 @@ public class HearingFormatDto {
         if(arrangementAssigned!=null && arrangementAssigned.size()>0){
             result+="<ul>";
             for (SelectList aux : arrangementAssigned){
-                result += "<li>"+aux.getName()+"/"+aux.getDescription()+"</li>";
+                result += "<li>"+aux.getName()+"/"+StringEscape.escapeText(aux.getDescription())+"</li>";
             }
             result+="</ul>";
         }
