@@ -5,6 +5,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
@@ -159,8 +160,8 @@ public class ManageMonitoringPlanController {
 
             model.addObject("monPlanId", id);
             model.addObject("caseId", monPlanInfo.getIdCase());
-            model.addObject("mpId", monPlanInfo.getIdMP());
-            model.addObject("fullName", monPlanInfo.getPersonName());
+            model.addObject("mpId", StringEscape.escapeText(monPlanInfo.getIdMP()));
+            model.addObject("fullName", StringEscape.escapeText(monPlanInfo.getPersonName()));
             model.addObject("status", monPlanInfo.getMonStatus());
             model.addObject("countMiss", countMiss);
 
