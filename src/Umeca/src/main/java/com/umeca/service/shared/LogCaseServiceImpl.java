@@ -3,6 +3,7 @@ package com.umeca.service.shared;
 
 import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.CalendarExt;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
@@ -77,21 +78,21 @@ public class LogCaseServiceImpl implements LogCaseService {
         }
         Gson gson = new Gson();
         if(slr!=null){
-            model.addObject("imputedName", slr.getImputedName());
+            model.addObject("imputedName", StringEscape.escapeText(slr.getImputedName()));
             model.addObject("mpId", id);
             if(isFile){
                 model.addObject("crime", listCrimeDtos);
             }else{
                 model.addObject("crime", gson.toJson(listCrimeDtos));
             }
-            model.addObject("judge", slr.getJudge());
-            model.addObject("defender", slr.getDefender());
-            model.addObject("mp", slr.getMp());
-            model.addObject("imputedTel", slr.getImputedTel());
-            model.addObject("imputedAddr", slr.getImputedAddr());
+            model.addObject("judge", StringEscape.escapeText(slr.getJudge()));
+            model.addObject("defender", StringEscape.escapeText(slr.getDefender()));
+            model.addObject("mp", StringEscape.escapeText(slr.getMp()));
+            model.addObject("imputedTel", StringEscape.escapeText(slr.getImputedTel()));
+            model.addObject("imputedAddr", StringEscape.escapeText(slr.getImputedAddr()));
         }else{
             CaseInfo caseInfo = caseRepository.getInfoById(caseId);
-            model.addObject("imputedName", caseInfo.getPersonName());
+            model.addObject("imputedName", StringEscape.escapeText(caseInfo.getPersonName()));
         }
         model.addObject("caseId", caseId);
         List<SelectList> lstMoral = framingReferenceRepository.findAccompanimentReferences(id);
@@ -100,7 +101,7 @@ public class LogCaseServiceImpl implements LogCaseService {
         for (SelectList act : lstMoral) {
             if (cad != "")
                 cad += " / ";
-            cad += act.getName() + " - " + act.getDescription();
+            cad += StringEscape.escapeText(act.getName()) + " - " + act.getDescription();
         }
 
         model.addObject("moralName", cad);
@@ -137,7 +138,7 @@ public class LogCaseServiceImpl implements LogCaseService {
         String closeComment = "";
         closeComment = monitoringPlanRepository.getCloseComment(id, MonitoringConstants.STATUS_PENDING_END, Constants.CASE_STATUS_CLOSED);
 
-        model.addObject("closeComment", closeComment);
+        model.addObject("closeComment", StringEscape.escapeText(closeComment));
 
         List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByCaseId(caseId);
         model.addObject("lstHfAssignedArrangement", isFile?lstGeneric:gson.toJson(lstGeneric));
