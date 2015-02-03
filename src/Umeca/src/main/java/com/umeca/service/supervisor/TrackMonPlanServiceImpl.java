@@ -131,8 +131,8 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
 
         model.addObject("actMonPlanId", id);
         model.addObject("caseId", actMonPlanInfo.getCaseId());
-        model.addObject("mpId", actMonPlanInfo.getMpId());
-        model.addObject("fullName", actMonPlanInfo.getPersonName());
+        model.addObject("mpId", StringEscape.escapeText(actMonPlanInfo.getMpId()));
+        model.addObject("fullName", StringEscape.escapeText(actMonPlanInfo.getPersonName()));
         model.addObject("status", actMonPlanInfo.getStatus());
 
         List<SelectList> lstArrangement = arrangementRepository.findArrangementById(id);
@@ -163,7 +163,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         model.addObject("lstArrangements", sLstArrangement);
         model.addObject("actSup", actMonPlanInfo.getSupervisionActivityName());
         model.addObject("actGoal", actMonPlanInfo.getActivityGoalName());
-        model.addObject("actSources", actMonPlanInfo.getAidSourceName());
+        model.addObject("actSources", StringEscape.escapeText(actMonPlanInfo.getAidSourceName()));
         model.addObject("actStatus", actMonPlanInfo.getActStatus());
         String[] sDate = actMonPlanInfo.getStartDateTime().split("\\|");
         model.addObject("actInitDate", sDate[0]);
@@ -173,7 +173,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         model.addObject("actEndTime", sDate[1]);
         model.addObject("isReadOnly", isReadOnly);
         model.addObject("actSupervisorDone", StringExt.naOnEmpty(actMonPlanInfo.getSupUserDone()));
-        model.addObject("actComments", StringExt.naOnEmpty(actMonPlanInfo.getComments()));
+        model.addObject("actComments", StringEscape.escapeText(StringExt.naOnEmpty(actMonPlanInfo.getComments())));
         model.addObject("actEndFullDate", CalendarExt.calendarToFormatString(actMonPlanInfo.getEndDone(), Constants.FORMAT_CALENDAR_I));
     }
 
