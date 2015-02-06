@@ -59,23 +59,58 @@
 
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisor/hearingFormat/listFormats.json' />' + '?id=' +${idCase},
-                autoencode:true,
+                autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'isFinished', 'Carpeta <br/>de Investigaci&oacute;n' , 'Carpeta Judicial', 'Nombre completo', 'Fecha de registro', 'Supervisor', 'Audiencia', 'Ampliaci&oacute;n <br/>de plazo', 'Vinculaci&oacute;n <br/>a proceso', 'Finalizado', 'Acci&oacute;n'],
+                colNames: ['ID', 'isFinished', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Fecha de registro', 'Supervisor', 'Audiencia', 'Ampliaci&oacute;n <br/>de plazo', 'Vinculaci&oacute;n <br/>a proceso', 'Finalizado', 'Acci&oacute;n'],
                 colModel: [
-                    { name: 'id', index: 'id', hidden: true, sortable: false, search: false },
-                    { name: 'isFinished', index: 'isFinished', hidden: true, sortable: false, search: false },
-                    { name: 'idFolder', index: 'idFolder', width: 140, align: "center", sortable: false, search: false },
-                    { name: 'idMP', index: 'idMP', width: 140, align: "center", sortable: false, search: false },
-                    { name: 'fullName', index: 'fullName', width: 190, align: "center", sortable: false, search: false },
-                    { name: 'registerTime', index: 'registerTime', width: 130, align: "center", sortable: false, search: false },
-                    { name: 'userName', index: 'userName', width: 130, align: "center", sortable: false, search: false },
-                    { name: 'hearingType', index: 'hearingType', width: 90, align: "center", sortable: false, search: false },
-                    { name: 'extension', index: 'extension', width: 90, align: "center", sortable: false, search: false },
-                    { name: 'processVinc', index: 'processVinc', width: 90, align: "center", sortable: false, search: false },
-                    { name: 'finishedStr', index: 'finishedStr', width: 85, align: "center", sortable: false, search: false },
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
+                    {name: 'id', index: 'id', hidden: true, sortable: false, search: false},
+                    {name: 'isFinished', index: 'isFinished', hidden: true, sortable: false, search: false},
+                    {name: 'idFolder', index: 'idFolder', width: 140, align: "center", sortable: false, search: false},
+                    {name: 'idMP', index: 'idMP', width: 140, align: "center", sortable: false, search: false},
+                    {name: 'fullName', index: 'fullName', width: 190, align: "center", sortable: false, search: false},
+                    {
+                        name: 'registerTime',
+                        index: 'registerTime',
+                        width: 130,
+                        align: "center",
+                        sortable: false,
+                        search: false
+                    },
+                    {name: 'userName', index: 'userName', width: 130, align: "center", sortable: false, search: false},
+                    {
+                        name: 'hearingType',
+                        index: 'hearingType',
+                        width: 90,
+                        align: "center",
+                        sortable: false,
+                        search: false
+                    },
+                    {name: 'extension', index: 'extension', width: 90, align: "center", sortable: false, search: false},
+                    {
+                        name: 'processVinc',
+                        index: 'processVinc',
+                        width: 90,
+                        align: "center",
+                        sortable: false,
+                        search: false
+                    },
+                    {
+                        name: 'finishedStr',
+                        index: 'finishedStr',
+                        width: 85,
+                        align: "center",
+                        sortable: false,
+                        search: false
+                    },
+                    {
+                        name: 'Action',
+                        width: 70,
+                        align: "center",
+                        sortable: false,
+                        search: false,
+                        formatter: window.actionFormatter
+                    }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -102,7 +137,7 @@
                         else
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formato de audiencia\" onclick=\"viewHearingFormat(   '" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
-                        $(this).jqGrid('setRowData', ids[i], { Action: be });
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
                 loadComplete: function () {
@@ -119,7 +154,8 @@
                 add: true, addfunc: addHearingFormat, addicon: 'icon-plus-sign purple',
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
-                search: false});
+                search: false
+            });
 
             jQuery("#GridId").jqGrid('navSeparatorAdd', '#GridPager');
             jQuery("#GridId").jqGrid('navButtonAdd', "#GridPager",
@@ -133,7 +169,8 @@
                                 $("#GridId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                             } catch (e) {
                             }
-                        }});
+                        }
+                    });
 
             jQuery("#GridId").jqGrid('filterToolbar', {
                 stringResult: true,
@@ -146,10 +183,20 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Formatos de audiencia del caso
-    </h2>
-    <br/>
 
+    <div class="row element-right">
+        <div class="col-xs-12">
+            <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Formatos de audiencia del
+                caso
+            </h2>
+            <span class="btn btn-default btn-sm"
+                  onclick="returnHearing('<c:url value='/supervisor/hearingFormat/index.html'/>')">
+                                Regresar
+                            </span>
+        </div>
+    </div>
+
+    <br/>
 
     <div class="row">
         <div class="col-xs-10 col-xs-offset-1 element-center">
@@ -158,15 +205,6 @@
                     <span>${msgError}</span>
                 </div>
             </c:if>
-        </div>
-    </div>
-
-    <div class="row element-right">
-        <div class="col-xs-12">
-    <span class="btn btn-default btn-sm"
-          onclick="returnHearing('<c:url value='/supervisor/hearingFormat/index.html'/>')">
-                                Regresar
-                            </span>
         </div>
     </div>
 
