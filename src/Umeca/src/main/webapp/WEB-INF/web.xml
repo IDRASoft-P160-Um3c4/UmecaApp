@@ -154,6 +154,4 @@
         <error-code>503</error-code>
         <location>/WEB-INF/jsp/errorPage.jsp</location>
     </error-page>
-
-
 </web-app>
