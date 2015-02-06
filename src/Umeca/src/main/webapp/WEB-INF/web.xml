@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-	<display-name>UMECA</display-name>
+    <display-name>UMECA</display-name>
 
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
@@ -23,61 +23,61 @@
     <listener>
         <listener-class>com.umeca.infrastructure.InitListener</listener-class>
     </listener>
-    
+
     <!--<listener>-->
-        <!--<listener-class>com.umeca.infrastructure.SessionFilterlistener-class>-->
+    <!--<listener-class>com.umeca.infrastructure.SessionFilterlistener-class>-->
     <!--</listener>-->
 
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
             classpath:/jpaContext.xml
             /WEB-INF/config/security-config.xml
         </param-value>
-	</context-param>
+    </context-param>
 
-	<filter>
-	    <filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
-	    <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+    <filter>
+        <filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
     </filter>
-     
+
     <filter-mapping>
-    	<filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
-    	<url-pattern>/*</url-pattern>
+        <filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <!--<filter>-->
-        <!--<filter-name>SessionFilter</filter-name>-->
-        <!--<filter-class>com.umeca.infrastructure.SessionFilter-->
-        <!--</filter-class>-->
-        <!--<init-param>-->
-            <!--<param-name>avoid-urls</param-name>-->
-            <!--<param-value>index.jsp</param-value>-->
-        <!--</init-param>-->
+    <!--<filter-name>SessionFilter</filter-name>-->
+    <!--<filter-class>com.umeca.infrastructure.SessionFilter-->
+    <!--</filter-class>-->
+    <!--<init-param>-->
+    <!--<param-name>avoid-urls</param-name>-->
+    <!--<param-value>index.jsp</param-value>-->
+    <!--</init-param>-->
     <!--</filter>-->
     <!--<filter-mapping>-->
-        <!--<filter-name>SessionFilter</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
+    <!--<filter-name>SessionFilter</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
     <!--</filter-mapping>-->
 
-	<servlet>
-		<servlet-name>startTicServlet</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <servlet>
+        <servlet-name>startTicServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/servlet-config.xml</param-value>
-		</init-param>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>startTicServlet</servlet-name>
-		<url-pattern>*.html</url-pattern>
-	</servlet-mapping>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/config/servlet-config.xml</param-value>
+        </init-param>
+    </servlet>
 
-	<servlet-mapping>
-		<servlet-name>startTicServlet</servlet-name>
-		<url-pattern>*.json</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>startTicServlet</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>startTicServlet</servlet-name>
+        <url-pattern>*.json</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>startTicServlet</servlet-name>
@@ -89,12 +89,71 @@
         <url-pattern>*.jnlp</url-pattern>
     </servlet-mapping>
 
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
+
+    <!--se mapean a la pagina de error los siguientes errores:-->
+    <!--400 Bad Request-->
+    <!--401 Unauthorized-->
+    <!--403 Forbidden-->
+    <!--404 Not Found-->
+    <!--405 Method Not Allowed-->
+    <!--406 Not Acceptable-->
+    <!--408 Request Timeout-->
+    <!--500 Internal Server Error-->
+    <!--501 Not Implemented-->
+    <!--502 Bad Gateway-->
+    <!--503 Service Unavailable-->
+
+    <error-page>
+        <error-code>400</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>401</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>405</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>406</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>408</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>501</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>502</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>503</error-code>
+        <location>/WEB-INF/jsp/errorPage.jsp</location>
+    </error-page>
+
 
 </web-app>
