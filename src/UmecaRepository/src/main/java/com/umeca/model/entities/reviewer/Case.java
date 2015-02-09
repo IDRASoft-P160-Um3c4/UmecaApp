@@ -67,6 +67,12 @@ public class Case {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
 
+    @Column(name = "change_arrangement_type")
+    private Boolean changeArrangementType;
+
+    @Column(name = "is_substracted")
+    private Boolean isSubstracted;
+
     public MonitoringPlan getMonitoringPlan() {
         return monitoringPlan;
     }
@@ -202,4 +208,19 @@ public class Case {
         this.dateObsolete = dateObsolete;
     }
 
+    public Boolean getChangeArrangementType() {
+        return changeArrangementType;
+    }
+
+    public void setChangeArrangementType(Boolean changeArrangementType) {
+        this.changeArrangementType = changeArrangementType;
+    }
+
+    public Boolean getIsSubstracted() {
+        return isSubstracted;
+    }
+
+    public void setIsSubstracted(Boolean isSubstracted) {
+        this.isSubstracted = isSubstracted;
+    }
 }

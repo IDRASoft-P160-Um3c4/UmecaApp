@@ -56,6 +56,14 @@ public class ManagerSupChartDto {
         this.partialNonFullfilmentMC = partialNonFullfilmentMC;
     }
 
+    public Long getScppCases() {
+        return scppCases;
+    }
+
+    public void setScppCases(Long scppCases) {
+        this.scppCases = scppCases;
+    }
+
     public Long getTotalNonFullfilmentSCPP() {
         return totalNonFullfilmentSCPP;
     }
@@ -102,13 +110,5 @@ public class ManagerSupChartDto {
 
     public void setPrisonCases(Long prisonCases) {
         this.prisonCases = prisonCases;
-    }
-
-    public Long getScppCases() {
-        return scppCases;
-    }
-
-    public void setScppCases(Long scppCases) {
-        this.scppCases = scppCases;
     }
 }

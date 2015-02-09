@@ -106,10 +106,18 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
             "inner join hf.hearingFormatSpecs hfs " +
             "left join hf.hearingType ht " +
             "where hf.id=:idFormat")
-    HearingFormatDto getInfoToLogCase(@Param("idFormat")Long idFormat);
+    HearingFormatDto getInfoToLogCase(@Param("idFormat") Long idFormat);
 
     @Query("select hf.showNotification from HearingFormat hf where hf.id = :idFormat")
-    Boolean getShowNotificationByIdFormat(@Param("idFormat")Long idFormat);
+    Boolean getShowNotificationByIdFormat(@Param("idFormat") Long idFormat);
+
+
+    @Query("SELECT HFS.arrangementType FROM Case C " +
+            "INNER JOIN C.hearingFormats HF " +
+            "INNER JOIN HF.hearingFormatSpecs HFS " +
+            "WHERE C.id=:caseId and HF.isFinished=true order by hf.registerTime asc")
+    List<Integer> getLastArrangementType(@Param("caseId") Long caseId, Pageable pageable);
+
 }
 
 

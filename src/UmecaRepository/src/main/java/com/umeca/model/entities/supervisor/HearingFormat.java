@@ -116,6 +116,9 @@ public class HearingFormat {
     private Boolean showNotification;
 
     @Transient
+    private Boolean isSubstracted;
+
+    @Transient
     public static final Comparator<HearingFormat> hearingFormatComparator = new Comparator<HearingFormat>() {
         @Override
         public int compare(HearingFormat h1, HearingFormat h2) {
@@ -369,5 +372,13 @@ public class HearingFormat {
 
     public void setShowNotification(Boolean showNotification) {
         this.showNotification = showNotification;
+    }
+
+    public Boolean getIsSubstracted() {
+        return isSubstracted;
+    }
+
+    public void setIsSubstracted(Boolean isSubstracted) {
+        this.isSubstracted = isSubstracted;
     }
 }

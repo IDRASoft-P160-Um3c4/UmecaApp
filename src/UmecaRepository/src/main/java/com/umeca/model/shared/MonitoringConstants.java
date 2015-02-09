@@ -18,6 +18,7 @@ public class MonitoringConstants {
     public final static String STATUS_MONITORING = "EN SEGUIMIENTO";
     public final static String STATUS_PENDING_END = "EN PROCESO DE TERMINAR";
     public final static String STATUS_REJECTED_END = "RECHAZADO TERMINAR";
+    public final static String STATUS_SUSPENDED_SUBSTRACTED= "SUSPENDIDO POR SUSTRACCIÓN";
     public final static String STATUS_END = "TERMINADO";
 
     public final static List<String> LST_STATUS_AUTHORIZE_READY =

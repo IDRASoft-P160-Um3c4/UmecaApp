@@ -48,6 +48,8 @@ public class HearingFormatView {
 
     private String imputedFLastName;
 
+    private Boolean isSubstracted;
+
     private String imputedSLastName;
 
     private Date imputedBirthDate;
@@ -690,5 +692,13 @@ public class HearingFormatView {
 
     public void setIsView(Boolean isView) {
         this.isView = isView;
+    }
+
+    public Boolean getIsSubstracted() {
+        return isSubstracted;
+    }
+
+    public void setIsSubstracted(Boolean isSubstracted) {
+        this.isSubstracted = isSubstracted;
     }
 }
