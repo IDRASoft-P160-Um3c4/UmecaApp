@@ -354,6 +354,10 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
                         + SharedSystemSetting.MonPlanHoursToAuthorize + " horas). Por favor consulte a su coordinador");
 
             return false;
+        } else if(monitoringPlan.getStatus().equals(MonitoringConstants.STATUS_SUSPENDED_SUBSTRACTED)) {
+            response.setHasError(true);
+            response.setMessage("El plan de seguimiento está suspendido dado que se ha indicado al imputado como sustraido. Por favor consulte a su coordinador");
+            return false;
         }
 
         String status = monitoringPlan.getStatus();

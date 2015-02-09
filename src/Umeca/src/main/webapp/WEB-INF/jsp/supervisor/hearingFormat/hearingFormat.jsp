@@ -115,7 +115,6 @@
     <br/>
 
 
-
     <div class="container body-content" ng-controller="hearingFormatController"
          ng-init='m=${hfView}; m.rdHasContacts = 1;' style="padding:50px;">
 
@@ -245,6 +244,36 @@
                                                                 <span class="lbl">&nbsp;&nbsp;No</span>
                                                             </label>
 
+                                                        </div>
+
+                                                        <div ng-show="m.imputedPresence==2">
+                                                            <br/>
+                                                            <label>&iquest;Declarar sustra&iacute;do al
+                                                                imputado?</label>
+                                                            <br/>
+                                                         <span class="field-validation-valid"
+                                                               data-valmsg-for="isSubstracted"
+                                                               data-valmsg-replace="true"></span>
+
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input name="isSubstracted" class="ace" type="radio"
+                                                                           ng-value="true"
+                                                                           ng-model="m.isSubstracted"
+                                                                           ng-checked="m.isSubstracted"
+                                                                           data-val="true"
+                                                                           data-val-required="Debe seleccionar un valor">
+                                                                    <span class="lbl">&nbsp;&nbsp;Si</span>
+                                                                </label>
+                                                                <br/>
+                                                                <label>
+                                                                    <input name="isSubstracted" class="ace" type="radio"
+                                                                           ng-value="false"
+                                                                           ng-model="m.isSubstracted"
+                                                                           ng-checked="!m.isSubstracted">
+                                                                    <span class="lbl">&nbsp;&nbsp;No</span>
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-xs-4">
@@ -1065,6 +1094,7 @@
                                             </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
+                                                    <input ng-if="sendTerms==true" type="hidden" name="terms" value="{{m.terms}}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -1270,19 +1300,20 @@
 
         <div class="row element-right">
             <div class="col-xs-6">
-                <h3 class="header smaller lighter blue element left">
+                <h3 class="header smaller lighter blue element-left">
                     <small>Nombre del supervisor:</small>
                     &nbsp;&nbsp;{{m.userName}}
                 </h3>
             </div>
             <div class="col-xs-6" ng-show="m.isFinished==true">
-                <h3 class="header smaller lighter blue element left">
+                <h3 class="header smaller lighter blue element-left">
                     <small>Hora de t&eacute;rmino:</small>
                     &nbsp;&nbsp;{{m.endTime}}
                 </h3>
             </div>
 
-            <div ng-show="m.canSave==true">
+            <div class="col-xs-6" ng-show="m.canSave==true">
+                <br/>
                             <span class="btn btn-default btn-sm"
                                   ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
                                 Regresar

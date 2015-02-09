@@ -8,7 +8,7 @@
 
 <div>
 <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
-<div class="modal-dialog" style="width:900px" ng-controller="monActivityController" ng-init="isReadOnly=${isReadOnly}">
+<div class="modal-dialog" style="width:900px" ng-controller="monActivityController" ng-init="status='${status}'; isReadOnly=${isReadOnly};">
 <div class="modal-content">
 <div class="modal-header">
     <div class="alert alert-info ">
@@ -153,7 +153,7 @@
                     </div>
                 </div>
                 <div class="hr hr-24"></div>
-                <div class="row">
+                <div class="row" ng-show="!suspendBlock">
                     <div class="col-xs-12">
 
                         <table class="table table-bordered table-striped">
@@ -237,7 +237,7 @@
         </div>
     </div>
 </div>
-<div class="row" ng-show="!isReadOnly">
+<div class="row" ng-show="!isReadOnly&&!suspendBlock">
     <br/>
 
     <div class="col-xs-8 col-xs-offset-2">
