@@ -334,7 +334,7 @@ public class FramingMeetingController {
             model.addObject("age", sharedUserService.calculateAge(i.getBirthDate()));
             model.addObject("imputedId", i.getId());
             model.addObject("hasMeeting", caseDet.getMeeting().getSchool() != null);
-            //model.addObject("isSubstracted", caseDet.getIsSubstracted());
+            model.addObject("isSubstracted", caseDet.getIsSubstracted());//pendiente comit
             model.addObject("hasTR", caseDet.getTechnicalReview() != null);
             model.addObject("listCrime", crimeService.getListCrimeHearingformatByCase(id));
 
