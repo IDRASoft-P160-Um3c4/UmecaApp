@@ -102,7 +102,8 @@ public class CaseServiceImpl implements CaseService {
         meeting.setMeetingType(type);
         caseDet.setMeeting(meeting);
         caseDet.setDateCreate(new Date());
-        caseDet.setChangeArrangementType(false);
+        caseDet.setChangeArrangementType(false);//se agrega para poder especificar si ha cambiado el tipo de medidas cautelares
+        caseDet.setIsSubstracted(false);//se agrega para poder especificar si el imputado se encuentra sustraido
         return caseDet;
     }
 
