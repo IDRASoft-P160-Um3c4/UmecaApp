@@ -31,6 +31,7 @@ import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.shared.CrimeService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileService;
 import com.umeca.service.supervisor.FramingMeetingService;
 import com.umeca.service.supervisor.HearingFormatService;
@@ -57,6 +58,9 @@ public class FramingMeetingController {
 
     @Autowired
     private CaseRepository caseRepository;
+
+    @Autowired
+    SharedLogExceptionService logException;
 
     @Autowired
     private FramingMeetingService framingMeetingService;
@@ -183,156 +187,162 @@ public class FramingMeetingController {
     public ModelAndView framingMeeting(@RequestParam(required = true) Long id, Integer returnId) {
         ModelAndView model = new ModelAndView("/supervisor/framingMeeting/framingMeeting");
 
-        Case caseDet = caseRepository.findOne(id);
+        try {
+            Case caseDet = caseRepository.findOne(id);
 
-        String[] propsArr = new String[]{"idFolder","meeting.imputed.name","meeting.imputed.lastNameP","meeting.imputed.lastNameM"};
-        caseDet = (Case)StringEscape.escapeAttrs(caseDet,propsArr);
-
-        model.addObject("idFolder", caseDet.getIdFolder());
-        Imputed i = caseDet.getMeeting().getImputed();
-        String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
-        model.addObject("fullNameImputed", fullName);
-        model.addObject("idCase", id);
-        model.addObject("age", sharedUserService.calculateAge(i.getBirthDate()));
-        model.addObject("imputedId", i.getId());
-        model.addObject("hasMeeting", caseDet.getMeeting().getSchool() != null);
-        model.addObject("hasTR", caseDet.getTechnicalReview() != null);
-        model.addObject("listCrime", crimeService.getListCrimeHearingformatByCase(id));
-
-        model.addObject("lstCL", new Gson().toJson(technicalReviewRepository.getCommunityLinksByCaseId(id)));
-        model.addObject("lstPR", new Gson().toJson(technicalReviewRepository.getProceduralRiskByCaseId(id)));
-
-        List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id, new PageRequest(0, 1));
-        if (lstHF != null && lstHF.size() > 0) {
-            HearingFormatSpecs hfs = lstHF.get(0).getHearingFormatSpecs();
-            if (hfs != null) {
-                if (hfs.getArrangementType().equals(HearingFormatConstants.HEARING_TYPE_MC)) {
-                    model.addObject("resolution", "MC");
-                } else {
-                    model.addObject("resolution", "SCCP");
-                }
-            }
-        }
-
-        if (caseDet.getFramingMeeting() == null) {
-            FramingMeeting framingMeeting = new FramingMeeting();
-            framingMeeting.setIsTerminated(false);
-            framingMeeting.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
-
-            Verification existVer = caseDet.getVerification();
-
-            caseDet.setFramingMeeting(framingMeeting);
-
-            caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_INCOMPLETE));
-            framingMeeting.setCaseDetention(caseDet);
-            framingMeetingService.save(framingMeeting);
-
-            if (existVer != null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
-                framingMeetingService.fillSaveVerifiedInfo(framingMeeting, existVer.getMeetingVerified());
-            }
-
-            HearingFormat lastFormat = lstHF.get(0); //busca si existe un formato y trae la ultima direccion
-
-            if (lastFormat != null) {
-                //valida que no exista la direccion en la entrevista
-                Boolean existAddress = false;
-                Address formatAddress = lastFormat.getHearingImputed().getAddress();
-
-                List<FramingAddress> lstExistFramingAddress = framingMeeting.getFramingAddresses();
-
-                if (lstExistFramingAddress != null && lstExistFramingAddress.size() > 0) {
-                    for (FramingAddress fAdd : framingMeeting.getFramingAddresses()) {
-                        if (fAdd.getAddress().equals(formatAddress)) {
-                            existAddress = true;
-                            break;
-                        }
+            List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id, new PageRequest(0, 1));
+            if (lstHF != null && lstHF.size() > 0) {
+                HearingFormatSpecs hfs = lstHF.get(0).getHearingFormatSpecs();
+                if (hfs != null) {
+                    if (hfs.getArrangementType().equals(HearingFormatConstants.HEARING_TYPE_MC)) {
+                        model.addObject("resolution", "MC");
+                    } else {
+                        model.addObject("resolution", "SCCP");
                     }
                 }
+            }
 
-                if (existAddress == false) {
-                    FramingAddress newFA = new FramingAddress();
-                    Address newAddr = new Address();
-                    newAddr.setStreet(formatAddress.getStreet());
-                    newAddr.setOutNum(formatAddress.getOutNum());
-                    newAddr.setInnNum(formatAddress.getInnNum());
-                    newAddr.setLocation(formatAddress.getLocation());
-                    newAddr.setAddressString(newAddr.toString());
-                    newFA.setAddress(newAddr);
-                    newFA.setFramingMeeting(framingMeeting);
-                    framingAddressRepository.save(newFA);
+            if (caseDet.getFramingMeeting() == null) {
+                FramingMeeting framingMeeting = new FramingMeeting();
+                framingMeeting.setIsTerminated(false);
+                framingMeeting.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+
+                Verification existVer = caseDet.getVerification();
+
+                caseDet.setFramingMeeting(framingMeeting);
+
+                caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_INCOMPLETE));
+                framingMeeting.setCaseDetention(caseDet);
+                framingMeetingService.save(framingMeeting);
+
+                if (existVer != null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
+                    framingMeetingService.fillSaveVerifiedInfo(framingMeeting, existVer.getMeetingVerified());
+                }
+
+                HearingFormat lastFormat = lstHF.get(0); //busca si existe un formato y trae la ultima direccion
+
+                if (lastFormat != null) {
+                    //valida que no exista la direccion en la entrevista
+                    Boolean existAddress = false;
+                    Address formatAddress = lastFormat.getHearingImputed().getAddress();
+
+                    List<FramingAddress> lstExistFramingAddress = framingMeeting.getFramingAddresses();
+
+                    if (lstExistFramingAddress != null && lstExistFramingAddress.size() > 0) {
+                        for (FramingAddress fAdd : framingMeeting.getFramingAddresses()) {
+                            if (fAdd.getAddress().equals(formatAddress)) {
+                                existAddress = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (existAddress == false) {
+                        FramingAddress newFA = new FramingAddress();
+                        Address newAddr = new Address();
+                        newAddr.setStreet(formatAddress.getStreet());
+                        newAddr.setOutNum(formatAddress.getOutNum());
+                        newAddr.setInnNum(formatAddress.getInnNum());
+                        newAddr.setLocation(formatAddress.getLocation());
+                        newAddr.setAddressString(newAddr.toString());
+                        newFA.setAddress(newAddr);
+                        newFA.setFramingMeeting(framingMeeting);
+                        framingAddressRepository.save(newFA);
+                    }
                 }
             }
-        }
 
-        FramingMeetingView framingMeetingView = framingMeetingService.fillForView(caseDet);
+            FramingMeetingView framingMeetingView = framingMeetingService.fillForView(caseDet);
 
-        Gson conv = new Gson();
-        List<CatalogDto> listActivity = new ArrayList<>();
-        for (Activity a : activityRepository.findNotObsolete()) {
-            CatalogDto c = new CatalogDto();
-            c.setName(a.getName());
-            c.setId(a.getId());
-            c.setSpecification(a.getSpecification());
-            listActivity.add(c);
-        }
-
-        model.addObject("lstActivity", conv.toJson(listActivity));
-        FramingMeeting fm = caseDet.getFramingMeeting();
-        if (fm != null && fm.getRelFramingMeetingActivities() != null) {
-            List<RelFramingMeetingActivity> listRelData = caseDet.getFramingMeeting().getRelFramingMeetingActivities();
-            if (listRelData != null && listRelData.size() > 0) {
-                List<RelActivityObjectDto> listRel = new ArrayList<>();
-                for (RelFramingMeetingActivity r : listRelData) {
-                    RelActivityObjectDto rNew = new RelActivityObjectDto();
-                    listRel.add(rNew.relDto(r));
-                }
-                model.addObject("activity", conv.toJson(listRel));
+            Gson conv = new Gson();
+            List<CatalogDto> listActivity = new ArrayList<>();
+            for (Activity a : activityRepository.findNotObsolete()) {
+                CatalogDto c = new CatalogDto();
+                c.setName(a.getName());
+                c.setId(a.getId());
+                c.setSpecification(a.getSpecification());
+                listActivity.add(c);
             }
-        }
-        model.addObject("objView", conv.toJson(framingMeetingView));
-        addressService.fillCatalogAddress(model);
 
-        List<CountryDto> countrys = new ArrayList<>();
-        for (Country act : countryRepository.findAllOrderByName()) {
+            model.addObject("lstActivity", conv.toJson(listActivity));
+            FramingMeeting fm = caseDet.getFramingMeeting();
+            if (fm != null && fm.getRelFramingMeetingActivities() != null) {
+                List<RelFramingMeetingActivity> listRelData = caseDet.getFramingMeeting().getRelFramingMeetingActivities();
+                if (listRelData != null && listRelData.size() > 0) {
+                    List<RelActivityObjectDto> listRel = new ArrayList<>();
+                    for (RelFramingMeetingActivity r : listRelData) {
+                        RelActivityObjectDto rNew = new RelActivityObjectDto();
+                        listRel.add(rNew.relDto(r));
+                    }
+                    model.addObject("activity", conv.toJson(listRel));
+                }
+            }
+            model.addObject("objView", conv.toJson(framingMeetingView));
+            addressService.fillCatalogAddress(model);
 
-            countrys.add(new CountryDto().dtoCountry(act));
-        }
+            List<CountryDto> countrys = new ArrayList<>();
+            for (Country act : countryRepository.findAllOrderByName()) {
 
-        model.addObject("lstCountry", conv.toJson(countrys));
+                countrys.add(new CountryDto().dtoCountry(act));
+            }
 
-        List<StateDto> states = new ArrayList<>();
-        for (State act : stateRepository.findStatesByCountryAlpha2("MX")) {
+            model.addObject("lstCountry", conv.toJson(countrys));
 
-            states.add(new StateDto().stateDto(act));
-        }
+            List<StateDto> states = new ArrayList<>();
+            for (State act : stateRepository.findStatesByCountryAlpha2("MX")) {
 
-        model.addObject("listState", conv.toJson(states));
+                states.add(new StateDto().stateDto(act));
+            }
 
-        List<CatalogDto> relationships = new ArrayList<>();
-        for (Relationship act : relationshipRepository.findNotObsolete()) {
+            model.addObject("listState", conv.toJson(states));
 
-            CatalogDto rel = new CatalogDto();
-            rel.setId(act.getId());
-            rel.setName(act.getName());
+            List<CatalogDto> relationships = new ArrayList<>();
+            for (Relationship act : relationshipRepository.findNotObsolete()) {
 
-            relationships.add(rel);
-        }
+                CatalogDto rel = new CatalogDto();
+                rel.setId(act.getId());
+                rel.setName(act.getName());
 
-        model.addObject("lstRelationship", conv.toJson(relationships));
-        model.addObject("lstAcademicLvl", new Gson().toJson(academicLevelRepository.findNoObsolete()));
+                relationships.add(rel);
+            }
 
-        if (returnId == null)
-            returnId = -1;
+            model.addObject("lstRelationship", conv.toJson(relationships));
+            model.addObject("lstAcademicLvl", new Gson().toJson(academicLevelRepository.findNoObsolete()));
 
-        model.addObject("returnId", returnId);
-        Long idFileTR = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_TECH_REVIEW, id);
-        model.addObject("fileIdTR", idFileTR);
-        Long idFilePhoto = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_IMPUTED_PHOTO, id);
-        model.addObject("fileIdPhoto", idFilePhoto);
-        if (idFilePhoto != null) {
-            UploadFile file = upDwFileService.getPathAndFilename(idFilePhoto);
-            String path = new File(file.getPath(), file.getRealFileName()).toString();
-            model.addObject("pathPhoto", path);
+            if (returnId == null)
+                returnId = -1;
+
+            model.addObject("returnId", returnId);
+            Long idFileTR = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_TECH_REVIEW, id);
+            model.addObject("fileIdTR", idFileTR);
+            Long idFilePhoto = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_IMPUTED_PHOTO, id);
+            model.addObject("fileIdPhoto", idFilePhoto);
+            if (idFilePhoto != null) {
+                UploadFile file = upDwFileService.getPathAndFilename(idFilePhoto);
+                String path = new File(file.getPath(), file.getRealFileName()).toString();
+                model.addObject("pathPhoto", path);
+            }
+
+            String[] propsArr = new String[]{"idFolder", "meeting.imputed.name", "meeting.imputed.lastNameP", "meeting.imputed.lastNameM"};
+            caseDet = (Case) StringEscape.escapeAttrs(caseDet, propsArr);
+
+            model.addObject("idFolder", caseDet.getIdFolder());
+            Imputed i = caseDet.getMeeting().getImputed();
+            String fullName = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
+            model.addObject("fullNameImputed", fullName);
+            model.addObject("idCase", id);
+            model.addObject("age", sharedUserService.calculateAge(i.getBirthDate()));
+            model.addObject("imputedId", i.getId());
+            model.addObject("hasMeeting", caseDet.getMeeting().getSchool() != null);
+            //model.addObject("isSubstracted", caseDet.getIsSubstracted());
+            model.addObject("hasTR", caseDet.getTechnicalReview() != null);
+            model.addObject("listCrime", crimeService.getListCrimeHearingformatByCase(id));
+
+            model.addObject("lstCL", new Gson().toJson(technicalReviewRepository.getCommunityLinksByCaseId(id)));
+            model.addObject("lstPR", new Gson().toJson(technicalReviewRepository.getProceduralRiskByCaseId(id)));
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doNewCase", sharedUserService);
+            return null;
         }
         return model;
     }
