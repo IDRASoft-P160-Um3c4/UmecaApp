@@ -114,8 +114,7 @@
         <span ng-bind-html="listMsgError[entityError]"></span>
         <br/>
     </div>
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre
-        {{fm.WaitFor}}</h2>
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de encuadre</h2>
 
     <div class="col-xs-12">
         <div class="row">
@@ -172,7 +171,7 @@
                 </div>
                 <div class="row">
                     <div
-                            ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true; fileIdTR = ${fileIdTR == null?0:fileIdTR};">
+                            ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true; fileIdTR = ${fileIdTR == null?0:fileIdTR}; isSubstracted=${isSubstracted};">
                         <div class="col-xs-9 col-xs-offset-1">
                             <h3 class="header smaller lighter blue">
                                 <br/>
@@ -211,7 +210,19 @@
                         </div>
 
                     </div>
+                    <div>
+                        <div class="col-xs-9 col-xs-offset-1">
+                            <h3 class="header smaller lighter blue">
+                                <small>&iquest;El imputado se encuentra sustra&iacute;do?:</small>
+                                <i class="icon-check" ng-show="isSubstracted"></i>
+                                &nbsp;<label ng-show="isSubstracted">Si</label>&nbsp;&nbsp;
+                                <i class="icon-check" ng-show="!isSubstracted"></i>
+                                &nbsp;<label ng-show="!isSubstracted">No</label>&nbsp;&nbsp;
+                            </h3>
+                        </div>
+                    </div>
                 </div>
+
             </div>
             <div class="col-xs-1">
                 <div class="row-fluid">
