@@ -14,6 +14,7 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.OptionList;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
@@ -77,6 +78,7 @@ public class TrackMonitoringPlanController {
                     add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
                     add(MonitoringConstants.STATUS_AUTHORIZED);
                     add(MonitoringConstants.STATUS_MONITORING);
+                    add(MonitoringConstants.STATUS_SUSPENDED_SUBSTRACTED);
                     add(MonitoringConstants.STATUS_REJECTED_END);
                 }}, JqGridFilterModel.COMPARE_IN
         );
@@ -132,6 +134,8 @@ public class TrackMonitoringPlanController {
     private TechnicalReviewRepository qTechnicalReviewRepository;
     @Autowired
     private MonitoringPlanRepository monitoringPlanRepository;
+    @Autowired
+    private CaseRepository caseRepository;
 
 
     @RequestMapping(value = "/supervisor/trackMonitoringPlan/trackCalendar", method = RequestMethod.GET)
@@ -156,8 +160,8 @@ public class TrackMonitoringPlanController {
         }
         Long idUser = sharedUserService.GetLoggedUserId();
         List<String> rolesUser = sharedUserService.getLstRolesByUserId(idUser);
-        if(!rolesUser.contains(Constants.ROLE_SUPERVISOR)){
-           idUser = 0L;
+        if (!rolesUser.contains(Constants.ROLE_SUPERVISOR)) {
+            idUser = 0L;
         }
         model.addObject("idUser", idUser);
         trackMonPlanService.setLstActivitiesSupervision(model);
@@ -171,6 +175,8 @@ public class TrackMonitoringPlanController {
             model.addObject("idTec", idTec);
             model.addObject("caseId", idCase);
         }
+
+        model.addObject("isSubstracted", caseRepository.findOne(idCase).getIsSubstracted());
 
         return model;
     }
@@ -194,6 +200,7 @@ public class TrackMonitoringPlanController {
                         add(MonitoringConstants.STATUS_MONITORING);
                         add(MonitoringConstants.STATUS_PENDING_END);
                         add(MonitoringConstants.STATUS_REJECTED_END);
+                        add(MonitoringConstants.STATUS_SUSPENDED_SUBSTRACTED);
                         add(MonitoringConstants.STATUS_END);
                     }},
                     new ArrayList<String>() {{
@@ -273,7 +280,7 @@ public class TrackMonitoringPlanController {
             //Validar el estado del plan de seguimiento
             MonitoringPlanDto monPlanDto = monitoringPlanRepository.getMonPlanAuthInfo(activityMonitoringPlan.getMonitoringPlan().getId());
 
-            if(monPlanDto.getMonPlanSuspended()){
+            if (monPlanDto.getMonPlanSuspended()) {
                 response.setHasError(true);
                 response.setMessage("El plan se encuentra suspendido, por favor conctate a su coordinador para reactivar el plan.");
                 return response;
@@ -355,7 +362,7 @@ public class TrackMonitoringPlanController {
             activityMonitoringPlanRepository.save(activityMonitoringPlan);
 
             response.setReturnData(sStatus);
-            logCaseService.addLog(ConstantsLogCase.LOG_SUPERVISION_ACTIVITY,activityMonitoringPlan.getCaseDetention().getId(),activityMonitoringPlan.getId());
+            logCaseService.addLog(ConstantsLogCase.LOG_SUPERVISION_ACTIVITY, activityMonitoringPlan.getCaseDetention().getId(), activityMonitoringPlan.getId());
 
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doActionActivity", sharedUserService);
