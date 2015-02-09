@@ -309,8 +309,9 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             //radios
             $scope.m.ctrlDet = data.controlDetention;
 
+            $scope.m.ext = data.extension;
+
             if ($scope.m.isFinished == true) {
-                $scope.m.ext = data.extension;
                 $scope.m.extDate = $scope.myFormatDate(data.extDate);
             } else {
                 $scope.m.extDate = "";
@@ -353,6 +354,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 $scope.m.lstContactData = $.parseJSON(data.lstContactData);
             else
                 $scope.m.lstContactData = [];
+            $scope.m.isSubstracted = data.isSubstracted;
 
             $scope.m.previousHearing = data.previousHearing;
 
@@ -693,6 +695,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             if ($scope.m.hearingType && $scope.m.hearingType.lock == true || $scope.m.isView == true) {
                 $("#divMedidas :input").attr("disabled", true);
                 $("#divMedidasHidden :input").attr("disabled", false);
+                $scope.sendTerms=true;
             }
             else {
                 $("#divMedidas :input").attr("disabled", false);
