@@ -20,6 +20,7 @@ import java.util.List;
 @Entity
 @Table(name = "case_detention")
 public class Case {
+
     @Id
     @GeneratedValue
     @Column(name = "id_case")
