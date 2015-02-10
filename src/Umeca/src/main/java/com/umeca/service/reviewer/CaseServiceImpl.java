@@ -102,7 +102,6 @@ public class CaseServiceImpl implements CaseService {
         meeting.setMeetingType(type);
         caseDet.setMeeting(meeting);
         caseDet.setDateCreate(new Date());
-        caseDet.setChangeArrangementType(false);
         return caseDet;
     }
 
