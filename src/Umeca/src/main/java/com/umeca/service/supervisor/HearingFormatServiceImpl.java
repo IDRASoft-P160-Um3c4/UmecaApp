@@ -903,7 +903,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             if (logs.size() > 0) {
                 LogCase l = logs.get(logs.size() - 1);
                 LogComment logComment = new LogComment();
-                logComment.setComments(StringEscape.escapeText(l.getResume()));
+                logComment.setComments(l.getResume());
                 logComment.setAction(l.getTitle());
                 Case c = l.getCaseDetention();
                 logComment.setCaseDetention(c);

@@ -47,7 +47,7 @@ public class HearingFormatDto {
     public String toString(String crimes, List<SelectList> arrangementAssigned) {
         String result = "";
         if(room!=null)
-            result+="<strong>Distrito judicial: </strong>"+room+"<br/>";
+            result+="<strong>Distrito judicial: </strong>"+StringEscape.escapeText(room)+"<br/>";
         if(appointmentDate!=null){
             SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy hh:mm");
             date = format1.format(appointmentDate);
