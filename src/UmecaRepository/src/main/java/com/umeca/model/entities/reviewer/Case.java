@@ -35,6 +35,7 @@ public class Case {
     @Column(name = "recidivist", nullable = false)
     private Boolean recidivist;
 
+
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Meeting meeting;
 

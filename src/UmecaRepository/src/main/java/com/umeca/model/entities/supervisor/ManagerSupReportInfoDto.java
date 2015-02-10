@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class ManagerSupReportInfoDto {
 
+
     private Long totalCases;
     private Long activeCases;
     private Long casesMC;
