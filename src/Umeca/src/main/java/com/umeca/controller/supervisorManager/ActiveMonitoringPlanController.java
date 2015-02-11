@@ -211,7 +211,7 @@ public class ActiveMonitoringPlanController {
         model.addObject("caseId", monPlanInfo.getIdCase());
         model.addObject("mpId", StringEscape.escapeText(monPlanInfo.getIdMP()));
         model.addObject("fullName", StringEscape.escapeText(monPlanInfo.getPersonName()));
-        model.addObject("status", StringEscape.escapeText(monPlanInfo.getMonStatus()));
+        model.addObject("status", monPlanInfo.getMonStatus());
     }
 
     @Autowired
@@ -323,8 +323,8 @@ public class ActiveMonitoringPlanController {
             MonitoringPlanInfo monPlanInfo = monitoringPlanRepository.getInfoById(id);
             model.addObject("monPlanId", id);
             model.addObject("caseId", monPlanInfo.getIdCase());
-            model.addObject("mpId", monPlanInfo.getIdMP());
-            model.addObject("fullName", monPlanInfo.getPersonName());
+            model.addObject("mpId", StringEscape.escapeText(monPlanInfo.getIdMP()));
+            model.addObject("fullName", StringEscape.escapeText(monPlanInfo.getPersonName()));
             model.addObject("status", monPlanInfo.getMonStatus());
 
             List<SelectList> lstUsers = sharedUserService.getLstValidUsersByRoleExceptUserId(Constants.ROLE_SUPERVISOR, monPlanInfo.getSupervisorId());
@@ -399,8 +399,8 @@ public class ActiveMonitoringPlanController {
             MonitoringPlanInfo monPlan = monitoringPlanRepository.getInfoById(id);
 
             model.addObject("caseId", monPlan.getIdCase());
-            model.addObject("mpId", monPlan.getIdMP());
-            model.addObject("fullName", monPlan.getPersonName());
+            model.addObject("mpId", StringEscape.escapeText(monPlan.getIdMP()));
+            model.addObject("fullName", StringEscape.escapeText(monPlan.getPersonName()));
             model.addObject("status", monPlan.getMonStatus());
 
             List<ActivityMonitoringPlanNotice> lstActivities = activityMonitoringPlanRepository.getAllActivitiesByMonPlanIdInStatus(id,

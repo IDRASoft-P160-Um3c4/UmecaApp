@@ -261,6 +261,11 @@ public class InsertCatalogController {
         return  "immigrationDocument";
     }
 
+    @RequestMapping(value="/catalogs/closeCause", method = RequestMethod.GET)
+    public String closeCause(){
+        service.closeCause();
+        return  "closeCause";
+    }
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
@@ -303,6 +308,7 @@ public class InsertCatalogController {
         service.typeFileName();
         service.fulfillmentReport();
         service.immigrationDocument();
+        service.closeCause();
         return "insertCatalog OK!!";
     }
 }
