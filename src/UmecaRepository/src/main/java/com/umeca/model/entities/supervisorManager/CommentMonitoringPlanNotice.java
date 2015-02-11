@@ -127,15 +127,15 @@ public class CommentMonitoringPlanNotice {
     public String convertToTypeName(String type) {
         switch (type){
             case MonitoringConstants.TYPE_COMMENT_AUTHORIZED:
-                return "PLAN DE SUPERVISI&Oacute;N";
+                return "PLAN DE SEGUIMIENTO";
             case MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT:
                 return "REPORTE DE INCUMPLIMIENTO";
             case MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END:
-                return "TERMINACI&Oacute;N DEL PLAN DE SUPERVISI&oacute;N";
+                return "TERMINACIÓN DEL PLAN DE SEGUIMIENTO";
             case MonitoringConstants.TYPE_COMMENT_CASE_END:
-                return "TERMINACI&Oacute;N DEL CASO";
+                return "TERMINACIÓN DEL CASO";
             case MonitoringConstants.TYPE_COMMENT_ASSIGNED_CASE:
-                return "ASIGNACI&Oacute;N DE CASO";
+                return "ASIGNACIÓN DE CASO";
             case MonitoringConstants.TYPE_COMMENT_REOPEN_CASE:
                 return "REABRIR EL CASO";
             case ConstantsLogCase.NEW_HEARING_FORMAT:
