@@ -306,13 +306,12 @@
 
                         <div class="tab-content">
                             <div id="personalData" class="tab-pane in active">
-                                <div class="row center">
+                                <div class="center">
                                     <h2><i class="purple glyphicon glyphicon-user bigger-100"></i> &nbsp;Datos
                                         personales y
                                         entorno social</h2>
 
-                                    <div class="row"
-                                         ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';">
+                                    <div ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';">
                                         <div class="col-xs-10 col-xs-offset-1">
                                             <br/>
                                             <%@ include file="/WEB-INF/jsp/reviewer/meeting/personal/content.jsp" %>
