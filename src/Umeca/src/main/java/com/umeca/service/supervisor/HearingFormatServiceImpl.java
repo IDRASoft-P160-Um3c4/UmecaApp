@@ -804,10 +804,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormat.getCaseDetention().setIdMP(hearingFormat.getIdJudicial());
             }
 
-            //List<HearingFormat>
-
-            //if() aqui deb buscar el ultimo formato de audiencia y verificar si cambia de MC a SCPP o al reves
-
         } else {
             hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE));
         }

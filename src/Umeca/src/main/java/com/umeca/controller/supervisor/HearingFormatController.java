@@ -406,7 +406,7 @@ public class HearingFormatController {
             Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
 
             if (incompleteHFId != null && incompleteHFId > 0 && incompleteHFId != result.getIdFormat())
-                return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, dene terminarlo para poder agregar un nuevo formato de audiencia.");
+                return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");
 
             if (result.getIsFinished() != null && result.getIsFinished()) {
 //            if(result.getListCrime()==null || (result.getListCrime()!=null && result.getListCrime().equals("[]"))){
