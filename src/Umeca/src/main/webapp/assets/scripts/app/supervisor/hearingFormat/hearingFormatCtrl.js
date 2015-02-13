@@ -73,7 +73,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             $scope.hasError = false;
 
-            //$scope.validateInitEnd();
             $scope.validateBthDay();
             if ($scope.hasError == true) {
                 $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
@@ -87,6 +86,13 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.validateLstContact();
 
             if ($scope.hasError == true) {
+                $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
+                return false;
+            }
+
+            $rootScope.$broadcast('valAddCrime', $scope, "crimeIsValid");
+
+            if ($scope.crimeIsValid == false) {
                 $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
                 return false;
             }
