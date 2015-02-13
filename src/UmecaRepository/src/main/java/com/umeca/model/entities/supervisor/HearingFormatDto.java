@@ -96,8 +96,9 @@ public class HearingFormatDto {
     public HearingFormatDto() {
     }
 
-    public HearingFormatDto(String room, Date appointmentDate, String mpName, Integer ip, String hearingType, Integer arrangementTypeInt, Integer linkageProcces, Boolean nationalArrangement) {
-        this.room = room;
+    public HearingFormatDto(//String room,
+                            Date appointmentDate, String mpName, Integer ip, String hearingType, Integer arrangementTypeInt, Integer linkageProcces, Boolean nationalArrangement) {
+        //this.room = room;
         this.appointmentDate = appointmentDate;
         this.mpName = mpName;
         this.ip = ip;

@@ -12,139 +12,81 @@ public class HearingFormatView {
     }
 
     private Long idCase;
-
     private Boolean isView;
-
     private Long idFormat;
-
     private Boolean canSave;
-
     private Boolean canEdit;
-
     private Boolean disableAll;
-
     private String idFolder;
-
     private String idJudicial;
-
     private Date appointmentDate;
     private String appointmentDateStr;
-
     private String room;
-
     private Time initTime;
     private String initTimeStr;
-
     private Time endTime;
     private String endTimeStr;
-
     private String judgeName;
-
     private String mpName;
-
     private String defenderName;
-
     private String imputedName;
-
     private String imputedFLastName;
-
     private Boolean isSubstracted;
-
     private String imputedSLastName;
-
     private Date imputedBirthDate;
     private String imputedBirthDateStr;
-
     private String imputedTel;
-
     private Integer controlDetention;
-
     private Integer extension;
-
     private Integer impForm;
-
     private Date imputationDate;
     private String imputationDateStr;
-
     private Date extDate;
     private String extDateStr;
-
     private Integer vincProcess;
-
     private String linkageRoom;
-
     private Date linkageDate;
     private String linkageDateStr;
-
     private Time linkageTime;
     private String linkageTimeStr;
-
     private Integer arrangementType;
-
     private Boolean nationalArrangement;
-
     private String additionalData;
-
     private String listCrime;
-
     private String terms;
-
     private String lstArrangement;
-
     private String street;
-
     private String outNum;
-
     private String innNum;
-
     private LocationDto location;
-
     private Long idAddres;
-
     private String lstContactData;
-
     private String hearingFormatType;
-
     private String userName;
-
     private String confirmComment;
-
     private String credPass;
-
     private String lat;
-
     private String lng;
-
     private Boolean isFinished;
-
     private Boolean hasPrevHF;
-
     private Boolean isFirstFormat;
-
     private String comments;
-
     private Date umecaDate;
     private String umecaDateStr;
-
     private Time umecaTime;
     private String umecaTimeStr;
-
     private Long umecaSupervisorId;
-
     private Long hearingTypeId;
-
     private String hearingTypeSpecification;
-
     private Integer imputedPresence;
-
     private String hearingResult;
-
     private Integer previousHearing;
+
+    private Long districtId;
 
     public String getLat() {
         return lat;
     }
-
     public void setLat(String lat) {
         this.lat = lat;
     }
@@ -700,5 +642,13 @@ public class HearingFormatView {
 
     public void setIsSubstracted(Boolean isSubstracted) {
         this.isSubstracted = isSubstracted;
+    }
+
+    public Long getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(Long districtId) {
+        this.districtId = districtId;
     }
 }

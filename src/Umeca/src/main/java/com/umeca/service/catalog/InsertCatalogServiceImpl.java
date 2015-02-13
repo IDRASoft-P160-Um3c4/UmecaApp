@@ -842,4 +842,19 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         closeCauseRepository.flush();
     }
 
+    @Autowired
+    DistrictRepository districtRepository;
+
+    @Override
+    public void district() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "district.txt", "\\|", 3);
+        for (String[] data : lstDta) {
+            District model = new District();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            districtRepository.save(model);
+        }
+        districtRepository.flush();
+    }
 }

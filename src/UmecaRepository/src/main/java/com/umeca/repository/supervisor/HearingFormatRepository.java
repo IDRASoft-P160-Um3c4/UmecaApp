@@ -93,7 +93,7 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
     Long getLastFormatAddressByIdCase(@Param("caseId") Long caseId);
 
     @Query("select new com.umeca.model.entities.supervisor.HearingFormatDto(" +
-            "hf.room," +
+            //"hf.room," +
             " hf.appointmentDate," +
             " hf.mpName, " +
             "hf.imputedPresence," +

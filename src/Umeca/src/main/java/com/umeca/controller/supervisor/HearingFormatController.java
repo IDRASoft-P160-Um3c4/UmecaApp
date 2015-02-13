@@ -6,6 +6,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
@@ -19,6 +20,7 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.HearingFormatTypeRepository;
 import com.umeca.repository.supervisor.HearingTypeRepository;
@@ -57,9 +59,6 @@ public class HearingFormatController {
     private GenericJqGridPageSortFilter gridFilter;
 
     @Autowired
-    private StateRepository stateRepository;
-
-    @Autowired
     private AddressService addressService;
 
     @Autowired
@@ -75,7 +74,6 @@ public class HearingFormatController {
     public
     @ResponseBody
     JqGridResultModel listCases(@ModelAttribute JqGridFilterModel opts) {
-
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
@@ -209,6 +207,9 @@ public class HearingFormatController {
     @Autowired
     CrimeService crimeService;
 
+    @Autowired
+    DistrictRepository districtRepository;
+
     @RequestMapping(value = "/supervisor/hearingFormat/newHearingFormat", method = RequestMethod.GET)
     public ModelAndView newHearingFormat(@RequestParam(required = true) Long idCase) {
 
@@ -249,8 +250,10 @@ public class HearingFormatController {
             model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
 
             List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+            List<SelectList> lstDistrict = districtRepository.findNoObsolete();
 
             model.addObject("lstSupervisor", conv.toJson(lstSuper));
+            model.addObject("lstDistrict", conv.toJson(lstDistrict));
 
             if (hfView.getIdAddres() != null)
                 addressService.fillModelAddress(model, hfView.getIdAddres());
@@ -279,6 +282,8 @@ public class HearingFormatController {
         model.addObject("readonlyBand", true);
         model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
         model.addObject("hasPrevHF", hfView.getHasPrevHF());
+        List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+        model.addObject("lstDistrict", conv.toJson(lstDistrict));
 
         if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
             model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
@@ -310,6 +315,9 @@ public class HearingFormatController {
             model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
         else
             model.addObject("lstHearingType", "[]");
+
+        List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+        model.addObject("lstDistrict", conv.toJson(lstDistrict));
 
         addressService.fillCatalogAddress(model);
 

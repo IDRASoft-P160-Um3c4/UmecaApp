@@ -7,6 +7,7 @@
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
+<div class="container body-content">
 <%@ include file="/WEB-INF/jsp/shared/login.jsp" %>
 
 <div ng-controller="mainIndexController">
@@ -33,6 +34,7 @@
         <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
         <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
     </div>
+</div>
 </div>
 </body>
 </html>

@@ -6,6 +6,7 @@ import com.umeca.infrastructure.extensions.IntegerExt;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.Arrangement;
+import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.shared.LogCase;
@@ -117,16 +118,20 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             hearingFormat.setImputedPresence(viewFormat.getImputedPresence());
             hearingFormat.setHearingResult(viewFormat.getHearingResult());
+            hearingFormat.setDistrict(lastHF.getDistrict());
 
         } else {
             hearingFormat.setIdFolder(viewFormat.getIdFolder());
             hearingFormat.setIdJudicial(viewFormat.getIdJudicial());
+            hearingFormat.setDistrict(districtRepository.findOne(viewFormat.getDistrictId()));
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat sdfA = new SimpleDateFormat("HH:mm:ss");
 
-        hearingFormat.setRoom(viewFormat.getRoom());
+        //hearingFormat.setRoom(viewFormat.getRoom()); cambiar por el combo distrito
+
+        hearingFormat.setDistrict(districtRepository.findOne(viewFormat.getDistrictId()));
 
         try {
 
@@ -482,7 +487,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setIdFolder(existHF.getIdFolder());
         hearingFormatView.setIdJudicial(existHF.getIdJudicial());
         hearingFormatView.setAppointmentDate(existHF.getAppointmentDate());
-        hearingFormatView.setRoom(existHF.getRoom());
+
+        //hearingFormatView.setRoom(existHF.getRoom());  cabiar por el combo distrito
+        hearingFormatView.setDistrictId(existHF.getDistrict().getId());
+
         hearingFormatView.setInitTime(existHF.getInitTime());
         hearingFormatView.setEndTime(existHF.getEndTime());
         hearingFormatView.setJudgeName(existHF.getJudgeName());
@@ -580,7 +588,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setIdFolder(existHF.getIdFolder());
         hearingFormatView.setIdJudicial(existHF.getIdJudicial());
         hearingFormatView.setAppointmentDate(existHF.getAppointmentDate());
-        hearingFormatView.setRoom(existHF.getRoom());
+
+        //hearingFormatView.setRoom(existHF.getRoom()); cambiar por el combo distrito
+        hearingFormatView.setDistrictId(existHF.getDistrict().getId());
+
         hearingFormatView.setInitTime(existHF.getInitTime());
         hearingFormatView.setEndTime(existHF.getEndTime());
         hearingFormatView.setJudgeName(existHF.getJudgeName());
@@ -782,6 +793,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     private AddressRepository addressRepository;
 
     @Autowired
+    private DistrictRepository districtRepository;
+
+    @Autowired
     LogCaseService logCaseService;
 
     @Override
@@ -832,6 +846,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                         existMonP.setStatus(MonitoringConstants.STATUS_SUSPENDED_SUBSTRACTED);
                     }
                 }
+            }
+
+            //se asigna el distrito al caso
+            if (hearingFormat.getCaseDetention().getDistrict() == null) {
+                hearingFormat.getCaseDetention().setDistrict(hearingFormat.getDistrict());
             }
 
         } else {

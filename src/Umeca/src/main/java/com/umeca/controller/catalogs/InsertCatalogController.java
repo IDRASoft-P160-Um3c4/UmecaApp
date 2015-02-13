@@ -267,6 +267,12 @@ public class InsertCatalogController {
         return  "closeCause";
     }
 
+    @RequestMapping(value="/catalogs/district", method = RequestMethod.GET)
+    public String district(){
+        service.district();
+        return  "closeCause";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
