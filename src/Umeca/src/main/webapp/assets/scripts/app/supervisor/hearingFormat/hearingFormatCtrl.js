@@ -43,8 +43,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         };
 
-        /***/
-
         var dlgConfirmAction = $('#divConfirm');
 
         $scope.showDlg = function () {
@@ -66,6 +64,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         }
 
         $scope.hideDlg = function () {
+            $scope.WaitFor = false;
             dlgConfirmAction.modal('hide');
         }
 
@@ -387,7 +386,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         };
 
-
         $scope.submitReloadHF = function (formId, urlToPost, validate) {
 
             var stVal = true;
@@ -401,35 +399,36 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             }
 
             $scope.WaitFor = true;
-
             $scope.m.isFinished = true;
-            $scope.$apply();
 
+            $scope.WaitFor = true;
+            $scope.m.isFinished = true;
 
-            $.post(urlToPost, $(formId).serialize())
-                .success(function (resp) {
-                    if (resp.hasError === undefined) {
-                        resp = resp.responseMessage;
-                    }
+            $timeout(function () {
+                $.post(urlToPost, $(formId).serialize())
+                    .success(function (resp) {
+                        if (resp.hasError === undefined) {
+                            resp = resp.responseMessage;
+                        }
 
-                    if (resp.hasError == false) {
-                        window.goToUrlMvcUrl(resp.urlToGo);
-                    }
+                        if (resp.hasError == false) {
+                            window.goToUrlMvcUrl(resp.urlToGo);
+                        }
 
-                    if (resp.hasError == true) {
-                        $scope.MsgError = resp.message;
+                        if (resp.hasError == true) {
+                            $scope.m.isFinished = false;
+                            $scope.MsgError = $sce.trustAsHtml(resp.message);
+                            $scope.$apply();
+                        }
+                    })
+                    .error(function () {
+                        $scope.WaitFor = false;
+                        $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
                         $scope.$apply();
-                    }
-                })
-                .error(function () {
-                    $scope.WaitFor = false;
-                    $scope.MsgError = "Error de red. Por favor intente m�s tarde.";
-                    $scope.$apply();
-                });
+                    });
+            }, 1);
 
-            return true;
         };
-
 
         /**/
 

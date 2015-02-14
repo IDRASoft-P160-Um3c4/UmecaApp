@@ -135,7 +135,7 @@
         <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
         <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
         <input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
-        <input type="hidden" name="isFinished" value="{{m.isFinished}}"/>
+        <input type="hidden" ng-model="m.isFinished" name="isFinished" ng-update-hidden />
         <input type="hidden" name="idFormat" value="{{m.idFormat}}"/>
         <input type="hidden" id="umecaSupervisorId" name="umecaSupervisorId" value="{{m.umecaSupervisor.id}}"/>
 
@@ -316,11 +316,8 @@
                                         <span class="field-validation-valid" data-valmsg-for="room"
                                               data-valmsg-replace="true"></span>
                                                 </div>
-
                                             </div>
-
                                             <br/>
-
                                             <div class="row">
                                                 <div class="col-xs-4">
 
