@@ -261,6 +261,12 @@ public class InsertCatalogController {
         return  "immigrationDocument";
     }
 
+    @RequestMapping(value = "/catalogs/priority", method = RequestMethod.GET)
+    public String priority() {
+        service.priority();
+        return "priority OK!";
+    }
+
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
@@ -303,6 +309,7 @@ public class InsertCatalogController {
         service.typeFileName();
         service.fulfillmentReport();
         service.immigrationDocument();
+        service.priority();
         return "insertCatalog OK!!";
     }
 }

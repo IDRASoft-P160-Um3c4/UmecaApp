@@ -17,6 +17,7 @@ import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.*;
+import javafx.scene.layout.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
     //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -787,6 +788,23 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             typeNameFileRepository.save(model);
         }
         typeNameFileRepository.flush();
+    }
+
+    @Autowired
+    PriorityRepository priorityRepository;
+    @Override
+    public void priority() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "priority.txt","\\|",5);
+        for(String[] data: lstDta){
+            CatPriority model = new CatPriority();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setColor(data[2]);
+            model.setDescription(data[3]);
+            model.setIsObsolete(data[4].equals("1"));
+            priorityRepository.save(model);
+        }
+        priorityRepository.flush();
     }
 
     @Autowired

@@ -226,6 +226,9 @@
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
+                        <li class="nav-li-blue"><a href="<c:url value='/director/taskDiary/index.html' />"><i
+                                class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
+
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class=" glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Consulta de casos
@@ -243,13 +246,23 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/director/caseRequest/show.html' />"><i
-                                class="icon icon-envelope"></i>&nbsp;&nbsp;Historial de solicitudes</a></li>
-                        <li class="nav-li-blue"><a
-                                href="<c:url value='/shared/messageHistory/index.html' />"><i
-                                class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Hist&oacute;ricos
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/director/caseRequest/show.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Hist&oacute;rico de solicitudes</a></li>
+                                <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
+                                        class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+                                </li>
+                            </ul>
                         </li>
                     </sec:authorize>
+
                     <li class="light-blue">
                         <sec:authorize access="isAnonymous()">
                             <a href="#" ng-click="linkLogin()" ng-init="hasUser = false"><span
