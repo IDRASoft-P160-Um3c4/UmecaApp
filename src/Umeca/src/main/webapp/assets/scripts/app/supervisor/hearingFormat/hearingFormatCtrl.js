@@ -8,9 +8,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.MsgError;
         $scope.MsgErrorContact = "";
         $scope.lblTerms = "";
-
         $scope.MsgErrorContact = "";
-
         $scope.m.labelImpForm = "";
 
         $scope.chnLblFormImp = function (id) {
@@ -25,7 +23,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                     $scope.m.impDate = "";
                 }
             }
-
         };
 
         $scope.chnExtDate = function (id) {
@@ -235,6 +232,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 if ($scope.m.hasPrevHF == true) {
                     $("#idFolder").attr("disabled", true);
                     $("#idJudicial").attr("disabled", true);
+                    $("#district").attr("disabled", true);
                     //$("#divImputado :input").attr("disabled", true);
                     $("#divFormImp :input").attr("disabled", true);
                 }
@@ -281,9 +279,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.idFormat = data.idFormat;
             $scope.m.isFinished = data.isFinished;
             $scope.m.hasPrevHF = data.hasPrevHF;
+
             $scope.m.idFolder = data.idFolder;
             $scope.m.idJudicial = data.idJudicial;
-            $scope.m.room = data.room;
+            $scope.m.districtId = data.districtId;
+
             $scope.m.appointmentDate = $scope.myFormatDate(data.appointmentDate);
             if ($scope.m.appointmentDate === "") {
                 $scope.m.appointmentDate = $scope.myFormatDate(new Date());
@@ -637,7 +637,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         $scope.chngVincProcess = function (id) {
             if (id == 1 && $scope.m.ext == 3) {
-                $scope.m.linkageRoom = $scope.m.room;
+                //$scope.m.linkageRoom = $scope.m.room;
                 $scope.m.linkageDate = $scope.m.appointmentDate;
                 $scope.m.linkageTime = $scope.m.initTime;
             } else {
@@ -662,6 +662,27 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
                     if (rel.id === $scope.m.umecaSupervisorId) {
                         $scope.m.umecaSupervisor = rel;
+                        break;
+                    }
+                }
+            }
+        };
+
+        $scope.fillSelDistrict = function () {
+
+            if ($scope.lstDistrict === undefined || $scope.lstDistrict.length <= 0)
+                return;
+
+            if ($scope.m.districtId === undefined) {
+                $scope.m.district = $scope.lstDistrict[0];
+                $scope.m.districtId = $scope.m.district.id;
+            }
+            else {
+                for (var i = 0; i < $scope.lstDistrict.length; i++) {
+                    var rel = $scope.lstDistrict[i];
+
+                    if (rel.id === $scope.m.districtId) {
+                        $scope.m.district = rel;
                         break;
                     }
                 }
@@ -718,6 +739,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.fillFormat($scope.m);
             $scope.fillSelSupervisor();
             $scope.fillSelHearingType();
+            $scope.fillSelDistrict();
             $scope.disableView($scope.m.disableAll);
             $scope.lockArrangements();
         };

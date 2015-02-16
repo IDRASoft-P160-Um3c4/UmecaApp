@@ -791,23 +791,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     }
 
     @Autowired
-    PriorityRepository priorityRepository;
-    @Override
-    public void priority() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "priority.txt","\\|",5);
-        for(String[] data: lstDta){
-            CatPriority model = new CatPriority();
-            model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            model.setColor(data[2]);
-            model.setDescription(data[3]);
-            model.setIsObsolete(data[4].equals("1"));
-            priorityRepository.save(model);
-        }
-        priorityRepository.flush();
-    }
-
-    @Autowired
     ImmigrationDocumentRepository immigrationDocumentRepository;
     @Override
     public void immigrationDocument() {

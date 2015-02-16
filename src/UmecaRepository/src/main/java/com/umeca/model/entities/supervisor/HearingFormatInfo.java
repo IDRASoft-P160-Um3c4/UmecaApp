@@ -18,7 +18,7 @@ public class HearingFormatInfo {
     private Long idFormat;
     private String idFolder;
     private String idJudicial;
-    private String room;
+    //private String room;
     private Date initTime;
     private Date endTime;
     private String judgeName;
@@ -61,7 +61,8 @@ public class HearingFormatInfo {
     private String totalFormats;
     private String summaryCrimes;
 
-    public HearingFormatInfo(Long idCase, Long idFormat, String idFolder, String idJudicial, String room, Date initTime, Date endTime,
+    public HearingFormatInfo(Long idCase, Long idFormat, String idFolder, String idJudicial, //String room,
+                             Date initTime, Date endTime,
                              String judgeName, String mpName, String defName, String impName, String impLNP, String impLNM,
                              Date birthDate, String phone, String addressStr,
                              Integer contDet, Integer impForm, Integer ext, Date extDate, Integer vincProc, String vincRoom, Date vincDate, Date vincTime,
@@ -71,7 +72,7 @@ public class HearingFormatInfo {
         this.idFormat = idFormat;
         this.idFolder = idFolder;
         this.idJudicial = idJudicial;
-        this.room = room;
+        //this.room = room;
         this.initTime = initTime;
         this.endTime = endTime;
         this.judgeName = judgeName;
@@ -375,13 +376,13 @@ public class HearingFormatInfo {
         return returnStr;
     }
 
-    public String getRoom() {
-        return room;
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
-    }
+//    public String getRoom() {
+//        return room;
+//    }
+//
+//    public void setRoom(String room) {
+//        this.room = room;
+//    }
 
     public Calendar getRegisterTime() {
         return registerTime;

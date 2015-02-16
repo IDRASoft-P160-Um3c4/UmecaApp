@@ -48,6 +48,8 @@ public interface InsertCatalogService {
     void typeFileName();
     void priority();
 
+    void closeCause();
+    void district();
     void immigrationDocument();
 
 }

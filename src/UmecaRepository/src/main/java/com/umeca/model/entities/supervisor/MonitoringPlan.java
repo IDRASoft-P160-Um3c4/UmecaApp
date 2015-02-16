@@ -1,5 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.CloseCause;
+import com.umeca.model.catalog.Relationship;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
@@ -60,6 +62,10 @@ public class MonitoringPlan {
 
     @Column(name = "resolution", nullable = true)
     private Integer resolution;
+
+    @OneToOne
+    @JoinColumn(name = "id_close_cause")
+    private CloseCause closeCause;
 
     public Long getId() {
         return id;
@@ -155,5 +161,13 @@ public class MonitoringPlan {
 
     public void setResolution(Integer resolution) {
         this.resolution = resolution;
+    }
+
+    public CloseCause getCloseCause() {
+        return closeCause;
+    }
+
+    public void setCloseCause(CloseCause closeCause) {
+        this.closeCause = closeCause;
     }
 }

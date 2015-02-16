@@ -5,6 +5,7 @@ import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
@@ -236,6 +237,10 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
             caseRepository.save(caseDetention);
         }
 
+        if(type.equals(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END) && model.getAuthorized() == 0){
+            monPlan.setCloseCause(null);
+        }
+
         //CaseRequest... Response
         if(type.equals(MonitoringConstants.TYPE_COMMENT_AUTHORIZED)){
             CaseRequestService.CreateCaseResponseToUser(responseTypeRepository, caseRequestRepository, messageRepository,
@@ -389,13 +394,18 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
 
     }
 
+    @Autowired
+    private CloseCauseRepository closeCauseRepository;
+
     @Override
     @Transactional
     public void saveReqEndMonPlan(AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan) {
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
 
-        commentModel.setComments(StringEscape.escapeText(model.getComments()));
+        CloseCause closeCause = closeCauseRepository.findOne(model.getIdCloseCause());
+
+        commentModel.setComments("Motivo: "+ closeCause.getName()+ " - " + StringEscape.escapeText(model.getComments()));
         commentModel.setAction(MonitoringConstants.STATUS_PENDING_END);
         commentModel.setMonitoringPlan(monPlan);
         commentModel.setCaseDetention(monPlan.getCaseDetention());
@@ -403,12 +413,14 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         commentModel.setTimestamp(now);
         commentModel.setType(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END);
 
+
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
         monPlan.setStatus(MonitoringConstants.STATUS_PENDING_END);
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         logCommentRepository.save(commentModel);
+        monPlan.setCloseCause(closeCause);
         monitoringPlanRepository.save(monPlan);
     }
 }

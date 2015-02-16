@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.District;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.supervisor.FolderConditionalReprieve;
 import com.umeca.model.entities.supervisor.FramingMeeting;
@@ -10,13 +11,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Desarrollo
- * Date: 8/05/14
- * Time: 12:59 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
 @Table(name = "case_detention")
 public class Case {
@@ -74,6 +68,10 @@ public class Case {
 
     @Column(name = "is_substracted")
     private Boolean isSubstracted;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_district")
+    private District district;
 
     public MonitoringPlan getMonitoringPlan() {
         return monitoringPlan;
@@ -224,5 +222,13 @@ public class Case {
 
     public void setIsSubstracted(Boolean isSubstracted) {
         this.isSubstracted = isSubstracted;
+    }
+
+    public District getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(District district) {
+        this.district = district;
     }
 }

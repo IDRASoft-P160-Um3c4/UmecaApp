@@ -1,11 +1,13 @@
 package com.umeca.controller.supervisor;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
@@ -16,7 +18,9 @@ import com.umeca.model.entities.supervisor.MonitoringPlanView;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
+import com.umeca.repository.supervisor.CloseCauseRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
@@ -144,6 +148,8 @@ public class ManageMonitoringPlanController {
     MonitoringPlanRepository monitoringPlanRepository;
     @Autowired
     ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
+    @Autowired
+    CloseCauseRepository closeCauseRepository;
 
     @RequestMapping(value = "/supervisor/manageMonitoringPlan/reqEndPlan", method = RequestMethod.POST)
     public ModelAndView reqEndPlan(@RequestParam Long id){
@@ -164,6 +170,10 @@ public class ManageMonitoringPlanController {
             model.addObject("fullName", StringEscape.escapeText(monPlanInfo.getPersonName()));
             model.addObject("status", monPlanInfo.getMonStatus());
             model.addObject("countMiss", countMiss);
+
+            List<SelectList> lst = closeCauseRepository.findNoObsolete();
+
+            model.addObject("lstCloseCause",new Gson().toJson(lst));
 
             return model;
         }catch (Exception ex){

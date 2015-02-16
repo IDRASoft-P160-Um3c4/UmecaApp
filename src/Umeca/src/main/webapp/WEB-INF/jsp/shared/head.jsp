@@ -5,6 +5,7 @@
 <META http-equiv="X-UA-Compatible" content="IE=9, IE=10" name="description" />
 <title>UMECA</title>
 
+<link rel="icon" type="image/png" href="http://example.com/myicon.png">
 <link href="${pageContext.request.contextPath}/assets/content/Site.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/content/bootstrap.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/content/bootstrap.theme.css" rel="stylesheet" />

@@ -5,6 +5,7 @@ public class AuthorizeRejectMonPlan {
     private Long monPlanId;
     private Integer authorized;
     private String comments;
+    private Long idCloseCause;
     private String password;
     private Long fulfillmentReportId;
 
@@ -54,5 +55,13 @@ public class AuthorizeRejectMonPlan {
 
     public void setFulfillmentReportId(Long fulfillmentReportId) {
         this.fulfillmentReportId = fulfillmentReportId;
+    }
+
+    public Long getIdCloseCause() {
+        return idCloseCause;
+    }
+
+    public void setIdCloseCause(Long idCloseCause) {
+        this.idCloseCause = idCloseCause;
     }
 }

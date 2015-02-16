@@ -336,16 +336,16 @@
                                                 </div>
 
                                                 <div class="col-xs-4">
-                                                    <label for="room">Distrito judicial</label>
+                                                    <label>Distrito</label>
                                                     <br/>
-                                                    <input id="room" ng-model="m.room" name="room" type="text"
-                                                           class="input-xxlarge" data-val="true"
-                                                           data-val-required="Distrito judicial es un campo requerido"/>
-                                                    <br/>
-                                        <span class="field-validation-valid" data-valmsg-for="room"
-                                              data-valmsg-replace="true"></span>
+                                                    <select id="district" class="form-control element-center"
+                                                            ng-model="m.district"
+                                                            ng-options="e.name for e in lstDistrict"
+                                                            ng-init='lstDistrict = ${lstDistrict};'
+                                                            ng-disabled="m.hasPrevHF==true"></select>
                                                 </div>
-
+                                                <input id="hidDistrict" type="hidden" ng-if="m.hasPrevHF==false"
+                                                       name="districtId" value="{{m.district.id}}"/>
                                             </div>
 
                                             <br/>
@@ -1094,7 +1094,8 @@
                                             </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
-                                                    <input ng-if="sendTerms==true" type="hidden" name="terms" value="{{m.terms}}"/>
+                                                    <input ng-if="sendTerms==true" type="hidden" name="terms"
+                                                           value="{{m.terms}}"/>
                                                 </div>
                                             </div>
                                         </div>

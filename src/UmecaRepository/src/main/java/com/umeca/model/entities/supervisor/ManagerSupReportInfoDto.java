@@ -26,7 +26,7 @@ public class ManagerSupReportInfoDto {
     private Long casesDone;
     private Long casesNonFulfillment;
     private Long casesSubtracted;
-    private Long casesHomeVisit; /* preguntar si se cuentan los casos  */
+    private Long casesHomeVisit;
     private Long casesCivOrg;
     private List<SelectList> lstCasesByOrgCiv;
 

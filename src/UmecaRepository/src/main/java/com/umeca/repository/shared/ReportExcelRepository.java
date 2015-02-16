@@ -299,7 +299,8 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (sc.name in (:lstStCase)) and (c.id in (:lstCases))")
     List<Long> findIdCasesByStatusCaseStr(@Param("lstStCase") List<String> lstStCase, @Param("lstCases") List<Long> lstCases);
 
-    @Query("select new com.umeca.model.entities.supervisor.HearingFormatInfo(C.id,HF.id,HF.idFolder, HF.idJudicial,HF.room,HF.initTime,HF.endTime, HF.judgeName, HF.mpName, HF.defenderName, " +
+    @Query("select new com.umeca.model.entities.supervisor.HearingFormatInfo(C.id,HF.id,HF.idFolder, HF.idJudicial," +//HF.room," +
+            "HF.initTime,HF.endTime, HF.judgeName, HF.mpName, HF.defenderName, " +
             "HFIM.name, HFIM.lastNameP, HFIM.lastNameM, HFIM.birthDate, HFIM.imputeTel, HFIMA.addressString,HFSP.controlDetention, HFSP.imputationFormulation, " +
             "HFSP.extension, HFSP.extDate, HFSP.linkageProcess, HFSP.linkageRoom, HFSP.linkageDate, HFSP.linkageTime, HFSP.arrangementType, HFSP.nationalArrangement, HF.terms, HF.registerTime," +
             "HT.description, HF.imputedPresence, HF.hearingResult, HF.hearingTypeSpecification) " +

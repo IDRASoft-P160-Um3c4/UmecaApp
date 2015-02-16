@@ -27,6 +27,16 @@
         return true;
     };
 
+    $scope.fillSelect = function (model, list) {
+
+        if ($scope[list] === undefined || $scope[list].length <= 0)
+            return;
+
+        if ($scope[model] === undefined) {
+            $scope[model] = $scope[list][0];
+            $scope.$apply();
+        }
+    };
 
     $scope.submitRedirect = function (formId, urlToPost, hasReturnId, validate) {
 
@@ -93,7 +103,7 @@
             if (resp.hasError === false) {
                 $rootScope.$broadcast("onLastId", resp.Id);
                 $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                $scope.Model.def.resolve({isCancel: false});
                 return;
             }
 
@@ -117,7 +127,7 @@
 
             if (resp.hasError === false) {
                 $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false, resp: resp });
+                $scope.Model.def.resolve({isCancel: false, resp: resp});
                 return;
             }
 
@@ -139,9 +149,9 @@
         $scope.Model.dlg.modal('hide');
 
         if (isOk === true)
-            $scope.Model.def.resolve({ isCancel: false });
+            $scope.Model.def.resolve({isCancel: false});
         else
-            $scope.Model.def.reject({ isCancel: true });
+            $scope.Model.def.reject({isCancel: true});
     };
 
     $scope.setDlg = function (dlg, urlToSubmit) {
