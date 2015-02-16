@@ -221,6 +221,7 @@ public class CaseServiceImpl implements CaseService {
         if (model.getAuthorized() == 1) {
             statusAction = MonitoringConstants.STATUS_AUTHORIZED;
             statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
+            supervisionCloseCaseLogRepository.save(generateCloseLog(caseDet));
         } else {
             statusAction = MonitoringConstants.STATUS_REJECTED_AUTHORIZED;
             statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
