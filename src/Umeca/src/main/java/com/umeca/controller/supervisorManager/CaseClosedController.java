@@ -6,6 +6,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.reviewer.Case;
@@ -122,8 +123,8 @@ public class CaseClosedController {
     public static void GetCaseInfo(Long id, ModelAndView model, CaseRepository caseRepository, HearingFormatRepository hearingFormatRepository) {
         CaseInfo caseInfo = caseRepository.getInfoById(id);
         model.addObject("caseId", caseInfo.getCaseId());
-        model.addObject("mpId", caseInfo.getMpId());
-        model.addObject("fullName", caseInfo.getPersonName());
+        model.addObject("mpId", StringEscape.escapeText(caseInfo.getMpId()));
+        model.addObject("fullName", StringEscape.escapeText(caseInfo.getPersonName()));
         model.addObject("status", caseInfo.getStatus());
         model.addObject("folderId", caseInfo.getFolderId());
         model.addObject("msgPlan", "reabrir el caso");
