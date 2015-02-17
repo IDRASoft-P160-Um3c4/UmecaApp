@@ -996,7 +996,7 @@
                                     <br/>
                                     <select class="form-control element-center"
                                             ng-model="m.umecaSupervisor"
-                                            ng-options="e.name for e in lstSupervisor"
+                                            ng-options="e.description for e in lstSupervisor"
                                             ng-init='lstSupervisor = ${lstSupervisor};'></select>
                                 </div>
                                 <br/>
