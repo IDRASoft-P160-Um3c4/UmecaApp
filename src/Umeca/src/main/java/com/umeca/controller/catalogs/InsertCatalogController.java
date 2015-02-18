@@ -315,6 +315,7 @@ public class InsertCatalogController {
         service.fulfillmentReport();
         service.immigrationDocument();
         service.closeCause();
+        service.district();
         return "insertCatalog OK!!";
     }
 }
