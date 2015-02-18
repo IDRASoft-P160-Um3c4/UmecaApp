@@ -17,6 +17,7 @@ import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.*;
+import javafx.scene.layout.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
     //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
 
@@ -791,11 +792,10 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Autowired
     ImmigrationDocumentRepository immigrationDocumentRepository;
-
     @Override
     public void immigrationDocument() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "immigrationDocument.txt", "\\|", 4);
-        for (String[] data : lstDta) {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "immigrationDocument.txt","\\|",4);
+        for(String[] data: lstDta){
             ImmigrationDocument model = new ImmigrationDocument();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
@@ -826,35 +826,5 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         hearingTypeRepository.flush();
     }
 
-    @Autowired
-    CloseCauseRepository closeCauseRepository;
 
-    @Override
-    public void closeCause() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "close_cause.txt", "\\|", 3);
-        for (String[] data : lstDta) {
-            CloseCause model = new CloseCause();
-            model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            model.setIsObsolete(data[2].equals("1"));
-            closeCauseRepository.save(model);
-        }
-        closeCauseRepository.flush();
-    }
-
-    @Autowired
-    DistrictRepository districtRepository;
-
-    @Override
-    public void district() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "district.txt", "\\|", 3);
-        for (String[] data : lstDta) {
-            District model = new District();
-            model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            model.setIsObsolete(data[2].equals("1"));
-            districtRepository.save(model);
-        }
-        districtRepository.flush();
-    }
 }

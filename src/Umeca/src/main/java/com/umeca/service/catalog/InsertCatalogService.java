@@ -33,6 +33,7 @@ public interface InsertCatalogService {
     void verificationMethod();
     void fieldVerification();
     void statusFieldVerification();
+    //void hearingFormatType(); NO APLICA PARA ESTA VERSIÓN
     void framingThreat();
     void framingRisk();
     void homeType();
@@ -45,6 +46,8 @@ public interface InsertCatalogService {
     void hearingType();
     void crime();
     void typeFileName();
+    void priority();
+
     void closeCause();
     void district();
     void immigrationDocument();

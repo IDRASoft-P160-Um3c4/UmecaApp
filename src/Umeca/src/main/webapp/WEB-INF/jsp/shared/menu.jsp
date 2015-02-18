@@ -309,6 +309,7 @@
                             </ul>
                         </li>
                     </sec:authorize>
+
                     <li class="light-blue">
                         <sec:authorize access="isAnonymous()">
                             <a href="#" ng-click="linkLogin()" ng-init="hasUser = false"><span
