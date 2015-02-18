@@ -102,7 +102,7 @@ public class RolSupervisionController {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
         }
-        response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         return response;
     }
 

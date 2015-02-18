@@ -267,7 +267,7 @@ public class AuthorizeMonitoringPlanController {
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "doAuthorizeRejectMonPlan", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         }
         return response;
     }
