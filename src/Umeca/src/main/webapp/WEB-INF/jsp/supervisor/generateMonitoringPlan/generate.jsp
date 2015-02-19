@@ -351,11 +351,24 @@ jQuery(function ($) {
             </h1>
         </div>
         <div class="page-header" ng-init="idTec = ${idTec == null? 0: idTec};">
-            <h1 class="element-center" ng-init="caseId='${caseId}'; mpId='${mpId}'; personName='${personName}';">
+            <h1 class="element-center" ng-init="caseId='${caseId}'; mpId='${mpId}'; personName='${personName}'; isSubstracted='${isSubstracted}';">
                 <%--Id. del caso: {{caseId}}, &nbsp;&nbsp; --%> Carpeta judicial: {{mpId}}, &nbsp;&nbsp; Imputado:
                 {{personName}}
             </h1>
         </div>
+
+        <div class="row">
+                <div class="col-xs-12 text-info element-right">
+                <h3 class="header smaller lighter blue">
+                    <small>&iquest;El imputado se encuentra sustra&iacute;do?:</small>
+                    <i class="icon-check" ng-show="isSubstracted"></i>
+                    &nbsp;<label ng-show="isSubstracted">Si</label>&nbsp;&nbsp;
+                    <i class="icon-check" ng-show="!isSubstracted"></i>
+                    &nbsp;<label ng-show="!isSubstracted">No</label>&nbsp;&nbsp;
+                </h3>
+            </div>
+        </div>
+
         <div class="row" ng-show="idTec != 0">
             <div class="col-xs-12 text-info element-right">
                 <a href="<c:url  value='/reviewer/technicalReview/generateFile.html?id=${idVer}'/>">

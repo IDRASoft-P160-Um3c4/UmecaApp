@@ -344,11 +344,13 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     @Query("SELECT COUNT(C) FROM Case C INNER JOIN C.status ST WHERE C.id =:caseId AND ST.name <>:caseStatus")
     Long existsCaseNotClosed(@Param("caseId") Long caseId, @Param("caseStatus") String caseStatusClosed);
 
-    @Query("SELECT COUNT(C.id) FROM Case C " +
+    @Query("SELECT C FROM Case C " +
             "INNER JOIN C.meeting M " +
             "INNER JOIN M.imputed IMP " +
-            "WHERE C.idMP=:idMP AND IMP.foneticString=:foneticName AND IMP.birthDate=:bthDate")
-    Long findJudicialFoneticBrthDayImputed(@Param("idMP") String idMP, @Param("foneticName") String foneticName, @Param("bthDate") Date bthDate);
+            "INNER JOIN C.status ST " +
+            "WHERE C.idMP=:idMP AND IMP.foneticString=:foneticName AND IMP.birthDate=:bthDate " +
+            "AND (ST.name not in (:states))")
+    Case findJudicialFoneticBrthDayImputed(@Param("idMP") String idMP, @Param("foneticName") String foneticName, @Param("bthDate") Date bthDate, @Param("states") List<String> states);
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelVerificationDto(CDET.id, rel.name, vm.name) from Case as CDET " +
             "INNER JOIN CDET.verification as V " +
@@ -362,5 +364,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "inner join C.verification V " +
             "where C.id=:caseId")
     Long getVerifIdByCaseId(@Param("caseId") Long caseId);
+
+    @Query("select C.isSubstracted from Case C where C.id=:caseId")
+    Boolean getSubstractedByCaseId(@Param("caseId") Long caseId);
 
 }

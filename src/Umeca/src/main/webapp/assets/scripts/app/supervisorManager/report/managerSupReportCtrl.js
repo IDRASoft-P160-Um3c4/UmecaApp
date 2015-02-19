@@ -47,6 +47,15 @@ app.controller('managerSupReportController', function ($scope, $timeout, $http, 
             }
 
             return result;
+        }
+
+        $scope.returnMidLength = function (array) {
+            /*if(array!=undefined&&array.length>1){
+                if(array.length%2!=0)
+                    alert(array.length/2);
+            }
+            return -1;*/
+            alert($scope.lstOpts.length/2);
         };
 
         $scope.init = function () {

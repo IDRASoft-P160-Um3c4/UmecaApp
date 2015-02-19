@@ -139,7 +139,7 @@ public class ManageMonitoringPlanController {
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "preAuthorize", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
             return response;
         }
     }
@@ -171,9 +171,8 @@ public class ManageMonitoringPlanController {
             model.addObject("status", monPlanInfo.getMonStatus());
             model.addObject("countMiss", countMiss);
 
-            List<SelectList> lst = closeCauseRepository.findNoObsolete();
-
-            model.addObject("lstCloseCause",new Gson().toJson(lst));
+//            List<SelectList> lst = closeCauseRepository.findNoObsolete();
+//            model.addObject("lstCloseCause",new Gson().toJson(lst));
 
             return model;
         }catch (Exception ex){
@@ -224,7 +223,7 @@ public class ManageMonitoringPlanController {
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "doAuthorizeRejectMonPlan", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         }
         return response;
     }
@@ -249,7 +248,7 @@ public class ManageMonitoringPlanController {
             model.addObject("type", "warning");
             model.addObject("title", "Comentarios del rechazo");
             model.addObject("subtitle", "Su plan de seguimiento fue rechazado debido a:");
-            model.addObject("body", "Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            model.addObject("body", "Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         }
         return model;
     }
@@ -271,7 +270,7 @@ public class ManageMonitoringPlanController {
             model.addObject("type", "warning");
             model.addObject("title", "Comentarios del rechazo de la finalización");
             model.addObject("subtitle", "La finalización del plan de seguimiento fue rechazado debido a:");
-            model.addObject("body", "Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            model.addObject("body", "Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         }
         return model;
     }

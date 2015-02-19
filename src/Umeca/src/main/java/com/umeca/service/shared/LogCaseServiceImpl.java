@@ -249,7 +249,8 @@ public class LogCaseServiceImpl implements LogCaseService {
         List<String> listCrime = crimeService.getListStringCrimeHFByHF(idHearingFormat);
         String crimes = crimeService.convertListCaseToCaseLog(listCrime);
         List<SelectList> aa = arrangementRepository.findLstArrangementByHearingFormatId(idHearingFormat);
-        return hfdto.toString(crimes,aa);
+        User umecaSupervisor = hearingFormatRepository.getLastPreassignedSupervisor(idHearingFormat);
+        return hfdto.toString(crimes,aa,umecaSupervisor);
     }
 
 
@@ -371,6 +372,7 @@ public class LogCaseServiceImpl implements LogCaseService {
             logCaseRepository.save(newLogs);
         }catch (Exception e){
             logException.Write(e, this.getClass(), "addLog", sharedUserService);
+            e.printStackTrace();
         }finally {
             return newLogs;
         }

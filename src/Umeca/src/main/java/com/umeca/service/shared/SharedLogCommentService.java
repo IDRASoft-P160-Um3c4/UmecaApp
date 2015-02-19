@@ -14,7 +14,7 @@ public class SharedLogCommentService {
                                           String action, User userReceiver, String type, LogCommentRepository localLogCommentRepository) {
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
-        commentModel.setComments(StringEscape.escapeText(comments));
+        commentModel.setComments(comments);
         commentModel.setAction(action);
         commentModel.setCaseDetention(caseDet);
         commentModel.setReceiveUser(userReceiver);

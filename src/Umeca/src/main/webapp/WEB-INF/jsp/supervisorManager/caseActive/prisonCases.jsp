@@ -54,8 +54,10 @@
                         var be = "";
                         if (status[i] != "ST_CASE_PRISON_CLOSED" && status[i] != "ST_CASE_PRE_CLOSED" && status[i] != "ST_CASE_CLOSED") {
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Cerrar caso\" onclick=\"window.closeCase('" + cl + "');\"><span class=\"glyphicon glyphicon-remove color-danger\"></span></a>";
-                            $(this).jqGrid('setRowData', ids[i], { Action: be });
+                        }else{
+                            be="";
                         }
+                        $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },
                 loadComplete: function () {

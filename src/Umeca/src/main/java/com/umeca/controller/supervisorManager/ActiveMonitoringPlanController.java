@@ -268,7 +268,7 @@ public class ActiveMonitoringPlanController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doAuthorizeRejectMonPlan", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         }
         return response;
     }
@@ -310,7 +310,7 @@ public class ActiveMonitoringPlanController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doAuthorizeRejectEndMonPlan", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         }
         return response;
     }
@@ -432,7 +432,7 @@ public class ActiveMonitoringPlanController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "showMonActDetail", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         }
         return response;
     }
@@ -474,7 +474,7 @@ public class ActiveMonitoringPlanController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "authRejLstMonAct", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         }
         return response;
     }

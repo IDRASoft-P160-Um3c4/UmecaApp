@@ -50,7 +50,7 @@ public class GenerateMonitoringPlanController {
     SharedLogExceptionService logException;
 
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/index", method = RequestMethod.GET)
-    public String index(){
+    public String index() {
         return "/supervisor/generateMonitoringPlan/index";
     }
 
@@ -62,8 +62,9 @@ public class GenerateMonitoringPlanController {
     private SharedUserService userService;
 
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/list", method = RequestMethod.POST)
-    public @ResponseBody
-    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
+    public
+    @ResponseBody
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
         Long userId = userService.GetLoggedUserId();
 
@@ -71,17 +72,20 @@ public class GenerateMonitoringPlanController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("supervisorId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("status",
-                new ArrayList<String>(){{add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);add(MonitoringConstants.STATUS_PENDING_END);
-                    add(MonitoringConstants.STATUS_END);}},JqGridFilterModel.COMPARE_NOT_IN);
+                new ArrayList<String>() {{
+                    add(MonitoringConstants.STATUS_PENDING_AUTHORIZATION);
+                    add(MonitoringConstants.STATUS_PENDING_END);
+                    add(MonitoringConstants.STATUS_END);
+                }}, JqGridFilterModel.COMPARE_NOT_IN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                final javax.persistence.criteria.Join<MonitoringPlan,Case> joinCd = r.join("caseDetention");
-                final javax.persistence.criteria.Join<Meeting,Imputed> joinIm = joinCd.join("meeting").join("imputed");
+                final javax.persistence.criteria.Join<MonitoringPlan, Case> joinCd = r.join("caseDetention");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinIm = joinCd.join("meeting").join("imputed");
 
-                return new ArrayList<Selection<?>>(){{
+                return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(joinCd.get("id"));
                     add(joinCd.get("idMP"));
@@ -99,15 +103,15 @@ public class GenerateMonitoringPlanController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if(field.equals("caseId"))
+                if (field.equals("caseId"))
                     return r.join("caseDetention").get("id");
-                if(field.equals("stCreationTime"))
+                if (field.equals("stCreationTime"))
                     return r.get("creationTime");
-                if(field.equals("stGenerationTime"))
+                if (field.equals("stGenerationTime"))
                     return r.get("generationTime");
-                if(field.equals("stAuthorizationTime"))
+                if (field.equals("stAuthorizationTime"))
                     return r.get("authorizationTime");
-                if(field.equals("supervisorId"))
+                if (field.equals("supervisorId"))
                     return r.join("supervisor").get("id");
                 return null;
             }
@@ -141,7 +145,9 @@ public class GenerateMonitoringPlanController {
 
 
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/generate", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView generate(@RequestParam Long id){ //Id de MonitoringPlan
+    public
+    @ResponseBody
+    ModelAndView generate(@RequestParam Long id) { //Id de MonitoringPlan
         ModelAndView model = new ModelAndView("/supervisor/generateMonitoringPlan/generate");
         Gson gson = new Gson();
 
@@ -166,37 +172,32 @@ public class GenerateMonitoringPlanController {
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstSources", sLstGeneric);
         Long idTec = qTechnicalReviewRepository.getTechnicalReviewByCaseId(caseId);
-        if(idTec!=null){
-            model.addObject("idTec",idTec);
-            model.addObject("idVer",caseRepository.getVerifIdByCaseId(caseId));
+        if (idTec != null) {
+            model.addObject("idTec", idTec);
+            model.addObject("idVer", caseRepository.getVerifIdByCaseId(caseId));
 
         }
-        MonitoringPlanInfo mpi =  monitoringPlanRepository.getInfoById(id);
+        MonitoringPlanInfo mpi = monitoringPlanRepository.getInfoById(id);
 
-        String[] arrProp = new String[]{"personName","idMP"};
-        mpi = (MonitoringPlanInfo) StringEscape.escapeAttrs(mpi,arrProp);
+        String[] arrProp = new String[]{"personName", "idMP"};
+        mpi = (MonitoringPlanInfo) StringEscape.escapeAttrs(mpi, arrProp);
 
-        model.addObject("caseId",mpi.getIdCase());
-        model.addObject("mpId",mpi.getIdMP());
-        model.addObject("personName",mpi.getPersonName());
-        model.addObject("monStatus",mpi.getMonStatus());
-        model.addObject("monitoringPlanId",mpi.getIdMonitoringPlan());
-        model.addObject("monitoringPlanId",mpi.getIdMonitoringPlan());
-
+        model.addObject("caseId", mpi.getIdCase());
+        model.addObject("mpId", mpi.getIdMP());
+        model.addObject("personName", mpi.getPersonName());
+        model.addObject("monStatus", mpi.getMonStatus());
+        model.addObject("monitoringPlanId", mpi.getIdMonitoringPlan());
+        model.addObject("monitoringPlanId", mpi.getIdMonitoringPlan());
+        model.addObject("isSubstracted", caseRepository.getSubstractedByCaseId(caseId));
         model.addObject("isInAuthorizeReady", MonitoringConstants.LST_STATUS_AUTHORIZE_READY.contains(mpi.getMonStatus()));
-
-        //It's done on client side
-        //List<ActivityMonitoringGroupInfo> lstGroupInfo = activityMonitoringPlanRepository.findGroupInfoBy(id, MonitoringConstants.STATUS_ACTIVITY_DELETED);
-        //sLstGeneric = gson.toJson(lstGroupInfo);
-        //model.addObject("lstGroupInfo", sLstGeneric);
 
         List<ActivityMonitoringPlan> lstActivities = activityMonitoringPlanRepository.findValidActivitiesBy(id, MonitoringConstants.STATUS_ACTIVITY_DELETED);
         List<ActivityMonitoringPlanDto> lstDtoActivities = ActivityMonitoringPlanDto.convertToDtos(lstActivities);
 
         sLstGeneric = gson.toJson(lstDtoActivities);
-        model.addObject("lstActivitiesMonPlan",sLstGeneric);
+        model.addObject("lstActivitiesMonPlan", sLstGeneric);
         List<ScheduleLogDto> listSchedules = scheduleService.getFramingScheduleByIdCase(caseId);
-        model.addObject("lstSchedules",gson.toJson(listSchedules));
+        model.addObject("lstSchedules", gson.toJson(listSchedules));
         return model;
     }
 
@@ -206,25 +207,27 @@ public class GenerateMonitoringPlanController {
     MonitoringPlanService monitoringPlanService;
 
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsert(@RequestBody ActivityMonitoringPlanRequest model){
+    public
+    @ResponseBody
+    ResponseMessage doUpsert(@RequestBody ActivityMonitoringPlanRequest model) {
         ResponseMessage response = new ResponseMessage();
         response.setTitle("Plan de seguimiento");
 
         try {
             User user = new User();
-            if(sharedUserService.isValidUser(user, response) == false)
+            if (sharedUserService.isValidUser(user, response) == false)
                 return response;
 
-            if(monitoringPlanService.doUpsertDelete(sharedUserService, monitoringPlanRepository, model, user, response) == false)
+            if (monitoringPlanService.doUpsertDelete(sharedUserService, monitoringPlanRepository, model, user, response) == false)
                 return response;
 
 
-            if(model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0
-                    && model.getActsPreIns() == 0 && model.getActsPreUpd() == 0 && model.getActsPreDel() == 0){
+            if (model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0
+                    && model.getActsPreIns() == 0 && model.getActsPreUpd() == 0 && model.getActsPreDel() == 0) {
                 response.setMessage("No fue posible realizar la operaci&oacute;n, revise que su informaci&oacute;n est&eacute; correcta o que la(s)" +
                         " actividad(es) que desea modificar y/o eliminar a&uacute;n no est&eacute;(n) finalizada(s) o sean actividades actuales y/o futuras.");
                 response.setHasError(true);
-            }else{
+            } else {
                 Gson gson = new Gson();
                 response.setReturnData(gson.toJson(model.getLstActivitiesUpserted()));
                 response.setHasError(false);
@@ -238,40 +241,42 @@ public class GenerateMonitoringPlanController {
 
             }
             return response;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
         }
-        response.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
+        response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
         return response;
     }
 
     @RequestMapping(value = "/supervisor/generateMonitoringPlan/deleteActMonPlan", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage deleteActMonPlan(@RequestBody ActivityMonitoringPlanRequest model){
+    public
+    @ResponseBody
+    ResponseMessage deleteActMonPlan(@RequestBody ActivityMonitoringPlanRequest model) {
         ResponseMessage response = new ResponseMessage();
         response.setTitle("Eliminar actividades");
 
         try {
             User user = new User();
-            if(sharedUserService.isValidUser(user, response) == false)
+            if (sharedUserService.isValidUser(user, response) == false)
                 return response;
 
-            if(sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false){
+            if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
                 response.setHasError(true);
                 response.setMessage("La contrase&ntilde;a no corresponde al usuario en sesi&oacute;n");
                 return response;
             }
 
-            if(monitoringPlanService.doUpsertDelete(sharedUserService, monitoringPlanRepository, model, user, response) == false)
+            if (monitoringPlanService.doUpsertDelete(sharedUserService, monitoringPlanRepository, model, user, response) == false)
                 return response;
 
 
-            if(model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0
-                    && model.getActsPreIns() == 0 && model.getActsPreUpd() == 0 && model.getActsPreDel() == 0){
+            if (model.getActsIns() == 0 && model.getActsUpd() == 0 && model.getActsDel() == 0
+                    && model.getActsPreIns() == 0 && model.getActsPreUpd() == 0 && model.getActsPreDel() == 0) {
                 response.setHasError(true);
                 response.setMessage("No fue posible realizar la operaci&oacute;n, revise que su informaci&oacute;n est&eacute; correcta o que la(s)" +
                         " actividad(es) que desea modificar y/o eliminar a&uacute;n no est&eacute;(n) finalizada(s) o sean actividades actuales y/o futuras.");
-            }else{
+            } else {
                 Gson gson = new Gson();
                 response.setReturnData(gson.toJson(model.getLstActivitiesUpserted()));
                 response.setHasError(false);
@@ -285,11 +290,11 @@ public class GenerateMonitoringPlanController {
 
             }
             return response;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
         }
-        response.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
+        response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
         return response;
     }
 

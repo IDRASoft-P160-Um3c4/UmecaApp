@@ -75,7 +75,7 @@ public class TaskDiaryController {
             response.setHasError(true);
         }
 
-        response.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
+        response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
         return response;
 
     }

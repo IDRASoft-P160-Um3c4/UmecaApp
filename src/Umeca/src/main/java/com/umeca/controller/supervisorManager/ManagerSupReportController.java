@@ -1,20 +1,24 @@
 package com.umeca.controller.supervisorManager;
 
 import com.google.gson.Gson;
+import com.umeca.model.catalog.Location;
+import com.umeca.model.catalog.Municipality;
 import com.umeca.model.entities.supervisor.ManagerSupReportInfoDto;
 import com.umeca.model.entities.supervisor.ManagerSupReportParams;
 import com.umeca.model.entities.supervisorManager.ManagerSupChartDto;
+import com.umeca.model.shared.SelectList;
+import com.umeca.repository.catalog.LocationRepository;
+import com.umeca.repository.catalog.MunicipalityRepository;
+import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.shared.ReportExcelRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,14 +50,69 @@ public class ManagerSupReportController {
     @Autowired
     private SharedUserService sharedUserService;
 
+
+    private List<SelectList> doListOptionReport() {
+        List<SelectList> listOption = new ArrayList<>();
+        SelectList obj = new SelectList();
+        obj.setDescription("Número de imposiciones por obligación procesal.");
+        obj.setName("countArrangement");
+        listOption.add(obj);
+
+        obj = new SelectList();
+        obj.setDescription("Número de personas que consumen sustancias.");
+        obj.setName("countDrug");
+        listOption.add(obj);
+
+        obj = new SelectList();
+        obj.setDescription("Número de canalizaciones a organizaciones de la sociedad civil.");
+        obj.setName("countCivOrg");
+        listOption.add(obj);
+
+        obj = new SelectList();
+        obj.setDescription("Número de personas con empleo.");
+        obj.setName("countJob");
+        listOption.add(obj);
+
+        obj = new SelectList();
+        obj.setDescription("Número de casos cerrados.");
+        obj.setName("countClosed");
+        listOption.add(obj);
+
+        obj = new SelectList();
+        obj.setDescription("Número de detenidos por lugar de detención.");
+        obj.setName("countDetPlace");
+        listOption.add(obj);
+
+        return listOption;
+    }
+
+    @Autowired
+    private StateRepository stateRepository;
+    @Autowired
+    private MunicipalityRepository municipalityRepository;
+    @Autowired
+    private LocationRepository locationRepository;
+
     @RequestMapping(value = "/supervisorManager/report/index", method = RequestMethod.GET)
     public ModelAndView index() {
         ModelAndView model = new ModelAndView("/supervisorManager/report/index");
-
-
+        Gson gson = new Gson();
+        model.addObject("lstOpts", gson.toJson(doListOptionReport()));
+        model.addObject("lstStates",stateRepository.findStatesByCountryAlpha2("MX"));
         return model;
     }
 
+    @RequestMapping(value = "/supervisorManager/report/getMun", method = RequestMethod.GET)
+    public String getMunBySt(Long idState) {
+        Gson gson = new Gson();
+        return gson.toJson(municipalityRepository.findByIdState(idState));
+    }
+
+    @RequestMapping(value = "/supervisorManager/report/getLoc", method = RequestMethod.GET)
+    public String getLocByMun(Long idMun) {
+        Gson gson = new Gson();
+        return gson.toJson(locationRepository.findLocationByMunId(idMun));
+    }
 
     @RequestMapping(value = "/supervisorManager/report/doReport", method = RequestMethod.GET)
     @ResponseBody
@@ -146,12 +205,12 @@ public class ManagerSupReportController {
         list.add(d);
         list.add(e);
 
-        String outputFileName="algodon";
+        String outputFileName = "algodon";
 
-        generateReports(outputFileName,list, param, request, response);
+        generateReports(outputFileName, list, param, request, response);
     }
 
-    private void generateReports(String name,Collection data, Map param, HttpServletRequest request, HttpServletResponse response) {
+    private void generateReports(String name, Collection data, Map param, HttpServletRequest request, HttpServletResponse response) {
         try {
 
             ServletContext servletContext = request.getSession().getServletContext();
@@ -172,7 +231,7 @@ public class ManagerSupReportController {
             exporter.exportReport();
 
             response.setContentType("application/x-download");
-            response.setHeader("Content-Disposition", "attachment; filename=\""+name+".docx\"");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + name + ".docx\"");
 
             FileInputStream istr = new FileInputStream(tempPath);
             OutputStream ostr = response.getOutputStream();

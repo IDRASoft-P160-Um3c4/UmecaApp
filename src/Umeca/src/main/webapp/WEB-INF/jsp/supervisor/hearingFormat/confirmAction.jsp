@@ -45,6 +45,7 @@
 
 
                 <div class="row" ng-show='MsgError'>
+                    <br/>
                     <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
                         <span class="control-label element-center" ng-bind-html="MsgError"></span>
                     </div>

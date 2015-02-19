@@ -352,12 +352,19 @@ public class HearingFormatController {
 
             caseDet = caseService.generateNewCase(imputed, HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE);
             caseDet.setIdMP(idJudicial);
-            Long num = caseRepository.findJudicialFoneticBrthDayImputed(caseDet.getIdMP(), caseDet.getMeeting().getImputed().getFoneticString(), caseDet.getMeeting().getImputed().getBirthDate());
+            Case existCase = caseRepository.findJudicialFoneticBrthDayImputed(caseDet.getIdMP(),
+                    caseDet.getMeeting().getImputed().getFoneticString(),
+                    caseDet.getMeeting().getImputed().getBirthDate(), new ArrayList<String>() {{
+                        add(Constants.CASE_STATUS_CLOSED);
+                        add(Constants.CASE_STATUS_OBSOLETE_EVALUATION);
+                        add(Constants.CASE_STATUS_OBSOLETE_SUPERVISION);
+                        add(Constants.CASE_STATUS_PRE_CLOSED);
+                        add(Constants.CASE_STATUS_PRISON_CLOSED);
+                    }});
 
-            if (num != null && num > 0) {
+            if (existCase != null) {
                 response.setHasError(true);
-                response.setTitle("Formato de audiencia");
-                response.setMessage("El n&uacute;mero de Carpeta Judicial e Imputado ya existen, verifique los datos.");
+                response.setMessage(existCase.getId() + "|" + true + "|" + existCase.getIdFolder() + "|" + caseDet.getIdMP());
             } else {
                 caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE));
                 response = caseService.saveConditionaReprieveCase(caseDet);
@@ -410,7 +417,7 @@ public class HearingFormatController {
             Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
 
             if (incompleteHFId != null && incompleteHFId > 0 && incompleteHFId != result.getIdFormat())
-                return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, dene terminarlo para poder agregar un nuevo formato de audiencia.");
+                return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");
 
             if (result.getIsFinished() != null && result.getIsFinished()) {
                 if (result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
@@ -429,6 +436,5 @@ public class HearingFormatController {
             return new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
         }
     }
-
 
 }
