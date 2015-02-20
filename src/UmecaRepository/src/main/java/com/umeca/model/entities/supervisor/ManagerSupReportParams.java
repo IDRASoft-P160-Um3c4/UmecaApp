@@ -1,5 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
+import java.util.Date;
+
 /**
  * Created by Vmware on 15/01/2015.
  */
@@ -15,6 +17,8 @@ public class ManagerSupReportParams {
     private Long locationId;
     private String initDate;
     private String endDate;
+    private Date iDate;
+    private Date eDate;
 
     public Boolean getCountArrangement() {
         return countArrangement;
@@ -94,5 +98,21 @@ public class ManagerSupReportParams {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public Date getiDate() {
+        return iDate;
+    }
+
+    public void setiDate(Date iDate) {
+        this.iDate = iDate;
+    }
+
+    public Date geteDate() {
+        return eDate;
+    }
+
+    public void seteDate(Date eDate) {
+        this.eDate = eDate;
     }
 }

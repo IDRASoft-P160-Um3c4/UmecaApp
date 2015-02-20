@@ -145,11 +145,22 @@ public class ManagerSupReportController {
             endDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
                     .parse(params.getEndDate() + endTime);
 
+            params.setiDate(initDate);
+            params.seteDate(endDate);
+
         } catch (Exception e) {
             return null;
         }
 
-        infoObj = managerSupReportService.getCountByArrangements(infoObj, initDate, endDate);
+        infoObj.setStrInitDate(params.getInitDate());
+        infoObj.setStrEndDate(params.getEndDate());
+        if (params.getDistrictId() != null)
+            infoObj.setDistrictName(districtRepository.findOne(params.getDistrictId()).getName());
+
+        //se selecciono el numero de imposiciones por obligacion procesal
+        if (params.getCountArrangement() != null && params.getCountArrangement().equals(true))
+            infoObj = managerSupReportService.getCountByArrangements(params, infoObj);
+
         return infoObj;
     }
 

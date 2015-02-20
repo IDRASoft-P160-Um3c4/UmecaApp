@@ -6,7 +6,6 @@ app.controller('managerSupReportController', function ($scope, $timeout, $http, 
     $scope.opts = {};
 
     $scope.submitReport = function (formId, urlToPost, validate) {
-
         $scope.Invalid = false;
 
         if ($(formId).valid() == false) {
@@ -21,10 +20,8 @@ app.controller('managerSupReportController', function ($scope, $timeout, $http, 
             return false;
         }
 
-        var form = $(formId).serialize();
-
-        window.goToUrlMvcUrl(urlToPost + "?" + form);
-
+        var formSer = $(formId).serialize();
+        window.goToUrlMvcUrl(urlToPost + "?" + formSer);
         return true;
     };
 

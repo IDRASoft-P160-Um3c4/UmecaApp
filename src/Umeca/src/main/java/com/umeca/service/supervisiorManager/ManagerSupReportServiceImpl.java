@@ -1,6 +1,7 @@
 package com.umeca.service.supervisiorManager;
 
 import com.umeca.model.entities.supervisor.ManagerSupExcelReportInfo;
+import com.umeca.model.entities.supervisor.ManagerSupReportParams;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.shared.ReportExcelRepository;
@@ -17,7 +18,7 @@ public class ManagerSupReportServiceImpl implements ManagerSupReportService {
     @Autowired
     ReportExcelRepository reportExcelRepository;
 
-    public ManagerSupExcelReportInfo getCountByArrangements(ManagerSupExcelReportInfo info, Date initDate, Date endDate) {
+    public ManagerSupExcelReportInfo getCountByArrangements(ManagerSupReportParams params, ManagerSupExcelReportInfo info) {
 
         List<String> lstStatus = new ArrayList<String>() {{
             add(Constants.CASE_STATUS_CLOSED);
@@ -27,7 +28,13 @@ public class ManagerSupReportServiceImpl implements ManagerSupReportService {
         }};
 
         //obtengo los casos con su ultimo formato registrado dentro del rango y que no este en los status
-        List<Object> lstObjects = reportExcelRepository.getLastFormatInDates(initDate, endDate, lstStatus);
+        List<Object> lstObjects;
+
+        if (params.getDistrictId() != null)
+            lstObjects = reportExcelRepository.getLastFormatInDatesByDistrict(params.getiDate(), params.geteDate(), lstStatus, params.getDistrictId());
+        else
+            lstObjects = reportExcelRepository.getLastFormatInDates(params.getiDate(), params.geteDate(), lstStatus);
+
 
         List<Long> idsCases = new ArrayList<>();
 
@@ -39,7 +46,13 @@ public class ManagerSupReportServiceImpl implements ManagerSupReportService {
             }
         }
 
+        //total de casos encontrados con formato de audiencia en el rango de fechas
+        info.setTotArrangementCases(new Long(idsCases.size()));
+
         //reocupo el query del reporte de excel de director
+        if (idsCases.isEmpty())
+            idsCases.add(-1L);
+
         List<Object> lstObjArrangement = reportExcelRepository.getCountCasesByArrangement(idsCases);
 
         List<SelectList> finalResult = new ArrayList<>();
