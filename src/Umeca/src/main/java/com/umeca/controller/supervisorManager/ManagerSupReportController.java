@@ -1,8 +1,10 @@
 package com.umeca.controller.supervisorManager;
 
 import com.google.gson.Gson;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.Municipality;
+import com.umeca.model.entities.supervisor.ManagerSupExcelReportInfo;
 import com.umeca.model.entities.supervisor.ManagerSupReportInfoDto;
 import com.umeca.model.entities.supervisor.ManagerSupReportParams;
 import com.umeca.model.entities.supervisorManager.ManagerSupChartDto;
@@ -11,9 +13,11 @@ import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.MunicipalityRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.shared.ReportExcelRepository;
+import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.supervisiorManager.ManagerSupReportService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -22,10 +26,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
@@ -92,26 +93,32 @@ public class ManagerSupReportController {
     private MunicipalityRepository municipalityRepository;
     @Autowired
     private LocationRepository locationRepository;
+    @Autowired
+    private DistrictRepository districtRepository;
 
     @RequestMapping(value = "/supervisorManager/report/index", method = RequestMethod.GET)
     public ModelAndView index() {
         ModelAndView model = new ModelAndView("/supervisorManager/report/index");
         Gson gson = new Gson();
         model.addObject("lstOpts", gson.toJson(doListOptionReport()));
-        model.addObject("lstStates",stateRepository.findStatesByCountryAlpha2("MX"));
+        model.addObject("lstStates", gson.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
+        model.addObject("lstMun", gson.toJson(municipalityRepository.findByIdState(1L)));
+        model.addObject("lstDistrict", gson.toJson(districtRepository.findNoObsolete()));
         return model;
     }
 
-    @RequestMapping(value = "/supervisorManager/report/getMun", method = RequestMethod.GET)
-    public String getMunBySt(Long idState) {
+    @RequestMapping(value = "/supervisorManager/report/getMun", method = RequestMethod.POST)
+    @ResponseBody
+    public String getMunBySt(@RequestParam Long idState) {
         Gson gson = new Gson();
-        return gson.toJson(municipalityRepository.findByIdState(idState));
+        return gson.toJson(municipalityRepository.findMunByState(idState));
     }
 
-    @RequestMapping(value = "/supervisorManager/report/getLoc", method = RequestMethod.GET)
-    public String getLocByMun(Long idMun) {
+    @RequestMapping(value = "/supervisorManager/report/getLoc", method = RequestMethod.POST)
+    @ResponseBody
+    public String getLocByMun(@RequestParam Long idMun) {
         Gson gson = new Gson();
-        return gson.toJson(locationRepository.findLocationByMunId(idMun));
+        return gson.toJson(locationRepository.findLocByMunId(idMun));
     }
 
     @RequestMapping(value = "/supervisorManager/report/doReport", method = RequestMethod.GET)
@@ -120,9 +127,12 @@ public class ManagerSupReportController {
         this.doXls(request, response, this.getInfo(params));
     }
 
-    private ManagerSupReportInfoDto getInfo(ManagerSupReportParams params) {
+    @Autowired
+    ManagerSupReportService managerSupReportService;
 
-        ManagerSupReportInfoDto info = new ManagerSupReportInfoDto();
+    private ManagerSupExcelReportInfo getInfo(ManagerSupReportParams params) {
+
+        ManagerSupExcelReportInfo infoObj = new ManagerSupExcelReportInfo();
         Date initDate = null;
         Date endDate = null;
         String initTime = " 00:00:00";
@@ -135,16 +145,15 @@ public class ManagerSupReportController {
             endDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
                     .parse(params.getEndDate() + endTime);
 
-            List<Long> idsCases = reportExcelRepository.findIdCasesByDates(initDate, endDate);
-
         } catch (Exception e) {
             return null;
         }
 
-        return info;
+        infoObj = managerSupReportService.getCountByArrangements(infoObj, initDate, endDate);
+        return infoObj;
     }
 
-    private void doXls(HttpServletRequest request, HttpServletResponse response, ManagerSupReportInfoDto info) {
+    private void doXls(HttpServletRequest request, HttpServletResponse response, ManagerSupExcelReportInfo info) {
         Map beans = new HashMap();
         XLSTransformer transformer = new XLSTransformer();
 
@@ -156,7 +165,7 @@ public class ManagerSupReportController {
 
             String tempPath = temp.getAbsolutePath();
 
-            beans.put("info", info);
+            beans.put("infoObj", info);
 
             ServletContext servletContext = request.getSession().getServletContext();
             String realContextPath = servletContext.getRealPath("/");
@@ -250,6 +259,8 @@ public class ManagerSupReportController {
             e.printStackTrace();
         }
     }
+
+
 }
 
 

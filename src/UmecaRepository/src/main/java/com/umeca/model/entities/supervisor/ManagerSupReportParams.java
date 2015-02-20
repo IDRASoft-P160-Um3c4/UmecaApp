@@ -11,7 +11,6 @@ public class ManagerSupReportParams {
     private Boolean countJob;
     private Boolean countClosed;
     private Boolean countDetPlace;
-    private Boolean allDistrict;
     private Long districtId;
     private Long locationId;
     private String initDate;
@@ -63,14 +62,6 @@ public class ManagerSupReportParams {
 
     public void setCountDetPlace(Boolean countDetPlace) {
         this.countDetPlace = countDetPlace;
-    }
-
-    public Boolean getAllDistrict() {
-        return allDistrict;
-    }
-
-    public void setAllDistrict(Boolean allDistrict) {
-        this.allDistrict = allDistrict;
     }
 
     public Long getDistrictId() {

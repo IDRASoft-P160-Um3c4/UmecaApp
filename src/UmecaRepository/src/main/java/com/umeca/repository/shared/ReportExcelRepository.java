@@ -495,4 +495,12 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "group by GC.description order by CCC desc", nativeQuery = true)
     List<Object> getCountCasesByCrimeEv(@Param("lstCases") List<Long> lstCases);
 
+
+    @Query(value = "select CD.id_case, max(HF.id_hearing_format) from hearing_format HF " +
+            "inner join case_detention CD on CD.id_case=HF.id_case " +
+            "inner join cat_status_case S on CD.id_status = S.id_status " +
+            "where (S.status not in (:lstStatus)) and (HF.register_timestamp between :initDate and :endDate) " +
+            "group by CD.id_case ", nativeQuery = true)
+    List<Object> getLastFormatInDates(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("lstStatus") List<String> lstStatus);
+
 }
