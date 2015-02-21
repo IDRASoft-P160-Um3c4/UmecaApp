@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 public class HearingFormatDto {
-
     private String room;
     private Date appointmentDate;
     private String date;
