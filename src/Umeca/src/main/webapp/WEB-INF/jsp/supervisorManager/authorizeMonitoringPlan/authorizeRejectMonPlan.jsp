@@ -99,7 +99,7 @@
                             <div class="col-xs-12">
                                 <div ng-class="(isAuthorized ? 'panel panel-primary' : 'panel panel-warning')">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Observaciones sobre ${msgPlan}
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Observaciones sobreeee ${msgPlan}
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">

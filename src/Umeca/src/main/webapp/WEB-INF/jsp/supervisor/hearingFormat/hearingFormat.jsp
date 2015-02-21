@@ -134,10 +134,11 @@
         <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
         <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
         <input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
-        <input type="hidden" name="isFinished" value="{{m.isFinished}}"/>
+        <input type="hidden" ng-model="m.isFinished" name="isFinished" ng-update-hidden />
         <input type="hidden" name="idFormat" value="{{m.idFormat}}"/>
         <input type="hidden" id="umecaSupervisorId" name="umecaSupervisorId" value="{{m.umecaSupervisor.id}}"/>
 
+        <input type="hidden" name="isFinished" value="{{m.isFinished}}"/>
 
         <div class="row">
 
@@ -336,16 +337,15 @@
                                                 </div>
 
                                                 <div class="col-xs-4">
-                                                    <label for="room">Distrito judicial</label>
+                                                    <label>Distrito</label>
                                                     <br/>
-                                                    <input id="room" ng-model="m.room" name="room" type="text"
-                                                           class="input-xxlarge" data-val="true"
-                                                           data-val-required="Distrito judicial es un campo requerido"/>
-                                                    <br/>
-                                        <span class="field-validation-valid" data-valmsg-for="room"
-                                              data-valmsg-replace="true"></span>
+                                                    <select id="district" class="form-control element-center"
+                                                            ng-model="m.district"
+                                                            ng-options="e.name for e in lstDistrict"
+                                                            ng-init='lstDistrict = ${lstDistrict};'
+                                                            ng-disabled="m.hasPrevHF==true"></select>
                                                 </div>
-
+                                                <input id="hidDistrict" type="hidden" name="districtId" value="{{m.district.id}}"/>
                                             </div>
 
                                             <br/>
@@ -1094,7 +1094,8 @@
                                             </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="terms"
                                               data-valmsg-replace="true"></span>
-                                                    <input ng-if="sendTerms==true" type="hidden" name="terms" value="{{m.terms}}"/>
+                                                    <input ng-if="sendTerms==true" type="hidden" name="terms"
+                                                           value="{{m.terms}}"/>
                                                 </div>
                                             </div>
                                         </div>

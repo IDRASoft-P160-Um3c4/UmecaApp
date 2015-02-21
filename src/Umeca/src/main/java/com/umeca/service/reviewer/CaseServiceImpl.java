@@ -3,6 +3,8 @@ package com.umeca.service.reviewer;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.catalog.CloseCause;
+import com.umeca.model.catalog.RequestType;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.account.User;
@@ -10,12 +12,12 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.CaseRequest;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.shared.LogChangeData;
 import com.umeca.model.entities.shared.Message;
 import com.umeca.model.entities.shared.RelMessageUserReceiver;
-import com.umeca.model.entities.supervisor.HearingFormat;
-import com.umeca.model.entities.supervisor.MonitoringPlan;
-import com.umeca.model.entities.supervisor.SupervisionCloseCaseLog;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
+import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
@@ -27,11 +29,10 @@ import com.umeca.repository.catalog.StatusMeetingRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.ImputedRepository;
 import com.umeca.repository.shared.MessageRepository;
-import com.umeca.repository.supervisor.FolderConditionalReprieveRepository;
-import com.umeca.repository.supervisor.HearingFormatRepository;
-import com.umeca.repository.supervisor.SupervisionCloseCaseLogRepository;
+import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.CaseRequestService;
 import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -94,16 +96,13 @@ public class CaseServiceImpl implements CaseService {
         meeting.setStatus(statusMeeting);
         meeting.setDateCreate(new Date());
         imputed.setMeeting(meeting);
-
         imputed.setFoneticString(imputed.getName().trim().toLowerCase() + imputed.getLastNameP().trim().toLowerCase() + imputed.getLastNameM().trim().toLowerCase());
-
         meeting.setImputed(imputed);
         meeting.setCaseDetention(caseDet);
         meeting.setMeetingType(type);
         caseDet.setMeeting(meeting);
         caseDet.setDateCreate(new Date());
-        caseDet.setChangeArrangementType(false);//se agrega para poder especificar si ha cambiado el tipo de medidas cautelares
-        caseDet.setIsSubstracted(false);//se agrega para poder especificar si el imputado se encuentra sustraido
+
         return caseDet;
     }
 
@@ -214,6 +213,9 @@ public class CaseServiceImpl implements CaseService {
     @Autowired
     SupervisionCloseCaseLogRepository supervisionCloseCaseLogRepository;
 
+    @Autowired
+    CloseCauseRepository closeCauseRepository;
+
     @Override
     @Transactional
     public void saveAuthRejectCloseCase(AuthorizeRejectMonPlan model, User user, Case caseDet) {
@@ -223,18 +225,31 @@ public class CaseServiceImpl implements CaseService {
         if (model.getAuthorized() == 1) {
             statusAction = MonitoringConstants.STATUS_AUTHORIZED;
             statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
+            caseDet.setCloseDate(new Date());
+            supervisionCloseCaseLogRepository.save(generateCloseLog(caseDet));
         } else {
             statusAction = MonitoringConstants.STATUS_REJECTED_AUTHORIZED;
             statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
         }
+
+        CaseRequestService.CreateCaseResponseToUser(responseTypeRepository, caseRequestRepository, messageRepository,
+                sharedUserService, logException, user, caseDet,
+                "El cierre del caso fue " + (model.getAuthorized() == 1 ? "autorizado" : "rechazado") + ". Comentarios: " + StringEscape.escapeText(model.getComments()),
+                Constants.ST_REQUEST_CLOSE_CASE);
 
         List<Long> lstUserIds = hearingFormatRepository.findLastSupervisorIdByCaseId(caseDet.getId(), new PageRequest(0, 1));
         User supervisor = new User();
         supervisor.setId(lstUserIds.get(0));
 
         caseDet.setStatus(statusCase);
-        SharedLogCommentService.generateLogComment(model.getComments(), user, caseDet, statusAction, supervisor,
-                MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
+
+        if (model.getIdCloseCause() != null)
+            SharedLogCommentService.generateLogComment("Causa: " + closeCauseRepository.findOne(model.getIdCloseCause()).getName() + "; " + model.getComments(), user, caseDet, statusAction, supervisor,
+                    MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
+        else
+            SharedLogCommentService.generateLogComment(model.getComments(), user, caseDet, statusAction, supervisor,
+                    MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
+
         caseRepository.save(caseDet);
     }
 
@@ -259,8 +274,10 @@ public class CaseServiceImpl implements CaseService {
     @Transactional
     public void doClosePrisonCase(Case caseDet, AuthorizeRejectMonPlan model) {
         caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRISON_CLOSED));
+        caseDet.setCloseDate(new Date());
+        caseDet.setDatePrison(new Date());
         StringBuilder sb = new StringBuilder();
-        sb.append("Cierre de caso por prisi�n preventiva / promesa del imputado : ");
+        sb.append("Cierre de caso por prisión preventiva / promesa del imputado : ");
         sb.append(caseDet.getIdFolder());
         sb.append(". Comentario: ");
         sb.append(model.getComments());
@@ -320,6 +337,8 @@ public class CaseServiceImpl implements CaseService {
             }
 
             caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
+            caseDet.setCloseDate(null);
+            caseDet.setReopenDate(new Date());
 
             List<Long> lstUserIds = hearingFormatRepository.findLastSupervisorIdByCaseId(caseDet.getId(), new PageRequest(0, 1));
             User supervisor = new User();
@@ -391,6 +410,54 @@ public class CaseServiceImpl implements CaseService {
         SharedLogCommentService.generateLogComment(commentNotification, userRepository.findOne(sharedUserService.GetLoggedUserId()), caseDet,
                 Constants.RESPONSE_OBSOLETE_CASE_SUPERVISION, request.getRequestMessage().getSender(), Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION, logCommentRepository);
 
+    }
+
+    @Autowired
+    MonitoringPlanRepository monitoringPlanRepository;
+    @Autowired
+    LogChangeDataRepository logChangeDataRepository;
+
+    @Override
+    @Transactional
+    public void saveRequestCloseCase(AuthorizeRejectMonPlan model, User user) {
+        LogComment commentModel = new LogComment();
+        Calendar now = Calendar.getInstance();
+
+        String msg = "";
+
+        if (model.getIdCloseCause() != null) {
+            CloseCause closeCause = closeCauseRepository.findOne(model.getIdCloseCause());
+            msg += "Motivo: " + closeCause.getName() + " - ";
+        }
+
+        Case existCase = caseRepository.findOne(model.getCaseId());
+        existCase.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_REQUEST));
+        caseRepository.save(existCase);
+
+        commentModel.setComments(msg + StringEscape.escapeText(model.getComments()));
+        commentModel.setAction(MonitoringConstants.STATUS_PENDING_END);
+        commentModel.setCaseDetention(existCase);
+        commentModel.setSenderUser(user);
+        commentModel.setTimestamp(now);
+        commentModel.setType(MonitoringConstants.TYPE_COMMENT_CASE_END);
+
+        logCommentRepository.save(commentModel);
+
+        MonitoringPlan existMonP = existCase.getMonitoringPlan();
+
+        if (existMonP != null) {
+            MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(existMonP);
+            existMonP.setStatus(MonitoringConstants.STATUS_PENDING_END);
+            MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(existMonP);
+            logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), existMonP.getId()));
+            monitoringPlanRepository.save(existMonP);
+        }
+
+        //Create caseRequest
+        CaseRequestService.CreateCaseRequestToRole(requestTypeRepository, caseRequestRepository, messageRepository, sharedUserService,
+                user, existCase, "El usuario " + user.getUsername() + " solicita que se autorice el cierre del caso.",
+                Constants.ROLE_SUPERVISOR_MANAGER, Constants.ST_REQUEST_CLOSE_CASE);
+        //End caseRequest
     }
 
 }

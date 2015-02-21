@@ -220,7 +220,7 @@ public class TechnicalReviewController {
             return technicalReviewService.doUpsert(result);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
-            return new ResponseMessage(true, "Se presentó un error inesperado. Por favor revise que la información e intente de nuevo.");
+            return new ResponseMessage(true, "Se presentó un error inesperado. Por favor revise la información e intente de nuevo.");
         }
     }
 

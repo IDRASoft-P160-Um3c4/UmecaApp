@@ -8,10 +8,10 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.MsgError;
         $scope.MsgErrorContact = "";
         $scope.lblTerms = "";
-
         $scope.MsgErrorContact = "";
-
         $scope.m.labelImpForm = "";
+
+        $scope.showLabels = false;
 
         $scope.chnLblFormImp = function (id) {
             if ($scope.m.hasPrevHF == false) {
@@ -25,7 +25,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                     $scope.m.impDate = "";
                 }
             }
-
         };
 
         $scope.chnExtDate = function (id) {
@@ -66,6 +65,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         }
 
         $scope.hideDlg = function () {
+            $scope.WaitFor = false;
             dlgConfirmAction.modal('hide');
         }
 
@@ -73,7 +73,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             $scope.hasError = false;
 
-            //$scope.validateInitEnd();
             $scope.validateBthDay();
             if ($scope.hasError == true) {
                 $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
@@ -87,6 +86,13 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.validateLstContact();
 
             if ($scope.hasError == true) {
+                $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
+                return false;
+            }
+
+            $rootScope.$broadcast('valAddCrime', $scope, "crimeIsValid");
+
+            if ($scope.crimeIsValid == false) {
                 $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
                 return false;
             }
@@ -235,6 +241,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 if ($scope.m.hasPrevHF == true) {
                     $("#idFolder").attr("disabled", true);
                     $("#idJudicial").attr("disabled", true);
+                    $("#district").attr("disabled", true);
                     //$("#divImputado :input").attr("disabled", true);
                     $("#divFormImp :input").attr("disabled", true);
                 }
@@ -281,9 +288,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.idFormat = data.idFormat;
             $scope.m.isFinished = data.isFinished;
             $scope.m.hasPrevHF = data.hasPrevHF;
+
             $scope.m.idFolder = data.idFolder;
             $scope.m.idJudicial = data.idJudicial;
-            $scope.m.room = data.room;
+            $scope.m.districtId = data.districtId;
+
             $scope.m.appointmentDate = $scope.myFormatDate(data.appointmentDate);
             if ($scope.m.appointmentDate === "") {
                 $scope.m.appointmentDate = $scope.myFormatDate(new Date());
@@ -363,12 +372,9 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.$apply();
         };
 
-
         $scope.saveHF = function (formId, urlToPost, validate) {
             if (validate != undefined)
                 var stVal = validate();
-
-            $rootScope.$broadcast('valAddCrime');
 
             if ($(formId).valid() == false || stVal == false) {
                 $scope.Invalid = true;
@@ -383,13 +389,13 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         };
 
-
         $scope.submitReloadHF = function (formId, urlToPost, validate) {
 
             var stVal = true;
 
-            if (validate != undefined)
+            if (validate != undefined) {
                 stVal = validate();
+            }
 
             if (stVal == false) {
                 $scope.Invalid = true;
@@ -397,37 +403,97 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             }
 
             $scope.WaitFor = true;
-
             $scope.m.isFinished = true;
-            $scope.$apply();
 
+            $timeout(function () {
+                $.post(urlToPost, $(formId).serialize())
+                    .success(function (resp) {
+                        if (resp.hasError === undefined) {
+                            resp = resp.responseMessage;
+                        }
 
-            $.post(urlToPost, $(formId).serialize())
-                .success(function (resp) {
-                    if (resp.hasError === undefined) {
-                        resp = resp.responseMessage;
-                    }
+                        if (resp.hasError == false) {
+                            window.goToUrlMvcUrl(resp.urlToGo);
+                        }
 
-                    if (resp.hasError == false) {
-                        window.goToUrlMvcUrl(resp.urlToGo);
-                    }
-
-                    if (resp.hasError == true) {
-                        $scope.MsgError = resp.message;
+                        if (resp.hasError == true) {
+                            $scope.m.isFinished = false;
+                            $scope.MsgError = $sce.trustAsHtml(resp.message);
+                            $scope.$apply();
+                        }
+                    })
+                    .error(function () {
+                        $scope.WaitFor = false;
+                        $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
                         $scope.$apply();
-                    }
-                })
-                .error(function () {
-                    $scope.WaitFor = false;
-                    $scope.MsgError = "Error de red. Por favor intente m�s tarde.";
-                    $scope.$apply();
-                });
+                    });
+            }, 1);
 
             return true;
         };
 
-
         /**/
+
+        $scope.goToFormatsCase = function (url) {
+            window.goToUrlMvcUrl(url + "?id=" + $scope.idExistCase);
+        };
+
+        $scope.submitNewCase = function (formId, urlToPost) {
+
+            if ($(formId).valid() == false) {
+                $scope.MsgError = $sce.trustAsHtml("Debe proporcionar toda la informaci&oacute;n para guardar");
+                $scope.Invalid = true;
+                return false;
+            }
+
+            $scope.WaitFor = true;
+
+            $.post(urlToPost, $(formId).serialize())
+                .success($scope.handleSuccessNewCase)
+                .error($scope.handleError);
+
+            return true;
+        };
+
+        $scope.handleError = function () {
+            $scope.WaitFor = false;
+            $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
+            $scope.$apply();
+        };
+
+        $scope.handleSuccessNewCase = function (resp) {
+            $scope.WaitFor = false;
+
+            try {
+                if (resp.hasError === undefined) {
+                    resp = resp.responseMessage;
+                }
+
+                if (resp.hasError === false) {
+                    $scope.Model.dlg.modal('hide');
+                    $scope.Model.def.resolve({isCancel: false, resp: resp});
+                    return;
+                }
+
+                var arrParams = resp.message.split("|");
+
+                if (arrParams != undefined && arrParams.length > 0) {
+                    $scope.idExistCase = arrParams[0];
+                    $scope.showLabels = arrParams[1];
+                    $scope.folderShow = arrParams[2];
+                    $scope.mpShow = arrParams[3];
+                }
+                $scope.$apply();
+
+            } catch (e) {
+                $scope.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+            }
+        };
+
+        $scope.goToCaseFormats = function (urlToGo) {
+            var params = {"id": $scope.idExistCase, "returnId": 0};
+            window.goToUrlMvcUrl(urlToGo, params);
+        };
 
         $scope.submitPartiaSaveHF = function (formId, urlToPost) {
 
@@ -637,7 +703,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         $scope.chngVincProcess = function (id) {
             if (id == 1 && $scope.m.ext == 3) {
-                $scope.m.linkageRoom = $scope.m.room;
+                //$scope.m.linkageRoom = $scope.m.room;
                 $scope.m.linkageDate = $scope.m.appointmentDate;
                 $scope.m.linkageTime = $scope.m.initTime;
             } else {
@@ -662,6 +728,27 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
                     if (rel.id === $scope.m.umecaSupervisorId) {
                         $scope.m.umecaSupervisor = rel;
+                        break;
+                    }
+                }
+            }
+        };
+
+        $scope.fillSelDistrict = function () {
+
+            if ($scope.lstDistrict === undefined || $scope.lstDistrict.length <= 0)
+                return;
+
+            if ($scope.m.districtId === undefined) {
+                $scope.m.district = $scope.lstDistrict[0];
+                $scope.m.districtId = $scope.m.district.id;
+            }
+            else {
+                for (var i = 0; i < $scope.lstDistrict.length; i++) {
+                    var rel = $scope.lstDistrict[i];
+
+                    if (rel.id === $scope.m.districtId) {
+                        $scope.m.district = rel;
                         break;
                     }
                 }
@@ -695,7 +782,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             if ($scope.m.hearingType && $scope.m.hearingType.lock == true || $scope.m.isView == true) {
                 $("#divMedidas :input").attr("disabled", true);
                 $("#divMedidasHidden :input").attr("disabled", false);
-                $scope.sendTerms=true;
+                $scope.sendTerms = true;
             }
             else {
                 $("#divMedidas :input").attr("disabled", false);
@@ -718,6 +805,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.fillFormat($scope.m);
             $scope.fillSelSupervisor();
             $scope.fillSelHearingType();
+            $scope.fillSelDistrict();
             $scope.disableView($scope.m.disableAll);
             $scope.lockArrangements();
         };

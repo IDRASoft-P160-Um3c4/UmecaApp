@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.SelectList;
 
@@ -44,7 +45,7 @@ public class HearingFormatDto {
     private Integer arrangementTypeInt;
     private String arrangementType;
 
-    public String toString(String crimes, List<SelectList> arrangementAssigned) {
+    public String toString(String crimes, List<SelectList> arrangementAssigned, User umecaSupervisor) {
         String result = "";
         if(room!=null)
             result+="<strong>Distrito judicial: </strong>"+StringEscape.escapeText(room)+"<br/>";
@@ -90,14 +91,22 @@ public class HearingFormatDto {
             }
             result+="</ul>";
         }
+<<<<<<< HEAD
         return result;
+=======
+
+        result +="<strong>Supervisor preasignado:  </strong>";
+        result += umecaSupervisor.getFullname();
+         return result;
+>>>>>>> origin/UmecaMorelos
     }
 
     public HearingFormatDto() {
     }
 
-    public HearingFormatDto(String room, Date appointmentDate, String mpName, Integer ip, String hearingType, Integer arrangementTypeInt, Integer linkageProcces, Boolean nationalArrangement) {
-        this.room = room;
+    public HearingFormatDto(//String room,
+                            Date appointmentDate, String mpName, Integer ip, String hearingType, Integer arrangementTypeInt, Integer linkageProcces, Boolean nationalArrangement) {
+        //this.room = room;
         this.appointmentDate = appointmentDate;
         this.mpName = mpName;
         this.ip = ip;

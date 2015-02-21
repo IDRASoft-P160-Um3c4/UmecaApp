@@ -1,5 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.CloseCause;
+import com.umeca.model.catalog.Relationship;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
@@ -156,4 +158,5 @@ public class MonitoringPlan {
     public void setResolution(Integer resolution) {
         this.resolution = resolution;
     }
+
 }

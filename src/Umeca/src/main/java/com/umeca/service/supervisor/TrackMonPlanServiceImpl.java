@@ -5,6 +5,7 @@ import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
@@ -38,6 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -74,23 +76,23 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     public void getLstActivitiesByUserAndFilters(RequestActivities req, Long userId, ArrayList<String> lstMonPlanStatus, ArrayList<String> lstActStatus, ResponseActivities response) {
         Calendar referenceDate = Calendar.getInstance();
         Long milDate = referenceDate.getTimeInMillis();
-        Long millisecondsToAuthorize = SharedSystemSetting.MonPlanHoursToAuthorize*SharedSystemSetting.MILISECONDS_PER_HOUR;
-        milDate = milDate-millisecondsToAuthorize;
+        Long millisecondsToAuthorize = SharedSystemSetting.MonPlanHoursToAuthorize * SharedSystemSetting.MILISECONDS_PER_HOUR;
+        milDate = milDate - millisecondsToAuthorize;
         referenceDate.setTimeInMillis(milDate);
-        Integer findActive = 0, findBlock= 0;
-        Long findCase = req.getCaseFilterId() < 0 ? 0L: req.getCaseFilterId();
-        if(req.getCaseFilterId().equals(MonitoringConstants.FILTER_ACTIVE_CASE)){
-           findActive = 1;
-        }else if(req.getCaseFilterId().equals(MonitoringConstants.FILTER_SUSPENDED_CASE)){
+        Integer findActive = 0, findBlock = 0;
+        Long findCase = req.getCaseFilterId() < 0 ? 0L : req.getCaseFilterId();
+        if (req.getCaseFilterId().equals(MonitoringConstants.FILTER_ACTIVE_CASE)) {
+            findActive = 1;
+        } else if (req.getCaseFilterId().equals(MonitoringConstants.FILTER_SUSPENDED_CASE)) {
             findBlock = 1;
         }
-        if(sharedUserService.isUserInRole(userId,Constants.ROLE_SUPERVISOR)){
+        if (sharedUserService.isUserInRole(userId, Constants.ROLE_SUPERVISOR)) {
             req.setUserFilterId(userId);
         }
         List<ActivityMonitoringPlanResponse> lstAllActivities =
                 activityMonitoringPlanRepository.getAllActivitiesWithFilters(lstMonPlanStatus, lstActStatus,
                         (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd(), req.getActivityId(),
-                        req.getUserFilterId(),findCase, findBlock,referenceDate,findActive);
+                        req.getUserFilterId(), findCase, findBlock, referenceDate, findActive);
         response.setLstMonPlanActivities(lstAllActivities);
 
         List<MonitoringPlanDto> lstMonPlanSus = activityMonitoringPlanRepository.getAllMonPlanWithFilters(userId, lstMonPlanStatus, lstActStatus,
@@ -233,17 +235,17 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
             Case caseDetention = monPlan.getCaseDetention();
             StatusCase status = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
             caseDetention.setStatus(status);
+            caseDetention.setCloseDate(new Date());
             caseRepository.save(caseDetention);
         }
 
         //CaseRequest... Response
-        if(type.equals(MonitoringConstants.TYPE_COMMENT_AUTHORIZED)){
+        if (type.equals(MonitoringConstants.TYPE_COMMENT_AUTHORIZED)) {
             CaseRequestService.CreateCaseResponseToUser(responseTypeRepository, caseRequestRepository, messageRepository,
                     sharedUserService, logException, user, monPlan.getCaseDetention(),
                     "El plan de monitoreo fue " + (model.getAuthorized() == 1 ? "autorizado" : "rechazado") + ". Comentarios: " + StringEscape.escapeText(model.getComments()),
                     Constants.ST_REQUEST_MONPLAN_AUTH);
         }
-
 
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
@@ -258,7 +260,6 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     CaseRequestRepository caseRequestRepository;
     @Autowired
     MessageRepository messageRepository;
-
     @Autowired
     LogChangeSupervisorRepository logChangeSupervisorRepository;
 
@@ -337,14 +338,15 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
 
     @Autowired
     SharedUserService sharedUserService;
+
     @Override
     public void setListCaseFilter(ModelAndView model, Long idUser) {
         Gson gson = new Gson();
         List<SelectList> lstGeneric = monitoringPlanRepository.findAllCaseByIdSupervisor(idUser, MonitoringConstants.LST_STATUS_AUTHORIZE_READY);
 
-        lstGeneric.add(0,new SelectList(0L, "--Todos los casos--",""));
-        lstGeneric.add(1,new SelectList(-1L, "Casos activos",""));
-        lstGeneric.add(2,new SelectList(-2L, "Casos suspendidos",""));
+        lstGeneric.add(0, new SelectList(0L, "--Todos los casos--", ""));
+        lstGeneric.add(1, new SelectList(-1L, "Casos activos", ""));
+        lstGeneric.add(2, new SelectList(-2L, "Casos suspendidos", ""));
         String sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstCases", sLstGeneric);
     }
@@ -353,13 +355,13 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     public void setListUserFilter(ModelAndView model, Long idUser) {
         List<SelectList> lstGeneric = new ArrayList<>();
         Gson gson = new Gson();
-        if(!idUser.equals(0L)){
-            lstGeneric.add(new SelectList(idUser,"UserLog"));
-        }else{
+        if (!idUser.equals(0L)) {
+            lstGeneric.add(new SelectList(idUser, "UserLog"));
+        } else {
             lstGeneric = sharedUserService.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-            lstGeneric.add(0,new SelectList(0L,"--Todos los supervisores--",""));
+            lstGeneric.add(0, new SelectList(0L, "--Todos los supervisores--", ""));
         }
-        model.addObject("lstUser",gson.toJson(lstGeneric));
+        model.addObject("lstUser", gson.toJson(lstGeneric));
     }
 
     @Autowired
@@ -370,24 +372,27 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     @Transactional
     @Override
     public void notificationNewHearingFormat(Long monId, ModelAndView model) {
-        try{
-        List<Long> listId = hearingFormatRepository.getLastHearingFormatByMonPlan(monId, new PageRequest(0, 1));
-        Long hearingFormatId =listId.get(0);
-        Boolean showNotification = hearingFormatRepository.getShowNotificationByIdFormat(hearingFormatId);
-        if(showNotification){
-            HearingFormat hf = hearingFormatRepository.findOne(listId.get(0));
-            String resume = "<strong>Registrado por:</strong> "+hf.getSupervisor().getFullname()+"<br/>";
-            resume += logCaseService.generateResumeOfHearingFormat(hearingFormatId);
-            model.addObject("infoHearingFormat",resume);
-            hf.setShowNotification(false);
-            hearingFormatRepository.save(hf);
-        }
-        }catch (Exception e){
-            model.addObject("infoHearingFormat","No fue posible obtener informaci&oacute;n del &uacute;ltimo formato de audiencia registrado.");
+        try {
+            List<Long> listId = hearingFormatRepository.getLastHearingFormatByMonPlan(monId, new PageRequest(0, 1));
+            Long hearingFormatId = listId.get(0);
+            Boolean showNotification = hearingFormatRepository.getShowNotificationByIdFormat(hearingFormatId);
+            if (showNotification) {
+                HearingFormat hf = hearingFormatRepository.findOne(listId.get(0));
+                String resume = "<strong>Registrado por:</strong> " + hf.getSupervisor().getFullname() + "<br/>";
+                resume += logCaseService.generateResumeOfHearingFormat(hearingFormatId);
+                model.addObject("infoHearingFormat", resume);
+                hf.setShowNotification(false);
+                hearingFormatRepository.save(hf);
+            }
+        } catch (Exception e) {
+            model.addObject("infoHearingFormat", "No fue posible obtener informaci&oacute;n del &uacute;ltimo formato de audiencia registrado.");
         }
 
 
     }
+
+    @Autowired
+    private CloseCauseRepository closeCauseRepository;
 
     @Override
     @Transactional
@@ -395,7 +400,14 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
 
-        commentModel.setComments(StringEscape.escapeText(model.getComments()));
+        String msg = "";
+
+        if (model.getIdCloseCause() != null) {
+            CloseCause closeCause = closeCauseRepository.findOne(model.getIdCloseCause());
+            msg += "Motivo: " + closeCause.getName() + " - ";
+        }
+
+        commentModel.setComments(msg + StringEscape.escapeText(model.getComments()));
         commentModel.setAction(MonitoringConstants.STATUS_PENDING_END);
         commentModel.setMonitoringPlan(monPlan);
         commentModel.setCaseDetention(monPlan.getCaseDetention());
@@ -403,9 +415,12 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         commentModel.setTimestamp(now);
         commentModel.setType(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END);
 
+
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
         monPlan.setStatus(MonitoringConstants.STATUS_PENDING_END);
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
+
+
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         logCommentRepository.save(commentModel);

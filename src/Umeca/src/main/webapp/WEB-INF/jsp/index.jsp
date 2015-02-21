@@ -7,6 +7,7 @@
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
+<div class="container body-content">
 <%@ include file="/WEB-INF/jsp/shared/login.jsp" %>
 
 <div ng-controller="mainIndexController">
@@ -28,11 +29,14 @@
     </sec:authorize>
 
 </div>
-<div class="row">
-    <div class="col-xs-8 col-xs-offset-2">
-        <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
-        <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
+            <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
+        </div>
     </div>
+</div>
 </div>
 </body>
 </html>

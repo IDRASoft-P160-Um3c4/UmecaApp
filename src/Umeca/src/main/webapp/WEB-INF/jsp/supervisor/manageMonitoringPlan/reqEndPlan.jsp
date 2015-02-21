@@ -8,7 +8,7 @@
 
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
-        <div class="modal-dialog" style="width:900px" ng-init="countMiss=${countMiss}">
+            <div class="modal-dialog" style="width:900px" ng-init='countMiss=${countMiss};'>
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-info">
@@ -22,6 +22,7 @@
                     <form id="FormCatId" name="FormCatId" ng-submit="submit('#FormCatId')" class="form-horizontal"
                           role="form">
                         <input type="hidden" name="monPlanId" id="monPlanId" value="${monPlanId}"/>
+                        <input type="hidden" name="idCloseCause" id="idCloseCause" value="{{closeCause.id}}"/>
 
                         <div class="row">
                             <div class="col-xs-12">
@@ -136,7 +137,8 @@
                                             <div class="col-xs-8 col-xs-offset-2 widget-container-span">
                                                 <div class="widget-box">
                                                     <div class="widget-header widget-header-small header-color-dark">
-                                                        <h6>Ingrese su contrase&ntilde;a para validar su usuario</h6>
+                                                        <h6>Ingrese su contrase&ntilde;a para validar su
+                                                            usuario</h6>
                                                     </div>
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">

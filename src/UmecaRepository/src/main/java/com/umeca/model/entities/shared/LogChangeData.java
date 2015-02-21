@@ -42,17 +42,12 @@ public class LogChangeData {
     @Column(name = "timestamp", nullable = false)
     private Calendar timestamp;
 
-    @Column(name = "id_case", nullable = false)
+    @Column(name = "id_case", nullable = true)
     private Long idCase;
 
     public LogChangeData(String className, Object dataOld, Object dataNew, String username, Long idCase){
-        Gson gson = new Gson();
-        this.className = className;
-        this.dataOld = gson.toJson(dataOld);
-        this.dataNew = gson.toJson(dataNew);
-        this.username = username;
+        this(className, dataOld, dataNew, username);
         this.idCase = idCase;
-        this.timestamp = Calendar.getInstance();
     }
 
     public LogChangeData(String className, Object dataOld, Object dataNew, String username, Long idCase, String extraA){
@@ -79,6 +74,15 @@ public class LogChangeData {
         this.extraB = extraB;
         this.extraC = extraC;
         this.extraD = extraD;
+    }
+
+    public LogChangeData(String className, Object dataOld, Object dataNew, String username) {
+        Gson gson = new Gson();
+        this.className = className;
+        this.dataOld = gson.toJson(dataOld);
+        this.dataNew = gson.toJson(dataNew);
+        this.username = username;
+        this.timestamp = Calendar.getInstance();
     }
 
     public Long getId() {

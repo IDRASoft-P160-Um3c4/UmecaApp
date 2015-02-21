@@ -299,7 +299,8 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (sc.name in (:lstStCase)) and (c.id in (:lstCases))")
     List<Long> findIdCasesByStatusCaseStr(@Param("lstStCase") List<String> lstStCase, @Param("lstCases") List<Long> lstCases);
 
-    @Query("select new com.umeca.model.entities.supervisor.HearingFormatInfo(C.id,HF.id,HF.idFolder, HF.idJudicial,HF.room,HF.initTime,HF.endTime, HF.judgeName, HF.mpName, HF.defenderName, " +
+    @Query("select new com.umeca.model.entities.supervisor.HearingFormatInfo(C.id,HF.id,HF.idFolder, HF.idJudicial," +//HF.room," +
+            "HF.initTime,HF.endTime, HF.judgeName, HF.mpName, HF.defenderName, " +
             "HFIM.name, HFIM.lastNameP, HFIM.lastNameM, HFIM.birthDate, HFIM.imputeTel, HFIMA.addressString,HFSP.controlDetention, HFSP.imputationFormulation, " +
             "HFSP.extension, HFSP.extDate, HFSP.linkageProcess, HFSP.linkageRoom, HFSP.linkageDate, HFSP.linkageTime, HFSP.arrangementType, HFSP.nationalArrangement, HF.terms, HF.registerTime," +
             "HT.description, HF.imputedPresence, HF.hearingResult, HF.hearingTypeSpecification) " +
@@ -473,7 +474,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "left join assigned_arrangement AA on AA.id_arrangement = A.id_arrangement " +
             "left join hearing_format HF on AA.id_hearing_format = HF.id_hearing_format " +
             "left join case_detention C on HF.id_case = C.id_case " +
-            "where (C.id_case in (:lstCases) or C.id_case is null) group by A.id_arrangement order by CC desc", nativeQuery = true)
+            "where C.id_case in (:lstCases) or C.id_case is null group by A.id_arrangement order by CC desc", nativeQuery = true)
     List<Object> getCountCasesByArrangement(@Param("lstCases") List<Long> lstCases);
 
     @Query(value = "select  count(distinct CD.id_case) as CCC,GC.description from cat_group_crime GC " +
@@ -493,5 +494,21 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (CD.id_case in (:lstCases) or CD.id_case is null)" +
             "group by GC.description order by CCC desc", nativeQuery = true)
     List<Object> getCountCasesByCrimeEv(@Param("lstCases") List<Long> lstCases);
+
+
+    @Query(value = "select CD.id_case, max(HF.id_hearing_format) from hearing_format HF " +
+            "inner join case_detention CD on CD.id_case=HF.id_case " +
+            "inner join cat_status_case S on CD.id_status = S.id_status " +
+            "where (S.status not in (:lstStatus)) and (HF.register_timestamp between :initDate and :endDate) " +
+            "group by CD.id_case ", nativeQuery = true)
+    List<Object> getLastFormatInDates(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("lstStatus") List<String> lstStatus);
+
+    @Query(value = "select CD.id_case, max(HF.id_hearing_format) from hearing_format HF " +
+            "inner join case_detention CD on CD.id_case=HF.id_case " +
+            "inner join cat_status_case S on CD.id_status = S.id_status " +
+            "inner join cat_district D on CD.id_district=D.id_district " +
+            "where (S.status not in (:lstStatus)) and (D.id_district=:districtId) and (HF.register_timestamp between :initDate and :endDate) " +
+            "group by CD.id_case ", nativeQuery = true)
+    List<Object> getLastFormatInDatesByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("lstStatus") List<String> lstStatus, @Param("districtId") Long districtId);
 
 }

@@ -52,7 +52,7 @@ public class LogControllerReviewer {
             logException.Write(ex, this.getClass(), "deleteNotification", userService);
             response.setHasError(true);
         }
-        response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         return response;
     }
 

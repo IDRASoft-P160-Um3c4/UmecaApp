@@ -1,6 +1,8 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.District;
 import com.umeca.model.catalog.StatusCase;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.supervisor.FolderConditionalReprieve;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
@@ -10,13 +12,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Desarrollo
- * Date: 8/05/14
- * Time: 12:59 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
 @Table(name = "case_detention")
 public class Case {
@@ -44,6 +39,12 @@ public class Case {
     @Column(name = "date_obsolete", nullable = true)
     private Date dateObsolete;
 
+    @Column(name = "close_date", nullable = true)
+    private Date closeDate;
+
+    @Column(name = "reopen_date", nullable = true)
+    private Date reopenDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_status", nullable = false)
     private StatusCase status;
@@ -68,11 +69,35 @@ public class Case {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
 
-    @Column(name = "change_arrangement_type")
-    private Boolean changeArrangementType;
+    @Column(name = "date_change_arrangement_type")
+    private Date dateChangeArrangementType;
 
     @Column(name = "is_substracted")
     private Boolean isSubstracted;
+
+    @Column(name = "date_substracted")
+    private Date dateSubstracted;
+
+    @Column(name = "date_prison")
+    private Date datePrison;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_district")
+    private District district;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "last_supervisor_hf")
+    private User lastSupervisorHF;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "last_preassigned_supervisor_")
+    private User lastPreassignedSupervisor;
+
+    @OneToOne(mappedBy = "caseDetention")
+    private MonitoringPlan monitoringPlan;
+
+    @Transient
+    private String idString;
 
     public MonitoringPlan getMonitoringPlan() {
         return monitoringPlan;
@@ -81,12 +106,6 @@ public class Case {
     public void setMonitoringPlan(MonitoringPlan monitoringPlan) {
         this.monitoringPlan = monitoringPlan;
     }
-
-    @OneToOne(mappedBy = "caseDetention")
-    private MonitoringPlan monitoringPlan;
-
-    @Transient
-    private String idString;
 
     public Long getId() {
         return id;
@@ -209,19 +228,75 @@ public class Case {
         this.dateObsolete = dateObsolete;
     }
 
-    public Boolean getChangeArrangementType() {
-        return changeArrangementType;
-    }
-
-    public void setChangeArrangementType(Boolean changeArrangementType) {
-        this.changeArrangementType = changeArrangementType;
-    }
-
     public Boolean getIsSubstracted() {
         return isSubstracted;
     }
 
     public void setIsSubstracted(Boolean isSubstracted) {
         this.isSubstracted = isSubstracted;
+    }
+
+    public District getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(District district) {
+        this.district = district;
+    }
+
+    public Date getCloseDate() {
+        return closeDate;
+    }
+
+    public void setCloseDate(Date closeDate) {
+        this.closeDate = closeDate;
+    }
+
+    public Date getReopenDate() {
+        return reopenDate;
+    }
+
+    public void setReopenDate(Date reopenDate) {
+        this.reopenDate = reopenDate;
+    }
+
+    public Date getDateChangeArrangementType() {
+        return dateChangeArrangementType;
+    }
+
+    public void setDateChangeArrangementType(Date dateChangeArrangementType) {
+        this.dateChangeArrangementType = dateChangeArrangementType;
+    }
+
+    public User getLastSupervisorHF() {
+        return lastSupervisorHF;
+    }
+
+    public void setLastSupervisorHF(User lastSupervisorHF) {
+        this.lastSupervisorHF = lastSupervisorHF;
+    }
+
+    public User getLastPreassignedSupervisor() {
+        return lastPreassignedSupervisor;
+    }
+
+    public void setLastPreassignedSupervisor(User lastPreassignedSupervisor) {
+        this.lastPreassignedSupervisor = lastPreassignedSupervisor;
+    }
+
+    public Date getDateSubstracted() {
+        return dateSubstracted;
+    }
+
+    public void setDateSubstracted(Date dateSubstracted) {
+        this.dateSubstracted = dateSubstracted;
+    }
+
+    public Date getDatePrison() {
+        return datePrison;
+    }
+
+    public void setDatePrison(Date datePrison) {
+        this.datePrison = datePrison;
     }
 }

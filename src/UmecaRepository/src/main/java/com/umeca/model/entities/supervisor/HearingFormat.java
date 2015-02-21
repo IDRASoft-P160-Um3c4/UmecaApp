@@ -1,10 +1,12 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Crime;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Fetch;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -29,8 +31,8 @@ public class HearingFormat {
     @Column(name = "id_judicial")
     private String idJudicial;
 
-    @Column(name = "room")
-    private String room;
+//    @Column(name = "room")
+//    private String room;
 
     @Column(name = "appointment_date")
     private Date appointmentDate;
@@ -115,6 +117,10 @@ public class HearingFormat {
     @Column(name="show_notification")
     private Boolean showNotification;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_district")
+    private District district;
+
     @Transient
     private Boolean isSubstracted;
 
@@ -158,13 +164,13 @@ public class HearingFormat {
         this.idJudicial = idJudicial;
     }
 
-    public String getRoom() {
-        return room;
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
-    }
+//    public String getRoom() {
+//        return room;
+//    }
+//
+//    public void setRoom(String room) {
+//        this.room = room;
+//    }
 
     public Date getAppointmentDate() {
         return appointmentDate;
@@ -380,5 +386,21 @@ public class HearingFormat {
 
     public void setIsSubstracted(Boolean isSubstracted) {
         this.isSubstracted = isSubstracted;
+    }
+
+//    public Long getDistrictId() {
+//        return districtId;
+//    }
+//
+//    public void setDistrictId(Long districtId) {
+//        this.districtId = districtId;
+//    }
+
+    public District getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(District district) {
+        this.district = district;
     }
 }

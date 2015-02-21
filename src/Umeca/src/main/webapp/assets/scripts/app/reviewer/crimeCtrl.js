@@ -89,16 +89,16 @@ app.controller('crimeController', function ($scope, $timeout, $rootScope) {
 
         $scope.valAddedCrime = function () {
             $scope.listMsgError = [];
+            valid = true;
             if (!$scope.listCrime || !($scope.listCrime.length > 0)) {
                 $scope.listMsgError.push("Debe agregar al menos un delito");
                 valid = false;
             }
-            valid = true;
             return valid;
         };
 
-        $rootScope.$on('valAddCrime', function () {
-            $scope.valAddedCrime();
+        $rootScope.$on('valAddCrime', function (event,scope,prop) {
+            scope[prop]=$scope.valAddedCrime();
         });
 
     }

@@ -72,6 +72,10 @@
                             case 'ST_CASE_REQUEST_SUPERVISION':
                                 be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar la eliminaci&oacute;n del caso\" onclick=\"window.authObsoleteCase('" + cl + "');\"><span class=\"glyphicon glyphicon-check\"></span></a>";
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar la eliminaci&oacute;n del caso\" onclick=\"window.rejectObsoleteCase('" + cl + "');\"><span class=\"glyphicon glyphicon-remove color-danger\"></span></a>";
+                                break
+                            case 'ST_CASE_CLOSE_REQUEST':
+                                be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar el cierre del caso\" onclick=\"window.authCloseCase('" + cl + "');\"><span class=\"glyphicon glyphicon-check\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar el cierre del caso\" onclick=\"window.rejectCloseCase('" + cl + "');\"><span class=\"glyphicon glyphicon-remove color-danger\"></span></a>";
                                 break;
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });

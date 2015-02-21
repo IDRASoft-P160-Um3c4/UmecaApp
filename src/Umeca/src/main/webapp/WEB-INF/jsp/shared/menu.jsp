@@ -42,76 +42,112 @@
 
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_REVIEWER')">
-                        <li class="nav-li-blue"><a href="<c:url value='/reviewer/meeting/index.html' />"><i
-                                class="glyphicon icon-comments-alt"></i>&nbsp;&nbsp;Entrevista</a></li>
-                        <li class="nav-li-blue"><a href="<c:url value='/reviewer/verification/index.html' />"><i
-                                class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a>
-                        </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/reviewer/technicalReview/index.html' />"><i
-                                class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n de
-                            riesgos</a>
-                        </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i
-                                class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a coordinador</a></li>
+
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-folder-close"></i>
-                                &nbsp;&nbsp;Casos en evaluaci&oacute;n
+                                &nbsp;&nbsp;Evaluaci&oacute;n
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a
+                                        href="<c:url value='/reviewer/meeting/index.html' />"><i
+                                        class="glyphicon icon-comments-alt"></i>&nbsp;&nbsp;Entrevista de riesgos</a>
+                                </li>
+                                <li><a
+                                        href="<c:url value='/reviewer/verification/index.html' />"><i
+                                        class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a>
+                                </li>
+                                <li><a
+                                        href="<c:url value='/reviewer/technicalReview/index.html' />"><i
+                                        class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-search"></i>
+                                &nbsp;&nbsp;Consultar
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a
                                         href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
-                                        class="icon icon-eye-open"></i>&nbsp;&nbsp;Consulta de casos en evaluaci&oacute;n</a>
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Casos en evaluaci&oacute;n</a>
                                 </li>
+
                                 <li><a
                                         href="<c:url value='/managereval/showCaseEvaluation/obsoleteCase.html' />"><i
                                         class="icon icon-trash"></i>&nbsp;&nbsp;Casos eliminados</a>
                                 </li>
+                                <li><a
+                                        href="<c:url value='/shared/messageHistory/index.html' />"><i
+                                        class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+                                </li>
                             </ul>
                         </li>
-
-
-                        <li class="nav-li-blue"><a
-                                href="<c:url value='/shared/messageHistory/index.html' />"><i
-                                class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
-                        </li>
+                        <li class="nav-li-blue"><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i
+                                class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a coordinador</a></li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
-                        <li class="nav-li-blue"><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i
-                                class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Formato de audiencia</a>
-                        </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/supervisor/scheduleHearings/index.html'/>">
-                            <i class="icon icon-calendar"></i>&nbsp;&nbsp;Agenda de audiencias</a>
-                        </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i
-                                class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre</a></li>
+
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Plan de seguimiento
-                                <i class="icon-caret-down"></i> </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i
-                                        class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar/Modificar</a>
-                                </li>
-                                <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i
-                                        class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Dar seguimiento</a></li>
-                                <li><a href="<c:url value='/supervisor/manageMonitoringPlan/index.html' />"><i
-                                        class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Manejar casos y planes</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown nav-li-blue">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-folder-close"></i>
-                                    <%--&nbsp;&nbsp;Bit&aacute;coras--%>
-                                    <%--<i class="icon-caret-down"></i>--%>
-                                &nbsp;&nbsp;Historiales
+                                    class="glyphicon glyphicon-search"></i>
+                                &nbsp;&nbsp;Audiencias
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                    <%--<li><a href="<c:url value='/supervisor/log/index.html'/>"><i--%>
-                                    <%--class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bit&aacute;coras de--%>
-                                    <%--supervisi&oacute;n y cumplimiento</a></li>--%>
+                                <li><a href="<c:url value='/supervisor/scheduleHearings/index.html'/>">
+                                    <i class="icon icon-calendar"></i>&nbsp;&nbsp;Agenda de audiencias</a>
+                                </li>
+                                <li><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Formato de audiencia</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-search"></i>
+                                &nbsp;&nbsp;Supervisi&oacute;n
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i
+                                        class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre&nbsp;&nbsp;
+                                </a>
+                                </li>
+                                <li class="dropdown-hover">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbspPlan de seguimiento<i
+                                            class="icon-caret-right pull-right"></i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i
+                                                class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar/Modificar</a>
+                                        </li>
+                                        <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i
+                                                class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Dar
+                                            seguimiento</a></li>
+                                        <li><a href="<c:url value='/supervisor/manageMonitoringPlan/index.html' />"><i
+                                                class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Manejar casos y planes</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-li-blue"><a href="<c:url value='/supervisor/requestCloseCase/index.html'/>"><i
+                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrar casos</a></li>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-folder-close"></i>
+                                &nbsp;&nbsp;Consultar
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
                                 <li><a href="<c:url value='/supervisor/log/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Historial de
                                     supervisi&oacute;n y cumplimiento</a></li>
@@ -119,46 +155,59 @@
                                         href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
+                                <li><a
+                                        href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
+                                    <i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
+                                    supervisi&oacute;n</a>
+                                </li>
+                                <li><a
+                                        href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
+                                    <i class="icon icon-folder-close"></i>&nbsp;&nbsp;Casos no judicializados</a>
+                                </li>
                             </ul>
                         </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
-                            <i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
-                            supervisi&oacute;n</a>
-                        </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
-                            <i class="icon icon-folder-close"></i>&nbsp;&nbsp;Casos no judicializados</a>
-                        </li>
+
 
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
-                        <li class="nav-li-blue"><a href="<c:url value='/managereval/index.html'/>"><i
-                                class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Autorizar fuentes</a></li>
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-folder-close"></i>
-                                &nbsp;&nbsp;Casos en evaluaci&oacute;n
+                                &nbsp;&nbsp;Autorizar
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a
-                                        href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
+                                <li><a href="<c:url value='/managereval/authorizeRequest/index.html' />"><i
+                                        class="icon icon-envelope"></i>&nbsp;&nbsp;Autorizaci&oacute;n de
+                                    solicitudes</a></li>
+                                <li><a href="<c:url value='/managereval/index.html'/>"><i
+                                        class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Autorizar fuentes</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-folder-close"></i>
+                                &nbsp;&nbsp;Consultar
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/managereval/showCaseEvaluation/index.html' />"><i
                                         class="icon icon-eye-open"></i>&nbsp;&nbsp;Consulta de casos en evaluaci&oacute;n</a>
                                 </li>
-                                <li><a
-                                        href="<c:url value='/managereval/showCaseEvaluation/obsoleteCase.html' />"><i
+                                <li><a href="<c:url value='/managereval/showCaseEvaluation/obsoleteCase.html' />"><i
                                         class="icon icon-trash"></i>&nbsp;&nbsp;Casos eliminados</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
+                                        class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
                             </ul>
                         </li>
+
                         <li class="nav-li-blue"><a href="<c:url value='/director/excelReport/index.html'/>"><i
                                 class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a></li>
-                        <li class="nav-li-blue"><a href="<c:url value='/managereval/authorizeRequest/index.html' />"><i
-                                class="icon icon-envelope"></i>&nbsp;&nbsp;Autorizaci&oacute;n de solicitudes</a></li>
-                        <li class="nav-li-blue"><a
-                                href="<c:url value='/shared/messageHistory/index.html' />"><i
-                                class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
-                        </li>
                     </sec:authorize>
+
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -193,18 +242,22 @@
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrados</a></li>
                             </ul>
                         </li>
+
+                        <li class="nav-li-blue"><a href="<c:url value='/supervisorManager/rolSupervision/index.html'/>"><i
+                                class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol supervisi&oacute;n</a>
+                        </li>
+
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol supervisi&oacute;n
+                                    class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;Consultar
                                 <i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="<c:url value='/supervisorManager/rolSupervision/index.html' />"><i
-                                        class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Generar rol</a></li>
+                                <li><a href="<c:url value='/supervisor/showCaseSupervision/index.html' />"><i
+                                        class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
+                                    supervisi&oacute;n</a></li>
+                                <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
+                                        class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a></li>
                             </ul>
-                        </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>"><i
-                                class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
-                            supervisi&oacute;n</a>
                         </li>
 
                         <li class="dropdown nav-li-blue">
@@ -220,12 +273,11 @@
                             </ul>
                         </li>
 
-                        <li class="nav-li-blue"><a
-                                href="<c:url value='/shared/messageHistory/index.html' />"><i
-                                class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
-                        </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
+                        <li class="nav-li-blue"><a href="<c:url value='/director/taskDiary/index.html' />"><i
+                                class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
+
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class=" glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Consulta de casos
@@ -243,13 +295,24 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/director/caseRequest/show.html' />"><i
-                                class="icon icon-envelope"></i>&nbsp;&nbsp;Historial de solicitudes</a></li>
-                        <li class="nav-li-blue"><a
-                                href="<c:url value='/shared/messageHistory/index.html' />"><i
-                                class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Hist&oacute;ricos
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/director/caseRequest/show.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Hist&oacute;rico de solicitudes</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
+                                        class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+                                </li>
+                            </ul>
                         </li>
                     </sec:authorize>
+
                     <li class="light-blue">
                         <sec:authorize access="isAnonymous()">
                             <a href="#" ng-click="linkLogin()" ng-init="hasUser = false"><span
@@ -277,11 +340,8 @@
                         </sec:authorize>
                     </li>
                 </ul>
-                <!-- /.ace-nav -->
             </div>
-            <!-- /.navbar-header -->
         </div>
-        <!-- /.container -->
     </div>
 
     <div id="ConfirmBoxDialogSession" class="modal fade">

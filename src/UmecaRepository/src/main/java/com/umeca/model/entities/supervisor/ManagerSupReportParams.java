@@ -1,92 +1,87 @@
 package com.umeca.model.entities.supervisor;
 
+import java.util.Date;
+
 /**
  * Created by Vmware on 15/01/2015.
  */
 public class ManagerSupReportParams {
 
-    private Boolean casesMC;
-    private Boolean casesSCPP;
-    private Boolean imputedDrugs;
-    private Boolean casesDone;
-    private Boolean casesPrison;
-    private Boolean casesNonFulfillment;
-    private Boolean casesSubtracted;
-    private Boolean homeVisit;
-    private Boolean civilOrg;
+    private Boolean countArrangement;
+    private Boolean countDrug;
+    private Boolean countCivOrg;
+    private Boolean countJob;
+    private Boolean countClosed;
+    private Boolean countDetPlace;
+    private Long districtId;
+    private Long locationId;
     private String initDate;
     private String endDate;
+    private Date iDate;
+    private Date eDate;
 
-    public Boolean getCasesMC() {
-        return casesMC;
+    public Boolean getCountArrangement() {
+        return countArrangement;
     }
 
-    public void setCasesMC(Boolean casesMC) {
-        this.casesMC = casesMC;
+    public void setCountArrangement(Boolean countArrangement) {
+        this.countArrangement = countArrangement;
     }
 
-    public Boolean getCasesSCPP() {
-        return casesSCPP;
+    public Boolean getCountDrug() {
+        return countDrug;
     }
 
-    public void setCasesSCPP(Boolean casesSCPP) {
-        this.casesSCPP = casesSCPP;
+    public void setCountDrug(Boolean countDrug) {
+        this.countDrug = countDrug;
     }
 
-    public Boolean getImputedDrugs() {
-        return imputedDrugs;
+    public Boolean getCountCivOrg() {
+        return countCivOrg;
     }
 
-    public void setImputedDrugs(Boolean imputedDrugs) {
-        this.imputedDrugs = imputedDrugs;
+    public void setCountCivOrg(Boolean countCivOrg) {
+        this.countCivOrg = countCivOrg;
     }
 
-    public Boolean getCasesDone() {
-        return casesDone;
+    public Boolean getCountJob() {
+        return countJob;
     }
 
-    public void setCasesDone(Boolean casesDone) {
-        this.casesDone = casesDone;
+    public void setCountJob(Boolean countJob) {
+        this.countJob = countJob;
     }
 
-    public Boolean getCasesPrison() {
-        return casesPrison;
+    public Boolean getCountClosed() {
+        return countClosed;
     }
 
-    public void setCasesPrison(Boolean casesPrison) {
-        this.casesPrison = casesPrison;
+    public void setCountClosed(Boolean countClosed) {
+        this.countClosed = countClosed;
     }
 
-    public Boolean getCasesNonFulfillment() {
-        return casesNonFulfillment;
+    public Boolean getCountDetPlace() {
+        return countDetPlace;
     }
 
-    public void setCasesNonFulfillment(Boolean casesNonFulfillment) {
-        this.casesNonFulfillment = casesNonFulfillment;
+    public void setCountDetPlace(Boolean countDetPlace) {
+        this.countDetPlace = countDetPlace;
     }
 
-    public Boolean getCasesSubtracted() {
-        return casesSubtracted;
+    public Long getDistrictId() {
+        return districtId;
     }
 
-    public void setCasesSubtracted(Boolean casesSubtracted) {
-        this.casesSubtracted = casesSubtracted;
+    public void setDistrictId(Long districtId) {
+        this.districtId = districtId;
     }
 
-    public Boolean getHomeVisit() {
-        return homeVisit;
+    public Long getLocationId() {
+        return locationId;
     }
 
-    public void setHomeVisit(Boolean homeVisit) {
-        this.homeVisit = homeVisit;
-    }
-
-    public Boolean getCivilOrg() {
-        return civilOrg;
-    }
-
-    public void setCivilOrg(Boolean civilOrg) {
-        this.civilOrg = civilOrg;
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
     }
 
     public String getInitDate() {
@@ -103,5 +98,21 @@ public class ManagerSupReportParams {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public Date getiDate() {
+        return iDate;
+    }
+
+    public void setiDate(Date iDate) {
+        this.iDate = iDate;
+    }
+
+    public Date geteDate() {
+        return eDate;
+    }
+
+    public void seteDate(Date eDate) {
+        this.eDate = eDate;
     }
 }

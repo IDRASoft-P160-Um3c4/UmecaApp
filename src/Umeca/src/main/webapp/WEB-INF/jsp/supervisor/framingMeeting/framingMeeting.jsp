@@ -17,7 +17,6 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/housemate/housemateCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/references/referencesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/environmentAnalysis/environmentAnalysisCtrl.js"></script>
-    <%--<script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/processAcompaniment/processAccompanimentCtrl.js"></script>--%>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/activities/activitiesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/addtionalQuestions/additionalQuestionsCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisor/framingMeeting/personalData/personalDataCtrl.js"></script>

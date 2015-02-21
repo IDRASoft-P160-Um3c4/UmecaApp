@@ -34,4 +34,6 @@ public interface CaseService {
     ResponseMessage doReopenCase(AuthorizeRejectMonPlan model);
 
     void saveAuthRejectObsoleteCase(AuthorizeRejectMonPlan model, User user, Case caseDet);
+
+    public void saveRequestCloseCase(AuthorizeRejectMonPlan model, User user);
 }

@@ -6,6 +6,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
@@ -19,6 +20,7 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.HearingFormatTypeRepository;
 import com.umeca.repository.supervisor.HearingTypeRepository;
@@ -57,9 +59,6 @@ public class HearingFormatController {
     private GenericJqGridPageSortFilter gridFilter;
 
     @Autowired
-    private StateRepository stateRepository;
-
-    @Autowired
     private AddressService addressService;
 
     @Autowired
@@ -75,7 +74,6 @@ public class HearingFormatController {
     public
     @ResponseBody
     JqGridResultModel listCases(@ModelAttribute JqGridFilterModel opts) {
-
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
@@ -209,6 +207,9 @@ public class HearingFormatController {
     @Autowired
     CrimeService crimeService;
 
+    @Autowired
+    DistrictRepository districtRepository;
+
     @RequestMapping(value = "/supervisor/hearingFormat/newHearingFormat", method = RequestMethod.GET)
     public ModelAndView newHearingFormat(@RequestParam(required = true) Long idCase) {
 
@@ -249,8 +250,10 @@ public class HearingFormatController {
             model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
 
             List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+            List<SelectList> lstDistrict = districtRepository.findNoObsolete();
 
             model.addObject("lstSupervisor", conv.toJson(lstSuper));
+            model.addObject("lstDistrict", conv.toJson(lstDistrict));
 
             if (hfView.getIdAddres() != null)
                 addressService.fillModelAddress(model, hfView.getIdAddres());
@@ -279,6 +282,8 @@ public class HearingFormatController {
         model.addObject("readonlyBand", true);
         model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
         model.addObject("hasPrevHF", hfView.getHasPrevHF());
+        List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+        model.addObject("lstDistrict", conv.toJson(lstDistrict));
 
         if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
             model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
@@ -310,6 +315,9 @@ public class HearingFormatController {
             model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
         else
             model.addObject("lstHearingType", "[]");
+
+        List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+        model.addObject("lstDistrict", conv.toJson(lstDistrict));
 
         addressService.fillCatalogAddress(model);
 
@@ -344,12 +352,19 @@ public class HearingFormatController {
 
             caseDet = caseService.generateNewCase(imputed, HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE);
             caseDet.setIdMP(idJudicial);
-            Long num = caseRepository.findJudicialFoneticBrthDayImputed(caseDet.getIdMP(), caseDet.getMeeting().getImputed().getFoneticString(), caseDet.getMeeting().getImputed().getBirthDate());
+            Case existCase = caseRepository.findJudicialFoneticBrthDayImputed(caseDet.getIdMP(),
+                    caseDet.getMeeting().getImputed().getFoneticString(),
+                    caseDet.getMeeting().getImputed().getBirthDate(), new ArrayList<String>() {{
+                        add(Constants.CASE_STATUS_CLOSED);
+                        add(Constants.CASE_STATUS_OBSOLETE_EVALUATION);
+                        add(Constants.CASE_STATUS_OBSOLETE_SUPERVISION);
+                        add(Constants.CASE_STATUS_PRE_CLOSED);
+                        add(Constants.CASE_STATUS_PRISON_CLOSED);
+                    }});
 
-            if (num != null && num > 0) {
+            if (existCase != null) {
                 response.setHasError(true);
-                response.setTitle("Formato de audiencia");
-                response.setMessage("El n&uacute;mero de Carpeta Judicial e Imputado ya existen, verifique los datos.");
+                response.setMessage(existCase.getId() + "|" + true + "|" + existCase.getIdFolder() + "|" + caseDet.getIdMP());
             } else {
                 caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE));
                 response = caseService.saveConditionaReprieveCase(caseDet);
@@ -402,7 +417,7 @@ public class HearingFormatController {
             Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
 
             if (incompleteHFId != null && incompleteHFId > 0 && incompleteHFId != result.getIdFormat())
-                return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, dene terminarlo para poder agregar un nuevo formato de audiencia.");
+                return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");
 
             if (result.getIsFinished() != null && result.getIsFinished()) {
                 if (result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
@@ -421,6 +436,5 @@ public class HearingFormatController {
             return new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
         }
     }
-
 
 }
