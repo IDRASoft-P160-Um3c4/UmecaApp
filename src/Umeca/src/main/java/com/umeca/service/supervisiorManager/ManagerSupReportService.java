@@ -10,4 +10,10 @@ public interface ManagerSupReportService {
 
     public ManagerSupExcelReportInfo getCountByArrangements(ManagerSupReportParams params, ManagerSupExcelReportInfo info);
 
+    public ManagerSupExcelReportInfo getCountByDrugs(ManagerSupReportParams params, ManagerSupExcelReportInfo info);
+
+    public ManagerSupExcelReportInfo getCountByJob(ManagerSupReportParams params, ManagerSupExcelReportInfo info);
+
+    public ManagerSupExcelReportInfo getCountClosedCases(ManagerSupReportParams params, ManagerSupExcelReportInfo info);
+
 }

@@ -60,8 +60,11 @@ public class CaseClosedController {
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_CLOSED);
                     add(Constants.CASE_STATUS_PRISON_CLOSED);
-                }}, JqGridFilterModel.COMPARE_IN
-        );
+                    add(Constants.CASE_STATUS_CLOSE_FORGIVENESS);
+                    add(Constants.CASE_STATUS_CLOSE_AGREEMENT);
+                    add(Constants.CASE_STATUS_CLOSE_DESIST);
+                    add(Constants.CASE_STATUS_CLOSE_OTHER);
+                }}, JqGridFilterModel.COMPARE_IN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -131,7 +134,13 @@ public class CaseClosedController {
         model.addObject("urlToGo", "/supervisorManager/caseClosed/doReopenCase.json");
 
         List<String> lstSupervisor = hearingFormatRepository.findLastFullNameSupervisorByCaseId(id, new PageRequest(0, 1));
-        model.addObject("supervisor", lstSupervisor.get(0));
+
+        if (lstSupervisor != null && lstSupervisor.size() > 0)
+            model.addObject("supervisor", lstSupervisor.get(0));
+        else {
+            Case existCase = caseRepository.findOne(id);
+            model.addObject("supervisor", existCase.getCloserUser().getFullname());
+        }
     }
 
 

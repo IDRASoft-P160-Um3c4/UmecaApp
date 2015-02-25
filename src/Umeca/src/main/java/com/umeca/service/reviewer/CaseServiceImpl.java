@@ -102,6 +102,7 @@ public class CaseServiceImpl implements CaseService {
         meeting.setMeetingType(type);
         caseDet.setMeeting(meeting);
         caseDet.setDateCreate(new Date());
+        caseDet.setCreatorUser(userRepository.findOne(sharedUserService.GetLoggedUserId()));
 
         return caseDet;
     }
@@ -220,31 +221,50 @@ public class CaseServiceImpl implements CaseService {
     @Transactional
     public void saveAuthRejectCloseCase(AuthorizeRejectMonPlan model, User user, Case caseDet) {
         String statusAction;
-        StatusCase statusCase;
+        StatusCase statusCase = null;
+        CloseCause cause = caseDet.getCloseCause();
+
+        User supervisor = new User();
+        List<Long> lstUserIds = hearingFormatRepository.findLastSupervisorIdByCaseId(caseDet.getId(), new PageRequest(0, 1));
+        if (lstUserIds != null && lstUserIds.size() > 0)
+            supervisor.setId(lstUserIds.get(0));
+        else if (caseDet.getCloserUser() != null)
+            supervisor = caseDet.getCloserUser();
 
         if (model.getAuthorized() == 1) {
             statusAction = MonitoringConstants.STATUS_AUTHORIZED;
-            statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
+            if (cause == null)
+                statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
+            else {
+                if (cause.getId().equals(Constants.ID_CLOSE_CAUSE_FORGIVENESS)) {
+                    statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_FORGIVENESS);
+                } else if (cause.getId().equals(Constants.ID_CLOSE_CAUSE_AGREEMENT)) {
+                    statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_AGREEMENT);
+                } else if (cause.getId().equals(Constants.ID_CLOSE_CAUSE_DESIST)) {
+                    statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_DESIST);
+                } else if (cause.getId().equals(Constants.ID_CLOSE_CAUSE_OTHER)) {
+                    statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_OTHER);
+                }
+            }
             caseDet.setCloseDate(new Date());
             supervisionCloseCaseLogRepository.save(generateCloseLog(caseDet));
         } else {
+            caseDet.setCloseCause(null);
+            caseDet.setCloseDate(null);
+            caseDet.setCloserUser(null);
             statusAction = MonitoringConstants.STATUS_REJECTED_AUTHORIZED;
             statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
         }
+
+        caseDet.setStatus(statusCase);
 
         CaseRequestService.CreateCaseResponseToUser(responseTypeRepository, caseRequestRepository, messageRepository,
                 sharedUserService, logException, user, caseDet,
                 "El cierre del caso fue " + (model.getAuthorized() == 1 ? "autorizado" : "rechazado") + ". Comentarios: " + StringEscape.escapeText(model.getComments()),
                 Constants.ST_REQUEST_CLOSE_CASE);
 
-        List<Long> lstUserIds = hearingFormatRepository.findLastSupervisorIdByCaseId(caseDet.getId(), new PageRequest(0, 1));
-        User supervisor = new User();
-        supervisor.setId(lstUserIds.get(0));
-
-        caseDet.setStatus(statusCase);
-
-        if (model.getIdCloseCause() != null)
-            SharedLogCommentService.generateLogComment("Causa: " + closeCauseRepository.findOne(model.getIdCloseCause()).getName() + "; " + model.getComments(), user, caseDet, statusAction, supervisor,
+        if (caseDet.getCloseCause() != null)
+            SharedLogCommentService.generateLogComment("Causa: " + cause.getName() + "; " + model.getComments(), user, caseDet, statusAction, supervisor,
                     MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
         else
             SharedLogCommentService.generateLogComment(model.getComments(), user, caseDet, statusAction, supervisor,
@@ -342,7 +362,10 @@ public class CaseServiceImpl implements CaseService {
 
             List<Long> lstUserIds = hearingFormatRepository.findLastSupervisorIdByCaseId(caseDet.getId(), new PageRequest(0, 1));
             User supervisor = new User();
-            supervisor.setId(lstUserIds.get(0));
+            if (lstUserIds != null && lstUserIds.size() > 0)
+                supervisor.setId(lstUserIds.get(0));
+            else
+                supervisor = caseDet.getCloserUser();
 
             SharedLogCommentService.generateLogComment(model.getComments(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
                     caseDet, MonitoringConstants.STATUS_AUTHORIZED, supervisor, MonitoringConstants.TYPE_COMMENT_REOPEN_CASE, logCommentRepository);
@@ -425,13 +448,16 @@ public class CaseServiceImpl implements CaseService {
 
         String msg = "";
 
+        Case existCase = caseRepository.findOne(model.getCaseId());
+        existCase.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_REQUEST));
+
         if (model.getIdCloseCause() != null) {
             CloseCause closeCause = closeCauseRepository.findOne(model.getIdCloseCause());
             msg += "Motivo: " + closeCause.getName() + " - ";
+            existCase.setCloseCause(closeCause);
+            existCase.setCloserUser(userRepository.findOne(sharedUserService.GetLoggedUserId()));
         }
 
-        Case existCase = caseRepository.findOne(model.getCaseId());
-        existCase.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_REQUEST));
         caseRepository.save(existCase);
 
         commentModel.setComments(msg + StringEscape.escapeText(model.getComments()));

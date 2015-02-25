@@ -133,6 +133,14 @@ public class FramingMeetingController {
         );
         opts.extraFilters.add(extraFilter);
 
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilterA = new JqGridRulesModel("finishHF",
+                new ArrayList<String>() {{
+                    add(Boolean.TRUE.toString());
+                }}, JqGridFilterModel.COMPARE_EQUAL
+        );
+        opts.extraFilters.add(extraFilterA);
+
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
 
             @Override
@@ -164,6 +172,9 @@ public class FramingMeetingController {
 
                 if (field.equals("statusName"))
                     return r.join("status").get("name");
+
+                if (field.equals("finishHF"))
+                    return r.join("hearingFormats").get("isFinished");
 
                 return null;
             }

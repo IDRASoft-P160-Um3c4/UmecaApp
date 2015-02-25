@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.catalog.District;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
@@ -90,11 +91,23 @@ public class Case {
     private User lastSupervisorHF;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "last_preassigned_supervisor_")
+    @JoinColumn(name = "last_preassigned_supervisor")
     private User lastPreassignedSupervisor;
 
     @OneToOne(mappedBy = "caseDetention")
     private MonitoringPlan monitoringPlan;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_close_cause")
+    private CloseCause closeCause;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "create_user")
+    private User creatorUser;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "closer_user")
+    private User closerUser;
 
     @Transient
     private String idString;
@@ -298,5 +311,29 @@ public class Case {
 
     public void setDatePrison(Date datePrison) {
         this.datePrison = datePrison;
+    }
+
+    public CloseCause getCloseCause() {
+        return closeCause;
+    }
+
+    public void setCloseCause(CloseCause closeCause) {
+        this.closeCause = closeCause;
+    }
+
+    public User getCreatorUser() {
+        return creatorUser;
+    }
+
+    public void setCreatorUser(User creatorUser) {
+        this.creatorUser = creatorUser;
+    }
+
+    public User getCloserUser() {
+        return closerUser;
+    }
+
+    public void setCloserUser(User closerUser) {
+        this.closerUser = closerUser;
     }
 }

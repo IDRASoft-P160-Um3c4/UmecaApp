@@ -69,6 +69,10 @@ public class Constants {
     public static final String CASE_STATUS_EDIT_TEC_REV = "ST_CASE_EDIT_TEC_REV";
     public static final String CASE_STATUS_NOT_PROSECUTE = "ST_CASE_NOT_PROSECUTE";
     public static final String CASE_STATUS_NOT_PROSECUTE_OPEN = "ST_CASE_NOT_PROSECUTE_OPEN";
+    public static final String CASE_STATUS_CLOSE_FORGIVENESS = "ST_CASE_CLOSE_FORGIVENESS";
+    public static final String CASE_STATUS_CLOSE_AGREEMENT = "ST_CASE_CLOSE_AGREEMENT";
+    public static final String CASE_STATUS_CLOSE_DESIST = "ST_CASE_CLOSE_DESIST";
+    public static final String CASE_STATUS_CLOSE_OTHER = "ST_CASE_CLOSE_OTHER";
 
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW = "DONT_KNOW";
@@ -168,7 +172,7 @@ public class Constants {
     public static final String ST_REQUEST_AUTHORIZE_SOURCE = "AUTHORIZE_SOURCES";
     public static final String ST_REQUEST_NOT_PROSECUTE = "NOT_PROSECUTE";
     public static final String ST_REQUEST_MONPLAN_AUTH = "MONPLAN_AUTH";
-    public static final String ST_REQUEST_CLOSE_CASE= "CLOSE_CASE_SUPERVISION";
+    public static final String ST_REQUEST_CLOSE_CASE = "CLOSE_CASE_SUPERVISION";
     public static final String ST_REQUEST_UPDATE_MONPLAN_AUTH = "UPDATE_MONPLAN_AUTH";
 
     public static final String NAME_RELATIONSHIP_IMPUTED = "Imputado";
@@ -182,4 +186,10 @@ public class Constants {
     public static final String ROLE_DIRECTOR = "ROLE_DIRECTOR";
 
     public static final String ACTION_AUTHORIZE_LOG_COMMENT = "AUTORIZAR ELIMINAR CASO";
+
+    public static final Long ID_CLOSE_CAUSE_FORGIVENESS = 1L;
+    public static final Long ID_CLOSE_CAUSE_AGREEMENT = 2L;
+    public static final Long ID_CLOSE_CAUSE_DESIST = 3L;
+    public static final Long ID_CLOSE_CAUSE_OTHER = 4L;
+
 }

@@ -154,12 +154,40 @@ public class ManagerSupReportController {
 
         infoObj.setStrInitDate(params.getInitDate());
         infoObj.setStrEndDate(params.getEndDate());
+
         if (params.getDistrictId() != null)
             infoObj.setDistrictName(districtRepository.findOne(params.getDistrictId()).getName());
+
+        //REVISO LOS INDICADORES SELECCIONADOS
 
         //se selecciono el numero de imposiciones por obligacion procesal
         if (params.getCountArrangement() != null && params.getCountArrangement().equals(true))
             infoObj = managerSupReportService.getCountByArrangements(params, infoObj);
+        else {
+            infoObj.setLstCasesByArrangement(new ArrayList<SelectList>());
+        }
+
+        //se selecciono el numero de personas que consumen alguna droga
+        if (params.getCountDrug() != null && params.getCountDrug().equals(true))
+            infoObj = managerSupReportService.getCountByDrugs(params, infoObj);
+        else {
+            infoObj.setLstCasesByDrugs(new ArrayList<SelectList>());
+        }
+
+        //se selecciono el numero de personas con empleo
+        if (params.getCountJob() != null && params.getCountJob().equals(true))
+            infoObj = managerSupReportService.getCountByJob(params, infoObj);
+        else {
+            infoObj.setLstCasesByJob(new ArrayList<SelectList>());
+        }
+
+        //se selecciono el numero de casos cerrados
+        if (params.getCountClosed() != null && params.getCountClosed().equals(true))
+            infoObj = managerSupReportService.getCountClosedCases(params, infoObj);
+        else {
+            infoObj.setLstClosedCases(new ArrayList<SelectList>());
+        }
+
 
         return infoObj;
     }

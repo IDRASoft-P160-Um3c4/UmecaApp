@@ -137,7 +137,8 @@
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">
                                                             <input id="password" type="password" name="password"
-                                                                   ng-model="m.password" class="form-control" ng-enter-key for-element-id="btn-def-ck"
+                                                                   ng-model="m.password" class="form-control"
+                                                                   ng-enter-key for-element-id="btn-def-ck"
                                                                    rows="8"/>
                                                         </div>
                                                     </div>
@@ -161,7 +162,8 @@
                 </div>
                 <div class="modal-footer" id="btn-act-footer">
                     <button class="btn btn-default btn-sm" ng-click="cancel()">Cancelar</button>
-                    <button class="btn btn-default btn-primary btn-sm" ng-show="m.password && m.comments" id="btn-def-ck"
+                    <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                            ng-show="m.password && m.comments" id="btn-def-ck"
                             ng-click="submit('#FormCatId', '<c:url value='/supervisor/caseActive/doRequestCloseCase.json' />')">
                         Solicitar
                     </button>

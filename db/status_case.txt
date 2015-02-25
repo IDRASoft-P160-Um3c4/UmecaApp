@@ -21,3 +21,7 @@
 20|ST_CASE_OBSOLETE_SUPERVISION|Caso eliminado en supervisión
 21|ST_CASE_REQUEST_SUPERVISION|En solicitud pendiente
 22|ST_CASE_CLOSE_REQUEST|En solicitud de cierre pendiente
+23|ST_CASE_CLOSE_FORGIVENESS|Cerrado por otorgamiento de perdón
+24|ST_CASE_CLOSE_AGREEMENT|Cerrado por acuerdo reparatorio
+25|ST_CASE_CLOSE_DESIST|Cerrado por desistimiento del MP
+26|ST_CASE_CLOSE_OTHER|Cerrado por otras causas

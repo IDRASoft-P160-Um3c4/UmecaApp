@@ -474,7 +474,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "left join assigned_arrangement AA on AA.id_arrangement = A.id_arrangement " +
             "left join hearing_format HF on AA.id_hearing_format = HF.id_hearing_format " +
             "left join case_detention C on HF.id_case = C.id_case " +
-            "where C.id_case in (:lstCases) or C.id_case is null group by A.id_arrangement order by CC desc", nativeQuery = true)
+            "where C.id_case in (:lstCases) or C.id_case is null group by A.description order by CC desc", nativeQuery = true)
     List<Object> getCountCasesByArrangement(@Param("lstCases") List<Long> lstCases);
 
     @Query(value = "select  count(distinct CD.id_case) as CCC,GC.description from cat_group_crime GC " +
@@ -496,6 +496,9 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
     List<Object> getCountCasesByCrimeEv(@Param("lstCases") List<Long> lstCases);
 
 
+    /*consultas para reportes de managersup*/
+
+    //traer el ultimo formato de audiencia por caso registrado dentro del rango de fechas
     @Query(value = "select CD.id_case, max(HF.id_hearing_format) from hearing_format HF " +
             "inner join case_detention CD on CD.id_case=HF.id_case " +
             "inner join cat_status_case S on CD.id_status = S.id_status " +
@@ -503,6 +506,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "group by CD.id_case ", nativeQuery = true)
     List<Object> getLastFormatInDates(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("lstStatus") List<String> lstStatus);
 
+    //traer el ultimo formato de audiencia por caso registrado dentro del rango de fechas en el distrito indicado
     @Query(value = "select CD.id_case, max(HF.id_hearing_format) from hearing_format HF " +
             "inner join case_detention CD on CD.id_case=HF.id_case " +
             "inner join cat_status_case S on CD.id_status = S.id_status " +
@@ -510,5 +514,109 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (S.status not in (:lstStatus)) and (D.id_district=:districtId) and (HF.register_timestamp between :initDate and :endDate) " +
             "group by CD.id_case ", nativeQuery = true)
     List<Object> getLastFormatInDatesByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("lstStatus") List<String> lstStatus, @Param("districtId") Long districtId);
+
+    //contar los casos para cada medida en los formatos de audiencia
+    @Query(value = "select count(distinct C.id_case) as CC, A.description from cat_arrangement A " +
+            "left join assigned_arrangement AA on AA.id_arrangement = A.id_arrangement " +
+            "left join hearing_format HF on AA.id_hearing_format = HF.id_hearing_format " +
+            "left join case_detention C on HF.id_case = C.id_case " +
+            "where HF.id_hearing_format in (:lstFormats) or C.id_case is null group by A.description order by CC desc", nativeQuery = true)
+    List<Object> getCountCasesByArrangementInFormatsId(@Param("lstFormats") List<Long> lstFormats);
+
+    //traer los casos con drogas en entrevista de encuadre finalizada
+    @Query(value = "select CD.id_case, DT.id_drug_type from case_detention CD " +
+            "inner join cat_status_case S on CD.id_status = S.id_status " +
+            "inner join framing_meeting FM on CD.id_case=FM.id_case " +
+            "inner join drug D on D.id_framing_meeting= FM.id_framing_meeting " +
+            "inner join cat_drug_type DT on DT.id_drug_type = D.id_drug_type " +
+            "where (S.status not in (:lstStatus)) and " +
+            "(FM.end_date between :initDate and :endDate) " +
+            "and  (FM.is_terminated=true)  " +
+//            "and (DT.drug <> 'No consume') " +
+            "group by CD.id_case ", nativeQuery = true)
+    List<Object> getCasesWithDrugsInFinishedFM(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("lstStatus") List<String> lstStatus);
+
+    //traer los casos con drogas en entrevista de encuadre finalizada para el distrito indicado
+    @Query(value = "select CD.id_case, DT.id_drug_type from case_detention CD " +
+            "inner join cat_status_case S on CD.id_status = S.id_status " +
+            "inner join cat_district D on CD.id_district=D.id_district " +
+            "inner join framing_meeting FM on CD.id_case=FM.id_case " +
+            "inner join drug DR on DR.id_framing_meeting= FM.id_framing_meeting " +
+            "inner join cat_drug_type DT on DT.id_drug_type = DR.id_drug_type " +
+            "where (S.status not in (:lstStatus)) " +
+            "and (D.id_district=:districtId) " +
+            "and (FM.end_date between :initDate and :endDate) " +
+            "and  (FM.is_terminated=true)  " +
+//            "and (DT.drug <> 'No consume') " +
+            "group by CD.id_case ", nativeQuery = true)
+    List<Object> getCasesWithDrugsInFinishedFMByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("lstStatus") List<String> lstStatus, @Param("districtId") Long districtId);
+
+    //contar los casos para cada droga en entrevista de encuadre para los casos hallados
+    @Query(value = "select count(distinct C.id_case) as CC, DT.drug from case_detention C " +
+            "inner join framing_meeting FM on FM.id_case = C.id_case " +
+            "inner join drug D on FM.id_framing_meeting = D.id_framing_meeting " +
+            "right join cat_drug_type DT on D.id_drug_type = DT.id_drug_type " +
+            "where DT.drug <> 'No consume'  " +
+            "and  (C.id_case in (:lstCases) or C.id_case is null) " +
+            "group by DT.drug order by CC desc ", nativeQuery = true)
+    List<Object> getCountCasesByDrugs(@Param("lstCases") List<Long> lstCases);
+
+    //traer los casos en entrevista de encuadre finalizada con algun empleo
+    @Query(value = "select CD.id_case, RT.id_register_type from case_detention CD " +
+            "inner join cat_status_case S on CD.id_status = S.id_status " +
+            "inner join framing_meeting FM on CD.id_case=FM.id_case " +
+            "inner join job J on J.id_framing_meeting= FM.id_framing_meeting " +
+            "inner join cat_register_type RT on RT.id_register_type = RT.id_register_type " +
+            "where (S.status not in (:lstStatus)) and " +
+            "(FM.end_date between :initDate and :endDate) " +
+            "and (FM.is_terminated=true) " +
+            "group by CD.id_case ", nativeQuery = true)
+    List<Object> getCasesWithJobInFinishedFM(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("lstStatus") List<String> lstStatus);
+
+    //traer los casos en entrevista de encuadre finalizada con algun empleo en el distrito indicado
+    @Query(value = "select CD.id_case, RT.id_register_type from case_detention CD " +
+            "inner join cat_status_case S on CD.id_status = S.id_status " +
+            "inner join cat_district D on CD.id_district=D.id_district " +
+            "inner join framing_meeting FM on CD.id_case=FM.id_case " +
+            "inner join job J on J.id_framing_meeting= FM.id_framing_meeting " +
+            "inner join cat_register_type RT on RT.id_register_type = RT.id_register_type " +
+            "where (S.status not in (:lstStatus)) " +
+            "and (D.id_district=:districtId) " +
+            "and (FM.end_date between :initDate and :endDate) " +
+            "and (FM.is_terminated=true) " +
+            "group by CD.id_case ", nativeQuery = true)
+    List<Object> getCasesWithJobInFinishedFMByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("lstStatus") List<String> lstStatus, @Param("districtId") Long districtId);
+
+    //contar los casos por tipo de emple oen entrevista de encuadre finalizada
+    @Query(value = "select count(distinct C.id_case) as CC, RT.register_type from case_detention C " +
+            "left join framing_meeting FM on FM.id_case = C.id_case " +
+            "left join job J on J.id_framing_meeting = FM.id_framing_meeting " +
+            "right join cat_register_type RT on J.id_register_type = RT.id_register_type " +
+            "where (C.id_case in (:lstCases) or C.id_case is null) and (J.block <> false or J.block is null)" +
+            "group by RT.register_type order by CC desc ", nativeQuery = true)
+    List<Object> getCountCasesByJob(@Param("lstCases") List<Long> lstCases);
+
+
+    //contar los casos popr tipo de cierre y que hayan sido cerrados dentro del rango de fechas
+    @Query(value = "select count(Q1.idCase) as CC, SC.description from cat_status_case SC left join " +
+            "(select C.id_case as idCase, S.id_status as idStatus, S.description " +
+            "from case_detention C right join cat_status_case S on C.id_status = S.id_status " +
+            "where C.close_date between :iDate and :eDate) Q1 on SC.id_status = Q1.idStatus " +
+            "where SC.status in (:lstStatus) " +
+            "group by SC.status order by CC desc ", nativeQuery = true)
+    List<Object> getCountClosedCases(@Param("iDate") Date iDate, @Param("eDate") Date eDate, @Param("lstStatus") List<String> lstStatus);
+
+    //contar los casos popr tipo de cierre y que hayan sido cerrados dentro del rango de fechas en el distrito indicado
+    @Query(value = "select count(Q1.idCase) as CC, SC.description from cat_status_case SC left join " +
+            "(select C.id_case as idCase, S.id_status as idStatus, S.description " +
+            "from case_detention C inner join cat_district D on C.id_district=D.id_district " +
+            "right join cat_status_case S on C.id_status = S.id_status " +
+            "where (C.close_date between :iDate and :eDate) and (D.id_district=:districtId)) Q1 on SC.id_status = Q1.idStatus " +
+            "where SC.status in (:lstStatus) " +
+            "group by SC.status order by CC desc ", nativeQuery = true)
+    List<Object> getCountClosedCasesByDistrict(@Param("iDate") Date iDate, @Param("eDate") Date eDate, @Param("lstStatus") List<String> lstStatus, @Param("districtId") Long districtId);
+
+
+
 
 }
