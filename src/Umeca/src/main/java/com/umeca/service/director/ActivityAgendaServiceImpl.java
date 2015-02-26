@@ -6,6 +6,7 @@ import com.umeca.model.catalog.CatPriority;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.agenda.*;
 import com.umeca.model.entities.shared.LogChangeData;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.supervisor.ActivityAgendaRepository;
 import com.umeca.repository.supervisor.LogChangeDataRepository;
 import com.umeca.service.account.SharedUserService;
@@ -13,6 +14,7 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -37,9 +39,10 @@ public class ActivityAgendaServiceImpl implements ActivityAgendaService {
         //First set status to delete for all activities
         List<Long> lstActivitiesDel = fullModel.getLstActivitiesDel();
         for (Long id : lstActivitiesDel) {
-            delete(id, fullModel, user.getUsername());
+            delete(id, fullModel, user);
         }
-//        actMpRepository.flush();
+
+        activityAgendaRepository.flush();
 
         List<ActivityAgendaDto> lstActivitiesUpsert = fullModel.getLstActivitiesUpsert();
 
@@ -62,40 +65,76 @@ public class ActivityAgendaServiceImpl implements ActivityAgendaService {
         return true;
     }
 
+    @Override
+    public void getLstActivitiesByUser(SharedUserService sharedUserService, RequestAgendaActivities req, Long userId, ResponseAgendaActivities response) {
+
+        req.setUserId(Constants.ENTITY_ID_NULL);
+        if(sharedUserService.isUserInRole(userId, Constants.ROLE_DIRECTOR)){
+            req.setUserId(userId);
+        }
+        List<ActivityAgendaResponse> lstAllActivities = activityAgendaRepository.getAllActivitiesByUser(
+                new ArrayList<String>() {{add(STATUS_ACTIVITY_DELETED);}},
+                (req.getYearStart() * 100) + req.getMonthStart(),
+                (req.getYearEnd() * 100) + req.getMonthEnd(), req.getUserId());
+        response.setLstAgendaActivities(lstAllActivities);
+
+        response.setHasError(false);
+    }
+
+    @Override
+    public boolean endActivity(SharedUserService sharedUserService, ActivityAgendaEndRequest model, User user, ResponseMessage response) {
+
+        ActivityAgenda activityAgenda = activityAgendaRepository.findOneValid(model.getActivityId(), user.getId(),
+                new ArrayList<String>(){{add(STATUS_ACTIVITY_DONE); add(STATUS_ACTIVITY_DELETED);}});
+
+        if (activityAgenda == null){
+            response.setHasError(true);
+            response.setMessage("La actividad ha sido eliminada anteriormente o ya fue realizada");
+            return false;
+        }
+
+        ActivityAgendaJson jsonOld = ActivityAgendaJson.convertToJson(activityAgenda);
+        activityAgenda.setStatus(STATUS_ACTIVITY_DONE);
+        activityAgenda.setDone(model.getIsDone());
+        activityAgenda.setComments(model.getComments());
+        ActivityAgendaJson jsonNew = ActivityAgendaJson.convertToJson(activityAgenda);
+
+        logChangeDataRepository.save(new LogChangeData(ActivityAgenda.class.getName(), jsonOld, jsonNew, user.getUsername()));
+        activityAgendaRepository.save(activityAgenda);
+
+        return true;
+    }
+
     private boolean validateDates(Calendar startCalendar, Calendar endCalendar) {
         if (startCalendar.before(today) || endCalendar.before(today))
             return false;
         return true;
     }
 
-    private void delete(Long id, ActivityAgendaRequest fullModel, String username) {
-        /*
-        if (validateDates(activityMonitoringPlan.getStart(), activityMonitoringPlan.getEnd()) == false)
+    private void delete(Long id, ActivityAgendaRequest fullModel, User user) {
+
+        ActivityAgenda activityAgenda = activityAgendaRepository.findOneValid(id, user.getId(),
+                new ArrayList<String>(){{add(STATUS_ACTIVITY_DONE); add(STATUS_ACTIVITY_DELETED);}});
+
+        if (activityAgenda == null)
             return;
 
-        ActivityMonitoringPlan actMonPlanToReplace = activityMonitoringPlan.getActMonPlanToReplace();
+        String status = activityAgenda.getStatus();
+        if (LST_STATUS_ACTIVITY_END.contains(status))
+            return;
 
-        if (actMonPlanToReplace != null) {
-            ActivityMonitoringPlan activityMonitoringPlanToReplace = activityMonitoringPlan;
-            activityMonitoringPlan = actMpRepository.findOneValid(actMonPlanToReplace.getId(), fullModel.getMonitoringPlanId(), fullModel.getCaseId());
-            activityMonitoringPlanToReplace.setStatus(STATUS_ACTIVITY_DELETED);
-            activityMonitoringPlan.setReplaced(null);
-        }
+        if (validateDates(activityAgenda.getStart(), activityAgenda.getEnd()) == false)
+            return;
 
+        ActivityAgendaJson jsonOld = ActivityAgendaJson.convertToJson(activityAgenda);
+        activityAgenda.setStatus(STATUS_ACTIVITY_DELETED);
+        ActivityAgendaJson jsonNew = ActivityAgendaJson.convertToJson(activityAgenda);
 
-        ActivityMonitoringPlanJson jsonOld = ActivityMonitoringPlanJson.convertToJson(activityMonitoringPlan);
-        activityMonitoringPlan.setStatus((fullModel.isInAuthorizeReady() && STATUS_ACTIVITY_PRE_NEW.equals(status) == false)
-                ? STATUS_ACTIVITY_PRE_DELETED : STATUS_ACTIVITY_DELETED);
-        ActivityMonitoringPlanJson jsonNew = ActivityMonitoringPlanJson.convertToJson(activityMonitoringPlan);
+        logChangeDataRepository.save(new LogChangeData(ActivityAgenda.class.getName(), jsonOld, jsonNew, user.getUsername()));
+        activityAgendaRepository.save(activityAgenda);
 
-        logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, username, fullModel.getCaseId(), fullModel.getMonitoringPlanStatus()));
-        actMpRepository.save(activityMonitoringPlan);
+        fullModel.incActsDel();
 
-        if (fullModel.isInAuthorizeReady())
-            fullModel.incActsPreDel();
-        else
-            fullModel.incActsDel();
-        */
     }
 
     private void create(ActivityAgendaDto dto, User user, ActivityAgendaRequest fullModel) {
@@ -112,13 +151,13 @@ public class ActivityAgendaServiceImpl implements ActivityAgendaService {
 
         if (activityAgenda == null) return;
 
-
         DtoToModelAndSave(dto, user, fullModel, activityAgenda, false);
         fullModel.incActsUpd();
     }
 
     private ActivityAgenda getValidActivityAgendaToUpdate(ActivityAgendaDto dto, Long userId) {
-        ActivityAgenda activityAgenda = activityAgendaRepository.findOneValid(dto.getActivityId(), userId, STATUS_ACTIVITY_DONE);
+        ActivityAgenda activityAgenda = activityAgendaRepository.findOneValid(dto.getActivityId(), userId,
+                new ArrayList<String>(){{add(STATUS_ACTIVITY_DONE); add(STATUS_ACTIVITY_DELETED);}});
         if (activityAgenda == null)
             return null;
         //Validate dates of saved activity before change something...

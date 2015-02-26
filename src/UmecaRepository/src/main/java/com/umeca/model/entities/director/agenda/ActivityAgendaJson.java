@@ -10,13 +10,17 @@ public class ActivityAgendaJson {
     private Calendar start;
     private Calendar end;
     private Calendar updateDate;
+    private Calendar doneDate;
     private Long priorityId;
     private String status;
     private String place;
     private String description;
+    private String comments;
+    private Boolean isDone;
 
     private ActivityAgendaJson(Long id, Calendar start, Calendar end, Long priorityId, String status,
-                               String place, String description, Calendar updateDate){
+                               String place, String description, Calendar updateDate, Calendar doneDate,
+                               String comments, Boolean isDone){
         this.id = id;
         this.start = start;
         this.end = end;
@@ -25,6 +29,9 @@ public class ActivityAgendaJson {
         this.place = place;
         this.description = description;
         this.updateDate = updateDate;
+        this.doneDate = doneDate;
+        this.comments = comments;
+        this.isDone = isDone;
     }
 
     public Long getId() {
@@ -100,8 +107,11 @@ public class ActivityAgendaJson {
         String status = model.getStatus();
         String place = model.getPlace();
         String description = model.getDescription();
+        Calendar doneDate = model.getDoneTime();
+        String comments = model.getComments();
+        Boolean isDone = model.isDone();
 
         return new ActivityAgendaJson(id, start, end, priorityId,
-                status, place, description, updateDate);
+                status, place, description, updateDate, doneDate, comments, isDone);
     }
 }

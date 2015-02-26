@@ -791,6 +791,56 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     }
 
     @Autowired
+    PriorityRepository priorityRepository;
+
+    @Override
+    public void priority() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "priority.txt", "\\|", 5);
+        for (String[] data : lstDta) {
+            CatPriority model = new CatPriority();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setColor(data[2]);
+            model.setDescription(data[3]);
+            model.setIsObsolete(data[4].equals("1"));
+            priorityRepository.save(model);
+        }
+        priorityRepository.flush();
+    }
+
+    @Autowired
+    DistrictRepository districtRepository;
+
+    @Override
+    public void district() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "district.txt", "\\|", 3);
+        for (String[] data : lstDta) {
+            District model = new District();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            districtRepository.save(model);
+        }
+        districtRepository.flush();
+    }
+
+    @Autowired
+    CloseCauseRepository closeCauseRepository;
+
+    @Override
+    public void closeCause() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "close_cause.txt", "\\|", 3);
+        for (String[] data : lstDta) {
+            CloseCause model = new CloseCause();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            closeCauseRepository.save(model);
+        }
+        closeCauseRepository.flush();
+    }
+
+    @Autowired
     ImmigrationDocumentRepository immigrationDocumentRepository;
     @Override
     public void immigrationDocument() {

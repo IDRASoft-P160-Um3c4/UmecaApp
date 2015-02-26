@@ -57,6 +57,9 @@ public class ActivityAgenda {
     @Column(name = "done_time", nullable = true)
     private Calendar doneTime;
 
+    @Column(name = "isDone", nullable = true)
+    private Boolean isDone;
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "comments", nullable = true)
@@ -180,5 +183,13 @@ public class ActivityAgenda {
 
     public void setUserUpdate(User userUpdate) {
         this.userUpdate = userUpdate;
+    }
+
+    public Boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(Boolean isDone) {
+        this.isDone = isDone;
     }
 }

@@ -3,15 +3,21 @@ package com.umeca.controller.director;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.director.agenda.ActivityAgendaEndRequest;
 import com.umeca.model.entities.director.agenda.ActivityAgendaRequest;
-import com.umeca.model.shared.*;
+import com.umeca.model.entities.director.agenda.RequestAgendaActivities;
+import com.umeca.model.entities.director.agenda.ResponseAgendaActivities;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.PriorityRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.director.ActivityAgendaService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -24,7 +30,6 @@ public class TaskDiaryController {
     SharedLogExceptionService logException;
     @Autowired
     SharedUserService sharedUserService;
-
     @Autowired
     PriorityRepository priorityRepository;
 
@@ -35,6 +40,8 @@ public class TaskDiaryController {
         List<SelectList> priorities = priorityRepository.getPriorities();
         model.addObject("lstPriorities", new Gson().toJson(priorities));
         model.addObject("lstPrioritiesDt", priorities);
+        model.addObject("urlGetActivities", "/director/taskDiary/getActivities.json");
+
         return model;
     }
 
@@ -79,4 +86,46 @@ public class TaskDiaryController {
         return response;
 
     }
+
+    @RequestMapping(value = "/director/taskDiary/getActivities", method = RequestMethod.POST)
+    public @ResponseBody ResponseAgendaActivities getActivities(@RequestBody RequestAgendaActivities req) {
+        ResponseAgendaActivities response = new ResponseAgendaActivities();
+
+        try {
+            Long userId = sharedUserService.GetLoggedUserId();
+            agendaService.getLstActivitiesByUser(sharedUserService, req, userId, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "getActivities", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se sucit&oacute; un problema, por favor reinicie su navegador e intente de nuevo.");
+            return response;
+        }
+
+        return response;
+    }
+
+    @RequestMapping(value = "/director/taskDiary/endActivity", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage endActivity(@RequestBody ActivityAgendaEndRequest model){
+        ResponseMessage response = new ResponseMessage();
+        response.setTitle("Agenda de actividades ");
+
+        try {
+            User user = new User();
+            if(sharedUserService.isValidUser(user, response) == false)
+                return response;
+
+            if(agendaService.endActivity(sharedUserService, model, user, response) == false)
+                return response;
+
+            return response;
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "endActivity", sharedUserService);
+            response.setHasError(true);
+        }
+
+        response.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
+        return response;
+
+    }
+
 }

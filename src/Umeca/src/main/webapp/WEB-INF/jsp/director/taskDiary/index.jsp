@@ -14,10 +14,15 @@
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
 
-
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/jquery.ui.touch-punch.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/fullcalendar.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/bootbox.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/taskDiary/calendarTaskDiaryCtrl.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/commonActMonPlan.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upsertCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/modalDlgCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/taskDiary/upsertActivityEventController.js"></script>
@@ -25,8 +30,11 @@
     <script>
         jQuery(function ($) {
             var lstPriorities = ${lstPriorities};
+            var lstPrioritiesIndex = ${lstPriorities};
             var scope = angular.element($("#UpsertActivityEventDlgId")).scope();
-            var scopeMon = angular.element($("#CalendarTaskDiaryControllerId")).scope();
+            var scopeCal = angular.element($("#CalendarTaskDiaryControllerId")).scope();
+            scopeCal.lstPriorities = lstPrioritiesIndex;
+            scopeCal.initActivitySelect();
 
             $('#id-timepicker-start, #id-timepicker-end').timepicker({
                 minuteStep: 15,
@@ -87,10 +95,48 @@
                 selectable: true,
                 selectHelper: true,
                 eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
-                    alert('eventResize');
+                    var today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    if (event.start < today) {
+                        revertFunc();
+                        scope.showMsg({title: "Agenda de actividades", msg: 'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
+                        return;
+                    }
+
+                    var oldDay = event.start.addDays(dayDelta * (-1));
+                    oldDay.setHours(0, 0, 0, 0);
+                    if (oldDay < today) {
+                        revertFunc();
+                        scope.showMsg({title: "Agenda de actividades", msg: 'No es posible modificar una actividad con una fecha anterior.', type: "danger"});
+                        return;
+                    }
+
+                    event.isModified = true;
+                    event.doTitle(true);
                 },
                 eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
-                    alert('eventDrop');
+                    var today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    if (event.start < today) {
+                        revertFunc();
+                        scope.showMsg({title: "Agenda de actividades", msg: 'No es posible modificar una actividad a una fecha anterior a la fecha actual.', type: "danger"});
+                        return;
+                    }
+
+                    var oldDay = event.start.addDays(dayDelta * (-1));
+                    oldDay.setHours(0, 0, 0, 0);
+                    if (oldDay < today) {
+                        revertFunc();
+                        scope.showMsg({title: "Agenda de actividades", msg: 'No es posible modificar una actividad con una fecha anterior.', type: "danger"});
+                        return;
+                    }
+
+                    event.isModified = true;
+                    event.doTitle(true);
+                },
+                viewRender: function (view, element) {
+                    scopeCal.loadActivities(view.start, view.end, '<c:url value='${urlGetActivities}' />');
                 },
                 select: function (start, end, allDay) {
                     var today = new Date();
@@ -106,28 +152,40 @@
 
                     scope.showDlg({title: 'Agregar actividad', start: start, end: end, isNew: true})
                             .then(function (result) {
-                                calendar.fullCalendar('renderEvent', result.activity, true);
+                                var lstAct = [];
+                                lstAct.push(result.activity);
+                                scopeCal.mergeAndFilterActivities(lstAct);
+                                //calendar.fullCalendar('renderEvent', result.activity, true);
                             });
                     calendar.fullCalendar('unselect');
                 },
                 eventClick: function (event, jsEvent, view) {
-                    alert('eventClick');
+                    var today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    var isReadOnly = false;
+                    if (event.start < today) {
+                        isReadOnly = true;
+                    }
 
-                    /*var ans = {};
-                     window.showUpsert(event.idActivity, "#angJsjqGridId", '
-                    <c:url value='${urlShowActivity}' />', undefined, undefined,
-                     function (ans) {
-                     try {
-
-                     } catch (e) {
-                     return;
-                     }
-
-                     });                           */
+                    scope.showDlg({title: 'Modificar o eliminar actividad', start: event.start, end: event.end, isNew: false, event: event, isReadOnly: isReadOnly}).then(function (result) {
+                                switch (result.option) {
+                                    case 'REMOVE':
+                                        calendar.fullCalendar('removeEvents', function (ev) {
+                                            return (ev._id == event._id);
+                                        });
+                                        scopeCal.addActivityToDelete(event);
+                                        break;
+                                    case 'UPDATE':
+                                        calendar.fullCalendar('updateEvent', event);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            });
                 }
             });
 
-            scopeMon.m = { calendar: calendar};
+            scopeCal.m = { calendar: calendar};
         })
     </script>
 
@@ -142,6 +200,12 @@
         <c:forEach var="priority" items="${lstPrioritiesDt}">
         .label-act-evt-${priority.id} {
             background-color: ${priority.description} !important;
+        }
+
+        .label-act-evt-done-${priority.id} {
+            background-color: ${priority.description} !important;
+            opacity: 0.3 !important;
+            filter: alpha(opacity=30) !important;
         }
 
         </c:forEach>
@@ -178,8 +242,7 @@
                                                         <select class="form-control element-center"
                                                                 ng-model="m.priority"
                                                                 ng-options="e.name for e in lstPriorities"
-                                                                ng-change="onChangePriority();"
-                                                                ng-init='lstPriorities = ${lstPriorities}; initActivitySelect();'>
+                                                                ng-change="onChangePriority();">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -189,6 +252,11 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="blocker" ng-show="workingTrack">
+                    <div>
+                        Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
                     </div>
                 </div>
                 <div class="row">

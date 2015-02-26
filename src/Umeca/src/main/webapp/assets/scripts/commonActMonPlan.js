@@ -22,3 +22,21 @@ window.colorActMonPlan = function(status, end, today, color, isSuspended){
             return color === undefined ? 'label-danger': 'red';
     }
 };
+
+window.changeByStatus = function(status, id){
+    var className = 'label-act-evt-';
+    if(status === "REALIZADA"){
+        className = className + 'done-';
+    }
+    return className + id;
+}
+
+window.idToObject = function (id, lstCat) {
+    for (var i = 0; i < lstCat.length; i++) {
+        var cat = lstCat[i];
+        if (cat.id == id) {
+            return cat;
+        }
+    }
+    return null;
+};

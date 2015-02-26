@@ -50,7 +50,7 @@
                                                     <div class="row">
                                                         <div class="col-xs-10">
                                                             <div class="input-group bootstrap-timepicker">
-                                                                <input id="id-timepicker-start" type="text"
+                                                                <input id="id-timepicker-start" type="text" ng-disabled="isReadOnly"
                                                                        readonly="readonly"
                                                                        class="form-control umeca-time-picker"/>
 															<span class="input-group-addon">
@@ -67,7 +67,7 @@
                                                     <div class="row">
                                                         <div class="col-xs-10">
                                                             <div class="input-group bootstrap-timepicker">
-                                                                <input id="id-timepicker-end" type="text"
+                                                                <input id="id-timepicker-end" type="text" ng-disabled="isReadOnly"
                                                                        readonly="readonly"
                                                                        class="form-control umeca-time-picker"/>
 															<span class="input-group-addon">
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <br/>
-                    <div class="row">
+                    <div class="row" ng-show="!setRes">
                         <div class="col-xs-10 col-xs-offset-1 widget-container-span">
                             <div class="widget-box">
                                 <div class="widget-header widget-hea1der-small header-color-dark">
@@ -103,7 +103,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-xs-9">
-                                                    <textarea class="form-control" name="place" required="required" ng-maxlength="500" rows="4" ng-model="m.place">
+                                                    <textarea class="form-control" name="place" ng-disabled="isReadOnly" required="required" ng-maxlength="500" rows="4" ng-model="m.place">
                                                     </textarea>
                                                     <span class="error" ng-show="activityForm.place.$error.required">Campo requerido</span>
                                                     <span class="error" ng-show="activityForm.place.$error.maxlength">Longitud m&aacute;xima de 500 caracteres</span>
@@ -117,7 +117,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-xs-9">
-                                                    <textarea class="form-control" name="description" required="required" ng-maxlength="500" rows="4" ng-model="m.description">
+                                                    <textarea class="form-control" name="description" ng-disabled="isReadOnly" required="required" ng-maxlength="500" rows="4" ng-model="m.description">
                                                     </textarea>
                                                     <span class="error" ng-show="activityForm.description.$error.required">Campo requerido</span>
                                                     <span class="error" ng-show="activityForm.description.$error.maxlength">Longitud m&aacute;xima de 500 caracteres</span>
@@ -149,25 +149,91 @@
                     </div>
                 </form>
                 <br/>
+                <form id="resultForm" name="resultForm" class="form-horizontal" role="form">
+                    <div class="row" ng-show="setRes">
+                        <br />
+                        <div class="col-xs-10 col-xs-offset-1 widget-container-span">
+                            <div class="widget-box">
+                                <div class="widget-header widget-hea1der-small header-color-dark">
+                                    <h6>Finalizar actividad</h6>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main padding-4">
+                                        <div class="content">
+                                            <div class="row">
+                                                <div class="col-xs-4 align-center col-xs-offset-2">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input ng-disabled="actIsDone" name="form-field-radio" type="radio" ng-init="isDone='1';" ng-model="isDone" value="1" class="ace" />
+                                                            <span class="lbl"> Realizada </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4 align-center">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input ng-disabled="actIsDone" name="form-field-radio" type="radio" ng-model="isDone" value="0" class="ace" />
+                                                            <span class="lbl"> No realizada </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="space-10"></div>
+                                            <div class="row">
+                                                <div class="col-xs-2 align-right">
+                                                    <label class="control-label">
+                                                        Observaciones:
+                                                    </label>
+                                                </div>
+                                                <div class="col-xs-9">
+                                                    <textarea class="form-control"  ng-disabled="actIsDone" name="comments" required="required" ng-maxlength="500" rows="4" ng-model="m.comments">
+                                                    </textarea>
+                                                    <span class="error" ng-show="resultForm.comments.$error.required">Campo requerido</span>
+                                                    <span class="error" ng-show="resultForm.comments.$error.maxlength">Longitud m&aacute;xima de 500 caracteres</span>
+                                                </div>
+                                            </div>
+                                            <div class="space-16"></div>
+                                            <div class="row">
+                                                <div class="col-xs-10 col-xs-offset-1">
+                                                    <small>Nota: Si modific&oacute; la actividad primero debe guardar esos cambios y despu&eacute;s finalizar la actividad, en caso contrario, las modificaciones no se guardar&aacute;n</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="row" ng-show="msgError">
                     <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
-                        <span class="control-label element-center">{{msgError}}</span>
+                        <span class="control-label element-center"><div ng-bind-html="formatHtml(msgError);"></div></span>
+                    </div>
+                </div>
+                <div class="row" ng-show="actProcessIsDone">
+                    <div class="col-xs-8 col-xs-offset-2 alert alert-success element-center">
+                        <span class="control-label element-center">La finalizaci&oacute;n de la actividad se realiz&oacute; de forma exitosa</span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-success" ng-show="setRes && !actIsDone"
+                        ng-disabled="!resultForm.$valid"  ng-click="endActivity('<c:url value="/director/taskDiary/endActivity.json" />');">Finalizar
+                </button>
+                <button type="button" class="btn btn-default btn-purple" ng-show="canSetRes && !setRes" ng-click="setRes=true;">{{(!actIsDone ? 'Finalizar actividad' : 'Revisar resultado')}}
+                </button>
                 <button type="button" class="btn btn-default btn-primary" ng-show="isNew" ng-disabled="!activityForm.$valid" ng-click="add()">Guardar
                 </button>
-                <button type="button" class="btn btn-default btn-primary" ng-show="!isNew && !isReadOnly" ng-disabled="!activityForm.$valid"
+                <button type="button" class="btn btn-default btn-primary" ng-show="!isNew && !isReadOnly && !setRes" ng-disabled="!activityForm.$valid"
                         ng-click="save()">
                     Modificar
                 </button>
-                <button type="button" class="btn btn-default btn-danger" ng-show="!isNew && !isReadOnly"
+                <button type="button" class="btn btn-default btn-danger" ng-show="!isNew && !isReadOnly && !setRes"
                         ng-click="delete()">
                     Eliminar
                 </button>
-                <button type="button" class="btn btn-default" ng-click="cancel()">
-                    {{(isReadOnly?'Regresar':'Cancelar')}}
+                <button type="button" class="btn btn-default" ng-click="doCancel()">
+                    {{(isReadOnly || setRes ?'Regresar':'Cancelar')}}
                 </button>
             </div>
         </div>

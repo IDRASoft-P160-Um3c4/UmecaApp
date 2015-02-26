@@ -1,23 +1,23 @@
 package com.umeca.model.entities.director.agenda;
 
 public class ActivityAgendaEvent {
-    private Long activityAgendaId;
+    private Long activityId;
     private String eventId;
 
     public ActivityAgendaEvent(){
     }
 
-    public ActivityAgendaEvent(Long activityAgendaId, String eventId){
-        this.activityAgendaId = activityAgendaId;
+    public ActivityAgendaEvent(Long activityId, String eventId){
+        this.activityId = activityId;
         this.eventId = eventId;
     }
 
-    public Long getActivityAgendaId() {
-        return activityAgendaId;
+    public Long getActivityId() {
+        return activityId;
     }
 
-    public void setActivityAgendaId(Long activityAgendaId) {
-        this.activityAgendaId = activityAgendaId;
+    public void setActivityId(Long activityId) {
+        this.activityId = activityId;
     }
 
     public String getEventId() {
