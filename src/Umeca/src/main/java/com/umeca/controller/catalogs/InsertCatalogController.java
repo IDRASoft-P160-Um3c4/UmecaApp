@@ -261,11 +261,6 @@ public class InsertCatalogController {
         return  "immigrationDocument";
     }
 
-    @RequestMapping(value = "/catalogs/priority", method = RequestMethod.GET)
-    public String priority() {
-        service.priority();
-        return "priority OK!";
-    }
     @RequestMapping(value="/catalogs/closeCause", method = RequestMethod.GET)
     public String closeCause(){
         service.closeCause();
@@ -277,7 +272,6 @@ public class InsertCatalogController {
         service.district();
         return  "closeCause";
     }
-
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
@@ -320,6 +314,8 @@ public class InsertCatalogController {
         service.typeFileName();
         service.fulfillmentReport();
         service.immigrationDocument();
+        service.closeCause();
+        service.district();
         return "insertCatalog OK!!";
     }
 }

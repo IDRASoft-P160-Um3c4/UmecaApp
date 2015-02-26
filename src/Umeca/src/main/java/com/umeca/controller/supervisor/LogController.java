@@ -232,7 +232,7 @@ public class LogController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "requestAccomplishmentLog", userService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
             return response;
         }
     }
@@ -265,7 +265,7 @@ public class LogController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "requestAccomplishmentLog", userService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
             return response;
         }
     }
@@ -303,7 +303,7 @@ public class LogController {
             logException.Write(ex, this.getClass(), "deleteComment", userService);
             response.setHasError(true);
         }
-        response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+        response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         return response;
     }
 

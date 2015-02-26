@@ -1,23 +1,31 @@
 package com.umeca.controller.supervisorManager;
 
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.reviewer.TechnicalReview;
 import com.umeca.model.entities.supervisor.ForFramingMeetingGrid;
 import com.umeca.model.entities.supervisor.FramingMeeting;
+import com.umeca.model.entities.supervisor.HearingFormat;
+import com.umeca.model.entities.supervisor.MonitoringPlanInfo;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.repository.supervisor.CloseCauseRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.CaseService;
@@ -25,6 +33,7 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -260,7 +269,6 @@ public class CaseActiveController {
         }
     }
 
-
     public static void GetCaseInfo(Long id, ModelAndView model, CaseRepository caseRepository, HearingFormatRepository hearingFormatRepository, Integer isAuthObs) {
         CaseInfo caseInfo = caseRepository.getInfoById(id);
         model.addObject("caseId", caseInfo.getCaseId());
@@ -311,9 +319,9 @@ public class CaseActiveController {
                 return response;
             }
 
-            String caseStatus = caseDet.getStatus().getName();
-            if (caseStatus.equals(Constants.CASE_STATUS_PRE_CLOSED) == false) {
-                response.setMessage("El caso se encuentra en estado " + caseStatus + ", por ello no puede ser autorizado\rechazado para cerrarse");
+            StatusCase caseStatus = caseDet.getStatus();
+            if (!caseStatus.getName().equals(Constants.CASE_STATUS_PRE_CLOSED) && !caseStatus.getName().equals(Constants.CASE_STATUS_CLOSE_REQUEST)) {
+                response.setMessage("El caso se encuentra en estado " + caseStatus.getDescription() + ", por ello no puede ser autorizado/rechazado para cerrarse");
                 return response;
             }
 
@@ -323,7 +331,7 @@ public class CaseActiveController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doAuthorizeRejectCase", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         }
         return response;
     }
@@ -425,8 +433,136 @@ public class CaseActiveController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doClosePrisonCase", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
         }
         return response;
     }
+
+
+    /*/*solicitud cierre de caso, perfil supervisor*/
+
+    @RequestMapping(value = "/supervisor/requestCloseCase/index", method = RequestMethod.GET)
+    public ModelAndView indexCloseCaseRequest() {
+        ModelAndView model = new ModelAndView("/supervisor/requestCloseCase/index");
+        return model;
+    }
+
+    @Autowired
+    private CloseCauseRepository closeCauseRepository;
+
+    @RequestMapping(value = "/supervisor/requestCloseCase/showRequest", method = RequestMethod.POST)
+    public ModelAndView showCloseCaseRequest(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/supervisor/requestCloseCase/requestCloseCase");
+
+        try {
+            Case existCase = caseRepository.findOne(id);
+            Imputed imp = existCase.getMeeting().getImputed();
+
+            model.addObject("caseId", existCase.getId());
+            model.addObject("mpId", StringEscape.escapeText(existCase.getIdMP()));
+            model.addObject("fullName", StringEscape.escapeText(imp.getName()) + " " + StringEscape.escapeText(imp.getLastNameP()) + " " + StringEscape.escapeText(imp.getLastNameM()) + " ");
+            model.addObject("status", existCase.getStatus().getDescription());
+            model.addObject("lstCloseCause", new Gson().toJson(closeCauseRepository.findNoObsolete()));
+
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "showCloseCaseRequest", sharedUserService);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/supervisor/caseActive/doRequestCloseCase", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doRequestCloseCase(@ModelAttribute AuthorizeRejectMonPlan model) {
+
+        ResponseMessage response = new ResponseMessage();
+        response.setHasError(true);
+
+        try {
+            User user = new User();
+            if (sharedUserService.isValidUser(user, response) == false)
+                return response;
+
+            if (sharedUserService.isValidPasswordForUser(user.getId(), model.getPassword()) == false) {
+                response.setMessage("La contrase&ntilde;a no corresponde al usuario en sesi&oacute;n");
+                return response;
+            }
+
+            Case caseDet = caseRepository.findOne(model.getCaseId());
+
+            if (caseDet == null) {
+                response.setMessage("No se encontr&oacute; el caso. Por favor reinicie su navegador e intente de nuevo");
+                return response;
+            }
+
+            String caseStatus = caseDet.getStatus().getName();
+            if (caseStatus.equals(Constants.CASE_STATUS_CLOSE_REQUEST) || caseStatus.equals(Constants.CASE_STATUS_REQUEST) || caseStatus.equals(Constants.CASE_STATUS_REQUEST_SUPERVISION)) {
+                response.setMessage("No es posible realizar la solicitud para cerrar el caso, el caso tiene una solicitd pendiente.");
+                return response;
+            }
+
+            caseService.saveRequestCloseCase(model, user);
+
+            response.setHasError(false);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doClosePrisonCase", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/supervisor/caseActive/list", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listSupervisorCases(@ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter1 = new JqGridRulesModel("statusCase", new ArrayList() {{
+            add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+            add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
+            add(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE);
+            add(Constants.CASE_STATUS_HEARING_FORMAT_END);
+            add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+            add(Constants.CASE_STATUS_CLOSE_REQUEST);
+            add(Constants.CASE_STATUS_CLOSED);
+            add(Constants.CASE_STATUS_REQUEST_SUPERVISION);
+        }}, JqGridFilterModel.COMPARE_IN);
+        opts.extraFilters.add(extraFilter1);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status", JoinType.INNER);
+                final javax.persistence.criteria.Join<Case, Meeting> joinM = r.join("meeting", JoinType.INNER);
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinIm = joinM.join("imputed", JoinType.INNER);
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(joinSt.get("name"));
+                    add(joinSt.get("description"));
+                    add(r.get("idMP"));
+                    add(joinIm.get("name"));
+                    add(joinIm.get("lastNameP"));
+                    add(joinIm.get("lastNameM"));
+                    add(joinIm.get("birthDate"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idMP"))
+                    return r.get("idMP");
+                else if (field.equals("statusCase"))
+                    return r.join("status").get("name");
+                else
+                    return null;
+            }
+        }, Case.class, ForFramingMeetingGrid.class);
+
+        return result;
+    }
+
 }

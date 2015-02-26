@@ -134,10 +134,11 @@
         <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
         <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
         <input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
-        <input type="hidden" name="isFinished" value="{{m.isFinished}}"/>
+        <input type="hidden" ng-model="m.isFinished" name="isFinished" ng-update-hidden />
         <input type="hidden" name="idFormat" value="{{m.idFormat}}"/>
         <input type="hidden" id="umecaSupervisorId" name="umecaSupervisorId" value="{{m.umecaSupervisor.id}}"/>
 
+        <input type="hidden" name="isFinished" value="{{m.isFinished}}"/>
 
         <div class="row">
 
@@ -344,8 +345,7 @@
                                                             ng-init='lstDistrict = ${lstDistrict};'
                                                             ng-disabled="m.hasPrevHF==true"></select>
                                                 </div>
-                                                <input id="hidDistrict" type="hidden" ng-if="m.hasPrevHF==false"
-                                                       name="districtId" value="{{m.district.id}}"/>
+                                                <input id="hidDistrict" type="hidden" name="districtId" value="{{m.district.id}}"/>
                                             </div>
 
                                             <br/>
@@ -996,7 +996,7 @@
                                     <br/>
                                     <select class="form-control element-center"
                                             ng-model="m.umecaSupervisor"
-                                            ng-options="e.name for e in lstSupervisor"
+                                            ng-options="e.description for e in lstSupervisor"
                                             ng-init='lstSupervisor = ${lstSupervisor};'></select>
                                 </div>
                                 <br/>

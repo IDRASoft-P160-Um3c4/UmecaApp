@@ -814,29 +814,27 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormat.getCaseDetention().setIdMP(hearingFormat.getIdJudicial());
             }
 
-            //verificacion de cambio de arrangementType
+            //actualizacion de cambio del ultimo arrangementType
+            List<Integer> listHearingTypes = hearingFormatRepository.getLastArrangementType(hearingFormat.getCaseDetention().getId(), new PageRequest(0, 1));
+            Integer lastHearingType = -1;
 
-            Boolean actualValue = hearingFormat.getCaseDetention().getChangeArrangementType();
+            if (listHearingTypes != null && listHearingTypes.size() > 0) {
+                lastHearingType = listHearingTypes.get(0);
+            }
 
-            if (!actualValue.equals(true)) {//si no se ha registrado cambio, realizo la verificacion
-
-                List<Integer> listHearingTypes = hearingFormatRepository.getLastArrangementType(hearingFormat.getCaseDetention().getId(), new PageRequest(0, 1));
-                Integer lastHearingType = -1;
-
-                if (listHearingTypes != null && listHearingTypes.size() > 0) {
-                    lastHearingType = listHearingTypes.get(0);
-                }
-
-                if (lastHearingType > 0 && !lastHearingType.equals(hearingFormat.getHearingFormatSpecs().getArrangementType())) {
-                    hearingFormat.getCaseDetention().setChangeArrangementType(true);
-                }
+            if (lastHearingType != null && lastHearingType > 0 && !lastHearingType.equals(hearingFormat.getHearingFormatSpecs().getArrangementType())) {
+                hearingFormat.getCaseDetention().setDateChangeArrangementType(new Date());
             }
 
             //si se indica que el imputado ha sido sustraido
-
             if (hearingFormat.getIsSubstracted() != null) {
 
                 hearingFormat.getCaseDetention().setIsSubstracted(hearingFormat.getIsSubstracted());
+
+                if (hearingFormat.getIsSubstracted().equals(true))
+                    hearingFormat.getCaseDetention().setDateSubstracted(new Date());
+                else
+                    hearingFormat.getCaseDetention().setDateSubstracted(null);
 
                 if (hearingFormat.getIsSubstracted().equals(true)) {//se debe realizar el cambio del estatus del plan si es que existe
 
@@ -853,6 +851,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 hearingFormat.getCaseDetention().setDistrict(hearingFormat.getDistrict());
             }
 
+            //se actualiza el ultimo supervisor asignado, se actualiza el ultimo supervisor que registra el formato y las fechas
+            hearingFormat.getCaseDetention().setLastSupervisorHF(hearingFormat.getSupervisor());
+            hearingFormat.getCaseDetention().setLastPreassignedSupervisor(hearingFormat.getUmecaSupervisor());
+
         } else {
             hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE));
         }
@@ -863,9 +865,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
 
             sb.append("Solicitud de cierre de caso: ");
-            sb.append(StringEscape.escapeText(idFolder));
+            sb.append(idFolder);
             sb.append(". Comentario: ");
-            sb.append(StringEscape.escapeText(hearingFormat.getConfirmComment()));
+            sb.append(hearingFormat.getConfirmComment());
             sb.append(".");
 
             SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
@@ -941,6 +943,18 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 logComment.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
                 logComment.setObsolete(false);
                 logCommentRepository.save(logComment);
+
+                LogComment lSupMan = new LogComment();
+
+                lSupMan.setComments(l.getResume());
+                lSupMan.setAction(l.getTitle());
+                lSupMan.setCaseDetention(c);
+                lSupMan.setSenderUser(hearingFormat.getSupervisor());
+                lSupMan.setTimestamp(Calendar.getInstance());
+                lSupMan.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
+                lSupMan.setObsolete(false);
+                logCommentRepository.save(lSupMan);
+
             }
             sb = new StringBuilder();
             sb.append(request.getContextPath());

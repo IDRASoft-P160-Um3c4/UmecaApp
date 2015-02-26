@@ -1,0 +1,5 @@
+﻿id|name|isObsolete
+1|Se otorgó el perdón|0
+2|Acuerdo reparatorio|0
+3|Desistimieno del Ministerio Público|0
+4|Otro|0

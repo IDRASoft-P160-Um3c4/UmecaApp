@@ -5,9 +5,10 @@
     });
 </script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
+
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
-        <div class="modal-dialog" style="width:500px">
+        <div class="modal-dialog" style="width:500px" ng-controller="hearingFormatController">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-info ">
@@ -17,7 +18,8 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <form id="FormCatId" name="FormCatId" class="form-horizontal" role="form">
+                    <form id="FormCatId" name="FormCatId" class="form-horizontal" role="form"
+                          ng-controller="hearingFormatController">
                         <br/>
 
                         <div class="row">
@@ -161,6 +163,39 @@
                     </form>
                     <br/>
 
+                    <div class="row element-center" ng-show="showLabels=='true'">
+                        <div class="col-xs-6 col-xs-12 pricing-box ">
+                            <div class="widget-box">
+                                <div class="widget-header header-color-red">
+
+                                    <h5 class="bigger lighter"><i
+                                            class="icon-warning-sign icon-animated-wrench bigger-120"></i>&nbsp;
+                                        El imputado ya se encuentra registrado en la <strong>UMECA</strong></h5>
+                                </div>
+
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <ul class="list-unstyled spaced2">
+                                            <li>
+                                                <i class="icon-circle-blank green"></i>
+                                                Carpeta de investiaci&oacute;n : <strong>{{folderShow}}</strong>
+                                                <br/>
+                                                <i class="icon-circle-blank green"></i>
+                                                Carpeta judicial : <strong>{{mpShow}}</strong>
+                                            </li>
+                                            <li class="text-danger">
+                                                <i class="icon-warning-sign icon-animated-wrench bigger-120"></i>
+                                                Debe registrar la audiencia de revocaci&oacute;n y seleccionar la
+                                                obligaci&oacute;n
+                                                prisi&oacute;n preventiva.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-xs-12">
                             <div ng-show="MsgError" class="alert alert-danger element-center" ng-bind-html="MsgError">
@@ -174,8 +209,14 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormCatId','<c:url value="/supervisor/hearingFormat/doNewCase.json"/>');">
+                          ng-show="showLabels!='true'"
+                          ng-click="submitNewCase('#FormCatId','<c:url value="/supervisor/hearingFormat/doNewCase.json"/>');">
                           Guardar
+                    </span>
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-show="showLabels=='true'"
+                          ng-click="goToFormatsCase('<c:url value="/supervisor/hearingFormat/indexFormats.html"/>');">
+                          Registrar formato de audiencia
                     </span>
                 </div>
             </div>

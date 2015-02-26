@@ -265,7 +265,7 @@ public class UploadFileController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUploadFile", sharedUserService);
             resMsg.setHasError(true);
-            resMsg.setMessage("Se present&oacute; un error inesperado. Por favor revise que la informaci&oacute;n e intente de nuevo");
+            resMsg.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
         }
 
         return resMsg;
@@ -316,7 +316,7 @@ public class UploadFileController {
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "deleteFile", sharedUserService);
             resMsg.setHasError(true);
-            resMsg.setMessage("Se presentó un error inesperado. Por favor revise que la información e intente de nuevo");
+            resMsg.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         }
         return resMsg;
     }

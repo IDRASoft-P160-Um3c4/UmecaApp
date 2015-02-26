@@ -63,10 +63,6 @@ public class MonitoringPlan {
     @Column(name = "resolution", nullable = true)
     private Integer resolution;
 
-    @OneToOne
-    @JoinColumn(name = "id_close_cause")
-    private CloseCause closeCause;
-
     public Long getId() {
         return id;
     }
@@ -163,11 +159,4 @@ public class MonitoringPlan {
         this.resolution = resolution;
     }
 
-    public CloseCause getCloseCause() {
-        return closeCause;
-    }
-
-    public void setCloseCause(CloseCause closeCause) {
-        this.closeCause = closeCause;
-    }
 }

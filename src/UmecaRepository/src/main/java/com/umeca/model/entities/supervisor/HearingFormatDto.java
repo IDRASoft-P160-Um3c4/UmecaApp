@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.SelectList;
 
@@ -8,26 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Desarrollo
- * Date: 27/11/14
- * Time: 04:43 PM
- * To change this template use File | Settings | File Templates.
- */
 public class HearingFormatDto {
-//    distritojudicial room
-//                    fecha de audiencia appontmentDate
-//                    hora de audiencia
-//                    juez
-//                    ministeriopublico
-//                    delitos
-//                            //tipo y si se presento
-//                vinculacion a proceso
-//                    obligaciones naciaonal, local y scpp o mc
-
-
-
     private String room;
     private Date appointmentDate;
     private String date;
@@ -44,53 +26,56 @@ public class HearingFormatDto {
     private Integer arrangementTypeInt;
     private String arrangementType;
 
-    public String toString(String crimes, List<SelectList> arrangementAssigned) {
+    public String toString(String crimes, List<SelectList> arrangementAssigned, User umecaSupervisor) {
         String result = "";
-        if(room!=null)
-            result+="<strong>Distrito judicial: </strong>"+StringEscape.escapeText(room)+"<br/>";
-        if(appointmentDate!=null){
+        if (room != null)
+            result += "<strong>Distrito judicial: </strong>" + StringEscape.escapeText(room) + "<br/>";
+        if (appointmentDate != null) {
             SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy hh:mm");
             date = format1.format(appointmentDate);
-            result += "<strong>Fecha y hora de audiencia: </strong>"+date+"<br/>";
+            result += "<strong>Fecha y hora de audiencia: </strong>" + date + "<br/>";
         }
-        if(mpName!=null)
-            result+="<strong>Ministerio p&uacute;blico: </strong>"+ StringEscape.escapeText(mpName)+"<br/>";
-        if(hearingType!=null)
-            result+="<strong>Tipo de audiencia: </strong>"+hearingType+"<br/>";
-        result+=(ip!=null && ip.equals(HearingFormatConstants.IMP_FORM_NO)? "<strong>No</strong> se present&oacute; el imputado<br/>":"<strong>Si</strong> se present&oacute; el imputado<br/>");
+        if (mpName != null)
+            result += "<strong>Ministerio p&uacute;blico: </strong>" + StringEscape.escapeText(mpName) + "<br/>";
+        if (hearingType != null)
+            result += "<strong>Tipo de audiencia: </strong>" + hearingType + "<br/>";
+        result += (ip != null && ip.equals(HearingFormatConstants.IMP_FORM_NO) ? "<strong>No</strong> se present&oacute; el imputado<br/>" : "<strong>Si</strong> se present&oacute; el imputado<br/>");
         result += crimes;
-        if(linkageProcces!=null){
-            result+="<strong>Vinculaci&oacute;n a proceso: </strong>";
-            if( linkageProcces.equals(HearingFormatConstants.PROCESS_VINC_NO)){
-                result+="No<br/>";
-            }else if(linkageProcces.equals(HearingFormatConstants.PROCESS_VINC_YES)){
-                result+="Si<br/>";
-            }else{
-                result+="Sin registro<br/>";
+        if (linkageProcces != null) {
+            result += "<strong>Vinculaci&oacute;n a proceso: </strong>";
+            if (linkageProcces.equals(HearingFormatConstants.PROCESS_VINC_NO)) {
+                result += "No<br/>";
+            } else if (linkageProcces.equals(HearingFormatConstants.PROCESS_VINC_YES)) {
+                result += "Si<br/>";
+            } else {
+                result += "Sin registro<br/>";
             }
         }
-        if(arrangementTypeInt!=null && nationalArrangement!=null){
-            result +="<strong>Audiencia:</strong> ";
-            if(arrangementTypeInt.equals(HearingFormatConstants.HEARING_TYPE_SCP)){
-                result+="SCP ";
-            }else{
-                result+="MC ";
+        if (arrangementTypeInt != null && nationalArrangement != null) {
+            result += "<strong>Audiencia:</strong> ";
+            if (arrangementTypeInt.equals(HearingFormatConstants.HEARING_TYPE_SCP)) {
+                result += "SCP ";
+            } else {
+                result += "MC ";
             }
-            if(nationalArrangement.equals(HearingFormatConstants.ID_PRISON_ARRANGEMENT_LOC)){
-                result+="- Local <br/>";
-            }else{
-                result+="- Nacional <br/>";
+            if (nationalArrangement.equals(HearingFormatConstants.ID_PRISON_ARRANGEMENT_LOC)) {
+                result += "- Local <br/>";
+            } else {
+                result += "- Nacional <br/>";
             }
 
         }
-        if(arrangementAssigned!=null && arrangementAssigned.size()>0){
-            result+="<ul>";
-            for (SelectList aux : arrangementAssigned){
-                result += "<li>"+aux.getName()+"/"+StringEscape.escapeText(aux.getDescription())+"</li>";
+        if (arrangementAssigned != null && arrangementAssigned.size() > 0) {
+            result += "<ul>";
+            for (SelectList aux : arrangementAssigned) {
+                result += "<li>" + aux.getName() + "/" + StringEscape.escapeText(aux.getDescription()) + "</li>";
             }
-            result+="</ul>";
+            result += "</ul>";
         }
-         return result;
+
+        result += "<strong>Supervisor preasignado:  </strong>";
+        result += umecaSupervisor.getFullname();
+        return result;
     }
 
     public HearingFormatDto() {
@@ -157,7 +142,6 @@ public class HearingFormatDto {
     }
 
 
-
     public Integer getIp() {
         return ip;
     }
@@ -213,6 +197,4 @@ public class HearingFormatDto {
     public void setArrangementType(String arrangementType) {
         this.arrangementType = arrangementType;
     }
-
-
 }

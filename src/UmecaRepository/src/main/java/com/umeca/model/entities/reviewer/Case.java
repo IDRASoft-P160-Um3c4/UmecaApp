@@ -1,7 +1,9 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.catalog.District;
 import com.umeca.model.catalog.StatusCase;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.supervisor.FolderConditionalReprieve;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
@@ -29,7 +31,6 @@ public class Case {
     @Column(name = "recidivist", nullable = false)
     private Boolean recidivist;
 
-
     @OneToOne(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
     private Meeting meeting;
 
@@ -38,6 +39,12 @@ public class Case {
 
     @Column(name = "date_obsolete", nullable = true)
     private Date dateObsolete;
+
+    @Column(name = "close_date", nullable = true)
+    private Date closeDate;
+
+    @Column(name = "reopen_date", nullable = true)
+    private Date reopenDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_status", nullable = false)
@@ -63,15 +70,47 @@ public class Case {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
 
-    @Column(name = "change_arrangement_type")
-    private Boolean changeArrangementType;
+    @Column(name = "date_change_arrangement_type")
+    private Date dateChangeArrangementType;
 
     @Column(name = "is_substracted")
     private Boolean isSubstracted;
 
+    @Column(name = "date_substracted")
+    private Date dateSubstracted;
+
+    @Column(name = "date_prison")
+    private Date datePrison;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_district")
     private District district;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "last_supervisor_hf")
+    private User lastSupervisorHF;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "last_preassigned_supervisor")
+    private User lastPreassignedSupervisor;
+
+    @OneToOne(mappedBy = "caseDetention")
+    private MonitoringPlan monitoringPlan;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_close_cause")
+    private CloseCause closeCause;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "create_user")
+    private User creatorUser;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "closer_user")
+    private User closerUser;
+
+    @Transient
+    private String idString;
 
     public MonitoringPlan getMonitoringPlan() {
         return monitoringPlan;
@@ -80,12 +119,6 @@ public class Case {
     public void setMonitoringPlan(MonitoringPlan monitoringPlan) {
         this.monitoringPlan = monitoringPlan;
     }
-
-    @OneToOne(mappedBy = "caseDetention")
-    private MonitoringPlan monitoringPlan;
-
-    @Transient
-    private String idString;
 
     public Long getId() {
         return id;
@@ -208,14 +241,6 @@ public class Case {
         this.dateObsolete = dateObsolete;
     }
 
-    public Boolean getChangeArrangementType() {
-        return changeArrangementType;
-    }
-
-    public void setChangeArrangementType(Boolean changeArrangementType) {
-        this.changeArrangementType = changeArrangementType;
-    }
-
     public Boolean getIsSubstracted() {
         return isSubstracted;
     }
@@ -230,5 +255,85 @@ public class Case {
 
     public void setDistrict(District district) {
         this.district = district;
+    }
+
+    public Date getCloseDate() {
+        return closeDate;
+    }
+
+    public void setCloseDate(Date closeDate) {
+        this.closeDate = closeDate;
+    }
+
+    public Date getReopenDate() {
+        return reopenDate;
+    }
+
+    public void setReopenDate(Date reopenDate) {
+        this.reopenDate = reopenDate;
+    }
+
+    public Date getDateChangeArrangementType() {
+        return dateChangeArrangementType;
+    }
+
+    public void setDateChangeArrangementType(Date dateChangeArrangementType) {
+        this.dateChangeArrangementType = dateChangeArrangementType;
+    }
+
+    public User getLastSupervisorHF() {
+        return lastSupervisorHF;
+    }
+
+    public void setLastSupervisorHF(User lastSupervisorHF) {
+        this.lastSupervisorHF = lastSupervisorHF;
+    }
+
+    public User getLastPreassignedSupervisor() {
+        return lastPreassignedSupervisor;
+    }
+
+    public void setLastPreassignedSupervisor(User lastPreassignedSupervisor) {
+        this.lastPreassignedSupervisor = lastPreassignedSupervisor;
+    }
+
+    public Date getDateSubstracted() {
+        return dateSubstracted;
+    }
+
+    public void setDateSubstracted(Date dateSubstracted) {
+        this.dateSubstracted = dateSubstracted;
+    }
+
+    public Date getDatePrison() {
+        return datePrison;
+    }
+
+    public void setDatePrison(Date datePrison) {
+        this.datePrison = datePrison;
+    }
+
+    public CloseCause getCloseCause() {
+        return closeCause;
+    }
+
+    public void setCloseCause(CloseCause closeCause) {
+        this.closeCause = closeCause;
+    }
+
+    public User getCreatorUser() {
+        return creatorUser;
+    }
+
+    public void setCreatorUser(User creatorUser) {
+        this.creatorUser = creatorUser;
+    }
+
+    public User getCloserUser() {
+        return closerUser;
+    }
+
+    public void setCloserUser(User closerUser) {
+        this.closerUser = closerUser;
     }
 }

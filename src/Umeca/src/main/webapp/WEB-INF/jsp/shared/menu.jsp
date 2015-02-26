@@ -138,6 +138,8 @@
                             </ul>
                         </li>
 
+                        <li class="nav-li-blue"><a href="<c:url value='/supervisor/requestCloseCase/index.html'/>"><i
+                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrar casos</a></li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -302,7 +304,8 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="<c:url value='/director/caseRequest/show.html' />"><i
-                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Hist&oacute;rico de solicitudes</a></li>
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Hist&oacute;rico de solicitudes</a>
+                                </li>
                                 <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>

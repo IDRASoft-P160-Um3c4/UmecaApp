@@ -151,9 +151,6 @@ public class MeetingServiceImpl implements MeetingService {
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention.setDateCreate(new Date());
-            caseDetention.setChangeArrangementType(false); //se agrega para poder contar si un caso cambia de MC a SCPP en algun formato de audiencia
-            caseDetention.setIsSubstracted(false); //se agrega para poder especificar si el imputado se encuentra sustraido
-
             caseDetention = caseRepository.save(caseDetention);
             Meeting meeting = new Meeting();
             meeting.setMeetingType(HearingFormatConstants.MEETING_PROCEDURAL_RISK);

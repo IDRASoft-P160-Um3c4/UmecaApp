@@ -46,6 +46,31 @@ public class CaseRequestService {
         caseRequestRepository.save(caseRequest);
     }
 
+    public static void CreateCaseRequestToRole(RequestTypeRepository requestTypeRepository, CaseRequestRepository caseRequestRepository, MessageRepository messageRepository,
+                                               SharedUserService sharedUserService, User user, Case caseDet, String text, String role, String requestType) {
+        CaseRequest caseRequest = new CaseRequest();
+        final Message msg = new Message();
+        msg.setCaseDetention(caseDet);
+        msg.setCreationDate(new Date());
+        msg.setSender(user);
+        msg.setText(StringEscape.escapeText(text));
+        List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(role);
+        List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
+
+        for(final User userRcv : lstUserReceivers){
+            lstRmUr.add(new RelMessageUserReceiver(){{
+                setMessage(msg);
+                setUser(userRcv);
+            }});
+        }
+        msg.setMessageUserReceivers(lstRmUr);
+        messageRepository.save(msg);
+
+        caseRequest.setRequestMessage(msg);
+        caseRequest.setRequestType(requestTypeRepository.findByCode(requestType));
+        caseRequestRepository.save(caseRequest);
+    }
+
     public static void CreateCaseResponseToUser(ResponseTypeRepository responseTypeRepository, CaseRequestRepository caseRequestRepository, MessageRepository messageRepository,
                                            SharedUserService sharedUserService, SharedLogExceptionService logException, User user,
                                            Case caseDetention, String text, String requestType){
@@ -147,4 +172,6 @@ public class CaseRequestService {
         caseRequest.setRequestType(requestTypeRepository.findByCode(typeResponse));
         caseRequestRepository.save(caseRequest);
     }
+
+
 }

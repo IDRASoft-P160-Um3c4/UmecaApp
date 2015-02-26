@@ -43,12 +43,11 @@
             </h2>
         </div>
         <div class="row">
+            <input type="hidden" id="urlMun" value="<c:url value='/supervisorManager/report/getMun.json'/>"/>
+            <input type="hidden" id="urlLoc" value="<c:url value='/supervisorManager/report/getLoc.json'/>"/>
 
             <form id="FormRepExcel" name="FormRepExcel" class="form-horizontal"
                   role="form" method="post" ng-cloak>
-
-
-                <%--<input type="hidden" id="hdLstStatusCases" name="lstStatusCaseStr" value="{{lstStatusCase}}">--%>
 
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
@@ -123,168 +122,140 @@
                                 </div>
                                 <br/>
 
-                                <div class="row">
+                                <div class="row" ng-init='lstOpts=${lstOpts}'>
                                     <div class="col-xs-10 col-xs-offset-1">
                                         <div class="widget-box">
-                                            <div class="widget-header">Reportes</div>
+                                            <div class="widget-header">Indicadores</div>
                                             <div class="widget-body">
                                                 <div class="row">
                                                     <br/>
 
+                                                    <div class="col-xs-12">
+                                                        <div class="col-xs-3">
+                                                            <div class="checkbox"
+                                                                 style="padding-left: 32px !important;">
+                                                                <label>
+                                                                    <input class="ace"
+                                                                           ng-model="byDistrict"
+                                                                           type="checkbox">
+                                                                    <span class="lbl">&nbsp;&nbsp;Seleccionar distrito </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-5">
+                                                            <select class="form-control element-center col-xs-6"
+                                                                    ng-disabled="byDistrict!=true"
+                                                                    ng-model="m.district"
+                                                                    ng-options="di.name for di in lstDistrict"
+                                                                    ng-init='lstDistrict= ${lstDistrict};'></select>
+                                                            <input type="hidden" name="districtId" value="{{m.district.id}}" ng-disabled="byDistrict!=true"/>
+                                                        </div>
+                                                        <br/>
+                                                    </div>
+
                                                     <div class="col-xs-10 col-xs-offset-1">
+                                                        <div class="space"></div>
                                                         <div ng-show="MsgErrorSel&&MsgErrorSel!=''"
                                                              class="alert alert-danger element-center">
                                                             <span ng-bind-html="MsgErrorSel"></span>
                                                         </div>
                                                     </div>
-                                                    <br/>
 
                                                     <div class="col-xs-12">
-
-                                                        <div class="col-xs-6">
+                                                        <div class="col-xs-6" ng-repeat="e in lstOpts">
                                                             <div class="checkbox">
                                                                 <label>
                                                                     <input class="ace"
+                                                                           ng-model="opts[e.name]"
                                                                            type="checkbox"
-                                                                           ng-model="m.casesMC" name="casesMC">
-                                                                    <span class="lbl col-xs-10">&nbsp;&nbsp;N&uacute;mero de casos en MC</span>
-                                                                </label>
-                                                                <br/>
-                                                            </div>
-
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input class="ace"
-                                                                           type="checkbox"
-                                                                           ng-model="m.casesSCPP" name="casesSCPP">
-                                                                    <span class="lbl col-xs-10">&nbsp;&nbsp;N&uacute;mero de casos en SCPP</span>
-                                                                </label>
-                                                                <br/>
-                                                            </div>
-
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input class="ace"
-                                                                           type="checkbox"
-                                                                           ng-model="m.imputedDrugs"
-                                                                           name="imputedDrugs">
-                                                                    <span class="lbl col-xs-10">&nbsp;&nbsp;N&uacute;mero de imputados que consumen sustancias por tipo</span>
-                                                                </label>
-                                                                <br/>
-                                                            </div>
-
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input class="ace"
-                                                                           type="checkbox"
-                                                                           ng-model="m.casesDone" name="casesDone">
-                                                                    <span class="lbl col-xs-10">&nbsp;&nbsp;N&uacute;mero de casos concluidos</span>
-                                                                </label>
-                                                                <br/>
-                                                            </div>
-
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input class="ace"
-                                                                           type="checkbox"
-                                                                           ng-model="m.casesPrison" name="casesPrison">
-                                                                    <span class="lbl col-xs-10">&nbsp;&nbsp;N&uacute;mero de casos con imposici&oacute;n de prisi&oacute;n preventiva</span>
+                                                                           name="{{e.name}}">
+                                                                    <span class="lbl col-xs-10">&nbsp;&nbsp;{{e.description}}</span>
                                                                 </label>
                                                                 <br/>
                                                             </div>
                                                         </div>
-
-                                                        <div class="col-xs-6">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input class="ace"
-                                                                           type="checkbox"
-                                                                           ng-model="m.casesNonFulfillment"
-                                                                           name="casesNonFulfillment">
-                                                                    <span class="lbl col-xs-10">&nbsp;&nbsp;N&uacute;mero de casos con reporte de incumplimiento</span>
-                                                                </label>
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <div class="space"></div>
+                                                        <div class="col-xs-3">
+                                                            <div style="padding-left: 35px; padding-right: 10px;">
+                                                                <label>Estado</label>
                                                                 <br/>
+                                                                <select class="form-control element-center"
+                                                                        ng-disabled="opts['countDetPlace']!=true"
+                                                                        ng-model="m.state"
+                                                                        ng-options="e.name for e in lstStates"
+                                                                        ng-init='lstStates = ${lstStates}'
+                                                                        ng-change="getMun();"></select>
                                                             </div>
-
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input class="ace"
-                                                                           type="checkbox"
-                                                                           ng-model="m.casesSubtracted"
-                                                                           name="casesSubtracted">
-                                                                    <span class="lbl col-xs-10">&nbsp;&nbsp;N&uacute;mero de imputados declarados sustra&iacute;dos</span>
-                                                                </label>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <div>
+                                                                <label>Municipio</label>
                                                                 <br/>
+                                                                <select class="form-control element-center"
+                                                                        ng-disabled="opts['countDetPlace']!=true"
+                                                                        ng-model="m.municipality"
+                                                                        ng-options="mu.name for mu in lstMun"
+                                                                        ng-init='lstMun= ${lstMun};'
+                                                                        ng-change="getLoc();"></select>
                                                             </div>
-
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input class="ace"
-                                                                           type="checkbox"
-                                                                           ng-model="m.homeVisit" name="homeVisit">
-                                                                    <span class="lbl col-xs-10">&nbsp;&nbsp;N&uacute;mero de visitas a domicilio para la supervisi&oacute;n</span>
-                                                                </label>
+                                                        </div>
+                                                        <div class="col-xs-5">
+                                                            <div style="padding-left: 10px; padding-right: 35px;">
+                                                                <label>Localidad</label>
                                                                 <br/>
+                                                                <select class="form-control element-center"
+                                                                        ng-disabled="opts['countDetPlace']!=true"
+                                                                        ng-model="m.location"
+                                                                        ng-options="l.name for l in lstLocation">
+                                                                </select>
+                                                                <input type="hidden" name="locationId" value="{{m.location.id}}" ng-disabled="opts['countDetPlace']!=true"/>
                                                             </div>
-
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input class="ace"
-                                                                           type="checkbox"
-                                                                           ng-model="m.civilOrg" name="civilOrg">
-                                                                    <span class="lbl col-xs-10">&nbsp;&nbsp;N&uacute;mero de canalizaciones a organizaciones de la sociedad civil (total y por tipo)</span>
-                                                                </label>
-                                                                <br/>
-                                                            </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <br/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <br/>
-
-                                <div class="row">
-
-                                </div>
-
-                                <br/>
-
                                 <div class="row">
                                     <div class="col-xs-11 element-right">
-<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-      ng-click="submitReport('#FormRepExcel','<c:url value='/supervisorManager/report/doReport.json'/>', validateSel);">
-                      Reporte
-                </span>
+                                        <br/>
+                                        <span
+                                                class="btn btn-default btn-primary btn-sm"
+                                                ng-disabled="WaitFor==true"
+                                                ng-click="submitReport('#FormRepExcel','<c:url value='/supervisorManager/report/doReport.html'/>', validateSel);"
+                                                >Reporte</span>
+                                        <br/>
+                                        <br/>
                                     </div>
 
                                 </div>
-
-                                <br/>
                             </div>
                         </div>
                     </div>
                 </div>
         </div>
-        <br/>
-        </form>
     </div>
-    <div class="row">
-        <div id="angJsjqGridId" ng-controller="modalDlgController">
-            <table id="GridCasesId" class="element-center" style="margin: auto"></table>
-            <div id="GridPager"></div>
-            <div class="blocker" ng-show="working">
-                <div>
-                    Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
-                </div>
+    <br/>
+    </form>
+</div>
+<div class="row">
+    <div id="angJsjqGridId" ng-controller="modalDlgController">
+        <table id="GridCasesId" class="element-center" style="margin: auto"></table>
+        <div id="GridPager"></div>
+        <div class="blocker" ng-show="working">
+            <div>
+                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
             </div>
         </div>
     </div>
+</div>
 
-    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
-    <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
+<%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
+<%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>
 </div>
 </body>
