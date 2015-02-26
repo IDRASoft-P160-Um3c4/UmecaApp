@@ -16,4 +16,6 @@ public interface ManagerSupReportService {
 
     public ManagerSupExcelReportInfo getCountClosedCases(ManagerSupReportParams params, ManagerSupExcelReportInfo info);
 
+    public ManagerSupExcelReportInfo getCountCasesByDetentionPlace(ManagerSupReportParams params, ManagerSupExcelReportInfo info);
+
 }

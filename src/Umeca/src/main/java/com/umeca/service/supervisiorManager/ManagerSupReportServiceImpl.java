@@ -1,10 +1,12 @@
 package com.umeca.service.supervisiorManager;
 
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
+import com.umeca.model.catalog.Location;
 import com.umeca.model.entities.supervisor.ManagerSupExcelReportInfo;
 import com.umeca.model.entities.supervisor.ManagerSupReportParams;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
+import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.shared.ReportExcelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -209,6 +211,35 @@ public class ManagerSupReportServiceImpl implements ManagerSupReportService {
         info.setTotClosedCases(sum);
         info.setLstClosedCases(finalResult);
 
+        return info;
+    }
+
+    @Autowired
+    private LocationRepository locationRepository;
+
+    public ManagerSupExcelReportInfo getCountCasesByDetentionPlace(ManagerSupReportParams params, ManagerSupExcelReportInfo info) {
+
+        List<String> lstStatus = new ArrayList<String>() {{
+            add(Constants.CASE_STATUS_CLOSED);
+            add(Constants.CASE_STATUS_PRISON_CLOSED);
+            add(Constants.CASE_STATUS_CLOSE_FORGIVENESS);
+            add(Constants.CASE_STATUS_CLOSE_AGREEMENT);
+            add(Constants.CASE_STATUS_CLOSE_DESIST);
+            add(Constants.CASE_STATUS_CLOSE_OTHER);
+        }};
+
+        Object total = null;
+
+        Location loc = locationRepository.findOne(params.getLocationId());
+
+        info.setLocationName(loc.getMunicipality().getState().getName() + ", " + loc.getMunicipality().getName() + ", " + loc.getName());
+
+        if (params.getDistrictId() != null)
+            total = reportExcelRepository.getCountCasesByDetentionPlaceDistrict(params.getiDate(), params.geteDate(), lstStatus, params.getDistrictId(), params.getLocationId());
+        else
+            total = reportExcelRepository.getCountCasesByDetentionPlace(params.getiDate(), params.geteDate(), lstStatus, params.getLocationId());
+
+        info.setTotCasesDetentionPlace(Long.parseLong(total.toString()));
         return info;
     }
 

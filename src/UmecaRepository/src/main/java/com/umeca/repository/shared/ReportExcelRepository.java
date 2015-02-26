@@ -617,6 +617,25 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
     List<Object> getCountClosedCasesByDistrict(@Param("iDate") Date iDate, @Param("eDate") Date eDate, @Param("lstStatus") List<String> lstStatus, @Param("districtId") Long districtId);
 
 
+    //contar los casos que tienen informacion legal registrada dentro del rango de fechas
+    @Query(value = "select count(C.id_case) from case_detention C " +
+            "inner join cat_status_case S on C.id_status = S.id_status " +
+            "inner join meeting M on M.id_case = C.id_case " +
+            "inner join current_criminal_proceeding CCP on CCP.id_meeting = M.id_meeting " +
+            "inner join cat_location L on CCP.id_location = L.id_location " +
+            "where (M.date_terminate_legal between :iDate and :eDate) " +
+            "and (S.status not in (:lstStatus)) " +
+            "and L.id_location =:locationId", nativeQuery = true)
+    Object getCountCasesByDetentionPlace(@Param("iDate") Date iDate, @Param("eDate") Date eDate, @Param("lstStatus") List<String> lstStatus, @Param("locationId") Long locationId);
 
-
+    @Query(value = "select count(C.id_case) from case_detention C " +
+            "inner join cat_district D on C.id_district=D.id_district " +
+            "inner join cat_status_case S on C.id_status = S.id_status " +
+            "inner join meeting M on M.id_case = C.id_case " +
+            "inner join current_criminal_proceeding CCP on CCP.id_meeting = M.id_meeting " +
+            "inner join cat_location L on CCP.id_location = L.id_location " +
+            "where (M.date_terminate_legal between :iDate and :eDate) " +
+            "and (S.status not in (:lstStatus)) " +
+            "and (L.id_location =:locationId) and (D.id_district = :districtId)", nativeQuery = true)
+    Object getCountCasesByDetentionPlaceDistrict(@Param("iDate") Date iDate, @Param("eDate") Date eDate, @Param("lstStatus") List<String> lstStatus, @Param("locationId") Long locationId, @Param("districtId") Long districtId);
 }

@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.Location;
 import com.umeca.model.entities.shared.Victim;
 
 import javax.persistence.*;
@@ -29,6 +30,10 @@ public class CurrentCriminalProceeding {
 
     @Column(name = "place_detention", length = 500, nullable = true)
     private String placeDetention;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_location")
+    private Location locationDetention;
 
     @Column(name = "behavior_detention", nullable = true, length = 255)
     private String behaviorDetention;
@@ -107,4 +112,13 @@ public class CurrentCriminalProceeding {
     public void setVictims(List<Victim> victims) {
         this.victims = victims;
     }
+
+    public Location getLocationDetention() {
+        return locationDetention;
+    }
+
+    public void setLocationDetention(Location locationDetention) {
+        this.locationDetention = locationDetention;
+    }
+
 }

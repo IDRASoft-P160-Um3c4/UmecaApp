@@ -1,6 +1,7 @@
 package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.Convert;
 import com.umeca.infrastructure.model.ResponseMessage;
@@ -339,6 +340,7 @@ public class MeetingServiceImpl implements MeetingService {
             catalogDtoList.add(cdto);
         }
         model.addObject("listRelationship", gson.toJson(catalogDtoList));
+        model.addObject("lstStates", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
         String listLegalBefore = findLegalBefore(id, c.getMeeting().getImputed().getName(), c.getMeeting().getImputed().getLastNameP(), c.getMeeting().getImputed().getLastNameM());
         model.addObject("listLegalBefore", listLegalBefore);
         crimeService.fillCatalogModel(model);
@@ -361,7 +363,15 @@ public class MeetingServiceImpl implements MeetingService {
             model.addObject("additionalInfo", ccp.getAdditionalInfo());
             model.addObject("behaviorDetention", ccp.getBehaviorDetention());
             model.addObject("placeDetention", ccp.getPlaceDetention());
+
+            if (ccp.getLocationDetention() != null) {
+                Location loc = ccp.getLocationDetention();
+                model.addObject("stateId", loc.getMunicipality().getState().getId());
+                model.addObject("municipalityId", loc.getMunicipality().getId());
+                model.addObject("locationId", loc.getId());
+            }
         }
+
         PreviousCriminalProceeding pcp = c.getMeeting().getPreviousCriminalProceeding();
         if (pcp != null) {
             model.addObject("firstProceeding", pcp.getFirstProceeding());
@@ -1157,6 +1167,9 @@ public class MeetingServiceImpl implements MeetingService {
             ccpc.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccpc));
         }
         ccpc.setPlaceDetention(cpv.getPlaceDetention());
+
+        if (cpv.getLocationId() != null)
+            ccpc.setLocationDetention(locationRepository.findOne(cpv.getLocationId()));
     }
 
     @Transactional
@@ -1262,6 +1275,7 @@ public class MeetingServiceImpl implements MeetingService {
             refreshPreviousProceeding(cpv, c);
             StatusMeeting stm = statusMeetingRepository.findByCode(Constants.S_MEETING_COMPLETE);
             c.getMeeting().setStatus(stm);
+            c.getMeeting().setDateTerminateLegal(new Date());
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));
             verificationService.createVerification(c);
             caseRepository.save(c);
@@ -1345,7 +1359,7 @@ public class MeetingServiceImpl implements MeetingService {
         if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
             current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
         if (cpv.getPlaceDetention().trim().equals(""))
-            current.add(Convert.convertToValidString(v.template.replace(e, "El lugar de detenci&oacute;n")));
+            current.add(Convert.convertToValidString(v.template.replace(e, "Referencias del lugar de detenci&oacute;n")));
         if (cpv.getBehaviorDetention().trim().equals(""))
             current.add(Convert.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
         if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()) == 0)

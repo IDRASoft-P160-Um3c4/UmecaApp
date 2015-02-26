@@ -17,6 +17,6 @@ public interface MunicipalityRepository extends JpaRepository<Municipality, Long
     List<Municipality> findByIdState(@Param("idState") Long idState);
 
     @Query("select new com.umeca.model.shared.SelectList(M.id,M.name) from Municipality M " +
-            "inner join M.state S where s.id=:idState")
+            "inner join M.state S where s.id=:idState order by  M.name asc")
     List<SelectList> findMunByState(@Param("idState") Long idState);
 }

@@ -22,6 +22,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
 
     @Query("select new com.umeca.model.shared.SelectList(L.id,L.name) from Location L " +
             "INNER JOIN  L.municipality M where M.id =:idMun " +
-            "group by L.name order by L.name")
+            "group by L.name order by L.name asc")
     List<SelectList> findLocByMunId(@Param("idMun") Long idMun);
 }

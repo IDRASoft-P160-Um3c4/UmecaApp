@@ -877,41 +877,4 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         hearingTypeRepository.flush();
     }
 
-    @Autowired
-    private DistrictRepository districtRepository;
-
-    @Override
-    public void district() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "district.txt", "\\|", 3);
-        for (String[] data : lstDta) {
-            District model = new District();
-            model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            model.setIsObsolete(data[2].equals("1"));
-            districtRepository.save(model);
-        }
-        districtRepository.flush();
-    }
-
-    @Autowired
-    private CloseCauseRepository closeCauseRepository;
-
-    @Override
-    public void closeCause() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "close_cause.txt", "\\|", 3);
-        for (String[] data : lstDta) {
-            CloseCause model = new CloseCause();
-            model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            model.setIsObsolete(data[2].equals("1"));
-            closeCauseRepository.save(model);
-        }
-        closeCauseRepository.flush();
-    }
-
-    @Override
-    public void priority() {
-
-    }
-
 }

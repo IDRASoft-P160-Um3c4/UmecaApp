@@ -1,7 +1,10 @@
 package com.umeca.controller.supervisor;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.security.SecureString;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.catalog.LocationRepository;
+import com.umeca.repository.catalog.MunicipalityRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.hibernate.ejb.HibernateEntityManagerFactory;
@@ -40,15 +43,17 @@ public class SharedController {
 
 
     @RequestMapping(value = "/supervisor/shared/enrollment", method = RequestMethod.GET, produces = "application/x-java-jnlp-file")
-    public @ResponseBody String enrollment(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response){
+    public
+    @ResponseBody
+    String enrollment(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
 
-        try{
+        try {
             StringBuffer url = request.getRequestURL();
             String uri = request.getRequestURI();
             String ctx = request.getContextPath();
             String urlBase = url.substring(0, url.length() - uri.length() + ctx.length()) + "/assets/app/";
             Properties prop = ((SessionFactoryImpl) ((HibernateEntityManagerFactory) entityManager.getEntityManagerFactory()).getSessionFactory()).getProperties();
-            DriverManagerDataSource dmds= (DriverManagerDataSource) prop.get("hibernate.connection.datasource");
+            DriverManagerDataSource dmds = (DriverManagerDataSource) prop.get("hibernate.connection.datasource");
             String jUrl = dmds.getUrl();
             String username = dmds.getUsername();
             String password = dmds.getPassword();
@@ -89,11 +94,30 @@ public class SharedController {
                     "    <all-permissions/>\n" +
                     "</security>\n" +
                     "</jnlp>\n";
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "enrollment", userService);
             return null;
         }
     }
 
+    @Autowired
+    private MunicipalityRepository municipalityRepository;
+
+    @RequestMapping(value = {"/supervisorManager/report/getMun", "/reviewer/legal/getMun"}, method = RequestMethod.POST)
+    @ResponseBody
+    public String getMunBySt(@RequestParam Long idState) {
+        Gson gson = new Gson();
+        return gson.toJson(municipalityRepository.findMunByState(idState));
+    }
+
+    @Autowired
+    private LocationRepository locationRepository;
+
+    @RequestMapping(value = {"/supervisorManager/report/getLoc", "/reviewer/legal/getLoc"}, method = RequestMethod.POST)
+    @ResponseBody
+    public String getLocByMun(@RequestParam Long idMun) {
+        Gson gson = new Gson();
+        return gson.toJson(locationRepository.findLocByMunId(idMun));
+    }
 
 }

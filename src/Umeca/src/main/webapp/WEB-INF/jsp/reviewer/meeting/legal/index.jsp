@@ -9,7 +9,7 @@
 
 <html>
 <head>
-    <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
+    <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/proceedingLegalkCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
@@ -18,12 +18,12 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/showMessageErrorDrct.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
     </script>
-   <title>Usuarios</title>
+    <title>Usuarios</title>
     <script>
-        window.cancelLegal = function (){
+        window.cancelLegal = function () {
             window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/index.html'/>");
         }
-        window.cancelViewManagerEval = function(){
+        window.cancelViewManagerEval = function () {
             window.goToUrlMvcUrl("<c:url value='/managereval/showCaseEvaluation/index.html'/>");
         }
 
@@ -33,14 +33,21 @@
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
 <div class="container body-content" ng-cloak>
-                                                                            <br/>
+    <br/>
+
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Informaci&oacute;n legal</h2>
     <br/>
-    <div class="element-center"><label class="element-center info-example">LOS SIGUIENTES DATOS SE OBTIENEN DE LA CARPETA DE INVESTIGACI&Oacute;N, DE LA INFORMACI&Oacute;N POLICIAL, DE LA PGJ O DEL TSJ</label><br/>
-    <label class="info-example" style="font-size: small;!important">BAJO NINGUNA CIRCUNSTANCIA SE LE SOLICITAR&Aacute; ESTA INFORMACI&Oacute;N AL IMPUTADO</label>
+
+    <div class="element-center"><label class="element-center info-example">LOS SIGUIENTES DATOS SE OBTIENEN DE LA
+        CARPETA DE INVESTIGACI&Oacute;N, DE LA INFORMACI&Oacute;N POLICIAL, DE LA PGJ O DEL TSJ</label><br/>
+        <label class="info-example" style="font-size: small;!important">BAJO NINGUNA CIRCUNSTANCIA SE LE SOLICITAR&Aacute;
+            ESTA INFORMACI&Oacute;N AL IMPUTADO</label>
     </div>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
     <div ng-controller="proceedingLegalController">
+        <input type="hidden" id="urlMun" value="<c:url value='/reviewer/legal/getMun.json'/>"/>
+        <input type="hidden" id="urlLoc" value="<c:url value='/reviewer/legal/getLoc.json'/>"/>
+
         <div class="blocker" ng-show="WaitFor==true">
             <div>
                 Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
@@ -52,69 +59,72 @@
             </button>
             <br/>
             <span ng-bind-html="listMsgError[entityError]"></span>
-            <br />
+            <br/>
         </div>
-    <div class="row" ng-init="managereval = ${managereval == null ? false: managereval}; idCase = ${idCase};">
-        <div class="col-sm-12">
-            <div class="tabbable tabs-left">
-                <ul class="nav nav-tabs" id="tabMeeting">
-                    <li class="active" id="liLegalActual">
-                        <a data-toggle="tab" href="#legalActual">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <i class="green  icon-legal  bigger-200"></i>
-                                    Proceso actual            <br/>
-                                    <label class="info-example">Analizar carpeta de investigaci&oacute;n</label>
-                                </div>
-                                <div class="col-xs-2" ng-show="listMsgError['legalActual']">
-                                    <div class="tools">
-                                        <div class="inline position-relative">
-                                            <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                                               ng-click="showMessageError('legalActual');"></i>
+        <div class="row"
+             ng-init="managereval = ${managereval == null ? false: managereval}; idCase = ${idCase};">
+
+            <div class="col-sm-12"
+                 ng-init="stateId=${stateId==null?'-1':stateId}; municipalityId=${municipalityId==null?'-1':municipalityId}; locationId=${locationId==null?'-1':locationId};">
+                <div class="tabbable tabs-left">
+                    <ul class="nav nav-tabs" id="tabMeeting">
+                        <li class="active" id="liLegalActual">
+                            <a data-toggle="tab" href="#legalActual">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="green  icon-legal  bigger-200"></i>
+                                        Proceso actual <br/>
+                                        <label class="info-example">Analizar carpeta de investigaci&oacute;n</label>
+                                    </div>
+                                    <div class="col-xs-2" ng-show="listMsgError['legalActual']">
+                                        <div class="tools">
+                                            <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                                                   ng-click="showMessageError('legalActual');"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
+                            </a>
+                        </li>
 
-                    <li id="liLegalPrevious">
-                        <a data-toggle="tab" href="#legalPrevious">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <i class="gray  icon-legal  bigger-200"></i>
-                                    Procesos anteriores
-                                </div>
-                                <div class="col-xs-2" ng-show="listMsgError['legalPrevious']">
-                                    <div class="tools">
-                                        <div class="inline position-relative">
-                                            <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                                               ng-click="showMessageError('legalPrevious');"></i>
+                        <li id="liLegalPrevious">
+                            <a data-toggle="tab" href="#legalPrevious">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="gray  icon-legal  bigger-200"></i>
+                                        Procesos anteriores
+                                    </div>
+                                    <div class="col-xs-2" ng-show="listMsgError['legalPrevious']">
+                                        <div class="tools">
+                                            <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                                                   ng-click="showMessageError('legalPrevious');"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                            </a>
+                        </li>
+                    </ul>
 
-                <div class="tab-content">
-                    <div id="legalActual" class="tab-pane in active">
+                    <div class="tab-content">
+                        <div id="legalActual" class="tab-pane in active">
 
-                            <%@ include file="/WEB-INF/jsp/reviewer/meeting/legal/current.jsp"%>
+                            <%@ include file="/WEB-INF/jsp/reviewer/meeting/legal/current.jsp" %>
+
+                        </div>
+
+                        <div id="legalPrevious" class="tab-pane">
+
+                            <%@ include file="/WEB-INF/jsp/reviewer/meeting/legal/previous.jsp" %>
+
+                        </div>
 
                     </div>
-
-                    <div id="legalPrevious" class="tab-pane">
-
-                            <%@ include file="/WEB-INF/jsp/reviewer/meeting/legal/previous.jsp"%>
-
-                    </div>
-
                 </div>
             </div>
         </div>
-    </div>
         <br/>
 
         <div class="row">
@@ -125,30 +135,30 @@
                 </div>
             </div>
         </div>
-    <div class="row" ng-show="managereval == false">
-        <div class="modal-footer">
+        <div class="row" ng-show="managereval == false">
+            <div class="modal-footer">
                     <span class="btn btn-default btn-sm" onclick="window.cancelLegal()">
                           Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-disabled="WaitFor==true" ng-confirm-action
                           confirm-message="&iquest;Est&aacute; seguro que desea terminar el llenado de informaci&oacute;n legal?"
-                          confirm-title = "Terminar informaci&oacute;n legal" confirm-type="info"
+                          confirm-title="Terminar informaci&oacute;n legal" confirm-type="info"
                           confirmed-click-action="submit('#FormCurrentLegalId,#FormPreviousLegalId','<c:url value="/reviewer/meeting/saveProceedingLegal.json?idCase=${idCase}"/>');">
                           Terminar
                     </span>
+            </div>
         </div>
-    </div>
-    <div class="row" ng-show="managereval == true">
-        <div class="modal-footer">
+        <div class="row" ng-show="managereval == true">
+            <div class="modal-footer">
                     <span class="btn btn-default btn-sm" onclick="window.cancelViewManagerEval()">
                           Regresar
                     </span>
+            </div>
         </div>
     </div>
-    </div>
-    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
-    <%@ include file="/WEB-INF/jsp/shared/footer.jsp"%>
+    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
+    <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>
 
 </body>

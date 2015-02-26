@@ -115,4 +115,5 @@ public class ManagerSupReportParams {
     public void seteDate(Date eDate) {
         this.eDate = eDate;
     }
+
 }

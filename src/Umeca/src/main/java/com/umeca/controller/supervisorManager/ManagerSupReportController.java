@@ -102,23 +102,8 @@ public class ManagerSupReportController {
         Gson gson = new Gson();
         model.addObject("lstOpts", gson.toJson(doListOptionReport()));
         model.addObject("lstStates", gson.toJson(stateRepository.findStatesByCountryAlpha2("MX")));
-        model.addObject("lstMun", gson.toJson(municipalityRepository.findByIdState(1L)));
         model.addObject("lstDistrict", gson.toJson(districtRepository.findNoObsolete()));
         return model;
-    }
-
-    @RequestMapping(value = "/supervisorManager/report/getMun", method = RequestMethod.POST)
-    @ResponseBody
-    public String getMunBySt(@RequestParam Long idState) {
-        Gson gson = new Gson();
-        return gson.toJson(municipalityRepository.findMunByState(idState));
-    }
-
-    @RequestMapping(value = "/supervisorManager/report/getLoc", method = RequestMethod.POST)
-    @ResponseBody
-    public String getLocByMun(@RequestParam Long idMun) {
-        Gson gson = new Gson();
-        return gson.toJson(locationRepository.findLocByMunId(idMun));
     }
 
     @RequestMapping(value = "/supervisorManager/report/doReport", method = RequestMethod.GET)
@@ -188,6 +173,12 @@ public class ManagerSupReportController {
             infoObj.setLstClosedCases(new ArrayList<SelectList>());
         }
 
+        //se selecciono el numero de casos por lugar de detencion
+        if (params.getCountDetPlace() != null && params.getCountDetPlace().equals(true))
+            infoObj = managerSupReportService.getCountCasesByDetentionPlace(params, infoObj);
+        else {
+            infoObj.setLstClosedCases(new ArrayList<SelectList>());
+        }
 
         return infoObj;
     }

@@ -13,6 +13,8 @@ public class ManagerSupExcelReportInfo {
     private Long totDrugsCases;
     private Long totJobCases;
     private Long totClosedCases;
+    private Long totCasesDetentionPlace;
+    private String locationName;
     private List<SelectList> lstCasesByArrangement;
     private List<SelectList> lstCasesByDrugs;
     private List<SelectList> lstCasesByJob;
@@ -104,5 +106,21 @@ public class ManagerSupExcelReportInfo {
 
     public void setLstClosedCases(List<SelectList> lstClosedCases) {
         this.lstClosedCases = lstClosedCases;
+    }
+
+    public Long getTotCasesDetentionPlace() {
+        return totCasesDetentionPlace;
+    }
+
+    public void setTotCasesDetentionPlace(Long totCasesDetentionPlace) {
+        this.totCasesDetentionPlace = totCasesDetentionPlace;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 }

@@ -148,7 +148,9 @@
                                                                     ng-model="m.district"
                                                                     ng-options="di.name for di in lstDistrict"
                                                                     ng-init='lstDistrict= ${lstDistrict};'></select>
-                                                            <input type="hidden" name="districtId" value="{{m.district.id}}" ng-disabled="byDistrict!=true"/>
+                                                            <input type="hidden" name="districtId"
+                                                                   value="{{m.district.id}}"
+                                                                   ng-disabled="byDistrict!=true"/>
                                                         </div>
                                                         <br/>
                                                     </div>
@@ -197,7 +199,6 @@
                                                                         ng-disabled="opts['countDetPlace']!=true"
                                                                         ng-model="m.municipality"
                                                                         ng-options="mu.name for mu in lstMun"
-                                                                        ng-init='lstMun= ${lstMun};'
                                                                         ng-change="getLoc();"></select>
                                                             </div>
                                                         </div>
@@ -210,7 +211,9 @@
                                                                         ng-model="m.location"
                                                                         ng-options="l.name for l in lstLocation">
                                                                 </select>
-                                                                <input type="hidden" name="locationId" value="{{m.location.id}}" ng-disabled="opts['countDetPlace']!=true"/>
+                                                                <input type="hidden" name="locationId"
+                                                                       value="{{m.location.id}}"
+                                                                       ng-disabled="opts['countDetPlace']!=true"/>
                                                             </div>
                                                         </div>
                                                     </div>

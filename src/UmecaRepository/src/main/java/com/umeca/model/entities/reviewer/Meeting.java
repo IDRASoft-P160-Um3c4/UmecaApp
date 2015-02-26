@@ -100,6 +100,9 @@ public class Meeting {
     @Column(name="date_terminate")
     private Date dateTerminate;
 
+    @Column(name="date_terminate_legal")
+    private Date dateTerminateLegal;
+
     public Long getId() {
         return id;
     }
@@ -332,5 +335,13 @@ public class Meeting {
           result.add("Debe agregar al menos una sustancia que consume el imputado. (En caso de no consumir sustancias seleccione otro y especifique ninguna)");
           t.getGroupMessage().add(new GroupMessageMeetingDto("drug",result));
         }
+    }
+
+    public Date getDateTerminateLegal() {
+        return dateTerminateLegal;
+    }
+
+    public void setDateTerminateLegal(Date dateTerminateLegal) {
+        this.dateTerminateLegal = dateTerminateLegal;
     }
 }

@@ -24,7 +24,7 @@ public class CriminalProceedingView {
 
     private String listCrime;
 
-    private Boolean  haveCoDependant;
+    private Boolean haveCoDependant;
 
     private String listCoDefendant;
 
@@ -55,6 +55,8 @@ public class CriminalProceedingView {
     private String specificationOpenProcess;
 
     private String additionalInfo;
+
+    private Long locationId;
 
     public Long getIdCase() {
 
@@ -199,5 +201,13 @@ public class CriminalProceedingView {
 
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
+    }
+
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
     }
 }
