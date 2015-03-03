@@ -273,6 +273,12 @@ public class InsertCatalogController {
         return  "closeCause";
     }
 
+    @RequestMapping(value="/catalogs/priority", method = RequestMethod.GET)
+    public String priority(){
+        service.priority();
+        return  "priority";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -316,6 +322,7 @@ public class InsertCatalogController {
         service.immigrationDocument();
         service.closeCause();
         service.district();
+        service.priority();
         return "insertCatalog OK!!";
     }
 }
