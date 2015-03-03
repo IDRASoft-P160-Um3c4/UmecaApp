@@ -133,14 +133,6 @@ public class FramingMeetingController {
         );
         opts.extraFilters.add(extraFilter);
 
-        opts.extraFilters = new ArrayList<>();
-        JqGridRulesModel extraFilterA = new JqGridRulesModel("finishHF",
-                new ArrayList<String>() {{
-                    add(Boolean.TRUE.toString());
-                }}, JqGridFilterModel.COMPARE_EQUAL
-        );
-        opts.extraFilters.add(extraFilterA);
-
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
 
             @Override
@@ -148,6 +140,7 @@ public class FramingMeetingController {
 
                 final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
+                final javax.persistence.criteria.Join<Case, HearingFormat> joinHF = r.join("hearingFormats", JoinType.INNER);
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -159,10 +152,6 @@ public class FramingMeetingController {
                     add(joinM.get("lastNameM"));
                     add(joinM.get("birthDate"));
                 }};
-
-//                Long id, String codeStatus, String descStatus, String idMP, String name, String lastNameP, String lastNameM, Date
-//                brthDate,
-//                        Long idTR, Long framingMeetingId)
             }
 
             @Override
@@ -173,8 +162,8 @@ public class FramingMeetingController {
                 if (field.equals("statusName"))
                     return r.join("status").get("name");
 
-                if (field.equals("finishHF"))
-                    return r.join("hearingFormats").get("isFinished");
+//                if (field.equals("finishHF"))
+//                    return r.join("hearingFormats").get("isFinished");
 
                 return null;
             }

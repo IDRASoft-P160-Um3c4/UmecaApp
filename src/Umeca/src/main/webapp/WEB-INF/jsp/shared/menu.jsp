@@ -268,8 +268,9 @@
                                 <li><a href="<c:url value='/supervisorManager/report/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a>
                                 </li>
-                                <li><a href="<c:url value='/supervisorManager/report/jasperTest.html' />"><i
-                                        class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Reportes por operador</a></li>
+                                <li><a href="<c:url value='/supervisorManager/report/reportChart.html' />"><i
+                                        class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Reportes con
+                                    gr&aacute;fico</a></li>
                             </ul>
                         </li>
 

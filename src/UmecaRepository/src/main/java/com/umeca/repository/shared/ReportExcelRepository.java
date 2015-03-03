@@ -4,6 +4,7 @@ import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.dto.CrimeDto;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisorManager.ManagerSupChartInfo;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -638,4 +639,97 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "and (S.status not in (:lstStatus)) " +
             "and (L.id_location =:locationId) and (D.id_district = :districtId)", nativeQuery = true)
     Object getCountCasesByDetentionPlaceDistrict(@Param("iDate") Date iDate, @Param("eDate") Date eDate, @Param("lstStatus") List<String> lstStatus, @Param("locationId") Long locationId, @Param("districtId") Long districtId);
+
+
+    //graficos
+    //obtener todos los supervisores con casos con plan de monitoreo en un distrito
+    @Query("select distinct(SUP.id),SUP.fullname from Case C " +
+            "inner join C.district D " +
+            "inner join C.monitoringPlan MP " +
+            "inner join MP.supervisor SUP " +
+            "where (SUP.enabled=true) and (D.id=:districtId)")
+    List<Object> getSupervisorsByDistrict(@Param("districtId") Long districtId);
+
+    @Query("select new com.umeca.model.entities.supervisorManager.ManagerSupChartInfo(U.id,U.fullname) from User U " +
+            "where (U.enabled=true) and (U.id =:userId)")
+    List<ManagerSupChartInfo> getSupervisorsById(@Param("userId") Long userId);
+
+    //obtener la cuenta de los planes de monitoreo registrados dentro del rango de fechas y que tienen resolucion MC o SCPP
+    @Query(value = "select count(MP.id_monitoring_plan) as CC,U.id_user from case_detention C " +
+            "inner join cat_status_case SC on C.id_status = SC.id_status " +
+            "inner join monitoring_plan MP on MP.id_case = C.id_case " +
+            "inner join user U on MP.id_user_supervisor = U.id_user " +
+            "where (U.enabled = true) " +
+            "and (MP.creation_time between :iDate and :eDate) " +
+            "and (MP.resolution= :resolutionId) " +
+            "and (SC.status not in (:lstStatus)) " +
+            "and (U.id_user in (:lstUsers)) " +
+            "group by U.id_user order by CC desc", nativeQuery = true)
+    List<Object> getCountCasesWithMonitoringPlanResolution(@Param("iDate") Date initDate, @Param("eDate") Date endDate,
+                                                           @Param("lstStatus") List<String> lstStatus, @Param("lstUsers") List<Long> lstUsers,
+                                                           @Param("resolutionId") Integer resolutionId);
+
+/*
+    //obtener supervisores de los planes de monitoreo registrados dentro del rango de fechas
+    @Query("select distinct(SUP.id) from Case C " +
+            "inner join C.status S " +
+            "inner join C.monitoringPlan MP " +
+            "inner join MP.supervisor SUP " +
+            "where (SUP.enabled=true) " +
+            "and (MP.creationTime between :iDate and :eDate) " +
+            "and (S.status not in (:lstStatus))")
+    List<Long> getMonitoringSupervisor(@Param("iDate") Date initDate, @Param("eDate") Date endDate, @Param("lstStatus") List<String> listStatus);
+
+    //obtener supervisores de los planes de monitoreo con reportes de incumplimiento registrados dentro del rango de fechas
+    @Query("select distinct(SUP.id) from FulfillmentReport FR " +
+            "inner join FR.fulfillmentReportType FRT " +
+            "inner join FR.monitoringPlan MP " +
+            "inner join MP.supervisor SUP " +
+            "inner join MP.caseDetention C " +
+            "inner join C.status S " +
+            "where (SUP.enabled=true) " +
+            "and (FR.timestamp between :iDate and :eDate) " +
+            "and (S.status not in (:lstStatus))")
+    List<Long> getFulfillmentSupervisor(@Param("iDate") Date initDate, @Param("eDate") Date endDate, @Param("lstStatus") List<String> listStatus);
+
+    //obtener supervisores de los casos que tengan cambio de resolucion dentro del rango de fechas
+    @Query("select distinct(SUP.id) from Case C " +
+            "inner join C.status S " +
+            "inner join C.monitoringPlan MP " +
+            "inner join MP.supervisor SUP " +
+            "where (SUP.enabled=true) " +
+            "and (C.dateChangeArrangementType between :iDate and :eDate) " +
+            "and (S.status not in (:lstStatus))")
+    List<Long> getSupervisorCaseWithChanges(@Param("iDate") Date initDate, @Param("eDate") Date endDate, @Param("lstStatus") List<String> listStatus);
+
+    //obtener supervisores de los casos que hayan sido cerrados dentro del rango de fechas
+    @Query("select distinct(SUP.id) from Case C " +
+            "inner join C.status S " +
+            "inner join C.monitoringPlan MP " +
+            "inner join MP.supervisor SUP " +
+            "where (SUP.enabled=true) " +
+            "and (C.closeDate between :iDate and :eDate) " +
+            "and (S.status in (:lstStatus))")
+    List<Long> getSupervisorClosedCases(@Param("iDate") Date initDate, @Param("eDate") Date endDate, @Param("lstStatus") List<String> listStatus);
+
+    //obtener supervisores de los casos con imputado sustraido dentro del rango de fechas
+    @Query("select distinct(SUP.id) from Case C " +
+            "inner join C.status S " +
+            "inner join C.monitoringPlan MP " +
+            "inner join MP.supervisor SUP " +
+            "where (SUP.enabled=true) " +
+            "and (C.dateSubstracted between :iDate and :eDate) " +
+            "and (S.status in (:lstStatus))")
+    List<Long> getSupervisorSubstractedCases(@Param("iDate") Date initDate, @Param("eDate") Date endDate, @Param("lstStatus") List<String> listStatus);
+
+    //obtener supervisores de los casos con imputado sustraido dentro del rango de fechas
+    @Query("select distinct(SUP.id) from Case C " +
+            "inner join C.status S " +
+            "inner join C.monitoringPlan MP " +
+            "inner join MP.supervisor SUP " +
+            "where (SUP.enabled=true) " +
+            "and (C.dateSubstracted between :iDate and :eDate) " +
+            "and (S.status in (:lstStatus))")
+    List<Long> getSupervisorSubstractedCases(@Param("iDate") Date initDate, @Param("eDate") Date endDate, @Param("lstStatus") List<String> listStatus);
+*/
 }
