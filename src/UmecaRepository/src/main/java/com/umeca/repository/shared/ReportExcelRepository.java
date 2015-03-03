@@ -669,17 +669,23 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
                                                            @Param("lstStatus") List<String> lstStatus, @Param("lstUsers") List<Long> lstUsers,
                                                            @Param("resolutionId") Integer resolutionId);
 
-/*
-    //obtener supervisores de los planes de monitoreo registrados dentro del rango de fechas
-    @Query("select distinct(SUP.id) from Case C " +
-            "inner join C.status S " +
-            "inner join C.monitoringPlan MP " +
-            "inner join MP.supervisor SUP " +
-            "where (SUP.enabled=true) " +
-            "and (MP.creationTime between :iDate and :eDate) " +
-            "and (S.status not in (:lstStatus))")
-    List<Long> getMonitoringSupervisor(@Param("iDate") Date initDate, @Param("eDate") Date endDate, @Param("lstStatus") List<String> listStatus);
+    //obtener la cuenta de los casos con incumplimiento total o parcial registrado dentro del rango de fechas
+    @Query(value = "select count(distinct (MP.id_monitoring_plan)) as CC, U.id_user from case_detention C " +
+            "inner join cat_status_case SC on C.id_status = SC.id_status " +
+            "inner join monitoring_plan MP on MP.id_case = C.id_case " +
+            "inner join fulfillment_report FR on FR.id_monitoring_plan = MP.id_monitoring_plan " +
+            "inner join cat_fulfillment_report CFR on FR.id_fulfillment_report_type = CFR.id_fulfillment_report_type " +
+            "inner join user U on MP.id_user_supervisor = U.id_user " +
+            "where (SC.status not in (:lstStatus))  " +
+            "and (U.id_user in (:lstUsers)) " +
+            "and (FR.timestamp between :iDate and :eDate) " +
+            "and (CFR.code =:codeFR) " +
+            "and (MP.resolution = :resolutionMP)", nativeQuery = true)
+    List<Object> getCountCasesWithFulfillmentReport(@Param("iDate") Date initDate, @Param("eDate") Date endDate,
+                                                    @Param("lstStatus") List<String> listStatus, @Param("lstUSers") List<Long> lstUSers,
+                                                    @Param("codeFR") String codeFR, @Param("resolutionMP") Integer resolutionMP);
 
+/*
     //obtener supervisores de los planes de monitoreo con reportes de incumplimiento registrados dentro del rango de fechas
     @Query("select distinct(SUP.id) from FulfillmentReport FR " +
             "inner join FR.fulfillmentReportType FRT " +

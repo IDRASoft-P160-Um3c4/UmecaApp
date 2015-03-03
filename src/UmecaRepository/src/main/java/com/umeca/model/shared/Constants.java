@@ -193,4 +193,7 @@ public class Constants {
     public static final Long ID_CLOSE_CAUSE_DESIST = 3L;
     public static final Long ID_CLOSE_CAUSE_OTHER = 4L;
 
+    public static final String CODE_TOTAL_FULFILLMENT = "TOTAL_NON_FULFILLMENT";
+    public static final String CODE_PARTIAL_FULFILLMENT = "PARTIAL_NON_FULFILLMENT";
+
 }

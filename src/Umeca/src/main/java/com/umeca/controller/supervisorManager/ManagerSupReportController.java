@@ -368,15 +368,62 @@ public class ManagerSupReportController {
             add(Constants.CASE_STATUS_CLOSE_OTHER);
         }};
 
-        //verifico los indicadores a contar
 
         List<Object> lstTotal = new ArrayList<>();
 
-        if (params.getMcCases() != null && params.getMcCases().equals(true)) {
-            lstTotal = reportExcelRepository.getCountCasesWithMonitoringPlanResolution(params.getiDate(), params.geteDate(), closedStatus, lstIdsSup, HearingFormatConstants.HEARING_TYPE_MC);
-            setTotalInList("CASES_MC", lstTotal, list);
+        if (list.size() > 0) {
+            //casos en MC
+            if (params.getMcCases() != null && params.getMcCases().equals(true)) {
+                lstTotal = reportExcelRepository.getCountCasesWithMonitoringPlanResolution(params.getiDate(), params.geteDate(), closedStatus, lstIdsSup, HearingFormatConstants.HEARING_TYPE_MC);
+                setTotalInList("CASES_MC", lstTotal, list);
+            } else {
+                setTotalInList("CASES_MC", null, list);
+            }
+
+            //incumplimiento parcial MC
+            if (params.getPartialMC() != null && params.getPartialMC().equals(true)) {
+                lstTotal = reportExcelRepository.getCountCasesWithFulfillmentReport(params.getiDate(), params.geteDate(), closedStatus, lstIdsSup, Constants.CODE_PARTIAL_FULFILLMENT, HearingFormatConstants.HEARING_TYPE_MC);
+                setTotalInList("PARTIAL_MC", lstTotal, list);
+            } else {
+                setTotalInList("PARTIAL_MC", null, list);
+            }
+
+            //incumplimiento total MC
+            if (params.getTotalMC() != null && params.getTotalMC().equals(true)) {
+                lstTotal = reportExcelRepository.getCountCasesWithFulfillmentReport(params.getiDate(), params.geteDate(), closedStatus, lstIdsSup, Constants.CODE_TOTAL_FULFILLMENT, HearingFormatConstants.HEARING_TYPE_MC);
+                setTotalInList("TOTAL_MC", lstTotal, list);
+            } else {
+                setTotalInList("TOTAL_MC", null, list);
+            }
+
+            //casos SCPP
+            if (params.getScppCases() != null && params.getScppCases().equals(true)) {
+                lstTotal = reportExcelRepository.getCountCasesWithMonitoringPlanResolution(params.getiDate(), params.geteDate(), closedStatus, lstIdsSup, HearingFormatConstants.HEARING_TYPE_SCP);
+                setTotalInList("CASES_SCPP", lstTotal, list);
+            } else {
+                setTotalInList("CASES_SCPP", null, list);
+            }
+
+            //incumplimiento parcial SCPP
+            if (params.getPartialSCPP() != null && params.getPartialSCPP().equals(true)) {
+                lstTotal = reportExcelRepository.getCountCasesWithFulfillmentReport(params.getiDate(), params.geteDate(), closedStatus, lstIdsSup, Constants.CODE_PARTIAL_FULFILLMENT, HearingFormatConstants.HEARING_TYPE_SCP);
+                setTotalInList("PARTIAL_SCPP", lstTotal, list);
+            } else {
+                setTotalInList("PARTIAL_SCPP", null, list);
+            }
+
+            //incumplimiento total SCPP
+            if (params.getTotalSCPP() != null && params.getTotalSCPP().equals(true)) {
+                lstTotal = reportExcelRepository.getCountCasesWithFulfillmentReport(params.getiDate(), params.geteDate(), closedStatus, lstIdsSup, Constants.CODE_TOTAL_FULFILLMENT, HearingFormatConstants.HEARING_TYPE_SCP);
+                setTotalInList("TOTAL_SCPP", lstTotal, list);
+            } else {
+                setTotalInList("TOTAL_SCPP", null, list);
+            }
+
+            //TODO TERMINAR LOS REPORTES CON GRAFICO FALTANTES
+
         } else {
-            setTotalInList("CASES_MC", null, list);
+            list.add(new ManagerSupChartInfo(-1L, "Sin registros que coincidan"));
         }
 
         return list;
@@ -399,6 +446,41 @@ public class ManagerSupReportController {
                 } else {
                     for (ManagerSupChartInfo actSup : listInfo) {
                         actSup.setMcCases(0L);
+                    }
+                }
+                break;
+
+            case "PARTIAL_MC":
+                if (totals != null) {
+                    for (ManagerSupChartInfo actSup : listInfo) {
+                        for (Object act : totals) {
+                            Object[] aux = (Object[]) act;
+                            if (actSup.getUserId().equals(Long.parseLong(aux[1].toString()))) {
+                                actSup.setPartialMC(Long.parseLong(aux[0].toString()));
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    for (ManagerSupChartInfo actSup : listInfo) {
+                        actSup.setPartialMC(0L);
+                    }
+                }
+                break;
+            case "TOTAL_MC":
+                if (totals != null) {
+                    for (ManagerSupChartInfo actSup : listInfo) {
+                        for (Object act : totals) {
+                            Object[] aux = (Object[]) act;
+                            if (actSup.getUserId().equals(Long.parseLong(aux[1].toString()))) {
+                                actSup.setTotalMC(Long.parseLong(aux[0].toString()));
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    for (ManagerSupChartInfo actSup : listInfo) {
+                        actSup.setTotalMC(0L);
                     }
                 }
                 break;
@@ -446,7 +528,6 @@ public class ManagerSupReportController {
             e.printStackTrace();
         }
     }
-
 
 }
 
