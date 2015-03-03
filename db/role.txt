@@ -5,3 +5,4 @@
 4|ROLE_SUPERVISOR|Supervisor
 5|ROLE_SUPERVISOR_MANAGER|Coordinador de Supervisores
 6|ROLE_DIRECTOR|Director
+7|ROLE_HUMAN_RESOURCES|Recursos Humanos

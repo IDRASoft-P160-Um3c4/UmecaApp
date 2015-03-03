@@ -5,3 +5,8 @@ id|username|password|email|fullname|enabled|code role
 4|supervisor|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|supervisor@idrasoft.com.mx|Supervisor|true|ROLE_SUPERVISOR
 5|managersup|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|managersup@idrasoft.com.mx|Coordinador supervisor|true|ROLE_SUPERVISOR_MANAGER
 6|director|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|managersup@idrasoft.com.mx|Director|true|ROLE_DIRECTOR
+7|supervisorA|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|supervisor@idrasoft.com.mx|SuperA|true|ROLE_SUPERVISOR
+8|supervisorB|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|supervisor@idrasoft.com.mx|SuperB|true|ROLE_SUPERVISOR
+9|supervisorC|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|supervisor@idrasoft.com.mx|SuperC|true|ROLE_SUPERVISOR
+10|supervisorD|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|supervisor@idrasoft.com.mx|SuperD|true|ROLE_SUPERVISOR
+11|recursos|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|supervisor@idrasoft.com.mx|RecursosH|true|ROLE_HUMAN_RESOURCES
