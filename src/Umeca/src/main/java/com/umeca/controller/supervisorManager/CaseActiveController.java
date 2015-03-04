@@ -525,6 +525,7 @@ public class CaseActiveController {
             add(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE);
             add(Constants.CASE_STATUS_HEARING_FORMAT_END);
             add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+            add(Constants.CASE_STATUS_FRAMING_COMPLETE);
             add(Constants.CASE_STATUS_CLOSE_REQUEST);
             add(Constants.CASE_STATUS_CLOSED);
             add(Constants.CASE_STATUS_REQUEST_SUPERVISION);
