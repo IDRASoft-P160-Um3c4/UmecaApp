@@ -8,24 +8,18 @@
 
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
-        <div class="modal-dialog" style="width:500px" ng-controller="hearingFormatController">
+        <div class="modal-dialog" style="width:500px" ng-controller="upsertEmployeeController">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-info ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center"><i class="glyphicon glyphicon-comment "></i>&nbsp;&nbsp;Agregar caso
+                        <h4 class="element-center"><i class="glyphicon glyphicon-comment "></i>&nbsp;&nbsp;Registrar
+                            empleado
                         </h4>
                     </div>
                 </div>
                 <div class="modal-body">
                     <form id="FormCatId" name="FormCatId" class="form-horizontal" role="form">
-                        <br/>
-
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <label>Ingrese la informaci&oacute;n requerida para generar un nuevo caso.</label>
-                            </div>
-                        </div>
                         <br/>
 
                         <div class="row">
@@ -39,8 +33,6 @@
                                        data-val-length-max="50" data-val-length-min="3"
                                        id="name" name="name" ng-model="name"
                                        type="text"/>
-                            </div>
-                            <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="name"
                                       data-valmsg-replace="true"></span>
                             </div>
@@ -58,8 +50,6 @@
                                        data-val-required="El apellido paterno es un campo requerido"
                                        id="lastNameP" name="lastNameP"
                                        type="text" ng-model="lastNameP"/>
-                            </div>
-                            <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="lastNameP"
                                       data-valmsg-replace="true"></span>
                             </div>
@@ -75,22 +65,22 @@
                                 <input class="form-control" data-val="true"
                                        data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3"
-                                       data-val-required="El apellido parterno es un campo requerido"
+                                       data-val-required="El apellido marterno es un campo requerido"
                                        id="lastNameM" name="lastNameM"
                                        type="text" ng-model="lastNameM"/>
-                            </div>
-                            <div class="col-xs-9 col-xs-offset-3">
-                                <span class="field-validation-valid" data-valmsg-for="lastNameM"
-                                      data-valmsg-replace="true"></span>
+                                                                <span class="field-validation-valid"
+                                                                      data-valmsg-for="lastNameM"
+                                                                      data-valmsg-replace="true"></span>
+
                             </div>
                         </div>
                         <br/>
 
                         <div class="row">
-                            <div class="col-xs-5 element-left">
+                            <div class="col-xs-4 element-left">
                                 Fecha de nacimiento:
                             </div>
-                            <div class="col-xs-7">
+                            <div class="col-xs-8">
                                 <div class="input-group">
                                     <input class="form-control date-picker" readonly="readonly" type="text"
                                            data-date-format="yyyy/mm/dd"
@@ -101,8 +91,6 @@
 														<i class="icon-calendar bigger-110"></i>
 											</span>
                                 </div>
-                            </div>
-                            <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="birthDate"
                                       data-valmsg-replace="true"></span>
                             </div>
@@ -119,7 +107,7 @@
                                         <div class="radio">
                                             <label>
                                                 <input class="ace" type="radio" ng-checked="gen==true" name="gender"
-                                                       data-val-required="El g?nero es un campo requerido" id="genero"
+                                                       data-val-required="El g&eacute;nero es un campo requerido"
                                                        value="true"
                                                        ng-model="gen">
                                                 <span class="lbl">Femenino</span>
@@ -143,57 +131,40 @@
                         <br/>
 
                         <div class="row">
-                            <div class="col-xs-5 element-left">
-                                Carpeta judicial:
+                            <div class="col-xs-4 element-left">
+                                Distrito:
                             </div>
-                            <div class="col-xs-7">
-                                <input class="form-control" type="text"
-                                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 15 caracteres"
-                                       data-val-length-max="15" data-val-length-min="1"
-                                       data-val="true" data-val-required="Carpeta judicial es un campo requerido"
-                                       id="idJudicial" name="idJudicial" ng-model="m.idJudicial"/>
-                            </div>
-                            <div class="col-xs-9 col-xs-offset-3">
-                                <span class="field-validation-valid" data-valmsg-for="idJudicial"
-                                      data-valmsg-replace="true"></span>
+                            <div class="col-xs-8">
+                                <select class="form-control element-center"
+                                        ng-model="m.district"
+                                        ng-options="e.name for e in lstDistrict"
+                                        ng-init='lstDistrict = ${lstDistrict};'></select>
+                                <input type="hidden" name="districtId" value="{{m.district.id}}"/>
                             </div>
                         </div>
                         <br/>
-                    </form>
-                    <br/>
 
-                    <div class="row element-center" ng-show="showLabels=='true'">
-                        <div class="col-xs-6 col-xs-12 pricing-box ">
-                            <div class="widget-box">
-                                <div class="widget-header header-color-red">
+                        <div class="row">
+                            <div class="col-xs-4 element-left">
+                                Puesto:
+                            </div>
+                            <div class="col-xs-8">
+                                <input class="form-control" data-val="true"
+                                       data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
+                                       data-val-length-max="50" data-val-length-min="3"
+                                       data-val-required="El puesto es un campo requerido"
+                                       id="post" name="post"
+                                       type="text" ng-model="post"/>
+                                                                <span class="field-validation-valid"
+                                                                      data-valmsg-for="post"
+                                                                      data-valmsg-replace="true"></span>
 
-                                    <h5 class="bigger lighter"><i
-                                            class="icon-warning-sign icon-animated-wrench bigger-120"></i>&nbsp;
-                                        El imputado ya se encuentra registrado en la <strong>UMECA</strong></h5>
-                                </div>
-
-                                <div class="widget-body">
-                                    <div class="widget-main">
-                                        <ul class="list-unstyled spaced2">
-                                            <li>
-                                                <i class="icon-circle-blank green"></i>
-                                                Carpeta de investiaci&oacute;n : <strong>{{folderShow}}</strong>
-                                                <br/>
-                                                <i class="icon-circle-blank green"></i>
-                                                Carpeta judicial : <strong>{{mpShow}}</strong>
-                                            </li>
-                                            <li class="text-danger">
-                                                <i class="icon-warning-sign icon-animated-wrench bigger-120"></i>
-                                                Debe registrar la audiencia de revocaci&oacute;n y seleccionar la
-                                                obligaci&oacute;n
-                                                prisi&oacute;n preventiva.
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                    </div>
+                        <br/>
+
+                    </form>
+                    <br/>
 
                     <div class="row">
                         <div class="col-xs-12">
@@ -208,14 +179,8 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-show="showLabels!='true'"
-                          ng-click="submitNewCase('#FormCatId','<c:url value="/supervisor/hearingFormat/doNewCase.json"/>');">
+                          ng-click="submitUpsertEmployee('#FormCatId','<c:url value="/humanResources/employees/doUpsertEmployee.json"/>');">
                           Guardar
-                    </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-show="showLabels=='true'"
-                          ng-click="goToFormatsCase('<c:url value="/supervisor/hearingFormat/indexFormats.html"/>');">
-                          Registrar formato de audiencia
                     </span>
                 </div>
             </div>

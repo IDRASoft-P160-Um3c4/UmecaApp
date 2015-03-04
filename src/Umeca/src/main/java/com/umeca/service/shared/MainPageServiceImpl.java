@@ -73,6 +73,9 @@ public class MainPageServiceImpl implements MainPageService {
             case Constants.ROLE_EVALUATION_MANAGER:
                 constructEvaluationManagerPage(model);
                 return model;
+            case Constants.ROLE_HUMAN_RESOURCES:
+                constructHumanResourcesPage(model);
+                return model;
 
             default:
                 return model;
@@ -287,4 +290,10 @@ public class MainPageServiceImpl implements MainPageService {
         model.addObject("lstNotification", sLstGeneric);
         model.addObject("urlToGo", "/supervisor/log/deleteComment.json");
     }
+
+    private void constructHumanResourcesPage(ModelAndView model) {
+
+
+    }
+
 }
