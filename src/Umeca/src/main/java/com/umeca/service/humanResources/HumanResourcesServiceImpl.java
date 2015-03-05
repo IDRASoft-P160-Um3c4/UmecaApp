@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service("humanResourcesService")
 public class HumanResourcesServiceImpl implements HumanResourcesService {
 
@@ -15,7 +17,7 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
     private EmployeeRepository employeeRepository;
 
     @Transactional
-    public ResponseMessage saveEmployee(EmployeeDto employeeDto) {
+    public ResponseMessage saveEmployee(EmployeeDto employeeDto, HttpServletRequest request) {
         ResponseMessage resp = new ResponseMessage();
         Long count = employeeRepository.findExistEmployee(employeeDto.getName(), employeeDto.getLastNameP(), employeeDto.getLastNameM(), employeeDto.getBirthDate());
         if (count > 0) {
@@ -28,9 +30,9 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
 
         employeeRepository.save(newEmp);
         employeeRepository.flush();
-
         resp.setHasError(false);
         resp.setMessage("El empleado ha sido registrado.");
+        resp.setUrlToGo(request.getContextPath() + "/humanResources/digitalRecord/index.html");//"?id="+newEmp.getId());TODO DESCOMENTAR
 
         return resp;
     }

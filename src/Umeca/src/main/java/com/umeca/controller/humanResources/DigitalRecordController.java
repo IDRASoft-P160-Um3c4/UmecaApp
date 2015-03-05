@@ -23,11 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class EmployeeController {
+public class DigitalRecordController {
 
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
@@ -86,11 +87,11 @@ public class EmployeeController {
     @RequestMapping(value = "/humanResources/employees/doUpsertEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doUpsertEmployee(@ModelAttribute EmployeeDto employeeDto) {
+    ResponseMessage doUpsertEmployee(@ModelAttribute EmployeeDto employeeDto, HttpServletRequest request) {
 
         ResponseMessage response = new ResponseMessage();
         try {
-            response = humanResourcesService.saveEmployee(employeeDto);
+            response = humanResourcesService.saveEmployee(employeeDto, request);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertEmployee", sharedUserService);
             response.setHasError(true);
@@ -101,17 +102,17 @@ public class EmployeeController {
     }
 
 
-    @RequestMapping(value = "/humanResources/employees/personalData", method = RequestMethod.POST)
-    public ModelAndView employeePersonalData() {
-        ModelAndView model = new ModelAndView("/humanResources/employees/upsert");
-        model.addObject("lstDistrict", new Gson().toJson(districtRepository.findNoObsolete()));
+    @RequestMapping(value = "/humanResources/digitalRecord/index", method = RequestMethod.GET)
+    public ModelAndView digitalRecordIndex() {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/index");
+
         return model;
     }
 
-    @RequestMapping(value = "/humanResources/employees/doUpsertEmployee", method = RequestMethod.POST)
+    @RequestMapping(value = "/humanResources/employees/doUpsertGeneralData", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doUpsertPersonalData(@ModelAttribute EmployeeDto employeeDto) {
+    ResponseMessage doUpsertGeneralData(@ModelAttribute EmployeeDto employeeDto) {
 
         ResponseMessage response = new ResponseMessage();
         try {

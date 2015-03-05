@@ -34,11 +34,15 @@ app.controller('upsertEmployeeController', function ($scope, $timeout, $sce, $ht
 
             if (resp.hasError == true) {
                 $scope.MsgError = $sce.trustAsHtml(resp.message);
+                $scope.$apply();
+            } else {
+                window.goToUrlMvcUrl(resp.urlToGo);
             }
         } catch (e) {
             $scope.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente m&aacute;s tarde.");
+            $scope.$apply();
         }
-        $scope.$apply();
+
     };
 
     $scope.handleErrorEmployee = function () {
