@@ -1,6 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <script>
     var date = new Date();
     date.setFullYear(date.getFullYear() - 18);
@@ -14,6 +13,7 @@
 </script>
 
 <div class="row" ng-controller="employeeGeneralDataController">
+    {{gd.name + gd.lastNameP + gd.lastNameM}}
     <div class="blocker" ng-show="WaitFor==true">
         <div>
             Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
@@ -338,6 +338,16 @@
                                 </div>
                             </div>
                             <br/>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="widget-box">
+                        <div class="widget-header">Direcci&oacute;n</div>
+                        <div class="widget-body">
+                            <div class="row" style="padding: 5%">
+                                <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
+                            </div>
                         </div>
                     </div>
 

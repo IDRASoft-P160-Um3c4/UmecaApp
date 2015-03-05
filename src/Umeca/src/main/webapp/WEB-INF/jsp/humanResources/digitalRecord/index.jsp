@@ -20,10 +20,34 @@
     </script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/generalData/employeeGeneralDataCtrl.js"/>
 
+
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
           type="text/css">
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/colorbox.css"/>
     <script src="${pageContext.request.contextPath}/assets/scripts/jquery.colorbox-min.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upload/uploadFileCtrl.js"></script>
+
+    <style>
+        .containerPhoto {
+            position: relative;
+            text-align: center;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+
+    <script>
+        uploadPhoto = function () {
+            <%--var id = ${idCase};--%>
+            window.showUpsert(id, "#divPhoto", '<c:url value='/shared/uploadFile/uploadFile.html?type=PHOTO' />', undefined, undefined);
+
+        };
+    </script>
 
     <title>Expediente electr&oacute;nico</title>
 </head>
@@ -37,11 +61,51 @@
             Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
         </div>
     </div>
+    <br/>
 
     <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Expediente electr&oacute;nico
     </h2>
 
-    <br/>
+    <div class="row">
+
+        <div class="col-xs-5 col-xs-offset-1" style="padding-top: 3%;" ng-controller="employeeGeneralDataController">
+            <h3 class="header smaller lighter blue">
+                <small>Nombre del imputado:</small>
+                &nbsp;{{gd.name + gd.lastNameP + gd.LastNameM}}
+            </h3>
+        </div>
+
+        <div class="col-xs-1 col-xs-offset-4">
+            <div class="row-fluid">
+                <ul class="ace-thumbnails">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
+                           data-rel="colorbox" id="idLinkPhotoImputed">
+                            <img src="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
+                                 id="photoImputed" class="containerPhoto"/>
+                        </a>
+
+                        <div class="tools tools-right">
+                            <a href="#" onclick="uploadPhoto()" title="Cambiar foto">
+                                <i class="icon-pencil"></i>
+                            </a>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" style="padding: 1%;">
+        <div class="col-xs-10 col-xs-offset-1 element-right">
+            <br/>
+                    <span class="btn btn-default btn-sm" ng-click="returnFM();">
+                        Regresar
+                    </span>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-sm-10 col-xs-offset-1">
@@ -151,44 +215,47 @@
                 <div class="tab-content">
                     <div id="generalData" class="tab-pane  in active">
                         <%@ include
-                        file="/WEB-INF/jsp/humanResources/digitalRecord/generalData/employeeGeneralData.jsp" %>
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/generalData/employeeGeneralData.jsp" %>
                     </div>
 
                     <div id="job" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/supervisor/framingMeeting/framingAddress/_framingAddress.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/job/job.jsp" %>
                     </div>
 
                     <div id="school" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/supervisor/framingMeeting/housemate/_framingHousemate.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>
                     </div>
 
                     <div id="references" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/supervisor/framingMeeting/references/_framingReferences.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>
                     </div>
 
                     <div id="jobUmeca" class="tab-pane">
-                        <%--<%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/victim/_framingVictim.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>
                     </div>
 
                     <div id="vacations" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/supervisor/framingMeeting/school/_school.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/vacations/vacations.jsp" %>
                     </div>
                     <div id="overtime" class="tab-pane">
+                        GRAFICA!!!
                         <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/supervisor/framingMeeting/job/_framingJob.jsp" %>--%>
+                        <%--file="/WEB-INF/jsp/supervisor/framingMeeting/job/school.jsp" %>--%>
                     </div>
 
                     <div id="incapacity" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/supervisor/framingMeeting/activities/_framingActivities.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>
                     </div>
 
                     <div id="documents" class="tab-pane">
-                        <%--<%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/drugs/_drugs.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>
                     </div>
 
                 </div>

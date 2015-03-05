@@ -8,6 +8,7 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.humanResources.EmployeeDto;
 import com.umeca.model.entities.humanReources.Employee;
+import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.humanResources.HumanResourcesService;
@@ -40,6 +41,8 @@ public class DigitalRecordController {
     private DistrictRepository districtRepository;
     @Autowired
     private HumanResourcesService humanResourcesService;
+    @Autowired
+    private StateRepository stateRepository;
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -105,7 +108,8 @@ public class DigitalRecordController {
     @RequestMapping(value = "/humanResources/digitalRecord/index", method = RequestMethod.GET)
     public ModelAndView digitalRecordIndex() {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/index");
-
+        Gson gson = new Gson();
+        model.addObject("listState",gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
         return model;
     }
 

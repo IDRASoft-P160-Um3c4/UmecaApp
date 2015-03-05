@@ -1,5 +1,5 @@
 app.controller('employeeGeneralDataController', function ($scope, $timeout, $sce, $http) {
-    $scope.m = {};
+    $scope.gd = {};
     $scope.WaitFor = false;
     $scope.MsgError;
 

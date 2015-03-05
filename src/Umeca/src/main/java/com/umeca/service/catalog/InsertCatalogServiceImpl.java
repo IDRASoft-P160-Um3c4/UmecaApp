@@ -33,11 +33,118 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
-    //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
-    //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
     @Autowired
     RoleRepository repositoryRole;
+    @Autowired
+    UserRepository repositoryUser;
+    @Autowired
+    QuestionTypeRepository repositoryQuTy;
+    @Autowired
+    QuestionaryRepository repositoryQuy;
+    @Autowired
+    QuestionarySectionRepository repositoryQuSe;
+    @Autowired
+    QuestionRepository repositoryQun;
+    @Autowired
+    ActivityRepository activityRepository;
+    @Autowired
+    StatusMeetingRepository statusMeetingRepository;
+    @Autowired
+    StatusCaseRepository repositoryStCase;
+    @Autowired
+    SupervisionActivityRepository supervisionActivityRepository;
+    @Autowired
+    ActivityGoalRepository activityGoalRepository;
+    @Autowired
+    ActivityGroupRepository activityGroupRepository;
+    @Autowired
+    AidSourceRepository aidSourceRepository;
+    @Autowired
+    StatusVerificationRepository repositoryStVer;
+    @Autowired
+    ArrangementRepository repositoryArr;
+    @Autowired
+    MaritalStatusRepository maritalStatusRepository;
+    @Autowired
+    ElectionRepository electionRepository;
+    @Autowired
+    RelationshipRepository relationshipRepository;
+    @Autowired
+    DocumentTypeRepository documentTypeRepository;
+    @Autowired
+    DrugTypeRepository drugTypeRepository;
+    @Autowired
+    PeriodicityRepository periodicityRepository;
+    @Autowired
+    DayWeekRepository dayWeekRepository;
+    @Autowired
+    AcademicLevelRepository academicLevelRepository;
+    @Autowired
+    DegreeRepository degreeRepository;
+    @Autowired
+    RegisterTypeRepository registerTypeRepository;
+    /* CATALOGO DE TIPO DE AUDIENCIA (FORMATO DE AUDIENCIA) NO APLICA PARA ESTA VERSIÓN
+        @Autowired
+        HearingFormatTypeRepository hearingFormatTypeRepository;
+        @Override
+        public void hearingFormatType() {
+            List<String[]> lstDta = ReaderFile.readFile(PATH + "hearing_format_type.txt","\\|", 4);
+
+            for (String[] data : lstDta) {
+                HearingFormatType model = new HearingFormatType();
+                model.setId(Long.parseLong(data[0]));
+                model.setName(data[1]);
+                model.setDescription(data[2]);
+                model.setIsObsolete(data[3].equals("1"));
+                hearingFormatTypeRepository.save(model);
+            }
+
+            hearingFormatTypeRepository.flush();
+        }
+    */
+    @Autowired
+    FramingRiskRepository framingRiskRepository;
+    @Autowired
+    HomeTypeRepository homeTypeRepository;
+    @Autowired
+    FramingThreatRepository framingThreatRepository;
+    @Autowired
+    FieldVerificationRepository fieldVerificationRepository;
+    @Autowired
+    StatusFieldVerificationRepository statusFieldVerificationRepository;
+    @Autowired
+    VerificationMethodRepository verificationMethodRepository;
+    @Autowired
+    RequestTypeRepository requestTypeRepository;
+    @Autowired
+    SystemSettingRepository systemSettingRepository;
+    @Autowired
+    CatFileTypeRepository fileTypeRepository;
+    @Autowired
+    ResponseTypeRepository responseTypeRepository;
+    @Autowired
+    FulfillmentReportTypeRepository fulfillmentReportTypeRepository;
+    @Autowired
+    ElectionNotApplyRepository electionNotApplyRepository;
+    @Autowired
+    GroupCrimeRepository groupCrimeRepository;
+    @Autowired
+    CrimeCatalogRepository crimeCatalogRepository;
+    @Autowired
+    TypeNameFileRepository typeNameFileRepository;
+    @Autowired
+    PriorityRepository priorityRepository;
+    @Autowired
+    DistrictRepository districtRepository;
+    @Autowired
+    CloseCauseRepository closeCauseRepository;
+    @Autowired
+    ImmigrationDocumentRepository immigrationDocumentRepository;
+    @Autowired
+    HearingTypeRepository hearingTypeRepository;
+    //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
+    //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
+    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
     @Override
     public void role() {
@@ -53,10 +160,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
         repositoryRole.flush();
     }
-
-
-    @Autowired
-    UserRepository repositoryUser;
 
     @Override
     public void user() {
@@ -80,9 +183,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         repositoryUser.flush();
     }
 
-    @Autowired
-    QuestionTypeRepository repositoryQuTy;
-
     @Override
     public void questionType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "question_type.txt", "\\|", 4);
@@ -96,9 +196,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         repositoryQuTy.flush();
     }
-
-    @Autowired
-    QuestionaryRepository repositoryQuy;
 
     @Override
     public void questionary() {
@@ -114,10 +211,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         repositoryQuy.flush();
     }
-
-
-    @Autowired
-    QuestionarySectionRepository repositoryQuSe;
 
     @Override
     public void questionarySection() {
@@ -149,10 +242,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         repositoryQuSe.flush();
     }
 
-
-    @Autowired
-    QuestionRepository repositoryQun;
-
     @Override
     public void question() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "question.txt", "\\|", 7);
@@ -182,9 +271,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         repositoryQun.flush();
     }
 
-    @Autowired
-    ActivityRepository activityRepository;
-
     @Override
     public void activity() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "activity.txt", "\\|", 4);
@@ -202,9 +288,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     }
 
-    @Autowired
-    StatusMeetingRepository statusMeetingRepository;
-
     @Override
     public void statusMeeting() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "status_meeting.txt", "\\|", 3);
@@ -217,9 +300,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         statusMeetingRepository.flush();
     }
-
-    @Autowired
-    StatusCaseRepository repositoryStCase;
 
     @Override
     public void statusCase() {
@@ -249,17 +329,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         supervisionActivityRepository.flush();
     }
 
-
-    @Autowired
-    SupervisionActivityRepository supervisionActivityRepository;
-
-
-    @Autowired
-    ActivityGoalRepository activityGoalRepository;
-    @Autowired
-    ActivityGroupRepository activityGroupRepository;
-
-
     @Override
     public void insertActivityGoal() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "activity_group.txt", "\\|", 3);
@@ -285,9 +354,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         activityGoalRepository.flush();
     }
 
-    @Autowired
-    AidSourceRepository aidSourceRepository;
-
     @Override
     public void insertAidSource() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "aid_source.txt", "\\|", 4);
@@ -302,9 +368,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         aidSourceRepository.flush();
     }
 
-    @Autowired
-    StatusVerificationRepository repositoryStVer;
-
     @Override
     public void statusVerification() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "status_verification.txt", "\\|", 3);
@@ -317,9 +380,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         repositoryStVer.flush();
     }
-
-    @Autowired
-    ArrangementRepository repositoryArr;
 
     @Override
     public void arrangement() {
@@ -339,9 +399,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         repositoryArr.flush();
     }
 
-    @Autowired
-    MaritalStatusRepository maritalStatusRepository;
-
     @Override
     public void maritalStatus() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "marital_status.txt", "\\|", 2);
@@ -357,9 +414,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         maritalStatusRepository.flush();
     }
 
-    @Autowired
-    ElectionRepository electionRepository;
-
     @Override
     public void election() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "election.txt", "\\|", 2);
@@ -372,10 +426,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         electionRepository.flush();
     }
-
-
-    @Autowired
-    RelationshipRepository relationshipRepository;
 
     @Override
     public void relationship() {
@@ -390,9 +440,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         relationshipRepository.flush();
     }
-
-    @Autowired
-    DocumentTypeRepository documentTypeRepository;
 
     @Override
     public void documentType() {
@@ -409,9 +456,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         documentTypeRepository.flush();
     }
 
-    @Autowired
-    DrugTypeRepository drugTypeRepository;
-
     @Override
     public void drugType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "drug_type.txt", "\\|", 4);
@@ -426,9 +470,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         drugTypeRepository.flush();
 
     }
-
-    @Autowired
-    PeriodicityRepository periodicityRepository;
 
     @Override
     public void periodicity() {
@@ -445,9 +486,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         periodicityRepository.flush();
     }
 
-    @Autowired
-    DayWeekRepository dayWeekRepository;
-
     @Override
     public void dayWeek() {
 
@@ -461,12 +499,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         dayWeekRepository.flush();
     }
-
-    @Autowired
-    AcademicLevelRepository academicLevelRepository;
-
-    @Autowired
-    DegreeRepository degreeRepository;
 
     @Override
     public void academicDegree() {
@@ -490,9 +522,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         academicLevelRepository.flush();
     }
 
-    @Autowired
-    RegisterTypeRepository registerTypeRepository;
-
     @Override
     public void registerType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "register_type.txt", "\\|", 2);
@@ -504,28 +533,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         registerTypeRepository.flush();
     }
-
-    /* CATALOGO DE TIPO DE AUDIENCIA (FORMATO DE AUDIENCIA) NO APLICA PARA ESTA VERSIÓN
-        @Autowired
-        HearingFormatTypeRepository hearingFormatTypeRepository;
-        @Override
-        public void hearingFormatType() {
-            List<String[]> lstDta = ReaderFile.readFile(PATH + "hearing_format_type.txt","\\|", 4);
-
-            for (String[] data : lstDta) {
-                HearingFormatType model = new HearingFormatType();
-                model.setId(Long.parseLong(data[0]));
-                model.setName(data[1]);
-                model.setDescription(data[2]);
-                model.setIsObsolete(data[3].equals("1"));
-                hearingFormatTypeRepository.save(model);
-            }
-
-            hearingFormatTypeRepository.flush();
-        }
-    */
-    @Autowired
-    FramingRiskRepository framingRiskRepository;
 
     @Override
     public void framingRisk() {
@@ -543,9 +550,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         framingRiskRepository.flush();
     }
 
-    @Autowired
-    HomeTypeRepository homeTypeRepository;
-
     @Override
     public void homeType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "home_type.txt", "\\|", 4);
@@ -562,9 +566,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         homeTypeRepository.flush();
     }
 
-    @Autowired
-    FramingThreatRepository framingThreatRepository;
-
     @Override
     public void framingThreat() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "framing_threat.txt", "\\|", 4);
@@ -580,9 +581,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         framingThreatRepository.flush();
     }
-
-    @Autowired
-    FieldVerificationRepository fieldVerificationRepository;
 
     @Override
     public void fieldVerification() {
@@ -603,9 +601,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         fieldVerificationRepository.flush();
     }
 
-    @Autowired
-    StatusFieldVerificationRepository statusFieldVerificationRepository;
-
     @Override
     public void statusFieldVerification() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "status_field_verification.txt", "\\|", 3);
@@ -618,9 +613,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         statusFieldVerificationRepository.flush();
     }
-
-    @Autowired
-    VerificationMethodRepository verificationMethodRepository;
 
     @Override
     public void verificationMethod() {
@@ -635,9 +627,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         verificationMethodRepository.flush();
     }
 
-    @Autowired
-    RequestTypeRepository requestTypeRepository;
-
     @Override
     public void requestType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "request_type.txt", "\\|", 4);
@@ -651,10 +640,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         requestTypeRepository.flush();
     }
-
-
-    @Autowired
-    SystemSettingRepository systemSettingRepository;
 
     @Override
     public void systemSettings() {
@@ -671,10 +656,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         systemSettingRepository.flush();
     }
 
-
-    @Autowired
-    CatFileTypeRepository fileTypeRepository;
-
     @Override
     public void fileType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "file_type.txt", "\\|", 4);
@@ -689,10 +670,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         fileTypeRepository.flush();
     }
 
-
-    @Autowired
-    ResponseTypeRepository responseTypeRepository;
-
     @Override
     public void responseType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "response_type.txt", "\\|", 3);
@@ -705,9 +682,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         responseTypeRepository.flush();
     }
-
-    @Autowired
-    FulfillmentReportTypeRepository fulfillmentReportTypeRepository;
 
     @Override
     public void fulfillmentReport() {
@@ -723,9 +697,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         fulfillmentReportTypeRepository.flush();
     }
 
-    @Autowired
-    ElectionNotApplyRepository electionNotApplyRepository;
-
     @Override
     public void electionNotApply() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "election_not_apply.txt", "\\|", 2);
@@ -737,12 +708,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         electionNotApplyRepository.flush();
     }
-
-    @Autowired
-    GroupCrimeRepository groupCrimeRepository;
-
-    @Autowired
-    CrimeCatalogRepository crimeCatalogRepository;
 
     @Override
     public void crime() {
@@ -767,9 +732,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
     }
 
-    @Autowired
-    TypeNameFileRepository typeNameFileRepository;
-
     @Override
     public void typeFileName() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "type_file_name.txt", "\\|", 6);
@@ -790,9 +752,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         typeNameFileRepository.flush();
     }
 
-    @Autowired
-    PriorityRepository priorityRepository;
-
     @Override
     public void priority() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "priority.txt", "\\|", 5);
@@ -808,9 +767,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         priorityRepository.flush();
     }
 
-    @Autowired
-    DistrictRepository districtRepository;
-
     @Override
     public void district() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "district.txt", "\\|", 3);
@@ -823,9 +779,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         districtRepository.flush();
     }
-
-    @Autowired
-    CloseCauseRepository closeCauseRepository;
 
     @Override
     public void closeCause() {
@@ -840,9 +793,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         closeCauseRepository.flush();
     }
 
-    @Autowired
-    ImmigrationDocumentRepository immigrationDocumentRepository;
-
     @Override
     public void immigrationDocument() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "immigrationDocument.txt", "\\|", 4);
@@ -856,10 +806,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         immigrationDocumentRepository.flush();
     }
-
-
-    @Autowired
-    HearingTypeRepository hearingTypeRepository;
 
     @Override
     public void hearingType() {
