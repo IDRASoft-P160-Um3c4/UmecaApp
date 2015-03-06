@@ -33,6 +33,9 @@ app.controller('employeeGeneralDataController', function ($scope, $timeout, $sce
         };
 
         $scope.successGrlData = function (resp) {
+
+            $scope.WaitFor = false;
+
             if (resp.hasError === undefined) {
                 resp = resp.responseMessage;
             }

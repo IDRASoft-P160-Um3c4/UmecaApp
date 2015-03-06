@@ -118,6 +118,7 @@ public class DigitalRecordController {
     public ModelAndView digitalRecordIndex(@RequestParam(required = true) Long id) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/index");
         Gson gson = new Gson();
+        model.addObject("idEmployee", id);
         model.addObject("listState", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
         model.addObject("lstMaritalSt", gson.toJson(maritalStatusRepository.findAll()));
         model.addObject("lstDocType", gson.toJson(documentTypeRepository.findNotObsolete()));

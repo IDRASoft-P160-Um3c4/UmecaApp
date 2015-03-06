@@ -345,7 +345,7 @@
 
                 <div class="col-xs-12 modal-footer element-right">
                             <span class="btn btn-default btn-sm btn-primary"
-                                  ng-click="submitGeneralData('#FormGeneralData','<c:url value="/humanResources/employees/doUpsertGeneralData.html"/>')">
+                                  ng-click="submitGeneralData('#FormGeneralData','<c:url value="/humanResources/employees/doUpsertGeneralData.json"/>')">
                                 Guardar
                                 </span>
                 </div>

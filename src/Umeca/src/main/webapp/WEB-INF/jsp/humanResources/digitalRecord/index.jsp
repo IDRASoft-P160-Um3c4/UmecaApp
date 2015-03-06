@@ -226,7 +226,7 @@
                     <div id="school" class="tab-pane">
                         <%--<%@ include--%>
                                 <%--file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>--%>
-                    </div>
+                    </div
 
                     <div id="references" class="tab-pane">
                         <%--<%@ include--%>

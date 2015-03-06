@@ -33,7 +33,7 @@
                         width: 200,
                         align: "center",
                         sorttype: 'string',
-                        search:false
+                        search: false
                     },
                     {name: 'post', index: 'post', width: 200, align: "center", sorttype: 'string', search: false},
                     {name: 'iDate', index: 'iDate', width: 150, align: "center", search: false},
@@ -101,9 +101,7 @@
 
 <div class="row element-center">
 
-    <input type="hidden" id="hidIdCase" value="{{fm.objView.idCase}}"/>
-    <input type="hidden" id="urlGridJob" value="listJob.json?idCase={{fm.objView.idCase}}"/>
-    <input type="hidden" id="canTerminateJob" value="{{fm.objView.canTerminate}}"/>
+    <input type="hidden" id="idEmployee" value="${idEmployee}"/>
 
     <div class="col-xs-12">
         <h2><i class="green icon-briefcase bigger-100">&nbsp;</i>Historia laboral</h2>

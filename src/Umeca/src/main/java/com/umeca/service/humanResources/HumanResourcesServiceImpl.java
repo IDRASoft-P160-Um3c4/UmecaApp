@@ -82,7 +82,7 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
         employeeRepository.save(employee);
 
         resp.setHasError(false);
-        resp.setMessage("lalalala");
+        resp.setMessage("La información ha sido guardada con éxito.");
         return resp;
     }
 
