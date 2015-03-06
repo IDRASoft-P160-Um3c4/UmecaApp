@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.Convert;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.Degree;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.ScheduleDto;
@@ -652,7 +653,13 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         Gson conv = new Gson();
 
         FramingEnvironmentAnalysisForView view = new FramingEnvironmentAnalysisForView();
-        view.setLstSources(conv.toJson(framingReferenceRepository.getAccompanimentRefByIdCase(idCase)));
+        List<FramingReferenceForView> lst = framingReferenceRepository.getAccompanimentRefByIdCase(idCase);
+        FramingReferenceForView imp = new FramingReferenceForView();
+        Imputed i = caseRepository.findOne(idCase).getMeeting().getImputed();
+        imp.setDescription(StringEscape.escapeText(i.getName()) + " " + StringEscape.escapeText(i.getLastNameP()) + " " + StringEscape.escapeText(i.getName()) + ", Imputado");
+        imp.setValSel(true);
+        imp.setDisabled(true);
+        view.setLstSources(conv.toJson(lst));
 
         List<FramingRisk> lstRisks = framingRiskRepository.findNoObsolete();
         view.setLstRisk(conv.toJson(lstRisks));
