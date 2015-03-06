@@ -23,7 +23,7 @@
         $(document).ready(function () {
             jQuery("#GridIdPost").jqGrid({
                 autoencode: true,
-                url: urlGridPost,
+//                url: urlGridPost,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],

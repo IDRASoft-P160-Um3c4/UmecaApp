@@ -25,6 +25,9 @@ public class Employee {
     @Column(name = "last_name_m")
     private String lastNameM;
 
+    @Column(name = "post")
+    private String post;
+
     @Column(name = "gender")
     private Boolean gender;
 
@@ -48,8 +51,9 @@ public class Employee {
     @JoinColumn(name = "id_district")
     private District district;
 
-    @Column(name = "post")
-    private String post;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_general_data")
+    private EmployeeGeneralData employeeGeneralData;
 
     public Employee() {
 
@@ -163,5 +167,13 @@ public class Employee {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public EmployeeGeneralData getEmployeeGeneralData() {
+        return employeeGeneralData;
+    }
+
+    public void setEmployeeGeneralData(EmployeeGeneralData employeeGeneralData) {
+        this.employeeGeneralData = employeeGeneralData;
     }
 }

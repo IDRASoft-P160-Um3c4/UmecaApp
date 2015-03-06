@@ -20,7 +20,7 @@
         $(document).ready(function () {
             jQuery("#GridIncapacity").jqGrid({
                 autoencode: true,
-                url: urlGridIncapacity,
+//                url: urlGridIncapacity,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],

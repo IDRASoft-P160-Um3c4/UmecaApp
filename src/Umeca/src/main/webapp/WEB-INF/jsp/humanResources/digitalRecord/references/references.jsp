@@ -20,7 +20,7 @@
 
         jQuery("#GridReferences").jqGrid({
             autoencode: true,
-            url: urlGridReferences,
+//            url: urlGridReferences,
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Nombre', 'Relaci&oacute;n', 'Edad', 'Tel&eacute;fono', 'Tiempo de relaci&oacute;n', 'Acci&oacute;n'],

@@ -20,7 +20,7 @@
         $(document).ready(function () {
             jQuery("#GridSchool").jqGrid({
                 autoencode: true,
-                url: urlGridSchool,
+//                url: urlGridSchool,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Nombre', 'Lugar', 'Documento', 'Acci&oacute;n'],

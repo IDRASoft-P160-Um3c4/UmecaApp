@@ -98,7 +98,7 @@
                         var be = "";
 
                         if (obsolete[i] == 'false') {
-                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Gestionar formatos de audiencia\" onclick=\"showDigitalRecord(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
+                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Expediente digital\" onclick=\"showDigitalRecord(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
                         } else {
                             be = "";
                         }

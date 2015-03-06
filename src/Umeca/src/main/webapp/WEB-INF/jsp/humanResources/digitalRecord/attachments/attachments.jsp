@@ -20,7 +20,7 @@
         $(document).ready(function () {
             jQuery("#GridAttachment").jqGrid({
                 autoencode: true,
-                url: urlGridAttachment,
+//                url: urlGridAttachment,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],

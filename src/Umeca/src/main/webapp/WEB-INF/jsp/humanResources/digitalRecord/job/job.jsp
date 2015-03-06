@@ -21,7 +21,7 @@
         $(document).ready(function () {
             jQuery("#GridIdJob").jqGrid({
                 autoencode: true,
-                url: urlGridJob,
+//                url: urlGridJob,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Empresa', 'Puesto', 'Fecha de inicio', 'Fecha de fin', 'Acci&oacute;n'],

@@ -2,18 +2,18 @@ package com.umeca.model.dto.humanResources;
 
 import com.umeca.model.catalog.dto.LocationDto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by Vmware on 05/03/2015.
  */
-public class GeneralDataDto {
-
+public class EmployeeGeneralDataDto {
     private String name;
     private String lastNameP;
     private String lastNameM;
     private Boolean gender;
-    private Date birthDate;
+    private String birthDate;
     private Long maritalStatusId;
     private Long documentId;
     private String documentDesc;
@@ -25,13 +25,51 @@ public class GeneralDataDto {
     private String datePublicServ;
     private String dateEntryUmeca;
     private Boolean commissioner;
-    private String noSocial;
+    private String noImss;
     private String appointment;
     private String street;
     private String outNum;
     private String innNum;
     private LocationDto location;
+    private String lat;
+    private String lng;
+    private Long idEmployee;
     private Long idAddres;
+
+    public EmployeeGeneralDataDto() {
+
+    }
+
+    public EmployeeGeneralDataDto(Long idEmployee, String name, String lastNameP, String lastNameM, Boolean gender, Date birthDate, Long maritalStatusId, Long documentId, String email, String documentDesc, String phone, String certificate,
+                                  String dependents, String noEmployee, Date datePublicServ, Date dateEntryUmeca, Boolean commissioner, String noImss, String appointment, Long idAddres) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.idEmployee = idEmployee;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.gender = gender;
+
+        try {
+            this.birthDate = birthDate != null ? sdf.format(birthDate) : null;
+            this.datePublicServ = datePublicServ != null ? sdf.format(datePublicServ) : null;
+            this.dateEntryUmeca = dateEntryUmeca != null ? sdf.format(dateEntryUmeca) : null;
+        } catch (Exception e) {
+
+        }
+        this.maritalStatusId = maritalStatusId;
+        this.documentId = documentId;
+        this.documentDesc = documentDesc;
+        this.email = email;
+        this.phone = phone;
+        this.certificate = certificate;
+        this.dependents = dependents;
+        this.noEmployee = noEmployee;
+        this.commissioner = commissioner;
+        this.noImss = noImss;
+        this.appointment = appointment;
+        this.idAddres = idAddres;
+
+    }
 
     public String getName() {
         return name;
@@ -65,11 +103,11 @@ public class GeneralDataDto {
         this.gender = gender;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -161,12 +199,12 @@ public class GeneralDataDto {
         this.commissioner = commissioner;
     }
 
-    public String getNoSocial() {
-        return noSocial;
+    public String getNoImss() {
+        return noImss;
     }
 
-    public void setNoSocial(String noSocial) {
-        this.noSocial = noSocial;
+    public void setNoImss(String noImss) {
+        this.noImss = noImss;
     }
 
     public String getAppointment() {
@@ -215,5 +253,29 @@ public class GeneralDataDto {
 
     public void setIdAddres(Long idAddres) {
         this.idAddres = idAddres;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public Long getIdEmployee() {
+        return idEmployee;
+    }
+
+    public void setIdEmployee(Long idEmployee) {
+        this.idEmployee = idEmployee;
     }
 }

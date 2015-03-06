@@ -71,7 +71,7 @@
         <div class="col-xs-5 col-xs-offset-1" style="padding-top: 3%;" ng-controller="employeeGeneralDataController">
             <h3 class="header smaller lighter blue">
                 <small>Nombre del imputado:</small>
-                &nbsp;{{gd.name + gd.lastNameP + gd.LastNameM}}
+                    &nbsp;{{gd.name + gd.lastNameP + gd.LastNameM}}
             </h3>
         </div>
 
@@ -219,28 +219,28 @@
                     </div>
 
                     <div id="job" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/humanResources/digitalRecord/job/job.jsp" %>
+                        <%--<%@ include--%>
+                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/job/job.jsp" %>--%>
                     </div>
 
                     <div id="school" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>
+                        <%--<%@ include--%>
+                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>--%>
                     </div>
 
                     <div id="references" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>
+                        <%--<%@ include--%>
+                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>--%>
                     </div>
 
                     <div id="jobUmeca" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>
+                        <%--<%@ include--%>
+                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>--%>
                     </div>
 
                     <div id="vacations" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/humanResources/digitalRecord/vacations/vacations.jsp" %>
+                        <%--<%@ include--%>
+                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/vacations/vacations.jsp" %>--%>
                     </div>
                     <div id="overtime" class="tab-pane">
                         GRAFICA!!!
@@ -249,13 +249,13 @@
                     </div>
 
                     <div id="incapacity" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>
+                        <%--<%@ include--%>
+                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>--%>
                     </div>
 
                     <div id="documents" class="tab-pane">
-                        <%@ include
-                                file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>
+                        <%--<%@ include--%>
+                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>--%>
                     </div>
 
                 </div>

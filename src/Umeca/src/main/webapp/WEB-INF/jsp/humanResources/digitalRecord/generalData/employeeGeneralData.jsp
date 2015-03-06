@@ -1,16 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<script>
-    var date = new Date();
-    date.setFullYear(date.getFullYear() - 18);
-    $('.date-picker').datepicker({autoclose: true, endDate: date}).next().on(ace.click_event, function () {
-        $(this).prev().focus();
-    });
-
-    $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function () {
-        $(this).next().focus();
-    });
-</script>
 
 <div class="row" ng-controller="employeeGeneralDataController">
     <div class="blocker" ng-show="WaitFor==true">
@@ -19,7 +8,7 @@
         </div>
     </div>
 
-    <div class="col-xs-10 col-xs-offset-1">
+    <div class="col-xs-10 col-xs-offset-1" ng-init='gd=${generalData};'>
 
         <div class="row element-center">
             <h2><i class="purple glyphicon glyphicon-user bigger-100 element-center"></i> &nbsp;Datos generales</h2>
@@ -27,17 +16,19 @@
         <br/>
 
         <div class="row">
-            <div ng-show="pdSuccessMsg&&pdSuccessMsg!=''" class="alert alert-success element-center success-font">
-                <span ng-bind-html="pdSuccessMsg"></span>
+            <div ng-show="MsgSuccess&&MsgSuccess!=''" class="alert alert-success element-center success-font">
+                <span ng-bind-html="MsgSuccess"></span>
             </div>
 
-            <div ng-show="pdErrorMsg&&pdErrorMsg!=''" class="alert alert-danger element-center error-font">
-                <span ng-bind-html="pdErrorMsg"></span>
+            <div ng-show="MsgError&&MsgError!=''" class="alert alert-danger element-center error-font">
+                <span ng-bind-html="MsgError"></span>
             </div>
         </div>
 
         <div class="row">
             <form id="FormGeneralData" name="FormGeneralData" class="form-horizontal" role="form">
+                <input type="hidden" name="idEmployee" value="{{gd.idEmployee}}"/>
+
                 <div class="col-xs-12">
 
                     <div class="widget-box">
@@ -134,7 +125,7 @@
                                         <br/>
                                         <select class="form-control element-center" ng-model="gd.maritalStatus"
                                                 ng-options="e.name for e in lstMaritalSt"
-                                        <%--ng-init='lstMaritalSt = ${lstMaritalSt};'--%>
+                                                ng-init='lstMaritalSt = ${lstMaritalSt};'
                                                 ></select>
                                         <input type="hidden" name="maritalStatusId"
                                                value="{{gd.maritalStatus.id}}"/>
@@ -149,8 +140,8 @@
                                         <label>Identificaci&oacute;n</label>
                                         <br/>
                                         <select class="form-control element-center" ng-model="gd.document"
-                                                ng-options="e.name for e in lstDocument"
-                                        <%--ng-init='lstDocument = ${lstDocument};'--%>
+                                                ng-options="e.name for e in lstDocType"
+                                                ng-init='lstDocType= ${lstDocType};'
                                                 ></select>
                                         <input type="hidden" name="documentId" value="{{gd.document.id}}"/>
                                         <br/>
@@ -212,7 +203,7 @@
                                         <label for="dependents">Dependientes econ&oacute;micos</label>
                                         <br/>
                                     <textarea id="dependents" class="form-control limited" name="dependents"
-                                              ng-model="m.dependents" maxlength="980"
+                                              ng-model="gd.dependents" maxlength="980"
                                               data-val="true"
                                               data-val-required="Dependientes econ&oacute;micos es un campo requerido">
                                     </textarea>
@@ -253,7 +244,7 @@
                                                    id="datePublicServ"
                                                    name="datePublicServ" type="text"
                                                    data-date-format="yyyy/mm/dd"
-                                                   readonly ng-model="gd.birthDate" data-val="true"
+                                                   readonly ng-model="gd.datePublicServ" data-val="true"
                                                    data-val-required="Fecha de inicio servidor p&uacute;blico es un campo requerido"/>
                                         <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
@@ -309,15 +300,15 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-4">
-                                        <label for="noSocial">N&uacute;mero IMSS</label>
+                                        <label for="noImss">N&uacute;mero IMSS</label>
                                         <br/>
-                                        <input id="noSocial" ng-model="gd.noSocial" name="noSocial"
+                                        <input id="noImss" ng-model="gd.noImss" name="noImss"
                                                type="text"
                                                class="input-xxlarge"
                                                data-val="true"
                                                data-val-required="N&uacute;mero IMSS es un campo requerido"/>
                                         <br/>
-                                    <span class="field-validation-valid" data-valmsg-for="noSocial"
+                                    <span class="field-validation-valid" data-valmsg-for="noImss"
                                           data-valmsg-replace="true"></span>
                                     </div>
 
@@ -354,7 +345,7 @@
 
                 <div class="col-xs-12 modal-footer element-right">
                             <span class="btn btn-default btn-sm btn-primary"
-                                  ng-click="submitGeneralData('#FormGeneralData','<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
+                                  ng-click="submitGeneralData('#FormGeneralData','<c:url value="/humanResources/employees/doUpsertGeneralData.html"/>')">
                                 Guardar
                                 </span>
                 </div>
@@ -363,6 +354,18 @@
     </div>
 </div>
 
+<script>
+    var date = new Date();
+    date.setFullYear(date.getFullYear() - 18);
+    $('#birthDate').datepicker({autoclose: true, endDate: date}).next().on(ace.click_event, function () {
+        $(this).prev().focus();
+    });
+
+    $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+        $(this).prev().focus();
+    });
+
+</script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 
 

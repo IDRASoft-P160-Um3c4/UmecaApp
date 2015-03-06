@@ -1,16 +1,23 @@
 package com.umeca.controller.humanResources;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.catalog.DocumentType;
+import com.umeca.model.catalog.MaritalStatus;
 import com.umeca.model.dto.humanResources.EmployeeDto;
+import com.umeca.model.dto.humanResources.EmployeeGeneralDataDto;
 import com.umeca.model.entities.humanReources.Employee;
+import com.umeca.repository.catalog.DocumentTypeRepository;
+import com.umeca.repository.catalog.MaritalStatusRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.catalog.AddressService;
 import com.umeca.service.humanResources.HumanResourcesService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +47,12 @@ public class DigitalRecordController {
     private HumanResourcesService humanResourcesService;
     @Autowired
     private StateRepository stateRepository;
+    @Autowired
+    private MaritalStatusRepository maritalStatusRepository;
+    @Autowired
+    private DocumentTypeRepository documentTypeRepository;
+    @Autowired
+    private AddressService addressService;
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -101,32 +114,38 @@ public class DigitalRecordController {
         }
     }
 
-
     @RequestMapping(value = "/humanResources/digitalRecord/index", method = RequestMethod.GET)
     public ModelAndView digitalRecordIndex(@RequestParam(required = true) Long id) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/index");
         Gson gson = new Gson();
         model.addObject("listState", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
+        model.addObject("lstMaritalSt", gson.toJson(maritalStatusRepository.findAll()));
+        model.addObject("lstDocType", gson.toJson(documentTypeRepository.findNotObsolete()));
+        EmployeeGeneralDataDto dto = humanResourcesService.fillGeneralDataDto(id);
+        model.addObject("generalData", gson.toJson(dto));
+
+        if (dto.getIdAddres() != null)
+            addressService.fillModelAddress(model, dto.getIdAddres());
 
         return model;
     }
 
-    @RequestMapping(value = "/humanResources/employees/doUpsertGeneralData", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/humanResources/employees/doUpsertGeneralData", headers = "Accept=*/*", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doUpsertGeneralData(@ModelAttribute EmployeeDto employeeDto) {
+    ResponseMessage doUpsertGeneralData(@ModelAttribute EmployeeGeneralDataDto dataDto) {
 
         ResponseMessage response = new ResponseMessage();
         try {
-            //response = humanResourcesService.saveEmployee(employeeDto);
+            response = humanResourcesService.saveGeneralData(dataDto);
         } catch (Exception ex) {
-            logException.Write(ex, this.getClass(), "doUpsertPersonalData", sharedUserService);
+            logException.Write(ex, this.getClass(), "doUpsertGeneralData", sharedUserService);
             response.setHasError(true);
             response.setMessage("Ha ocurrido un error, intente nuevamente.");
         } finally {
             return response;
         }
     }
-
 
 }

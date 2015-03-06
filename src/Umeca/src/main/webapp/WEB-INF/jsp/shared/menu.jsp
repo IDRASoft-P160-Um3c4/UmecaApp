@@ -321,7 +321,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="<c:url value='/humanResources/employees/index.html' />"><i
-                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Registrar empleado</a>
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Registrar personal</a>
                                 </li>
                                 <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Otra opcion</a>
