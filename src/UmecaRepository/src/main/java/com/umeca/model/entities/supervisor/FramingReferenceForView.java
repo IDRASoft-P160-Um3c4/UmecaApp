@@ -5,6 +5,7 @@ public class FramingReferenceForView {
     private Long id;
     private String description;
     private Boolean valSel;
+    private Boolean disabled;
 
     public FramingReferenceForView(Long id, String nameRef, String nameRel) {
         this.id = id;
@@ -39,4 +40,11 @@ public class FramingReferenceForView {
         this.valSel = valSel;
     }
 
+    public Boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
+    }
 }
