@@ -32,7 +32,7 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
         employeeRepository.flush();
         resp.setHasError(false);
         resp.setMessage("El empleado ha sido registrado.");
-        resp.setUrlToGo(request.getContextPath() + "/humanResources/digitalRecord/index.html");//"?id="+newEmp.getId());TODO DESCOMENTAR
+        resp.setUrlToGo(request.getContextPath() + "/humanResources/digitalRecord/index.html?id=" + newEmp.getId());
 
         return resp;
     }

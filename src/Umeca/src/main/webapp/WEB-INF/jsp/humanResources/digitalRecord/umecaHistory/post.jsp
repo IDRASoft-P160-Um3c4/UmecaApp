@@ -22,25 +22,46 @@
 
         $(document).ready(function () {
             jQuery("#GridIdPost").jqGrid({
-                autoencode:true,
+                autoencode: true,
                 url: urlGridPost,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],
                 colModel: [
-                    { name: 'id', index: 'id', hidden: true },
-                    { name: 'company', index: 'company', width: 170, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'post', index: 'post', width: 110, align: "center", sorttype: 'string', search: false },
-                    { name: 'nameHead', index: 'nameHead', width: 120, align: "center", search: false },
-                    { name: 'phone', index: 'phone', width: 120, align: "center", search: false },
-                    { name: 'registerTypeString', index: 'registerTypeString', width: 120, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'registerTypeId', index: 'registerTypeId', hidden: true},
-                    { name: 'Action', width: 65, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
+                    {name: 'id', index: 'id', hidden: true},
+                    {
+                        name: 'company',
+                        index: 'company',
+                        width: 170,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {name: 'post', index: 'post', width: 110, align: "center", sorttype: 'string', search: false},
+                    {name: 'nameHead', index: 'nameHead', width: 120, align: "center", search: false},
+                    {name: 'phone', index: 'phone', width: 120, align: "center", search: false},
+                    {
+                        name: 'registerTypeString',
+                        index: 'registerTypeString',
+                        width: 120,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {name: 'registerTypeId', index: 'registerTypeId', hidden: true},
+                    {
+                        name: 'Action',
+                        width: 65,
+                        align: "center",
+                        sortable: false,
+                        search: false,
+                        formatter: window.actionFormatter
+                    }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 pager: '#GridPagerPost',
-                sortname: 'registerTypeId',
+                sortname: 'i',
                 height: 200,
                 viewrecords: true,
                 shrinkToFit: false,
@@ -56,7 +77,7 @@
                         var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertPost('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
                         be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deletePost('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                        $(this).jqGrid('setRowData', ids[i], { Action: be });
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
                 loadComplete: function () {
@@ -73,7 +94,8 @@
                 add: true, addfunc: window.upsertPost, addicon: 'icon-plus-sign purple',
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
-                search: false});
+                search: false
+            });
 
             jQuery("#GridIdPost").jqGrid('filterToolbar', {
                 stringResult: true,

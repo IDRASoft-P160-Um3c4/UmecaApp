@@ -15,10 +15,7 @@ import com.umeca.service.humanResources.HumanResourcesService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
@@ -106,10 +103,11 @@ public class DigitalRecordController {
 
 
     @RequestMapping(value = "/humanResources/digitalRecord/index", method = RequestMethod.GET)
-    public ModelAndView digitalRecordIndex() {
+    public ModelAndView digitalRecordIndex(@RequestParam(required = true) Long id) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/index");
         Gson gson = new Gson();
-        model.addObject("listState",gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
+        model.addObject("listState", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
+
         return model;
     }
 

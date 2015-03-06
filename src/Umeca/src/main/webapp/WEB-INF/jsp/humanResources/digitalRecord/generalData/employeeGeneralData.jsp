@@ -13,7 +13,6 @@
 </script>
 
 <div class="row" ng-controller="employeeGeneralDataController">
-    {{gd.name + gd.lastNameP + gd.lastNameM}}
     <div class="blocker" ng-show="WaitFor==true">
         <div>
             Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
@@ -153,7 +152,7 @@
                                                 ng-options="e.name for e in lstDocument"
                                         <%--ng-init='lstDocument = ${lstDocument};'--%>
                                                 ></select>
-                                        <input type="hidden" name="maritalStatusId" value="{{gd.document.id}}"/>
+                                        <input type="hidden" name="documentId" value="{{gd.document.id}}"/>
                                         <br/>
                                         <label for="documentDesc">Descripci&oacute;n de identificaci&oacute;n</label>
                                         <br/>

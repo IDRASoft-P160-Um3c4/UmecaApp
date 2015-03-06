@@ -40,7 +40,7 @@
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 pager: '#GridPagerIncident',
-                sortname: 'registerTypeId',
+                sortname: 'id',
                 height: 200,
                 viewrecords: true,
                 shrinkToFit: false,

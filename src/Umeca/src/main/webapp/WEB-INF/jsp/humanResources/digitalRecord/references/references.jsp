@@ -7,7 +7,7 @@
 
         var urlGridReferences = $('#urlGridReferences').attr("value");
         var idCase = $('#hidIdCase').attr("value");
-        
+
         upsertReferences = function (id) {
             //if (canTerminate == 'true')
             window.showUpsertWithIdCase(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/References/upsert.html'/>", "#GridReferences", undefined, idCase);
@@ -19,24 +19,65 @@
         };
 
         jQuery("#GridReferences").jqGrid({
-            autoencode:true,
+            autoencode: true,
             url: urlGridReferences,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre', 'Edad', 'Relaci&oacute;n', 'Ocupaci&oacute;n', 'Acompa&ntilde;ar&aacute<br/>en el proceso', 'Acci&oacute;n'],
+            colNames: ['ID', 'Nombre', 'Relaci&oacute;n', 'Edad', 'Tel&eacute;fono', 'Tiempo de relaci&oacute;n', 'Acci&oacute;n'],
             colModel: [
-                { name: 'id', index: 'id', hidden: true },
-                { name: 'name', index: 'name', width: 190, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'age', index: 'age', width: 80, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'relationshipName', index: 'relationshipName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'occupation', index: 'occupation', width: 140, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 100, align: "center", search: false },
-                { name: 'Action', width: 60, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
+                {name: 'id', index: 'id', hidden: true},
+                {
+                    name: 'name',
+                    index: 'name',
+                    width: 190,
+                    align: "center",
+                    sorttype: 'string',
+                    searchoptions: {sopt: ['bw']}
+                },
+                {
+                    name: 'relName',
+                    index: 'relName',
+                    width: 190,
+                    align: "center",
+                    sorttype: 'string',
+                    searchoptions: {sopt: ['bw']}
+                },
+                {
+                    name: 'age',
+                    index: 'age',
+                    width: 80,
+                    align: "center",
+                    sortable: false,
+                    search: false
+                },
+                {
+                    name: 'phone',
+                    index: 'phone',
+                    width: 100,
+                    align: "center",
+                    sortable: false,
+                    search: false
+                },
+                {
+                    name: 'relTime',
+                    index: 'relTime',
+                    width: 100,
+                    align: "center",
+                    search: false
+                },
+                {
+                    name: 'Action',
+                    width: 60,
+                    align: "center",
+                    sortable: false,
+                    search: false,
+                    formatter: window.actionFormatter
+                }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
             pager: '#GridPagerReferences',
-            sortname: 'name',
+            sortname: 'id',
             height: 200,
             viewrecords: true,
             shrinkToFit: false,
@@ -52,7 +93,7 @@
                     var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar referencia\" onclick=\"window.upsertReferences('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
                     be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar referencia\" onclick=\"window.deleteReferences('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                    $(this).jqGrid('setRowData', ids[i], { Action: be });
+                    $(this).jqGrid('setRowData', ids[i], {Action: be});
                 }
             },
             loadComplete: function () {
@@ -69,7 +110,8 @@
             add: true, addfunc: upsertReferences, addicon: 'icon-plus-sign purple',
             refresh: true, refreshicon: 'icon-refresh green',
             del: false,
-            search: false});
+            search: false
+        });
 
         jQuery("#GridReferences").jqGrid('filterToolbar', {
             stringResult: true,
@@ -99,9 +141,8 @@
     <br/>
 
     <div class="col-xs-12">
-        <h2><i class="blue icon-group bigger-100">&nbsp;</i>Personas con las que vive el imputado</h2>
+        <h2><i class="red icon-group bigger-100">&nbsp;</i>Referencias personales</h2>
         <br/>
-
         <div id="angJsjqGridIdReferences" ng-controller="modalDlgController">
             <table id="GridReferences" class="element-center" style="margin: auto"></table>
             <div id="GridPagerReferences"></div>

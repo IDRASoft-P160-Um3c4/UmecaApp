@@ -127,7 +127,7 @@
                         <a data-toggle="tab" href="#job">
                             <div class="row">
                                 <div class="col-xs-10">
-                                    <i class="green  icon-home  bigger-200"></i>
+                                    <i class="green  icon-briefcase  bigger-200"></i>
                                     Historia laboral
                                 </div>
                             </div>
@@ -138,7 +138,7 @@
                         <a data-toggle="tab" href="#school">
                             <div class="row">
                                 <div class="col-xs-10">
-                                    <i class="blue icon-group bigger-200"></i>
+                                    <i class="blue icon-book bigger-200"></i>
                                     Historia escolar
                                 </div>
                             </div>
@@ -149,7 +149,7 @@
                         <a data-toggle="tab" href="#references">
                             <div class="row">
                                 <div class="col-xs-10">
-                                    <i class="red icon-list bigger-200"></i>
+                                    <i class="red icon-group bigger-200"></i>
                                     Referencias personales
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
                         <a data-toggle="tab" href="#jobUmeca">
                             <div class="row">
                                 <div class="col-xs-10">
-                                    <i class="orange icon-eye-open bigger-200"></i>
+                                    <i class="orange icon-list bigger-200"></i>
                                     Historial UMECA
                                 </div>
                             </div>

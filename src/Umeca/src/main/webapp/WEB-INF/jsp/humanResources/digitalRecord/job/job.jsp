@@ -20,25 +20,37 @@
 
         $(document).ready(function () {
             jQuery("#GridIdJob").jqGrid({
-                autoencode:true,
+                autoencode: true,
                 url: urlGridJob,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],
+                colNames: ['ID', 'Empresa', 'Puesto', 'Fecha de inicio', 'Fecha de fin', 'Acci&oacute;n'],
                 colModel: [
-                    { name: 'id', index: 'id', hidden: true },
-                    { name: 'company', index: 'company', width: 170, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'post', index: 'post', width: 110, align: "center", sorttype: 'string', search: false },
-                    { name: 'nameHead', index: 'nameHead', width: 120, align: "center", search: false },
-                    { name: 'phone', index: 'phone', width: 120, align: "center", search: false },
-                    { name: 'registerTypeString', index: 'registerTypeString', width: 120, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'registerTypeId', index: 'registerTypeId', hidden: true},
-                    { name: 'Action', width: 65, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
+                    {name: 'id', index: 'id', hidden: true},
+                    {
+                        name: 'company',
+                        index: 'company',
+                        width: 200,
+                        align: "center",
+                        sorttype: 'string',
+                        search:false
+                    },
+                    {name: 'post', index: 'post', width: 200, align: "center", sorttype: 'string', search: false},
+                    {name: 'iDate', index: 'iDate', width: 150, align: "center", search: false},
+                    {name: 'eDate', index: 'eDate', width: 150, align: "center", search: false},
+                    {
+                        name: 'Action',
+                        width: 65,
+                        align: "center",
+                        sortable: false,
+                        search: false,
+                        formatter: window.actionFormatter
+                    }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 pager: '#GridPagerJob',
-                sortname: 'registerTypeId',
+                sortname: 'id',
                 height: 200,
                 viewrecords: true,
                 shrinkToFit: false,
@@ -54,7 +66,7 @@
                         var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
                         be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                        $(this).jqGrid('setRowData', ids[i], { Action: be });
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
                 loadComplete: function () {
@@ -71,7 +83,8 @@
                 add: true, addfunc: window.upsertJob, addicon: 'icon-plus-sign purple',
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
-                search: false});
+                search: false
+            });
 
             jQuery("#GridIdJob").jqGrid('filterToolbar', {
                 stringResult: true,
@@ -93,18 +106,7 @@
     <input type="hidden" id="canTerminateJob" value="{{fm.objView.canTerminate}}"/>
 
     <div class="col-xs-12">
-        <div ng-show="jobSuccessMsg&&jobSuccessMsg!=''"
-             class="col-xs-12 alert alert-success element-center success-font" ng-bind-html="jobSuccessMsg">
-        </div>
-        <div ng-show="jobErrorMsg&&jobErrorMsg!=''" class="alert alert-danger element-center error-font"
-             ng-bind-html="jobErrorMsg">
-        </div>
-    </div>
-    <br/>
-    <br/>
-
-    <div class="col-xs-12">
-        <h2><i class="blue icon-group bigger-100">&nbsp;</i>Historia laboral</h2>
+        <h2><i class="green icon-briefcase bigger-100">&nbsp;</i>Historia laboral</h2>
         <br/>
 
         <div id="angJsjqGridIdJob" ng-controller="modalDlgController">

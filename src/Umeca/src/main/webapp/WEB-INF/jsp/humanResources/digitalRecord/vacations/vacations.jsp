@@ -23,29 +23,20 @@
                 url: urlGridVacation,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],
+                colNames: ['ID', 'Descripci&oacute;n', 'Fecha incio', 'Fecha fin', 'Comentarios', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {
-                        name: 'company',
-                        index: 'company',
-                        width: 170,
+                        name: 'description',
+                        index: 'description',
+                        width: 220,
                         align: "center",
                         sorttype: 'string',
                         searchoptions: {sopt: ['bw']}
                     },
-                    {name: 'post', index: 'post', width: 110, align: "center", sorttype: 'string', search: false},
-                    {name: 'nameHead', index: 'nameHead', width: 120, align: "center", search: false},
-                    {name: 'phone', index: 'phone', width: 120, align: "center", search: false},
-                    {
-                        name: 'registerTypeString',
-                        index: 'registerTypeString',
-                        width: 120,
-                        align: "center",
-                        sorttype: 'string',
-                        searchoptions: {sopt: ['bw']}
-                    },
-                    {name: 'registerTypeId', index: 'registerTypeId', hidden: true},
+                    {name: 'iDate', index: 'iDate', width: 110, align: "center", sortable: false, search: false},
+                    {name: 'eDate', index: 'eDate', width: 110, align: "center", sortable: false, search: false},
+                    {name: 'comment', index: 'comment', width: 200, align: "center", sortable: false, search: false},
                     {
                         name: 'Action',
                         width: 65,
@@ -58,7 +49,7 @@
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 pager: '#GridPagerVacation',
-                sortname: 'registerTypeId',
+                sortname: 'id',
                 height: 200,
                 viewrecords: true,
                 shrinkToFit: false,
@@ -76,7 +67,9 @@
                         be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteVacation('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
-                },
+                }
+
+                ,
                 loadComplete: function () {
                     var table = this;
                     setTimeout(function () {
@@ -102,8 +95,10 @@
                 ignoreCase: true
             });
 
-        });
-    });
+        })
+        ;
+    })
+    ;
 
 </script>
 
@@ -113,7 +108,7 @@
     <input type="hidden" id="urlGridVacation" value="listVacation.json?idCase={{fm.objView.idCase}}"/>
 
     <div class="col-xs-12">
-        <h2><i class="blue icon-group bigger-100">&nbsp;</i>Historia laboral</h2>
+        <h2><i class="purple icon-camera bigger-100">&nbsp;</i>Vacaciones</h2>
         <br/>
 
         <div id="angJsjqGridVacation" ng-controller="modalDlgController">

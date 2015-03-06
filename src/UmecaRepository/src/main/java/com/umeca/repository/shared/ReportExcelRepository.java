@@ -80,15 +80,17 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "((impms.id in (:lstMaritalSt)) or (fmpdms.id in (:lstMaritalSt)))")
     List<Long> findIdCasesByMaritalSt(@Param("lstMaritalSt") List<Long> lstMaritalSt, @Param("lstCases") List<Long> lstCases);
 
-    @Query("select new com.umeca.model.shared.SelectList(c.id,md.id) from Case as c " +
+    @Query("select new com.umeca.model.shared.SelectList(c.id,dt.id) from Case as c " +
             "inner join c.meeting as m " +
             "inner join m.drugs as md " +
+            "inner join md.drugType dt " +
             "where (c.id in (:lstCases) and md.block=true)")
     List<SelectList> getAllDrugsEval(@Param("lstCases") List<Long> lstCases);
 
     @Query("select new com.umeca.model.shared.SelectList(c.id,fmd.id) from Case as c " +
             "inner join c.framingMeeting as fm " +
             "inner join fm.drugs as fmd " +
+            "inner join fmd.drugType dt " +
             "where (c.id in (:lstCases) and fmd.block=true)")
     List<SelectList> getAllDrugsSup(@Param("lstCases") List<Long> lstCases);
 

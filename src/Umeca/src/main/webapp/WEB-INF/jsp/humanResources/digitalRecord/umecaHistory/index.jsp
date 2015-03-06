@@ -2,6 +2,11 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="col-xs-12">
+    <div class="element-center">
+        <h2><i class="orange icon-list bigger-100">&nbsp;</i>Historial UMECA</h2>
+    </div>
+    <br/>
+
     <div class="widget-box">
         <div class="widget-header">Puestos ocupados dentro de la UMECA
             <div class="widget-toolbar">

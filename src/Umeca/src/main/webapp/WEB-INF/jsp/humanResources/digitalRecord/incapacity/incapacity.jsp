@@ -58,7 +58,7 @@
                 rowNum: 10,
                 rowList: [10, 20, 30],
                 pager: '#GridPagerIncapacity',
-                sortname: 'registerTypeId',
+                sortname: 'id',
                 height: 200,
                 viewrecords: true,
                 shrinkToFit: false,
@@ -113,7 +113,7 @@
     <input type="hidden" id="urlGridIncapacity" value="listIncapacity.json?idCase={{fm.objView.idCase}}"/>
 
     <div class="col-xs-12">
-        <h2><i class="blue icon-group bigger-100">&nbsp;</i>Historia laboral</h2>
+        <h2><i class="gray icon-male bigger-100">&nbsp;</i>Incapacidad</h2>
         <br/>
 
         <div id="angJsjqGridIncapacity" ng-controller="modalDlgController">

@@ -31,6 +31,10 @@
             window.showUpsert(null, "#angJsjqGridId", "<c:url value='/humanResources/employees/upsertEmployee.html'/>", "#GridEmployeeId");
         };
 
+        showDigitalRecord = function (id) {
+            window.goToUrlMvcUrl("<c:url value='/humanResources/digitalRecord/index.html?id='/>" + id);
+        };
+
         $(document).ready(function () {
             jQuery("#GridEmployeeId").jqGrid({
                 url: '<c:url value='/humanResources/employees/list.json' />',
@@ -94,7 +98,7 @@
                         var be = "";
 
                         if (obsolete[i] == 'false') {
-                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Gestionar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Gestionar formatos de audiencia\" onclick=\"showDigitalRecord(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
                         } else {
                             be = "";
                         }
