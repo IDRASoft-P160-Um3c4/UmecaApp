@@ -354,6 +354,7 @@ public class ManagerSupReportController {
             title = "Estadísticos para el distrito de " + districtRepository.findOne(params.getDistrictId()).getName();
         } else {        //si se indica operador
             list = reportExcelRepository.getSupervisorsById(params.getUserId());
+            lstIdsSup.add(params.getUserId());
             title = "Estadísticos para el operador " + userRepository.findOne(params.getUserId()).getFullname();
         }
 
