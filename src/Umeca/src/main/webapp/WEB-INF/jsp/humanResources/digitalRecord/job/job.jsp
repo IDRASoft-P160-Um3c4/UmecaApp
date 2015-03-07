@@ -5,23 +5,18 @@
 <script>
     $(document).ready(function () {
 
-        var urlGridJob = $('#urlGridJob').attr("value");
-        var idCase = $('#hidIdCase').attr("value");
-
-        var canTerminate = $('#canTerminateJob').attr("value");
-
         upsertJob = function (id) {
-            window.showUpsertWithIdCase(id, "#angJsjqGridIdJob", "<c:url value='/supervisor/framingMeeting/job/upsert.html'/>", "#GridIdJob", undefined, idCase);
+            window.showUpsert(id, "#angJsjqGridIdJob", "<c:url value='/humanResources/digitalRecord/upsertJob.html'/>", "#GridIdJob");
         };
 
         deleteJob = function (id) {
-            window.showObsolete(id, "#angJsjqGridIdJob", "<c:url value='/supervisor/framingMeeting/job/delete.json'/>", "#GridIdJob");
+            window.showObsolete(id, "#angJsjqGridIdJob", "<c:url value='/humanResources/digitalRecord/doDeleteJob.json'/>", "#GridIdJob");
         };
 
         $(document).ready(function () {
             jQuery("#GridIdJob").jqGrid({
                 autoencode: true,
-//                url: urlGridJob,
+                url: '<c:url value="/humanResources/digitalRecord/listJob.json?id="/>' +${idEmployee},
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Empresa', 'Puesto', 'Fecha de inicio', 'Fecha de fin', 'Acci&oacute;n'],
@@ -63,9 +58,9 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
                         var enabled = row.enabled;
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar trabajo\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar trabajo\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
@@ -101,8 +96,6 @@
 
 <div class="row element-center">
 
-    <input type="hidden" id="idEmployee" value="${idEmployee}"/>
-
     <div class="col-xs-12">
         <h2><i class="green icon-briefcase bigger-100">&nbsp;</i>Historia laboral</h2>
         <br/>
@@ -116,7 +109,6 @@
                 </div>
             </div>
         </div>
-        <br/>
         <br/>
 
     </div>

@@ -176,7 +176,6 @@
                                                                            name="userId"
                                                                            value="{{m.supervisor.id}}"/>
                                                                 </div>
-                                                                {{m.supervisor.name}} --- {{m.filter!=2}}
                                                             </div>
 
                                                         </div>

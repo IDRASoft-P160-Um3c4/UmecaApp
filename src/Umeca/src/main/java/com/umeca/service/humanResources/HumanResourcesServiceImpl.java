@@ -4,16 +4,22 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.DocumentType;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.MaritalStatus;
+import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.dto.humanResources.EmployeeDto;
 import com.umeca.model.dto.humanResources.EmployeeGeneralDataDto;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.humanReources.EmployeeGeneralData;
 import com.umeca.model.entities.reviewer.Address;
+import com.umeca.model.entities.reviewer.Job;
+import com.umeca.model.entities.reviewer.dto.JobDto;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.catalog.DocumentTypeRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.MaritalStatusRepository;
+import com.umeca.repository.catalog.RegisterTypeRepository;
 import com.umeca.repository.humanResources.EmployeeGeneralDataRepository;
 import com.umeca.repository.humanResources.EmployeeRepository;
+import com.umeca.repository.reviewer.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +43,10 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     @Autowired
     private EmployeeGeneralDataRepository employeeGeneralDataRepository;
+    @Autowired
+    private JobRepository jobRepository;
+    @Autowired
+    private RegisterTypeRepository registerTypeRepository;
 
     @Transactional
     public ResponseMessage saveEmployee(EmployeeDto employeeDto, HttpServletRequest request) {
@@ -132,6 +142,59 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
         employeeGeneralData.setAddress(address);
 
         return employeeGeneralData;
+    }
+
+    private Job fillJob(JobDto jobDto) {
+
+        Job j;
+
+        if (jobDto.getId() != null)
+            j = jobRepository.findOne(jobDto.getId());
+        else
+            j = new Job();
+
+        j.setCompany(jobDto.getCompany());
+        j.setPost(jobDto.getPost());
+        j.setNameHead(jobDto.getNameHead());
+        j.setSalaryWeek(jobDto.getSalaryWeek());
+        j.setPhone(jobDto.getPhone());
+
+        try {
+            j.setStart(sdf.parse(jobDto.getStart()));
+            j.setEnd(sdf.parse(jobDto.getEnd()));
+        } catch (Exception e) {
+
+        }
+
+        j.setRegisterType(registerTypeRepository.findOne(Constants.REGYSTER_TYPE_PREVIOUS));
+        j.setEmployee(employeeRepository.findOne(jobDto.getIdEmployee()));
+
+        return j;
+    }
+
+    public JobDto fillJobDto() {
+        JobDto j = new JobDto();
+
+        return j;
+    }
+
+    @Transactional
+    public ResponseMessage saveEmployeeJob(JobDto jobDto) {
+        Job job = fillJob(jobDto);
+        ResponseMessage resp = new ResponseMessage();
+        jobRepository.save(job);
+        resp.setHasError(false);
+        resp.setMessage("El trabajo ha sido guardado con éxito");
+        return resp;
+    }
+
+    @Transactional
+    public ResponseMessage deleteJob(Long id) {
+        ResponseMessage resp = new ResponseMessage();
+        jobRepository.delete(id);
+        resp.setHasError(false);
+        resp.setMessage("Se ha eliminado el trabajo con éxito.");
+        return resp;
     }
 
 }

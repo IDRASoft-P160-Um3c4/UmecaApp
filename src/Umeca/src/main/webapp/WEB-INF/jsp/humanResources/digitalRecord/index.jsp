@@ -16,13 +16,13 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
-    </script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/generalData/employeeGeneralDataCtrl.js"/>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
 
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/generalData/employeeGeneralDataCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/job/digitalRecordJobCtrl.js"></script>
 
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
-          type="text/css">
+          type="text/css"/>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/colorbox.css"/>
     <script src="${pageContext.request.contextPath}/assets/scripts/jquery.colorbox-min.js"></script>
@@ -31,6 +31,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upload/uploadFileCtrl.js"></script>
+
 
     <style>
         .containerPhoto {
@@ -63,36 +64,39 @@
     </div>
     <br/>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Expediente electr&oacute;nico
-    </h2>
 
     <div class="row">
+        <div class="col-xs-12">
+            <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Expediente electr&oacute;nico
+            </h2>
 
-        <div class="col-xs-5 col-xs-offset-1" style="padding-top: 3%;" ng-controller="employeeGeneralDataController">
-            <h3 class="header smaller lighter blue">
-                <small>Nombre del imputado:</small>
+            <div class="col-xs-5 col-xs-offset-1" style="padding-top: 3%;"
+                 ng-controller="employeeGeneralDataController">
+                <h3 class="header smaller lighter blue">
+                    <small>Nombre del imputado:</small>
                     &nbsp;{{gd.name + gd.lastNameP + gd.LastNameM}}
-            </h3>
-        </div>
+                </h3>
+            </div>
 
-        <div class="col-xs-1 col-xs-offset-4">
-            <div class="row-fluid">
-                <ul class="ace-thumbnails">
-                    <li>
-                        <a href="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
-                           data-rel="colorbox" id="idLinkPhotoImputed">
-                            <img src="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
-                                 id="photoImputed" class="containerPhoto"/>
-                        </a>
-
-                        <div class="tools tools-right">
-                            <a href="#" onclick="uploadPhoto()" title="Cambiar foto">
-                                <i class="icon-pencil"></i>
+            <div class="col-xs-1 col-xs-offset-4">
+                <div class="row-fluid">
+                    <ul class="ace-thumbnails">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
+                               data-rel="colorbox" id="idLinkPhotoImputed">
+                                <img src="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
+                                     id="photoImputed" class="containerPhoto"/>
                             </a>
 
-                        </div>
-                    </li>
-                </ul>
+                            <div class="tools tools-right">
+                                <a href="#" onclick="uploadPhoto()" title="Cambiar foto">
+                                    <i class="icon-pencil"></i>
+                                </a>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -101,9 +105,9 @@
     <div class="row" style="padding: 1%;">
         <div class="col-xs-10 col-xs-offset-1 element-right">
             <br/>
-                    <span class="btn btn-default btn-sm" ng-click="returnFM();">
-                        Regresar
-                    </span>
+    <span class="btn btn-default btn-sm" ng-click="returnFM();">
+    Regresar
+    </span>
         </div>
     </div>
 
@@ -219,61 +223,63 @@
                     </div>
 
                     <div id="job" class="tab-pane">
-                        <%--<%@ include--%>
-                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/job/job.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/job/job.jsp" %>
                     </div>
 
-                    <div id="school" class="tab-pane">
-                        <%--<%@ include--%>
-                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>--%>
-                    </div
+                    <%--<div id="school" class="tab-pane">--%>
+                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>&ndash;%&gt;--%>
+                    <%--</div--%>
 
-                    <div id="references" class="tab-pane">
-                        <%--<%@ include--%>
-                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>--%>
-                    </div>
+                    <%--<div id="references" class="tab-pane">--%>
+                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>&ndash;%&gt;--%>
+                    <%--</div>--%>
 
-                    <div id="jobUmeca" class="tab-pane">
-                        <%--<%@ include--%>
-                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>--%>
-                    </div>
+                    <%--<div id="jobUmeca" class="tab-pane">--%>
+                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>&ndash;%&gt;--%>
+                    <%--</div>--%>
 
-                    <div id="vacations" class="tab-pane">
-                        <%--<%@ include--%>
-                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/vacations/vacations.jsp" %>--%>
-                    </div>
-                    <div id="overtime" class="tab-pane">
-                        GRAFICA!!!
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/supervisor/framingMeeting/job/school.jsp" %>--%>
-                    </div>
+                    <%--<div id="vacations" class="tab-pane">--%>
+                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/vacations/vacations.jsp" %>&ndash;%&gt;--%>
+                    <%--</div>--%>
+                    <%--<div id="overtime" class="tab-pane">--%>
+                    <%--GRAFICA!!!--%>
+                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;file="/WEB-INF/jsp/supervisor/framingMeeting/job/school.jsp" %>&ndash;%&gt;--%>
+                    <%--</div>--%>
 
-                    <div id="incapacity" class="tab-pane">
-                        <%--<%@ include--%>
-                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>--%>
-                    </div>
+                    <%--<div id="incapacity" class="tab-pane">--%>
+                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>&ndash;%&gt;--%>
+                    <%--</div>--%>
 
-                    <div id="documents" class="tab-pane">
-                        <%--<%@ include--%>
-                                <%--file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>--%>
-                    </div>
+                    <%--<div id="documents" class="tab-pane">--%>
+                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>&ndash;%&gt;--%>
+                    <%--</div>--%>
 
                 </div>
 
             </div>
-
         </div>
     </div>
 
+    <%--<div class="row">--%>
+    <%--<div class="modal-footer col-xs-10 col-xs-offset-1">--%>
+    <%--<span class="btn btn-default btn-sm" ng-click="returnFM();">--%>
+    <%--Regresar--%>
+    <%--</span>--%>
+    <%--</div>--%>
+    <%--</div>--%>
     <div class="row">
-        <div class="modal-footer col-xs-10 col-xs-offset-1">
-                    <span class="btn btn-default btn-sm" ng-click="returnFM();">
-                        Regresar
-                    </span>
+        <div class="col-xs-12">
+            <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
+            <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
         </div>
     </div>
-    <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
-    <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
-</div>
 </body>
 </html>

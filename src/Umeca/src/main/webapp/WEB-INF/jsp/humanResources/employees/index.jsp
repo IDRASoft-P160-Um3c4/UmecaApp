@@ -5,9 +5,7 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upsertCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/employees/upsertEmployeeCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/modalDlgCtrl.js"></script>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
     <link rel="stylesheet"
