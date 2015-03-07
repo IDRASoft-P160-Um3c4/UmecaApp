@@ -3,9 +3,11 @@ package com.umeca.model.entities.humanReources;
 import com.umeca.model.catalog.District;
 import com.umeca.model.dto.humanResources.EmployeeDto;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.Job;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "employee")
@@ -54,6 +56,9 @@ public class Employee {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_general_data")
     private EmployeeGeneralData employeeGeneralData;
+
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<Job> jobs;
 
     public Employee() {
 
@@ -176,4 +181,13 @@ public class Employee {
     public void setEmployeeGeneralData(EmployeeGeneralData employeeGeneralData) {
         this.employeeGeneralData = employeeGeneralData;
     }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
 }
