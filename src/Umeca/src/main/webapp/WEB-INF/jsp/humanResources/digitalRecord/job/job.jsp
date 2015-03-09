@@ -6,7 +6,7 @@
     $(document).ready(function () {
 
         upsertJob = function (id) {
-            window.showUpsert(id, "#angJsjqGridIdJob", "<c:url value='/humanResources/digitalRecord/upsertJob.html'/>", "#GridIdJob");
+            window.showUpsertWithIdEmployee(id, "#angJsjqGridIdJob", "<c:url value='/humanResources/digitalRecord/upsertJob.html'/>", "#GridIdJob", undefined, ${idEmployee});
         };
 
         deleteJob = function (id) {
@@ -31,8 +31,8 @@
                         search: false
                     },
                     {name: 'post', index: 'post', width: 200, align: "center", sorttype: 'string', search: false},
-                    {name: 'iDate', index: 'iDate', width: 150, align: "center", search: false},
-                    {name: 'eDate', index: 'eDate', width: 150, align: "center", search: false},
+                    {name: 'start', index: 'iDate', width: 150, align: "center", search: false},
+                    {name: 'end', index: 'eDate', width: 150, align: "center", search: false},
                     {
                         name: 'Action',
                         width: 65,
@@ -46,7 +46,7 @@
                 rowList: [10, 20, 30],
                 pager: '#GridPagerJob',
                 sortname: 'id',
-                height: 200,
+                height: 300,
                 viewrecords: true,
                 shrinkToFit: false,
                 sortorder: "asc",

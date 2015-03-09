@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer.dto;
 
 import com.google.gson.Gson;
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.entities.reviewer.Job;
 
 import java.text.DateFormat;
@@ -15,7 +16,7 @@ import java.util.Date;
  * Time: 10:53 AM
  * To change this template use File | Settings | File Templates.
  */
-public class JobDto {
+public class JobDto implements EntityGrid{
     private Long id;
     private Long idCase;
     private Long idEmployee;

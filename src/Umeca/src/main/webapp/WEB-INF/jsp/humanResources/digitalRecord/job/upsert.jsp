@@ -22,7 +22,8 @@
                 </div>
                 <div class="modal-body">
                     <form id="FormJobId" name="FormJobId" class="form-horizontal" role="form">
-                        <input type="hidden" name="idEmployee" value="{{job.idEmpoyee}}">
+                        <input type="hidden" name="idEmployee" value="{{job.idEmployee}}">
+                        <input type="hidden" name="id" value="{{job.id}}">
 
                         <div class="row">
                             <div class="col-xs-12">

@@ -43,6 +43,11 @@
     </style>
 
     <script>
+
+        returnEmployeesGrid = function () {
+            window.goToUrlMvcUrl('<c:url value="/humanResources/employees/index.html"/>');
+        }
+
         uploadPhoto = function () {
             <%--var id = ${idCase};--%>
             window.showUpsert(id, "#divPhoto", '<c:url value='/shared/uploadFile/uploadFile.html?type=PHOTO' />', undefined, undefined);
@@ -105,7 +110,7 @@
     <div class="row" style="padding: 1%;">
         <div class="col-xs-10 col-xs-offset-1 element-right">
             <br/>
-    <span class="btn btn-default btn-sm" ng-click="returnFM();">
+    <span class="btn btn-default btn-sm" onclick="returnEmployeesGrid();">
     Regresar
     </span>
         </div>
@@ -139,7 +144,7 @@
                     </li>
 
                     <li id="liSchoolHistory">
-                        <a data-toggle="tab" href="#school">
+                        <a data-toggle="tab" href="#empSchool">
                             <div class="row">
                                 <div class="col-xs-10">
                                     <i class="blue icon-book bigger-200"></i>
@@ -227,40 +232,40 @@
                                 file="/WEB-INF/jsp/humanResources/digitalRecord/job/job.jsp" %>
                     </div>
 
-                    <%--<div id="school" class="tab-pane">--%>
-                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>&ndash;%&gt;--%>
-                    <%--</div--%>
+                    <div id="empSchool" class="tab-pane">
+                        <%@ include
+                        file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>
+                    </div>
 
-                    <%--<div id="references" class="tab-pane">--%>
-                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>&ndash;%&gt;--%>
-                    <%--</div>--%>
+                    <div id="references" class="tab-pane">
+                        <%--<%@ include--%>
+                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>--%>
+                    </div>
 
-                    <%--<div id="jobUmeca" class="tab-pane">--%>
-                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>&ndash;%&gt;--%>
-                    <%--</div>--%>
+                    <div id="jobUmeca" class="tab-pane">
+                    <%--<%@ include--%>
+                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>--%>
+                    </div>
 
-                    <%--<div id="vacations" class="tab-pane">--%>
-                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/vacations/vacations.jsp" %>&ndash;%&gt;--%>
-                    <%--</div>--%>
-                    <%--<div id="overtime" class="tab-pane">--%>
-                    <%--GRAFICA!!!--%>
-                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;file="/WEB-INF/jsp/supervisor/framingMeeting/job/school.jsp" %>&ndash;%&gt;--%>
-                    <%--</div>--%>
+                    <div id="vacations" class="tab-pane">
+                    <%--<%@ include--%>
+                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/vacations/vacations.jsp" %>--%>
+                    </div>
+                    <div id="overtime" class="tab-pane">
+                    GRAFICA!!!
+                    <%--<%@ include--%>
+                    <%--file="/WEB-INF/jsp/supervisor/framingMeeting/job/school.jsp" %>--%>
+                    </div>
 
-                    <%--<div id="incapacity" class="tab-pane">--%>
-                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>&ndash;%&gt;--%>
-                    <%--</div>--%>
+                    <div id="incapacity" class="tab-pane">
+                    <%--<%@ include--%>
+                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>--%>
+                    </div>
 
-                    <%--<div id="documents" class="tab-pane">--%>
-                    <%--&lt;%&ndash;<%@ include&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>&ndash;%&gt;--%>
-                    <%--</div>--%>
+                    <div id="documents" class="tab-pane">
+                    <%--<%@ include--%>
+                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>--%>
+                    </div>
 
                 </div>
 
@@ -268,13 +273,13 @@
         </div>
     </div>
 
-    <%--<div class="row">--%>
-    <%--<div class="modal-footer col-xs-10 col-xs-offset-1">--%>
-    <%--<span class="btn btn-default btn-sm" ng-click="returnFM();">--%>
-    <%--Regresar--%>
-    <%--</span>--%>
-    <%--</div>--%>
-    <%--</div>--%>
+    <div class="row">
+        <div class="modal-footer col-xs-10 col-xs-offset-1">
+            <span class="btn btn-default btn-sm" onclick="returnEmployeesGrid();">
+            Regresar
+            </span>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xs-12">
             <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>

@@ -198,17 +198,18 @@ public class DigitalRecordController {
     }
 
     @RequestMapping(value = "/humanResources/digitalRecord/upsertJob", method = RequestMethod.POST)
-    public ModelAndView showUpsertJob(Long id) {
+    public ModelAndView showUpsertJob(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/job/upsert");
         Gson gson = new Gson();
         JobDto j = new JobDto();
         if (id != null)
-            j = jobRepository.getDtoJobById(id);
+            j = jobRepository.getDtoJobByIds(idEmployee, id);
         else {
-            j.setIdEmployee(id);
+            j.setIdEmployee(idEmployee);
         }
 
         model.addObject("job", gson.toJson(j));
+
         return model;
     }
 
@@ -217,7 +218,7 @@ public class DigitalRecordController {
     public ResponseMessage doUpsertJob(@ModelAttribute JobDto jobDto) {
         ResponseMessage response = new ResponseMessage();
         try {
-            response = humanResourcesService.saveEmployeeJob(jobDto); //el puto id de mierda del puto de mierda del empleado no viene
+            response = humanResourcesService.saveEmployeeJob(jobDto);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertJob", sharedUserService);
             response.setHasError(true);
