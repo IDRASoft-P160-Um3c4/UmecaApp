@@ -47,11 +47,6 @@
     </style>
 
     <script>
-
-        pincheCosa = function () {
-            alert('aaaa');
-        }
-
         returnEmployeesGrid = function () {
             window.goToUrlMvcUrl('<c:url value="/humanResources/employees/index.html"/>');
         }
