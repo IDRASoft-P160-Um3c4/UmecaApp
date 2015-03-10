@@ -1,11 +1,9 @@
 package com.umeca.service.humanResources;
 
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.dto.humanResources.CourseAchievementDto;
-import com.umeca.model.dto.humanResources.EmployeeDto;
-import com.umeca.model.dto.humanResources.EmployeeGeneralDataDto;
-import com.umeca.model.dto.humanResources.EmployeeSchoolHistoryDto;
+import com.umeca.model.dto.humanResources.*;
 import com.umeca.model.entities.humanReources.CourseAchievement;
+import com.umeca.model.entities.humanReources.EmployeeReference;
 import com.umeca.model.entities.humanReources.EmployeeSchoolHistory;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
@@ -28,8 +26,12 @@ public interface DigitalRecordService {
 
     ResponseMessage saveSchoolHisotry(EmployeeSchoolHistoryDto employeeSchoolHistoryDto);
 
-    ResponseMessage saveCourse(CourseAchievement courseAchievement);
+    ResponseMessage saveCourse(CourseAchievementDto courseAchievementDto);
 
     ResponseMessage deleteCourse(Long id);
+
+    ResponseMessage saveReference(EmployeeReferenceDto referenceDto);
+
+    ResponseMessage deleteReference(Long id);
 
 }

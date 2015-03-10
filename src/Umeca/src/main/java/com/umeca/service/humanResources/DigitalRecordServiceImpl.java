@@ -2,26 +2,19 @@ package com.umeca.service.humanResources;
 
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Degree;
-import com.umeca.model.dto.humanResources.CourseAchievementDto;
-import com.umeca.model.dto.humanResources.EmployeeDto;
-import com.umeca.model.dto.humanResources.EmployeeGeneralDataDto;
-import com.umeca.model.dto.humanResources.EmployeeSchoolHistoryDto;
-import com.umeca.model.entities.humanReources.CourseAchievement;
-import com.umeca.model.entities.humanReources.Employee;
-import com.umeca.model.entities.humanReources.EmployeeGeneralData;
-import com.umeca.model.entities.humanReources.EmployeeSchoolHistory;
+import com.umeca.model.dto.humanResources.*;
+import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
+import com.umeca.model.entities.shared.CourseType;
 import com.umeca.model.entities.shared.SchoolDocumentType;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.catalog.DocumentTypeRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.MaritalStatusRepository;
 import com.umeca.repository.catalog.RegisterTypeRepository;
-import com.umeca.repository.humanResources.EmployeeGeneralDataRepository;
-import com.umeca.repository.humanResources.EmployeeRepository;
-import com.umeca.repository.humanResources.EmployeeSchoolHistoryRepository;
+import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +43,10 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private RegisterTypeRepository registerTypeRepository;
     @Autowired
     private EmployeeSchoolHistoryRepository employeeSchoolHistoryRepository;
+    @Autowired
+    private CourseAchievementRepository courseAchievementRepository;
+    @Autowired
+    private EmployeeReferenceRepository employeeReferenceRepository;
 
     @Transactional
     public ResponseMessage saveEmployee(EmployeeDto employeeDto, HttpServletRequest request) {
@@ -125,7 +122,6 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
             employeeGeneralData.setDateEntryUmeca(sdf.parse(dataDto.getDateEntryUmeca()));
         } catch (Exception e) {
         }
-
 
         employeeGeneralData.setMaritalStatus(maritalStatusRepository.findOne(dataDto.getMaritalStatusId()));
         employeeGeneralData.setIdentification(documentTypeRepository.findOne(dataDto.getDocumentId()));
@@ -231,23 +227,80 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         return schoolHistory;
     }
 
-    private CourseAchievement fillCourseAchievement(CourseAchievementDto courseAchievementDto) {
-        CourseAchievement courseAchievement = new CourseAchievement();
+    private CourseAchievement fillCourseAchievement(CourseAchievementDto courseDto) {
+        CourseAchievement course = new CourseAchievement();
 
-        return courseAchievement;
+        if (courseDto.getId() != null)
+            course = courseAchievementRepository.findCourseAchievmentByIds(courseDto.getIdEmployee(), courseDto.getId());
+        else {
+            Employee employee = new Employee();
+            employee.setId(courseDto.getIdEmployee());
+            course.setEmployee(employee);
+        }
+
+        course.setName(courseDto.getName());
+        course.setPlace(courseDto.getPlace());
+        try {
+            course.setStart(sdf.parse(courseDto.getStart()));
+            course.setEnd(sdf.parse(courseDto.getEnd()));
+        } catch (Exception e) {
+        }
+        course.setIsTraining(courseDto.getIsTraining());
+
+        CourseType ct = new CourseType();
+        ct.setId(courseDto.getIdCourseType());
+        course.setCourseType(ct);
+        course.setSpecCourseType(courseDto.getSpecCourseType());
+
+        SchoolDocumentType dc = new SchoolDocumentType();
+        dc.setId(courseDto.getIdDocType());
+        course.setSchoolDocumentType(dc);
+        course.setSpecDocType(courseDto.getSpecDocType());
+
+        return course;
     }
 
     @Transactional
-    public ResponseMessage saveCourse(CourseAchievement courseAchievement) {
+    public ResponseMessage saveCourse(CourseAchievementDto courseDto) {
         ResponseMessage responseMessage = new ResponseMessage();
-
+        courseAchievementRepository.save(fillCourseAchievement(courseDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El curso ha sido guardado con éxito");
         return responseMessage;
     }
 
     @Transactional
     public ResponseMessage deleteCourse(Long id) {
         ResponseMessage responseMessage = new ResponseMessage();
+        courseAchievementRepository.delete(id);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El curso ha sido eliminado con éxito");
+        return responseMessage;
+    }
 
+    private EmployeeReference fillReference(EmployeeReferenceDto referenceDto) {
+        EmployeeReference reference = new EmployeeReference();
+
+        //todo
+
+        return reference;
+    }
+
+    @Transactional
+    public ResponseMessage saveReference(EmployeeReferenceDto referenceDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        employeeReferenceRepository.save(fillReference(referenceDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("La referencia ha sido guardada con éxito");
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage deleteReference(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        employeeRepository.delete(id);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("La referencia ha sido eliminado con éxito");
         return responseMessage;
     }
 

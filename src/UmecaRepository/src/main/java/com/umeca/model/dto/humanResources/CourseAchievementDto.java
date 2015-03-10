@@ -10,22 +10,24 @@ public class CourseAchievementDto implements EntityGrid {
 
     private Long id;
     private Long idEmployee;
+    private String name;
     private String place;
     private Long idCourseType;
     private String specCourseType;
     private Long idDocType;
     private String specDocType;
-    private String startStr;
-    private String endStr;
+    private String start;
+    private String end;
     private String courseType;
     private String documentType;
-
+    private Boolean isTraining;
 
     public CourseAchievementDto() {
     }
 
-    public CourseAchievementDto(Long id, Long idEmployee, String place, Long idCourseType, String specCourseType, Long idDocType, String specDocType, Date start, Date end) {
+    public CourseAchievementDto(Long id, Long idEmployee, String name, String place, Long idCourseType, String specCourseType, Long idDocType, String specDocType, Date start, Date end) {
         this.id = id;
+        this.name = name;
         this.idEmployee = idEmployee;
         this.place = place;
         this.idCourseType = idCourseType;
@@ -35,15 +37,16 @@ public class CourseAchievementDto implements EntityGrid {
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
         if (start != null) {
-            this.startStr = formatter.format(start);
+            this.start = formatter.format(start);
         }
         if (end != null) {
-            this.endStr = formatter.format(end);
+            this.end = formatter.format(end);
         }
     }
 
-    public CourseAchievementDto(Long id, String courseType, String place, String documentType) {
+    public CourseAchievementDto(Long id, String courseType, String name, String place, String documentType) {
         this.id = id;
+        this.name = name;
         this.place = place;
         this.courseType = courseType;
         this.documentType = documentType;
@@ -98,20 +101,20 @@ public class CourseAchievementDto implements EntityGrid {
         this.specDocType = specDocType;
     }
 
-    public String getStartStr() {
-        return startStr;
+    public String getStart() {
+        return start;
     }
 
-    public void setStartStr(String startStr) {
-        this.startStr = startStr;
+    public void setStart(String start) {
+        this.start = start;
     }
 
-    public String getEndStr() {
-        return endStr;
+    public String getEnd() {
+        return end;
     }
 
-    public void setEndStr(String endStr) {
-        this.endStr = endStr;
+    public void setEnd(String end) {
+        this.end = end;
     }
 
     public Long getIdEmployee() {
@@ -120,6 +123,38 @@ public class CourseAchievementDto implements EntityGrid {
 
     public void setIdEmployee(Long idEmployee) {
         this.idEmployee = idEmployee;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCourseType() {
+        return courseType;
+    }
+
+    public void setCourseType(String courseType) {
+        this.courseType = courseType;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
+
+    public Boolean getIsTraining() {
+        return isTraining;
+    }
+
+    public void setIsTraining(Boolean isTraining) {
+        this.isTraining = isTraining;
     }
 }
 

@@ -97,7 +97,6 @@
 
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
-
         <div class="element-center">
             <h2><i class="blue icon-book  bigger-100">&nbsp;</i>Historia escolar</h2>
             <br/>
@@ -184,6 +183,7 @@
                                                         ng-model="hs.document"
                                                         ng-options="e.name for e in lstDocs"
                                                         ng-init='lstDocs = ${lstSchoolDocType};'
+                                                        ng-change="cleanDocSpec();"
                                                         ></select>
                                                 <input type="hidden" name="documentId" value="{{hs.document.id}}"/>
                                             </div>
@@ -222,26 +222,29 @@
 
             <div class="row">
                 <div class="widget-box">
-                    <div class="widget-header">Cursos/Logros</div>
+                    <div class="widget-header element-left">Ultimo grado de estudios</div>
                     <div class="widget-body">
                         <div class="row">
-                            <div class="col-xs-12" style="padding: 2%;">
-                                <div id="angJsjqGridSchool" ng-controller="modalDlgController">
-                                    <table id="GridSchool" class="element-center" style="margin: auto"></table>
-                                    <div id="GridPagerSchool"></div>
-                                    <div class="blocker" ng-show="working">
-                                        <div>
-                                            Cargando...<img
-                                                src="<c:url value='/assets/content/images/ajax_loader.gif' />"
-                                                alt=""/>
-                                        </div>
+                            <div class="col-xs-12">
+                                <br/>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <jsp:include
+                                                page="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/course.jsp">
+                                            <jsp:param name="type" value="0"/>
+                                        </jsp:include>
                                     </div>
                                 </div>
+                                <br/>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+
+

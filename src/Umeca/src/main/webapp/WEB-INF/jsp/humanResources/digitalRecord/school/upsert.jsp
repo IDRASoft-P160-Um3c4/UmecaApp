@@ -1,65 +1,35 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormJobId");
-    });
-
-    $('#timeJobStart').timepicker({
-        minuteStep: 1,
-        showSeconds: false,
-        showMeridian: false
-    }).next().on(ace.click_event, function () {
-        $(this).prev().focus();
-    });
-
-    $('#timeJobEnd').timepicker({
-        minuteStep: 1,
-        showSeconds: false,
-        showMeridian: false
-    }).next().on(ace.click_event, function () {
-        $(this).prev().focus();
+        window.showModalFormDlg("#dlgUpModalId", "#FormCourseId");
     });
 
     $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
         $(this).prev().focus();
     });
-    $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function () {
-        $(this).next().focus();
-    });
-
-
 </script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div>
-    <div id="dlgUpModalId" class="modal fade" ng-controller="framingJobController" ng-cloak>
-
-        <div class="modal-dialog" style="width:800px" ng-init='job=${job}'>
+    <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
+        <div class="modal-dialog" style="width:800px" ng-controller="courseController"
+             ng-init='course=${course}'>
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-info ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center"><i class="blue icon-group bigger-100"></i>&nbsp;&nbsp;Historia
-                            laboral</h4>
+                        <h4 class="element-center"><i class="icon-group "></i>&nbsp;&nbsp;Agregar curso</h4>
                     </div>
                 </div>
                 <div class="modal-body">
-                    <form id="FormJobId" name="FormJobId" class="form-horizontal" role="form">
-
-                        <input type="hidden" name="id" value="{{job.id}}">
-                        <input type="hidden" name="registerTypeId" value="{{registerType.id}}">
-                        <br/>
+                    <form id="FormCourseId" name="FormCourseId" class="form-horizontal" role="form">
+                        <input type="hidden" name="idEmployee" value="{{course.idEmployee}}">
+                        <input type="hidden" name="id" value="{{course.id}}">
+                        <input type="hidden" name="isTraining" value="false">
 
                         <div class="row">
-                            <div id="divHiddenJob" ng-show="false">
-                                <input type="hidden" name="post" value="{{job.post}}">
-                                <input type="hidden" name="company" value="{{job.company}}">
-                                <input type="hidden" name="address" value="{{job.address}}">
-                                <input type="hidden" name="phone" value="{{job.phone}}">
-                                <input type="hidden" name="nameHead" value="{{job.nameHead}}">
-                            </div>
                             <div class="col-xs-12">
                                 <div class="widget-box">
-                                    <div class="widget-header">Historia laboral</div>
+                                    <div class="widget-header">Agregar curso</div>
                                     <div class="widget-body">
                                         <div class="row">
                                             <div class="col-xs-12">
@@ -67,133 +37,149 @@
                                                 <div class="col-xs-12">
                                                     <br/>
 
-                                                    <div ng-show="MsgErrorJob!=''"
+                                                    <div ng-show="MsgError!=''"
                                                          class="alert alert-danger element-center"
-                                                         ng-bind-html="MsgErrorJob">
+                                                         ng-bind-html="MsgError">
                                                     </div>
                                                 </div>
                                                 <br/>
 
-                                                <div class="col-xs-12">
-                                                    <div class="col-xs-10">
-                                                        <label>&iquest;El imputado trabaja actualmente?</label>
-                                                        <br/>
-
-                                                        <div class="radio">
-                                                            <label>
-                                                                <input class="ace" type="radio" ng-value="true"
-                                                                       name="block"
-                                                                       ng-model="hasActualJob"
-                                                                       ng-checked="hasActualJob==true"
-                                                                       ng-click="disableView(true);">
-                                                                <span class="lbl">&nbsp;&nbsp;Si</span>
-                                                            </label>
-                                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <label>
-                                                                <input class="ace" type="radio" ng-value="false"
-                                                                       name="block"
-                                                                       ng-model="hasActualJob"
-                                                                       ng-checked="hasActualJob==false"
-                                                                       ng-click="disableView(false);">
-                                                                <span class="lbl">&nbsp;&nbsp;No</span>
-                                                            </label>
-                                                        </div>
-                                                        <br/>
-                                                    </div>
-                                                </div>
-
-                                                <br/>
-
-                                                <div id="divJob">
+                                                <div id="divCourse">
                                                     <div class="col-xs-12">
-                                                        <div class="col-xs-12">
-                                                            <label>Empresa</label>
+                                                        <div class="col-xs-6">
+                                                            <label>Nombre</label>
                                                             <br/>
-                                                            <input id="company" ng-model="job.company" name="company"
+                                                            <input id="name" ng-model="course.name"
+                                                                   name="name"
                                                                    type="text" style=" width: 100% !important"
                                                                    class="input-xxlarge" data-val="true"
-                                                                   data-val-required="Empresa es un campo requerido"/>
+                                                                   data-val-required="Nombre es un campo requerido"/>
                                                             <br/>
-                                        <span class="field-validation-valid" data-valmsg-for="company"
-                                              data-valmsg-replace="true"></span>
+                                                            <span class="field-validation-valid"
+                                                                  data-valmsg-for="name"
+                                                                  data-valmsg-replace="true"></span>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <label>Lugar</label>
+                                                            <br/>
+                                                            <input id="place" ng-model="course.place"
+                                                                   name="place"
+                                                                   type="text" style=" width: 100% !important"
+                                                                   class="input-xxlarge" data-val="true"
+                                                                   data-val-required="Lugar es un campo requerido"/>
+                                                            <br/>
+                                                            <span class="field-validation-valid"
+                                                                  data-valmsg-for="place"
+                                                                  data-valmsg-replace="true"></span>
                                                         </div>
                                                     </div>
-                                                    <br/>
 
                                                     <div class="col-xs-12">
                                                         <br/>
 
                                                         <div class="col-xs-6">
-                                                            <label>Puesto</label>
+                                                            <label>Tipo</label>
                                                             <br/>
-                                                            <input id="post" ng-model="job.post" name="post" type="text"
-                                                                   class="input-xxlarge" data-val="true"
-                                                                   data-val-required="Puesto es un campo requerido"/>
-                                                            <br/>
-                                        <span class="field-validation-valid" data-valmsg-for="post"
-                                              data-valmsg-replace="true"></span>
+                                                            <select id="idCourseType"
+                                                                    class="form-control element-center"
+                                                                    ng-model="course.courseType"
+                                                                    ng-init='lstCourseType = ${lstCourseType}'
+                                                                    ng-change="cleanSpecs();"
+                                                                    ng-options="e.name for e in lstCourseType"></select>
+                                                            <input type="hidden" name="idCourseType"
+                                                                   value="{{course.courseType.id}}"/>
                                                         </div>
 
                                                         <div class="col-xs-6">
-                                                            <label>Tel&eacute;fono:</label>
+                                                            <label>Documento obtenido</label>
                                                             <br/>
-                                    <textarea class="input-xxlarge form-control limited"
-                                              name="phone"
-                                              ng-model="job.phone"
-                                              maxlength="980" data-val="true"
-                                              data-val-required="Tel&eacute;fono es un campo requerido">
-                                    </textarea>
-        <span class="field-validation-valid" data-valmsg-for="phone"
-              data-valmsg-replace="true"></span>
+                                                            <select id="idDocType" class="form-control element-center"
+                                                                    ng-model="course.docType"
+                                                                    ng-init='lstDocs= ${lstSchoolDocType}'
+                                                                    ng-change="cleanSpecs();"
+                                                                    ng-options="e.name for e in lstDocs"></select>
+                                                            <input type="hidden" name="idDocType"
+                                                                   value="{{course.docType.id}}"/>
                                                         </div>
 
                                                     </div>
-                                                    <br/>
-
                                                     <div class="col-xs-12">
-                                                        <div class="col-xs-6">
-                                                            <label>Nombre del patr&oacute;n</label>
+                                                        <br/>
+
+                                                        <div class="col-xs-6"
+                                                             ng-show="course.courseType.specification==true">
+                                                            <label>Especifique tipo</label>
                                                             <br/>
-                                                            <input id="nameHead" ng-model="job.nameHead" name="nameHead"
-                                                                   type="text"
+                                                            <input id="specCourseType" ng-model="course.specCourseType"
+                                                                   name="specCourseType"
+                                                                   type="text" style=" width: 100% !important"
                                                                    class="input-xxlarge" data-val="true"
-                                                                   data-val-required="Nombre del patr&oacute;n es un campo requerido"/>
+                                                                   data-val-required="Especifique tipo es un campo requerido"/>
                                                             <br/>
-                                        <span class="field-validation-valid" data-valmsg-for="nameHead"
-                                              data-valmsg-replace="true"></span>
+                                                            <span class="field-validation-valid"
+                                                                  data-valmsg-for="specCourseType"
+                                                                  data-valmsg-replace="true"></span>
                                                         </div>
-                                                        <div class="col-xs-6">
-                                                            <label>Tipo de empleo</label>
+                                                        <div class="col-xs-6"
+                                                             ng-show="course.docType.specification==true">
+                                                            <label>Especifique documento</label>
                                                             <br/>
-                                                            <select class="form-control element-center"
-                                                                    ng-model="registerType"
-                                                                    ng-options="e.name for e in lstRegisterType"
-                                                                    ng-init='lstRegisterType = ${lstRegisterType};'></select>
+                                                            <input id="specDocType" ng-model="course.specDocType"
+                                                                   name="specDocType"
+                                                                   type="text" style=" width: 100% !important"
+                                                                   class="input-xxlarge" data-val="true"
+                                                                   data-val-required="Especifique documento es un campo requerido"/>
+                                                            <br/>
+                                                            <span class="field-validation-valid"
+                                                                  data-valmsg-for="specDocType"
+                                                                  data-valmsg-replace="true"></span>
                                                         </div>
                                                     </div>
-                                                    <br/>
 
                                                     <div class="col-xs-12">
                                                         <br/>
 
-                                                        <div class="col-xs-12">
+                                                        <div class="col-xs-6">
+                                                            <label>Fecha de inicio</label>
+                                                            <br/>
 
-                                                            <label>Domicilio</label>
+                                                            <div class="input-group">
+                                                                <input class="form-control date-picker"
+                                                                       name="start" type="text"
+                                                                       data-date-format="yyyy/mm/dd"
+                                                                       readonly
+                                                                       ng-model="course.start" data-val="true"
+                                                                       data-val-required="Fecha de inicio es un campo requerido"/>
+                                                                    <span class="input-group-addon">
+                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                    </span>
+                                                            </div>
+                                                        <span class="field-validation-valid"
+                                                              data-valmsg-for="start"
+                                                              data-valmsg-replace="true"></span>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <label>Fecha de fin</label>
                                                             <br/>
-                                    <textarea class="input-xxlarge form-control limited"
-                                              name="address"
-                                              ng-model="job.address"
-                                              maxlength="980" data-val="true"
-                                              data-val-required="Direcci&oacute;n es un campo requerido">
-                                    </textarea>
-        <span class="field-validation-valid" data-valmsg-for="address"
-              data-valmsg-replace="true"></span>
-                                                            <br/>
+
+                                                            <div class="input-group">
+                                                                <input class="form-control date-picker"
+                                                                       name="end" type="text"
+                                                                       data-date-format="yyyy/mm/dd"
+                                                                       readonly
+                                                                       ng-model="course.end" data-val="true"
+                                                                       data-val-required="Fecha de fin es un campo requerido"/>
+                                                                    <span class="input-group-addon">
+                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                    </span>
+                                                            </div>
+                                                        <span class="field-validation-valid"
+                                                              data-valmsg-for="end"
+                                                              data-valmsg-replace="true"></span>
                                                             <br/>
                                                         </div>
-
                                                     </div>
-                                                    <br/>
+
                                                 </div>
                                             </div>
                                             <br/>
@@ -203,210 +189,6 @@
                             </div>
                         </div>
                         <br/>
-
-                        <div id="divSpecs" class="row" ng-show="hasActualJob==true">
-                            <div class="col-xs-12">
-                                <div class="widget-box">
-                                    <div class="widget-header">Trabajo {{registerType.name}}</div>
-                                    <div class="widget-body">
-                                        <br/>
-
-                                        <div class="row" ng-show="registerType.id!=3">
-
-                                            <input type="hidden" name="schedule" value="{{job.schedule}}">
-
-                                            <div class="col-xs-12">
-                                                <div class="col-xs-6">
-                                                    <label>Inicio</label>
-                                                    <br/>
-
-                                                    <div class="input-group">
-                                                        <input class="form-control date-picker"
-                                                               id="start" name="start"
-                                                               type="text"
-                                                               data-date-format="yyyy/mm/dd"
-                                                               readonly ng-model="job.start"
-                                                               data-val="true"
-                                                               data-val-required="Inicio es un campo requerido"/>
-                                                <span class="input-group-addon">
-                                                    <i class="icon-calendar bigger-110"></i>
-                                                </span>
-                                                    </div>
-                                <span class="field-validation-valid" data-valmsg-for="start"
-                                      data-valmsg-replace="true"></span>
-                                                </div>
-
-                                                <div class="col-xs-6">
-                                                    <label>Salario semanal</label>
-                                                    <br/>
-                                                    <input id="salaryWeek" ng-model="job.salaryWeek" name="salaryWeek"
-                                                           type="text"
-                                                           class="input-xxlarge" data-val="true"
-                                                           data-val-required="Salario semanal es un campo requerido"
-                                                           data-val-regex-pattern="([0-9]+(.[0-9])?)"
-                                                           data-val-regex="S&oacute;lo puede contener n&uacute;meros y un punto"/>
-                                                    <br/>
-                                        <span class="field-validation-valid" data-valmsg-for="salaryWeek"
-                                              data-valmsg-replace="true"></span>
-                                                </div>
-                                            </div>
-                                            <br/>
-
-                                            <div class="col-xs-12">
-                                                <div class="col-xs-12">
-                                                    <div class="col-xs-12">
-                                                        <br/>
-
-                                                        <div ng-show="MsgErrorSchedule!=''"
-                                                             class="alert alert-danger element-center">
-                                                            <span>{{MsgErrorSchedule}}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-4">
-                                                        <label>D&iacute;a(s)</label>
-                                                        <br/>
-                                                        <input class="form-control" type="text"
-                                                               ng-model="day">
-                                                    </div>
-                                                    <div class="col-xs-3">
-                                                        <label>Inicio</label>
-                                                        <br/>
-
-                                                        <div class="input-group bootstrap-timepicker">
-                                                            <input id="timeJobStart" ng-model="timeStart"
-                                                                   readonly type="text"
-                                                                   class="form-control umeca-time-picker">
-                                                        <span class="input-group-addon"><i
-                                                                class="icon-time bigger-110"></i></span>
-                                                            <br/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-3">
-                                                        <label>Fin</label>
-                                                        <br/>
-
-                                                        <div class="input-group bootstrap-timepicker">
-                                                            <input id="timeJobEnd" ng-model="timeEnd"
-                                                                   readonly type="text"
-                                                                   class="form-control umeca-time-picker">
-                                                        <span class="input-group-addon"><i
-                                                                class="icon-time bigger-110"></i></span>
-                                                            <br/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-2">
-                                                        <br/>
-                                                        <button type="button" class="btn btn-info"
-                                                                ng-click="addSchedule();">
-                                                            <i class="icon-plus bigger-110"></i>
-                                                            Agregar
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-10 col-xs-offset-1">
-                                                    <br/>
-                                                    <br/>
-
-                                                    <table class="table table-striped table-bordered table-hover">
-                                                        <thead class="thin-border-bottom">
-                                                        <tr>
-                                                            <th class="element-center">D&iacute;a(s)</th>
-                                                            <th class="element-center">Inicio</th>
-                                                            <th class="element-center">Fin</th>
-                                                            <th class="element-center">Quitar</th>
-                                                        </tr>
-                                                        </thead>
-
-                                                        <tbody>
-                                                        <div>
-                                                            <tr ng-repeat="actSch in job.schedule track by $index">
-                                                                <td class="element-center">{{actSch.day}}</td>
-                                                                <td class="element-center">{{actSch.start}}</td>
-                                                                <td class="element-center">{{actSch.end}}</td>
-                                                                <td class="element-center"><a href="javascript:;"
-                                                                                              style="display:inline-block;"
-                                                                                              title="Quitar de la lista"
-                                                                                              ng-click="removeSchedule($index)"><span
-                                                                        class="glyphicon glyphicon-minus blue"></span></a>
-                                                                </td>
-                                                            </tr>
-                                                        </div>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="row" ng-show="registerType.id==3">
-                                            <div class="col-xs-12">
-                                                <div class="col-xs-6">
-                                                    <label>Inicio</label>
-                                                    <br/>
-
-                                                    <div class="input-group">
-                                                        <input class="form-control date-picker"
-                                                               id="startPrev" name="startPrev"
-                                                               type="text"
-                                                               data-date-format="yyyy/mm/dd"
-                                                               readonly ng-model="job.startPrev"
-                                                               data-val="true"
-                                                               data-val-required="Inicio es un campo requerido"/>
-                                                <span class="input-group-addon">
-                                                    <i class="icon-calendar bigger-110"></i>
-                                                </span>
-                                                    </div>
-                                <span class="field-validation-valid" data-valmsg-for="startPrev"
-                                      data-valmsg-replace="true"></span>
-                                                </div>
-
-                                                <div class="col-xs-6">
-                                                    <label>Fin</label>
-                                                    <br/>
-
-                                                    <div class="input-group">
-                                                        <input class="form-control date-picker"
-                                                               id="end" name="end"
-                                                               type="text"
-                                                               data-date-format="yyyy/mm/dd"
-                                                               readonly ng-model="job.end"
-                                                               data-val="true"
-                                                               data-val-required="Fin es un campo requerido"/>
-                                                <span class="input-group-addon">
-                                                    <i class="icon-calendar bigger-110"></i>
-                                                </span>
-                                                    </div>
-                                <span class="field-validation-valid" data-valmsg-for="end"
-                                      data-valmsg-replace="true"></span>
-                                                </div>
-                                            </div>
-                                            <br/>
-
-                                            <div class="col-xs-12">
-                                                <div class="col-xs-8">
-                                                    <br/>
-                                                    <label>Motivo de cambio:</label>
-                                                    <br/>
-                            <textarea class="input-xxlarge form-control limited"
-                                      name="reasonChange"
-                                      ng-model="job.reasonChange"
-                                      maxlength="980" data-val="true"
-                                      data-val-required="Motivo de cambio es un campo requerido">
-                            </textarea>
-        <span class="field-validation-valid" data-valmsg-for="reasonChange"
-              data-valmsg-replace="true"></span>
-                                                    <br/>
-                                                    <br/>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                     </form>
                     <br/>
@@ -416,7 +198,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submitJob('#FormJobId', '<c:url value="/supervisor/framingMeeting/job/doUpsert.json?idCase="/>',job.idCase);">
+                          ng-click="submitCourse('#FormCourseId', '<c:url value="/humanResources/digitalRecord/doUpsertCourse.json"/>');">
                           Guardar
                     </span>
                 </div>

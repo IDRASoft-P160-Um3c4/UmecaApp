@@ -15,14 +15,23 @@ public class CourseAchievement {
     @Column(name = "id_course_achievement")
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "place")
     private String place;
+
+    @Column(name = "duration")
+    private String duration;
 
     @Column(name = "start_date")
     private Date start;
 
     @Column(name = "end_date")
     private Date end;
+
+    @Column(name = "training")
+    private Boolean isTraining;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_school_document_type")
@@ -48,6 +57,14 @@ public class CourseAchievement {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPlace() {
@@ -112,5 +129,21 @@ public class CourseAchievement {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Boolean getIsTraining() {
+        return isTraining;
+    }
+
+    public void setIsTraining(Boolean isTraining) {
+        this.isTraining = isTraining;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 }

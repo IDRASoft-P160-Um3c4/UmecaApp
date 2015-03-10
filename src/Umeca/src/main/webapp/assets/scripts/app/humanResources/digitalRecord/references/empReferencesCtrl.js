@@ -1,49 +1,22 @@
-app.controller('historySchoolController', function ($scope, $timeout, $sce, $http) {
-    $scope.hs = {};
+app.controller('empReferenceController', function ($scope, $timeout, $sce, $http) {
+    $scope.course = {};
     $scope.WaitFor = false;
     $scope.MsgError;
     $scope.MsgSuccess;
 
     $scope.init = function () {
-        $scope.fillSelect("hs", "acLevel", "lstAcLevel", "acLvlId");
-        $timeout(function () {
-            $scope.getDegree();
-        }, 0);
-        $scope.fillSelect("hs", "document", "lstDocs", "documentId");
+        $scope.fillSelect("course", "courseType", "lstCourseType", "idCourseType");
+        $scope.fillSelect("course", "docType", "lstDocs", "idDocType");
     };
 
-    $scope.getDegree = function () {
-        if ($scope.hs.acLevel === undefined)
-            return;
-
-        var urlDegree = $("#urlGetDegree").val();
-        var currentTimeout = null;
-        var ajaxConf = {
-            method: 'POST',
-            url: urlDegree
-        };
-
-        ajaxConf.params = {acLvlId: $scope.hs.acLevel.id};
-
-        if (currentTimeout) {
-            $timeout.cancel(currentTimeout);
-        }
-
-        currentTimeout = $timeout(function () {
-            $http(ajaxConf)
-                .success(function (result) {
-                    $scope.lstDegree = result;
-                    if (currentTimeout) {
-                        $timeout.cancel(currentTimeout);
-                    }
-                    $timeout(function () {
-                        $scope.fillSelect("hs", "degree", "lstDegree", "degreeId");
-                    }, 0);
-                });
-        }, 0);
+    $scope.cleanSpecs=function(){
+        if($scope.course.courseType.specification==false)
+            $scope.course.specCourseType="";
+        if($scope.course.docType.specification==false)
+            $scope.course.specDocType="";
     };
-
-    $scope.submitSchool = function (formId, urlToGo) {
+    
+    $scope.submitCourse = function (formId, urlToGo) {
 
         if ($(formId).valid() == false) {
             $scope.Invalid = true;
@@ -56,10 +29,10 @@ app.controller('historySchoolController', function ($scope, $timeout, $sce, $htt
         $timeout(function () {
             $.post(urlToGo, $(formId).serialize())
                 .success(function (resp) {
-                    $scope.successSchool(resp);
+                    $scope.successCourse(resp);
                 })
                 .error(function () {
-                    $scope.errorSchool();
+                    $scope.errorCourse();
                 });
         }, 1);
 
@@ -67,7 +40,7 @@ app.controller('historySchoolController', function ($scope, $timeout, $sce, $htt
     };
 
 
-    $scope.successSchool = function (resp) {
+    $scope.successCourse = function (resp) {
 
         $scope.WaitFor = false;
 
@@ -81,12 +54,16 @@ app.controller('historySchoolController', function ($scope, $timeout, $sce, $htt
         } else if (resp.hasError == false) {
             $scope.MsgSuccess = $sce.trustAsHtml(resp.message);
             $scope.MsgError = $sce.trustAsHtml("");
+            $scope.MsgSuccess = $sce.trustAsHtml(resp.message);
+            scope = angular.element('#dlgUpModalId').scope()
+            scope.Model.dlg.modal('hide');
+            scope.Model.def.resolve({isCancel: false});
         }
 
         $scope.$apply();
     };
 
-    $scope.errorSchool = function (resp) {
+    $scope.errorCourse = function (resp) {
         $scope.WaitFor = false;
         $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
         $scope.$apply();

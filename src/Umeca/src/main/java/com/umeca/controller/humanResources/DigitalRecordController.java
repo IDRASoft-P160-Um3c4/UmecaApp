@@ -8,19 +8,16 @@ import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Degree;
-import com.umeca.model.dto.humanResources.CourseAchievementDto;
-import com.umeca.model.dto.humanResources.EmployeeDto;
-import com.umeca.model.dto.humanResources.EmployeeGeneralDataDto;
-import com.umeca.model.dto.humanResources.EmployeeSchoolHistoryDto;
+import com.umeca.model.dto.humanResources.*;
 import com.umeca.model.entities.humanReources.CourseAchievement;
 import com.umeca.model.entities.humanReources.Employee;
+import com.umeca.model.entities.humanReources.EmployeeReference;
 import com.umeca.model.entities.reviewer.Job;
+import com.umeca.model.entities.reviewer.Reference;
 import com.umeca.model.entities.reviewer.dto.JobDto;
+import com.umeca.model.entities.reviewer.dto.ReferenceDto;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.humanResources.CourseAchievementRepository;
-import com.umeca.repository.humanResources.CourseTypeRepository;
-import com.umeca.repository.humanResources.EmployeeSchoolHistoryRepository;
-import com.umeca.repository.humanResources.SchoolDocumentTypeRepository;
+import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
@@ -73,7 +70,9 @@ public class DigitalRecordController {
     @Autowired
     private AcademicLevelRepository academicLevelRepository;
     @Autowired
-    private DegreeRepository degreeRepository;
+    private EmployeeReferenceRepository employeeReferenceRepository;
+    @Autowired
+    private RelationshipRepository relationshipRepository;
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -283,6 +282,7 @@ public class DigitalRecordController {
                 }}, JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter);
+        opts.extraFilters.add(new JqGridRulesModel("training", false, JqGridFilterModel.COMPARE_EQUAL));
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -290,9 +290,10 @@ public class DigitalRecordController {
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
-                    add(r.join("courseType").get("name"));
+                    add(r.join("courseType").get("name").alias("ct"));
+                    add(r.get("name"));
                     add(r.get("place"));
-                    add(r.get("schoolDocumentType").get("name"));
+                    add(r.get("schoolDocumentType").get("name").alias("dt"));
                 }};
             }
 
@@ -300,13 +301,18 @@ public class DigitalRecordController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idEmployee"))
                     return r.join("employee").get("id");
+                else if (field.equals("courseType"))
+                    return r.join("courseType").get("name");
+                else if (field.equals("documentType"))
+                    return r.join("documentType").get("name");
+                else if (field.equals("training"))
+                    return r.get("isTraining");
                 return null;
             }
         }, CourseAchievement.class, CourseAchievementDto.class);
 
         return result;
     }
-
 
     @RequestMapping(value = "/humanResources/digitalRecord/doUpsertSchool", method = RequestMethod.POST)
     @ResponseBody
@@ -330,14 +336,131 @@ public class DigitalRecordController {
 
         CourseAchievementDto c = new CourseAchievementDto();
         if (id != null)
-            c = courseAchievementRepository.findCourseAchievmentByIds(idEmployee, id);
+            c = courseAchievementRepository.findCourseAchievmentDtoByIds(idEmployee, id);
         else {
             c.setIdEmployee(idEmployee);
         }
 
-        model.addObject("school", gson.toJson(c));
-
+        model.addObject("course", gson.toJson(c));
+        model.addObject("lstCourseType", gson.toJson(courseTypeRepository.findNoObsolete()));
+        model.addObject("lstSchoolDocType", gson.toJson(schoolDocumentTypeRepository.findNoObsolete()));
         return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertCourse", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertCourse(@ModelAttribute CourseAchievementDto courseDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveCourse(courseDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertSchool", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteCourse", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteCourse(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteCourse(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertSchool", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/listReferences", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listReferences(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+//                    add(r.get("id"));
+//                    add(r.join("courseType").get("name").alias("ct"));
+//                    add(r.get("name"));
+//                    add(r.get("place"));
+//                    add(r.get("schoolDocumentType").get("name").alias("dt"));
+                    //todo
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                return null;
+            }
+        }, EmployeeReference.class, EmployeeReferenceDto.class);
+
+        return result;
+    }
+
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertReference", method = RequestMethod.POST)
+    public ModelAndView showUpsertReference(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/references/upsert");
+        Gson gson = new Gson();
+
+        EmployeeReferenceDto r = new EmployeeReferenceDto();
+        if (id != null)
+            r = employeeReferenceRepository.findReferenceDtoByIds(idEmployee, id);
+        else {
+            r.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("reference", gson.toJson(r));
+        model.addObject("lstRelationship", gson.toJson(relationshipRepository.findNoObsolete()));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertReference", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertReference(@ModelAttribute EmployeeReferenceDto referenceDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveReference(referenceDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertReference", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteReference", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteReference(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteReference(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteReference", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
     }
 
 }

@@ -20,7 +20,9 @@
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/generalData/employeeGeneralDataCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/job/digitalRecordJobCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/school/digitalRecordHistorySchoolCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/school/historySchoolCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/school/courseCtrl.js"></script>
+
 
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
           type="text/css"/>
@@ -44,6 +46,10 @@
     </style>
 
     <script>
+
+        pincheCosa = function () {
+            alert('aaaa');
+        }
 
         returnEmployeesGrid = function () {
             window.goToUrlMvcUrl('<c:url value="/humanResources/employees/index.html"/>');
@@ -233,14 +239,14 @@
                                 file="/WEB-INF/jsp/humanResources/digitalRecord/job/job.jsp" %>
                     </div>
 
-                    <div id="empSchool" class="tab-pane">
+                    <div id="empSchool" class="tab-pane" ng-cloak>
                         <%@ include
                                 file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>
                     </div>
 
                     <div id="references" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>--%>
+                        <%@ include
+                        file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>
                     </div>
 
                     <div id="jobUmeca" class="tab-pane">

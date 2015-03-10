@@ -135,7 +135,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
 
     //C:\Users\Rata\Desktop\branchSandra\UmecaApp\db
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
+    private String PATH = "/C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
     //http://localhost:8080/Umeca/catalogs/insertCatalgoAll.html
     @Override

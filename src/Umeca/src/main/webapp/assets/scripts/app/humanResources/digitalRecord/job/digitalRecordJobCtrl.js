@@ -40,9 +40,10 @@ app.controller('digitalRecordJobController', function ($scope, $timeout, $sce) {
 
             if (resp.hasError == true) {
                 $scope.MsgError = $sce.trustAsHtml(resp.message);
+                $scope.MsgSuccess = $sce.trustAsHtml("");
             } else if (resp.hasError == false) {
                 $scope.MsgSuccess = $sce.trustAsHtml(resp.message);
-
+                $scope.MsgError = $sce.trustAsHtml("");
                 scope = angular.element('#dlgUpModalId').scope()
                 scope.Model.dlg.modal('hide');
                 scope.Model.def.resolve({isCancel: false});

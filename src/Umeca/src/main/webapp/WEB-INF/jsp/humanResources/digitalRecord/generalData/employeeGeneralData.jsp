@@ -44,6 +44,7 @@
                                            type="text"
                                            class="input-xxlarge"
                                            data-val="true"
+                                           onkeyup="pincheCosa();"
                                            data-val-required="Nombre(s) es un campo requerido"/>
                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="name"

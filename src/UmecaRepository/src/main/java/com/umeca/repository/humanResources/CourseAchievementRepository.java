@@ -15,12 +15,16 @@ import java.util.List;
 @Repository("qCourseAchievementRepository")
 public interface CourseAchievementRepository extends JpaRepository<CourseAchievement, Long> {
 
-    @Query("select new com.umeca.model.dto.humanResources.CourseAchievementDto(CA.id, E.id, CA.place,CT.id,CA.specCourseType,SDT.id,CA.specDocType,CA.start,CA.end) from CourseAchievement CA " +
+    @Query("select new com.umeca.model.dto.humanResources.CourseAchievementDto(CA.id, E.id, CA.name, CA.place,CT.id,CA.specCourseType,SDT.id,CA.specDocType,CA.start,CA.end) from CourseAchievement CA " +
             "inner join CA.employee E " +
             "inner join CA.schoolDocumentType SDT " +
             "inner join CA.courseType CT " +
+            "where CA.id=:idCourse and E.id = :idEmployee")
+    CourseAchievementDto findCourseAchievmentDtoByIds(@Param("idEmployee") Long idEmployee, @Param("idCourse") Long idCourse);
+
+    @Query("select CA from CourseAchievement CA " +
             "inner join CA.employee E " +
             "where CA.id=:idCourse and E.id = :idEmployee")
-    CourseAchievementDto findCourseAchievmentByIds(@Param("idEmployee") Long idEmployee, @Param("idCourse") Long idCourse);
+    CourseAchievement findCourseAchievmentByIds(@Param("idEmployee") Long idEmployee, @Param("idCourse") Long idCourse);
 
 }
