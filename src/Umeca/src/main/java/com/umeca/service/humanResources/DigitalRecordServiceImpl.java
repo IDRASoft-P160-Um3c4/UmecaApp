@@ -1,17 +1,19 @@
 package com.umeca.service.humanResources;
 
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.catalog.DocumentType;
-import com.umeca.model.catalog.Location;
-import com.umeca.model.catalog.MaritalStatus;
-import com.umeca.model.catalog.RegisterType;
+import com.umeca.model.catalog.Degree;
+import com.umeca.model.dto.humanResources.CourseAchievementDto;
 import com.umeca.model.dto.humanResources.EmployeeDto;
 import com.umeca.model.dto.humanResources.EmployeeGeneralDataDto;
+import com.umeca.model.dto.humanResources.EmployeeSchoolHistoryDto;
+import com.umeca.model.entities.humanReources.CourseAchievement;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.humanReources.EmployeeGeneralData;
+import com.umeca.model.entities.humanReources.EmployeeSchoolHistory;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
+import com.umeca.model.entities.shared.SchoolDocumentType;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.catalog.DocumentTypeRepository;
 import com.umeca.repository.catalog.LocationRepository;
@@ -19,18 +21,17 @@ import com.umeca.repository.catalog.MaritalStatusRepository;
 import com.umeca.repository.catalog.RegisterTypeRepository;
 import com.umeca.repository.humanResources.EmployeeGeneralDataRepository;
 import com.umeca.repository.humanResources.EmployeeRepository;
+import com.umeca.repository.humanResources.EmployeeSchoolHistoryRepository;
 import com.umeca.repository.reviewer.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
-@Service("humanResourcesService")
-public class HumanResourcesServiceImpl implements HumanResourcesService {
+@Service("digitalRecordService")
+public class DigitalRecordServiceImpl implements DigitalRecordService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -47,6 +48,8 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
     private JobRepository jobRepository;
     @Autowired
     private RegisterTypeRepository registerTypeRepository;
+    @Autowired
+    private EmployeeSchoolHistoryRepository employeeSchoolHistoryRepository;
 
     @Transactional
     public ResponseMessage saveEmployee(EmployeeDto employeeDto, HttpServletRequest request) {
@@ -172,12 +175,6 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
         return j;
     }
 
-    public JobDto fillJobDto() {
-        JobDto j = new JobDto();
-
-        return j;
-    }
-
     @Transactional
     public ResponseMessage saveEmployeeJob(JobDto jobDto) {
         Job job = fillJob(jobDto);
@@ -195,6 +192,63 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
         resp.setHasError(false);
         resp.setMessage("Se ha eliminado el trabajo con éxito.");
         return resp;
+    }
+
+
+    @Transactional
+    public ResponseMessage saveSchoolHisotry(EmployeeSchoolHistoryDto employeeSchoolHistoryDto) {
+        ResponseMessage resp = new ResponseMessage();
+        EmployeeSchoolHistory employeeSchoolHistory = fillSchoolHistory(employeeSchoolHistoryDto);
+        employeeSchoolHistoryRepository.save(employeeSchoolHistory);
+        resp.setHasError(false);
+        resp.setMessage("El último grado de estudios ha sido guardado con éxito");
+        return resp;
+    }
+
+    private EmployeeSchoolHistory fillSchoolHistory(EmployeeSchoolHistoryDto schoolDto) {
+
+        if (schoolDto.getIdEmployee() == null)
+            return null;
+
+        EmployeeSchoolHistory schoolHistory = employeeSchoolHistoryRepository.getEmpSchoolHistByIdEmployee(schoolDto.getIdEmployee());
+
+        if (schoolHistory == null) {
+            schoolHistory = new EmployeeSchoolHistory();
+            Employee e = new Employee();
+            e.setId(schoolDto.getIdEmployee());
+            schoolHistory.setEmployee(e);
+        }
+
+        schoolHistory.setSchool(schoolDto.getName());
+        Degree d = new Degree();
+        d.setId(schoolDto.getDegreeId());
+        schoolHistory.setDegree(d);
+        SchoolDocumentType doc = new SchoolDocumentType();
+        doc.setId(schoolDto.getDocumentId());
+        schoolHistory.setSchoolDocumentType(doc);
+        schoolHistory.setSpecDocType(schoolDto.getDocSpec());
+
+        return schoolHistory;
+    }
+
+    private CourseAchievement fillCourseAchievement(CourseAchievementDto courseAchievementDto) {
+        CourseAchievement courseAchievement = new CourseAchievement();
+
+        return courseAchievement;
+    }
+
+    @Transactional
+    public ResponseMessage saveCourse(CourseAchievement courseAchievement) {
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage deleteCourse(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        return responseMessage;
     }
 
 }

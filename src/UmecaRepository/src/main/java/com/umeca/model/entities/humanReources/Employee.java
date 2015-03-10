@@ -60,6 +60,12 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
     private List<Job> jobs;
 
+    @OneToOne(mappedBy = "employee")
+    private EmployeeSchoolHistory employeeSchoolHistory;
+
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<CourseAchievement> courseAchievements;
+
     public Employee() {
 
     }
@@ -190,4 +196,19 @@ public class Employee {
         this.jobs = jobs;
     }
 
+    public EmployeeSchoolHistory getEmployeeSchoolHistory() {
+        return employeeSchoolHistory;
+    }
+
+    public void setEmployeeSchoolHistory(EmployeeSchoolHistory employeeSchoolHistory) {
+        this.employeeSchoolHistory = employeeSchoolHistory;
+    }
+
+    public List<CourseAchievement> getCourseAchievements() {
+        return courseAchievements;
+    }
+
+    public void setCourseAchievements(List<CourseAchievement> courseAchievements) {
+        this.courseAchievements = courseAchievements;
+    }
 }

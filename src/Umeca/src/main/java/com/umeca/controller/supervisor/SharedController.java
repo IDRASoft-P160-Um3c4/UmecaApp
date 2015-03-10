@@ -3,6 +3,7 @@ package com.umeca.controller.supervisor;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.security.SecureString;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.catalog.DegreeRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.MunicipalityRepository;
 import com.umeca.service.account.SharedUserService;
@@ -118,6 +119,16 @@ public class SharedController {
     public String getLocByMun(@RequestParam Long idMun) {
         Gson gson = new Gson();
         return gson.toJson(locationRepository.findLocByMunId(idMun));
+    }
+
+    @Autowired
+    private DegreeRepository degreeRepository;
+
+    @RequestMapping(value = {"/humanResources/digitalRecord/getDegrees"}, method = RequestMethod.POST)
+    @ResponseBody
+    public String getDegreeByAcLvlId(@RequestParam Long acLvlId) {
+        Gson gson = new Gson();
+        return gson.toJson(degreeRepository.findNoObsoleteByAcademicLvlId(acLvlId));
     }
 
 }

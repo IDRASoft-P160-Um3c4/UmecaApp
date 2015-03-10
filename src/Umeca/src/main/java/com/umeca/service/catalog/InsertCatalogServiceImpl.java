@@ -7,17 +7,20 @@ import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.VerificationMethod;
+import com.umeca.model.entities.shared.CourseType;
+import com.umeca.model.entities.shared.SchoolDocumentType;
 import com.umeca.model.entities.shared.SystemSetting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
+import com.umeca.repository.humanResources.CourseTypeRepository;
+import com.umeca.repository.humanResources.SchoolDocumentTypeRepository;
 import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.*;
-import javafx.scene.layout.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,25 +86,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     DegreeRepository degreeRepository;
     @Autowired
     RegisterTypeRepository registerTypeRepository;
-    /* CATALOGO DE TIPO DE AUDIENCIA (FORMATO DE AUDIENCIA) NO APLICA PARA ESTA VERSIÓN
-        @Autowired
-        HearingFormatTypeRepository hearingFormatTypeRepository;
-        @Override
-        public void hearingFormatType() {
-            List<String[]> lstDta = ReaderFile.readFile(PATH + "hearing_format_type.txt","\\|", 4);
-
-            for (String[] data : lstDta) {
-                HearingFormatType model = new HearingFormatType();
-                model.setId(Long.parseLong(data[0]));
-                model.setName(data[1]);
-                model.setDescription(data[2]);
-                model.setIsObsolete(data[3].equals("1"));
-                hearingFormatTypeRepository.save(model);
-            }
-
-            hearingFormatTypeRepository.flush();
-        }
-    */
     @Autowired
     FramingRiskRepository framingRiskRepository;
     @Autowired
@@ -142,10 +126,18 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     ImmigrationDocumentRepository immigrationDocumentRepository;
     @Autowired
     HearingTypeRepository hearingTypeRepository;
-    //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
-    //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
+    @Autowired
+    CourseTypeRepository courseTypeRepository;
+    @Autowired
+    SchoolDocumentTypeRepository schoolDocumentTypeRepository;
 
+
+    //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
+
+    //C:\Users\Rata\Desktop\branchSandra\UmecaApp\db
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
+
+    //http://localhost:8080/Umeca/catalogs/insertCatalgoAll.html
     @Override
     public void role() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "role.txt", "\\|", 3);
@@ -821,6 +813,34 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             hearingTypeRepository.save(model);
         }
         hearingTypeRepository.flush();
+    }
+
+    @Override
+    public void courseType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "course_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            CourseType model = new CourseType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
+            courseTypeRepository.save(model);
+        }
+        courseTypeRepository.flush();
+    }
+
+    @Override
+    public void schoolDocType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "school_document_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            SchoolDocumentType model = new SchoolDocumentType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
+            schoolDocumentTypeRepository.save(model);
+        }
+        schoolDocumentTypeRepository.flush();
     }
 
 }

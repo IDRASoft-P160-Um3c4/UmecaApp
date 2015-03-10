@@ -7,35 +7,33 @@
         var urlGrid = $('#urlGridSchool').attr("value");
         var idCase = $('#hidIdCase').attr("value");
 
-        upsertSchool = function (id) {
-            //if (canTerminate == 'true')
-            window.showUpsertWithIdCase(id, "#angJsjqGridSchool", "<c:url value='/supervisor/framingMeeting/school/upsert.html'/>", "#GridSchool", undefined, idCase);
+        upsertCourse = function (id) {
+            window.showUpsertWithIdEmployee(id, "#angJsjqGridSchool", "<c:url value='/humanResources/digitalRecord/upsertCourse.html'/>", "#GridSchool", undefined, ${idEmployee});
         };
 
         deleteSchool = function (id) {
-            //if (canTerminate == 'true')
             window.showObsolete(id, "#angJsjqGridSchool", "<c:url value='/supervisor/framingMeeting/school/delete.json'/>", "#GridSchool");
         };
 
         $(document).ready(function () {
             jQuery("#GridSchool").jqGrid({
                 autoencode: true,
-//                url: urlGridSchool,
+                url: '<c:url value="/humanResources/digitalRecord/listSchoolCourses.json?id="/>' +${idEmployee},
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Nombre', 'Lugar', 'Documento', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {
-                        name: 'name',
-                        index: 'name',
+                        name: 'courseType',
+                        index: 'courseType',
                         width: 200,
                         align: "center",
                         sorttype: 'string',
                         searchoptions: {sopt: ['bw']}
                     },
                     {name: 'place', index: 'place', width: 200, align: "center", sorttype: 'string', search: false},
-                    {name: 'docName', index: 'docName', width: 200, align: "center", search: false},
+                    {name: 'documentType', index: 'documentType', width: 200, align: "center", search: false},
                     {
                         name: 'Action',
                         width: 65,
@@ -96,10 +94,9 @@
     });
 
 </script>
+
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
-        <input type="hidden" id="hidIdCase" value="{{fm.objView.idCase}}"/>
-        <input type="hidden" id="urlGridSchool" value="listSchool.json?idCase={{fm.objView.idCase}}"/>
 
         <div class="element-center">
             <h2><i class="blue icon-book  bigger-100">&nbsp;</i>Historia escolar</h2>
@@ -108,9 +105,14 @@
 
         <div class="col-xs-12">
 
-            <div class="row">
-                <%--ng-controller="emplyeeSchoolController">--%>
-                <form id="FormLastGrade" name="FormLastGrade" class="form-horizontal" role="form">
+            <div class="row"
+                 ng-controller="historySchoolController" ng-init='hs = ${schoolHistory};'>
+                <input id="urlGetDegree" type="hidden"
+                       value="<c:url value='/humanResources/digitalRecord/getDegrees.json'/>"/>
+
+                <form id="FormHistorySchool" name="FormHistorySchool" class="form-horizontal" role="form">
+                    <input type="hidden" value="{{hs.idEmployee}}" name="idEmployee"/>
+
                     <div class="widget-box">
                         <div class="widget-header element-left">Ultimo grado de estudios</div>
                         <div class="widget-body">
@@ -120,10 +122,26 @@
 
                                     <div class="row">
                                         <div class="col-xs-12">
+
+                                            <div ng-show="MsgSuccess&&MsgSuccess!=''"
+                                                 class="alert alert-success element-center success-font">
+                                                <span ng-bind-html="MsgSuccess"></span>
+                                            </div>
+
+                                            <div ng-show="MsgError&&MsgError!=''"
+                                                 class="alert alert-danger element-center error-font">
+                                                <span ng-bind-html="MsgError"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+
+                                    <div class="row">
+                                        <div class="col-xs-12">
                                             <div class="col-xs-12">
                                                 <label for="name">Escuela</label>
                                                 <br/>
-                                                <input id="name" ng-model="lg.name" name="name"
+                                                <input id="name" ng-model="hs.name" name="name"
                                                        type="text" class="input-xxlarge" data-val="true"
                                                        data-val-required="Escuela es un campo requerido"/>
                                                 <br/>
@@ -140,21 +158,18 @@
                                                 <label>Nivel</label>
                                                 <br/>
                                                 <select id="acLevel" class="form-control element-center"
-                                                        ng-model="lg.acLevel"
+                                                        ng-model="hs.acLevel"
                                                         ng-options="e.name for e in lstAcLevel"
-                                                <%--ng-init='lstAcLevel = ${lstAcLevel};'--%>
-                                                        ></select>
-                                                <input type="hidden" name="acLevelId" value="{{lg.acLevel.id}}"/>
+                                                        ng-init='lstAcLevel = ${lstAcLevel};'
+                                                        ng-change='hs.degreeId=undefined; getDegree();'></select>
                                             </div>
                                             <div class="col-xs-6">
                                                 <label>Grado</label>
                                                 <br/>
                                                 <select id="degree" class="form-control element-center"
-                                                        ng-model="lg.degree"
-                                                        ng-options="e.name for e in lstDegree"
-                                                <%--ng-init='lstDegree = ${lstDegree};'--%>
-                                                        ></select>
-                                                <input type="hidden" name="degreeId" value="{{lg.degree.id}}"/>
+                                                        ng-model="hs.degree"
+                                                        ng-options="e.name for e in lstDegree"></select>
+                                                <input type="hidden" name="degreeId" value="{{hs.degree.id}}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -166,16 +181,16 @@
                                                 <label>Documento obtenido</label>
                                                 <br/>
                                                 <select id="document" class="form-control element-center"
-                                                        ng-model="lg.document"
+                                                        ng-model="hs.document"
                                                         ng-options="e.name for e in lstDocs"
-                                                <%--ng-init='lstDocs = ${lstDocs};'--%>
+                                                        ng-init='lstDocs = ${lstSchoolDocType};'
                                                         ></select>
-                                                <input type="hidden" name="documentId" value="{{lg.document.id}}"/>
+                                                <input type="hidden" name="documentId" value="{{hs.document.id}}"/>
                                             </div>
-                                            <div class="col-xs-6" ng-show="lg.document.specification==true">
+                                            <div class="col-xs-6" ng-show="hs.document.specification==true">
                                                 <label for="docSpec">Especificaci&oacute;n</label>
                                                 <br/>
-                                                <input id="docSpec" ng-model="lg.docSpec"
+                                                <input id="docSpec" ng-model="hs.docSpec"
                                                        name="docSpec" type="text"
                                                        class="input-xxlarge" data-val="true"
                                                        data-val-required="Especificaci&oacute;n es un campo requerido"/>
@@ -191,7 +206,7 @@
                                         <div class="col-xs-12">
                                             <div class=" modal-footer element-right">
                                     <span class="btn btn-default btn-sm btn-primary"
-                                          ng-click="submitLastGrade('#FormLastGrade','<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
+                                          ng-click='submitSchool("#FormHistorySchool","<c:url value='/humanResources/digitalRecord/doUpsertSchool.json'/>")'>
                                     Guardar
                                     </span>
                                             </div>

@@ -1,31 +1,33 @@
 package com.umeca.controller.humanResources;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.catalog.DocumentType;
-import com.umeca.model.catalog.MaritalStatus;
+import com.umeca.model.catalog.Degree;
+import com.umeca.model.dto.humanResources.CourseAchievementDto;
 import com.umeca.model.dto.humanResources.EmployeeDto;
 import com.umeca.model.dto.humanResources.EmployeeGeneralDataDto;
+import com.umeca.model.dto.humanResources.EmployeeSchoolHistoryDto;
+import com.umeca.model.entities.humanReources.CourseAchievement;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
-import com.umeca.repository.catalog.DocumentTypeRepository;
-import com.umeca.repository.catalog.MaritalStatusRepository;
-import com.umeca.repository.catalog.StateRepository;
+import com.umeca.repository.catalog.*;
+import com.umeca.repository.humanResources.CourseAchievementRepository;
+import com.umeca.repository.humanResources.CourseTypeRepository;
+import com.umeca.repository.humanResources.EmployeeSchoolHistoryRepository;
+import com.umeca.repository.humanResources.SchoolDocumentTypeRepository;
 import com.umeca.repository.reviewer.JobRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
-import com.umeca.service.humanResources.HumanResourcesService;
+import com.umeca.service.humanResources.DigitalRecordService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,7 +51,7 @@ public class DigitalRecordController {
     @Autowired
     private DistrictRepository districtRepository;
     @Autowired
-    private HumanResourcesService humanResourcesService;
+    private DigitalRecordService digitalRecordService;
     @Autowired
     private StateRepository stateRepository;
     @Autowired
@@ -60,6 +62,18 @@ public class DigitalRecordController {
     private AddressService addressService;
     @Autowired
     private JobRepository jobRepository;
+    @Autowired
+    private EmployeeSchoolHistoryRepository employeeSchoolHistoryRepository;
+    @Autowired
+    private CourseTypeRepository courseTypeRepository;
+    @Autowired
+    private SchoolDocumentTypeRepository schoolDocumentTypeRepository;
+    @Autowired
+    private CourseAchievementRepository courseAchievementRepository;
+    @Autowired
+    private AcademicLevelRepository academicLevelRepository;
+    @Autowired
+    private DegreeRepository degreeRepository;
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -111,7 +125,7 @@ public class DigitalRecordController {
 
         ResponseMessage response = new ResponseMessage();
         try {
-            response = humanResourcesService.saveEmployee(employeeDto, request);
+            response = digitalRecordService.saveEmployee(employeeDto, request);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertEmployee", sharedUserService);
             response.setHasError(true);
@@ -125,19 +139,33 @@ public class DigitalRecordController {
     public ModelAndView digitalRecordIndex(@RequestParam(required = true) Long id) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/index");
         Gson gson = new Gson();
+
+        //objetos para datos generales
         model.addObject("idEmployee", id);
         model.addObject("listState", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
         model.addObject("lstMaritalSt", gson.toJson(maritalStatusRepository.findAll()));
         model.addObject("lstDocType", gson.toJson(documentTypeRepository.findNotObsolete()));
-        EmployeeGeneralDataDto dto = humanResourcesService.fillGeneralDataDto(id);
+        EmployeeGeneralDataDto dto = digitalRecordService.fillGeneralDataDto(id);
         model.addObject("generalData", gson.toJson(dto));
-
         if (dto.getIdAddres() != null)
             addressService.fillModelAddress(model, dto.getIdAddres());
 
+
+        //objetos para historia escolar
+        EmployeeSchoolHistoryDto schoolDto = employeeSchoolHistoryRepository.getEmpSchoolHistDtoByIdEmployee(id);
+        if (schoolDto != null)
+            model.addObject("schoolHistory", gson.toJson(schoolDto));
+        else {
+            schoolDto = new EmployeeSchoolHistoryDto();
+            schoolDto.setIdEmployee(id);
+            model.addObject("schoolHistory", gson.toJson(schoolDto));
+        }
+        model.addObject("lstAcLevel", gson.toJson(academicLevelRepository.findNoObsolete()));
+        model.addObject("lstCourseType", gson.toJson(courseTypeRepository.findNoObsolete()));
+        model.addObject("lstSchoolDocType", gson.toJson(schoolDocumentTypeRepository.findNoObsolete()));
+
         return model;
     }
-
 
     @RequestMapping(value = "/humanResources/digitalRecord/doUpsertGeneralData", method = RequestMethod.POST)
     public
@@ -146,7 +174,7 @@ public class DigitalRecordController {
 
         ResponseMessage response = new ResponseMessage();
         try {
-            response = humanResourcesService.saveGeneralData(dataDto);
+            response = digitalRecordService.saveGeneralData(dataDto);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertGeneralData", sharedUserService);
             response.setHasError(true);
@@ -218,7 +246,7 @@ public class DigitalRecordController {
     public ResponseMessage doUpsertJob(@ModelAttribute JobDto jobDto) {
         ResponseMessage response = new ResponseMessage();
         try {
-            response = humanResourcesService.saveEmployeeJob(jobDto);
+            response = digitalRecordService.saveEmployeeJob(jobDto);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertJob", sharedUserService);
             response.setHasError(true);
@@ -233,7 +261,7 @@ public class DigitalRecordController {
     public ResponseMessage doDeleteJob(@RequestParam(required = true) Long id) {
         ResponseMessage response = new ResponseMessage();
         try {
-            response = humanResourcesService.deleteJob(id);
+            response = digitalRecordService.deleteJob(id);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doDeleteJob", sharedUserService);
             response.setHasError(true);
@@ -241,6 +269,75 @@ public class DigitalRecordController {
         } finally {
             return response;
         }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/listSchoolCourses", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listSchoolCourses(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.join("courseType").get("name"));
+                    add(r.get("place"));
+                    add(r.get("schoolDocumentType").get("name"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                return null;
+            }
+        }, CourseAchievement.class, CourseAchievementDto.class);
+
+        return result;
+    }
+
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertSchool", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertSchool(@ModelAttribute EmployeeSchoolHistoryDto schoolDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveSchoolHisotry(schoolDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertSchool", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertCourse", method = RequestMethod.POST)
+    public ModelAndView showUpsertCourse(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/school/upsert");
+        Gson gson = new Gson();
+
+        CourseAchievementDto c = new CourseAchievementDto();
+        if (id != null)
+            c = courseAchievementRepository.findCourseAchievmentByIds(idEmployee, id);
+        else {
+            c.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("school", gson.toJson(c));
+
+        return model;
     }
 
 }

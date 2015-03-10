@@ -20,6 +20,7 @@
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/generalData/employeeGeneralDataCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/job/digitalRecordJobCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/school/digitalRecordHistorySchoolCtrl.js"></script>
 
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
           type="text/css"/>
@@ -234,7 +235,7 @@
 
                     <div id="empSchool" class="tab-pane">
                         <%@ include
-                        file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/school/school.jsp" %>
                     </div>
 
                     <div id="references" class="tab-pane">
@@ -243,28 +244,28 @@
                     </div>
 
                     <div id="jobUmeca" class="tab-pane">
-                    <%--<%@ include--%>
-                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>--%>
+                        <%--<%@ include--%>
+                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>--%>
                     </div>
 
                     <div id="vacations" class="tab-pane">
-                    <%--<%@ include--%>
-                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/vacations/vacations.jsp" %>--%>
+                        <%--<%@ include--%>
+                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/vacations/vacations.jsp" %>--%>
                     </div>
                     <div id="overtime" class="tab-pane">
-                    GRAFICA!!!
-                    <%--<%@ include--%>
-                    <%--file="/WEB-INF/jsp/supervisor/framingMeeting/job/school.jsp" %>--%>
+                        GRAFICA!!!
+                        <%--<%@ include--%>
+                        <%--file="/WEB-INF/jsp/supervisor/framingMeeting/job/school.jsp" %>--%>
                     </div>
 
                     <div id="incapacity" class="tab-pane">
-                    <%--<%@ include--%>
-                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>--%>
+                        <%--<%@ include--%>
+                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>--%>
                     </div>
 
                     <div id="documents" class="tab-pane">
-                    <%--<%@ include--%>
-                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>--%>
+                        <%--<%@ include--%>
+                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>--%>
                     </div>
 
                 </div>

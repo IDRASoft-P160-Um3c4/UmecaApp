@@ -255,28 +255,40 @@ public class InsertCatalogController {
         return "activityGroup OK!";
     }
 
-    @RequestMapping(value="/catalogs/immigrationDocument", method = RequestMethod.GET)
-    public String immigrationDocument(){
+    @RequestMapping(value = "/catalogs/immigrationDocument", method = RequestMethod.GET)
+    public String immigrationDocument() {
         service.immigrationDocument();
-        return  "immigrationDocument";
+        return "immigrationDocument";
     }
 
-    @RequestMapping(value="/catalogs/closeCause", method = RequestMethod.GET)
-    public String closeCause(){
+    @RequestMapping(value = "/catalogs/closeCause", method = RequestMethod.GET)
+    public String closeCause() {
         service.closeCause();
-        return  "closeCause";
+        return "closeCause";
     }
 
-    @RequestMapping(value="/catalogs/district", method = RequestMethod.GET)
-    public String district(){
+    @RequestMapping(value = "/catalogs/district", method = RequestMethod.GET)
+    public String district() {
         service.district();
-        return  "closeCause";
+        return "closeCause";
     }
 
-    @RequestMapping(value="/catalogs/priority", method = RequestMethod.GET)
-    public String priority(){
+    @RequestMapping(value = "/catalogs/priority", method = RequestMethod.GET)
+    public String priority() {
         service.priority();
-        return  "priority";
+        return "priority";
+    }
+
+    @RequestMapping(value="/catalogs/courseType", method=RequestMethod.GET)
+    public String courseType() {
+        service.courseType();
+        return "courseType";
+    }
+
+    @RequestMapping(value = "/catalogs/schoolDocType", method = RequestMethod.GET)
+    public String schoolDocType() {
+        service.schoolDocType();
+        return "schoolDocType";
     }
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
@@ -323,6 +335,8 @@ public class InsertCatalogController {
         service.closeCause();
         service.district();
         service.priority();
+        service.courseType();
+        service.schoolDocType();
         return "insertCatalog OK!!";
     }
 }
