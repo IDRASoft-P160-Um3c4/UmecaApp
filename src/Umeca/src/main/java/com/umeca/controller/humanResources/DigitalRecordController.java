@@ -393,14 +393,13 @@ public class DigitalRecordController {
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-
                 return new ArrayList<Selection<?>>() {{
-//                    add(r.get("id"));
-//                    add(r.join("courseType").get("name").alias("ct"));
-//                    add(r.get("name"));
-//                    add(r.get("place"));
-//                    add(r.get("schoolDocumentType").get("name").alias("dt"));
-                    //todo
+                    add(r.get("id"));
+                    add(r.get("name"));
+                    add(r.join("relationship").get("name").alias("relName"));
+                    add(r.get("age"));
+                    add(r.get("phone"));
+                    add(r.get("timeAgo"));
                 }};
             }
 
@@ -408,13 +407,16 @@ public class DigitalRecordController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idEmployee"))
                     return r.join("employee").get("id");
+                else if (field.equals("name"))
+                    return r.get("name");
+                else if (field.equals("relationship"))
+                    return r.join("relationship").get("name");
                 return null;
             }
         }, EmployeeReference.class, EmployeeReferenceDto.class);
 
         return result;
     }
-
 
     @RequestMapping(value = "/humanResources/digitalRecord/upsertReference", method = RequestMethod.POST)
     public ModelAndView showUpsertReference(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {

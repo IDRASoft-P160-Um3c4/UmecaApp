@@ -1,22 +1,19 @@
 app.controller('empReferenceController', function ($scope, $timeout, $sce, $http) {
-    $scope.course = {};
+    $scope.reference = {};
     $scope.WaitFor = false;
     $scope.MsgError;
     $scope.MsgSuccess;
 
     $scope.init = function () {
-        $scope.fillSelect("course", "courseType", "lstCourseType", "idCourseType");
-        $scope.fillSelect("course", "docType", "lstDocs", "idDocType");
+        $scope.fillSelect("reference", "relationship", "lstRelationship", "idRelationship");
     };
 
-    $scope.cleanSpecs=function(){
-        if($scope.course.courseType.specification==false)
-            $scope.course.specCourseType="";
-        if($scope.course.docType.specification==false)
-            $scope.course.specDocType="";
+    $scope.cleanSpecs = function () {
+        if ($scope.reference.relationship.specification == false)
+            $scope.reference.specRelationship = "";
     };
-    
-    $scope.submitCourse = function (formId, urlToGo) {
+
+    $scope.submitReference = function (formId, urlToGo) {
 
         if ($(formId).valid() == false) {
             $scope.Invalid = true;
@@ -29,10 +26,10 @@ app.controller('empReferenceController', function ($scope, $timeout, $sce, $http
         $timeout(function () {
             $.post(urlToGo, $(formId).serialize())
                 .success(function (resp) {
-                    $scope.successCourse(resp);
+                    $scope.successReference(resp);
                 })
                 .error(function () {
-                    $scope.errorCourse();
+                    $scope.errorReference();
                 });
         }, 1);
 
@@ -40,7 +37,7 @@ app.controller('empReferenceController', function ($scope, $timeout, $sce, $http
     };
 
 
-    $scope.successCourse = function (resp) {
+    $scope.successReference = function (resp) {
 
         $scope.WaitFor = false;
 
@@ -63,7 +60,7 @@ app.controller('empReferenceController', function ($scope, $timeout, $sce, $http
         $scope.$apply();
     };
 
-    $scope.errorCourse = function (resp) {
+    $scope.errorReference = function (resp) {
         $scope.WaitFor = false;
         $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
         $scope.$apply();

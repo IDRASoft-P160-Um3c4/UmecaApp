@@ -19,40 +19,48 @@
                         url: '<c:url value="/humanResources/digitalRecord/listReferences.json?id="/>' +${idEmployee},
                         datatype: "json",
                         mtype: 'POST',
-                        colNames: ['ID', 'Tipo', 'Nombre', 'Lugar', 'Documento', 'Acci&oacute;n'],
+                        colNames: ['ID', 'Nombre', 'Relaci&oacute;n', 'Edad', 'Tel&eacute;fono', 'Tiempo de <br/> conocerlo', 'Acci&oacute;n'],
                         colModel: [
                             {name: 'id', index: 'id', hidden: true},
                             {
-                                name: 'referenceType',
-                                index: 'referenceType',
-                                width: 170,
-                                align: "center",
-                                sorttype: 'string',
-                                searchoptions: {sopt: ['bw']}
-                            },
-                            {
                                 name: 'name',
-                                index: 'referenceType',
-                                width: 170,
+                                index: 'name',
+                                width: 180,
                                 align: "center",
                                 sorttype: 'string',
                                 searchoptions: {sopt: ['bw']}
                             },
                             {
-                                name: 'place',
-                                index: 'referenceType',
-                                width: 170,
+                                name: 'relationship',
+                                index: 'relationship',
+                                width: 150,
+                                align: "center",
+                                sorttype: 'string',
+                                searchoptions: {sopt: ['bw']}
+                            },
+                            {
+                                name: 'age',
+                                index: 'age',
+                                width: 70,
                                 align: "center",
                                 sorttype: 'string',
                                 search: false
                             },
                             {
-                                name: 'documentType',
-                                index: 'referenceType',
-                                width: 170,
+                                name: 'phone',
+                                index: 'phone',
+                                width: 80,
                                 align: "center",
                                 sorttype: 'string',
-                                searchoptions: {sopt: ['bw']}
+                                search: false
+                            },
+                            {
+                                name: 'timeAgo',
+                                index: 'timeAgo',
+                                width: 120,
+                                align: "center",
+                                sorttype: 'string',
+                                search: false
                             },
                             {
                                 name: 'Action',

@@ -4,38 +4,98 @@ import com.umeca.model.catalog.Relationship;
 
 import javax.persistence.*;
 
+@Entity
+@Table(name = "employee_reference")
 public class EmployeeReference {
     @Id
     @GeneratedValue
-    @Column(name = "id_framing_reference")
+    @Column(name = "id_employee_reference")
     private Long id;
 
     @Column(name = "name")
     private String name;
 
+    @Column(name = "age")
+    private String age;
+
     @Column(name = "phone")
     private String phone;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_relationship")
+    private Relationship relationship;
+
+    @Column(name = "spec_relationship")
+    private String specRelationship;
 
     @Column(name = "time_ago")
     private String timeAgo;
 
-    @Column(name = "address")
-    private String address;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_employee")
+    private Employee employee;
 
-    @Column(name = "address_ref")
-    private String addressRef;
+    public Long getId() {
+        return id;
+    }
 
-    @Column(name = "age")
-    private String age;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    @Column(name = "occupation")
-    private String occupation;
+    public String getName() {
+        return name;
+    }
 
-    @OneToOne
-    @JoinColumn(name = "id_relationship")
-    private Relationship relationship;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    @Column(name = "specification_relationship", length = 255, nullable = true)
-    private String specificationRelationship;
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Relationship getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(Relationship relationship) {
+        this.relationship = relationship;
+    }
+
+    public String getSpecRelationship() {
+        return specRelationship;
+    }
+
+    public void setSpecRelationship(String specRelationship) {
+        this.specRelationship = specRelationship;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 }

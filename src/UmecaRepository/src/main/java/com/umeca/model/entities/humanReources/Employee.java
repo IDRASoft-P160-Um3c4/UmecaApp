@@ -66,6 +66,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
     private List<CourseAchievement> courseAchievements;
 
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<EmployeeReference> references;
+
     public Employee() {
 
     }

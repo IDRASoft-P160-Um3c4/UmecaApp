@@ -2,6 +2,7 @@ package com.umeca.service.humanResources;
 
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Degree;
+import com.umeca.model.catalog.Relationship;
 import com.umeca.model.dto.humanResources.*;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Address;
@@ -281,7 +282,22 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private EmployeeReference fillReference(EmployeeReferenceDto referenceDto) {
         EmployeeReference reference = new EmployeeReference();
 
-        //todo
+        if (referenceDto.getId() != null)
+            reference = employeeReferenceRepository.findReferenceByIds(referenceDto.getIdEmployee(), referenceDto.getId());
+        else {
+            Employee e = new Employee();
+            e.setId(referenceDto.getIdEmployee());
+            reference.setEmployee(e);
+        }
+
+        reference.setName(referenceDto.getName());
+        reference.setAge(referenceDto.getAge());
+        reference.setPhone(referenceDto.getPhone());
+        Relationship r = new Relationship();
+        r.setId(referenceDto.getIdRelationship());
+        reference.setRelationship(r);
+        reference.setSpecRelationship(referenceDto.getSpecRelationship());
+        reference.setTimeAgo(referenceDto.getTimeAgo());
 
         return reference;
     }
@@ -298,7 +314,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     @Transactional
     public ResponseMessage deleteReference(Long id) {
         ResponseMessage responseMessage = new ResponseMessage();
-        employeeRepository.delete(id);
+        employeeReferenceRepository.delete(id);
         responseMessage.setHasError(false);
         responseMessage.setMessage("La referencia ha sido eliminado con éxito");
         return responseMessage;

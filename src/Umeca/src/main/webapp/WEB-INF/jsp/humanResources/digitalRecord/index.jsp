@@ -22,6 +22,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/job/digitalRecordJobCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/school/historySchoolCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/school/courseCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/references/empReferencesCtrl.js"></script>
 
 
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
@@ -246,7 +247,7 @@
 
                     <div id="references" class="tab-pane">
                         <%@ include
-                        file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/references/references.jsp" %>
                     </div>
 
                     <div id="jobUmeca" class="tab-pane">

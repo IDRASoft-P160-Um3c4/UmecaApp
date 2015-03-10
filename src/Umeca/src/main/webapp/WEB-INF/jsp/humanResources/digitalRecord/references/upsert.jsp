@@ -20,6 +20,7 @@
                         <h4 class="element-center"><i class="icon-group "></i>&nbsp;&nbsp;Agregar referencia</h4>
                     </div>
                 </div>
+
                 <div class="modal-body">
                     <form id="FormReferenceId" name="FormReferenceId" class="form-horizontal" role="form">
                         <input type="hidden" name="idEmployee" value="{{reference.idEmployee}}">
@@ -46,18 +47,20 @@
 
                                                 <div id="divReference">
                                                     <div class="col-xs-12">
-                                                        <label>Nombre</label>
-                                                        <br/>
-                                                        <input id="name" ng-model="reference.name"
-                                                               name="name"
-                                                               type="text" style=" width: 100% !important"
-                                                               class="input-xxlarge" data-val="true"
-                                                               data-val-required="Nombre es un campo requerido"/>
-                                                        <br/>
+                                                        <div class="col-xs-12">
+                                                            <label>Nombre</label>
+                                                            <br/>
+                                                            <input id="name" ng-model="reference.name"
+                                                                   name="name"
+                                                                   type="text" style=" width: 100% !important"
+                                                                   class="input-xxlarge" data-val="true"
+                                                                   data-val-required="Nombre es un campo requerido"/>
+                                                            <br/>
                                                             <span class="field-validation-valid"
                                                                   data-valmsg-for="name"
                                                                   data-valmsg-replace="true"></span>
 
+                                                        </div>
                                                     </div>
 
                                                     <div class="col-xs-12">
@@ -99,15 +102,15 @@
                                                             <label>Relaci&oacute;n</label>
                                                             <br/>
                                                             <select class="form-control element-center"
-                                                                    ng-model="reference.relation"
+                                                                    ng-model="reference.relationship"
                                                                     ng-init='lstRelationship = ${lstRelationship}'
                                                                     ng-change="cleanSpecs();"
                                                                     ng-options="e.name for e in lstRelationship"></select>
-                                                            <input type="hidden" name="idCourseType"
-                                                                   value="{{reference.relation.id}}"/>
+                                                            <input type="hidden" name="idRelationship"
+                                                                   value="{{reference.relationship.id}}"/>
                                                         </div>
                                                         <div class="col-xs-6"
-                                                             ng-show="reference.relation.specification==true">
+                                                             ng-show="reference.relationship.specification==true">
                                                             <label>Especifique relaci&oacute;n</label>
                                                             <br/>
                                                             <input id="specRelationship"
@@ -153,13 +156,11 @@
                                 </div>
                             </div>
                         </div>
-                </div>
-                <br/>
 
-                </form>
-                <br/>
-            </div>
-            <div class="modal-footer">
+                    </form>
+                </div>
+
+                <div class="modal-footer">
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
@@ -167,8 +168,8 @@
                           ng-click="submitReference('#FormReferenceId', '<c:url value="/humanResources/digitalRecord/doUpsertReference.json"/>');">
                           Guardar
                     </span>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>

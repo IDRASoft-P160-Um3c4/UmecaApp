@@ -1,22 +1,42 @@
 package com.umeca.model.dto.humanResources;
 
-import com.umeca.model.catalog.Relationship;
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 
-import javax.persistence.*;
-
-public class EmployeeReferenceDto {
+public class EmployeeReferenceDto implements EntityGrid{
     private Long id;
-
     private Long idEmployee;
     private String name;
-    private String phone;
-    private String timeAgo;
-    private String address;
-    private String addressRef;
     private String age;
-    private String occupation;
+    private String phone;
     private Long idRelationship;
+    private String relationship;
     private String specRelationship;
+    private String timeAgo;
+
+    public EmployeeReferenceDto() {
+    }
+
+    //grid
+    public EmployeeReferenceDto(Long id, String name, String relationship, String age, String phone, String timeAgo) {
+        this.name = name;
+        this.id = id;
+        this.relationship = relationship;
+        this.age = age;
+        this.phone = phone;
+        this.timeAgo = timeAgo;
+    }
+
+    //upsert
+    public EmployeeReferenceDto(Long id, Long idEmployee, String name, String age, String phone, Long idRelationship, String specRelationship, String timeAgo) {
+        this.id = id;
+        this.idEmployee = idEmployee;
+        this.name = name;
+        this.age = age;
+        this.phone = phone;
+        this.idRelationship = idRelationship;
+        this.specRelationship = specRelationship;
+        this.timeAgo = timeAgo;
+    }
 
     public Long getId() {
         return id;
@@ -42,38 +62,6 @@ public class EmployeeReferenceDto {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getTimeAgo() {
-        return timeAgo;
-    }
-
-    public void setTimeAgo(String timeAgo) {
-        this.timeAgo = timeAgo;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getAddressRef() {
-        return addressRef;
-    }
-
-    public void setAddressRef(String addressRef) {
-        this.addressRef = addressRef;
-    }
-
     public String getAge() {
         return age;
     }
@@ -82,12 +70,12 @@ public class EmployeeReferenceDto {
         this.age = age;
     }
 
-    public String getOccupation() {
-        return occupation;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Long getIdRelationship() {
@@ -98,11 +86,27 @@ public class EmployeeReferenceDto {
         this.idRelationship = idRelationship;
     }
 
+    public String getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(String relationship) {
+        this.relationship = relationship;
+    }
+
     public String getSpecRelationship() {
         return specRelationship;
     }
 
     public void setSpecRelationship(String specRelationship) {
         this.specRelationship = specRelationship;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
     }
 }
