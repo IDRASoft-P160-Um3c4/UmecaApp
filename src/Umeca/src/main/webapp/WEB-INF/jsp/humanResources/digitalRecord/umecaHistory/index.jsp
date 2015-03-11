@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-xs-12" style="padding: 1%">
                     <%@ include
-                            file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/post.jsp" %>
+                            file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/umecaJob.jsp" %>
                 </div>
             </div>
         </div>
@@ -33,8 +33,8 @@
         <div class="widget-body">
             <div class="row">
                 <div class="col-xs-12" style="padding: 1%">
-                    <%@ include
-                            file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/course.jsp" %>
+                    <%--<%@ include--%>
+                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/course.jsp" %>--%>
                 </div>
             </div>
 
@@ -49,8 +49,8 @@
         <div class="widget-body">
             <div class="row">
                 <div class="col-xs-12" style="padding: 1%">
-                    <%@ include
-                            file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/incidents.jsp" %>
+                    <%--<%@ include--%>
+                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/incidents.jsp" %>--%>
                 </div>
             </div>
         </div>

@@ -23,6 +23,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/school/historySchoolCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/school/courseCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/references/empReferencesCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/umecaHistory/umecaJobCtrl.js"></script>
 
 
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
@@ -246,8 +247,8 @@
                     </div>
 
                     <div id="jobUmeca" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/index.jsp" %>
                     </div>
 
                     <div id="vacations" class="tab-pane">

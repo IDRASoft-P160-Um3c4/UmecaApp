@@ -34,4 +34,8 @@ public interface DigitalRecordService {
 
     ResponseMessage deleteReference(Long id);
 
+    ResponseMessage saveUmecaJob(UmecaJobDto umecaJobDto);
+
+    ResponseMessage deleteUmecaJob(Long id);
+
 }

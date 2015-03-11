@@ -1,8 +1,7 @@
 package com.umeca.service.humanResources;
 
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.catalog.Degree;
-import com.umeca.model.catalog.Relationship;
+import com.umeca.model.catalog.*;
 import com.umeca.model.dto.humanResources.*;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Address;
@@ -36,6 +35,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     @Autowired
     private LocationRepository locationRepository;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    private SimpleDateFormat sdfT = new SimpleDateFormat("hh:mm:ss");
     @Autowired
     private EmployeeGeneralDataRepository employeeGeneralDataRepository;
     @Autowired
@@ -48,6 +48,8 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private CourseAchievementRepository courseAchievementRepository;
     @Autowired
     private EmployeeReferenceRepository employeeReferenceRepository;
+    @Autowired
+    private UmecaJobRepository umecaJobRepository;
 
     @Transactional
     public ResponseMessage saveEmployee(EmployeeDto employeeDto, HttpServletRequest request) {
@@ -317,6 +319,72 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         employeeReferenceRepository.delete(id);
         responseMessage.setHasError(false);
         responseMessage.setMessage("La referencia ha sido eliminado con éxito");
+        return responseMessage;
+    }
+
+    private UmecaJob fillUmecaJob(UmecaJobDto jobDto) {
+        UmecaJob job = new UmecaJob();
+
+        if (jobDto.getId() != null) {
+            job = umecaJobRepository.findUmecaJobByIds(jobDto.getIdEmployee(), jobDto.getId());
+        } else {
+            Employee e = new Employee();
+            e.setId(jobDto.getIdEmployee());
+            job.setEmployee(e);
+        }
+
+        job.setNameHead(jobDto.getNameHead());
+        job.setSalary(jobDto.getSalary());
+
+        try {
+            if (jobDto.getStartDate() != null && jobDto.getStartDate() != "")
+                job.setStartDate(sdf.parse(jobDto.getStartDate()));
+
+            if (jobDto.getEndDate() != null && jobDto.getEndDate() != "")
+                job.setEndDate(sdf.parse(jobDto.getEndDate()));
+            else
+                job.setEndDate(null);
+
+            if (jobDto.getStartTime() != null && jobDto.getStartTime() != "")
+                job.setStartTime(sdfT.parse(jobDto.getStartTime()));
+
+            if (jobDto.getEndTime() != null && jobDto.getEndTime() != "")
+                job.setEndTime(sdfT.parse(jobDto.getEndTime()));
+
+        } catch (Exception e) {
+
+        }
+
+        UmecaPost up = new UmecaPost();
+        up.setId(jobDto.getIdUmecaPost());
+        job.setUmecaPost(up);
+
+        District d = new District();
+        d.setId(jobDto.getIdDistrict());
+        job.setDistrict(d);
+
+        RegisterType rt = new RegisterType();
+        rt.setId(jobDto.getIdRegisterType());
+        job.setRegisterType(rt);
+
+        return job;
+    }
+
+    @Transactional
+    public ResponseMessage saveUmecaJob(UmecaJobDto jobDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        umecaJobRepository.save(fillUmecaJob(jobDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El trabajo ha sido guardado con éxito");
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage deleteUmecaJob(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        umecaJobRepository.delete(id);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El trabajo ha sido eliminado con éxito");
         return responseMessage;
     }
 

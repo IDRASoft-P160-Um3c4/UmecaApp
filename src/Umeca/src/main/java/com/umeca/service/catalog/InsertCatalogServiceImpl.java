@@ -17,6 +17,7 @@ import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.humanResources.CourseTypeRepository;
 import com.umeca.repository.humanResources.SchoolDocumentTypeRepository;
+import com.umeca.repository.humanResources.UmecaPostRepository;
 import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
@@ -130,6 +131,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     CourseTypeRepository courseTypeRepository;
     @Autowired
     SchoolDocumentTypeRepository schoolDocumentTypeRepository;
+    @Autowired
+    UmecaPostRepository umecaPostRepository;
 
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
@@ -841,6 +844,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             schoolDocumentTypeRepository.save(model);
         }
         schoolDocumentTypeRepository.flush();
+    }
+
+    @Override
+    public void umecaPost() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "umeca_post.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            UmecaPost model = new UmecaPost();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
+            umecaPostRepository.save(model);
+        }
+        umecaPostRepository.flush();
     }
 
 }

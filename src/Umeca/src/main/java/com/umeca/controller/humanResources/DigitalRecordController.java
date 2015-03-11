@@ -7,15 +7,14 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.catalog.Degree;
+import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.dto.humanResources.*;
 import com.umeca.model.entities.humanReources.CourseAchievement;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.humanReources.EmployeeReference;
+import com.umeca.model.entities.humanReources.UmecaJob;
 import com.umeca.model.entities.reviewer.Job;
-import com.umeca.model.entities.reviewer.Reference;
 import com.umeca.model.entities.reviewer.dto.JobDto;
-import com.umeca.model.entities.reviewer.dto.ReferenceDto;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
@@ -73,6 +72,13 @@ public class DigitalRecordController {
     private EmployeeReferenceRepository employeeReferenceRepository;
     @Autowired
     private RelationshipRepository relationshipRepository;
+    @Autowired
+    private UmecaJobRepository umecaJobRepository;
+    @Autowired
+    private UmecaPostRepository umecaPostRepository;
+    @Autowired
+    private RegisterTypeRepository registerTypeRepository;
+
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -456,6 +462,108 @@ public class DigitalRecordController {
         ResponseMessage response = new ResponseMessage();
         try {
             response = digitalRecordService.deleteReference(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteReference", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/listUmecaJob", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listUmecaJobs(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("nameHead"));
+                    add(r.get("salary"));
+                    add(r.get("startDate"));
+                    add(r.get("endDate"));
+                    add(r.join("district").get("name").alias("disName"));
+                    add(r.join("umecaPost").get("name").alias("postName"));
+                    add(r.join("registerType").get("name").alias("regName"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                else if (field.equals("nameHead"))
+                    return r.get("nameHead");
+                else if (field.equals("salary"))
+                    return r.get("salary");
+                else if (field.equals("startDate"))
+                    return r.get("startDate");
+                else if (field.equals("endDate"))
+                    return r.get("endDate");
+                else if (field.equals("district"))
+                    return r.join("district").get("name");
+                else if (field.equals("umecaPost"))
+                    return r.join("umecaPost").get("name");
+                else if (field.equals("registerType"))
+                    return r.join("registerType").get("name");
+                return null;
+            }
+        }, UmecaJob.class, UmecaJobDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertUmecaJob", method = RequestMethod.POST)
+    public ModelAndView showUpsertUmecaJob(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/upsertUmecaJob");
+        Gson gson = new Gson();
+
+        UmecaJobDto uj = new UmecaJobDto();
+        if (id != null)
+            uj = umecaJobRepository.findUmecaJobDtoByIds(idEmployee, id);
+        else {
+            uj.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("umecaJob", gson.toJson(uj));
+        model.addObject("lstUmecaPost", gson.toJson(umecaPostRepository.findNoObsolete()));
+        model.addObject("lstDistrict", gson.toJson(districtRepository.findNoObsolete()));
+        model.addObject("lstRegisterType", gson.toJson(registerTypeRepository.getAllRegisterType()));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertUmecaJob", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertUmecaJob(@ModelAttribute UmecaJobDto umecaJobDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveUmecaJob(umecaJobDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertUmecaJob", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteUmecaJob", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteUmecaJob(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteUmecaJob(id);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "deleteReference", sharedUserService);
             response.setHasError(true);

@@ -291,6 +291,12 @@ public class InsertCatalogController {
         return "schoolDocType";
     }
 
+    @RequestMapping(value = "/catalogs/UmecaPost", method = RequestMethod.GET)
+    public String umecaPost() {
+        service.umecaPost();
+        return "umecaPost";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -337,6 +343,7 @@ public class InsertCatalogController {
         service.priority();
         service.courseType();
         service.schoolDocType();
+        service.umecaPost();
         return "insertCatalog OK!!";
     }
 }

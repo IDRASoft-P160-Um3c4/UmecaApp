@@ -95,4 +95,6 @@ public interface InsertCatalogService {
     void courseType();
 
     void schoolDocType();
+
+    void umecaPost();
 }
