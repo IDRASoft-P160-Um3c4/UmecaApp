@@ -5,6 +5,9 @@ app.controller('umecaJobController', function ($scope, $timeout, $sce) {
         $scope.MsgSuccess;
 
         $scope.init = function () {
+            $scope.fillSelect("umecaJob", "umecaPost", "lstUmecaPost", "idUmecaPost");
+            $scope.fillSelect("umecaJob", "district", "lstDistrict", "idDistrict");
+            $scope.fillSelect("umecaJob", "registerType", "lstRegisterType", "idRegisterType");
         };
 
         $scope.submitUmecaJob = function (formId, urlToGo) {
@@ -56,6 +59,23 @@ app.controller('umecaJobController', function ($scope, $timeout, $sce) {
             $scope.WaitFor = false;
             $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
             $scope.$apply();
+        };
+
+        $scope.fillSelect = function (obj, prop, list, model) {
+            if ($scope[list] === undefined || $scope[list].length <= 0)
+                return;
+
+            if ($scope[obj][model] === undefined || $scope[obj][model] === -1)
+                $scope[obj][prop] = $scope[list][0];
+            else {
+                for (var i = 0; i < $scope[list].length; i++) {
+                    var rel = $scope[list][i];
+                    if (rel.id === $scope[obj][model]) {
+                        $scope[obj][prop] = rel;
+                        break;
+                    }
+                }
+            }
         };
 
         $timeout(function () {

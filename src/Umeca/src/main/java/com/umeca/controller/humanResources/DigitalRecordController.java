@@ -558,7 +558,7 @@ public class DigitalRecordController {
         }
     }
 
-    @RequestMapping(value = "/humanResources/digitalRecord/deleteUmecaJob", method = RequestMethod.POST)
+    @RequestMapping(value = "/humanResources/digitalRecord/doDeleteUmecaJob", method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessage deleteUmecaJob(@RequestParam Long id) {
         ResponseMessage response = new ResponseMessage();

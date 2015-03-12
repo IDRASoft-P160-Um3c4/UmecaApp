@@ -47,7 +47,7 @@ public class UmecaJob {
     @JoinColumn(name = "id_register_type")
     private RegisterType registerType;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_employee")
     private Employee employee;
 
@@ -138,4 +138,5 @@ public class UmecaJob {
     public void setRegisterType(RegisterType registerType) {
         this.registerType = registerType;
     }
+
 }

@@ -69,6 +69,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
     private List<EmployeeReference> references;
 
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<UmecaJob> umecaJobs;
+
     public Employee() {
 
     }
@@ -213,5 +216,21 @@ public class Employee {
 
     public void setCourseAchievements(List<CourseAchievement> courseAchievements) {
         this.courseAchievements = courseAchievements;
+    }
+
+    public List<EmployeeReference> getReferences() {
+        return references;
+    }
+
+    public void setReferences(List<EmployeeReference> references) {
+        this.references = references;
+    }
+
+    public List<UmecaJob> getUmecaJobs() {
+        return umecaJobs;
+    }
+
+    public void setUmecaJobs(List<UmecaJob> umecaJobs) {
+        this.umecaJobs = umecaJobs;
     }
 }

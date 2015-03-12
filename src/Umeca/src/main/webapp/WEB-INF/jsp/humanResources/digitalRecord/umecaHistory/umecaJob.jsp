@@ -57,12 +57,12 @@
                     {
                         name: 'startDate',
                         index: 'startDate',
-                        width: 80,
+                        width: 100,
                         align: "center",
                         sorttype: 'string',
                         search: false
                     },
-                    {name: 'endDate', index: 'endDate', width: 80, align: "center", sorttype: 'string', search: false},
+                    {name: 'endDate', index: 'endDate', width: 100, align: "center", sorttype: 'string', search: false},
                     {
                         name: 'registerType',
                         index: 'registerType',
@@ -138,7 +138,7 @@
 <div class="row element-center">
 
     <div class="col-xs-12">
-        <h2><i class="green icon-briefcase bigger-100">&nbsp;</i>Historia laboral</h2>
+        <h2><i class="green icon-briefcase bigger-100">&nbsp;</i>Puestos ocupados en UMECA</h2>
         <br/>
 
         <div id="angJsjqGridIdUmecaJob" ng-controller="modalDlgController">

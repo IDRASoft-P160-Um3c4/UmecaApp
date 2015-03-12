@@ -7,6 +7,25 @@
     $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
         $(this).prev().focus();
     });
+    jQuery(function ($) {
+
+        $('#startTime').timepicker({
+            minuteStep: 1,
+            showSeconds: true,
+            showMeridian: false
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+
+        $('#endTime').timepicker({
+            minuteStep: 1,
+            showSeconds: true,
+            showMeridian: false
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+    });
+
 </script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div>
@@ -26,12 +45,14 @@
                         <input type="hidden" name="id" value="{{umecaJob.id}}">
 
                         <div class="row">
+
                             <div class="col-xs-12">
                                 <div class="widget-box">
                                     <div class="widget-header">Agregar puesto</div>
                                     <div class="widget-body">
                                         <div class="row">
                                             <div class="col-xs-12">
+
 
                                                 <div class="col-xs-12">
                                                     <br/>
@@ -43,145 +64,177 @@
                                                 </div>
                                                 <br/>
 
-                                                <div id="divUmecaJob">
-                                                    <div class="col-xs-12">
-                                                        <div class="col-xs-12">
-                                                            <label>Empresa</label>
-                                                            <br/>
-                                                            <input id="company" ng-model="umecaJob.company"
-                                                                   name="company"
-                                                                   type="text" style=" width: 100% !important"
-                                                                   class="input-xxlarge" data-val="true"
-                                                                   data-val-required="Empresa es un campo requerido"/>
-                                                            <br/>
-                                                            <span class="field-validation-valid"
-                                                                  data-valmsg-for="company"
-                                                                  data-valmsg-replace="true"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xs-12">
+                                                <div class="col-xs-12">
+                                                    <div class="col-xs-6">
+                                                        <label>Puesto</label>
                                                         <br/>
+                                                        <select id="idUmecaPost"
+                                                                class="form-control element-center"
+                                                                ng-model="umecaJob.umecaPost"
+                                                                ng-init='lstUmecaPost= ${lstUmecaPost}'
+                                                                ng-options="e.name for e in lstUmecaPost"></select>
+                                                        <input type="hidden" name="idUmecaPost"
+                                                               value="{{umecaJob.umecaPost.id}}"/>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <label>Distrito</label>
+                                                        <br/>
+                                                        <select id="idDistrict"
+                                                                class="form-control element-center"
+                                                                ng-model="umecaJob.district"
+                                                                ng-init='lstDistrict = ${lstDistrict}'
+                                                                ng-options="e.name for e in lstDistrict"></select>
+                                                        <input type="hidden" name="idDistrict"
+                                                               value="{{umecaJob.district.id}}"/>
+                                                    </div>
+                                                </div>
 
-                                                        <div class="col-xs-6">
-                                                            <label>Puesto</label>
-                                                            <br/>
-                                                            <input id="post" ng-model="umecaJob.post" name="post"
-                                                                   type="text"
-                                                                   class="input-xxlarge" data-val="true"
-                                                                   data-val-required="Puesto es un campo requerido"/>
-                                                            <br/>
-                                                            <span class="field-validation-valid" data-valmsg-for="post"
-                                                                  data-valmsg-replace="true"></span>
-                                                        </div>
+                                                <div class="col-xs-12">
+                                                    <br/>
 
-                                                        <div class="col-xs-6">
-                                                            <label>Jefe inmediato</label>
-                                                            <br/>
-                                                            <input id="nameHead" ng-model="umecaJob.nameHead"
-                                                                   name="nameHead"
-                                                                   type="text"
-                                                                   class="input-xxlarge" data-val="true"
-                                                                   data-val-required="Jefe inmediato es un campo requerido"/>
-                                                            <br/>
+                                                    <div class="col-xs-6">
+                                                        <label>Jefe inmediato</label>
+                                                        <br/>
+                                                        <input id="nameHead" ng-model="umecaJob.nameHead"
+                                                               name="nameHead"
+                                                               type="text"
+                                                               class="input-xxlarge" data-val="true"
+                                                               data-val-required="Jefe inmediato es un campo requerido"/>
+                                                        <br/>
                                                             <span class="field-validation-valid"
                                                                   data-valmsg-for="nameHead"
                                                                   data-valmsg-replace="true"></span>
-                                                        </div>
-
                                                     </div>
-
-
-                                                    <div class="col-xs-12">
+                                                    <div class="col-xs-6">
+                                                        <label>Salario</label>
                                                         <br/>
-
-                                                        <div class="col-xs-6">
-                                                            <label>Salario semanal</label>
-                                                            <br/>
-                                                            <input id="salaryWeek" ng-model="umecaJob.salaryWeek"
-                                                                   name="salaryWeek"
-                                                                   type="text"
-                                                                   class="input-xxlarge" data-val="true"
-                                                                   data-val-required="Salario semanal es un campo requerido"
-                                                                   data-val-regex-pattern="([0-9]+(.[0-9])?)"
-                                                                   data-val-regex="S&oacute;lo puede contener n&uacute;meros y un punto"/>
-                                                            <br/>
+                                                        <input id="salary" ng-model="umecaJob.salary" name="salary"
+                                                               type="text"
+                                                               class="input-xxlarge" data-val="true"
+                                                               data-val-required="Salario es un campo requerido"
+                                                               data-val-regex-pattern="([0-9]+(.[0-9])?)"
+                                                               data-val-regex="S&oacute;lo puede contener n&uacute;meros y un punto"/>
+                                                        <br/>
                                                             <span class="field-validation-valid"
-                                                                  data-valmsg-for="salaryWeek"
+                                                                  data-valmsg-for="salary"
                                                                   data-valmsg-replace="true"></span>
-                                                        </div>
-                                                        <div class="col-xs-6">
-                                                            <label>Tel&eacute;fono:</label>
-                                                            <br/>
-                                                            <textarea class="input-xxlarge form-control limited"
-                                                                      name="phone"
-                                                                      ng-model="umecaJob.phone"
-                                                                      maxlength="980" data-val="true"
-                                                                      data-val-required="Tel&eacute;fono es un campo requerido">
-                                                            </textarea>
-                                                            <span class="field-validation-valid" data-valmsg-for="phone"
-                                                                  data-valmsg-replace="true"></span>
-                                                        </div>
-                                                    </div>
-                                                    <br/>
-
-                                                    <div class="col-xs-12">
-                                                        <br/>
-
-                                                        <div class="col-xs-6">
-                                                            <label>Fecha de inicio</label>
-                                                            <br/>
-
-                                                            <div class="input-group">
-                                                                <input class="form-control date-picker"
-                                                                       name="start" type="text"
-                                                                       data-date-format="yyyy/mm/dd"
-                                                                       readonly
-                                                                       ng-model="umecaJob.start" data-val="true"
-                                                                       data-val-required="Fecha de inicio es un campo requerido"/>
-                                                                    <span class="input-group-addon">
-                                                                        <i class="icon-calendar bigger-110"></i>
-                                                                    </span>
-                                                            </div>
-                                                        <span class="field-validation-valid"
-                                                              data-valmsg-for="start"
-                                                              data-valmsg-replace="true"></span>
-                                                        </div>
-                                                        <div class="col-xs-6">
-                                                            <label>Fecha de fin</label>
-                                                            <br/>
-
-                                                            <div class="input-group">
-                                                                <input class="form-control date-picker"
-                                                                       name="end" type="text"
-                                                                       data-date-format="yyyy/mm/dd"
-                                                                       readonly
-                                                                       ng-model="umecaJob.end" data-val="true"
-                                                                       data-val-required="Fecha de fin es un campo requerido"/>
-                                                                    <span class="input-group-addon">
-                                                                        <i class="icon-calendar bigger-110"></i>
-                                                                    </span>
-                                                            </div>
-                                                        <span class="field-validation-valid"
-                                                              data-valmsg-for="end"
-                                                              data-valmsg-replace="true"></span>
-                                                            <br/>
-                                                        </div>
                                                     </div>
 
                                                 </div>
+                                                <div class="col-xs-12">
+                                                    <br/>
+
+                                                    <div class="col-xs-6">
+                                                        <label>Tipo</label>
+                                                        <br/>
+                                                        <select id="idRegisterType"
+                                                                class="form-control element-center"
+                                                                ng-model="umecaJob.registerType"
+                                                                ng-init='lstRegisterType= ${lstRegisterType}'
+                                                                ng-options="e.name for e in lstRegisterType"></select>
+                                                        <input type="hidden" name="idRegisterType"
+                                                               value="{{umecaJob.registerType.id}}"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xs-12">
+                                                    <br/>
+
+                                                    <div class="col-xs-6">
+                                                        <label>Fecha de inicio</label>
+                                                        <br/>
+
+                                                        <div class="input-group">
+                                                            <input class="form-control date-picker"
+                                                                   name="startDate" type="text"
+                                                                   data-date-format="yyyy/mm/dd"
+                                                                   readonly
+                                                                   ng-model="umecaJob.startDate" data-val="true"
+                                                                   data-val-required="Fecha de inicio es un campo requerido"/>
+                                                                    <span class="input-group-addon">
+                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                    </span>
+                                                        </div>
+                                                        <span class="field-validation-valid"
+                                                              data-valmsg-for="startDate"
+                                                              data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <label>Fecha de fin</label>
+                                                        <br/>
+
+                                                        <div class="input-group">
+                                                            <input class="form-control date-picker"
+                                                                   name="endDate" type="text"
+                                                                   data-date-format="yyyy/mm/dd"
+                                                                   readonly
+                                                                   ng-model="umecaJob.endDate" data-val="true"
+                                                                   data-val-required="Fecha de fin es un campo requerido"/>
+                                                                    <span class="input-group-addon">
+                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                    </span>
+                                                        </div>
+                                                        <span class="field-validation-valid"
+                                                              data-valmsg-for="endDate"
+                                                              data-valmsg-replace="true"></span>
+                                                        <br/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xs-12">
+                                                    <div class="col-xs-6">
+                                                        <label for="startTime">Hora entrada</label>
+
+                                                        <div class="input-group bootstrap-timepicker">
+                                                            <input id="startTime" name="startTime"
+                                                                   ng-model="umecaJob.startTime"
+                                                                   readonly
+                                                                   type="text"
+                                                                   class="form-control umeca-time-picker"
+                                                                   data-val="true"
+                                                                   data-val-required="Hora de entrada es un campo requerido"/>
+                                                        <span class="input-group-addon"><i
+                                                                class="icon-time bigger-110"></i></span>
+                                                            <br/>
+                                                        </div>
+                                                        <span class="field-validation-valid" data-valmsg-for="startTime"
+                                                              data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <label for="endTime">Hora de salida</label>
+
+                                                        <div class="input-group bootstrap-timepicker">
+                                                            <input id="endTime" name="endTime"
+                                                                   ng-model="umecaJob.endTime"
+                                                                   readonly
+                                                                   type="text"
+                                                                   class="form-control umeca-time-picker"
+                                                                   data-val="true"
+                                                                   data-val-required="Hora de inicio es un campo requerido"/>
+                                                        <span class="input-group-addon"><i
+                                                                class="icon-time bigger-110"></i></span>
+                                                            <br/>
+                                                        </div>
+                                                        <span class="field-validation-valid" data-valmsg-for="endTime"
+                                                              data-valmsg-replace="true"></span>
+                                                        <br/>
+
+                                                    </div>
+                                                </div>
+
+
                                             </div>
-                                            <br/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <br/>
+
 
                     </form>
-                    <br/>
                 </div>
+
+
                 <div class="modal-footer">
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
