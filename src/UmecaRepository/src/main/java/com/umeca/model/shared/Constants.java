@@ -96,6 +96,7 @@ public class Constants {
     public static final String ROLE_SUPERVISOR_MANAGER = "ROLE_SUPERVISOR_MANAGER";
     public static final String ROLE_NOTUSE = "ROLE_NOTUSE";
     public static final String ROLE_ANONYMOUS = "ANONYMOUS";
+    public static final String ROLE_HUMAN_RESOURCES = "ROLE_HUMAN_RESOURCES";
 
     public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
     public static String FORMAT_VERIFICATION_DATE = "yyyy-MM-dd hh:mm:ss.S";

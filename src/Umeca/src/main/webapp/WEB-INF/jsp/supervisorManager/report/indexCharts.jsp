@@ -38,7 +38,8 @@
 <div class="container body-content" ng-controller="managerSupReportChartController">
     <div class="col-xs-12">
         <div class="row">
-            <h2 class="element-center"><i class="icon icon-file"></i>&nbsp;&nbsp;Reportes con gr&aacute;fico para coordinaci&oacute;n de
+            <h2 class="element-center"><i class="icon icon-file"></i>&nbsp;&nbsp;Reportes con gr&aacute;fico para
+                coordinaci&oacute;n de
                 supervisi&oacute;n
             </h2>
         </div>
@@ -172,7 +173,7 @@
                                                                             ng-disabled="m.filter!=2"
                                                                             ng-init='lstSupervisor=${lstSupervisor}'></select>
                                                                     <input type="hidden" ng-disabled="m.filter!=2"
-                                                                           name="supervisorId"
+                                                                           name="userId"
                                                                            value="{{m.supervisor.id}}"/>
                                                                 </div>
                                                             </div>

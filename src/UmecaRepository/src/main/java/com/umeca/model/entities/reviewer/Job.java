@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.RegisterType;
+import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 
@@ -96,6 +97,10 @@ public class Job implements EntityGrid {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_framing_meeting")
     private FramingMeeting framingMeeting;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_employee")
+    private Employee employee;
 
     @Column(name = "block")
     private Boolean block;
@@ -259,5 +264,13 @@ public class Job implements EntityGrid {
 
     public void setFramingMeeting(FramingMeeting framingMeeting) {
         this.framingMeeting = framingMeeting;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

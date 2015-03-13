@@ -18,8 +18,7 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <form id="FormCatId" name="FormCatId" class="form-horizontal" role="form"
-                          ng-controller="hearingFormatController">
+                    <form id="FormCatId" name="FormCatId" class="form-horizontal" role="form">
                         <br/>
 
                         <div class="row">

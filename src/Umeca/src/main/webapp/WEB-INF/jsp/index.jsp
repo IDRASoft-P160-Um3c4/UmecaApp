@@ -30,6 +30,9 @@
     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
         <%@ include file="/WEB-INF/jsp/director/index.jsp" %>
     </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_HUMAN_RESOURCES')">
+        <%@ include file="/WEB-INF/jsp/humanResources/index.jsp" %>
+    </sec:authorize>
 
 </div>
 <div class="container">

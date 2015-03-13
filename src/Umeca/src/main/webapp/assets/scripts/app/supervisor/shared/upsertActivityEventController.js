@@ -280,6 +280,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             if($scope.isNew && $scope.m.isForToday){
                 d.dateInit = new Date();
                 d.dateEnd = d.dateInit;
+                d.dateEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
                 $scope.clearDaysOfWeek();
                 $scope.m.daysOfWeek[d.dateInit.getDay()] = true;
             }

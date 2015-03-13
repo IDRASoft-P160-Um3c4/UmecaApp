@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer.dto;
 
 import com.google.gson.Gson;
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.entities.reviewer.Job;
 
 import java.text.DateFormat;
@@ -15,9 +16,10 @@ import java.util.Date;
  * Time: 10:53 AM
  * To change this template use File | Settings | File Templates.
  */
-public class JobDto {
+public class JobDto implements EntityGrid{
     private Long id;
     private Long idCase;
+    private Long idEmployee;
     private String post;
     private String nameHead;
     private String company;
@@ -31,6 +33,41 @@ public class JobDto {
     private Long registerTypeId;
     private String schedule;
     private Boolean block;
+
+    public JobDto() {
+
+    }
+
+    public JobDto(Long id, String company, String post, String nameHead, Float salaryWeek, String phone, Date iDate, Date eDate, Long idEmployee) {
+        this.id = id;
+        this.company = company;
+        this.post = post;
+        this.nameHead = nameHead;
+        this.salaryWeek = salaryWeek;
+        this.phone = phone;
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        if (iDate != null) {
+            this.start = formatter.format(iDate);
+        }
+        if (eDate != null) {
+            this.end = formatter.format(eDate);
+        }
+        this.idEmployee = idEmployee;
+    }
+
+    public JobDto(Long id, String company, String post, String nameHead, Date iDate, Date eDate) {
+        this.id = id;
+        this.company = company;
+        this.post = post;
+        this.nameHead = nameHead;
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        if (iDate != null) {
+            this.start = formatter.format(iDate);
+        }
+        if (eDate != null) {
+            this.end = formatter.format(eDate);
+        }
+    }
 
     public JobDto dtoJob(Job job, String schedule) {
         this.id = job.getId();
@@ -180,5 +217,13 @@ public class JobDto {
 
     public void setBlock(Boolean block) {
         this.block = block;
+    }
+
+    public Long getIdEmployee() {
+        return idEmployee;
+    }
+
+    public void setIdEmployee(Long idEmployee) {
+        this.idEmployee = idEmployee;
     }
 }

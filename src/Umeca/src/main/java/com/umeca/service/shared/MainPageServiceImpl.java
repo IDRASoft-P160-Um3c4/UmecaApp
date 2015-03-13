@@ -75,6 +75,10 @@ public class MainPageServiceImpl implements MainPageService {
             case Constants.ROLE_EVALUATION_MANAGER:
                 constructEvaluationManagerPage(model);
                 return model;
+            
+            case Constants.ROLE_HUMAN_RESOURCES:
+                constructHumanResourcesPage(model);
+                return model;
 
             case Constants.ROLE_DIRECTOR:
                 constructDirectorMainPage(model, userId);
@@ -329,4 +333,10 @@ public class MainPageServiceImpl implements MainPageService {
         sLstGeneric = json.toJson(lstGeneric);
         model.addObject("lstActivitiesNew", sLstGeneric);
     }
+
+    private void constructHumanResourcesPage(ModelAndView model) {
+
+
+    }
+
 }
