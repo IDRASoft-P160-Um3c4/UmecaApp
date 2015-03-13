@@ -52,6 +52,7 @@
                                                             <select class="form-control element-center"
                                                                     ng-model="incident.incidentType"
                                                                     ng-options="e.name for e in lstIncidentType"
+                                                                    ng-change="clearSpec();"
                                                                     ng-init='lstIncidentType = ${lstIncidentType};'></select>
                                                             <input type="hidden" name="idIncidentType"
                                                                    value="{{incident.incidentType.id}}"/>
@@ -102,7 +103,7 @@
                                                                        data-date-format="yyyy/mm/dd"
                                                                        readonly
                                                                        ng-model="incident.incidentDate" data-val="true"
-                                                                       data-val-required="Fecha"/>
+                                                                       data-val-required="Fecha es un campo requerido"/>
                                                                     <span class="input-group-addon">
                                                                         <i class="icon-calendar bigger-110"></i>
                                                                     </span>
@@ -125,8 +126,9 @@
                                                                       data-val-required="Comentarios es un campo requerido">
                                                             </textarea>
                                                             <span class="field-validation-valid"
-                                                                  data-valmsg-for="reason"
+                                                                  data-valmsg-for="comments"
                                                                   data-valmsg-replace="true"></span>
+                                                            <br/>
                                                         </div>
                                                     </div>
                                                 </div>

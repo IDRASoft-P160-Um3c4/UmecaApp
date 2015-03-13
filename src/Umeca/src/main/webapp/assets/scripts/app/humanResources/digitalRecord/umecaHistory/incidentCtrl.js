@@ -8,6 +8,10 @@ app.controller('incidentController', function ($scope, $timeout, $sce, $http) {
         $scope.fillSelect("incident", "incidentType", "lstIncidentType", "idIncidentType");
     };
 
+    $scope.clearSpec = function () {
+        if ($scope.incident.incidentType.specification == false)
+            $scope.incident.specIncidentType = "";
+    };
     $scope.submitIncident = function (formId, urlToGo) {
 
         if ($(formId).valid() == false) {
