@@ -40,4 +40,8 @@ public interface DigitalRecordService {
 
     ResponseMessage saveTraining(CourseAchievementDto trainingDto);
 
+    ResponseMessage saveIncident(IncidentDto incidentDto);
+
+    ResponseMessage deleteIncident(Long id);
+
 }

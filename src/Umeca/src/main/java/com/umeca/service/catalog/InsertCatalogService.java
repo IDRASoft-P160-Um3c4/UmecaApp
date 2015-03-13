@@ -97,4 +97,6 @@ public interface InsertCatalogService {
     void schoolDocType();
 
     void umecaPost();
+
+    void incident();
 }

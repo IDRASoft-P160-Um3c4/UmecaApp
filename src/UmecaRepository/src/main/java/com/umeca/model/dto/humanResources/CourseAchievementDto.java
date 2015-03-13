@@ -62,13 +62,13 @@ public class CourseAchievementDto implements EntityGrid {
         this.idEmployee = idEmployee;
         this.place = place;
         this.duration = duration;
-        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        if (start != null) {
-            this.start = formatter.format(start);
-        }
-        if (end != null) {
-            this.end = formatter.format(end);
-        }
+            DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            if (start != null) {
+                this.start = formatter.format(start);
+            }
+            if (end != null) {
+                this.end = formatter.format(end);
+            }
     }
 
     //grid training

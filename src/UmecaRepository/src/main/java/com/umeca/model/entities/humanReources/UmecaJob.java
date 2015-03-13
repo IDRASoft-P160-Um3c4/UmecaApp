@@ -14,7 +14,7 @@ public class UmecaJob {
 
     @Id
     @GeneratedValue
-    @Column(name = "umeca_job")
+    @Column(name = "id_umeca_job")
     private Long id;
 
     @Column(name = "name_head")

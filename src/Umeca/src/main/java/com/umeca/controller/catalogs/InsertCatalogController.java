@@ -279,7 +279,7 @@ public class InsertCatalogController {
         return "priority";
     }
 
-    @RequestMapping(value="/catalogs/courseType", method=RequestMethod.GET)
+    @RequestMapping(value = "/catalogs/courseType", method = RequestMethod.GET)
     public String courseType() {
         service.courseType();
         return "courseType";
@@ -295,6 +295,12 @@ public class InsertCatalogController {
     public String umecaPost() {
         service.umecaPost();
         return "umecaPost";
+    }
+
+    @RequestMapping(value = "/catalogs/incident", method = RequestMethod.GET)
+    public String incident() {
+        service.incident();
+        return "incident";
     }
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
@@ -344,6 +350,7 @@ public class InsertCatalogController {
         service.courseType();
         service.schoolDocType();
         service.umecaPost();
+        service.incident();
         return "insertCatalog OK!!";
     }
 }

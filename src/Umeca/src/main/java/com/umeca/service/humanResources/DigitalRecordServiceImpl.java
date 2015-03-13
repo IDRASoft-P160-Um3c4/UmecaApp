@@ -50,6 +50,9 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private EmployeeReferenceRepository employeeReferenceRepository;
     @Autowired
     private UmecaJobRepository umecaJobRepository;
+    @Autowired
+    private IncidentRepository incidentRepository;
+
 
     @Transactional
     public ResponseMessage saveEmployee(EmployeeDto employeeDto, HttpServletRequest request) {
@@ -422,5 +425,52 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         responseMessage.setMessage("El curso ha sido guardado con éxito");
         return responseMessage;
     }
+
+
+    @Transactional
+    public ResponseMessage saveIncident(IncidentDto incidentDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        incidentRepository.save(fillIncident(incidentDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El incidente curso ha sido guardado con éxito");
+        return responseMessage;
+    }
+
+    private Incident fillIncident(IncidentDto incidentDto) {
+        Incident incident = new Incident();
+        if (incidentDto.getId() != null)
+            incident=incidentRepository.findIncidentByIds(incidentDto.getIdEmployee(), incidentDto.getId());
+        else {
+            Employee e = new Employee();
+            e.setId(incidentDto.getIdEmployee());
+            incident.setEmployee(e);
+        }
+
+        try {
+            incident.setIncidentDate(sdf.parse(incidentDto.getIncidentDate()));
+        } catch (Exception e) {
+        }
+
+        IncidentType it = new IncidentType();
+        it.setId(incidentDto.getIdIncidentType());
+
+        incident.setIncidentType(it);
+        incident.setSpecIncidentType(incidentDto.getSpecIncidentType());
+        incident.setReason(incidentDto.getReason());
+        incident.setComments(incidentDto.getComments());
+
+        return incident;
+    }
+
+
+    @Transactional
+    public ResponseMessage deleteIncident(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        incidentRepository.delete(id);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El incidente ha sido eliminado con éxito");
+        return responseMessage;
+    }
+
 
 }

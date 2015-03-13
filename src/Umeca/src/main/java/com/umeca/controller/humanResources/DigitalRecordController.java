@@ -7,12 +7,10 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.catalog.IncidentType;
 import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.dto.humanResources.*;
-import com.umeca.model.entities.humanReources.CourseAchievement;
-import com.umeca.model.entities.humanReources.Employee;
-import com.umeca.model.entities.humanReources.EmployeeReference;
-import com.umeca.model.entities.humanReources.UmecaJob;
+import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.repository.catalog.*;
@@ -78,6 +76,10 @@ public class DigitalRecordController {
     private UmecaPostRepository umecaPostRepository;
     @Autowired
     private RegisterTypeRepository registerTypeRepository;
+    @Autowired
+    private IncidentRepository incidentRepository;
+    @Autowired
+    private IncidentTypeRepository incidentTypeRepository;
 
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
@@ -652,4 +654,96 @@ public class DigitalRecordController {
             return response;
         }
     }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/listIncident", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listIncident(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.join("incidentType").get("name"));
+                    add(r.get("reason"));
+                    add(r.get("incidentDate"));
+                    add(r.get("comments"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                else if (field.equals("incidentType"))
+                    return r.join("incidentType").get("name");
+                else if (field.equals("reason"))
+                    return r.get("reason");
+                else if (field.equals("incidentDate"))
+                    return r.get("incidentDate");
+                return null;
+            }
+        }, Incident.class, IncidentDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertIncident", method = RequestMethod.POST)
+    public ModelAndView showUpsertIncident(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/incidents/upsertIncident");
+        Gson gson = new Gson();
+
+        IncidentDto i = new IncidentDto();
+        if (id != null)
+            i = incidentRepository.findIncidentDtoByIds(idEmployee, id);
+        else {
+            i.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("incident", gson.toJson(i));
+        model.addObject("lstIncidentType", gson.toJson(incidentTypeRepository.findNoObsolete()));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertIncident", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertIncident(@ModelAttribute IncidentDto incidentDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveIncident(incidentDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertIncident", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteIncident", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteIncident(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteIncident(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteIncident", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+
 }

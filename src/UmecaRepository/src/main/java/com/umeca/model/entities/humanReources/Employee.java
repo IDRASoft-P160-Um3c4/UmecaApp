@@ -72,6 +72,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
     private List<UmecaJob> umecaJobs;
 
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<Incident> incidents;
+
     public Employee() {
 
     }
@@ -232,5 +235,13 @@ public class Employee {
 
     public void setUmecaJobs(List<UmecaJob> umecaJobs) {
         this.umecaJobs = umecaJobs;
+    }
+
+    public List<Incident> getIncidents() {
+        return incidents;
+    }
+
+    public void setIncidents(List<Incident> incidents) {
+        this.incidents = incidents;
     }
 }

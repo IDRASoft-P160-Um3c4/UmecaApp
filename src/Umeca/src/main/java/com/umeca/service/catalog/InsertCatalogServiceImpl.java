@@ -6,6 +6,7 @@ import com.umeca.infrastructure.extensions.LongExt;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.humanReources.Incident;
 import com.umeca.model.entities.reviewer.VerificationMethod;
 import com.umeca.model.entities.shared.CourseType;
 import com.umeca.model.entities.shared.SchoolDocumentType;
@@ -15,9 +16,7 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.humanResources.CourseTypeRepository;
-import com.umeca.repository.humanResources.SchoolDocumentTypeRepository;
-import com.umeca.repository.humanResources.UmecaPostRepository;
+import com.umeca.repository.humanResources.*;
 import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
@@ -133,12 +132,14 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     SchoolDocumentTypeRepository schoolDocumentTypeRepository;
     @Autowired
     UmecaPostRepository umecaPostRepository;
+    @Autowired
+    IncidentTypeRepository incidentTypeRepository;
 
 
     //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
 
     //C:\Users\Rata\Desktop\branchSandra\UmecaApp\db
-    private String PATH = "/C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
     //http://localhost:8080/Umeca/catalogs/insertCatalgoAll.html
     @Override
@@ -858,6 +859,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             umecaPostRepository.save(model);
         }
         umecaPostRepository.flush();
+    }
+
+    @Override
+    public void incident() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "incident_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            IncidentType model = new IncidentType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
+            incidentTypeRepository.save(model);
+        }
+        incidentTypeRepository.flush();
     }
 
 }
