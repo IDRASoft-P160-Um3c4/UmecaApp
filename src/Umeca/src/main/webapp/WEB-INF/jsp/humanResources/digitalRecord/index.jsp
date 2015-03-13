@@ -24,6 +24,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/school/courseCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/references/empReferencesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/umecaHistory/umecaJobCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/umecaHistory/trainingCtrl.js"></script>
 
 
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"

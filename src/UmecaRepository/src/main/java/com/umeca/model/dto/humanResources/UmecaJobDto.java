@@ -29,7 +29,7 @@ public class UmecaJobDto implements EntityGrid {
     //para upsert
     public UmecaJobDto(Long id, String nameHead, Long idEmployee, Float salary, Date startDate, Date endDate, Date startTime, Date endTime, Long idUmecaPost, Long idDistrict, Long idRegisterType) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat sdfT = new SimpleDateFormat("hh:mm:ss");
+        SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
         this.id = id;
         this.nameHead = nameHead;
         this.idEmployee = idEmployee;

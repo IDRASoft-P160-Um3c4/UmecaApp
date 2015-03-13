@@ -368,7 +368,7 @@ public class DigitalRecordController {
         }
     }
 
-    @RequestMapping(value = "/humanResources/digitalRecord/deleteCourse", method = RequestMethod.POST)
+    @RequestMapping(value = {"/humanResources/digitalRecord/deleteCourse", "/humanResources/digitalRecord/deleteTraining"}, method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessage deleteCourse(@RequestParam Long id) {
         ResponseMessage response = new ResponseMessage();
@@ -526,7 +526,7 @@ public class DigitalRecordController {
 
     @RequestMapping(value = "/humanResources/digitalRecord/upsertUmecaJob", method = RequestMethod.POST)
     public ModelAndView showUpsertUmecaJob(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
-        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/upsertUmecaJob");
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/umecaJob/upsertUmecaJob");
         Gson gson = new Gson();
 
         UmecaJobDto uj = new UmecaJobDto();
@@ -573,4 +573,83 @@ public class DigitalRecordController {
         }
     }
 
+    @RequestMapping(value = "/humanResources/digitalRecord/listTraining", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listTraining(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+        opts.extraFilters.add(new JqGridRulesModel("training", true, JqGridFilterModel.COMPARE_EQUAL));
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("name"));
+                    add(r.get("place"));
+                    add(r.get("duration"));
+                    add(r.get("start"));
+                    add(r.get("end"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                else if (field.equals("name"))
+                    return r.get("name");
+                else if (field.equals("place"))
+                    return r.get("place");
+                else if (field.equals("duration"))
+                    return r.get("duration");
+                else if (field.equals("start"))
+                    return r.get("start");
+                else if (field.equals("end"))
+                    return r.get("end");
+                return null;
+            }
+        }, CourseAchievement.class, CourseAchievementDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertTraining", method = RequestMethod.POST)
+    public ModelAndView showUpsertTraining(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/training//upsertTraining");
+        Gson gson = new Gson();
+
+        CourseAchievementDto t = new CourseAchievementDto();
+        if (id != null)
+            t = courseAchievementRepository.findTrainingDtoByIds(idEmployee, id);
+        else {
+            t.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("training", gson.toJson(t));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertTraining", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertTraining(@ModelAttribute CourseAchievementDto courseDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveTraining(courseDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertTraining", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
 }

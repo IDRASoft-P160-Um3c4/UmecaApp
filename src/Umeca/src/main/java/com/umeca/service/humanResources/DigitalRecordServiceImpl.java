@@ -35,7 +35,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     @Autowired
     private LocationRepository locationRepository;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-    private SimpleDateFormat sdfT = new SimpleDateFormat("hh:mm:ss");
+    private SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
     @Autowired
     private EmployeeGeneralDataRepository employeeGeneralDataRepository;
     @Autowired
@@ -248,7 +248,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
             course.setEnd(sdf.parse(courseDto.getEnd()));
         } catch (Exception e) {
         }
-        course.setIsTraining(courseDto.getIsTraining());
+        course.setIsTraining(false);
 
         CourseType ct = new CourseType();
         ct.setId(courseDto.getIdCourseType());
@@ -385,6 +385,41 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         umecaJobRepository.delete(id);
         responseMessage.setHasError(false);
         responseMessage.setMessage("El trabajo ha sido eliminado con éxito");
+        return responseMessage;
+    }
+
+    private CourseAchievement fillTraining(CourseAchievementDto trainingDto) {
+        CourseAchievement training = new CourseAchievement();
+
+        if (trainingDto.getId() != null)
+            training = courseAchievementRepository.findCourseAchievmentByIds(trainingDto.getIdEmployee(), trainingDto.getId());
+        else {
+            Employee e = new Employee();
+            e.setId(trainingDto.getIdEmployee());
+            training.setEmployee(e);
+        }
+
+        training.setName(trainingDto.getName());
+        training.setPlace(trainingDto.getPlace());
+        training.setDuration(trainingDto.getDuration());
+        training.setIsTraining(true);
+
+        try {
+            training.setStart(sdf.parse(trainingDto.getStart()));
+            training.setEnd(sdf.parse(trainingDto.getEnd()));
+        } catch (Exception e) {
+        }
+
+        return training;
+
+    }
+
+    @Transactional
+    public ResponseMessage saveTraining(CourseAchievementDto trainingDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        courseAchievementRepository.save(fillTraining(trainingDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El curso ha sido guardado con éxito");
         return responseMessage;
     }
 

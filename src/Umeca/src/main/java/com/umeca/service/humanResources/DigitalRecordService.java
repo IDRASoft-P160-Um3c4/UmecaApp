@@ -38,4 +38,6 @@ public interface DigitalRecordService {
 
     ResponseMessage deleteUmecaJob(Long id);
 
+    ResponseMessage saveTraining(CourseAchievementDto trainingDto);
+
 }

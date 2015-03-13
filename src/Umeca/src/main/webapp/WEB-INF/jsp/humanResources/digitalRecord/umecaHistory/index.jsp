@@ -17,14 +17,14 @@
             <div class="row">
                 <div class="col-xs-12" style="padding: 1%">
                     <%@ include
-                            file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/umecaJob.jsp" %>
+                            file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/umecaJob/umecaJob.jsp" %>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="widget-box">
-        <div class="widget-header">Cursos / Logros
+        <div class="widget-header">Cursos / Capacitaciones
             <div class="widget-toolbar">
                 <a data-action="collapse" href="#"><i class="icon-chevron-up"></i></a>
             </div>
@@ -33,8 +33,8 @@
         <div class="widget-body">
             <div class="row">
                 <div class="col-xs-12" style="padding: 1%">
-                    <%--<%@ include--%>
-                    <%--file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/course.jsp" %>--%>
+                    <%@ include
+                            file="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/training/training.jsp" %>
                 </div>
             </div>
 
