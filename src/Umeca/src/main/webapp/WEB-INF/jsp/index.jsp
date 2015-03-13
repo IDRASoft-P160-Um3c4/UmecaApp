@@ -27,6 +27,9 @@
     <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
         <%@ include file="/WEB-INF/jsp/reviewerManager/index.jsp" %>
     </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_DIRECTOR')">
+        <%@ include file="/WEB-INF/jsp/director/index.jsp" %>
+    </sec:authorize>
 
 </div>
 <div class="container">

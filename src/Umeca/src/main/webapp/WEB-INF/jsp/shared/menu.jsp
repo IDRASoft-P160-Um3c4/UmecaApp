@@ -203,9 +203,18 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Reportes
+                                <i class="icon-caret-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-li-blue"><a href="<c:url value='/director/excelReport/index.html'/>"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a></li>
+                                <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para direcci&oacute;n</a></li>
+                            </ul>
+                        </li>
 
-                        <li class="nav-li-blue"><a href="<c:url value='/director/excelReport/index.html'/>"><i
-                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a></li>
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
@@ -271,6 +280,8 @@
                                 <li><a href="<c:url value='/supervisorManager/report/reportChart.html' />"><i
                                         class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Reportes con
                                     gr&aacute;fico</a></li>
+                                <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para direcci&oacute;n</a></li>
                             </ul>
                         </li>
 

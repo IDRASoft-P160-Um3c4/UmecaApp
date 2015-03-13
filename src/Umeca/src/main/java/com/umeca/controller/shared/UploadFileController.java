@@ -255,7 +255,7 @@ public class UploadFileController {
 
             upDwFileService.save(uploadFile);
 
-            resMsg.setMessage("El archivo " + uploadFile.getFileName() + "fue subido de forma correcta, usted puede continuar subiendo archivos, sin cerrar la ventana");
+            resMsg.setMessage("El archivo " + uploadFile.getFileName() + " fue subido de forma correcta, usted puede continuar subiendo archivos, sin cerrar la ventana");
             resMsg.setHasError(false);
             if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
 

@@ -682,7 +682,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "and (CFR.code =:codeFR) " +
             "and (MP.resolution = :resolutionMP)", nativeQuery = true)
     List<Object> getCountCasesWithFulfillmentReport(@Param("iDate") Date initDate, @Param("eDate") Date endDate,
-                                                    @Param("lstStatus") List<String> listStatus, @Param("lstUSers") List<Long> lstUSers,
+                                                    @Param("lstStatus") List<String> listStatus, @Param("lstUsers") List<Long> lstUSers,
                                                     @Param("codeFR") String codeFR, @Param("resolutionMP") Integer resolutionMP);
 
 /*

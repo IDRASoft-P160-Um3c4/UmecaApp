@@ -197,6 +197,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                 $scope.isReadOnly = true;
                 $scope.actProcessIsDone = true;
                 $scope.eventSel.className = window.changeByStatus('REALIZADA', $scope.m.priority.id);
+                $scope.eventSel.actIsDone = true;
                 $scope.option = "UPDATE";
             }
             $scope.$apply();

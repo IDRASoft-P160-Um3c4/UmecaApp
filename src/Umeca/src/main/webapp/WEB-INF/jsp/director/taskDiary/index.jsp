@@ -94,9 +94,16 @@
                 editable: true,
                 selectable: true,
                 selectHelper: true,
-                eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+                eventResize: function (event, dayDelta, minuteDelta, revertFunc) {
                     var today = new Date();
                     today.setHours(0, 0, 0, 0);
+
+                    if(event.actIsDone === true){
+                        revertFunc();
+                        scope.showMsg({title: "Agenda de actividades", msg: 'No es posible modificar una actividad ya realizada.', type: "danger"});
+                        return;
+                    }
+
                     if (event.start < today) {
                         revertFunc();
                         scope.showMsg({title: "Agenda de actividades", msg: 'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
@@ -117,6 +124,12 @@
                 eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
                     var today = new Date();
                     today.setHours(0, 0, 0, 0);
+
+                    if(event.actIsDone === true){
+                        revertFunc();
+                        scope.showMsg({title: "Agenda de actividades", msg: 'No es posible modificar una actividad ya realizada.', type: "danger"});
+                        return;
+                    }
 
                     if (event.start < today) {
                         revertFunc();

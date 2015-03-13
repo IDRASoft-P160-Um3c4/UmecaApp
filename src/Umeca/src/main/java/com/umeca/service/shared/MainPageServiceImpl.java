@@ -6,6 +6,7 @@ import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.director.agenda.ActivityAgendaNotice;
 import com.umeca.model.entities.reviewer.LogNotificationReviewer;
 import com.umeca.model.entities.reviewer.dto.LogNotificationDto;
 import com.umeca.model.entities.shared.CommentRequest;
@@ -16,6 +17,7 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.supervisor.ActivityAgendaRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
@@ -72,6 +74,10 @@ public class MainPageServiceImpl implements MainPageService {
 
             case Constants.ROLE_EVALUATION_MANAGER:
                 constructEvaluationManagerPage(model);
+                return model;
+
+            case Constants.ROLE_DIRECTOR:
+                constructDirectorMainPage(model, userId);
                 return model;
 
             default:
@@ -286,5 +292,41 @@ public class MainPageServiceImpl implements MainPageService {
         sLstGeneric = json.toJson(lstGen);
         model.addObject("lstNotification", sLstGeneric);
         model.addObject("urlToGo", "/supervisor/log/deleteComment.json");
+    }
+
+
+    @Autowired
+    ActivityAgendaRepository activityAgendaRepository;
+
+    private void constructDirectorMainPage(ModelAndView model, Long userId) {
+
+        Calendar today = CalendarExt.getToday();
+
+        List<ActivityAgendaNotice> lstGeneric = activityAgendaRepository.getLstActivitiesBeforeTodayByUserId(userId,
+                new ArrayList<String>() {{
+                    add(MonitoringConstants.STATUS_ACTIVITY_NEW);
+                    add(MonitoringConstants.STATUS_ACTIVITY_MODIFIED);
+                }},
+                today, new PageRequest(0, 20)
+        );
+        Gson json = new Gson();
+        String sLstGeneric = json.toJson(lstGeneric);
+
+        model.addObject("lstActivitiesOld", sLstGeneric);
+
+        Calendar tomorrow = CalendarExt.getToday();
+        tomorrow.add(Calendar.DATE, 1);
+
+        lstGeneric = activityAgendaRepository.getLstActivitiesByUserIdAndDates(userId,
+                new ArrayList<String>() {{
+                    add(MonitoringConstants.STATUS_ACTIVITY_NEW);
+                    add(MonitoringConstants.STATUS_ACTIVITY_MODIFIED);
+                }},
+                today, tomorrow,
+                new PageRequest(0, 20)
+        );
+
+        sLstGeneric = json.toJson(lstGeneric);
+        model.addObject("lstActivitiesNew", sLstGeneric);
     }
 }
