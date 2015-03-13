@@ -75,6 +75,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
     private List<Incident> incidents;
 
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<Vacation> vacations;
+
     public Employee() {
 
     }
@@ -243,5 +246,13 @@ public class Employee {
 
     public void setIncidents(List<Incident> incidents) {
         this.incidents = incidents;
+    }
+
+    public List<Vacation> getVacations() {
+        return vacations;
+    }
+
+    public void setVacations(List<Vacation> vacations) {
+        this.vacations = vacations;
     }
 }
