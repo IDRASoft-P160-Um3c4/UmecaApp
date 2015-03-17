@@ -44,4 +44,8 @@ public interface DigitalRecordService {
 
     ResponseMessage deleteIncident(Long id);
 
+    ResponseMessage saveVacation(VacationDto vacationDto);
+
+    ResponseMessage deleteVacation(Long id);
+
 }

@@ -255,4 +255,5 @@ public class Employee {
     public void setVacations(List<Vacation> vacations) {
         this.vacations = vacations;
     }
+
 }

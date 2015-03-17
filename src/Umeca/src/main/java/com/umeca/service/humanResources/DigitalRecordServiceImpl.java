@@ -52,6 +52,8 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private UmecaJobRepository umecaJobRepository;
     @Autowired
     private IncidentRepository incidentRepository;
+    @Autowired
+    private VacationRepository vacationRepository;
 
 
     @Transactional
@@ -432,14 +434,14 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         ResponseMessage responseMessage = new ResponseMessage();
         incidentRepository.save(fillIncident(incidentDto));
         responseMessage.setHasError(false);
-        responseMessage.setMessage("El incidente curso ha sido guardado con éxito");
+        responseMessage.setMessage("El incidente ha sido guardado con éxito");
         return responseMessage;
     }
 
     private Incident fillIncident(IncidentDto incidentDto) {
         Incident incident = new Incident();
         if (incidentDto.getId() != null)
-            incident=incidentRepository.findIncidentByIds(incidentDto.getIdEmployee(), incidentDto.getId());
+            incident = incidentRepository.findIncidentByIds(incidentDto.getIdEmployee(), incidentDto.getId());
         else {
             Employee e = new Employee();
             e.setId(incidentDto.getIdEmployee());
@@ -469,6 +471,47 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         incidentRepository.delete(id);
         responseMessage.setHasError(false);
         responseMessage.setMessage("El incidente ha sido eliminado con éxito");
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage saveVacation(VacationDto vacationDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        vacationRepository.save(fillVacation(vacationDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El periodo vacacional ha sido guardado con éxito");
+        return responseMessage;
+    }
+
+    private Vacation fillVacation(VacationDto vacationDto) {
+        Vacation vacation = new Vacation();
+        if (vacationDto.getId() != null)
+            vacation = vacationRepository.findVacationByIds(vacationDto.getIdEmployee(), vacationDto.getId());
+        else {
+            Employee e = new Employee();
+            e.setId(vacationDto.getIdEmployee());
+            vacation.setEmployee(e);
+        }
+
+        try {
+            vacation.setStart(sdf.parse(vacationDto.getStart()));
+            vacation.setEnd(sdf.parse(vacationDto.getEnd()));
+        } catch (Exception e) {
+        }
+
+        vacation.setName(vacationDto.getName());
+        vacation.setComments(vacationDto.getComments());
+
+        return vacation;
+    }
+
+
+    @Transactional
+    public ResponseMessage deleteVacation(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        vacationRepository.delete(id);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El periodo vacacional ha sido eliminado con éxito");
         return responseMessage;
     }
 

@@ -1,7 +1,5 @@
 package com.umeca.model.entities.humanReources;
 
-import com.umeca.model.catalog.IncidentType;
-
 import javax.persistence.*;
 import java.util.Date;
 

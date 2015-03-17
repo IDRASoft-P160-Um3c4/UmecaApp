@@ -2,6 +2,8 @@ package com.umeca.model.dto.humanResources;
 
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class VacationDto implements EntityGrid {
@@ -17,21 +19,31 @@ public class VacationDto implements EntityGrid {
     }
 
     //grid
-    public VacationDto(Long id, String name, String start, String end, String comments) {
+    public VacationDto(Long id, String name, Date start, Date end, String comments) {
         this.id = id;
         this.name = name;
-        this.start = start;
-        this.end = end;
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        if (start != null) {
+            this.start = formatter.format(start);
+        }
+        if (end != null) {
+            this.end = formatter.format(end);
+        }
         this.comments = comments;
     }
 
     //upsert
-    public VacationDto(Long id, Long idEmployee, String name, String start, String end, String comments) {
+    public VacationDto(Long id, Long idEmployee, String name, Date start, Date end, String comments) {
         this.id = id;
         this.idEmployee = idEmployee;
         this.name = name;
-        this.start = start;
-        this.end = end;
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        if (start != null) {
+            this.start = formatter.format(start);
+        }
+        if (end != null) {
+            this.end = formatter.format(end);
+        }
         this.comments = comments;
     }
 

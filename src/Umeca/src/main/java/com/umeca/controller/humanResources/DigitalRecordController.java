@@ -80,6 +80,8 @@ public class DigitalRecordController {
     private IncidentRepository incidentRepository;
     @Autowired
     private IncidentTypeRepository incidentTypeRepository;
+    @Autowired
+    private VacationRepository vacationRepository;
 
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
@@ -738,6 +740,96 @@ public class DigitalRecordController {
             response = digitalRecordService.deleteIncident(id);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "deleteIncident", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+
+    @RequestMapping(value = "/humanResources/digitalRecord/listVacation", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listVacation(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("name"));
+                    add(r.get("start"));
+                    add(r.get("end"));
+                    add(r.get("comments"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                else if (field.equals("name"))
+                    return r.get("name");
+                else if (field.equals("start"))
+                    return r.get("start");
+                else if (field.equals("end"))
+                    return r.get("end");
+                return null;
+            }
+        }, Vacation.class, VacationDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertVacation", method = RequestMethod.POST)
+    public ModelAndView showUpsertVacation(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/vacation/upsert");
+        Gson gson = new Gson();
+
+        VacationDto v = new VacationDto();
+        if (id != null)
+            v = vacationRepository.findVacationDtoByIds(idEmployee, id);
+        else {
+            v.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("vacation", gson.toJson(v));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertVacation", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertVacation(@ModelAttribute VacationDto vacationDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveVacation(vacationDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertVacation", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteVacation", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteVacation(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteVacation(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteVacation", sharedUserService);
             response.setHasError(true);
             response.setMessage("Ha ocurrido un error, intente nuevamente.");
         } finally {
