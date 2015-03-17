@@ -82,6 +82,8 @@ public class DigitalRecordController {
     private IncidentTypeRepository incidentTypeRepository;
     @Autowired
     private VacationRepository vacationRepository;
+    @Autowired
+    private IncapacityRepository incapacityRepository;
 
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
@@ -837,5 +839,93 @@ public class DigitalRecordController {
         }
     }
 
+    @RequestMapping(value = "/humanResources/digitalRecord/listIncapacity", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listIncapacity(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("description"));
+                    add(r.get("start"));
+                    add(r.get("end"));
+                    add(r.get("comments"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                else if (field.equals("description"))
+                    return r.get("description");
+                else if (field.equals("start"))
+                    return r.get("start");
+                else if (field.equals("end"))
+                    return r.get("end");
+                return null;
+            }
+        }, Incapacity.class, IncapacityDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertIncapacity", method = RequestMethod.POST)
+    public ModelAndView showUpsertIncapacity(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/incapacity/upsert");
+        Gson gson = new Gson();
+
+        IncapacityDto in = new IncapacityDto();
+        if (id != null)
+            in = incapacityRepository.findIncapacityDtoByIds(idEmployee, id);
+        else {
+            in.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("incapacity", gson.toJson(in));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertIncapacity", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertIncapacity(@ModelAttribute IncapacityDto incapacityDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveIncapacity(incapacityDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertIncapacity", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteIncapacity", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteIncapaciity(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteIncapacity(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteIncapaciity", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
 
 }

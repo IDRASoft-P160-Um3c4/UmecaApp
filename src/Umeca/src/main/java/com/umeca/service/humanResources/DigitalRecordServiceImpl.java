@@ -54,6 +54,8 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private IncidentRepository incidentRepository;
     @Autowired
     private VacationRepository vacationRepository;
+    @Autowired
+    private IncapacityRepository incapacityRepository;
 
 
     @Transactional
@@ -428,7 +430,6 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         return responseMessage;
     }
 
-
     @Transactional
     public ResponseMessage saveIncident(IncidentDto incidentDto) {
         ResponseMessage responseMessage = new ResponseMessage();
@@ -463,7 +464,6 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
         return incident;
     }
-
 
     @Transactional
     public ResponseMessage deleteIncident(Long id) {
@@ -505,13 +505,54 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         return vacation;
     }
 
-
     @Transactional
     public ResponseMessage deleteVacation(Long id) {
         ResponseMessage responseMessage = new ResponseMessage();
         vacationRepository.delete(id);
         responseMessage.setHasError(false);
         responseMessage.setMessage("El periodo vacacional ha sido eliminado con éxito");
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage saveIncapacity(IncapacityDto incapacityDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        incapacityRepository.save(fillIncapacity(incapacityDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("La incapacidad ha sido guardada con éxito");
+        return responseMessage;
+    }
+
+    private Incapacity fillIncapacity(IncapacityDto incapacityDto) {
+        Incapacity incapacity = new Incapacity();
+        if (incapacityDto.getId() != null)
+            incapacity = incapacityRepository.findIncapacityByIds(incapacityDto.getIdEmployee(), incapacityDto.getId());
+        else {
+            Employee e = new Employee();
+            e.setId(incapacityDto.getIdEmployee());
+            incapacity.setEmployee(e);
+        }
+
+        try {
+            incapacity.setStart(sdf.parse(incapacityDto.getStart()));
+            incapacity.setEnd(sdf.parse(incapacityDto.getEnd()));
+        } catch (Exception e) {
+        }
+
+        incapacity.setDescription(incapacityDto.getDescription());
+        incapacity.setDocName(incapacityDto.getDocName());
+        incapacity.setComments(incapacityDto.getComments());
+
+        return incapacity;
+    }
+
+
+    @Transactional
+    public ResponseMessage deleteIncapacity(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        incapacityRepository.delete(id);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("La incapacidad ha sido eliminada con éxito");
         return responseMessage;
     }
 

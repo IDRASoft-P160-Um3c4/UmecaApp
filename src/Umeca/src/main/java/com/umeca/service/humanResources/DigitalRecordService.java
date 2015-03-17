@@ -2,13 +2,7 @@ package com.umeca.service.humanResources;
 
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.humanResources.*;
-import com.umeca.model.entities.humanReources.CourseAchievement;
-import com.umeca.model.entities.humanReources.EmployeeReference;
-import com.umeca.model.entities.humanReources.EmployeeSchoolHistory;
-import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
-import com.umeca.model.shared.Constants;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,5 +41,9 @@ public interface DigitalRecordService {
     ResponseMessage saveVacation(VacationDto vacationDto);
 
     ResponseMessage deleteVacation(Long id);
+
+    ResponseMessage saveIncapacity(IncapacityDto incapacityDto);
+
+    ResponseMessage deleteIncapacity(Long id);
 
 }

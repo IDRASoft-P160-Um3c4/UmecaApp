@@ -27,6 +27,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/umecaHistory/trainingCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/umecaHistory/incidentCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/vacation/vacationCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/incapacity/incapacityCtrl.js"></script>
 
 
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
@@ -112,7 +113,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="row" style="padding: 1%;">
         <div class="col-xs-10 col-xs-offset-1 element-right">
@@ -265,8 +265,8 @@
                     </div>
 
                     <div id="incapacity" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>
                     </div>
 
                     <div id="documents" class="tab-pane">
@@ -287,11 +287,14 @@
             </span>
         </div>
     </div>
+
     <div class="row">
         <div class="col-xs-12">
             <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
             <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
         </div>
     </div>
+
+</div>
 </body>
 </html>

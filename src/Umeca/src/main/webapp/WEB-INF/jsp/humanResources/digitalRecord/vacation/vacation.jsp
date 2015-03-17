@@ -57,9 +57,9 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
                         var enabled = row.enabled;
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertVacation('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar periodo vacacional\" onclick=\"window.upsertVacation('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteVacation('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar periodo vacacional\" onclick=\"window.deleteVacation('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 }
