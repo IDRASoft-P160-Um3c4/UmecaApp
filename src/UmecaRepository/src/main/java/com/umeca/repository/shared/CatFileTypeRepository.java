@@ -15,5 +15,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CatFileTypeRepository extends JpaRepository<CatFileType, Long> {
     @Query("SELECT CFT.id FROM CatFileType CFT WHERE CFT.fileType LIKE CONCAT('%',:extension, '%')")
-    Long findByExtension(@Param("extension")String extension);
+    Long findByExtension(@Param("extension") String extension);
+
+    @Query("SELECT CFT.id FROM CatFileType CFT WHERE CFT.fileType LIKE CONCAT('%',:extension, '%') and CFT.code=:extCode")
+    Long findByExtensionCode(@Param("extension") String extension, @Param("extCode") String extCode);
 }

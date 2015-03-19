@@ -200,4 +200,10 @@ public class Constants {
     public static final String CODE_TOTAL_FULFILLMENT = "TOTAL_NON_FULFILLMENT";
     public static final String CODE_PARTIAL_FULFILLMENT = "PARTIAL_NON_FULFILLMENT";
 
+    public static final String CODE_FILE_TYPE_IMG = "IMAGE_FILE";
+    public static final String CODE_FILE_TYPE_WORD = "WORD_FILE";
+    public static final String CODE_FILE_TYPE_EXCEL = "EXCEL_FILE";
+    public static final String CODE_FILE_TYPE_PDF = "PDF_FILE";
+    public static final String CODE_FILE_TYPE_COMPRESSED = "COMPRESSED_FILE";
 }
+

@@ -3,6 +3,9 @@ package com.umeca.service.humanResources;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.humanResources.*;
 import com.umeca.model.entities.reviewer.dto.JobDto;
+import com.umeca.model.entities.shared.UploadFileRequest;
+import com.umeca.service.shared.SharedLogExceptionService;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,5 +52,9 @@ public interface DigitalRecordService {
     ResponseMessage saveAttachment(HttpServletRequest request, AttachmentDto attachmentDto);
 
     ResponseMessage deleteAttachment(HttpServletRequest request, Long id);
+
+    ResponseMessage doUploadGeneric(UploadFileRequest uploadRequest, MultipartHttpServletRequest request, SharedLogExceptionService logException);
+
+    ResponseMessage doUploadGenericPhoto(UploadFileRequest uploadRequest, MultipartHttpServletRequest request, SharedLogExceptionService logException);
 
 }

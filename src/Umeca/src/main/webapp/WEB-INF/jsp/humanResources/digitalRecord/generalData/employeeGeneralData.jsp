@@ -44,6 +44,7 @@
                                            type="text"
                                            class="input-xxlarge"
                                            data-val="true"
+                                           ng_change="changeName();"
                                            data-val-required="Nombre(s) es un campo requerido"/>
                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="name"
@@ -56,6 +57,7 @@
                                            type="text"
                                            class="input-xxlarge"
                                            data-val="true"
+                                           ng_change="changeName();"
                                            data-val-required="Apellido paterno es un campo requerido"/>
                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="lastNameP"
@@ -68,6 +70,7 @@
                                            type="text"
                                            class="input-xxlarge"
                                            data-val="true"
+                                           ng_change="changeName();"
                                            data-val-required="Apellido materno es un campo requerido"/>
                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="lastNameM"

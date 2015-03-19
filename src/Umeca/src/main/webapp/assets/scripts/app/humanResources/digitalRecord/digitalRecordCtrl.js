@@ -1,27 +1,31 @@
-app.controller('digitalRecordController', function ($scope, $timeout, $sce) {
+app.controller('digitalRecordController', function ($scope, $timeout, $sce, $rootScope) {
 
     $scope.dr = {};
     $scope.WaitFor = false;
     $scope.MsgError;
     $scope.MsgSuccess;
+    $scope.MsgErrorPhoto;
+    $scope.MsgSuccessPhoto;
 
     $scope.setPhotoError = function (msg) {
         $scope.$apply(function () {
-            $scope.MsgError = $sce.trustAsHtml(msg);
+            $scope.MsgErrorPhoto = $sce.trustAsHtml(msg);
             $timeout(function () {
-                $scope.MsgError = $sce.trustAsHtml("");
+                $scope.MsgErrorPhoto = $sce.trustAsHtml("");
             }, 5000)
         });
     };
 
-    $scope.setPhotoSuccess = function (result) {
+    $scope.setPhotoSuccess = function (result, context) {
         $scope.$apply(function () {
-            debugger;
-            $scope.MsgSuccess = $sce.trustAsHtml(result.message);
-            $scope.canSave = true;
-            $scope.attachment.fileId = result.returnData;
+            $("#photoEmployee").attr("src", context + result.returnData);
+            $("#idLinkPhotoEmployee").attr("href", context + result.returnData);
         });
     };
+
+    $rootScope.$on('changeEmployeeName', function (ev, data) {
+        $scope.dr.employeeName = data;
+    });
 
     $scope.init = function () {
     };

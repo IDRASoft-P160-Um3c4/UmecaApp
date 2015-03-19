@@ -6,37 +6,34 @@
 
     $(function () {
         'use strict';
-        var url = '<c:url value='/humanResources/digitalRecord/upsertPhoto.json' />';
+        var url = '<c:url value='/humanResources/digitalRecord/doUploadPhoto.json' />';
 
         $('#fileupload').fileupload({
             url: url,
             dataType: 'json',
             done: function (e, data) {
+                var scope = angular.element($("#FormPhotoId")).scope();
                 try {
-                    var scope = angular.element($("#FormPhotoId")).scope();
+
                     if (data.result === undefined || data.result.hasError === undefined) {
-                        scope.setOutErrorPhoto("No hubo respuesta del servidor. Por favor intente de nuevo");
+                        scope.setPhotoError("No hubo respuesta del servidor. Por favor intente de nuevo");
                         return;
                     }
+
                     if (data.result.hasError === true) {
-                        scope.setOutErrorPhoto(data.result.message);
+                        scope.setPhotoError(data.result.message);
                         return;
                     }
 
-                    <%--if(data.result.urlToGo == "close"){--%>
-                    <%--$("#photoImputed").attr("src", "--%>
-                    <%--${pageContext.request.contextPath}/"+data.result.returnData);--%>
-                    <%--$("#idLinkPhotoImputed").attr("href", "--%>
-                    <%--${pageContext.request.contextPath}/"+data.result.returnData);--%>
-                    <%--scope.cancel(true);--%>
-                    <%--return;--%>
-                    <%--}--%>
-                    <%----%>
-
-                    scope.setSuccessPhoto(data.result);
-
+                    if (data.result.urlToGo == "close") {
+                        scope.setPhotoSuccess(data.result, "${pageContext.request.contextPath}/");
+                        var mdlScope = angular.element($("#dlgUpModalId")).scope();
+                        mdlScope.cancel(true);
+                        return;
+                    }
                 } catch (e) {
-                    scope.setOutErrorPhoto("Hubo un error al momento de procesar la respuesta: " + e);
+                    alert("d   " + e);
+                    scope.setPhotoError("Hubo un error al momento de procesar la respuesta: " + e);
                     return;
                 } finally {
                     window.setTimeout(function () {
@@ -61,21 +58,21 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
-        <div class="modal-dialog" style="width:800px" ng-controller="digitalRecordController">
+        <div class="modal-dialog" style="width:800px">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-info ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center"><i class="icon-group "></i>&nbsp;&nbsp;Agregar foto</h4>
+                        <h4 class="element-center"><i class="icon-camera"></i>&nbsp;&nbsp;Agregar foto a ${employeeName}
+                        </h4>
                     </div>
                 </div>
                 <div class="modal-body">
-                    <form id="FormPhotoId" name="FormPhotoId" class="form-horizontal" role="form">
-                        <input type="hidden" name="idEmployee" value="{{photo.idEmployee}}">
-                        <input type="hidden" name="id" value="{{photo.id}}">
-                        <input type="hidden" name="fileId" value="{{photo.fileId}}">
+                    <form id="FormPhotoId" name="FormPhotoId" class="form-horizontal" role="form"
+                          ng-controller="digitalRecordController">
+                        <input type="hidden" name="idEmployee" value="${idEmployee}">
                         <input type="hidden" id="description" name="description"
-                               value="employee_{{photo.idEmployee}}_photo">
+                               value="employee_${idEmployee}_photo">
 
                         <div class="row">
                             <div class="col-xs-12">
@@ -100,69 +97,30 @@
                                                 <br/>
 
                                                 <div id="divPhoto">
-                                                    <div class="col-xs-12">
-                                                        <div class="col-xs-10 col-xs-offset-1">
-                                                            <label>Nombre</label>
-                                                            <br/>
-                                                            <input id="photoName"
-                                                                   ng-model="photo.photoName"
-                                                                   name="photoName"
-                                                                   type="text" style=" width: 100% !important"
-                                                                   class="input-xxlarge" data-val="true"
-                                                                   data-val-required="Nombre es un campo requerido"/>
-                                                            <br/>
-                                                            <span class="field-validation-valid"
-                                                                  data-valmsg-for="photoName"
-                                                                  data-valmsg-replace="true"></span>
-                                                        </div>
-                                                    </div>
 
                                                     <div class="col-xs-12">
                                                         <br/>
 
                                                         <div class="col-xs-10 col-xs-offset-1">
-                                                            <label>Descripci&oacute;n</label>
-                                                            <br/>
-                                                            <textarea class="form-control limited"
-                                                                      ng-model="photo.photoDescription"
-                                                                      maxlength="980"
-                                                                      id="photoDescription"
-                                                                      data-val="true"
-                                                                      name="photoDescription"
-                                                                      data-val-required="Descripci&oacute;n es un campo requerido">
-                                                            </textarea>
-                                                            <span class="field-validation-valid"
-                                                                  data-valmsg-for="photoDescription"
-                                                                  data-valmsg-replace="true"></span>
-                                                            <br/>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xs-12">
-                                                        <br/>
-
-                                                        <div class="col-xs-10 col-xs-offset-1">
-
-                                                            <div ng-show="photo.photoDescription && photo.photoName">
-                                                                <div class="row">
-                                                                    <div class="col-xs-12 element-center">
+                                                            <div class="row">
+                                                                <div class="col-xs-12 element-center">
                                                              <span class="btn btn-success fileinput-button element-center">
                                                                 <i class="glyphicon glyphicon-upload"></i>
                                                                 <span>Elige el archivo...</span>
                                                                 <input id="fileupload" type="file" name="files[]"/>
                                                             </span>
-                                                                    </div>
                                                                 </div>
-                                                                <br/>
+                                                            </div>
+                                                            <br/>
 
-                                                                <div class="row">
-                                                                    <div class="col-xs-12">
-                                                                        <div id="progress" class="progress">
-                                                                            <div class="progress-bar progress-bar-success"></div>
-                                                                        </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <div id="progress" class="progress">
+                                                                        <div class="progress-bar progress-bar-success"></div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             <br/>
 
                                                             <div class="row">

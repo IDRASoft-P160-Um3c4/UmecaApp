@@ -57,7 +57,7 @@
         }
 
         uploadPhoto = function (id) {
-            window.showUpsert(id, "#divPhoto", '<c:url value='/shared/uploadFile/uploadFile.html?type=PHOTO' />', undefined, undefined);
+            window.showUpsertWithIdEmployee(id, "#divPhoto", '<c:url value='/humanResources/digitalRecord/uploadPhoto.html' />', undefined, undefined, ${idEmployee});
 
         };
     </script>
@@ -73,13 +73,14 @@
     <div class="row">
         <div class="col-xs-12">
             <br/>
+
             <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Expediente electr&oacute;nico
             </h2>
 
             <div class="col-xs-5 col-xs-offset-1" style="padding-top: 3%;">
-                <h3 class="header smaller lighter blue">
+                <h3 class="header smaller lighter blue" ng-init='dr.employeeName="${employeeName}";'>
                     <small>Nombre del imputado:</small>
-                    &nbsp;{{dr.name + dr.lastNameP + dr.lastNameM}}
+                    &nbsp;{{dr.employeeName}}
                 </h3>
             </div>
 
@@ -88,9 +89,9 @@
                     <ul class="ace-thumbnails">
                         <li>
                             <a href="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
-                               data-rel="colorbox" id="idLinkPhotoImputed">
+                               data-rel="colorbox" id="idLinkPhotoEmployee">
                                 <img src="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
-                                     id="photoImputed" class="containerPhoto"/>
+                                     id="photoEmployee" class="containerPhoto"/>
                             </a>
 
                             <div class="tools tools-right">

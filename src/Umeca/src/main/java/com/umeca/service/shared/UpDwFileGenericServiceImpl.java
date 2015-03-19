@@ -25,14 +25,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class UpDwFileGenericServiceImpl implements UpDwFileGenericService{
+public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
     @Autowired
     UploadFileGenericRepository uploadFileGenericRepository;
 
     @Override
     public boolean isValidRequestFile(Iterator<String> itr, ResponseMessage resMsg) {
-        if(itr.hasNext() == false){
+        if (itr.hasNext() == false) {
             resMsg.setHasError(true);
             resMsg.setMessage("No existe un archivo en la solicitud, por favor revise e intente de nuevo");
             return false;
@@ -46,8 +46,8 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService{
     @Override
     public boolean hasAvailability(UploadFileGeneric file, ResponseMessage resMsg, Long userId) {
         List<SystemSetting> lstSystemSettings = systemSettingsService.findAllOfGroup(Constants.SYSTEM_SETTINGS_ARCHIVE);
-        for(SystemSetting systemSetting : lstSystemSettings){
-            switch (systemSetting.getKey()){
+        for (SystemSetting systemSetting : lstSystemSettings) {
+            switch (systemSetting.getKey()) {
                 case Constants.SYSTEM_SETTINGS_ARCHIVE_PATH_TO_SAVE:
                     file.setPath(new File(systemSetting.getValue(), Constants.FILE_PREFIX_USER + userId.toString()).toString());
                     break;
@@ -55,7 +55,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService{
         }
 
         //Validar archivos con el mismo nombre
-        if(uploadFileGenericRepository.alreadyExistFileByUser(userId, file.getFileName().toLowerCase()) > 0){
+        if (uploadFileGenericRepository.alreadyExistFileByUser(userId, file.getFileName().toLowerCase()) > 0) {
             resMsg.setHasError(true);
             resMsg.setMessage("Ya existe un archivo con ese nombre");
             return false;
@@ -85,7 +85,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService{
         String filename = mpf.getOriginalFilename();
         String extension = FilenameUtils.getExtension(filename);
 
-        if(extension == null || extension.isEmpty()){
+        if (extension == null || extension.isEmpty()) {
             resMsg.setMessage("El archivo no tiene extensión y no puede ser almacendo");
             resMsg.setHasError(true);
             return false;
@@ -94,23 +94,51 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService{
         extension = extension.toLowerCase();
         final Long fileTypeId = catFileTypeRepository.findByExtension(extension);
 
-        if(fileTypeId == null || fileTypeId <= 0){
+        if (fileTypeId == null || fileTypeId <= 0) {
             resMsg.setMessage("Tipo de archivo no permitido");
             resMsg.setHasError(true);
             return false;
         }
 
-        file.setFileType(new CatFileType(){{setId(fileTypeId);}});
+        file.setFileType(new CatFileType() {{
+            setId(fileTypeId);
+        }});
+        return true;
+    }
+
+    @Override
+    public boolean isValidExtensionByCode(MultipartFile mpf, UploadFileGeneric file, ResponseMessage resMsg, String code) {
+        String filename = mpf.getOriginalFilename();
+        String extension = FilenameUtils.getExtension(filename);
+
+        if (extension == null || extension.isEmpty()) {
+            resMsg.setMessage("El archivo no tiene extensión y no puede ser almacendo");
+            resMsg.setHasError(true);
+            return false;
+        }
+
+        extension = extension.toLowerCase();
+        final Long fileTypeId = catFileTypeRepository.findByExtensionCode(extension, code);
+
+        if (fileTypeId == null || fileTypeId <= 0) {
+            resMsg.setMessage("Tipo de archivo no permitido");
+            resMsg.setHasError(true);
+            return false;
+        }
+
+        file.setFileType(new CatFileType() {{
+            setId(fileTypeId);
+        }});
         return true;
     }
 
     @Override
     public boolean saveOnDiskUploadFile(MultipartFile mpf, String path, UploadFileGeneric uploadFile, ResponseMessage resMsg,
                                         SharedLogExceptionService logException, SharedUserService sharedUserService) {
-        try{
+        try {
             File file = new File(path);
-            if(!file.exists()){
-                if(file.mkdirs() == false){
+            if (!file.exists()) {
+                if (file.mkdirs() == false) {
                     resMsg.setHasError(true);
                     resMsg.setMessage("Se presentó un problema con la ruta del archivo, por favor intente de nuevo o contacte a soporte técnico");
                     return false;
@@ -120,7 +148,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService{
             File fileReal = new File(file, uploadFile.getRealFileName());
             FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(fileReal));
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "saveOnDiskUploadFile", sharedUserService);
             resMsg.setHasError(true);
             resMsg.setMessage("Se presentó un problema al momento de guardar el archivo, por favor intente de nuevo o contacte a soporte técnico");

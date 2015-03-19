@@ -3,13 +3,12 @@ package com.umeca.service.humanResources;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.dto.humanResources.*;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
-import com.umeca.model.entities.shared.CourseType;
-import com.umeca.model.entities.shared.SchoolDocumentType;
-import com.umeca.model.entities.shared.UploadFileGeneric;
+import com.umeca.model.entities.shared.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.DocumentTypeRepository;
@@ -20,13 +19,18 @@ import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
 import com.umeca.repository.shared.UploadFileGenericRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 
 @Service("digitalRecordService")
 public class DigitalRecordServiceImpl implements DigitalRecordService {
@@ -618,5 +622,104 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         return responseMessage;
     }
 
+    @Transactional
+    public ResponseMessage doUploadGeneric(UploadFileRequest uploadRequest,
+                                           MultipartHttpServletRequest request, SharedLogExceptionService logException) {
+        ResponseMessage resMsg = new ResponseMessage();
+
+        Long userId = sharedUserService.GetLoggedUserId();
+
+        Iterator<String> itr = request.getFileNames();
+
+        if (upDwFileGenericService.isValidRequestFile(itr, resMsg) == false) {
+            return resMsg;
+        }
+
+        UploadFileGeneric file = new UploadFileGeneric();
+
+        MultipartFile mpf = request.getFile(itr.next());
+        if (upDwFileGenericService.isValidExtension(mpf, file, resMsg) == false)
+            return resMsg;
+
+        User user = new User();
+        user.setId(userId);
+        upDwFileGenericService.fillUploadFileGeneric(mpf, file, uploadRequest, user);
+
+        //valida nombre archivo
+        if (upDwFileGenericService.hasAvailability(file, resMsg, userId) == false)
+            return resMsg;
+
+        String path = request.getSession().getServletContext().getRealPath("");
+        path = new File(path, file.getPath()).toString();
+
+        if (upDwFileGenericService.saveOnDiskUploadFile(mpf, path, file, resMsg, logException, sharedUserService) == false)
+            return resMsg;
+
+        upDwFileGenericService.save(file);
+
+        resMsg.setMessage("El archivo " + file.getFileName() + " fue subido de forma correcta. Por favor presione el botón guardar para finalizar el proceso.");
+        resMsg.setHasError(false);
+        if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
+
+            resMsg.setUrlToGo("close");
+            resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
+        } else {
+            resMsg.setReturnData(file.getId());
+        }
+
+        return resMsg;
+    }
+
+    @Transactional
+    public ResponseMessage doUploadGenericPhoto(UploadFileRequest uploadRequest, MultipartHttpServletRequest request, SharedLogExceptionService logException) {
+
+        ResponseMessage resMsg = new ResponseMessage();
+        Long userId = sharedUserService.GetLoggedUserId();
+
+        Iterator<String> itr = request.getFileNames();
+
+        if (upDwFileGenericService.isValidRequestFile(itr, resMsg) == false) {
+            return resMsg;
+        }
+
+        UploadFileGeneric file = new UploadFileGeneric();
+
+        MultipartFile mpf = request.getFile(itr.next());
+        if (upDwFileGenericService.isValidExtensionByCode(mpf, file, resMsg, Constants.CODE_FILE_TYPE_IMG) == false)
+            return resMsg;
+
+        User user = new User();
+        user.setId(userId);
+        upDwFileGenericService.fillUploadFileGeneric(mpf, file, uploadRequest, user);
+
+        //valida nombre archivo
+        if (upDwFileGenericService.hasAvailability(file, resMsg, userId) == false)
+            return resMsg;
+
+        String path = request.getSession().getServletContext().getRealPath("");
+        path = new File(path, file.getPath()).toString();
+
+        if (upDwFileGenericService.saveOnDiskUploadFile(mpf, path, file, resMsg, logException, sharedUserService) == false)
+            return resMsg;
+
+        file.setObsolete(false);
+        upDwFileGenericService.save(file);
+
+        Long idOldPhoto = employeeRepository.getIdPhotoByIdEmployee(uploadRequest.getIdEmployee());
+
+        if (idOldPhoto != null) {
+            path = request.getSession().getServletContext().getRealPath("");
+            upDwFileGenericService.deleteFile(path, uploadFileGenericRepository.findOne(idOldPhoto), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+
+        Employee e = employeeRepository.findOne(uploadRequest.getIdEmployee());
+        e.setPhoto(file);
+        employeeRepository.save(e);
+
+        resMsg.setHasError(false);
+        resMsg.setUrlToGo("close");
+        resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
+        return resMsg;
+    }
 
 }

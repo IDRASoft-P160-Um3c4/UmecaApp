@@ -14,4 +14,13 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("select count (E.id) from Employee E " +
             "where E.name=:nameEm and E.lastNameP=:lastP and E.lastNameM=:lastM and E.birthDate=:bDate")
     Long findExistEmployee(@Param("nameEm") String name, @Param("lastP") String lastNameM, @Param("lastM") String lastNameP, @Param("bDate") Date birthDate);
+
+    @Query("select concat(E.name,' ',E.lastNameP,' ',E.lastNameM) from Employee E " +
+            "where E.id=:idEmployee")
+    String getEmployeeNameById(@Param("idEmployee") Long idEmployee);
+
+    @Query("select P.id from Employee E " +
+            "inner join E.photo P " +
+            "where E.id=:idEmployee")
+    Long getIdPhotoByIdEmployee(@Param("idEmployee") Long idEmployee);
 }

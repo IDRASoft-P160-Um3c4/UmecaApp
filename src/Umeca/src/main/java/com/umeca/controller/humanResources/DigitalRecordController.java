@@ -12,8 +12,10 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
+import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
@@ -62,6 +64,8 @@ public class DigitalRecordController {
     private AddressService addressService;
     @Autowired
     private JobRepository jobRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
     @Autowired
     private EmployeeSchoolHistoryRepository employeeSchoolHistoryRepository;
     @Autowired
@@ -165,6 +169,16 @@ public class DigitalRecordController {
         model.addObject("listState", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
         model.addObject("lstMaritalSt", gson.toJson(maritalStatusRepository.findAll()));
         model.addObject("lstDocType", gson.toJson(documentTypeRepository.findNotObsolete()));
+        model.addObject("employeeName", employeeRepository.getEmployeeNameById(id));
+
+        Long idPhoto = employeeRepository.getIdPhotoByIdEmployee(id);
+
+        if (idPhoto != null && idPhoto > 0) {
+            UploadFileGeneric photo = upDwFileGenericService.getPathAndFilename(idPhoto);
+            String path = new File(photo.getPath(), photo.getRealFileName()).toString();
+            model.addObject("pathPhoto", path);
+        }
+
         EmployeeGeneralDataDto dto = digitalRecordService.fillGeneralDataDto(id);
         model.addObject("generalData", gson.toJson(dto));
         if (dto.getIdAddres() != null)
@@ -1010,50 +1024,9 @@ public class DigitalRecordController {
     @ResponseBody
     ResponseMessage doUploadFileGeneric(@ModelAttribute UploadFileRequest uploadRequest,
                                         MultipartHttpServletRequest request) {
-
         ResponseMessage resMsg = new ResponseMessage();
         try {
-
-            Long userId = sharedUserService.GetLoggedUserId();
-
-            Iterator<String> itr = request.getFileNames();
-
-            if (upDwFileGenericService.isValidRequestFile(itr, resMsg) == false) {
-                return resMsg;
-            }
-
-            UploadFileGeneric file = new UploadFileGeneric();
-
-            MultipartFile mpf = request.getFile(itr.next());
-            if (upDwFileGenericService.isValidExtension(mpf, file, resMsg) == false)
-                return resMsg;
-
-            User user = new User();
-            user.setId(userId);
-            upDwFileGenericService.fillUploadFileGeneric(mpf, file, uploadRequest, user);
-
-            //valida nombre archivo
-            if (upDwFileGenericService.hasAvailability(file, resMsg, userId) == false)
-                return resMsg;
-
-            String path = request.getSession().getServletContext().getRealPath("");
-            path = new File(path, file.getPath()).toString();
-
-            if (upDwFileGenericService.saveOnDiskUploadFile(mpf, path, file, resMsg, logException, sharedUserService) == false)
-                return resMsg;
-
-            upDwFileGenericService.save(file);
-
-            resMsg.setMessage("El archivo " + file.getFileName() + " fue subido de forma correcta. Por favor presione el botón guardar para finalizar el proceso.");
-            resMsg.setHasError(false);
-            if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
-
-                resMsg.setUrlToGo("close");
-                resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
-            } else {
-                resMsg.setReturnData(file.getId());
-            }
-
+            resMsg = digitalRecordService.doUploadGeneric(uploadRequest, request, logException);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUploadFileGeneric", sharedUserService);
             resMsg.setHasError(true);
@@ -1093,28 +1066,31 @@ public class DigitalRecordController {
         }
     }
 
-    @RequestMapping(value = "/humanResources/digitalRecord/upsertPhoto", method = RequestMethod.POST)
+    @RequestMapping(value = "/humanResources/digitalRecord/uploadPhoto", method = RequestMethod.POST)
     public ModelAndView showUpsertPhoto(@RequestParam(required = true) Long idEmployee) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/upsertPhoto");
         model.addObject("idEmployee", idEmployee);
+        model.addObject("employeeName", employeeRepository.getEmployeeNameById(idEmployee));
         return model;
     }
 
 
-    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertPhoto", method = RequestMethod.POST)
+    @RequestMapping(value = "/humanResources/digitalRecord/doUploadPhoto", method = RequestMethod.POST)
+    public
     @ResponseBody
-    public ResponseMessage doUpsertPhoto(HttpServletRequest request, @RequestParam Long id) {
-        ResponseMessage response = new ResponseMessage();
+    ResponseMessage doUploadFileGenericPhoto(@ModelAttribute UploadFileRequest uploadRequest,
+                                             MultipartHttpServletRequest request) {
+        ResponseMessage resMsg = new ResponseMessage();
         try {
-
-
+            resMsg = digitalRecordService.doUploadGenericPhoto(uploadRequest, request, logException);
         } catch (Exception ex) {
-            logException.Write(ex, this.getClass(), "doUpsertPhoto", sharedUserService);
-            response.setHasError(true);
-            response.setMessage("Ha ocurrido un error, intente nuevamente.");
-        } finally {
-            return response;
+            logException.Write(ex, this.getClass(), "doUploadFileGeneric", sharedUserService);
+            resMsg.setHasError(true);
+            resMsg.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
         }
+
+        return resMsg;
     }
 
 }
+

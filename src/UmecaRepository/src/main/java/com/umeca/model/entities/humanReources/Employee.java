@@ -271,4 +271,12 @@ public class Employee {
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
     }
+
+    public UploadFileGeneric getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(UploadFileGeneric photo) {
+        this.photo = photo;
+    }
 }

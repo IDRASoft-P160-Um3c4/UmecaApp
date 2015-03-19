@@ -654,13 +654,14 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void fileType() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "file_type.txt", "\\|", 4);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "file_type.txt", "\\|", 5);
         for (String[] data : lstDta) {
             CatFileType model = new CatFileType();
             model.setId(Long.parseLong(data[0]));
             model.setFileType(data[1]);
             model.setDescription(data[2]);
-            model.setObsolete(data[3].equals("1"));
+            model.setCode(data[3]);
+            model.setObsolete(data[4].equals("1"));
             fileTypeRepository.save(model);
         }
         fileTypeRepository.flush();

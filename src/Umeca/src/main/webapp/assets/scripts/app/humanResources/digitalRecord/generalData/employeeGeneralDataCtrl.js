@@ -1,8 +1,13 @@
-app.controller('employeeGeneralDataController', function ($scope, $timeout, $sce, $http) {
+app.controller('employeeGeneralDataController', function ($scope, $timeout, $sce, $rootScope) {
         $scope.gd = {};
         $scope.WaitFor = false;
         $scope.MsgError;
         $scope.MsgSuccess;
+
+        $scope.changeName = function () {
+            var data = $scope.gd.name + " " + $scope.gd.lastNameP + " " + $scope.gd.lastNameM;
+            $rootScope.$broadcast("changeEmployeeName", data);
+        };
 
         $scope.init = function () {
             $scope.fillSelect("gd", "maritalStatus", "lstMaritalSt", "maritalStatusId");

@@ -3,6 +3,7 @@ package com.umeca.model.entities.shared;
 public class UploadFileRequest {
 
     private Long caseId;
+    private Long idEmployee;
     private String description;
     private Long typeId;
     private Boolean closeUploadFile;
@@ -37,5 +38,13 @@ public class UploadFileRequest {
 
     public void setCloseUploadFile(Boolean closeUploadFile) {
         this.closeUploadFile = closeUploadFile;
+    }
+
+    public Long getIdEmployee() {
+        return idEmployee;
+    }
+
+    public void setIdEmployee(Long idEmployee) {
+        this.idEmployee = idEmployee;
     }
 }
