@@ -46,4 +46,8 @@ public interface DigitalRecordService {
 
     ResponseMessage deleteIncapacity(Long id);
 
+    ResponseMessage saveAttachment(HttpServletRequest request, AttachmentDto attachmentDto);
+
+    ResponseMessage deleteAttachment(HttpServletRequest request, Long id);
+
 }

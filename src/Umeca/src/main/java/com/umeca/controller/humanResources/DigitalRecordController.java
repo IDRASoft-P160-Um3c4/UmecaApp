@@ -7,12 +7,13 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.catalog.IncidentType;
-import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.dto.humanResources.*;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
+import com.umeca.model.entities.shared.UploadFileGeneric;
+import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
@@ -21,16 +22,21 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.humanResources.DigitalRecordService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -84,7 +90,10 @@ public class DigitalRecordController {
     private VacationRepository vacationRepository;
     @Autowired
     private IncapacityRepository incapacityRepository;
-
+    @Autowired
+    private UpDwFileGenericService upDwFileGenericService;
+    @Autowired
+    private AttachmentRepository attachmentRepository;
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -749,7 +758,6 @@ public class DigitalRecordController {
         }
     }
 
-
     @RequestMapping(value = "/humanResources/digitalRecord/listVacation", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -921,6 +929,163 @@ public class DigitalRecordController {
             response = digitalRecordService.deleteIncapacity(id);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "deleteIncapaciity", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/listAttachment", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listAttachments(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Attachment, UploadFileGeneric> joinFile = r.join("genericFile");
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(joinFile.get("id").alias("fileId"));
+                    add(r.get("attachmentName"));
+                    add(joinFile.get("creationTime"));
+                    add(r.get("attachmentDescription"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+
+                final javax.persistence.criteria.Join<Attachment, Employee> joinEmpl = r.join("employee");
+                final javax.persistence.criteria.Join<Attachment, UploadFileGeneric> joinFile = r.join("genericFile");
+
+                if (field.equals("idEmployee"))
+                    return joinEmpl.get("id");
+                else if (field.equals("attachmentName"))
+                    return r.get("attachmentName");
+                else if (field.equals("creationTime"))
+                    return joinFile.get("creationTime");
+                else if (field.equals("attachmentDescription"))
+                    return r.get("attachmentDescription");
+                return null;
+            }
+        }, Attachment.class, AttachmentDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertAttachment", method = RequestMethod.POST)
+    public ModelAndView showUpsertAttachment(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/attachment/upsert");
+        Gson gson = new Gson();
+        Boolean canSave;
+        AttachmentDto att = new AttachmentDto();
+        if (id != null) {
+            att = attachmentRepository.findAttachmentDtoByIds(idEmployee, id);
+            canSave = true;
+        } else {
+            att.setIdEmployee(idEmployee);
+            canSave = false;
+        }
+
+        model.addObject("attachment", gson.toJson(att));
+        model.addObject("canSave", gson.toJson(canSave));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/uploadAttachment", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doUploadFileGeneric(@ModelAttribute UploadFileRequest uploadRequest,
+                                        MultipartHttpServletRequest request) {
+
+        ResponseMessage resMsg = new ResponseMessage();
+        try {
+
+            Long userId = sharedUserService.GetLoggedUserId();
+
+            Iterator<String> itr = request.getFileNames();
+
+            if (upDwFileGenericService.isValidRequestFile(itr, resMsg) == false) {
+                return resMsg;
+            }
+
+            UploadFileGeneric file = new UploadFileGeneric();
+
+            MultipartFile mpf = request.getFile(itr.next());
+            if (upDwFileGenericService.isValidExtension(mpf, file, resMsg) == false)
+                return resMsg;
+
+            User user = new User();
+            user.setId(userId);
+            upDwFileGenericService.fillUploadFileGeneric(mpf, file, uploadRequest, user);
+
+            //valida nombre archivo
+            if (upDwFileGenericService.hasAvailability(file, resMsg, userId) == false)
+                return resMsg;
+
+            String path = request.getSession().getServletContext().getRealPath("");
+            path = new File(path, file.getPath()).toString();
+
+            if (upDwFileGenericService.saveOnDiskUploadFile(mpf, path, file, resMsg, logException, sharedUserService) == false)
+                return resMsg;
+
+            upDwFileGenericService.save(file);
+
+            resMsg.setMessage("El archivo " + file.getFileName() + " fue subido de forma correcta. Por favor presione el botón guardar para finalizar el proceso.");
+            resMsg.setHasError(false);
+            if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
+
+                resMsg.setUrlToGo("close");
+                resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
+            } else {
+                resMsg.setReturnData(file.getId());
+            }
+
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUploadFileGeneric", sharedUserService);
+            resMsg.setHasError(true);
+            resMsg.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
+        }
+
+        return resMsg;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertAttachment", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertAttachment(@ModelAttribute AttachmentDto attachmentDto, HttpServletRequest request) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveAttachment(request, attachmentDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertAttachment", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteAttachment", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteAttachment(HttpServletRequest request, @RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteAttachment(request, id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteAttachment", sharedUserService);
             response.setHasError(true);
             response.setMessage("Ha ocurrido un error, intente nuevamente.");
         } finally {

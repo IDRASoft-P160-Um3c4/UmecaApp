@@ -9,13 +9,18 @@ import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.shared.CourseType;
 import com.umeca.model.entities.shared.SchoolDocumentType;
+import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.DocumentTypeRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.MaritalStatusRepository;
 import com.umeca.repository.catalog.RegisterTypeRepository;
 import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
+import com.umeca.repository.shared.UploadFileGenericRepository;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +61,16 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private VacationRepository vacationRepository;
     @Autowired
     private IncapacityRepository incapacityRepository;
+    @Autowired
+    private AttachmentRepository attachmentRepository;
+    @Autowired
+    private UpDwFileGenericService upDwFileGenericService;
+    @Autowired
+    private SharedUserService sharedUserService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UploadFileGenericRepository uploadFileGenericRepository;
 
 
     @Transactional
@@ -553,6 +568,53 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         incapacityRepository.delete(id);
         responseMessage.setHasError(false);
         responseMessage.setMessage("La incapacidad ha sido eliminada con éxito");
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage saveAttachment(HttpServletRequest request, AttachmentDto attachmentDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        attachmentRepository.save(fillAttachment(request, attachmentDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El archivo ha sido guardado con éxito");
+        return responseMessage;
+    }
+
+    private Attachment fillAttachment(HttpServletRequest request, AttachmentDto attachmentDto) {
+        Attachment att = new Attachment();
+
+        if (attachmentDto.getId() != null) {
+            att = attachmentRepository.findAttachmentByIds(attachmentDto.getIdEmployee(), attachmentDto.getId());
+        } else {
+            Employee e = new Employee();
+            e.setId(attachmentDto.getIdEmployee());
+            att.setEmployee(e);
+        }
+
+        if (att.getGenericFile() != null && att.getGenericFile().getId() != attachmentDto.getFileId()) {//si ya tiene uno, verifico que no se el mismo
+            String path = request.getSession().getServletContext().getRealPath("");
+            //si es difenrente elimino el anterior
+            upDwFileGenericService.deleteFile(path, att.getGenericFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+
+        UploadFileGeneric newFile = uploadFileGenericRepository.findOne(attachmentDto.getFileId());
+        newFile.setObsolete(false);
+        att.setGenericFile(newFile);
+        att.setAttachmentName(attachmentDto.getAttachmentName());
+        att.setAttachmentDescription(attachmentDto.getAttachmentDescription());
+
+        return att;
+    }
+
+    @Transactional
+    public ResponseMessage deleteAttachment(HttpServletRequest request, Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        Attachment att = attachmentRepository.findOne(id);
+        String path = request.getSession().getServletContext().getRealPath("");
+        upDwFileGenericService.deleteFile(path, att.getGenericFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        attachmentRepository.delete(att);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El archivo ha sido eliminado con éxito");
         return responseMessage;
     }
 

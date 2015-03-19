@@ -28,6 +28,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/umecaHistory/incidentCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/vacation/vacationCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/incapacity/incapacityCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/attachment/attachmentCtrl.js"></script>
 
 
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
@@ -270,8 +271,8 @@
                     </div>
 
                     <div id="documents" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/attachment/attachment.jsp" %>
                     </div>
 
                 </div>

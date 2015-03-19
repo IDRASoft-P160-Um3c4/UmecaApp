@@ -78,6 +78,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
     private List<Vacation> vacations;
 
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<Attachment> attachments;
+
     public Employee() {
 
     }
@@ -256,4 +259,11 @@ public class Employee {
         this.vacations = vacations;
     }
 
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
 }
