@@ -29,14 +29,13 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/vacation/vacationCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/incapacity/incapacityCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/attachment/attachmentCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/digitalRecordCtrl.js"></script>
 
 
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
-          type="text/css"/>
-
+          type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/colorbox.css"/>
     <script src="${pageContext.request.contextPath}/assets/scripts/jquery.colorbox-min.js"></script>
-
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
@@ -57,8 +56,7 @@
             window.goToUrlMvcUrl('<c:url value="/humanResources/employees/index.html"/>');
         }
 
-        uploadPhoto = function () {
-            <%--var id = ${idCase};--%>
+        uploadPhoto = function (id) {
             window.showUpsert(id, "#divPhoto", '<c:url value='/shared/uploadFile/uploadFile.html?type=PHOTO' />', undefined, undefined);
 
         };
@@ -68,27 +66,20 @@
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
-
-<div class="container body-content">
-
-    <div class="blocker" ng-show="WaitFor==true">
-        <div>
-            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
-        </div>
-    </div>
-    <br/>
-
+<div id="divPhoto" ng-controller="modalDlgController">
+</div>
+<div class="container body-content" ng-controller="digitalRecordController">
 
     <div class="row">
         <div class="col-xs-12">
+            <br/>
             <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Expediente electr&oacute;nico
             </h2>
 
-            <div class="col-xs-5 col-xs-offset-1" style="padding-top: 3%;"
-                 ng-controller="employeeGeneralDataController">
+            <div class="col-xs-5 col-xs-offset-1" style="padding-top: 3%;">
                 <h3 class="header smaller lighter blue">
                     <small>Nombre del imputado:</small>
-                    &nbsp;{{gd.name + gd.lastNameP + gd.LastNameM}}
+                    &nbsp;{{dr.name + dr.lastNameP + dr.lastNameM}}
                 </h3>
             </div>
 

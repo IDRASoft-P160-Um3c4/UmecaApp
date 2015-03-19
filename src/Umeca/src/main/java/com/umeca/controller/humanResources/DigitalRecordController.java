@@ -1093,4 +1093,28 @@ public class DigitalRecordController {
         }
     }
 
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertPhoto", method = RequestMethod.POST)
+    public ModelAndView showUpsertPhoto(@RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/upsertPhoto");
+        model.addObject("idEmployee", idEmployee);
+        return model;
+    }
+
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertPhoto", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertPhoto(HttpServletRequest request, @RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+
+
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertPhoto", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
 }

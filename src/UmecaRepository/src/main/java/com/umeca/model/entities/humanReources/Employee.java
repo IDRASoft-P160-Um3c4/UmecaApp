@@ -4,6 +4,7 @@ import com.umeca.model.catalog.District;
 import com.umeca.model.dto.humanResources.EmployeeDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Job;
+import com.umeca.model.entities.shared.UploadFileGeneric;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -80,6 +81,10 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
     private List<Attachment> attachments;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_generic_file")
+    private UploadFileGeneric photo;
 
     public Employee() {
 
