@@ -29,9 +29,18 @@
             window.showUpsert(null, "#angJsjqGridId", "<c:url value='/humanResources/employees/upsertEmployee.html'/>", "#GridEmployeeId");
         };
 
+        deleteEmployee = function (id) {
+            window.showObsolete(id, "#angJsjqGridId", "<c:url value='/humanResources/employees/deleteEmployee.json'/>", "#GridEmployeeId");
+        };
+
         showDigitalRecord = function (id) {
             window.goToUrlMvcUrl("<c:url value='/humanResources/digitalRecord/index.html?id='/>" + id);
         };
+
+        downloadDigitalRecord = function (id) {
+            window.goToUrlMvcUrl("<c:url value='/humanResources/digitalRecord/digitalRecordSummary.html?id='/>" + id);
+        };
+
 
         $(document).ready(function () {
             jQuery("#GridEmployeeId").jqGrid({
@@ -96,7 +105,9 @@
                         var be = "";
 
                         if (obsolete[i] == 'false') {
-                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Expediente digital\" onclick=\"showDigitalRecord(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Expediente digital\" onclick=\"showDigitalRecord(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar empleado\" onclick=\"deleteEmployee('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar expediente\" onclick=\"downloadDigitalRecord('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                         } else {
                             be = "";
                         }

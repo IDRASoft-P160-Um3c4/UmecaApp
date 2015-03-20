@@ -36,4 +36,6 @@ public interface UpDwFileGenericService {
 
     boolean isValidExtensionByCode(MultipartFile mpf, UploadFileGeneric file, ResponseMessage resMsg, String code);
 
+    UploadFileGeneric getPathAndFilenamePhotoByIdEmployee(Long id);
+
 }

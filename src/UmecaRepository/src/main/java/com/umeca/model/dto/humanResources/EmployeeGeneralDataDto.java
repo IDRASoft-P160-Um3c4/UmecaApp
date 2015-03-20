@@ -1,6 +1,7 @@
 package com.umeca.model.dto.humanResources;
 
 import com.umeca.model.catalog.dto.LocationDto;
+import com.umeca.model.entities.humanReources.EmployeeGeneralData;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,9 +14,12 @@ public class EmployeeGeneralDataDto {
     private String lastNameP;
     private String lastNameM;
     private Boolean gender;
+    private String genderStr;
     private String birthDate;
     private Long maritalStatusId;
+    private String maritalStatus;
     private Long documentId;
+    private String document;
     private String documentDesc;
     private String email;
     private String phone;
@@ -25,6 +29,7 @@ public class EmployeeGeneralDataDto {
     private String datePublicServ;
     private String dateEntryUmeca;
     private Boolean commissioner;
+    private String commissionerStr;
     private String noImss;
     private String appointment;
     private String street;
@@ -35,9 +40,47 @@ public class EmployeeGeneralDataDto {
     private String lng;
     private Long idEmployee;
     private Long idAddres;
+    private String addressStr;
 
     public EmployeeGeneralDataDto() {
 
+    }
+
+    //expediente digital
+    public EmployeeGeneralDataDto(String name, String lastNameP, String lastNameM, Date birthDate, Boolean gender, String maritalStatus,
+                                  String phone, String dependents, String document, String documentDesc, String email, String certificate,
+                                  String noEmployee, Date datePublicServ, Date dateEntryUmeca, Boolean commissioner, String noImss, String appointment, String addressStr) {
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        if (birthDate != null)
+            this.birthDate = sdf.format(birthDate);
+        if (gender != null && gender == true)
+            this.genderStr = "Femenino";
+        else if (gender != null && gender == false)
+            this.genderStr = "Masculino";
+        this.maritalStatus = maritalStatus;
+        this.phone = phone;
+        this.dependents = dependents;
+        this.document = document;
+        this.documentDesc = documentDesc;
+        this.email = email;
+        this.certificate = certificate;
+        this.noEmployee = noEmployee;
+        if (datePublicServ != null)
+            this.datePublicServ = sdf.format(datePublicServ);
+        if (dateEntryUmeca != null)
+            this.dateEntryUmeca = sdf.format(dateEntryUmeca);
+
+        if (commissioner != null && commissioner == true)
+            this.commissionerStr = "Si";
+        else if (commissioner != null && commissioner == false)
+            this.commissionerStr = "No";
+
+        this.noImss = noImss;
+        this.appointment = appointment;
+        this.addressStr = addressStr;
     }
 
     public EmployeeGeneralDataDto(Long idEmployee, String name, String lastNameP, String lastNameM, Boolean gender, Date birthDate, Long maritalStatusId, Long documentId, String email, String documentDesc, String phone, String certificate,
@@ -277,5 +320,45 @@ public class EmployeeGeneralDataDto {
 
     public void setIdEmployee(Long idEmployee) {
         this.idEmployee = idEmployee;
+    }
+
+    public String getGenderStr() {
+        return genderStr;
+    }
+
+    public void setGenderStr(String genderStr) {
+        this.genderStr = genderStr;
+    }
+
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
+    }
+
+    public String getCommissionerStr() {
+        return commissionerStr;
+    }
+
+    public void setCommissionerStr(String commissionerStr) {
+        this.commissionerStr = commissionerStr;
+    }
+
+    public String getAddressStr() {
+        return addressStr;
+    }
+
+    public void setAddressStr(String addressStr) {
+        this.addressStr = addressStr;
     }
 }

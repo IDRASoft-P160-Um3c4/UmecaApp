@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 @Service("digitalRecordService")
@@ -720,6 +721,30 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         resMsg.setUrlToGo("close");
         resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
         return resMsg;
+    }
+
+    @Transactional
+    public ResponseMessage doObsoleteEmployee(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        Employee e = employeeRepository.findOne(id);
+        e.setIsObsolete(true);
+        e.setDateObsolete(new Date());
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        e.setUserObsolete(u);
+        employeeRepository.saveAndFlush(e);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El empleado ha sido eliminado con éxito");
+        return responseMessage;
+    }
+
+    public DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee) {
+        DigitalRecordSummaryDto summary = new DigitalRecordSummaryDto();
+
+        EmployeeGeneralDataDto gd = employeeGeneralDataRepository.getSummaryDataByEmployeeId(idEmployee);
+        summary.setGeneralData(gd);
+
+        return summary;
     }
 
 }

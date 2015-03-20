@@ -188,6 +188,12 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     }
 
     @Override
+    public UploadFileGeneric getPathAndFilenamePhotoByIdEmployee(Long id) {
+        UploadFileGeneric file = uploadFileGenericRepository.getPathAndFilenamePhotoByIdEmployee(id);
+        return file;
+    }
+
+    @Override
     public List<UploadFileGeneric> getUploadFilesByUserId(Long id) {
         return uploadFileGenericRepository.getUploadFilesByUserId(id);
     }

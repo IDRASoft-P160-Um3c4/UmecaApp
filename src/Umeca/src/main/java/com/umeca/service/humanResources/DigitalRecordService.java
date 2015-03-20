@@ -57,4 +57,8 @@ public interface DigitalRecordService {
 
     ResponseMessage doUploadGenericPhoto(UploadFileRequest uploadRequest, MultipartHttpServletRequest request, SharedLogExceptionService logException);
 
+    ResponseMessage doObsoleteEmployee(Long id);
+
+    DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee);
+
 }
