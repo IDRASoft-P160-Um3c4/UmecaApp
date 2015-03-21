@@ -8,6 +8,7 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 public interface DigitalRecordService {
 
@@ -59,6 +60,6 @@ public interface DigitalRecordService {
 
     ResponseMessage doObsoleteEmployee(Long id);
 
-    DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee);
+    DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee, String contextPath);
 
 }

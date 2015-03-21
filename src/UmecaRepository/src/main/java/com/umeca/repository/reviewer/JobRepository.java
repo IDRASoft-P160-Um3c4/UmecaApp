@@ -23,4 +23,9 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             "where J.id =:idJob and E.id=:idEmployee")
     JobDto getDtoJobByIds(@Param("idEmployee") Long idEmployee, @Param("idJob") Long idJob);
 
+    @Query("select new com.umeca.model.entities.reviewer.dto.JobDto(J.id, J.company,J.post,J.nameHead,J.salaryWeek, J.phone,J.start,J.end,E.id) from Job J " +
+            "inner join J.employee E " +
+            "where E.id=:idEmployee")
+    List<JobDto> getJobsDtoByIdEmployee(@Param("idEmployee") Long idEmployee);
+
 }

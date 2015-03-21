@@ -8,15 +8,11 @@ import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.humanResources.*;
-import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Job;
-import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileAllSourcesView;
 import com.umeca.model.entities.reviewer.dto.JobDto;
-import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
-import com.umeca.model.shared.Constants;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
@@ -29,7 +25,6 @@ import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,9 +34,7 @@ import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -654,6 +647,8 @@ public class DigitalRecordController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idEmployee"))
                     return r.join("employee").get("id");
+                if (field.equals("training"))
+                    return r.get("isTraining");
                 else if (field.equals("name"))
                     return r.get("name");
                 else if (field.equals("place"))
@@ -1113,61 +1108,14 @@ public class DigitalRecordController {
 
     @RequestMapping(value = "/humanResources/digitalRecord/digitalRecordSummary", method = RequestMethod.GET)
     public ModelAndView generateFileAllSources(@RequestParam(required = true) Long id, HttpServletRequest request, HttpServletResponse response) {
-
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/digitalRecordSummary");
-        DigitalRecordSummaryDto summary = digitalRecordService.fillDigitalRecordSummary(id);
+        String contextPath = request.getSession().getServletContext().getRealPath("");
+        DigitalRecordSummaryDto summary = digitalRecordService.fillDigitalRecordSummary(id, contextPath);
         model.addObject("summary", summary);
-
-        UploadFileGeneric photo = upDwFileGenericService.getPathAndFilenamePhotoByIdEmployee(id);
-
-        if (photo != null) {
-            String path = new File(photo.getPath(), photo.getRealFileName()).toString();
-            model.addObject("pathPhoto", path);
-        }
-
-        //model.addObject("pathPhoto", path)
-
-        response.setContentType("application/force-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"informacion_fuentes_entrevistadas.doc\"");
+//        response.setContentType("application/force-download");
+//        response.setHeader("Content-Disposition", "attachment; filename=\"Expediente_digital_umeca.doc\"");
         return model;
     }
-
-//    @RequestMapping(value = "/humanResources/digitalRecord/prueba", method = RequestMethod.GET)
-//    public FileOutputStream prueba(@RequestParam(required = true) Long id, HttpServletRequest request, HttpServletResponse response) {
-//
-////        UploadFileGeneric photo = upDwFileGenericService.getPathAndFilenamePhotoByIdEmployee(id);
-////
-////        if (photo != null) {
-////            File cosa = new File(photo.getPath(), photo.getRealFileName());
-////
-////            model.addObject("pathPhoto", path);
-////        }
-////
-////
-////        String contentType = getServletContext().getMimeType(image.getName());
-////
-////        // Check if file is actually an image (avoid download of other files by hackers!).
-////        // For all content types, see: http://www.w3schools.com/media/media_mimeref.asp
-////        if (contentType == null || !contentType.startsWith("image")) {
-////            // Do your thing if the file appears not being a real image.
-////            // Throw an exception, or send 404, or show default/warning image, or just ignore it.
-////            response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404.
-////            return;
-////        }
-////
-////        // Init servlet response.
-////        response.reset();
-////        response.setContentType(contentType);
-////        response.setHeader("Content-Length", String.valueOf(image.length()));
-////
-////        // Write image content to response.
-////        Files.copy(image.toPath(), response.getOutputStream());
-////
-////
-////        response.setContentType("image/"+photo.get);
-////        response.setHeader("Content-Disposition", "attachment; filename=\"informacion_fuentes_entrevistadas.doc\"");
-////        return model;
-//    }
 
 }
 

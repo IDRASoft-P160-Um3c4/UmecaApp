@@ -21,6 +21,8 @@ import com.umeca.repository.shared.UploadFileGenericRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileGenericService;
+import org.apache.commons.io.FilenameUtils;
+import org.jasypt.contrib.org.apache.commons.codec_1_3.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,9 +31,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 @Service("digitalRecordService")
 public class DigitalRecordServiceImpl implements DigitalRecordService {
@@ -738,13 +744,71 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         return responseMessage;
     }
 
-    public DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee) {
+    public DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee, String contextPath) {
         DigitalRecordSummaryDto summary = new DigitalRecordSummaryDto();
-
         EmployeeGeneralDataDto gd = employeeGeneralDataRepository.getSummaryDataByEmployeeId(idEmployee);
         summary.setGeneralData(gd);
+        List<JobDto> jobs = jobRepository.getJobsDtoByIdEmployee(idEmployee);
+        summary.setJobs(jobs);
+        List<CourseAchievementDto> courses = courseAchievementRepository.findCoursesDtoByIdEmployee(idEmployee);
+        summary.setCourses(courses);
+
+        UploadFileGeneric photoFile = uploadFileGenericRepository.getPathAndFilenamePhotoByIdEmployee(idEmployee);
+        String photoStr = "";
+
+        if (photoFile != null) {
+            String filePath = new File(contextPath, photoFile.getPath() + "\\" + photoFile.getRealFileName()).toString();
+            try {
+                String extension = FilenameUtils.getExtension(filePath);
+                photoStr = "<img src=\"";
+                photoStr += "data:image/" + extension + ";base64,";
+                photoStr += encodeFileToBase64Binary(filePath);
+                photoStr += "\">";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        summary.setPhoto(photoStr);
 
         return summary;
+    }
+
+
+    private String encodeFileToBase64Binary(String fileName)
+            throws Exception {
+
+        File file = new File(fileName);
+        byte[] bytes = loadFile(file);
+        byte[] encoded = Base64.encodeBase64(bytes);
+        String encodedString = new String(encoded);
+
+        return encodedString;
+    }
+
+    private static byte[] loadFile(File file) throws Exception {
+        InputStream is = new FileInputStream(file);
+
+        long length = file.length();
+        if (length > Integer.MAX_VALUE) {
+            // File is too large
+            new Exception("Archivo demasiado grande");
+        }
+        byte[] bytes = new byte[(int) length];
+
+        int offset = 0;
+        int numRead = 0;
+        while (offset < bytes.length
+                && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
+            offset += numRead;
+        }
+
+        if (offset < bytes.length) {
+            throw new IOException("Could not completely read file " + file.getName());
+        }
+
+        is.close();
+        return bytes;
     }
 
 }
