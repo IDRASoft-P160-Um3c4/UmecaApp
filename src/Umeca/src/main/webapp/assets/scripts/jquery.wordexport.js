@@ -1,6 +1,6 @@
 if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
-    (function($) {
-        $.fn.wordExport = function(fileName) {
+    (function ($) {
+        $.fn.wordExport = function (fileName) {
             fileName = typeof fileName !== 'undefined' ? fileName : "jQuery-Word-Export";
             var static = {
                 mhtml: {
@@ -16,7 +16,7 @@ if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
             var markup = $(this).clone();
 
             // Remove hidden elements from the output
-            markup.each(function() {
+            markup.each(function () {
                 var self = $(this);
                 if (self.is(':hidden'))
                     self.remove();
@@ -30,10 +30,18 @@ if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
                 var w = Math.min(img[i].width, options.maxWidth);
                 var h = img[i].height * (w / img[i].width);
                 // Create canvas for converting image to data URL
-                $('<canvas>').attr("id", "jQuery-Word-export_img_" + i).width(w).height(h).insertAfter(img[i]);
-                var canvas = document.getElementById("jQuery-Word-export_img_" + i);
-                canvas.width = w;
-                canvas.height = h;
+
+                var prefix = "export_image"
+
+                $('<canvas>').attr({
+                    id: prefix + i
+                }).css({
+                    width: w,
+                    height: h
+                }).appendTo('#divPhoto');
+
+                var canvas = document.getElementById(prefix + i);
+
                 // Draw image to canvas
                 var context = canvas.getContext('2d');
                 context.drawImage(img[i], 0, 0, w, h);
@@ -83,5 +91,6 @@ if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
     }
     if (typeof saveAs === "undefined") {
         console.error("jQuery Word Export: missing dependency (FileSaver.js)");
-    };
+    }
+    ;
 }

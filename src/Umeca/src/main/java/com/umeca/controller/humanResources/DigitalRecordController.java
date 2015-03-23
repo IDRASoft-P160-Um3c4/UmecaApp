@@ -1098,7 +1098,7 @@ public class DigitalRecordController {
         try {
             resMsg = digitalRecordService.doUploadGenericPhoto(uploadRequest, request, logException);
         } catch (Exception ex) {
-            logException.Write(ex, this.getClass(), "doUploadFileGeneric", sharedUserService);
+            logException.Write(ex, this.getClass(), "doUploadFileGenericPhoto", sharedUserService);
             resMsg.setHasError(true);
             resMsg.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
         }
@@ -1110,7 +1110,7 @@ public class DigitalRecordController {
     public ModelAndView generateFileAllSources(@RequestParam(required = true) Long id, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/digitalRecordSummary");
         String contextPath = request.getSession().getServletContext().getRealPath("");
-        DigitalRecordSummaryDto summary = digitalRecordService.fillDigitalRecordSummary(id, contextPath);
+        DigitalRecordSummaryDto summary = digitalRecordService.fillDigitalRecordSummary(id, contextPath, logException);
         model.addObject("summary", summary);
 //        response.setContentType("application/force-download");
 //        response.setHeader("Content-Disposition", "attachment; filename=\"Expediente_digital_umeca.doc\"");

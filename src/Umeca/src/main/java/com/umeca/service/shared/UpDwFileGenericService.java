@@ -38,4 +38,9 @@ public interface UpDwFileGenericService {
 
     UploadFileGeneric getPathAndFilenamePhotoByIdEmployee(Long id);
 
+    boolean hasPhotoAvailability(UploadFileGeneric file, ResponseMessage resMsg, Long userId, Long employeeId);
+
+    boolean doTemporalPhoto(String temporalPath, String contextPath, UploadFileGeneric originalPhoto,
+                            SharedLogExceptionService logException, SharedUserService sharedUserService);
+
 }

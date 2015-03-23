@@ -6,6 +6,28 @@
     <title></title>
 </head>
 <body>
+<div align="right">
+    <table width="10%">
+        <tbody>
+        <tr>
+            <td>
+                <input type="button"
+                       onclick="window.doReturn();"
+                       value="Regresar"
+                       style="font-size: 15px">
+            </td>
+            <td/>
+            <td>
+                <input type="button"
+                       onclick="window.exportDoc('${summary.generalData.name}'+'_'+'${summary.generalData.lastNameP}'+'${summary.generalData.lastNameM}');"
+                       value="Exportar a Word"
+                       style="font-size: 15px">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
 <div id="page-content">
 
     <div align="center">
@@ -14,10 +36,9 @@
     <br/>
     <br/>
 
-    <div>
-        <c:out value="${summary.photo}" escapeXml="false"/>
-    </div>
+    <div id="divPhoto">
 
+    </div>
     <div>
         <table width="100%">
             <tbody>
@@ -26,7 +47,8 @@
                     <h2>Datos generales</h2>
                 </th>
                 <th width="50%">
-                    <%--<img src="${summary.photo}">--%>
+                    <img src="${pageContext.request.contextPath}/${summary.photo == null ?'assets/avatars/user.png':summary.photo}"
+                         width="100px" height="100px"/>
                 </th>
             </tr>
             </tbody>
@@ -284,7 +306,32 @@
 
     <br/>
 </div>
-<a class="word-export" href="javascript:void(0)"> Export as .doc </a>
+<div align="right">
+    <table width="10%">
+        <tbody>
+        <tr>
+            <td>
+                <input type="button"
+                       onclick="window.doReturn();"
+                       value="Regresar"
+                       style="font-size: 15px">
+            </td>
+            <td/>
+            <td>
+                <input type="button"
+                       onclick="window.exportDoc('${summary.generalData.name}'+'_'+'${summary.generalData.lastNameP}'+'${summary.generalData.lastNameM}');"
+                       value="Exportar a Word"
+                       style="font-size: 15px">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</div>
+
+
 </body>
 </html>
 
@@ -293,11 +340,17 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.wordexport.js"></script>
 
 <script type="text/javascript">
-    jQuery(document).ready(function ($) {
-        $("a.word-export").click(function (event) {
-            $("#page-content").wordExport();
+    exportDoc = function (name) {
+        jQuery(document).ready(function ($) {
+            $("#page-content").wordExport(name);
         });
-    });
+    };
+
+    var returnUrl = '<c:url value="/humanResources/employees/index.html"/>';
+
+    doReturn = function () {
+        window.location.assign(returnUrl);
+    };
 </script>
 
 

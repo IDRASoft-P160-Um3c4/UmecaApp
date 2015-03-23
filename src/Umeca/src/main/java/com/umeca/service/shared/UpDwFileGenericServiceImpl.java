@@ -3,6 +3,7 @@ package com.umeca.service.shared;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.CatFileType;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.shared.SystemSetting;
 import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileGeneric;
@@ -12,12 +13,14 @@ import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.UploadFileGenericRepository;
 import com.umeca.service.account.SharedUserService;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -50,6 +53,27 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
             switch (systemSetting.getKey()) {
                 case Constants.SYSTEM_SETTINGS_ARCHIVE_PATH_TO_SAVE:
                     file.setPath(new File(systemSetting.getValue(), Constants.FILE_PREFIX_USER + userId.toString()).toString());
+                    break;
+            }
+        }
+
+        //Validar archivos con el mismo nombre
+        if (uploadFileGenericRepository.alreadyExistFileByUser(userId, file.getFileName().toLowerCase()) > 0) {
+            resMsg.setHasError(true);
+            resMsg.setMessage("Ya existe un archivo con ese nombre");
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean hasPhotoAvailability(UploadFileGeneric file, ResponseMessage resMsg, Long userId, Long employeeId) {
+        List<SystemSetting> lstSystemSettings = systemSettingsService.findAllOfGroup(Constants.SYSTEM_SETTINGS_ARCHIVE);
+        for (SystemSetting systemSetting : lstSystemSettings) {
+            switch (systemSetting.getKey()) {
+                case Constants.SYSTEM_SETTINGS_ARCHIVE_EMPLOYEE_PHOTO_PATH_TO_SAVE:
+                    file.setPath(new File(systemSetting.getValue(), Constants.FILE_PREFIX_PHOTO_EMPLOYEE + employeeId.toString()).toString());
                     break;
             }
         }
@@ -152,6 +176,32 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
             logException.Write(ex, this.getClass(), "saveOnDiskUploadFile", sharedUserService);
             resMsg.setHasError(true);
             resMsg.setMessage("Se presentó un problema al momento de guardar el archivo, por favor intente de nuevo o contacte a soporte técnico");
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean doTemporalPhoto(String temporalPath, String contextPath, UploadFileGeneric originalPhoto,
+                                   SharedLogExceptionService logException, SharedUserService sharedUserService) {
+        try {
+            File tempPath = new File(temporalPath);
+
+            //crea la carpeta donde se almacenara la imagen si no existe
+            if (!tempPath.exists()) {
+                if (tempPath.mkdirs() == false) {
+                    return false;
+                }
+            }
+
+            File temporalFile = new File(tempPath, originalPhoto.getRealFileName());
+            FileInputStream originalFile = new FileInputStream(contextPath + "\\" + originalPhoto.getPath() + "\\" + originalPhoto.getRealFileName());
+
+            FileCopyUtils.copy(IOUtils.toByteArray(originalFile), new FileOutputStream(temporalFile));
+
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doTemporalPhoto", sharedUserService);
             return false;
         }
 

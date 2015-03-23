@@ -17,6 +17,7 @@ import com.umeca.repository.catalog.MaritalStatusRepository;
 import com.umeca.repository.catalog.RegisterTypeRepository;
 import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
+import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.shared.UploadFileGenericRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -38,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 @Service("digitalRecordService")
 public class DigitalRecordServiceImpl implements DigitalRecordService {
@@ -82,6 +84,8 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private UserRepository userRepository;
     @Autowired
     private UploadFileGenericRepository uploadFileGenericRepository;
+    @Autowired
+    private SystemSettingRepository systemSettingRepository;
 
 
     @Transactional
@@ -700,7 +704,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         upDwFileGenericService.fillUploadFileGeneric(mpf, file, uploadRequest, user);
 
         //valida nombre archivo
-        if (upDwFileGenericService.hasAvailability(file, resMsg, userId) == false)
+        if (upDwFileGenericService.hasPhotoAvailability(file, resMsg, userId, uploadRequest.getIdEmployee()) == false)
             return resMsg;
 
         String path = request.getSession().getServletContext().getRealPath("");
@@ -744,7 +748,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         return responseMessage;
     }
 
-    public DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee, String contextPath) {
+    public DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee, String contextPath, SharedLogExceptionService logException) {
         DigitalRecordSummaryDto summary = new DigitalRecordSummaryDto();
         EmployeeGeneralDataDto gd = employeeGeneralDataRepository.getSummaryDataByEmployeeId(idEmployee);
         summary.setGeneralData(gd);
@@ -757,58 +761,14 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         String photoStr = "";
 
         if (photoFile != null) {
-            String filePath = new File(contextPath, photoFile.getPath() + "\\" + photoFile.getRealFileName()).toString();
-            try {
-                String extension = FilenameUtils.getExtension(filePath);
-                photoStr = "<img src=\"";
-                photoStr += "data:image/" + extension + ";base64,";
-                photoStr += encodeFileToBase64Binary(filePath);
-                photoStr += "\">";
-            } catch (Exception e) {
-                e.printStackTrace();
+            String tempImgPath = systemSettingRepository.findOneValue(Constants.SYSTEM_SETTINGS_ARCHIVE, Constants.SYSTEM_SETTINGS_ARCHIVE_EMPLOYEE_PHOTO_TEMPORAL_PATH_TO_SAVE);
+            String uuid = UUID.randomUUID().toString();
+            String tempFilePath = new File(contextPath, tempImgPath + "\\" + uuid).toString();
+            if (upDwFileGenericService.doTemporalPhoto(tempFilePath, contextPath, photoFile, logException, sharedUserService) != false) {
+                summary.setPhoto(tempImgPath + "\\" + uuid + "\\" + photoFile.getRealFileName());
             }
+
         }
-
-        summary.setPhoto(photoStr);
-
         return summary;
     }
-
-
-    private String encodeFileToBase64Binary(String fileName)
-            throws Exception {
-
-        File file = new File(fileName);
-        byte[] bytes = loadFile(file);
-        byte[] encoded = Base64.encodeBase64(bytes);
-        String encodedString = new String(encoded);
-
-        return encodedString;
-    }
-
-    private static byte[] loadFile(File file) throws Exception {
-        InputStream is = new FileInputStream(file);
-
-        long length = file.length();
-        if (length > Integer.MAX_VALUE) {
-            // File is too large
-            new Exception("Archivo demasiado grande");
-        }
-        byte[] bytes = new byte[(int) length];
-
-        int offset = 0;
-        int numRead = 0;
-        while (offset < bytes.length
-                && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
-            offset += numRead;
-        }
-
-        if (offset < bytes.length) {
-            throw new IOException("Could not completely read file " + file.getName());
-        }
-
-        is.close();
-        return bytes;
-    }
-
 }

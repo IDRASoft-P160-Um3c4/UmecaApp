@@ -60,6 +60,6 @@ public interface DigitalRecordService {
 
     ResponseMessage doObsoleteEmployee(Long id);
 
-    DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee, String contextPath);
+    DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee, String contextPath, SharedLogExceptionService logException);
 
 }
