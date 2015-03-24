@@ -21,19 +21,60 @@
         };
 
         jQuery("#GridReferences").jqGrid({
-            autoencode:true,
+            autoencode: true,
             url: urlGridReferences,
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Nombre', 'Tel&eacute;fono', 'Relaci&oacute;n', 'Direcci&oacute;n', 'Acompa&ntilde;ar&aacute<br/>en el proceso', 'Acci&oacute;n'],
             colModel: [
-                { name: 'id', index: 'id', hidden: true },
-                { name: 'name', index: 'name', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'phone', index: 'phone', width: 110, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'relationshipName', index: 'relationshipName', width: 110, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'address', index: 'address', width: 230, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 100, align: "center", search: false },
-                { name: 'Action', width: 50, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
+                {name: 'id', index: 'id', hidden: true},
+                {
+                    name: 'name',
+                    index: 'name',
+                    width: 150,
+                    align: "center",
+                    sorttype: 'string',
+                    searchoptions: {sopt: ['bw']}
+                },
+                {
+                    name: 'phone',
+                    index: 'phone',
+                    width: 110,
+                    align: "center",
+                    sorttype: 'string',
+                    searchoptions: {sopt: ['bw']}
+                },
+                {
+                    name: 'relationshipName',
+                    index: 'relationshipName',
+                    width: 110,
+                    align: "center",
+                    sorttype: 'string',
+                    searchoptions: {sopt: ['bw']}
+                },
+                {
+                    name: 'address',
+                    index: 'address',
+                    width: 230,
+                    align: "center",
+                    sorttype: 'string',
+                    searchoptions: {sopt: ['bw']}
+                },
+                {
+                    name: 'isAccompanimentString',
+                    index: 'isAccompanimentString',
+                    width: 100,
+                    align: "center",
+                    search: false
+                },
+                {
+                    name: 'Action',
+                    width: 50,
+                    align: "center",
+                    sortable: false,
+                    search: false,
+                    formatter: window.actionFormatter
+                }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
@@ -51,10 +92,10 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"upsertReference('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar referencia\" onclick=\"upsertReference('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"deleteReference('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                    $(this).jqGrid('setRowData', ids[i], { Action: be });
+                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar referencia\" onclick=\"deleteReference('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    $(this).jqGrid('setRowData', ids[i], {Action: be});
                 }
             },
             loadComplete: function () {
@@ -71,7 +112,8 @@
             add: true, addfunc: upsertReference, addicon: 'icon-plus-sign purple',
             refresh: true, refreshicon: 'icon-refresh green',
             del: false,
-            search: false});
+            search: false
+        });
 
         jQuery("#GridReferences").jqGrid('filterToolbar', {
             stringResult: true,

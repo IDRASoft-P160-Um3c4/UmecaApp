@@ -1,12 +1,23 @@
-app.controller('employeeGeneralDataController', function ($scope, $timeout, $sce, $http) {
+app.controller('employeeGeneralDataController', function ($scope, $timeout, $sce, $rootScope) {
         $scope.gd = {};
         $scope.WaitFor = false;
         $scope.MsgError;
         $scope.MsgSuccess;
 
+        $scope.changeName = function () {
+            var data = $scope.gd.name + " " + $scope.gd.lastNameP + " " + $scope.gd.lastNameM;
+            $rootScope.$broadcast("changeEmployeeName", data);
+        };
+
+        $scope.changeRole = function () {
+            var data = $scope.gd.post.name;
+            $rootScope.$broadcast("changeEmployeeRole", data);
+        };
+
         $scope.init = function () {
             $scope.fillSelect("gd", "maritalStatus", "lstMaritalSt", "maritalStatusId");
             $scope.fillSelect("gd", "document", "lstDocType", "documentId");
+            $scope.fillSelect("gd", "post", "lstRole", "roleId");
         };
 
         $scope.submitGeneralData = function (formId, urlToGo) {
@@ -58,13 +69,12 @@ app.controller('employeeGeneralDataController', function ($scope, $timeout, $sce
         $scope.fillSelect = function (obj, prop, list, model) {
             if ($scope[list] === undefined || $scope[list].length <= 0)
                 return;
-
-            if ($scope[model] === undefined || $scope[model] === -1)
+            if ($scope[obj][model] === undefined || $scope[obj][model] === -1)
                 $scope[obj][prop] = $scope[list][0];
             else {
                 for (var i = 0; i < $scope[list].length; i++) {
                     var rel = $scope[list][i];
-                    if (rel.id === $scope[model]) {
+                    if (rel.id === $scope[obj][model]) {
                         $scope[obj][prop] = rel;
                         break;
                     }

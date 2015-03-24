@@ -3,25 +3,44 @@ package com.umeca.service.humanResources;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.dto.humanResources.*;
+import com.umeca.model.entities.account.Role;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
-import com.umeca.model.entities.shared.CourseType;
-import com.umeca.model.entities.shared.SchoolDocumentType;
+import com.umeca.model.entities.shared.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.DocumentTypeRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.MaritalStatusRepository;
 import com.umeca.repository.catalog.RegisterTypeRepository;
 import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
+import com.umeca.repository.shared.SystemSettingRepository;
+import com.umeca.repository.shared.UploadFileGenericRepository;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.shared.UpDwFileGenericService;
+import org.apache.commons.io.FilenameUtils;
+import org.jasypt.contrib.org.apache.commons.codec_1_3.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 @Service("digitalRecordService")
 public class DigitalRecordServiceImpl implements DigitalRecordService {
@@ -35,7 +54,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     @Autowired
     private LocationRepository locationRepository;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-    private SimpleDateFormat sdfT = new SimpleDateFormat("hh:mm:ss");
+    private SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
     @Autowired
     private EmployeeGeneralDataRepository employeeGeneralDataRepository;
     @Autowired
@@ -50,14 +69,32 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private EmployeeReferenceRepository employeeReferenceRepository;
     @Autowired
     private UmecaJobRepository umecaJobRepository;
+    @Autowired
+    private IncidentRepository incidentRepository;
+    @Autowired
+    private VacationRepository vacationRepository;
+    @Autowired
+    private IncapacityRepository incapacityRepository;
+    @Autowired
+    private AttachmentRepository attachmentRepository;
+    @Autowired
+    private UpDwFileGenericService upDwFileGenericService;
+    @Autowired
+    private SharedUserService sharedUserService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UploadFileGenericRepository uploadFileGenericRepository;
+    @Autowired
+    private SystemSettingRepository systemSettingRepository;
+
 
     @Transactional
     public ResponseMessage saveEmployee(EmployeeDto employeeDto, HttpServletRequest request) {
-        ResponseMessage resp = new ResponseMessage();
-        Long count = employeeRepository.findExistEmployee(employeeDto.getName(), employeeDto.getLastNameP(), employeeDto.getLastNameM(), employeeDto.getBirthDate());
-        if (count > 0) {
-            resp.setHasError(true);
-            resp.setMessage("Ya existe un empleado con los mismos datos. Revise la información e intente de nuevo.");
+        ResponseMessage resp;
+
+        resp = this.validateExistEmployee(employeeDto.getName(), employeeDto.getLastNameP(), employeeDto.getLastNameM(), employeeDto.getBirthDate(), null);
+        if (resp != null) {
             return resp;
         }
 
@@ -65,35 +102,57 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
         employeeRepository.save(newEmp);
         employeeRepository.flush();
+        resp = new ResponseMessage();
         resp.setHasError(false);
         resp.setMessage("El empleado ha sido registrado.");
         resp.setUrlToGo(request.getContextPath() + "/humanResources/digitalRecord/index.html?id=" + newEmp.getId());
-
         return resp;
+    }
+
+    private ResponseMessage validateExistEmployee(String name, String lastNameP, String lastNameM, Date bthDate, Long idEmployee) {
+        ResponseMessage resp = new ResponseMessage();
+        Long count = -1L;
+
+        if (idEmployee != null) {
+            count = employeeRepository.findExistEmployeeWithId(name.toLowerCase(), lastNameP.toLowerCase(), lastNameM.toLowerCase(), bthDate, idEmployee);
+        } else {
+            count = employeeRepository.findExistEmployee(name.toLowerCase(), lastNameP.toLowerCase(), lastNameM.toLowerCase(), bthDate);
+        }
+
+        if (count > 0) {
+            resp.setHasError(true);
+            resp.setMessage("Ya existe un empleado con los mismos datos. Revise la información e intente de nuevo.");
+            return resp;
+        }
+        return null;
     }
 
     @Transactional
     public ResponseMessage saveGeneralData(EmployeeGeneralDataDto dataDto) {
-        ResponseMessage resp = new ResponseMessage();
+        ResponseMessage resp = null;
         Employee employee = employeeRepository.findOne(dataDto.getIdEmployee());
+        Date bthDt = null;
 
+        try {
+            bthDt = sdf.parse(dataDto.getBirthDate());
+            resp = this.validateExistEmployee(dataDto.getName(), dataDto.getLastNameP(), dataDto.getLastNameM(), bthDt, dataDto.getIdEmployee());
+            if (resp != null) {
+                return resp;
+            }
+        } catch (Exception e) {
+        }
 
         employee.setName(dataDto.getName());
         employee.setLastNameP(dataDto.getLastNameP());
         employee.setLastNameM(dataDto.getLastNameM());
-
-        try {
-            employee.setBirthDate(sdf.parse(dataDto.getBirthDate()));
-        } catch (Exception e) {
-
-        }
-
+        Role r = new Role();
+        r.setId(dataDto.getRoleId());
+        employee.setPost(r);
         employee.setEmployeeGeneralData(fillGeneralData(dataDto));
-
         employee.setGender(dataDto.getGender());
 
         employeeRepository.save(employee);
-
+        resp = new ResponseMessage();
         resp.setHasError(false);
         resp.setMessage("La información ha sido guardada con éxito.");
         return resp;
@@ -248,7 +307,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
             course.setEnd(sdf.parse(courseDto.getEnd()));
         } catch (Exception e) {
         }
-        course.setIsTraining(courseDto.getIsTraining());
+        course.setIsTraining(false);
 
         CourseType ct = new CourseType();
         ct.setId(courseDto.getIdCourseType());
@@ -388,4 +447,350 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         return responseMessage;
     }
 
+    private CourseAchievement fillTraining(CourseAchievementDto trainingDto) {
+        CourseAchievement training = new CourseAchievement();
+
+        if (trainingDto.getId() != null)
+            training = courseAchievementRepository.findCourseAchievmentByIds(trainingDto.getIdEmployee(), trainingDto.getId());
+        else {
+            Employee e = new Employee();
+            e.setId(trainingDto.getIdEmployee());
+            training.setEmployee(e);
+        }
+
+        training.setName(trainingDto.getName());
+        training.setPlace(trainingDto.getPlace());
+        training.setDuration(trainingDto.getDuration());
+        training.setIsTraining(true);
+
+        try {
+            training.setStart(sdf.parse(trainingDto.getStart()));
+            training.setEnd(sdf.parse(trainingDto.getEnd()));
+        } catch (Exception e) {
+        }
+
+        return training;
+
+    }
+
+    @Transactional
+    public ResponseMessage saveTraining(CourseAchievementDto trainingDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        courseAchievementRepository.save(fillTraining(trainingDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El curso ha sido guardado con éxito");
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage saveIncident(IncidentDto incidentDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        incidentRepository.save(fillIncident(incidentDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El incidente ha sido guardado con éxito");
+        return responseMessage;
+    }
+
+    private Incident fillIncident(IncidentDto incidentDto) {
+        Incident incident = new Incident();
+        if (incidentDto.getId() != null)
+            incident = incidentRepository.findIncidentByIds(incidentDto.getIdEmployee(), incidentDto.getId());
+        else {
+            Employee e = new Employee();
+            e.setId(incidentDto.getIdEmployee());
+            incident.setEmployee(e);
+        }
+
+        try {
+            incident.setIncidentDate(sdf.parse(incidentDto.getIncidentDate()));
+        } catch (Exception e) {
+        }
+
+        IncidentType it = new IncidentType();
+        it.setId(incidentDto.getIdIncidentType());
+
+        incident.setIncidentType(it);
+        incident.setSpecIncidentType(incidentDto.getSpecIncidentType());
+        incident.setReason(incidentDto.getReason());
+        incident.setComments(incidentDto.getComments());
+
+        return incident;
+    }
+
+    @Transactional
+    public ResponseMessage deleteIncident(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        incidentRepository.delete(id);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El incidente ha sido eliminado con éxito");
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage saveVacation(VacationDto vacationDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        vacationRepository.save(fillVacation(vacationDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El periodo vacacional ha sido guardado con éxito");
+        return responseMessage;
+    }
+
+    private Vacation fillVacation(VacationDto vacationDto) {
+        Vacation vacation = new Vacation();
+        if (vacationDto.getId() != null)
+            vacation = vacationRepository.findVacationByIds(vacationDto.getIdEmployee(), vacationDto.getId());
+        else {
+            Employee e = new Employee();
+            e.setId(vacationDto.getIdEmployee());
+            vacation.setEmployee(e);
+        }
+
+        try {
+            vacation.setStart(sdf.parse(vacationDto.getStart()));
+            vacation.setEnd(sdf.parse(vacationDto.getEnd()));
+        } catch (Exception e) {
+        }
+
+        vacation.setName(vacationDto.getName());
+        vacation.setComments(vacationDto.getComments());
+
+        return vacation;
+    }
+
+    @Transactional
+    public ResponseMessage deleteVacation(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        vacationRepository.delete(id);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El periodo vacacional ha sido eliminado con éxito");
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage saveIncapacity(IncapacityDto incapacityDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        incapacityRepository.save(fillIncapacity(incapacityDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("La incapacidad ha sido guardada con éxito");
+        return responseMessage;
+    }
+
+    private Incapacity fillIncapacity(IncapacityDto incapacityDto) {
+        Incapacity incapacity = new Incapacity();
+        if (incapacityDto.getId() != null)
+            incapacity = incapacityRepository.findIncapacityByIds(incapacityDto.getIdEmployee(), incapacityDto.getId());
+        else {
+            Employee e = new Employee();
+            e.setId(incapacityDto.getIdEmployee());
+            incapacity.setEmployee(e);
+        }
+
+        try {
+            incapacity.setStart(sdf.parse(incapacityDto.getStart()));
+            incapacity.setEnd(sdf.parse(incapacityDto.getEnd()));
+        } catch (Exception e) {
+        }
+
+        incapacity.setDescription(incapacityDto.getDescription());
+        incapacity.setDocName(incapacityDto.getDocName());
+        incapacity.setComments(incapacityDto.getComments());
+
+        return incapacity;
+    }
+
+
+    @Transactional
+    public ResponseMessage deleteIncapacity(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        incapacityRepository.delete(id);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("La incapacidad ha sido eliminada con éxito");
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage saveAttachment(HttpServletRequest request, AttachmentDto attachmentDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        attachmentRepository.save(fillAttachment(request, attachmentDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El archivo ha sido guardado con éxito");
+        return responseMessage;
+    }
+
+    private Attachment fillAttachment(HttpServletRequest request, AttachmentDto attachmentDto) {
+        Attachment att = new Attachment();
+
+        if (attachmentDto.getId() != null) {
+            att = attachmentRepository.findAttachmentByIds(attachmentDto.getIdEmployee(), attachmentDto.getId());
+        } else {
+            Employee e = new Employee();
+            e.setId(attachmentDto.getIdEmployee());
+            att.setEmployee(e);
+        }
+
+        if (att.getGenericFile() != null && att.getGenericFile().getId() != attachmentDto.getFileId()) {//si ya tiene uno, verifico que no se el mismo
+            String path = request.getSession().getServletContext().getRealPath("");
+            //si es difenrente elimino el anterior
+            upDwFileGenericService.deleteFile(path, att.getGenericFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+
+        UploadFileGeneric newFile = uploadFileGenericRepository.findOne(attachmentDto.getFileId());
+        newFile.setObsolete(false);
+        att.setGenericFile(newFile);
+        att.setAttachmentName(attachmentDto.getAttachmentName());
+        att.setAttachmentDescription(attachmentDto.getAttachmentDescription());
+
+        return att;
+    }
+
+    @Transactional
+    public ResponseMessage deleteAttachment(HttpServletRequest request, Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        Attachment att = attachmentRepository.findOne(id);
+        String path = request.getSession().getServletContext().getRealPath("");
+        upDwFileGenericService.deleteFile(path, att.getGenericFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        attachmentRepository.delete(att);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El archivo ha sido eliminado con éxito");
+        return responseMessage;
+    }
+
+    @Transactional
+    public ResponseMessage doUploadGeneric(UploadFileRequest uploadRequest,
+                                           MultipartHttpServletRequest request, SharedLogExceptionService logException) {
+        ResponseMessage resMsg = new ResponseMessage();
+
+        Long userId = sharedUserService.GetLoggedUserId();
+
+        Iterator<String> itr = request.getFileNames();
+
+        if (upDwFileGenericService.isValidRequestFile(itr, resMsg) == false) {
+            return resMsg;
+        }
+
+        UploadFileGeneric file = new UploadFileGeneric();
+
+        MultipartFile mpf = request.getFile(itr.next());
+        if (upDwFileGenericService.isValidExtension(mpf, file, resMsg) == false)
+            return resMsg;
+
+        User user = new User();
+        user.setId(userId);
+        upDwFileGenericService.fillUploadFileGeneric(mpf, file, uploadRequest, user);
+
+        //valida nombre archivo
+        if (upDwFileGenericService.hasAvailability(file, resMsg, userId) == false)
+            return resMsg;
+
+        String path = request.getSession().getServletContext().getRealPath("");
+        path = new File(path, file.getPath()).toString();
+
+        if (upDwFileGenericService.saveOnDiskUploadFile(mpf, path, file, resMsg, logException, sharedUserService) == false)
+            return resMsg;
+
+        upDwFileGenericService.save(file);
+
+        resMsg.setMessage("El archivo " + file.getFileName() + " fue subido de forma correcta. Por favor presione el botón guardar para finalizar el proceso.");
+        resMsg.setHasError(false);
+        if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
+
+            resMsg.setUrlToGo("close");
+            resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
+        } else {
+            resMsg.setReturnData(file.getId());
+        }
+
+        return resMsg;
+    }
+
+    @Transactional
+    public ResponseMessage doUploadGenericPhoto(UploadFileRequest uploadRequest, MultipartHttpServletRequest request, SharedLogExceptionService logException) {
+
+        ResponseMessage resMsg = new ResponseMessage();
+        Long userId = sharedUserService.GetLoggedUserId();
+
+        Iterator<String> itr = request.getFileNames();
+
+        if (upDwFileGenericService.isValidRequestFile(itr, resMsg) == false) {
+            return resMsg;
+        }
+
+        UploadFileGeneric file = new UploadFileGeneric();
+
+        MultipartFile mpf = request.getFile(itr.next());
+        if (upDwFileGenericService.isValidExtensionByCode(mpf, file, resMsg, Constants.CODE_FILE_TYPE_IMG) == false)
+            return resMsg;
+
+        User user = new User();
+        user.setId(userId);
+        upDwFileGenericService.fillUploadFileGeneric(mpf, file, uploadRequest, user);
+
+        //valida nombre archivo
+        if (upDwFileGenericService.hasPhotoAvailability(file, resMsg, userId, uploadRequest.getIdEmployee()) == false)
+            return resMsg;
+
+        String path = request.getSession().getServletContext().getRealPath("");
+        path = new File(path, file.getPath()).toString();
+
+        if (upDwFileGenericService.saveOnDiskUploadFile(mpf, path, file, resMsg, logException, sharedUserService) == false)
+            return resMsg;
+
+        file.setObsolete(false);
+        upDwFileGenericService.save(file);
+
+        Long idOldPhoto = employeeRepository.getIdPhotoByIdEmployee(uploadRequest.getIdEmployee());
+
+        if (idOldPhoto != null) {
+            path = request.getSession().getServletContext().getRealPath("");
+            upDwFileGenericService.deleteFile(path, uploadFileGenericRepository.findOne(idOldPhoto), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+
+        Employee e = employeeRepository.findOne(uploadRequest.getIdEmployee());
+        e.setPhoto(file);
+        employeeRepository.save(e);
+
+        resMsg.setHasError(false);
+        resMsg.setUrlToGo("close");
+        resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
+        return resMsg;
+    }
+
+    @Transactional
+    public ResponseMessage doObsoleteEmployee(Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        Employee e = employeeRepository.findOne(id);
+        e.setIsObsolete(true);
+        e.setDateObsolete(new Date());
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        e.setUserObsolete(u);
+        employeeRepository.saveAndFlush(e);
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El empleado ha sido eliminado con éxito");
+        return responseMessage;
+    }
+
+    public DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee, String contextPath, SharedLogExceptionService logException) {
+        DigitalRecordSummaryDto summary = new DigitalRecordSummaryDto();
+        EmployeeGeneralDataDto gd = employeeGeneralDataRepository.getSummaryDataByEmployeeId(idEmployee);
+        summary.setGeneralData(gd);
+        List<JobDto> jobs = jobRepository.getJobsDtoByIdEmployee(idEmployee);
+        summary.setJobs(jobs);
+        List<CourseAchievementDto> courses = courseAchievementRepository.findCoursesDtoByIdEmployee(idEmployee);
+        summary.setCourses(courses);
+
+        UploadFileGeneric photoFile = uploadFileGenericRepository.getPathAndFilenamePhotoByIdEmployee(idEmployee);
+        String photoStr = "";
+
+        if (photoFile != null) {
+            String tempImgPath = systemSettingRepository.findOneValue(Constants.SYSTEM_SETTINGS_ARCHIVE, Constants.SYSTEM_SETTINGS_ARCHIVE_EMPLOYEE_PHOTO_TEMPORAL_PATH_TO_SAVE);
+            String uuid = UUID.randomUUID().toString();
+            String tempFilePath = new File(contextPath, tempImgPath + "\\" + uuid).toString();
+            if (upDwFileGenericService.doTemporalPhoto(tempFilePath, contextPath, photoFile, logException, sharedUserService) != false) {
+                summary.setPhoto(tempImgPath + "\\" + uuid + "\\" + photoFile.getRealFileName());
+            }
+
+        }
+        return summary;
+    }
 }

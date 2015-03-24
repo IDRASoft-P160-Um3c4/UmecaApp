@@ -44,6 +44,7 @@
                                            type="text"
                                            class="input-xxlarge"
                                            data-val="true"
+                                           ng_change="changeName();"
                                            data-val-required="Nombre(s) es un campo requerido"/>
                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="name"
@@ -56,6 +57,7 @@
                                            type="text"
                                            class="input-xxlarge"
                                            data-val="true"
+                                           ng_change="changeName();"
                                            data-val-required="Apellido paterno es un campo requerido"/>
                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="lastNameP"
@@ -68,6 +70,7 @@
                                            type="text"
                                            class="input-xxlarge"
                                            data-val="true"
+                                           ng_change="changeName();"
                                            data-val-required="Apellido materno es un campo requerido"/>
                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="lastNameM"
@@ -325,6 +328,24 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="space"></div>
+                            <div class="col-xs-12">
+                                <div class="col-xs-4">
+                                    <label>Puesto</label>
+                                    <br/>
+                                    <select class="form-control element-center" ng-model="gd.post"
+                                            ng-options="e.name for e in lstRole"
+                                            ng-init='lstRole = ${lstRole};'
+                                            ng-change="changeRole();"></select>
+                                    <input type="hidden" name="roleId"
+                                           value="{{gd.post.id}}"/>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <br/>
                     </div>
                 </div>

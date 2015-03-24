@@ -7,14 +7,16 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.dto.humanResources.*;
-import com.umeca.model.entities.humanReources.CourseAchievement;
-import com.umeca.model.entities.humanReources.Employee;
-import com.umeca.model.entities.humanReources.EmployeeReference;
-import com.umeca.model.entities.humanReources.UmecaJob;
+import com.umeca.model.entities.account.Role;
+import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
+import com.umeca.model.entities.shared.UploadFileGeneric;
+import com.umeca.model.entities.shared.UploadFileRequest;
+import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
+import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
@@ -23,15 +25,19 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.humanResources.DigitalRecordService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +65,8 @@ public class DigitalRecordController {
     @Autowired
     private JobRepository jobRepository;
     @Autowired
+    private EmployeeRepository employeeRepository;
+    @Autowired
     private EmployeeSchoolHistoryRepository employeeSchoolHistoryRepository;
     @Autowired
     private CourseTypeRepository courseTypeRepository;
@@ -78,7 +86,20 @@ public class DigitalRecordController {
     private UmecaPostRepository umecaPostRepository;
     @Autowired
     private RegisterTypeRepository registerTypeRepository;
-
+    @Autowired
+    private IncidentRepository incidentRepository;
+    @Autowired
+    private IncidentTypeRepository incidentTypeRepository;
+    @Autowired
+    private VacationRepository vacationRepository;
+    @Autowired
+    private IncapacityRepository incapacityRepository;
+    @Autowired
+    private UpDwFileGenericService upDwFileGenericService;
+    @Autowired
+    private AttachmentRepository attachmentRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -94,8 +115,8 @@ public class DigitalRecordController {
                     add(r.get("name"));
                     add(r.get("lastNameP"));
                     add(r.get("lastNameM"));
-                    add(r.get("post"));
-                    add(r.join("district").get("name"));
+                    add(r.join("post").get("description"));
+                    add(r.join("district").get("name").alias("districtName"));
                     add(r.get("isObsolete"));
                 }};
             }
@@ -104,6 +125,10 @@ public class DigitalRecordController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("fullName"))
                     return r.get("name");
+                if (field.equals("district"))
+                    return r.join("district").get("name");
+                if (field.equals("post"))
+                    return r.join("post").get("description");
                 return null;
             }
         }, Employee.class, EmployeeDto.class);
@@ -115,6 +140,9 @@ public class DigitalRecordController {
     public ModelAndView upsertEmployee() {
         ModelAndView model = new ModelAndView("/humanResources/employees/upsert");
         model.addObject("lstDistrict", new Gson().toJson(districtRepository.findNoObsolete()));
+        model.addObject("lstRole", new Gson().toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
+            add(Constants.ROLE_ADMIN);
+        }})));
         return model;
     }
 
@@ -140,6 +168,23 @@ public class DigitalRecordController {
         }
     }
 
+    @RequestMapping(value = "/humanResources/employees/deleteEmployee", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doObsoleteEmployee(@RequestParam(required = true) Long id) {
+
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.doObsoleteEmployee(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertEmployee", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
     @RequestMapping(value = "/humanResources/digitalRecord/index", method = RequestMethod.GET)
     public ModelAndView digitalRecordIndex(@RequestParam(required = true) Long id) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/index");
@@ -150,6 +195,23 @@ public class DigitalRecordController {
         model.addObject("listState", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
         model.addObject("lstMaritalSt", gson.toJson(maritalStatusRepository.findAll()));
         model.addObject("lstDocType", gson.toJson(documentTypeRepository.findNotObsolete()));
+        model.addObject("lstRole", new Gson().toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
+            add(Constants.ROLE_ADMIN);
+        }})));
+
+        SelectList infoEmp = employeeRepository.getEmployeeNameRoleById((id));
+
+        model.addObject("employeeName", infoEmp.getName());
+        model.addObject("employeePost", infoEmp.getDescription());
+
+        Long idPhoto = employeeRepository.getIdPhotoByIdEmployee(id);
+
+        if (idPhoto != null && idPhoto > 0) {
+            UploadFileGeneric photo = upDwFileGenericService.getPathAndFilename(idPhoto);
+            String path = new File(photo.getPath(), photo.getRealFileName()).toString();
+            model.addObject("pathPhoto", path);
+        }
+
         EmployeeGeneralDataDto dto = digitalRecordService.fillGeneralDataDto(id);
         model.addObject("generalData", gson.toJson(dto));
         if (dto.getIdAddres() != null)
@@ -368,7 +430,7 @@ public class DigitalRecordController {
         }
     }
 
-    @RequestMapping(value = "/humanResources/digitalRecord/deleteCourse", method = RequestMethod.POST)
+    @RequestMapping(value = {"/humanResources/digitalRecord/deleteCourse", "/humanResources/digitalRecord/deleteTraining"}, method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessage deleteCourse(@RequestParam Long id) {
         ResponseMessage response = new ResponseMessage();
@@ -526,7 +588,7 @@ public class DigitalRecordController {
 
     @RequestMapping(value = "/humanResources/digitalRecord/upsertUmecaJob", method = RequestMethod.POST)
     public ModelAndView showUpsertUmecaJob(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
-        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/upsertUmecaJob");
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/umecaJob/upsertUmecaJob");
         Gson gson = new Gson();
 
         UmecaJobDto uj = new UmecaJobDto();
@@ -573,4 +635,507 @@ public class DigitalRecordController {
         }
     }
 
+    @RequestMapping(value = "/humanResources/digitalRecord/listTraining", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listTraining(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+        opts.extraFilters.add(new JqGridRulesModel("training", true, JqGridFilterModel.COMPARE_EQUAL));
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("name"));
+                    add(r.get("place"));
+                    add(r.get("duration"));
+                    add(r.get("start"));
+                    add(r.get("end"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                if (field.equals("training"))
+                    return r.get("isTraining");
+                else if (field.equals("name"))
+                    return r.get("name");
+                else if (field.equals("place"))
+                    return r.get("place");
+                else if (field.equals("duration"))
+                    return r.get("duration");
+                else if (field.equals("start"))
+                    return r.get("start");
+                else if (field.equals("end"))
+                    return r.get("end");
+                return null;
+            }
+        }, CourseAchievement.class, CourseAchievementDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertTraining", method = RequestMethod.POST)
+    public ModelAndView showUpsertTraining(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/training//upsertTraining");
+        Gson gson = new Gson();
+
+        CourseAchievementDto t = new CourseAchievementDto();
+        if (id != null)
+            t = courseAchievementRepository.findTrainingDtoByIds(idEmployee, id);
+        else {
+            t.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("training", gson.toJson(t));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertTraining", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertTraining(@ModelAttribute CourseAchievementDto courseDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveTraining(courseDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertTraining", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/listIncident", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listIncident(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.join("incidentType").get("name"));
+                    add(r.get("reason"));
+                    add(r.get("incidentDate"));
+                    add(r.get("comments"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                else if (field.equals("incidentType"))
+                    return r.join("incidentType").get("name");
+                else if (field.equals("reason"))
+                    return r.get("reason");
+                else if (field.equals("incidentDate"))
+                    return r.get("incidentDate");
+                return null;
+            }
+        }, Incident.class, IncidentDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertIncident", method = RequestMethod.POST)
+    public ModelAndView showUpsertIncident(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/incidents/upsertIncident");
+        Gson gson = new Gson();
+
+        IncidentDto i = new IncidentDto();
+        if (id != null)
+            i = incidentRepository.findIncidentDtoByIds(idEmployee, id);
+        else {
+            i.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("incident", gson.toJson(i));
+        model.addObject("lstIncidentType", gson.toJson(incidentTypeRepository.findNoObsolete()));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertIncident", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertIncident(@ModelAttribute IncidentDto incidentDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveIncident(incidentDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertIncident", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteIncident", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteIncident(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteIncident(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteIncident", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/listVacation", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listVacation(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("name"));
+                    add(r.get("start"));
+                    add(r.get("end"));
+                    add(r.get("comments"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                else if (field.equals("name"))
+                    return r.get("name");
+                else if (field.equals("start"))
+                    return r.get("start");
+                else if (field.equals("end"))
+                    return r.get("end");
+                return null;
+            }
+        }, Vacation.class, VacationDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertVacation", method = RequestMethod.POST)
+    public ModelAndView showUpsertVacation(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/vacation/upsert");
+        Gson gson = new Gson();
+
+        VacationDto v = new VacationDto();
+        if (id != null)
+            v = vacationRepository.findVacationDtoByIds(idEmployee, id);
+        else {
+            v.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("vacation", gson.toJson(v));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertVacation", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertVacation(@ModelAttribute VacationDto vacationDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveVacation(vacationDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertVacation", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteVacation", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteVacation(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteVacation(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteVacation", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/listIncapacity", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listIncapacity(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("description"));
+                    add(r.get("start"));
+                    add(r.get("end"));
+                    add(r.get("comments"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idEmployee"))
+                    return r.join("employee").get("id");
+                else if (field.equals("description"))
+                    return r.get("description");
+                else if (field.equals("start"))
+                    return r.get("start");
+                else if (field.equals("end"))
+                    return r.get("end");
+                return null;
+            }
+        }, Incapacity.class, IncapacityDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertIncapacity", method = RequestMethod.POST)
+    public ModelAndView showUpsertIncapacity(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/incapacity/upsert");
+        Gson gson = new Gson();
+
+        IncapacityDto in = new IncapacityDto();
+        if (id != null)
+            in = incapacityRepository.findIncapacityDtoByIds(idEmployee, id);
+        else {
+            in.setIdEmployee(idEmployee);
+        }
+
+        model.addObject("incapacity", gson.toJson(in));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertIncapacity", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertIncapacity(@ModelAttribute IncapacityDto incapacityDto) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveIncapacity(incapacityDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertIncapacity", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteIncapacity", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteIncapaciity(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteIncapacity(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteIncapaciity", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/listAttachment", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listAttachments(@RequestParam(required = true) final String id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("idEmployee",
+                new ArrayList<String>() {{
+                    add(id);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Attachment, UploadFileGeneric> joinFile = r.join("genericFile");
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(joinFile.get("id").alias("fileId"));
+                    add(r.get("attachmentName"));
+                    add(joinFile.get("creationTime"));
+                    add(r.get("attachmentDescription"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+
+                final javax.persistence.criteria.Join<Attachment, Employee> joinEmpl = r.join("employee");
+                final javax.persistence.criteria.Join<Attachment, UploadFileGeneric> joinFile = r.join("genericFile");
+
+                if (field.equals("idEmployee"))
+                    return joinEmpl.get("id");
+                else if (field.equals("attachmentName"))
+                    return r.get("attachmentName");
+                else if (field.equals("creationTime"))
+                    return joinFile.get("creationTime");
+                else if (field.equals("attachmentDescription"))
+                    return r.get("attachmentDescription");
+                return null;
+            }
+        }, Attachment.class, AttachmentDto.class);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/upsertAttachment", method = RequestMethod.POST)
+    public ModelAndView showUpsertAttachment(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/attachment/upsert");
+        Gson gson = new Gson();
+        Boolean canSave;
+        AttachmentDto att = new AttachmentDto();
+        if (id != null) {
+            att = attachmentRepository.findAttachmentDtoByIds(idEmployee, id);
+            canSave = true;
+        } else {
+            att.setIdEmployee(idEmployee);
+            canSave = false;
+        }
+
+        model.addObject("attachment", gson.toJson(att));
+        model.addObject("canSave", gson.toJson(canSave));
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/uploadAttachment", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doUploadFileGeneric(@ModelAttribute UploadFileRequest uploadRequest,
+                                        MultipartHttpServletRequest request) {
+        ResponseMessage resMsg = new ResponseMessage();
+        try {
+            resMsg = digitalRecordService.doUploadGeneric(uploadRequest, request, logException);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUploadFileGeneric", sharedUserService);
+            resMsg.setHasError(true);
+            resMsg.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
+        }
+
+        return resMsg;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUpsertAttachment", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage doUpsertAttachment(@ModelAttribute AttachmentDto attachmentDto, HttpServletRequest request) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.saveAttachment(request, attachmentDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertAttachment", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/deleteAttachment", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage deleteAttachment(HttpServletRequest request, @RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = digitalRecordService.deleteAttachment(request, id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteAttachment", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/uploadPhoto", method = RequestMethod.POST)
+    public ModelAndView showUpsertPhoto(@RequestParam(required = true) Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/upsertPhoto");
+        model.addObject("idEmployee", idEmployee);
+        model.addObject("employeeName", employeeRepository.getEmployeeNameRoleById(idEmployee).getName());
+        return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/doUploadPhoto", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doUploadFileGenericPhoto(@ModelAttribute UploadFileRequest uploadRequest,
+                                             MultipartHttpServletRequest request) {
+        ResponseMessage resMsg = new ResponseMessage();
+        try {
+            resMsg = digitalRecordService.doUploadGenericPhoto(uploadRequest, request, logException);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUploadFileGenericPhoto", sharedUserService);
+            resMsg.setHasError(true);
+            resMsg.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
+        }
+
+        return resMsg;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/digitalRecordSummary", method = RequestMethod.GET)
+    public ModelAndView generateFileAllSources(@RequestParam(required = true) Long id, HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/digitalRecordSummary");
+        String contextPath = request.getSession().getServletContext().getRealPath("");
+        DigitalRecordSummaryDto summary = digitalRecordService.fillDigitalRecordSummary(id, contextPath, logException);
+        model.addObject("summary", summary);
+//        response.setContentType("application/force-download");
+//        response.setHeader("Content-Disposition", "attachment; filename=\"Expediente_digital_umeca.doc\"");
+        return model;
+    }
+
 }
+

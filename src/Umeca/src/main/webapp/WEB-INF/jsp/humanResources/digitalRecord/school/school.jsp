@@ -222,7 +222,7 @@
 
             <div class="row">
                 <div class="widget-box">
-                    <div class="widget-header element-left">Ultimo grado de estudios</div>
+                    <div class="widget-header element-left">Curso/Logro</div>
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-12">
@@ -230,10 +230,8 @@
 
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <jsp:include
-                                                page="/WEB-INF/jsp/humanResources/digitalRecord/umecaHistory/course.jsp">
-                                            <jsp:param name="type" value="0"/>
-                                        </jsp:include>
+                                        <%@ include
+                                                file="/WEB-INF/jsp/humanResources/digitalRecord/school/course.jsp" %>
                                     </div>
                                 </div>
                                 <br/>

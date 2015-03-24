@@ -24,7 +24,6 @@
                     <form id="FormCourseId" name="FormCourseId" class="form-horizontal" role="form">
                         <input type="hidden" name="idEmployee" value="{{course.idEmployee}}">
                         <input type="hidden" name="id" value="{{course.id}}">
-                        <input type="hidden" name="isTraining" value="false">
 
                         <div class="row">
                             <div class="col-xs-12">

@@ -12,6 +12,7 @@ public class CourseAchievementDto implements EntityGrid {
     private Long idEmployee;
     private String name;
     private String place;
+    private String duration;
     private Long idCourseType;
     private String specCourseType;
     private Long idDocType;
@@ -25,6 +26,24 @@ public class CourseAchievementDto implements EntityGrid {
     public CourseAchievementDto() {
     }
 
+    //expediente digital
+    public CourseAchievementDto(String name, String place, String courseType, String specCourseType, String documentType, String specDocType, Date start, Date end) {
+        this.name = name;
+        this.place = place;
+        this.courseType = courseType;
+        this.specCourseType = specCourseType;
+        this.documentType = documentType;
+        this.specDocType = specDocType;
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        if (start != null) {
+            this.start = formatter.format(start);
+        }
+        if (end != null) {
+            this.end = formatter.format(end);
+        }
+    }
+
+    //upsert
     public CourseAchievementDto(Long id, Long idEmployee, String name, String place, Long idCourseType, String specCourseType, Long idDocType, String specDocType, Date start, Date end) {
         this.id = id;
         this.name = name;
@@ -44,12 +63,45 @@ public class CourseAchievementDto implements EntityGrid {
         }
     }
 
+    //grid cursos
     public CourseAchievementDto(Long id, String courseType, String name, String place, String documentType) {
         this.id = id;
         this.name = name;
         this.place = place;
         this.courseType = courseType;
         this.documentType = documentType;
+    }
+
+    //upsert training
+    public CourseAchievementDto(Long id, Long idEmployee, String name, String place, String duration, Date start, Date end) {
+        this.id = id;
+        this.name = name;
+        this.idEmployee = idEmployee;
+        this.place = place;
+        this.duration = duration;
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        if (start != null) {
+            this.start = formatter.format(start);
+        }
+        if (end != null) {
+            this.end = formatter.format(end);
+        }
+    }
+
+    //grid training
+    public CourseAchievementDto(Long id, String name, String place, String duration, Date start, Date end) {
+        this.id = id;
+        this.name = name;
+        this.place = place;
+        this.duration = duration;
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+
+        if (start != null) {
+            this.start = formatter.format(start);
+        }
+        if (end != null) {
+            this.end = formatter.format(end);
+        }
     }
 
     @Override
@@ -155,6 +207,14 @@ public class CourseAchievementDto implements EntityGrid {
 
     public void setIsTraining(Boolean isTraining) {
         this.isTraining = isTraining;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 }
 

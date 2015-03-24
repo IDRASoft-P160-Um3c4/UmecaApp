@@ -24,14 +24,18 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/school/courseCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/references/empReferencesCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/umecaHistory/umecaJobCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/umecaHistory/trainingCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/umecaHistory/incidentCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/vacation/vacationCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/incapacity/incapacityCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/attachment/attachmentCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/digitalRecord/digitalRecordCtrl.js"></script>
 
 
     <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
-          type="text/css"/>
-
+          type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/colorbox.css"/>
     <script src="${pageContext.request.contextPath}/assets/scripts/jquery.colorbox-min.js"></script>
-
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
@@ -52,9 +56,8 @@
             window.goToUrlMvcUrl('<c:url value="/humanResources/employees/index.html"/>');
         }
 
-        uploadPhoto = function () {
-            <%--var id = ${idCase};--%>
-            window.showUpsert(id, "#divPhoto", '<c:url value='/shared/uploadFile/uploadFile.html?type=PHOTO' />', undefined, undefined);
+        uploadPhoto = function (id) {
+            window.showUpsertWithIdEmployee(id, "#divPhoto", '<c:url value='/humanResources/digitalRecord/uploadPhoto.html' />', undefined, undefined, ${idEmployee});
 
         };
     </script>
@@ -63,38 +66,42 @@
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
-
-<div class="container body-content">
-
-    <div class="blocker" ng-show="WaitFor==true">
-        <div>
-            Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
-        </div>
-    </div>
-    <br/>
-
+<div id="divPhoto" ng-controller="modalDlgController">
+</div>
+<div class="container body-content" ng-controller="digitalRecordController">
 
     <div class="row">
         <div class="col-xs-12">
+            <br/>
+
             <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Expediente electr&oacute;nico
             </h2>
 
-            <div class="col-xs-5 col-xs-offset-1" style="padding-top: 3%;"
-                 ng-controller="employeeGeneralDataController">
-                <h3 class="header smaller lighter blue">
-                    <small>Nombre del imputado:</small>
-                    &nbsp;{{gd.name + gd.lastNameP + gd.LastNameM}}
-                </h3>
+            <div class="col-xs-8 col-xs-offset-1" style="padding-top: 3%;"
+                 ng-init='dr.employeeName="${employeeName}"; dr.employeePost="${employeePost}";'>
+                <div class="col-xs-8">
+                    <h3 class="header smaller lighter blue">
+                        <small>Nombre del imputado:</small>
+                        &nbsp;{{dr.employeeName}}
+                    </h3>
+                </div>
+                <div class="col-xs-4">
+                    <h3 class="header smaller lighter blue">
+                        <small>Puesto:</small>
+                        &nbsp;{{dr.employeePost}}
+                    </h3>
+                </div>
+
             </div>
 
-            <div class="col-xs-1 col-xs-offset-4">
+            <div class="col-xs-1 col-xs-offset-1">
                 <div class="row-fluid">
                     <ul class="ace-thumbnails">
                         <li>
                             <a href="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
-                               data-rel="colorbox" id="idLinkPhotoImputed">
+                               data-rel="colorbox" id="idLinkPhotoEmployee">
                                 <img src="${pageContext.request.contextPath}/${pathPhoto == null ?'assets/avatars/user.png':pathPhoto}"
-                                     id="photoImputed" class="containerPhoto"/>
+                                     id="photoEmployee" class="containerPhoto"/>
                             </a>
 
                             <div class="tools tools-right">
@@ -109,7 +116,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="row" style="padding: 1%;">
         <div class="col-xs-10 col-xs-offset-1 element-right">
@@ -252,8 +258,8 @@
                     </div>
 
                     <div id="vacations" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/vacations/vacations.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/vacation/vacation.jsp" %>
                     </div>
                     <div id="overtime" class="tab-pane">
                         GRAFICA!!!
@@ -262,13 +268,13 @@
                     </div>
 
                     <div id="incapacity" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/incapacity/incapacity.jsp" %>
                     </div>
 
                     <div id="documents" class="tab-pane">
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/humanResources/digitalRecord/attachments/attachments.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/attachment/attachment.jsp" %>
                     </div>
 
                 </div>
@@ -284,11 +290,14 @@
             </span>
         </div>
     </div>
+
     <div class="row">
         <div class="col-xs-12">
             <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
             <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
         </div>
     </div>
+
+</div>
 </body>
 </html>

@@ -36,6 +36,7 @@ public class Constants {
     public static final Integer ACT_REPORT_FOR_DIRECTOR = 1;
     public static final Integer ACT_REPORT_FOR_NOBODY = 0;
     public static final String FILE_PREFIX_USER = "USR_";
+    public static final String FILE_PREFIX_PHOTO_EMPLOYEE = "PHOTO_EMPLOYEE_";
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE = "COMPLETE";
@@ -105,6 +106,8 @@ public class Constants {
     public static final String SYSTEM_SETTINGS_ARCHIVE_MAX_NUMBER_FILES = "MaxNumberFiles";
     public static final String SYSTEM_SETTINGS_ARCHIVE_MAX_SIZE_FILES = "MaxSizeFiles";
     public static final String SYSTEM_SETTINGS_ARCHIVE_PATH_TO_SAVE = "PathToSave";
+    public static final String SYSTEM_SETTINGS_ARCHIVE_EMPLOYEE_PHOTO_PATH_TO_SAVE = "EmployeePhotoPathToSave";
+    public static final String SYSTEM_SETTINGS_ARCHIVE_EMPLOYEE_PHOTO_TEMPORAL_PATH_TO_SAVE = "TemporalImgPathToSave";
 
     public static final String SYSTEM_SETTINGS_MONPLAN = "MONPLAN";
     public static final String SYSTEM_SETTINGS_MONPLAN_HOURS_TO_AUTHORIZE = "HoursToAuthorize";
@@ -200,4 +203,10 @@ public class Constants {
     public static final String CODE_TOTAL_FULFILLMENT = "TOTAL_NON_FULFILLMENT";
     public static final String CODE_PARTIAL_FULFILLMENT = "PARTIAL_NON_FULFILLMENT";
 
+    public static final String CODE_FILE_TYPE_IMG = "IMAGE_FILE";
+    public static final String CODE_FILE_TYPE_WORD = "WORD_FILE";
+    public static final String CODE_FILE_TYPE_EXCEL = "EXCEL_FILE";
+    public static final String CODE_FILE_TYPE_PDF = "PDF_FILE";
+    public static final String CODE_FILE_TYPE_COMPRESSED = "COMPRESSED_FILE";
 }
+

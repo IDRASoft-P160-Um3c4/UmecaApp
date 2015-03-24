@@ -31,7 +31,7 @@ public class CourseAchievement {
     private Date end;
 
     @Column(name = "training")
-    private Boolean isTraining;
+        private Boolean isTraining;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_school_document_type")

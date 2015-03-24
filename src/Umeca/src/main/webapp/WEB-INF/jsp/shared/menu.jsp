@@ -211,7 +211,8 @@
                                 <li class="nav-li-blue"><a href="<c:url value='/director/excelReport/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a></li>
                                 <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
-                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para direcci&oacute;n</a></li>
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para
+                                    direcci&oacute;n</a></li>
                             </ul>
                         </li>
 
@@ -281,14 +282,28 @@
                                         class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Reportes con
                                     gr&aacute;fico</a></li>
                                 <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
-                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para direcci&oacute;n</a></li>
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para
+                                    direcci&oacute;n</a></li>
                             </ul>
                         </li>
 
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
-                        <li class="nav-li-blue"><a href="<c:url value='/director/taskDiary/index.html' />"><i
-                                class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class=" glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Direcci&oacute;n
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/director/taskDiary/index.html' />"><i
+                                        class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
+
+                                <li><a href="<c:url value='/supervisor/showCaseSupervision/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -341,9 +356,6 @@
                             <ul class="dropdown-menu">
                                 <li><a href="<c:url value='/humanResources/employees/index.html' />"><i
                                         class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Registrar personal</a>
-                                </li>
-                                <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
-                                        class="icon icon-envelope"></i>&nbsp;&nbsp;Otra opcion</a>
                                 </li>
                             </ul>
                         </li>

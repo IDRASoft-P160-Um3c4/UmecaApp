@@ -5,6 +5,7 @@ app.controller('upsertEmployeeController', function ($scope, $timeout, $sce, $ht
 
     $scope.init = function () {
         $scope.fillSelect("m", "district", "lstDistrict");
+        $scope.fillSelect("m", "role", "lstRole");
     };
 
     $scope.submitUpsertEmployee = function (formId, urlToPost) {

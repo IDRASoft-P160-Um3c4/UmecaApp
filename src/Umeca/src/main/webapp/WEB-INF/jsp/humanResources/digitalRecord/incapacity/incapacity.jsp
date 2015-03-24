@@ -4,48 +4,34 @@
 <script>
     $(document).ready(function () {
 
-        var urlGrid = $('#urlGridIncapacity').attr("value");
-        var idCase = $('#hidIdCase').attr("value");
-
         upsertIncapacity = function (id) {
-            //if (canTerminate == 'true')
-            window.showUpsertWithIdCase(id, "#angJsjqGridIncapacity", "<c:url value='/supervisor/framingMeeting/incapacity/upsert.html'/>", "#GridIncapacity", undefined, idCase);
+            window.showUpsertWithIdEmployee(id, "#angJsjqGridIncapacity", "<c:url value='/humanResources/digitalRecord/upsertIncapacity.html'/>", "#GridIncapacity", undefined, ${idEmployee});
         };
 
         deleteIncapacity = function (id) {
-            //if (canTerminate == 'true')
-            window.showObsolete(id, "#angJsjqGridIncapacity", "<c:url value='/supervisor/framingMeeting/incapacity/delete.json'/>", "#GridIncapacity");
+            window.showObsolete(id, "#angJsjqGridIncapacity", "<c:url value='/humanResources/digitalRecord/deleteIncapacity.json'/>", "#GridIncapacity");
         };
 
         $(document).ready(function () {
             jQuery("#GridIncapacity").jqGrid({
                 autoencode: true,
-//                url: urlGridIncapacity,
+                url: '<c:url value="/humanResources/digitalRecord/listIncapacity.json?id="/>' +${idEmployee},
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],
+                colNames: ['ID', 'Descripci&oacute;n', 'Fecha incio', 'Fecha fin', 'Comentarios', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {
-                        name: 'company',
-                        index: 'company',
-                        width: 170,
+                        name: 'description',
+                        index: 'description',
+                        width: 220,
                         align: "center",
                         sorttype: 'string',
                         searchoptions: {sopt: ['bw']}
                     },
-                    {name: 'post', index: 'post', width: 110, align: "center", sorttype: 'string', search: false},
-                    {name: 'nameHead', index: 'nameHead', width: 120, align: "center", search: false},
-                    {name: 'phone', index: 'phone', width: 120, align: "center", search: false},
-                    {
-                        name: 'registerTypeString',
-                        index: 'registerTypeString',
-                        width: 120,
-                        align: "center",
-                        sorttype: 'string',
-                        searchoptions: {sopt: ['bw']}
-                    },
-                    {name: 'registerTypeId', index: 'registerTypeId', hidden: true},
+                    {name: 'start', index: 'start', width: 110, align: "center", sorttype: 'string', search: false},
+                    {name: 'end', index: 'end', width: 110, align: "center", sorttype: 'string', search: false},
+                    {name: 'comments', index: 'comments', width: 200, align: "center", sortable: false, search: false},
                     {
                         name: 'Action',
                         width: 65,
@@ -69,14 +55,13 @@
                     var ids = $(this).jqGrid('getDataIDs');
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
-                        var row = $(this).getRowData(cl);
-                        var enabled = row.enabled;
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertIncapacity('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteIncapacity('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar incapacidad\" onclick=\"window.upsertIncapacity('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar incapacidad\" onclick=\"window.deleteIncapacity('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
-                },
+                }
+
+                ,
                 loadComplete: function () {
                     var table = this;
                     setTimeout(function () {
@@ -102,8 +87,10 @@
                 ignoreCase: true
             });
 
-        });
-    });
+        })
+        ;
+    })
+    ;
 
 </script>
 
@@ -113,7 +100,7 @@
     <input type="hidden" id="urlGridIncapacity" value="listIncapacity.json?idCase={{fm.objView.idCase}}"/>
 
     <div class="col-xs-12">
-        <h2><i class="gray icon-male bigger-100">&nbsp;</i>Incapacidad</h2>
+        <h2><i class="purple icon-camera bigger-100">&nbsp;</i>Incapacidades</h2>
         <br/>
 
         <div id="angJsjqGridIncapacity" ng-controller="modalDlgController">

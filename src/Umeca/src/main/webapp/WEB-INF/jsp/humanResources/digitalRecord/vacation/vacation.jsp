@@ -4,39 +4,34 @@
 <script>
     $(document).ready(function () {
 
-        var urlGrid = $('#urlGridVacation').attr("value");
-        var idCase = $('#hidIdCase').attr("value");
-
         upsertVacation = function (id) {
-            //if (canTerminate == 'true')
-            window.showUpsertWithIdCase(id, "#angJsjqGridVacation", "<c:url value='/supervisor/framingMeeting/vacation/upsert.html'/>", "#GridVacation", undefined, idCase);
+            window.showUpsertWithIdEmployee(id, "#angJsjqGridVacation", "<c:url value='/humanResources/digitalRecord/upsertVacation.html'/>", "#GridVacation", undefined, ${idEmployee});
         };
 
         deleteVacation = function (id) {
-            //if (canTerminate == 'true')
-            window.showObsolete(id, "#angJsjqGridVacation", "<c:url value='/supervisor/framingMeeting/vacation/delete.json'/>", "#GridVacation");
+            window.showObsolete(id, "#angJsjqGridVacation", "<c:url value='/humanResources/digitalRecord/deleteVacation.json'/>", "#GridVacation");
         };
 
         $(document).ready(function () {
             jQuery("#GridVacation").jqGrid({
                 autoencode: true,
-                url: urlGridVacation,
+                url: '<c:url value="/humanResources/digitalRecord/listVacation.json?id="/>' +${idEmployee},
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Descripci&oacute;n', 'Fecha incio', 'Fecha fin', 'Comentarios', 'Acci&oacute;n'],
+                colNames: ['ID', 'Nombre', 'Fecha incio', 'Fecha fin', 'Comentarios', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {
-                        name: 'description',
-                        index: 'description',
+                        name: 'name',
+                        index: 'name',
                         width: 220,
                         align: "center",
                         sorttype: 'string',
                         searchoptions: {sopt: ['bw']}
                     },
-                    {name: 'iDate', index: 'iDate', width: 110, align: "center", sortable: false, search: false},
-                    {name: 'eDate', index: 'eDate', width: 110, align: "center", sortable: false, search: false},
-                    {name: 'comment', index: 'comment', width: 200, align: "center", sortable: false, search: false},
+                    {name: 'start', index: 'start', width: 110, align: "center", sorttype: 'string', search: false},
+                    {name: 'end', index: 'end', width: 110, align: "center", sorttype: 'string', search: false},
+                    {name: 'comments', index: 'comments', width: 200, align: "center", sortable: false, search: false},
                     {
                         name: 'Action',
                         width: 65,
@@ -62,9 +57,9 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
                         var enabled = row.enabled;
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertVacation('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar periodo vacacional\" onclick=\"window.upsertVacation('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteVacation('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar periodo vacacional\" onclick=\"window.deleteVacation('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 }

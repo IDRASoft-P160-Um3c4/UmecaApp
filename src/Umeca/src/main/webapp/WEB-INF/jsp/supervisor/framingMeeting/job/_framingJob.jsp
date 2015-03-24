@@ -22,20 +22,41 @@
 
         $(document).ready(function () {
             jQuery("#GridIdJob").jqGrid({
-                autoencode:true,
+                autoencode: true,
                 url: urlGridJob,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Empresa', 'Puesto', 'Patr&oacute;n', 'Tel&eacute;fono', 'Tipo', 'TipoId', 'Acci&oacute;n'],
                 colModel: [
-                    { name: 'id', index: 'id', hidden: true },
-                    { name: 'company', index: 'company', width: 170, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'post', index: 'post', width: 110, align: "center", sorttype: 'string', search: false },
-                    { name: 'nameHead', index: 'nameHead', width: 120, align: "center", search: false },
-                    { name: 'phone', index: 'phone', width: 120, align: "center", search: false },
-                    { name: 'registerTypeString', index: 'registerTypeString', width: 120, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'registerTypeId', index: 'registerTypeId', hidden: true},
-                    { name: 'Action', width: 65, align: "center", sortable: false, search: false, formatter:window.actionFormatter}
+                    {name: 'id', index: 'id', hidden: true},
+                    {
+                        name: 'company',
+                        index: 'company',
+                        width: 170,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {name: 'post', index: 'post', width: 110, align: "center", sorttype: 'string', search: false},
+                    {name: 'nameHead', index: 'nameHead', width: 120, align: "center", search: false},
+                    {name: 'phone', index: 'phone', width: 120, align: "center", search: false},
+                    {
+                        name: 'registerTypeString',
+                        index: 'registerTypeString',
+                        width: 120,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {name: 'registerTypeId', index: 'registerTypeId', hidden: true},
+                    {
+                        name: 'Action',
+                        width: 65,
+                        align: "center",
+                        sortable: false,
+                        search: false,
+                        formatter: window.actionFormatter
+                    }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -53,10 +74,10 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
                         var enabled = row.enabled;
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar usuario\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar trabajo\" onclick=\"window.upsertJob('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Deshabilitar usuario\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                        $(this).jqGrid('setRowData', ids[i], { Action: be });
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar trabajo\" onclick=\"window.deleteJob('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
                 loadComplete: function () {
@@ -73,7 +94,8 @@
                 add: true, addfunc: window.upsertJob, addicon: 'icon-plus-sign purple',
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
-                search: false});
+                search: false
+            });
 
             jQuery("#GridIdJob").jqGrid('filterToolbar', {
                 stringResult: true,

@@ -2,8 +2,10 @@ package com.umeca.model.entities.humanReources;
 
 import com.umeca.model.catalog.District;
 import com.umeca.model.dto.humanResources.EmployeeDto;
+import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Job;
+import com.umeca.model.entities.shared.UploadFileGeneric;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,8 +29,9 @@ public class Employee {
     @Column(name = "last_name_m")
     private String lastNameM;
 
-    @Column(name = "post")
-    private String post;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_role")
+    private Role post;
 
     @Column(name = "gender")
     private Boolean gender;
@@ -72,6 +75,19 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
     private List<UmecaJob> umecaJobs;
 
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<Incident> incidents;
+
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<Vacation> vacations;
+
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<Attachment> attachments;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_generic_file")
+    private UploadFileGeneric photo;
+
     public Employee() {
 
     }
@@ -81,7 +97,10 @@ public class Employee {
         this.lastNameP = employeeDto.getLastNameP();
         this.lastNameM = employeeDto.getLastNameM();
         this.gender = employeeDto.getGender();
-        this.post = employeeDto.getPost();
+        Role role = new Role();
+        role.setId(employeeDto.getRoleId());
+        this.post = role;
+        //this.post = employeeDto.getPost();
         this.birthDate = employeeDto.getBirthDate();
         District d = new District();
         d.setId(employeeDto.getDistrictId());
@@ -170,14 +189,6 @@ public class Employee {
         this.district = district;
     }
 
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post;
-    }
-
     public Long getId() {
         return id;
     }
@@ -232,5 +243,45 @@ public class Employee {
 
     public void setUmecaJobs(List<UmecaJob> umecaJobs) {
         this.umecaJobs = umecaJobs;
+    }
+
+    public List<Incident> getIncidents() {
+        return incidents;
+    }
+
+    public void setIncidents(List<Incident> incidents) {
+        this.incidents = incidents;
+    }
+
+    public List<Vacation> getVacations() {
+        return vacations;
+    }
+
+    public void setVacations(List<Vacation> vacations) {
+        this.vacations = vacations;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
+
+    public UploadFileGeneric getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(UploadFileGeneric photo) {
+        this.photo = photo;
+    }
+
+    public Role getPost() {
+        return post;
+    }
+
+    public void setPost(Role post) {
+        this.post = post;
     }
 }
