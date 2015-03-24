@@ -113,6 +113,11 @@ public class SelectList {
         this.name = status;
     }
 
+    public SelectList(String name, String description) {
+        this.description = description;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

@@ -77,14 +77,24 @@
             <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Expediente electr&oacute;nico
             </h2>
 
-            <div class="col-xs-5 col-xs-offset-1" style="padding-top: 3%;">
-                <h3 class="header smaller lighter blue" ng-init='dr.employeeName="${employeeName}";'>
-                    <small>Nombre del imputado:</small>
-                    &nbsp;{{dr.employeeName}}
-                </h3>
+            <div class="col-xs-8 col-xs-offset-1" style="padding-top: 3%;"
+                 ng-init='dr.employeeName="${employeeName}"; dr.employeePost="${employeePost}";'>
+                <div class="col-xs-8">
+                    <h3 class="header smaller lighter blue">
+                        <small>Nombre del imputado:</small>
+                        &nbsp;{{dr.employeeName}}
+                    </h3>
+                </div>
+                <div class="col-xs-4">
+                    <h3 class="header smaller lighter blue">
+                        <small>Puesto:</small>
+                        &nbsp;{{dr.employeePost}}
+                    </h3>
+                </div>
+
             </div>
 
-            <div class="col-xs-1 col-xs-offset-4">
+            <div class="col-xs-1 col-xs-offset-1">
                 <div class="row-fluid">
                     <ul class="ace-thumbnails">
                         <li>

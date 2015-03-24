@@ -23,6 +23,9 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
     public List<SelectList> findSelectList();
 
     @Query("SELECT r FROM Role r WHERE r.role=:role")
-    public Role findByCode(@Param("role")String role);
+    public Role findByCode(@Param("role") String role);
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(r.id, r.description) FROM Role r WHERE r.role not in (:lstRole)")
+    public List<SelectList> findByExcludeCode(@Param("lstRole") List<String> role);
 
 }

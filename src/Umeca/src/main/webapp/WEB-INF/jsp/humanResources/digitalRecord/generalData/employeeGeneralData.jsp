@@ -328,6 +328,24 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="space"></div>
+                            <div class="col-xs-12">
+                                <div class="col-xs-4">
+                                    <label>Puesto</label>
+                                    <br/>
+                                    <select class="form-control element-center" ng-model="gd.post"
+                                            ng-options="e.name for e in lstRole"
+                                            ng-init='lstRole = ${lstRole};'
+                                            ng-change="changeRole();"></select>
+                                    <input type="hidden" name="roleId"
+                                           value="{{gd.post.id}}"/>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <br/>
                     </div>
                 </div>

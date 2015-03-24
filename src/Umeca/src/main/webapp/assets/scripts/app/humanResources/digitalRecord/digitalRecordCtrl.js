@@ -27,6 +27,10 @@ app.controller('digitalRecordController', function ($scope, $timeout, $sce, $roo
         $scope.dr.employeeName = data;
     });
 
+    $rootScope.$on('changeEmployeeRole', function (ev, data) {
+        $scope.dr.employeePost = data;
+    });
+
     $scope.init = function () {
     };
 

@@ -8,11 +8,15 @@ import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.humanResources.*;
+import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
+import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
+import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.JobRepository;
@@ -94,6 +98,8 @@ public class DigitalRecordController {
     private UpDwFileGenericService upDwFileGenericService;
     @Autowired
     private AttachmentRepository attachmentRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -109,8 +115,8 @@ public class DigitalRecordController {
                     add(r.get("name"));
                     add(r.get("lastNameP"));
                     add(r.get("lastNameM"));
-                    add(r.get("post"));
-                    add(r.join("district").get("name"));
+                    add(r.join("post").get("description"));
+                    add(r.join("district").get("name").alias("districtName"));
                     add(r.get("isObsolete"));
                 }};
             }
@@ -119,6 +125,10 @@ public class DigitalRecordController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("fullName"))
                     return r.get("name");
+                if (field.equals("district"))
+                    return r.join("district").get("name");
+                if (field.equals("post"))
+                    return r.join("post").get("description");
                 return null;
             }
         }, Employee.class, EmployeeDto.class);
@@ -130,6 +140,9 @@ public class DigitalRecordController {
     public ModelAndView upsertEmployee() {
         ModelAndView model = new ModelAndView("/humanResources/employees/upsert");
         model.addObject("lstDistrict", new Gson().toJson(districtRepository.findNoObsolete()));
+        model.addObject("lstRole", new Gson().toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
+            add(Constants.ROLE_ADMIN);
+        }})));
         return model;
     }
 
@@ -182,7 +195,14 @@ public class DigitalRecordController {
         model.addObject("listState", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
         model.addObject("lstMaritalSt", gson.toJson(maritalStatusRepository.findAll()));
         model.addObject("lstDocType", gson.toJson(documentTypeRepository.findNotObsolete()));
-        model.addObject("employeeName", employeeRepository.getEmployeeNameById(id));
+        model.addObject("lstRole", new Gson().toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
+            add(Constants.ROLE_ADMIN);
+        }})));
+
+        SelectList infoEmp = employeeRepository.getEmployeeNameRoleById((id));
+
+        model.addObject("employeeName", infoEmp.getName());
+        model.addObject("employeePost", infoEmp.getDescription());
 
         Long idPhoto = employeeRepository.getIdPhotoByIdEmployee(id);
 
@@ -1085,7 +1105,7 @@ public class DigitalRecordController {
     public ModelAndView showUpsertPhoto(@RequestParam(required = true) Long idEmployee) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/upsertPhoto");
         model.addObject("idEmployee", idEmployee);
-        model.addObject("employeeName", employeeRepository.getEmployeeNameById(idEmployee));
+        model.addObject("employeeName", employeeRepository.getEmployeeNameRoleById(idEmployee).getName());
         return model;
     }
 

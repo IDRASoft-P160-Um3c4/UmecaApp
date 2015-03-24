@@ -149,16 +149,11 @@
                                 Puesto:
                             </div>
                             <div class="col-xs-8">
-                                <input class="form-control" data-val="true"
-                                       data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
-                                       data-val-length-max="50" data-val-length-min="3"
-                                       data-val-required="El puesto es un campo requerido"
-                                       id="post" name="post"
-                                       type="text" ng-model="post"/>
-                                                                <span class="field-validation-valid"
-                                                                      data-valmsg-for="post"
-                                                                      data-valmsg-replace="true"></span>
-
+                                <select class="form-control element-center"
+                                        ng-model="m.role"
+                                        ng-options="e.name for e in lstRole"
+                                        ng-init='lstRole= ${lstRole};'></select>
+                                <input type="hidden" name="roleId" value="{{m.role.id}}"/>
                             </div>
                         </div>
                         <br/>

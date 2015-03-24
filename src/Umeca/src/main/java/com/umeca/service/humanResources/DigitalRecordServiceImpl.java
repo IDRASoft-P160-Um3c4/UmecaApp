@@ -3,6 +3,7 @@ package com.umeca.service.humanResources;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.dto.humanResources.*;
+import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Address;
@@ -90,11 +91,10 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
     @Transactional
     public ResponseMessage saveEmployee(EmployeeDto employeeDto, HttpServletRequest request) {
-        ResponseMessage resp = new ResponseMessage();
-        Long count = employeeRepository.findExistEmployee(employeeDto.getName(), employeeDto.getLastNameP(), employeeDto.getLastNameM(), employeeDto.getBirthDate());
-        if (count > 0) {
-            resp.setHasError(true);
-            resp.setMessage("Ya existe un empleado con los mismos datos. Revise la información e intente de nuevo.");
+        ResponseMessage resp;
+
+        resp = this.validateExistEmployee(employeeDto.getName(), employeeDto.getLastNameP(), employeeDto.getLastNameM(), employeeDto.getBirthDate(), null);
+        if (resp != null) {
             return resp;
         }
 
@@ -102,35 +102,57 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
         employeeRepository.save(newEmp);
         employeeRepository.flush();
+        resp = new ResponseMessage();
         resp.setHasError(false);
         resp.setMessage("El empleado ha sido registrado.");
         resp.setUrlToGo(request.getContextPath() + "/humanResources/digitalRecord/index.html?id=" + newEmp.getId());
-
         return resp;
+    }
+
+    private ResponseMessage validateExistEmployee(String name, String lastNameP, String lastNameM, Date bthDate, Long idEmployee) {
+        ResponseMessage resp = new ResponseMessage();
+        Long count = -1L;
+
+        if (idEmployee != null) {
+            count = employeeRepository.findExistEmployeeWithId(name.toLowerCase(), lastNameP.toLowerCase(), lastNameM.toLowerCase(), bthDate, idEmployee);
+        } else {
+            count = employeeRepository.findExistEmployee(name.toLowerCase(), lastNameP.toLowerCase(), lastNameM.toLowerCase(), bthDate);
+        }
+
+        if (count > 0) {
+            resp.setHasError(true);
+            resp.setMessage("Ya existe un empleado con los mismos datos. Revise la información e intente de nuevo.");
+            return resp;
+        }
+        return null;
     }
 
     @Transactional
     public ResponseMessage saveGeneralData(EmployeeGeneralDataDto dataDto) {
-        ResponseMessage resp = new ResponseMessage();
+        ResponseMessage resp = null;
         Employee employee = employeeRepository.findOne(dataDto.getIdEmployee());
+        Date bthDt = null;
 
+        try {
+            bthDt = sdf.parse(dataDto.getBirthDate());
+            resp = this.validateExistEmployee(dataDto.getName(), dataDto.getLastNameP(), dataDto.getLastNameM(), bthDt, dataDto.getIdEmployee());
+            if (resp != null) {
+                return resp;
+            }
+        } catch (Exception e) {
+        }
 
         employee.setName(dataDto.getName());
         employee.setLastNameP(dataDto.getLastNameP());
         employee.setLastNameM(dataDto.getLastNameM());
-
-        try {
-            employee.setBirthDate(sdf.parse(dataDto.getBirthDate()));
-        } catch (Exception e) {
-
-        }
-
+        Role r = new Role();
+        r.setId(dataDto.getRoleId());
+        employee.setPost(r);
         employee.setEmployeeGeneralData(fillGeneralData(dataDto));
-
         employee.setGender(dataDto.getGender());
 
         employeeRepository.save(employee);
-
+        resp = new ResponseMessage();
         resp.setHasError(false);
         resp.setMessage("La información ha sido guardada con éxito.");
         return resp;

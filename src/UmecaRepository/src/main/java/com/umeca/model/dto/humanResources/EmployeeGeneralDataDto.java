@@ -41,6 +41,7 @@ public class EmployeeGeneralDataDto {
     private Long idEmployee;
     private Long idAddres;
     private String addressStr;
+    private Long roleId;
 
     public EmployeeGeneralDataDto() {
 
@@ -84,7 +85,7 @@ public class EmployeeGeneralDataDto {
     }
 
     public EmployeeGeneralDataDto(Long idEmployee, String name, String lastNameP, String lastNameM, Boolean gender, Date birthDate, Long maritalStatusId, Long documentId, String email, String documentDesc, String phone, String certificate,
-                                  String dependents, String noEmployee, Date datePublicServ, Date dateEntryUmeca, Boolean commissioner, String noImss, String appointment, Long idAddres) {
+                                  String dependents, String noEmployee, Date datePublicServ, Date dateEntryUmeca, Boolean commissioner, String noImss, String appointment, Long idAddres, Long roleId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.idEmployee = idEmployee;
         this.name = name;
@@ -111,7 +112,7 @@ public class EmployeeGeneralDataDto {
         this.noImss = noImss;
         this.appointment = appointment;
         this.idAddres = idAddres;
-
+        this.roleId = roleId;
     }
 
     public String getName() {
@@ -360,5 +361,13 @@ public class EmployeeGeneralDataDto {
 
     public void setAddressStr(String addressStr) {
         this.addressStr = addressStr;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

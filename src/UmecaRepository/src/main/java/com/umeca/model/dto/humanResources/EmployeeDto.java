@@ -9,6 +9,7 @@ public class EmployeeDto implements EntityGrid {
     private Long id;
     private String fullName;
     private String post;
+    private Long roleId;
     private String district;
     private Boolean isObsolete;
 
@@ -117,5 +118,13 @@ public class EmployeeDto implements EntityGrid {
 
     public void setGender(Boolean gender) {
         this.gender = gender;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

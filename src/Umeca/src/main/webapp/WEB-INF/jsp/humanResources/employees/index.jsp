@@ -73,8 +73,8 @@
                         index: 'post',
                         align: "center",
                         width: 200,
-                        sortable: false,
-                        search: false
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
                     },
                     {
                         name: 'Action',
