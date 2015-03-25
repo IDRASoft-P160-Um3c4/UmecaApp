@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository("qEmployeeRepository")
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -32,4 +33,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "inner join E.photo P " +
             "where E.id=:idEmployee")
     Long getIdPhotoByIdEmployee(@Param("idEmployee") Long idEmployee);
+
+    @Query("select new com.umeca.model.shared.SelectList(E.id,concat(P.description,' - ',E.name,' ',E.lastNameP,' ',E.lastNameM)) from Employee E " +
+            "inner join E.post P " +
+            "where E.isObsolete=false")
+    List<SelectList> getAllNoObsoleteEmployees();
 }

@@ -290,20 +290,9 @@
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
 
-                        <li class="dropdown nav-li-blue">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class=" glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Direcci&oacute;n
-                                <i class="icon-caret-down"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<c:url value='/director/taskDiary/index.html' />"><i
-                                        class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
 
-                                <li><a href="<c:url value='/supervisor/showCaseSupervision/index.html' />"><i
-                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
-                                </li>
-                            </ul>
-                        </li>
+                        <li class="nav-li-blue"><a href="<c:url value='/director/taskDiary/index.html' />"><i
+                                class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -350,6 +339,9 @@
                                         class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Registrar personal</a>
                                 </li>
                             </ul>
+                        </li>
+                        <li class="nav-li-blue"><a href="<c:url value='/humanResources/minute/index.html' />"><i
+                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
                         </li>
                     </sec:authorize>
 
