@@ -311,8 +311,6 @@
                                 </li>
                             </ul>
                         </li>
-
-
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Hist&oacute;ricos
@@ -327,6 +325,16 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Reportes
+                                <i class="icon-caret-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/director/activityReport/index.html' />"><i
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Generar reporte de actividades</a></li>
+                            </ul>
+                        </li>
+
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_HUMAN_RESOURCES')">
                         <li class="dropdown nav-li-blue">

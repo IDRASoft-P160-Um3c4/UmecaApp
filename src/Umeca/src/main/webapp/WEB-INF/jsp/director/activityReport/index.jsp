@@ -9,6 +9,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/activityReport/uploadActivityReport.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
     <title>Informe de actividades del coordinador para la direcci&oacute;n</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -18,30 +20,23 @@
 
     <script>
         window.upsert = function(id) {
-            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/shared/activityReport/upsert.html' />', "#GridId");
-        };
-
-        window.download = function (id) {
-            var goTo = "<c:url value='/shared/uploadFileGeneric/downloadFile.html'/>" + "?id=" + id;
-            window.goToUrlMvcUrl(goTo);
-        };
-
-        window.delete = function(id) {
-            window.showAction(id, "#angJsjqGridId", '<c:url value='/shared/activityReport/delete.json' />', "#GridId", "Eliminar informe", "&iquest;Desea eliminar el informe elegido?", "danger");
+            var params= [];
+            params["idParam"]=id;
+            window.goToUrlMvcUrl("<c:url value='/director/activityReport/wizardUpsert.html?id=idParam'/>",params);
         };
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/shared/activityReport/list.json' />',
+                url: '<c:url value='/director/activityReport/list.json' />',
                 autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Nombre', 'Fecha de subida', '&iquest;Para direcci&oacute;n?', 'Acci&oacute;n'],
+                colNames: ['ID', 'Nombre', 'Descripci&oacute;n', 'Fecha de subida', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'reportName', index: 'reportName', width: 380, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'stCreationDate', index: 'stCreationDate', width: 200, align: "center", sorttype: 'string', search: false },
-                    { name: 'isForManager', index: 'isForManager', width: 140, align: "center", sorttype: 'string', search: false },
+                    { name: 'reportName', index: 'reportName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'description', index: 'description', width: 450, align: "center", sorttype: 'string', search: false },
+                    { name: 'stCreationDate', index: 'stCreationDate', width: 150, align: "center", sorttype: 'string', search: false },
                     { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
@@ -59,9 +54,10 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
+                        var status = parseInt(row.status);
                         var be = "";
 
-                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo del informe de actividades\" onclick=\"window.download('" + cl + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
+                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo del informe de actividades\" onclick=\"window.upsert('" + cl + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
                         be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar informe de actividades\" onclick=\"window.delete('" + cl + "');\"><i class=\"icon icon-trash\"></i></a>  ";
 
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
@@ -95,7 +91,7 @@
     </script>
 
     <h2 class="element-center"><i class="glyphicon glyphicon-th-list"></i>
-        &nbsp;&nbsp;Informe de actividades del coordinador de para la direcci&oacute;n</h2>
+        &nbsp;&nbsp;Informe de actividades direcci&oacute;n</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>
