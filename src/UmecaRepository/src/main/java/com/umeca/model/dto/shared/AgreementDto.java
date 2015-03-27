@@ -1,11 +1,11 @@
-package com.umeca.model.dto.director;
+package com.umeca.model.dto.shared;
 
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MinuteDto implements EntityGrid {
+public class AgreementDto implements EntityGrid {
 
     private Long id;
     private String title;
@@ -19,12 +19,12 @@ public class MinuteDto implements EntityGrid {
     private String endTime;
     private Boolean isObsolete;
 
-    public MinuteDto() {
+    public AgreementDto() {
 
     }
 
     //grid
-    public MinuteDto(Long id, Date minuteDate, Date startTime, String place, String attName, String attLastNameP, String attLastNameM, Boolean isObsolete) {
+    public AgreementDto(Long id, Date minuteDate, Date startTime, String place, String attName, String attLastNameP, String attLastNameM, Boolean isObsolete) {
         this.id = id;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
@@ -38,7 +38,7 @@ public class MinuteDto implements EntityGrid {
     }
 
     //upsert
-    public MinuteDto(Long id, String title, String agenda, Date minuteDate, Long attendantId, String place, Date startTime, Date endTime) {
+    public AgreementDto(Long id, String title, String agenda, Date minuteDate, Long attendantId, String place, Date startTime, Date endTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
         this.id = id;

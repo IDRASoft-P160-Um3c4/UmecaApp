@@ -135,17 +135,10 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     @Autowired
     IncidentTypeRepository incidentTypeRepository;
 
-
-    //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
-
-    //C:\Users\Rata\Desktop\branchSandra\UmecaApp\db
-
     private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
-
-    //para la maquina donde se montara
-//    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalogs\\db\\";
-
+    //para la maquina virtual donde se montara el war
+//    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";
 
     //http://localhost:8080/Umeca/catalogs/insertCatalgoAll.html
     @Override

@@ -34,8 +34,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "where E.id=:idEmployee")
     Long getIdPhotoByIdEmployee(@Param("idEmployee") Long idEmployee);
 
-    @Query("select new com.umeca.model.shared.SelectList(E.id,concat(P.description,' - ',E.name,' ',E.lastNameP,' ',E.lastNameM)) from Employee E " +
+    @Query("select new com.umeca.model.shared.SelectList(E.id,concat(P.description,' - ',E.name,' ',E.lastNameP,' ',E.lastNameM),D.id) from Employee E " +
             "inner join E.post P " +
-            "where E.isObsolete=false")
+            "inner join E.district D " +
+            "where E.isObsolete=false order by concat(P.description,' - ',E.name,' ',E.lastNameP,' ',E.lastNameM) asc")
     List<SelectList> getAllNoObsoleteEmployees();
 }

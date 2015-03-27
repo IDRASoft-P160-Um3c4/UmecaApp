@@ -1,8 +1,10 @@
 package com.umeca.model.entities.director.minutes;
 
+import com.umeca.model.dto.director.MinuteDto;
 import com.umeca.model.entities.humanReources.Employee;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -37,8 +39,14 @@ public class Minute {
     @Column(name = "end_time")
     private Date endTime;
 
-    @OneToMany(mappedBy = "employee")
+    @Column(name = "is_obsolete")
+    private Boolean isObsolete;
+
+    @OneToMany(mappedBy = "minute", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Assistant> assistants;
+
+    public Minute() {
+    }
 
     public Long getId() {
         return id;
@@ -110,5 +118,13 @@ public class Minute {
 
     public void setAssistants(List<Assistant> assistants) {
         this.assistants = assistants;
+    }
+
+    public Boolean getIsObsolete() {
+        return isObsolete;
+    }
+
+    public void setIsObsolete(Boolean isObsolete) {
+        this.isObsolete = isObsolete;
     }
 }

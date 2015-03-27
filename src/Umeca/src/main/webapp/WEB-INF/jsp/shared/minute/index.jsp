@@ -14,22 +14,30 @@
 
     <script>
 
-        showUpsertMinute = function (id) {
-            var url = "<c:url value='/humanResources/minute/upsertMinute.html'/>";
-            if (id != undefined)
-                url += "?id=" + id;
+
+        upsertMinute = function () {
+            var canAdd = ${canAdd};
+            if (canAdd == true) {
+                var url = "<c:url value='/shared/minute/upsertMinute.html'/>";
+                window.goToUrlMvcUrl(url);
+            }
+        };
+
+        editMinute = function (id) {
+            var url = "<c:url value='/shared/minute/upsertMinute.html?id='/>" + id;
             window.goToUrlMvcUrl(url);
         };
 
         $(document).ready(function () {
             jQuery("#GridMinuteId").jqGrid({
-                url: '<c:url value='/humanResources/minute/list.json' />',
+                url: '<c:url value='/shared/minute/list.json' />',
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Fecha', 'Hora', 'Lugar', 'Encargado', 'Acci&oacute;n'],
+                colNames: ['ID', 'isObsolete', 'Fecha', 'Hora', 'Lugar', 'Encargado', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
+                    {name: 'isObsolete', index: 'isObsolete', hidden: true},
                     {
                         name: 'minuteDate',
                         index: 'minuteDate',
@@ -83,22 +91,20 @@
                 caption: "&nbsp;",
                 altRows: true,
                 gridComplete: function () {
-//                    var ids = $(this).jqGrid('getDataIDs');
-//                    var obsolete = $(this).jqGrid('getCol', 'isObsolete', false);
-//
-//                    for (var i = 0; i < ids.length; i++) {
-//                        var cl = ids[i];
-//                        var be = "";
-//
-//                        if (obsolete[i] == 'false') {
-//                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Expediente digital\" onclick=\"showDigitalRecord(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
-//                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar empleado\" onclick=\"deleteMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-//                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar expediente\" onclick=\"downloadDigitalRecord('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
-//                        } else {
-//                            be = "";
-//                        }
-//                        $(this).jqGrid('setRowData', ids[i], {Action: be});
-//                    }
+                    var ids = $(this).jqGrid('getDataIDs');
+                    var obsolete = $(this).jqGrid('getCol', 'isObsolete', false);
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        var be = "";
+
+                        if (obsolete[i] == 'false') {
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar minuta\" onclick=\"editMinute(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Cerrar minuta\" onclick=\"closeMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        }
+
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de minuta\" onclick=\"downloadMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
+                    }
                 },
                 loadComplete: function () {
                     var table = this;
@@ -111,7 +117,7 @@
 
             jQuery("#GridMinuteId").jqGrid('navGrid', '#GridPager', {
                 edit: false,
-                add: true, addfunc: showUpsertMinute, addicon: 'icon-plus-sign purple',
+                add: true, addfunc: upsertMinute, addicon: 'icon-plus-sign purple',
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
                 search: false

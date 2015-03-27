@@ -215,7 +215,9 @@
                                     direcci&oacute;n</a></li>
                             </ul>
                         </li>
-
+                        <li class="nav-li-blue"><a href="<c:url value='/shared/minute/index.html' />"><i
+                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
+                        </li>
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
@@ -286,7 +288,9 @@
                                     direcci&oacute;n</a></li>
                             </ul>
                         </li>
-
+                        <li class="nav-li-blue"><a href="<c:url value='/shared/minute/index.html' />"><i
+                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
+                        </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
 
@@ -331,8 +335,12 @@
                                 <i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a href="<c:url value='/director/activityReport/index.html' />"><i
-                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Generar reporte de actividades</a></li>
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Generar reporte de
+                                    actividades</a></li>
                             </ul>
+                        </li>
+                        <li class="nav-li-blue"><a href="<c:url value='/shared/minute/index.html' />"><i
+                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
                         </li>
 
                     </sec:authorize>
@@ -348,7 +356,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/humanResources/minute/index.html' />"><i
+                        <li class="nav-li-blue"><a href="<c:url value='/shared/minute/index.html' />"><i
                                 class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
                         </li>
                     </sec:authorize>
