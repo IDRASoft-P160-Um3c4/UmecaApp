@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -203,6 +204,9 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                         else
                             p.getExpressions().add(cb.equal(exp, rule.data));
                         break;
+                    case JqGridFilterModel.COMPARE_NOT_EQUAL:
+                            p.getExpressions().add(cb.notEqual(exp, rule.data));
+                        break;
                     case JqGridFilterModel.COMPARE_IN:
                         Predicate pIn = exp.in(rule.lstInOp);
                         p.getExpressions().add(pIn);
@@ -214,6 +218,10 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                     case JqGridFilterModel.COMPARE_LEFT_JOIN_EQUAL:
                         Predicate pOr = cb.or(cb.equal(exp,rule.data),exp.isNull());
                         p.getExpressions().add(pOr);
+                        break;
+                    case JqGridFilterModel.BETWEEN:
+                        Expression<Calendar> expDt = r.get(rule.field);
+                        p.getExpressions().add(cb.between(expDt, rule.dtIni, rule.dtEnd));
                         break;
                     default:
                         p.getExpressions().add(cb.like(cb.lower(exp), rule.data.trim().toLowerCase() + "%"));

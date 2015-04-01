@@ -1,5 +1,6 @@
 package com.umeca.infrastructure.extensions;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -27,6 +28,17 @@ public class CalendarExt {
         }catch (Exception ex){
             return null;
         }
+    }
+
+    public static Calendar stringToCalendar(String sDate, String format) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            cal.setTime(sdf.parse(sDate));// all done
+        } catch (ParseException e) {
+            cal = Calendar.getInstance();
+        }
+        return cal;
     }
 
     public static Calendar getToday(){
@@ -72,4 +84,5 @@ public class CalendarExt {
         String sCalendar = sdf.format(calendar.getTime());
         return sCalendar;
     }
+
 }

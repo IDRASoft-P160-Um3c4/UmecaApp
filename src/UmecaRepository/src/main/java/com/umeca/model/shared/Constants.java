@@ -100,6 +100,7 @@ public class Constants {
     public static final String ROLE_HUMAN_RESOURCES = "ROLE_HUMAN_RESOURCES";
 
     public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
+    public static String FORMAT_CALENDAR_II = "dd-MM-yyyy";
     public static String FORMAT_VERIFICATION_DATE = "yyyy-MM-dd hh:mm:ss.S";
 
     public static final String SYSTEM_SETTINGS_ARCHIVE = "ARCHIVE";

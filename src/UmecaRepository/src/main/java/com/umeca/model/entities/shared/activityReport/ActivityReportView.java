@@ -16,12 +16,21 @@ public class ActivityReportView implements EntityGrid {
     private String reportName;
     private Integer reportFor;
     private String isForManager;
+    private String description;
 
     public ActivityReportView(Long id, Calendar creationDate, String reportName, Integer reportFor) {
         this.id = id;
         this.creationDate = creationDate;
         this.reportName = reportName;
         this.reportFor = reportFor;
+    }
+
+
+    public ActivityReportView(Long id, String reportName, String description, Calendar creationDate) {
+        this.id = id;
+        this.reportName = reportName;
+        this.description = description;
+        this.creationDate = creationDate;
     }
 
     public Long getId() {
@@ -77,5 +86,13 @@ public class ActivityReportView implements EntityGrid {
 
     public void setStCreationDate(String stCreationDate) {
         this.stCreationDate = stCreationDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
