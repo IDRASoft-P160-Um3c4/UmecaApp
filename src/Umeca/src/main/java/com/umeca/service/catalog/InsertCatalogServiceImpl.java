@@ -134,18 +134,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     UmecaPostRepository umecaPostRepository;
     @Autowired
     IncidentTypeRepository incidentTypeRepository;
-
-
-    //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
-
-    //C:\Users\Rata\Desktop\branchSandra\UmecaApp\db
+    @Autowired
+    AreaRepository areaRepository;
 
     private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
-
-    //para la maquina donde se montara
-//    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalogs\\db\\";
-
+    //para la maquina virtual donde se montara el war
+//    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";
 
     //http://localhost:8080/Umeca/catalogs/insertCatalgoAll.html
     @Override
@@ -880,6 +875,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             incidentTypeRepository.save(model);
         }
         incidentTypeRepository.flush();
+    }
+
+    @Override
+    public void area() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "area.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            Area model = new Area();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
+            areaRepository.save(model);
+        }
+        areaRepository.flush();
     }
 
 }

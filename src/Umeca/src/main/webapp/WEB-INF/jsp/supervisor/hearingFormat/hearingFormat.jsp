@@ -134,7 +134,7 @@
         <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
         <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
         <input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
-        <input type="hidden" ng-model="m.isFinished" name="isFinished" ng-update-hidden />
+        <input type="hidden" ng-model="m.isFinished" name="isFinished"/>
         <input type="hidden" name="idFormat" value="{{m.idFormat}}"/>
         <input type="hidden" id="umecaSupervisorId" name="umecaSupervisorId" value="{{m.umecaSupervisor.id}}"/>
 

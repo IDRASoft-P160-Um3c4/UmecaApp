@@ -118,6 +118,12 @@ public class SelectList {
         this.name = name;
     }
 
+    public SelectList(Long id, String name, Long aux) {
+        this.id = id;
+        this.name = name;
+        this.aux = aux;
+    }
+
     public Long getId() {
         return id;
     }

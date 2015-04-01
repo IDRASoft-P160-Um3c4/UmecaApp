@@ -81,7 +81,7 @@
                  ng-init='dr.employeeName="${employeeName}"; dr.employeePost="${employeePost}";'>
                 <div class="col-xs-8">
                     <h3 class="header smaller lighter blue">
-                        <small>Nombre del imputado:</small>
+                        <small>Nombre del empleado:</small>
                         &nbsp;{{dr.employeeName}}
                     </h3>
                 </div>

@@ -209,5 +209,11 @@ public class Constants {
     public static final String CODE_FILE_TYPE_EXCEL = "EXCEL_FILE";
     public static final String CODE_FILE_TYPE_PDF = "PDF_FILE";
     public static final String CODE_FILE_TYPE_COMPRESSED = "COMPRESSED_FILE";
+
+    public static final String AGREEMENT_IS_DONE = "Realizado";
+    public static final String AGREEMENT_IS_NOT_DONE = "No realizado";
+
+    public static final String AGREEMENT_IS_FINISHED = "Concluido";
+    public static final String AGREEMENT_IS_NOT_FINISHED = "No concluido";
 }
 

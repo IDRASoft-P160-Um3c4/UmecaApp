@@ -84,6 +84,21 @@ window.showUpsertWithIdEmployee = function (id, divScope, urlToGo, jqGridToUse, 
 
 };
 
+window.showUpsertWithIdMinute = function (id, divScope, urlToGo, jqGridToUse, urlToContinue, idMinute) {
+    var scope = angular.element($(divScope)).scope();
+    scope.show({id: id, idMinute: idMinute}, urlToGo).
+        then(function () {
+
+            if (urlToContinue !== undefined) {
+                window.goToUrlMvcUrl(urlToContinue);
+                return;
+            }
+            if (jqGridToUse != undefined) {
+                $(jqGridToUse).trigger("reloadGrid");
+            }
+        });
+};
+
 window.showConfirmService = function (id, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.doConfirm({id: id}, urlToGo).

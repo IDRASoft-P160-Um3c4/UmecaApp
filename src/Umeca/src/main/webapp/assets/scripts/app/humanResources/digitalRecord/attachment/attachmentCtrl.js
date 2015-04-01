@@ -16,7 +16,6 @@ app.controller('attachmentController', function ($scope, $timeout, $sce) {
 
     $scope.setSuccess = function (result) {
         $scope.$apply(function () {
-            debugger;
             $scope.MsgSuccess = $sce.trustAsHtml(result.message);
             $scope.canSave = true;
             $scope.attachment.fileId = result.returnData;
