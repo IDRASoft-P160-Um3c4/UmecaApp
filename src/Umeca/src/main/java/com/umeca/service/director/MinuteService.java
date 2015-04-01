@@ -2,6 +2,8 @@ package com.umeca.service.director;
 
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.director.MinuteDto;
+import com.umeca.model.dto.shared.AgreementDto;
+import com.umeca.model.dto.shared.ObservationDto;
 
 public interface MinuteService {
 
@@ -9,10 +11,11 @@ public interface MinuteService {
 
     ResponseMessage doUpsertMinute(MinuteDto minuteDto);
 
-    ResponseMessage doDeleteMinute(Long minuteId);
+    ResponseMessage doCloseMinute(Long id);
 
-//    ResponseMessage doUpsertAgreement(MinuteDto minuteDto);
-//
-//    ResponseMessage doDeleteAgreement(MinuteDto minuteDto);
+    ResponseMessage doUpsertAgreement(AgreementDto agreementDto);
 
+    ResponseMessage doCloseAgreement(Long id);
+
+    ResponseMessage doUpsertObservation(ObservationDto observationDto);
 }

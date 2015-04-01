@@ -17,14 +17,14 @@ public class MinuteDto implements EntityGrid {
     private String place;
     private String startTime;
     private String endTime;
-    private Boolean isObsolete;
+    private Boolean isFinished;
 
     public MinuteDto() {
 
     }
 
     //grid
-    public MinuteDto(Long id, Date minuteDate, Date startTime, String place, String attName, String attLastNameP, String attLastNameM, Boolean isObsolete) {
+    public MinuteDto(Long id, Date minuteDate, Date startTime, String place, String attName, String attLastNameP, String attLastNameM, Boolean isFinished) {
         this.id = id;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
@@ -34,11 +34,11 @@ public class MinuteDto implements EntityGrid {
             this.startTime = sdfT.format(startTime);
         this.place = place;
         this.attendant = attLastNameM + attLastNameP + attLastNameM;
-        this.isObsolete = isObsolete;
+        this.isFinished = isFinished;
     }
 
     //upsert
-    public MinuteDto(Long id, String title, String agenda, Date minuteDate, Long attendantId, String place, Date startTime, Date endTime) {
+    public MinuteDto(Long id, String title, String agenda, Date minuteDate, Long attendantId, String place, Date startTime, Date endTime, Boolean isFinished) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
         this.id = id;
@@ -52,6 +52,7 @@ public class MinuteDto implements EntityGrid {
             this.startTime = sdfT.format(startTime);
         if (endTime != null)
             this.endTime = sdfT.format(endTime);
+        this.isFinished = isFinished;
     }
 
     public Long getId() {
@@ -134,11 +135,13 @@ public class MinuteDto implements EntityGrid {
         this.assistantsIds = assistantsIds;
     }
 
-    public Boolean getIsObsolete() {
-        return isObsolete;
+    public Boolean getIsFinished() {
+        return isFinished;
     }
 
-    public void setIsObsolete(Boolean isObsolete) {
-        this.isObsolete = isObsolete;
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
     }
+
+
 }

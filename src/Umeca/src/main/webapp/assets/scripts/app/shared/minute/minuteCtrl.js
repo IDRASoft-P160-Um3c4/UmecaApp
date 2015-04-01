@@ -6,13 +6,15 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope)
         $scope.MsgError;
         $scope.MsgErrorAssis;
         $scope.lstAssistantSel = [];
+        $scope.isNew = false;
+        $scope.successObs = false;
 
         $scope.init = function () {
             $scope.fillSelect("minute", "attendant", "lstEmployee", "attendantId");
             if ($scope.minute.assistantsIds != undefined)
                 $scope.lstAssistantSel = JSON.parse($scope.minute.assistantsIds);
 
-            if ($scope.canEdit == false) {
+            if ($scope.isRH == false) {
                 $("#divMinute :input").attr("disabled", true);
             }
         };
@@ -51,6 +53,30 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope)
             }
         };
 
+        $scope.minuteBottom = function () {
+            var h = $("body").height();
+            $("body").animate({scrollTop: h});
+            if ($scope.isNew == true) {
+                $timeout(function () {
+                    $("#addAgreement").animate({opacity: 0});
+                    $scope.isNew = false;
+                }, 3000);
+            }
+        };
+
+        $rootScope.$on('successObs', function () {
+
+            $timeout(function () {
+                $scope.successObs = true;
+            }, 0);
+
+            $timeout(function () {
+                $("#msgObs").animate({opacity: 0});
+                $scope.successObs = false;
+            }, 3000);
+
+        });
+
         $scope.submitMinute = function (formId, urlToGo) {
             $scope.invalid = false;
 
@@ -87,7 +113,6 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope)
 
         $scope.handleSuccessMinute = function (resp) {
             $scope.$apply(function () {
-                $scope.WaitFor = false;
 
                 if (resp.hasError === undefined) {
                     resp = resp.responseMessage;
@@ -97,13 +122,17 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope)
                     $scope.MsgSuccess = $sce.trustAsHtml("");
                     $scope.MsgError = $sce.trustAsHtml(resp.message);
                 } else {
-                    $scope.MsgEror = $sce.trustAsHtml("");
+                    $scope.MsgError = $sce.trustAsHtml("");
                     $scope.MsgSuccess = $sce.trustAsHtml(resp.message);
-                    debugger;
-                    $scope.minute.id = resp.returnData;
+                    $scope.minute.id = resp.returnData.id;
+                    $scope.isNew = resp.returnData.specification;
                 }
             });
-            $rootScope.$broadcast("upsertMinute", $scope.minute.id);//TODO metodo on EN AGREEMENT para permitir agregar acuerdos a la minuta ya guardada
+
+            $scope.WaitFor = false;
+            $scope.$apply();
+            if ($scope.isNew == true)
+                $scope.minuteBottom();
         };
 
         $scope.handleErrorMinute = function () {

@@ -37,11 +37,11 @@
                 colNames: ['ID', 'isObsolete', 'Fecha', 'Hora', 'Lugar', 'Encargado', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
-                    {name: 'isObsolete', index: 'isObsolete', hidden: true},
+                    {name: 'isFinished', index: 'isObsolete', hidden: true},
                     {
                         name: 'minuteDate',
                         index: 'minuteDate',
-                        width: 200,
+                        width: 120,
                         align: "center",
                         sorttype: 'string',
                         search: false
@@ -49,7 +49,7 @@
                     {
                         name: 'startTime',
                         index: 'startTime',
-                        width: 200,
+                        width: 120,
                         align: "center",
                         sorttype: 'string',
                         search: false
@@ -58,7 +58,7 @@
                         name: 'place',
                         index: 'place',
                         align: "center",
-                        width: 200,
+                        width: 300,
                         sorttype: 'string',
                         search: false
                     },
@@ -66,14 +66,14 @@
                         name: 'attendant',
                         index: 'attendant',
                         align: "center",
-                        width: 200,
+                        width: 220,
                         sorttype: 'string',
                         searchoptions: {sopt: ['bw']}
                     },
                     {
                         name: 'Action',
                         index: 'Action',
-                        width: 200,
+                        width: 110,
                         align: "center",
                         sortable: false,
                         search: false,
@@ -84,7 +84,7 @@
                 rowList: [10, 20, 30],
                 pager: '#GridPager',
                 sortname: 'id',
-                height: 280,
+                height: 350,
                 viewrecords: true,
                 shrinkToFit: false,
                 sortorder: "desc",
@@ -92,7 +92,7 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-                    var obsolete = $(this).jqGrid('getCol', 'isObsolete', false);
+                    var obsolete = $(this).jqGrid('getCol', 'isFinished', false);
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var be = "";

@@ -99,21 +99,6 @@ window.showUpsertWithIdMinute = function (id, divScope, urlToGo, jqGridToUse, ur
         });
 };
 
-window.showUpsertWithIdAgreement = function (id, divScope, urlToGo, jqGridToUse, urlToContinue, idAgreement) {
-    var scope = angular.element($(divScope)).scope();
-    scope.show({id: id, idAgreement: idAgreement}, urlToGo).
-        then(function () {
-            if (urlToContinue !== undefined) {
-                window.goToUrlMvcUrl(urlToContinue);
-                return;
-            }
-            if (jqGridToUse != undefined) {
-                $(jqGridToUse).trigger("reloadGrid");
-            }
-        });
-};
-
-
 window.showConfirmService = function (id, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.doConfirm({id: id}, urlToGo).

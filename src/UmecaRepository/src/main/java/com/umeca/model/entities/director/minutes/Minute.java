@@ -39,11 +39,14 @@ public class Minute {
     @Column(name = "end_time")
     private Date endTime;
 
-    @Column(name = "is_obsolete")
-    private Boolean isObsolete;
+    @Column(name = "is_finished")
+    private Boolean isFinished;
 
     @OneToMany(mappedBy = "minute", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Assistant> assistants;
+
+    @OneToMany(mappedBy = "minute", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Agreement> agreements;
 
     public Minute() {
     }
@@ -120,11 +123,19 @@ public class Minute {
         this.assistants = assistants;
     }
 
-    public Boolean getIsObsolete() {
-        return isObsolete;
+    public Boolean getIsFinished() {
+        return isFinished;
     }
 
-    public void setIsObsolete(Boolean isObsolete) {
-        this.isObsolete = isObsolete;
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
+    }
+
+    public List<Agreement> getAgreements() {
+        return agreements;
+    }
+
+    public void setAgreements(List<Agreement> agreements) {
+        this.agreements = agreements;
     }
 }

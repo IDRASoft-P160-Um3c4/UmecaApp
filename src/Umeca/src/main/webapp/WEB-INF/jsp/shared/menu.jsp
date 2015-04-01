@@ -215,8 +215,19 @@
                                     direcci&oacute;n</a></li>
                             </ul>
                         </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/shared/minute/index.html' />"><i
-                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Minutas de trabajo
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Minutas abiertas</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas ceradas</a>
+                                </li>
+                            </ul>
                         </li>
                     </sec:authorize>
 
@@ -288,8 +299,20 @@
                                     direcci&oacute;n</a></li>
                             </ul>
                         </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/shared/minute/index.html' />"><i
-                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Minutas de trabajo
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Minutas abiertas</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas ceradas</a>
+                                </li>
+                            </ul>
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
@@ -339,10 +362,20 @@
                                     actividades</a></li>
                             </ul>
                         </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/shared/minute/index.html' />"><i
-                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Minutas de trabajo
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Minutas abiertas</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas ceradas</a>
+                                </li>
+                            </ul>
                         </li>
-
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_HUMAN_RESOURCES')">
                         <li class="dropdown nav-li-blue">
@@ -356,8 +389,20 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-li-blue"><a href="<c:url value='/shared/minute/index.html' />"><i
-                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas de trabajo</a>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Minutas de trabajo
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Minutas abiertas</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas ceradas</a>
+                                </li>
+                            </ul>
                         </li>
                     </sec:authorize>
 

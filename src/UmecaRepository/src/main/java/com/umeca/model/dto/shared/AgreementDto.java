@@ -1,59 +1,46 @@
 package com.umeca.model.dto.shared;
 
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.umeca.model.shared.Constants;
 
 public class AgreementDto implements EntityGrid {
 
     private Long id;
+    private Long minuteId;
     private String title;
-    private String agenda;
-    private String minuteDate;
-    private Long attendantId;
-    private String attendant;
-    private String assistantsIds;
-    private String place;
-    private String startTime;
-    private String endTime;
-    private Boolean isObsolete;
+    private String theme;
+    private String agreementDate;
+    private String comments;
+    private String area;
+    private String specArea;
+    private Long areaId;
+    private String isFinishedStr;
+    private Boolean isFinished;
+    private String isDoneStr;
+    private Boolean isDone;
+    private String password;
 
     public AgreementDto() {
-
     }
 
     //grid
-    public AgreementDto(Long id, Date minuteDate, Date startTime, String place, String attName, String attLastNameP, String attLastNameM, Boolean isObsolete) {
-        this.id = id;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
-        if (minuteDate != null)
-            this.minuteDate = sdf.format(minuteDate);
-        if (startTime != null)
-            this.startTime = sdfT.format(startTime);
-        this.place = place;
-        this.attendant = attLastNameM + attLastNameP + attLastNameM;
-        this.isObsolete = isObsolete;
-    }
-
-    //upsert
-    public AgreementDto(Long id, String title, String agenda, Date minuteDate, Long attendantId, String place, Date startTime, Date endTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
+    public AgreementDto(Long id, String title, Boolean isDone, Boolean isFinished) {
         this.id = id;
         this.title = title;
-        this.agenda = agenda;
-        if (minuteDate != null)
-            this.minuteDate = sdf.format(minuteDate);
-        this.attendantId = attendantId;
-        this.place = place;
-        if (startTime != null)
-            this.startTime = sdfT.format(startTime);
-        if (endTime != null)
-            this.endTime = sdfT.format(endTime);
+        if (isDone == true) {
+            this.isDoneStr = Constants.AGREEMENT_IS_DONE;
+        } else {
+            this.isDoneStr = Constants.AGREEMENT_IS_NOT_DONE;
+        }
+        this.isFinished = isFinished;
+        if (isFinished == true) {
+            this.isFinishedStr = Constants.AGREEMENT_IS_FINISHED;
+        } else {
+            this.isFinishedStr = Constants.AGREEMENT_IS_NOT_FINISHED;
+        }
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -70,75 +57,99 @@ public class AgreementDto implements EntityGrid {
         this.title = title;
     }
 
-    public String getAgenda() {
-        return agenda;
+    public String getTheme() {
+        return theme;
     }
 
-    public void setAgenda(String agenda) {
-        this.agenda = agenda;
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
-    public String getMinuteDate() {
-        return minuteDate;
+    public String getAgreementDate() {
+        return agreementDate;
     }
 
-    public void setMinuteDate(String minuteDate) {
-        this.minuteDate = minuteDate;
+    public void setAgreementDate(String agreementDate) {
+        this.agreementDate = agreementDate;
     }
 
-    public Long getAttendantId() {
-        return attendantId;
+    public String getComments() {
+        return comments;
     }
 
-    public void setAttendantId(Long attendantId) {
-        this.attendantId = attendantId;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
-    public String getPlace() {
-        return place;
+    public String getArea() {
+        return area;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setArea(String area) {
+        this.area = area;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public Long getAreaId() {
+        return areaId;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setAreaId(Long areaId) {
+        this.areaId = areaId;
     }
 
-    public String getEndTime() {
-        return endTime;
+    public String getIsFinishedStr() {
+        return isFinishedStr;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setIsFinishedStr(String isFinishedStr) {
+        this.isFinishedStr = isFinishedStr;
     }
 
-    public String getAttendant() {
-        return attendant;
+    public Boolean getIsFinished() {
+        return isFinished;
     }
 
-    public void setAttendant(String attendant) {
-        this.attendant = attendant;
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
     }
 
-    public String getAssistantsIds() {
-        return assistantsIds;
+    public String getIsDoneStr() {
+        return isDoneStr;
     }
 
-    public void setAssistantsIds(String assistantsIds) {
-        this.assistantsIds = assistantsIds;
+    public void setIsDoneStr(String isDoneStr) {
+        this.isDoneStr = isDoneStr;
     }
 
-    public Boolean getIsObsolete() {
-        return isObsolete;
+    public Boolean getIsDone() {
+        return isDone;
     }
 
-    public void setIsObsolete(Boolean isObsolete) {
-        this.isObsolete = isObsolete;
+    public void setIsDone(Boolean isDone) {
+        this.isDone = isDone;
+    }
+
+    public Long getMinuteId() {
+        return minuteId;
+    }
+
+    public void setMinuteId(Long minuteId) {
+        this.minuteId = minuteId;
+    }
+
+    public String getSpecArea() {
+        return specArea;
+    }
+
+    public void setSpecArea(String specArea) {
+        this.specArea = specArea;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

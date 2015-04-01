@@ -303,6 +303,12 @@ public class InsertCatalogController {
         return "incident";
     }
 
+    @RequestMapping(value = "/catalogs/area", method = RequestMethod.GET)
+    public String area() {
+        service.area();
+        return "area";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -351,6 +357,7 @@ public class InsertCatalogController {
         service.schoolDocType();
         service.umecaPost();
         service.incident();
+        service.area();
         return "insertCatalog OK!!";
     }
 }

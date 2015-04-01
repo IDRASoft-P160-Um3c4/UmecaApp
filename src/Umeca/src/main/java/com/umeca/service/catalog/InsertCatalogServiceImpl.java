@@ -134,6 +134,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     UmecaPostRepository umecaPostRepository;
     @Autowired
     IncidentTypeRepository incidentTypeRepository;
+    @Autowired
+    AreaRepository areaRepository;
 
     private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
@@ -873,6 +875,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             incidentTypeRepository.save(model);
         }
         incidentTypeRepository.flush();
+    }
+
+    @Override
+    public void area() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "area.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            Area model = new Area();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
+            areaRepository.save(model);
+        }
+        areaRepository.flush();
     }
 
 }

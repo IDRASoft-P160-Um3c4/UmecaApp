@@ -99,4 +99,6 @@ public interface InsertCatalogService {
     void umecaPost();
 
     void incident();
+
+    void area();
 }

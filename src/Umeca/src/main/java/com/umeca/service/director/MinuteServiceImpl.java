@@ -3,19 +3,29 @@ package com.umeca.service.director;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.catalog.Area;
 import com.umeca.model.dto.director.MinuteDto;
+import com.umeca.model.dto.shared.AgreementDto;
+import com.umeca.model.dto.shared.ObservationDto;
+import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.director.minutes.Agreement;
 import com.umeca.model.entities.director.minutes.Assistant;
 import com.umeca.model.entities.director.minutes.Minute;
 import com.umeca.model.entities.humanReources.Employee;
+import com.umeca.model.entities.shared.Observation;
+import com.umeca.model.shared.SelectList;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.director.AgreementRepository;
-import com.umeca.repository.director.AssistantRepository;
 import com.umeca.repository.director.MinuteRepository;
+import com.umeca.repository.director.ObservationRepository;
+import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,6 +37,10 @@ public class MinuteServiceImpl implements MinuteService {
     private MinuteRepository minuteRepository;
     @Autowired
     private AgreementRepository agreementRepository;
+    @Autowired
+    private ObservationRepository observationRepository;
+    @Autowired
+    private SharedUserService sharedUserService;
 
     public MinuteDto getMinuteDtoById(Long minuteId) {
         return minuteRepository.getMinuteDtoById(minuteId);
@@ -38,7 +52,7 @@ public class MinuteServiceImpl implements MinuteService {
         if (minuteDto.getId() != null) {
             minute = minuteRepository.findOne(minuteDto.getId());
         } else {
-            minute.setIsObsolete(false);
+            minute.setIsFinished(false);
         }
 
         minute.setTitle(minuteDto.getTitle());
@@ -72,6 +86,8 @@ public class MinuteServiceImpl implements MinuteService {
         List<Long> assistantsIds = new Gson().fromJson(minuteDto.getAssistantsIds(), new TypeToken<List<Long>>() {
         }.getType());
 
+        Boolean isNew = false;
+
         if (assistantsIds != null && assistantsIds.size() > 0) {
             for (Long actId : assistantsIds) {
                 Assistant as = new Assistant();
@@ -87,6 +103,7 @@ public class MinuteServiceImpl implements MinuteService {
                 minute.getAssistants().addAll(newAssistants);
             } else {
                 minute.setAssistants(newAssistants);
+                isNew = true;
             }
         }
 
@@ -95,13 +112,79 @@ public class MinuteServiceImpl implements MinuteService {
 
         resp.setHasError(false);
         resp.setMessage("Se ha guardado la minuta con éxito.");
-        resp.setReturnData(minute.getId());
+        SelectList retData = new SelectList();
+        retData.setId(minute.getId());
+        retData.setSpecification(isNew);
+        resp.setReturnData(retData);
         return resp;
     }
 
-    public ResponseMessage doDeleteMinute(Long minuteId) {
+    public ResponseMessage doCloseMinute(Long minuteId) {
         ResponseMessage resp = new ResponseMessage();
-        //TODO
+        //todo
+        resp.setHasError(false);
+        resp.setMessage("Se ha cerrado la minuta con éxito.");
         return resp;
     }
+
+    public ResponseMessage doUpsertAgreement(AgreementDto agreementDto) {
+        ResponseMessage resp = new ResponseMessage();
+        agreementRepository.save(fillAgreement(agreementDto));
+        resp.setHasError(false);
+        resp.setMessage("Se ha guardado la minuta con éxito.");
+        return resp;
+    }
+
+    private Agreement fillAgreement(AgreementDto agreementDto) {
+        Agreement ag = new Agreement();
+
+        ag.setTitle(agreementDto.getTitle());
+        ag.setTheme(agreementDto.getTheme());
+
+        try {
+            ag.setAgreementDate(sdf.parse(agreementDto.getAgreementDate()));
+        } catch (Exception e) {
+        }
+
+        ag.setComments(agreementDto.getComments());
+        Area ar = new Area();
+        ar.setId(agreementDto.getAreaId());
+        ag.setArea(ar);
+        ag.setIsDone(false);
+        ag.setIsFinished(false);
+        Minute m = new Minute();
+        m.setId(agreementDto.getMinuteId());
+        ag.setMinute(m);
+        return ag;
+    }
+
+    public ResponseMessage doCloseAgreement(Long minuteId) {
+        ResponseMessage resp = new ResponseMessage();
+        //todo
+        resp.setHasError(false);
+        resp.setMessage("Se ha cerrado el acuerdo con éxito.");
+        return resp;
+    }
+
+    public ResponseMessage doUpsertObservation(ObservationDto observationDto) {
+        ResponseMessage resp = new ResponseMessage();
+        observationRepository.save(fillObservation(observationDto));
+        resp.setHasError(false);
+        resp.setMessage("Se ha guardado la observación con éxito.");
+        return resp;
+    }
+
+    private Observation fillObservation(ObservationDto observationDto) {
+        Observation obs = new Observation();
+        obs.setComment(observationDto.getComment());
+        Agreement agreement = new Agreement();
+        agreement.setId(observationDto.getAgreementId());
+        obs.setAgreement(agreement);
+        User user = new User();
+        user.setId(sharedUserService.GetLoggedUserId());
+        obs.setRegisterUser(user);
+        obs.setRegisterDate(new Date());
+        return obs;
+    }
+
 }

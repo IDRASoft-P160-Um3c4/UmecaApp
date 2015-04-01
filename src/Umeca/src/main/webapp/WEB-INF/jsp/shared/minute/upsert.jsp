@@ -13,12 +13,15 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/minuteCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/agreementCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/observationCtrl.js"></script>
 
     <title>Agregar minuta</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 <div class="container body-content">
+
 
     <div class="row" ng-controller="minuteController">
         <div class="blocker" ng-show="WaitFor==true">
@@ -27,7 +30,7 @@
             </div>
         </div>
 
-        <div class="col-xs-10 col-xs-offset-1" ng-init='minute=${minute}; canEdit=${canEdit};'>
+        <div class="col-xs-10 col-xs-offset-1" ng-init='minute=${minute}; isRH=${isRH}'>
 
             <div class="row element-center">
                 <h2><i class="purple glyphicon glyphicon-user bigger-100 element-center"></i> &nbsp;Agregar minuta</h2>
@@ -47,7 +50,9 @@
             <div class="row" id="divMinute">
                 <form id="FormMinute" name="FormMinute" class="form-horizontal" role="form">
 
-                    <input type="hidden" name="id" value="{{minute.id}}"/>
+                    <input type="hidden" id="hidMinuteId" name="id" value="{{minute.id}}"/>
+                    <input type="hidden" id="hidIsRHId" value="${isRH}"/>
+                    <input type="hidden" id="hidFinishedMinuteId" value="{{minute.isFinished}}"/>
 
                     <div class="widget-box">
                         <div class="widget-header">Datos de la reuni&oacute;n</div>
@@ -61,6 +66,7 @@
                                         <br/>
                                         <input id="title" ng-model="minute.title" name="title"
                                                type="text"
+                                               ng-disabled="minute.isFinished==true"
                                                class="input-xxlarge"
                                                data-val="true"
                                                data-val-required="T&iacute;tulo es un campo requerido"/>
@@ -74,6 +80,7 @@
                                         <textarea class="input-xxlarge form-control limited" name="agenda"
                                                   ng-model="minute.agenda"
                                                   maxlength="980" data-val="true"
+                                                  ng-disabled="minute.isFinished==true"
                                                   data-val-required="Orden del d&iacute;a es un campo requerido">
                                         </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="agenda"
@@ -92,6 +99,7 @@
                                             <input class="form-control date-picker"
                                                    id="minuteDate"
                                                    name="minuteDate"
+                                                   ng-disabled="minute.isFinished==true"
                                                    ng-model="minute.minuteDate"
                                                    data-date-format="yyyy/mm/dd" type="text" readonly
                                                    data-val="true"
@@ -109,6 +117,7 @@
                                         <div class="input-group bootstrap-timepicker">
                                             <input id="startTime"
                                                    name="startTime"
+                                                   ng-disabled="minute.isFinished==true"
                                                    ng-model="minute.startTime"
                                                    readonly
                                                    type="text" class="form-control umeca-time-picker"
@@ -127,6 +136,7 @@
                                         <div class="input-group bootstrap-timepicker">
                                             <input id="endTime"
                                                    name="endTime"
+                                                   ng-disabled="minute.isFinished==true"
                                                    ng-model="minute.endTime"
                                                    readonly
                                                    type="text" class="form-control umeca-time-picker"
@@ -150,6 +160,7 @@
                                         <br/>
                                         <select class="form-control element-center"
                                                 ng-model="minute.attendant"
+                                                ng-disabled="minute.isFinished==true"
                                                 ng-options="e.name for e in lstEmployee"
                                                 ng-init='lstEmployee = ${lstEmployee};'></select>
                                         <input type="hidden" name="attendantId" value="{{minute.attendant.id}}"/>
@@ -159,6 +170,7 @@
                                         <br/>
                                         <textarea class="input-xxlarge form-control limited" name="place"
                                                   ng-model="minute.place"
+                                                  ng-disabled="minute.isFinished==true"
                                                   maxlength="980" data-val="true"
                                                   data-val-required="Lugar es un campo requerido">
                                         </textarea>
@@ -209,6 +221,7 @@
                                                                                 <label>
                                                                                     <input class="ace"
                                                                                            type="checkbox"
+                                                                                           ng-disabled="minute.isFinished==true"
                                                                                            ng-checked="lstAssistantSel.indexOf(empl.id)>-1"
                                                                                            ng-click="selectAssistant(empl.id);">
                                                                                     <span class="lbl col-xs-11">&nbsp;&nbsp;{{empl.name}}</span>
@@ -239,6 +252,7 @@
                                                                                     <label>
                                                                                         <input class="ace"
                                                                                                type="checkbox"
+                                                                                               ng-disabled="minute.isFinished==true"
                                                                                                ng-checked="lstAssistantSel.indexOf(empl.id)>-1"
                                                                                                ng-click="selectAssistant(empl.id);">
                                                                                         <span class="lbl col-xs-10">&nbsp;&nbsp;{{empl.name}}</span>
@@ -270,6 +284,7 @@
                                                                                     <label>
                                                                                         <input class="ace"
                                                                                                type="checkbox"
+                                                                                               ng-disabled="minute.isFinished==true"
                                                                                                ng-checked="lstAssistantSel.indexOf(empl.id)>-1"
                                                                                                ng-click="selectAssistant(empl.id);">
                                                                                         <span class="lbl col-xs-10">&nbsp;&nbsp;{{empl.name}}</span>
@@ -289,7 +304,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" ng-show="canEdit==true">
+                            <div class="row" ng-show="isRH==true&&minute.isFinished==false">
                                 <br/>
 
                                 <div class="col-xs-12 element-right">
@@ -309,10 +324,14 @@
                 </form>
             </div>
 
-
             <div class="space"></div>
 
-            <div class="row">
+            <div id="addAgreement" ng-if="isNew==true" class="alert alert-success element-center success-font">
+                <span>Ahora puede agregar acuerdos a la minuta</span>
+            </div>
+
+
+            <div class="row" ng-if="minute.id>0">
                 <div class="widget-box">
                     <div class="widget-header">Acuerdos
                         <div class="widget-toolbar">
@@ -323,6 +342,14 @@
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-12">
+                                <div id="msgObs" class="alert alert-success element-center success-font" ng-if="successObs==true">
+                                    <span>La observaci&oacute;n fue agregada con &eacute;xito</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
                                 <%@ include
                                         file="/WEB-INF/jsp/shared/minute/agreement/agreement.jsp" %>
                             </div>
@@ -331,7 +358,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <div class="row">
