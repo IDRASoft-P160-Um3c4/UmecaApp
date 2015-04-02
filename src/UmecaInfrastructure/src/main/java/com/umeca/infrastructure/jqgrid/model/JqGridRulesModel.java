@@ -1,5 +1,6 @@
 package com.umeca.infrastructure.jqgrid.model;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -14,6 +15,8 @@ public class JqGridRulesModel {
     public String data;
     public Boolean bData;
     public List<String> lstInOp;
+    public Calendar dtIni;
+    public Calendar dtEnd;
 
     public JqGridRulesModel(){
 
@@ -34,6 +37,13 @@ public class JqGridRulesModel {
     public JqGridRulesModel(String field, List<String> lstInOp, String op) {
         this.field = field;
         this.lstInOp = lstInOp;
+        this.op = op;
+    }
+
+    public JqGridRulesModel(String field, Calendar dtIni, Calendar dtEnd, String op) {
+        this.field = field;
+        this.dtIni = dtIni;
+        this.dtEnd = dtEnd;
         this.op = op;
     }
 
@@ -67,5 +77,21 @@ public class JqGridRulesModel {
 
     public void setbData(Boolean bData) {
         this.bData = bData;
+    }
+
+    public Calendar getDtIni() {
+        return dtIni;
+    }
+
+    public void setDtIni(Calendar dtIni) {
+        this.dtIni = dtIni;
+    }
+
+    public Calendar getDtEnd() {
+        return dtEnd;
+    }
+
+    public void setDtEnd(Calendar dtEnd) {
+        this.dtEnd = dtEnd;
     }
 }
