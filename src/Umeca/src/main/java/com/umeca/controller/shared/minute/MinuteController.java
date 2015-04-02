@@ -154,13 +154,19 @@ public class MinuteController {
     JqGridResultModel listAgreement(@RequestParam(required = true) final Long id, @ModelAttribute JqGridFilterModel opts) {
 
         opts.extraFilters = new ArrayList<>();
-        JqGridRulesModel extraFilter = new JqGridRulesModel("minuteId",
+        JqGridRulesModel minuteIdFilter = new JqGridRulesModel("minuteId",
                 new ArrayList<String>() {{
                     add(id.toString());
                 }}, JqGridFilterModel.COMPARE_IN
         );
 
-        opts.extraFilters.add(extraFilter);
+        opts.extraFilters.add(minuteIdFilter);
+
+//        JqGridRulesModel pendentRequest = new JqGridRulesModel("minuteId",
+//                new ArrayList<String>() {{
+//                    add(id.toString());
+//                }}, JqGridFilterModel.COMPARE_IN
+//        );
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -256,6 +262,52 @@ public class MinuteController {
         }
     }
 
+    @RequestMapping(value = "/shared/observation/obsHistory", method = RequestMethod.GET)
+    public ModelAndView obsHistory(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/shared/minute/agreement/observation/obsHistory");
+        Gson gson = new Gson();
+        model.addObject("agreementData", gson.toJson(minuteService.getGrlAgreementInfoById(id)));
+        model.addObject("lstObs", gson.toJson(minuteService.getAllObsDtoByAgreementId(id)));
+        return model;
+    }
+
+    @RequestMapping(value = "/shared/agreement/closeRequestAgreement", method = RequestMethod.POST)
+    public ModelAndView showRequestCloseAgreement(@RequestParam(required = true) Long id) {
+        ModelAndView model = new ModelAndView("/shared/minute/agreement/finishRequest");
+        model.addObject("agreementId", id);
+        return model;
+    }
+
+    @RequestMapping(value = "/shared/agreement/doCloseRequestAgreement", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doRequestFinishAgreement(@ModelAttribute AgreementDto agreementDto) {
+        ResponseMessage response = new ResponseMessage();
+
+        User user = userRepository.findOne(sharedUserService.GetLoggedUserId());
+
+        if (sharedUserService.isValidPasswordForUser(user.getId(), agreementDto.getPassword()) == false) {
+            response.setHasError(true);
+            response.setMessage("La contraseña no corresponde al usuario en sesión");
+            return response;
+        }
+
+        if (minuteService.countPendingRequestByAgreementId(agreementDto.getId()) > 0) {
+            response.setHasError(true);
+            response.setMessage("No es posible registrar la solicitud. El acuerdo tiene una solicitud pendiente.");
+            return response;
+        }
+
+        try {
+            response = minuteService.doRequestFinishAgreement(agreementDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doRequestFinishAgreement", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
 
 }
 

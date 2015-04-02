@@ -33,6 +33,9 @@ public class Agreement {
     @JoinColumn(name = "id_area")
     private Area area;
 
+    @Column(name = "spec_area")
+    private String specArea;
+
     @Column(name = "is_done")
     private Boolean isDone;
 
@@ -55,6 +58,9 @@ public class Agreement {
 
     @OneToMany(mappedBy = "agreement", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Observation> observations;
+
+    @Column(name = "st_code_agreement")
+    private String stCode;
 
     public Long getId() {
         return id;
@@ -150,5 +156,29 @@ public class Agreement {
 
     public void setFinishedComment(String finishedComment) {
         this.finishedComment = finishedComment;
+    }
+
+    public String getSpecArea() {
+        return specArea;
+    }
+
+    public void setSpecArea(String specArea) {
+        this.specArea = specArea;
+    }
+
+    public List<Observation> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(List<Observation> observations) {
+        this.observations = observations;
+    }
+
+    public String getStCode() {
+        return stCode;
+    }
+
+    public void setStCode(String stCode) {
+        this.stCode = stCode;
     }
 }

@@ -7,6 +7,7 @@
         var minuteId = $("#hidMinuteId").val();
         var finishedMinute = $("#hidFinishedMinuteId").val();
         var isRH = $("#hidIsRHId").val();
+        var isDir = $("#hidIsDirId").val();
 
         upsertAgreement = function (id) {
             if (finishedMinute == 'false' && isRH == 'true')
@@ -14,16 +15,28 @@
         };
 
         upsertObservation = function (id) {
-            if (finishedMinute == 'false' && isRH == 'true')
+            if (finishedMinute == 'false')
                 window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/observation/upsertObservation.html'/>", "#GridIdAgreement");
         };
 
-        requestFinishAgreement = function (id) {
+        showObsHistory = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            window.goToNewUrl("<c:url value='/shared/observation/obsHistory.html?id=idParam' />", params);
+        };
 
+        finishRequestAgreement = function (id) {
+            if (finishedMinute == 'false' && isRH == 'true')
+                window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/closeRequestAgreement.html'/>", "#GridIdAgreement");
+        };
+
+        autRejFinishRequestAgreement = function (id) {
+            if (finishedMinute == 'false' && isRH == 'true')
+                window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/closeRequestAgreement.html'/>", "#GridIdAgreement");
         };
 
         jQuery("#GridIdAgreement").jqGrid({
-            url: '<c:url value='/shared/agreement/list.json?id='/>' + minuteId,
+            url: '<c:url value="/shared/agreement/list.json?id="/>' + minuteId,
             autoencode: true,
             datatype: "json",
             mtype: 'POST',
@@ -82,13 +95,16 @@
                     var be = "";
                     if (finished[i] == 'false') {
                         if (isRH == 'true') {
-                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar cerrar acuerdo\" onclick=\"requestFinish('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
-                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver respuesta de solicitud de cierre\" onclick=\"showResponseRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar concluir acuerdo\" onclick=\"finishRequestAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
+                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver respuesta de conclusi&oacute;n\" onclick=\"showResponseRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                        }
+                        if (isDir == 'true') {
+                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar/Rechazar concluir acuerdo\" onclick=\"finishRequestAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
                         }
                         be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar observaci&oacute;n\" onclick=\"upsertObservation('" + cl + "');\"><span class=\"glyphicon glyphicon-comment\"></span></a>";
                     }
                     be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Historial de observaciones\" onclick=\"showObsHistory('" + cl + "');\"><span class=\"glyphicon glyphicon-dashboard\"></span></a>";
-                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Archivos del arcuerdo\" onclick=\"showAgreementFiles('" + cl + "');\"><span class=\"glyphicon glyphicon-upload\"></span></a>";
+                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Archivos del acuerdo\" onclick=\"showAgreementFiles('" + cl + "');\"><span class=\"glyphicon glyphicon-upload\"></span></a>";
                     $(this).jqGrid('setRowData', ids[i], {Action: be});
                 }
             }

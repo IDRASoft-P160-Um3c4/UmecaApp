@@ -4,6 +4,9 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.director.MinuteDto;
 import com.umeca.model.dto.shared.AgreementDto;
 import com.umeca.model.dto.shared.ObservationDto;
+import com.umeca.model.shared.SelectList;
+
+import java.util.List;
 
 public interface MinuteService {
 
@@ -18,4 +21,12 @@ public interface MinuteService {
     ResponseMessage doCloseAgreement(Long id);
 
     ResponseMessage doUpsertObservation(ObservationDto observationDto);
+
+    List<SelectList> getAllObsDtoByAgreementId(Long id);
+
+    AgreementDto getGrlAgreementInfoById(Long id);
+
+    Long countPendingRequestByAgreementId(Long id);
+
+    ResponseMessage doRequestFinishAgreement(AgreementDto agreementDto);
 }

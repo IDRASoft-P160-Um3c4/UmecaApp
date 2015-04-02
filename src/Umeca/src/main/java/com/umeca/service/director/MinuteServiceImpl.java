@@ -12,12 +12,14 @@ import com.umeca.model.entities.director.minutes.Agreement;
 import com.umeca.model.entities.director.minutes.Assistant;
 import com.umeca.model.entities.director.minutes.Minute;
 import com.umeca.model.entities.humanReources.Employee;
+import com.umeca.model.entities.humanReources.RequestAgreement;
 import com.umeca.model.entities.shared.Observation;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
-import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.director.AgreementRepository;
 import com.umeca.repository.director.MinuteRepository;
 import com.umeca.repository.director.ObservationRepository;
+import com.umeca.repository.humanResources.RequestAgreementRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +43,10 @@ public class MinuteServiceImpl implements MinuteService {
     private ObservationRepository observationRepository;
     @Autowired
     private SharedUserService sharedUserService;
+    @Autowired
+    private RequestAgreementRepository requestAgreementRepository;
 
+    @Override
     public MinuteDto getMinuteDtoById(Long minuteId) {
         return minuteRepository.getMinuteDtoById(minuteId);
     }
@@ -76,6 +81,7 @@ public class MinuteServiceImpl implements MinuteService {
         return minute;
     }
 
+    @Override
     @Transactional
     public ResponseMessage doUpsertMinute(MinuteDto minuteDto) {
         ResponseMessage resp = new ResponseMessage();
@@ -119,6 +125,8 @@ public class MinuteServiceImpl implements MinuteService {
         return resp;
     }
 
+    @Override
+    @Transactional
     public ResponseMessage doCloseMinute(Long minuteId) {
         ResponseMessage resp = new ResponseMessage();
         //todo
@@ -127,6 +135,8 @@ public class MinuteServiceImpl implements MinuteService {
         return resp;
     }
 
+    @Override
+    @Transactional
     public ResponseMessage doUpsertAgreement(AgreementDto agreementDto) {
         ResponseMessage resp = new ResponseMessage();
         agreementRepository.save(fillAgreement(agreementDto));
@@ -152,12 +162,15 @@ public class MinuteServiceImpl implements MinuteService {
         ag.setArea(ar);
         ag.setIsDone(false);
         ag.setIsFinished(false);
+        ag.setSpecArea(agreementDto.getSpecArea());
         Minute m = new Minute();
         m.setId(agreementDto.getMinuteId());
         ag.setMinute(m);
         return ag;
     }
 
+    @Override
+    @Transactional
     public ResponseMessage doCloseAgreement(Long minuteId) {
         ResponseMessage resp = new ResponseMessage();
         //todo
@@ -166,6 +179,8 @@ public class MinuteServiceImpl implements MinuteService {
         return resp;
     }
 
+    @Override
+    @Transactional
     public ResponseMessage doUpsertObservation(ObservationDto observationDto) {
         ResponseMessage resp = new ResponseMessage();
         observationRepository.save(fillObservation(observationDto));
@@ -185,6 +200,45 @@ public class MinuteServiceImpl implements MinuteService {
         obs.setRegisterUser(user);
         obs.setRegisterDate(new Date());
         return obs;
+    }
+
+    @Override
+    public List<SelectList> getAllObsDtoByAgreementId(Long id) {
+        return observationRepository.getAllObsDtoByAgreementId(id);
+    }
+
+    @Override
+    public AgreementDto getGrlAgreementInfoById(Long id) {
+        return agreementRepository.getGrlAgreementInfoById(id);
+    }
+
+    @Override
+    @Transactional
+    public ResponseMessage doRequestFinishAgreement(AgreementDto agreementDto) {
+        ResponseMessage resp = new ResponseMessage();
+        requestAgreementRepository.save(fillRequestFinishAgreement(agreementDto));
+        resp.setHasError(false);
+        resp.setMessage("Se ha guardado la observación con éxito.");
+        return resp;
+    }
+
+    private RequestAgreement fillRequestFinishAgreement(AgreementDto agreementDto) {
+        RequestAgreement requestAgreement = new RequestAgreement();
+        Agreement a = new Agreement();
+        a.setId(agreementDto.getId());
+        requestAgreement.setAgreement(a);
+        requestAgreement.setRequestComment(agreementDto.getComments());
+        requestAgreement.setRequestType(Constants.REQUEST_AGREEMENT_TYPE_FINISH);
+        requestAgreement.setRequestDate(new Date());
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        requestAgreement.setRequestUser(u);
+        return requestAgreement;
+    }
+
+    @Override
+    public Long countPendingRequestByAgreementId(Long id) {
+        return requestAgreementRepository.countPendingRequestByAgreementId(id);
     }
 
 }

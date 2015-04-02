@@ -3,6 +3,9 @@ package com.umeca.model.dto.shared;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.shared.Constants;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class AgreementDto implements EntityGrid {
 
     private Long id;
@@ -33,6 +36,29 @@ public class AgreementDto implements EntityGrid {
             this.isDoneStr = Constants.AGREEMENT_IS_NOT_DONE;
         }
         this.isFinished = isFinished;
+        if (isFinished == true) {
+            this.isFinishedStr = Constants.AGREEMENT_IS_FINISHED;
+        } else {
+            this.isFinishedStr = Constants.AGREEMENT_IS_NOT_FINISHED;
+        }
+    }
+
+    //datos generales
+    public AgreementDto(String title, String theme, Date agreementDate, String area, Boolean spec, String specArea, Boolean isFinished, Boolean isDone) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.title = title;
+        this.theme = theme;
+        if (agreementDate != null)
+            this.agreementDate = sdf.format(agreementDate);
+        this.area = area;
+        if (spec == true) {
+            this.area = area + " - " + specArea;
+        }
+        if (isDone == true) {
+            this.isDoneStr = Constants.AGREEMENT_IS_DONE;
+        } else {
+            this.isDoneStr = Constants.AGREEMENT_IS_NOT_DONE;
+        }
         if (isFinished == true) {
             this.isFinishedStr = Constants.AGREEMENT_IS_FINISHED;
         } else {

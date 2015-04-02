@@ -214,5 +214,11 @@ public class Constants {
 
     public static final String AGREEMENT_IS_FINISHED = "Concluido";
     public static final String AGREEMENT_IS_NOT_FINISHED = "No concluido";
+
+    public static final String REQUEST_AGREEMENT_TYPE_FINISH = "Solicitud para concluir acuerdo";
+    public static final String RESPONSE_AGREEMENT_TYPE_FINISH_AUTH = "Autorización de cierre de acuerdo";
+    public static final String RESPONSE_AGREEMENT_TYPE_FINISH_REJECT = "Rechazo de cierre de acuerdo";
+
+    public static final String ST_CODE_AGREEMENT_FINISH_REQUEST_PENDENT = "REQUEST_PENDENT";
 }
 

@@ -6,7 +6,8 @@
 </script>
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
-        <div class="modal-dialog" style="width:45%" ng-controller="obsController">
+        <%--<div class="modal-dialog" style="width:45%" ng-controller="obsController">--%>
+        <div class="modal-dialog" style="width:45%">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-info ">
@@ -24,7 +25,7 @@
                                  ng-bind-html="MsgError">
                             </div>
                         </div>
-                        <input type="hidden" name="agreementId" value="${agreementId}"/>
+                        <%--<input type="hidden" name="agreementId" value="${agreementId}"/>--%>
 
                         <div class="row">
                             <div class="col-xs-12">
