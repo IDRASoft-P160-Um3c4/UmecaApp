@@ -72,7 +72,7 @@ public class ScheduleHearingsServiceImpl implements ScheduleHearingsService{
             final Long userToReceiveId = monPlanRepository.getUserIdByMonPlanId(monPlanId);
             final Long caseId = monPlanRepository.getCaseIdByMonPlan(monPlanId);
             String groupUuid = UUID.randomUUID().toString();
-            List<Long> lstLastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(caseId, new PageRequest(0, 1));
+            List<Long> lstLastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(monPlanId, new PageRequest(0, 1));
             final Long lastHearingFormatId = lstLastHearingFormatId.get(0);
             List<Long> lstSelSourceRel = framingReferenceRepository.findSelectedReferencesRel(caseId, new ArrayList<String>() {{
                 add(FramingMeetingConstants.PERSON_TYPE_IMPUTED);
