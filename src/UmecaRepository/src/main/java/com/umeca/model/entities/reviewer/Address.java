@@ -124,16 +124,16 @@ public class Address implements EntityGrid {
     public String toString() {
         String result = "";
         if (street != null && !street.equals("")) {
-            result = "Calle: " + street + " No Ext: " + outNum;
+            result = "Calle: " + street;
         }
         if (outNum != null && !outNum.equals("")) {
-
+            result = result + ", Ext: " + innNum;
         }
         if (innNum != null && !innNum.equals("")) {
-            result = result + " No Int:" + innNum;
+            result = result + ", Int: " + innNum;
         }
         if (location != null) {
-            result = result + "," + location.getName() + ". CP: " + location.getZipCode() + ". " + location.getMunicipality().getName() + ", " + location.getMunicipality().getState().getName() + ".";
+            result = result + ", " + location.getName() + ". CP: " + location.getZipCode() + ". " + location.getMunicipality().getName() + ", " + location.getMunicipality().getState().getName() + ".";
         }
         return result;
     }

@@ -1,15 +1,16 @@
-app.controller('requestFinishController', function ($scope, $timeout, $sce, $rootScope) {
+app.controller('authRejFinishController', function ($scope, $timeout, $sce, $rootScope) {
 
     $scope.WaitFor = false;
     $scope.MsgSuccess;
     $scope.MsgError;
-    $scope.savedRequest = false;
+    $scope.responseSaved = false;
 
     $scope.init = function () {
 
     };
 
-    $scope.submitRequest = function (formId, urlToGo) {
+    $scope.submitResponse = function (formId, urlToGo) {
+
         $scope.invalid = false;
 
         if ($(formId).valid() == false) {
@@ -29,17 +30,17 @@ app.controller('requestFinishController', function ($scope, $timeout, $sce, $roo
             var datos = $(formId).serialize();
             $.post(urlToGo, datos)
                 .success(function (resp) {
-                    $scope.handleSuccessRequest(resp);
+                    $scope.handleSuccessResponse(resp);
                 })
                 .error(function () {
-                    $scope.handleErrorRequest();
+                    $scope.handleErrorResponse();
                 });
         }, 1);
 
         return true;
     };
 
-    $scope.handleSuccessRequest = function (resp) {
+    $scope.handleSuccessResponse = function (resp) {
         $scope.$apply(function () {
 
             if (resp.hasError === undefined) {
@@ -52,7 +53,7 @@ app.controller('requestFinishController', function ($scope, $timeout, $sce, $roo
             } else {
                 $scope.MsgError = $sce.trustAsHtml("");
                 $scope.MsgSuccess = $sce.trustAsHtml(resp.message);
-                $scope.savedRequest = true;
+                $scope.responseSaved = true;
             }
         });
 
@@ -69,7 +70,7 @@ app.controller('requestFinishController', function ($scope, $timeout, $sce, $roo
         scope.Model.def.resolve({isCancel: false});
     }
 
-    $scope.handleErrorRequest = function () {
+    $scope.handleErrorResponse = function () {
         $scope.$apply(function () {
             $scope.WaitFor = false;
             $scope.MsgSuccess = $sce.trustAsHtml("");

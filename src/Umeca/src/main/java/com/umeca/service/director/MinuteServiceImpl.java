@@ -13,6 +13,7 @@ import com.umeca.model.entities.director.minutes.Assistant;
 import com.umeca.model.entities.director.minutes.Minute;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.humanReources.RequestAgreement;
+import com.umeca.model.entities.humanReources.RequestAgreementDto;
 import com.umeca.model.entities.shared.Observation;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
@@ -166,16 +167,45 @@ public class MinuteServiceImpl implements MinuteService {
         Minute m = new Minute();
         m.setId(agreementDto.getMinuteId());
         ag.setMinute(m);
+        ag.setStCode(Constants.ST_CODE_AGREEMENT_OPEN);
         return ag;
     }
 
     @Override
     @Transactional
-    public ResponseMessage doCloseAgreement(Long minuteId) {
+    public ResponseMessage doAuthRejFinishAgreementRequest(RequestAgreementDto requestAgreementDto) {
         ResponseMessage resp = new ResponseMessage();
-        //todo
+
+        List<RequestAgreement> allRequest = requestAgreementRepository.getAllRequestByAgreementIdType(requestAgreementDto.getId(), Constants.REQUEST_AGREEMENT_TYPE_FINISH);
+        RequestAgreement req = allRequest.get(0);
+
+        req.setResponseDate(new Date());
+        req.setResponseComment(requestAgreementDto.getComments());
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        req.setResponseUser(u);
+
+        Agreement agreement = req.getAgreement();
+
+        if (requestAgreementDto.getAuthorize() == true) {
+            req.setResponseType(Constants.RESPONSE_AGREEMENT_TYPE_FINISH_AUTH);
+            agreement.setIsFinished(true);
+            agreement.setFinishDate(new Date());
+            agreement.setFinishedComment(requestAgreementDto.getComments());
+            agreement.setFinishUser(u);
+            agreement.setStCode(Constants.ST_CODE_AGREEMENT_FINISHED);
+            req.setAgreement(agreement);
+        } else {
+            req.setResponseType(Constants.RESPONSE_AGREEMENT_TYPE_FINISH_REJECT);
+            agreement.setIsDone(false);
+            agreement.setStCode(Constants.ST_CODE_AGREEMENT_FINISH_REJECT);
+            req.setAgreement(agreement);
+        }
+
+        requestAgreementRepository.save(req);
+
         resp.setHasError(false);
-        resp.setMessage("Se ha cerrado el acuerdo con éxito.");
+        resp.setMessage("Se ha guardado la respuesta de  solicitud con éxito.");
         return resp;
     }
 
@@ -218,14 +248,15 @@ public class MinuteServiceImpl implements MinuteService {
         ResponseMessage resp = new ResponseMessage();
         requestAgreementRepository.save(fillRequestFinishAgreement(agreementDto));
         resp.setHasError(false);
-        resp.setMessage("Se ha guardado la observación con éxito.");
+        resp.setMessage("Se ha guardado la solicitud con éxito.");
         return resp;
     }
 
     private RequestAgreement fillRequestFinishAgreement(AgreementDto agreementDto) {
         RequestAgreement requestAgreement = new RequestAgreement();
-        Agreement a = new Agreement();
-        a.setId(agreementDto.getId());
+        Agreement a = agreementRepository.findOne(agreementDto.getId());
+        a.setStCode(Constants.ST_CODE_AGREEMENT_FINISH_REQUEST);
+        a.setIsDone(agreementDto.getIsDone());
         requestAgreement.setAgreement(a);
         requestAgreement.setRequestComment(agreementDto.getComments());
         requestAgreement.setRequestType(Constants.REQUEST_AGREEMENT_TYPE_FINISH);
@@ -239,6 +270,22 @@ public class MinuteServiceImpl implements MinuteService {
     @Override
     public Long countPendingRequestByAgreementId(Long id) {
         return requestAgreementRepository.countPendingRequestByAgreementId(id);
+    }
+
+    @Override
+    public RequestAgreementDto getLastRequestInfoByIdAgreementIdType(Long id, String requestType) {
+        List<RequestAgreement> allRequest = requestAgreementRepository.getAllRequestByAgreementIdType(id, requestType);
+        RequestAgreement req = allRequest.get(0);
+        RequestAgreementDto dto = new RequestAgreementDto(req, null);
+        return dto;
+    }
+
+    @Override
+    public RequestAgreementDto getLastResponseInfoByIdAgreementIdType(Long id, String requestType) {
+        List<RequestAgreement> allRequest = requestAgreementRepository.getAllResponsedRequestByAgreementIdType(id, requestType);
+        RequestAgreement req = allRequest.get(0);
+        RequestAgreementDto dto = new RequestAgreementDto(req, true);
+        return dto;
     }
 
 }

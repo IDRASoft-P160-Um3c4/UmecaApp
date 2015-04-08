@@ -13,6 +13,8 @@ import com.umeca.model.dto.shared.ObservationDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.minutes.Agreement;
 import com.umeca.model.entities.director.minutes.Minute;
+import com.umeca.model.entities.humanReources.RequestAgreement;
+import com.umeca.model.entities.humanReources.RequestAgreementDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.AreaRepository;
@@ -124,10 +126,19 @@ public class MinuteController {
         model.addObject("minute", gson.toJson(dto));
         model.addObject("lstEmployee", gson.toJson(employeeRepository.getAllNoObsoleteEmployees()));
         List<String> roles = sharedUserService.getLstRolesByUserId(sharedUserService.GetLoggedUserId());
+
+        Boolean isRH = false;
+        Boolean isDir = false;
+
         if (roles.contains(Constants.ROLE_HUMAN_RESOURCES))
-            model.addObject("isRH", true);
-        else
-            model.addObject("isRH", false);
+            isRH = true;
+
+        if (roles.contains(Constants.ROLE_DIRECTOR))
+            isDir = true;
+
+        model.addObject("isRH", isRH);
+        model.addObject("isDir", isDir);
+
         return model;
     }
 
@@ -162,12 +173,6 @@ public class MinuteController {
 
         opts.extraFilters.add(minuteIdFilter);
 
-//        JqGridRulesModel pendentRequest = new JqGridRulesModel("minuteId",
-//                new ArrayList<String>() {{
-//                    add(id.toString());
-//                }}, JqGridFilterModel.COMPARE_IN
-//        );
-
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
@@ -177,6 +182,7 @@ public class MinuteController {
                     add(r.get("title"));
                     add(r.get("isDone"));
                     add(r.get("isFinished"));
+                    add(r.get("stCode"));
                 }};
             }
 
@@ -271,14 +277,14 @@ public class MinuteController {
         return model;
     }
 
-    @RequestMapping(value = "/shared/agreement/closeRequestAgreement", method = RequestMethod.POST)
-    public ModelAndView showRequestCloseAgreement(@RequestParam(required = true) Long id) {
+    @RequestMapping(value = "/shared/agreement/finishRequestAgreement", method = RequestMethod.POST)
+    public ModelAndView showRequestFinishAgreement(@RequestParam(required = true) Long id) {
         ModelAndView model = new ModelAndView("/shared/minute/agreement/finishRequest");
         model.addObject("agreementId", id);
         return model;
     }
 
-    @RequestMapping(value = "/shared/agreement/doCloseRequestAgreement", method = RequestMethod.POST)
+    @RequestMapping(value = "/shared/agreement/doFinishRequestAgreement", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doRequestFinishAgreement(@ModelAttribute AgreementDto agreementDto) {
@@ -307,6 +313,50 @@ public class MinuteController {
         } finally {
             return response;
         }
+    }
+
+    @RequestMapping(value = "/shared/agreement/authRejFinishRequest", method = RequestMethod.POST)
+    public ModelAndView showAuthRejectFinishRequest(@RequestParam(required = true) Long id) {
+        ModelAndView model = new ModelAndView("/shared/minute/agreement/authRejFinishRequest");
+        Gson gson = new Gson();
+        model.addObject("agreementId", id);
+        model.addObject("agreementData", gson.toJson(minuteService.getGrlAgreementInfoById(id)));
+        model.addObject("requestData", gson.toJson(minuteService.getLastRequestInfoByIdAgreementIdType(id, Constants.REQUEST_AGREEMENT_TYPE_FINISH)));
+        return model;
+    }
+
+    @RequestMapping(value = "/shared/agreement/doAuthRejFinishRequest", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doAuthRejFinishAgreementRequest(@ModelAttribute RequestAgreementDto requestAgreementDto) {
+        ResponseMessage response = new ResponseMessage();
+
+        User user = userRepository.findOne(sharedUserService.GetLoggedUserId());
+
+        if (sharedUserService.isValidPasswordForUser(user.getId(), requestAgreementDto.getPassword()) == false) {
+            response.setHasError(true);
+            response.setMessage("La contraseña no corresponde al usuario en sesión");
+            return response;
+        }
+
+        try {
+            response = minuteService.doAuthRejFinishAgreementRequest(requestAgreementDto);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doAuthRejFinishAgreementRequest", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/shared/agreement/responseFinishRequest", method = RequestMethod.POST)
+    public ModelAndView showResponseFinishRequest(@RequestParam(required = true) Long id) {
+        ModelAndView model = new ModelAndView("/shared/minute/agreement/responseRequestAgreement");
+        Gson gson = new Gson();
+        model.addObject("agreementData", gson.toJson(minuteService.getGrlAgreementInfoById(id)));
+        model.addObject("responseData", gson.toJson(minuteService.getLastResponseInfoByIdAgreementIdType(id, Constants.REQUEST_AGREEMENT_TYPE_FINISH)));
+        return model;
     }
 
 }

@@ -2,6 +2,7 @@ package com.umeca.model.entities.director.minutes;
 
 import com.umeca.model.catalog.Area;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.humanReources.RequestAgreement;
 import com.umeca.model.entities.shared.Observation;
 
 import javax.persistence.*;
@@ -61,6 +62,9 @@ public class Agreement {
 
     @Column(name = "st_code_agreement")
     private String stCode;
+
+    @OneToMany(mappedBy = "agreement", cascade = CascadeType.ALL)
+    private List<RequestAgreement> requestsAgreement;
 
     public Long getId() {
         return id;
@@ -180,5 +184,13 @@ public class Agreement {
 
     public void setStCode(String stCode) {
         this.stCode = stCode;
+    }
+
+    public List<RequestAgreement> getRequestsAgreement() {
+        return requestsAgreement;
+    }
+
+    public void setRequestsAgreement(List<RequestAgreement> requestsAgreement) {
+        this.requestsAgreement = requestsAgreement;
     }
 }

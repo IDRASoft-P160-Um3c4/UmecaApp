@@ -15,20 +15,21 @@
                             concluir acuerdo</h4>
                     </div>
                 </div>
-                <div class="modal-body">
-                    <form id="FormRequestId" name="FormRequestId" class="form-horizontal" role="form">
-                        <div class="row">
-                            <div ng-show="MsgError&&MsgError!=''"
-                                 class="alert alert-danger element-center"
-                                 ng-bind-html="MsgError">
+                <div id="divRequest" ng-show="savedRequest==false">
+                    <div class="modal-body">
+                        <form id="FormRequestId" name="FormRequestId" class="form-horizontal" role="form">
+                            <div class="row">
+                                <div ng-show="MsgError&&MsgError!=''"
+                                     class="alert alert-danger element-center"
+                                     ng-bind-html="MsgError">
+                                </div>
                             </div>
-                        </div>
-                        <input type="hidden" name="id" value="${agreementId}"/>
+                            <input type="hidden" name="id" value="${agreementId}"/>
 
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <label>Comentario</label>
-                                <br/>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Comentario</label>
+                                    <br/>
                                 <textarea class="input-xxlarge form-control limited" name="comments"
                                           ng-model="request.comments"
                                           maxlength="980" data-val="true"
@@ -36,66 +37,81 @@
                                 </textarea>
                                   <span class="field-validation-valid" data-valmsg-for="comments"
                                         data-valmsg-replace="true"></span>
+                                </div>
                             </div>
-                        </div>
 
-                        <br/>
+                            <br/>
 
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <label>Estado del acuerdo</label>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Estado del acuerdo</label>
+                                </div>
+                                <br/>
+
+                                <div class="radio col-xs-12">
+                                    <div class="col-xs-6 element-center">
+                                        <label>
+                                            <input class="ace" type="radio"
+                                                   ng-value="true" name="isDone"
+                                                   ng-model="request.isDone"
+                                                   data-val="true"
+                                                   data-val-required="Debe seleccionar un valor">
+                                            <span class="lbl">&nbsp;&nbsp;Realizado</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-6 element-center">
+                                        <label>
+                                            <input class="ace" type="radio"
+                                                   ng-value="false" name="isDone"
+                                                   ng-model="request.isDone"
+                                                   data-val="true"
+                                                   data-val-required="Debe seleccionar un valor">
+                                            <span class="lbl">&nbsp;&nbsp;No realizado</span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                             <br/>
 
-                            <div class="radio col-xs-12">
-                                <div class="col-xs-6 element-center">
-                                    <label>
-                                        <input class="ace" type="radio"
-                                               ng-value="true" name="isDone"
-                                               ng-model="request.isDone"
-                                               data-val="true"
-                                               data-val-required="Debe seleccionar un valor">
-                                        <span class="lbl">&nbsp;&nbsp;Realizado</span>
-                                    </label>
-                                </div>
-                                <div class="col-xs-6 element-center">
-                                    <label>
-                                        <input class="ace" type="radio"
-                                               ng-value="false" name="isDone"
-                                               ng-model="request.isDone"
-                                               data-val="true"
-                                               data-val-required="Debe seleccionar un valor">
-                                        <span class="lbl">&nbsp;&nbsp;No realizado</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <br/>
-
-                        <div class="row" ng-show="request.comments&&request.isDone!=undefined">
-                            <div class="col-xs-12">
-                                <label>Ingrese su contrase&ntilde;a para validar su usuario</label>
-                                <input name="password" class="input-xxlarge form-control  form-control"
-                                       type="password" ng-enter-key for-element-id="btn-def-ck"
-                                       ng-model="obs.password"
-                                       data-val-required="Contrase&ntilde;a es un campo requerido"
-                                       data-val="true">
+                            <div class="row" ng-show="request.comments&&request.isDone!=undefined">
+                                <div class="col-xs-12">
+                                    <label>Ingrese su contrase&ntilde;a para validar su usuario</label>
+                                    <input name="password" class="input-xxlarge form-control  form-control"
+                                           type="password" ng-enter-key for-element-id="btn-def-ck"
+                                           ng-model="obs.password"
+                                           data-val-required="Contrase&ntilde;a es un campo requerido"
+                                           data-val="true">
                                     <span class="field-validation-valid" data-valmsg-replace="true"
                                           data-valmsg-for="password"></span>
+                                </div>
                             </div>
-                        </div>
-                        <br/>
-                    </form>
-                </div>
-                <div class="modal-footer">
+                            <br/>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" id="btn-def-ck" ng-disabled="WaitFor==true"
-                          ng-click="submitRequest('#FormRequestId','<c:url value="/shared/agreement/doCloseRequestAgreement.json"/>');">
+                          ng-click="submitRequest('#FormRequestId','<c:url value="/shared/agreement/doFinishRequestAgreement.json"/>');">
                           Guardar
                     </span>
+                    </div>
+
                 </div>
+                <div id="savedRequest" ng-show="savedRequest==true">
+                    <div class="modal-body">
+
+                        <div ng-show="MsgSuccess&&MsgSuccess!=''" class="alert alert-success element-center">
+                            <p ng-bind-html="MsgSuccess"></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="btn btn-default btn-primary btn-sm"
+                              ng-click="cancel()">Aceptar</span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

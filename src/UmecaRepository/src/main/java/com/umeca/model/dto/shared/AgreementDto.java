@@ -22,12 +22,13 @@ public class AgreementDto implements EntityGrid {
     private String isDoneStr;
     private Boolean isDone;
     private String password;
+    private String stCode;
 
     public AgreementDto() {
     }
 
     //grid
-    public AgreementDto(Long id, String title, Boolean isDone, Boolean isFinished) {
+    public AgreementDto(Long id, String title, Boolean isDone, Boolean isFinished, String stCode) {
         this.id = id;
         this.title = title;
         if (isDone == true) {
@@ -41,6 +42,8 @@ public class AgreementDto implements EntityGrid {
         } else {
             this.isFinishedStr = Constants.AGREEMENT_IS_NOT_FINISHED;
         }
+
+        this.stCode = stCode;
     }
 
     //datos generales
@@ -177,5 +180,13 @@ public class AgreementDto implements EntityGrid {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getStCode() {
+        return stCode;
+    }
+
+    public void setStCode(String stCode) {
+        this.stCode = stCode;
     }
 }

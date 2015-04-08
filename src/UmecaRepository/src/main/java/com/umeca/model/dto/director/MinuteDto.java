@@ -33,7 +33,7 @@ public class MinuteDto implements EntityGrid {
         if (startTime != null)
             this.startTime = sdfT.format(startTime);
         this.place = place;
-        this.attendant = attLastNameM + attLastNameP + attLastNameM;
+        this.attendant = attName + " " + attLastNameP + " " + attLastNameM;
         this.isFinished = isFinished;
     }
 
