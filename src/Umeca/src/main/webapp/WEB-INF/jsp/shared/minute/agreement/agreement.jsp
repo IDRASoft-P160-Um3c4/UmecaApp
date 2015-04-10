@@ -40,6 +40,11 @@
                 window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/responseFinishRequest.html'/>", "#GridIdAgreement");
         };
 
+        showAgreementFiles = function (id) {
+            <%--if (finishedMinute == 'false' && isRH == 'true')--%>
+            <%--window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/responseFinishRequest.html'/>", "#GridIdAgreement");--%>
+            alert("Funcionalidad en desarrollo");
+        };
 
         jQuery("#GridIdAgreement").jqGrid({
             url: '<c:url value="/shared/agreement/list.json?id="/>' + minuteId,
@@ -102,18 +107,18 @@
                     var cl = ids[i];
                     var be = "";
                     if (finished[i] == 'false') {
+                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar observaci&oacute;n\" onclick=\"upsertObservation('" + cl + "');\"><span class=\"glyphicon glyphicon-comment\"></span></a>";
                         if (isRH == 'true') {
                             be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar concluir acuerdo\" onclick=\"showFinishRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
                             if (stCode[i] === 'FINISHED_AGREEMENT' || stCode[i] === 'FINISH_REJECT')
                                 be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver respuesta de solicitud de conclusi&oacute;n\" onclick=\"showResponseRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                         }
-                    }
 
-                    if (isDir == 'true') {
-                        if (stCode[i] === 'PENDENT_FINISH_REQUEST')
-                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar/Rechazar concluir acuerdo\" onclick=\"autRejFinishRequestAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                        if (isDir == 'true') {
+                            if (stCode[i] === 'PENDENT_FINISH_REQUEST')
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar/Rechazar concluir acuerdo\" onclick=\"autRejFinishRequestAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                        }
                     }
-                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar observaci&oacute;n\" onclick=\"upsertObservation('" + cl + "');\"><span class=\"glyphicon glyphicon-comment\"></span></a>";
 
                     be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Historial de observaciones\" onclick=\"showObsHistory('" + cl + "');\"><span class=\"glyphicon glyphicon-dashboard\"></span></a>";
                     be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Archivos del acuerdo\" onclick=\"showAgreementFiles('" + cl + "');\"><span class=\"glyphicon glyphicon-upload\"></span></a>";
