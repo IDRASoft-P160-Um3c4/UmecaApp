@@ -17,12 +17,14 @@ public class ActivityReportView implements EntityGrid {
     private Integer reportFor;
     private String isForManager;
     private String description;
+    private Long fileId;
 
-    public ActivityReportView(Long id, Calendar creationDate, String reportName, Integer reportFor) {
+    public ActivityReportView(Long id, Calendar creationDate, String reportName, Integer reportFor, Long fileId) {
         this.id = id;
         this.creationDate = creationDate;
         this.reportName = reportName;
         this.reportFor = reportFor;
+        this.fileId = fileId;
     }
 
 
@@ -66,7 +68,7 @@ public class ActivityReportView implements EntityGrid {
     }
 
     public String getStCreationDate() {
-        if(creationDate == null)
+        if (creationDate == null)
             return "";
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
@@ -74,7 +76,7 @@ public class ActivityReportView implements EntityGrid {
     }
 
     public String getIsForManager() {
-        if(Objects.equals(reportFor, Constants.ACT_REPORT_FOR_DIRECTOR)){
+        if (Objects.equals(reportFor, Constants.ACT_REPORT_FOR_DIRECTOR)) {
             return "SI";
         }
         return "NO";
@@ -94,5 +96,13 @@ public class ActivityReportView implements EntityGrid {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 }

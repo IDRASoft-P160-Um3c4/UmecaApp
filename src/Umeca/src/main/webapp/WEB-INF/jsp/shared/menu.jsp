@@ -402,7 +402,7 @@
                                 <li><a href="<c:url value='/shared/minute/finishedIndex.html' />"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas cerradas</a>
                                 </li>
-                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
+                                <li><a href="<c:url value='/shared/minute/directorMinute.html' />"><i
                                         class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Minutas para direcci&oacute;n</a>
                                 </li>
                             </ul>

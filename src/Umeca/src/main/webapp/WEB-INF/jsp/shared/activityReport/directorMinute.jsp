@@ -10,7 +10,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/activityReport/uploadActivityReport.js"></script>
-    <title>Informe de actividades del coordinador para la direcci&oacute;n</title>
+    <title>Minutas de trabajo para la direcci&oacute;n</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -19,7 +19,7 @@
 
     <script>
         window.upsert = function (id) {
-            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/shared/activityReport/upsert.html' />', "#GridId");
+            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/shared/minute/upsertDirectorMinute.html' />', "#GridId");
         };
 
         window.download = function (id) {
@@ -91,8 +91,9 @@
                         var cl = ids[i];
                         var f_id = fId[i];
                         var be = "";
+
                         be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo del informe de actividades\" onclick=\"window.download('" + f_id + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
-                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar informe de actividades\" onclick=\"window.delete('" + cl + "');\"><i class=\"icon icon-trash\"></i></a>  ";
+                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar informe de actividades\" onclick=\"window.delete('" + cl + "');\"><i class=\"icon icon-trash\"></i></a>";
 
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
@@ -126,7 +127,7 @@
     </script>
 
     <h2 class="element-center"><i class="glyphicon glyphicon-th-list"></i>
-        &nbsp;&nbsp;Informe de actividades del coordinador de para la direcci&oacute;n</h2>
+        &nbsp;&nbsp;Minutas de trabajo para la direcci&oacute;n</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>
