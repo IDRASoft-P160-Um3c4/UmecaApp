@@ -215,5 +215,24 @@ public class Constants {
 
     public static final String AGREEMENT_IS_FINISHED = "Concluido";
     public static final String AGREEMENT_IS_NOT_FINISHED = "No concluido";
+
+    public static final String REQUEST_AGREEMENT_TYPE_FINISH = "FINISH_REQUEST_TYPE";
+    public static final String RESPONSE_AGREEMENT_TYPE_FINISH_AUTH = "AUTH_FINISH_RESPONSE";
+    public static final String RESPONSE_AGREEMENT_TYPE_FINISH_REJECT = "REJECT_FINISH_RESPONSE";
+
+    public static final String ST_CODE_AGREEMENT_FINISH_REQUEST = "PENDENT_FINISH_REQUEST";
+    public static final String ST_CODE_AGREEMENT_OPEN = "OPEN_AGREEMENT";
+    public static final String ST_CODE_AGREEMENT_FINISH_REJECT = "FINISH_REJECT";
+    public static final String ST_CODE_AGREEMENT_FINISHED = "FINISHED_AGREEMENT";
+
+    public static final String ST_CODE_MINUTE_FINISH_REQUEST = "PENDENT_FINISH_REQUEST";
+    public static final String ST_CODE_MINUTE_OPEN = "OPEN_AGREEMENT";
+    public static final String ST_CODE_MINUTE_FINISH_REJECT = "FINISH_REJECT";
+    public static final String ST_CODE_MINUTE_FINISHED = "FINISHED_AGREEMENT";
+
+    public static final String REQUEST_MINUTE_TYPE_FINISH = "FINISH_REQUEST_TYPE";
+    public static final String RESPONSE_MINUTE_TYPE_FINISH_AUTH = "AUTH_FINISH_RESPONSE";
+    public static final String RESPONSE_MINUTE_TYPE_FINISH_REJECT = "REJECT_FINISH_RESPONSE";
+
 }
 

@@ -2,7 +2,9 @@ package com.umeca.model.shared;
 
 import com.umeca.model.entities.supervisor.HearingFormat;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Project: Umeca
@@ -21,6 +23,7 @@ public class SelectList {
     private Boolean specification;
     private String strDate;
     private String logType;
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     public SelectList() {
     }
@@ -94,6 +97,15 @@ public class SelectList {
         this.description = description;
         this.strDate = strDate;
         this.logType = logType;
+    }
+
+    //para hacer la lista de observaciones del historial
+    public SelectList(Date dateObs, String userName, String role, String observation) {
+        if (dateObs != null)
+            this.strDate = sdf.format(dateObs);
+        this.name = userName;
+        this.logType = role;
+        this.description = observation;
     }
 
     public SelectList(Long id, Long aux) {

@@ -116,7 +116,7 @@
                                 <input name="password" class="input-xxlarge form-control  form-control"
                                        type="password" ng-enter-key for-element-id="btn-def-ck"
                                        ng-model="agreement.password"
-                                       data-val-required="Contrase&ntildea es un campo requerido" data-val="true">
+                                       data-val-required="Contrase&ntilde;a es un campo requerido" data-val="true">
                                     <span class="field-validation-valid" data-valmsg-replace="true"
                                           data-valmsg-for="password"></span>
                             </div>

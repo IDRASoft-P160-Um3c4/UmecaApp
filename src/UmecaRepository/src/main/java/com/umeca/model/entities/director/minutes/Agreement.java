@@ -2,6 +2,7 @@ package com.umeca.model.entities.director.minutes;
 
 import com.umeca.model.catalog.Area;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.humanReources.RequestAgreement;
 import com.umeca.model.entities.shared.Observation;
 
 import javax.persistence.*;
@@ -33,6 +34,9 @@ public class Agreement {
     @JoinColumn(name = "id_area")
     private Area area;
 
+    @Column(name = "spec_area")
+    private String specArea;
+
     @Column(name = "is_done")
     private Boolean isDone;
 
@@ -55,6 +59,12 @@ public class Agreement {
 
     @OneToMany(mappedBy = "agreement", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Observation> observations;
+
+    @Column(name = "st_code_agreement")
+    private String stCode;
+
+    @OneToMany(mappedBy = "agreement", cascade = CascadeType.ALL)
+    private List<RequestAgreement> requestsAgreement;
 
     public Long getId() {
         return id;
@@ -150,5 +160,37 @@ public class Agreement {
 
     public void setFinishedComment(String finishedComment) {
         this.finishedComment = finishedComment;
+    }
+
+    public String getSpecArea() {
+        return specArea;
+    }
+
+    public void setSpecArea(String specArea) {
+        this.specArea = specArea;
+    }
+
+    public List<Observation> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(List<Observation> observations) {
+        this.observations = observations;
+    }
+
+    public String getStCode() {
+        return stCode;
+    }
+
+    public void setStCode(String stCode) {
+        this.stCode = stCode;
+    }
+
+    public List<RequestAgreement> getRequestsAgreement() {
+        return requestsAgreement;
+    }
+
+    public void setRequestsAgreement(List<RequestAgreement> requestsAgreement) {
+        this.requestsAgreement = requestsAgreement;
     }
 }

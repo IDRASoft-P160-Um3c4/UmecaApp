@@ -16,10 +16,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.reviewer.AddressRepository;
-import com.umeca.repository.reviewer.CaseRequestRepository;
-import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
-import com.umeca.repository.reviewer.SourceVerificationRepository;
+import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
@@ -525,6 +522,8 @@ public class VerificationServiceImpl implements VerificationService {
     AddressRepository addressRepository;
     @Autowired
     SharedUserService sharedUserService;
+    @Autowired
+    ImputedRepository imputedRepository;
 
     @Transactional
     @Override
@@ -591,6 +590,27 @@ public class VerificationServiceImpl implements VerificationService {
                 Verification verification = caseDetention.getVerification();
                 verification.setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_COMPLETE));
                 verification.setDateComplete(new Date());
+                /*SE PLANCHA LA INFO DEL MEETING CON LA INFO DE LA VERIFICACION*/
+                Imputed i = caseDetention.getMeeting().getImputed();
+                i.setName(verification.getMeetingVerified().getImputed().getName());
+                i.setLastNameP(verification.getMeetingVerified().getImputed().getLastNameP());
+                i.setLastNameM(verification.getMeetingVerified().getImputed().getLastNameM());
+
+                imputedRepository.save(i);
+
+                Address aM = caseDetention.getMeeting().getImputedHomes().get(0).getAddress();
+                Address aV = verification.getMeetingVerified().getImputedHomes().get(0).getAddress();
+
+                aM.setStreet(aV.getStreet());
+                aM.setOutNum(aV.getOutNum());
+                aM.setInnNum(aV.getInnNum());
+                aM.setLocation(aV.getLocation());
+                aM.setLat(aV.getLat());
+                aM.setLng(aV.getLng());
+                aM.setAddressString(aV.getAddressString());
+
+                addressRepository.save(aM);
+                /*SE PLANCHA LA INFO DEL MEETING CON LA INFO DE LA VERIFICACION*/
                 caseRepository.save(caseDetention);
                 return new ResponseMessage(false, "Se ha terminado con &eacute;xito la verificaci&oacute;n");
             }

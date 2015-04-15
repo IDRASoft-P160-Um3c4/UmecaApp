@@ -1,10 +1,10 @@
 package com.umeca.model.entities.director.minutes;
 
-import com.umeca.model.dto.director.MinuteDto;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.Employee;
+import com.umeca.model.entities.humanReources.RequestMinute;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -42,11 +42,27 @@ public class Minute {
     @Column(name = "is_finished")
     private Boolean isFinished;
 
+    @Column(name = "finish_date")
+    private Date finishDate;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_finish_user")
+    private User finishUser;
+
+    @Column(name = "finish_comment")
+    private String finishComment;
+
     @OneToMany(mappedBy = "minute", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Assistant> assistants;
 
     @OneToMany(mappedBy = "minute", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Agreement> agreements;
+
+    @OneToMany(mappedBy = "minute", cascade = CascadeType.ALL)
+    private List<RequestMinute> requestMinutes;
+
+    @Column(name = "st_code")
+    private String stCode;
 
     public Minute() {
     }
@@ -138,4 +154,46 @@ public class Minute {
     public void setAgreements(List<Agreement> agreements) {
         this.agreements = agreements;
     }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
+    }
+
+    public User getFinishUser() {
+        return finishUser;
+    }
+
+    public void setFinishUser(User finishUser) {
+        this.finishUser = finishUser;
+    }
+
+    public List<RequestMinute> getRequestMinutes() {
+        return requestMinutes;
+    }
+
+    public void setRequestMinutes(List<RequestMinute> requestMinutes) {
+        this.requestMinutes = requestMinutes;
+    }
+
+    public String getStCode() {
+        return stCode;
+    }
+
+    public void setStCode(String stCode) {
+        this.stCode = stCode;
+    }
+
+    public String getFinishComment() {
+        return finishComment;
+    }
+
+    public void setFinishComment(String finishComment) {
+        this.finishComment = finishComment;
+    }
+
+
 }

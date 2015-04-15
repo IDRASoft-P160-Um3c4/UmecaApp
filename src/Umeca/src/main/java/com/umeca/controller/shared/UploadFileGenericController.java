@@ -2,7 +2,6 @@ package com.umeca.controller.shared;
 
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.shared.Constants;
@@ -41,7 +40,7 @@ public class UploadFileGenericController {
     public
     @ResponseBody
     ResponseMessage doUploadFileGeneric(@ModelAttribute UploadFileRequest uploadRequest,
-                                 MultipartHttpServletRequest request) {
+                                        MultipartHttpServletRequest request) {
 
         ResponseMessage resMsg = new ResponseMessage();
         try {
@@ -50,6 +49,7 @@ public class UploadFileGenericController {
             if (userService.isUserInRoles(userId, new ArrayList<String>() {{
                 add(Constants.ROLE_SUPERVISOR_MANAGER);
                 add(Constants.ROLE_EVALUATION_MANAGER);
+                add(Constants.ROLE_HUMAN_RESOURCES);
             }}) == false) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("Usted no tiene permisos para realizar esta acción.");
@@ -89,8 +89,7 @@ public class UploadFileGenericController {
 
                 resMsg.setUrlToGo("close");
                 resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
-            }
-            else{
+            } else {
                 resMsg.setReturnData(file.getId());
             }
 

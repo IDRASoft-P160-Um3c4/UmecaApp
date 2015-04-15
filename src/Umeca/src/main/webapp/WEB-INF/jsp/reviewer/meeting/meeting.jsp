@@ -338,7 +338,7 @@
                     <span class="btn btn-default btn-sm" onclick="window.cancelMeeting()">
                         Regresar
                     </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="hideMessageError();" ng-confirm-action
                           confirm-message="&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?"
                           confirm-title="Terminar entrevista" confirm-type="info"
                           confirmed-click-action="submit('#FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId','<c:url value="/reviewer/meeting/terminateMeeting.json?idCase=${idCase}"/>');">

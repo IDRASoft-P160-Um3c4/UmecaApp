@@ -11,10 +11,10 @@
         <tbody>
         <tr>
             <td>
-                <input type="button"
-                       onclick="window.doReturn();"
-                       value="Regresar"
-                       style="font-size: 15px">
+                <%--<input type="button"--%>
+                <%--onclick="window.doReturn();"--%>
+                <%--value="Regresar"--%>
+                <%--style="font-size: 15px">--%>
             </td>
             <td/>
             <td>
@@ -99,7 +99,7 @@
                 </td>
                 <td/>
                 <td>
-                    <strong>Correo el&eacute;ctronico:</strong> ${summary.generalData.email}
+                    <strong>Correo electr&oacute;nico:</strong> ${summary.generalData.email}
                 </td>
             </tr>
             <tr>
@@ -311,10 +311,10 @@
         <tbody>
         <tr>
             <td>
-                <input type="button"
-                       onclick="window.doReturn();"
-                       value="Regresar"
-                       style="font-size: 15px">
+                <%--<input type="button"--%>
+                <%--onclick="window.doReturn();"--%>
+                <%--value="Regresar"--%>
+                <%--style="font-size: 15px">--%>
             </td>
             <td/>
             <td>

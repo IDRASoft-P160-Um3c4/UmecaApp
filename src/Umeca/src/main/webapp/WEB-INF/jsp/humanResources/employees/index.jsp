@@ -38,7 +38,10 @@
         };
 
         downloadDigitalRecord = function (id) {
-            window.goToUrlMvcUrl("<c:url value='/humanResources/digitalRecord/digitalRecordSummary.html?id='/>" + id);
+            var params = [];
+            params["idParam"] = id;
+            window.goToNewUrl("<c:url value='/humanResources/digitalRecord/digitalRecordSummary.html?id=idParam'/>", params);
+
         };
 
 

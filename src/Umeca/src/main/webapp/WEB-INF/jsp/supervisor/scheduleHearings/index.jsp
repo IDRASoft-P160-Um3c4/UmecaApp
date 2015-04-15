@@ -42,7 +42,7 @@
                 colNames: ['ID', '', 'Estado plan de supervisi&oacute;n','Carpeta judicial', 'Nombre del imputado', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'selOpt', width: 50, align: "center", sortable: false, search: false, formatter: window.actionFormatter },
+                    { name: 'selOpt', width: 50, align: "center", sortable: false, search: false, formatter:window.actionFormatter},
                     { name: 'status', index: 'status', width: 300, align: "center", sorttype: 'string' },
                     { name: 'idMP', index: 'idFolder', width: 300, align: "center", sorttype: 'string' },
                     { name: 'fullName', index: 'fullName', width: 400, align: "center", sorttype: 'string'},

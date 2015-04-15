@@ -15,7 +15,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/minuteCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/agreementCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/observationCtrl.js"></script>
-
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/requestFinishCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/authRejRequestFinishCtrl.js"></script>
     <title>Agregar minuta</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -30,7 +31,7 @@
             </div>
         </div>
 
-        <div class="col-xs-10 col-xs-offset-1" ng-init='minute=${minute}; isRH=${isRH}'>
+        <div class="col-xs-10 col-xs-offset-1" ng-init='minute=${minute}; isRH=${isRH}' ;>
 
             <div class="row element-center">
                 <h2><i class="purple glyphicon glyphicon-user bigger-100 element-center"></i> &nbsp;Agregar minuta</h2>
@@ -52,6 +53,7 @@
 
                     <input type="hidden" id="hidMinuteId" name="id" value="{{minute.id}}"/>
                     <input type="hidden" id="hidIsRHId" value="${isRH}"/>
+                    <input type="hidden" id="hidIsDirId" value="${isDir}"/>
                     <input type="hidden" id="hidFinishedMinuteId" value="{{minute.isFinished}}"/>
 
                     <div class="widget-box">
@@ -342,7 +344,8 @@
                     <div class="widget-body">
                         <div class="row">
                             <div class="col-xs-12">
-                                <div id="msgObs" class="alert alert-success element-center success-font" ng-if="successObs==true">
+                                <div id="msgObs" class="alert alert-success element-center success-font"
+                                     ng-if="successObs==true">
                                     <span>La observaci&oacute;n fue agregada con &eacute;xito</span>
                                 </div>
                             </div>
