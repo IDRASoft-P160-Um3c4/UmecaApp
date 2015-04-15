@@ -591,6 +591,23 @@ public class VerificationServiceImpl implements VerificationService {
                 Verification verification = caseDetention.getVerification();
                 verification.setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_COMPLETE));
                 verification.setDateComplete(new Date());
+                /*SE PLANCHA LA INFO DEL MEETING CON LA INFO DE LA VERIFICACION*/
+                Imputed i = caseDetention.getMeeting().getImputed();
+                i.setName(verification.getMeetingVerified().getImputed().getName());
+                i.setLastNameP(verification.getMeetingVerified().getImputed().getLastNameP());
+                i.setLastNameM(verification.getMeetingVerified().getImputed().getLastNameM());
+
+                Address aM = caseDetention.getMeeting().getImputedHomes().get(0).getAddress();
+                Address aV = verification.getMeetingVerified().getImputedHomes().get(0).getAddress();
+
+                aM.setStreet(aV.getStreet());
+                aM.setOutNum(aV.getOutNum());
+                aM.setInnNum(aV.getInnNum());
+                aM.setLocation(aV.getLocation());
+                aM.setLat(aV.getLat());
+                aM.setLng(aV.getLng());
+                aM.setAddressString(aV.getAddressString());
+                /*SE PLANCHA LA INFO DEL MEETING CON LA INFO DE LA VERIFICACION*/
                 caseRepository.save(caseDetention);
                 return new ResponseMessage(false, "Se ha terminado con &eacute;xito la verificaci&oacute;n");
             }
