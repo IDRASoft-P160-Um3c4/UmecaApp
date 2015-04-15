@@ -4,8 +4,6 @@
 
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/requestFinishCtrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/authRejRequestFinishCtrl.js"></script>
     <title>Personal UMECA</title>
 </head>
 
@@ -17,53 +15,25 @@
     <script>
         $(document).ready(function () {
 
-            var isRH = ${isRH};
-            var isDir = ${isDir};
-
-            upsertMinute = function () {
-                if (isRH == true) {
-                    var url = "<c:url value='/shared/minute/upsertMinute.html'/>";
-                    window.goToUrlMvcUrl(url);
-                }
-            };
-
             editMinute = function (id) {
                 var url = "<c:url value='/shared/minute/upsertMinute.html?id='/>" + id;
                 window.goToUrlMvcUrl(url);
             };
 
-            upsertMinute = function () {
-                if (isRH == true) {
-                    var url = "<c:url value='/shared/minute/upsertMinute.html'/>";
-                    window.goToUrlMvcUrl(url);
-                }
-            };
-
-            showFinishRequest = function (id) {
-                if (isRH == true)
-                    window.showUpsert(id, "#angJsjqGridId", "<c:url value='/shared/minute/finishRequestMinute.html'/>", "#GridMinuteId");
-            };
-
-            showFinishResponse = function (id) {
-                if (isRH == true)
-                    window.showUpsert(id, "#angJsjqGridId", "<c:url value='/shared/minute/responseFinishRequest.html'/>", "#GridMinuteId");
-            };
-
-            autRejFinishRequestMinute = function (id) {
-                if (isDir == true)
-                    window.showUpsert(id, "#angJsjqGridId", "<c:url value='/shared/minute/authRejFinishRequest.html'/>", "#GridMinuteId");
+            downloadMinute = function (id) {
+                <%--var url = "<c:url value='/shared/minute/upsertMinute.html?id='/>" + id;--%>
+                <%--window.goToUrlMvcUrl(url);--%>
+                alert("Funcionalidad en desarrollo.")
             };
 
             jQuery("#GridMinuteId").jqGrid({
-                url: '<c:url value='/shared/minute/list.json' />',
+                url: '<c:url value='/shared/minute/finishedList.json' />',
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'isFinished', 'stCode', 'Fecha', 'Hora', 'Lugar', 'Encargado', 'Acci&oacute;n'],
+                colNames: ['ID', 'Fecha', 'Hora', 'Lugar', 'Encargado', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
-                    {name: 'isFinished', index: 'isFinished', hidden: true},
-                    {name: 'stCode', index: 'stCode', hidden: true},
                     {
                         name: 'minuteDate',
                         index: 'minuteDate',
@@ -118,26 +88,10 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-                    var finished = $(this).jqGrid('getCol', 'isFinished', false);
-                    var status = $(this).jqGrid('getCol', 'stCode', false);
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var be = "";
-                        if (finished[i] == 'false') {
-                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar minuta\" onclick=\"editMinute(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
-                            if (isRH) {
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Cerrar minuta\" onclick=\"showFinishRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
-
-                                if (status[i] == 'FINISH_REJECT')
-                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver respuesta de solicitud de conclusi&oacute;n\" onclick=\"showFinishResponse('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-                            }
-
-                            if (isDir == true && status[i] == 'PENDENT_FINISH_REQUEST') {
-                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar/Rechazar concluir minuta\" onclick=\"autRejFinishRequestMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
-                            }
-                        } else {
-                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar minuta\" onclick=\"editMinute(" + cl + ");\"><span class=\"glyphicon glyphicon-search\"></span></a>";
-                        }
+                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar minuta\" onclick=\"editMinute(" + cl + ");\"><span class=\"glyphicon glyphicon-search\"></span></a>";
                         be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de minuta\" onclick=\"downloadMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
@@ -172,14 +126,14 @@
                                 name: 'title',
                                 index: 'title',
                                 sorttype: 'string',
-                                width: 400,
+                                width: 450,
                                 align: "center",
                                 searchoptions: {sopt: ['bw']}
                             },
                             {
                                 name: 'isDoneStr',
                                 index: 'isDoneStr',
-                                width: 150,
+                                width: 140,
                                 align: "center",
                                 sortable: false,
                                 search: false
@@ -187,13 +141,13 @@
                             {
                                 name: 'isFinishedStr',
                                 index: 'isFinishedStr',
-                                width: 150,
+                                width: 140,
                                 align: "center",
                                 sortable: false,
                                 search: false
                             }
                         ],
-                        rowNum: 20,
+                        rowNum: 10,
                         pager: pager_id,
                         sortname: 'id',
                         sortorder: "asc",
@@ -212,7 +166,7 @@
 
             jQuery("#GridMinuteId").jqGrid('navGrid', '#GridPager', {
                 edit: false,
-                add: true, addfunc: upsertMinute, addicon: 'icon-plus-sign purple',
+                add: false,
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
                 search: false
@@ -245,7 +199,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Minutas abiertas
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Minutas cerradas
     </h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">

@@ -25,14 +25,25 @@
             window.goToNewUrl("<c:url value='/shared/observation/obsHistory.html?id=idParam' />", params);
         };
 
-        finishRequestAgreement = function (id) {
+        showFinishRequest = function (id) {
             if (finishedMinute == 'false' && isRH == 'true')
-                window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/closeRequestAgreement.html'/>", "#GridIdAgreement");
+                window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/finishRequestAgreement.html'/>", "#GridIdAgreement");
         };
 
         autRejFinishRequestAgreement = function (id) {
+            if (finishedMinute == 'false' && isDir == 'true')
+                window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/authRejFinishRequest.html'/>", "#GridIdAgreement");
+        };
+
+        showResponseRequest = function (id) {
             if (finishedMinute == 'false' && isRH == 'true')
-                window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/closeRequestAgreement.html'/>", "#GridIdAgreement");
+                window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/responseFinishRequest.html'/>", "#GridIdAgreement");
+        };
+
+        showAgreementFiles = function (id) {
+            <%--if (finishedMinute == 'false' && isRH == 'true')--%>
+            <%--window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/responseFinishRequest.html'/>", "#GridIdAgreement");--%>
+            alert("Funcionalidad en desarrollo");
         };
 
         jQuery("#GridIdAgreement").jqGrid({
@@ -40,10 +51,11 @@
             autoencode: true,
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'isFinished', 'Acuerdo', 'Estado', 'Concluido', 'Acci&oacute;n'],
+            colNames: ['ID', 'isFinished', 'stCode', 'Acuerdo', 'Estado', 'Concluido', 'Acci&oacute;n'],
             colModel: [
                 {name: 'id', index: 'id', hidden: true},
                 {name: 'isFinished', index: 'isFinished', hidden: true},
+                {name: 'stCode', index: 'isFinished', hidden: true},
                 {
                     name: 'title',
                     index: 'title',
@@ -90,19 +102,24 @@
             gridComplete: function () {
                 var ids = $(this).jqGrid('getDataIDs');
                 var finished = $(this).jqGrid('getCol', 'isFinished', false);
+                var stCode = $(this).jqGrid('getCol', 'stCode', false);
                 for (var i = 0; i < ids.length; i++) {
                     var cl = ids[i];
                     var be = "";
                     if (finished[i] == 'false') {
-                        if (isRH == 'true') {
-                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar concluir acuerdo\" onclick=\"finishRequestAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
-                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver respuesta de conclusi&oacute;n\" onclick=\"showResponseRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-                        }
-                        if (isDir == 'true') {
-                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar/Rechazar concluir acuerdo\" onclick=\"finishRequestAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
-                        }
                         be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar observaci&oacute;n\" onclick=\"upsertObservation('" + cl + "');\"><span class=\"glyphicon glyphicon-comment\"></span></a>";
+                        if (isRH == 'true') {
+                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar concluir acuerdo\" onclick=\"showFinishRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
+                            if (stCode[i] === 'FINISHED_AGREEMENT' || stCode[i] === 'FINISH_REJECT')
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver respuesta de solicitud de conclusi&oacute;n\" onclick=\"showResponseRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                        }
+
+                        if (isDir == 'true') {
+                            if (stCode[i] === 'PENDENT_FINISH_REQUEST')
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar/Rechazar concluir acuerdo\" onclick=\"autRejFinishRequestAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                        }
                     }
+
                     be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Historial de observaciones\" onclick=\"showObsHistory('" + cl + "');\"><span class=\"glyphicon glyphicon-dashboard\"></span></a>";
                     be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Archivos del acuerdo\" onclick=\"showAgreementFiles('" + cl + "');\"><span class=\"glyphicon glyphicon-upload\"></span></a>";
                     $(this).jqGrid('setRowData', ids[i], {Action: be});
@@ -147,3 +164,4 @@
         </div>
     </div>
 </div>
+

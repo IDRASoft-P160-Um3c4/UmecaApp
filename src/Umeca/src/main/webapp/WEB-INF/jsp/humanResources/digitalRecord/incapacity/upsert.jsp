@@ -123,10 +123,11 @@
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <label>Archivo</label>
-                                                            <br/>
-                                                            <input type="text" style=" width: 100% !important"
-                                                                   value="no srive por el momento"/>
-                                                            <br/>
+                                                            <%--TODO COMPLETAR FUNCIONALIDAD PARA ADJUNTAR EL ARCHIVO --%>
+                                                            <%--<br/>--%>
+                                                            <%--<input type="text" style=" width: 100% !important"--%>
+                                                                   <%--value="no srive por el momento"/>--%>
+                                                            <%--<br/>--%>
                                                         </div>
                                                     </div>
 

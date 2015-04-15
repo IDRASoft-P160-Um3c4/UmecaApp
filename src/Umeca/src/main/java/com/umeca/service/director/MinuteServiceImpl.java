@@ -13,6 +13,8 @@ import com.umeca.model.entities.director.minutes.Assistant;
 import com.umeca.model.entities.director.minutes.Minute;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.humanReources.RequestAgreement;
+import com.umeca.model.entities.humanReources.RequestAgreementDto;
+import com.umeca.model.entities.humanReources.RequestMinute;
 import com.umeca.model.entities.shared.Observation;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
@@ -20,8 +22,10 @@ import com.umeca.repository.director.AgreementRepository;
 import com.umeca.repository.director.MinuteRepository;
 import com.umeca.repository.director.ObservationRepository;
 import com.umeca.repository.humanResources.RequestAgreementRepository;
+import com.umeca.repository.humanResources.RequestMinuteRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,8 +49,11 @@ public class MinuteServiceImpl implements MinuteService {
     private SharedUserService sharedUserService;
     @Autowired
     private RequestAgreementRepository requestAgreementRepository;
+    @Autowired
+    private RequestMinuteRepository requestMinuteRepository;
 
     @Override
+
     public MinuteDto getMinuteDtoById(Long minuteId) {
         return minuteRepository.getMinuteDtoById(minuteId);
     }
@@ -77,7 +84,7 @@ public class MinuteServiceImpl implements MinuteService {
             minute.setAttendant(e);
         }
         minute.setPlace(minuteDto.getPlace());
-
+        minute.setStCode(Constants.ST_CODE_MINUTE_OPEN);
         return minute;
     }
 
@@ -166,16 +173,45 @@ public class MinuteServiceImpl implements MinuteService {
         Minute m = new Minute();
         m.setId(agreementDto.getMinuteId());
         ag.setMinute(m);
+        ag.setStCode(Constants.ST_CODE_AGREEMENT_OPEN);
         return ag;
     }
 
     @Override
     @Transactional
-    public ResponseMessage doCloseAgreement(Long minuteId) {
+    public ResponseMessage doAuthRejFinishAgreementRequest(RequestAgreementDto requestAgreementDto) {
         ResponseMessage resp = new ResponseMessage();
-        //todo
+
+        List<RequestAgreement> allRequest = requestAgreementRepository.getAllRequestByAgreementIdType(requestAgreementDto.getId(), Constants.REQUEST_AGREEMENT_TYPE_FINISH);
+        RequestAgreement req = allRequest.get(0);
+
+        req.setResponseDate(new Date());
+        req.setResponseComment(requestAgreementDto.getComments());
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        req.setResponseUser(u);
+
+        Agreement agreement = req.getAgreement();
+
+        if (requestAgreementDto.getAuthorize() == true) {
+            req.setResponseType(Constants.RESPONSE_AGREEMENT_TYPE_FINISH_AUTH);
+            agreement.setIsFinished(true);
+            agreement.setFinishDate(new Date());
+            agreement.setFinishedComment(requestAgreementDto.getComments());
+            agreement.setFinishUser(u);
+            agreement.setStCode(Constants.ST_CODE_AGREEMENT_FINISHED);
+            req.setAgreement(agreement);
+        } else {
+            req.setResponseType(Constants.RESPONSE_AGREEMENT_TYPE_FINISH_REJECT);
+            agreement.setIsDone(false);
+            agreement.setStCode(Constants.ST_CODE_AGREEMENT_FINISH_REJECT);
+            req.setAgreement(agreement);
+        }
+
+        requestAgreementRepository.save(req);
+
         resp.setHasError(false);
-        resp.setMessage("Se ha cerrado el acuerdo con éxito.");
+        resp.setMessage("Se ha guardado la respuesta de  solicitud con éxito.");
         return resp;
     }
 
@@ -218,14 +254,15 @@ public class MinuteServiceImpl implements MinuteService {
         ResponseMessage resp = new ResponseMessage();
         requestAgreementRepository.save(fillRequestFinishAgreement(agreementDto));
         resp.setHasError(false);
-        resp.setMessage("Se ha guardado la observación con éxito.");
+        resp.setMessage("Se ha guardado la solicitud con éxito.");
         return resp;
     }
 
     private RequestAgreement fillRequestFinishAgreement(AgreementDto agreementDto) {
         RequestAgreement requestAgreement = new RequestAgreement();
-        Agreement a = new Agreement();
-        a.setId(agreementDto.getId());
+        Agreement a = agreementRepository.findOne(agreementDto.getId());
+        a.setStCode(Constants.ST_CODE_AGREEMENT_FINISH_REQUEST);
+        a.setIsDone(agreementDto.getIsDone());
         requestAgreement.setAgreement(a);
         requestAgreement.setRequestComment(agreementDto.getComments());
         requestAgreement.setRequestType(Constants.REQUEST_AGREEMENT_TYPE_FINISH);
@@ -239,6 +276,120 @@ public class MinuteServiceImpl implements MinuteService {
     @Override
     public Long countPendingRequestByAgreementId(Long id) {
         return requestAgreementRepository.countPendingRequestByAgreementId(id);
+    }
+
+    @Override
+    public Long countPendingRequestByMinuteId(Long id) {
+        return requestMinuteRepository.countPendingRequestByMinuteId(id);
+    }
+
+    @Override
+    public RequestAgreementDto getLastRequestInfoByIdAgreementIdType(Long id, String requestType) {
+        List<RequestAgreement> allRequest = requestAgreementRepository.getAllRequestByAgreementIdType(id, requestType);
+        RequestAgreement req = allRequest.get(0);
+        RequestAgreementDto dto = new RequestAgreementDto(req, null);
+        return dto;
+    }
+
+    @Override
+    public RequestAgreementDto getLastResponseInfoByIdAgreementIdType(Long id, String requestType) {
+        List<RequestAgreement> allRequest = requestAgreementRepository.getAllResponsedRequestByAgreementIdType(id, requestType);
+        RequestAgreement req = allRequest.get(0);
+        RequestAgreementDto dto = new RequestAgreementDto(req, true);
+        return dto;
+    }
+
+    @Override
+    @Transactional
+    public ResponseMessage doRequestFinishMinute(RequestAgreementDto requestDto) {
+        ResponseMessage resp = new ResponseMessage();
+        requestMinuteRepository.save(fillRequestFinishMinute(requestDto));
+        resp.setHasError(false);
+        resp.setMessage("Se ha guardado la solicitud con éxito.");
+        return resp;
+    }
+
+    private RequestMinute fillRequestFinishMinute(RequestAgreementDto requestDto) {
+        RequestMinute requestMinute = new RequestMinute();
+        Minute m = minuteRepository.findOne(requestDto.getId());
+        m.setStCode(Constants.ST_CODE_MINUTE_FINISH_REQUEST);
+        requestMinute.setMinute(m);
+        requestMinute.setRequestComment(requestDto.getComments());
+        requestMinute.setRequestType(Constants.REQUEST_MINUTE_TYPE_FINISH);
+        requestMinute.setRequestDate(new Date());
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        requestMinute.setRequestUser(u);
+        return requestMinute;
+    }
+
+    @Override
+    @Transactional
+    public ResponseMessage doAuthRejFinishMinuteRequest(RequestAgreementDto requestDto) {
+        ResponseMessage resp = new ResponseMessage();
+
+        List<RequestMinute> allRequest = requestMinuteRepository.getAllRequestByMinuteIdType(requestDto.getId(), Constants.REQUEST_MINUTE_TYPE_FINISH);
+        RequestMinute req = allRequest.get(0);
+
+        req.setResponseDate(new Date());
+        req.setResponseComment(requestDto.getComments());
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        req.setResponseUser(u);
+
+        Minute minute = req.getMinute();
+
+        if (requestDto.getAuthorize() == true) {
+            req.setResponseType(Constants.RESPONSE_MINUTE_TYPE_FINISH_AUTH);
+            minute.setIsFinished(true);
+            minute.setFinishDate(new Date());
+            minute.setFinishComment(requestDto.getComments());
+            minute.setFinishUser(u);
+            minute.setStCode(Constants.ST_CODE_MINUTE_FINISHED);
+        } else {
+            req.setResponseType(Constants.RESPONSE_MINUTE_TYPE_FINISH_REJECT);
+            minute.setIsFinished(false);
+            minute.setStCode(Constants.ST_CODE_MINUTE_FINISH_REJECT);
+        }
+
+        for (Agreement agreement : minute.getAgreements()) {
+            if (agreement.getIsFinished() == false) {
+                agreement.setStCode(Constants.ST_CODE_MINUTE_FINISHED);
+                agreement.setFinishedComment("La minuta ha sido cerrada: " + requestDto.getComments());
+                agreement.setIsFinished(true);
+                agreement.setFinishDate(new Date());
+                agreement.setFinishUser(u);
+            }
+        }
+
+        req.setMinute(minute);
+
+        requestMinuteRepository.save(req);
+
+        resp.setHasError(false);
+        resp.setMessage("Se ha guardado la respuesta de  solicitud con éxito.");
+        return resp;
+    }
+
+    @Override
+    public RequestAgreementDto getLastRequestInfoByMinuteIdType(Long id, String requestType) {
+        List<RequestMinute> allRequest = requestMinuteRepository.getAllRequestByMinuteIdType(id, requestType);
+        RequestMinute req = allRequest.get(0);
+        RequestAgreementDto dto = new RequestAgreementDto(req, null);
+        return dto;
+    }
+
+    @Override
+    public RequestAgreementDto getLastResponseInfoByMinuteIdType(Long id, String requestType) {
+        List<RequestMinute> allRequest = requestMinuteRepository.getAllResponsedRequestByMinuteIdType(id, requestType);
+        RequestMinute req = allRequest.get(0);
+        RequestAgreementDto dto = new RequestAgreementDto(req, true);
+        return dto;
+    }
+
+    @Override
+    public MinuteDto getMinuteGrlDataById(Long minuteId) {
+        return minuteRepository.getMinuteGrlDataById(minuteId);
     }
 
 }
