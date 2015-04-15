@@ -16,10 +16,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
-import com.umeca.repository.reviewer.AddressRepository;
-import com.umeca.repository.reviewer.CaseRequestRepository;
-import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
-import com.umeca.repository.reviewer.SourceVerificationRepository;
+import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
@@ -523,6 +520,8 @@ public class VerificationServiceImpl implements VerificationService {
     AddressRepository addressRepository;
     @Autowired
     SharedUserService sharedUserService;
+    @Autowired
+    private ImputedRepository imputedRepository;
 
     @Transactional
     @Override
@@ -591,21 +590,26 @@ public class VerificationServiceImpl implements VerificationService {
                 verification.setDateComplete(new Date());
 
                 /*SE PLANCHA LA INFO DEL MEETING CON LA INFO DE LA VERIFICACION*/
-                    Imputed i = caseDetention.getMeeting().getImputed();
-                    i.setName(verification.getMeetingVerified().getImputed().getName());
-                    i.setLastNameP(verification.getMeetingVerified().getImputed().getLastNameP());
-                    i.setLastNameM(verification.getMeetingVerified().getImputed().getLastNameM());
+                Imputed i = caseDetention.getMeeting().getImputed();
+                i.setName(verification.getMeetingVerified().getImputed().getName());
+                i.setLastNameP(verification.getMeetingVerified().getImputed().getLastNameP());
+                i.setLastNameM(verification.getMeetingVerified().getImputed().getLastNameM());
 
-                    Address aM = caseDetention.getMeeting().getImputedHomes().get(0).getAddress();
-                    Address aV = verification.getMeetingVerified().getImputedHomes().get(0).getAddress();
+                imputedRepository.save(i);
 
-                    aM.setStreet(aV.getStreet());
-                    aM.setOutNum(aV.getOutNum());
-                    aM.setInnNum(aV.getInnNum());
-                    aM.setLocation(aV.getLocation());
-                    aM.setLat(aV.getLat());
-                    aM.setLng(aV.getLng());
-                    aM.setAddressString(aV.getAddressString());
+                Address aM = caseDetention.getMeeting().getImputedHomes().get(0).getAddress();
+                Address aV = verification.getMeetingVerified().getImputedHomes().get(0).getAddress();
+
+                aM.setStreet(aV.getStreet());
+                aM.setOutNum(aV.getOutNum());
+                aM.setInnNum(aV.getInnNum());
+                aM.setLocation(aV.getLocation());
+                aM.setLat(aV.getLat());
+                aM.setLng(aV.getLng());
+                aM.setAddressString(aV.getAddressString());
+
+                addressRepository.save(aM);
+
                 /*SE PLANCHA LA INFO DEL MEETING CON LA INFO DE LA VERIFICACION*/
 
                 caseRepository.save(caseDetention);
@@ -705,8 +709,8 @@ public class VerificationServiceImpl implements VerificationService {
 
         Meeting m = c.getMeeting();
 
-        String[] arrProp = new String[]{"commentHome", "commentReference", "commentSchool","commentJob" ,"commentDrug","commentCountry"};
-        m = (Meeting)StringEscape.escapeAttrs(m, arrProp);
+        String[] arrProp = new String[]{"commentHome", "commentReference", "commentSchool", "commentJob", "commentDrug", "commentCountry"};
+        m = (Meeting) StringEscape.escapeAttrs(m, arrProp);
 
         model.addObject("m", m);
         model.addObject("age", userService.calculateAge(c.getMeeting().getImputed().getBirthDate()));
