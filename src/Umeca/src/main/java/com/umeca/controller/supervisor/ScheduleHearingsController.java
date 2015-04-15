@@ -67,7 +67,7 @@ public class ScheduleHearingsController {
                 final javax.persistence.criteria.Join<Meeting,Imputed> joinIm = joinCd.join("meeting").join("imputed");
 
                 return new ArrayList<Selection<?>>() {{
-                    add(joinCd.get("id"));
+                    add(r.get("id"));
                     add(r.get("status"));
                     add(joinCd.get("idMP"));
                     add(joinIm.get("name"));

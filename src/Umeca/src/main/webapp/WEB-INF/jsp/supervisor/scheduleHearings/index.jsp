@@ -42,7 +42,7 @@
                 colNames: ['ID', '', 'Estado plan de supervisi&oacute;n','Carpeta judicial', 'Nombre del imputado', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'selOpt', width: 50, align: "center", sortable: false, search: false },
+                    { name: 'selOpt', width: 50, align: "center", sortable: false, search: false, formatter: window.actionFormatter },
                     { name: 'status', index: 'status', width: 300, align: "center", sorttype: 'string' },
                     { name: 'idMP', index: 'idFolder', width: 300, align: "center", sorttype: 'string' },
                     { name: 'fullName', index: 'fullName', width: 400, align: "center", sorttype: 'string'},
@@ -76,7 +76,7 @@
                         autoencode:true,
                         datatype: "json",
                         mtype: 'POST',
-                        colNames: ['ID', 'Sala', 'Fecha audiencia','Fecha creaci�n','Fecha recordatorio','Generado por', 'Tipo audiencia'],
+                        colNames: ['ID', 'Sala', 'Fecha audiencia','Fecha creaci&oacute;n','Fecha recordatorio','Generado por', 'Tipo audiencia'],
                         colModel: [
                             { name: 'id', hidden: true },
                             { name: 'room', width: 150, align: "center", sorttype: 'string'},
@@ -177,7 +177,7 @@
             </button>
         </div>
         <div>
-            <small>*Usted puede seleccionar m�s de una casilla, si desea agendar la misma cita para todos los imputados seleccionados</small>
+            <small>*Usted puede seleccionar m&aacute;s de una casilla, si desea agendar la misma cita para todos los imputados seleccionados</small>
         </div>
         <div class="col-xs-12">
             <div id="angJsjqGridIdReference" ng-controller="modalDlgController">
