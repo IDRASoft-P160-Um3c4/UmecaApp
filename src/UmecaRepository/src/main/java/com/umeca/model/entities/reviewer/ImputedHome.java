@@ -72,7 +72,7 @@ public class ImputedHome implements EntityGrid{
 
     @ManyToOne
     @JoinColumn(name = "id_framing_meeting")
-    FramingMeeting framingMeeting;
+    private FramingMeeting framingMeeting;
 
     @Transient
     private String registerTypeString;

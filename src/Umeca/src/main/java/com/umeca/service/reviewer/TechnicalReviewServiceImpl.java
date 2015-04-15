@@ -147,10 +147,18 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
         Meeting meeting = ver.getCaseDetention().getMeeting();
         Imputed im = meeting.getImputed();
+        Imputed iV = ver.getMeetingVerified().getImputed();
+
         file.setIdFolder(StringEscape.escapeText(Convert.convertToValidString(ver.getCaseDetention().getIdFolder())));
         file.setName(StringEscape.escapeText(Convert.convertToValidString(im.getName())));
         file.setLastNameP(StringEscape.escapeText(Convert.convertToValidString(im.getLastNameP())));
         file.setLastNameM(StringEscape.escapeText(Convert.convertToValidString(im.getLastNameM())));
+
+        file.setNameV(iV.getName());
+        file.setLastNamePV(iV.getLastNameP());
+        file.setLastNameMV(iV.getLastNameM());
+        file.setAddressV(StringEscape.escapeText(Convert.convertToValidString(ver.getMeetingVerified().getImputedHomes().get(0).getAddress().getAddressString())));
+
         Long idCase = ver.getCaseDetention().getId();
         file.setAddress(StringEscape.escapeText(Convert.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString())));
         String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";

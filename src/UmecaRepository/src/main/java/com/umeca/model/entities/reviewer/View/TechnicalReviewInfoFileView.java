@@ -10,6 +10,12 @@ public class TechnicalReviewInfoFileView {
     private String lastNameM;
     private String idFolder;
     private String address;
+
+    private String nameV;
+    private String lastNamePV;
+    private String lastNameMV;
+    private String addressV;
+
     private List<String> questSel;
     private List<String> questRisk;
     private List<String> questLinks;
@@ -117,5 +123,37 @@ public class TechnicalReviewInfoFileView {
 
     public void setQuestLinks(List<String> questLinks) {
         this.questLinks = questLinks;
+    }
+
+    public String getNameV() {
+        return nameV;
+    }
+
+    public void setNameV(String nameV) {
+        this.nameV = nameV;
+    }
+
+    public String getLastNamePV() {
+        return lastNamePV;
+    }
+
+    public void setLastNamePV(String lastNamePV) {
+        this.lastNamePV = lastNamePV;
+    }
+
+    public String getLastNameMV() {
+        return lastNameMV;
+    }
+
+    public void setLastNameMV(String lastNameMV) {
+        this.lastNameMV = lastNameMV;
+    }
+
+    public String getAddressV() {
+        return addressV;
+    }
+
+    public void setAddressV(String addressV) {
+        this.addressV = addressV;
     }
 }

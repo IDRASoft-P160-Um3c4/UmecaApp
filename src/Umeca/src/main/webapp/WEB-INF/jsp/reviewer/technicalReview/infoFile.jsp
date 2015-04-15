@@ -8,12 +8,12 @@
 
 <h4>DATOS DEL CASO</h4>
 
-<b>Nombre completo del imputado:</b> ${data.name} ${data.lastNameP} ${data.lastNameM}
+<b>Nombre completo del imputado:</b> ${data.nameV} ${data.lastNamePV} ${data.lastNameMV}
 <br/>
 <b>Carpeta de investigaci&oacute;n:</b> ${data.idFolder}
 <br/>
 <h4>DATOS GENERALES DEL IMPUTADO</h4>
-<b>Domicilio:</b> ${data.address}
+<b>Domicilio:</b> ${data.addressV}
 <h4>FUENTES Y MEDIOS DE VERIFICACI&Oacute;N UTILIZADAS</h4>
 <b>Fuentes:</b>
 <br/>
@@ -25,11 +25,11 @@
 </c:forEach>
 <br/>
 <h4>INFORMACI&Oacute;N VERIFICADA</h4>
-<b>Nombre</b> : ${data.name}
+<b>Nombre</b> : ${data.nameV}
 <br/>
-<b>Apellido Paterno:</b> ${data.lastNameP}
+<b>Apellido Paterno:</b> ${data.lastNamePV}
 <br/>
-<b>Apellido Materno:</b> ${data.lastNameM}
+<b>Apellido Materno:</b> ${data.lastNameMV}
 <br/>
 <br/>
 <b>Resultado de verificaci&oacute;n:</b>
