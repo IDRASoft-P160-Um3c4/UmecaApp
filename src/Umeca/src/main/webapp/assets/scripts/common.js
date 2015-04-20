@@ -52,6 +52,26 @@ window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue,
 
 };
 
+window.showUpsertParams = function (params, divScope, urlToGo, jqGridToUse, urlToContinue, callback) {
+    var scope = angular.element($(divScope)).scope();
+    scope.show(params, urlToGo).
+        then(function (resp) {
+
+            if (urlToContinue !== undefined) {
+                window.goToUrlMvcUrl(urlToContinue);
+                return;
+            }
+
+            if (jqGridToUse !== undefined)
+                $(jqGridToUse).trigger("reloadGrid");
+
+            if (callback !== undefined && resp !== undefined) {
+                callback(resp);
+            }
+
+        });
+};
+
 window.showUpsertWithIdCase = function (id, divScope, urlToGo, jqGridToUse, urlToContinue, idCase) {
     var scope = angular.element($(divScope)).scope();
     scope.show({id: id, idCase: idCase}, urlToGo).

@@ -4,7 +4,7 @@
 <script>
 
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormCatId");
+        window.showModalFormDlg("#dlgUpModalId", "#FormUploadId");
     });
 
     $(function () {
@@ -81,7 +81,7 @@
                                                        Nombre del informe o reporte:
                                                     </div>
                                                     <div class="col-xs-8">
-                                                        <input class="form-control" name="reportName" required="required" ng-maxlength="80" rows="4" ng-model="m.reportName"/>
+                                                        <input class="form-control" name="reportName" required="required" ng-maxlength="80" ng-model="m.reportName"/>
                                                         <span class="error" ng-show="FormUploadId.reportName.$error.required">Campo requerido</span>
                                                         <span class="error" ng-show="FormUploadId.reportName.$error.maxlength">Longitud m&aacute;xima de 80 caracteres</span>
                                                     </div>

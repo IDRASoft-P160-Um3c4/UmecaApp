@@ -1,25 +1,29 @@
-package com.umeca.model.entities.director.activityReport;
+package com.umeca.model.entities.director.project;
 
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.shared.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Objects;
 
-public class ActivityReportDirectorView implements EntityGrid {
+
+public class ProjectView implements EntityGrid {
 
     private Long id;
-    private Calendar creationDate;
-    private String stCreationDate;
-    private String reportName;
-    private String description;
 
-    public ActivityReportDirectorView(Long id, Calendar creationDate, String reportName, String description) {
+    private Calendar creationDate;
+
+    private String stCreationDate;
+
+    private String name;
+
+    private String status;
+
+    public ProjectView(Long id, String name, Calendar creationDate, String status) {
         this.id = id;
+        this.name = name;
         this.creationDate = creationDate;
-        this.reportName = reportName;
-        this.description = description;
+        this.status = status;
     }
 
     public Long getId() {
@@ -38,18 +42,9 @@ public class ActivityReportDirectorView implements EntityGrid {
         this.creationDate = creationDate;
     }
 
-    public String getReportName() {
-        return reportName;
-    }
-
-    public void setReportName(String reportName) {
-        this.reportName = reportName;
-    }
-
     public String getStCreationDate() {
         if(creationDate == null)
             return "";
-
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.FORMAT_CALENDAR_III);
         return sdf.format(creationDate.getTime());
     }
@@ -58,11 +53,19 @@ public class ActivityReportDirectorView implements EntityGrid {
         this.stCreationDate = stCreationDate;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

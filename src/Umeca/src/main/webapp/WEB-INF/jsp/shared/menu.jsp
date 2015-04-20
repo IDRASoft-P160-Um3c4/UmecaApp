@@ -316,10 +316,18 @@
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
-
-
-                        <li class="nav-li-blue"><a href="<c:url value='/director/taskDiary/index.html' />"><i
-                                class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class=" glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Actividades
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/director/taskDiary/index.html' />">
+                                    <i class="glyphicon glyphicon-book"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
+                                <li><a href="<c:url value='/director/project/index.html' />">
+                                    <i class="glyphicon glyphicon-tags"></i>&nbsp;&nbsp;Proyectos</a></li>
+                            </ul>
+                        </li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -357,9 +365,10 @@
                                     class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Reportes
                                 <i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades</a></li>
                                 <li><a href="<c:url value='/director/activityReport/index.html' />"><i
-                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Generar reporte de
-                                    actividades</a></li>
+                                        class="glyphicon glyphicon-stats"></i>&nbsp;&nbsp;Informes globales de actividades</a></li>
                             </ul>
                         </li>
                         <li class="dropdown nav-li-blue">

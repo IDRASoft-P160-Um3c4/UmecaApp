@@ -98,9 +98,9 @@ public class Constants {
     public static final String ROLE_NOTUSE = "ROLE_NOTUSE";
     public static final String ROLE_ANONYMOUS = "ANONYMOUS";
     public static final String ROLE_HUMAN_RESOURCES = "ROLE_HUMAN_RESOURCES";
-
     public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
     public static String FORMAT_CALENDAR_II = "dd-MM-yyyy";
+    public static String FORMAT_CALENDAR_III = "dd-MM-yyyy HH:mm";
     public static String FORMAT_VERIFICATION_DATE = "yyyy-MM-dd hh:mm:ss.S";
 
     public static final String SYSTEM_SETTINGS_ARCHIVE = "ARCHIVE";
@@ -233,6 +233,11 @@ public class Constants {
     public static final String REQUEST_MINUTE_TYPE_FINISH = "FINISH_REQUEST_TYPE";
     public static final String RESPONSE_MINUTE_TYPE_FINISH_AUTH = "AUTH_FINISH_RESPONSE";
     public static final String RESPONSE_MINUTE_TYPE_FINISH_REJECT = "REJECT_FINISH_RESPONSE";
+
+
+    public static final String PROJECT_STATUS_ACTIVE = "Activo";
+    public static final String PROJECT_STATUS_INACTIVE = "Inactivo";
+    public static final String PROJECT_STATUS_FINISHED = "Finalizado";
 
 }
 

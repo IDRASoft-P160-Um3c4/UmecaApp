@@ -4,7 +4,15 @@
     $scope.Model = {};
 
 
-    $scope.submit = function (formId, urlToPost, hasReturnId) {
+    $scope.submit = function (formId, urlToPost, hasReturnId, isValid) {
+
+        if(isValid !== undefined){
+            if (isValid !== true) {
+                $scope.MsgError = $sce.trustAsHtml("Existe uno o m&aacute;s campos que no son v&aacute;lidos, son requeridos o su longitud est&aacute; fuera de lo permitido");
+                $scope.Invalid = true;
+                return false;
+            }
+        }
 
         if ($(formId).valid() == false) {
             $scope.MsgError = $sce.trustAsHtml("Debe proporcionar toda la informaci&oacute;n para guardar");

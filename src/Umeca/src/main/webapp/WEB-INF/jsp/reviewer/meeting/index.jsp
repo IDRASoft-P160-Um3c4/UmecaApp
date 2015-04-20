@@ -29,7 +29,7 @@
 
     <script>
         window.newMeeting = function() {
-            window.showUpsert(null, "#angJsjqGridId", "<c:url value='/reviewer/meeting/newMeeting.html'/>", "#GridId", "/reviewer/meeting/meeting.html");
+            window.showUpsert(null, "#angJsjqGridId", "<c:url value='/reviewer/meeting/newMeeting.html'/>", "#GridId", "<c:url value='/reviewer/meeting/meeting.html'/>");
         };
 
         window.upsert=function(id){

@@ -126,7 +126,7 @@
     </script>
 
     <h2 class="element-center"><i class="glyphicon glyphicon-th-list"></i>
-        &nbsp;&nbsp;Informe de actividades del coordinador de para la direcci&oacute;n</h2>
+        &nbsp;&nbsp;Informe de actividades para la direcci&oacute;n</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

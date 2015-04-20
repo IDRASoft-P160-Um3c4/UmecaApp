@@ -26,7 +26,7 @@
         };
 
         window.obsolete = function (id) {
-            window.showObsolete(id, "#angJsjqGridId", "/management/user/obsolete.json", "#GridId");
+            window.showObsolete(id, "#angJsjqGridId", '<c:url value='/management/user/obsolete.json' />', "#GridId");
         };
 
         $(document).ready(function() {

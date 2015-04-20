@@ -196,13 +196,13 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <span class="btn btn-default btn-sm" ng-click="cancel()">
+                    <button class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
-                    </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                    </button>
+                    <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submit('#FormCatId', '<c:url value='/management/user/doUpsert.json' />')">
                           Guardar
-                    </span>
+                    </button>
                 </div>
             </div>
         </div>

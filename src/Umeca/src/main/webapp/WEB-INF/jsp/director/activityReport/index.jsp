@@ -10,8 +10,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/activityReport/uploadActivityReport.js"></script>
 
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
-    <title>Informe de actividades del coordinador para la direcci&oacute;n</title>
+    <title>Informes globales de actividades</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -90,8 +89,8 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon glyphicon-th-list"></i>
-        &nbsp;&nbsp;Informe de actividades direcci&oacute;n</h2>
+    <h2 class="element-center"><i class="glyphicon glyphicon-stats"></i>
+        &nbsp;&nbsp;Informes globales de actividades</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

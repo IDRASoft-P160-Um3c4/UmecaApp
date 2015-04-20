@@ -50,6 +50,7 @@ public class UploadFileGenericController {
                 add(Constants.ROLE_SUPERVISOR_MANAGER);
                 add(Constants.ROLE_EVALUATION_MANAGER);
                 add(Constants.ROLE_HUMAN_RESOURCES);
+                add(Constants.ROLE_DIRECTOR);
             }}) == false) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("Usted no tiene permisos para realizar esta acción.");
