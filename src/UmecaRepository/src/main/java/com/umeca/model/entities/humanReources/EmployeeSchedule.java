@@ -22,7 +22,7 @@ public class EmployeeSchedule {
     private Boolean isObsolete;
 
     @OneToMany(mappedBy = "employeeSchedule", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ScheduleDays> days;
+    private List<ScheduleDay> days;
 
     public Long getId() {
         return id;
@@ -56,11 +56,11 @@ public class EmployeeSchedule {
         this.isObsolete = isObsolete;
     }
 
-    public List<ScheduleDays> getDays() {
+    public List<ScheduleDay> getDays() {
         return days;
     }
 
-    public void setDays(List<ScheduleDays> days) {
+    public void setDays(List<ScheduleDay> days) {
         this.days = days;
     }
 }

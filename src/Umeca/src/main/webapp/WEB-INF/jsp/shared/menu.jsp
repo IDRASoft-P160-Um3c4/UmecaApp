@@ -387,6 +387,19 @@
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_HUMAN_RESOURCES')">
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Manejo de horarios
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/humanResources/employeeSchedule/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Registrar horarios</a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Manejo de personal

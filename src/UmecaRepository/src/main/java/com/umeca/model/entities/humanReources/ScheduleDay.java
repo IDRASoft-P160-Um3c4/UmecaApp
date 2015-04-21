@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "schedule_days")
-public class ScheduleDays {
+public class ScheduleDay {
 
     @Id
     @GeneratedValue
