@@ -16,13 +16,14 @@ public class IncidentDto implements EntityGrid {
     private String specIncidentType;
     private String incidentType;
     private Long idIncidentType;
+    private Long fileId;
 
 
     public IncidentDto() {
     }
 
     //grid
-    public IncidentDto(Long id, String incidentType, String reason, Date incidentDate, String comments) {
+    public IncidentDto(Long id, String incidentType, String reason, Date incidentDate, String comments, Long fileId) {
         this.id = id;
         this.incidentType = incidentType;
         this.reason = reason;
@@ -31,10 +32,11 @@ public class IncidentDto implements EntityGrid {
             this.incidentDate = formatter.format(incidentDate);
         }
         this.comments = comments;
+        this.fileId = fileId;
     }
 
     //upsert
-    public IncidentDto(Long id, Long idEmployee, Long idIncidentType, String specIncidentType, String comments, String reason, Date incidentDate) {
+    public IncidentDto(Long id, Long idEmployee, Long idIncidentType, String specIncidentType, String comments, String reason, Date incidentDate, Long fileId) {
         this.id = id;
         this.idEmployee = idEmployee;
         this.idIncidentType = idIncidentType;
@@ -45,6 +47,7 @@ public class IncidentDto implements EntityGrid {
         if (incidentDate != null) {
             this.incidentDate = formatter.format(incidentDate);
         }
+        this.fileId = fileId;
     }
 
     @Override
@@ -110,5 +113,13 @@ public class IncidentDto implements EntityGrid {
 
     public void setIdIncidentType(Long idIncidentType) {
         this.idIncidentType = idIncidentType;
+    }
+
+    public Long getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 }

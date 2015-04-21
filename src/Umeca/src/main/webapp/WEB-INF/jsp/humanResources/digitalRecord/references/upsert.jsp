@@ -142,10 +142,6 @@
                                                                   data-valmsg-for="timeAgo"
                                                                   data-valmsg-replace="true"></span>
                                                         </div>
-                                                        <div class="col-xs-6">
-                                                            <label>Archivo</label>
-                                                            <%--TODO COMPLETAR FUNCIONALIDAD PARA ADJUNTAR EL ARCHIVO --%>
-                                                        </div>
                                                     </div>
 
                                                 </div>

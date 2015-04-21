@@ -119,9 +119,6 @@
 
 <div class="row element-center">
 
-    <input type="hidden" id="hidIdCase" value="{{fm.objView.idCase}}"/>
-    <input type="hidden" id="urlGridAttachment" value="listAttachment.json?idCase={{fm.objView.idCase}}"/>
-
     <div class="col-xs-12">
         <h2><i class="purple icon-camera bigger-100">&nbsp;</i>Documentos adjuntos</h2>
         <br/>

@@ -18,9 +18,10 @@
             url: '<c:url value="/humanResources/digitalRecord/listTraining.json?id="/>' +${idEmployee},
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Nombre', 'Lugar', 'Duraci&oacute;n', 'Fecha inicio', 'Fecha fin', 'Acci&oacute;n'],
+            colNames: ['ID', 'fileID', 'Nombre', 'Lugar', 'Duraci&oacute;n', 'Fecha inicio', 'Fecha fin', 'Acci&oacute;n'],
             colModel: [
                 {name: 'id', index: 'id', hidden: true},
+                {name: 'fileId', index: 'fileId', hidden: true},
                 {
                     name: 'name',
                     index: 'name',
@@ -83,10 +84,13 @@
             altRows: true,
             gridComplete: function () {
                 var ids = $(this).jqGrid('getDataIDs');
+                var fId = $(this).jqGrid('getCol', 'fileId', false);
                 for (var i = 0; i < ids.length; i++) {
                     var cl = ids[i];
+                    var _f = fId[i];
                     var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar capacitaci&oacute;n\" onclick=\"window.upsertTraining('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar capacitaci&oacute;n\" onclick=\"window.deleteTraining('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar capacitaci&oacute;n\" onclick=\"window.deleteTraining('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo del curso\" onclick=\"window.download('" + _f + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
                     $(this).jqGrid('setRowData', ids[i], {Action: be});
                 }
             },

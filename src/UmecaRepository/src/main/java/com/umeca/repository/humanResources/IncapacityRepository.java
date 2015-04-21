@@ -10,8 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository("qIncapacityRepository")
 public interface IncapacityRepository extends JpaRepository<Incapacity, Long> {
 
-    @Query("select new com.umeca.model.dto.humanResources.IncapacityDto(I.id,E.id,I.docName,I.description,I.start,I.end,I.comments) from Incapacity I " +
+    @Query("select new com.umeca.model.dto.humanResources.IncapacityDto(I.id,E.id,I.docName,I.description,I.start,I.end,I.comments, GF.id) from Incapacity I " +
             "inner join I.employee E " +
+            "inner join I.file GF " +
             "where I.id=:idIncapacity and E.id=:idEmployee")
     IncapacityDto findIncapacityDtoByIds(@Param("idEmployee") Long idEmployee, @Param("idIncapacity") Long idIncapacity);
 

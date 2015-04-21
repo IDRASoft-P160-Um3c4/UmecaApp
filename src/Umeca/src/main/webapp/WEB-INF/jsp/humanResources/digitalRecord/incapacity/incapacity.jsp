@@ -18,12 +18,13 @@
                 url: '<c:url value="/humanResources/digitalRecord/listIncapacity.json?id="/>' +${idEmployee},
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Descripci&oacute;n', 'Fecha incio', 'Fecha fin', 'Comentarios', 'Acci&oacute;n'],
+                colNames: ['ID', 'fileId', 'Descripci&oacute;n', 'Fecha incio', 'Fecha fin', 'Comentarios', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
+                    {name: 'fileId', index: 'fileId', hidden: true},
                     {
-                        name: 'description',
-                        index: 'description',
+                        name: 'descriptionIn',
+                        index: 'descriptionIn',
                         width: 220,
                         align: "center",
                         sorttype: 'string',
@@ -53,15 +54,16 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
+                    var fId = $(this).jqGrid('getCol', 'fileId', false);
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
+                        var _f = fId[i];
                         var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar incapacidad\" onclick=\"window.upsertIncapacity('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar incapacidad\" onclick=\"window.deleteIncapacity('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar incapacidad\" onclick=\"window.deleteIncapacity('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo del incapacidad\" onclick=\"window.download('" + _f + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
-                }
-
-                ,
+                },
                 loadComplete: function () {
                     var table = this;
                     setTimeout(function () {

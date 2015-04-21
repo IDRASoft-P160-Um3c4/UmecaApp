@@ -63,6 +63,6 @@
         <property name="password" value="1dr4s0ft123.."/>
         <!--<property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true"/>-->
         <!--<property name="username" value="root"/>-->
-        <!--<property name="password" value="root"/>-->
+        <!--<property name="password" value="admin"/>-->
     </bean>
 </beans>

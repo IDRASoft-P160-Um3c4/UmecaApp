@@ -7,6 +7,18 @@ app.controller('incapacityController', function ($scope, $timeout, $sce, $http) 
     $scope.init = function () {
     };
 
+    $scope.chkFields = function () {
+        if ($scope.incapacity.description != undefined && $scope.incapacity.description != "" &&
+            $scope.incapacity.start != undefined && $scope.incapacity.start != "" &&
+            $scope.incapacity.end != undefined && $scope.incapacity.end != "" &&
+            $scope.incapacity.docName != undefined && $scope.incapacity.docName != "" &&
+            $scope.incapacity.comments != undefined && $scope.incapacity.comments != "")
+
+        return true;
+
+        return false;
+    };
+
     $scope.submitIncapacity = function (formId, urlToGo) {
 
         if ($(formId).valid() == false) {
