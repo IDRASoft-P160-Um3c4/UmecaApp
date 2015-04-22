@@ -6,11 +6,11 @@ import com.umeca.infrastructure.extensions.LongExt;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.humanReources.Incident;
 import com.umeca.model.entities.reviewer.VerificationMethod;
 import com.umeca.model.entities.shared.CourseType;
 import com.umeca.model.entities.shared.SchoolDocumentType;
 import com.umeca.model.entities.shared.SystemSetting;
+import com.umeca.model.entities.shared.WeekDay;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.RoleRepository;
@@ -20,6 +20,7 @@ import com.umeca.repository.humanResources.*;
 import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
+import com.umeca.repository.shared.WeekDayRepository;
 import com.umeca.repository.supervisor.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,11 +137,14 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     IncidentTypeRepository incidentTypeRepository;
     @Autowired
     AreaRepository areaRepository;
+    @Autowired
+    WeekDayRepository weekDayRepository;
 
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
+
+//    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
     //para la maquina virtual donde se montara el war
-//    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";
+    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";
 
     //http://localhost:8080/Umeca/catalogs/insertCatalgoAll.html
     @Override
@@ -889,6 +893,19 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             areaRepository.save(model);
         }
         areaRepository.flush();
+    }
+
+    @Override
+    public void weekDay() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "week_day.txt", "\\|", 3);
+        for (String[] data : lstDta) {
+            WeekDay model = new WeekDay();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            weekDayRepository.save(model);
+        }
+        weekDayRepository.flush();
     }
 
 }

@@ -309,6 +309,13 @@ public class InsertCatalogController {
         return "area";
     }
 
+
+    @RequestMapping(value = "/catalogs/weekDay", method = RequestMethod.GET)
+    public String weekDay() {
+        service.weekDay();
+        return "weekDay";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -358,6 +365,7 @@ public class InsertCatalogController {
         service.umecaPost();
         service.incident();
         service.area();
+        service.weekDay();
         return "insertCatalog OK!!";
     }
 }

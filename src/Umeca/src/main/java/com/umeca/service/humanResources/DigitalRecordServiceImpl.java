@@ -330,9 +330,15 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     }
 
     @Transactional
-    public ResponseMessage deleteCourse(Long id) {
+    public ResponseMessage deleteCourse(HttpServletRequest request, Long id) {
         ResponseMessage responseMessage = new ResponseMessage();
-        courseAchievementRepository.delete(id);
+        CourseAchievement c = courseAchievementRepository.findOne(id);
+        UploadFileGeneric f = c.getFile();
+        if (f != null) {
+            String path = request.getSession().getServletContext().getRealPath("");
+            upDwFileGenericService.deleteFile(path, f, userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+        courseAchievementRepository.delete(c);
         responseMessage.setHasError(false);
         responseMessage.setMessage("El curso ha sido eliminado con éxito");
         return responseMessage;
@@ -445,7 +451,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         return responseMessage;
     }
 
-    private CourseAchievement fillTraining(CourseAchievementDto trainingDto) {
+    private CourseAchievement fillTraining(HttpServletRequest request, CourseAchievementDto trainingDto) {
         CourseAchievement training = new CourseAchievement();
 
         if (trainingDto.getId() != null)
@@ -456,6 +462,16 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
             training.setEmployee(e);
         }
 
+        if (training.getFile() != null && training.getFile().getId() != trainingDto.getFileId()) {//si ya tiene uno, verifico que no sea el mismo
+            String path = request.getSession().getServletContext().getRealPath("");
+            //si es difenrente elimino el anterior
+            upDwFileGenericService.deleteFile(path, training.getFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+
+        UploadFileGeneric fileGeneric = uploadFileGenericRepository.findOne(trainingDto.getFileId());
+        fileGeneric.setObsolete(false);
+
+        training.setFile(fileGeneric);
         training.setName(trainingDto.getName());
         training.setPlace(trainingDto.getPlace());
         training.setDuration(trainingDto.getDuration());
@@ -468,28 +484,27 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         }
 
         return training;
-
     }
 
     @Transactional
-    public ResponseMessage saveTraining(CourseAchievementDto trainingDto) {
+    public ResponseMessage saveTraining(HttpServletRequest request, CourseAchievementDto trainingDto) {
         ResponseMessage responseMessage = new ResponseMessage();
-        courseAchievementRepository.save(fillTraining(trainingDto));
+        courseAchievementRepository.save(fillTraining(request, trainingDto));
         responseMessage.setHasError(false);
         responseMessage.setMessage("El curso ha sido guardado con éxito");
         return responseMessage;
     }
 
     @Transactional
-    public ResponseMessage saveIncident(IncidentDto incidentDto) {
+    public ResponseMessage saveIncident(HttpServletRequest request, IncidentDto incidentDto) {
         ResponseMessage responseMessage = new ResponseMessage();
-        incidentRepository.save(fillIncident(incidentDto));
+        incidentRepository.save(fillIncident(request, incidentDto));
         responseMessage.setHasError(false);
         responseMessage.setMessage("El incidente ha sido guardado con éxito");
         return responseMessage;
     }
 
-    private Incident fillIncident(IncidentDto incidentDto) {
+    private Incident fillIncident(HttpServletRequest request, IncidentDto incidentDto) {
         Incident incident = new Incident();
         if (incidentDto.getId() != null)
             incident = incidentRepository.findIncidentByIds(incidentDto.getIdEmployee(), incidentDto.getId());
@@ -504,6 +519,16 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         } catch (Exception e) {
         }
 
+        if (incident.getFile() != null && incident.getFile().getId() != incidentDto.getFileId()) {//si ya tiene uno, verifico que no sea el mismo
+            String path = request.getSession().getServletContext().getRealPath("");
+            //si es difenrente elimino el anterior
+            upDwFileGenericService.deleteFile(path, incident.getFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+
+        UploadFileGeneric fileGeneric = uploadFileGenericRepository.findOne(incidentDto.getFileId());
+        fileGeneric.setObsolete(false);
+        incident.setFile(fileGeneric);
+
         IncidentType it = new IncidentType();
         it.setId(incidentDto.getIdIncidentType());
 
@@ -516,9 +541,15 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     }
 
     @Transactional
-    public ResponseMessage deleteIncident(Long id) {
+    public ResponseMessage deleteIncident(HttpServletRequest request, Long id) {
         ResponseMessage responseMessage = new ResponseMessage();
-        incidentRepository.delete(id);
+        Incident i = incidentRepository.findOne(id);
+        UploadFileGeneric f = i.getFile();
+        if (f != null) {
+            String path = request.getSession().getServletContext().getRealPath("");
+            upDwFileGenericService.deleteFile(path, f, userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+        incidentRepository.delete(i);
         responseMessage.setHasError(false);
         responseMessage.setMessage("El incidente ha sido eliminado con éxito");
         return responseMessage;
@@ -565,15 +596,15 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     }
 
     @Transactional
-    public ResponseMessage saveIncapacity(IncapacityDto incapacityDto) {
+    public ResponseMessage saveIncapacity(HttpServletRequest request, IncapacityDto incapacityDto) {
         ResponseMessage responseMessage = new ResponseMessage();
-        incapacityRepository.save(fillIncapacity(incapacityDto));
+        incapacityRepository.save(fillIncapacity(request,incapacityDto));
         responseMessage.setHasError(false);
         responseMessage.setMessage("La incapacidad ha sido guardada con éxito");
         return responseMessage;
     }
 
-    private Incapacity fillIncapacity(IncapacityDto incapacityDto) {
+    private Incapacity fillIncapacity(HttpServletRequest request, IncapacityDto incapacityDto) {
         Incapacity incapacity = new Incapacity();
         if (incapacityDto.getId() != null)
             incapacity = incapacityRepository.findIncapacityByIds(incapacityDto.getIdEmployee(), incapacityDto.getId());
@@ -589,7 +620,17 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         } catch (Exception e) {
         }
 
-        incapacity.setDescription(incapacityDto.getDescription());
+        if (incapacity.getFile() != null && incapacity.getFile().getId() != incapacityDto.getFileId()) {//si ya tiene uno, verifico que no sea el mismo
+            String path = request.getSession().getServletContext().getRealPath("");
+            //si es difenrente elimino el anterior
+            upDwFileGenericService.deleteFile(path, incapacity.getFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+
+        UploadFileGeneric fileGeneric = uploadFileGenericRepository.findOne(incapacityDto.getFileId());
+        fileGeneric.setObsolete(false);
+        incapacity.setFile(fileGeneric);
+
+        incapacity.setDescription(incapacityDto.getDescriptionIn());
         incapacity.setDocName(incapacityDto.getDocName());
         incapacity.setComments(incapacityDto.getComments());
 
@@ -598,9 +639,15 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
 
     @Transactional
-    public ResponseMessage deleteIncapacity(Long id) {
+    public ResponseMessage deleteIncapacity(HttpServletRequest request,Long id) {
         ResponseMessage responseMessage = new ResponseMessage();
-        incapacityRepository.delete(id);
+        Incapacity in = incapacityRepository.findOne(id);
+        UploadFileGeneric f = in.getFile();
+        if (f != null) {
+            String path = request.getSession().getServletContext().getRealPath("");
+            upDwFileGenericService.deleteFile(path, f, userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+        incapacityRepository.delete(in);
         responseMessage.setHasError(false);
         responseMessage.setMessage("La incapacidad ha sido eliminada con éxito");
         return responseMessage;
@@ -791,4 +838,5 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         }
         return summary;
     }
+
 }

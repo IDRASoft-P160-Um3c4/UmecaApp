@@ -1,5 +1,7 @@
 package com.umeca.model.entities.humanReources;
 
+import com.umeca.model.entities.shared.UploadFileGeneric;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -30,6 +32,10 @@ public class Incapacity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_employee")
     private Employee employee;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_generic_file")
+    private UploadFileGeneric file;
 
     public Long getId() {
         return id;
@@ -85,5 +91,13 @@ public class Incapacity {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public UploadFileGeneric getFile() {
+        return file;
+    }
+
+    public void setFile(UploadFileGeneric file) {
+        this.file = file;
     }
 }

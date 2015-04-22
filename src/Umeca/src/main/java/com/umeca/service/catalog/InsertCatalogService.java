@@ -101,4 +101,6 @@ public interface InsertCatalogService {
     void incident();
 
     void area();
+
+    public void weekDay();
 }

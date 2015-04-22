@@ -27,12 +27,11 @@ public interface CourseAchievementRepository extends JpaRepository<CourseAchieve
             "where CA.id=:idCourse and E.id = :idEmployee")
     CourseAchievement findCourseAchievmentByIds(@Param("idEmployee") Long idEmployee, @Param("idCourse") Long idCourse);
 
-    @Query("select new com.umeca.model.dto.humanResources.CourseAchievementDto(CA.id, E.id, CA.name, CA.place,CA.duration,CA.start,CA.end) from CourseAchievement CA " +
+    @Query("select new com.umeca.model.dto.humanResources.CourseAchievementDto(CA.id, E.id, CA.name, CA.place,CA.duration,CA.start,CA.end,GF.id) from CourseAchievement CA " +
             "inner join CA.employee E " +
+            "inner join CA.file GF "+
             "where CA.id=:idCourse and E.id = :idEmployee")
     CourseAchievementDto findTrainingDtoByIds(@Param("idEmployee") Long idEmployee, @Param("idCourse") Long idCourse);
-
-// CourseAchievementDto(String name, String place, String courseType, String specCourseType, String documentType, String specDocType, Date start, Date end)
 
     @Query("select new com.umeca.model.dto.humanResources.CourseAchievementDto(CA.name, CA.place,CT.name,CA.specCourseType,SDT.name,CA.specDocType,CA.start,CA.end) from CourseAchievement CA " +
             "inner join CA.employee E " +
