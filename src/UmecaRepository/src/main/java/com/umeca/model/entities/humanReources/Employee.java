@@ -88,6 +88,10 @@ public class Employee {
     @JoinColumn(name = "id_generic_file")
     private UploadFileGeneric photo;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "employee_user_rel", joinColumns = {@JoinColumn(name = "id_employee")}, inverseJoinColumns = {@JoinColumn(name = "id_user")})
+    private List<User> user;
+
     public Employee() {
 
     }
