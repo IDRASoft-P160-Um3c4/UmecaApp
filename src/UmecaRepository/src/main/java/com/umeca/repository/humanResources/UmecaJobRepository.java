@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository("qUmecaJobRepository")
 public interface UmecaJobRepository extends JpaRepository<UmecaJob, Long> {
-    @Query("select new com.umeca.model.dto.humanResources.UmecaJobDto(UJ.id,UJ.nameHead,E.id,UJ.salary,UJ.startDate,UJ.endDate,UJ.startTime,UJ.endTime,UP.id,D.id,RT.id) " +
+
+    @Query("select new com.umeca.model.dto.humanResources.UmecaJobDto(UJ.id,UJ.nameHead,E.id,UJ.salary,UJ.startDate,UJ.endDate,R.id,D.id) " +
             "from UmecaJob UJ " +
             "inner join UJ.employee E " +
-            "inner join UJ.umecaPost UP " +
+            "inner join UJ.role R " +
             "inner join UJ.district D " +
-            "inner join UJ.registerType RT " +
             "where UJ.id = :idReference and E.id =:idEmployee")
     UmecaJobDto findUmecaJobDtoByIds(@Param("idEmployee") Long idEmployee, @Param("idReference") Long idReference);
 

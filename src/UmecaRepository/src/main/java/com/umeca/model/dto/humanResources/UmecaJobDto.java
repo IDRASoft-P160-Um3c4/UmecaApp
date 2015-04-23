@@ -16,20 +16,19 @@ public class UmecaJobDto implements EntityGrid {
     private String endDate;
     private String startTime;
     private String endTime;
-    private Long idUmecaPost;
+    private Long idRole;
     private Long idDistrict;
     private Long idRegisterType;
     private String registerType;
     private String district;
-    private String umecaPost;
+    private String role;
 
     public UmecaJobDto() {
     }
 
     //para upsert
-    public UmecaJobDto(Long id, String nameHead, Long idEmployee, Float salary, Date startDate, Date endDate, Date startTime, Date endTime, Long idUmecaPost, Long idDistrict, Long idRegisterType) {
+    public UmecaJobDto(Long id, String nameHead, Long idEmployee, Float salary, Date startDate, Date endDate, Long idRole, Long idDistrict) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
         this.id = id;
         this.nameHead = nameHead;
         this.idEmployee = idEmployee;
@@ -39,20 +38,14 @@ public class UmecaJobDto implements EntityGrid {
                 this.startDate = sdf.format(startDate);
             if (endDate != null)
                 this.endDate = sdf.format(endDate);
-            if (startTime != null)
-                this.startTime = sdfT.format(startTime);
-            if (endTime != null)
-                this.endTime = sdfT.format(endTime);
-
         } catch (Exception e) {
         }
-        this.idUmecaPost = idUmecaPost;
+        this.idRole = idRole;
         this.idDistrict = idDistrict;
-        this.idRegisterType = idRegisterType;
     }
 
     //grid
-    public UmecaJobDto(Long id, String nameHead, Float salary, Date startDate, Date endDate, String district, String umecaPost, String registerType) {
+    public UmecaJobDto(Long id, String nameHead, Float salary, Date startDate, Date endDate, String district, String role) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id = id;
         this.nameHead = nameHead;
@@ -68,24 +61,7 @@ public class UmecaJobDto implements EntityGrid {
 
         }
         this.district = district;
-        this.umecaPost = umecaPost;
-        this.registerType = registerType;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getUmecaPost() {
-        return umecaPost;
-    }
-
-    public void setUmecaPost(String umecaPost) {
-        this.umecaPost = umecaPost;
+        this.role = role;
     }
 
     @Override
@@ -113,6 +89,14 @@ public class UmecaJobDto implements EntityGrid {
         this.nameHead = nameHead;
     }
 
+    public Float getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Float salary) {
+        this.salary = salary;
+    }
+
     public String getStartDate() {
         return startDate;
     }
@@ -137,12 +121,20 @@ public class UmecaJobDto implements EntityGrid {
         this.startTime = startTime;
     }
 
-    public Long getIdUmecaPost() {
-        return idUmecaPost;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setIdUmecaPost(Long idUmecaPost) {
-        this.idUmecaPost = idUmecaPost;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public Long getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(Long idRole) {
+        this.idRole = idRole;
     }
 
     public Long getIdDistrict() {
@@ -151,22 +143,6 @@ public class UmecaJobDto implements EntityGrid {
 
     public void setIdDistrict(Long idDistrict) {
         this.idDistrict = idDistrict;
-    }
-
-    public Float getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Float salary) {
-        this.salary = salary;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
     }
 
     public Long getIdRegisterType() {
@@ -183,5 +159,21 @@ public class UmecaJobDto implements EntityGrid {
 
     public void setRegisterType(String registerType) {
         this.registerType = registerType;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

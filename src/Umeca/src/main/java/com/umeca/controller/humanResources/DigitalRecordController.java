@@ -556,8 +556,7 @@ public class DigitalRecordController {
                     add(r.get("startDate"));
                     add(r.get("endDate"));
                     add(r.join("district").get("name").alias("disName"));
-                    add(r.join("umecaPost").get("name").alias("postName"));
-                    add(r.join("registerType").get("name").alias("regName"));
+                    add(r.join("role").get("description"));
                 }};
             }
 
@@ -575,10 +574,8 @@ public class DigitalRecordController {
                     return r.get("endDate");
                 else if (field.equals("district"))
                     return r.join("district").get("name");
-                else if (field.equals("umecaPost"))
-                    return r.join("umecaPost").get("name");
-                else if (field.equals("registerType"))
-                    return r.join("registerType").get("name");
+                else if (field.equals("role"))
+                    return r.join("role").get("description");
                 return null;
             }
         }, UmecaJob.class, UmecaJobDto.class);
@@ -599,9 +596,13 @@ public class DigitalRecordController {
         }
 
         model.addObject("umecaJob", gson.toJson(uj));
-        model.addObject("lstUmecaPost", gson.toJson(umecaPostRepository.findNoObsolete()));
+
+        //todo modificar el jsp, el pojo, el dto y las consultas asi como los metodos para guardar y rellenar
+        model.addObject("lstRole", gson.toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
+            add(Constants.ROLE_ADMIN);
+        }})));
+
         model.addObject("lstDistrict", gson.toJson(districtRepository.findNoObsolete()));
-        model.addObject("lstRegisterType", gson.toJson(registerTypeRepository.getAllRegisterType()));
         return model;
     }
 

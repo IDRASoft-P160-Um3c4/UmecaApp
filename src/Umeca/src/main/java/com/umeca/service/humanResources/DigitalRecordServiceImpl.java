@@ -412,27 +412,17 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
             else
                 job.setEndDate(null);
 
-            if (jobDto.getStartTime() != null && jobDto.getStartTime() != "")
-                job.setStartTime(sdfT.parse(jobDto.getStartTime()));
-
-            if (jobDto.getEndTime() != null && jobDto.getEndTime() != "")
-                job.setEndTime(sdfT.parse(jobDto.getEndTime()));
-
         } catch (Exception e) {
 
         }
 
-        UmecaPost up = new UmecaPost();
-        up.setId(jobDto.getIdUmecaPost());
-        job.setUmecaPost(up);
+        Role r = new Role();
+        r.setId(jobDto.getIdRole());
+        job.setRole(r);
 
         District d = new District();
         d.setId(jobDto.getIdDistrict());
         job.setDistrict(d);
-
-        RegisterType rt = new RegisterType();
-        rt.setId(jobDto.getIdRegisterType());
-        job.setRegisterType(rt);
 
         return job;
     }
