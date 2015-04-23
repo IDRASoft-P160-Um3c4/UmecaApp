@@ -335,4 +335,50 @@ public class ActivityReportDirectorController {
 
         return result;
     }
+
+    @RequestMapping(value = {"/director/activityReport/listHumanRes"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listHumanRes(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
+
+        if(StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
+            return null;
+        }
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("reportFor", Constants.ACT_REPORT_FOR_DIRECTOR.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_HUMAN_RESOURCES, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("creationDate", CalendarExt.stringToCalendar(startDate, Constants.FORMAT_CALENDAR_II)
+                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II) , JqGridFilterModel.BETWEEN);
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("reportName"));
+                    add(r.get("description"));
+                    add(r.get("creationDate"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("stCreationTime"))
+                    return r.get("creationDate");
+                return null;
+            }
+        }, ActivityReport.class, ActivityReportView.class);
+
+        return result;
+    }
+
+
+
 }

@@ -16,6 +16,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardEvaluation.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardDirector.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardProject.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardHumanRes.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -122,7 +123,7 @@
                                         </div>
 
                                         <div id="minute" ng-class="tabItem === 'minute' ? 'tab-pane fade in active' : 'tab-pane fade'">
-                                            <p>aa.</p>
+                                            <%@ include file="/WEB-INF/jsp/director/activityReport/wizardHumanRes.jsp" %>
                                         </div>
                                     </div>
                                 </div>
