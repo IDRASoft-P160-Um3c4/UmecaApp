@@ -1,6 +1,8 @@
 package com.umeca.model.shared;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.

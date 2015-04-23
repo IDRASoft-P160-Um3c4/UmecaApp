@@ -1,5 +1,7 @@
 package com.umeca.service.humanResources;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.dto.humanResources.*;
@@ -8,6 +10,7 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Job;
+import com.umeca.model.entities.reviewer.Schedule;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.shared.CourseType;
 import com.umeca.model.entities.shared.SchoolDocumentType;
@@ -34,11 +37,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service("digitalRecordService")
 public class DigitalRecordServiceImpl implements DigitalRecordService {
@@ -85,7 +86,10 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private UploadFileGenericRepository uploadFileGenericRepository;
     @Autowired
     private SystemSettingRepository systemSettingRepository;
-
+    @Autowired
+    private EmployeeScheduleRepository employeeScheduleRepository;
+    @Autowired
+    private ScheduleDayRepository scheduleDayRepository;
 
     @Transactional
     public ResponseMessage saveEmployee(EmployeeDto employeeDto, HttpServletRequest request) {
@@ -598,7 +602,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     @Transactional
     public ResponseMessage saveIncapacity(HttpServletRequest request, IncapacityDto incapacityDto) {
         ResponseMessage responseMessage = new ResponseMessage();
-        incapacityRepository.save(fillIncapacity(request,incapacityDto));
+        incapacityRepository.save(fillIncapacity(request, incapacityDto));
         responseMessage.setHasError(false);
         responseMessage.setMessage("La incapacidad ha sido guardada con éxito");
         return responseMessage;
@@ -639,7 +643,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
 
     @Transactional
-    public ResponseMessage deleteIncapacity(HttpServletRequest request,Long id) {
+    public ResponseMessage deleteIncapacity(HttpServletRequest request, Long id) {
         ResponseMessage responseMessage = new ResponseMessage();
         Incapacity in = incapacityRepository.findOne(id);
         UploadFileGeneric f = in.getFile();
@@ -839,4 +843,74 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         return summary;
     }
 
+    @Transactional
+    public ResponseMessage saveEmployeeSchedule(EmployeeScheduleDto scheduleDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        employeeScheduleRepository.save(fillEmployeeSchedule(scheduleDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El horario de trabajo ha sido guardado con éxito");
+        return responseMessage;
+    }
+
+    private EmployeeSchedule fillEmployeeSchedule(EmployeeScheduleDto scheduleDto) {
+        EmployeeSchedule schedule = new EmployeeSchedule();
+        Gson gson = new Gson();
+
+        if (scheduleDto.getId() != null) {
+            schedule = employeeScheduleRepository.findOne(scheduleDto.getId());
+
+            for (ScheduleDay day : schedule.getDays()) {
+                scheduleDayRepository.delete(day);
+            }
+            schedule.getDays().clear();
+        }
+
+        List<ScheduleDayDto> scheduleDtos = gson.fromJson(scheduleDto.getScheduleDays(), new TypeToken<List<ScheduleDayDto>>() {
+        }.getType());
+
+        List<ScheduleDay> finalDays = new ArrayList<>();
+
+        for (ScheduleDayDto dto : scheduleDtos) {
+            if (dto.getIsSel() == true) {
+                dto.setStartI(dto.convStrToInt(dto.getStart()));
+                dto.setEndI(dto.convStrToInt(dto.getEnd()));
+                ScheduleDay day = new ScheduleDay();
+
+                day.setDayId(dto.getDayId());
+                day.setName(dto.getName());
+                day.setStart(dto.getStartI());
+                day.setEnd(dto.getEndI());
+                day.setEmployeeSchedule(schedule);
+                finalDays.add(day);
+            }
+        }
+
+        schedule.setName(scheduleDto.getName());
+        schedule.setDescription(scheduleDto.getDescription());
+        schedule.setIsObsolete(false);
+        schedule.setDays(finalDays);
+        return schedule;
+    }
+
+    @Transactional
+    public ResponseMessage deleteEmployeeSchedule(Long id) {
+        ResponseMessage resp = new ResponseMessage();
+
+        if (id != null) {
+            EmployeeSchedule schedule = employeeScheduleRepository.findOne(id);
+            schedule.setIsObsolete(true);
+//            for (ScheduleDay day : schedule.getDays()) {
+//                scheduleDayRepository.delete(day);
+//            }
+//            schedule.getDays().clear();
+            employeeScheduleRepository.save(schedule);
+            resp.setHasError(false);
+            resp.setMessage("El horario ha sido eliminado con éxito.");
+        } else {
+            resp.setHasError(true);
+            resp.setMessage("Ha ocurrido un error, intente nuevamente.");
+        }
+
+        return resp;
+    }
 }

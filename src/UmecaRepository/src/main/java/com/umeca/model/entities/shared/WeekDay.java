@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class WeekDay {
 
     @Id
-    @Column(name = "id_course_type")
+    @Column(name = "id_week_day")
     private Long id;
 
     @Column(name = "name")

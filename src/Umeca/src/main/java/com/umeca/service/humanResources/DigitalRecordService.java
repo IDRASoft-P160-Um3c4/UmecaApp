@@ -46,7 +46,7 @@ public interface DigitalRecordService {
 
     ResponseMessage deleteVacation(Long id);
 
-    ResponseMessage saveIncapacity(HttpServletRequest request,IncapacityDto incapacityDto);
+    ResponseMessage saveIncapacity(HttpServletRequest request, IncapacityDto incapacityDto);
 
     ResponseMessage deleteIncapacity(HttpServletRequest request, Long id);
 
@@ -61,5 +61,9 @@ public interface DigitalRecordService {
     ResponseMessage doObsoleteEmployee(Long id);
 
     DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee, String contextPath, SharedLogExceptionService logException);
+
+    ResponseMessage saveEmployeeSchedule(EmployeeScheduleDto scheduleDto);
+
+    ResponseMessage deleteEmployeeSchedule(Long employeeScheduleId);
 
 }
