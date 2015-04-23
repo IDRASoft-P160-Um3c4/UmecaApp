@@ -4,6 +4,7 @@ import com.umeca.model.catalog.District;
 import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.UmecaPost;
+import com.umeca.model.entities.account.Role;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,23 +30,13 @@ public class UmecaJob {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "start_time")
-    private Date startTime;
-
-    @Column(name = "end_time")
-    private Date endTime;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_umeca_post")
-    private UmecaPost umecaPost;
+    private Role role;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_district")
     private District district;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_register_type")
-    private RegisterType registerType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_employee")
@@ -83,30 +74,6 @@ public class UmecaJob {
         this.endDate = endDate;
     }
 
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public UmecaPost getUmecaPost() {
-        return umecaPost;
-    }
-
-    public void setUmecaPost(UmecaPost umecaPost) {
-        this.umecaPost = umecaPost;
-    }
-
     public District getDistrict() {
         return district;
     }
@@ -131,12 +98,11 @@ public class UmecaJob {
         this.salary = salary;
     }
 
-    public RegisterType getRegisterType() {
-        return registerType;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRegisterType(RegisterType registerType) {
-        this.registerType = registerType;
+    public void setRole(Role role) {
+        this.role = role;
     }
-
 }

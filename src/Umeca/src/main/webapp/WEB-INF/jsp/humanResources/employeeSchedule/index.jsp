@@ -25,8 +25,8 @@
 
     <script>
 
-        showUpsertEmployeeSchedule = function () {
-            window.showUpsert(null, "#angJsjqGridId", "<c:url value='/humanResources/employeeSchedule/upsertEmployeeSchedule.html'/>", "#GridScheduleId");
+        showUpsertEmployeeSchedule = function (id) {
+            window.showUpsert(id, "#angJsjqGridId", "<c:url value='/humanResources/employeeSchedule/upsertEmployeeSchedule.html'/>", "#GridScheduleId");
         };
 
         deleteEmployeeSchedule = function (id) {
@@ -45,7 +45,7 @@
                     {
                         name: 'name',
                         index: 'name',
-                        width: 200,
+                        width: 350,
                         align: "center",
                         sorttype: 'string',
                         searchoptions: {sopt: ['bw']}
@@ -53,7 +53,7 @@
                     {
                         name: 'description',
                         index: 'description',
-                        width: 200,
+                        width: 350,
                         align: "center",
                         sorttype: 'string',
                         searchoptions: {sopt: ['bw']}
@@ -61,7 +61,7 @@
                     {
                         name: 'Action',
                         index: 'Action',
-                        width: 200,
+                        width: 100,
                         align: "center",
                         sortable: false,
                         search: false,
@@ -85,7 +85,7 @@
                         var be = "";
 
                         be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar horario\" onclick=\"showUpsertEmployeeSchedule(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar horario\" onclick=\"deleteEmployeeSchedule('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar horario\" onclick=\"deleteEmployeeSchedule(" + cl + ");\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
 
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }

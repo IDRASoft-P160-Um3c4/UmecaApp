@@ -68,13 +68,13 @@
                                                     <div class="col-xs-6">
                                                         <label>Puesto</label>
                                                         <br/>
-                                                        <select id="idUmecaPost"
+                                                        <select id="idRole"
                                                                 class="form-control element-center"
-                                                                ng-model="umecaJob.umecaPost"
-                                                                ng-init='lstUmecaPost= ${lstUmecaPost}'
-                                                                ng-options="e.name for e in lstUmecaPost"></select>
-                                                        <input type="hidden" name="idUmecaPost"
-                                                               value="{{umecaJob.umecaPost.id}}"/>
+                                                                ng-model="umecaJob.role"
+                                                                ng-init='lstRole= ${lstRole}'
+                                                                ng-options="e.name for e in lstRole"></select>
+                                                        <input type="hidden" name="idRole"
+                                                               value="{{umecaJob.role.id}}"/>
                                                     </div>
                                                     <div class="col-xs-6">
                                                         <label>Distrito</label>
@@ -121,21 +121,6 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="col-xs-12">
-                                                    <br/>
-
-                                                    <div class="col-xs-6">
-                                                        <label>Tipo</label>
-                                                        <br/>
-                                                        <select id="idRegisterType"
-                                                                class="form-control element-center"
-                                                                ng-model="umecaJob.registerType"
-                                                                ng-init='lstRegisterType= ${lstRegisterType}'
-                                                                ng-options="e.name for e in lstRegisterType"></select>
-                                                        <input type="hidden" name="idRegisterType"
-                                                               value="{{umecaJob.registerType.id}}"/>
-                                                    </div>
-                                                </div>
 
                                                 <div class="col-xs-12">
                                                     <br/>
@@ -178,47 +163,6 @@
                                                               data-valmsg-for="endDate"
                                                               data-valmsg-replace="true"></span>
                                                         <br/>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-12">
-                                                    <div class="col-xs-6">
-                                                        <label for="startTime">Hora entrada</label>
-
-                                                        <div class="input-group bootstrap-timepicker">
-                                                            <input id="startTime" name="startTime"
-                                                                   ng-model="umecaJob.startTime"
-                                                                   readonly
-                                                                   type="text"
-                                                                   class="form-control umeca-time-picker"
-                                                                   data-val="true"
-                                                                   data-val-required="Hora de entrada es un campo requerido"/>
-                                                        <span class="input-group-addon"><i
-                                                                class="icon-time bigger-110"></i></span>
-                                                            <br/>
-                                                        </div>
-                                                        <span class="field-validation-valid" data-valmsg-for="startTime"
-                                                              data-valmsg-replace="true"></span>
-                                                    </div>
-                                                    <div class="col-xs-6">
-                                                        <label for="endTime">Hora de salida</label>
-
-                                                        <div class="input-group bootstrap-timepicker">
-                                                            <input id="endTime" name="endTime"
-                                                                   ng-model="umecaJob.endTime"
-                                                                   readonly
-                                                                   type="text"
-                                                                   class="form-control umeca-time-picker"
-                                                                   data-val="true"
-                                                                   data-val-required="Hora de inicio es un campo requerido"/>
-                                                        <span class="input-group-addon"><i
-                                                                class="icon-time bigger-110"></i></span>
-                                                            <br/>
-                                                        </div>
-                                                        <span class="field-validation-valid" data-valmsg-for="endTime"
-                                                              data-valmsg-replace="true"></span>
-                                                        <br/>
-
                                                     </div>
                                                 </div>
 

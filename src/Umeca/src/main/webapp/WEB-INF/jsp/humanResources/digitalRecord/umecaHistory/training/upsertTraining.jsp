@@ -240,7 +240,7 @@
                         </div>
                     </form>
                 </div>
-                {{canSaveT}}
+
                 <div class="modal-footer">
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar

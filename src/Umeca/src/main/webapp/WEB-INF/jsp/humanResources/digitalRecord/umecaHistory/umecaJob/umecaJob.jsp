@@ -19,12 +19,12 @@
                 url: '<c:url value="/humanResources/digitalRecord/listUmecaJob.json?id="/>' +${idEmployee},
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Puesto', 'Jefe inmediato', 'Distrito', 'Salario', 'Fecha de inicio', 'Fecha de fin', 'Tipo', 'Acci&oacute;n'],
+                colNames: ['ID', 'Puesto', 'Jefe inmediato', 'Distrito', 'Salario', 'Fecha de inicio', 'Fecha de fin', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {
-                        name: 'umecaPost',
-                        index: 'umecaPost',
+                        name: 'role',
+                        index: 'roles',
                         width: 120,
                         align: "center",
                         sorttype: 'string',
@@ -63,14 +63,6 @@
                         search: false
                     },
                     {name: 'endDate', index: 'endDate', width: 100, align: "center", sorttype: 'string', search: false},
-                    {
-                        name: 'registerType',
-                        index: 'registerType',
-                        width: 100,
-                        align: "center",
-                        sorttype: 'string',
-                        searchoptions: {sopt: ['bw']}
-                    },
                     {
                         name: 'Action',
                         width: 65,

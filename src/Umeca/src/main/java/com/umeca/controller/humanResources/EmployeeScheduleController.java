@@ -1,5 +1,6 @@
 package com.umeca.controller.humanResources;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -8,7 +9,13 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.humanResources.EmployeeDto;
 import com.umeca.model.dto.humanResources.EmployeeScheduleDto;
+import com.umeca.model.dto.humanResources.ScheduleDayDto;
 import com.umeca.model.entities.humanReources.EmployeeSchedule;
+import com.umeca.model.entities.humanReources.ScheduleDay;
+import com.umeca.model.shared.SelectList;
+import com.umeca.repository.humanResources.EmployeeScheduleRepository;
+import com.umeca.repository.humanResources.ScheduleDayRepository;
+import com.umeca.repository.shared.WeekDayRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.humanResources.DigitalRecordService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -21,6 +28,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +43,13 @@ public class EmployeeScheduleController {
     private SharedUserService sharedUserService;
     @Autowired
     private DigitalRecordService digitalRecordService;
+    @Autowired
+    private WeekDayRepository weekDayRepository;
+    @Autowired
+    private EmployeeScheduleRepository employeeScheduleRepository;
+    @Autowired
+    private ScheduleDayRepository scheduleDayRepository;
+
 
     @RequestMapping(value = "/humanResources/employeeSchedule/index", method = RequestMethod.GET)
     public String index() {
@@ -78,22 +93,32 @@ public class EmployeeScheduleController {
     }
 
     @RequestMapping(value = "/humanResources/employeeSchedule/upsertEmployeeSchedule", method = RequestMethod.POST)
-    public ModelAndView upsertEmployeeSchedule() {
+    public ModelAndView upsertEmployeeSchedule(@RequestParam(required = false) Long id) {
         ModelAndView model = new ModelAndView("/humanResources/employeeSchedule/upsert");
-//        model.addObject("lstDistrict", new Gson().toJson(districtRepository.findNoObsolete()));
-//        model.addObject("lstRole", new Gson().toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
-//            add(Constants.ROLE_ADMIN);
-//        }})));
+        Gson gson = new Gson();
+
+        SelectList employeeSchedule = new SelectList();
+        List<ScheduleDayDto> lstSelDays = new ArrayList<>();
+
+        if (id != null) {
+            employeeSchedule = employeeScheduleRepository.findEmployeeScheduleDtoById(id);
+            lstSelDays = scheduleDayRepository.findScheduleDaysByParentId(id);
+        }
+
+        model.addObject("empSch", gson.toJson(employeeSchedule));
+        model.addObject("lstDays", gson.toJson(weekDayRepository.findAllNoObsolete()));
+        model.addObject("lstSelDays", gson.toJson(lstSelDays));
+
         return model;
     }
 
     @RequestMapping(value = "/humanResources/employeeSchedule/doUpsertEmployeeSchedule", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doUpsertEmployeeSchedule(@ModelAttribute EmployeeDto employeeDto, HttpServletRequest request) {
+    ResponseMessage doUpsertEmployeeSchedule(@ModelAttribute EmployeeScheduleDto scheduleDto) {
         ResponseMessage response = new ResponseMessage();
         try {
-            //response = digitalRecordService.saveEmployee(employeeDto, request);
+            response = digitalRecordService.saveEmployeeSchedule(scheduleDto);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertEmployee", sharedUserService);
             response.setHasError(true);
@@ -110,7 +135,7 @@ public class EmployeeScheduleController {
 
         ResponseMessage response = new ResponseMessage();
         try {
-            //response = digitalRecordService.doObsoleteEmployee(id);
+            response = digitalRecordService.deleteEmployeeSchedule(id);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertEmployee", sharedUserService);
             response.setHasError(true);

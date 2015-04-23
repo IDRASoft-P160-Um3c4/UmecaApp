@@ -5,7 +5,7 @@ app.controller('umecaJobController', function ($scope, $timeout, $sce) {
         $scope.MsgSuccess;
 
         $scope.init = function () {
-            $scope.fillSelect("umecaJob", "umecaPost", "lstUmecaPost", "idUmecaPost");
+            $scope.fillSelect("umecaJob", "role", "lstRole", "idRole");
             $scope.fillSelect("umecaJob", "district", "lstDistrict", "idDistrict");
             $scope.fillSelect("umecaJob", "registerType", "lstRegisterType", "idRegisterType");
         };
