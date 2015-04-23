@@ -103,4 +103,6 @@ public interface InsertCatalogService {
     void area();
 
     public void weekDay();
+
+    void channelingType();
 }

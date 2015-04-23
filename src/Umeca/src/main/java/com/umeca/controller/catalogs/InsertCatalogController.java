@@ -309,11 +309,16 @@ public class InsertCatalogController {
         return "area";
     }
 
-
     @RequestMapping(value = "/catalogs/weekDay", method = RequestMethod.GET)
     public String weekDay() {
         service.weekDay();
         return "weekDay";
+    }
+
+    @RequestMapping(value = "/catalogs/channelingType", method = RequestMethod.GET)
+    public String channelingType() {
+        service.channelingType();
+        return "channelingType";
     }
 
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
@@ -366,6 +371,7 @@ public class InsertCatalogController {
         service.incident();
         service.area();
         service.weekDay();
+        service.channelingType();
         return "insertCatalog OK!!";
     }
 }

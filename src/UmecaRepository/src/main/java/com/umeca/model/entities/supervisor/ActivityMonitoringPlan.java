@@ -1,6 +1,5 @@
 package com.umeca.model.entities.supervisor;
 
-import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 

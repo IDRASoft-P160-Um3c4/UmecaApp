@@ -93,7 +93,7 @@
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-search"></i>
+                                    class="glyphicon glyphicon-volume-up"></i>
                                 &nbsp;&nbsp;Audiencias
                                 <i class="icon-caret-down"></i>
                             </a>
@@ -108,42 +108,44 @@
                         </li>
 
                         <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbspPlan de seguimiento<i
+                                    class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar/Modificar</a>
+                                </li>
+                                <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i
+                                        class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Dar seguimiento</a></li>
+                                <li><a href="<c:url value='/supervisor/manageMonitoringPlan/index.html' />"><i
+                                        class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Manejar casos y planes</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-search"></i>
+                                    class="glyphicon glyphicon-eye-open"></i>
                                 &nbsp;&nbsp;Supervisi&oacute;n
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i
                                         class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre&nbsp;&nbsp;
-                                </a>
-                                </li>
-                                <li class="dropdown-hover">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbspPlan de seguimiento<i
-                                            class="icon-caret-right pull-right"></i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i
-                                                class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar/Modificar</a>
-                                        </li>
-                                        <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i
-                                                class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Dar
-                                            seguimiento</a></li>
-                                        <li><a href="<c:url value='/supervisor/manageMonitoringPlan/index.html' />"><i
-                                                class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Manejar casos y planes</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                </a></li>
+                                <li><a href="<c:url value='/supervisor/channeling/index.html' />"><i
+                                        class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;Registro de canalizaciones&nbsp;&nbsp;
+                                </a></li>
+                                <li><a href="<c:url value='/supervisor/requestCloseCase/index.html'/>"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrar casos</a></li>
                             </ul>
                         </li>
 
-                        <li class="nav-li-blue"><a href="<c:url value='/supervisor/requestCloseCase/index.html'/>"><i
-                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrar casos</a></li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-folder-close"></i>
+                                    class="glyphicon glyphicon-search"></i>
                                 &nbsp;&nbsp;Consultar
                                 <i class="icon-caret-down"></i>
                             </a>
@@ -348,7 +350,7 @@
                         </li>
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Hist&oacute;ricos
+                                    class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Hist&oacute;ricos
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
@@ -366,9 +368,11 @@
                                 <i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
-                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades</a></li>
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades</a>
+                                </li>
                                 <li><a href="<c:url value='/director/activityReport/index.html' />"><i
-                                        class="glyphicon glyphicon-stats"></i>&nbsp;&nbsp;Informes globales de actividades</a></li>
+                                        class="glyphicon glyphicon-stats"></i>&nbsp;&nbsp;Informes globales de
+                                    actividades</a></li>
                             </ul>
                         </li>
                         <li class="dropdown nav-li-blue">
@@ -390,7 +394,7 @@
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Manejo de horarios
+                                    class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Manejo de horarios
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
@@ -402,7 +406,7 @@
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Manejo de personal
+                                    class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Manejo de personal
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
@@ -425,7 +429,8 @@
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas cerradas</a>
                                 </li>
                                 <li><a href="<c:url value='/shared/minute/directorMinute.html' />"><i
-                                        class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Minutas para direcci&oacute;n</a>
+                                        class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Minutas para
+                                    direcci&oacute;n</a>
                                 </li>
                             </ul>
                         </li>

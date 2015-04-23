@@ -139,6 +139,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     AreaRepository areaRepository;
     @Autowired
     WeekDayRepository weekDayRepository;
+    @Autowired
+    ChannelingTypeRepository channelingTypeRepository;
 
 
 //    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
@@ -906,6 +908,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             weekDayRepository.save(model);
         }
         weekDayRepository.flush();
+    }
+
+    @Override
+    public void channelingType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "channeling_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            CatChannelingType model = new CatChannelingType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            channelingTypeRepository.save(model);
+        }
+        channelingTypeRepository.flush();
     }
 
 }

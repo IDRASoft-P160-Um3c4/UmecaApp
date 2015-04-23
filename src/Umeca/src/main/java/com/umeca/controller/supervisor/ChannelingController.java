@@ -1,4 +1,4 @@
-package com.umeca.controller.director;
+package com.umeca.controller.supervisor;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.extensions.StringExt;
@@ -7,6 +7,9 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.model.catalog.District;
+import com.umeca.model.catalog.StatusCase;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.activityReport.ActivityReportDirector;
 import com.umeca.model.entities.director.activityReport.ActivityReportDirectorView;
 import com.umeca.model.entities.director.agenda.ActivityAgenda;
@@ -14,9 +17,15 @@ import com.umeca.model.entities.director.agenda.ActivityAgendaView;
 import com.umeca.model.entities.director.project.Project;
 import com.umeca.model.entities.director.project.ProjectActivity;
 import com.umeca.model.entities.director.project.ProjectActivityView;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.shared.activityReport.ActivityReport;
 import com.umeca.model.entities.shared.activityReport.ActivityReportView;
+import com.umeca.model.entities.supervisor.ChannelingCaseView;
+import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +47,7 @@ import java.util.List;
 import static com.umeca.model.shared.MonitoringConstants.STATUS_ACTIVITY_DELETED;
 
 @Controller
-public class ActivityReportDirectorController {
+public class ChannelingController {
 
     @Autowired
     SharedLogExceptionService logException;
@@ -46,55 +55,70 @@ public class ActivityReportDirectorController {
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
 
-    @RequestMapping(value = "/director/activityReport/index", method = RequestMethod.GET)
+    @RequestMapping(value = "/supervisor/channeling/index", method = RequestMethod.GET)
     public String index() {
-        return "/director/activityReport/index";
+        return "/supervisor/channeling/index";
     }
 
     @Autowired
     SharedUserService userService;
 
-    @RequestMapping(value = {"/director/activityReport/list"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisor/channeling/list"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
-        Long userId = userService.GetLoggedUserId();
 
         opts.extraFilters = new ArrayList<>();
-        JqGridRulesModel extraFilter = new JqGridRulesModel("userId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        JqGridRulesModel extraFilter = new JqGridRulesModel("statusCase",
+                new ArrayList<String>() {{add(Constants.CASE_STATUS_CLOSED);}}, JqGridFilterModel.COMPARE_NOT_IN);
         opts.extraFilters.add(extraFilter);
-        extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
+        extraFilter = new JqGridRulesModel("isTerminated", "1", JqGridFilterModel.COMPARE_EQUAL);
+        extraFilter.setbData(true);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
+                final Join<Case, Meeting> joinMeVe = r.join("meeting");
+                final Join<Meeting, Imputed> joinMee = joinMeVe.join("imputed");
+                final Join<Case, District> joinDi = r.join("district");
+                final Join<Case, FramingMeeting> joinFr = r.join("framingMeeting");
+                final Join<FramingMeeting, User> joinFrUs = joinFr.join("supervisor");
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
-                    add(r.get("creationDate"));
-                    add(r.get("reportName"));
-                    add(r.get("description"));
+                    add(r.get("idMP"));
+                    add(joinMee.get("name"));
+                    add(joinMee.get("lastNameP"));
+                    add(joinMee.get("lastNameM"));
+                    add(joinDi.get("name"));
+                    add(joinFrUs.get("fullname"));
                 }};
             }
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if (field.equals("stCreationTime"))
-                    return r.get("creationDate");
-                if (field.equals("userId"))
-                    return r.join("creatorUser").get("id");
+                if (field.equals("statusCase"))
+                    return r.join("status").get("name");
+                if (field.equals("isTerminated"))
+                    return r.join("framingMeeting").get("isTerminated");
+                if (field.equals("imputed"))
+                    return r.join("meeting").join("imputed").get("name");
+                if (field.equals("district"))
+                    return r.join("district").get("name");
+                if (field.equals("supervisor"))
+                    return r.join("framingMeeting").join("supervisor").get("fullname");
                 return null;
             }
-        }, ActivityReportDirector.class, ActivityReportDirectorView.class);
+        }, Case.class, ChannelingCaseView.class);
 
         return result;
     }
 
 
-    @RequestMapping(value = "/director/activityReport/wizardUpsert", method = RequestMethod.GET)
+    @RequestMapping(value = "/supervisor/channeling/wizardUpsert", method = RequestMethod.GET)
     public @ResponseBody ModelAndView wizardUpsert() {
-        ModelAndView model = new ModelAndView("/director/activityReport/wizardUpsert");
+        ModelAndView model = new ModelAndView("/supervisor/channeling/wizardUpsert");
 
         Calendar today = CalendarExt.getToday();
         today.add(Calendar.DAY_OF_MONTH, -15);
@@ -105,7 +129,7 @@ public class ActivityReportDirectorController {
         return model;
     }
 
-    @RequestMapping(value = {"/director/activityReport/listActivity"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisor/channeling/listActivity"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listActivity(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
@@ -151,7 +175,7 @@ public class ActivityReportDirectorController {
         return result;
     }
 
-    @RequestMapping(value = {"/director/activityReport/listSupervision"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisor/channeling/listSupervision"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listSupervision(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
@@ -194,7 +218,7 @@ public class ActivityReportDirectorController {
         return result;
     }
 
-    @RequestMapping(value = {"/director/activityReport/listEvaluation"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisor/channeling/listEvaluation"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listEvaluation(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
@@ -238,7 +262,7 @@ public class ActivityReportDirectorController {
     }
 
 
-    @RequestMapping(value = {"/director/activityReport/listDirector"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisor/channeling/listDirector"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listDirector(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
@@ -282,7 +306,7 @@ public class ActivityReportDirectorController {
     }
 
 
-    @RequestMapping(value = {"/director/activityReport/listProject"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisor/channeling/listProject"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listProject(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
@@ -332,7 +356,7 @@ public class ActivityReportDirectorController {
         return result;
     }
 
-    @RequestMapping(value = {"/director/activityReport/listHumanRes"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisor/channeling/listHumanRes"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listHumanRes(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
