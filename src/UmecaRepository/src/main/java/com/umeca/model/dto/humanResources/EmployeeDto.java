@@ -8,8 +8,6 @@ public class EmployeeDto implements EntityGrid {
 
     private Long id;
     private String fullName;
-    private String post;
-    private Long roleId;
     private String district;
     private Boolean isObsolete;
 
@@ -24,10 +22,9 @@ public class EmployeeDto implements EntityGrid {
 
     }
 
-    public EmployeeDto(Long id, String name, String lastNameP, String lastNameM, String post, String district, Boolean isObsolete) {
+    public EmployeeDto(Long id, String name, String lastNameP, String lastNameM, String district, Boolean isObsolete) {
         this.id = id;
         this.fullName = name + " " + lastNameP + " " + lastNameM;
-        this.post = post;
         this.district = district;
         this.isObsolete = isObsolete;
     }
@@ -38,14 +35,6 @@ public class EmployeeDto implements EntityGrid {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post;
     }
 
     public String getDistrict() {
@@ -120,11 +109,4 @@ public class EmployeeDto implements EntityGrid {
         this.gender = gender;
     }
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
 }

@@ -1,14 +1,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<div class="row" ng-controller="employeeGeneralDataController">
+
+<script src="${pageContext.request.contextPath}/assets/scripts/umeca/typeahead/ui-bootstrap-tpls-0.12.1.js"></script>
+
+<div id="divGrlData" class="row" ng-controller="employeeGeneralDataController">
     <div class="blocker" ng-show="WaitFor==true">
         <div>
             Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
         </div>
     </div>
 
-    <div class="col-xs-10 col-xs-offset-1" ng-init='gd=${generalData};'>
+    <div class="col-xs-10 col-xs-offset-1" ng-init='gd=${generalData}; lstAssignedUsr=${lstAssignedUsr}'>
 
         <div class="row element-center">
             <h2><i class="purple glyphicon glyphicon-user bigger-100 element-center"></i> &nbsp;Datos generales</h2>
@@ -333,16 +336,72 @@
                             <div class="space"></div>
                             <div class="col-xs-12">
                                 <div class="col-xs-4">
-                                    <label>Puesto</label>
+                                    <label>Horario</label>
                                     <br/>
-                                    <select class="form-control element-center" ng-model="gd.post"
-                                            ng-options="e.name for e in lstRole"
-                                            ng-init='lstRole = ${lstRole};'
-                                            ng-change="changeRole();"></select>
-                                    <input type="hidden" name="roleId"
-                                           value="{{gd.post.id}}"/>
+                                    <select class="form-control element-center"
+                                            ng-model="gd.empSchedule"
+                                            ng-options="e.name for e in lstEmployeeSchedule"
+                                            ng-init='lstEmployeeSchedule = ${lstEmployeeSchedule};'/>
+                                    <br/>
+                                    <input type="hidden" name="empSchId"
+                                           value="{{gd.empSchedule.id}}"/>
+                                    <span ng-show='MsgErrorSchedule!=""' class="field-validation-error"
+                                          ng-bind-html="MsgErrorSchedule"></span>
+                                </div>
+                                <div class="col-xs-8">
+                                    <label>Buscar usuario</label>
+                                    <br/>
+                                    <input type="text" class="input-xxlarge"
+                                           ng-model="userSel"
+                                           typeahead="user as user.name for user in getUsrs($viewValue)| filter:$viewValue"
+                                           placeholder='Nombre de usuario ej. "supervisor"'
+                                           typeahead-on-select="selUser($item)"
+                                           typeahead-editable="false" typeahead-loading="loadingUsr"
+                                           typeahead-wait-ms="500"/>
+                                    <i ng-show="loadingUsr" class="glyphicon glyphicon-refresh"></i>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2"></div>
+                            <div class="col-xs-8">
+                                <br/>
+
+                                <div ng-show="MsgErrorUsr&&MsgErrorUsr!=''"
+                                     class="alert alert-danger element-center error-font">
+                                    <span ng-bind-html="MsgErrorUsr"></span>
+                                    <input type="hidden" name="assignedUsr" value="{{lstAssignedUsr}}">
+                                </div>
+                                <div class="widget-box">
+                                    <div class="widget-header">Usuarios asociados</div>
+                                    <div class="widget-body">
+                                        <div class="widget-main no-padding">
+                                            <table class="table table-striped table-bordered table-hover">
+                                                <thead class="thin-border-bottom">
+                                                <tr>
+                                                    <th class="element-center">Usuario</th>
+                                                    <th class="element-center">Quitar</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <div>
+                                                    <tr ng-repeat="usr in lstAssignedUsr track by $index">
+                                                        <td class="element-center">{{usr.name}}</td>
+                                                        <td class="element-center"><a href="javascript:;"
+                                                                                      style="display:inline-block;"
+                                                                                      title="Quitar de la lista"
+                                                                                      ng-click="removeUsr($index)"><span
+                                                                class="glyphicon glyphicon-minus blue"></span></a>
+                                                        </td>
+                                                    </tr>
+                                                </div>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-2"></div>
                         </div>
 
 
@@ -361,6 +420,18 @@
                 </div>
 
                 <%--</div>--%>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div ng-show="MsgSuccess&&MsgSuccess!=''"
+                             class="alert alert-success element-center success-font">
+                            <span ng-bind-html="MsgSuccess"></span>
+                        </div>
+
+                        <div ng-show="MsgError&&MsgError!=''" class="alert alert-danger element-center error-font">
+                            <span ng-bind-html="MsgError"></span>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-xs-12 modal-footer element-right">
                 <span class="btn btn-default btn-sm btn-primary"

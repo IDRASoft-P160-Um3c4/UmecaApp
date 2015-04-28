@@ -78,17 +78,11 @@
             </h2>
 
             <div class="col-xs-8 col-xs-offset-1" style="padding-top: 3%;"
-                 ng-init='dr.employeeName="${employeeName}"; dr.employeePost="${employeePost}";'>
+                 ng-init='dr.employeeName="${employeeName}";'>
                 <div class="col-xs-8">
                     <h3 class="header smaller lighter blue">
                         <small>Nombre del empleado:</small>
                         &nbsp;{{dr.employeeName}}
-                    </h3>
-                </div>
-                <div class="col-xs-4">
-                    <h3 class="header smaller lighter blue">
-                        <small>Puesto:</small>
-                        &nbsp;{{dr.employeePost}}
                     </h3>
                 </div>
 

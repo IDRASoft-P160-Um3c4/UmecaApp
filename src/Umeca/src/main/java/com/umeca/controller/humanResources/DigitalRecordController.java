@@ -27,6 +27,8 @@ import com.umeca.service.humanResources.DigitalRecordService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -100,6 +102,8 @@ public class DigitalRecordController {
     private AttachmentRepository attachmentRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private EmployeeScheduleRepository employeeScheduleRepository;
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -115,7 +119,6 @@ public class DigitalRecordController {
                     add(r.get("name"));
                     add(r.get("lastNameP"));
                     add(r.get("lastNameM"));
-                    add(r.join("post").get("description"));
                     add(r.join("district").get("name").alias("districtName"));
                     add(r.get("isObsolete"));
                 }};
@@ -127,8 +130,6 @@ public class DigitalRecordController {
                     return r.get("name");
                 if (field.equals("district"))
                     return r.join("district").get("name");
-                if (field.equals("post"))
-                    return r.join("post").get("description");
                 return null;
             }
         }, Employee.class, EmployeeDto.class);
@@ -140,9 +141,6 @@ public class DigitalRecordController {
     public ModelAndView upsertEmployee() {
         ModelAndView model = new ModelAndView("/humanResources/employees/upsert");
         model.addObject("lstDistrict", new Gson().toJson(districtRepository.findNoObsolete()));
-        model.addObject("lstRole", new Gson().toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
-            add(Constants.ROLE_ADMIN);
-        }})));
         return model;
     }
 
@@ -190,19 +188,23 @@ public class DigitalRecordController {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/index");
         Gson gson = new Gson();
 
+
+        String password = "";
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPass = passwordEncoder.encode(password);
+        System.out.println(hashedPass);
+
         //objetos para datos generales
         model.addObject("idEmployee", id);
         model.addObject("listState", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
         model.addObject("lstMaritalSt", gson.toJson(maritalStatusRepository.findAll()));
         model.addObject("lstDocType", gson.toJson(documentTypeRepository.findNotObsolete()));
-        model.addObject("lstRole", new Gson().toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
-            add(Constants.ROLE_ADMIN);
-        }})));
+        model.addObject("lstEmployeeSchedule", gson.toJson(employeeScheduleRepository.findAllEmployeeSchedule()));
+        model.addObject("lstAssignedUsr", gson.toJson(sharedUserService.getUserRoles(null, id)));
 
-        SelectList infoEmp = employeeRepository.getEmployeeNameRoleById((id));
+        String employeeName = employeeRepository.getEmployeeNameById((id));
 
-        model.addObject("employeeName", infoEmp.getName());
-        model.addObject("employeePost", infoEmp.getDescription());
+        model.addObject("employeeName", employeeName);
 
         Long idPhoto = employeeRepository.getIdPhotoByIdEmployee(id);
 
@@ -242,6 +244,9 @@ public class DigitalRecordController {
         ResponseMessage response = new ResponseMessage();
         try {
             response = digitalRecordService.saveGeneralData(dataDto);
+        } catch (DataIntegrityViolationException e) {
+            response.setHasError(true);
+            response.setMessage("Algun(os) usuario(s) seleccionado(s) ya ha(n) sido asociado(s) a otro empleado, intente nuevamente.");
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertGeneralData", sharedUserService);
             response.setHasError(true);
@@ -596,12 +601,9 @@ public class DigitalRecordController {
         }
 
         model.addObject("umecaJob", gson.toJson(uj));
-
-        //todo modificar el jsp, el pojo, el dto y las consultas asi como los metodos para guardar y rellenar
         model.addObject("lstRole", gson.toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
             add(Constants.ROLE_ADMIN);
         }})));
-
         model.addObject("lstDistrict", gson.toJson(districtRepository.findNoObsolete()));
         return model;
     }
@@ -1117,7 +1119,7 @@ public class DigitalRecordController {
     public ModelAndView showUpsertPhoto(@RequestParam(required = true) Long idEmployee) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/upsertPhoto");
         model.addObject("idEmployee", idEmployee);
-        model.addObject("employeeName", employeeRepository.getEmployeeNameRoleById(idEmployee).getName());
+        model.addObject("employeeName", employeeRepository.getEmployeeNameById(idEmployee));
         return model;
     }
 
@@ -1145,6 +1147,16 @@ public class DigitalRecordController {
         DigitalRecordSummaryDto summary = digitalRecordService.fillDigitalRecordSummary(id, contextPath, logException);
         model.addObject("summary", summary);
         return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/getUsers", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String searchUsr(@RequestParam(required = true) String str) {
+        String param = "%" + str + "%";
+        List<SelectList> lst = sharedUserService.getUserRoles(param, null);
+        return new Gson().toJson(lst);
+
     }
 
 }

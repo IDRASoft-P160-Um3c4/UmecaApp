@@ -966,7 +966,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         }
 
         return response;
-
     }
 
     @Override

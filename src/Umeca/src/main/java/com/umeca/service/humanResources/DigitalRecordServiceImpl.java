@@ -17,6 +17,7 @@ import com.umeca.model.entities.shared.SchoolDocumentType;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.DocumentTypeRepository;
 import com.umeca.repository.catalog.LocationRepository;
@@ -106,7 +107,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         employeeRepository.flush();
         resp = new ResponseMessage();
         resp.setHasError(false);
-        resp.setMessage("El empleado ha sido registrado.");
+        resp.setMessage("El empleado ha sido registrado con éxito.");
         resp.setUrlToGo(request.getContextPath() + "/humanResources/digitalRecord/index.html?id=" + newEmp.getId());
         return resp;
     }
@@ -147,16 +148,23 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         employee.setName(dataDto.getName());
         employee.setLastNameP(dataDto.getLastNameP());
         employee.setLastNameM(dataDto.getLastNameM());
-        Role r = new Role();
-        r.setId(dataDto.getRoleId());
-        employee.setPost(r);
         employee.setEmployeeGeneralData(fillGeneralData(dataDto));
         employee.setGender(dataDto.getGender());
+
+        EmployeeSchedule es = new EmployeeSchedule();
+        es.setId(dataDto.getEmpSchId());
+        employee.setEmployeeSchedule(es);
+
+        List<User> usrs = new Gson().fromJson(dataDto.getAssignedUsr(), new TypeToken<List<User>>() {
+        }.getType());
+        employee.getUsers().clear();
+        employee.getUsers().addAll(usrs);
 
         employeeRepository.save(employee);
         resp = new ResponseMessage();
         resp.setHasError(false);
         resp.setMessage("La información ha sido guardada con éxito.");
+
         return resp;
     }
 
