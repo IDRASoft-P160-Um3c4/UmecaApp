@@ -6,15 +6,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="close_cause")
-public class CloseCause {
-
+@Table(name="cat_education_level")
+public class CatEducationLevel {
     @Id
-    @Column(name = "id_close_cause")
+    @Column(name = "id_cat_education_level")
     private Long id;
 
     @Column(name = "name", length = 255, nullable = false)
     private String name;
+
+    @Column(name = "description", length = 500, nullable = false)
+    private String description;
 
     @Column(name = "is_obsolete", nullable = false)
     private Boolean isObsolete;
@@ -33,6 +35,14 @@ public class CloseCause {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Boolean getIsObsolete() {

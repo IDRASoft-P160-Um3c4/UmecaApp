@@ -241,5 +241,8 @@ public class Constants {
     public static final String PROJECT_STATUS_INACTIVE = "Inactivo";
     public static final String PROJECT_STATUS_FINISHED = "Finalizado";
 
+
+    public static final String CHANNELING_TYPE_ECONOMIC_SUPPORT = "AE";
+
 }
 

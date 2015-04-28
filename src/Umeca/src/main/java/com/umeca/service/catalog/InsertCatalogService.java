@@ -105,4 +105,10 @@ public interface InsertCatalogService {
     public void weekDay();
 
     void channelingType();
+
+    void educationLevel();
+
+    void preventionType();
+
+    void economicSupport();
 }

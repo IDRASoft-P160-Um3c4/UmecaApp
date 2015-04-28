@@ -14,4 +14,5 @@ public interface DistrictRepository extends JpaRepository<District, Long> {
     @Query("select new com.umeca.model.shared.SelectList(D.id,D.name) from District D where D.isObsolete=false")
     public List<SelectList> findNoObsolete();
 
+
 }

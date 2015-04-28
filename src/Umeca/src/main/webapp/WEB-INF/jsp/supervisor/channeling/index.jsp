@@ -13,8 +13,8 @@
 <div class="container body-content">
 
     <script>
-        window.insert = function (id) {
-            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisor/channeling/insert.html' />', "#GridId");
+        window.upsert = function (id, channelingId) {
+            window.showUpsertParams({id: id, channelingId: channelingId}, "#angJsjqGridId", '<c:url value='/supervisor/channeling/upsert.html' />', "#GridId");
         };
         /*
         window.endProject = function (id) {
@@ -43,9 +43,9 @@
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'imputed', index: 'imputed', width: 300, align: "center", sorttype: 'string', search: false },
-                    { name: 'district', index: 'district', width: 200, align: "center", sorttype: 'string', search: false },
-                    { name: 'supervisor', index: 'supervisor', width: 150, align: "center", sorttype: 'string', search: false },
+                    { name: 'imputed', index: 'imputed', width: 320, align: "center", sorttype: 'string', search: false },
+                    { name: 'district', index: 'district', width: 250, align: "center", sorttype: 'string', search: false },
+                    { name: 'supervisor', index: 'supervisor', width: 180, align: "center", sorttype: 'string', search: false },
                     { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
@@ -64,7 +64,7 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
 
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Registrar canalizaci&oacute;n\" onclick=\"window.insert('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Registrar canalizaci&oacute;n\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },
@@ -97,7 +97,8 @@
                         colModel: [
                             { name: 'id', index: 'id', hidden: true },
                             { name: 'number', index: 'number', width: 100, align: "center", sorttype: 'string', search: false },
-                            { name: 'type', index: 'type', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                            { name: 'type', index: 'type', width: 200, align: "center", sorttype: 'string', search: false },
+                            { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                             { name: 'institutionType', index: 'institutionType', width: 200, align: "center", sorttype: 'string', search: false },
                             { name: 'institution', index: 'institution', width: 200, align: "center", sorttype: 'string', search: false },
                             { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
@@ -151,7 +152,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon glyphicon-stats"></i>
+    <h2 class="element-center"><i class="glyphicon glyphicon-screenshot"></i>
         &nbsp;&nbsp;Proceso para canalizaciones</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">

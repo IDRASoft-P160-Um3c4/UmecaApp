@@ -28,12 +28,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 5/20/14
- * Time: 4:27 PM
- */
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
@@ -140,10 +134,18 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     @Autowired
     WeekDayRepository weekDayRepository;
     @Autowired
+    EducationLevelRepository educationLevelRepository;
+    @Autowired
+    PreventionTypeRepository preventionTypeRepository;
+    @Autowired
+    EconomicSupportRepository economicSupportRepository;
+    @Autowired
+    InstitutionTypeRepository institutionTypeRepository;
+    @Autowired
     ChannelingTypeRepository channelingTypeRepository;
 
 
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
 
     //para la maquina virtual donde se montara el war
 //    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";
@@ -910,18 +912,93 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         weekDayRepository.flush();
     }
 
+
+    @Override
+    public void educationLevel() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "education_level.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            CatEducationLevel model = new CatEducationLevel();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            educationLevelRepository.save(model);
+        }
+        educationLevelRepository.flush();
+    }
+
+    @Override
+    public void preventionType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "prevention_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            CatPreventionType model = new CatPreventionType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            preventionTypeRepository.save(model);
+        }
+        preventionTypeRepository.flush();
+    }
+
+    @Override
+    public void economicSupport() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "economic_support.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            CatEconomicSupport model = new CatEconomicSupport();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            economicSupportRepository.save(model);
+        }
+        economicSupportRepository.flush();
+    }
+
     @Override
     public void channelingType() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "channeling_type.txt", "\\|", 4);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "institution_type.txt", "\\|", 5);
+
+        try {
+            for (String[] data : lstDta) {
+                CatInstitutionType model = new CatInstitutionType();
+                model.setId(Long.parseLong(data[0]));
+                model.setName(data[1]);
+                model.setDescription(data[2]);
+                model.setHasSpec(data[3].equals("1"));
+                model.setIsObsolete(data[4].equals("1"));
+                institutionTypeRepository.save(model);
+            }
+            institutionTypeRepository.flush();
+        } catch (Exception ex){
+
+        }
+
+
+        lstDta = ReaderFile.readFile(PATH + "channeling_type.txt", "\\|", 6);
         for (String[] data : lstDta) {
             CatChannelingType model = new CatChannelingType();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
-            model.setIsObsolete(data[3].equals("1"));
+            model.setInstitutionsTypesIds(data[3]);
+
+            String[] lstInstType = data[3].split(",");
+
+            model.setLstInstitutionType(new ArrayList<CatInstitutionType>());
+
+            for(String sInstTypeId : lstInstType){
+                final long instTypeId = Integer.parseInt(sInstTypeId);
+                CatInstitutionType instType = institutionTypeRepository.findOne(instTypeId);
+                model.getLstInstitutionType().add(instType);
+            }
+
+            model.setCode(data[4]);
+            model.setIsObsolete(data[5].equals("1"));
             channelingTypeRepository.save(model);
         }
         channelingTypeRepository.flush();
     }
+
 
 }

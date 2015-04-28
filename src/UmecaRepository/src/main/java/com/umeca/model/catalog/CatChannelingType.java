@@ -1,9 +1,7 @@
 package com.umeca.model.catalog;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="cat_channeling_type")
@@ -18,7 +16,21 @@ public class CatChannelingType {
     @Column(name = "description", length = 500, nullable = false)
     private String description;
 
-    @Column(name = "is_obsolete")
+    @Column(name = "institutions_types_ids", length = 500, nullable = false)
+    private String institutionsTypesIds;
+
+    @Column(name = "code", length = 10, nullable = false)
+    private String code;
+
+    @ManyToMany
+    @JoinTable(name="rel_channelint_type_institution_type",
+                    joinColumns={ @JoinColumn(name="id_cat_channeling_type", referencedColumnName="id_cat_channeling_type", unique=false) },
+                    inverseJoinColumns={ @JoinColumn(name="id_cat_institution_type", referencedColumnName="id_cat_institution_type", unique=false) }
+            )
+    private List<CatInstitutionType> lstInstitutionType;
+
+
+    @Column(name = "is_obsolete", nullable = false)
     private Boolean isObsolete;
 
     public Long getId() {
@@ -51,5 +63,29 @@ public class CatChannelingType {
 
     public void setIsObsolete(Boolean isObsolete) {
         this.isObsolete = isObsolete;
+    }
+
+    public String getInstitutionsTypesIds() {
+        return institutionsTypesIds;
+    }
+
+    public void setInstitutionsTypesIds(String institutionsTypesIds) {
+        this.institutionsTypesIds = institutionsTypesIds;
+    }
+
+    public List<CatInstitutionType> getLstInstitutionType() {
+        return lstInstitutionType;
+    }
+
+    public void setLstInstitutionType(List<CatInstitutionType> lstInstitutionType) {
+        this.lstInstitutionType = lstInstitutionType;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

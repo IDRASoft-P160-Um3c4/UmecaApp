@@ -1,17 +1,9 @@
 package com.umeca.model.shared;
 
-import com.umeca.model.entities.supervisor.HearingFormat;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 5/4/14
- * Time: 9:11 PM
- */
 public class SelectList {
     private Long id;
     private Integer idAux;

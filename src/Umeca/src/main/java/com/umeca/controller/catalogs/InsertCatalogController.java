@@ -315,6 +315,25 @@ public class InsertCatalogController {
         return "weekDay";
     }
 
+
+    @RequestMapping(value = "/catalogs/educationLevel", method = RequestMethod.GET)
+    public String educationLevel() {
+        service.educationLevel();
+        return "educationLevel";
+    }
+
+    @RequestMapping(value = "/catalogs/preventionType", method = RequestMethod.GET)
+    public String preventionType() {
+        service.preventionType();
+        return "preventionType";
+    }
+
+    @RequestMapping(value = "/catalogs/economicSupport", method = RequestMethod.GET)
+    public String economicSupport() {
+        service.economicSupport();
+        return "economicSupport";
+    }
+
     @RequestMapping(value = "/catalogs/channelingType", method = RequestMethod.GET)
     public String channelingType() {
         service.channelingType();
@@ -371,6 +390,9 @@ public class InsertCatalogController {
         service.incident();
         service.area();
         service.weekDay();
+        service.educationLevel();
+        service.preventionType();
+        service.economicSupport();
         service.channelingType();
         return "insertCatalog OK!!";
     }
