@@ -373,11 +373,6 @@ urlManagerSup="<c:url value='/supervisor/showCaseSupervision/index.html'/>";'>
                                   ng-click="returnUrl(returnId)">
                                 Cancelar
                             </span>
-                        <%--<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"--%>
-                        <%--ng-click="submitTecRev('#FormTecRevId', '<c:url value='/reviewer/technicalReview/doUpsert.json'/>',validateSave)"--%>
-                        <%--ng-show="flgIsEvaluated == false || canEdit==true">--%>
-                        <%--Terminar--%>
-                        <%--</span>--%>
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action
               confirm-message="&iquest;Est&aacute; seguro que desea terminar el instrumento de evaluaci&oacute;n?"
               confirm-title="Terminar instrumento de evaluaci&oacute;n" confirm-type="info"

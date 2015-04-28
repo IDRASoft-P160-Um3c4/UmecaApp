@@ -126,16 +126,6 @@
                                                 ng-options="e.name for e in lstRelationship"
                                                 ng-init='lstRelationship = ${lstRelationship};'></select>
                                     </div>
-                                    <%--<div class="col-xs-6" ng-show="victim.relationship.id==8">--%>
-                                    <%--<label>Tiempo de conocerlo</label>--%>
-                                    <%--<br/>--%>
-                                    <%--<input id="timeAgo" ng-model="hm.timeAgo" name="timeAgo" type="text"--%>
-                                    <%--class="input-xxlarge" data-val="true"--%>
-                                    <%--data-val-required="Tiempo de conocerlo es un campo requerido"/>--%>
-                                    <%--<br/>--%>
-                                    <%--<span class="field-validation-valid" data-valmsg-for="timeAgo"--%>
-                                    <%--data-valmsg-replace="true"></span>--%>
-                                    <%--</div>--%>
                                     <div class="col-xs-5 col-xs-offset-1">
                                         <label>Tel&eacute;fono(s)</label>
                                         <br/>

@@ -17,13 +17,4 @@ public interface QuestionaryRepository extends JpaRepository<Questionary, Long>{
 
     @Query("SELECT q FROM Questionary q WHERE q.code =:code AND q.isObsolete = false")
     Questionary findByCode(@Param("code")String code);
-
-/*
-    @Query("SELECT COUNT(u.id) FROM User u WHERE u.username=:username AND u.id<>:id")
-    Long countByUsername(@Param("username")String username, @Param("id")Long id);
-
-    @Query("SELECT u.id FROM User u WHERE u.username=:username")
-    Long findIdByUsername(@Param("username")String username);
-*/
-
 }

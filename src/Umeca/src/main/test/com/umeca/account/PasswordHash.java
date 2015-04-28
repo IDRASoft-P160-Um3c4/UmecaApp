@@ -7,7 +7,7 @@ public class PasswordHash {
 
     @Test
     public void testBcrypt(){
-        String password = "99630110";
+        String password = "admin2015@..";
         BCryptPasswordEncoder passwordEncoder =  new BCryptPasswordEncoder();
         String hashedPass = passwordEncoder.encode(password);
         System.out.println(hashedPass);

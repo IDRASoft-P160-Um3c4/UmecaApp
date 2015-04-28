@@ -25,7 +25,6 @@ app.directive('findMunicipality', function ($http, $timeout) {
                     .success(function (data) {
                         data.data=jQuery.parseJSON(data.data);
                         if (data.data == undefined || data.data.length === 0) {
-                          //  cat={};
                             return;
                         }
                         scope.listMunicipality = data.data;

@@ -268,8 +268,6 @@ jQuery(function ($) {
             var isReadOnly = false;
             if (event.start < today) {
                 isReadOnly = true;
-                //scope.showMsg({title:"Plan de seguimiento", msg:'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
-                //return;
             }
 
             scope.showDlg({title: 'Modificar o eliminar actividad', start: event.start, end: event.end, isNew: false, event: event, isReadOnly: isReadOnly})
@@ -352,7 +350,6 @@ jQuery(function ($) {
         </div>
         <div class="page-header" ng-init="idTec = ${idTec == null? 0: idTec};">
             <h1 class="element-center" ng-init="caseId='${caseId}'; mpId='${mpId}'; personName='${personName}';">
-                <%--Id. del caso: {{caseId}}, &nbsp;&nbsp; --%> Carpeta judicial: {{mpId}}, &nbsp;&nbsp; Imputado:
                 {{personName}}
             </h1>
         </div>

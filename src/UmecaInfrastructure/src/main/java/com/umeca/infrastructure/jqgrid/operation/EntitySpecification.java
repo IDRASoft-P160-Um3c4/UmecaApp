@@ -82,42 +82,4 @@ public class EntitySpecification<T> {
         return sort;  //To change body of created methods use File | Settings | File Templates.
     }
 
-    /*
-    public Specification<User> byFilter(final String filters, final int i ){
-        return new Specification<User>() {
-            public Predicate toPredicate(Root<User> ent, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                //builder.construct(yClass,  selections);
-
-                CriteriaQuery<User> q = builder.createQuery(User.class);
-                Root<User> r = query.from(User.class);
-                q.select(builder.construct(User.class, r.get("id"), r.get("username"), r.get("enabled")));
-
-                Predicate predicate = builder.conjunction();
-                if(!StringExt.isNullOrWhiteSpace(filters)){
-                    buildQuery(predicate, builder, ent, filters, i);
-                }
-
-                q.where(predicate);
-
-
-                return predicate;
-            }
-        };
-    }
-
-    private void buildQuery(Predicate predicate, CriteriaBuilder builder, Root<User> ent, String filters, int i) {
-        JqGridMultipleFilterModel filter;
-        try{
-            filter = JqgridObjectMapper.map(filters);
-            for(JqGridRulesModel rule : filter.getRules()){
-                //Por ahora sólo se aplican AND (conjuntion) entre las reglas y el operador LIKE (Búsqueda de comienza con...)
-                predicate.getExpressions().add(builder.like(builder.lower(ent.get(rule.field).as(String.class)), rule.data.trim().toLowerCase() + "%"));
-            }
-        }catch (Exception ex){
-            return;
-        }
-    }
-
-    */
-
 }

@@ -134,8 +134,6 @@
                     var isReadOnly = false;
                     if (event.start < today) {
                         isReadOnly = true;
-                        //scope.showMsg({title:"Plan de seguimiento", msg:'No es posible modificar una actividad con fecha anterior a la fecha actual.', type: "danger"});
-                        //return;
                     }
 
                     scope.showDlg({

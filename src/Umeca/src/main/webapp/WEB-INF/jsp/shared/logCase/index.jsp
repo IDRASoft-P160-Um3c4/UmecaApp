@@ -6,7 +6,6 @@
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/logCaseCtrl.js"></script>
 
-    <%--<title>Bit&aacute;cora de supervisi&oacute;n</title>--%>
     <title>Historial de supervisi&oacute;n</title>
     <script>
         window.addSpontaneousActivity = function() {

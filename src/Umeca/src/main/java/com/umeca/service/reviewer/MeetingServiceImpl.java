@@ -32,7 +32,6 @@ import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.shared.VictimRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
-import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.shared.CrimeService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,8 +79,6 @@ public class MeetingServiceImpl implements MeetingService {
     ScheduleService scheduleService;
     @Autowired
     CountryRepository countryRepository;
-    @Autowired
-    CatalogService catalogService;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -183,7 +180,7 @@ public class MeetingServiceImpl implements MeetingService {
             return new ModelAndView("/reviewer/meeting/index");
         ModelAndView model = new ModelAndView("/reviewer/meeting/meeting");
         Gson gson = new Gson();
-        ////////////////////Personal data
+        //Personal data
         Case caseDetention = caseRepository.findOne(id);
         Meeting m = caseDetention.getMeeting();
         model.addObject("idCase", caseDetention.getId());
@@ -213,7 +210,6 @@ public class MeetingServiceImpl implements MeetingService {
                 model.addObject("activity", gson.toJson(listRel));
             }
         }
-        //model.addObject("lstPhysicalCondition", gson.toJson(physicalConditionRepository.findAll()));
         List<CatalogDto> listActivity = new ArrayList<>();
         for (Activity a : activityRepository.findNotObsolete()) {
             CatalogDto c = new CatalogDto();
@@ -476,7 +472,6 @@ public class MeetingServiceImpl implements MeetingService {
             seCase.setMeeting(m);
             m.setSocialEnvironment(seCase);
         }
-        //seCase.setComment(socialEnvironment.getComment());
         seCase.setPhysicalCondition(socialEnvironment.getPhysicalCondition());
         Gson gson = new Gson();
         if (seCase != null && seCase.getRelSocialEnvironmentActivities() != null) {
@@ -1220,7 +1215,7 @@ public class MeetingServiceImpl implements MeetingService {
                 case 7: //Substancias
                     c.getMeeting().setCommentDrug(comment);
                     break;
-                case 8: //acilidad de abandonar el pais
+                case 8: //facilidad de abandonar el pais
                     c.getMeeting().setCommentCountry(comment);
                     break;
             }
@@ -1301,7 +1296,6 @@ public class MeetingServiceImpl implements MeetingService {
                 caseRequest.setResponseType(responseTypeRepository.findByCode(Constants.RESPONSE_TYPE_PENDING));
                 caseRequestRepository.save(caseRequest);
             }
-            ///////////////////////////////////////////
             result.setHasError(false);
             result.setTitle("redirect");
             result.setMessage("Entrevista terminada con exito");

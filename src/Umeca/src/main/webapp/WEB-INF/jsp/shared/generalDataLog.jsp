@@ -117,7 +117,6 @@
                     <div class="profile-info-row">
                         <div class="profile-info-name"> APOYO MORAL</div>
                         <div class="profile-info-value element-left">
-                            <%--<span id="moralName">${moralName}&nbsp;&nbsp;${moralPhone}</span>--%>
                             <span id="moralName">${moralName == null ? "Sin registrar":moralName}&nbsp;&nbsp;</span>
                         </div>
                     </div>
@@ -150,10 +149,6 @@
                 </div>
             </div>
         </div>
-        <%--<div class="profile-info-row">--%>
-        <%--<div class="profile-info-name"> TIPO DE RESOLUCI&Oacute;N</div>--%>
-
-        <%--</div>--%>
         <div class="row" ng-show="lstHfAssignedArrangement.length > 0">
             <div class="col-xs-12">
                 <div class="profile-user-info profile-user-info-striped">
@@ -198,7 +193,6 @@
             <div class="col-xs-12">
                 <div class="profile-user-info profile-user-info-striped">
                     <div class="profile-info-row three-lines">
-                        <%--<div class="profile-info-name"> ESTRATEGIAS DE RECORDATORIOS</div>--%>
                         <div class="profile-info-name"> OBJETIVOS DE LA ACTIVIDAD DE SUPERVISI&Oacute;N</div>
                         <div class="profile-info-value element-left">
                             <div ng-repeat="i in lstGoals"><i class="icon-rss blue"></i>&nbsp;&nbsp;{{i.name}}</span>

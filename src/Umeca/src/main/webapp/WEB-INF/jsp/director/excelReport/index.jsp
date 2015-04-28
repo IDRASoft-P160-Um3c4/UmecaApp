@@ -722,7 +722,6 @@
     </div>
     <div class="col-xs-6">
         <div class="widget-box">
-            <%--<div class="widget-header">Audiencia</div>--%>
             <div class="widget-header">Situaci&oacute;n legal</div>
             <div class="widget-body">
                 <div class="row">

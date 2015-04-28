@@ -16,7 +16,7 @@
 
         <div class="col-xs-4 col-xs-offset-1" ng-show="listLocation.length > 0">
             <br/>
-            <label>Elije:</label>
+            <label>Elige:</label>
             <select class="form-control element-center" ng-model="a.location"
                     ng-options="e.name for e in listLocation"
                     ng-change="a.locationId = a.location.id;"></select>

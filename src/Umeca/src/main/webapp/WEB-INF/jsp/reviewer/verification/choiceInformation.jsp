@@ -396,10 +396,6 @@
                     <span class="btn btn-default btn-sm" onclick="window.cancelChoiceInformation()">
                         Regresar
                     </span>
-                    <%--<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"--%>
-                    <%--ng-click=>--%>
-                    <%--Terminar Verificaci&oacute;n--%>
-                    <%--</span>--%>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action
                           confirm-message="&iquest;Est&aacute; seguro que desea terminar la verificaci&oacute;n con esta fuente?"
                           confirm-title="Terminar verificaci&oacute;n" confirm-type="info"

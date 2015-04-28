@@ -11,12 +11,10 @@
         var canTerminate = $('#canTerminateHousemate').attr("value");
 
         upsertHousemate = function (id) {
-            //if (canTerminate == 'true')
             window.showUpsertWithIdCase(id, "#angJsjqGridIdHouseMate", "<c:url value='/supervisor/framingMeeting/housemate/upsert.html'/>", "#GridHouseMate", undefined, idCase);
         };
 
         deleteHousemate = function (id) {
-            //if (canTerminate == 'true')
             window.showObsolete(id, "#angJsjqGridIdHouseMate", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridHouseMate");
         };
 
@@ -137,7 +135,6 @@
                 </div>
             </form>
             <div class="col-xs-12">
-                <%--<div class="modal-footer" ng-show="fm.objView.canTerminate==true">--%>
                 <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submitComments('#FormCommentHousemate', '<c:url value="/supervisor/framingMeeting/upsertHousemateComments.json?idCase="/>',fm.objView.idCase);">

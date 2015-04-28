@@ -309,9 +309,6 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
 
             itMonth = 0;
 
-            //groupInfo:groupInfo, updateGroupInfo:updateGroupInfo
-
-
             while (dateStepInit < d.dateEnd || isNextBusinessDay) {
                 hasEvent = false;
                 if ($scope.m.periodicityId < 3) {
@@ -355,13 +352,11 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                         isModified: true,
                         className: ($scope.cfg.caseInfo.isInAuthorizeReady ? 'label-pre-new' : 'label-info'),
                         infoActivity: {
-//                            lstArrangements: $scope.m.lstArrangements.slice(),
                             lstArrangements: lstArrangements,
                             activity: $scope.m.activity,
                             goal: $scope.m.goal,
                             source: $scope.m.source,
                             caseInfo: $scope.cfg.caseInfo,
-                            //se agrega la especificacion de actividad, objetivo y fuente
                             goalSpec: $scope.m.goalSpec,
                             activitySpec: $scope.m.activitySpec,
                             sourceSpec: $scope.m.sourceSpec

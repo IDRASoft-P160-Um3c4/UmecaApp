@@ -57,29 +57,3 @@ app.directive('uppercase', function() {
         }
     };
 });
-
-/*
-app.directive('ngPrueba', function () {
-    return {
-        require: 'ngModel',
-        //link: function postLink(scope, element, attrs) {
-        //    var options = scope.$eval(attrs.ngPrueba);
-        //    alert(options.valor);
-        //    element.bind('blur', function () {
-        //        scope.$apply(function () {
-        //            scope.name = options.valor;
-        //        });
-        //    });
-        //}
-        link: function(scope, elem, attrs) {
-            var options = scope.$eval(attrs.ngPrueba);
-            options.valor = options.valor || '';
-            elem.on('blur', function() {
-                 scope.$apply(function() {
-                     scope.StateName = options.valor;
-                });
-           });
-        }
-    };
-});
-*/

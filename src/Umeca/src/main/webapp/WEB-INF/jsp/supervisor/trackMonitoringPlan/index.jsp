@@ -27,7 +27,6 @@
 
         generateFile = function (id) {
 
-            //var goTo = "<c:url value='/reviewer/technicalReview/generateFile.html'/>" + "?id=" + id;
             var goTo = "<c:url value='/reviewer/technicalReview/generateFileCase.html'/>" + "?id=" + id;
             window.goToUrlMvcUrl(goTo);
         };

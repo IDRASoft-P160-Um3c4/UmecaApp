@@ -27,7 +27,6 @@ import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
-import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.shared.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +56,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
     @Autowired
     ArrangementRepository arrangementRepository;
-
-    @Autowired
-    CatalogService catalogService;
 
     @Autowired
     SharedUserService sharedUserService;
@@ -170,10 +166,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormat.setPreviousHearing(viewFormat.getPreviousHearing());
 
-        //if (hasFirstFH) {
-        //hearingFormat.setHearingImputed(lastHF.getHearingImputed());
-        //} else {
-
         HearingFormatImputed hearingImputed = hearingFormat.getHearingImputed();
 
         if (hearingImputed == null)
@@ -214,7 +206,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         }
 
         hearingFormat.setHearingImputed(hearingImputed);
-        //}
 
         HearingFormatSpecs hearingSpecs = hearingFormat.getHearingFormatSpecs();
         if (hearingSpecs == null) {
@@ -795,7 +786,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         String idFolder = hearingFormat.getCaseDetention().getIdFolder();
         String idJudicial = hearingFormat.getCaseDetention().getIdMP();
         Long idCase = hearingFormat.getCaseDetention().getId();
-        //try {
 
         if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true) {
             hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
@@ -906,15 +896,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             response.setMessage(hearingFormat.getId() + "|Se ha registrado el formato de audiencia.");
         }
 
-
-//        } catch (Exception e) {
-//            System.out.println("Ha ocurrido un error al guardar el formato de audiencia (serviceImpl)!!!");
-//            e.printStackTrace();
-//            logException.Write(e, this.getClass(), "saveHearingFormat", sharedUserService);
-//            response.setHasError(true);
-//        } finally {
         return response;
-        //}
     }
 
     @Override

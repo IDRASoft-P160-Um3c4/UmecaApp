@@ -156,7 +156,6 @@ public class ManagerevalController {
             caseRequest.setResponseType(responseTypeRepository.findByCode(Constants.RESPONSE_TYPE_DRESSED));
             caseRequestRepository.save(caseRequest);
         }
-        //////////
            }catch (Exception e){
                return new ResponseMessage(true,"");
            }
@@ -261,13 +260,6 @@ public class ManagerevalController {
     JqGridResultModel authorizeRequestList(@ModelAttribute JqGridFilterModel opts) {
         Long userId = userService.GetLoggedUserId();
         opts.extraFilters = new ArrayList<>();
-//        JqGridRulesModel extraFilter = new JqGridRulesModel("statusCase",
-//                new ArrayList<String>() {{
-//                    add(Constants.CASE_STATUS_REQUEST);
-//                }}
-//                , JqGridFilterModel.COMPARE_IN
-//        );
-//        opts.extraFilters.add(extraFilter);
         JqGridRulesModel extraFilter2 = new JqGridRulesModel("responseType",
                 new ArrayList<String>() {{
                     add(Constants.RESPONSE_TYPE_PENDING);
@@ -278,11 +270,6 @@ public class ManagerevalController {
         JqGridRulesModel extraFilter3 = new JqGridRulesModel("requestType",
                 new ArrayList<String>() {{
                     add(Constants.ST_REQUEST_AUTHORIZE_SOURCE);
-//                    add(Constants.ST_REQUEST_CASE_OBSOLETE);
-//                    add(Constants.ST_REQUEST_CHANGE_SOURCE);
-//                    add(Constants.ST_REQUEST_EDIT_LEGAL_INFORMATION);
-//                    add(Constants.ST_REQUEST_EDIT_MEETING);
-//                    add(Constants.ST_REQUEST_EDIT_TECHNICAL_REVIEW);
                 }}
                 , JqGridFilterModel.COMPARE_NOT_IN
         );

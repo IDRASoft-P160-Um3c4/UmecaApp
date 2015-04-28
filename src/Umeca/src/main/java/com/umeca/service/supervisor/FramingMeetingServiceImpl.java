@@ -1242,12 +1242,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (lsDom.size() > 0)
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome", lsDom));
 
-//            if (existFraming.getProcessAccompaniment() == null)
-//                if (sb.toString().equals(""))
-//                    sb.append("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Persona que acompa?a en el proceso\".");
-//                else
-//                    sb.append("|Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Persona que acompa?a en el proceso\".");
-
             if (existFraming.getReferences() != null && existFraming.getReferences().size() > 0) {
                 int noHousemate = 0, noReferences = 0, noVictims = 0;
 
@@ -1286,8 +1280,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     if (act.getIsAccompaniment() != null && act.getIsAccompaniment() == true && act.getAccompanimentInfo() == null) {
                         if (act.getPersonType() != null && act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
                             bandHM++;
-//                            if (act.getOccupation() == null || act.getOccupation().trim().equals(""))
-//                                bandIncompHM++;
                         } else if (act.getPersonType() != null && act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
                             bandREF++;
                     }
@@ -1328,11 +1320,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("victim", lsVic));
             }
 
-//            if (existFraming.getOccupation() == null || existFraming.getRelFramingMeetingActivities() == null || !(existFraming.getRelFramingMeetingActivities().size() > 0)) {
-//                List<String> ls = new ArrayList<>();
-//                ls.add("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Actividades que realiza el imputado\".");
-//                validate.getGroupMessage().add(new GroupMessageMeetingDto("activities", ls));
-//            }
             if (existFraming.getDrugs() == null || !(existFraming.getDrugs().size() > 0)) {
                 lsDrug.add("Debe capturar al menos una registro en en la secci&oacute;n \"Consumo de sustancias\".");
             }
@@ -1343,7 +1330,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("drug", lsDrug));
             }
 
-//            if (existFraming.getSelectedSourcesRel() == null || !(existFraming.getSelectedSourcesRel().size() > 0) ||
             if (existFraming.getSelectedRisksRel() == null || !(existFraming.getSelectedRisksRel().size() > 0) ||
                     existFraming.getSelectedThreatsRel() == null || !(existFraming.getSelectedThreatsRel().size() > 0)) {
                 List<String> ls = new ArrayList<>();
@@ -1444,7 +1430,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 imputedReference.setName(existFraming.getPersonalData().getName() + " " + existFraming.getPersonalData().getLastNameP() + " " + existFraming.getPersonalData().getLastNameM());
                 imputedReference.setPersonType(FramingMeetingConstants.PERSON_TYPE_IMPUTED);
                 imputedReference = framingReferenceRepository.save(imputedReference);
-                //caseRepository.save(existCase);
 
                 FramingSelectedSourceRel imputedSourceRel = new FramingSelectedSourceRel();
                 imputedSourceRel.setFramingMeeting(existFraming);

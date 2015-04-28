@@ -1,4 +1,3 @@
-//Data
 var cities = [
     {
         city: 'Cuernavaca, Morelos',
@@ -28,7 +27,6 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
             .success(function (data) {
                 data.data = jQuery.parseJSON(data.data);
                 if (data.data == undefined || data.data.length === 0) {
-                    // $scope.clear();
                     return;
                 }
                 $scope.listLocation = data.data;
@@ -50,7 +48,6 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
             .success(function (data) {
                 data.data = jQuery.parseJSON(data.data);
                 if (data.data == undefined || data.data.length === 0) {
-                    //  cat={};
                     return;
                 }
                 $scope.listMunicipality = data.data;
@@ -115,7 +112,6 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                         .success(function (data) {
                             data.data = jQuery.parseJSON(data.data);
                             if (data.data == undefined || data.data.length === 0) {
-                                //  cat={};
                                 return;
                             }
                             $scope.listMunicipality = data.data;
@@ -134,7 +130,6 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                                 .success(function (data) {
                                     data.data = jQuery.parseJSON(data.data);
                                     if (data.data == undefined || data.data.length === 0) {
-                                        // $scope.clear();
                                         return;
                                     }
                                     if($scope.idLocationSave!=undefined){
@@ -151,10 +146,6 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                                     }
                                 });
                         });
-//                    $scope.listLocation = data.data;
-//                    $scope.location = $scope.listLocation[0];
-//                    $scope.locationId = $scope.location.id;
-
                 });
         } else {
             if ($scope.listState != undefined && $scope.listState.length > 0) {
@@ -169,7 +160,6 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                     .success(function (data) {
                         data.data = jQuery.parseJSON(data.data);
                         if (data.data == undefined || data.data.length === 0) {
-                            //  cat={};
                             return;
                         }
                         $scope.listMunicipality = data.data;
@@ -197,8 +187,6 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
 
             }
         }
-
-        // $scope.initMaps();
     };
 
     $rootScope.$on('setAddress', function (ev, model) {
@@ -256,7 +244,6 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                     }else{
 
                     }
-                    //$scope.addMarker($scope.point);
                 } catch (e) {
 
                 }

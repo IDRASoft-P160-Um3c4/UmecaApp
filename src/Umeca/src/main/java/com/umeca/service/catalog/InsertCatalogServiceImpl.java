@@ -32,9 +32,10 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
-    //private String PATH = "/home/dcortesr/IdeaProjects/UmecaApp/db/";
-    //C:\Users\rolnd_000\Desktop\repoUMECA\UmecaApp\db
-    private String PATH = "C:\\projects\\GitHub\\UmecaApp\\db\\";
+/*
+    //ruta de catalogos
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+
     @Autowired
     RoleRepository repositoryRole;
 
@@ -504,25 +505,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         registerTypeRepository.flush();
     }
 
-    /* CATALOGO DE TIPO DE AUDIENCIA (FORMATO DE AUDIENCIA) NO APLICA PARA ESTA VERSIÓN
-        @Autowired
-        HearingFormatTypeRepository hearingFormatTypeRepository;
-        @Override
-        public void hearingFormatType() {
-            List<String[]> lstDta = ReaderFile.readFile(PATH + "hearing_format_type.txt","\\|", 4);
-
-            for (String[] data : lstDta) {
-                HearingFormatType model = new HearingFormatType();
-                model.setId(Long.parseLong(data[0]));
-                model.setName(data[1]);
-                model.setDescription(data[2]);
-                model.setIsObsolete(data[3].equals("1"));
-                hearingFormatTypeRepository.save(model);
-            }
-
-            hearingFormatTypeRepository.flush();
-        }
-    */
     @Autowired
     FramingRiskRepository framingRiskRepository;
 
@@ -791,10 +773,11 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Autowired
     ImmigrationDocumentRepository immigrationDocumentRepository;
+
     @Override
     public void immigrationDocument() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "immigrationDocument.txt","\\|",4);
-        for(String[] data: lstDta){
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "immigrationDocument.txt", "\\|", 4);
+        for (String[] data : lstDta) {
             ImmigrationDocument model = new ImmigrationDocument();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
@@ -824,6 +807,5 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         hearingTypeRepository.flush();
     }
-
-
+*/
 }

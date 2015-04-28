@@ -105,9 +105,6 @@
                                      ng-show="n.dateResponse == null ">
                                     <span class="lbl alert-danger">Solicitud sin respuesta</span>
                                 </div>
-                                <%--<div class="row">--%>
-                                <%--<span>{{n.message}}</span>--%>
-                                <%--</div>--%>
                             </div>
                         </div>
                         <div class="row">
@@ -124,8 +121,6 @@
                     </div>
                 </div>
 
-
-                <!-- /widget-body -->
             </div>
             <div class="modal-footer">
                     <span class="btn btn-default btn-sm" onclick="window.showRequest()">

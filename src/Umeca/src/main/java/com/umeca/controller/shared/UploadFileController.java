@@ -169,7 +169,7 @@ public class UploadFileController {
         } else if (type.equals("PHOTO")) {
             TypeNameFile typePhoto = typeNameFileRepository.findByCode(Constants.CODE_FILE_IMPUTED_PHOTO);
             CatalogDto cPhoto = new CatalogDto(typePhoto.getId(), typePhoto.getName());
-            model.addObject("defaultType", gson.toJson(cPhoto));//revisar cuando debe agregarse este elemento, genera un error en
+            model.addObject("defaultType", gson.toJson(cPhoto));
             model.addObject("closeUploadFile", true);
         }
         return model;
@@ -247,8 +247,6 @@ public class UploadFileController {
 
             String path = request.getSession().getServletContext().getRealPath("");
             path = new File(path, uploadFile.getPath()).toString();
-            //uploadFile.setPath(new File(path, uploadFile.getPath()).toString());
-
 
             if (upDwFileService.saveOnDiskUploadFile(mpf, path, uploadFile, resMsg, logException, sharedUserService) == false)
                 return resMsg;
@@ -330,9 +328,8 @@ public class UploadFileController {
 
         response.setContentType("application/force-download");
         response.setContentLength((int) finalFile.length());
-        //response.setContentLength(-1);
         response.setHeader("Content-Transfer-Encoding", "binary");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");//fileName);
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");
 
         return new FileSystemResource(finalFile);
     }
@@ -378,7 +375,7 @@ public class UploadFileController {
             response.setContentType("application/force-download");
             response.setContentLength((int) fileOut.length());
             response.setHeader("Content-Transfer-Encoding", "binary");
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileOut.getName() + "\"");//fileName);
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileOut.getName() + "\"");
 
             return new FileSystemResource(fileOut);
 

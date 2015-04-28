@@ -145,7 +145,6 @@ app.controller('referenceController', function($scope, $timeout,$rootScope) {
     $scope.fillModel = function(){
         var template= "NO TIENE";
         var template2 = "Ninguno";
-        //alert("en fill model con blcok "+$scope.block);
         if($scope.blockR === false){
             $scope.r.fullName = template;
             for(var i= 0; i < $scope.lstRel.length ; i++){

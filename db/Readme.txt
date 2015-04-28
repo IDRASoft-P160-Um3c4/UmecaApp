@@ -1,1 +1,0 @@
-Respaldos de la base de datos van aquí

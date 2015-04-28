@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
@@ -18,9 +19,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.StateRepository;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.HearingFormatRepository;
-import com.umeca.repository.supervisor.HearingFormatTypeRepository;
 import com.umeca.repository.supervisor.HearingTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
@@ -61,9 +60,6 @@ public class HearingFormatController {
 
     @Autowired
     private AddressService addressService;
-
-    @Autowired
-    private HearingFormatTypeRepository hearingFormatTypeRepository;
 
     @Autowired
     SharedLogExceptionService logException;
@@ -246,8 +242,6 @@ public class HearingFormatController {
 
             addressService.fillCatalogAddress(model);
 
-            model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
-
             List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
 
             model.addObject("lstSupervisor", conv.toJson(lstSuper));
@@ -339,10 +333,6 @@ public class HearingFormatController {
             }
         }
 
-        /*if (caseRepository.findByIdMP(idJudicial) != null) {
-            return new ResponseMessage(true, "El n�mero de Carpeta Judicial ya existe, verifique los datos.");
-        }*/
-
         try {
             Case caseDet;
 
@@ -409,9 +399,6 @@ public class HearingFormatController {
                 return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");
 
             if (result.getIsFinished() != null && result.getIsFinished()) {
-//            if(result.getListCrime()==null || (result.getListCrime()!=null && result.getListCrime().equals("[]"))){
-//                return new ResponseMessage(true, "Debe agregar al menos un delito al formato de audiencia.");
-//            }else
                 if (result.getVincProcess() != null && result.getVincProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
                     ResponseMessage resp = hearingFormatService.validatePassCredential(result.getCredPass());
                     if (resp != null)

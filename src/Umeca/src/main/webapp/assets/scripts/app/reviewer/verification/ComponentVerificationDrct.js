@@ -26,8 +26,6 @@ app.directive('verifComp', function ($http, $timeout,$rootScope) {
             });
 
             scopeNew.setDlg(scopeNew.Model.dlg);
-            ////eliminar valores y eliminar readonly
-
         });
     };
 });

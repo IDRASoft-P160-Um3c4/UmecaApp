@@ -25,7 +25,6 @@ app.directive('findLocation', function ($http, $timeout) {
                     .success(function (data) {
                         data.data=jQuery.parseJSON(data.data);
                         if (data.data == undefined) {
-                           // scope.clear();
                             return;
                         }
                         scope.listLocation = data.data;

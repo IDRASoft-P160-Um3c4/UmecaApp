@@ -26,10 +26,6 @@ public interface FramingMeetingService {
 
     ResponseMessage saveReference(Case existCase, FramingReference newReference);
 
-//    ProcessAccompaniment fillProcessAccompaniment(Long idCase, ProcessAccompanimentForView view);
-//    ProcessAccompanimentForView fillProcessAccompanimentForView(Long idCase);
-//    ResponseMessage saveProcessAccompaniment(ProcessAccompaniment processAccompaniment);
-
     ResponseMessage deleteReference(Long id);
 
     FramingEnvironmentAnalysisForView loadEnvironmentAnalysis(Long idCase);

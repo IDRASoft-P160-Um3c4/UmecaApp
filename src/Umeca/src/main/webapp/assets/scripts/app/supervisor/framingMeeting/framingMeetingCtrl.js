@@ -59,7 +59,6 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
     };
 
     $scope.init = function () {
-        //$scope.disableView();
         var colorbox_params = {
             reposition: true,
             scalePhotos: true,
@@ -259,35 +258,5 @@ app.controller('framingMeetingController', function ($scope, $timeout, $http, $r
                 break;
         }
     };
-
-//    $scope.framingMeetingController = function (url){
-//        var idCase = $scope.fm.objView.idCase;
-//        var ajaxConf = {
-//            method: "GET",
-//            params: {id: idCase}
-//        };
-//
-//        ajaxConf.url = url;
-//        $http(ajaxConf)
-//            .success(function (data) {
-//
-//                if (data.hasError == undefined) {
-//                    data = data.responseMesage;
-//                }
-//
-//                if (data.hasError == false) {
-//                    var obj = JSON.parse(data.message);
-//                    if (obj.groupMessage != undefined) {
-//                        for (var i = 0; i < obj.groupMessage.length; i++) {
-//                            var g1 = obj.groupMessage[i];
-//                            $scope.listMsgError[g1.section] = $sce.trustAsHtml(g1.messages);
-//                        }
-//                    }
-//                }
-//                else
-//                    $scope.listMsgError['general'] = $sce.trustAsHtml("Error de red, intente m&aacute;s tarde.");
-//            });
-//    }
-
 })
 ;

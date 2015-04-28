@@ -201,7 +201,6 @@ public class AuthorizeMonitoringPlanController {
         try{
             ActiveMonitoringPlanController.GetMonPlanInfo(id, model, monitoringPlanRepository);
             model.addObject("isAuthorized", 1);
-            //model.addObject("isEnd", 0);
             model.addObject("msgPlan", "el plan de supervisi&oacute;n");
             model.addObject("urlToGo", "/supervisorManager/authorizeMonitoringPlan/doAuthorizeRejectMonPlan.json");
 
@@ -221,7 +220,6 @@ public class AuthorizeMonitoringPlanController {
         try{
             ActiveMonitoringPlanController.GetMonPlanInfo(id, model, monitoringPlanRepository);
             model.addObject("isAuthorized", 0);
-            //model.addObject("isEnd", 0);
             model.addObject("msgPlan", "el plan de supervisi&oacute;n");
             model.addObject("urlToGo", "/supervisorManager/authorizeMonitoringPlan/doAuthorizeRejectMonPlan.json");
 

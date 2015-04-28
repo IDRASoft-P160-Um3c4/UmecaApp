@@ -58,7 +58,7 @@ public class ExcelConv {
 
         List<ImputedHome> homes = meeting.getImputedHomes();
 
-        if (homes != null && homes.size() > 0) //se omite la disponibilidad
+        if (homes != null && homes.size() > 0)
             for (ImputedHome act : homes) {
                 if (addresses != "")
                     addresses += "\n";
@@ -97,7 +97,7 @@ public class ExcelConv {
                         socialString += ": " + act.getSpecificationRelationship();
                     }
 
-                    socialString += ", Identificación: " + act.getDocumentType().getName();
+                    socialString += ", Identificaciï¿½n: " + act.getDocumentType().getName();
 
                     socialString += ", Edad: " + act.getAge();
 
@@ -108,7 +108,7 @@ public class ExcelConv {
                     socialString += ", Vive con el imputado: " + act.getLivingWith().getName();
 
                     if (act.getLivingWith().getId().equals(Constants.ELECTION_NO))
-                        socialString += ", Dirección: " + act.getAddress();
+                        socialString += ", Direcciï¿½n: " + act.getAddress();
 
                 }
         }
@@ -135,13 +135,13 @@ public class ExcelConv {
                 }
                 referencesString += ", " + relationship;
 
-                referencesString += ", Identificación: " + act.getDocumentType().getName();
+                referencesString += ", Identificaciï¿½n: " + act.getDocumentType().getName();
 
                 referencesString += ", Edad: " + act.getAge();
 
                 referencesString += ", Tel.: " + act.getPhone();
 
-                referencesString += ", Dirección: " + act.getAddress();
+                referencesString += ", Direcciï¿½n: " + act.getAddress();
 
             }
 

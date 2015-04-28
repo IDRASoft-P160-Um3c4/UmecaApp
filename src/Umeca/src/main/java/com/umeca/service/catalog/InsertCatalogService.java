@@ -7,6 +7,7 @@ package com.umeca.service.catalog;
  * Time: 4:26 PM
  */
 public interface InsertCatalogService {
+/*
     void role();
     void user();
     void statusMeeting();
@@ -33,7 +34,6 @@ public interface InsertCatalogService {
     void verificationMethod();
     void fieldVerification();
     void statusFieldVerification();
-    //void hearingFormatType(); NO APLICA PARA ESTA VERSIÓN
     void framingThreat();
     void framingRisk();
     void homeType();
@@ -46,7 +46,6 @@ public interface InsertCatalogService {
     void hearingType();
     void crime();
     void typeFileName();
-
     void immigrationDocument();
-
+*/
 }

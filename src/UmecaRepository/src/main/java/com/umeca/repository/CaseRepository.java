@@ -162,9 +162,6 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "LC.media," +
             "CCP.behaviorDetention," +
             "CCP.placeDetention," +
-//            "CCP.nameVictim," +
-//            "VR.name," +
-//            "AV.addressString," +
             "PCP.firstProceeding," +
             "PCP.openProcessNumber," +
             "PCP.numberConvictions," +
@@ -198,8 +195,6 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join LC.familyAnotherCountry RA " +
             "left join LC.communicationFamily CRA " +
             "left join MEET.currentCriminalProceeding CCP " +
-//            "left join CCP.relationshipVictim VR " +
-//            "left join CCP.domicileVictim AV " +
             "left join MEET.previousCriminalProceeding PCP " +
             "left join PCP.complyPM AAA " +
             "left join PCP.complyCSPP ASCPP " +
@@ -300,7 +295,6 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds)")
     List<ExcelCoDefDto> getInfoCoDef(@Param("casesIds") List<Long> lstCasesIds);
 
-    //public ExcelTecRevSelQuestDto(Long idCase, String parentCode, String code, String question) {
     @Query("select new com.umeca.model.entities.supervisor.ExcelTecRevSelQuestDto(CDET.id, SECT.code, SUBSECT.code, QUEST.question, SUBSECT.name) " +
             "from Case CDET " +
             "left join CDET.technicalReview TREV " +

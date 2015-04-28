@@ -55,7 +55,6 @@
                 subGridOptions: {
                     plusicon: "glyphicon glyphicon-chevron-down position-relative",
                     minusicon: "glyphicon glyphicon-chevron-right position-relative",
-                    // openicon  : "ui-icon-arrowreturn-1-e",
                     reloadOnExpand: false,
                     selectOnExpand: true
                 },

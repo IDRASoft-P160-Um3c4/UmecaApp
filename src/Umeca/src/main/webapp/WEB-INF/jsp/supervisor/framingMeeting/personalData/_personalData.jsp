@@ -378,7 +378,6 @@
 </div>
 
 <div class="col-xs-12">
-    <%--<div class="modal-footer" ng-show="fm.objView.canTerminate==true">--%>
     <div class="modal-footer">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
               ng-click="submitIdCaseParam('#FormPersonalData', '<c:url value="/supervisor/framingMeeting/personalData/doUpsert.json?idCase="/>',fm.objView.idCase);">

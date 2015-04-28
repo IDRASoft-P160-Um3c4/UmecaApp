@@ -10,12 +10,10 @@
         var canTerminate = $('#canTerminateDrugs').attr("value");
 
         upsertDrug = function (id) {
-            //if (canTerminate == 'true')
             window.showUpsertWithIdCase(id, "#angJsjqGridIdDrug", "<c:url value='/supervisor/framingMeeting/drugs/upsert.html'/>", "#GridIdDrug", undefined, idCase);
         }
 
         deleteDrug = function (id) {
-            //if (canTerminate == 'true')
             window.showObsolete(id, "#angJsjqGridIdDrug", "<c:url value='/supervisor/framingMeeting/drugs/delete.json'/>", "#GridIdDrug");
         };
 
@@ -134,7 +132,6 @@
                 </div>
             </form>
             <div class="col-xs-12">
-                <%--<div class="modal-footer" ng-show="fm.objView.canTerminate==true">--%>
                 <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submitComments('#FormCommentDrugs', '<c:url value="/supervisor/framingMeeting/upsertDrugsComments.json?idCase="/>',fm.objView.idCase);">

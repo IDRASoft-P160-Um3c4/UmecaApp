@@ -37,10 +37,6 @@ public interface ArrangementRepository extends JpaRepository<Arrangement, Long> 
             "WHERE cd.id =:caseId")
     List<SelectList> findLstArrangementByIdCaseForLog(@Param("caseId") Long caseId);
 
-    /*@Query("SELECT new com.umeca.model.shared.SelectList(aa.id, arr.description, aa.description) FROM ActivityMonitoringPlan amp " +
-            "INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa INNER JOIN aa.arrangement arr " +
-            "WHERE amp.id =:id")*/
-
     @Query("SELECT new com.umeca.model.shared.OptionList(aa.id, arr.description, aa.description, laa.status) FROM ActivityMonitoringPlan amp " +
             "INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa INNER JOIN aa.arrangement arr " +
             "WHERE amp.id =:id")

@@ -4,7 +4,6 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
-    <%--<title>Bit&aacute;coras de supervisi&oacute;n y cumplimiento</title>--%>
     <title>Historial de supervisi&oacute;n y cumplimiento</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">

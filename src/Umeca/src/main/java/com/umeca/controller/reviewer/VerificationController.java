@@ -52,8 +52,6 @@ public class VerificationController {
 
     @RequestMapping(value = "/reviewer/verification/index", method = RequestMethod.GET)
     public String index(){
-        //caseService.validateStatus(3L,Constants.CASE_STATUS_VERIFICATION_COMPLETE,Meeting.class,Constants.S_MEETING_INCOMPLETE);
-        //verificationService.createAllFieldVerificationOfImputed(1L);
         return "/reviewer/verification/index";
     }
 

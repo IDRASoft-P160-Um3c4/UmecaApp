@@ -28,7 +28,6 @@
                 <a href="<c:url value='/index.html' />" class="navbar-brand">
                     <i class="glyphicon glyphicon-cloud"></i>&nbsp;&nbsp;Inicio</a>
             </div>
-            <!-- /.navbar-header -->
 
             <div class="navbar-header pull-right" role="navigation">
                 <ul class="nav ace-nav">
@@ -260,9 +259,6 @@
 
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
-                        <li class="nav-li-blue"><a href="<c:url value='/director/taskDiary/index.html' />"><i
-                                class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
-
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class=" glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;Consulta de casos

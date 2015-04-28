@@ -77,24 +77,15 @@ public class MessageHistoryController {
                 final Join<CaseRequest, Message> messageRequest = r.join("requestMessage");
                 final Join<Message, Case> messageRequestCase = messageRequest.join("caseDetention");
                 final Join<Case, Meeting> meetingCase = messageRequestCase.join("meeting");
-//                final Join<CaseRequest, Message> messageResponse = r.join("responseMessage", JoinType.LEFT);
-//                final Join<CaseRequest, RequestType> requestType = r.join("requestType");
-//                final Join<CaseRequest, ResponseType> responseType = r.join("responseType");
                 final Join<Meeting, Imputed> imputed = meetingCase.join("imputed");
 
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
-                    //add(messageRequestCase.get("id"));
                     add(messageRequestCase.get("id"));
                     add(messageRequestCase.get("idFolder"));
                     add(imputed.get("name"));
                     add(imputed.get("lastNameP"));
                     add(imputed.get("lastNameM"));
-
-                    ///add(requestType.get("description").alias("requestType"));
-                    //add(responseType.get("description").alias("responseType"));
-                    //add(sender.get("fullname").alias("sender"));
-                    //add(messageRequest.get("text").alias("message"));
                 }};
 
                 return result;
@@ -136,7 +127,6 @@ public class MessageHistoryController {
 
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
-                    //add(messageRequestCase.get("id"));
                     add(r.get("id"));
                     add(sender.get("fullname"));
                     add(requestType.get("description"));

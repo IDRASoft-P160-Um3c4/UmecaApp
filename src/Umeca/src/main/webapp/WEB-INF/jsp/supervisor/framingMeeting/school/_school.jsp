@@ -294,7 +294,6 @@
 </div>
 
 <div class="col-xs-12">
-    <%--<div class="modal-footer" ng-show="fm.objView.canTerminate==true">--%>
     <div class="modal-footer">
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
               ng-click="submitSchool('#FormSchoolId', '<c:url value="/supervisor/framingMeeting/school/doUpsert.json"/>');">

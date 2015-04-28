@@ -1,23 +1,3 @@
-
-<%--<div class="row">--%>
-<%--<div class="col-xs-12 element-center" ng-init="blockR=${r.block == null ? true: r.block}">--%>
-<%--<div class="col-xs-6 element-right">--%>
-<%--&iquest;El imputado cuenta con referencias personales?--%>
-<%--</div>--%>
-<%--<div class="col-xs-2">--%>
-<%--<input type="radio" name="block"--%>
-<%--id="blockYes" ng-value="true" ng-model="blockR" ng-change="fillModel()">--%>
-<%--<label for="blockYes">Si</label> &nbsp;&nbsp;&nbsp;--%>
-<%--<input type="radio"  name="block"--%>
-<%--id="blockNo" ng-value="false" ng-model="blockR" ng-change="fillModel()">--%>
-<%--<label for="blockNo">No</label>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<div class="row">--%>
-<%--<div class="hr hr-3"></div>--%>
-<%--</div>--%>
-<%--<br/>--%>
 <div class="row">
 
     <div class="col-xs-12">

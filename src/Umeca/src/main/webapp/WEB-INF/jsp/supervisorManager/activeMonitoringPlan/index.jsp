@@ -121,7 +121,6 @@
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar reporte de incumplimiento\" onclick=\"window.authorizeAccomplishment('" + cl + "');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
                         }
 
-//                        be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Bit&aacute;cora de supervisi&oacute;n\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                         be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Plan estrat&eacute;gico\" onclick=\"window.supervisionLog('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
                         if (status === "EN PROCESO DE TERMINAR") {

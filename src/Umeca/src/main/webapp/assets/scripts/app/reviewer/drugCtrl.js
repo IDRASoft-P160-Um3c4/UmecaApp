@@ -150,8 +150,6 @@ app.controller('drugController', function($scope, $timeout,$rootScope) {
         var template ="NO CONSUME";
         if($scope.blockD == false){
             $scope.d.onsetAge =0;
-            //$scope.d.other=template;
-            //$scope.d.specificationPeriodicity = template;
             $scope.d.quantity = template;
             var today  = new Date();
             var year = today.getFullYear();

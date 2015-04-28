@@ -416,14 +416,6 @@ public class ExcelCaseInfoDto {
         this.imputedSchoolDegree = imputedSchoolDegree;
     }
 
-  /*  public String getImputedDrugs() {
-        return imputedDrugs;
-    }
-
-    public void setImputedDrugs(String imputedDrugs) {
-        this.imputedDrugs = imputedDrugs;
-    }*/
-
     public String getImputedLivedAnotherCountry() {
         return imputedLivedAnotherCountry;
     }

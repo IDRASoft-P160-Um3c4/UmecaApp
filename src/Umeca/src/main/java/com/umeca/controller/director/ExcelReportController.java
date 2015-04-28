@@ -1045,33 +1045,6 @@ public class ExcelReportController {
 
             summ.doCountIds(); //realiza los conteos por status
 
-//            //estatus
-//            summ.setTotMeeting(new Long(reportExcelRepository.findIdCasesByStatusMeetingStr(new ArrayList<String>() {{
-//                add(Constants.S_MEETING_INCOMPLETE_LEGAL);
-//            }}, idsCasesByDate).size()));
-//
-//            summ.setTotLegal(new Long(reportExcelRepository.findIdCasesByStatusMeetingStr(new ArrayList<String>() {{
-//                add(Constants.S_MEETING_COMPLETE);
-//            }}, idsCasesByDate).size()));
-//
-//            summ.setTotVerif(new Long(reportExcelRepository.findIdCasesByStatusMeetingStr(new ArrayList<String>() {{
-//                add(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
-//            }}, idsCasesByDate).size()));
-//
-//            summ.setTotTechRev(new Long(reportExcelRepository.findIdCasesByStatusCaseStr(new ArrayList<String>() {{
-//                add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
-//            }}, idsCasesByDate).size()));
-//
-//            summ.setTotHearingF(new Long(reportExcelRepository.findIdCasesByStatusCaseStr(new ArrayList<String>() {{
-//                add(Constants.CASE_STATUS_HEARING_FORMAT_END);
-//            }}, idsCasesByDate).size()));
-//
-//            summ.setTotFMeeting(new Long(reportExcelRepository.findIdCasesByStatusCaseStr(new ArrayList<String>() {{
-//                add(Constants.CASE_STATUS_FRAMING_COMPLETE);
-//            }}, idsCasesByDate).size()));
-//
-//            summ.setTotMonP(new Long(reportExcelRepository.findIdCasesWithMonP(idsCasesByDate).size()));
-
             /*summary*/
 
             beans.put("summ", summ);

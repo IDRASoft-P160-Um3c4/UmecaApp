@@ -32,13 +32,6 @@ public class SharedController {
     @PersistenceContext(unitName = "punit")
     private javax.persistence.EntityManager entityManager;
 
-    /*
-        *url|user|pass|id_user|id_imputed|type{0 - enrollment|1 - verify}
-        key: 1234567890123481
-        "jdbc:mariadb://192.168.11.135:3306/sgumeca|root|root|4|1|0"
-        * */
-
-
     @RequestMapping(value = "/supervisor/shared/enrollment", method = RequestMethod.GET, produces = "application/x-java-jnlp-file")
     public @ResponseBody String enrollment(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response){
 

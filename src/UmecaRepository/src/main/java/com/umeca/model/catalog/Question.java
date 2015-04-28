@@ -31,9 +31,6 @@ public class Question {
     @JoinColumn(name="id_question_type", nullable = false)
     private QuestionType questionType;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question", fetch = FetchType.LAZY)
-    private List<Answer> answers;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_questionary_section", nullable = false)
     private QuestionarySection section;
@@ -93,14 +90,6 @@ public class Question {
 
     public void setSection(QuestionarySection section) {
         this.section = section;
-    }
-
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
     }
 
     public Integer getIndex() {

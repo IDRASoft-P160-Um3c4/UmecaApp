@@ -1,10 +1,4 @@
 (function(window, document) {
-
-// Create all modules and define dependencies to make sure they exist
-// and are loaded in the correct order to satisfy dependency injection
-// before all nested files are concatenated by Grunt
-
-// Config
     angular.module('ngCsv.config', []).
         value('ngCsv.config', {
             debug: true
@@ -17,7 +11,6 @@
             }
         }]);
 
-// Modules
     angular.module('ngCsv.directives', []);
     angular.module('ngCsv',
         [
@@ -25,12 +18,7 @@
             'ngCsv.directives',
             'ngSanitize'
         ]);
-    /**
-     * ng-csv module
-     * Export Javascript's arrays to csv files from the browser
-     *
-     * Author: asafdav - https://github.com/asafdav
-     */
+
     angular.module('ngCsv.directives', []).
         directive('ngCsv', ['$parse', function($parse) {
             return {

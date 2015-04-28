@@ -326,13 +326,7 @@ public class VerificationServiceImpl implements VerificationService {
                     result = fieldMeetingSourceRepository.getGroupFieldMeetingWithIdList(e.getIdSource(), e.getIdSubsection(), idList, Constants.ST_FIELD_VERIF_UNABLE);
                 }
                 if (result != null) {
-                    //for(FieldMeetingSource fAux: result){
-                    //  if(!fAux.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)){
-                    //    List<FieldMeetingSource> a = new ArrayList<>();
-                    //  a.add(fAux);
                     list.add(new ChoiceView().choiceDto(result));
-                    // }
-                    //}
                 }
                 listAdded.add(e.getIdSource());
             }
@@ -499,7 +493,6 @@ public class VerificationServiceImpl implements VerificationService {
             }
 
             for (FieldMeetingSource fms : fmsAuxSecond) {
-                //fms.setId(template.getId());
                 fms.setSourceVerification(template.getSourceVerification());
                 fms.setStatusFieldVerification(template.getStatusFieldVerification());
                 fms.setFinal(true);
@@ -724,7 +717,6 @@ public class VerificationServiceImpl implements VerificationService {
                 model.addObject("activity", gson.toJson(listRel));
             }
         }
-        //model.addObject("lstPhysicalCondition", gson.toJson(physicalConditionRepository.findAll()));
         List<CatalogDto> listActivity = new ArrayList<>();
         for (Activity a : activityRepository.findNotObsolete()) {
             CatalogDto ca = new CatalogDto();
@@ -775,7 +767,7 @@ public class VerificationServiceImpl implements VerificationService {
                 model.addObject("listScheduleSchool", scheduleService.getSchedules(c.getId(), School.class));
             }
         }
-        ////////////////////
+
         List<Drug> drugs = c.getMeeting().getDrugs();
         if (drugs != null) {
             model.addObject("lstDrugType", gson.toJson(drugTypeRepository.findNotObsolete()));
@@ -1113,7 +1105,6 @@ public class VerificationServiceImpl implements VerificationService {
             listFieldMeetingSource.addAll(getValueOfMeetingByCode(field.getCode(), c.getMeeting(), fms));
         }
         return listFieldMeetingSource;
-        // fieldMeetingSourceRepository.save(listFieldMeetingSource);
     }
 
 

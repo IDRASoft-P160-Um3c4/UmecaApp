@@ -109,20 +109,4 @@ public class JqGridFilterModel {
     public void setExtraFilters(List<JqGridRulesModel> extraFilters) {
         this.extraFilters = extraFilters;
     }
-    /*
-    public long getPrimaryId() {
-        return primaryId;
-    }
-
-    public void setPrimaryId(long primaryId) {
-        this.primaryId = primaryId;
-    }
-
-    public String getCodeItem() {
-        return codeItem;
-    }
-
-    public void setCodeItem(String codeItem) {
-        this.codeItem = codeItem;
-    }*/
 }

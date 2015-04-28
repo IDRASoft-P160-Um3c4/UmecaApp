@@ -27,12 +27,6 @@ app.controller("supervisionLogController", function($scope, $timeout,$sce, share
     $scope.passToJson = function(str){
         str = "{\"sch\":"+str+"}";
         return str;
-//        var a =str.split(',');
-//        var b = [];
-//        for(var i  = 0 ; i< a.length; i++){
-//            b.push(JSON.stringify(a[i]));
-//        }
-        //return JSON.parse(str);
     };
 
     $scope.fillByFilter = function(){
@@ -110,8 +104,6 @@ app.controller("supervisionLogController", function($scope, $timeout,$sce, share
                     name: assArr.name,
                     status: $scope.setStatus(mpArr.status)
                 });
-
-                //$scope.lstActMonPlanArrangement.splice(i,1);   Se comenta para poder filtrar las actividades
             }
 
             if (bFound === true && mpArr.actMonPlanId !== actMonPlanId)
@@ -136,7 +128,6 @@ app.controller("supervisionLogController", function($scope, $timeout,$sce, share
             var actSup = $scope.idToObject(act.actSupervisionId, $scope.lstActivities);
             var aidSource = $scope.idToObject(act.aidSourceId, $scope.lstSources);
 
-            //id
             var lstAssignedArrangements = $scope.generateAssignedArrangements(act.id);
             var comments = (act.comments === undefined || act.comments === null) ? "NA" : act.comments;
 
@@ -221,8 +212,7 @@ app.controller("supervisionLogController", function($scope, $timeout,$sce, share
 
             var actSup = $scope.idToObject(act.actSupervisionId, $scope.lstActivities);
             var aidSource = $scope.idToObject(act.aidSourceId, $scope.lstSources);
-
-            //id
+            
             var splitInfo = $scope.splitAssignedArrangements(act.id);
             var comments = (act.comments === undefined || act.comments === null) ? "NA" : act.comments;
 

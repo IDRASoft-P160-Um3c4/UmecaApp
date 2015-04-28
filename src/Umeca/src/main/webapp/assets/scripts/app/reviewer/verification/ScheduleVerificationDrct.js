@@ -22,8 +22,6 @@ app.directive('verifSchedule', function ($http, $rootScope) {
                 $rootScope.$apply();
             });
             scopeNew.setDlg(scopeNew.Model.dlg);
-            ////eliminar valores y eliminar readonly
-
         });
     };
 });

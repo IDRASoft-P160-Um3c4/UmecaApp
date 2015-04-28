@@ -93,20 +93,6 @@ app.controller('proceedingLegalController', function($scope, $timeout, $sce) {
     $scope.Model = {};
 
     $scope.submit = function (formId, urlToPost, hasReturnId) {
-//        var forms = formId.split(",");
-//        var val = true;
-//        for(var i=0; i<forms.length; i++){
-//            if($(forms[i]).valid() == false){
-//                $scope.validf["form"+i] = true;
-//                val  = false;
-//            }else{
-//                $scope.validf["form"+i] = false;
-//            }
-//        }
-//        if (!val) {
-//            $scope.Invalid = true;
-//            return false;
-//        }
         $scope.WaitFor = true;
 
              $.post(urlToPost, $(formId).serialize())

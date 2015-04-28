@@ -12,5 +12,3 @@ jQuery(function ($) {
         $(this).css('cursor', 'pointer');
     });
 });
-
-//<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>

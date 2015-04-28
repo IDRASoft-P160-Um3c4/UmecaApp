@@ -1765,7 +1765,6 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     break;
             }
         }      ///end fill meeting verification
-        //meeting.setCaseDetention(verification.getCaseDetention());
         meeting.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_COMPLETE_VERIFICATION));
         verification.setMeetingVerified(meeting);
         //set status meeting y meetingtype

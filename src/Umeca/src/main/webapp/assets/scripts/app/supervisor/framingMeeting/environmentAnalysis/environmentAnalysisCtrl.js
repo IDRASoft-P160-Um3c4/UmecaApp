@@ -160,8 +160,6 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         $scope.errorRisks = "";
         $scope.errorComments = "";
 
-//        if ($scope.lstSelectedSources == undefined || $scope.lstSelectedSources.length <= 0)
-//            $scope.errorSources = "Debe seleccionar al menos un vinculo";
 
         if ($scope.lstSelectedRisk == undefined || $scope.lstSelectedRisk.length <= 0)
             $scope.errorRisks = "Debe seleccionar al menos un riesgo";

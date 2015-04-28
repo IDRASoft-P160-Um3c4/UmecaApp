@@ -29,8 +29,6 @@ app.controller('framingJobController', function ($scope, $timeout, $rootScope, $
 
             $(formId).validate();
 
-            //$scope.Invalid = false;
-
             if ($(formId).valid() == false) {
                 $scope.Invalid = true;
             }

@@ -29,7 +29,6 @@ public class Activity {
         return id;
     }
 
-
     public void setId(Long id) {
         this.id = id;
     }

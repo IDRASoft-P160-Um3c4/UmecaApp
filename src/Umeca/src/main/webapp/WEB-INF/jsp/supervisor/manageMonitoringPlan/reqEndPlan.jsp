@@ -13,7 +13,6 @@
                 <div class="modal-header">
                     <div class="alert alert-info">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <%--<h4 class="element-center"><i class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Solicitud de finalizaci&oacute;n del plan de seguimiento</h4>--%>
                         <h4 class="element-center"><i class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Solicitud de
                             suspensi&oacute;n del proceso de supervisi&oacute;n</h4>
                     </div>
@@ -158,7 +157,6 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div ng-show="MsgError" class="alert alert-danger element-center" ng-bind-html="MsgError">
-                                <%--{{MsgError}}--%>
                             </div>
                         </div>
                     </div>

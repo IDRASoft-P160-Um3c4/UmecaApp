@@ -185,11 +185,6 @@ public class GenerateMonitoringPlanController {
 
         model.addObject("isInAuthorizeReady", MonitoringConstants.LST_STATUS_AUTHORIZE_READY.contains(mpi.getMonStatus()));
 
-        //It's done on client side
-        //List<ActivityMonitoringGroupInfo> lstGroupInfo = activityMonitoringPlanRepository.findGroupInfoBy(id, MonitoringConstants.STATUS_ACTIVITY_DELETED);
-        //sLstGeneric = gson.toJson(lstGroupInfo);
-        //model.addObject("lstGroupInfo", sLstGeneric);
-
         List<ActivityMonitoringPlan> lstActivities = activityMonitoringPlanRepository.findValidActivitiesBy(id, MonitoringConstants.STATUS_ACTIVITY_DELETED);
         List<ActivityMonitoringPlanDto> lstDtoActivities = ActivityMonitoringPlanDto.convertToDtos(lstActivities);
 

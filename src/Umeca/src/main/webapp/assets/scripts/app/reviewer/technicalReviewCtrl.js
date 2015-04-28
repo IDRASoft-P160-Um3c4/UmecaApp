@@ -207,13 +207,6 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
         return false;
     };
 
-//    $scope.changeZIndex = function (elementClick) {
-//        for (var a = 0; a < $scope.sectionList.length; a++) {
-//            $("#li" + $scope.sectionList[a].tabId).css("z-index", "0");
-//        }
-//        $("#li" + elementClick).css("z-index", "1");
-//    };
-
     $scope.showMessageError = function(elementClick){
         $("#divErrorMessage").show();
         var position = $(".tab-content").position();
@@ -324,9 +317,6 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
                 break;
             case 2://regreso para supervisor y managersup
                 url = $scope.urlManagerSup;
-                break;
-            case 3:
-                //todo falta la url para el director
                 break;
             default ://regreso por default
                 url = $scope.urlTecRev;

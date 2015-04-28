@@ -17,7 +17,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             if ($scope.m.hasPrevHF == false) {
                 if (id == 1) {
                     $scope.m.labelImpForm = $sce.trustAsHtml("Fecha de imputaci&oacute;n");
-                    //$scope.m.impDate = $scope.myFormatDate(new Date());
                     $scope.m.impDate = $scope.m.appointmentDate;
                 }
                 else if (id == 2) {
@@ -37,7 +36,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 $scope.m.extDate = $scope.myFormatDate(((new Date()).getTime() + (86400000 * 6)));
             }
             else if (id == 3) {
-                //$scope.m.extDate = "";
                 $scope.m.extDate = $scope.m.appointmentDate;
             }
 
@@ -240,7 +238,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 if ($scope.m.hasPrevHF == true) {
                     $("#idFolder").attr("disabled", true);
                     $("#idJudicial").attr("disabled", true);
-                    //$("#divImputado :input").attr("disabled", true);
                     $("#divFormImp :input").attr("disabled", true);
                 }
                 else
@@ -345,7 +342,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.imputedPresence = data.imputedPresence;
             $scope.m.hearingTypeSpecification = data.hearingTypeSpecification;
             $scope.m.hearingResult = data.hearingResult;
-            //
 
             $scope.m.umecaDate = $scope.myFormatDate(data.umecaDate);
             $scope.m.umecaTime = data.umecaTime;
@@ -445,7 +441,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                     }
 
                     if (resp.hasError == true) {
-                        //$scope.msgMapRequest=$sce.trustAsHtml("Google Maps no cuenta con cooredenadas para el C&oacute;digo Postal: "+$scope.zipCode);
                         $scope.MsgError = $sce.trustAsHtml(resp.message);
                         $scope.$apply();
                     } else {

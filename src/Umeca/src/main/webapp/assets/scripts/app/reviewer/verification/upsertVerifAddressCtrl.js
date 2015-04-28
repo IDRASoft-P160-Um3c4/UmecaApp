@@ -53,7 +53,6 @@ app.controller('verificationAddressController', function($scope, $timeout, $q, $
     };
 
     $scope.init = function(){
-//        $rootScope.$broadcast("resizeMap");
       };
 
     $scope.enableProperties = function () {

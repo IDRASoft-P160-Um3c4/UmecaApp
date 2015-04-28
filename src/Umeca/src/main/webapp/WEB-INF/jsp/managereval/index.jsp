@@ -92,7 +92,6 @@ $(document).ready(function () {
         subGridOptions: {
             plusicon: "glyphicon glyphicon-chevron-down position-relative",
             minusicon: "glyphicon glyphicon-chevron-right position-relative",
-            // openicon  : "ui-icon-arrowreturn-1-e",
             reloadOnExpand: false,
             selectOnExpand: true
         },
@@ -222,12 +221,9 @@ app.controller('managerEvalController', function ($scope, $sce) {
     };
 
     $scope.cleanForm = function(){
-//        $("#password").val("");
-//        $("#comment").val("");
         $scope.password = "";
         $scope.comment = "";
         $scope.MsgError = "";
-//        $scope.$apply();
     };
 
     $scope.prompt = function (idx) {

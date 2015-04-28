@@ -8,11 +8,6 @@
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak data-backdrop="static">
         <div class="modal-dialog" style="width:800px">
             <div class="modal-content">
-               <!-- <div class="modal-header">
-                    <div class="alert alert-danger ">
-                        <h4 class="element-center">&nbsp;&nbsp;Informaci�n recolectada</h4>
-                    </div>
-                </div>    -->
                 <div class="modal-body" ng-init="managereval = ${managereval}">
                     <form id="FormChoices" name="FormChoices" ng-submit="submit('#FormChoices')" class="form-horizontal"
                           role="form">
@@ -57,11 +52,11 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 element-left">
-                                        Raz&oacute;n por la que se elije este campo o secci&oacute;n:
+                                        Raz&oacute;n por la que se elige este campo o secci&oacute;n:
                                     </div>
                                     <div class="col-xs-9">
                                         <textarea class="form-control" name="reason"  data-val="true" ng-model="Model.reason" ng-disabled="managereval"
-                                         data-val-required="La raz&oacute;n por la que se elije el campo o secci&oacute;n es un campo requerido"></textarea>
+                                         data-val-required="La raz&oacute;n por la que se elige el campo o secci&oacute;n es un campo requerido"></textarea>
                                          <span class="field-validation-valid" data-valmsg-for="reason" data-valmsg-replace="true"></span>
                                     </div>
                                 </div>
@@ -73,7 +68,6 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div ng-show="MsgError" class="alert alert-danger element-center"  ng-bind-html="MsgError">
-                                <%--{{MsgError}}--%>
                             </div>
                         </div>
                     </div>

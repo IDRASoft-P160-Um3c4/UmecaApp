@@ -856,26 +856,6 @@ public class FramingMeetingController {
         return framingMeetingService.saveSelectedItems(idCase, view);
     }
 
-//    @RequestMapping(value = "/supervisor/framingMeeting/processAccompaniment/loadProcessAccompaniment", method = RequestMethod.POST)
-//    public
-//    @ResponseBody
-//    ProcessAccompanimentForView loadProcessAccompaniment(@RequestParam(required = true) Long idCase) {
-//
-//        return framingMeetingService.fillProcessAccompanimentForView(idCase);
-//    }
-//
-//    @RequestMapping(value = "/supervisor/framingMeeting/processAccompaniment/doUpsert", method = RequestMethod.POST)
-//    public
-//    @ResponseBody
-//    ResponseMessage processAccompanimentDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute ProcessAccompanimentForView view) {
-//
-//        ProcessAccompaniment processAccompaniment = framingMeetingService.fillProcessAccompaniment(idCase, view);
-//        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
-//        existFraming.setProcessAccompaniment(processAccompaniment);
-//
-//        return framingMeetingService.save(existFraming);
-//    }
-
     @RequestMapping(value = "/supervisor/framingMeeting/additionalQuestions/loadAdditionalQuestion", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -1137,10 +1117,4 @@ public class FramingMeetingController {
 
         return model;
     }
-
-
-//    @InitBinder
-//    public void initBinder(WebDataBinder dataBinder) {
-//        dataBinder.registerCustomEditor(String.class, new StringEscapeEditor(false, false, true));
-//    }
 }

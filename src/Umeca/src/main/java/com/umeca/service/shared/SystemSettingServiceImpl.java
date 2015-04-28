@@ -23,13 +23,6 @@ public class SystemSettingServiceImpl implements SystemSettingService {
     public List<SystemSetting> findAllOfGroup(String group) {
         List<SystemSetting> lstSystemSettings = systemSettingsRepository.findAllOfGroup(group);
         return lstSystemSettings;
-        /*HashMap<String, String> hmSystemSettings = new HashMap<>();
-
-        for(SystemSetting systemSetting : lstSystemSettings){
-            hmSystemSettings.put(systemSetting.getKey(), systemSetting.getValue());
-        }
-
-        return hmSystemSettings;    */
     }
 
     @Override

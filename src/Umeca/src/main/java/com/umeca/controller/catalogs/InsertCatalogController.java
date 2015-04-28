@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class InsertCatalogController {
-
+/*
     @Autowired
     InsertCatalogService service;
 
@@ -169,13 +169,6 @@ public class InsertCatalogController {
         return "Status Field  Verification OK!";
     }
 
-
-    /*@RequestMapping(value = "/catalogs/insertHearingFormatType", method = RequestMethod.GET)
-    public String insertHearingFormatType(){ //NO APLICA PARA ESTA VERSIÓN
-        service.hearingFormatType();
-        return "Hearing Format Type OK!";
-    }*/
-
     @RequestMapping(value = "/catalogs/insertFramingRisk", method = RequestMethod.GET)
     public String insertFramingRisk() {
         service.framingRisk();
@@ -305,4 +298,5 @@ public class InsertCatalogController {
         service.immigrationDocument();
         return "insertCatalog OK!!";
     }
+    */
 }

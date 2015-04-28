@@ -20,9 +20,6 @@ app.controller('crimeController', function ($scope, $timeout, $rootScope) {
                 $scope.c.federal = $scope.listElection[0];
                 $scope.c.federalId = $scope.c.federal.id;
             }
-//        if($scope.listCrime.length>0){
-//            $scope.c.crime =$scope.listCrime[0];
-//        }
             $scope.cleanArray();
         };
 

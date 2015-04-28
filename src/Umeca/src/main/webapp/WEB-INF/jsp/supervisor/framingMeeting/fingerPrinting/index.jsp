@@ -39,14 +39,4 @@
 
     </div>
 
-    <!--<div class="col-xs-12">
-        <div class="modal-footer">
-        <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-show="{{fm.objView.canTerminate==true}}"
-              ng-click="tuAccion();">
-            <span class="glyphicon glyphicon-cloud-upload"></span>
-              Guardar
-        </span>
-        </div>
-    </div>-->
-
 </div>

@@ -313,7 +313,6 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                     for (FieldMeetingSource fms : fieldMeetingSources) {
                         String finalString = template.replace("{0}", Convert.convertToValidString(fms.getFieldVerification().getFieldName()));
                         finalString = finalString.replace("{1}", Convert.convertToValidString(fms.getValue()));
-                        //finalString = finalString;
                         messages.add(finalString);
                     }
                     s.setValues(messages);

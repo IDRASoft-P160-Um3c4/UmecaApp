@@ -22,8 +22,6 @@ app.directive('verifAddress', function ($http, $rootScope) {
                 $compile($("#divElementVerifAddress"))($rootScope); $rootScope.$apply();
             });
             scopeNew.setDlg(scopeNew.Model.dlg);
-            ////eliminar valores y eliminar readonly
-
         });
     };
 });

@@ -5,8 +5,6 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUm.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/log/supervisionLogCtrl.js"></script>
-
-    <%--<title>Bit&aacute;cora de supervisi&oacute;n</title>--%>
     <title>Plan estrat&eacute;gico</title>
     <script>
         window.downloadAccomplishmentFile = function () {
@@ -25,7 +23,7 @@
     lstRisk=${lstRisk};lstThreat=${lstThreat};'></div>
 
 <h4 class="element-center">REPORTE DE INCUMPLIMIENTO Y CUMPLIMIENTO DE LAS ACTIVIDADES </h4>
-<h4 class="element-center">DEL PLAN DE SUPERVISI&Oactue;N</h4>
+<h4 class="element-center">DEL PLAN DE SUPERVISI&Oacute;N</h4>
 <div class="row">
     <div class="col-xs-12 align-right">
         <i class="icon-cloud-download icon-animated-wrench purple">&nbsp; </i><a href="#" onclick="downloadAccomplishmentFile()">Descargar reporte</a>
@@ -33,58 +31,6 @@
 </div>
 <div class="hr hr8"></div>
 <%@ include file="/WEB-INF/jsp/shared/generalDataLog.jsp" %>
-<%--<div class="panel panel-default panel-primary">--%>
-<%--<div class="panel-heading">--%>
-<%--<span class="glyphicon glyphicon-saved"></span>&nbsp;&nbsp;DATOS DEL CASO--%>
-<%--</div>--%>
-<%--<div class="panel-body">--%>
-<%--<div class="row">--%>
-<%--<div class="col-xs-12">--%>
-<%--<div class="profile-user-info profile-user-info-striped">--%>
-<%--<div class="profile-info-row">--%>
-<%--<div class="profile-info-name"> IMPUTADO</div>--%>
-<%--<div class="profile-info-value element-left">--%>
-<%--<span id="imputedName">${imputedName}&nbsp;</span>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<div class="row">--%>
-<%--<div class="col-xs-12">--%>
-<%--<div class="profile-user-info profile-user-info-striped">--%>
-<%--<div class="profile-info-row two-lines">--%>
-<%--<div class="profile-info-name"> CARPETA JUDICIAL</div>--%>
-<%--<div class="profile-info-value element-left">--%>
-<%--<span id="mpId">${mpId}&nbsp;</span>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-
-<%--<div class="panel panel-default panel-primary">--%>
-<%--<div class="panel-heading">--%>
-<%--<span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;DATOS DEL IMPUTADO--%>
-<%--</div>--%>
-<%--<div class="panel-body">--%>
-<%--<div class="row">--%>
-<%--<div class="col-xs-12">--%>
-<%--<div class="profile-user-info profile-user-info-striped">--%>
-<%--<div class="profile-info-row">--%>
-<%--<div class="profile-info-name"> DOMICILIO</div>--%>
-<%--<div class="profile-info-value element-left">--%>
-<%--<span id="address">${address}&nbsp;</span>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-
 <div class="panel panel-default panel-primary">
     <div class="panel-heading">
         <span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;FUENTES Y MEDIOS DE VERIFICACI&Oacute;N
@@ -107,28 +53,6 @@
         </div>
     </div>
 </div>
-<%--<div class="panel panel-default panel-primary">--%>
-    <%--<div class="panel-heading">--%>
-        <%--<span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;ACTIVIDADES DE SUPERVISI&Oacute;N--%>
-    <%--</div>--%>
-    <%--<div class="panel-body">--%>
-        <%--<div class="row">--%>
-            <%--<div class="col-xs-12">--%>
-                <%--<div class="profile-user-info profile-user-info-striped">--%>
-                    <%--<div class="profile-info-row two-lines">--%>
-                        <%--<div class="profile-info-name"> ACTIVIDADES DE SUPERVISI&Oacute;N</div>--%>
-                        <%--<div class="profile-info-value element-left">--%>
-                            <%--<div ng-repeat="i in lstActivities"><i--%>
-                                    <%--class="icon-tasks blue"></i>&nbsp;&nbsp;{{i.name}}</span>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</div>--%>
-
 <div class="panel panel-default panel-primary">
     <div class="panel-heading">
         <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;&nbsp;MEDIDAS INCUMPLIDAS / CONDICIONES INCLUMPLIDAS
@@ -156,7 +80,6 @@
                                 </th>
                                 <th class="col-xs-4 element-center">
                                     <i class="icon-caret-right blue"></i>
-                                    <%--RESULTADO DE LOS RIESGOS PROCESALES--%>
                                     OBLIGACIONES PROCESALES
                                 </th>
                             </tr>
@@ -211,7 +134,6 @@
                                 </th>
                                 <th class="col-xs-4 element-center">
                                     <i class="icon-caret-right blue"></i>
-                                    <%--RESULTADO DE LOS RIESGOS PROCESALES--%>
                                     OBLIGACIONES PROCESALES
                                 </th>
                             </tr>

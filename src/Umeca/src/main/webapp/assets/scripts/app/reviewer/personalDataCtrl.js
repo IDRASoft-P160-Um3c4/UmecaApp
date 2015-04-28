@@ -23,7 +23,6 @@
               .success(function (data) {
                   data.data = jQuery.parseJSON(data.data);
                   if (data.data == undefined || data.data.length === 0) {
-                      // $scope.clear();
                       return;
                   }
                   $scope.listLocation = data.data;
@@ -67,7 +66,6 @@
                                          .success(function (data) {
                                              data.data = jQuery.parseJSON(data.data);
                                              if (data.data == undefined || data.data.length === 0) {
-                                                 //  cat={};
                                                  return;
                                              }
                                              $scope.listMunicipality = data.data;
@@ -86,7 +84,6 @@
                                                  .success(function (data) {
                                                      data.data = jQuery.parseJSON(data.data);
                                                      if (data.data == undefined || data.data.length === 0) {
-                                                         // $scope.clear();
                                                          return;
                                                      }
                                                      $scope.listLocation = data.data;
@@ -104,7 +101,6 @@
                         }
 
                         if (data.data == undefined || data.data.length === 0) {
-                            //  cat={};
                             return;
                         }
                         $scope.listMunicipality = data.data;
@@ -140,7 +136,6 @@
                     .success(function (data) {
                         data.data = jQuery.parseJSON(data.data);
                         if (data.data == undefined || data.data.length === 0) {
-                            //  cat={};
                             return;
                         }
                         $scope.listMunicipality = data.data;

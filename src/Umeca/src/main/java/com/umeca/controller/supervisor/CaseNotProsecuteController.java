@@ -156,7 +156,6 @@ public class CaseNotProsecuteController {
                 return resp;
             Case c = caseRepository.findOne(id);
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE_OPEN));
-            //TODO abrir bitacora en este momento para casos judicializdos
             caseRepository.save(c);
             LogNotificationReviewer notif = new LogNotificationReviewer();
             notif.setIsObsolete(false);

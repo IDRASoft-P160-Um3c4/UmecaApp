@@ -11,12 +11,10 @@
         var canTerminate = $('#canTerminateRef').attr("value");
 
         upsertReference = function (id) {
-            //if (canTerminate == 'true')
             window.showUpsertWithIdCase(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/references/upsert.html'/>", "#GridReferences", undefined, idCase);
         };
 
         deleteReference = function (id) {
-            //if (canTerminate == 'true')
             window.showObsolete(id, "#angJsjqGridIdReferences", "<c:url value='/supervisor/framingMeeting/reference/delete.json'/>", "#GridReferences");
         };
 
@@ -137,7 +135,6 @@
                 </div>
             </form>
             <div class="col-xs-12">
-                <%--<div class="modal-footer" ng-show="fm.objView.canTerminate==true">--%>
                 <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                           ng-click="submitComments('#FormCommentReference', '<c:url value="/supervisor/framingMeeting/upsertReferencesComments.json?idCase="/>',fm.objView.idCase);">

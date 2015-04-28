@@ -185,13 +185,10 @@ public class CaseServiceImpl implements CaseService {
                     }
                 }
             } catch (IllegalAccessException e) {
-                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 logException.Write(e, this.getClass(), "validateStatus", sharedUserService);
             } catch (IntrospectionException e) {
-                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 logException.Write(e, this.getClass(), "validateStatus", sharedUserService);
             } catch (InvocationTargetException e) {
-                //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 logException.Write(e, this.getClass(), "validateStatus", sharedUserService);
             }
             return false;

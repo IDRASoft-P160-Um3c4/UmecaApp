@@ -123,7 +123,6 @@ public class ActiveMonitoringPlanController {
         try {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
             model.addObject("isAuthorized", 1);
-            //model.addObject("isEnd", 1);
             model.addObject("msgPlan", "finalización del plan de supervisi&oacute;");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectEndMonPlan.json");
             return model;
@@ -140,7 +139,6 @@ public class ActiveMonitoringPlanController {
 
         try {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
-            //model.addObject("isEnd", 1);
             model.addObject("isAuthorized", 0);
             model.addObject("msgPlan", "finalización del plan de supervisi&oacute;n");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectEndMonPlan.json");

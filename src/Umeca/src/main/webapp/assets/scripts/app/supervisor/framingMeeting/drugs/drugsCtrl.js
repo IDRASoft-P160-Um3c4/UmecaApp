@@ -51,8 +51,6 @@ app.controller('drugsFMController', function ($scope, $timeout) {
     $scope.fillDrug = function (id) {
         var template = "NO CONSUME";
         if (id == 2) {
-            //$scope.d.other=template;
-            //$scope.d.specificationPeriodicity = template;
             $scope.d.quantity = template;
             $scope.d.onsetAge = template;
             var today = new Date();

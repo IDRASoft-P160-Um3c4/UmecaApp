@@ -104,7 +104,6 @@ public class LogCaseServiceImpl implements LogCaseService {
         }
 
         model.addObject("moralName", cad);
-        //model.addObject("moralPhone", slr.getMoralPhone());
 
         List<SelectList> lstResol = hearingFormatRepository.getInfoResolution(id);
 

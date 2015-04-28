@@ -212,7 +212,6 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     public void saveAuthRejectMonPlan(SharedUserService sharedUserService, SharedLogExceptionService logException, AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String statusAuth, String statusReject, String type) {
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
-        //String statusAction = (model.getAuthorized() == 1 ? MonitoringConstants.STATUS_AUTHORIZED : MonitoringConstants.STATUS_REJECTED_AUTHORIZED);
         String statusAction = (model.getAuthorized() == 1 ? statusAuth : statusReject);
         commentModel.setComments(StringEscape.escapeText(model.getComments()));
         commentModel.setAction(statusAction);
@@ -220,7 +219,6 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         commentModel.setCaseDetention(monPlan.getCaseDetention());
         commentModel.setSenderUser(user);
         commentModel.setTimestamp(now);
-        //commentModel.setType(MonitoringConstants.TYPE_COMMENT_AUTHORIZED);
         commentModel.setType(type);
 
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);

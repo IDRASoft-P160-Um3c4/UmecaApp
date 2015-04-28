@@ -6,22 +6,6 @@ import java.util.List;
 
 
 public class ReportExcelSummary {
-/*
-    $scope.m.filtersModel["iDt"] = $scope.initDate;
-    $scope.m.filtersModel["eDt"] = $scope.endDate;
-    $scope.m.filtersModel["mP"] = $scope.hasMonP;
-    $scope.m.filtersModel["hJ"] = $scope.hasJob;
-
-    $scope.m.filtersModel["l1"] = $scope.lstStatusCase;
-    $scope.m.filtersModel["l2"] = $scope.lstStatusMeeting;
-    $scope.m.filtersModel["l3"] = $scope.lstStatusVerification;
-    $scope.m.filtersModel["l4"] = $scope.lstGender;
-    $scope.m.filtersModel["l5"] = $scope.lstMaritalSt;
-    $scope.m.filtersModel["l6"] = $scope.lstJob;
-    $scope.m.filtersModel["l7"] = $scope.lstAcademicLvl;
-    $scope.m.filtersModel["l8"] = $scope.lstDrugs;
-    $scope.m.filtersModel["l9"] = $scope.lstLvlRisk;
-    $scope.m.filtersModel["l10"] = $scope.lstHearingType;*/
 
     //para obtener los ids de los filtros seleccionados
     private String iDt;
