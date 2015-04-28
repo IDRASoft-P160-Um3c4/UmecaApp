@@ -29,8 +29,8 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-                <entry key="hibernate.hbm2ddl.auto" value="create"/>
-                <entry key="hibernate.format_sql" value="true"/>
+                <entry key="hibernate.hbm2ddl.auto" value="none"/>
+                <entry key="hibernate.format_sql" value="none"/>
             </map>
         </property>
     </bean>
