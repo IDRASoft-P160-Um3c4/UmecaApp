@@ -4,34 +4,32 @@ app.controller('channelingController', function($scope) {
     $scope.initCatalogs = function(){
         $scope.district = window.initCatalog($scope.lstDistrict, $scope.m.districtId);
         $scope.m.districtId = $scope.district.id;
-        /*
-        $scope.educationLevel = window.initCatalog($scope.lstEducationLevel, $scope.m.educationLevelId);
-        $scope.m.educationLevelId = $scope.educationLevel.id;
 
-        $scope.preventionType = window.initCatalog($scope.lstPreventionType, $scope.m.preventionTypeId);
-        $scope.m.preventionTypeId = $scope.preventionType.id;
-
-        $scope.economicSupport = window.initCatalog($scope.lstEconomicSupport, $scope.m.economicSupportId);
-        $scope.m.economicSupportId = $scope.economicSupport.id;
-
-        $scope.institutionType = window.initCatalog($scope.lstInstitutionType, $scope.m.institutionTypeId);
-        $scope.m.institutionTypeId = $scope.institutionType.id;
-        */
         $scope.channelingType = window.initCatalog($scope.lstChannelingType, $scope.m.channelingTypeId);
         $scope.m.channelingTypeId = $scope.channelingType.id;
 
         $scope.onChangeChannelingType();
 
-        //lstDistrict = ${lstDistrict}; lstEducationLevel = ${lstEducationLevel}; lstPreventionType = ${lstPreventionType};
-        //lstEconomicSupport = ${lstEconomicSupport}; lstInstitutionType = ${lstInstitutionType}; lstChannelingType = ${lstChannelingType};
     };
 
     $scope.onChangeChannelingType = function () {
         $scope.clearAllCatalog();
+
+        $scope.institutionType = $scope.selectCatalog($scope.lstInstitutionType, $scope.lstInstitutionTypeNew, $scope.m.institutionTypeId, $scope.m, 'institutionTypeId', $scope.channelingType.optionA);
+
         switch($scope.channelingType.optionB){
             case "AE":
                 $scope.economicSupport = $scope.selectCatalog($scope.lstEconomicSupport, $scope.lstEconomicSupportNew, $scope.m.economicSupportId, $scope.m, 'economicSupportId');
-                $scope.institutionType = $scope.selectCatalog($scope.lstInstitutionType, $scope.lstInstitutionTypeNew, $scope.m.institutionTypeId, $scope.m, 'institutionTypeId', $scope.channelingType.optionA);
+                break;
+            case "ET":
+            case "EM":
+            case "TMP":
+                break;
+            case "PTA":
+                $scope.preventionType = $scope.selectCatalog($scope.lstPreventionType, $scope.lstPreventionTypeNew, $scope.m.preventionTypeId, $scope.m, 'preventionTypeId');
+                break;
+            case "ES":
+                $scope.educationLevel = $scope.selectCatalog($scope.lstEducationLevel, $scope.lstEducationLevelNew, $scope.m.educationLevelId, $scope.m, 'educationLevelId');
                 break;
         }
     };

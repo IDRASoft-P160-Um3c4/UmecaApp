@@ -144,6 +144,14 @@ window.showObsolete = function (id, divScope, urlToGo, jqGridToUse) {
         });
 };
 
+window.showObsoleteParams = function (params, divScope, urlToGo, jqGridToUse) {
+    var scope = angular.element($(divScope)).scope();
+    scope.doObsolete(params, urlToGo).
+        then(function () {
+            $(jqGridToUse).trigger("reloadGrid");
+        });
+};
+
 window.showAction = function (id, divScope, urlToGo, jqGridToUse, title, message, type) {
     var scope = angular.element($(divScope)).scope();
     scope.doAction({id: id}, urlToGo, title, message, type).

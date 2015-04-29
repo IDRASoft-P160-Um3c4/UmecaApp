@@ -25,6 +25,7 @@
                           role="form">
                         <br/>
                         <input type="hidden" ng-update-hidden ng-model="m.caseId" name="caseId" id="caseId">
+                        <input type="hidden" ng-update-hidden ng-model="m.channelingId" name="channelingId" id="channelingId">
                         <input type="hidden" ng-update-hidden ng-model="m.channelingTypeId" name="channelingTypeId" id="channelingTypeId">
                         <input type="hidden" ng-update-hidden ng-model="m.economicSupportId" name="economicSupportId" id="economicSupportId">
                         <input type="hidden" ng-update-hidden ng-model="m.institutionTypeId" name="institutionTypeId" id="institutionTypeId">
@@ -34,17 +35,17 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <h6><i class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;{{(m.channelingId <= 0 ? 'Agregar' : 'Editar')}} canalizaci&oacute;n</h6>
+                                        <h6><i class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;{{(m.channelingId <= 0 ? 'Agregar' : 'Editar/Consultar')}} canalizaci&oacute;n</h6>
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <div class="row" ng-show="m.number">
+                                                <div class="row" ng-show="m.consecutiveTx">
                                                     <div class="col-xs-4 element-right">
                                                         <label class="form-control-static">N&uacute;mero de canalizaci&oacuten:</label>
                                                     </div>
                                                     <div class="col-xs-8">
-                                                        <label class="form-control-static"><strong>{{m.number}}</strong></label>
+                                                        <label class="form-control-static"><strong>{{m.consecutiveTx}}</strong></label>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -104,7 +105,7 @@
                                                         <label class="form-control-static">Nombre de la canalizaci&oacute;n:</label>
                                                     </div>
                                                     <div class="col-xs-8">
-                                                        <input class="form-control" name="name" required="required" ng-maxlength="100" ng-model="m.name"/>
+                                                        <input class="form-control" name="name" ng-required="true" ng-maxlength="100" ng-model="m.name"/>
                                                         <span class="error" ng-show="FormUpId.name.$error.required">Campo requerido</span>
                                                         <span class="error" ng-show="FormUpId.name.$error.maxlength">Longitud m&aacute;xima de 100 caracteres</span>
                                                     </div>
@@ -127,7 +128,7 @@
                                                 <label class="form-control-static">Nombre de la instituci&oacute;n:</label>
                                             </div>
                                             <div class="col-xs-8">
-                                                <input class="form-control" name="institutionName" required="required" ng-maxlength="100" ng-model="m.institutionName"/>
+                                                <input class="form-control" name="institutionName" ng-required="true" ng-maxlength="100" ng-model="m.institutionName"/>
                                                 <span class="error" ng-show="FormUpId.institutionName.$error.required">Campo requerido</span>
                                                 <span class="error" ng-show="FormUpId.institutionName.$error.maxlength">Longitud m&aacute;xima de 100 caracteres</span>
                                             </div>
@@ -142,6 +143,30 @@
                                                         ng-model="economicSupport"
                                                         ng-options="e.name for e in lstEconomicSupportNew"
                                                         ng-change = "m.economicSupportId = economicSupport.id"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-show="lstPreventionTypeNew.length > 0">
+                                            <br/>
+                                            <div class="col-xs-4 element-right">
+                                                <label class="form-control-static">Concepto:</label>
+                                            </div>
+                                            <div class="col-xs-6 element-left">
+                                                <select class="form-control element-center"
+                                                        ng-model="preventionType"
+                                                        ng-options="e.name for e in lstPreventionTypeNew"
+                                                        ng-change = "m.preventionTypeId = preventionType.id"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-show="lstEducationLevelNew.length > 0">
+                                            <br/>
+                                            <div class="col-xs-4 element-right">
+                                                <label class="form-control-static">Concepto:</label>
+                                            </div>
+                                            <div class="col-xs-6 element-left">
+                                                <select class="form-control element-center"
+                                                        ng-model="educationLevel"
+                                                        ng-options="e.name for e in lstEducationLevelNew"
+                                                        ng-change = "m.educationLevelId = educationLevel.id"/>
                                             </div>
                                         </div>
                                         <div class="row" ng-show="lstInstitutionTypeNew.length > 0">
@@ -162,7 +187,7 @@
                                                 <label class="form-control-static">Especifique</label>
                                             </div>
                                             <div class="col-xs-8">
-                                                <input class="form-control" name="specOther" required="required" ng-maxlength="100" ng-model="m.specOther"/>
+                                                <input class="form-control" name="specOther" ng-required="institutionType.hasSpec" ng-maxlength="100" ng-model="m.specOther"/>
                                                 <span class="error" ng-show="FormUpId.specOther.$error.required">Campo requerido</span>
                                                 <span class="error" ng-show="FormUpId.specOther.$error.maxlength">Longitud m&aacute;xima de 100 caracteres</span>
                                             </div>

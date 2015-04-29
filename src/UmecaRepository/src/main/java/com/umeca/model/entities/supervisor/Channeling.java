@@ -1,9 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
-import com.umeca.model.catalog.CatChannelingType;
-import com.umeca.model.catalog.CatEconomicSupport;
-import com.umeca.model.catalog.CatInstitutionType;
-import com.umeca.model.catalog.District;
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
@@ -43,7 +41,15 @@ public class Channeling {
     @JoinColumn(name = "id_cat_economic_support", nullable = true)
     private CatEconomicSupport economicSupport;
 
-    @Column(name = "spec_other", length = 100, nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_cat_prevention_type", nullable = true)
+    private CatPreventionType preventionType;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_cat_education_level", nullable = true)
+    private CatEducationLevel educationLevel;
+
+    @Column(name = "spec_other", length = 100, nullable = true)
     private String specOther;
 
     @Column(name = "institution_name", length = 100, nullable = false)
@@ -56,12 +62,19 @@ public class Channeling {
     @JoinColumn(name = "id_creator_user", nullable = false)
     private User creatorUser;
 
-    @Column(name="last_update_date", nullable = false)
+    @Column(name="last_update_date", nullable = true)
     private Calendar lastUpdateDate;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_updater_user", nullable = false)
+    @JoinColumn(name = "id_updater_user", nullable = true)
     private User updaterUser;
+
+    @Column(name="delete_date", nullable = true)
+    private Calendar deleteDate;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_delete_user", nullable = true)
+    private User deleteUser;
 
     @Column(name="consecutive", nullable = false)
     private Long consecutive;
@@ -188,4 +201,38 @@ public class Channeling {
     public void setSpecOther(String specOther) {
         this.specOther = specOther;
     }
+
+    public CatPreventionType getPreventionType() {
+        return preventionType;
+    }
+
+    public void setPreventionType(CatPreventionType preventionType) {
+        this.preventionType = preventionType;
+    }
+
+    public CatEducationLevel getEducationLevel() {
+        return educationLevel;
+    }
+
+    public void setEducationLevel(CatEducationLevel educationLevel) {
+        this.educationLevel = educationLevel;
+    }
+
+    public Calendar getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Calendar deleteDate) {
+        this.deleteDate = deleteDate;
+    }
+
+    public User getDeleteUser() {
+        return deleteUser;
+    }
+
+    public void setDeleteUser(User deleteUser) {
+        this.deleteUser = deleteUser;
+    }
 }
+
+

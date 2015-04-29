@@ -13,25 +13,13 @@
 <div class="container body-content">
 
     <script>
-        window.upsert = function (id, channelingId) {
-            window.showUpsertParams({id: id, channelingId: channelingId}, "#angJsjqGridId", '<c:url value='/supervisor/channeling/upsert.html' />', "#GridId");
-        };
-        /*
-        window.endProject = function (id) {
-            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisor/channeling/endProject.html' />', "#GridId");
+        window.upsert = function (id, channelingId, gridId) {
+            window.showUpsertParams({id: id, channelingId: channelingId}, "#angJsjqGridId", '<c:url value='/supervisor/channeling/upsert.html' />', gridId);
         };
 
-        window.upsertActivity = function(projectId, id, gridId){
-            window.showUpsertParams({projectId: projectId, id: id }, "#angJsjqGridId", '<c:url value='/supervisor/channeling/upsertActivity.html' />', gridId);
+        window.obsolete = function (id, channelingId, gridId) {
+            window.showObsoleteParams({id: id, channelingId: channelingId}, "#angJsjqGridId", '<c:url value='/supervisor/channeling/doObsolete.json' />', gridId);
         };
-
-        window.obsolete = function (id) {
-            window.showObsolete(id, "#angJsjqGridId", '<c:url value='/supervisor/channeling/doObsolete.json' />', "#GridId");
-        };
-
-        window.obsoleteActivity = function (id, gridId) {
-            window.showObsolete(id, "#angJsjqGridId", '<c:url value='/supervisor/channeling/doObsoleteActivity.json' />', gridId);
-        };*/
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
@@ -64,7 +52,7 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
 
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Registrar canalizaci&oacute;n\" onclick=\"window.upsert('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Registrar canalizaci&oacute;n\" onclick=\"window.upsert('" + cl + "', undefined, '#GridId');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },
@@ -96,11 +84,11 @@
                         colNames: ['ID', '#', 'Tipo de canalizaci&oacute;n', 'Nombre de canalizaci&oacute;n', 'Tipo de instituci&oacute;n', 'Nombre de instituci&oacute;n', 'Acci&oacute;n'],
                         colModel: [
                             { name: 'id', index: 'id', hidden: true },
-                            { name: 'number', index: 'number', width: 100, align: "center", sorttype: 'string', search: false },
-                            { name: 'type', index: 'type', width: 200, align: "center", sorttype: 'string', search: false },
+                            { name: 'consecutiveTx', index: 'consecutiveTx', width: 100, align: "center", sorttype: 'string', search: false },
+                            { name: 'channelingType', index: 'channelingType', width: 200, align: "center", sorttype: 'string', search: false },
                             { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                             { name: 'institutionType', index: 'institutionType', width: 200, align: "center", sorttype: 'string', search: false },
-                            { name: 'institution', index: 'institution', width: 200, align: "center", sorttype: 'string', search: false },
+                            { name: 'institutionName', index: 'institutionName', width: 200, align: "center", sorttype: 'string', search: false },
                             { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                         ],
                         rowNum: 20,
@@ -112,7 +100,8 @@
                             var ids = $(this).jqGrid('getDataIDs');
                             for (var i = 0; i < ids.length; i++) {
                                 var cl = ids[i];
-                                var be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar/consultar canalizaci&oacute;n\" onclick=\"window.obsoleteActivity('" + cl + "', '#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
+                                var be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar/consultar canalizaci&oacute;n\" onclick=\"window.upsert('" + row_id + "', '" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar canalizaci&oacute;n\" onclick=\"window.obsolete('" + row_id + "', '" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
                                 $(this).jqGrid('setRowData', ids[i], { Action: be });
                             }
                         },

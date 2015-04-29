@@ -243,6 +243,11 @@ public class Constants {
 
 
     public static final String CHANNELING_TYPE_ECONOMIC_SUPPORT = "AE";
+    public static final String CHANNELING_TYPE_TOXICOLOGICAL_TEST = "ET";
+    public static final String CHANNELING_TYPE_PREVENTION_TYPE = "PTA";
+    public static final String CHANNELING_TYPE_MEDICAL_TREATMENT = "TMP";
+    public static final String CHANNELING_TYPE_EDUCATION = "ES";
+    public static final String CHANNELING_TYPE_JOB = "EM";
 
 }
 

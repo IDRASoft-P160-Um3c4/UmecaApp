@@ -10,4 +10,5 @@ public interface ChannelingService {
     ChannelingModel getChannelingInfoByCaseIdAndChannelingId(Long id, Long channelingId);
     void getChannelingCatalogs(ModelAndView model);
     void doUpsert(ChannelingModel model, User user, ResponseMessage response);
+    void doObsolete(Long id, Long channelingId, User user, ResponseMessage response);
 }
