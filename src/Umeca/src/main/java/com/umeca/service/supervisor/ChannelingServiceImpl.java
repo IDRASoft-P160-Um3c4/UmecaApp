@@ -138,6 +138,8 @@ public class ChannelingServiceImpl implements ChannelingService {
         if(isValidCase(caseId, response) == false)
             return;
 
+        ///TODO Validar si no existe una actividad en el plan de monitoreo que tenga una canalización asignada
+
         Channeling model = channelingRepository.findOne(channelingId);
 
         model.setIsObsolete(true);
@@ -193,6 +195,7 @@ public class ChannelingServiceImpl implements ChannelingService {
 
         model.setEconomicSupport(null);
         model.setPreventionType(null);
+        model.setEducationLevel(null);
 
         switch (code){
             case Constants.CHANNELING_TYPE_ECONOMIC_SUPPORT:
@@ -213,9 +216,9 @@ public class ChannelingServiceImpl implements ChannelingService {
                 break;
 
             case Constants.CHANNELING_TYPE_EDUCATION:
-                if(isCatalogValid(modelNew.getPreventionTypeId(), response) == false)
+                if(isCatalogValid(modelNew.getEducationLevelId(), response) == false)
                     return;
-                model.setPreventionType(new CatPreventionType(){{setId(modelNew.getPreventionTypeId());}});
+                model.setEducationLevel(new CatEducationLevel(){{setId(modelNew.getEducationLevelId());}});
                 break;
         }
     }
