@@ -1,5 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.LongExt;
+
 public class ChannelingModel {
 
     //Case Id
@@ -12,9 +14,12 @@ public class ChannelingModel {
 
     private Long channelingTypeId;
     private Long economicSupportId;
+    private Long preventionTypeId;
+    private Long educationLevelId;
     private Long institutionTypeId;
     private String name;
     private String institutionName;
+    private String consecutiveTx;
     private String specOther;
 
     public ChannelingModel() {
@@ -24,6 +29,27 @@ public class ChannelingModel {
         this.caseId = caseId;
         this.idMP = idMP;
         this.imputed = name + " " + lastNameA + " " + lastNameB;
+        this.districtId = districtId;
+        this.supervisor = supervisor;
+    }
+
+    public ChannelingModel(Long channelingId, Long caseId, String idMP, String firstName, String lastNameA, String lastNameB, Long districtId, String supervisor,
+                           String name, Long channelingTypeId, Long institutionTypeId, Long economicSupportId, Long preventionTypeId, Long educationLevelId,
+                           String specOther, String institutionName,
+                           Long consecutive) {
+        this.channelingId = channelingId;
+        this.caseId = caseId;
+        this.idMP = idMP;
+        this.name = name;
+        this.channelingTypeId = channelingTypeId;
+        this.institutionTypeId = institutionTypeId;
+        this.economicSupportId = economicSupportId;
+        this.preventionTypeId = preventionTypeId;
+        this.educationLevelId = educationLevelId;
+        this.specOther = specOther;
+        this.institutionName = institutionName;
+        this.consecutiveTx = LongExt.paddingLeft("0", "4", consecutive);
+        this.imputed = firstName + " " + lastNameA + " " + lastNameB;
         this.districtId = districtId;
         this.supervisor = supervisor;
     }
@@ -122,5 +148,29 @@ public class ChannelingModel {
 
     public void setSpecOther(String specOther) {
         this.specOther = specOther;
+    }
+
+    public Long getPreventionTypeId() {
+        return preventionTypeId;
+    }
+
+    public void setPreventionTypeId(Long preventionTypeId) {
+        this.preventionTypeId = preventionTypeId;
+    }
+
+    public String getConsecutiveTx() {
+        return consecutiveTx;
+    }
+
+    public void setConsecutiveTx(String consecutiveTx) {
+        this.consecutiveTx = consecutiveTx;
+    }
+
+    public Long getEducationLevelId() {
+        return educationLevelId;
+    }
+
+    public void setEducationLevelId(Long educationLevelId) {
+        this.educationLevelId = educationLevelId;
     }
 }

@@ -7,6 +7,8 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.catalog.CatChannelingType;
+import com.umeca.model.catalog.CatInstitutionType;
 import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.project.Project;
@@ -15,9 +17,7 @@ import com.umeca.model.entities.director.project.ProjectActivityModel;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
-import com.umeca.model.entities.supervisor.ChannelingCaseView;
-import com.umeca.model.entities.supervisor.ChannelingModel;
-import com.umeca.model.entities.supervisor.FramingMeeting;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -104,6 +104,48 @@ public class ChannelingController {
         return result;
     }
 
+    @RequestMapping(value = {"/supervisor/channeling/listChannelings"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts, Long id) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("caseId", id.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                final Join<Channeling, CatChannelingType> joinChTy = r.join("channelingType");
+                final Join<Channeling, CatInstitutionType> joinInTy = r.join("institutionType");
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("consecutive"));
+                    add(joinChTy.get("name"));
+                    add(r.get("name"));
+                    add(joinInTy.get("name"));
+                    add(r.get("institutionName"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("caseId"))
+                    return r.join("caseDetention").get("id");
+                if (field.equals("channelingType"))
+                    return r.join("channelingType").get("name");
+                if (field.equals("institutionType"))
+                    return r.join("institutionType").get("name");
+                return null;
+            }
+        }, Channeling.class, ChannelingView.class);
+
+        return result;
+    }
+
     @Autowired
     ChannelingService channelingService;
 
@@ -146,6 +188,31 @@ public class ChannelingController {
         }
 
         return response;
+    }
+
+
+
+    @RequestMapping(value = "/supervisor/channeling/doObsolete", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMessage doObsolete(@RequestParam(required = true) Long id, @RequestParam(required = true) Long channelingId) {
+
+        ResponseMessage response = new ResponseMessage();
+        try {
+
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
+            channelingService.doObsolete(id, channelingId, user, response);
+
+            return response;
+
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doObsolete", userService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+            return response;
+        }
     }
 
 }

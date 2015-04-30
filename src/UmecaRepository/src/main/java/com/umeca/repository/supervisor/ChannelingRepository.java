@@ -27,4 +27,15 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
             "INNER JOIN C.caseDetention CD " +
             "WHERE CD.id =:caseId ORDER BY C.consecutive DESC")
     List<Long> getLastConsecutiveByCaseId(@Param("caseId") Long caseId, Pageable pageable);
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ChannelingModel(c.id, cd.id, cd.idMP, i.name, i.lastNameP, i.lastNameM, d.id, s.fullname" +
+            ", c.name, c.channelingType.id, c.institutionType.id, c.economicSupport.id, c.preventionType.id, c.educationLevel.id" +
+            ", c.specOther, c.institutionName, c.consecutive) " +
+            "FROM Channeling AS c " +
+            "INNER JOIN c.caseDetention cd " +
+            "INNER JOIN cd.meeting.imputed i " +
+            "INNER JOIN c.district d " +
+            "INNER JOIN cd.framingMeeting.supervisor s " +
+            "WHERE c.id =:channelingId AND cd.id =:caseId ")
+    ChannelingModel getChannelingViewByCaseId(@Param("caseId")Long id, @Param("channelingId")Long channelingId);
 }

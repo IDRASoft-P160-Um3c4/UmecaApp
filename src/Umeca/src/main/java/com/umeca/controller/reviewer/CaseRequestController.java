@@ -30,7 +30,7 @@ import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
-import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
+import com.umeca.repository.supervisor.LogNotificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,7 +190,7 @@ public class CaseRequestController {
     @Autowired
     ResponseTypeRepository responseTypeRepository;
     @Autowired
-    LogNotificationReviewerRepository logNotificationReviewerRepository;
+    LogNotificationRepository logNotificationRepository;
 
     @RequestMapping(value = "/reviewer/caseRequest/doMakeRequest", method = RequestMethod.POST)
     public
@@ -255,7 +255,7 @@ public class CaseRequestController {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_REQUEST));
                 qCaseRepository.save(c);
 
-                LogNotificationReviewer notif = new LogNotificationReviewer();
+                LogNotification notif = new LogNotification();
                 notif.setIsObsolete(false);
                 notif.setSubject("Se ha realizado una solicitud para el caso con carpeta de investigaci&oacute;n " + c.getIdFolder() + ".");
                 User uSender = userRepository.findOne(userService.GetLoggedUserId());
@@ -263,7 +263,7 @@ public class CaseRequestController {
                 notif.setMessage("El usuario " + uSender.getFullname() + " realiz&oacute; la solcitud: " + requestType.getDescription());
                 notif.setReceiveUser(managerEval);
 
-                logNotificationReviewerRepository.save(notif);
+                logNotificationRepository.save(notif);
                 return new ResponseMessage(false, "");
             } else {
                 return new ResponseMessage(true, "No existen coordinadores registrados para realizar tu solicitud");

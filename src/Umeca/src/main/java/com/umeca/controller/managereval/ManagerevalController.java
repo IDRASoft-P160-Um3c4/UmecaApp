@@ -34,6 +34,7 @@ import com.umeca.repository.shared.MessageRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.CloseCauseRepository;
 import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
+import com.umeca.repository.supervisor.LogNotificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
@@ -88,7 +89,7 @@ public class ManagerevalController {
     UserRepository userRepository;
 
     @Autowired
-    LogNotificationReviewerRepository logNotificationReviewerRepository;
+    LogNotificationRepository logNotificationRepository;
 
 
     @RequestMapping(value = "/managereval/save", method = RequestMethod.POST)
@@ -127,7 +128,7 @@ public class ManagerevalController {
         verification.save(_verification);
         _case.save(__case);
 
-        LogNotificationReviewer notif = new LogNotificationReviewer();
+        LogNotification notif = new LogNotification();
         notif.setIsObsolete(false);
         notif.setSubject("Se han verificado las fuentes para el caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(__case.getIdFolder())+".");
         notif.setMessage(sourcesInfo.getComment());
@@ -136,7 +137,7 @@ public class ManagerevalController {
         User reviewer =__case.getMeeting().getReviewer();
         notif.setReceiveUser(reviewer);
 
-        logNotificationReviewerRepository.save(notif);
+        logNotificationRepository.save(notif);
         //Responder ultima solicitud
         Long lastRequestID = caseRequestRepository.findLastRequestAuhtorizeIdByCase(c,Constants.ST_REQUEST_AUTHORIZE_SOURCE);
         if(lastRequestID!=null){
@@ -262,6 +263,13 @@ public class ManagerevalController {
     JqGridResultModel authorizeRequestList(@ModelAttribute JqGridFilterModel opts) {
         Long userId = userService.GetLoggedUserId();
         opts.extraFilters = new ArrayList<>();
+//        JqGridRulesModel extraFilter = new JqGridRulesModel("statusCase",
+//                new ArrayList<String>() {{
+//                    add(Constants.CASE_STATUS_REQUEST);
+//                }}
+//                , JqGridFilterModel.COMPARE_IN
+//        );
+//        opts.extraFilters.add(extraFilter);
         JqGridRulesModel extraFilter2 = new JqGridRulesModel("responseType",
                 new ArrayList<String>() {{
                     add(Constants.RESPONSE_TYPE_PENDING);
@@ -390,7 +398,6 @@ public class ManagerevalController {
     @Autowired
     CloseCauseRepository closeCauseRepository;
 
-
     @Transactional
     @RequestMapping(value = "/managereval/authorizeRequest/doResponseRequest", method = RequestMethod.POST)
     public
@@ -474,6 +481,7 @@ public class ManagerevalController {
                         case Constants.ST_REQUEST_NOT_PROSECUTE:
                             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
                             c.setDateNotProsecute(new Date());
+
                             break;
                     }
                     break;
@@ -490,7 +498,7 @@ public class ManagerevalController {
             }
             caseRequestRepository.save(caseRequest);
             qCaseRepository.save(c);
-            LogNotificationReviewer notif = new LogNotificationReviewer();
+            LogNotification notif = new LogNotification();
             notif.setIsObsolete(false);
             User uSender = userRepository.findOne(userService.GetLoggedUserId());
             notif.setSenderUser(uSender);
@@ -498,7 +506,7 @@ public class ManagerevalController {
             notif.setSubject("El Coordinador de Evaluaci&oacute;n "+uSender.getFullname()+request+"la solcitud");
             notif.setMessage("Carpeta de investigaci&oacute;n: "+StringEscape.escapeText(c.getIdFolder())+"<br/>Solicitud: "+caseRequest.getRequestType().getDescription()+"<br/>Raz&oacute;n: "+requestDto.getReason());
             notif.setReceiveUser(caseRequest.getRequestMessage().getSender());
-            logNotificationReviewerRepository.save(notif);
+            logNotificationRepository.save(notif);
 
             return new ResponseMessage(false,"Se ha guardado la respuesta con exito");
 

@@ -1,6 +1,5 @@
 package com.umeca.service.shared;
 
-import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisorManager.LogComment;

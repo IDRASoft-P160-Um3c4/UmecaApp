@@ -4,10 +4,9 @@ package com.umeca.service.shared;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.agenda.ActivityAgendaNotice;
-import com.umeca.model.entities.reviewer.LogNotificationReviewer;
+import com.umeca.model.entities.reviewer.LogNotification;
 import com.umeca.model.entities.reviewer.dto.LogNotificationDto;
 import com.umeca.model.entities.shared.CommentRequest;
 import com.umeca.model.entities.supervisor.ActivityMonitoringPlanNotice;
@@ -19,7 +18,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.supervisor.ActivityAgendaRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
-import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
+import com.umeca.repository.supervisor.LogNotificationRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class MainPageServiceImpl implements MainPageService {
     SharedUserService sharedUserService;
 
     @Autowired
-    LogNotificationReviewerRepository logNotificationReviewerRepository;
+    LogNotificationRepository logNotificationRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -166,11 +165,11 @@ public class MainPageServiceImpl implements MainPageService {
 
     private void constructReviewerMainPage(ModelAndView model) {
 
-        List<LogNotificationDto> lstA = caseRepository.getMeetingIncompleteInfo(sharedUserService.GetLoggedUserId(), Constants.S_MEETING_INCOMPLETE, Constants.CASE_STATUS_MEETING, new PageRequest(0, 10));
+        Long userId = sharedUserService.GetLoggedUserId();
 
-        List<LogNotificationDto> lstB = caseRepository.getMeetingIncompleteInfo(sharedUserService.GetLoggedUserId(), Constants.S_MEETING_INCOMPLETE_LEGAL, Constants.CASE_STATUS_MEETING, new PageRequest(0, 10));
-
-        List<LogNotificationDto> lstC = caseRepository.getAuthorizedVerificationsInfo(sharedUserService.GetLoggedUserId(), Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 10));
+        List<LogNotificationDto> lstA = caseRepository.getMeetingIncompleteInfo(userId, Constants.S_MEETING_INCOMPLETE, Constants.CASE_STATUS_MEETING, new PageRequest(0, 10));
+        List<LogNotificationDto> lstB = caseRepository.getMeetingIncompleteInfo(userId, Constants.S_MEETING_INCOMPLETE_LEGAL, Constants.CASE_STATUS_MEETING, new PageRequest(0, 10));
+        List<LogNotificationDto> lstC = caseRepository.getAuthorizedVerificationsInfo(userId, Constants.VERIFICATION_STATUS_AUTHORIZED, Constants.CASE_STATUS_VERIFICATION, new PageRequest(0, 10));
 
         List<LogNotificationDto> lstActivities = new ArrayList<>();
 
@@ -191,15 +190,15 @@ public class MainPageServiceImpl implements MainPageService {
                 break;
         }
 
-        List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getReviewerNotifications(sharedUserService.GetLoggedUserId());
-        List<LogNotificationDto> top10Notif = new ArrayList<>();
+        List<LogNotificationDto> top10Notif = logNotificationRepository.getReviewerNotifications(userId, new PageRequest(0, 10));
+        /*List<LogNotificationDto> top10Notif = new ArrayList<>();
         int topN = 0;
         for (LogNotificationDto not : lstNotif) {
             top10Notif.add(not);
             topN++;
             if (topN == 10)
                 break;
-        }
+        } */
 
         Gson conv = new Gson();
 
@@ -211,31 +210,30 @@ public class MainPageServiceImpl implements MainPageService {
 
     private void constructEvaluationManagerPage(ModelAndView model) {
 
-        List<LogNotificationDto> lstA = caseRepository.getNewSourceStatusCases(Constants.VERIFICATION_STATUS_NEW_SOURCE, Constants.CASE_STATUS_SOURCE_VALIDATION, new PageRequest(0, 10));
-        List<LogNotificationDto> lstActivities = new ArrayList<>();
-        lstActivities.addAll(lstA);
-
-        Collections.sort(lstActivities, LogNotificationDto.dateSorter);
+        List<LogNotificationDto> top10 = caseRepository.getNewSourceStatusCases(Constants.VERIFICATION_STATUS_NEW_SOURCE, Constants.CASE_STATUS_SOURCE_VALIDATION, new PageRequest(0, 10));
+//        List<LogNotificationDto> lstActivities = new ArrayList<>();
+//        lstActivities.addAll(lstA);
+//        Collections.sort(lstActivities, LogNotificationDto.dateSorter);
 
         Gson conv = new Gson();
-        List<LogNotificationDto> lstNotif = logNotificationReviewerRepository.getManagerEvalNotifications(Constants.ROLE_EVALUATION_MANAGER);
+        List<LogNotificationDto> top10Notif = logNotificationRepository.getManagerEvalNotifications(Constants.ROLE_EVALUATION_MANAGER, new PageRequest(0, 10));
 
-        List<LogNotificationDto> top10 = new ArrayList<>();
-        int top = 0;
-        for (LogNotificationDto act : lstActivities) {
-            top10.add(act);
-            top++;
-            if (top == 10)
-                break;
-        }
-        List<LogNotificationDto> top10Notif = new ArrayList<>();
-        int topN = 0;
-        for (LogNotificationDto not : lstNotif) {
-            top10Notif.add(not);
-            topN++;
-            if (topN == 10)
-                break;
-        }
+//        List<LogNotificationDto> top10 = new ArrayList<>();
+//        int top = 0;
+//        for (LogNotificationDto act : lstActivities) {
+//            top10.add(act);
+//            top++;
+//            if (top == 10)
+//                break;
+//        }
+//        List<LogNotificationDto> top10Notif = new ArrayList<>();
+//        int topN = 0;
+//        for (LogNotificationDto not : lstNotif) {
+//            top10Notif.add(not);
+//            topN++;
+//            if (topN == 10)
+//                break;
+//        }
         model.addObject("lstActivities", conv.toJson(top10));
         model.addObject("lstNotification", conv.toJson(top10Notif));
         model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
@@ -244,11 +242,11 @@ public class MainPageServiceImpl implements MainPageService {
 
     @Transactional
     public void doDeleteNotificationReviewer(Long idNotif) {
-        LogNotificationReviewer notif = logNotificationReviewerRepository.findOne(idNotif);
+        LogNotification notif = logNotificationRepository.findOne(idNotif);
         notif.setObsoleteUser(userRepository.findOne(sharedUserService.GetLoggedUserId()));
         notif.setTimestampObsolete(Calendar.getInstance());
         notif.setIsObsolete(true);
-        logNotificationReviewerRepository.save(notif);
+        logNotificationRepository.save(notif);
     }
 
     @Autowired

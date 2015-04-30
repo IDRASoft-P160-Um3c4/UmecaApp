@@ -3,10 +3,7 @@ package com.umeca.service.supervisor;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.catalog.CatChannelingType;
-import com.umeca.model.catalog.CatEconomicSupport;
-import com.umeca.model.catalog.CatInstitutionType;
-import com.umeca.model.catalog.District;
+import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.Channeling;
@@ -38,13 +35,12 @@ public class ChannelingServiceImpl implements ChannelingService {
 
     @Override
     public ChannelingModel getChannelingInfoByCaseId(Long id) {
-        ChannelingModel chCase = channelingRepository.getChannelingCaseViewByCaseId(id);
-        return chCase;
+        return channelingRepository.getChannelingCaseViewByCaseId(id);
     }
 
     @Override
     public ChannelingModel getChannelingInfoByCaseIdAndChannelingId(Long id, Long channelingId) {
-        return null;
+        return channelingRepository.getChannelingViewByCaseId(id, channelingId);
     }
 
     @Autowired
@@ -100,7 +96,7 @@ public class ChannelingServiceImpl implements ChannelingService {
     public void doUpsert(final ChannelingModel modelNew, User user, ResponseMessage response) {
 
         //Validar el caso
-        if(isValidCase(modelNew, response) == false)
+        if(isValidCase(modelNew.getCaseId(), response) == false)
             return;
 
         Long channelingId = modelNew.getChannelingId();
@@ -108,16 +104,11 @@ public class ChannelingServiceImpl implements ChannelingService {
         if(channelingId == null || channelingId <=0){
             //Insertar
             model = new Channeling();
-            if( canSetInstitutionType(model, modelNew, response) == false)
-                return;
 
             model.setCreatorUser(user);
             model.setCaseDetention(new Case(){{setId(modelNew.getCaseId());}});
-            model.setChannelingType(new CatChannelingType(){{setId(modelNew.getChannelingTypeId());}});
             model.setIsObsolete(false);
-            model.setDistrict(new District(){{setId(modelNew.getDistrictId());}});
             model.setCreationDate(Calendar.getInstance());
-            model.setName(modelNew.getName());
             fillByChannelingType(model, modelNew, response);
             model.setConsecutive(calculateNextConsecutiveByCaseId(modelNew.getCaseId()));
         }
@@ -129,11 +120,11 @@ public class ChannelingServiceImpl implements ChannelingService {
                 return;
             }
 
-            //Validar si no existe una actividad en el plan de monitoreo que tenga una canalización asignada
+            ///TODO Validar si no existe una actividad en el plan de monitoreo que tenga una canalización asignada
 
-
-            if( canSetInstitutionType(model, modelNew, response) == false)
-                return;
+            model.setUpdaterUser(user);
+            model.setLastUpdateDate(Calendar.getInstance());
+            fillByChannelingType(model, modelNew, response);
 
         }
 
@@ -141,7 +132,26 @@ public class ChannelingServiceImpl implements ChannelingService {
         response.setHasError(false);
     }
 
-    private boolean canSetInstitutionType(Channeling model, ChannelingModel modelNew, ResponseMessage response) {
+    @Override
+    public void doObsolete(Long caseId, Long channelingId, User user, ResponseMessage response) {
+        //Validar el caso
+        if(isValidCase(caseId, response) == false)
+            return;
+
+        ///TODO Validar si no existe una actividad en el plan de monitoreo que tenga una canalización asignada
+
+        Channeling model = channelingRepository.findOne(channelingId);
+
+        model.setIsObsolete(true);
+        model.setDeleteUser(user);
+        model.setDeleteDate(Calendar.getInstance());
+        channelingRepository.save(model);
+
+        response.setHasError(false);
+    }
+
+    private boolean canSetInstitutionType(Channeling model, final ChannelingModel modelNew, ResponseMessage response) {
+
         CatInstitutionType institutionType = institutionTypeRepository.findOne(modelNew.getInstitutionTypeId());
         model.setInstitutionType(institutionType);
 
@@ -164,26 +174,51 @@ public class ChannelingServiceImpl implements ChannelingService {
 
     private Long calculateNextConsecutiveByCaseId(Long caseId) {
         List<Long> lastConsecutive = channelingRepository.getLastConsecutiveByCaseId(caseId, new PageRequest(0, 1));
-
         if(lastConsecutive == null || lastConsecutive.size() <= 0)
             return 1l;
-
         return lastConsecutive.get(0) + 1;
     }
 
 
 
     private void fillByChannelingType(final Channeling model, final ChannelingModel modelNew, ResponseMessage response) {
-        String code = channelingTypeRepository.getCodeById(modelNew.getChannelingTypeId());
 
+        if( canSetInstitutionType(model, modelNew, response) == false)
+            return;
+
+        model.setChannelingType(new CatChannelingType() {{setId(modelNew.getChannelingTypeId());}});
+        model.setDistrict(new District(){{setId(modelNew.getDistrictId());}});
+        model.setName(modelNew.getName());
+
+        String code = channelingTypeRepository.getCodeById(modelNew.getChannelingTypeId());
         model.setInstitutionName(modelNew.getInstitutionName());
+
+        model.setEconomicSupport(null);
+        model.setPreventionType(null);
+        model.setEducationLevel(null);
 
         switch (code){
             case Constants.CHANNELING_TYPE_ECONOMIC_SUPPORT:
                 if(isCatalogValid(modelNew.getEconomicSupportId(), response) == false)
                     return;
-
                 model.setEconomicSupport(new CatEconomicSupport(){{setId(modelNew.getEconomicSupportId());}});
+                break;
+
+            case Constants.CHANNELING_TYPE_TOXICOLOGICAL_TEST:
+            case Constants.CHANNELING_TYPE_MEDICAL_TREATMENT:
+            case Constants.CHANNELING_TYPE_JOB:
+                break;
+
+            case Constants.CHANNELING_TYPE_PREVENTION_TYPE:
+                if(isCatalogValid(modelNew.getPreventionTypeId(), response) == false)
+                    return;
+                model.setPreventionType(new CatPreventionType(){{setId(modelNew.getPreventionTypeId());}});
+                break;
+
+            case Constants.CHANNELING_TYPE_EDUCATION:
+                if(isCatalogValid(modelNew.getEducationLevelId(), response) == false)
+                    return;
+                model.setEducationLevel(new CatEducationLevel(){{setId(modelNew.getEducationLevelId());}});
                 break;
         }
     }
@@ -200,8 +235,8 @@ public class ChannelingServiceImpl implements ChannelingService {
         return true;
     }
 
-    private boolean isValidCase(ChannelingModel modelNew, ResponseMessage response) {
-        Long count = caseRepository.isReadyForChanneling(modelNew.getCaseId());
+    private boolean isValidCase(Long caseId, ResponseMessage response) {
+        Long count = caseRepository.isReadyForChanneling(caseId);
         if( count > 0 )
             return  true;
 
