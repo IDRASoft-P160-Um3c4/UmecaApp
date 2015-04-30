@@ -30,7 +30,7 @@ import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
-import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
+import com.umeca.repository.supervisor.LogNotificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,7 +190,7 @@ public class CaseRequestController {
     @Autowired
     ResponseTypeRepository responseTypeRepository;
     @Autowired
-    LogNotificationReviewerRepository logNotificationReviewerRepository;
+    LogNotificationRepository logNotificationRepository;
 
     @RequestMapping(value = "/reviewer/caseRequest/doMakeRequest", method = RequestMethod.POST)
     public
@@ -264,7 +264,7 @@ public class CaseRequestController {
                 notif.setMessage("El usuario " + uSender.getFullname() + " realizó la solcitud: " + requestType.getDescription());
                 notif.setReceiveUser(managerEval);
 
-                logNotificationReviewerRepository.save(notif);
+                logNotificationRepository.save(notif);
                 return new ResponseMessage(false, "");
             } else {
                 return new ResponseMessage(true, "No existen coordinadores registrados para realizar tu solicitud");

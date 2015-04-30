@@ -18,7 +18,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.supervisor.ActivityAgendaRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
-import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
+import com.umeca.repository.supervisor.LogNotificationRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class MainPageServiceImpl implements MainPageService {
     SharedUserService sharedUserService;
 
     @Autowired
-    LogNotificationReviewerRepository logNotificationReviewerRepository;
+    LogNotificationRepository logNotificationRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -190,7 +190,7 @@ public class MainPageServiceImpl implements MainPageService {
                 break;
         }
 
-        List<LogNotificationDto> top10Notif = logNotificationReviewerRepository.getReviewerNotifications(userId, new PageRequest(0, 10));
+        List<LogNotificationDto> top10Notif = logNotificationRepository.getReviewerNotifications(userId, new PageRequest(0, 10));
         /*List<LogNotificationDto> top10Notif = new ArrayList<>();
         int topN = 0;
         for (LogNotificationDto not : lstNotif) {
@@ -216,7 +216,7 @@ public class MainPageServiceImpl implements MainPageService {
 //        Collections.sort(lstActivities, LogNotificationDto.dateSorter);
 
         Gson conv = new Gson();
-        List<LogNotificationDto> top10Notif = logNotificationReviewerRepository.getManagerEvalNotifications(Constants.ROLE_EVALUATION_MANAGER, new PageRequest(0, 10));
+        List<LogNotificationDto> top10Notif = logNotificationRepository.getManagerEvalNotifications(Constants.ROLE_EVALUATION_MANAGER, new PageRequest(0, 10));
 
 //        List<LogNotificationDto> top10 = new ArrayList<>();
 //        int top = 0;
@@ -242,11 +242,11 @@ public class MainPageServiceImpl implements MainPageService {
 
     @Transactional
     public void doDeleteNotificationReviewer(Long idNotif) {
-        LogNotification notif = logNotificationReviewerRepository.findOne(idNotif);
+        LogNotification notif = logNotificationRepository.findOne(idNotif);
         notif.setObsoleteUser(userRepository.findOne(sharedUserService.GetLoggedUserId()));
         notif.setTimestampObsolete(Calendar.getInstance());
         notif.setIsObsolete(true);
-        logNotificationReviewerRepository.save(notif);
+        logNotificationRepository.save(notif);
     }
 
     @Autowired

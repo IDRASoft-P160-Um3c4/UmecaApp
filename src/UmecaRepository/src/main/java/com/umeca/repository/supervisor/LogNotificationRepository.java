@@ -10,14 +10,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("qLogNotificationReviewerRepository")
-public interface LogNotificationReviewerRepository extends JpaRepository<LogNotification,Long>{
+@Repository("qLogNotificationRepository")
+public interface LogNotificationRepository extends JpaRepository<LogNotification,Long>{
 
     @Query("select new com.umeca.model.entities.reviewer.dto.LogNotificationDto(nr.id,nr.subject,nr.message,nr.timestamp) from LogNotificationReviewer nr where nr.isObsolete=false and nr.receiveUser.id=:idUsr order by nr.timestamp")
     List<LogNotificationDto> getReviewerNotifications(@Param("idUsr")Long idUsr, Pageable pageable);
 
     @Query("select new com.umeca.model.entities.reviewer.dto.LogNotificationDto(nr.id,nr.subject,nr.message,nr.timestamp) " +
-            "from LogNotificationReviewer nr " +
+            "from LogNotification nr " +
             "inner join nr.senderUser SU "+
             "inner join nr.receiveUser RU " +
             "inner join RU.roles r "+

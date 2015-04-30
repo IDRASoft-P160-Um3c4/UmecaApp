@@ -32,7 +32,7 @@ import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
-import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
+import com.umeca.repository.supervisor.LogNotificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
@@ -87,7 +87,7 @@ public class ManagerevalController {
     UserRepository userRepository;
 
     @Autowired
-    LogNotificationReviewerRepository logNotificationReviewerRepository;
+    LogNotificationRepository logNotificationRepository;
 
 
     @RequestMapping(value = "/managereval/save", method = RequestMethod.POST)
@@ -135,7 +135,7 @@ public class ManagerevalController {
         User reviewer =__case.getMeeting().getReviewer();
         notif.setReceiveUser(reviewer);
 
-        logNotificationReviewerRepository.save(notif);
+        logNotificationRepository.save(notif);
         //Responder ultima solicitud
         Long lastRequestID = caseRequestRepository.findLastRequestAuhtorizeIdByCase(c,Constants.ST_REQUEST_AUTHORIZE_SOURCE);
         if(lastRequestID!=null){
@@ -502,7 +502,7 @@ public class ManagerevalController {
             notif.setSubject("El Coordinador de Evaluaci&oacute;n "+uSender.getFullname()+request+"la solcitud");
             notif.setMessage("Carpeta de investigaci&oacute;n: "+StringEscape.escapeText(c.getIdFolder())+"<br/>Solicitud: "+caseRequest.getRequestType().getDescription()+"<br/>Raz&oacute;n: "+requestDto.getReason());
             notif.setReceiveUser(caseRequest.getRequestMessage().getSender());
-            logNotificationReviewerRepository.save(notif);
+            logNotificationRepository.save(notif);
 
             return new ResponseMessage(false,"Se ha guardado la respuesta con exito");
 
