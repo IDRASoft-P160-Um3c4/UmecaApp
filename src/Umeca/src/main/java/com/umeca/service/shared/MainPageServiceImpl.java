@@ -4,10 +4,9 @@ package com.umeca.service.shared;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.agenda.ActivityAgendaNotice;
-import com.umeca.model.entities.reviewer.LogNotificationReviewer;
+import com.umeca.model.entities.reviewer.LogNotification;
 import com.umeca.model.entities.reviewer.dto.LogNotificationDto;
 import com.umeca.model.entities.shared.CommentRequest;
 import com.umeca.model.entities.supervisor.ActivityMonitoringPlanNotice;
@@ -243,7 +242,7 @@ public class MainPageServiceImpl implements MainPageService {
 
     @Transactional
     public void doDeleteNotificationReviewer(Long idNotif) {
-        LogNotificationReviewer notif = logNotificationReviewerRepository.findOne(idNotif);
+        LogNotification notif = logNotificationReviewerRepository.findOne(idNotif);
         notif.setObsoleteUser(userRepository.findOne(sharedUserService.GetLoggedUserId()));
         notif.setTimestampObsolete(Calendar.getInstance());
         notif.setIsObsolete(true);

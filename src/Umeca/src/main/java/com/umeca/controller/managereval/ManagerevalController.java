@@ -126,7 +126,7 @@ public class ManagerevalController {
         verification.save(_verification);
         _case.save(__case);
 
-        LogNotificationReviewer notif = new LogNotificationReviewer();
+        LogNotification notif = new LogNotification();
         notif.setIsObsolete(false);
         notif.setSubject("Se han verificado las fuentes para el caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(__case.getIdFolder())+".");
         notif.setMessage(sourcesInfo.getComment());
@@ -494,7 +494,7 @@ public class ManagerevalController {
             }
             caseRequestRepository.save(caseRequest);
             qCaseRepository.save(c);
-            LogNotificationReviewer notif = new LogNotificationReviewer();
+            LogNotification notif = new LogNotification();
             notif.setIsObsolete(false);
             User uSender = userRepository.findOne(userService.GetLoggedUserId());
             notif.setSenderUser(uSender);

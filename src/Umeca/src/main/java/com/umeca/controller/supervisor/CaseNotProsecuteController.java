@@ -158,7 +158,7 @@ public class CaseNotProsecuteController {
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE_OPEN));
             //TODO abrir bitacora en este momento para casos judicializdos
             caseRepository.save(c);
-            LogNotificationReviewer notif = new LogNotificationReviewer();
+            LogNotification notif = new LogNotification();
             notif.setIsObsolete(false);
             notif.setSubject("Se abri&oacute; un caso no judicializado en supervisi&oacute;n");
             notif.setMessage("Se abri&oacute; el caso con Carpeta de Investigaci&oacute;n "+ StringEscape.escapeText(c.getIdFolder())+".<br/>El caso fue cerrado por el evaluador: "+c.getMeeting().getReviewer().getFullname()+".<br/>Raz&oacute;n: "+StringEscape.escapeText(comment)+".");

@@ -255,7 +255,7 @@ public class CaseRequestController {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_REQUEST));
                 qCaseRepository.save(c);
 
-                LogNotificationReviewer notif = new LogNotificationReviewer();
+                LogNotification notif = new LogNotification();
                 notif.setIsObsolete(false);
                 notif.setSubject("Se ha realizado una solicitud para el caso con carpeta de investigaci&oacute;n " + c.getIdFolder() + ".");
                 User uSender = userRepository.findOne(userService.GetLoggedUserId());
