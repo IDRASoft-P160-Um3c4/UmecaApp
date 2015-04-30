@@ -143,6 +143,7 @@
                                                     <div class="widget-body">
                                                         <div class="widget-main padding-12">
                                                             <input id="password" type="password" name="password"
+                                                                   ng-enter-key for-element-id="btn-def-ck"
                                                                    ng-model="m.password" class="form-control"
                                                                    rows="8"/>
                                                         </div>
@@ -160,14 +161,13 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div ng-show="MsgError" class="alert alert-danger element-center" ng-bind-html="MsgError">
-                                <%--{{MsgError}}--%>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer" id="btn-act-footer">
                     <button class="btn btn-default btn-sm" ng-click="cancel()">Cancelar</button>
-                    <button class="btn btn-default btn-primary btn-sm" ng-show="m.password && m.comments"
+                    <button class="btn btn-default btn-primary btn-sm" ng-show="m.password && m.comments" id="btn-def-ck"
                             ng-click="submit('#FormCatId', '<c:url value='/supervisor/manageMonitoringPlan/doReqEndPlan.json' />')">
                         Solicitar
                     </button>

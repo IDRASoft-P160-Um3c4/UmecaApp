@@ -145,7 +145,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     ChannelingTypeRepository channelingTypeRepository;
 
 
-    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
+//    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
 
     //para la maquina virtual donde se montara el war
 //    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";
@@ -788,12 +789,14 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void closeCause() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "close_cause.txt", "\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "close_cause.txt", "\\|", 5);
         for (String[] data : lstDta) {
             CloseCause model = new CloseCause();
             model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            model.setIsObsolete(data[2].equals("1"));
+            model.setCode(data[1]);
+            model.setName(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            model.setIsVisible(data[4].equals("1"));
             closeCauseRepository.save(model);
         }
         closeCauseRepository.flush();
@@ -970,7 +973,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
                 institutionTypeRepository.save(model);
             }
             institutionTypeRepository.flush();
-        } catch (Exception ex){
+        } catch (Exception ex) {
 
         }
 
@@ -987,7 +990,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
             model.setLstInstitutionType(new ArrayList<CatInstitutionType>());
 
-            for(String sInstTypeId : lstInstType){
+            for (String sInstTypeId : lstInstType) {
                 final long instTypeId = Integer.parseInt(sInstTypeId);
                 CatInstitutionType instType = institutionTypeRepository.findOne(instTypeId);
                 model.getLstInstitutionType().add(instType);

@@ -23,18 +23,37 @@
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisorManager/caseObsolete/list.json' />',
-                autoencode:true,
+                autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento', 'Estatus', 'Acci&oacute;n'],
+                colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento'],
                 colModel: [
-                    { name: 'id', index: 'id', hidden: true },
-                    { name: 'codeStatus', index: 'codeStatus', hidden: true },
-                    { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'brthDateTxt', index: 'brthDateTxt', width: 160, align: "center", sortable: false, search: false },
-                    { name: 'descStatus', index: 'descStatus', width: 250, align: "center", sortable: false, search: false },
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
+                    {name: 'id', index: 'id', hidden: true},
+                    {name: 'codeStatus', index: 'codeStatus', hidden: true},
+                    {
+                        name: 'idMP',
+                        index: 'idMP',
+                        width: 200,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {
+                        name: 'fullName',
+                        index: 'fullName',
+                        width: 300,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {
+                        name: 'brthDateTxt',
+                        index: 'brthDateTxt',
+                        width: 160,
+                        align: "center",
+                        sortable: false,
+                        search: false
+                    }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -62,7 +81,8 @@
                 add: false,
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
-                search: false});
+                search: false
+            });
 
             jQuery("#GridId").jqGrid('navSeparatorAdd', '#GridPager');
             jQuery("#GridId").jqGrid('navButtonAdd', "#GridPager",
@@ -76,7 +96,8 @@
                                 $("#GridId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                             } catch (e) {
                             }
-                        }});
+                        }
+                    });
 
             jQuery("#GridId").jqGrid('filterToolbar', {
                 stringResult: true,

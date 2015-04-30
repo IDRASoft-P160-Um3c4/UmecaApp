@@ -260,8 +260,7 @@ public class CaseRequestController {
                 notif.setSubject("Se ha realizado una solicitud para el caso con carpeta de investigaci&oacute;n " + c.getIdFolder() + ".");
                 User uSender = userRepository.findOne(userService.GetLoggedUserId());
                 notif.setSenderUser(uSender);
-//                notif.setMessage("El usuario " + uSender.getFullname() + " realiz&oacute; la solcitud: " + requestType.getDescription());
-                notif.setMessage("El usuario " + uSender.getFullname() + " realizó la solcitud: " + requestType.getDescription());
+                notif.setMessage("El usuario " + uSender.getFullname() + " realiz&oacute; la solcitud: " + requestType.getDescription());
                 notif.setReceiveUser(managerEval);
 
                 logNotificationReviewerRepository.save(notif);

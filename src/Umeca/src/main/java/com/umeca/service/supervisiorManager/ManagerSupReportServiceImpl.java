@@ -25,9 +25,6 @@ public class ManagerSupReportServiceImpl implements ManagerSupReportService {
 
         List<String> lstStatus = new ArrayList<String>() {{
             add(Constants.CASE_STATUS_CLOSED);
-            add(Constants.CASE_STATUS_PRISON_CLOSED);
-            add(Constants.CASE_STATUS_OBSOLETE_EVALUATION);
-            add(Constants.CASE_STATUS_OBSOLETE_SUPERVISION);
         }};
 
         //obtengo los casos con su ultimo formato registrado dentro del rango y que no este en los status
@@ -78,9 +75,6 @@ public class ManagerSupReportServiceImpl implements ManagerSupReportService {
 
         List<String> lstStatus = new ArrayList<String>() {{
             add(Constants.CASE_STATUS_CLOSED);
-            add(Constants.CASE_STATUS_PRISON_CLOSED);
-            add(Constants.CASE_STATUS_OBSOLETE_EVALUATION);
-            add(Constants.CASE_STATUS_OBSOLETE_SUPERVISION);
         }};
 
         //obtengo los casos con entrevista de encuadre termminada y que la tenga alguna droga registrada que no sea 'no consume'
@@ -128,9 +122,6 @@ public class ManagerSupReportServiceImpl implements ManagerSupReportService {
 
         List<String> lstStatus = new ArrayList<String>() {{
             add(Constants.CASE_STATUS_CLOSED);
-            add(Constants.CASE_STATUS_PRISON_CLOSED);
-            add(Constants.CASE_STATUS_OBSOLETE_EVALUATION);
-            add(Constants.CASE_STATUS_OBSOLETE_SUPERVISION);
         }};
 
         //obtengo los casos con entrevista de encuadre termminada y que la tenga alguna droga registrada que no sea 'no consume'
@@ -174,16 +165,10 @@ public class ManagerSupReportServiceImpl implements ManagerSupReportService {
         return info;
     }
 
-    //TODO AGREGAR LOS NUEVOS ESTATUS DE TERMINADO A LAS CONSULTAS QUE FILTRAN LOS CASOS CERRADOS EN TODO EL SISTEMA
     public ManagerSupExcelReportInfo getCountClosedCases(ManagerSupReportParams params, ManagerSupExcelReportInfo info) {
 
         List<String> lstStatus = new ArrayList<String>() {{
             add(Constants.CASE_STATUS_CLOSED);
-            add(Constants.CASE_STATUS_PRISON_CLOSED);
-            add(Constants.CASE_STATUS_CLOSE_FORGIVENESS);
-            add(Constants.CASE_STATUS_CLOSE_AGREEMENT);
-            add(Constants.CASE_STATUS_CLOSE_DESIST);
-            add(Constants.CASE_STATUS_CLOSE_OTHER);
         }};
 
         //obtengo los casos en status de cierre y que hayan sido cerrados entre el rango de fechas
@@ -221,11 +206,6 @@ public class ManagerSupReportServiceImpl implements ManagerSupReportService {
 
         List<String> lstStatus = new ArrayList<String>() {{
             add(Constants.CASE_STATUS_CLOSED);
-            add(Constants.CASE_STATUS_PRISON_CLOSED);
-            add(Constants.CASE_STATUS_CLOSE_FORGIVENESS);
-            add(Constants.CASE_STATUS_CLOSE_AGREEMENT);
-            add(Constants.CASE_STATUS_CLOSE_DESIST);
-            add(Constants.CASE_STATUS_CLOSE_OTHER);
         }};
 
         Object total = null;

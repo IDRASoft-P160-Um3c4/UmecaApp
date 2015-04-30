@@ -6,6 +6,7 @@ import com.umeca.infrastructure.extensions.IntegerExt;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.Arrangement;
+import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
@@ -798,6 +799,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     @Autowired
     LogCaseService logCaseService;
 
+    @Autowired
+    private CloseCauseRepository closeCauseRepository;
+
     @Override
     @Transactional
     public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
@@ -861,8 +865,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
                 hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
-
-            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
+                hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_REQUEST));
+                hearingFormat.getCaseDetention().setCloseCause(closeCauseRepository.findByCode(Constants.CLOSE_CAUSE_NO_ENTAILMENT));
 
             sb.append("Solicitud de cierre de caso: ");
             sb.append(idFolder);

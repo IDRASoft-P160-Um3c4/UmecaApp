@@ -362,13 +362,7 @@ public class ManagerSupReportController {
 
         List<String> closedStatus = new ArrayList<String>() {{
             add(Constants.CASE_STATUS_CLOSED);
-            add(Constants.CASE_STATUS_PRISON_CLOSED);
-            add(Constants.CASE_STATUS_CLOSE_FORGIVENESS);
-            add(Constants.CASE_STATUS_CLOSE_AGREEMENT);
-            add(Constants.CASE_STATUS_CLOSE_DESIST);
-            add(Constants.CASE_STATUS_CLOSE_OTHER);
         }};
-
 
         List<Object> lstTotal = new ArrayList<>();
 

@@ -7,6 +7,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.reviewer.Case;
@@ -57,14 +58,18 @@ public class CaseClosedController {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
+                Constants.CASE_STATUS_CLOSED
+                , JqGridFilterModel.COMPARE_EQUAL);
+
+        opts.extraFilters.add(extraFilter);
+
+        extraFilter = new JqGridRulesModel("closeCause",
                 new ArrayList<String>() {{
-                    add(Constants.CASE_STATUS_CLOSED);
-                    add(Constants.CASE_STATUS_PRISON_CLOSED);
-                    add(Constants.CASE_STATUS_CLOSE_FORGIVENESS);
-                    add(Constants.CASE_STATUS_CLOSE_AGREEMENT);
-                    add(Constants.CASE_STATUS_CLOSE_DESIST);
-                    add(Constants.CASE_STATUS_CLOSE_OTHER);
-                }}, JqGridFilterModel.COMPARE_IN);
+                    add(Constants.CLOSE_CAUSE_OBSOLETE_SUPERVISION);
+                    add(Constants.CLOSE_CAUSE_OBSOLETE_EVALUATION);
+                }}
+                , JqGridFilterModel.COMPARE_NOT_IN);
+
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -73,8 +78,8 @@ public class CaseClosedController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
                 final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
+                final javax.persistence.criteria.Join<Case, CloseCause> joinCloseCause = r.join("closeCause");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
-
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -96,6 +101,8 @@ public class CaseClosedController {
                     return r.join("meeting").join("imputed").get("name");
                 else if (field.equals("statusName"))
                     return r.join("status").get("name");
+                else if (field.equals("closeCause"))
+                    return r.join("closeCause").get("code");
                 else
                     return null;
             }

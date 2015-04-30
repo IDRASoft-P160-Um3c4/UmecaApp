@@ -4,6 +4,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.entities.account.User;
@@ -117,34 +118,43 @@ public class CaseEvaluationController {
     JqGridResultModel listObsoleteCase(@ModelAttribute JqGridFilterModel opts) {
         opts.extraFilters = new ArrayList<>();
 
-        JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",Constants.S_MEETING_OBSOLETE
+        JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting", Constants.S_MEETING_OBSOLETE
                 , JqGridFilterModel.COMPARE_EQUAL
         );
 
         opts.extraFilters.add(extraFilter);
 
         extraFilter = new JqGridRulesModel("statusCase",
-                Constants.CASE_STATUS_OBSOLETE_EVALUATION
+                Constants.CASE_STATUS_CLOSED
                 , JqGridFilterModel.COMPARE_EQUAL
         );
 
         opts.extraFilters.add(extraFilter);
-        Long userId =userService.GetLoggedUserId();
-        if (userService.isUserInRole(userId,Constants.ROLE_REVIEWER)) {
-                extraFilter = new JqGridRulesModel("user", userId.toString()
-                        , JqGridFilterModel.COMPARE_EQUAL
-                );
-                opts.extraFilters.add(extraFilter);
-            }
 
+        extraFilter = new JqGridRulesModel("closeCause",
+                Constants.CLOSE_CAUSE_OBSOLETE_EVALUATION
+                , JqGridFilterModel.COMPARE_EQUAL
+        );
+
+        opts.extraFilters.add(extraFilter);
+
+        Long userId = userService.GetLoggedUserId();
+        if (userService.isUserInRole(userId, Constants.ROLE_REVIEWER)) {
+            extraFilter = new JqGridRulesModel("user", userId.toString()
+                    , JqGridFilterModel.COMPARE_EQUAL
+            );
+            opts.extraFilters.add(extraFilter);
+        }
 
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 final Join<Meeting, Case> joinMeCa = r.join("caseDetention");
+                final Join<Case, CloseCause> joinCaseCloseCause = joinMeCa.join("closeCause");
                 final Join<Meeting, Imputed> joinMeIm = r.join("imputed");
                 final Join<Meeting, StatusMeeting> joinMeSt = r.join("status", JoinType.INNER);
+
                 final Join<Verification, StatusVerification> joinCdSt = joinMeCa.join("status", JoinType.INNER);
                 final Join<Meeting, User> joinUsr = r.join("reviewer", JoinType.INNER);
 
@@ -169,8 +179,10 @@ public class CaseEvaluationController {
                     return r.join("status").get("name");
                 else if (field.equals("user"))
                     return r.join("reviewer").get("id");
-                else if(field.equals("statusCase"))
+                else if (field.equals("statusCase"))
                     return r.join("caseDetention").join("status").get("name");
+                else if (field.equals("closeCause"))
+                    return r.join("caseDetention").join("closeCause").get("code");
 
                 return null;
             }
