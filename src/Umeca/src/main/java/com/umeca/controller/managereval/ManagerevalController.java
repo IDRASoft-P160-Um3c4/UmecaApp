@@ -33,7 +33,6 @@ import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.CloseCauseRepository;
-import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.repository.supervisor.LogNotificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;

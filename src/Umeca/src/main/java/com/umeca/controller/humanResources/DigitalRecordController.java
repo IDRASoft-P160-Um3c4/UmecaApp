@@ -200,7 +200,7 @@ public class DigitalRecordController {
         model.addObject("lstMaritalSt", gson.toJson(maritalStatusRepository.findAll()));
         model.addObject("lstDocType", gson.toJson(documentTypeRepository.findNotObsolete()));
         model.addObject("lstEmployeeSchedule", gson.toJson(employeeScheduleRepository.findAllEmployeeSchedule()));
-        model.addObject("lstAssignedUsr", gson.toJson(sharedUserService.getUserRoles(null, id)));
+        model.addObject("lstAssignedUsr", gson.toJson(sharedUserService.getUserRoles(null, null, id)));
 
         String employeeName = employeeRepository.getEmployeeNameById((id));
 
@@ -1153,8 +1153,8 @@ public class DigitalRecordController {
     public
     @ResponseBody
     String searchUsr(@RequestParam(required = true) String str) {
-        String param = "%" + str + "%";
-        List<SelectList> lst = sharedUserService.getUserRoles(param, null);
+        String param = str + "%";
+        List<SelectList> lst = sharedUserService.getUserRoles(null, param, null);
         return new Gson().toJson(lst);
 
     }

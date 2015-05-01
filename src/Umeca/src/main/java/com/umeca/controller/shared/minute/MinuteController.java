@@ -16,6 +16,7 @@ import com.umeca.model.entities.director.minutes.Minute;
 import com.umeca.model.entities.humanReources.RequestAgreement;
 import com.umeca.model.entities.humanReources.RequestAgreementDto;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.AreaRepository;
 import com.umeca.repository.director.AssistantRepository;
@@ -174,14 +175,15 @@ public class MinuteController {
 
         if (id != null) {
             dto = minuteService.getMinuteDtoById(id);
-            dto.setAssistantsIds(gson.toJson(assistantRepository.getAssistantsIdsByMinuteIds(id)));
+//            dto.setAssistantsIds(gson.toJson(assistantRepository.getAssistantsIdsByMinuteIds(id)));
+            model.addObject("lstAssistantSel", gson.toJson(employeeRepository.getAllNoObsoleteEmployees()));
         } else {
             dto = new MinuteDto();
             dto.setIsFinished(false);
         }
 
         model.addObject("minute", gson.toJson(dto));
-        model.addObject("lstEmployee", gson.toJson(employeeRepository.getAllNoObsoleteEmployees()));
+
         List<String> roles = sharedUserService.getLstRolesByUserId(sharedUserService.GetLoggedUserId());
 
         Boolean isRH = false;
@@ -496,6 +498,15 @@ public class MinuteController {
         model.addObject("minuteData", gson.toJson(minuteService.getMinuteGrlDataById(id)));
         model.addObject("responseData", gson.toJson(minuteService.getLastResponseInfoByMinuteIdType(id, Constants.REQUEST_AGREEMENT_TYPE_FINISH)));
         return model;
+    }
+
+    @RequestMapping(value = "/shared/minute/getEmployees", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String searchUsr(@RequestParam(required = true) String str) {
+        String param = str + "%";
+        List<SelectList> lst = sharedUserService.getUserRoles(param, null, null);
+        return new Gson().toJson(lst);
     }
 
 }
