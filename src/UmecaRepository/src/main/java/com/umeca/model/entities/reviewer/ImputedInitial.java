@@ -12,19 +12,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Desarrollo
- * Date: 8/05/14
- * Time: 01:05 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
-@Table(name = "imputed")
-public class Imputed {
+@Table(name = "imputed_initial")
+public class ImputedInitial{
     @Id
     @GeneratedValue
-    @Column(name = "id_imputed")
+    @Column(name = "id_imputed_initial")
     protected Long id;
 
     @Column(name = "name", length = 50, nullable = false)
@@ -293,28 +286,4 @@ public class Imputed {
         this.foneticString = foneticString;
     }
 
-    public ImputedInitial cloneObj() {
-        ImputedInitial imp = new ImputedInitial();
-        imp.setId(id);
-        imp.setBirthCountry(birthCountry);
-        imp.setBirthDate(birthDate);
-        imp.setBirthLocation(birthLocation);
-        imp.setName(name);
-        imp.setBirthMunicipality(this.birthMunicipality);
-        imp.setBirthState(birthState);
-        imp.setBoys(boys);
-        imp.setCelPhone(celPhone);
-        imp.setDependentBoys(dependentBoys);
-        imp.setFoneticString(foneticString);
-        imp.setGender(gender);
-        imp.setLastNameM(lastNameM);
-        imp.setLastNameP(lastNameP);
-        imp.setLocation(location);
-        imp.setMaritalStatus(maritalStatus);
-        imp.setMeeting(meeting);
-        imp.setNickname(nickname);
-        imp.setYearsMaritalStatus(yearsMaritalStatus);
-        return imp;
-    }
 }
-

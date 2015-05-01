@@ -63,6 +63,8 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     private ImputedRepository imputedRepository;
     @Autowired
+    private ImputedInitialRepository imputedInitialRepository;
+    @Autowired
     private MeetingRepository meetingRepository;
     @Autowired
     private StatusMeetingRepository statusMeetingRepository;
@@ -146,10 +148,13 @@ public class MeetingServiceImpl implements MeetingService {
             imputed.setName(imputed.getName().trim());
             imputed.setLastNameP(imputed.getLastNameP().trim());
             imputed.setLastNameM(imputed.getLastNameM().trim());
+
             if (imputedRepository.findImputedRegister(imputed.getName(), imputed.getLastNameP(), imputed.getLastNameM(), imputed.getBirthDate()).size() > 0)
                 caseDetention.setRecidivist(true);
             else
                 caseDetention.setRecidivist(false);
+
+
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention.setDateCreate(new Date());
@@ -161,9 +166,15 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.setStatus(statusMeeting);
             meeting.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
             meeting.setDateCreate(new Date());
+
+            ImputedInitial imputedInitial = imputed.cloneObj();
+            meeting.setImputedInitial(imputedInitial);
+            imputedInitial.setMeeting(meeting);
+
             meeting = meetingRepository.save(meeting);
             imputed.setMeeting(meeting);
             imputedRepository.save(imputed);
+            imputedInitialRepository.save(imputedInitial);
             result = caseDetention.getId();
         } catch (Exception e) {
             e.printStackTrace();

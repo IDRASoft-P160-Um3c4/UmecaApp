@@ -37,9 +37,8 @@ public class Meeting {
     @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
     private Imputed imputed;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_imputed_initial", nullable = false)
-    private Imputed imputedInitial;
+    @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
+    private ImputedInitial imputedInitial;
 
     @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
     private SocialNetwork socialNetwork;
@@ -349,11 +348,11 @@ public class Meeting {
         this.dateTerminateLegal = dateTerminateLegal;
     }
 
-    public Imputed getImputedInitial() {
+    public ImputedInitial getImputedInitial() {
         return imputedInitial;
     }
 
-    public void setImputedInitial(Imputed imputedInitial) {
+    public void setImputedInitial(ImputedInitial imputedInitial) {
         this.imputedInitial = imputedInitial;
     }
 }
