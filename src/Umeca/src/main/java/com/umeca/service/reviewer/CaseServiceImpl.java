@@ -98,6 +98,7 @@ public class CaseServiceImpl implements CaseService {
         imputed.setMeeting(meeting);
         imputed.setFoneticString(imputed.getName().trim().toLowerCase() + imputed.getLastNameP().trim().toLowerCase() + imputed.getLastNameM().trim().toLowerCase());
         meeting.setImputed(imputed);
+        meeting.setImputedInitial(imputed);
         meeting.setCaseDetention(caseDet);
         meeting.setMeetingType(type);
         caseDet.setMeeting(meeting);
