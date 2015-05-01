@@ -16,6 +16,7 @@ import com.umeca.service.account.SharedUserService;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,9 +27,9 @@ public class CaseRequestService {
         CaseRequest caseRequest = new CaseRequest();
         final Message msg = new Message();
         msg.setCaseDetention(monPlan.getCaseDetention());
-        msg.setCreationDate(new Date());
+        msg.setCreationDate(Calendar.getInstance());
         msg.setSender(user);
-        msg.setText(StringEscape.escapeText(text));
+        msg.setBody(StringEscape.escapeText(text));
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(role);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
@@ -51,9 +52,9 @@ public class CaseRequestService {
         CaseRequest caseRequest = new CaseRequest();
         final Message msg = new Message();
         msg.setCaseDetention(caseDet);
-        msg.setCreationDate(new Date());
+        msg.setCreationDate(Calendar.getInstance());
         msg.setSender(user);
-        msg.setText(StringEscape.escapeText(text));
+        msg.setBody(StringEscape.escapeText(text));
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(role);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
@@ -85,9 +86,9 @@ public class CaseRequestService {
 
             final Message msg = new Message();
             msg.setCaseDetention(caseDetention);
-            msg.setCreationDate(new Date());
+            msg.setCreationDate(Calendar.getInstance());
             msg.setSender(user);
-            msg.setText(StringEscape.escapeText(text));
+            msg.setBody(StringEscape.escapeText(text));
 
             List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
@@ -120,12 +121,12 @@ public class CaseRequestService {
         caseRequest.setStateBefore(statusBefore);
         final Message msg = new Message();
         msg.setCaseDetention(caseDetention);
-        msg.setCreationDate(new Date());
+        msg.setCreationDate(Calendar.getInstance());
         Long userId = sharedUserService.GetLoggedUserId();
         User u = new User();
         u.setId(userId);
         msg.setSender(u);
-        msg.setText(StringEscape.escapeText(text));
+        msg.setBody(StringEscape.escapeText(text));
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(roleSender);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
         for(final User userRcv : lstUserReceivers){
@@ -152,12 +153,12 @@ public class CaseRequestService {
         final CaseRequest caseRequest = lstCaseRequest.get(0);
         final Message msg = new Message();
         msg.setCaseDetention(caseDetention);
-        msg.setCreationDate(new Date());
+        msg.setCreationDate(Calendar.getInstance());
         Long userId = sharedUserService.GetLoggedUserId();
         User u = new User();
         u.setId(userId);
         msg.setSender(u);
-        msg.setText(StringEscape.escapeText(text));
+        msg.setBody(StringEscape.escapeText(text));
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
         lstRmUr.add(new RelMessageUserReceiver(){{

@@ -40,6 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -219,7 +220,7 @@ public class CaseRequestController {
             requestMessage.setSender(userSender);
             if (usersReceiver != null && usersReceiver.size() > 0) {
                 Message m = new Message();
-                m.setText(StringEscape.escapeText(requestDto.getReason()));
+                m.setBody(StringEscape.escapeText(requestDto.getReason()));
                 m.setCaseDetention(c);
                 m.setSender(userSender);
                 List<RelMessageUserReceiver> listrmur = new ArrayList<>();
@@ -233,7 +234,7 @@ public class CaseRequestController {
                     managerEval = u;
                 }
                 m.setMessageUserReceivers(listrmur);
-                m.setCreationDate(new Date());
+                m.setCreationDate(Calendar.getInstance());
                 requestMessage.setMessageUserReceivers(listrmur);
                 m = messageRepository.save(m);
                 caseRequest.setRequestMessage(m);

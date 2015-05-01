@@ -45,6 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -149,8 +150,8 @@ public class ManagerevalController {
             r.setMessage(m);
             rmur.add(r);
             m.setMessageUserReceivers(rmur);
-            m.setCreationDate(new Date());
-            m.setText(StringEscape.escapeText(sourcesInfo.getComment()));
+            m.setCreationDate(Calendar.getInstance());
+            m.setBody(StringEscape.escapeText(sourcesInfo.getComment()));
             messageRepository.save(m);
             caseRequest.setResponseMessage(m);
             caseRequest.setResponseType(responseTypeRepository.findByCode(Constants.RESPONSE_TYPE_DRESSED));
@@ -360,7 +361,7 @@ public class ManagerevalController {
 
             model.addObject("caseInfo", caseInfo);
             Message requestMessage= caseRequest.getRequestMessage();
-            model.addObject("reason", requestMessage.getText());
+            model.addObject("reason", requestMessage.getBody());
             model.addObject("user", requestMessage.getSender().getFullname());
             model.addObject("dateRequest", dateFormat.format(requestMessage.getCreationDate()));
             List<SourceVerification> sources = new ArrayList<>();
@@ -418,8 +419,8 @@ public class ManagerevalController {
 
             Message messageResponse = new Message();
             messageResponse.setSender(userSender);
-            messageResponse.setText(StringEscape.escapeText(requestDto.getReason()));
-            messageResponse.setCreationDate(new Date());
+            messageResponse.setBody(StringEscape.escapeText(requestDto.getReason()));
+            messageResponse.setCreationDate(Calendar.getInstance());
             RelMessageUserReceiver lisRel = new RelMessageUserReceiver();
             lisRel.setMessage(messageResponse);
             lisRel.setUser(caseRequest.getRequestMessage().getSender());

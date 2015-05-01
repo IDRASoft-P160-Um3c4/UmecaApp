@@ -415,12 +415,12 @@ public class CaseServiceImpl implements CaseService {
         }
         Message msg = new Message();
         msg.setCaseDetention(caseDet);
-        msg.setCreationDate(new Date());
+        msg.setCreationDate(Calendar.getInstance());
         Long userId = sharedUserService.GetLoggedUserId();
         User u = new User();
         u.setId(userId);
         msg.setSender(u);
-        msg.setText(StringEscape.escapeText(model.getComments()));
+        msg.setBody(StringEscape.escapeText(model.getComments()));
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
         RelMessageUserReceiver rmur = new RelMessageUserReceiver();
         rmur.setMessage(msg);

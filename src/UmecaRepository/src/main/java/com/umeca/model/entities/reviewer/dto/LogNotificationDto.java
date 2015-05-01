@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer.dto;
 
+import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.shared.Constants;
 
@@ -17,15 +18,27 @@ public class LogNotificationDto {
     private String message;
     private Date orderDate;
     private Calendar dateNotif;
+    private String dateNotifTx;
 
     public LogNotificationDto() {
     }
 
-    public LogNotificationDto(Long notificationId, String title, String message, Calendar dateNotif) {
+    public LogNotificationDto(Long notificationId, String title, String message, Calendar dateNotif, String senderUser, int hasToEscape) {
         this.id = notificationId;
         this.title = title;
-        this.message = StringEscape.escapeText(message);
+        this.senderUser = senderUser;
+        this.message = hasToEscape == 1 ? StringEscape.escapeText(message) : message;
         this.dateNotif=dateNotif;
+        this.dateNotifTx = CalendarExt.calendarToFormatString(dateNotif, Constants.FORMAT_CALENDAR_I);
+
+    }
+
+    public LogNotificationDto(Long notificationId, String title, String message, Calendar dateNotif, int hasToEscape) {
+        this(notificationId, title, message, dateNotif, "", hasToEscape);
+    }
+
+    public LogNotificationDto(Long notificationId, String title, String message, Calendar dateNotif) {
+        this(notificationId, title, message, dateNotif, "", 1);
     }
 
     public LogNotificationDto(String idFolder, String imputedName, String status, Date orderDate) {
@@ -139,5 +152,13 @@ public class LogNotificationDto {
 
     public static Comparator<LogNotificationDto> getDateSorter() {
         return dateSorter;
+    }
+
+    public void setDateNotifTx(String dateNotifTx) {
+        this.dateNotifTx = dateNotifTx;
+    }
+
+    public String getDateNotifTx() {
+        return dateNotifTx;
     }
 }

@@ -6,3 +6,4 @@
 5|ROLE_SUPERVISOR_MANAGER|Coordinador de Supervisores
 6|ROLE_DIRECTOR|Director
 7|ROLE_HUMAN_RESOURCES|Recursos Humanos
+8|ROLE_CHANNELING_MANAGER|Coordinador de Canalizaciones

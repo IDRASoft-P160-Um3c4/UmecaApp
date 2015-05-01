@@ -8,6 +8,7 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.Channeling;
 import com.umeca.model.entities.supervisor.ChannelingModel;
+import com.umeca.model.entities.supervisor.ChannelingNotification;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.model.shared.SelectOptsList;
@@ -15,11 +16,13 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.supervisor.ChannelingRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
+import com.umeca.service.shared.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -60,6 +63,9 @@ public class ChannelingServiceImpl implements ChannelingService {
 
     @Autowired
     ChannelingTypeRepository channelingTypeRepository;
+
+    @Autowired
+    MessageService messageService;
 
 
     @Override
@@ -129,6 +135,17 @@ public class ChannelingServiceImpl implements ChannelingService {
         }
 
         channelingRepository.save(model);
+        channelingTypeRepository.flush();
+        ChannelingNotification notificationInfo = channelingRepository.getNotificationInfo(model.getId());
+
+        messageService.sendNotificationToRole(modelNew.getCaseId(),
+                String.format("<strong>Descripción:</strong> Se registró una canalización de tipo <strong>\"%s\"</strong><br/>" +
+                                "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong>",
+                        notificationInfo.getChannelingType(), notificationInfo.getImputed(), notificationInfo.getIdMp(),
+                        notificationInfo.getUser()),
+                new ArrayList<String>(){{add(Constants.ROLE_DIRECTOR);add(Constants.ROLE_CHANNELING_MANAGER);}},
+                Constants.CHANNELING_NOTIFICATION_TITLE);
+
         response.setHasError(false);
     }
 

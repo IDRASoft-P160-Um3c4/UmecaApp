@@ -3,6 +3,7 @@ package com.umeca.repository.supervisor;
 import com.umeca.model.entities.supervisor.Channeling;
 import com.umeca.model.entities.supervisor.ChannelingCaseView;
 import com.umeca.model.entities.supervisor.ChannelingModel;
+import com.umeca.model.entities.supervisor.ChannelingNotification;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -38,4 +39,12 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
             "INNER JOIN cd.framingMeeting.supervisor s " +
             "WHERE c.id =:channelingId AND cd.id =:caseId ")
     ChannelingModel getChannelingViewByCaseId(@Param("caseId")Long id, @Param("channelingId")Long channelingId);
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ChannelingNotification(c.channelingType.name, i.name, i.lastNameP, i.lastNameM" +
+            ", cd.idMP, c.creatorUser.fullname) " +
+            "FROM Channeling AS c " +
+            "INNER JOIN c.caseDetention cd " +
+            "INNER JOIN cd.meeting.imputed i "  +
+            "WHERE c.id =:channelingId")
+    ChannelingNotification getNotificationInfo(@Param("channelingId")Long id);
 }

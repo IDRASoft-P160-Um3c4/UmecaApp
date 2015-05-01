@@ -5,7 +5,7 @@ app.controller("mainIndexController", function ($scope, sharedSvc, $sce) {
             .then(function () {
                 $scope.doDeleteMsg(id, urlToGo);
             });
-    }
+    };
 
     $scope.doDeleteMsg = function (id, urlToPost) {
 
@@ -18,14 +18,14 @@ app.controller("mainIndexController", function ($scope, sharedSvc, $sce) {
             dataType: "json",
             contentType: "application/json"
         });
-    }
+    };
 
     $scope.deleteNotif = function (id, urlToGo) {
         sharedSvc.showConf({ title: "Confirmar eliminación", message: "¿Desea eliminar la notificación?", type: "warning" })
             .then(function () {
                 $scope.doDeleteNotif(id, urlToGo);
             });
-    }
+    };
 
     $scope.doDeleteNotif = function (id, urlToPost) {
 
@@ -35,7 +35,7 @@ app.controller("mainIndexController", function ($scope, sharedSvc, $sce) {
             success: $scope.handleSuccess,
             error: $scope.handleError
         });
-    }
+    };
 
     $scope.handleSuccess = function (data) {
         try {
@@ -66,7 +66,7 @@ app.controller("mainIndexController", function ($scope, sharedSvc, $sce) {
                 type: "danger"
             });
         }
-    }
+    };
 
     $scope.handleError = function (data) {
         $scope.workingTrack = false;
@@ -75,7 +75,7 @@ app.controller("mainIndexController", function ($scope, sharedSvc, $sce) {
             message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
             type: "danger"
         });
-    }
+    };
 
     $scope.myFormatDate = function (dateMil) {
 

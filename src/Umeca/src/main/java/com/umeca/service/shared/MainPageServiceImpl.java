@@ -9,6 +9,7 @@ import com.umeca.model.entities.director.agenda.ActivityAgendaNotice;
 import com.umeca.model.entities.reviewer.LogNotification;
 import com.umeca.model.entities.reviewer.dto.LogNotificationDto;
 import com.umeca.model.entities.shared.CommentRequest;
+import com.umeca.model.entities.shared.RelMessageUserReceiver;
 import com.umeca.model.entities.supervisor.ActivityMonitoringPlanNotice;
 import com.umeca.model.entities.supervisorManager.CommentMonitoringPlanNotice;
 import com.umeca.model.entities.supervisorManager.LogComment;
@@ -16,6 +17,8 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.shared.MessageRepository;
+import com.umeca.repository.shared.RelMessageUserReceiverRepository;
 import com.umeca.repository.supervisor.ActivityAgendaRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.LogNotificationRepository;
@@ -53,6 +56,9 @@ public class MainPageServiceImpl implements MainPageService {
     @Autowired
     SystemSettingService systemSettingService;
 
+    @Autowired
+    RelMessageUserReceiverRepository relMessageUserReceiverRepository;
+
     @Override
     public ModelAndView generatePage(String sRole, ModelAndView model, Long userId) {
 
@@ -81,6 +87,10 @@ public class MainPageServiceImpl implements MainPageService {
 
             case Constants.ROLE_DIRECTOR:
                 constructDirectorMainPage(model, userId);
+                return model;
+
+            case Constants.ROLE_CHANNELING_MANAGER:
+                constructChannelingManagerMainPage(model);
                 return model;
 
             default:
@@ -249,6 +259,22 @@ public class MainPageServiceImpl implements MainPageService {
         logNotificationRepository.save(notif);
     }
 
+    @Override
+    public boolean deleteNotification(Long id, Long userId, ResponseMessage response) {
+        RelMessageUserReceiver relMessage = relMessageUserReceiverRepository.findOneByIdAndUserId(id, userId);
+
+        if(relMessage == null){
+            response.setHasError(true);
+            response.setMessage("No existe el registro que desea eliminar");
+            return false;
+        }
+
+        relMessage.setIsObsolete(true);
+        relMessage.setTimestampObsolete(Calendar.getInstance());
+        relMessageUserReceiverRepository.save(relMessage);
+        return true;
+    }
+
     @Autowired
     ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
 
@@ -300,10 +326,11 @@ public class MainPageServiceImpl implements MainPageService {
     @Autowired
     ActivityAgendaRepository activityAgendaRepository;
 
+    @Autowired
+    MessageRepository messageRepository;
+
     private void constructDirectorMainPage(ModelAndView model, Long userId) {
-
         Calendar today = CalendarExt.getToday();
-
         List<ActivityAgendaNotice> lstGeneric = activityAgendaRepository.getLstActivitiesBeforeTodayByUserId(userId,
                 new ArrayList<String>() {{
                     add(MonitoringConstants.STATUS_ACTIVITY_NEW);
@@ -330,11 +357,24 @@ public class MainPageServiceImpl implements MainPageService {
 
         sLstGeneric = json.toJson(lstGeneric);
         model.addObject("lstActivitiesNew", sLstGeneric);
+
+        List<LogNotificationDto> lstNotification = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 10));
+
+        model.addObject("lstNotification", json.toJson(lstNotification));
+        model.addObject("urlToGo", "/shared/messageHistory/deleteNotification.json?id=");
     }
 
     private void constructHumanResourcesPage(ModelAndView model) {
 
 
+    }
+
+
+    private void constructChannelingManagerMainPage(ModelAndView model) {
+        List<LogNotificationDto> lstNotification = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 10));
+        Gson json = new Gson();
+        model.addObject("lstNotification", json.toJson(lstNotification));
+        model.addObject("urlToGo", "/shared/messageHistory/deleteNotification.json?id=");
     }
 
 }

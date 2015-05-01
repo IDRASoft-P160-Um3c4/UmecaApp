@@ -4,6 +4,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.RequestType;
 import com.umeca.model.catalog.ResponseType;
 import com.umeca.model.entities.account.User;
@@ -11,12 +12,15 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.CaseRequest;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.shared.CommentRequest;
 import com.umeca.model.entities.shared.Message;
 import com.umeca.model.entities.shared.MessageHistoryDetailView;
 import com.umeca.model.entities.shared.MessageHistoryView;
 import com.umeca.model.shared.Constants;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.MainPageService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +38,12 @@ public class MessageHistoryController {
 
     @Autowired
     SharedUserService userService;
+
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @Autowired
+    MainPageService mainPageService;
 
     @RequestMapping(value = {"/shared/messageHistory/index"}, method = RequestMethod.GET)
     public ModelAndView index() {
@@ -163,4 +173,33 @@ public class MessageHistoryController {
         }, true, CaseRequest.class, MessageHistoryDetailView.class);
         return result;
     }
+
+
+    @RequestMapping(value = {"/shared/messageHistory/deleteNotification"}, method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseMessage deleteNotification(@RequestParam(required = true) Long id) {
+        ResponseMessage response = new ResponseMessage();
+
+        try {
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
+
+            if (mainPageService.deleteNotification(id, user.getId(), response) == false)
+                return response;
+
+            response.setReturnData(id);
+            response.setHasError(false);
+            return response;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "deleteNotification", userService);
+            response.setHasError(true);
+        }
+        response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+        return response;
+    }
+
+
 }

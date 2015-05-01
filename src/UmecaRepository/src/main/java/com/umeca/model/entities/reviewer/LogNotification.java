@@ -11,7 +11,7 @@ public class LogNotification {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_log_notification_reviewer", nullable = false)
+    @Column(name = "id_log_notification", nullable = false)
     private Long id;
 
     @Column(name = "subject", length = 100)

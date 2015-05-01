@@ -39,6 +39,7 @@ public class Constants {
     public static final Integer ACT_REPORT_FOR_NOBODY = 0;
     public static final String FILE_PREFIX_USER = "USR_";
     public static final String FILE_PREFIX_PHOTO_EMPLOYEE = "PHOTO_EMPLOYEE_";
+
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE = "COMPLETE";
@@ -100,6 +101,9 @@ public class Constants {
     public static final String ROLE_NOTUSE = "ROLE_NOTUSE";
     public static final String ROLE_ANONYMOUS = "ANONYMOUS";
     public static final String ROLE_HUMAN_RESOURCES = "ROLE_HUMAN_RESOURCES";
+    public static final String ROLE_CHANNELING_MANAGER = "ROLE_CHANNELING_MANAGER";
+    public static final String ROLE_DIRECTOR = "ROLE_DIRECTOR";
+
     public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
     public static String FORMAT_CALENDAR_II = "dd-MM-yyyy";
     public static String FORMAT_CALENDAR_III = "dd-MM-yyyy HH:mm";
@@ -194,7 +198,6 @@ public class Constants {
     public static final String NAME_RELATIONSHIP_NONE = "Ninguno";
 
     public static String S_MEETING_OBSOLETE = "OBSOLETE";
-    public static final String ROLE_DIRECTOR = "ROLE_DIRECTOR";
 
     public static final String ACTION_AUTHORIZE_LOG_COMMENT = "AUTORIZAR ELIMINAR CASO";
 
@@ -248,6 +251,8 @@ public class Constants {
     public static final String CHANNELING_TYPE_MEDICAL_TREATMENT = "TMP";
     public static final String CHANNELING_TYPE_EDUCATION = "ES";
     public static final String CHANNELING_TYPE_JOB = "EM";
+    public static final String CHANNELING_NOTIFICATION_TITLE = "Registro de canalización";
+
 
 }
 

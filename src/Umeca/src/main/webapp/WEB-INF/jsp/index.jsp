@@ -10,7 +10,7 @@
 <div class="container body-content">
 <%@ include file="/WEB-INF/jsp/shared/login.jsp" %>
 
-<div ng-controller="mainIndexController">
+<div ng-controller="mainIndexController" ng-cloak>
 
     <sec:authorize access="isAnonymous()">
         <%@ include file="/WEB-INF/jsp/shared/index.jsp" %>
@@ -33,11 +33,14 @@
     <sec:authorize access="hasRole('ROLE_HUMAN_RESOURCES')">
         <%@ include file="/WEB-INF/jsp/humanResources/index.jsp" %>
     </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_CHANNELING_MANAGER')">
+        <%@ include file="/WEB-INF/jsp/channelingManager/index.jsp" %>
+    </sec:authorize>
 
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-xs-8 col-xs-offset-2">
+        <div class="col-xs-8 col-xs-offset-1">
             <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp"%>
             <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
         </div>

@@ -14,12 +14,9 @@
                         <div class="widget-toolbar no-border" ng-init='lstNotification = ${lstNotification};'>
                             <ul class="nav nav-tabs" id="recent-tab">
                                 <li class="active">
-                                    <a data-toggle="tab" href="#tasks-tab">Actividades</a>
-                                </li>
-                                <li>
                                     <a data-toggle="tab" href="#notifications-tab">Notificaciones
-                                        <span class="badge badge-danger" ng-show="lstNotification.length > 0">
-                                            &nbsp;&nbsp;{{lstNotification.length}}
+                                        &nbsp;&nbsp; <span class="badge badge-danger" ng-show="lstNotification.length > 0">
+                                            {{lstNotification.length}}
                                         </span>
                                     </a>
                                 </li>
@@ -30,10 +27,7 @@
                     <div class="widget-body">
                         <div class="widget-main padding-4">
                             <div class="tab-content padding-8 overflow-visible">
-
-                                <%@ include file="/WEB-INF/jsp/supervisor/msgActivities.jsp" %>
-                                <%@ include file="/WEB-INF/jsp/supervisor/msgNotifications.jsp" %>
-
+                                <%@ include file="/WEB-INF/jsp/channelingManager/msgNotifications.jsp" %>
                             </div>
                         </div>
                     </div>

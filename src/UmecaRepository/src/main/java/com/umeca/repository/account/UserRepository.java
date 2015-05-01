@@ -82,4 +82,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<SelectList> getUserRolesByEmployeeId(@Param("employeeId") Long employeeId);
 
 
+
+    @Query("SELECT U.id FROM User U " +
+            "INNER JOIN U.roles R " +
+            "WHERE U.enabled = true and R.role IN :lstRoles")
+    List<Long> getLstValidUsersIdByLstRoles(@Param("lstRoles") List<String> lstRoles);
 }
