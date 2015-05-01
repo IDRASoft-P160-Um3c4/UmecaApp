@@ -15,7 +15,7 @@
 <div class="container body-content">
 
     <script>
-        $(document).ready(function () {
+            $(document).ready(function () {
 
             var isRH = ${isRH};
             var isDir = ${isDir};

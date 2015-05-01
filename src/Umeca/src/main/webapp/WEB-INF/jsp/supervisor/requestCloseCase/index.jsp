@@ -33,7 +33,7 @@
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'stCode','Carpeta Judicial', 'Nombre completo', 'Estatus', 'Acci&oacute;n'],
+                colNames: ['ID', 'stCode', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {name: 'codeStatus', index: 'codeStatus', hidden: true},
@@ -80,9 +80,8 @@
                         var stat = status[i];
                         var be = "";
 
-                        if (stat !== 'ST_CASE_PRISON_CLOSED' && stat !== 'ST_CASE_OBSOLETE_SUPERVISION' &&
-                                stat !== 'ST_CASE_REQUEST_SUPERVISION' && stat !== 'ST_CASE_CLOSE_REQUEST' &&
-                                stat !== 'ST_CASE_PRE_CLOSED' && stat !== 'ST_CASE_CLOSED')
+                        if (stat !== 'ST_CASE_REQUEST_SUPERVISION' && stat !== 'ST_CASE_CLOSE_REQUEST' &&
+                                stat !== 'ST_CASE_CLOSED')
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar cierre de caso\" onclick=\"showRequestCloseCase('" + cl + "');\"><span class=\"glyphicon glyphicon-remove color-danger\"></span></a>";
 
                         $(this).jqGrid('setRowData', ids[i], {Action: be});

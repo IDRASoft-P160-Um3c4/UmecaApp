@@ -32,6 +32,7 @@ import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.repository.supervisor.CloseCauseRepository;
 import com.umeca.repository.supervisor.LogNotificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -279,11 +280,6 @@ public class ManagerevalController {
         JqGridRulesModel extraFilter3 = new JqGridRulesModel("requestType",
                 new ArrayList<String>() {{
                     add(Constants.ST_REQUEST_AUTHORIZE_SOURCE);
-//                    add(Constants.ST_REQUEST_CASE_OBSOLETE);
-//                    add(Constants.ST_REQUEST_CHANGE_SOURCE);
-//                    add(Constants.ST_REQUEST_EDIT_LEGAL_INFORMATION);
-//                    add(Constants.ST_REQUEST_EDIT_MEETING);
-//                    add(Constants.ST_REQUEST_EDIT_TECHNICAL_REVIEW);
                 }}
                 , JqGridFilterModel.COMPARE_NOT_IN
         );
@@ -399,6 +395,8 @@ public class ManagerevalController {
     SourceVerificationRepository sourceVerificationRepository;
     @Autowired
     SharedLogExceptionService logException;
+    @Autowired
+    CloseCauseRepository closeCauseRepository;
 
     @Transactional
     @RequestMapping(value = "/managereval/authorizeRequest/doResponseRequest", method = RequestMethod.POST)
@@ -434,7 +432,12 @@ public class ManagerevalController {
                     caseRequest.setResponseType(responseTypeRepository.findByCode(Constants.RESPONSE_TYPE_ACCEPTED));
                     switch (requestDto.getRequestType()){
                         case Constants.ST_REQUEST_CASE_OBSOLETE:
-                            c.setStatus(statusCase.findByCode(Constants.CASE_STATUS_OBSOLETE_EVALUATION));
+                            c.setStatus(statusCase.findByCode(Constants.CASE_STATUS_CLOSED));
+                            c.setCloseCause(closeCauseRepository.findByCode(Constants.CLOSE_CAUSE_OBSOLETE_EVALUATION));
+                            c.setCloseDate(new Date());
+                            User u = new User();
+                            u.setId(sharedUserService.GetLoggedUserId());
+                            c.setCloserUser(u);
                             c.getMeeting().setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_OBSOLETE));
                             c.setDateObsolete(new Date());
                             break;

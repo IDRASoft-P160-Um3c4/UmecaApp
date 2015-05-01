@@ -215,12 +215,7 @@ public class HearingFormatController {
 
         ModelAndView model = new ModelAndView();
 
-        if (caseRepository.findOne(idCase).getStatus().getName().equals(Constants.CASE_STATUS_PRE_CLOSED)) {
-            model.setViewName("/supervisor/hearingFormat/indexFormats");
-            model.addObject("idCase", idCase);
-            model.addObject("showErr", true);
-            model.addObject("msgError", "No es posible agregar mas formatos, el caso se encuentra pre-cerrado.");
-        } else if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase) > 0) {
+        if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase) > 0) {
             model.setViewName("/supervisor/hearingFormat/indexFormats");
             model.addObject("idCase", idCase);
             model.addObject("showErr", true);
@@ -356,10 +351,6 @@ public class HearingFormatController {
                     caseDet.getMeeting().getImputed().getFoneticString(),
                     caseDet.getMeeting().getImputed().getBirthDate(), new ArrayList<String>() {{
                         add(Constants.CASE_STATUS_CLOSED);
-                        add(Constants.CASE_STATUS_OBSOLETE_EVALUATION);
-                        add(Constants.CASE_STATUS_OBSOLETE_SUPERVISION);
-                        add(Constants.CASE_STATUS_PRE_CLOSED);
-                        add(Constants.CASE_STATUS_PRISON_CLOSED);
                     }});
 
             if (existCase != null) {

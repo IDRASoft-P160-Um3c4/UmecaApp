@@ -23,18 +23,53 @@
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisorManager/caseActive/listPrison.json' />',
-                autoencode:true,
+                autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento', 'Estatus', 'Acci&oacute;n'],
                 colModel: [
-                    { name: 'id', index: 'id', hidden: true },
-                    { name: 'codeStatus', index: 'codeStatus', hidden: true },
-                    { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'brthDateTxt', index: 'brthDateTxt', width: 160, align: "center", sortable: false, search: false },
-                    { name: 'descStatus', index: 'descStatus', width: 250, align: "center", sortable: false, search: false },
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
+                    {name: 'id', index: 'id', hidden: true},
+                    {name: 'codeStatus', index: 'codeStatus', hidden: true},
+                    {
+                        name: 'idMP',
+                        index: 'idMP',
+                        width: 200,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {
+                        name: 'fullName',
+                        index: 'fullName',
+                        width: 300,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {
+                        name: 'brthDateTxt',
+                        index: 'brthDateTxt',
+                        width: 160,
+                        align: "center",
+                        sortable: false,
+                        search: false
+                    },
+                    {
+                        name: 'descStatus',
+                        index: 'descStatus',
+                        width: 250,
+                        align: "center",
+                        sortable: false,
+                        search: false
+                    },
+                    {
+                        name: 'Action',
+                        width: 70,
+                        align: "center",
+                        sortable: false,
+                        search: false,
+                        formatter: window.actionFormatter
+                    }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -52,12 +87,12 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var be = "";
-                        if (status[i] != "ST_CASE_PRISON_CLOSED" && status[i] != "ST_CASE_PRE_CLOSED" && status[i] != "ST_CASE_CLOSED") {
+                        if (status[i] != "ST_CASE_CLOSED") {
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Cerrar caso\" onclick=\"window.closeCase('" + cl + "');\"><span class=\"glyphicon glyphicon-remove color-danger\"></span></a>";
-                        }else{
-                            be="";
+                        } else {
+                            be = "";
                         }
-                        $(this).jqGrid('setRowData', ids[i], { Action: be });
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
                 loadComplete: function () {
@@ -74,7 +109,8 @@
                 add: false,
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
-                search: false});
+                search: false
+            });
 
             jQuery("#GridId").jqGrid('navSeparatorAdd', '#GridPager');
             jQuery("#GridId").jqGrid('navButtonAdd', "#GridPager",
@@ -88,7 +124,8 @@
                                 $("#GridId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                             } catch (e) {
                             }
-                        }});
+                        }
+                    });
 
             jQuery("#GridId").jqGrid('filterToolbar', {
                 stringResult: true,

@@ -222,8 +222,6 @@ public class CaseServiceImpl implements CaseService {
     public void saveAuthRejectCloseCase(AuthorizeRejectMonPlan model, User user, Case caseDet) {
         String statusAction;
         StatusCase statusCase = null;
-        CloseCause cause = caseDet.getCloseCause();
-
         User supervisor = new User();
         List<Long> lstUserIds = hearingFormatRepository.findLastSupervisorIdByCaseId(caseDet.getId(), new PageRequest(0, 1));
         if (lstUserIds != null && lstUserIds.size() > 0)
@@ -233,19 +231,7 @@ public class CaseServiceImpl implements CaseService {
 
         if (model.getAuthorized() == 1) {
             statusAction = MonitoringConstants.STATUS_AUTHORIZED;
-            if (cause == null)
-                statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
-            else {
-                if (cause.getId().equals(Constants.ID_CLOSE_CAUSE_FORGIVENESS)) {
-                    statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_FORGIVENESS);
-                } else if (cause.getId().equals(Constants.ID_CLOSE_CAUSE_AGREEMENT)) {
-                    statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_AGREEMENT);
-                } else if (cause.getId().equals(Constants.ID_CLOSE_CAUSE_DESIST)) {
-                    statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_DESIST);
-                } else if (cause.getId().equals(Constants.ID_CLOSE_CAUSE_OTHER)) {
-                    statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_OTHER);
-                }
-            }
+            statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
             caseDet.setCloseDate(new Date());
             supervisionCloseCaseLogRepository.save(generateCloseLog(caseDet));
         } else {
@@ -263,7 +249,8 @@ public class CaseServiceImpl implements CaseService {
                 "El cierre del caso fue " + (model.getAuthorized() == 1 ? "autorizado" : "rechazado") + ". Comentarios: " + StringEscape.escapeText(model.getComments()),
                 Constants.ST_REQUEST_CLOSE_CASE);
 
-        if (caseDet.getCloseCause() != null)
+        CloseCause cause = caseDet.getCloseCause();
+        if (cause != null)
             SharedLogCommentService.generateLogComment("Causa: " + cause.getName() + "; " + model.getComments(), user, caseDet, statusAction, supervisor,
                     MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
         else
@@ -293,8 +280,12 @@ public class CaseServiceImpl implements CaseService {
     @Override
     @Transactional
     public void doClosePrisonCase(Case caseDet, AuthorizeRejectMonPlan model) {
-        caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRISON_CLOSED));
+        caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED));
+        caseDet.setCloseCause(closeCauseRepository.findByCode(Constants.CLOSE_CAUSE_PROMISE_PRISION));
         caseDet.setCloseDate(new Date());
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        caseDet.setCloserUser(u);
         caseDet.setDatePrison(new Date());
         StringBuilder sb = new StringBuilder();
         sb.append("Cierre de caso por prisión preventiva / promesa del imputado : ");
@@ -309,8 +300,7 @@ public class CaseServiceImpl implements CaseService {
         supervisionCloseCaseLogRepository.save(generateCloseLog(caseDet));
 
         caseRepository.save(caseDet);
-        SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
-                caseDet, MonitoringConstants.STATUS_END, lastFormat.getSupervisor(), MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
+        SharedLogCommentService.generateLogComment(sb.toString(), u, caseDet, MonitoringConstants.STATUS_END, lastFormat.getSupervisor(), MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
     }
 
     @Transactional
@@ -397,18 +387,26 @@ public class CaseServiceImpl implements CaseService {
     @Override
     public void saveAuthRejectObsoleteCase(AuthorizeRejectMonPlan model, User user, Case caseDet) {
         List<CaseRequest> lstCaseRequest = caseRequestRepository.findCaseRequestByCaseAndType(caseDet.getId(), Constants.ST_REQUEST_CASE_OBSOLETE_SUPERVISION, new PageRequest(0, 1));
-        String typeRequest, status, commentNotification;
+        String typeRequest, commentNotification;
         CaseRequest request = lstCaseRequest.get(0);
         if (model.getAuthorized() == 1) {
-            status = Constants.CASE_STATUS_OBSOLETE_SUPERVISION;
+
+            caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED));
+            caseDet.setCloseCause(closeCauseRepository.findByCode(Constants.CLOSE_CAUSE_OBSOLETE_SUPERVISION));
+            caseDet.setCloseDate(new Date());
+            caseDet.setDateObsolete(new Date());
+            User u = new User();
+            u.setId(sharedUserService.GetLoggedUserId());
+            caseDet.setCloserUser(u);
+
             typeRequest = Constants.RESPONSE_TYPE_ACCEPTED;
             commentNotification = "Solicitud aceptada. Comentarios: " + model.getComments();
         } else {
-            status = request.getStateBefore();
+            caseDet.setStatus(statusCaseRepository.findByCode(request.getStateBefore()));
             typeRequest = Constants.RESPONSE_TYPE_REJECTED;
             commentNotification = "Solicitud rechazada. Comentarios: " + model.getComments();
         }
-        caseDet.setStatus(statusCaseRepository.findByCode(status));
+
         caseRepository.save(caseDet);
         if (lstCaseRequest == null && !(lstCaseRequest.size() > 0)) {
             return;
@@ -443,6 +441,7 @@ public class CaseServiceImpl implements CaseService {
     @Override
     @Transactional
     public void saveRequestCloseCase(AuthorizeRejectMonPlan model, User user) {
+
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
 

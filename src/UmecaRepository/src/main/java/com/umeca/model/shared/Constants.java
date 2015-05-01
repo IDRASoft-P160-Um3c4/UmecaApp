@@ -77,10 +77,10 @@ public class Constants {
     public static final String CASE_STATUS_EDIT_TEC_REV = "ST_CASE_EDIT_TEC_REV";
     public static final String CASE_STATUS_NOT_PROSECUTE = "ST_CASE_NOT_PROSECUTE";
     public static final String CASE_STATUS_NOT_PROSECUTE_OPEN = "ST_CASE_NOT_PROSECUTE_OPEN";
-    public static final String CASE_STATUS_CLOSE_FORGIVENESS = "ST_CASE_CLOSE_FORGIVENESS";
-    public static final String CASE_STATUS_CLOSE_AGREEMENT = "ST_CASE_CLOSE_AGREEMENT";
-    public static final String CASE_STATUS_CLOSE_DESIST = "ST_CASE_CLOSE_DESIST";
-    public static final String CASE_STATUS_CLOSE_OTHER = "ST_CASE_CLOSE_OTHER";
+//    public static final String CASE_STATUS_CLOSE_FORGIVENESS = "ST_CASE_CLOSE_FORGIVENESS";
+//    public static final String CASE_STATUS_CLOSE_AGREEMENT = "ST_CASE_CLOSE_AGREEMENT";
+//    public static final String CASE_STATUS_CLOSE_DESIST = "ST_CASE_CLOSE_DESIST";
+//    public static final String CASE_STATUS_CLOSE_OTHER = "ST_CASE_CLOSE_OTHER";
 
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW = "DONT_KNOW";
@@ -89,9 +89,9 @@ public class Constants {
     public static final String ST_FIELD_VERIF_UNABLE = "UNABLE_VERIFICATION";
 
     public static final String ST_FIELD_VERIF_IMPUTED = "IS_IMPUTED";
-    public static final String CASE_STATUS_PRE_CLOSED = "ST_CASE_PRE_CLOSED";
+    //    public static final String CASE_STATUS_PRE_CLOSED = "ST_CASE_PRE_CLOSED";
     public static final String CASE_STATUS_CLOSED = "ST_CASE_CLOSED";
-    public static final String CASE_STATUS_PRISON_CLOSED = "ST_CASE_PRISON_CLOSED";
+//    public static final String CASE_STATUS_PRISON_CLOSED = "ST_CASE_PRISON_CLOSED";
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_REVIEWER = "ROLE_REVIEWER";
@@ -150,9 +150,8 @@ public class Constants {
     public static final String RESPONSE_TYPE_PENDING = "PENDING";
     public static final String RESPONSE_TYPE_ACCEPTED = "ACCEPTED";
     public static final String RESPONSE_TYPE_REJECTED = "REJECTED";
-    public static final String CASE_STATUS_OBSOLETE_EVALUATION = "ST_CASE_OBSOLETE_EVALUATION";
-    public static final String CASE_STATUS_OBSOLETE_SUPERVISION = "ST_CASE_OBSOLETE_SUPERVISION";
-
+    //public static final String CASE_STATUS_OBSOLETE_EVALUATION = "ST_CASE_OBSOLETE_EVALUATION";
+//    public static final String CASE_STATUS_OBSOLETE_SUPERVISION = "ST_CASE_OBSOLETE_SUPERVISION";
 
     public static final Long MARITAL_SINGLE = 1L;
     public static final Long MARITAL_MARRIED = 2L;
@@ -201,10 +200,10 @@ public class Constants {
 
     public static final String ACTION_AUTHORIZE_LOG_COMMENT = "AUTORIZAR ELIMINAR CASO";
 
-    public static final Long ID_CLOSE_CAUSE_FORGIVENESS = 1L;
-    public static final Long ID_CLOSE_CAUSE_AGREEMENT = 2L;
-    public static final Long ID_CLOSE_CAUSE_DESIST = 3L;
-    public static final Long ID_CLOSE_CAUSE_OTHER = 4L;
+//    public static final Long ID_CLOSE_CAUSE_FORGIVENESS = 1L;
+//    public static final Long ID_CLOSE_CAUSE_AGREEMENT = 2L;
+//    public static final Long ID_CLOSE_CAUSE_DESIST = 3L;
+//    public static final Long ID_CLOSE_CAUSE_OTHER = 4L;
 
     public static final String CODE_TOTAL_FULFILLMENT = "TOTAL_NON_FULFILLMENT";
     public static final String CODE_PARTIAL_FULFILLMENT = "PARTIAL_NON_FULFILLMENT";
@@ -253,6 +252,22 @@ public class Constants {
     public static final String CHANNELING_TYPE_JOB = "EM";
     public static final String CHANNELING_NOTIFICATION_TITLE = "Registro de canalización";
 
+
+    /**
+     * códigos para causas de cierre *
+     */
+
+    public static final String CLOSE_CAUSE_FORGIVENESS = "CAUSE_FORGIVENESS";
+    public static final String CLOSE_CAUSE_AGREEMENT = "CAUSE_AGREEMENT";
+    public static final String CLOSE_CAUSE_DESIST = "CAUSE_DESIST";
+    public static final String CLOSE_CAUSE_OTHER = "CAUSE_OTHER";
+    public static final String CLOSE_CAUSE_NO_ENTAILMENT = "CAUSE_NO_ENTAILMENT";
+    public static final String CLOSE_CAUSE_OBSOLETE_EVALUATION = "CAUSE_OBSOLETE_EVALUATION";
+    public static final String CLOSE_CAUSE_OBSOLETE_SUPERVISION = "CAUSE_OBSOLETE_SUPERVISION";
+    public static final String CLOSE_CAUSE_PROMISE_PRISION = "CAUSE_PROMISE_PRISION";
+    public static final String CLOSE_CAUSE_DISMISSAL = "CAUSE_DISMISSAL";
+
+    /** códigos para causas de cierre **/
 
 }
 

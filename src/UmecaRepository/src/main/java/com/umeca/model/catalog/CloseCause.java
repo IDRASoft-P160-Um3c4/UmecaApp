@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="close_cause")
+@Table(name = "close_cause")
 public class CloseCause {
 
     @Id
@@ -16,8 +16,14 @@ public class CloseCause {
     @Column(name = "name", length = 255, nullable = false)
     private String name;
 
+    @Column(name = "code", length = 255, nullable = false)
+    private String code;
+
     @Column(name = "is_obsolete", nullable = false)
     private Boolean isObsolete;
+
+    @Column(name = "is_visible", nullable = false)
+    private Boolean isVisible;
 
     public Long getId() {
         return id;
@@ -41,5 +47,21 @@ public class CloseCause {
 
     public void setIsObsolete(Boolean isObsolete) {
         this.isObsolete = isObsolete;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Boolean getIsVisible() {
+        return isVisible;
+    }
+
+    public void setIsVisible(Boolean isVisible) {
+        this.isVisible = isVisible;
     }
 }

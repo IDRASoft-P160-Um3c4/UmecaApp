@@ -1,5 +1,10 @@
-﻿id|name|isObsolete
-1|Se otorgó el perdón|0
-2|Acuerdo reparatorio|0
-3|Desistimieno del Ministerio Público|0
-4|Otro|0
+﻿id|code|name|is_obsolete|visible
+1|CAUSE_FORGIVENESS|Se otorgó el perdón|0|1
+2|CAUSE_AGREEMENT|Acuerdo reparatorio|0|1
+3|CAUSE_DESIST|Desistimieno del Ministerio Público|0|1
+4|CAUSE_OTHER|Otro|0|1
+5|CAUSE_NO_ENTAILMENT|No existe vinculación a proceso|0|0
+6|CAUSE_OBSOLETE_EVALUATION|Eliminado en evaluación|0|0
+7|CAUSE_OBSOLETE_SUPERVISION|Eliminado en supervisión|0|0
+8|CAUSE_PROMISE_PRISION|Prisión preventiva / promesa del imputado|0|0
+9|CAUSE_DISMISSAL|Sobreseimiento|0|0

@@ -54,7 +54,7 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var be = "";
-                        if (status[i] == 'ST_CASE_CLOSED' || status[i] == 'ST_CASE_PRISON_CLOSED') {
+                        if (status[i] == 'ST_CASE_CLOSED') {
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reabrir caso\" onclick=\"reopenCase('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

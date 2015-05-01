@@ -75,6 +75,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "where U.enabled = true and lower(U.username) like :str order by U.id")
     List<SelectList> getUserRolesByUsername(@Param("str") String str, Pageable pageable);
 
+    @Query("SELECT distinct new com.umeca.model.shared.SelectList(E.id, concat(E.name,' ',E.lastNameP,' ',E.lastNameM,' - ',D.name), R.description) FROM Employee E " +
+            "inner join E.users U " +
+            "inner join E.district D " +
+            "inner join U.roles R " +
+            "where U.enabled = true and (" +
+            "lower(E.name) like :str or " +
+            "lower(E.lastNameP) like :str or " +
+            "lower(E.lastNameM) like :str) " +
+            "order by U.id")
+    List<SelectList> getUserRolesByEmployeename(@Param("str") String str, Pageable pageable);
+
     @Query("SELECT new com.umeca.model.shared.SelectList(u.id, u.username, R.description) FROM Employee E " +
             "inner join E.users U " +
             "inner join U.roles R " +
