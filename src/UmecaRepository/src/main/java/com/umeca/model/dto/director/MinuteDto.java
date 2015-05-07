@@ -13,7 +13,7 @@ public class MinuteDto implements EntityGrid {
     private String minuteDate;
     private Long attendantId;
     private String attendant;
-    private String assistantsIds;
+    private String assistants;
     private String place;
     private String startTime;
     private String endTime;
@@ -148,14 +148,6 @@ public class MinuteDto implements EntityGrid {
         this.attendant = attendant;
     }
 
-    public String getAssistantsIds() {
-        return assistantsIds;
-    }
-
-    public void setAssistantsIds(String assistantsIds) {
-        this.assistantsIds = assistantsIds;
-    }
-
     public Boolean getIsFinished() {
         return isFinished;
     }
@@ -170,5 +162,13 @@ public class MinuteDto implements EntityGrid {
 
     public void setStCode(String stCode) {
         this.stCode = stCode;
+    }
+
+    public String getAssistants() {
+        return assistants;
+    }
+
+    public void setAssistants(String assistants) {
+        this.assistants = assistants;
     }
 }

@@ -1,10 +1,12 @@
 package com.umeca.model.shared;
 
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class SelectList {
+public class SelectList implements EntityGrid{
     private Long id;
     private Integer idAux;
     private Calendar calendar;
@@ -127,6 +129,15 @@ public class SelectList {
         this.name = name;
         this.aux = aux;
     }
+
+    public SelectList(Long id, String name, String description, Calendar calendar) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        if (calendar != null)
+            this.strDate = sdf.format(calendar.getTime());
+    }
+
 
     public Long getId() {
         return id;

@@ -11,18 +11,6 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope,
         $scope.lstAssistantSel = [];
 
         $scope.getAssistant = function (val) {
-            alert("bb");
-            var url = "getEmployees.json";
-            return $http.get(url, {params: {str: val}})
-                .then(function (response) {
-                    return response.data.map(function (item) {
-                        item.desc = item.name + " (" + item.description + ") ";
-                        return item;
-                    });
-                });
-        };
-
-        $scope.getAttendant = function (val) {
             var url = "getEmployees.json";
             return $http.get(url, {params: {str: val}})
                 .then(function (response) {
@@ -36,6 +24,18 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope,
                     return response.data.map(function (item) {
                         item.desc = item.name + " (" + item.description + ") ";
                         return item;
+                    });
+                });
+        };
+
+        $scope.getAttendant = function (val) {
+            var url = "getEmployees.json";
+            return $http.get(url, {params: {str: val}})
+                .then(function (response) {
+
+                    return response.data.map(function (item) {
+                        item.desc = item.name + " (" + item.description + ") ";
+                        return item;
 
                     });
                 });
@@ -44,7 +44,7 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope,
         $scope.findSelAssistant = function (obj) {
             var ret = false;
             for (var x = 0; x < $scope.lstAssistantSel.length; x++) {
-                if (obj.id === lst[x].id) {
+                if (obj.id === $scope.lstAssistantSel[x].id) {
                     ret = true;
                     break;
                 }
@@ -52,38 +52,21 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope,
             return ret;
         }
 
-        $scope.selAttendant = function (obj) {
-
-            alert("atenda");
-
-            //$scope.MsgErrorUsr = $sce.trustAsHtml("");
-            //
-            //if ($scope.findAssignedUsr(obj) == true) {
-            //    $scope.MsgErrorUsr = $sce.trustAsHtml("El usuario ya se encuentra asociado.");
-            //} else {
-            //    $scope.lstAssignedUsr.push(obj);
-            //}
-            //
-            //$scope.userSel = undefined;
-        };
-
         $scope.selAssistant = function (obj) {
+            $scope.MsgErrorAssis = $sce.trustAsHtml("");
 
-            alert("assis");
+            if ($scope.findSelAssistant(obj) == true) {
+                $scope.MsgErrorAssis = $sce.trustAsHtml("El asistente ya ha sido agregado.");
+            } else {
+                $scope.lstAssistantSel.push(obj);
+            }
 
-            //$scope.MsgErrorUsr = $sce.trustAsHtml("");
-            //
-            //if ($scope.findAssignedUsr(obj) == true) {
-            //    $scope.MsgErrorUsr = $sce.trustAsHtml("El usuario ya se encuentra asociado.");
-            //} else {
-            //    $scope.lstAssignedUsr.push(obj);
-            //}
-            //
-            //$scope.userSel = undefined;
+            $scope.assistantSel = undefined;
         };
 
-        $scope.removeUsr = function (idx) {
-            $scope.lstAssignedUsr.splice(idx, 1);
+        $scope.removeAssistant = function (idx) {
+            if ($scope.isRH == true && $scope.minute.isFinished == false)
+                $scope.lstAssistantSel.splice(idx, 1);
         };
 
 
@@ -114,11 +97,13 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope,
         };
 
         $scope.validateAssistant = function () {
+            $scope.MsgErrorAssis = $sce.trustAsHtml("");
+
             if (!($scope.lstAssistantSel.length > 0)) {
                 $scope.MsgErrorAssis = $sce.trustAsHtml("Debe seleccionar al menos un asistente.");
                 return false;
             }
-            $scope.MsgErrorAssis = $sce.trustAsHtml("");
+
             return true;
         };
 
@@ -218,6 +203,15 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope,
                 $scope.WaitFor = false;
                 $scope.MsgSuccess = $sce.trustAsHtml("");
                 $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
+            });
+        };
+
+        $scope.setAgreementFileError = function (msg) {
+            $scope.$apply(function () {
+                $scope.MsgError = $sce.trustAsHtml(msg);
+                $timeout(function () {
+                    $scope.MsgError = $sce.trustAsHtml("");
+                }, 5000)
             });
         };
 

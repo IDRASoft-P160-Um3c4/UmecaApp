@@ -7,14 +7,21 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.catalog.StatusCase;
+import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.dto.director.MinuteDto;
 import com.umeca.model.dto.shared.AgreementDto;
 import com.umeca.model.dto.shared.ObservationDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.minutes.Agreement;
 import com.umeca.model.entities.director.minutes.Minute;
+import com.umeca.model.entities.humanReources.AgreementFileRel;
 import com.umeca.model.entities.humanReources.RequestAgreement;
 import com.umeca.model.entities.humanReources.RequestAgreementDto;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.shared.UploadFile;
+import com.umeca.model.entities.shared.UploadFileGeneric;
+import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
@@ -25,15 +32,23 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.director.MinuteService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Controller
 public class MinuteController {
@@ -173,16 +188,21 @@ public class MinuteController {
         Gson gson = new Gson();
         MinuteDto dto = null;
 
+        SelectList att = new SelectList();
+        List<SelectList> assistants = new ArrayList<>();
+
         if (id != null) {
             dto = minuteService.getMinuteDtoById(id);
-//            dto.setAssistantsIds(gson.toJson(assistantRepository.getAssistantsIdsByMinuteIds(id)));
-            model.addObject("lstAssistantSel", gson.toJson(employeeRepository.getAllNoObsoleteEmployees()));
+            att = minuteService.getMinuteAttendantByMinuteId(id).get(0);
+            assistants = minuteService.getMinuteAssistantsDtoByMinuteId(id);
         } else {
             dto = new MinuteDto();
             dto.setIsFinished(false);
         }
 
         model.addObject("minute", gson.toJson(dto));
+        model.addObject("assistants", gson.toJson(assistants));
+        model.addObject("attendant", gson.toJson(att));
 
         List<String> roles = sharedUserService.getLstRolesByUserId(sharedUserService.GetLoggedUserId());
 
@@ -264,8 +284,24 @@ public class MinuteController {
     public ModelAndView upsertAgreement(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idMinute) {
         ModelAndView model = new ModelAndView("/shared/minute/agreement/upsert");
         Gson gson = new Gson();
-        model.addObject("minuteId", idMinute);
+
+        AgreementDto dto = new AgreementDto();
+        if (id != null) {
+            dto = minuteService.getAgreementDtoByAgreementId(id);
+        }
+
+        model.addObject("agreement", gson.toJson(dto));
         model.addObject("lstArea", gson.toJson(areaRepository.findNoObsolete()));
+
+        List<String> roles = sharedUserService.getLstRolesByUserId(sharedUserService.GetLoggedUserId());
+        Boolean isRH = false;
+
+        if (roles.contains(Constants.ROLE_HUMAN_RESOURCES))
+            isRH = true;
+
+        model.addObject("isRH", isRH);
+        model.addObject("minuteId", idMinute);
+
         return model;
     }
 
@@ -504,9 +540,133 @@ public class MinuteController {
     public
     @ResponseBody
     String searchUsr(@RequestParam(required = true) String str) {
-        String param = str + "%";
+        String param = "%" + str + "%";
         List<SelectList> lst = sharedUserService.getUserRoles(param, null, null);
         return new Gson().toJson(lst);
+    }
+
+    @RequestMapping(value = "/shared/minute/uploadAgreementFile", method = RequestMethod.POST)
+    public ModelAndView uploadAgreementFile(@RequestParam(required = true) Long id) {
+        ModelAndView model = new ModelAndView("/shared/minute/agreement/upsertAgreementFile");
+        model.addObject("agreementId", id);
+        return model;
+    }
+
+    @RequestMapping(value = "/shared/minute/doUploadAgreementFile", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doUploadFileAgreement(@ModelAttribute UploadFileRequest uploadRequest,
+                                          MultipartHttpServletRequest request) {
+        ResponseMessage resMsg = new ResponseMessage();
+        try {
+            resMsg = minuteService.doUploadAgreementFile(uploadRequest, request, logException);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUploadFileAgreement", sharedUserService);
+            resMsg.setHasError(true);
+            resMsg.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo");
+        }
+
+        return resMsg;
+    }
+
+
+    @RequestMapping(value = "/shared/agreement/listAgreementFiles", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listAgreementFiles(@RequestParam(required = true) final Long id, @ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel minuteIdFilter = new JqGridRulesModel("agreementId",
+                id.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(minuteIdFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Case, StatusCase> joinUF = r.join("uploadFileGeneric");
+
+                return new ArrayList<Selection<?>>() {{
+                    add(joinUF.get("id"));
+                    add(joinUF.get("fileName"));
+                    add(joinUF.get("description"));
+                    add(joinUF.get("creationTime"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("agreementId"))
+                    return r.join("agreement").get("id");
+                return null;
+            }
+        }, AgreementFileRel.class, SelectList.class);
+
+        return result;
+    }
+
+
+    @RequestMapping(value = "/shared/minute/downloadAgreementFiles", method = RequestMethod.GET)
+    @ResponseBody
+    public FileSystemResource downloadFilesByAgreement(@RequestParam(required = true) Long id, HttpServletRequest request, HttpServletResponse response) {
+        try {
+
+            List<UploadFileGeneric> lstUpFiles = minuteService.getAgreementFilesByAgreementId(id);
+
+            if (lstUpFiles == null || lstUpFiles.size() == 0) {
+                File file = new File(UUID.randomUUID().toString());
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write("<html><body><h3>No existen archivos para descargar.</h3></body></html>");
+                writer.flush();
+                return new FileSystemResource(file);
+            }
+
+            String agreementTitle = minuteService.getAgreementTitleByAgreementId(id);
+
+            File fileOut = new File("Archivos_acuerdo_" + agreementTitle + ".zip");
+
+            FileOutputStream fos = new FileOutputStream(fileOut);
+            ZipOutputStream zos = new ZipOutputStream(fos);
+            byte[] buffer = new byte[1024];
+
+            for (UploadFileGeneric file : lstUpFiles) {
+
+                ZipEntry ze = new ZipEntry(file.getFileName());
+                zos.putNextEntry(ze);
+
+                String path = request.getSession().getServletContext().getRealPath("");
+                File fileIn = new File(path, file.getPath());
+                FileInputStream in = new FileInputStream(new File(fileIn, file.getRealFileName()));
+
+                int len;
+                while ((len = in.read(buffer)) > 0) {
+                    zos.write(buffer, 0, len);
+                }
+                in.close();
+            }
+            zos.closeEntry();
+            zos.close();
+
+            response.setContentType("application/force-download");
+            response.setContentLength((int) fileOut.length());
+            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileOut.getName() + "\"");//fileName);
+
+            return new FileSystemResource(fileOut);
+
+        } catch (IOException e) {
+            logException.Write(e, this.getClass(), "downloadFilesByAgreement", sharedUserService);
+            try {
+                File file = new File(UUID.randomUUID().toString());
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write("<html><body><h3>Ocurrió un error al momento de generar el expediente. Por favor intente de nuevo o contacte a soporte técnico.</h3></body></html>");
+                writer.flush();
+                return new FileSystemResource(file);
+            } catch (IOException ex) {
+                logException.Write(ex, this.getClass(), "downloadFilesByAgreement", sharedUserService);
+                return null;
+            }
+        }
     }
 
 }

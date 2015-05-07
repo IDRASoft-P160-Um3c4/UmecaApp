@@ -1,15 +1,8 @@
 package com.umeca.model.entities.humanReources;
 
-import com.umeca.model.catalog.District;
-import com.umeca.model.dto.humanResources.EmployeeDto;
-import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.Job;
-import com.umeca.model.entities.shared.UploadFileGeneric;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "employee_user_rel")

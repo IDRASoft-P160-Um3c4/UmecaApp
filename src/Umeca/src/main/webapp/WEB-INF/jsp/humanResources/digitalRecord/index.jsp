@@ -39,8 +39,6 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upload/uploadFileCtrl.js"></script>
-
 
     <style>
         .containerPhoto {

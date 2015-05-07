@@ -41,6 +41,16 @@
         });
     </script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/typeahead/ui-bootstrap-tpls-0.12.1.js"></script>
+
+    <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/colorbox.css"/>
+    <script src="${pageContext.request.contextPath}/assets/scripts/jquery.colorbox-min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upload/uploadFileCtrl.js"></script>
+
     <title>Agregar minuta</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -55,7 +65,9 @@
             </div>
         </div>
 
-        <div class="col-xs-10 col-xs-offset-1" ng-init='minute=${minute}; isRH=${isRH}' ;>
+        <div class="col-xs-10 col-xs-offset-1"
+             ng-init='minute=${minute}; isRH=${isRH}; lstAssistantSel=${assistants}; minute.attendant=${attendant!=null?attendant:undefined}'
+             ;>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="row element-center">
@@ -203,85 +215,75 @@
                                                     <div class="col-xs-6">
                                                         <label>Buscar encargado</label>
                                                         <br/>
-                                                        <input type="text" class="input-xxlarge"
-                                                               ng-model="attendant"
+                                                        <input id="attendantStr" name="attendantStr" type="text"
+                                                               class="input-xxlarge"
+                                                               ng-model="minute.attendant"
+                                                               ng-disabled="minute.isFinished==true"
                                                                typeahead="att as att.name for att in getAttendant($viewValue)| filter:$viewValue"
                                                                placeholder='Nombre de empleado ej. "Sandra Col&iacute;n"'
                                                                typeahead-on-select="selAttendant($item)"
                                                                typeahead-editable="false" typeahead-loading="loadingAtt"
-                                                               typeahead-wait-ms="500"/>
+                                                               typeahead-wait-ms="500"
+                                                               data-val="true"
+                                                               data-val-required="Encargado es un campo requerido"/>
+                                                        <br/>
+                                                        <span class="field-validation-valid"
+                                                              data-valmsg-for="attendantStr"
+                                                              data-valmsg-replace="true"></span>
                                                         <i ng-show="loadingAtt" class="glyphicon glyphicon-refresh"></i>
+                                                        <input type="hidden" name="attendantId"
+                                                               value="{{minute.attendant.id}}"/>
                                                     </div>
                                                     <div class="col-xs-6">
-                                                        <label for="title">Encargado</label>
+                                                        <label>Buscar participante</label>
                                                         <br/>
-                                                        <input id="attendant" ng-model="minute.attendant"
-                                                               type="text"
-                                                               readonly
-                                                               class="input-xxlarge"
-                                                               data-val="true"
-                                                               data-val-required="Encargado es un campo obligatorio"/>
-                                                        <br/>
-                                                        <span class="field-validation-valid" data-valmsg-for="title"
-                                                              data-valmsg-replace="true"></span>
-                                                        <input type="hidden" id="attendantId"
-                                                               value="{{minute.attendant.id}}"/>
-                                                        el id del encargado{{minute.attendant.id}}
+                                                        <input type="text" class="input-xxlarge"
+                                                               ng-disabled="minute.isFinished==true"
+                                                               ng-model="assistantSel"
+                                                               typeahead="assis as assis.name for assis in getAssistant($viewValue)| filter:$viewValue"
+                                                               placeholder='Nombre de empleado ej. "Bianca Solares"'
+                                                               typeahead-on-select="selAssistant($item)"
+                                                               typeahead-editable="false"
+                                                               typeahead-loading="loadingAssis"
+                                                               typeahead-wait-ms="500"/>
+                                                        <i ng-show="loadingAssis"
+                                                           class="glyphicon glyphicon-refresh"></i>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <%--<div class="row">--%>
-                                                <%--<div class="space"></div>--%>
-                                                <%--<div class="col-xs-3"></div>--%>
-                                                <%--<div class="col-xs-6">--%>
-                                                    <%--<label>Buscar participante</label>--%>
-                                                    <%--<br/>--%>
-                                                    <%--<input type="text" class="input-xxlarge"--%>
-                                                           <%--ng-model="assistantSel"--%>
-                                                           <%--typeahead="assis as assis.name for assis in getAssistant($viewValue)| filter:$viewValue"--%>
-                                                           <%--placeholder='Nombre de empleado ej. "Bianca Solares"'--%>
-                                                           <%--typeahead-on-select="selAssistant($item)"--%>
-                                                           <%--typeahead-editable="false" typeahead-loading="loadingAssis"--%>
-                                                           <%--typeahead-wait-ms="500"/>--%>
-                                                    <%--<i ng-show="loadingAssis" class="glyphicon glyphicon-refresh"></i>--%>
-                                                <%--</div>--%>
-                                                <%--<div class="col-xs-3"></div>--%>
-                                            <%--</div>--%>
 
                                             <div class="row">
                                                 <div class="col-xs-2"></div>
                                                 <div class="col-xs-8">
                                                     <br/>
 
-                                                    <div ng-show="MsgErrorUsr&&MsgErrorUsr!=''"
+                                                    <div ng-show="MsgErrorAssis&&MsgErrorAssis!=''"
                                                          class="alert alert-danger element-center error-font">
-                                                        <span ng-bind-html="MsgErrorUsr"></span>
-                                                        <input type="hidden" name="assignedUsr"
-                                                               value="{{lstAssistants}}">
+                                                        <span ng-bind-html="MsgErrorAssis"></span>
+                                                        <input type="hidden" name="assistants"
+                                                               value="{{lstAssistantSel}}">
                                                     </div>
                                                     <div class="widget-box">
-                                                        <div class="widget-header">Usuarios asociados</div>
+                                                        <div class="widget-header">Asistentes</div>
                                                         <div class="widget-body">
                                                             <div class="widget-main no-padding">
                                                                 <table class="table table-striped table-bordered table-hover">
                                                                     <thead class="thin-border-bottom">
                                                                     <tr>
                                                                         <th class="element-center">Participante</th>
-                                                                        <th class="element-center">Distrito</th>
                                                                         <th class="element-center">Quitar</th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                     <div>
-                                                                        <tr ng-repeat="usr in lstAssignedUsr track by $index">
-                                                                            <td class="element-center">{{usr.name}}</td>
-                                                                            <td class="element-center">{{usr.name}}</td>
+                                                                        <tr ng-repeat="assis in lstAssistantSel track by $index">
+                                                                            <td class="element-center">{{assis.name}}
+                                                                            </td>
                                                                             <td class="element-center"><a
                                                                                     href="javascript:;"
                                                                                     style="display:inline-block;"
                                                                                     title="Quitar de la lista"
-                                                                                    ng-click="removeUsr($index)"><span
+                                                                                    ng-click="removeAssistant($index)"><span
                                                                                     class="glyphicon glyphicon-minus blue"></span></a>
                                                                             </td>
                                                                         </tr>

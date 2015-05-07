@@ -122,14 +122,14 @@ public class SharedUserService {
         if (username != null)
             lstUsr = userRepository.getUserRolesByUsername(username, new PageRequest(0, 20));
         else if (employeeName != null)
-            lstUsr = userRepository.getUserRolesByEmployeename(username, new PageRequest(0, 20));
+            lstUsr = userRepository.getUserRolesByEmployeeName(employeeName, new PageRequest(0, 20));
         else if (employeeId != null)
             lstUsr = userRepository.getUserRolesByEmployeeId(employeeId);
 
         return doFinalUsrEmployeeList(lstUsr);
     }
 
-    private List<SelectList> doFinalUsrEmployeeList(List<SelectList> lstUsr) {
+    public List<SelectList> doFinalUsrEmployeeList(List<SelectList> lstUsr) {
         List<SelectList> lst = new ArrayList<>();
 
         for (int a = 0; a < lstUsr.size(); a++) {

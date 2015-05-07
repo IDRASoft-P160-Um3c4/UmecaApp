@@ -4,6 +4,7 @@ public class UploadFileRequest {
 
     private Long caseId;
     private Long idEmployee;
+    private Long agreementId;
     private String description;
     private Long typeId;
     private Boolean closeUploadFile;
@@ -46,5 +47,13 @@ public class UploadFileRequest {
 
     public void setIdEmployee(Long idEmployee) {
         this.idEmployee = idEmployee;
+    }
+
+    public Long getAgreementId() {
+        return agreementId;
+    }
+
+    public void setAgreementId(Long agreementId) {
+        this.agreementId = agreementId;
     }
 }

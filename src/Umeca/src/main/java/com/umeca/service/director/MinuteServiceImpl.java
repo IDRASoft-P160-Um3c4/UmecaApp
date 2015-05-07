@@ -11,27 +11,32 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.minutes.Agreement;
 import com.umeca.model.entities.director.minutes.Assistant;
 import com.umeca.model.entities.director.minutes.Minute;
-import com.umeca.model.entities.humanReources.Employee;
-import com.umeca.model.entities.humanReources.RequestAgreement;
-import com.umeca.model.entities.humanReources.RequestAgreementDto;
-import com.umeca.model.entities.humanReources.RequestMinute;
+import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.shared.Observation;
+import com.umeca.model.entities.shared.UploadFileGeneric;
+import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.director.AgreementRepository;
 import com.umeca.repository.director.MinuteRepository;
 import com.umeca.repository.director.ObservationRepository;
+import com.umeca.repository.humanResources.AgreementFileRelRepository;
 import com.umeca.repository.humanResources.RequestAgreementRepository;
 import com.umeca.repository.humanResources.RequestMinuteRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -51,9 +56,12 @@ public class MinuteServiceImpl implements MinuteService {
     private RequestAgreementRepository requestAgreementRepository;
     @Autowired
     private RequestMinuteRepository requestMinuteRepository;
+    @Autowired
+    private UpDwFileGenericService upDwFileGenericService;
+    @Autowired
+    private AgreementFileRelRepository agreementFileRelRepository;
 
     @Override
-
     public MinuteDto getMinuteDtoById(Long minuteId) {
         return minuteRepository.getMinuteDtoById(minuteId);
     }
@@ -96,16 +104,16 @@ public class MinuteServiceImpl implements MinuteService {
         Minute minute = fillMinute(minuteDto);
         List<Assistant> newAssistants = new ArrayList<>();
 
-        List<Long> assistantsIds = new Gson().fromJson(minuteDto.getAssistantsIds(), new TypeToken<List<Long>>() {
+        List<SelectList> assistants = new Gson().fromJson(minuteDto.getAssistants(), new TypeToken<List<SelectList>>() {
         }.getType());
 
         Boolean isNew = false;
 
-        if (assistantsIds != null && assistantsIds.size() > 0) {
-            for (Long actId : assistantsIds) {
+        if (assistants != null && assistants.size() > 0) {
+            for (SelectList act : assistants) {
                 Assistant as = new Assistant();
                 Employee e = new Employee();
-                e.setId(actId);
+                e.setId(act.getId());
                 as.setEmployee(e);
                 as.setMinute(minute);
                 newAssistants.add(as);
@@ -153,7 +161,13 @@ public class MinuteServiceImpl implements MinuteService {
     }
 
     private Agreement fillAgreement(AgreementDto agreementDto) {
+
+
         Agreement ag = new Agreement();
+
+        if (agreementDto.getId() != null) {
+            ag = agreementRepository.findOne(agreementDto.getId());
+        }
 
         ag.setTitle(agreementDto.getTitle());
         ag.setTheme(agreementDto.getTheme());
@@ -392,4 +406,82 @@ public class MinuteServiceImpl implements MinuteService {
         return minuteRepository.getMinuteGrlDataById(minuteId);
     }
 
+    @Override
+    public List<SelectList> getMinuteAssistantsDtoByMinuteId(Long minuteId) {
+        return sharedUserService.doFinalUsrEmployeeList(minuteRepository.getAssistantsDtoByMinuteId(minuteId));
+    }
+
+    @Override
+    public List<SelectList> getMinuteAttendantByMinuteId(Long minuteId) {
+        return sharedUserService.doFinalUsrEmployeeList(minuteRepository.getAattendantByMinuteId(minuteId));
+    }
+
+    @Override
+    public AgreementDto getAgreementDtoByAgreementId(Long agreementId) {
+        return agreementRepository.getAgreementDtoById(agreementId);
+    }
+
+    @Override
+    public ResponseMessage doUploadAgreementFile(UploadFileRequest uploadRequest,
+                                                 MultipartHttpServletRequest request, SharedLogExceptionService logExceptionService) {
+        ResponseMessage resMsg = new ResponseMessage();
+
+        Long userId = sharedUserService.GetLoggedUserId();
+
+        Iterator<String> itr = request.getFileNames();
+
+        if (upDwFileGenericService.isValidRequestFile(itr, resMsg) == false) {
+            return resMsg;
+        }
+
+        UploadFileGeneric file = new UploadFileGeneric();
+
+        MultipartFile mpf = request.getFile(itr.next());
+        if (upDwFileGenericService.isValidExtension(mpf, file, resMsg) == false)
+            return resMsg;
+
+        User user = new User();
+        user.setId(userId);
+        upDwFileGenericService.fillUploadFileGeneric(mpf, file, uploadRequest, user);
+
+        //valida nombre archivo
+        if (upDwFileGenericService.hasAvailability(file, resMsg, userId) == false)
+            return resMsg;
+
+        String path = request.getSession().getServletContext().getRealPath("");
+        path = new File(path, file.getPath()).toString();
+
+        if (upDwFileGenericService.saveOnDiskUploadFile(mpf, path, file, resMsg, logExceptionService, sharedUserService) == false)
+            return resMsg;
+
+
+        Agreement a = new Agreement();
+        a.setId(uploadRequest.getAgreementId());
+        AgreementFileRel rel = new AgreementFileRel();
+        rel.setAgreement(a);
+        file.setObsolete(false);
+        upDwFileGenericService.save(file);
+        rel.setUploadFileGeneric(file);
+        agreementFileRelRepository.save(rel);
+
+        resMsg.setMessage("El archivo " + file.getFileName() + " fue subido de forma correcta. Por favor presione el botón guardar para finalizar el proceso.");
+        resMsg.setHasError(false);
+        if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
+
+            resMsg.setUrlToGo("close");
+            resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
+        } else {
+            resMsg.setReturnData(file.getId());
+        }
+
+        return resMsg;
+    }
+
+    public List<UploadFileGeneric> getAgreementFilesByAgreementId(Long agreementId) {
+        return agreementFileRelRepository.getAgreementFilesByAgreementId(agreementId);
+    }
+
+    public String getAgreementTitleByAgreementId(Long agreementId) {
+        return agreementRepository.getAgreementTitleByAgreementId(agreementId);
+    }
 }

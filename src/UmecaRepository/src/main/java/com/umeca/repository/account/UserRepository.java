@@ -84,7 +84,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "lower(E.lastNameP) like :str or " +
             "lower(E.lastNameM) like :str) " +
             "order by U.id")
-    List<SelectList> getUserRolesByEmployeename(@Param("str") String str, Pageable pageable);
+    List<SelectList> getUserRolesByEmployeeName(@Param("str") String str, Pageable pageable);
 
     @Query("SELECT new com.umeca.model.shared.SelectList(u.id, u.username, R.description) FROM Employee E " +
             "inner join E.users U " +

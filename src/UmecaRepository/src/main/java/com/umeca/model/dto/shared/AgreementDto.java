@@ -46,6 +46,22 @@ public class AgreementDto implements EntityGrid {
         this.stCode = stCode;
     }
 
+    //upsert
+
+    public AgreementDto(Long id, Long minuteId, String title, String theme, Date agreementDate, String comments, Long areaId, String specArea, Boolean isFinished) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.id = id;
+        this.minuteId = minuteId;
+        this.title = title;
+        this.theme = theme;
+        if (agreementDate != null)
+            this.agreementDate = sdf.format(agreementDate);
+        this.comments = comments;
+        this.specArea = specArea;
+        this.areaId = areaId;
+        this.isFinished = isFinished;
+    }
+
     //datos generales
     public AgreementDto(String title, String theme, Date agreementDate, String area, Boolean spec, String specArea, Boolean isFinished, Boolean isDone) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");

@@ -4,6 +4,7 @@ import com.umeca.model.catalog.Area;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.RequestAgreement;
 import com.umeca.model.entities.shared.Observation;
+import com.umeca.model.entities.shared.UploadFileGeneric;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -65,6 +66,12 @@ public class Agreement {
 
     @OneToMany(mappedBy = "agreement", cascade = CascadeType.ALL)
     private List<RequestAgreement> requestsAgreement;
+
+    @OneToMany
+    @JoinTable(name = "agreement_file_rel",
+            joinColumns = {@JoinColumn(name = "id_agreement", referencedColumnName = "id_agreement")},
+            inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic", unique = true)})
+    private List<UploadFileGeneric> files;
 
     public Long getId() {
         return id;
