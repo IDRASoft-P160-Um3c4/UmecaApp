@@ -239,6 +239,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
         j.setRegisterType(registerTypeRepository.findOne(Constants.REGYSTER_TYPE_PREVIOUS));
         j.setEmployee(employeeRepository.findOne(jobDto.getIdEmployee()));
+        j.setReasonChange(jobDto.getReasonChange());
 
         return j;
     }

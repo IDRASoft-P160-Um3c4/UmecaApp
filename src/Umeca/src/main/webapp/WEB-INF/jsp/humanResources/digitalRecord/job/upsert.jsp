@@ -169,6 +169,26 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="col-xs-12">
+                                                        <br/>
+
+                                                        <div class="col-xs-6">
+                                                            <label>Raz&oacute;n de la baja</label>
+                                                            <br/>
+
+                                                            <input id="reasonChange" ng-model="job.reasonChange"
+                                                                   name="reasonChange"
+                                                                   type="text"
+                                                                   class="input-xxlarge" data-val="true"
+                                                                   data-val-required="Raz&oacute;n de la baja semanal es un campo requerido"/>
+                                                        <span class="field-validation-valid"
+                                                              data-valmsg-for="reasonChange"
+                                                              data-valmsg-replace="true"></span>
+                                                            <br/>
+                                                            <br/>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <br/>
