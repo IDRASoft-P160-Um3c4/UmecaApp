@@ -49,7 +49,7 @@
                                                                id="username" name="username"
                                                                type="text" ng-model="m.username"
                                                                ng-init="m.username = '${(model == null) ? "" : model.username}';"
-                                                               ng-unique="{url:'/management/user/isUserAvailable.json', param:'username', extraParam:{id: ${(model == null)?0:model.id}},
+                                                               ng-unique="{url:'${pageContext.request.contextPath}/management/user/isUserAvailable.json', param:'username', extraParam:{id: ${(model == null)?0:model.id}},
                                                                msgError:'El usuario ya existe, por favor elija otro usuario'}"/>
                                                     </div>
                                                     <div class="col-xs-9 col-xs-offset-3">
