@@ -19,6 +19,7 @@ public class LogNotificationDto {
     private Date orderDate;
     private Calendar dateNotif;
     private String dateNotifTx;
+    private String urlToDelete;
 
     public LogNotificationDto() {
     }
@@ -28,7 +29,9 @@ public class LogNotificationDto {
         this.title = title;
         this.senderUser = senderUser;
         this.message = hasToEscape == 1 ? StringEscape.escapeText(message) : message;
-        this.dateNotif=dateNotif;
+        this.dateNotif = dateNotif;
+        if (this.dateNotif != null)
+            this.orderDate = this.dateNotif.getTime();
         this.dateNotifTx = CalendarExt.calendarToFormatString(dateNotif, Constants.FORMAT_CALENDAR_I);
 
     }
@@ -43,46 +46,36 @@ public class LogNotificationDto {
 
     public LogNotificationDto(String idFolder, String imputedName, String status, Date orderDate) {
 
-        this.idFolder=idFolder;
-        this.imputedName=imputedName;
+        this.idFolder = idFolder;
+        this.imputedName = imputedName;
         this.orderDate = orderDate;
 
-        if(status.equals(Constants.S_MEETING_INCOMPLETE)) {
-            title="Entrevista incompleta.";
-            message="Debe completar la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+ StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
-        }
-        else
-        if(status.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)) {
-            title="Informaci&oacute;n legal incompleta.";
-            message="Debe completar la informaci&oacute;n legal de la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
-        }
-        else
-        if(status.equals(Constants.VERIFICATION_STATUS_AUTHORIZED)) {
-            title="Autorizaci&oacute;n de fuentes terminada.";
-            message="Ha finalizado autorizaci&oacute;n de fuentes para el caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
-        }
-        else
-        if(status.equals(Constants.VERIFICATION_STATUS_NEW_SOURCE)) {
-            title="Autorizaci&oacute;n de fuentes.";
-            message="Se ha completado el registro de datos legales. Debe autorizar las fuentes para el caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
-        }
-        else
-        if(status.equals("NO_SOURCES")) {
-            title="Fuentes no disponibles.";
-            message="Debe agregar fuentes para realizar la verificaci&oacute;n de la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
-        }
-        else
-        if(status.equals("SOURCES_NO_MEETING")) {
-            title="Fuentes disponibles.";
-            message="Debe realizar las entrevistas a las fuentes para la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n "+StringEscape.escapeText(this.idFolder)+" para el imputado "+StringEscape.escapeText(this.imputedName)+".";
+        if (status.equals(Constants.S_MEETING_INCOMPLETE)) {
+            title = "Entrevista incompleta.";
+            message = "Debe completar la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n " + StringEscape.escapeText(this.idFolder) + " para el imputado " + StringEscape.escapeText(this.imputedName) + ".";
+        } else if (status.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)) {
+            title = "Informaci&oacute;n legal incompleta.";
+            message = "Debe completar la informaci&oacute;n legal de la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n " + StringEscape.escapeText(this.idFolder) + " para el imputado " + StringEscape.escapeText(this.imputedName) + ".";
+        } else if (status.equals(Constants.VERIFICATION_STATUS_AUTHORIZED)) {
+            title = "Autorizaci&oacute;n de fuentes terminada.";
+            message = "Ha finalizado autorizaci&oacute;n de fuentes para el caso con carpeta de investigaci&oacute;n " + StringEscape.escapeText(this.idFolder) + " para el imputado " + StringEscape.escapeText(this.imputedName) + ".";
+        } else if (status.equals(Constants.VERIFICATION_STATUS_NEW_SOURCE)) {
+            title = "Autorizaci&oacute;n de fuentes.";
+            message = "Se ha completado el registro de datos legales. Debe autorizar las fuentes para el caso con carpeta de investigaci&oacute;n " + StringEscape.escapeText(this.idFolder) + " para el imputado " + StringEscape.escapeText(this.imputedName) + ".";
+        } else if (status.equals("NO_SOURCES")) {
+            title = "Fuentes no disponibles.";
+            message = "Debe agregar fuentes para realizar la verificaci&oacute;n de la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n " + StringEscape.escapeText(this.idFolder) + " para el imputado " + StringEscape.escapeText(this.imputedName) + ".";
+        } else if (status.equals("SOURCES_NO_MEETING")) {
+            title = "Fuentes disponibles.";
+            message = "Debe realizar las entrevistas a las fuentes para la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n " + StringEscape.escapeText(this.idFolder) + " para el imputado " + StringEscape.escapeText(this.imputedName) + ".";
         }
 
     }
 
-    public static final Comparator<LogNotificationDto> dateSorter= new Comparator<LogNotificationDto>() {
+    public static final Comparator<LogNotificationDto> dateSorter = new Comparator<LogNotificationDto>() {
         @Override
         public int compare(LogNotificationDto h1, LogNotificationDto h2) {
-            return  h1.getOrderDate().compareTo(h2.getOrderDate());
+            return h1.getOrderDate().compareTo(h2.getOrderDate());
         }
     };
 
@@ -160,5 +153,13 @@ public class LogNotificationDto {
 
     public String getDateNotifTx() {
         return dateNotifTx;
+    }
+
+    public String getUrlToDelete() {
+        return urlToDelete;
+    }
+
+    public void setUrlToDelete(String urlToDelete) {
+        this.urlToDelete = urlToDelete;
     }
 }

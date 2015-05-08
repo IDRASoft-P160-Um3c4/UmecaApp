@@ -66,7 +66,7 @@
         </div>
 
         <div class="col-xs-10 col-xs-offset-1"
-             ng-init='minute=${minute}; isRH=${isRH}; lstAssistantSel=${assistants}; minute.attendant=${attendant!=null?attendant:undefined}'
+             ng-init='minute=${minute}; isRH=${isRH}; lstAssistantSel=${assistants}; minute.attendant=${attendant!=null?attendant:"undefined"}'
              ;>
             <div class="row">
                 <div class="col-xs-12">
@@ -111,7 +111,8 @@
                                                                type="text"
                                                                ng-disabled="minute.isFinished==true"
                                                                class="input-xxlarge"
-                                                               data-val="true"
+                                                               data-val="true"7
+                                                               maxlength="500"
                                                                data-val-required="T&iacute;tulo es un campo requerido"/>
                                                         <br/>
                                         <span class="field-validation-valid" data-valmsg-for="title"
@@ -122,7 +123,8 @@
                                                         <br/>
                                         <textarea class="input-xxlarge form-control limited" name="agenda"
                                                   ng-model="minute.agenda"
-                                                  maxlength="980" data-val="true"
+                                                  maxlength="740"
+                                                  data-val="true"
                                                   ng-disabled="minute.isFinished==true"
                                                   data-val-required="Orden del d&iacute;a es un campo requerido">
                                         </textarea>
@@ -200,7 +202,7 @@
                                         <textarea class="input-xxlarge form-control limited" name="place"
                                                   ng-model="minute.place"
                                                   ng-disabled="minute.isFinished==true"
-                                                  maxlength="980" data-val="true"
+                                                  maxlength="740" data-val="true"
                                                   data-val-required="Lugar es un campo requerido">
                                         </textarea>
                                         <span class="field-validation-valid" data-valmsg-for="place"

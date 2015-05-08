@@ -1,20 +1,24 @@
 package com.umeca.service.director;
 
+import antlr.debug.MessageAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Area;
 import com.umeca.model.dto.director.MinuteDto;
+import com.umeca.model.dto.humanResources.CourseAchievementDto;
+import com.umeca.model.dto.humanResources.DigitalRecordSummaryDto;
+import com.umeca.model.dto.humanResources.EmployeeGeneralDataDto;
 import com.umeca.model.dto.shared.AgreementDto;
+import com.umeca.model.dto.shared.MinuteSummaryDto;
 import com.umeca.model.dto.shared.ObservationDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.minutes.Agreement;
 import com.umeca.model.entities.director.minutes.Assistant;
 import com.umeca.model.entities.director.minutes.Minute;
 import com.umeca.model.entities.humanReources.*;
-import com.umeca.model.entities.shared.Observation;
-import com.umeca.model.entities.shared.UploadFileGeneric;
-import com.umeca.model.entities.shared.UploadFileRequest;
+import com.umeca.model.entities.reviewer.dto.JobDto;
+import com.umeca.model.entities.shared.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.director.AgreementRepository;
@@ -23,6 +27,7 @@ import com.umeca.repository.director.ObservationRepository;
 import com.umeca.repository.humanResources.AgreementFileRelRepository;
 import com.umeca.repository.humanResources.RequestAgreementRepository;
 import com.umeca.repository.humanResources.RequestMinuteRepository;
+import com.umeca.repository.shared.MessageRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileGenericService;
@@ -34,10 +39,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MinuteServiceImpl implements MinuteService {
@@ -60,6 +62,8 @@ public class MinuteServiceImpl implements MinuteService {
     private UpDwFileGenericService upDwFileGenericService;
     @Autowired
     private AgreementFileRelRepository agreementFileRelRepository;
+    @Autowired
+    private MessageRepository messageRepository;
 
     @Override
     public MinuteDto getMinuteDtoById(Long minuteId) {
@@ -142,16 +146,6 @@ public class MinuteServiceImpl implements MinuteService {
 
     @Override
     @Transactional
-    public ResponseMessage doCloseMinute(Long minuteId) {
-        ResponseMessage resp = new ResponseMessage();
-        //todo
-        resp.setHasError(false);
-        resp.setMessage("Se ha cerrado la minuta con éxito.");
-        return resp;
-    }
-
-    @Override
-    @Transactional
     public ResponseMessage doUpsertAgreement(AgreementDto agreementDto) {
         ResponseMessage resp = new ResponseMessage();
         agreementRepository.save(fillAgreement(agreementDto));
@@ -222,7 +216,10 @@ public class MinuteServiceImpl implements MinuteService {
             req.setAgreement(agreement);
         }
 
+        Message me = fillAgreementMessage(req);
+
         requestAgreementRepository.save(req);
+        messageRepository.save(me);
 
         resp.setHasError(false);
         resp.setMessage("Se ha guardado la respuesta de  solicitud con éxito.");
@@ -266,7 +263,10 @@ public class MinuteServiceImpl implements MinuteService {
     @Transactional
     public ResponseMessage doRequestFinishAgreement(AgreementDto agreementDto) {
         ResponseMessage resp = new ResponseMessage();
-        requestAgreementRepository.save(fillRequestFinishAgreement(agreementDto));
+        RequestAgreement reqA = fillRequestFinishAgreement(agreementDto);
+        Message m = fillAgreementMessage(reqA);
+        requestAgreementRepository.save(reqA);
+        messageRepository.save(m);
         resp.setHasError(false);
         resp.setMessage("Se ha guardado la solicitud con éxito.");
         return resp;
@@ -317,10 +317,135 @@ public class MinuteServiceImpl implements MinuteService {
     @Transactional
     public ResponseMessage doRequestFinishMinute(RequestAgreementDto requestDto) {
         ResponseMessage resp = new ResponseMessage();
-        requestMinuteRepository.save(fillRequestFinishMinute(requestDto));
+
+        RequestMinute rM = fillRequestFinishMinute(requestDto);
+        Message me = fillMinuteMessage(rM);
+        requestMinuteRepository.save(rM);
+        messageRepository.save(me);
         resp.setHasError(false);
         resp.setMessage("Se ha guardado la solicitud con éxito.");
         return resp;
+    }
+
+    private Message fillAgreementMessage(RequestAgreement request) {
+        Message me = new Message();
+
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        me.setSender(u);
+
+        String requestType = request.getRequestType();
+        String responseType = request.getResponseType();
+        String title = "", body = "", auth = "";
+        List<RelMessageUserReceiver> lstReceiver = new ArrayList<>();
+        List<User> lstUsr = new ArrayList<>();
+
+        if (request.getId() != null && responseType != null && responseType != "") {
+
+            switch (responseType) {
+                case Constants.RESPONSE_AGREEMENT_TYPE_FINISH_AUTH:
+                    auth = "autoriza";
+                    break;
+                case Constants.RESPONSE_AGREEMENT_TYPE_FINISH_REJECT:
+                    auth = "rechaza";
+                    break;
+            }
+
+            title = "Se " + auth + " la solicitud de conclusi&oacute;n de acuerdo";
+            body = "El usuario <strong>" + sharedUserService.findOne(request.getResponseUser().getId()).getFullname() + "</strong> " + auth + " la solicitud de conclusi&oacute;n del acuerdo <strong>\"" + request.getAgreement().getTitle() + "\"</strong>: <br/> " + request.getResponseComment();
+
+            lstUsr.addAll(sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_HUMAN_RESOURCES));
+            lstUsr.addAll(sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_SUPERVISOR_MANAGER));
+            lstUsr.addAll(sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_EVALUATION_MANAGER));
+
+        } else if (requestType != null && requestType != "") {
+            switch (requestType) {
+                case Constants.REQUEST_AGREEMENT_TYPE_FINISH:
+                    title = "Solicitud de conclusi&oacute;n de acuerdo";
+                    body = "El usuario <strong>" + sharedUserService.findOne(request.getRequestUser().getId()).getFullname() + "</strong> solicita la conclusi&oacute;n del acuerdo <strong>\"" + request.getAgreement().getTitle() + "\"</strong>: <br/> " + request.getRequestComment();
+                    break;
+            }
+
+            lstUsr = sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_DIRECTOR);
+
+        }
+
+        me.setTitle(title);
+        me.setBody(body);
+        me.setCreationDate(Calendar.getInstance());
+        me.setIsObsolete(false);
+
+        for (User act : lstUsr) {
+            RelMessageUserReceiver actRel = new RelMessageUserReceiver();
+            actRel.setIsObsolete(false);
+            actRel.setMessage(me);
+            actRel.setUser(act);
+            lstReceiver.add(actRel);
+        }
+
+        me.setMessageUserReceivers(lstReceiver);
+
+        return me;
+    }
+
+    private Message fillMinuteMessage(RequestMinute request) {
+        Message me = new Message();
+
+        User u = new User();
+        u.setId(sharedUserService.GetLoggedUserId());
+        me.setSender(u);
+
+        String requestType = request.getRequestType();
+        String responseType = request.getResponseType();
+        String title = "", body = "", auth = "";
+        List<RelMessageUserReceiver> lstReceiver = new ArrayList<>();
+        List<User> lstUsr = new ArrayList<>();
+
+        if (request.getId() != null && responseType != null && responseType != "") {
+
+            switch (responseType) {
+                case Constants.RESPONSE_MINUTE_TYPE_FINISH_AUTH:
+                    auth = "autoriza";
+                    break;
+                case Constants.RESPONSE_MINUTE_TYPE_FINISH_REJECT:
+                    auth = "rechaza";
+                    break;
+            }
+
+            title = "Se " + auth + " la solicitud de cierre de minuta";
+            body = "El usuario <strong>" + sharedUserService.findOne(request.getResponseUser().getId()).getFullname() + "</strong> " + auth + " la solicitud de cierre de la minuta <strong>\"" + request.getMinute().getTitle() + "\"</strong>: <br/> " + request.getResponseComment();
+
+            lstUsr.addAll(sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_HUMAN_RESOURCES));
+            lstUsr.addAll(sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_SUPERVISOR_MANAGER));
+            lstUsr.addAll(sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_EVALUATION_MANAGER));
+
+        } else if (requestType != null && requestType != "") {
+            switch (requestType) {
+                case Constants.REQUEST_MINUTE_TYPE_FINISH:
+                    title = "Solicitud de cierre de minuta";
+                    body = "El usuario <strong>" + sharedUserService.findOne(request.getRequestUser().getId()).getFullname() + "</strong> solicita el cierre de la minuta <strong>\"" + request.getMinute().getTitle() + "\"</strong>: <br/> " + request.getRequestComment();
+                    break;
+            }
+
+            lstUsr = sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_DIRECTOR);
+        }
+
+        me.setTitle(title);
+        me.setBody(body);
+        me.setCreationDate(Calendar.getInstance());
+        me.setIsObsolete(false);
+
+        for (User act : lstUsr) {
+            RelMessageUserReceiver actRel = new RelMessageUserReceiver();
+            actRel.setIsObsolete(false);
+            actRel.setMessage(me);
+            actRel.setUser(act);
+            lstReceiver.add(actRel);
+        }
+
+        me.setMessageUserReceivers(lstReceiver);
+
+        return me;
     }
 
     private RequestMinute fillRequestFinishMinute(RequestAgreementDto requestDto) {
@@ -378,7 +503,9 @@ public class MinuteServiceImpl implements MinuteService {
 
         req.setMinute(minute);
 
+        Message me = fillMinuteMessage(req);
         requestMinuteRepository.save(req);
+        messageRepository.save(me);
 
         resp.setHasError(false);
         resp.setMessage("Se ha guardado la respuesta de  solicitud con éxito.");
@@ -483,5 +610,18 @@ public class MinuteServiceImpl implements MinuteService {
 
     public String getAgreementTitleByAgreementId(Long agreementId) {
         return agreementRepository.getAgreementTitleByAgreementId(agreementId);
+    }
+
+    @Override
+    public MinuteSummaryDto fillMinuteSummary(Long minuteId) {
+
+        MinuteSummaryDto summary = new MinuteSummaryDto();
+
+        summary.setMinuteDto(minuteRepository.getMinuteGrlDataById(minuteId));
+        summary.setAttendant(getMinuteAttendantByMinuteId(minuteId).get(0));
+        summary.setAssistants(getMinuteAssistantsDtoByMinuteId(minuteId));
+        summary.setAgreements(agreementRepository.getAgreementsInfoByMinuteId(minuteId));
+
+        return summary;
     }
 }

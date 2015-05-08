@@ -168,4 +168,8 @@ public class SharedUserService {
     public List<Long> getLstValidUsersIdByLstRoles(List<String> lstRoles) {
         return userRepository.getLstValidUsersIdByLstRoles(lstRoles);
     }
+
+    public User findOne(Long id) {
+        return userRepository.findOne(id);
+    }
 }

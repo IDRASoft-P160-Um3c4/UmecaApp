@@ -39,6 +39,7 @@
                                     <input class="form-control" data-val="true"
                                            ng-disabled="isRH==false||agreement.isFinished==true"
                                            data-val-required="Acuerdo es un campo requerido"
+                                           maxlength="500"
                                            id="title" name="title" ng-model="agreement.title"
                                            type="text"/>
                                 <span class="field-validation-valid" data-valmsg-for="title"
@@ -50,7 +51,7 @@
                                 <textarea class="input-xxlarge form-control limited" name="theme"
                                           ng-disabled="isRH==false||agreement.isFinished==true"
                                           ng-model="agreement.theme"
-                                          maxlength="980" data-val="true"
+                                          maxlength="740" data-val="true"
                                           data-val-required="Tema(s) es un campo requerido">
                                 </textarea>
                                   <span class="field-validation-valid" data-valmsg-for="theme"
@@ -85,7 +86,7 @@
                                 <textarea class="input-xxlarge form-control limited" name="comments"
                                           ng-disabled="isRH==false||agreement.isFinished==true"
                                           ng-model="agreement.comments"
-                                          maxlength="980" data-val="true"
+                                          maxlength="750" data-val="true"
                                           data-val-required="Comentarios es un campo requerido">
                                 </textarea>
                                   <span class="field-validation-valid" data-valmsg-for="comments"
@@ -111,7 +112,7 @@
                                 <textarea class="input-xxlarge form-control limited" name="specArea"
                                           ng-model="agreement.specArea"
                                           ng-disabled="isRH==false||agreement.isFinished==true"
-                                          maxlength="980" data-val="true"
+                                          maxlength="750" data-val="true"
                                           data-val-required="Especifique es un campo requerido">
                                 </textarea>
                                 <span class="field-validation-valid" data-valmsg-for="specArea"

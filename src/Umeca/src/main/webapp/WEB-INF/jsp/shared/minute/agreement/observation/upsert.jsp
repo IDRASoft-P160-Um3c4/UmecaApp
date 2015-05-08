@@ -32,7 +32,7 @@
                                 <br/>
                                 <textarea class="input-xxlarge form-control limited" name="comment"
                                           ng-model="obs.comment"
-                                          maxlength="980" data-val="true"
+                                          maxlength="740" data-val="true"
                                           data-val-required="Observaciones es un campo requerido">
                                 </textarea>
                                   <span class="field-validation-valid" data-valmsg-for="comment"

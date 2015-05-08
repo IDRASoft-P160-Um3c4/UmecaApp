@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -60,7 +61,7 @@ public class MainPageServiceImpl implements MainPageService {
     RelMessageUserReceiverRepository relMessageUserReceiverRepository;
 
     @Override
-    public ModelAndView generatePage(String sRole, ModelAndView model, Long userId) {
+    public ModelAndView generatePage(HttpServletRequest request, String sRole, ModelAndView model, Long userId) {
 
         systemSettingService.initSystemSettings();
 
@@ -78,9 +79,9 @@ public class MainPageServiceImpl implements MainPageService {
                 return model;
 
             case Constants.ROLE_EVALUATION_MANAGER:
-                constructEvaluationManagerPage(model);
+                constructEvaluationManagerPage(request, model);
                 return model;
-            
+
             case Constants.ROLE_HUMAN_RESOURCES:
                 constructHumanResourcesPage(model);
                 return model;
@@ -157,6 +158,7 @@ public class MainPageServiceImpl implements MainPageService {
 
     private void constructSupervisorManagerMainPage(ModelAndView model, Long userId) {
         Gson json = new Gson();
+
         List<CommentMonitoringPlanNotice> lstGen = logCommentRepository.getEnabledCommentsByManagerSupRole(
                 new ArrayList<String>() {{
                     add(MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT);
@@ -166,11 +168,20 @@ public class MainPageServiceImpl implements MainPageService {
                     add(MonitoringConstants.STATUS_END);
                     add(Constants.ACTION_AUTHORIZE_LOG_COMMENT);
                     add(MonitoringConstants.TYPE_INFORMATION);
-                }}, userId
+                }}, userId, new PageRequest(0, 5)
         );
+
         String sLstGeneric = json.toJson(lstGen);
         model.addObject("lstNotification", sLstGeneric);
         model.addObject("urlToGo", "/supervisorManager/log/deleteComment.json");
+
+
+        List<LogNotificationDto> lstNotification = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 5));
+
+        model.addObject("lstNotificationA", json.toJson(lstNotification));
+        model.addObject("urlToGoA", "/shared/messageHistory/deleteNotification.json?id=");
+
+
     }
 
     private void constructReviewerMainPage(ModelAndView model) {
@@ -218,36 +229,27 @@ public class MainPageServiceImpl implements MainPageService {
 
     }
 
-    private void constructEvaluationManagerPage(ModelAndView model) {
+    private void constructEvaluationManagerPage(HttpServletRequest request, ModelAndView model) {
 
         List<LogNotificationDto> top10 = caseRepository.getNewSourceStatusCases(Constants.VERIFICATION_STATUS_NEW_SOURCE, Constants.CASE_STATUS_SOURCE_VALIDATION, new PageRequest(0, 10));
-//        List<LogNotificationDto> lstActivities = new ArrayList<>();
-//        lstActivities.addAll(lstA);
-//        Collections.sort(lstActivities, LogNotificationDto.dateSorter);
-
         Gson conv = new Gson();
-        List<LogNotificationDto> top10Notif = logNotificationRepository.getManagerEvalNotifications(Constants.ROLE_EVALUATION_MANAGER, new PageRequest(0, 10));
 
-//        List<LogNotificationDto> top10 = new ArrayList<>();
-//        int top = 0;
-//        for (LogNotificationDto act : lstActivities) {
-//            top10.add(act);
-//            top++;
-//            if (top == 10)
-//                break;
-//        }
-//        List<LogNotificationDto> top10Notif = new ArrayList<>();
-//        int topN = 0;
-//        for (LogNotificationDto not : lstNotif) {
-//            top10Notif.add(not);
-//            topN++;
-//            if (topN == 10)
-//                break;
-//        }
+        List<LogNotificationDto> top10Notif = logNotificationRepository.getManagerEvalNotifications(Constants.ROLE_EVALUATION_MANAGER, new PageRequest(0, 5));
+
         model.addObject("lstActivities", conv.toJson(top10));
-        model.addObject("lstNotification", conv.toJson(top10Notif));
         model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
 
+        List<LogNotificationDto> lstNotif = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 5));
+
+        for (LogNotificationDto act : lstNotif) {
+            act.setUrlToDelete(request.getContextPath() + "/shared/messageHistory/deleteNotification.json?id=");
+        }
+
+        top10Notif.addAll(lstNotif);
+
+        Collections.sort(top10Notif, LogNotificationDto.dateSorter);
+
+        model.addObject("lstNotification", conv.toJson(top10Notif));
     }
 
     @Transactional
@@ -263,7 +265,7 @@ public class MainPageServiceImpl implements MainPageService {
     public boolean deleteNotification(Long id, Long userId, ResponseMessage response) {
         RelMessageUserReceiver relMessage = relMessageUserReceiverRepository.findOneByIdAndUserId(id, userId);
 
-        if(relMessage == null){
+        if (relMessage == null) {
             response.setHasError(true);
             response.setMessage("No existe el registro que desea eliminar");
             return false;
@@ -365,8 +367,10 @@ public class MainPageServiceImpl implements MainPageService {
     }
 
     private void constructHumanResourcesPage(ModelAndView model) {
-
-
+        List<LogNotificationDto> lstNotification = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 10));
+        Gson json = new Gson();
+        model.addObject("lstNotification", json.toJson(lstNotification));
+        model.addObject("urlToGo", "/shared/messageHistory/deleteNotification.json?id=");
     }
 
 

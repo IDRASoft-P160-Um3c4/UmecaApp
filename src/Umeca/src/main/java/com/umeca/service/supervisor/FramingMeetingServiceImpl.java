@@ -1208,7 +1208,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Transactional
     public ResponseMessage doTerminate(Long idCase) {
 
-
         try {
             FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();

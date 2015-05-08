@@ -10,7 +10,9 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.dto.director.MinuteDto;
+import com.umeca.model.dto.humanResources.DigitalRecordSummaryDto;
 import com.umeca.model.dto.shared.AgreementDto;
+import com.umeca.model.dto.shared.MinuteSummaryDto;
 import com.umeca.model.dto.shared.ObservationDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.minutes.Agreement;
@@ -188,7 +190,7 @@ public class MinuteController {
         Gson gson = new Gson();
         MinuteDto dto = null;
 
-        SelectList att = new SelectList();
+        SelectList att = null;
         List<SelectList> assistants = new ArrayList<>();
 
         if (id != null) {
@@ -384,22 +386,21 @@ public class MinuteController {
     @ResponseBody
     ResponseMessage doRequestFinishAgreement(@ModelAttribute AgreementDto agreementDto) {
         ResponseMessage response = new ResponseMessage();
-
-        User user = userRepository.findOne(sharedUserService.GetLoggedUserId());
-
-        if (sharedUserService.isValidPasswordForUser(user.getId(), agreementDto.getPassword()) == false) {
-            response.setHasError(true);
-            response.setMessage("La contraseña no corresponde al usuario en sesión");
-            return response;
-        }
-
-        if (minuteService.countPendingRequestByAgreementId(agreementDto.getId()) > 0) {
-            response.setHasError(true);
-            response.setMessage("No es posible registrar la solicitud. El acuerdo tiene una solicitud pendiente.");
-            return response;
-        }
-
         try {
+            User user = userRepository.findOne(sharedUserService.GetLoggedUserId());
+
+            if (sharedUserService.isValidPasswordForUser(user.getId(), agreementDto.getPassword()) == false) {
+                response.setHasError(true);
+                response.setMessage("La contraseña no corresponde al usuario en sesión");
+                return response;
+            }
+
+            if (minuteService.countPendingRequestByAgreementId(agreementDto.getId()) > 0) {
+                response.setHasError(true);
+                response.setMessage("No es posible registrar la solicitud. El acuerdo tiene una solicitud pendiente.");
+                return response;
+            }
+
             response = minuteService.doRequestFinishAgreement(agreementDto);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doRequestFinishAgreement", sharedUserService);
@@ -667,6 +668,14 @@ public class MinuteController {
                 return null;
             }
         }
+    }
+
+    @RequestMapping(value = "/shared/minute/summaryMinute", method = RequestMethod.GET)
+    public ModelAndView generateFileAllSources(@RequestParam(required = true) Long id) {
+        ModelAndView model = new ModelAndView("/shared/minute/minuteSummary");
+        MinuteSummaryDto summary = minuteService.fillMinuteSummary(id);
+        model.addObject("summary", summary);
+        return model;
     }
 
 }

@@ -71,7 +71,6 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope,
 
 
         $scope.init = function () {
-            $scope.fillSelect("minute", "attendant", "lstEmployee", "attendantId");
             if ($scope.minute.assistantsIds != undefined)
                 $scope.lstAssistantSel = JSON.parse($scope.minute.assistantsIds);
 

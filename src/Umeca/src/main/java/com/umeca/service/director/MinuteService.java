@@ -3,6 +3,7 @@ package com.umeca.service.director;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.director.MinuteDto;
 import com.umeca.model.dto.shared.AgreementDto;
+import com.umeca.model.dto.shared.MinuteSummaryDto;
 import com.umeca.model.dto.shared.ObservationDto;
 import com.umeca.model.entities.humanReources.RequestAgreement;
 import com.umeca.model.entities.humanReources.RequestAgreementDto;
@@ -21,8 +22,6 @@ public interface MinuteService {
     MinuteDto getMinuteDtoById(Long minuteId);
 
     ResponseMessage doUpsertMinute(MinuteDto minuteDto);
-
-    ResponseMessage doCloseMinute(Long id);
 
     ResponseMessage doUpsertAgreement(AgreementDto agreementDto);
 
@@ -67,4 +66,5 @@ public interface MinuteService {
 
     String getAgreementTitleByAgreementId(Long agreementId);
 
+    MinuteSummaryDto fillMinuteSummary(Long minuteId);
 }

@@ -19,23 +19,23 @@ public class Agreement {
     @Column(name = "id_agreement")
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title",length = 750)
     private String title;
 
-    @Column(name = "theme")
+    @Column(name = "theme",length = 750)
     private String theme;
 
     @Column(name = "agreement_date")
     private Date agreementDate;
 
-    @Column(name = "comments")
+    @Column(name = "comments",length = 750)
     private String comments;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_area")
     private Area area;
 
-    @Column(name = "spec_area")
+    @Column(name = "spec_area",length = 750)
     private String specArea;
 
     @Column(name = "is_done")
@@ -44,7 +44,7 @@ public class Agreement {
     @Column(name = "is_finished")
     private Boolean isFinished;
 
-    @Column(name = "finished_comment")
+    @Column(name = "finished_comment",length = 750)
     private String finishedComment;
 
     @Column(name = "finish_date")
