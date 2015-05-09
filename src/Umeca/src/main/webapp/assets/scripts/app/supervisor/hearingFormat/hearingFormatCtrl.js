@@ -182,7 +182,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (!$scope.m.vincProcess) {
                 $scope.hasError = true;
-                $scope.m.errLinkProc = "Debe seleccionar una opci�n";
+                $scope.m.errLinkProc = "Debe seleccionar una opción";
             }
             else
                 $scope.m.errLinkProc = "";

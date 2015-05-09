@@ -13,10 +13,10 @@ import java.util.List;
 @Repository("qLogNotificationRepository")
 public interface LogNotificationRepository extends JpaRepository<LogNotification,Long>{
 
-    @Query("select new com.umeca.model.entities.reviewer.dto.LogNotificationDto(nr.id,nr.subject,nr.message,nr.timestamp) from LogNotification nr where nr.isObsolete=false and nr.receiveUser.id=:idUsr order by nr.timestamp")
+    @Query("select new com.umeca.model.entities.reviewer.dto.LogNotificationDto(nr.id,nr.subject,nr.message,nr.timestamp,0) from LogNotification nr where nr.isObsolete=false and nr.receiveUser.id=:idUsr order by nr.timestamp")
     List<LogNotificationDto> getReviewerNotifications(@Param("idUsr")Long idUsr, Pageable pageable);
 
-    @Query("select new com.umeca.model.entities.reviewer.dto.LogNotificationDto(nr.id,nr.subject,nr.message,nr.timestamp) " +
+    @Query("select new com.umeca.model.entities.reviewer.dto.LogNotificationDto(nr.id,nr.subject,nr.message,nr.timestamp,0) " +
             "from LogNotification nr " +
             "inner join nr.senderUser SU "+
             "inner join nr.receiveUser RU " +

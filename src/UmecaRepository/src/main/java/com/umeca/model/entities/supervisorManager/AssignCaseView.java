@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisorManager;
 
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+
 /**
  * Created by dcortesr on 22/07/14.
  */
@@ -12,6 +13,7 @@ public class AssignCaseView implements EntityGrid {
     private String fullname;
     private String idFolder;
     private String status;
+    private Long preassignedId;
 
     public Long getSupervisor() {
         return supervisor;
@@ -71,7 +73,7 @@ public class AssignCaseView implements EntityGrid {
         this.status = status;
     }
 
-    public AssignCaseView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String status, Long supervisor){
+    public AssignCaseView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String status, Long supervisor) {
         this.id = id;
         this.name = name;
         this.lastNameP = lastNameP;
@@ -82,22 +84,42 @@ public class AssignCaseView implements EntityGrid {
         createFullname();
     }
 
+    public AssignCaseView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String status, Long supervisor, Long preassignedId) {
+        this.id = id;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.idFolder = idFolder;
+        this.status = status;
+        this.supervisor = supervisor;
+        this.preassignedId = preassignedId;
+        createFullname();
+    }
+
     @Override
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id){
+    public void setId(Long id) {
         this.id = id;
     }
 
     private void createFullname() {
         this.fullname = "";
-        if (this.name != null )
+        if (this.name != null)
             this.fullname += this.name + " ";
         if (this.lastNameP != null)
             this.fullname += this.lastNameP + " ";
         if (lastNameM != null)
             this.fullname += this.lastNameM;
+    }
+
+    public Long getPreassignedId() {
+        return preassignedId;
+    }
+
+    public void setPreassignedId(Long preassignedId) {
+        this.preassignedId = preassignedId;
     }
 }

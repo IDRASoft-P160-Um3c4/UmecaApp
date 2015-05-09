@@ -8,11 +8,6 @@
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak data-backdrop="static">
         <div class="modal-dialog" style="width:800px">
             <div class="modal-content">
-               <!-- <div class="modal-header">
-                    <div class="alert alert-danger ">
-                        <h4 class="element-center">&nbsp;&nbsp;Informaci�n recolectada</h4>
-                    </div>
-                </div>    -->
                 <div class="modal-body" ng-init="managereval = ${managereval}">
                     <form id="FormChoices" name="FormChoices" ng-submit="submit('#FormChoices')" class="form-horizontal"
                           role="form">

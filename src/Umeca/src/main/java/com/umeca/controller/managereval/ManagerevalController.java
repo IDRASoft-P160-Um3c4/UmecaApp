@@ -145,10 +145,13 @@ public class ManagerevalController {
             Message m = new Message();
             m.setCaseDetention(__case);
             m.setSender(uSender);
+            m.setTitle("");
+            m.setIsObsolete(false);
             List<RelMessageUserReceiver> rmur  = new ArrayList<>();
             RelMessageUserReceiver r = new RelMessageUserReceiver();
             r.setUser(reviewer);
             r.setMessage(m);
+            r.setIsObsolete(false);
             rmur.add(r);
             m.setMessageUserReceivers(rmur);
             m.setCreationDate(Calendar.getInstance());
@@ -416,12 +419,15 @@ public class ManagerevalController {
             CaseRequest caseRequest = caseRequestRepository.findOne(requestDto.getIdRequest());
 
             Message messageResponse = new Message();
+            messageResponse.setIsObsolete(false);
+            messageResponse.setTitle("");
             messageResponse.setSender(userSender);
             messageResponse.setBody(StringEscape.escapeText(requestDto.getReason()));
             messageResponse.setCreationDate(Calendar.getInstance());
             RelMessageUserReceiver lisRel = new RelMessageUserReceiver();
             lisRel.setMessage(messageResponse);
             lisRel.setUser(caseRequest.getRequestMessage().getSender());
+            lisRel.setIsObsolete(false);
             List<RelMessageUserReceiver> lrmur = new ArrayList<>();
             lrmur.add(lisRel);
             messageResponse.setMessageUserReceivers(lrmur);

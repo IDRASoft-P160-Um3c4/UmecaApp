@@ -1,6 +1,7 @@
 package com.umeca.service.shared;
 
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.catalog.RequestType;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.CaseRequest;
@@ -26,10 +27,15 @@ public class CaseRequestService {
                                                SharedUserService sharedUserService, User user, MonitoringPlan monPlan, String text, String role, String requestType) {
         CaseRequest caseRequest = new CaseRequest();
         final Message msg = new Message();
+
+        RequestType rt = requestTypeRepository.findByCode(requestType);
+
         msg.setCaseDetention(monPlan.getCaseDetention());
         msg.setCreationDate(Calendar.getInstance());
         msg.setSender(user);
+        msg.setTitle("");
         msg.setBody(StringEscape.escapeText(text));
+        msg.setIsObsolete(false);
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(role);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
@@ -37,13 +43,14 @@ public class CaseRequestService {
             lstRmUr.add(new RelMessageUserReceiver(){{
                 setMessage(msg);
                 setUser(userRcv);
+                setIsObsolete(false);
             }});
         }
         msg.setMessageUserReceivers(lstRmUr);
         messageRepository.save(msg);
 
         caseRequest.setRequestMessage(msg);
-        caseRequest.setRequestType(requestTypeRepository.findByCode(requestType));
+        caseRequest.setRequestType(rt);
         caseRequestRepository.save(caseRequest);
     }
 
@@ -55,6 +62,8 @@ public class CaseRequestService {
         msg.setCreationDate(Calendar.getInstance());
         msg.setSender(user);
         msg.setBody(StringEscape.escapeText(text));
+        msg.setTitle("");
+        msg.setIsObsolete(false);
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(role);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
@@ -62,6 +71,7 @@ public class CaseRequestService {
             lstRmUr.add(new RelMessageUserReceiver(){{
                 setMessage(msg);
                 setUser(userRcv);
+                setIsObsolete(false);
             }});
         }
         msg.setMessageUserReceivers(lstRmUr);
@@ -89,12 +99,15 @@ public class CaseRequestService {
             msg.setCreationDate(Calendar.getInstance());
             msg.setSender(user);
             msg.setBody(StringEscape.escapeText(text));
+            msg.setTitle("");
+            msg.setIsObsolete(false);
 
             List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
             lstRmUr.add(new RelMessageUserReceiver(){{
                 setMessage(msg);
                 setUser(caseRequest.getRequestMessage().getSender());
+                setIsObsolete(false);
             }});
 
             msg.setMessageUserReceivers(lstRmUr);
@@ -127,12 +140,15 @@ public class CaseRequestService {
         u.setId(userId);
         msg.setSender(u);
         msg.setBody(StringEscape.escapeText(text));
+        msg.setTitle("");
+        msg.setIsObsolete(false);
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(roleSender);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
         for(final User userRcv : lstUserReceivers){
             lstRmUr.add(new RelMessageUserReceiver(){{
                 setMessage(msg);
                 setUser(userRcv);
+                setIsObsolete(false);
             }});
         }
         msg.setMessageUserReceivers(lstRmUr);
@@ -159,11 +175,14 @@ public class CaseRequestService {
         u.setId(userId);
         msg.setSender(u);
         msg.setBody(StringEscape.escapeText(text));
+        msg.setTitle("");
+        msg.setIsObsolete(false);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
         lstRmUr.add(new RelMessageUserReceiver(){{
             setMessage(msg);
             setUser(caseRequest.getRequestMessage().getSender());
+            setIsObsolete(false);
         }});
 
         msg.setMessageUserReceivers(lstRmUr);

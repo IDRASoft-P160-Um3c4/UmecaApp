@@ -590,11 +590,14 @@ public class VerificationServiceImpl implements VerificationService {
                 Verification verification = caseDetention.getVerification();
                 verification.setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_COMPLETE));
                 verification.setDateComplete(new Date());
+
                 /*SE PLANCHA LA INFO DEL MEETING CON LA INFO DE LA VERIFICACION*/
                 Imputed i = caseDetention.getMeeting().getImputed();
                 i.setName(verification.getMeetingVerified().getImputed().getName());
                 i.setLastNameP(verification.getMeetingVerified().getImputed().getLastNameP());
                 i.setLastNameM(verification.getMeetingVerified().getImputed().getLastNameM());
+                i.setBirthDate(verification.getMeetingVerified().getImputed().getBirthDate());
+                i.setFoneticString(sharedUserService.getFoneticByName(i.getName(),i.getLastNameP(),i.getLastNameM()));
 
                 imputedRepository.save(i);
 
@@ -611,6 +614,7 @@ public class VerificationServiceImpl implements VerificationService {
 
                 addressRepository.save(aM);
                 /*SE PLANCHA LA INFO DEL MEETING CON LA INFO DE LA VERIFICACION*/
+
                 caseRepository.save(caseDetention);
                 return new ResponseMessage(false, "Se ha terminado con &eacute;xito la verificaci&oacute;n");
             }

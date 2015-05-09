@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <div class="alert alert-info">
                     <button type="button" class="close" ng-click="cancel()">&times;</button>
-                    <h4 class="modal-title element-center">Rol de supervisi�n</h4>
+                    <h4 class="modal-title element-center">Rol de supervisi&oacute;n</h4>
                 </div>
             </div>
             <div class="modal-body">

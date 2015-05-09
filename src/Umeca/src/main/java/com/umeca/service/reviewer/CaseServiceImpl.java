@@ -418,10 +418,13 @@ public class CaseServiceImpl implements CaseService {
         u.setId(userId);
         msg.setSender(u);
         msg.setBody(StringEscape.escapeText(model.getComments()));
+        msg.setIsObsolete(false);
+        msg.setTitle("");
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
         RelMessageUserReceiver rmur = new RelMessageUserReceiver();
         rmur.setMessage(msg);
         rmur.setUser(request.getRequestMessage().getSender());
+        rmur.setIsObsolete(false);
         msg.setMessageUserReceivers(lstRmUr);
         messageRepository.save(msg);
         request.setResponseMessage(msg);

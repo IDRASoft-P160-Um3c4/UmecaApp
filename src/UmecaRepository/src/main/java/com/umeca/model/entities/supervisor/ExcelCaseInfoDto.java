@@ -757,7 +757,7 @@ public class ExcelCaseInfoDto {
                         this.socialNetworkStr += ", " + act.getRelationship();
 
                     if (act.getDocument() != null && !act.getDocument().equals(""))
-                        this.socialNetworkStr += ", Identificaci�n: " + act.getDocument();
+                        this.socialNetworkStr += ", Identificación: " + act.getDocument();
 
                     if (act.getAge() != null)
                         this.socialNetworkStr += ", Edad: " + act.getAge();
@@ -770,15 +770,15 @@ public class ExcelCaseInfoDto {
 
                     if (act.getAccompaniment() != null)
                         if (act.getAccompaniment().equals(true))
-                            this.socialNetworkStr += ", Acompa�a durante el proceso: Si";
+                            this.socialNetworkStr += ", Acompaña durante el proceso: Si";
                         else
-                            this.socialNetworkStr += ", Acompa�a durante el proceso: No";
+                            this.socialNetworkStr += ", Acompaña durante el proceso: No";
 
                     if (act.getLivingWith() != null && !act.getLivingWith().equals(""))
                         this.socialNetworkStr += ", Vive con el imputado: " + act.getLivingWith();
 
                     if (act.getAddress() != null && !act.getAddress().equals(""))
-                        this.socialNetworkStr += ", Direcci�n: " + act.getAddress();
+                        this.socialNetworkStr += ", Dirección: " + act.getAddress();
                 } else {
                     this.socialNetworkStr = "El imputado no cuenta con personas en su red social.";
                     break;
@@ -817,7 +817,7 @@ public class ExcelCaseInfoDto {
                         this.referencesStr += ", " + act.getRelationship();
 
                     if (act.getDocument() != null && !act.getDocument().equals(""))
-                        this.referencesStr += ", Identificaci�n: " + act.getDocument();
+                        this.referencesStr += ", Identificación: " + act.getDocument();
 
                     if (act.getAge() != null)
                         this.referencesStr += ", Edad: " + act.getAge();
@@ -827,12 +827,12 @@ public class ExcelCaseInfoDto {
 
                     if (act.getAccompaniment() != null)
                         if (act.getAccompaniment().equals(true))
-                            this.referencesStr += ", Acompa�a durante el proceso: Si";
+                            this.referencesStr += ", Acompaña durante el proceso: Si";
                         else
-                            this.referencesStr += ", Acompa�a durante el proceso: No";
+                            this.referencesStr += ", Acompaña durante el proceso: No";
 
                     if (act.getAddress() != null && !act.getAddress().equals(""))
-                        this.referencesStr += ", Direcci�n: " + act.getAddress();
+                        this.referencesStr += ", Dirección: " + act.getAddress();
                 } else {
                     this.referencesStr = "El imputado no cuenta con referencias personales.";
                     break;
@@ -872,13 +872,13 @@ public class ExcelCaseInfoDto {
                         jobsStr += ", Puesto: " + act.getPost();
 
                     if (act.getNameHead() != null && !act.getNameHead().equals(""))
-                        jobsStr += ", Patr�n: " + act.getNameHead();
+                        jobsStr += ", Patrón: " + act.getNameHead();
 
                     if (act.getPhone() != null && !act.getPhone().equals(""))
                         jobsStr += ", Tel.: " + act.getPhone();
 
                     if (act.getAddress() != null && !act.getAddress().equals(""))
-                        jobsStr += ", Direcci�n: " + act.getAddress();
+                        jobsStr += ", Dirección: " + act.getAddress();
 
                     if (act.getRegisterType() != null && !act.getRegisterType().equals(""))
                         jobsStr += ", Tipo: " + act.getRegisterType();
@@ -933,13 +933,13 @@ public class ExcelCaseInfoDto {
                         drugsStr += ", Periocidad: " + act.getPeriodicity();
 
                     if (act.getSpecificationType() != null && !act.getSpecificationType().equals(""))
-                        drugsStr += ", Especificaci�n: " + act.getSpecificationType();
+                        drugsStr += ", Especificación: " + act.getSpecificationType();
 
                     if (act.getQuantity() != null && !act.getQuantity().equals(""))
                         drugsStr += ", Cantidad: " + act.getQuantity();
 
                     if (act.getLastUse() != null)
-                        drugsStr += ", �tlimo consumo: " + dateFormat.format(act.getLastUse());
+                        drugsStr += ", Útlimo consumo: " + dateFormat.format(act.getLastUse());
                 } else {
                     drugsStr = "El imputado no consume sustancias.";
                     break;

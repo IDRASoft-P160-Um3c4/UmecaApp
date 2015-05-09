@@ -1298,6 +1298,8 @@ public class MeetingServiceImpl implements MeetingService {
             //Gson gson = new Gson();
             CaseRequest caseRequest = new CaseRequest();
             Message requestMessage = new Message();
+            requestMessage.setIsObsolete(false);
+            requestMessage.setTitle("");
             Long userId = userService.GetLoggedUserId();
             List<SelectList> usersReceiver = userRepository.getLstValidUsersByRole(Constants.ROLE_EVALUATION_MANAGER);
             User userSender = userRepository.findOne(userId);
@@ -1306,6 +1308,8 @@ public class MeetingServiceImpl implements MeetingService {
             requestMessage.setSender(userSender);
             if (usersReceiver != null && usersReceiver.size() > 0) {
                 Message m = new Message();
+                Imputed i = c.getMeeting().getImputed();
+                m.setTitle("Autorizar fuentes para el imputado <strong>" + i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM()+".</strong>");
                 m.setBody("Se termina de capturar informaci&oacute;n legal, se solicita autorizar fuentes.");
                 m.setCaseDetention(c);
                 m.setSender(userSender);
@@ -1316,9 +1320,12 @@ public class MeetingServiceImpl implements MeetingService {
                     RelMessageUserReceiver rmr = new RelMessageUserReceiver();
                     rmr.setUser(u);
                     rmr.setMessage(m);
+                    rmr.setIsObsolete(false);
                     listrmur.add(rmr);
                     //managerEval = u;
                 }
+
+                m.setIsObsolete(false);
                 m.setMessageUserReceivers(listrmur);
                 m.setCreationDate(Calendar.getInstance());
                 requestMessage.setMessageUserReceivers(listrmur);

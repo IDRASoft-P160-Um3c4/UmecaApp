@@ -207,6 +207,8 @@ public class CaseRequestController {
             Gson gson = new Gson();
             CaseRequest caseRequest = new CaseRequest();
             Message requestMessage = new Message();
+            requestMessage.setIsObsolete(false);
+            requestMessage.setTitle("");
             Long userId = userService.GetLoggedUserId();
             List<SelectList> usersReceiver = userRepository.getLstValidUsersByRole(Constants.ROLE_EVALUATION_MANAGER);
             User userSender = userRepository.findOne(userId);
@@ -220,9 +222,11 @@ public class CaseRequestController {
             requestMessage.setSender(userSender);
             if (usersReceiver != null && usersReceiver.size() > 0) {
                 Message m = new Message();
-                m.setBody(StringEscape.escapeText(requestDto.getReason()));
+                m.setBody(requestDto.getReason());
                 m.setCaseDetention(c);
                 m.setSender(userSender);
+                m.setTitle(requestType.getDescription() + ". Caso con carpeta de investigaci&oacute;n " + c.getIdFolder());
+                m.setIsObsolete(false);
                 List<RelMessageUserReceiver> listrmur = new ArrayList<>();
                 User managerEval = new User();
                 for (SelectList ur : usersReceiver) {
@@ -230,6 +234,7 @@ public class CaseRequestController {
                     RelMessageUserReceiver rmr = new RelMessageUserReceiver();
                     rmr.setUser(u);
                     rmr.setMessage(m);
+                    rmr.setIsObsolete(false);
                     listrmur.add(rmr);
                     managerEval = u;
                 }
@@ -261,7 +266,7 @@ public class CaseRequestController {
                 notif.setSubject("Se ha realizado una solicitud para el caso con carpeta de investigaci&oacute;n " + c.getIdFolder() + ".");
                 User uSender = userRepository.findOne(userService.GetLoggedUserId());
                 notif.setSenderUser(uSender);
-                notif.setMessage("El usuario " + uSender.getFullname() + " realiz&oacute; la solcitud: " + requestType.getDescription());
+                notif.setMessage("El usuario " + uSender.getFullname() + " realizó la solcitud: " + requestType.getDescription());
                 notif.setReceiveUser(managerEval);
 
                 logNotificationRepository.save(notif);
