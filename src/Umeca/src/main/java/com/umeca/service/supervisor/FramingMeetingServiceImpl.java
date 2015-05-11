@@ -1491,18 +1491,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 otherSourceRel.setFramingMeeting(existFraming);
                 existFraming.getSelectedSourcesRel().add(otherSourceRel);
                 otherSourceRel.setFramingReference(otherReference);
-                otherSourceRel = framingSelectedSourceRelRepository.save(otherSourceRel);
+                framingSelectedSourceRelRepository.save(otherSourceRel);
                 //para agregar la opcion otro al combo para las actividades
             }
 
+            Imputed i = existCase.getMeeting().getImputed();
+            FramingImputedPersonalData pD = existFraming.getPersonalData();
+            i.setName(pD.getName());
+            i.setLastNameP(pD.getLastNameP());
+            i.setLastNameM(pD.getLastNameM());
+            i.setBirthDate(pD.getBirthDate());
+            i.setFoneticString(sharedUserService.getFoneticByName(i.getName(), i.getLastNameP(), i.getLastNameM()));
+            imputedRepository.save(i);//se actualiza la informacion del imputado con la de la entrevista de encuadre;
 
-            //todo sustituir la info del meeting.imputed por la de framingMeetig.personalData
-//            i.setName(pD.getName());
-//            i.setLastNameP(pD.getLastNameP());
-//            i.setLastNameM(pD.getLastNameM());
-//            i.setBirthDate(pD.getBirthDate());
-            imputedRepository.save(i);
-            // todo
             caseRepository.save(existCase);
             framingMeetingLogRepository.save(getTerminateLog(idCase, existFraming));
 

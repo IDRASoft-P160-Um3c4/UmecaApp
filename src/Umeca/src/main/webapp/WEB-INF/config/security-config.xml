@@ -45,6 +45,8 @@
 
         <intercept-url pattern="/humanResources/**" access="hasRole('ROLE_HUMAN_RESOURCES')"/>
 
+        <intercept-url pattern="/detentionRecord/**" access="hasRole('ROLE_DETENTION_RECORD')"/>
+
         <intercept-url pattern="/shared/**"
                        access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR',
                        'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR', 'ROLE_HUMAN_RESOURCES', 'ROLE_CHANNELING_MANAGER')"/>

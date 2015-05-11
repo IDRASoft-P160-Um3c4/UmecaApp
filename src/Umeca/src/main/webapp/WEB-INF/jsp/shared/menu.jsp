@@ -436,6 +436,13 @@
                         </li>
                     </sec:authorize>
 
+                    <sec:authorize access="hasRole('ROLE_DETENTION_RECORD')">
+
+                        <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html'/>"><i
+                                class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a>
+                        </li>
+
+                    </sec:authorize>
                     <li class="light-blue">
                         <sec:authorize access="isAnonymous()">
                             <a href="#" ng-click="linkLogin()" ng-init="hasUser = false"><span

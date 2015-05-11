@@ -145,7 +145,10 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     ChannelingTypeRepository channelingTypeRepository;
 
 
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
+//    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
+
+    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
+
 //    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
 
     //para la maquina virtual donde se montara el war
