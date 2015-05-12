@@ -55,7 +55,7 @@ public class Detained {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user_prosecute")
-    private User user;
+    private User userProsecute;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_district")
@@ -176,11 +176,11 @@ public class Detained {
         this.timestampProsecute = timestampProsecute;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserProsecute() {
+        return userProsecute;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserProsecute(User userProsecute) {
+        this.userProsecute = userProsecute;
     }
 }

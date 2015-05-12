@@ -27,14 +27,14 @@
               <div class="col-xs-10 col-xs-offset-1">
                 <div class="panel panel-default panel-primary">
                   <div class="panel-heading">
-                    <span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;Finalizar proyecto
+                    <span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;Judicializar caso
                   </div>
                   <div class="panel-body">
                     <div class="row">
                       <div class="col-xs-12">
                         <div class="row">
                           <div class="col-xs-8 col-xs-offset-2 element-center">
-                            <strong>&iquest;Est&aacute; seguro que desea finalizar el proyecto ${projectName}?</strong>
+                            <strong>&iquest;Est&aacute; seguro que desea indicar la judicializaci&oacute;n del caso?</strong>
                           </div>
                         </div>
                         <br/>
@@ -58,7 +58,7 @@
             Cancelar
           </button>
           <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                  ng-click="submitProsecute('#FormUpId', '<c:url value='/detentionRecord/doProsecute.json' />')">
+                  ng-click="submitProsecute('#FormUpId', '<c:url value='/detentionRecord/doProsecute.json?id=${detainedId}'/>')">
             Aceptar
           </button>
         </div>

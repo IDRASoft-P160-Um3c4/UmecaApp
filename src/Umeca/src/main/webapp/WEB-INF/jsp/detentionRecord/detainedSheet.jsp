@@ -33,11 +33,6 @@
             var _1hourMil = 3600000;
             var _1minMil = 60000;
 
-            //
-
-            //milisegundos en 48 horas
-//            calcTerm(date[i], time[i], now[i], this,ids[i],isPro[i]);
-
             calcTerm = function (dateMil, timeMil, now, obj, id, prosecute) {
 
                 var totDue = "";
@@ -83,12 +78,12 @@
 
             };
 
-            if (showAction) {
-                alert("aa");
+            if (showProsecute) {
+                alert("Para pruebas la lista se refresca cada 10 segundos");
                 setInterval(function () {
                     $("#GridIdDetained").trigger("reloadGrid");
 //                }, 180000);
-                }, 5000);
+                }, 10000);
             }
 
             upsertDetained = function (id) {
@@ -225,7 +220,8 @@
                         calcTerm(date[i], time[i], now[i], this, ids[i], isPro[i]);
                         var cl = ids[i];
                         var be = "";
-                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Indicar judicializaci&oacute;n\" onclick=\"doProsecute('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                        if (isPro[i] == 'false')
+                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Indicar judicializaci&oacute;n\" onclick=\"doProsecute('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 }

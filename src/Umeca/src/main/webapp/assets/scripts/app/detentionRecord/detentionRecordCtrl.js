@@ -70,7 +70,7 @@ app.controller('detentionRecordController', function ($scope, $timeout, $sce, $r
 
         if ($scope[list] === undefined || $scope[list].length <= 0)
             return;
-        if ($scope[obj][model] === undefined || $scope[obj][model] === -1)
+        if ($scope[obj][model] === undefined)
             $scope[obj][prop] = $scope[list][0];
         else {
             for (var i = 0; i < $scope[list].length; i++) {
@@ -81,6 +81,21 @@ app.controller('detentionRecordController', function ($scope, $timeout, $sce, $r
                 }
             }
         }
+    };
+
+    $scope.submitProsecute = function(formId,urlToGo){
+        $scope.WaitFor = true;
+
+        $timeout(function () {
+            $.post(urlToGo)
+                .success(function (resp) {
+                    $scope.handleSuccessDetained(resp);
+                })
+                .error(function () {
+                    $scope.handleErrorDetained();
+                });
+        }, 1);
+
     };
 
     $scope.init = function () {
