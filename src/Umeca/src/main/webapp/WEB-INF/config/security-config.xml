@@ -26,6 +26,16 @@
         <intercept-url pattern="/supervisorManager/log/supervisionLog.html"
                        access="hasAnyRole('ROLE_SUPERVISOR_MANAGER','ROLE_SUPERVISOR')"/>
 
+
+        <intercept-url pattern="/detentionRecord/detainedSheet.html"
+                       access="hasAnyRole('ROLE_EVALUATION_MANAGER','ROLE_DETENTION_RECORD','ROLE_REVIEWER')"/>
+        <intercept-url pattern="/detentionRecord/detainedSheet/list.json"
+                       access="hasAnyRole('ROLE_EVALUATION_MANAGER','ROLE_DETENTION_RECORD','ROLE_REVIEWER')"/>
+        <intercept-url pattern="/detentionRecord/upsertProsecute.html"
+                       access="hasAnyRole('ROLE_EVALUATION_MANAGER','ROLE_DETENTION_RECORD','ROLE_REVIEWER')"/>
+        <intercept-url pattern="/detentionRecord/doProsecute.json"
+                       access="hasAnyRole('ROLE_EVALUATION_MANAGER','ROLE_DETENTION_RECORD','ROLE_REVIEWER')"/>
+
         <intercept-url pattern="/director/excelReport/**"
                        access="hasAnyRole('ROLE_EVALUATION_MANAGER','ROLE_SUPERVISOR_MANAGER','ROLE_DIRECTOR')"/>
 

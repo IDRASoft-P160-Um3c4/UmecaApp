@@ -36,33 +36,67 @@
             //
 
             //milisegundos en 48 horas
+//            calcTerm(date[i], time[i], now[i], this,ids[i],isPro[i]);
 
-            calcTerm = function (dateMil, timeMil, now, obj, be) {
+            calcTerm = function (dateMil, timeMil, now, obj, id, prosecute) {
 
-                var milNow = parseInt(now, 10);
-                var milDate = parseInt(dateMil, 10);
-                var milTime = parseInt(timeMil, 10);
+                var totDue = "";
+                var totLeft = "";
+                if (prosecute == 'false') {
+                    var milNow = parseInt(now, 10);
+                    var milDate = parseInt(dateMil, 10);
+                    var milTime = parseInt(timeMil, 10);
 
-                var lowLimit = milDate + milTime;
-                var upLimit = lowLimit + _48hrsMil;
+                    var dt = new Date(milTime);
+                    var dtA = new Date(milDate);
 
-                var leftMil = upLimit - milNow;
-                var dueMil = milNow - lowLimit;
+                    var lowDt = new Date(dtA.getFullYear(), dtA.getMonth(), dtA.getDate(), dt.getHours(), dt.getMinutes(), dt.getSeconds());
+                    var lowL = lowDt.getTime();
+                    var upL = lowL + _48hrsMil;
 
-                var aa = leftMil / _1hourMil;
-                var bb = dueMil / _1hourMil;
+                    if (milNow <= upL) {
 
-                alert(aa);
-                alert(bb);
+                        var dueMil = milNow - lowL;
+                        var hrsDue = Math.floor(dueMil / _1hourMil);
+                        var minDue = dueMil % _1hourMil;
+                        minDue = Math.floor(minDue / _1minMil);
+
+                        var leftMil = upL - milNow;
+                        var hrsLeft = Math.floor(leftMil / _1hourMil);
+                        var minLeft = leftMil % _1hourMil;
+                        minLeft = Math.floor(minLeft / _1minMil);
+
+                        totDue = hrsDue + " hrs. " + minDue + " min.";
+                        totLeft = hrsLeft + " hrs. " + minLeft + " min.";
+                    } else {
+                        totDue = "El plazo ha vencido.";
+                        totLeft = "El plazo ha vencido.";
+                    }
+                }
+                else {
+                    totDue = "Judicializado.";
+                    totLeft = "Judicializado.";
+                }
+
+                $(obj).jqGrid('setRowData', id, {dueTime: totDue});
+                $(obj).jqGrid('setRowData', id, {timeLeft: totLeft});
 
             };
 
-            refreshList = function () {
-//        $(jqGridToUse).trigger("reloadGrid");
-            };
+            if (showAction) {
+                alert("aa");
+                setInterval(function () {
+                    $("#GridIdDetained").trigger("reloadGrid");
+//                }, 180000);
+                }, 5000);
+            }
 
             upsertDetained = function (id) {
                 window.showUpsert(null, "#angJsjqGridIdDetained", "<c:url value='/detentionRecord/upsertDetention.html'/>", "#GridIdDetained");
+            };
+
+            doProsecute = function (id) {
+                window.showUpsert(id, "#angJsjqGridIdDetained", "<c:url value='/detentionRecord/upsertProsecute.html'/>", "#GridIdDetained");
             };
 
             jQuery("#GridIdDetained").jqGrid({
@@ -70,10 +104,11 @@
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'nowL', 'initDateL', 'initTimeL', 'Imputado', 'Carpeta de <br/> Investigaci&oacute;n', 'Fecha inicio', 'Hora inicio', 'Unidad de <br/>Investigaci&oacute;n',
+                colNames: ['ID', 'isProsecute', 'nowL', 'initDateL', 'initTimeL', 'Imputado', 'Carpeta de <br/> Investigaci&oacute;n', 'Fecha inicio', 'Hora inicio', 'Unidad de <br/>Investigaci&oacute;n',
                     'Presentado por', 'Distrito', 'T&eacute;rmino', 'Tiempo para <br/> cumplir t&eacute;rmino', 'Judicializado', 'Accion'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
+                    {name: 'isProsecute', index: 'isProsecute', hidden: true},
                     {name: 'nowL', index: 'nowL', hidden: true},
                     {name: 'initDateL', index: 'initDateL', hidden: true},
                     {name: 'initTimeL', index: 'initTimeL', hidden: true},
@@ -134,14 +169,6 @@
                         search: false
                     },
                     {
-                        name: 'timeLeft',
-                        index: 'timeLeft',
-                        width: 100,
-                        align: "center",
-                        sortable: false,
-                        search: false
-                    },
-                    {
                         name: 'dueTime',
                         index: 'dueTime',
                         width: 120,
@@ -149,6 +176,15 @@
                         sortable: false,
                         search: false
                     },
+                    {
+                        name: 'timeLeft',
+                        index: 'timeLeft',
+                        width: 100,
+                        align: "center",
+                        sortable: false,
+                        search: false
+                    },
+
                     {
                         name: 'prosecute',
                         index: 'prosecute',
@@ -174,7 +210,7 @@
                 height: 350,
                 viewrecords: true,
                 shrinkToFit: false,
-                sortorder: "asc",
+                sortorder: "desc",
                 caption: "&nbsp;",
                 altRows: true,
                 gridComplete: function () {
@@ -183,32 +219,14 @@
                     var date = $(this).jqGrid('getCol', 'initDateL', false);
                     var time = $(this).jqGrid('getCol', 'initTimeL', false);
                     var now = $(this).jqGrid('getCol', 'nowL', false);
+                    var isPro = $(this).jqGrid('getCol', 'isProsecute', false);
 
                     for (var i = 0; i < ids.length; i++) {
-
-                        calcTerm(date[i], time[i], now[i]);
-
+                        calcTerm(date[i], time[i], now[i], this, ids[i], isPro[i]);
                         var cl = ids[i];
                         var be = "";
-//                        if (finished[i] == 'false') {
-//                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar acuerdo\" onclick=\"window.upsertAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-//                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar observaci&oacute;n\" onclick=\"upsertObservation('" + cl + "');\"><span class=\"glyphicon glyphicon-comment\"></span></a>";
-//                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar archivo al acuerdo\" onclick=\"upsertAgreementFile('" + cl + "');\"><span class=\"glyphicon glyphicon-upload\"></span></a>";
-//                            if (isRH == 'true') {
-//                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar concluir acuerdo\" onclick=\"showFinishRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
-//                                if (stCode[i] === 'FINISHED_AGREEMENT' || stCode[i] === 'FINISH_REJECT')
-//                                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver respuesta de solicitud de conclusi&oacute;n\" onclick=\"showResponseRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-//                            }
-//
-//                            if (isDir == 'true') {
-//                                if (stCode[i] === 'PENDENT_FINISH_REQUEST')
-//                                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar/Rechazar concluir acuerdo\" onclick=\"autRejFinishRequestAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
-//                            }
-//                        }
-
-//                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Historial de observaciones\" onclick=\"showObsHistory('" + cl + "');\"><span class=\"glyphicon glyphicon-dashboard\"></span></a>";
-//                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivos del acuerdo\" onclick=\"downloadAgreementFiles('" + cl + "');\"><span class=\"glyphicon glyphicon-download\"></span></a>";
-//                        $(this).jqGrid('setRowData', ids[i], {Action: be});
+                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Indicar judicializaci&oacute;n\" onclick=\"doProsecute('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 }
                 ,
@@ -223,7 +241,7 @@
 
             jQuery("#GridIdDetained").jqGrid('navGrid', '#GridPager', {
                 edit: false,
-                add: true, addfunc: upsertDetained, addicon: 'icon-plus-sign purple',
+                add: !showAction, addfunc: upsertDetained, addicon: 'icon-plus-sign purple',
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
                 search: false

@@ -15,10 +15,7 @@ import com.umeca.service.detentionRecord.DetentionRecordService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
@@ -102,7 +99,7 @@ public class DetentionRecordController {
     }
 
     @RequestMapping(value = "/detentionRecord/upsertDetention", method = RequestMethod.POST)
-    public ModelAndView upsertEmployee() {
+    public ModelAndView upsertDetention() {
         ModelAndView model = new ModelAndView("/detentionRecord/upsert");
         model.addObject("lstDistrict", new Gson().toJson(districtRepository.findNoObsolete()));
         return model;
@@ -118,6 +115,31 @@ public class DetentionRecordController {
             response = detentionRecordService.saveDetained(dto);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertDetained", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/detentionRecord/upsertProsecute", method = RequestMethod.POST)
+    public ModelAndView upsertProsecute(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/detentionRecord/prosecute");
+        model.addObject("detainedId", id);
+        return model;
+    }
+
+
+    @RequestMapping(value = "/detentionRecord/doProsecute", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doProsecute(@RequestParam Long id) {
+
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = detentionRecordService.doProsecute(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doProsecute", sharedUserService);
             response.setHasError(true);
             response.setMessage("Ha ocurrido un error, intente nuevamente.");
         } finally {

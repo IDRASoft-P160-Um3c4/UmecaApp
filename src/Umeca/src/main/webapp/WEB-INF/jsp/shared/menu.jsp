@@ -88,6 +88,8 @@
                         </li>
                         <li class="nav-li-blue"><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i
                                 class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a coordinador</a></li>
+                        <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html' />"><i
+                                class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
 
@@ -231,6 +233,8 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html' />"><i
+                                class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
