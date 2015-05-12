@@ -1,10 +1,13 @@
 package com.umeca.model.dto.detentionRecord;
 
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DetainedDto {
+public class DetainedDto implements EntityGrid {
 
     private Long id;
     private String initDateStr;
@@ -25,24 +28,44 @@ public class DetainedDto {
     private String district;
     private Long districtId;
     private Boolean isProsecute;
+    private String prosecute;
+    private Long nowL;
 
     public DetainedDto() {
     }
 
     //grid
-    public DetainedDto(Long id, Calendar registerTimestamp,String name, String lastNameP, String lastNameM, Date initDate, Date initTime,
-                       String idFolder, String age, String investigationUnit, String crime, String district) {
+    public DetainedDto(Long id, Calendar registerTimestamp, String name, String lastNameP, String lastNameM, Date initDate, Date initTime,
+                       String idFolder, String age, String investigationUnit, String crime, String district, Boolean isProsecute) {
+        SimpleDateFormat fDate = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat fTime = new SimpleDateFormat("HH:mm:ss");
+
         this.id = id;
-//        this.initDateStr = initDateStr;
-//        this.initDate = initDate;
-//        this.initTim1eStr = initTimeStr;
-//        this.initTime = initTime;
+
+        if (initDate != null) {
+            this.initDateStr = fDate.format(initDate);
+            this.initDateL = initDate.getTime();
+            this.initDate = initDate;
+        }
+
+        if (initTime != null) {
+            this.initTime = new Time(initTime.getTime());
+            this.initTimeStr = fTime.format(initTime);
+            this.initTimeL = initTime.getTime();
+        }
+
         this.fullName = name + " " + lastNameP + " " + lastNameM;
-//        this.idFolder = idFolder;
-//        this.age = age;
-//        this.investigationUnit = investigationUnit;
-//        this.crime = crime;
-//        this.district = district;
+        this.idFolder = idFolder;
+        this.age = age;
+        this.investigationUnit = investigationUnit;
+        this.crime = crime;
+        this.district = district;
+        this.isProsecute = isProsecute;
+        if (this.isProsecute != null && this.isProsecute == true)
+            this.prosecute = "Si";
+        else
+            this.prosecute = "No";
+        this.nowL = new Date().getTime();
     }
 
     public Long getId() {
@@ -195,5 +218,21 @@ public class DetainedDto {
 
     public void setIsProsecute(Boolean isProsecute) {
         this.isProsecute = isProsecute;
+    }
+
+    public String getProsecute() {
+        return prosecute;
+    }
+
+    public void setProsecute(String prosecute) {
+        this.prosecute = prosecute;
+    }
+
+    public Long getNowL() {
+        return nowL;
+    }
+
+    public void setNowL(Long nowL) {
+        this.nowL = nowL;
     }
 }

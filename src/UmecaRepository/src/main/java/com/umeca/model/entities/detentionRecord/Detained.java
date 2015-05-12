@@ -1,6 +1,7 @@
 package com.umeca.model.entities.detentionRecord;
 
 import com.umeca.model.catalog.District;
+import com.umeca.model.entities.account.User;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -8,49 +9,56 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-@Table(name="detained")
+@Table(name = "detained")
 public class Detained {
 
     @Id
     @GeneratedValue
-    @Column(name="id_detained")
+    @Column(name = "id_detained")
     private Long id;
 
-    @Column(name="name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name="last_name_p")
+    @Column(name = "last_name_p")
     private String lastNameP;
 
-    @Column(name="last_name_m")
+    @Column(name = "last_name_m")
     private String lastNameM;
 
-    @Column(name="id_folder")
+    @Column(name = "id_folder")
     private String idFolder;
 
-    @Column(name="age")
+    @Column(name = "age")
     private String age;
 
-    @Column(name="register_timestamp", nullable = false)
+    @Column(name = "register_timestamp", nullable = false)
     private Calendar registerTimestamp;
 
-    @Column(name="init_date", nullable = false)
+    @Column(name = "init_date", nullable = false)
     private Date initDate;
 
-    @Column(name="init_time", nullable = false)
+    @Column(name = "init_time", nullable = false)
     private Time initTime;
 
-    @Column(name="investigation_unit",length = 500)
+    @Column(name = "investigation_unit", length = 500)
     private String investigationUnit;
 
-    @Column(name="crime",length = 500)
+    @Column(name = "crime", length = 500)
     private String crime;
 
-    @Column(name="is_prosecute",nullable = false)
+    @Column(name = "is_prosecute", nullable = false)
     private Boolean isProsecute;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name="id_district")
+    @Column(name = "timestamp_prosecute")
+    private Calendar timestampProsecute;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user_prosecute")
+    private User user;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_district")
     private District district;
 
     public Detained() {
@@ -158,5 +166,21 @@ public class Detained {
 
     public void setIsProsecute(Boolean isProsecute) {
         this.isProsecute = isProsecute;
+    }
+
+    public Calendar getTimestampProsecute() {
+        return timestampProsecute;
+    }
+
+    public void setTimestampProsecute(Calendar timestampProsecute) {
+        this.timestampProsecute = timestampProsecute;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

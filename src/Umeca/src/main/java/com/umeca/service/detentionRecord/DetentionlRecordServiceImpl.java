@@ -48,4 +48,17 @@ public class DetentionlRecordServiceImpl implements DetentionRecordService{
         resp.setMessage("La información ha sido guardada con éxito.");
         return resp;
     }
+
+    @Transactional
+    @Override
+    public ResponseMessage doProsecute(Long id){
+        ResponseMessage resp;
+        Detained d = detainedRepository.findOne(id);
+        d.setIsProsecute(true);
+        detainedRepository.save(d);
+        resp = new ResponseMessage();
+        resp.setHasError(false);
+        resp.setMessage("La información ha sido guardada con éxito.");
+        return resp;
+    }
 }

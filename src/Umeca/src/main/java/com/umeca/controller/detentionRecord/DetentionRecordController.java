@@ -8,6 +8,7 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.detentionRecord.DetainedDto;
 import com.umeca.model.entities.detentionRecord.Detained;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.detentionRecord.DetentionRecordService;
@@ -41,8 +42,23 @@ public class DetentionRecordController {
     private DistrictRepository districtRepository;
 
     @RequestMapping(value = "/detentionRecord/detainedSheet", method = RequestMethod.GET)
-    public String index() {
-        return "/detentionRecord/detainedSheet";
+    public ModelAndView index() {
+        ModelAndView model = new ModelAndView("/detentionRecord/detainedSheet");
+
+        List<String> roles = sharedUserService.getLstRolesByUserId(sharedUserService.GetLoggedUserId());
+
+        Boolean showAction = false;
+        Boolean showProsecute = false;
+
+        if (roles.contains(Constants.ROLE_EVALUATION_MANAGER))
+            showAction = true;
+
+        if (roles.contains(Constants.ROLE_EVALUATION_MANAGER) || roles.contains(Constants.ROLE_REVIEWER))
+            showProsecute = true;
+
+        model.addObject("showAction", showAction);
+        model.addObject("showProsecute", showProsecute);
+        return model;
     }
 
     @RequestMapping(value = "/detentionRecord/detainedSheet/list", method = RequestMethod.POST)
@@ -68,6 +84,7 @@ public class DetentionRecordController {
                     add(r.get("investigationUnit"));
                     add(r.get("crime"));
                     add(r.join("district").get("name").alias("districtName"));
+                    add(r.get("isProsecute"));
                 }};
             }
 

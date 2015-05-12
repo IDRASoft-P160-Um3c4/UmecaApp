@@ -8,4 +8,6 @@ import com.umeca.model.dto.detentionRecord.DetainedDto;
  */
 public interface DetentionRecordService {
     ResponseMessage saveDetained(DetainedDto dto);
+
+    ResponseMessage doProsecute(Long id);
 }
