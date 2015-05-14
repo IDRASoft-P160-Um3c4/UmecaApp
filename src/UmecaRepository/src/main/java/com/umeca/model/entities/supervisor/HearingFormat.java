@@ -370,4 +370,5 @@ public class HearingFormat {
     public void setShowNotification(Boolean showNotification) {
         this.showNotification = showNotification;
     }
+
 }
