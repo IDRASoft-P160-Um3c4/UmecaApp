@@ -163,6 +163,9 @@ public class HearingFormat {
         this.room = room;
     }
 
+
+
+
     public Date getAppointmentDate() {
         return appointmentDate;
     }
