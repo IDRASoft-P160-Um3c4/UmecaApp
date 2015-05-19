@@ -6,14 +6,13 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.supervisor.Channeling;
-import com.umeca.model.entities.supervisor.ChannelingModel;
-import com.umeca.model.entities.supervisor.ChannelingNotification;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.model.shared.SelectOptsList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.*;
+import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.ChannelingRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.shared.MessageService;
@@ -63,6 +62,9 @@ public class ChannelingServiceImpl implements ChannelingService {
 
     @Autowired
     ChannelingTypeRepository channelingTypeRepository;
+
+    @Autowired
+    ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
 
     @Autowired
     MessageService messageService;
@@ -126,8 +128,6 @@ public class ChannelingServiceImpl implements ChannelingService {
                 return;
             }
 
-            ///TODO Validar si no existe una actividad en el plan de monitoreo que tenga una canalización asignada
-
             model.setUpdaterUser(user);
             model.setLastUpdateDate(Calendar.getInstance());
             fillByChannelingType(model, modelNew, response);
@@ -156,6 +156,13 @@ public class ChannelingServiceImpl implements ChannelingService {
             return;
 
         ///TODO Validar si no existe una actividad en el plan de monitoreo que tenga una canalización asignada
+        Long count = activityMonitoringPlanRepository.countInChanneling(channelingId);
+
+        if(count > 0){
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar este registro, ya que se encuentra en uso");
+        }
+
 
         Channeling model = channelingRepository.findOne(channelingId);
 
@@ -165,6 +172,11 @@ public class ChannelingServiceImpl implements ChannelingService {
         channelingRepository.save(model);
 
         response.setHasError(false);
+    }
+
+    @Override
+    public ChannelingModelSheet getChannelingSheetById(Long id) {
+        return channelingRepository.getChannelingSheetById(id);
     }
 
     private boolean canSetInstitutionType(Channeling model, final ChannelingModel modelNew, ResponseMessage response) {

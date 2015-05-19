@@ -21,6 +21,11 @@
             window.showObsoleteParams({id: id, channelingId: channelingId}, "#angJsjqGridId", '<c:url value='/supervisor/channeling/doObsolete.json' />', gridId);
         };
 
+        window.printSheet = function (channelingId) {
+            var goTo = "<c:url value='/supervisor/channeling/printSheet.html'/>" + "?id=" + channelingId;
+            window.goToUrlMvcUrl(goTo);
+        };
+
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisor/channeling/list.json' />',
@@ -101,6 +106,7 @@
                             for (var i = 0; i < ids.length; i++) {
                                 var cl = ids[i];
                                 var be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar/consultar canalizaci&oacute;n\" onclick=\"window.upsert('" + row_id + "', '" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar oficio\" onclick=\"window.printSheet('" + cl + "');\"><span class=\"glyphicon glyphicon-download\"></span></a>";
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar canalizaci&oacute;n\" onclick=\"window.obsolete('" + row_id + "', '" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
                                 $(this).jqGrid('setRowData', ids[i], { Action: be });
                             }

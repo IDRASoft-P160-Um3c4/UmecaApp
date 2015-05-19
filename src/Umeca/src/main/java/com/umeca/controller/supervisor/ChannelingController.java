@@ -17,6 +17,7 @@ import com.umeca.model.entities.director.project.ProjectActivityModel;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.service.account.SharedUserService;
@@ -31,6 +32,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -214,5 +216,26 @@ public class ChannelingController {
             return response;
         }
     }
+
+    @RequestMapping(value = "/supervisor/channeling/printSheet", method = RequestMethod.GET)
+    public ModelAndView printSheet(@RequestParam(required = true) Long id, HttpServletResponse response) {
+
+        ChannelingModelSheet sheetInfo = channelingService.getChannelingSheetById(id);
+
+        if(sheetInfo == null){
+            ModelAndView model = new ModelAndView("/supervisor/channeling/notSheet");
+            response.setContentType("application/force-download");
+            response.setHeader("Content-Disposition", "attachment; filename=\"oficio-canalización.doc\"");
+            return model;
+        }
+
+        ModelAndView model = new ModelAndView("/supervisor/channeling/printSheet");
+        model.addObject("data", sheetInfo);
+        response.setContentType("application/force-download");
+        response.setHeader("Content-Disposition", "attachment; filename=\"oficio-canalización-" +
+                sheetInfo.getIdMP() + "-" + sheetInfo.getConsecutiveTx() + ".doc\"");
+        return model;
+    }
+
 
 }

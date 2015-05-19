@@ -54,7 +54,7 @@
 
         <property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true"/>
         <property name="username" value="root"/>
-        <property name="password" value="admin"/>
+        <property name="password" value="s@lp@ssw04rD$$"/>
 
     </bean>
 </beans>

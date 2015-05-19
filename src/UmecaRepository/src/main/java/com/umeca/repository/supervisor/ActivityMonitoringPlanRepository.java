@@ -171,6 +171,10 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa " +
             "INNER JOIN aa.arrangement arr WHERE amp.id =:activityId")
     List<ActivityMonitoringPlanArrangementLog> getListActMonPlanArrangementByActivityIdToShow(@Param("activityId")Long activityId);
+
+    @Query("SELECT COUNT(amp.id) FROM ActivityMonitoringPlan amp " +
+            "WHERE amp.channeling.id = :channelingId")
+    Long countInChanneling(@Param("channelingId")Long channelingId);
 }
 
 

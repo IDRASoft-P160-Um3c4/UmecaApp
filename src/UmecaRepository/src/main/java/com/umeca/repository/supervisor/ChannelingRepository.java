@@ -1,9 +1,7 @@
 package com.umeca.repository.supervisor;
 
-import com.umeca.model.entities.supervisor.Channeling;
-import com.umeca.model.entities.supervisor.ChannelingCaseView;
-import com.umeca.model.entities.supervisor.ChannelingModel;
-import com.umeca.model.entities.supervisor.ChannelingNotification;
+import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.SelectList;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +20,6 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
             "INNER JOIN c.framingMeeting.supervisor s " +
             "WHERE c.id =:caseId ")
     ChannelingModel getChannelingCaseViewByCaseId(@Param("caseId") Long id);
-
 
     @Query("SELECT C.consecutive FROM Channeling C " +
             "INNER JOIN C.caseDetention CD " +
@@ -47,4 +44,20 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
             "INNER JOIN cd.meeting.imputed i "  +
             "WHERE c.id =:channelingId")
     ChannelingNotification getNotificationInfo(@Param("channelingId")Long id);
+
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(c.id, c.name, c.channelingType.name) " +
+            "FROM Channeling AS c " +
+            "WHERE c.caseDetention.id = :caseId")
+    List<SelectList> findValidByCaseId(@Param("caseId") Long caseId);
+
+    @Query("SELECT NEW com.umeca.model.entities.supervisor.ChannelingModelSheet(cd.idMP, i.name, i.lastNameP, i.lastNameM, " +
+            "i.birthDate, i.gender, i.celPhone, ct.name, c.name, it.name, c.institutionName, c.consecutive) " +
+            "FROM Channeling c " +
+            "INNER JOIN c.caseDetention cd " +
+            "INNER JOIN cd.meeting.imputed i " +
+            "INNER JOIN c.channelingType ct " +
+            "INNER JOIN c.institutionType it " +
+            "WHERE c.id = :id")
+    ChannelingModelSheet getChannelingSheetById(@Param("id")Long id);
 }

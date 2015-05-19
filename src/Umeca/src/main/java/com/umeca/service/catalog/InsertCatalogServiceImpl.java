@@ -145,7 +145,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     ChannelingTypeRepository channelingTypeRepository;
 
 
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\branchSandra\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
@@ -325,7 +325,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void supervisionActivity() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "supervision_activity.txt", "\\|", 5);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "supervision_activity.txt", "\\|", 6);
         for (String[] data : lstDta) {
             SupervisionActivity model = new SupervisionActivity();
             model.setId(Long.parseLong(data[0]));
@@ -333,6 +333,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setDescription(data[2]);
             model.setIsObsolete(Boolean.parseBoolean(data[3]));
             model.setSpecification(data[4].equals("1"));
+            model.setCode(data[5]);
             supervisionActivityRepository.save(model);
         }
         supervisionActivityRepository.flush();

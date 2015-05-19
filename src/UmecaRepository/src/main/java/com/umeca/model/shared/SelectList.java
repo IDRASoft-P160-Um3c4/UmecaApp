@@ -12,6 +12,7 @@ public class SelectList implements EntityGrid{
     private Calendar calendar;
     private String name;
     private String description;
+    private String code;
     private Long aux;
     private Boolean lock;
     private Boolean specification;
@@ -54,6 +55,14 @@ public class SelectList implements EntityGrid{
         this.description = secDescription;
     }
 
+    public SelectList(Long id, String name, Boolean specification, String code, Long aux) {
+        this.id = id;
+        this.name = name;
+        this.specification = specification;
+        this.code = code;
+        this.aux = aux;
+    }
+
     public SelectList(Long id, String arrangement, String description, Integer typeArrangement) {
         this.id = id;
         this.description = description;
@@ -70,6 +79,13 @@ public class SelectList implements EntityGrid{
         this.id = id;
         this.name = name;
         this.description = description;
+        this.aux = aux;
+    }
+
+    public SelectList(Long id, String name, boolean specification, Long aux) {
+        this.id = id;
+        this.name = name;
+        this.specification = specification;
         this.aux = aux;
     }
 
@@ -237,5 +253,13 @@ public class SelectList implements EntityGrid{
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

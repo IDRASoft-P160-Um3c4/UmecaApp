@@ -124,6 +124,10 @@ public class ActivityMonitoringPlan {
     @Column(name = "source_spec")
     private String sourceSpec;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_channeling", nullable = true)
+    private Channeling channeling;
+
     public Long getId() {
         return id;
     }
@@ -354,5 +358,29 @@ public class ActivityMonitoringPlan {
 
     public void setSourceSpec(String sourceSpec) {
         this.sourceSpec = sourceSpec;
+    }
+
+    public Channeling getChanneling() {
+        return channeling;
+    }
+
+    public void setChanneling(Channeling channeling) {
+        this.channeling = channeling;
+    }
+
+    public Boolean getIsReplaced() {
+        return isReplaced;
+    }
+
+    public void setIsReplaced(Boolean isReplaced) {
+        this.isReplaced = isReplaced;
+    }
+
+    public Boolean getIsPreAuthorizeMode() {
+        return isPreAuthorizeMode;
+    }
+
+    public void setIsPreAuthorizeMode(Boolean isPreAuthorizeMode) {
+        this.isPreAuthorizeMode = isPreAuthorizeMode;
     }
 }

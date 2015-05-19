@@ -307,6 +307,12 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
         supervisionActivity.setId(dto.getActivityMonId());
         activityMonitoringPlan.setSupervisionActivity(supervisionActivity);
 
+        final Long channelingId = dto.getChannelingId();
+        if(channelingId != null){
+            Channeling channeling = new Channeling(){{setId(channelingId);}};
+            activityMonitoringPlan.setChanneling(channeling);
+        }
+
         Calendar cal = dto.getEndCalendar();
         activityMonitoringPlan.setEnd(cal);
         activityMonitoringPlan.setSearchEnd((cal.get(Calendar.YEAR) * 100) + (cal.get(Calendar.MONTH) + 1));

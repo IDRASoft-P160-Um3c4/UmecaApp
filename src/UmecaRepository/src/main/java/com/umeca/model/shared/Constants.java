@@ -39,6 +39,7 @@ public class Constants {
     public static final Integer ACT_REPORT_FOR_NOBODY = 0;
     public static final String FILE_PREFIX_USER = "USR_";
     public static final String FILE_PREFIX_PHOTO_EMPLOYEE = "PHOTO_EMPLOYEE_";
+    public static final String CHANNELING_SUPERVISION_ACTIVITY_CODE = "ACCA";
 
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
