@@ -29,7 +29,7 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-                <entry key="hibernate.hbm2ddl.auto" value="none"/>
+                <entry key="hibernate.hbm2ddl.auto" value="update"/>
                 <entry key="hibernate.format_sql" value="none"/>
             </map>
         </property>
@@ -46,7 +46,8 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/umecaBase?autoReconnect=true"/>
         <property name="username" value="root"/>
-        <property name="password" value="Admin123@.."/>
+        <!--<property name="password" value="Admin123@.."/>-->
+        <property name="password" value="1dr4s0ft123.."/>
     </bean>
     <!--CONNECTION STRING-->
 

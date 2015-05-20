@@ -115,7 +115,7 @@
                                        ng-checked='lstSelectedSources.indexOf(source.id)>=0'
                                        ng-disabled='findDependentSource(source.id) == true;'
                                        ng-click="selectSource(source.id);"
-                                       class="ace" type="checkbox"
+                                       class="ace" type="checkbox">
                                 <span class="lbl">&nbsp;&nbsp;{{source.description}}</span>
                             </label>
                         </div>
@@ -173,7 +173,7 @@
                                        ng-click="selectRisk(risk.id);"
                                        ng-checked='lstSelectedRisk.indexOf(risk.id)>=0'
                                        class="ace"
-                                       type="checkbox"
+                                       type="checkbox">
                                 <span class="lbl">&nbsp;&nbsp;{{risk.description}}</span>
                             </label>
                         </div>
@@ -206,7 +206,7 @@
                                        ng-click="selectThreat(threat.id);"
                                        ng-checked='lstSelectedThreat.indexOf(threat.id)>=0'
                                        class="ace"
-                                       type="checkbox"
+                                       type="checkbox">
                                 <span class="lbl">&nbsp;&nbsp;{{threat.description}}</span>
                             </label>
                         </div>

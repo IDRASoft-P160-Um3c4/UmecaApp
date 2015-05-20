@@ -7,7 +7,7 @@ package com.umeca.service.catalog;
  * Time: 4:26 PM
  */
 public interface InsertCatalogService {
-/*
+
     void role();
     void user();
     void statusMeeting();
@@ -47,5 +47,5 @@ public interface InsertCatalogService {
     void crime();
     void typeFileName();
     void immigrationDocument();
-*/
+
 }

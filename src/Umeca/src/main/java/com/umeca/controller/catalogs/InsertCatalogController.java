@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class InsertCatalogController {
 
-    /*@Autowired
+    @Autowired
     InsertCatalogService service;
 
     @RequestMapping(value = "/catalogs/insertRole", method = RequestMethod.GET)
@@ -298,5 +298,5 @@ public class InsertCatalogController {
         service.immigrationDocument();
         return "insertCatalog OK!!";
     }
-*/
+
 }

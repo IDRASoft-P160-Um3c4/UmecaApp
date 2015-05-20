@@ -32,9 +32,11 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
-/*
+
     //ruta de catalogos
-    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+//    private String PATH = "C:\\Users\\rolnd_000\\Desktop\\repoUMECA\\UmecaApp\\db\\";
+
+    private String PATH = "C:\\Users\\idrasoft\\Desktop\\catalogs_anel\\db\\";
 
     @Autowired
     RoleRepository repositoryRole;
@@ -807,5 +809,5 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         }
         hearingTypeRepository.flush();
     }
-*/
+
 }

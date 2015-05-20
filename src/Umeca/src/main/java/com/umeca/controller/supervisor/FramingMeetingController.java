@@ -185,8 +185,8 @@ public class FramingMeetingController {
 
         Case caseDet = caseRepository.findOne(id);
 
-        String[] propsArr = new String[]{"idFolder","meeting.imputed.name","meeting.imputed.lastNameP","meeting.imputed.lastNameM"};
-        caseDet = (Case)StringEscape.escapeAttrs(caseDet,propsArr);
+//        String[] propsArr = new String[]{"idFolder","meeting.imputed.name","meeting.imputed.lastNameP","meeting.imputed.lastNameM"};
+//        caseDet = (Case)StringEscape.escapeAttrs(caseDet,propsArr);
 
         model.addObject("idFolder", caseDet.getIdFolder());
         Imputed i = caseDet.getMeeting().getImputed();
