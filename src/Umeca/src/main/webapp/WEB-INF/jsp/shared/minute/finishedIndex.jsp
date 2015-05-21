@@ -20,10 +20,11 @@
                 window.goToUrlMvcUrl(url);
             };
 
-            downloadMinute = function (id) {
-                <%--var url = "<c:url value='/shared/minute/upsertMinute.html?id='/>" + id;--%>
-                <%--window.goToUrlMvcUrl(url);--%>
-                alert("Funcionalidad en desarrollo.")
+            summaryMinute = function (id) {
+                if (isRH == true || isDir == true) {
+                    var url = "<c:url value='/shared/minute/summaryMinute.html?id='/>" + id;
+                    window.goToUrlMvcUrl(url);
+                }
             };
 
             jQuery("#GridMinuteId").jqGrid({
@@ -92,7 +93,7 @@
                         var cl = ids[i];
                         var be = "";
                         be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar minuta\" onclick=\"editMinute(" + cl + ");\"><span class=\"glyphicon glyphicon-search\"></span></a>";
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de minuta\" onclick=\"downloadMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de minuta\" onclick=\"summaryMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
