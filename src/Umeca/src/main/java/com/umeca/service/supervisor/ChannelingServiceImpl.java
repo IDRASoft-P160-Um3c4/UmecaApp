@@ -136,7 +136,7 @@ public class ChannelingServiceImpl implements ChannelingService {
 
         channelingRepository.save(model);
         channelingTypeRepository.flush();
-        ChannelingNotification notificationInfo = channelingRepository.getNotificationInfo(model.getId());
+        ChannelingNotification notificationInfo = channelingRepository.getNotificationInfoWithUser(model.getId());
 
         messageService.sendNotificationToRole(modelNew.getCaseId(),
                 String.format("<strong>Descripción:</strong> Se registró una canalización de tipo <strong>\"%s\"</strong><br/>" +

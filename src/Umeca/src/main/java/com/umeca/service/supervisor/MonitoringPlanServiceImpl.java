@@ -14,16 +14,10 @@ import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.RequestTypeRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.shared.MessageRepository;
-import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
-import com.umeca.repository.supervisor.HearingFormatRepository;
-import com.umeca.repository.supervisor.LogChangeDataRepository;
-import com.umeca.repository.supervisor.MonitoringPlanRepository;
+import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
-import com.umeca.service.shared.CaseRequestService;
-import com.umeca.service.shared.SharedLogCommentService;
-import com.umeca.service.shared.SharedLogExceptionService;
-import com.umeca.service.shared.SystemSettingService;
+import com.umeca.service.shared.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -71,7 +65,6 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
         if (ValidatePlanMonitoring(monitoringPlan, monitoringPlanRepository, fullModel, response) == false)
             return false;
 
-
         //First set status to delete for all activities
         List<Long> lstActivitiesDel = fullModel.getLstActivitiesDel();
         for (Long id : lstActivitiesDel) {
@@ -96,11 +89,11 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
                 if (dto.getActivityId() > 0) {
                     //Si está en modo autorizado, se agrega uno nuevo para, en caso de no ser aceptado se toma la actividad anterior
                     if (fullModel.isInAuthorizeReady())
-                        create(dto, actMpRepository, user, fullModel, lstArrangementSelected, groupUid, true);
+                        create(dto, actMpRepository, user, fullModel, lstArrangementSelected, groupUid, true, sharedUserService);
                     else
                         update(dto, actMpRepository, user, fullModel, lstArrangementSelected, null);
                 } else {
-                    create(dto, actMpRepository, user, fullModel, lstArrangementSelected, groupUid, false);
+                    create(dto, actMpRepository, user, fullModel, lstArrangementSelected, groupUid, false, sharedUserService);
                 }
             } catch (Exception ex) {
                 logException.Write(ex, this.getClass(), "doUpsertDelete", user.getUsername());
@@ -121,7 +114,6 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
                 logException.Write(ex, this.getClass(), "doUpsertDelete", user.getUsername());
             }
         }
-
         actMpRepository.flush();
         return true;
     }
@@ -177,7 +169,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
     }
 
     private void create(ActivityMonitoringPlanDto dto, ActivityMonitoringPlanRepository actMpRepository, User user, ActivityMonitoringPlanRequest fullModel,
-                        List<SelectList> lstArrangementSelected, String groupUid, boolean bIsAuthUpdate) {
+                        List<SelectList> lstArrangementSelected, String groupUid, boolean bIsAuthUpdate, SharedUserService sharedUserService) {
         ActivityMonitoringPlan activityMonitoringPlan = new ActivityMonitoringPlan();
 
         if (bIsAuthUpdate) {
@@ -214,6 +206,82 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
 
         } else {
             fullModel.incActsIns();
+        }
+        SendChannelingNotification(dto, user, sharedUserService);
+
+    }
+
+    @Autowired
+    ChannelingRepository channelingRepository;
+
+    @Autowired
+    MessageService messageService;
+
+    private void SendChannelingNotification(ActivityMonitoringPlanDto dto, User user, SharedUserService sharedUserService) {
+        //Enviar notificaciones en caso de canalizaciones
+        Long channelingId = dto.getChannelingId();
+
+        if(channelingId == null)
+            return;
+
+        Long goalId = dto.getGoalId();
+        if(goalId == null)
+            return;
+
+        ChannelingNotification notificationInfo = channelingRepository.getNotificationInfo(channelingId);
+
+        switch (goalId.intValue()){
+            case Constants.CHANNELING_NOTIFICATION_GOAL_FIRST_DATE:
+                messageService.sendNotificationToRole(dto.getCaseId(),
+                        String.format("<strong>Descripción:</strong> Se registró la primer cita de canalización del tipo <strong>\"%s\"</strong><br/>" +
+                                        "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong><br/>" +
+                                        "Fecha de la cita: <strong>%s a las %s.</strong>",
+                                notificationInfo.getChannelingType(), notificationInfo.getImputed(), notificationInfo.getIdMp(),
+                                sharedUserService.getFullNameById(user.getId()),
+                                CalendarExt.calendarToFormatString(dto.getStartCalendar(), Constants.FORMAT_CALENDAR_I),
+                                CalendarExt.calendarToFormatString(dto.getEndCalendar(), Constants.FORMAT_TIME_I)),
+                        new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);}},
+                        Constants.CHANNELING_FIRST_DATE_NOTIFICATION_TITLE);
+                break;
+            case Constants.CHANNELING_NOTIFICATION_GOAL_TRACK:
+                messageService.sendNotificationToRole(dto.getCaseId(),
+                        String.format("<strong>Descripción:</strong> Se registró una actividad de canalización del tipo <strong>\"%s\"</strong><br/>" +
+                                        "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong><br/>" +
+                                        "Objetivo de la actividad: Seguimiento a la canalización<br/>" +
+                                        "Fecha de la cita: <strong>%s a las %s.</strong>",
+                                notificationInfo.getChannelingType(), notificationInfo.getImputed(), notificationInfo.getIdMp(),
+                                sharedUserService.getFullNameById(user.getId()),
+                                CalendarExt.calendarToFormatString(dto.getStartCalendar(), Constants.FORMAT_CALENDAR_I),
+                                CalendarExt.calendarToFormatString(dto.getEndCalendar(), Constants.FORMAT_TIME_I)),
+                        new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);}},
+                        Constants.CHANNELING_TRACK_NOTIFICATION_TITLE);
+                break;
+            case Constants.CHANNELING_NOTIFICATION_GOAL_CONCLUSION:
+                messageService.sendNotificationToRole(dto.getCaseId(),
+                        String.format("<strong>Descripción:</strong> Se registró la conclusión de la actividad de canalización del tipo <strong>\"%s\"</strong><br/>" +
+                                        "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong><br/>" +
+                                        "Fecha de la cita: <strong>%s a las %s.</strong>",
+                                notificationInfo.getChannelingType(), notificationInfo.getImputed(), notificationInfo.getIdMp(),
+                                sharedUserService.getFullNameById(user.getId()),
+                                CalendarExt.calendarToFormatString(dto.getStartCalendar(), Constants.FORMAT_CALENDAR_I),
+                                CalendarExt.calendarToFormatString(dto.getEndCalendar(), Constants.FORMAT_TIME_I)),
+                        new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);}},
+                        Constants.CHANNELING_CONCLUSION_NOTIFICATION_TITLE);
+                break;
+            case Constants.CHANNELING_NOTIFICATION_GOAL_LOWER:
+                messageService.sendNotificationToRole(dto.getCaseId(),
+                        String.format("<strong>Descripción:</strong> Se registró la baja de la actividad de canalización del tipo <strong>\"%s\"</strong><br/>" +
+                                        "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong><br/>" +
+                                        "Fecha de la cita: <strong>%s a las %s.</strong>",
+                                notificationInfo.getChannelingType(), notificationInfo.getImputed(), notificationInfo.getIdMp(),
+                                sharedUserService.getFullNameById(user.getId()),
+                                CalendarExt.calendarToFormatString(dto.getStartCalendar(), Constants.FORMAT_CALENDAR_I),
+                                CalendarExt.calendarToFormatString(dto.getEndCalendar(), Constants.FORMAT_TIME_I)),
+                        new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);}},
+                        Constants.CHANNELING_CONCLUSION_NOTIFICATION_TITLE);
+                break;
+            default:
+                break;
         }
     }
 

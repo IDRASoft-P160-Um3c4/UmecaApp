@@ -172,4 +172,8 @@ public class SharedUserService {
     public User findOne(Long id) {
         return userRepository.findOne(id);
     }
+
+    public String getFullNameById(Long id) {
+        return userRepository.getFullNameById(id);
+    }
 }
