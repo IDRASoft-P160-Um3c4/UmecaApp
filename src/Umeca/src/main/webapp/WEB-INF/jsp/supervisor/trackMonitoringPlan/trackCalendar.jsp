@@ -97,7 +97,7 @@
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
 <div class="container body-content" ng-controller="trackMonPlanController" id="TrackMonPlanControllerId"
-     ng-init="idTec = ${idTec == null? 0: idTec}; caseId='${caseId}'; isSubstracted=${isSubstracted};>
+     ng-init="idTec = ${idTec == null? 0: idTec}; caseId='${caseId}'; isSubstracted=${isSubstracted == null ? false : isSubstracted};">
     <div class="page-content">
         <div class="page-header">
             <h1 class="element-center">

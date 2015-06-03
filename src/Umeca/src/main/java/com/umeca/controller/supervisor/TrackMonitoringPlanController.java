@@ -3,6 +3,7 @@ package com.umeca.controller.supervisor;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
@@ -16,7 +17,6 @@ import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.OptionList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisor.SupervisionActivityRepository;
@@ -36,13 +36,6 @@ import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/3/14
- * Time: 12:03 PM
- */
 
 @Controller
 public class TrackMonitoringPlanController {
@@ -353,6 +346,13 @@ public class TrackMonitoringPlanController {
                 }
             }
 
+            if(activityMonitoringPlan.getChanneling() != null && activityMonitoringPlan.getActivityGoal() != null
+                    && activityMonitoringPlan.getActivityGoal().getId() == Constants.CHANNELING_NOTIFICATION_GOAL_TRACK){
+                //Asistencia a la canalización
+                Integer channelingAssistance = model.getChannelingAssistance();
+                if(channelingAssistance != null)
+                    activityMonitoringPlan.setChannelingAssistance(channelingAssistance);
+            }
 
             activityMonitoringPlan.setStatus(sStatus);
             activityMonitoringPlan.setComments(sComments);

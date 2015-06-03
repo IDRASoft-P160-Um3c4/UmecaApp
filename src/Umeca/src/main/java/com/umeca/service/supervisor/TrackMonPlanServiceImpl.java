@@ -130,6 +130,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     @Override
     public void getActivityToShow(Long id, ModelAndView model) {
         ActivityMonitoringPlanInfo actMonPlanInfo = activityMonitoringPlanRepository.getActivityInfo(id);
+        Long genericId;
 
         model.addObject("actMonPlanId", id);
         model.addObject("caseId", actMonPlanInfo.getCaseId());
@@ -164,7 +165,12 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         String sLstArrangement = gson.toJson(lstArrangement);
         model.addObject("lstArrangements", sLstArrangement);
         model.addObject("actSup", actMonPlanInfo.getSupervisionActivityName());
+
         model.addObject("actGoal", actMonPlanInfo.getActivityGoalName());
+        genericId = actMonPlanInfo.getActivityGoalId();
+        model.addObject("actGoalId", genericId);
+        model.addObject("hasActGoalChannelingTrack", genericId == Constants.CHANNELING_NOTIFICATION_GOAL_TRACK);
+
         model.addObject("actSources", StringEscape.escapeText(actMonPlanInfo.getAidSourceName()));
         model.addObject("actStatus", actMonPlanInfo.getActStatus());
         String[] sDate = actMonPlanInfo.getStartDateTime().split("\\|");
@@ -177,6 +183,16 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         model.addObject("actSupervisorDone", StringExt.naOnEmpty(actMonPlanInfo.getSupUserDone()));
         model.addObject("actComments", StringEscape.escapeText(StringExt.naOnEmpty(actMonPlanInfo.getComments())));
         model.addObject("actEndFullDate", CalendarExt.calendarToFormatString(actMonPlanInfo.getEndDone(), Constants.FORMAT_CALENDAR_I));
+
+        genericId = actMonPlanInfo.getChannelingId();
+        model.addObject("hasChanneling", genericId != null && genericId > 0);
+        model.addObject("channelingId", genericId);
+        model.addObject("channelingName", actMonPlanInfo.getChannelingName());
+        model.addObject("channelingType", actMonPlanInfo.getChannelingType());
+
+        model.addObject("channelingAssistance",
+                actMonPlanInfo.getChannelingAssistance() != null ? actMonPlanInfo.getChannelingAssistance() : 1); // Por defecto se usa que si asistió a la actividad en el seguimiento de la misma
+
     }
 
     public void getActivityToShow(Long id, ResponseMessage response) {
