@@ -13,6 +13,10 @@
 <div class="container body-content">
 
     <script>
+
+        var isRH = ${isRH};
+        var isDir = ${isDir};
+
         $(document).ready(function () {
 
             editMinute = function (id) {
@@ -93,7 +97,9 @@
                         var cl = ids[i];
                         var be = "";
                         be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar minuta\" onclick=\"editMinute(" + cl + ");\"><span class=\"glyphicon glyphicon-search\"></span></a>";
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de minuta\" onclick=\"summaryMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
+
+                        if (isRH == true || isDir == true)
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de minuta\" onclick=\"summaryMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },

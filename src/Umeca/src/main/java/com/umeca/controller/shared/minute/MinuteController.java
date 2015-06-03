@@ -137,6 +137,18 @@ public class MinuteController {
     @RequestMapping(value = "/shared/minute/finishedIndex", method = RequestMethod.GET)
     public ModelAndView finishedIndex() {
         ModelAndView model = new ModelAndView("/shared/minute/finishedIndex");
+        List<String> roles = sharedUserService.getLstRolesByUserId(sharedUserService.GetLoggedUserId());
+
+        Boolean isRH = false;
+        Boolean isDir = false;
+
+        if (roles.contains(Constants.ROLE_HUMAN_RESOURCES))
+            isRH = true;
+        if (roles.contains(Constants.ROLE_DIRECTOR))
+            isDir = true;
+
+        model.addObject("isRH", isRH);
+        model.addObject("isDir", isDir);
         return model;
     }
 
@@ -679,4 +691,3 @@ public class MinuteController {
     }
 
 }
-
