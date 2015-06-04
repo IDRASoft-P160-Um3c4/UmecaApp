@@ -39,7 +39,6 @@ public class Constants {
     public static final Integer ACT_REPORT_FOR_NOBODY = 0;
     public static final String FILE_PREFIX_USER = "USR_";
     public static final String FILE_PREFIX_PHOTO_EMPLOYEE = "PHOTO_EMPLOYEE_";
-    public static final String CHANNELING_SUPERVISION_ACTIVITY_CODE = "ACCA";
 
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
@@ -110,6 +109,7 @@ public class Constants {
     public static String FORMAT_CALENDAR_II = "dd-MM-yyyy";
     public static String FORMAT_CALENDAR_III = "dd-MM-yyyy HH:mm";
     public static String FORMAT_VERIFICATION_DATE = "yyyy-MM-dd hh:mm:ss.S";
+    public static String FORMAT_TIME_I = "HH:mm";
 
     public static final String SYSTEM_SETTINGS_ARCHIVE = "ARCHIVE";
     public static final String SYSTEM_SETTINGS_ARCHIVE_MAX_NUMBER_FILES = "MaxNumberFiles";
@@ -245,7 +245,7 @@ public class Constants {
     public static final String PROJECT_STATUS_INACTIVE = "Inactivo";
     public static final String PROJECT_STATUS_FINISHED = "Finalizado";
 
-
+    //Canalizaciones
     public static final String CHANNELING_TYPE_ECONOMIC_SUPPORT = "AE";
     public static final String CHANNELING_TYPE_TOXICOLOGICAL_TEST = "ET";
     public static final String CHANNELING_TYPE_PREVENTION_TYPE = "PTA";
@@ -253,7 +253,15 @@ public class Constants {
     public static final String CHANNELING_TYPE_EDUCATION = "ES";
     public static final String CHANNELING_TYPE_JOB = "EM";
     public static final String CHANNELING_NOTIFICATION_TITLE = "Registro de canalización";
-
+    public static final String CHANNELING_FIRST_DATE_NOTIFICATION_TITLE = "Primer cita de canalización";
+    public static final String CHANNELING_TRACK_NOTIFICATION_TITLE = "Seguimiento de la canalización";
+    public static final String CHANNELING_CONCLUSION_NOTIFICATION_TITLE = "Conclusión de la canalización";
+    public static final String CHANNELING_LOWER_NOTIFICATION_TITLE = "Baja de la canalización";
+    public static final String CHANNELING_SUPERVISION_ACTIVITY_CODE = "ACCA";
+    public static final int CHANNELING_NOTIFICATION_GOAL_FIRST_DATE = 9; //Identificador del catálogo activity_goals.txt
+    public static final int CHANNELING_NOTIFICATION_GOAL_TRACK = 10; //Identificador del catálogo activity_goals.txt
+    public static final int CHANNELING_NOTIFICATION_GOAL_CONCLUSION = 11; //Identificador del catálogo activity_goals.txt
+    public static final int CHANNELING_NOTIFICATION_GOAL_LOWER = 12; //Identificador del catálogo activity_goals.txt
 
     /**
      * códigos para causas de cierre *

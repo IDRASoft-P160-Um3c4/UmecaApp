@@ -13,6 +13,12 @@ public class ChannelingNotification{
         this.user = user;
     }
 
+    public ChannelingNotification(String channelingType, String firstName, String lastNameA, String lastNameB, String idMp) {
+        this.channelingType = channelingType;
+        this.imputed = firstName + " " + lastNameA + " " + lastNameB;
+        this.idMp = idMp;
+    }
+
     public String getChannelingType() {
         return channelingType;
     }
