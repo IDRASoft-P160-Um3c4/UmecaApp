@@ -101,7 +101,7 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.0.5" level="project" />
-    <orderEntry type="module" module-name="UmecaInfrastructure" />
     <orderEntry type="module" module-name="UmecaRepository" />
+    <orderEntry type="module" module-name="UmecaInfrastructure" />
   </component>
 </module>

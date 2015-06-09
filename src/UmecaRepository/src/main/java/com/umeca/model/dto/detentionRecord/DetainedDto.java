@@ -38,7 +38,7 @@ public class DetainedDto implements EntityGrid {
     public DetainedDto(Long id, Calendar registerTimestamp, String name, String lastNameP, String lastNameM, Date initDate, Date initTime,
                        String idFolder, String age, String investigationUnit, String crime, String district, Boolean isProsecute) {
         SimpleDateFormat fDate = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat fTime = new SimpleDateFormat("HH   :mm:ss");
+        SimpleDateFormat fTime = new SimpleDateFormat("HH:mm:ss");
 
         this.id = id;
 

@@ -195,7 +195,7 @@
                        ng-show="verification" id-code="school.schedule"></i>
                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                        ng-click="doConfirmVerifNotKnow('school.schedule')"></i>
-                    <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+                    <i class="red icon-list icon-only bigger-120" ng-show="selectSource"
                        ng-click="showChoices('school.schedule')"></i>
                     &nbsp; <i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
             </div>
