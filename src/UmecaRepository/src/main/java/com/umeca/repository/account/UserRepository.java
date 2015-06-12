@@ -98,4 +98,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "INNER JOIN U.roles R " +
             "WHERE U.enabled = true and R.role IN :lstRoles")
     List<Long> getLstValidUsersIdByLstRoles(@Param("lstRoles") List<String> lstRoles);
+
+
+    @Query("SELECT U.fullname FROM User U " +
+            "WHERE U.id = :userId")
+    String getFullNameById(@Param("userId")Long id);
 }

@@ -43,7 +43,16 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
             "INNER JOIN c.caseDetention cd " +
             "INNER JOIN cd.meeting.imputed i "  +
             "WHERE c.id =:channelingId")
-    ChannelingNotification getNotificationInfo(@Param("channelingId")Long id);
+    ChannelingNotification getNotificationInfoWithUser(@Param("channelingId") Long id);
+
+
+    @Query("SELECT new com.umeca.model.entities.supervisor.ChannelingNotification(c.channelingType.name, i.name, i.lastNameP, i.lastNameM" +
+            ", cd.idMP) " +
+            "FROM Channeling AS c " +
+            "INNER JOIN c.caseDetention cd " +
+            "INNER JOIN cd.meeting.imputed i "  +
+            "WHERE c.id =:channelingId")
+    ChannelingNotification getNotificationInfo(@Param("channelingId") Long id);
 
 
     @Query("SELECT new com.umeca.model.shared.SelectList(c.id, c.name, c.channelingType.name) " +

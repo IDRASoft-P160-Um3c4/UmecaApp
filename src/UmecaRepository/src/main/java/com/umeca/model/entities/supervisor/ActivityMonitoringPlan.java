@@ -128,6 +128,9 @@ public class ActivityMonitoringPlan {
     @JoinColumn(name = "id_channeling", nullable = true)
     private Channeling channeling;
 
+    @Column(name = "channeling_assistance", nullable = true)
+    private Integer channelingAssistance;
+
     public Long getId() {
         return id;
     }
@@ -382,5 +385,13 @@ public class ActivityMonitoringPlan {
 
     public void setIsPreAuthorizeMode(Boolean isPreAuthorizeMode) {
         this.isPreAuthorizeMode = isPreAuthorizeMode;
+    }
+
+    public Integer getChannelingAssistance() {
+        return channelingAssistance;
+    }
+
+    public void setChannelingAssistance(Integer channelingAssistance) {
+        this.channelingAssistance = channelingAssistance;
     }
 }
