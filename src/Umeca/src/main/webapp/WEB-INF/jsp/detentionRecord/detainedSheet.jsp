@@ -99,7 +99,7 @@
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'isProsecute', 'nowL', 'initDateL', 'initTimeL', 'Imputado', 'Carpeta de <br/> Investigaci&oacute;n', 'Fecha inicio', 'Hora inicio', 'Unidad de <br/>Investigaci&oacute;n',
+                colNames: ['ID', 'isProsecute', 'nowL', 'initDateL', 'initTimeL', 'Imputado','Edad','Carpeta de <br/> Investigaci&oacute;n', 'Fecha inicio', 'Hora inicio', 'Unidad de <br/>Investigaci&oacute;n',
                     'Presentado por', 'Distrito', 'T&eacute;rmino', 'Tiempo para <br/> cumplir t&eacute;rmino', 'Judicializado', 'Accion'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
@@ -112,6 +112,14 @@
                         index: 'fullName',
                         sorttype: 'string',
                         width: 200,
+                        align: "center",
+                        search: false
+                    },
+                    {
+                        name: 'age',
+                        index: 'age',
+                        sortable: false,
+                        width: 80,
                         align: "center",
                         search: false
                     },

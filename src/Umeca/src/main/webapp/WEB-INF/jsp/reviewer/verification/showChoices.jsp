@@ -52,11 +52,11 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 element-left">
-                                        Raz&oacute;n por la que se elije este campo o secci&oacute;n:
+                                        Raz&oacute;n por la que se elige este campo o secci&oacute;n:
                                     </div>
                                     <div class="col-xs-9">
                                         <textarea class="form-control" name="reason"  data-val="true" ng-model="Model.reason" ng-disabled="managereval"
-                                         data-val-required="La raz&oacute;n por la que se elije el campo o secci&oacute;n es un campo requerido"></textarea>
+                                         data-val-required="La raz&oacute;n por la que se elige el campo o secci&oacute;n es un campo requerido"></textarea>
                                          <span class="field-validation-valid" data-valmsg-for="reason" data-valmsg-replace="true"></span>
                                     </div>
                                 </div>

@@ -193,6 +193,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         model.addObject("channelingAssistance",
                 actMonPlanInfo.getChannelingAssistance() != null ? actMonPlanInfo.getChannelingAssistance() : 1); // Por defecto se usa que si asistió a la actividad en el seguimiento de la misma
 
+
     }
 
     public void getActivityToShow(Long id, ResponseMessage response) {

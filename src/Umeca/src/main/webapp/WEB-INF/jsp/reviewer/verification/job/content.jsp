@@ -258,7 +258,7 @@
                                            ng-show="verification"  id-code ="jobs.schedule"  id-element="{{j.id}}"></i>
                                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                            ng-click="doConfirmVerifNotKnow('jobs.schedule', j.id)"></i>
-                                        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.schedule',j.id)"></i>
+                                        <i class="red icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.schedule',j.id)"></i>
                                         <i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
                                 </div>
 
