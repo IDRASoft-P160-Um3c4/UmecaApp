@@ -155,23 +155,21 @@
                                 <li><a href="<c:url value='/supervisor/log/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Historial de
                                     supervisi&oacute;n y cumplimiento</a></li>
-                                <li><a
-                                        href="<c:url value='/shared/messageHistory/index.html' />"><i
+                                <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
-                                <li><a
-                                        href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
+                                <li><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
                                     <i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
                                     supervisi&oacute;n</a>
                                 </li>
-                                <li><a
-                                        href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
+                                <li><a href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
                                     <i class="icon icon-folder-close"></i>&nbsp;&nbsp;Casos no judicializados</a>
+                                </li>
+                                <li><a href="<c:url value='/supervisor/channelingTrack/index.html'/>">
+                                    <i class="glyphicon glyphicon-hand-right"></i>&nbsp;&nbsp;Seguimiento canalizaci&oacute;n</a>
                                 </li>
                             </ul>
                         </li>
-
-
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
                         <li class="dropdown nav-li-blue">
