@@ -69,4 +69,5 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
             "INNER JOIN c.institutionType it " +
             "WHERE c.id = :id")
     ChannelingModelSheet getChannelingSheetById(@Param("id")Long id);
+
 }

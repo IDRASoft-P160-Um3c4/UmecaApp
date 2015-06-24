@@ -1,13 +1,11 @@
 package com.umeca.model.entities.supervisor;
 
-import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
 import javax.persistence.*;
 import java.util.Calendar;
-import java.util.List;
 
 @Entity
 @Table(name = "channeling", uniqueConstraints = @UniqueConstraint(columnNames = {"id_case", "consecutive"}))
@@ -233,6 +231,7 @@ public class Channeling {
     public void setDeleteUser(User deleteUser) {
         this.deleteUser = deleteUser;
     }
+
 }
 
 

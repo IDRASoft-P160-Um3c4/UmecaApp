@@ -146,8 +146,8 @@
                         Cancelar
                     </button>
                     <button ng-show="{{(m.isJustified >= 0 ? false : true)}}"
-                            m.isJustified class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true || !m.password  || !m.comment"
-                            ng-click="submit('#FormUpId', '<c:url value='/supervisor/channelingTrack/doUpsert.json' />', undefined, FormUpId.$valid)">
+                            class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true || !m.password  || !m.comment"
+                            ng-click="submit('#FormUpId', '<c:url value='/supervisor/channelingTrack/doJustify.json' />', undefined, FormUpId.$valid)">
                         Guardar
                     </button>
                 </div>
