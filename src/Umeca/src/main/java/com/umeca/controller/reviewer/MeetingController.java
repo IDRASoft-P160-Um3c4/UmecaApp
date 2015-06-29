@@ -1,11 +1,14 @@
 package com.umeca.controller.reviewer;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.StatusMeeting;
+import com.umeca.model.dto.tablet.TabletCaseDto;
+import com.umeca.model.dto.tablet.TabletMeetingDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
@@ -16,6 +19,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
 import com.umeca.service.reviewer.ScheduleService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.tablet.TabletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +53,9 @@ public class MeetingController {
     @Autowired
     SharedUserService sharedUserService;
 
+    @Autowired
+    TabletService tabletService;
+
     @RequestMapping(value = "/reviewer/meeting/list", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -67,7 +74,7 @@ public class MeetingController {
                 , JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter2);
-        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_MEETING, JqGridFilterModel.COMPARE_EQUAL);
+        JqGridRulesModel extraFilter3 = new JqGridRulesModel("statusCase", Constants.CASE_STATUS_MEETING, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter3);
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -103,9 +110,9 @@ public class MeetingController {
                     return r.get("idFolder");
                 else if (field.equals("fullname"))
                     return r.join("meeting").join("imputed").get("name");
-                else if (field.equals("statusCase")){
+                else if (field.equals("statusCase")) {
                     return r.join("status").get("name");
-                }else
+                } else
                     return null;
             }
         }, Case.class, MeetingView.class);
@@ -316,7 +323,7 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed) {
-        imputed.setFoneticString(sharedUserService.getFoneticByName(imputed.getName(),imputed.getLastNameP(),imputed.getLastNameM()));
+        imputed.setFoneticString(sharedUserService.getFoneticByName(imputed.getName(), imputed.getLastNameP(), imputed.getLastNameM()));
         ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
         if (validateCreate != null)
             return validateCreate;
@@ -494,8 +501,8 @@ public class MeetingController {
     @RequestMapping(value = "/reviewer/meeting/findPreviousCase", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage findPreviousCase(@RequestParam String sName, @RequestParam String sLastNameP,@RequestParam String sLastNameM, @RequestParam Long idCase) {
-        return meetingService.findPreviousCase(sName,sLastNameP,sLastNameM, idCase);
+    ResponseMessage findPreviousCase(@RequestParam String sName, @RequestParam String sLastNameP, @RequestParam String sLastNameM, @RequestParam Long idCase) {
+        return meetingService.findPreviousCase(sName, sLastNameP, sLastNameM, idCase);
     }
 
     @RequestMapping(value = "/reviewer/meeting/savePartialPrevious", method = RequestMethod.POST)
@@ -515,7 +522,7 @@ public class MeetingController {
     @RequestMapping(value = "/reviewer/meeting/upsertComment", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage upsertComment(@RequestParam String comment,@RequestParam Long idCase, @RequestParam Integer typeComment) {
+    ResponseMessage upsertComment(@RequestParam String comment, @RequestParam Long idCase, @RequestParam Integer typeComment) {
         return meetingService.upsertComment(idCase, comment, typeComment);
     }
 

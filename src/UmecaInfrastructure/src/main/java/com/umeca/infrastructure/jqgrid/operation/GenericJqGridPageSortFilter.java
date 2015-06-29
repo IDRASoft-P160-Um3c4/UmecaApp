@@ -198,7 +198,10 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
 
                 switch (rule.op){
                     case JqGridFilterModel.COMPARE_EQUAL:
-                        p.getExpressions().add(cb.equal(exp, rule.data));
+                        if(rule.bData!=null)//se agrega para comparar valores booleanos
+                            p.getExpressions().add(cb.equal(exp, rule.bData));
+                        else
+                            p.getExpressions().add(cb.equal(exp, rule.data));
                         break;
                     case JqGridFilterModel.COMPARE_IN:
                         Predicate pIn = exp.in(rule.lstInOp);

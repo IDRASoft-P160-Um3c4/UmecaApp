@@ -32,10 +32,10 @@ public class Constants {
     public static final String CASE_STATUS_REQUEST_SUPERVISION = "ST_CASE_REQUEST_SUPERVISION";
     public static final String TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION = "OBSOLETE_CASE_SUPERVISION";
     public static final String RESPONSE_OBSOLETE_CASE_SUPERVISION = "Respuesta a solicitud de eliminar un caso";
-    public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
-    public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
-    public static String S_MEETING_COMPLETE = "COMPLETE";
-    public static String S_MEETING_COMPLETE_VERIFICATION = "COMPLETE_VERIFICATION";
+    public static final String S_MEETING_INCOMPLETE = "INCOMPLETE";
+    public static final String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
+    public static final String S_MEETING_COMPLETE = "COMPLETE";
+    public static final String S_MEETING_COMPLETE_VERIFICATION = "COMPLETE_VERIFICATION";
     public static final DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
     public static Boolean GENDER_FEMALE = true;
     public static Boolean GENDER_MALE = false;
@@ -68,6 +68,7 @@ public class Constants {
     public static final String CASE_STATUS_EDIT_TEC_REV = "ST_CASE_EDIT_TEC_REV";
     public static final String CASE_STATUS_NOT_PROSECUTE = "ST_CASE_NOT_PROSECUTE";
     public static final String CASE_STATUS_NOT_PROSECUTE_OPEN = "ST_CASE_NOT_PROSECUTE_OPEN";
+    public static final String CASE_STATUS_TABLET_ASSIGNMENT = "ST_CASE_TABLET_ASSIGNED";
 
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW = "DONT_KNOW";
@@ -180,4 +181,9 @@ public class Constants {
     public static final String ROLE_DIRECTOR = "ROLE_DIRECTOR";
 
     public static final String ACTION_AUTHORIZE_LOG_COMMENT = "AUTORIZAR ELIMINAR CASO";
+
+    public static final String MEETING_ASSIGNMENT_TYPE = "MEETING";
+    public static final String VERIFICATION_ASSIGNMENT_TYPE = "VERIFICATION";
+    public static final String HEARING_FORMAT_ASSIGNMENT_TYPE = "HEARING_FORMAT";
+
 }

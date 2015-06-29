@@ -13,7 +13,7 @@ public class AssignedArrangement {
     @Column(name = "id_assigned_arrangement")
     private Long id;
 
-    @JoinColumn(name = "description")
+    @Column(name = "description")
     private String description;
 
     @OneToOne(fetch = FetchType.LAZY)

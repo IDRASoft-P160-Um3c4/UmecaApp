@@ -2,10 +2,12 @@ package com.umeca.service.account;
 
 import com.umeca.infrastructure.security.BcryptUtil;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.CryptoRfc2898;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -27,27 +29,27 @@ public class SharedUserService {
     private UserRepository userRepository;
     private List<String> lstRolesByUserId;
 
-    public Long GetLoggedUserId(){
+    public Long GetLoggedUserId() {
         try {
             String sUsername = SecurityContextHolder.getContext().getAuthentication().getName();
             Long idUser = userRepository.findIdByUsername(sUsername);
             return idUser;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         return -1L;
     }
 
 
-    public String GetLoggedUsername(){
+    public String GetLoggedUsername() {
         try {
             return SecurityContextHolder.getContext().getAuthentication().getName();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return "@NA";
         }
     }
 
-    public Boolean isEnabled(Long userId){
+    public Boolean isEnabled(Long userId) {
         return userRepository.isEnabled(userId);
     }
 
@@ -55,7 +57,7 @@ public class SharedUserService {
         String sUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User userToValidate = userRepository.getInfoToValidate(sUsername);
 
-        if(userToValidate.getEnabled() == false){
+        if (userToValidate.getEnabled() == false) {
             response.setMessage("Usted no tiene permisos para realizar esta acci&oacute;n. Por favor solicite los permisos suficientes para realizar esta acci&oacute;n e intente de nuevo.");
             response.setHasError(true);
             return false;
@@ -68,7 +70,7 @@ public class SharedUserService {
         return true;
     }
 
-    public Integer calculateAge(Date birthDate){
+    public Integer calculateAge(Date birthDate) {
         Calendar dob = Calendar.getInstance();
         dob.setTime(birthDate);
         Calendar today = Calendar.getInstance();
@@ -80,7 +82,9 @@ public class SharedUserService {
 
     public boolean isValidPasswordForUser(Long userId, String password) {
         String encodePassword = userRepository.getEncodedPassword(userId);
-        return BcryptUtil.match(password, encodePassword);
+        //return BcryptUtil.match(password, encodePassword);
+        CryptoRfc2898 rfc2898 = new CryptoRfc2898();
+        return rfc2898.matches(password.subSequence(0, password.length()), encodePassword);
     }
 
     public List<SelectList> getLstValidUsersByRole(String sRole) {
@@ -99,6 +103,7 @@ public class SharedUserService {
         return (userRepository.isUserInRole(supervisorId, sRole) > 0);
 
     }
+
     public boolean isUserInRoles(Long supervisorId, List<String> lstRole) {
         return (userRepository.isUserInRoles(supervisorId, lstRole) > 0);
 
@@ -109,6 +114,23 @@ public class SharedUserService {
     }
 
     public String getFoneticByName(String name, String lastNameP, String lastNameM) {
-        return name.trim().toLowerCase()+lastNameP.trim().toLowerCase()+lastNameM.trim().toLowerCase();
+        return name.trim().toLowerCase() + lastNameP.trim().toLowerCase() + lastNameM.trim().toLowerCase();
     }
+
+    public String getCodedPassByUsername(String usrname) {
+        return userRepository.getCodedPassByUsername(usrname);
+    }
+
+    public SelectList getIdAndFullnameByUsername(String usrname) {
+        return userRepository.getIdAndFullnameByUsername(usrname);
+    }
+
+    public String getRoleByUsername(String usrname) {
+        List<String> lst = userRepository.getRoleByUsername(usrname, new PageRequest(0, 1));
+        if (lst != null & lst.size() > 0)
+            return lst.get(0);
+        else
+            return null;
+    }
+
 }

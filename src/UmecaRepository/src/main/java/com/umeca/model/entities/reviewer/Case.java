@@ -67,6 +67,12 @@ public class Case {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
 
+    @Column(name = "previous_state_code")
+    private String previousStateCode;
+
+    @Column(name = "assignment_type")
+    private String assignmentType;
+
     public MonitoringPlan getMonitoringPlan() {
         return monitoringPlan;
     }
@@ -202,4 +208,19 @@ public class Case {
         this.dateObsolete = dateObsolete;
     }
 
+    public String getPreviousStateCode() {
+        return previousStateCode;
+    }
+
+    public void setPreviousStateCode(String previousStateCode) {
+        this.previousStateCode = previousStateCode;
+    }
+
+    public String getAssignmentType() {
+        return assignmentType;
+    }
+
+    public void setAssignmentType(String assignmentType) {
+        this.assignmentType = assignmentType;
+    }
 }

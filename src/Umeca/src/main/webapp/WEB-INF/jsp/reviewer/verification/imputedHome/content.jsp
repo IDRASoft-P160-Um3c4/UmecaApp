@@ -185,7 +185,7 @@
                                                id-element="{{a.id}}"></i>
                                             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                ng-click="doConfirmVerifNotKnow('imputedHomes.schedule', a.id)"></i>
-                                            <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+                                            <i class="red icon-list icon-only bigger-120" ng-show="selectSource"
                                                ng-click="showChoices('imputedHomes.schedule',a.id)"></i>
                                             <i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
                                     </h5>

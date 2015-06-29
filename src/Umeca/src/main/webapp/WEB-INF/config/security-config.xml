@@ -9,6 +9,7 @@
 
     <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/assets/**" access="permitAll"/>
+        <intercept-url pattern="/services/**" access="permitAll"/>
         <intercept-url pattern="/catalogs/**" access="permitAll"/>
         <intercept-url pattern="/index.html" access="permitAll"/>
         <intercept-url pattern="/session/checkout.json" access="permitAll"/>
@@ -57,9 +58,10 @@
         <!--</session-management>-->
     </http>
 
+    <beans:bean id="rfc2898" class="com.umeca.infrastructure.security.CryptoRfc2898" />
     <authentication-manager>
         <authentication-provider user-service-ref="userDetailServiceImpl">
-            <password-encoder hash="bcrypt"/>
+            <password-encoder ref="rfc2898"/>
         </authentication-provider>
     </authentication-manager>
 

@@ -222,7 +222,7 @@ public class ExcelReportController {
             return new ResponseMessage(true, "Error de red, intente mas tarde.");
         }
 
-        List<Long> idsCases = reportExcelRepository.findIdCasesByDates(initDate, endDate);
+        List<Long> idsCases = reportExcelRepository.findIdCasesByDates(initDate, endDate); //OBTENGO TODOS LOS CASOS QUE NO ESTEN OBSOLETOS NI NO JUDICIALIZADOS
 
         idsCases = findCasesByFilters(idsCases, filtersDto);
 
@@ -271,7 +271,6 @@ public class ExcelReportController {
                 }
 
                 idsGender = reportExcelRepository.findIdCasesByGender(filtersDto.getLstGenderBool(), lstGenderInt, idsCasesInDateRange);
-
             }
 
             if (filtersDto.getLstStatusCase().size() > 0) {
@@ -485,8 +484,10 @@ public class ExcelReportController {
             }.getType());
             ;
 
-            if (!(casesIds.size() > 0))
+            if (casesIds==null || !(casesIds.size() > 0)) {
+                casesIds = new ArrayList<Long>();
                 casesIds.add(-1L);
+            }
 
             List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases(casesIds);
             List<ExcelActivitiesDto> lstActivities = caseRepository.getInfoImputedActivities(casesIds);

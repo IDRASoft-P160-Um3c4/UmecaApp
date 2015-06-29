@@ -11,6 +11,7 @@ import java.util.List;
 public class JqGridRulesModel {
     public String field;
     public String op;
+    public Boolean bData;
     public String data;
     public List<String> lstInOp;
 
@@ -21,6 +22,12 @@ public class JqGridRulesModel {
     public JqGridRulesModel(String field, String data, String op) {
         this.field = field;
         this.data = data;
+        this.op = op;
+    }
+
+    public JqGridRulesModel(String field, Boolean bData, String op) {
+        this.field = field;
+        this.bData = bData;
         this.op = op;
     }
 
@@ -52,5 +59,21 @@ public class JqGridRulesModel {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public Boolean getbData() {
+        return bData;
+    }
+
+    public void setbData(Boolean bData) {
+        this.bData = bData;
+    }
+
+    public List<String> getLstInOp() {
+        return lstInOp;
+    }
+
+    public void setLstInOp(List<String> lstInOp) {
+        this.lstInOp = lstInOp;
     }
 }

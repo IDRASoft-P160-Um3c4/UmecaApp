@@ -138,7 +138,7 @@ public class VictimServiceImpl implements VictimService {
             v.setAddress(null);
             victimRepository.delete(v);
             addressRepository.delete(a.getId());
-            return  new ResponseMessage(false, "Se ah eliminado correctamente");
+            return  new ResponseMessage(false, "Se ha eliminado correctamente");
         }catch (Exception e){
             logException.Write(e, this.getClass(), "deleteVictim", userService);
             return  new ResponseMessage(true,"Ha ocurrido un error al eliminar", "Error al eliminar");

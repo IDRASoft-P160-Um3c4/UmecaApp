@@ -29,8 +29,8 @@
                 { name: 'relName', index: 'relName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                 { name: 'age', index: 'age', width: 70, align: "center",  search: false },
                 { name: 'phone', index: 'phone', width: 150, align: "center",  search: false  },
-                { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 180, align: "center",  search: false  },
-                { name: 'dependentString', index: 'dependentString', width: 120, align: "center",  search: false  },
+                { name: 'isAccompanimentString', index: 'isAccompanimentString', width: 180, align: "center",  search: false, sortable:false  },
+                { name: 'dependentString', index: 'dependentString', width: 120, align: "center",  search: false, sortable:false  },
                 { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter }
             ],
             rowNum: 10,
