@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serviceGroup>
+    <service name="UmecaWS">
+        <description>Acceso desde tableta</description>
+        <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">UmecaWS</parameter>
+        <operation name="confirmLoginData">
+            <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+        </operation>
+    </service>
+
+</serviceGroup>
