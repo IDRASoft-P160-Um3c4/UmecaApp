@@ -6,6 +6,7 @@ import com.umeca.infrastructure.extensions.IntegerExt;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.Arrangement;
+import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
@@ -25,6 +26,7 @@ import com.umeca.repository.catalog.RequestTypeRepository;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.CrimeRepository;
+import com.umeca.repository.reviewer.ImputedRepository;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
@@ -50,36 +52,46 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     @Qualifier("qHearingFormatRepository")
     @Autowired
     HearingFormatRepository hearingFormatRepository;
-
     @Autowired
     LocationRepository locationRepository;
-
     @Autowired
     CaseRepository caseRepository;
-
     @Autowired
     ArrangementRepository arrangementRepository;
-
     @Autowired
     CatalogService catalogService;
-
     @Autowired
     SharedUserService sharedUserService;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     StatusCaseRepository statusCaseRepository;
-
     @Autowired
     CaseService caseService;
-
     @Autowired
     SharedLogExceptionService logException;
-
     @Autowired
     HearingTypeRepository hearingTypeRepository;
+    @Autowired
+    ImputedRepository imputedRepository;
+    @Autowired
+    LogCommentRepository logCommentRepository;
+    @Autowired
+    private ContactDataRepository contactDataRepository;
+    @Autowired
+    private AssignedArrangementRepository assignedArrangementRepository;
+    @Autowired
+    private MonitoringPlanRepository monitoringPlanRepository;
+    @Autowired
+    private FramingAddressRepository framingAddressRepository;
+    @Autowired
+    private AddressRepository addressRepository;
+    @Autowired
+    private DistrictRepository districtRepository;
+    @Autowired
+    LogCaseService logCaseService;
+    @Autowired
+    private CloseCauseRepository closeCauseRepository;
 
     private Gson conv = new Gson();
 
@@ -773,31 +785,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         return lstContactView;
     }
 
-
-    @Autowired
-    LogCommentRepository logCommentRepository;
-
-    @Autowired
-    private ContactDataRepository contactDataRepository;
-
-    @Autowired
-    private AssignedArrangementRepository assignedArrangementRepository;
-
-    @Autowired
-    private MonitoringPlanRepository monitoringPlanRepository;
-
-    @Autowired
-    private FramingAddressRepository framingAddressRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
-
-    @Autowired
-    private DistrictRepository districtRepository;
-
-    @Autowired
-    LogCaseService logCaseService;
-
     @Override
     @Transactional
     public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
@@ -855,14 +842,27 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormat.getCaseDetention().setLastSupervisorHF(hearingFormat.getSupervisor());
             hearingFormat.getCaseDetention().setLastPreassignedSupervisor(hearingFormat.getUmecaSupervisor());
 
+            //se sustituye el nombre del imputado por el que acaba de dar en el formato de audiencia
+            HearingFormatImputed hIm = hearingFormat.getHearingImputed();
+            Imputed imp = hearingFormat.getCaseDetention().getMeeting().getImputed();
+
+            imp.setName(hIm.getName());
+            imp.setLastNameP(hIm.getLastNameP());
+            imp.setLastNameM(hIm.getLastNameM());
+            imp.setBirthDate(hIm.getBirthDate());
+            imp.setFoneticString(sharedUserService.getFoneticByName(imp.getName(), imp.getLastNameP(), imp.getLastNameM()));
+
+            imputedRepository.save(imp);
+            //se sustituye el nombre del imputado por el que acaba de dar en el formato de audiencia
+
         } else {
             hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE));
         }
 
         if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
                 hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
-
-            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRE_CLOSED));
+            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_REQUEST));
+            hearingFormat.getCaseDetention().setCloseCause(closeCauseRepository.findByCode(Constants.CLOSE_CAUSE_NO_ENTAILMENT));
 
             sb.append("Solicitud de cierre de caso: ");
             sb.append(idFolder);
@@ -966,7 +966,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         }
 
         return response;
-
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Answer {
     @Column(name="description", length = 100, nullable = true)
     private String description;
 
-    @Column(name="is_obsolete")
+    @Column(name="is_obsolete", nullable = false)
     private Boolean isObsolete;
 
     @ManyToOne(fetch = FetchType.LAZY)

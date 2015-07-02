@@ -13,18 +13,19 @@ public class MinuteDto implements EntityGrid {
     private String minuteDate;
     private Long attendantId;
     private String attendant;
-    private String assistantsIds;
+    private String assistants;
     private String place;
     private String startTime;
     private String endTime;
     private Boolean isFinished;
+    private String stCode;
 
     public MinuteDto() {
 
     }
 
     //grid
-    public MinuteDto(Long id, Date minuteDate, Date startTime, String place, String attName, String attLastNameP, String attLastNameM, Boolean isFinished) {
+    public MinuteDto(Long id, Date minuteDate, Date startTime, String place, String attName, String attLastNameP, String attLastNameM, Boolean isFinished, String stCode) {
         this.id = id;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
@@ -35,6 +36,7 @@ public class MinuteDto implements EntityGrid {
         this.place = place;
         this.attendant = attName + " " + attLastNameP + " " + attLastNameM;
         this.isFinished = isFinished;
+        this.stCode = stCode;
     }
 
     //upsert
@@ -53,6 +55,25 @@ public class MinuteDto implements EntityGrid {
         if (endTime != null)
             this.endTime = sdfT.format(endTime);
         this.isFinished = isFinished;
+    }
+
+    //datos generales
+    public MinuteDto(Long id, String title, String agenda, Date minuteDate, Long attendantId, String place, Date startTime, Date endTime, Boolean isFinished, String attendantName, String attendantLastNameP, String attendantLastNameM) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
+        this.id = id;
+        this.title = title;
+        this.agenda = agenda;
+        if (minuteDate != null)
+            this.minuteDate = sdf.format(minuteDate);
+        this.attendantId = attendantId;
+        this.place = place;
+        if (startTime != null)
+            this.startTime = sdfT.format(startTime);
+        if (endTime != null)
+            this.endTime = sdfT.format(endTime);
+        this.isFinished = isFinished;
+        this.attendant = attendantName + " " + attendantLastNameP + " " + attendantLastNameM;
     }
 
     public Long getId() {
@@ -127,14 +148,6 @@ public class MinuteDto implements EntityGrid {
         this.attendant = attendant;
     }
 
-    public String getAssistantsIds() {
-        return assistantsIds;
-    }
-
-    public void setAssistantsIds(String assistantsIds) {
-        this.assistantsIds = assistantsIds;
-    }
-
     public Boolean getIsFinished() {
         return isFinished;
     }
@@ -143,5 +156,19 @@ public class MinuteDto implements EntityGrid {
         this.isFinished = isFinished;
     }
 
+    public String getStCode() {
+        return stCode;
+    }
 
+    public void setStCode(String stCode) {
+        this.stCode = stCode;
+    }
+
+    public String getAssistants() {
+        return assistants;
+    }
+
+    public void setAssistants(String assistants) {
+        this.assistants = assistants;
+    }
 }

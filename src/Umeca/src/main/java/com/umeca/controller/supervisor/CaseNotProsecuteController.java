@@ -22,7 +22,7 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.reviewer.CrimeRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
-import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
+import com.umeca.repository.supervisor.LogNotificationRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.LogCaseService;
@@ -135,7 +135,7 @@ public class CaseNotProsecuteController {
     @Autowired
     StatusCaseRepository statusCaseRepository;
     @Autowired
-    LogNotificationReviewerRepository logNotificationReviewerRepository;
+    LogNotificationRepository logNotificationRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -158,7 +158,7 @@ public class CaseNotProsecuteController {
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE_OPEN));
             //TODO abrir bitacora en este momento para casos judicializdos
             caseRepository.save(c);
-            LogNotificationReviewer notif = new LogNotificationReviewer();
+            LogNotification notif = new LogNotification();
             notif.setIsObsolete(false);
             notif.setSubject("Se abri&oacute; un caso no judicializado en supervisi&oacute;n");
             notif.setMessage("Se abri&oacute; el caso con Carpeta de Investigaci&oacute;n "+ StringEscape.escapeText(c.getIdFolder())+".<br/>El caso fue cerrado por el evaluador: "+c.getMeeting().getReviewer().getFullname()+".<br/>Raz&oacute;n: "+StringEscape.escapeText(comment)+".");
@@ -169,7 +169,7 @@ public class CaseNotProsecuteController {
                 User receiver=userRepository.findOne(userManagerEval.get(0).getId());
                 notif.setReceiveUser(receiver);
             }
-            logNotificationReviewerRepository.save(notif);
+            logNotificationRepository.save(notif);
 
             LogComment logComment = new LogComment();
 

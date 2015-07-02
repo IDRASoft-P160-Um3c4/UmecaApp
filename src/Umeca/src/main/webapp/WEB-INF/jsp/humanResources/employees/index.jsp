@@ -44,14 +44,13 @@
 
         };
 
-
         $(document).ready(function () {
             jQuery("#GridEmployeeId").jqGrid({
                 url: '<c:url value='/humanResources/employees/list.json' />',
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'isObsolete', 'Nombre', 'Distrito', 'Puesto', 'Acci&oacute;n'],
+                colNames: ['ID', 'isObsolete', 'Nombre', 'Distrito', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {name: 'isObsolete', index: 'isObsolete', hidden: true},
@@ -68,14 +67,6 @@
                         index: 'district',
                         width: 200,
                         align: "center",
-                        sorttype: 'string',
-                        searchoptions: {sopt: ['bw']}
-                    },
-                    {
-                        name: 'post',
-                        index: 'post',
-                        align: "center",
-                        width: 200,
                         sorttype: 'string',
                         searchoptions: {sopt: ['bw']}
                     },

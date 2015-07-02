@@ -31,7 +31,8 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Informaci&oacute;n del
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Informaci&oacute;n
+                                        del
                                         usuario
                                     </div>
                                     <div class="panel-body">
@@ -49,7 +50,7 @@
                                                                id="username" name="username"
                                                                type="text" ng-model="m.username"
                                                                ng-init="m.username = '${(model == null) ? "" : model.username}';"
-                                                               ng-unique="{url:'/management/user/isUserAvailable.json', param:'username', extraParam:{id: ${(model == null)?0:model.id}},
+                                                               ng-unique="{url:'${pageContext.request.contextPath}/management/user/isUserAvailable.json', param:'username', extraParam:{id: ${(model == null)?0:model.id}},
                                                                msgError:'El usuario ya existe, por favor elija otro usuario'}"/>
                                                     </div>
                                                     <div class="col-xs-9 col-xs-offset-3">
@@ -132,7 +133,8 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Informaci&oacute;n personal
+                                        <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Informaci&oacute;n
+                                        personal
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -189,20 +191,20 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <div ng-show="MsgError" class="alert alert-danger element-center"  ng-bind-html="MsgError">
+                            <div ng-show="MsgError" class="alert alert-danger element-center" ng-bind-html="MsgError">
 
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <span class="btn btn-default btn-sm" ng-click="cancel()">
+                    <button class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
-                    </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormCatId', '<c:url value='/management/user/doUpsert.json' />')">
-                          Guardar
-                    </span>
+                    </button>
+                    <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                            ng-click="submit('#FormCatId', '<c:url value='/management/user/doUpsert.json' />')">
+                        Guardar
+                    </button>
                 </div>
             </div>
         </div>

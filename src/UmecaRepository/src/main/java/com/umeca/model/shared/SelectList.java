@@ -1,23 +1,18 @@
 package com.umeca.model.shared;
 
-import com.umeca.model.entities.supervisor.HearingFormat;
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 5/4/14
- * Time: 9:11 PM
- */
-public class SelectList {
+public class SelectList implements EntityGrid{
     private Long id;
     private Integer idAux;
     private Calendar calendar;
     private String name;
     private String description;
+    private String code;
     private Long aux;
     private Boolean lock;
     private Boolean specification;
@@ -60,6 +55,14 @@ public class SelectList {
         this.description = secDescription;
     }
 
+    public SelectList(Long id, String name, Boolean specification, String code, Long aux) {
+        this.id = id;
+        this.name = name;
+        this.specification = specification;
+        this.code = code;
+        this.aux = aux;
+    }
+
     public SelectList(Long id, String arrangement, String description, Integer typeArrangement) {
         this.id = id;
         this.description = description;
@@ -76,6 +79,13 @@ public class SelectList {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.aux = aux;
+    }
+
+    public SelectList(Long id, String name, boolean specification, Long aux) {
+        this.id = id;
+        this.name = name;
+        this.specification = specification;
         this.aux = aux;
     }
 
@@ -135,6 +145,15 @@ public class SelectList {
         this.name = name;
         this.aux = aux;
     }
+
+    public SelectList(Long id, String name, String description, Calendar calendar) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        if (calendar != null)
+            this.strDate = sdf.format(calendar.getTime());
+    }
+
 
     public Long getId() {
         return id;
@@ -214,5 +233,33 @@ public class SelectList {
 
     public void setLogType(String logType) {
         this.logType = logType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SelectList that = (SelectList) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

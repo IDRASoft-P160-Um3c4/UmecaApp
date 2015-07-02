@@ -18,9 +18,10 @@
             url: '<c:url value="/humanResources/digitalRecord/listIncident.json?id="/>' +${idEmployee},
             datatype: "json",
             mtype: 'POST',
-            colNames: ['ID', 'Tipo', 'Raz&oacute;n', 'Fecha', 'Comentarios', 'Acci&oacute;n'],
+            colNames: ['ID', 'fileId', 'Tipo', 'Raz&oacute;n', 'Fecha', 'Comentarios', 'Acci&oacute;n'],
             colModel: [
                 {name: 'id', index: 'id', hidden: true},
+                {name: 'fileId', index: 'fileId', hidden: true},
                 {
                     name: 'incidentType',
                     index: 'incidentType',
@@ -67,13 +68,13 @@
             altRows: true,
             gridComplete: function () {
                 var ids = $(this).jqGrid('getDataIDs');
+                var fId = $(this).jqGrid('getCol', 'fileId', false);
                 for (var i = 0; i < ids.length; i++) {
                     var cl = ids[i];
-                    var row = $(this).getRowData(cl);
-                    var enabled = row.enabled;
+                    var _f = fId[i];
                     var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar incidencia\" onclick=\"window.upsertIncident('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-
-                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar incidencia\" onclick=\"window.deleteIncident('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar incidencia\" onclick=\"window.deleteIncident('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo del incidente\" onclick=\"window.download('" + _f + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
                     $(this).jqGrid('setRowData', ids[i], {Action: be});
                 }
             },

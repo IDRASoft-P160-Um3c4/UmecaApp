@@ -130,6 +130,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     private AccompanimentInfoRepository accompanimentInfoRepository;
 
+    @Autowired
+    private ImputedRepository imputedRepository;
+
     @Transactional
     @Override
     public ResponseMessage save(FramingMeeting framingMeeting) {
@@ -138,6 +141,19 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
             framingMeeting.setInitDate(new Date());
             framingMeetingRepository.save(framingMeeting);
+
+            Imputed i = framingMeeting.getCaseDetention().getMeeting().getImputed();
+            FramingImputedPersonalData pD = framingMeeting.getPersonalData();
+
+            //se sustituye la info del imputado al guardar la informacion personal
+            i.setName(pD.getName());
+            i.setLastNameP(pD.getLastNameP());
+            i.setLastNameM(pD.getLastNameM());
+            i.setBirthDate(pD.getBirthDate());
+            imputedRepository.save(i);
+
+            //se sustituye la info del imputado al guardar la informacion personal
+
             response.setHasError(false);
             response.setMessage("Se ha guardado la informaci&oacute;n con &eacute;xito.");
         } catch (Exception e) {
@@ -164,12 +180,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setName(existFraming.getPersonalData().getName());
             view.setLastNameP(existFraming.getPersonalData().getLastNameP());
             view.setLastNameM(existFraming.getPersonalData().getLastNameM());
+            view.setBirthDate(existFraming.getPersonalData().getBirthDate());
             view.setGender(existFraming.getPersonalData().getGender());
             view.setMaritalStatus(existFraming.getPersonalData().getMaritalStatus().getId());
             view.setMaritalStatusYears(existFraming.getPersonalData().getMaritalStatusYears());
             view.setBirthCountryId(existFraming.getPersonalData().getBirthCountry().getId());
             view.setBirthState(existFraming.getPersonalData().getBirthState());
-            view.setBirthDate(existFraming.getPersonalData().getBirthDate());
             view.setPhysicalCondition(existFraming.getPersonalData().getPhysicalCondition());
             view.setPhone(existFraming.getPersonalData().getPhone());
             view.setCelPhone(existFraming.getPersonalData().getCelPhone());
@@ -190,10 +206,18 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         if (existVer != null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
             Meeting existVerifMeet = existVer.getMeetingVerified();
 
-            view.setName(existVerifMeet.getImputed().getName());
-            view.setLastNameP(existVerifMeet.getImputed().getLastNameP());
-            view.setLastNameM(existVerifMeet.getImputed().getLastNameM());
-            view.setBirthDate(existVerifMeet.getImputed().getBirthDate());
+//            view.setName(existVerifMeet.getImputed().getName());
+//            view.setLastNameP(existVerifMeet.getImputed().getLastNameP());
+//            view.setLastNameM(existVerifMeet.getImputed().getLastNameM());
+//            view.setBirthDate(existVerifMeet.getImputed().getBirthDate());
+
+            //se llama la info del meeting actualizada por formato de audiencia y se trae la demas info de la verificacion
+            Imputed im = existCase.getMeeting().getImputed();
+
+            view.setName(im.getName());
+            view.setLastNameP(im.getLastNameP());
+            view.setLastNameM(im.getLastNameM());
+            view.setBirthDate(im.getBirthDate());
 
             if (existVerifMeet.getImputed().getGender() == true)
                 view.setGender(1);
@@ -1208,7 +1232,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Transactional
     public ResponseMessage doTerminate(Long idCase) {
 
-
         try {
             FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
@@ -1248,12 +1271,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (lsDom.size() > 0)
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome", lsDom));
-
-//            if (existFraming.getProcessAccompaniment() == null)
-//                if (sb.toString().equals(""))
-//                    sb.append("Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Persona que acompa?a en el proceso\".");
-//                else
-//                    sb.append("|Debe proporcionar la informaci&oacute;n faltante para la secci&oacute;n \"Persona que acompa?a en el proceso\".");
 
             if (existFraming.getReferences() != null && existFraming.getReferences().size() > 0) {
                 int noHousemate = 0, noReferences = 0, noVictims = 0;
@@ -1474,9 +1491,18 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 otherSourceRel.setFramingMeeting(existFraming);
                 existFraming.getSelectedSourcesRel().add(otherSourceRel);
                 otherSourceRel.setFramingReference(otherReference);
-                otherSourceRel = framingSelectedSourceRelRepository.save(otherSourceRel);
+                framingSelectedSourceRelRepository.save(otherSourceRel);
                 //para agregar la opcion otro al combo para las actividades
             }
+
+            Imputed i = existCase.getMeeting().getImputed();
+            FramingImputedPersonalData pD = existFraming.getPersonalData();
+            i.setName(pD.getName());
+            i.setLastNameP(pD.getLastNameP());
+            i.setLastNameM(pD.getLastNameM());
+            i.setBirthDate(pD.getBirthDate());
+            i.setFoneticString(sharedUserService.getFoneticByName(i.getName(), i.getLastNameP(), i.getLastNameM()));
+            imputedRepository.save(i);//se actualiza la informacion del imputado con la de la entrevista de encuadre;
 
             caseRepository.save(existCase);
             framingMeetingLogRepository.save(getTerminateLog(idCase, existFraming));

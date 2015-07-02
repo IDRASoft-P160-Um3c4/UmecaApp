@@ -143,10 +143,7 @@
                                                                   data-valmsg-replace="true"></span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xs-6">
-                                                        archivo
-                                                        <br/>
-                                                    </div>
+
                                                 </div>
 
                                             </div>

@@ -1,5 +1,7 @@
 package com.umeca.service.humanResources;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.dto.humanResources.*;
@@ -8,12 +10,14 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.*;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Job;
+import com.umeca.model.entities.reviewer.Schedule;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.shared.CourseType;
 import com.umeca.model.entities.shared.SchoolDocumentType;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.DocumentTypeRepository;
 import com.umeca.repository.catalog.LocationRepository;
@@ -34,11 +38,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service("digitalRecordService")
 public class DigitalRecordServiceImpl implements DigitalRecordService {
@@ -85,7 +87,10 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     private UploadFileGenericRepository uploadFileGenericRepository;
     @Autowired
     private SystemSettingRepository systemSettingRepository;
-
+    @Autowired
+    private EmployeeScheduleRepository employeeScheduleRepository;
+    @Autowired
+    private ScheduleDayRepository scheduleDayRepository;
 
     @Transactional
     public ResponseMessage saveEmployee(EmployeeDto employeeDto, HttpServletRequest request) {
@@ -102,7 +107,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         employeeRepository.flush();
         resp = new ResponseMessage();
         resp.setHasError(false);
-        resp.setMessage("El empleado ha sido registrado.");
+        resp.setMessage("El empleado ha sido registrado con éxito.");
         resp.setUrlToGo(request.getContextPath() + "/humanResources/digitalRecord/index.html?id=" + newEmp.getId());
         return resp;
     }
@@ -143,16 +148,23 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         employee.setName(dataDto.getName());
         employee.setLastNameP(dataDto.getLastNameP());
         employee.setLastNameM(dataDto.getLastNameM());
-        Role r = new Role();
-        r.setId(dataDto.getRoleId());
-        employee.setPost(r);
         employee.setEmployeeGeneralData(fillGeneralData(dataDto));
         employee.setGender(dataDto.getGender());
+
+        EmployeeSchedule es = new EmployeeSchedule();
+        es.setId(dataDto.getEmpSchId());
+        employee.setEmployeeSchedule(es);
+
+        List<User> usrs = new Gson().fromJson(dataDto.getAssignedUsr(), new TypeToken<List<User>>() {
+        }.getType());
+        employee.getUsers().clear();
+        employee.getUsers().addAll(usrs);
 
         employeeRepository.save(employee);
         resp = new ResponseMessage();
         resp.setHasError(false);
         resp.setMessage("La información ha sido guardada con éxito.");
+
         return resp;
     }
 
@@ -227,6 +239,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
         j.setRegisterType(registerTypeRepository.findOne(Constants.REGYSTER_TYPE_PREVIOUS));
         j.setEmployee(employeeRepository.findOne(jobDto.getIdEmployee()));
+        j.setReasonChange(jobDto.getReasonChange());
 
         return j;
     }
@@ -330,9 +343,15 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     }
 
     @Transactional
-    public ResponseMessage deleteCourse(Long id) {
+    public ResponseMessage deleteCourse(HttpServletRequest request, Long id) {
         ResponseMessage responseMessage = new ResponseMessage();
-        courseAchievementRepository.delete(id);
+        CourseAchievement c = courseAchievementRepository.findOne(id);
+        UploadFileGeneric f = c.getFile();
+        if (f != null) {
+            String path = request.getSession().getServletContext().getRealPath("");
+            upDwFileGenericService.deleteFile(path, f, userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+        courseAchievementRepository.delete(c);
         responseMessage.setHasError(false);
         responseMessage.setMessage("El curso ha sido eliminado con éxito");
         return responseMessage;
@@ -402,27 +421,17 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
             else
                 job.setEndDate(null);
 
-            if (jobDto.getStartTime() != null && jobDto.getStartTime() != "")
-                job.setStartTime(sdfT.parse(jobDto.getStartTime()));
-
-            if (jobDto.getEndTime() != null && jobDto.getEndTime() != "")
-                job.setEndTime(sdfT.parse(jobDto.getEndTime()));
-
         } catch (Exception e) {
 
         }
 
-        UmecaPost up = new UmecaPost();
-        up.setId(jobDto.getIdUmecaPost());
-        job.setUmecaPost(up);
+        Role r = new Role();
+        r.setId(jobDto.getIdRole());
+        job.setRole(r);
 
         District d = new District();
         d.setId(jobDto.getIdDistrict());
         job.setDistrict(d);
-
-        RegisterType rt = new RegisterType();
-        rt.setId(jobDto.getIdRegisterType());
-        job.setRegisterType(rt);
 
         return job;
     }
@@ -445,7 +454,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         return responseMessage;
     }
 
-    private CourseAchievement fillTraining(CourseAchievementDto trainingDto) {
+    private CourseAchievement fillTraining(HttpServletRequest request, CourseAchievementDto trainingDto) {
         CourseAchievement training = new CourseAchievement();
 
         if (trainingDto.getId() != null)
@@ -456,6 +465,16 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
             training.setEmployee(e);
         }
 
+        if (training.getFile() != null && training.getFile().getId() != trainingDto.getFileId()) {//si ya tiene uno, verifico que no sea el mismo
+            String path = request.getSession().getServletContext().getRealPath("");
+            //si es difenrente elimino el anterior
+            upDwFileGenericService.deleteFile(path, training.getFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+
+        UploadFileGeneric fileGeneric = uploadFileGenericRepository.findOne(trainingDto.getFileId());
+        fileGeneric.setObsolete(false);
+
+        training.setFile(fileGeneric);
         training.setName(trainingDto.getName());
         training.setPlace(trainingDto.getPlace());
         training.setDuration(trainingDto.getDuration());
@@ -468,28 +487,27 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         }
 
         return training;
-
     }
 
     @Transactional
-    public ResponseMessage saveTraining(CourseAchievementDto trainingDto) {
+    public ResponseMessage saveTraining(HttpServletRequest request, CourseAchievementDto trainingDto) {
         ResponseMessage responseMessage = new ResponseMessage();
-        courseAchievementRepository.save(fillTraining(trainingDto));
+        courseAchievementRepository.save(fillTraining(request, trainingDto));
         responseMessage.setHasError(false);
         responseMessage.setMessage("El curso ha sido guardado con éxito");
         return responseMessage;
     }
 
     @Transactional
-    public ResponseMessage saveIncident(IncidentDto incidentDto) {
+    public ResponseMessage saveIncident(HttpServletRequest request, IncidentDto incidentDto) {
         ResponseMessage responseMessage = new ResponseMessage();
-        incidentRepository.save(fillIncident(incidentDto));
+        incidentRepository.save(fillIncident(request, incidentDto));
         responseMessage.setHasError(false);
         responseMessage.setMessage("El incidente ha sido guardado con éxito");
         return responseMessage;
     }
 
-    private Incident fillIncident(IncidentDto incidentDto) {
+    private Incident fillIncident(HttpServletRequest request, IncidentDto incidentDto) {
         Incident incident = new Incident();
         if (incidentDto.getId() != null)
             incident = incidentRepository.findIncidentByIds(incidentDto.getIdEmployee(), incidentDto.getId());
@@ -504,6 +522,16 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         } catch (Exception e) {
         }
 
+        if (incident.getFile() != null && incident.getFile().getId() != incidentDto.getFileId()) {//si ya tiene uno, verifico que no sea el mismo
+            String path = request.getSession().getServletContext().getRealPath("");
+            //si es difenrente elimino el anterior
+            upDwFileGenericService.deleteFile(path, incident.getFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+
+        UploadFileGeneric fileGeneric = uploadFileGenericRepository.findOne(incidentDto.getFileId());
+        fileGeneric.setObsolete(false);
+        incident.setFile(fileGeneric);
+
         IncidentType it = new IncidentType();
         it.setId(incidentDto.getIdIncidentType());
 
@@ -516,9 +544,15 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     }
 
     @Transactional
-    public ResponseMessage deleteIncident(Long id) {
+    public ResponseMessage deleteIncident(HttpServletRequest request, Long id) {
         ResponseMessage responseMessage = new ResponseMessage();
-        incidentRepository.delete(id);
+        Incident i = incidentRepository.findOne(id);
+        UploadFileGeneric f = i.getFile();
+        if (f != null) {
+            String path = request.getSession().getServletContext().getRealPath("");
+            upDwFileGenericService.deleteFile(path, f, userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+        incidentRepository.delete(i);
         responseMessage.setHasError(false);
         responseMessage.setMessage("El incidente ha sido eliminado con éxito");
         return responseMessage;
@@ -565,15 +599,15 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
     }
 
     @Transactional
-    public ResponseMessage saveIncapacity(IncapacityDto incapacityDto) {
+    public ResponseMessage saveIncapacity(HttpServletRequest request, IncapacityDto incapacityDto) {
         ResponseMessage responseMessage = new ResponseMessage();
-        incapacityRepository.save(fillIncapacity(incapacityDto));
+        incapacityRepository.save(fillIncapacity(request, incapacityDto));
         responseMessage.setHasError(false);
         responseMessage.setMessage("La incapacidad ha sido guardada con éxito");
         return responseMessage;
     }
 
-    private Incapacity fillIncapacity(IncapacityDto incapacityDto) {
+    private Incapacity fillIncapacity(HttpServletRequest request, IncapacityDto incapacityDto) {
         Incapacity incapacity = new Incapacity();
         if (incapacityDto.getId() != null)
             incapacity = incapacityRepository.findIncapacityByIds(incapacityDto.getIdEmployee(), incapacityDto.getId());
@@ -589,7 +623,17 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         } catch (Exception e) {
         }
 
-        incapacity.setDescription(incapacityDto.getDescription());
+        if (incapacity.getFile() != null && incapacity.getFile().getId() != incapacityDto.getFileId()) {//si ya tiene uno, verifico que no sea el mismo
+            String path = request.getSession().getServletContext().getRealPath("");
+            //si es difenrente elimino el anterior
+            upDwFileGenericService.deleteFile(path, incapacity.getFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+
+        UploadFileGeneric fileGeneric = uploadFileGenericRepository.findOne(incapacityDto.getFileId());
+        fileGeneric.setObsolete(false);
+        incapacity.setFile(fileGeneric);
+
+        incapacity.setDescription(incapacityDto.getDescriptionIn());
         incapacity.setDocName(incapacityDto.getDocName());
         incapacity.setComments(incapacityDto.getComments());
 
@@ -598,9 +642,15 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
 
     @Transactional
-    public ResponseMessage deleteIncapacity(Long id) {
+    public ResponseMessage deleteIncapacity(HttpServletRequest request, Long id) {
         ResponseMessage responseMessage = new ResponseMessage();
-        incapacityRepository.delete(id);
+        Incapacity in = incapacityRepository.findOne(id);
+        UploadFileGeneric f = in.getFile();
+        if (f != null) {
+            String path = request.getSession().getServletContext().getRealPath("");
+            upDwFileGenericService.deleteFile(path, f, userRepository.findOne(sharedUserService.GetLoggedUserId()));
+        }
+        incapacityRepository.delete(in);
         responseMessage.setHasError(false);
         responseMessage.setMessage("La incapacidad ha sido eliminada con éxito");
         return responseMessage;
@@ -790,5 +840,76 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
         }
         return summary;
+    }
+
+    @Transactional
+    public ResponseMessage saveEmployeeSchedule(EmployeeScheduleDto scheduleDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        employeeScheduleRepository.save(fillEmployeeSchedule(scheduleDto));
+        responseMessage.setHasError(false);
+        responseMessage.setMessage("El horario de trabajo ha sido guardado con éxito");
+        return responseMessage;
+    }
+
+    private EmployeeSchedule fillEmployeeSchedule(EmployeeScheduleDto scheduleDto) {
+        EmployeeSchedule schedule = new EmployeeSchedule();
+        Gson gson = new Gson();
+
+        if (scheduleDto.getId() != null) {
+            schedule = employeeScheduleRepository.findOne(scheduleDto.getId());
+
+            for (ScheduleDay day : schedule.getDays()) {
+                scheduleDayRepository.delete(day);
+            }
+            schedule.getDays().clear();
+        }
+
+        List<ScheduleDayDto> scheduleDtos = gson.fromJson(scheduleDto.getScheduleDays(), new TypeToken<List<ScheduleDayDto>>() {
+        }.getType());
+
+        List<ScheduleDay> finalDays = new ArrayList<>();
+
+        for (ScheduleDayDto dto : scheduleDtos) {
+            if (dto.getIsSel() == true) {
+                dto.setStartI(dto.convStrToInt(dto.getStart()));
+                dto.setEndI(dto.convStrToInt(dto.getEnd()));
+                ScheduleDay day = new ScheduleDay();
+
+                day.setDayId(dto.getDayId());
+                day.setName(dto.getName());
+                day.setStart(dto.getStartI());
+                day.setEnd(dto.getEndI());
+                day.setEmployeeSchedule(schedule);
+                finalDays.add(day);
+            }
+        }
+
+        schedule.setName(scheduleDto.getName());
+        schedule.setDescription(scheduleDto.getDescription());
+        schedule.setIsObsolete(false);
+        schedule.setDays(finalDays);
+        return schedule;
+    }
+
+    @Transactional
+    public ResponseMessage deleteEmployeeSchedule(Long id) {
+        ResponseMessage resp = new ResponseMessage();
+
+        if (id != null) {
+            EmployeeSchedule schedule = employeeScheduleRepository.findOne(id);
+            schedule.setIsObsolete(true);
+//            for (ScheduleDay day : schedule.getDays()) {
+//                scheduleDayRepository.delete(day);
+//            }
+//            schedule.getDays().clear();
+            employeeScheduleRepository.save(schedule);
+            resp.setHasError(false);
+            resp.setMessage("El horario ha sido eliminado con éxito.");
+        } else {
+            resp.setHasError(true);
+            resp.setMessage("Ha ocurrido un error, intente nuevamente.");
+        }
+
+        return resp;
     }
 }

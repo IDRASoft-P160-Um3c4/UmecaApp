@@ -22,21 +22,18 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "where lower(E.name)=:nameEm and lower(E.lastNameP)=:lastP and lower(E.lastNameM)=:lastM and E.birthDate=:bDate and E.id <> :idEmployee")
     Long findExistEmployeeWithId(@Param("nameEm") String name, @Param("lastP") String lastNameP, @Param("lastM") String lastNameM, @Param("bDate") Date birthDate, @Param("idEmployee") Long idEmployee);
 
-    @Query("select new com.umeca.model.shared.SelectList(concat(E.name,' ',E.lastNameP,' ',E.lastNameM),P.description) " +
+    @Query("select concat(E.name,' ',E.lastNameP,' ',E.lastNameM) " +
             "from Employee E " +
-            "inner join E.post P " +
             "where E.id=:idEmployee")
-    SelectList getEmployeeNameRoleById(@Param("idEmployee") Long idEmployee);
-
+    String getEmployeeNameById(@Param("idEmployee") Long idEmployee);
 
     @Query("select P.id from Employee E " +
             "inner join E.photo P " +
             "where E.id=:idEmployee")
     Long getIdPhotoByIdEmployee(@Param("idEmployee") Long idEmployee);
 
-    @Query("select new com.umeca.model.shared.SelectList(E.id,concat(P.description,' - ',E.name,' ',E.lastNameP,' ',E.lastNameM),D.id) from Employee E " +
-            "inner join E.post P " +
+    @Query("select new com.umeca.model.shared.SelectList(E.id,concat(E.name,' ',E.lastNameP,' ',E.lastNameM),D.id) from Employee E " +
             "inner join E.district D " +
-            "where E.isObsolete=false order by concat(P.description,' - ',E.name,' ',E.lastNameP,' ',E.lastNameM) asc")
+            "where E.isObsolete=false order by concat(E.name,' ',E.lastNameP,' ',E.lastNameM) asc")
     List<SelectList> getAllNoObsoleteEmployees();
 }

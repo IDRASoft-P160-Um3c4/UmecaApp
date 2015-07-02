@@ -50,7 +50,7 @@ public class ActivityReportDirectorView implements EntityGrid {
         if(creationDate == null)
             return "";
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.FORMAT_CALENDAR_III);
         return sdf.format(creationDate.getTime());
     }
 

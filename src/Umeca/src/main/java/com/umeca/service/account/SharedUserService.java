@@ -6,9 +6,11 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,27 +29,27 @@ public class SharedUserService {
     private UserRepository userRepository;
     private List<String> lstRolesByUserId;
 
-    public Long GetLoggedUserId(){
+    public Long GetLoggedUserId() {
         try {
             String sUsername = SecurityContextHolder.getContext().getAuthentication().getName();
             Long idUser = userRepository.findIdByUsername(sUsername);
             return idUser;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         return -1L;
     }
 
 
-    public String GetLoggedUsername(){
+    public String GetLoggedUsername() {
         try {
             return SecurityContextHolder.getContext().getAuthentication().getName();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return "@NA";
         }
     }
 
-    public Boolean isEnabled(Long userId){
+    public Boolean isEnabled(Long userId) {
         return userRepository.isEnabled(userId);
     }
 
@@ -55,7 +57,7 @@ public class SharedUserService {
         String sUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User userToValidate = userRepository.getInfoToValidate(sUsername);
 
-        if(userToValidate.getEnabled() == false){
+        if (userToValidate.getEnabled() == false) {
             response.setMessage("Usted no tiene permisos para realizar esta acci&oacute;n. Por favor solicite los permisos suficientes para realizar esta acci&oacute;n e intente de nuevo.");
             response.setHasError(true);
             return false;
@@ -68,7 +70,7 @@ public class SharedUserService {
         return true;
     }
 
-    public Integer calculateAge(Date birthDate){
+    public Integer calculateAge(Date birthDate) {
         Calendar dob = Calendar.getInstance();
         dob.setTime(birthDate);
         Calendar today = Calendar.getInstance();
@@ -99,6 +101,7 @@ public class SharedUserService {
         return (userRepository.isUserInRole(supervisorId, sRole) > 0);
 
     }
+
     public boolean isUserInRoles(Long supervisorId, List<String> lstRole) {
         return (userRepository.isUserInRoles(supervisorId, lstRole) > 0);
 
@@ -109,6 +112,68 @@ public class SharedUserService {
     }
 
     public String getFoneticByName(String name, String lastNameP, String lastNameM) {
-        return name.trim().toLowerCase()+lastNameP.trim().toLowerCase()+lastNameM.trim().toLowerCase();
+        return name.trim().toLowerCase() + lastNameP.trim().toLowerCase() + lastNameM.trim().toLowerCase();
+    }
+
+
+    public List<SelectList> getUserRoles(String employeeName, String username, Long employeeId) {
+
+        List<SelectList> lstUsr = new ArrayList<>();
+        if (username != null)
+            lstUsr = userRepository.getUserRolesByUsername(username, new PageRequest(0, 20));
+        else if (employeeName != null)
+            lstUsr = userRepository.getUserRolesByEmployeeName(employeeName, new PageRequest(0, 20));
+        else if (employeeId != null)
+            lstUsr = userRepository.getUserRolesByEmployeeId(employeeId);
+
+        return doFinalUsrEmployeeList(lstUsr);
+    }
+
+    public List<SelectList> doFinalUsrEmployeeList(List<SelectList> lstUsr) {
+        List<SelectList> lst = new ArrayList<>();
+
+        for (int a = 0; a < lstUsr.size(); a++) {
+            SelectList itm = new SelectList(lstUsr.get(a).getId(), lstUsr.get(a).getName());
+
+            if (!lst.contains(itm))
+                lst.add(itm);
+        }
+
+        for (int i = 0; i < lst.size(); i++) {
+            SelectList usr = lst.get(i);
+            for (int j = 0; j < lstUsr.size(); j++) {
+                SelectList usrRole = lstUsr.get(j);
+                String cad = "";
+                if (usr.equals(usrRole)) {
+
+                    if (usr.getDescription() == null) {
+                        usr.setDescription("");
+                        cad = usrRole.getDescription();
+                    } else {
+                        cad = ", " + usrRole.getDescription();
+                    }
+
+                    usr.setDescription(usr.getDescription() + cad);
+                }
+            }
+        }
+
+        for (int i = 0; i < lst.size(); i++) {
+            lst.get(i).setName(lst.get(i).getName() + " (" + lst.get(i).getDescription() + ")");
+        }
+
+        return lst;
+    }
+
+    public List<Long> getLstValidUsersIdByLstRoles(List<String> lstRoles) {
+        return userRepository.getLstValidUsersIdByLstRoles(lstRoles);
+    }
+
+    public User findOne(Long id) {
+        return userRepository.findOne(id);
+    }
+
+    public String getFullNameById(Long id) {
+        return userRepository.getFullNameById(id);
     }
 }

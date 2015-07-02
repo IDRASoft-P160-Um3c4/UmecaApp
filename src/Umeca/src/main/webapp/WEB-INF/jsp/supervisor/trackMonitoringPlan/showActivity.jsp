@@ -155,7 +155,6 @@
                 <div class="hr hr-24"></div>
                 <div class="row" ng-show="!suspendBlock">
                     <div class="col-xs-12">
-
                         <table class="table table-bordered table-striped">
                             <thead class="thin-border-bottom">
                             <tr>
@@ -184,6 +183,66 @@
                             </tbody>
                         </table>
                         <input type="hidden"  name="arrangementsValues" id="arrangementsValues" ng-update-hidden ng-model="m.arrangementsValues" />
+                    </div>
+                </div>
+                <div class="row" ng-show="hasChanneling && hasActGoalChannelingTrack"
+                     ng-init="hasChanneling = ${hasChanneling}; hasActGoalChannelingTrack = ${hasActGoalChannelingTrack};" >
+                    <div class="col-xs-12">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thin-border-bottom">
+                            <tr>
+                                <th class="col-xs-7">
+                                    <i class="icon-caret-right dark"></i>
+                                    Seguimiento a la canalizaci&oacute;n
+                                </th>
+                                <th>
+                                    <i class="icon-caret-right dark"></i>
+                                    Asistencia
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <i class="icon-asterisk blue"></i> &nbsp;
+                                            <strong>Tipo de canalizaci&oacute;n:</strong><br/>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            ${channelingType}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <i class="icon-asterisk blue"></i> &nbsp;
+                                            <strong>Nombre de la canalizaci&oacute;n:</strong><br/>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            ${channelingName}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-xs-offset-1 col-xs-11">
+                                            <input type="radio" ng-disabled="${isReadOnly}" name="channelingAssistance"
+                                                   ng-model = "m.channelingAssistance" value="1"
+                                                   ng-init="m.channelingAssistance = ${channelingAssistance}"> Asisti&oacute;
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-offset-1 col-xs-11">
+                                            <input type="radio" ng-disabled="${isReadOnly}"
+                                                   name="channelingAssistance" ng-model = "m.channelingAssistance" value="0"> No asisti&oacute;
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 

@@ -52,6 +52,26 @@ window.showUpsert = function (id, divScope, urlToGo, jqGridToUse, urlToContinue,
 
 };
 
+window.showUpsertParams = function (params, divScope, urlToGo, jqGridToUse, urlToContinue, callback) {
+    var scope = angular.element($(divScope)).scope();
+    scope.show(params, urlToGo).
+        then(function (resp) {
+
+            if (urlToContinue !== undefined) {
+                window.goToUrlMvcUrl(urlToContinue);
+                return;
+            }
+
+            if (jqGridToUse !== undefined)
+                $(jqGridToUse).trigger("reloadGrid");
+
+            if (callback !== undefined && resp !== undefined) {
+                callback(resp);
+            }
+
+        });
+};
+
 window.showUpsertWithIdCase = function (id, divScope, urlToGo, jqGridToUse, urlToContinue, idCase) {
     var scope = angular.element($(divScope)).scope();
     scope.show({id: id, idCase: idCase}, urlToGo).
@@ -119,6 +139,14 @@ window.showConfirmCancelDocument = function (id, folio, divScope, urlToGo, jqGri
 window.showObsolete = function (id, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.doObsolete({id: id}, urlToGo).
+        then(function () {
+            $(jqGridToUse).trigger("reloadGrid");
+        });
+};
+
+window.showObsoleteParams = function (params, divScope, urlToGo, jqGridToUse) {
+    var scope = angular.element($(divScope)).scope();
+    scope.doObsolete(params, urlToGo).
         then(function () {
             $(jqGridToUse).trigger("reloadGrid");
         });
@@ -307,3 +335,21 @@ if (!Array.prototype.filter) {
         return res;
     };
 }
+
+window.initCatalog = function(lstCatalog, catalogId){
+    if(lstCatalog === undefined || lstCatalog.length === 0)
+        return undefined;
+
+    if(catalogId === undefined){
+        return lstCatalog[0];
+    }
+
+    var catalog;
+    for(var i= 0, len = lstCatalog.length; i<len; i++){
+        catalog =  lstCatalog[i];
+        if(catalog.id === catalogId)
+            return catalog;
+    }
+
+    return lstCatalog[0];
+};

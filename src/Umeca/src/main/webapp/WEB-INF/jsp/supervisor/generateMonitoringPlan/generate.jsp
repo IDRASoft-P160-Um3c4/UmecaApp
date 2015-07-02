@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <html>
 <head>
@@ -88,7 +82,7 @@ var updateGroupInfo = function(groupInfo, group, count, actStart, actEnd) {
     }
 };
 
-var convertToEvents = function (lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources, groupInfo) {
+var convertToEvents = function (lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources, groupInfo, lstChanneling) {
     var lstEvents = [];
     var today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -118,6 +112,7 @@ var convertToEvents = function (lstActivitiesMonPlan, caseInfo, lstArrangements,
                 activity: idToObject(act.activityMonId, lstActivities),
                 goal: idToObject(act.goalId, lstGoals),
                 source: idToObject(act.sourceId, lstSources),
+                channeling: idToObject(act.channelingId, lstChanneling),
                 activitySpec: act.activitySpec,
                 goalSpec: act.goalSpec,
                 sourceSpec: act.sourceSpec,
@@ -139,13 +134,14 @@ jQuery(function ($) {
     var lstActivitiesMonPlan = ${lstActivitiesMonPlan};
     var lstArrangements = ${lstArrangements};
     var lstActivities = ${lstActivities};
+    var lstChanneling = ${lstChanneling};
     var lstGoals = ${lstGoals};
     var lstSources = ${lstSources};
     var groupInfo = {};
 
     var caseInfo = {caseId: "${caseId}", mpId: "${mpId}", personName: "${personName}",
         monStatus: "${monStatus}", monitoringPlanId: "${monitoringPlanId}", isInAuthorizeReady: ${isInAuthorizeReady}};
-    lstEventsAct = convertToEvents(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources, groupInfo);
+    lstEventsAct = convertToEvents(lstActivitiesMonPlan, caseInfo, lstArrangements, lstActivities, lstGoals, lstSources, groupInfo, lstChanneling);
 
     var date = new Date();
     $('#id-date-picker-start,#id-date-picker-end,#id-date-picker-group-start,#id-date-picker-group-end').datepicker({autoclose: true, startDate: new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1)}).next().on(ace.click_event, function () {
@@ -168,7 +164,7 @@ jQuery(function ($) {
     scope.config({startDateId: "#id-date-picker-start", endDateId: "#id-date-picker-end",
                 groupStartDateId: "#id-date-picker-group-start", groupEndDateId: "#id-date-picker-group-end",
                 startTimeId: "#id-timepicker-start", endTimeId: "#id-timepicker-end", caseInfo: caseInfo, groupInfo:groupInfo, updateGroupInfo:updateGroupInfo},
-            lstArrangements, lstActivities, lstGoals, lstSources);
+            lstArrangements, lstActivities, lstGoals, lstSources, lstChanneling);
 
 
     /* initialize the external events

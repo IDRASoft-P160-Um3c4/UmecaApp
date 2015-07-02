@@ -4,6 +4,7 @@ import com.umeca.model.catalog.Area;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.humanReources.RequestAgreement;
 import com.umeca.model.entities.shared.Observation;
+import com.umeca.model.entities.shared.UploadFileGeneric;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,23 +19,23 @@ public class Agreement {
     @Column(name = "id_agreement")
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title",length = 750)
     private String title;
 
-    @Column(name = "theme")
+    @Column(name = "theme",length = 750)
     private String theme;
 
     @Column(name = "agreement_date")
     private Date agreementDate;
 
-    @Column(name = "comments")
+    @Column(name = "comments",length = 750)
     private String comments;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_area")
     private Area area;
 
-    @Column(name = "spec_area")
+    @Column(name = "spec_area",length = 750)
     private String specArea;
 
     @Column(name = "is_done")
@@ -43,7 +44,7 @@ public class Agreement {
     @Column(name = "is_finished")
     private Boolean isFinished;
 
-    @Column(name = "finished_comment")
+    @Column(name = "finished_comment",length = 750)
     private String finishedComment;
 
     @Column(name = "finish_date")
@@ -65,6 +66,12 @@ public class Agreement {
 
     @OneToMany(mappedBy = "agreement", cascade = CascadeType.ALL)
     private List<RequestAgreement> requestsAgreement;
+
+    @OneToMany
+    @JoinTable(name = "agreement_file_rel",
+            joinColumns = {@JoinColumn(name = "id_agreement", referencedColumnName = "id_agreement")},
+            inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic", unique = true)})
+    private List<UploadFileGeneric> files;
 
     public Long getId() {
         return id;

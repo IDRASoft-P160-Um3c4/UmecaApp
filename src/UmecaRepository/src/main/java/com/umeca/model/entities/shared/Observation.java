@@ -15,7 +15,7 @@ public class Observation {
     @Column(name = "id_observation")
     private Long id;
 
-    @Column(name = "comment")
+    @Column(name = "comment",length = 750)
     private String comment;
 
     @Column(name = "register_date")

@@ -11,7 +11,6 @@
                             </div>
                             <div class="body">
 
-
                                 <div class="row">
                                     <div class="col-xs-10">
                                         <label class="inline">
@@ -27,14 +26,15 @@
                                 </div>
 
                                 <div class="row">
-                                    <p>{{n.message}}</p>
+                                    <p ng-bind-html="formatHtml(n.message)"></p>
+                                    <%--<p>{{n.message}}</p>--%>
                                 </div>
 
                             </div>
                             <div class="tools">
                                 <div class="action-buttons bigger-125">
                                     <a href="#" ng-click="deleteNotif(n.id, '<c:url value='${urlToGo}' />');">
-                                        <i class="icon-trash red" title="Eliminar notificación"></i>
+                                        <i class="icon-trash red" title="Eliminar notificaci&oacute;n"></i>
                                     </a>
                                 </div>
                             </div>

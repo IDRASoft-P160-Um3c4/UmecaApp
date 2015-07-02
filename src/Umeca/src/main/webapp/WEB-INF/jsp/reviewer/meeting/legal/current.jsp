@@ -62,6 +62,7 @@
                             <textarea class="width-100" ng-model="m.additionalInfo" id="additionalInfo"
                                       name="additionalInfo"
                                       data-val="true"
+                                      ng-disabled="${readonlyBand}"
                                       ng-init='m.additionalInfo="${additionalInfo==null?'':additionalInfo}";'
                                       data-val-length-max="300" data-val-length-min="3"
                                       data-val-length="Debe tener entre 1 y m&aacute;ximo 1000 caracteres.">

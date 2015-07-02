@@ -38,6 +38,9 @@ public class Meeting {
     private Imputed imputed;
 
     @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
+    private ImputedInitial imputedInitial;
+
+    @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
     private SocialNetwork socialNetwork;
 
     @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
@@ -343,5 +346,13 @@ public class Meeting {
 
     public void setDateTerminateLegal(Date dateTerminateLegal) {
         this.dateTerminateLegal = dateTerminateLegal;
+    }
+
+    public ImputedInitial getImputedInitial() {
+        return imputedInitial;
+    }
+
+    public void setImputedInitial(ImputedInitial imputedInitial) {
+        this.imputedInitial = imputedInitial;
     }
 }

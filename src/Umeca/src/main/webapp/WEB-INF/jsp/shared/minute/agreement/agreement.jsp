@@ -9,9 +9,17 @@
         var isRH = $("#hidIsRHId").val();
         var isDir = $("#hidIsDirId").val();
 
+
         upsertAgreement = function (id) {
-            if (finishedMinute == 'false' && isRH == 'true')
-                window.showUpsertWithIdMinute(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/upsertAgreement.html'/>", "#GridIdAgreement", undefined, minuteId);
+//            if (finishedMinute == 'false' && isRH == 'true')
+            window.showUpsertWithIdMinute(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/upsertAgreement.html'/>", "#GridIdAgreement", undefined, minuteId);
+        };
+
+        upsertAgreementFile = function (id) {
+            if (finishedMinute == 'false') {
+                //var params = {id: id};
+                window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/minute/uploadAgreementFile.html'/>", "#GridIdAgreement");
+            }
         };
 
         upsertObservation = function (id) {
@@ -40,6 +48,11 @@
                 window.showUpsert(id, "#angJsjqGridIdAgreement", "<c:url value='/shared/agreement/responseFinishRequest.html'/>", "#GridIdAgreement");
         };
 
+        downloadAgreementFiles = function (id) {
+            var params = [];
+            params["idParam"] = id;
+            window.goToUrlMvcUrl("<c:url value='/shared/minute/downloadAgreementFiles.html?id=idParam' />", params);
+        };
 
         jQuery("#GridIdAgreement").jqGrid({
             url: '<c:url value="/shared/agreement/list.json?id="/>' + minuteId,
@@ -102,21 +115,23 @@
                     var cl = ids[i];
                     var be = "";
                     if (finished[i] == 'false') {
+                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar acuerdo\" onclick=\"window.upsertAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar observaci&oacute;n\" onclick=\"upsertObservation('" + cl + "');\"><span class=\"glyphicon glyphicon-comment\"></span></a>";
+                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar archivo al acuerdo\" onclick=\"upsertAgreementFile('" + cl + "');\"><span class=\"glyphicon glyphicon-upload\"></span></a>";
                         if (isRH == 'true') {
                             be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar concluir acuerdo\" onclick=\"showFinishRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
                             if (stCode[i] === 'FINISHED_AGREEMENT' || stCode[i] === 'FINISH_REJECT')
                                 be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver respuesta de solicitud de conclusi&oacute;n\" onclick=\"showResponseRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                         }
-                    }
 
-                    if (isDir == 'true') {
-                        if (stCode[i] === 'PENDENT_FINISH_REQUEST')
-                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar/Rechazar concluir acuerdo\" onclick=\"autRejFinishRequestAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                        if (isDir == 'true') {
+                            if (stCode[i] === 'PENDENT_FINISH_REQUEST')
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar/Rechazar concluir acuerdo\" onclick=\"autRejFinishRequestAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                        }
                     }
-                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar observaci&oacute;n\" onclick=\"upsertObservation('" + cl + "');\"><span class=\"glyphicon glyphicon-comment\"></span></a>";
 
                     be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Historial de observaciones\" onclick=\"showObsHistory('" + cl + "');\"><span class=\"glyphicon glyphicon-dashboard\"></span></a>";
-                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Archivos del acuerdo\" onclick=\"showAgreementFiles('" + cl + "');\"><span class=\"glyphicon glyphicon-upload\"></span></a>";
+                    be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivos del acuerdo\" onclick=\"downloadAgreementFiles('" + cl + "');\"><span class=\"glyphicon glyphicon-download\"></span></a>";
                     $(this).jqGrid('setRowData', ids[i], {Action: be});
                 }
             }
@@ -127,6 +142,74 @@
                     updatePagerIcons(table);
                     enableTooltips(table);
                 }, 0);
+            },
+            subGridOptions: {
+                plusicon: "glyphicon glyphicon-chevron-down position-relative",
+                minusicon: "glyphicon glyphicon-chevron-right position-relative",
+                reloadOnExpand: false,
+                selectOnExpand: true
+            },
+            subGrid: true,
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+            },
+            subGridRowExpanded: function (subgrid_id, row_id) {
+                var subgrid_table_id, pager_id;
+                subgrid_table_id = subgrid_id + "_t";
+                pager_id = "p_" + subgrid_table_id;
+                $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
+                $("#" + subgrid_table_id).jqGrid({
+                    url: '<c:url value='/shared/agreement/listAgreementFiles.json?id=' />' + row_id,
+                    autoencode: true,
+                    datatype: "json",
+                    mtype: 'POST',
+                    colNames: ['ID', 'Archivo', 'Descripci&oacute;n', 'Fecha de subida'],
+                    colModel: [
+                        {name: 'id', index: 'id', hidden: true},
+                        {
+                            name: 'name',
+                            index: 'name',
+                            width: 150,
+                            align: "center",
+                            sortable: false,
+                            search: false
+                        },
+                        {
+                            name: 'description',
+                            index: 'description',
+                            width: 150,
+                            align: "center",
+                            sortable: false,
+                            search: false
+                        },
+                        {
+                            name: 'strDate',
+                            index: 'strDate',
+                            width: 150,
+                            align: "center",
+                            sortable: false,
+                            search: false
+                        },
+
+                    ],
+                    rowNum: 20,
+                    pager: pager_id,
+                    sortname: 'id',
+                    sortorder: "asc",
+                    height: '100%',
+                    loadComplete: function () {
+                        var table = this;
+                        setTimeout(function () {
+                            updatePagerIcons(table);
+                            enableTooltips(table);
+                        }, 0);
+                    }
+                });
+                $("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, {edit: false, add: false, del: false})
             }
         });
 
@@ -145,8 +228,7 @@
             multipleSearch: true,
             ignoreCase: true
         });
-    })
-    ;
+    });
 </script>
 
 <div class="row element-center">

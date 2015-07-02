@@ -4,6 +4,8 @@
 
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/requestFinishCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/minute/authRejRequestFinishCtrl.js"></script>
     <title>Personal UMECA</title>
 </head>
 
@@ -13,31 +15,55 @@
 <div class="container body-content">
 
     <script>
-
-
-        upsertMinute = function () {
-            var canAdd = ${canAdd};
-            if (canAdd == true) {
-                var url = "<c:url value='/shared/minute/upsertMinute.html'/>";
-                window.goToUrlMvcUrl(url);
-            }
-        };
-
-        editMinute = function (id) {
-            var url = "<c:url value='/shared/minute/upsertMinute.html?id='/>" + id;
-            window.goToUrlMvcUrl(url);
-        };
-
         $(document).ready(function () {
+
+            var isRH = ${isRH};
+            var isDir = ${isDir};
+
+            upsertMinute = function () {
+                if (isRH == true) {
+                    var url = "<c:url value='/shared/minute/upsertMinute.html'/>";
+                    window.goToUrlMvcUrl(url);
+                }
+            };
+
+            editMinute = function (id) {
+                var url = "<c:url value='/shared/minute/upsertMinute.html?id='/>" + id;
+                window.goToUrlMvcUrl(url);
+            };
+
+            summaryMinute = function (id) {
+                if (isRH == true || isDir == true) {
+                    var url = "<c:url value='/shared/minute/summaryMinute.html?id='/>" + id;
+                    window.goToUrlMvcUrl(url);
+                }
+            };
+
+            showFinishRequest = function (id) {
+                if (isRH == true)
+                    window.showUpsert(id, "#angJsjqGridId", "<c:url value='/shared/minute/finishRequestMinute.html'/>", "#GridMinuteId");
+            };
+
+            showFinishResponse = function (id) {
+                if (isRH == true)
+                    window.showUpsert(id, "#angJsjqGridId", "<c:url value='/shared/minute/responseFinishRequest.html'/>", "#GridMinuteId");
+            };
+
+            autRejFinishRequestMinute = function (id) {
+                if (isDir == true)
+                    window.showUpsert(id, "#angJsjqGridId", "<c:url value='/shared/minute/authRejFinishRequest.html'/>", "#GridMinuteId");
+            };
+
             jQuery("#GridMinuteId").jqGrid({
                 url: '<c:url value='/shared/minute/list.json' />',
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'isObsolete', 'Fecha', 'Hora', 'Lugar', 'Encargado', 'Acci&oacute;n'],
+                colNames: ['ID', 'isFinished', 'stCode', 'Fecha', 'Hora', 'Lugar', 'Encargado', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
-                    {name: 'isFinished', index: 'isObsolete', hidden: true},
+                    {name: 'isFinished', index: 'isFinished', hidden: true},
+                    {name: 'stCode', index: 'stCode', hidden: true},
                     {
                         name: 'minuteDate',
                         index: 'minuteDate',
@@ -92,26 +118,96 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-                    var obsolete = $(this).jqGrid('getCol', 'isFinished', false);
+                    var finished = $(this).jqGrid('getCol', 'isFinished', false);
+                    var status = $(this).jqGrid('getCol', 'stCode', false);
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var be = "";
-
-                        if (obsolete[i] == 'false') {
+                        if (finished[i] == 'false') {
                             be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar minuta\" onclick=\"editMinute(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Cerrar minuta\" onclick=\"closeMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                        }
+                            if (isRH) {
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Cerrar minuta\" onclick=\"showFinishRequest('" + cl + "');\"><span class=\"glyphicon glyphicon-lock\"></span></a>";
 
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de minuta\" onclick=\"downloadMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
+                                if (status[i] == 'FINISH_REJECT')
+                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver respuesta de solicitud de conclusi&oacute;n\" onclick=\"showFinishResponse('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                            }
+
+                            if (isDir == true && status[i] == 'PENDENT_FINISH_REQUEST') {
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar/Rechazar concluir minuta\" onclick=\"autRejFinishRequestMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                            }
+                        } else {
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar minuta\" onclick=\"editMinute(" + cl + ");\"><span class=\"glyphicon glyphicon-search\"></span></a>";
+                        }
+                        if (isRH == true || isDir == true)
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de minuta\" onclick=\"summaryMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
+                subGridOptions: {
+                    plusicon: "glyphicon glyphicon-chevron-down position-relative",
+                    minusicon: "glyphicon glyphicon-chevron-right position-relative",
+                    reloadOnExpand: false,
+                    selectOnExpand: true
+                },
+                subGrid: true,
                 loadComplete: function () {
                     var table = this;
                     setTimeout(function () {
                         updatePagerIcons(table);
                         enableTooltips(table);
                     }, 0);
+                },
+                subGridRowExpanded: function (subgrid_id, row_id) {
+                    var subgrid_table_id, pager_id;
+                    subgrid_table_id = subgrid_id + "_t";
+                    pager_id = "p_" + subgrid_table_id;
+                    $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
+                    $("#" + subgrid_table_id).jqGrid({
+                        url: '<c:url value='/shared/agreement/list.json?id=' />' + row_id,
+                        autoencode: true,
+                        datatype: "json",
+                        mtype: 'POST',
+                        colNames: ['Acuerdo', 'Estado', 'Concluido'],
+                        colModel: [
+                            {
+                                name: 'title',
+                                index: 'title',
+                                sorttype: 'string',
+                                width: 400,
+                                align: "center",
+                                searchoptions: {sopt: ['bw']}
+                            },
+                            {
+                                name: 'isDoneStr',
+                                index: 'isDoneStr',
+                                width: 150,
+                                align: "center",
+                                sortable: false,
+                                search: false
+                            },
+                            {
+                                name: 'isFinishedStr',
+                                index: 'isFinishedStr',
+                                width: 150,
+                                align: "center",
+                                sortable: false,
+                                search: false
+                            }
+                        ],
+                        rowNum: 20,
+                        pager: pager_id,
+                        sortname: 'id',
+                        sortorder: "asc",
+                        height: '100%',
+                        loadComplete: function () {
+                            var table = this;
+                            setTimeout(function () {
+                                updatePagerIcons(table);
+                                enableTooltips(table);
+                            }, 0);
+                        }
+                    });
+                    $("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, {edit: false, add: false, del: false})
                 }
             });
 
@@ -150,7 +246,7 @@
 
     </script>
 
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Minutas de trabajo
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Minutas abiertas
     </h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">

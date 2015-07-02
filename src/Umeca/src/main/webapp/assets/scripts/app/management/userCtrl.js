@@ -5,7 +5,6 @@ app.controller('userController', function($scope, $timeout) {
     $scope.m.role = 0;
 
     $scope.init = function(){
-
         if($scope.lstRoles === undefined || $scope.lstRoles.length <= 0)
             return;
 
@@ -23,12 +22,7 @@ app.controller('userController', function($scope, $timeout) {
                 }
             }
         }
-
-
-
-
     };
-
 
     $timeout(function() {
         $scope.init();

@@ -1,9 +1,3 @@
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <script>
     app.service('sharedSvc', function ($timeout, $q) {

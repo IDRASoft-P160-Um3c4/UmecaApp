@@ -16,21 +16,16 @@
                                 <li class="active">
                                     <a data-toggle="tab" href="#tasks-tab">Actividades</a>
                                 </li>
-
                                 <li>
-                                    <a data-toggle="tab" ng-show="{{lstNotification.length>0}}"
-                                       href="#notifications-tab">Notificaciones
-                                        &nbsp;&nbsp;<span class="badge badge-danger">{{lstNotification.length}}</span>
-                                    </a>
-                                    <a data-toggle="tab" ng-show="{{lstNotification.length<=0}}"
-                                       href="#notifications-tab">Notificaciones
+                                    <a data-toggle="tab" href="#notifications-tab">Notificaciones
+                                        <span class="badge badge-danger" ng-show="lstNotification.length > 0">
+                                            &nbsp;&nbsp;{{lstNotification.length}}
+                                        </span>
                                     </a>
                                 </li>
                             </ul>
                         </div>
-
                     </div>
-
 
                     <div class="widget-body">
                         <div class="widget-main padding-4">

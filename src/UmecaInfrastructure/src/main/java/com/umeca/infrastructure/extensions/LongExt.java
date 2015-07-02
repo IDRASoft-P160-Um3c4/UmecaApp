@@ -1,11 +1,5 @@
 package com.umeca.infrastructure.extensions;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 5/20/14
- * Time: 10:15 PM
- */
 public class LongExt {
     public static Long TryParse(String value) {
         try {
@@ -13,5 +7,11 @@ public class LongExt {
         } catch (NumberFormatException ex) {
             return null;
         }
+    }
+
+    public static String paddingLeft(String sPad, String sLen, Long consecutive) {
+        if(consecutive == null)
+            return "0000";
+        return String.format("%" + sPad + sLen + "d", consecutive);
     }
 }

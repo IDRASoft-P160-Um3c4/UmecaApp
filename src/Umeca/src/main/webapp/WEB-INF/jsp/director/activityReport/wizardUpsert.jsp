@@ -14,6 +14,9 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardActivity.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardSupervision.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardEvaluation.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardDirector.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardProject.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardHumanRes.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -31,7 +34,7 @@
 
 <div class="container body-content" ng-controller="wizardActivityUpsertController">
 
-    <h2 class="element-center"><i class="glyphicon glyphicon-share"></i>
+    <h2 class="element-center"><i class="glyphicon glyphicon-flash"></i>
         &nbsp;&nbsp;Asistente para generar el reporte de actividades</h2>
 
     <div class="blocker" ng-show="working">
@@ -72,10 +75,10 @@
                                             Direcci&oacute;n
                                         </a>
                                     </li>
-                                    <li ng-class="tabItem === 'projection' ? 'active' : ''">
-                                        <a data-toggle="tab" ng-click="tabItem = 'projection'" href="#projection">
+                                    <li ng-class="tabItem === 'projects' ? 'active' : ''">
+                                        <a data-toggle="tab" ng-click="tabItem = 'projects'" href="#projects">
                                             <i class="dark glyphicon glyphicon-road" style="margin-bottom: 7px !important;"></i>
-                                            Proyecci&oacute;n
+                                            Proyectos
                                         </a>
                                     </li>
                                     <li ng-class="tabItem === 'organizations' ? 'active' : ''">
@@ -108,11 +111,11 @@
                                         </div>
 
                                         <div id="management" ng-class="tabItem === 'management' ? 'tab-pane fade in active' : 'tab-pane fade'">
-                                            <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin.</p>
+                                            <%@ include file="/WEB-INF/jsp/director/activityReport/wizardDirector.jsp" %>
                                         </div>
 
-                                        <div id="projection" ng-class="tabItem === 'projection' ? 'tab-pane fade in active' : 'tab-pane fade'">
-                                            <p>aa.</p>
+                                        <div id="projects" ng-class="tabItem === 'projects' ? 'tab-pane fade in active' : 'tab-pane fade'">
+                                            <%@ include file="/WEB-INF/jsp/director/activityReport/wizardProject.jsp" %>
                                         </div>
 
                                         <div id="organizations" ng-class="tabItem === 'organizations' ? 'tab-pane fade in active' : 'tab-pane fade'">
@@ -120,7 +123,7 @@
                                         </div>
 
                                         <div id="minute" ng-class="tabItem === 'minute' ? 'tab-pane fade in active' : 'tab-pane fade'">
-                                            <p>aa.</p>
+                                            <%@ include file="/WEB-INF/jsp/director/activityReport/wizardHumanRes.jsp" %>
                                         </div>
                                     </div>
                                 </div>

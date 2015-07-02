@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="com.umeca.model.shared.Constants" %>
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <html>
 
@@ -60,7 +54,7 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var be = "";
-                        if (status[i] == 'ST_CASE_CLOSED' || status[i] == 'ST_CASE_PRISON_CLOSED') {
+                        if (status[i] == 'ST_CASE_CLOSED') {
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reabrir caso\" onclick=\"reopenCase('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

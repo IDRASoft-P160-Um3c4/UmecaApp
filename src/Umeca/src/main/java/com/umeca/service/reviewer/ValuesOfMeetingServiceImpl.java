@@ -1139,7 +1139,6 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
             Gson gson = new Gson();
             switch (name[0]) {
                 case "imputed":
-                    CatalogDto cdto = new CatalogDto();
                     if (meeting.getImputed() == null) {
                         meeting.setImputed(new Imputed());
                         meeting.getImputed().setMeeting(meeting);
@@ -1271,7 +1270,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
 
                     }
                     for (ImputedHome ih : meeting.getImputedHomes()) {
-                        CatalogDto cDto = new CatalogDto();
+                        CatalogDto cdto = new CatalogDto();
                         if (ih.getIdAux().equals(fms.getIdFieldList())) {
                             switch (name[1]) {
                                 case "address":

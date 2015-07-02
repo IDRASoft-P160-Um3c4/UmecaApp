@@ -2,13 +2,6 @@ package com.umeca.model.entities.supervisor;
 
 import javax.persistence.*;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/10/14
- * Time: 4:36 PM
- */
-
 @Entity
 @Table(name = "supervision_activity")
 public class SupervisionActivity {
@@ -29,6 +22,9 @@ public class SupervisionActivity {
 
     @Column(name = "specification", nullable = false)
     private Boolean specification;
+
+    @Column(name = "code", length = 20, nullable = false)
+    private String code;
 
     public Long getId() {
         return id;
@@ -68,5 +64,13 @@ public class SupervisionActivity {
 
     public void setSpecification(Boolean specification) {
         this.specification = specification;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

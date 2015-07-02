@@ -1,4 +1,4 @@
-<div id="notifications-tab" class="tab-pane" ng-init ='lstNotification = ${lstNotification}; '>
+<div id="notifications-tab" class="tab-pane">
     <div class="clearfix">
         <div class="comments">
             <div class="itemdiv commentdiv" ng-repeat="n in lstNotification">
@@ -37,9 +37,14 @@
                     </div>
                 </div>
             </div>
+            <div ng-show="lstNotification.length==0">
+                <ul class="item-list">
+                    <li class="item-green clearfix">
+                        No existen nuevas notificaciones.
+                    </li>
+                </ul>
+            </div>
         </div>
-
-        <div class="hr hr-double hr8"></div>
     </div>
 </div>
 

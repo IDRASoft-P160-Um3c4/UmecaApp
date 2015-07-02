@@ -25,65 +25,65 @@ public class Imputed {
     @Id
     @GeneratedValue
     @Column(name = "id_imputed")
-    private Long id;
+    protected Long id;
 
     @Column(name = "name", length = 50, nullable = false)
-    private String name;
+    protected String name;
 
     @Column(name = "lastname_p", length = 50, nullable = false)
-    private String lastNameP;
+    protected String lastNameP;
 
     @Column(name = "lastname_m", length = 50, nullable = false)
-    private String lastNameM;
+    protected String lastNameM;
 
     @Column(name = "fonetic_string", length = 150, nullable = false)
-    private String foneticString;
+    protected String foneticString;
 
     @Column(name = "gender", nullable = true)
-    private Boolean gender;
+    protected Boolean gender;
 
     @Column(name = "birth_date", nullable = false)
-    private Date birthDate;
+    protected Date birthDate;
 
     @Column(name = "cel_phone", length = 20, nullable = true)
-    private String celPhone;
+    protected String celPhone;
 
     @Column(name = "years_marital_status", nullable = true)
-    private Integer yearsMaritalStatus;
+    protected Integer yearsMaritalStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_marital_status", nullable = true)
-    private MaritalStatus maritalStatus;
+    protected MaritalStatus maritalStatus;
 
     @Column(name = "boys", nullable = true)
-    private Integer boys;
+    protected Integer boys;
 
     @Column(name = "dependent_boys", nullable = true)
-    private Integer dependentBoys;
+    protected Integer dependentBoys;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_country", nullable = true)
-    private Country birthCountry;
+    protected Country birthCountry;
 
     @Column(name = "birth_municipality", nullable = true, length = 500)
-    private String birthMunicipality;
+    protected String birthMunicipality;
 
     @Column(name = "birth_state", nullable = true, length = 500)
-    private String birthState;
+    protected String birthState;
 
     @Column(name = "birth_location", nullable = true, length = 500)
-    private String birthLocation;
+    protected String birthLocation;
 
     @Column(name = "nickname", length = 100, nullable = true)
-    private String nickname;
+    protected String nickname;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_location", nullable = true)
-    private Location location;
+    protected Location location;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_meeting", nullable = false)
-    private Meeting meeting;
+    protected Meeting meeting;
 
     public Long getId() {
         return id;
@@ -292,6 +292,29 @@ public class Imputed {
     public void setFoneticString(String foneticString) {
         this.foneticString = foneticString;
     }
-}
 
+    public ImputedInitial cloneObj() {
+        ImputedInitial imp = new ImputedInitial();
+        imp.setId(id);
+        imp.setBirthCountry(birthCountry);
+        imp.setBirthDate(birthDate);
+        imp.setBirthLocation(birthLocation);
+        imp.setName(name);
+        imp.setBirthMunicipality(this.birthMunicipality);
+        imp.setBirthState(birthState);
+        imp.setBoys(boys);
+        imp.setCelPhone(celPhone);
+        imp.setDependentBoys(dependentBoys);
+        imp.setFoneticString(foneticString);
+        imp.setGender(gender);
+        imp.setLastNameM(lastNameM);
+        imp.setLastNameP(lastNameP);
+        imp.setLocation(location);
+        imp.setMaritalStatus(maritalStatus);
+        imp.setMeeting(meeting);
+        imp.setNickname(nickname);
+        imp.setYearsMaritalStatus(yearsMaritalStatus);
+        return imp;
+    }
+}
 

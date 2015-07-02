@@ -16,7 +16,7 @@ import java.util.Date;
  * Time: 10:53 AM
  * To change this template use File | Settings | File Templates.
  */
-public class JobDto implements EntityGrid{
+public class JobDto implements EntityGrid {
     private Long id;
     private Long idCase;
     private Long idEmployee;
@@ -38,7 +38,7 @@ public class JobDto implements EntityGrid{
 
     }
 
-    public JobDto(Long id, String company, String post, String nameHead, Float salaryWeek, String phone, Date iDate, Date eDate, Long idEmployee) {
+    public JobDto(Long id, String company, String post, String nameHead, Float salaryWeek, String phone, Date iDate, Date eDate, Long idEmployee, String reasonChange) {
         this.id = id;
         this.company = company;
         this.post = post;
@@ -53,6 +53,7 @@ public class JobDto implements EntityGrid{
             this.end = formatter.format(eDate);
         }
         this.idEmployee = idEmployee;
+        this.reasonChange = reasonChange;
     }
 
     public JobDto(Long id, String company, String post, String nameHead, Date iDate, Date eDate) {

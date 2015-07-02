@@ -130,6 +130,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     @Override
     public void getActivityToShow(Long id, ModelAndView model) {
         ActivityMonitoringPlanInfo actMonPlanInfo = activityMonitoringPlanRepository.getActivityInfo(id);
+        Long genericId;
 
         model.addObject("actMonPlanId", id);
         model.addObject("caseId", actMonPlanInfo.getCaseId());
@@ -164,7 +165,12 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         String sLstArrangement = gson.toJson(lstArrangement);
         model.addObject("lstArrangements", sLstArrangement);
         model.addObject("actSup", actMonPlanInfo.getSupervisionActivityName());
+
         model.addObject("actGoal", actMonPlanInfo.getActivityGoalName());
+        genericId = actMonPlanInfo.getActivityGoalId();
+        model.addObject("actGoalId", genericId);
+        model.addObject("hasActGoalChannelingTrack", genericId == Constants.CHANNELING_NOTIFICATION_GOAL_TRACK);
+
         model.addObject("actSources", StringEscape.escapeText(actMonPlanInfo.getAidSourceName()));
         model.addObject("actStatus", actMonPlanInfo.getActStatus());
         String[] sDate = actMonPlanInfo.getStartDateTime().split("\\|");
@@ -177,6 +183,17 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         model.addObject("actSupervisorDone", StringExt.naOnEmpty(actMonPlanInfo.getSupUserDone()));
         model.addObject("actComments", StringEscape.escapeText(StringExt.naOnEmpty(actMonPlanInfo.getComments())));
         model.addObject("actEndFullDate", CalendarExt.calendarToFormatString(actMonPlanInfo.getEndDone(), Constants.FORMAT_CALENDAR_I));
+
+        genericId = actMonPlanInfo.getChannelingId();
+        model.addObject("hasChanneling", genericId != null && genericId > 0);
+        model.addObject("channelingId", genericId);
+        model.addObject("channelingName", actMonPlanInfo.getChannelingName());
+        model.addObject("channelingType", actMonPlanInfo.getChannelingType());
+
+        model.addObject("channelingAssistance",
+                actMonPlanInfo.getChannelingAssistance() != null ? actMonPlanInfo.getChannelingAssistance() : 1); // Por defecto se usa que si asistió a la actividad en el seguimiento de la misma
+
+
     }
 
     public void getActivityToShow(Long id, ResponseMessage response) {
@@ -214,7 +231,6 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     public void saveAuthRejectMonPlan(SharedUserService sharedUserService, SharedLogExceptionService logException, AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String statusAuth, String statusReject, String type) {
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
-        //String statusAction = (model.getAuthorized() == 1 ? MonitoringConstants.STATUS_AUTHORIZED : MonitoringConstants.STATUS_REJECTED_AUTHORIZED);
         String statusAction = (model.getAuthorized() == 1 ? statusAuth : statusReject);
         commentModel.setComments(StringEscape.escapeText(model.getComments()));
         commentModel.setAction(statusAction);
@@ -222,7 +238,6 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         commentModel.setCaseDetention(monPlan.getCaseDetention());
         commentModel.setSenderUser(user);
         commentModel.setTimestamp(now);
-        //commentModel.setType(MonitoringConstants.TYPE_COMMENT_AUTHORIZED);
         commentModel.setType(type);
 
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
@@ -233,9 +248,12 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
 
         if (type.equals(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END) && model.getAuthorized() == 1) {
             Case caseDetention = monPlan.getCaseDetention();
-            StatusCase status = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
-            caseDetention.setStatus(status);
+            caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED));
             caseDetention.setCloseDate(new Date());
+            User u = new User();
+            u.setId(sharedUserService.GetLoggedUserId());
+            caseDetention.setCloserUser(u);
+            caseDetention.setCloseCause(closeCauseRepository.findByCode(Constants.CLOSE_CAUSE_DISMISSAL));
             caseRepository.save(caseDetention);
         }
 
@@ -415,12 +433,9 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         commentModel.setTimestamp(now);
         commentModel.setType(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END);
 
-
         MonitoringPlanJson jsonOld = MonitoringPlanJson.convertToJson(monPlan);
         monPlan.setStatus(MonitoringConstants.STATUS_PENDING_END);
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
-
-
 
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         logCommentRepository.save(commentModel);

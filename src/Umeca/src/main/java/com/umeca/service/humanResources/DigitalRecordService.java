@@ -26,7 +26,7 @@ public interface DigitalRecordService {
 
     ResponseMessage saveCourse(CourseAchievementDto courseAchievementDto);
 
-    ResponseMessage deleteCourse(Long id);
+    ResponseMessage deleteCourse(HttpServletRequest request, Long id);
 
     ResponseMessage saveReference(EmployeeReferenceDto referenceDto);
 
@@ -36,19 +36,19 @@ public interface DigitalRecordService {
 
     ResponseMessage deleteUmecaJob(Long id);
 
-    ResponseMessage saveTraining(CourseAchievementDto trainingDto);
+    ResponseMessage saveTraining(HttpServletRequest request, CourseAchievementDto trainingDto);
 
-    ResponseMessage saveIncident(IncidentDto incidentDto);
+    ResponseMessage saveIncident(HttpServletRequest request, IncidentDto incidentDto);
 
-    ResponseMessage deleteIncident(Long id);
+    ResponseMessage deleteIncident(HttpServletRequest request, Long id);
 
     ResponseMessage saveVacation(VacationDto vacationDto);
 
     ResponseMessage deleteVacation(Long id);
 
-    ResponseMessage saveIncapacity(IncapacityDto incapacityDto);
+    ResponseMessage saveIncapacity(HttpServletRequest request, IncapacityDto incapacityDto);
 
-    ResponseMessage deleteIncapacity(Long id);
+    ResponseMessage deleteIncapacity(HttpServletRequest request, Long id);
 
     ResponseMessage saveAttachment(HttpServletRequest request, AttachmentDto attachmentDto);
 
@@ -61,5 +61,9 @@ public interface DigitalRecordService {
     ResponseMessage doObsoleteEmployee(Long id);
 
     DigitalRecordSummaryDto fillDigitalRecordSummary(Long idEmployee, String contextPath, SharedLogExceptionService logException);
+
+    ResponseMessage saveEmployeeSchedule(EmployeeScheduleDto scheduleDto);
+
+    ResponseMessage deleteEmployeeSchedule(Long employeeScheduleId);
 
 }

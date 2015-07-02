@@ -11,21 +11,22 @@ public class IncapacityDto implements EntityGrid {
     private Long id;
     private Long idEmployee;
     private String docName;
-    private String description;
+    private String descriptionIn;
     private String start;
     private String end;
     private String comments;
+    private Long fileId;
 
     public IncapacityDto() {
 
     }
 
     //upsert
-    public IncapacityDto(Long id, Long idEmployee, String docName, String description, Date start, Date end, String comments) {
+    public IncapacityDto(Long id, Long idEmployee, String docName, String description, Date start, Date end, String comments, Long fileId) {
         this.id = id;
         this.idEmployee = idEmployee;
         this.docName = docName;
-        this.description = description;
+        this.descriptionIn = description;
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         if (start != null) {
             this.start = formatter.format(start);
@@ -34,13 +35,14 @@ public class IncapacityDto implements EntityGrid {
             this.end = formatter.format(end);
         }
         this.comments = comments;
+        this.fileId = fileId;
     }
 
 
     //grid
-    public IncapacityDto(Long id, String description, Date start, Date end, String comments) {
+    public IncapacityDto(Long id, String description, Date start, Date end, String comments, Long fileId) {
         this.id = id;
-        this.description = description;
+        this.descriptionIn = description;
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         if (start != null) {
             this.start = formatter.format(start);
@@ -49,6 +51,7 @@ public class IncapacityDto implements EntityGrid {
             this.end = formatter.format(end);
         }
         this.comments = comments;
+        this.fileId = fileId;
     }
 
     @Override
@@ -76,12 +79,12 @@ public class IncapacityDto implements EntityGrid {
         this.docName = docName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptionIn() {
+        return descriptionIn;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionIn(String descriptionIn) {
+        this.descriptionIn = descriptionIn;
     }
 
     public String getStart() {
@@ -106,5 +109,13 @@ public class IncapacityDto implements EntityGrid {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Long getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 }

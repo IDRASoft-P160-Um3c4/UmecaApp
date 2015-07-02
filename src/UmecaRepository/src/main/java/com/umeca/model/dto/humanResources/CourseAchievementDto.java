@@ -22,6 +22,7 @@ public class CourseAchievementDto implements EntityGrid {
     private String courseType;
     private String documentType;
     private Boolean isTraining;
+    private Long fileId;
 
     public CourseAchievementDto() {
     }
@@ -73,7 +74,7 @@ public class CourseAchievementDto implements EntityGrid {
     }
 
     //upsert training
-    public CourseAchievementDto(Long id, Long idEmployee, String name, String place, String duration, Date start, Date end) {
+    public CourseAchievementDto(Long id, Long idEmployee, String name, String place, String duration, Date start, Date end, Long fileId) {
         this.id = id;
         this.name = name;
         this.idEmployee = idEmployee;
@@ -86,10 +87,11 @@ public class CourseAchievementDto implements EntityGrid {
         if (end != null) {
             this.end = formatter.format(end);
         }
+        this.fileId = fileId;
     }
 
     //grid training
-    public CourseAchievementDto(Long id, String name, String place, String duration, Date start, Date end) {
+    public CourseAchievementDto(Long id, String name, String place, String duration, Date start, Date end, Long fileId) {
         this.id = id;
         this.name = name;
         this.place = place;
@@ -102,6 +104,7 @@ public class CourseAchievementDto implements EntityGrid {
         if (end != null) {
             this.end = formatter.format(end);
         }
+        this.fileId = fileId;
     }
 
     @Override
@@ -215,6 +218,14 @@ public class CourseAchievementDto implements EntityGrid {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public Long getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 }
 

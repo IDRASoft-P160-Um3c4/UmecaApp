@@ -13,6 +13,7 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
@@ -135,6 +136,8 @@ public class GenerateMonitoringPlanController {
     @Autowired
     private MonitoringPlanRepository monitoringPlanRepository;
     @Autowired
+    private ChannelingRepository channelingRepository;
+    @Autowired
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
     @Autowired
     private TechnicalReviewRepository qTechnicalReviewRepository;
@@ -160,7 +163,27 @@ public class GenerateMonitoringPlanController {
         String sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstArrangements", sLstGeneric);
 
+        lstGeneric = channelingRepository.findValidByCaseId(caseId);
+        sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstChanneling", sLstGeneric);
+
+        boolean hasChanneling = true;
+        if(lstGeneric == null || lstGeneric.size() == 0){
+            hasChanneling = false;
+        }
+
         lstGeneric = supervisionActivityRepository.findAllValidSl();
+
+        if(hasChanneling == false){
+            for(int i=lstGeneric.size()-1; i >= 0; i--){
+                SelectList data = lstGeneric.get(i);
+                if(data.getCode().equals(Constants.CHANNELING_SUPERVISION_ACTIVITY_CODE)){
+                    lstGeneric.remove(i);
+                    break;
+                }
+            }
+        }
+
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstActivities", sLstGeneric);
 

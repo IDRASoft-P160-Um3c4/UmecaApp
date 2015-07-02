@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 @Repository("qIncidentRepository")
 public interface IncidentRepository extends JpaRepository<Incident, Long> {
 
-    //public IncidentDto(Long id, Long idEmployee, Long idIncidentType, String specIncidentType, String comments, String reason, Date incidentDate) {
-    @Query("select new com.umeca.model.dto.humanResources.IncidentDto(I.id, E.id, IT.id,I.specIncidentType,I.comments,I.reason,I.incidentDate) from Incident I " +
+    @Query("select new com.umeca.model.dto.humanResources.IncidentDto(I.id, E.id, IT.id,I.specIncidentType,I.comments,I.reason,I.incidentDate, GF.id) from Incident I " +
             "inner join I.incidentType IT " +
             "inner join I.employee E " +
+            "inner join I.file GF " +
             "where I.id=:idIncident and E.id = :idEmployee")
     IncidentDto findIncidentDtoByIds(@Param("idEmployee") Long idEmployee, @Param("idIncident") Long idIncident);
 

@@ -40,6 +40,11 @@ public class ActivityReportController {
         return "/shared/activityReport/index";
     }
 
+    @RequestMapping(value = "/shared/minute/directorMinute", method = RequestMethod.GET)
+    public String indexMinute() {
+        return "/shared/activityReport/directorMinute";
+    }
+
     @Autowired
     SharedUserService userService;
     @Autowired
@@ -66,6 +71,7 @@ public class ActivityReportController {
                     add(r.get("creationDate"));
                     add(r.get("reportName"));
                     add(r.get("reportFor"));
+                    add(r.join("uploadFileGeneric").get("id").alias("fileId"));
                 }};
             }
 
@@ -83,8 +89,18 @@ public class ActivityReportController {
     }
 
     @RequestMapping(value = "/shared/activityReport/upsert", method = RequestMethod.POST)
-    public @ResponseBody ModelAndView upsertActivityReport(@RequestParam(required = false) Long id) {
+    public
+    @ResponseBody
+    ModelAndView upsertActivityReport(@RequestParam(required = false) Long id) {
         ModelAndView model = new ModelAndView("/shared/activityReport/upsert");
+        return model;
+    }
+
+    @RequestMapping(value = "/shared/minute/upsertDirectorMinute", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView upsertMinuteReport(@RequestParam(required = false) Long id) {
+        ModelAndView model = new ModelAndView("/shared/activityReport/upsertDirectorMinute");
         return model;
     }
 
@@ -92,29 +108,30 @@ public class ActivityReportController {
     ActivityReportService activityReportService;
 
     @RequestMapping(value = "/shared/activityReport/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseMessage doUpsert(@RequestBody ActivityReportRequest model){
+    public
+    @ResponseBody
+    ResponseMessage doUpsert(@RequestBody ActivityReportRequest model) {
         ResponseMessage response = new ResponseMessage();
         response.setTitle("Agenda de actividades ");
 
         try {
             User user = new User();
-            if(userService.isValidUser(user, response) == false)
+            if (userService.isValidUser(user, response) == false)
                 return response;
 
             List<String> lstRole = userService.getLstRolesByUserId(user.getId());
 
-            if(lstRole.isEmpty()){
+            if (lstRole.isEmpty()) {
                 response.setMessage("El usuario no tiene un rol asignado");
                 response.setHasError(true);
                 return response;
             }
 
-            if(activityReportService.save(model, user, lstRole.get(0)) == false)
+            if (activityReportService.save(model, user, lstRole.get(0)) == false)
                 return response;
 
             return response;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", userService);
             response.setHasError(true);
         }
@@ -125,28 +142,30 @@ public class ActivityReportController {
 
 
     @RequestMapping(value = "/shared/activityReport/delete", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage delete(@RequestParam Long id){
+    public
+    @ResponseBody
+    ResponseMessage delete(@RequestParam Long id) {
         ResponseMessage response = new ResponseMessage();
         response.setTitle("Agenda de actividades ");
 
         try {
             User user = new User();
-            if(userService.isValidUser(user, response) == false)
+            if (userService.isValidUser(user, response) == false)
                 return response;
 
             List<String> lstRole = userService.getLstRolesByUserId(user.getId());
 
-            if(lstRole.isEmpty()){
+            if (lstRole.isEmpty()) {
                 response.setMessage("El usuario no tiene un rol asignado");
                 response.setHasError(true);
                 return response;
             }
 
-            if(activityReportService.delete(id, user, response))
+            if (activityReportService.delete(id, user, response))
                 return response;
 
             return response;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "delete", userService);
             response.setHasError(true);
         }

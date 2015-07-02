@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
@@ -62,18 +56,19 @@
                         var row = $(this).getRowData(cl);
                         var status = row.status+"";
                         var be="";
+
                         if ( status.indexOf(".E.") != -1 ) {
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar caso\" onclick=\"window.makeRequest('CASE_OBSOLETE','" + cl + "');\"><i class=\"icon-trash\"></i></a>";
-                        }
+                        }else
                         if(status.indexOf(".A.")!= -1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar entrevista de riesgos procesales\" onclick=\"window.makeRequest('EDIT_MEETING','" + cl + "');\"><span class=\"glyphicon icon-comments-alt\"></span></a>";
-                        }if(status.indexOf(".B.")!= -1){
+                        }else if(status.indexOf(".B.")!= -1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar informaci&oacute;n legal\" onclick=\"window.makeRequest('EDIT_LEGAL_INFORMATION','" + cl + "');\"><span class=\"icon-legal\"></span></a>";
-                        }if(status.indexOf(".C.")!= -1){
+                        }else if(status.indexOf(".C.")!= -1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Cambiar el estado de las fuentes de verificaci&oacute;n\" onclick=\"window.makeRequest('CHANGE_STATUS_SOURCE','" + cl + "');\"><span class=\"icon-group\"></span></a>";
-                        }if(status.indexOf(".D.")!=-1){
+                        }else if(status.indexOf(".D.")!=-1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar Instrumento de evaluaci&oacute;n de riesgos\" onclick=\"window.makeRequest('EDIT_TECHNICAL_REVIEW','" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
-                        }if(status.indexOf(".G.")!=-1){
+                        }else if(status.indexOf(".G.")!=-1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"El caso no se judicializ&oacute;\" onclick=\"window.makeRequest('NOT_PROSECUTE','" + cl + "');\"><span class=\"icon-folder-close\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });

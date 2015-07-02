@@ -10,6 +10,7 @@ public class ActionActivity {
     private String commentsFail;
     private String arrangementsValues;
     private OptionList[] arrOptArrangementsValues;
+    private Integer channelingAssistance;
 
 
     public Long getActMonPlanId() {
@@ -51,5 +52,13 @@ public class ActionActivity {
         Gson gson = new Gson();
         arrOptArrangementsValues = gson.fromJson(arrangementsValues, OptionList[].class);
         return arrOptArrangementsValues;
+    }
+
+    public Integer getChannelingAssistance() {
+        return channelingAssistance;
+    }
+
+    public void setChannelingAssistance(Integer channelingAssistance) {
+        this.channelingAssistance = channelingAssistance;
     }
 }

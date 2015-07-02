@@ -1,6 +1,5 @@
 package com.umeca.model.entities.supervisor;
 
-import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
@@ -124,6 +123,24 @@ public class ActivityMonitoringPlan {
 
     @Column(name = "source_spec")
     private String sourceSpec;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_channeling", nullable = true)
+    private Channeling channeling;
+
+    @Column(name = "channeling_assistance", nullable = true)
+    private Integer channelingAssistance;
+
+    @Column(name="isJustified", nullable = true)
+    private Boolean isJustified;
+
+    @ManyToOne(fetch = FetchType.LAZY)//Relación a la actividad para reagendar la cita
+    @JoinColumn(name = "reschedule_appointment_id", nullable = true)
+    private ActivityMonitoringPlan rescheduleAppointment;
+
+    @Column(name="commentsJustification", length = 1000, nullable = true)
+    private String commentsJustification;
+
 
     public Long getId() {
         return id;
@@ -355,5 +372,66 @@ public class ActivityMonitoringPlan {
 
     public void setSourceSpec(String sourceSpec) {
         this.sourceSpec = sourceSpec;
+    }
+
+    public Channeling getChanneling() {
+        return channeling;
+    }
+
+    public void setChanneling(Channeling channeling) {
+        this.channeling = channeling;
+    }
+
+    public Boolean getIsReplaced() {
+        return isReplaced;
+    }
+
+    public void setIsReplaced(Boolean isReplaced) {
+        this.isReplaced = isReplaced;
+    }
+
+    public Boolean getIsPreAuthorizeMode() {
+        return isPreAuthorizeMode;
+    }
+
+    public void setIsPreAuthorizeMode(Boolean isPreAuthorizeMode) {
+        this.isPreAuthorizeMode = isPreAuthorizeMode;
+    }
+
+    public Integer getChannelingAssistance() {
+        return channelingAssistance;
+    }
+
+    public void setChannelingAssistance(Integer channelingAssistance) {
+        this.channelingAssistance = channelingAssistance;
+    }
+
+    public Boolean getIsJustified() {
+        return isJustified;
+    }
+
+    public void setIsJustified(Boolean isJustified) {
+        this.isJustified = isJustified;
+    }
+
+    public String getCommentsJustification() {
+        return commentsJustification;
+    }
+
+    public void setCommentsJustification(String commentsJustification) {
+        this.commentsJustification = commentsJustification;
+    }
+
+    public ActivityMonitoringPlan getRescheduleAppointment() {
+        return rescheduleAppointment;
+    }
+
+    public void setRescheduleAppointment(ActivityMonitoringPlan rescheduleAppointment) {
+        this.rescheduleAppointment = rescheduleAppointment;
+    }
+
+    public ActivityMonitoringPlan copyValues() {
+        ActivityMonitoringPlan model = new ActivityMonitoringPlan();
+        return model;
     }
 }

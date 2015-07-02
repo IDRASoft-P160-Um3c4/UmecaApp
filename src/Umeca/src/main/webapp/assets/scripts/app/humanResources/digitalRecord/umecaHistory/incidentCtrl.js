@@ -12,6 +12,16 @@ app.controller('incidentController', function ($scope, $timeout, $sce, $http) {
         if ($scope.incident.incidentType.specification == false)
             $scope.incident.specIncidentType = "";
     };
+
+    $scope.chkFields = function () {
+        if ($scope.incident.reason != undefined && $scope.incident.reason != "" &&
+            $scope.incident.incidentDate != undefined && $scope.incident.incidentDate != "" &&
+            $scope.incident.comments != undefined && $scope.incident.comments != "")
+            return true;
+
+        return false;
+    };
+
     $scope.submitIncident = function (formId, urlToGo) {
 
         if ($(formId).valid() == false) {

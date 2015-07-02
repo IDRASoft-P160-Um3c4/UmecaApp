@@ -2,7 +2,6 @@ package com.umeca.model.entities.humanReources;
 
 import com.umeca.model.catalog.District;
 import com.umeca.model.dto.humanResources.EmployeeDto;
-import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.shared.UploadFileGeneric;
@@ -28,10 +27,6 @@ public class Employee {
 
     @Column(name = "last_name_m")
     private String lastNameM;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_role")
-    private Role post;
 
     @Column(name = "gender")
     private Boolean gender;
@@ -88,6 +83,16 @@ public class Employee {
     @JoinColumn(name = "id_generic_file")
     private UploadFileGeneric photo;
 
+    @OneToMany
+    @JoinTable(name = "employee_user_rel",
+            joinColumns = {@JoinColumn(name = "id_employee", referencedColumnName = "id_employee")},
+            inverseJoinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "id_user", unique = true)})
+    private List<User> users;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_employee_schedule")
+    private EmployeeSchedule employeeSchedule;
+
     public Employee() {
 
     }
@@ -97,10 +102,6 @@ public class Employee {
         this.lastNameP = employeeDto.getLastNameP();
         this.lastNameM = employeeDto.getLastNameM();
         this.gender = employeeDto.getGender();
-        Role role = new Role();
-        role.setId(employeeDto.getRoleId());
-        this.post = role;
-        //this.post = employeeDto.getPost();
         this.birthDate = employeeDto.getBirthDate();
         District d = new District();
         d.setId(employeeDto.getDistrictId());
@@ -277,11 +278,19 @@ public class Employee {
         this.photo = photo;
     }
 
-    public Role getPost() {
-        return post;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setPost(Role post) {
-        this.post = post;
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public EmployeeSchedule getEmployeeSchedule() {
+        return employeeSchedule;
+    }
+
+    public void setEmployeeSchedule(EmployeeSchedule employeeSchedule) {
+        this.employeeSchedule = employeeSchedule;
     }
 }

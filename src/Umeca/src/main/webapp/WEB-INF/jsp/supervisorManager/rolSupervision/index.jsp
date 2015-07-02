@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <html>
 <head>
@@ -85,7 +79,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                allDayText: 'Todo el d�a',
+                allDayText: 'Todo el d&iacute;a',
                 allDaySlot: false,
                 slotMinutes: 30,
                 axisFormat: 'HH:mm',

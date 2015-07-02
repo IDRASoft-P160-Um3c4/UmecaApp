@@ -88,12 +88,14 @@
                         </li>
                         <li class="nav-li-blue"><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i
                                 class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a coordinador</a></li>
+                        <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html' />"><i
+                                class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-search"></i>
+                                    class="glyphicon glyphicon-volume-up"></i>
                                 &nbsp;&nbsp;Audiencias
                                 <i class="icon-caret-down"></i>
                             </a>
@@ -108,42 +110,44 @@
                         </li>
 
                         <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbspPlan de seguimiento<i
+                                    class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i
+                                        class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar/Modificar</a>
+                                </li>
+                                <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i
+                                        class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Dar seguimiento</a></li>
+                                <li><a href="<c:url value='/supervisor/manageMonitoringPlan/index.html' />"><i
+                                        class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Manejar casos y planes</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-search"></i>
+                                    class="glyphicon glyphicon-eye-open"></i>
                                 &nbsp;&nbsp;Supervisi&oacute;n
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i
                                         class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre&nbsp;&nbsp;
-                                </a>
-                                </li>
-                                <li class="dropdown-hover">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbspPlan de seguimiento<i
-                                            class="icon-caret-right pull-right"></i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i
-                                                class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar/Modificar</a>
-                                        </li>
-                                        <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i
-                                                class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Dar
-                                            seguimiento</a></li>
-                                        <li><a href="<c:url value='/supervisor/manageMonitoringPlan/index.html' />"><i
-                                                class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Manejar casos y planes</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                </a></li>
+                                <li><a href="<c:url value='/supervisor/channeling/index.html' />"><i
+                                        class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;Registro de canalizaciones&nbsp;&nbsp;
+                                </a></li>
+                                <li><a href="<c:url value='/supervisor/requestCloseCase/index.html'/>"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrar casos</a></li>
                             </ul>
                         </li>
 
-                        <li class="nav-li-blue"><a href="<c:url value='/supervisor/requestCloseCase/index.html'/>"><i
-                                class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrar casos</a></li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-folder-close"></i>
+                                    class="glyphicon glyphicon-search"></i>
                                 &nbsp;&nbsp;Consultar
                                 <i class="icon-caret-down"></i>
                             </a>
@@ -151,23 +155,21 @@
                                 <li><a href="<c:url value='/supervisor/log/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Historial de
                                     supervisi&oacute;n y cumplimiento</a></li>
-                                <li><a
-                                        href="<c:url value='/shared/messageHistory/index.html' />"><i
+                                <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
-                                <li><a
-                                        href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
+                                <li><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
                                     <i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
                                     supervisi&oacute;n</a>
                                 </li>
-                                <li><a
-                                        href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
+                                <li><a href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
                                     <i class="icon icon-folder-close"></i>&nbsp;&nbsp;Casos no judicializados</a>
+                                </li>
+                                <li><a href="<c:url value='/supervisor/channelingTrack/index.html'/>">
+                                    <i class="glyphicon glyphicon-hand-right"></i>&nbsp;&nbsp;Seguimiento canalizaci&oacute;n</a>
                                 </li>
                             </ul>
                         </li>
-
-
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
                         <li class="dropdown nav-li-blue">
@@ -224,11 +226,13 @@
                                 <li><a href="<c:url value='/shared/minute/index.html' />"><i
                                         class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Minutas abiertas</a>
                                 </li>
-                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
-                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas ceradas</a>
+                                <li><a href="<c:url value='/shared/minute/finishedIndex.html' />"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas cerradas</a>
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html' />"><i
+                                class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
@@ -309,17 +313,25 @@
                                 <li><a href="<c:url value='/shared/minute/index.html' />"><i
                                         class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Minutas abiertas</a>
                                 </li>
-                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
-                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas ceradas</a>
+                                <li><a href="<c:url value='/shared/minute/finishedIndex.html' />"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas cerradas</a>
                                 </li>
                             </ul>
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
-
-
-                        <li class="nav-li-blue"><a href="<c:url value='/director/taskDiary/index.html' />"><i
-                                class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class=" glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Actividades
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/director/taskDiary/index.html' />">
+                                    <i class="glyphicon glyphicon-book"></i>&nbsp;&nbsp;Agenda de actividades</a></li>
+                                <li><a href="<c:url value='/director/project/index.html' />">
+                                    <i class="glyphicon glyphicon-tags"></i>&nbsp;&nbsp;Proyectos</a></li>
+                            </ul>
+                        </li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -340,7 +352,7 @@
                         </li>
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Hist&oacute;ricos
+                                    class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Hist&oacute;ricos
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
@@ -357,8 +369,11 @@
                                     class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Reportes
                                 <i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades</a>
+                                </li>
                                 <li><a href="<c:url value='/director/activityReport/index.html' />"><i
-                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Generar reporte de
+                                        class="glyphicon glyphicon-stats"></i>&nbsp;&nbsp;Informes globales de
                                     actividades</a></li>
                             </ul>
                         </li>
@@ -371,16 +386,29 @@
                                 <li><a href="<c:url value='/shared/minute/index.html' />"><i
                                         class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Minutas abiertas</a>
                                 </li>
-                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
-                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas ceradas</a>
+                                <li><a href="<c:url value='/shared/minute/finishedIndex.html' />"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas cerradas</a>
                                 </li>
                             </ul>
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_HUMAN_RESOURCES')">
+
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Manejo de personal
+                                    class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Manejo de horarios
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/humanResources/employeeSchedule/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Registrar horarios</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Manejo de personal
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
@@ -399,16 +427,24 @@
                                 <li><a href="<c:url value='/shared/minute/index.html' />"><i
                                         class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Minutas abiertas</a>
                                 </li>
-                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
-                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas ceradas</a>
+                                <li><a href="<c:url value='/shared/minute/finishedIndex.html' />"><i
+                                        class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas cerradas</a>
                                 </li>
-                                <li><a href="<c:url value='/shared/minute/index.html' />"><i
-                                        class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Minutas para direcci&oacute;n</a>
+                                <li><a href="<c:url value='/shared/minute/directorMinute.html' />"><i
+                                        class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Minutas para
+                                    direcci&oacute;n</a>
                                 </li>
                             </ul>
                         </li>
                     </sec:authorize>
 
+                    <sec:authorize access="hasRole('ROLE_DETENTION_RECORD')">
+
+                        <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html'/>"><i
+                                class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a>
+                        </li>
+
+                    </sec:authorize>
                     <li class="light-blue">
                         <sec:authorize access="isAnonymous()">
                             <a href="#" ng-click="linkLogin()" ng-init="hasUser = false"><span

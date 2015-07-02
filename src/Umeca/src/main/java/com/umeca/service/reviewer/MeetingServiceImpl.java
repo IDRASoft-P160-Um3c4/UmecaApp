@@ -43,6 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +62,8 @@ public class MeetingServiceImpl implements MeetingService {
     private CaseRepository caseRepository;
     @Autowired
     private ImputedRepository imputedRepository;
+    @Autowired
+    private ImputedInitialRepository imputedInitialRepository;
     @Autowired
     private MeetingRepository meetingRepository;
     @Autowired
@@ -145,10 +148,13 @@ public class MeetingServiceImpl implements MeetingService {
             imputed.setName(imputed.getName().trim());
             imputed.setLastNameP(imputed.getLastNameP().trim());
             imputed.setLastNameM(imputed.getLastNameM().trim());
+
             if (imputedRepository.findImputedRegister(imputed.getName(), imputed.getLastNameP(), imputed.getLastNameM(), imputed.getBirthDate()).size() > 0)
                 caseDetention.setRecidivist(true);
             else
                 caseDetention.setRecidivist(false);
+
+
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention.setDateCreate(new Date());
@@ -160,9 +166,15 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.setStatus(statusMeeting);
             meeting.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
             meeting.setDateCreate(new Date());
+
+            ImputedInitial imputedInitial = imputed.cloneObj();
+            meeting.setImputedInitial(imputedInitial);
+            imputedInitial.setMeeting(meeting);
+
             meeting = meetingRepository.save(meeting);
             imputed.setMeeting(meeting);
             imputedRepository.save(imputed);
+            imputedInitialRepository.save(imputedInitial);
             result = caseDetention.getId();
         } catch (Exception e) {
             e.printStackTrace();
@@ -1283,9 +1295,11 @@ public class MeetingServiceImpl implements MeetingService {
             List<FieldMeetingSource> listFS = verificationService.createAllFieldVerificationOfImputed(c.getId());
             fieldMeetingSourceRepository.save(listFS);
             //add request to authorize sources
-            Gson gson = new Gson();
+            //Gson gson = new Gson();
             CaseRequest caseRequest = new CaseRequest();
             Message requestMessage = new Message();
+            requestMessage.setIsObsolete(false);
+            requestMessage.setTitle("");
             Long userId = userService.GetLoggedUserId();
             List<SelectList> usersReceiver = userRepository.getLstValidUsersByRole(Constants.ROLE_EVALUATION_MANAGER);
             User userSender = userRepository.findOne(userId);
@@ -1294,21 +1308,26 @@ public class MeetingServiceImpl implements MeetingService {
             requestMessage.setSender(userSender);
             if (usersReceiver != null && usersReceiver.size() > 0) {
                 Message m = new Message();
-                m.setText("Se termina de capturar informaci&oacute;n legal, se solicita autorizar fuentes.");
+                Imputed i = c.getMeeting().getImputed();
+                m.setTitle("Autorizar fuentes para el imputado <strong>" + i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM()+".</strong>");
+                m.setBody("Se termina de capturar informaci&oacute;n legal, se solicita autorizar fuentes.");
                 m.setCaseDetention(c);
                 m.setSender(userSender);
                 List<RelMessageUserReceiver> listrmur = new ArrayList<>();
-                User managerEval = new User();
+                //User managerEval = new User();
                 for (SelectList ur : usersReceiver) {
                     User u = userRepository.findOne(ur.getId());
                     RelMessageUserReceiver rmr = new RelMessageUserReceiver();
                     rmr.setUser(u);
                     rmr.setMessage(m);
+                    rmr.setIsObsolete(false);
                     listrmur.add(rmr);
-                    managerEval = u;
+                    //managerEval = u;
                 }
+
+                m.setIsObsolete(false);
                 m.setMessageUserReceivers(listrmur);
-                m.setCreationDate(new Date());
+                m.setCreationDate(Calendar.getInstance());
                 requestMessage.setMessageUserReceivers(listrmur);
                 m = messageRepository.save(m);
                 caseRequest.setRequestMessage(m);

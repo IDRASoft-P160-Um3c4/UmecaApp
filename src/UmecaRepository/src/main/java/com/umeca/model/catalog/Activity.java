@@ -22,7 +22,7 @@ public class Activity {
     @Column(name="specification")
     private Boolean specification;
 
-    @Column(name="is_obsolete")
+    @Column(name="is_obsolete", nullable = false)
     private Boolean isObsolete;
 
     public Long getId() {

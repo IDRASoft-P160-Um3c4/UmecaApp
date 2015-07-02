@@ -4,6 +4,7 @@ import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.catalog.CatPriority;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
@@ -95,7 +96,7 @@ public class ActivityAgendaView implements EntityGrid {
         if(start == null)
             return "";
 
-        return CalendarExt.calendarToFormatString(start, "dd-MM-yyyy HH:mm");
+        return CalendarExt.calendarToFormatString(start, Constants.FORMAT_CALENDAR_III);
     }
 
     public void setStCreationTime(String stCreationDate) {

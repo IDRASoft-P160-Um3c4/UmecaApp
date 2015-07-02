@@ -18,6 +18,7 @@ public class ActivityMonitoringPlanDto {
     private Long activityMonId;
     private Long goalId;
     private Long sourceId;
+    private Long channelingId;
     private List<Long> lstArrangements;
     private String status;
     private String group;
@@ -153,6 +154,7 @@ public class ActivityMonitoringPlanDto {
             dto.setActivitySpec(actMonPlan.getActivitySpec());
             dto.setGoalSpec(actMonPlan.getGoalSpec());
             dto.setSourceSpec(actMonPlan.getSourceSpec());
+            dto.setChannelingId(actMonPlan.getChanneling().getId());
 
             List<ActivityMonitoringPlanArrangement> lstAssArr = actMonPlan.getLstAssignedArrangement();
             List<Long> lstAssArrId = new ArrayList<>();
@@ -197,5 +199,13 @@ public class ActivityMonitoringPlanDto {
 
     public void setSourceSpec(String sourceSpec) {
         this.sourceSpec = sourceSpec;
+    }
+
+    public Long getChannelingId() {
+        return channelingId;
+    }
+
+    public void setChannelingId(Long channelingId) {
+        this.channelingId = channelingId;
     }
 }

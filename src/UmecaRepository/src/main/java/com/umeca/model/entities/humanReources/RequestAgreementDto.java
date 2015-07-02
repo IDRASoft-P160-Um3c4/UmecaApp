@@ -50,6 +50,27 @@ public class RequestAgreementDto {
         }
     }
 
+    public RequestAgreementDto(RequestMinute requestAgreement, Boolean hasResponse) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.requestUser = requestAgreement.getRequestUser().getFullname();
+        this.requestDate = sdf.format(requestAgreement.getRequestDate());
+        if (requestAgreement.getRequestType().equals(Constants.REQUEST_MINUTE_TYPE_FINISH)) {
+            this.requestType = "Concluir minuta";
+        }
+        this.requestComment = requestAgreement.getRequestComment();
+
+        if (hasResponse != null && hasResponse == true) {
+            this.responseUser = requestAgreement.getResponseUser().getFullname();
+            this.responseDate = sdf.format(requestAgreement.getResponseDate());
+            if (requestAgreement.getResponseType().equals(Constants.RESPONSE_MINUTE_TYPE_FINISH_REJECT)) {
+                this.responseType = "Rechazado";
+            } else if (requestAgreement.getResponseType().equals(Constants.RESPONSE_MINUTE_TYPE_FINISH_AUTH)) {
+                this.responseType = "Autorizado";
+            }
+            this.responseComment = requestAgreement.getResponseComment();
+        }
+    }
+
 
     public Long getId() {
         return id;

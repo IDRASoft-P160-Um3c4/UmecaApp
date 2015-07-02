@@ -5,7 +5,6 @@
     });
 </script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
-
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
         <div class="modal-dialog" style="width:500px" ng-controller="upsertEmployeeController">
@@ -142,22 +141,6 @@
                                 <input type="hidden" name="districtId" value="{{m.district.id}}"/>
                             </div>
                         </div>
-                        <br/>
-
-                        <div class="row">
-                            <div class="col-xs-4 element-left">
-                                Puesto:
-                            </div>
-                            <div class="col-xs-8">
-                                <select class="form-control element-center"
-                                        ng-model="m.role"
-                                        ng-options="e.name for e in lstRole"
-                                        ng-init='lstRole= ${lstRole};'></select>
-                                <input type="hidden" name="roleId" value="{{m.role.id}}"/>
-                            </div>
-                        </div>
-                        <br/>
-
                     </form>
                     <br/>
 

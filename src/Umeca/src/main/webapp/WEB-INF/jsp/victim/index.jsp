@@ -3,29 +3,56 @@
 
 <script src="${pageContext.request.contextPath}/assets/scripts/app/victim/victimCtrl.js"></script>
 <script>
-    window.upsertVictim = function (id) {
-        window.showUpsertWithIdCase(id, "#angJsjqGridIdReference", "<c:url value='/victim/upsert.html'/>", "#GridIdReference", undefined, ${idCase});
-    };
-
-    window.deleteVictim = function (id) {
-        window.showObsolete(id, "#angJsjqGridIdReference", "<c:url value='/victim/delete.json'/>", "#GridIdReference");
-    };
 
     $(document).ready(function () {
+
+        var readonlyBand = ${readonlyBand};
+
+        window.upsertVictim = function (id) {
+            if (readonlyBand == false)
+                window.showUpsertWithIdCase(id, "#angJsjqGridIdReference", "<c:url value='/victim/upsert.html'/>", "#GridIdReference", undefined, ${idCase});
+        };
+
+        window.deleteVictim = function (id) {
+            if (readonlyBand == false)
+                window.showObsolete(id, "#angJsjqGridIdReference", "<c:url value='/victim/delete.json'/>", "#GridIdReference");
+        };
+
         jQuery("#GridIdReference").jqGrid({
             url: '<c:url value='/shared/victim/listVictim.json?idCase=${idCase}' />',
-            autoencode:true,
+            autoencode: true,
             datatype: "json",
             mtype: 'POST',
             colNames: ['ID', 'Nombre', 'Relaci&oacute;n', 'Edad', 'Tel&eacute;fono', 'Direcci&oacute;n', 'Acci&oacute;n'],
             colModel: [
-                { name: 'id', index: 'id', hidden: true },
-                { name: 'fullname', index: 'fullname', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'relName', index: 'relName', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                { name: 'age', index: 'age', width: 60, align: "center", sorttype: 'string', search: false },
-                { name: 'phone', index: 'phone', width: 100, align: "center", search: false  },
-                { name: 'addressString', index: 'addressString', width: 200, align: "center", search: false  },
-                { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
+                {name: 'id', index: 'id', hidden: true},
+                {
+                    name: 'fullname',
+                    index: 'fullname',
+                    width: 200,
+                    align: "center",
+                    sorttype: 'string',
+                    searchoptions: {sopt: ['bw']}
+                },
+                {
+                    name: 'relName',
+                    index: 'relName',
+                    width: 150,
+                    align: "center",
+                    sorttype: 'string',
+                    searchoptions: {sopt: ['bw']}
+                },
+                {name: 'age', index: 'age', width: 60, align: "center", sorttype: 'string', search: false},
+                {name: 'phone', index: 'phone', width: 100, align: "center", search: false},
+                {name: 'addressString', index: 'addressString', width: 200, align: "center", search: false},
+                {
+                    name: 'Action',
+                    width: 70,
+                    align: "center",
+                    sortable: false,
+                    search: false,
+                    formatter: window.actionFormatter
+                }
             ],
             rowNum: 10,
             rowList: [10, 20, 30],
@@ -43,10 +70,12 @@
                     var cl = ids[i];
                     var row = $(this).getRowData(cl);
                     var enabled = row.enabled;
-                    var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar v&iacute;ctima\" onclick=\"window.upsertVictim('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-
-                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar v&iacute;ctima\" onclick=\"window.deleteVictim('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                    $(this).jqGrid('setRowData', ids[i], { Action: be });
+                    var be = "";
+                    if (readonlyBand == false) {
+                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar v&iacute;ctima\" onclick=\"window.upsertVictim('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar v&iacute;ctima\" onclick=\"window.deleteVictim('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                    }
+                    $(this).jqGrid('setRowData', ids[i], {Action: be});
                 }
             },
             loadComplete: function () {
@@ -63,7 +92,8 @@
             add: true, addfunc: window.upsertVictim, addicon: 'icon-plus-sign purple',
             refresh: true, refreshicon: 'icon-refresh green',
             del: false,
-            search: false});
+            search: false
+        });
 
         jQuery("#GridIdReference").jqGrid('filterToolbar', {
             stringResult: true,

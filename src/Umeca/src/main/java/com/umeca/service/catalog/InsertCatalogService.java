@@ -101,4 +101,14 @@ public interface InsertCatalogService {
     void incident();
 
     void area();
+
+    public void weekDay();
+
+    void channelingType();
+
+    void educationLevel();
+
+    void preventionType();
+
+    void economicSupport();
 }

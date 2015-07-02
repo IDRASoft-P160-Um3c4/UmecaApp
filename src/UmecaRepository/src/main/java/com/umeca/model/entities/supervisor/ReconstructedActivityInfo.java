@@ -112,7 +112,7 @@ public class ReconstructedActivityInfo {
     public String detailToStr() {
         String returnStr = "";
 
-        returnStr += "-Descripción: " + supActivity;
+        returnStr += "-DescripciÃ³n: " + supActivity;
         returnStr += "\n-Registrada por: " + user;
 
         return returnStr;

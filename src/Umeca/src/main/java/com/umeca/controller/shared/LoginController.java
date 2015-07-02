@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -34,22 +36,22 @@ public class LoginController {
 
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView index(ModelMap map){
+    public @ResponseBody ModelAndView index(HttpServletRequest request, ModelMap map){
         ModelAndView model = new ModelAndView("/index");
 
         try{
             Long userId = sharedUserService.GetLoggedUserId();
 
             if(userId == null || userId < 1)
-                return mainPageService.generatePage(Constants.ROLE_ANONYMOUS, model, userId);
+                return mainPageService.generatePage(request, Constants.ROLE_ANONYMOUS, model, userId);
 
             List<String> lstRoles = sharedUserService.getLstRolesByUserId(userId);
 
             if(lstRoles == null || lstRoles.size() < 1)
-                return mainPageService.generatePage(Constants.ROLE_ANONYMOUS, model, userId);
+                return mainPageService.generatePage(request,Constants.ROLE_ANONYMOUS, model, userId);
 
 
-            return mainPageService.generatePage(lstRoles.get(0), model, userId);
+            return mainPageService.generatePage(request,lstRoles.get(0), model, userId);
 
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "index", sharedUserService);

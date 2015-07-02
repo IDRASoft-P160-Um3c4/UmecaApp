@@ -26,14 +26,20 @@
                                 </div>
 
                                 <div class="row">
-                                    <p> {{n.message}}</p>
+                                    <p ng-bind-html="formatHtml(n.message)"></p>
                                 </div>
 
                             </div>
                             <div class="tools">
-                                <div class="action-buttons bigger-125">
+                                <div class="action-buttons bigger-125" ng-if="n.urlToDelete&&n.urlToDelete!=''">
+                                    <a href="#" ng-click="deleteNotif(n.id, n.urlToDelete);">
+                                        <i class="icon-trash red" title="Eliminar notificaci&oacute;n"></i>
+                                    </a>
+                                </div>
+
+                                <div class="action-buttons bigger-125" ng-if="n.urlToDelete==undefined">
                                     <a href="#" ng-click="deleteNotif(n.id, '<c:url value='${urlToGo}' />');">
-                                        <i class="icon-trash red" title="Eliminar notificación"></i>
+                                        <i class="icon-trash red" title="Eliminar notificaci&oacute;n"></i>
                                     </a>
                                 </div>
                             </div>

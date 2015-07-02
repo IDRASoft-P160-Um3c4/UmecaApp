@@ -182,7 +182,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (!$scope.m.vincProcess) {
                 $scope.hasError = true;
-                $scope.m.errLinkProc = "Debe seleccionar una opci�n";
+                $scope.m.errLinkProc = "Debe seleccionar una opción";
             }
             else
                 $scope.m.errLinkProc = "";
@@ -508,24 +508,21 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                     }
 
                     if (resp.hasError == true) {
-                        //$scope.msgMapRequest=$sce.trustAsHtml("Google Maps no cuenta con cooredenadas para el C&oacute;digo Postal: "+$scope.zipCode);
+                        $scope.WaitFor = false;
                         $scope.MsgError = $sce.trustAsHtml(resp.message);
-                        $scope.$apply();
                     } else {
                         $scope.WaitFor = false;
-
                         var listMsg = resp.message.split("|");
-
                         $scope.m.idFormat = listMsg[0];
                         $scope.MsgError = "";
                         $scope.MsgSuccess = $sce.trustAsHtml(listMsg[1]);
 
-                        $scope.$apply();
                     }
+                    $scope.$apply();
                 })
                 .error(function () {
                     $scope.WaitFor = false;
-                    $scope.MsgError = "Error de red. Por favor intente m�s tarde.";
+                    $scope.MsgError = "Error de red. Por favor intente más tarde.";
                     $scope.$apply();
                 });
 

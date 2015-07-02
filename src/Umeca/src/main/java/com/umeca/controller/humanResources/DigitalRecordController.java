@@ -27,6 +27,7 @@ import com.umeca.service.humanResources.DigitalRecordService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -100,6 +101,8 @@ public class DigitalRecordController {
     private AttachmentRepository attachmentRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private EmployeeScheduleRepository employeeScheduleRepository;
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -115,7 +118,6 @@ public class DigitalRecordController {
                     add(r.get("name"));
                     add(r.get("lastNameP"));
                     add(r.get("lastNameM"));
-                    add(r.join("post").get("description"));
                     add(r.join("district").get("name").alias("districtName"));
                     add(r.get("isObsolete"));
                 }};
@@ -127,8 +129,6 @@ public class DigitalRecordController {
                     return r.get("name");
                 if (field.equals("district"))
                     return r.join("district").get("name");
-                if (field.equals("post"))
-                    return r.join("post").get("description");
                 return null;
             }
         }, Employee.class, EmployeeDto.class);
@@ -140,9 +140,6 @@ public class DigitalRecordController {
     public ModelAndView upsertEmployee() {
         ModelAndView model = new ModelAndView("/humanResources/employees/upsert");
         model.addObject("lstDistrict", new Gson().toJson(districtRepository.findNoObsolete()));
-        model.addObject("lstRole", new Gson().toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
-            add(Constants.ROLE_ADMIN);
-        }})));
         return model;
     }
 
@@ -195,14 +192,12 @@ public class DigitalRecordController {
         model.addObject("listState", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
         model.addObject("lstMaritalSt", gson.toJson(maritalStatusRepository.findAll()));
         model.addObject("lstDocType", gson.toJson(documentTypeRepository.findNotObsolete()));
-        model.addObject("lstRole", new Gson().toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
-            add(Constants.ROLE_ADMIN);
-        }})));
+        model.addObject("lstEmployeeSchedule", gson.toJson(employeeScheduleRepository.findAllEmployeeSchedule()));
+        model.addObject("lstAssignedUsr", gson.toJson(sharedUserService.getUserRoles(null, null, id)));
 
-        SelectList infoEmp = employeeRepository.getEmployeeNameRoleById((id));
+        String employeeName = employeeRepository.getEmployeeNameById((id));
 
-        model.addObject("employeeName", infoEmp.getName());
-        model.addObject("employeePost", infoEmp.getDescription());
+        model.addObject("employeeName", employeeName);
 
         Long idPhoto = employeeRepository.getIdPhotoByIdEmployee(id);
 
@@ -242,6 +237,9 @@ public class DigitalRecordController {
         ResponseMessage response = new ResponseMessage();
         try {
             response = digitalRecordService.saveGeneralData(dataDto);
+        } catch (DataIntegrityViolationException e) {
+            response.setHasError(true);
+            response.setMessage("Algun(os) usuario(s) seleccionado(s) ya ha(n) sido asociado(s) a otro empleado, intente nuevamente.");
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertGeneralData", sharedUserService);
             response.setHasError(true);
@@ -432,10 +430,10 @@ public class DigitalRecordController {
 
     @RequestMapping(value = {"/humanResources/digitalRecord/deleteCourse", "/humanResources/digitalRecord/deleteTraining"}, method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage deleteCourse(@RequestParam Long id) {
+    public ResponseMessage deleteCourse(HttpServletRequest request, @RequestParam Long id) {
         ResponseMessage response = new ResponseMessage();
         try {
-            response = digitalRecordService.deleteCourse(id);
+            response = digitalRecordService.deleteCourse(request, id);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertSchool", sharedUserService);
             response.setHasError(true);
@@ -556,8 +554,7 @@ public class DigitalRecordController {
                     add(r.get("startDate"));
                     add(r.get("endDate"));
                     add(r.join("district").get("name").alias("disName"));
-                    add(r.join("umecaPost").get("name").alias("postName"));
-                    add(r.join("registerType").get("name").alias("regName"));
+                    add(r.join("role").get("description"));
                 }};
             }
 
@@ -575,10 +572,8 @@ public class DigitalRecordController {
                     return r.get("endDate");
                 else if (field.equals("district"))
                     return r.join("district").get("name");
-                else if (field.equals("umecaPost"))
-                    return r.join("umecaPost").get("name");
-                else if (field.equals("registerType"))
-                    return r.join("registerType").get("name");
+                else if (field.equals("role"))
+                    return r.join("role").get("description");
                 return null;
             }
         }, UmecaJob.class, UmecaJobDto.class);
@@ -599,9 +594,10 @@ public class DigitalRecordController {
         }
 
         model.addObject("umecaJob", gson.toJson(uj));
-        model.addObject("lstUmecaPost", gson.toJson(umecaPostRepository.findNoObsolete()));
+        model.addObject("lstRole", gson.toJson(roleRepository.findByExcludeCode(new ArrayList<String>() {{
+            add(Constants.ROLE_ADMIN);
+        }})));
         model.addObject("lstDistrict", gson.toJson(districtRepository.findNoObsolete()));
-        model.addObject("lstRegisterType", gson.toJson(registerTypeRepository.getAllRegisterType()));
         return model;
     }
 
@@ -660,6 +656,7 @@ public class DigitalRecordController {
                     add(r.get("duration"));
                     add(r.get("start"));
                     add(r.get("end"));
+                    add(r.join("file").get("id").alias("fileId"));
                 }};
             }
 
@@ -690,24 +687,26 @@ public class DigitalRecordController {
     public ModelAndView showUpsertTraining(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/training//upsertTraining");
         Gson gson = new Gson();
-
+        Boolean canSave = false;
         CourseAchievementDto t = new CourseAchievementDto();
-        if (id != null)
+        if (id != null) {
             t = courseAchievementRepository.findTrainingDtoByIds(idEmployee, id);
-        else {
+            canSave = true;
+        } else {
             t.setIdEmployee(idEmployee);
         }
 
         model.addObject("training", gson.toJson(t));
+        model.addObject("canSaveT", canSave);
         return model;
     }
 
     @RequestMapping(value = "/humanResources/digitalRecord/doUpsertTraining", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage doUpsertTraining(@ModelAttribute CourseAchievementDto courseDto) {
+    public ResponseMessage doUpsertTraining(HttpServletRequest request, @ModelAttribute CourseAchievementDto courseDto) {
         ResponseMessage response = new ResponseMessage();
         try {
-            response = digitalRecordService.saveTraining(courseDto);
+            response = digitalRecordService.saveTraining(request, courseDto);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertTraining", sharedUserService);
             response.setHasError(true);
@@ -740,6 +739,7 @@ public class DigitalRecordController {
                     add(r.get("reason"));
                     add(r.get("incidentDate"));
                     add(r.get("comments"));
+                    add(r.join("file").get("id").alias("fileId"));
                 }};
             }
 
@@ -764,25 +764,28 @@ public class DigitalRecordController {
     public ModelAndView showUpsertIncident(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/umecaHistory/incidents/upsertIncident");
         Gson gson = new Gson();
+        Boolean canSave = false;
 
         IncidentDto i = new IncidentDto();
-        if (id != null)
+        if (id != null) {
             i = incidentRepository.findIncidentDtoByIds(idEmployee, id);
-        else {
+            canSave = true;
+        } else {
             i.setIdEmployee(idEmployee);
         }
 
         model.addObject("incident", gson.toJson(i));
         model.addObject("lstIncidentType", gson.toJson(incidentTypeRepository.findNoObsolete()));
+        model.addObject("canSaveI", canSave);
         return model;
     }
 
     @RequestMapping(value = "/humanResources/digitalRecord/doUpsertIncident", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage doUpsertIncident(@ModelAttribute IncidentDto incidentDto) {
+    public ResponseMessage doUpsertIncident(HttpServletRequest request, @ModelAttribute IncidentDto incidentDto) {
         ResponseMessage response = new ResponseMessage();
         try {
-            response = digitalRecordService.saveIncident(incidentDto);
+            response = digitalRecordService.saveIncident(request, incidentDto);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertIncident", sharedUserService);
             response.setHasError(true);
@@ -794,10 +797,10 @@ public class DigitalRecordController {
 
     @RequestMapping(value = "/humanResources/digitalRecord/deleteIncident", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage deleteIncident(@RequestParam Long id) {
+    public ResponseMessage deleteIncident(HttpServletRequest request, @RequestParam Long id) {
         ResponseMessage response = new ResponseMessage();
         try {
-            response = digitalRecordService.deleteIncident(id);
+            response = digitalRecordService.deleteIncident(request, id);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "deleteIncident", sharedUserService);
             response.setHasError(true);
@@ -919,6 +922,7 @@ public class DigitalRecordController {
                     add(r.get("start"));
                     add(r.get("end"));
                     add(r.get("comments"));
+                    add(r.join("file").get("id").alias("fileId"));
                 }};
             }
 
@@ -943,24 +947,27 @@ public class DigitalRecordController {
     public ModelAndView showUpsertIncapacity(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idEmployee) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/incapacity/upsert");
         Gson gson = new Gson();
+        Boolean canSave = false;
 
         IncapacityDto in = new IncapacityDto();
-        if (id != null)
+        if (id != null) {
             in = incapacityRepository.findIncapacityDtoByIds(idEmployee, id);
-        else {
+            canSave = true;
+        } else {
             in.setIdEmployee(idEmployee);
         }
 
         model.addObject("incapacity", gson.toJson(in));
+        model.addObject("canSaveIn", canSave);
         return model;
     }
 
     @RequestMapping(value = "/humanResources/digitalRecord/doUpsertIncapacity", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage doUpsertIncapacity(@ModelAttribute IncapacityDto incapacityDto) {
+    public ResponseMessage doUpsertIncapacity(HttpServletRequest request, @ModelAttribute IncapacityDto incapacityDto) {
         ResponseMessage response = new ResponseMessage();
         try {
-            response = digitalRecordService.saveIncapacity(incapacityDto);
+            response = digitalRecordService.saveIncapacity(request, incapacityDto);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertIncapacity", sharedUserService);
             response.setHasError(true);
@@ -972,10 +979,10 @@ public class DigitalRecordController {
 
     @RequestMapping(value = "/humanResources/digitalRecord/deleteIncapacity", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage deleteIncapaciity(@RequestParam Long id) {
+    public ResponseMessage deleteIncapaciity(HttpServletRequest request, @RequestParam Long id) {
         ResponseMessage response = new ResponseMessage();
         try {
-            response = digitalRecordService.deleteIncapacity(id);
+            response = digitalRecordService.deleteIncapacity(request, id);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "deleteIncapaciity", sharedUserService);
             response.setHasError(true);
@@ -1105,7 +1112,7 @@ public class DigitalRecordController {
     public ModelAndView showUpsertPhoto(@RequestParam(required = true) Long idEmployee) {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/upsertPhoto");
         model.addObject("idEmployee", idEmployee);
-        model.addObject("employeeName", employeeRepository.getEmployeeNameRoleById(idEmployee).getName());
+        model.addObject("employeeName", employeeRepository.getEmployeeNameById(idEmployee));
         return model;
     }
 
@@ -1132,9 +1139,17 @@ public class DigitalRecordController {
         String contextPath = request.getSession().getServletContext().getRealPath("");
         DigitalRecordSummaryDto summary = digitalRecordService.fillDigitalRecordSummary(id, contextPath, logException);
         model.addObject("summary", summary);
-//        response.setContentType("application/force-download");
-//        response.setHeader("Content-Disposition", "attachment; filename=\"Expediente_digital_umeca.doc\"");
         return model;
+    }
+
+    @RequestMapping(value = "/humanResources/digitalRecord/getUsers", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String searchUsr(@RequestParam(required = true) String str) {
+        String param = str + "%";
+        List<SelectList> lst = sharedUserService.getUserRoles(null, param, null);
+        return new Gson().toJson(lst);
+
     }
 
 }
