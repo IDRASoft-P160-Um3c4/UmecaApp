@@ -15,6 +15,7 @@ public class TabletMeetingDto {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
         this.id = id;
+        this.webId = id;
         this.meetingType = meetingType;
         this.commentReference = commentReference;
         this.commentJob = commentJob;
@@ -26,6 +27,7 @@ public class TabletMeetingDto {
         this.dateTerminate = dateTerminate == null ? null : sdf.format(dateTerminate);
     }
 
+    private Long webId;
     private Long id;
     private Integer meetingType;
     private String commentReference;
@@ -214,5 +216,13 @@ public class TabletMeetingDto {
 
     public void setDrugs(List<TabletDrugDto> drugs) {
         this.drugs = drugs;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

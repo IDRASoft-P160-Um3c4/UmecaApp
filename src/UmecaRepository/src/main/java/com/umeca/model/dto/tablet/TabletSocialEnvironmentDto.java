@@ -4,16 +4,19 @@ import com.umeca.model.entities.reviewer.Meeting;
 
 import java.util.List;
 
-public class TabletSocialEnvironmentDto  {
+public class TabletSocialEnvironmentDto {
 
-    public TabletSocialEnvironmentDto(){}
+    public TabletSocialEnvironmentDto() {
+    }
 
     public TabletSocialEnvironmentDto(Long id, String physicalCondition, String comment) {
         this.id = id;
+        this.webId = id;
         this.physicalCondition = physicalCondition;
         this.comment = comment;
     }
 
+    private Long webId;
     private Long id;
     private String physicalCondition;
     private String comment;
@@ -49,5 +52,13 @@ public class TabletSocialEnvironmentDto  {
 
     public void setRelSocialEnvironmentActivities(List<TabletRelSocialEnvironmentActivityDto> relSocialEnvironmentActivities) {
         this.relSocialEnvironmentActivities = relSocialEnvironmentActivities;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

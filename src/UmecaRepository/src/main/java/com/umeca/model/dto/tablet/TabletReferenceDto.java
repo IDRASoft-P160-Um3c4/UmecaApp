@@ -3,12 +3,13 @@ package com.umeca.model.dto.tablet;
 import com.umeca.model.dto.tablet.catalog.TabletDocumentTypeDto;
 import com.umeca.model.dto.tablet.catalog.TabletRelationshipDto;
 
-public class TabletReferenceDto{
+public class TabletReferenceDto {
 
     public TabletReferenceDto(Long id, String fullName, Integer age, String address, String phone, String specification, Boolean isAccompaniment, String specificationRelationship, Boolean block,
                               Long idDT, String nameDT, Boolean isObsoleteDT, Boolean specificationDT,
                               Long idR, String nameR, Boolean isObsoleteR, Boolean specificationR) {
         this.id = id;
+        this.webId = id;
         this.fullName = fullName;
         this.age = age;
         this.address = address;
@@ -18,15 +19,16 @@ public class TabletReferenceDto{
         this.specificationRelationship = specificationRelationship;
         this.block = block;
 
-        if(idDT!=null){
-            this.documentType = new TabletDocumentTypeDto(idDT,nameDT,isObsoleteDT,specificationDT);
+        if (idDT != null) {
+            this.documentType = new TabletDocumentTypeDto(idDT, nameDT, isObsoleteDT, specificationDT);
         }
 
-        if(idR!=null){
-            this.relationship = new TabletRelationshipDto(idR,nameR,isObsoleteR,specificationR);
+        if (idR != null) {
+            this.relationship = new TabletRelationshipDto(idR, nameR, isObsoleteR, specificationR);
         }
     }
 
+    private Long webId;
     private Long id;
     private String fullName;
     private Integer age;
@@ -125,5 +127,13 @@ public class TabletReferenceDto{
 
     public void setRelationship(TabletRelationshipDto relationship) {
         this.relationship = relationship;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

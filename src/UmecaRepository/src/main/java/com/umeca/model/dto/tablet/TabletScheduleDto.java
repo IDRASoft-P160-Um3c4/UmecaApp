@@ -2,15 +2,19 @@ package com.umeca.model.dto.tablet;
 
 public class TabletScheduleDto {
 
-    public TabletScheduleDto() {}
+    public TabletScheduleDto() {
+    }
 
     public TabletScheduleDto(Long id, String day, String start, String end) {
+
         this.id = id;
+        this.webId = id;
         this.day = day;
         this.start = start;
         this.end = end;
     }
 
+    private Long webId;
     private Long id;
     private String day;
     private String start;
@@ -46,5 +50,13 @@ public class TabletScheduleDto {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

@@ -993,81 +993,71 @@ public class MeetingServiceImpl implements MeetingService {
     @Transactional
     @Override
     public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, String activities) {
-        ResponseMessage result = new ResponseMessage();
-        try {
-            Case c = caseRepository.findOne(meeting.getCaseDetention().getId());
-            Meeting m = c.getMeeting();
-            m.setCommentCountry(meeting.getLeaveCountry().getCommentCountry());
-            m.setCommentSchool(meeting.getSchool().getCommentSchool());
-            m.setCommentHome(meeting.getCommentHome());
-            m.setCommentReference(meeting.getCommentReference());
-            m.setCommentJob(meeting.getCommentJob());
-            m.setCommentDrug(meeting.getCommentDrug());
-            SocialNetwork sn = m.getSocialNetwork();
-            if (sn == null) {
-                sn = new SocialNetwork();
-                sn.setMeeting(m);
-                m.setSocialNetwork(sn);
-            }
-            sn.setComment(meeting.getSocialNetwork().getComment());
-            Gson gson = new Gson();
-            refreshPersonalData(meeting.getImputed(), meeting.getSocialEnvironment(), activities, c);
-            refreshSchool(meeting.getSchool(), c);
-            List<Schedule> listToDelete = c.getMeeting().getSchool().getSchedule();
-            m.getSchool().setSchedule(null);
-            if (listToDelete != null) {
-                for (Schedule schedule : listToDelete) {
-                    schedule.setSchool(null);
-                    scheduleRepository.delete(schedule.getId());
-                }
-            }
-            List<Schedule> listSchedules = gson.fromJson(sch, new TypeToken<List<Schedule>>() {
-            }.getType());
-            School s = m.getSchool();
-            for (Schedule schedule : listSchedules) {
-                schedule.setSchool(s);
-            }
-            scheduleRepository.save(listSchedules);
-
-
-            refreshLeaveCountry(meeting.getLeaveCountry(), c);
-
-            caseRepository.save(c);
-            TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
-            m.getImputed().validateMeeting(validate);
-            if (m.getSocialEnvironment() == null) {
-                m.setSocialEnvironment(new SocialEnvironment());
-            }
-            m.getSocialEnvironment().validateMeeting(validate);
-            if (m.getSchool() == null) {
-                m.setSchool(new School());
-            }
-            m.getSchool().validateMeeting(validate);
-            if (m.getLeaveCountry() == null) {
-                m.setLeaveCountry(new LeaveCountry());
-            }
-            m.getLeaveCountry().validateMeeting(validate, m.getSocialEnvironment().getComment());
-            m.validateMeeting(validate);
-            if (validate.existsMessageProperties()) {
-                List<String> listGeneral = new ArrayList<>();
-                listGeneral.add(Convert.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
-                validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
-                validate.formatMessages();
-                return new ResponseMessage(true, gson.toJson(validate));
-            }
-            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
-            m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
-            m.setDateTerminate(new Date());
-            caseRepository.save(c);
-            result.setHasError(false);
-            result.setMessage("Entrevista terminada con exito");
-            result.setUrlToGo("/index.html");
-        } catch (Exception e) {
-            logException.Write(e, this.getClass(), "doTerminateMeeting", userService);
-            result.setHasError(true);
-            result.setMessage("Ha ocurrido un error al terminar la entrevista. Intente m&aacute;s tarde");
+        Case c = caseRepository.findOne(meeting.getCaseDetention().getId());
+        Meeting m = c.getMeeting();
+        m.setCommentCountry(meeting.getLeaveCountry().getCommentCountry());
+        m.setCommentSchool(meeting.getSchool().getCommentSchool());
+        m.setCommentHome(meeting.getCommentHome());
+        m.setCommentReference(meeting.getCommentReference());
+        m.setCommentJob(meeting.getCommentJob());
+        m.setCommentDrug(meeting.getCommentDrug());
+        SocialNetwork sn = m.getSocialNetwork();
+        if (sn == null) {
+            sn = new SocialNetwork();
+            sn.setMeeting(m);
+            m.setSocialNetwork(sn);
         }
-        return result;
+        sn.setComment(meeting.getSocialNetwork().getComment());
+        Gson gson = new Gson();
+        refreshPersonalData(meeting.getImputed(), meeting.getSocialEnvironment(), activities, c);
+        refreshSchool(meeting.getSchool(), c);
+        List<Schedule> listToDelete = c.getMeeting().getSchool().getSchedule();
+        m.getSchool().setSchedule(null);
+        if (listToDelete != null) {
+            for (Schedule schedule : listToDelete) {
+                schedule.setSchool(null);
+                scheduleRepository.delete(schedule.getId());
+            }
+        }
+        List<Schedule> listSchedules = gson.fromJson(sch, new TypeToken<List<Schedule>>() {
+        }.getType());
+        School s = m.getSchool();
+        for (Schedule schedule : listSchedules) {
+            schedule.setSchool(s);
+        }
+        scheduleRepository.save(listSchedules);
+
+
+        refreshLeaveCountry(meeting.getLeaveCountry(), c);
+
+        caseRepository.save(c);
+        TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
+        m.getImputed().validateMeeting(validate);
+        if (m.getSocialEnvironment() == null) {
+            m.setSocialEnvironment(new SocialEnvironment());
+        }
+        m.getSocialEnvironment().validateMeeting(validate);
+        if (m.getSchool() == null) {
+            m.setSchool(new School());
+        }
+        m.getSchool().validateMeeting(validate);
+        if (m.getLeaveCountry() == null) {
+            m.setLeaveCountry(new LeaveCountry());
+        }
+        m.getLeaveCountry().validateMeeting(validate, m.getSocialEnvironment().getComment());
+        m.validateMeeting(validate);
+        if (validate.existsMessageProperties()) {
+            List<String> listGeneral = new ArrayList<>();
+            listGeneral.add(Convert.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
+            validate.getGroupMessage().add(new GroupMessageMeetingDto("general", listGeneral));
+            validate.formatMessages();
+            return new ResponseMessage(true, gson.toJson(validate));
+        }
+        c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
+        m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
+        m.setDateTerminate(new Date());
+        caseRepository.saveAndFlush(c);
+        return new ResponseMessage(false, "");
     }
 
 

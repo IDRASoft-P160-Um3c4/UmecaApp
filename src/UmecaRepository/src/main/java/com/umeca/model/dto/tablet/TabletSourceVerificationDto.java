@@ -13,6 +13,7 @@ public class TabletSourceVerificationDto {
                                        Long idR, String nameR, Boolean isObsoleteR, Boolean specificationR) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.webId = id;
         this.id = id;
         this.fullName = fullName;
         this.age = age;
@@ -33,10 +34,10 @@ public class TabletSourceVerificationDto {
         }
     }
 
+    private Long webId;
     private Long id;
     private String fullName;
     private Integer age;
-    private String relationshipString;
     private String address;
     private String phone;
     private Boolean isAuthorized;
@@ -71,14 +72,6 @@ public class TabletSourceVerificationDto {
 
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public String getRelationshipString() {
-        return relationshipString;
-    }
-
-    public void setRelationshipString(String relationshipString) {
-        this.relationshipString = relationshipString;
     }
 
     public String getAddress() {
@@ -159,5 +152,13 @@ public class TabletSourceVerificationDto {
 
     public void setFieldMeetingSourceList(List<TabletFieldMeetingSourceDto> fieldMeetingSourceList) {
         this.fieldMeetingSourceList = fieldMeetingSourceList;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

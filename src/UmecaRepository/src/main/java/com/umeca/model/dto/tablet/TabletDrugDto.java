@@ -17,6 +17,7 @@ public class TabletDrugDto {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id = id;
+        this.webId = id;
         this.quantity = quantity;
         this.lastUse = lastUse == null ? null : sdf.format(lastUse);
         this.block = block;
@@ -33,6 +34,7 @@ public class TabletDrugDto {
         }
     }
 
+    private Long webId;
     private Long id;
     private String quantity;
     private String lastUse;
@@ -113,5 +115,13 @@ public class TabletDrugDto {
 
     public void setPeriodicity(TabletPeriodicityDto periodicity) {
         this.periodicity = periodicity;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

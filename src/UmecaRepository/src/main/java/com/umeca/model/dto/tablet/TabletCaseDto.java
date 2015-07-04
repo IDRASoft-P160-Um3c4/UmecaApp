@@ -14,15 +14,17 @@ public class TabletCaseDto {
     public TabletCaseDto(Long id, String idFolder, String idMP, Boolean recidivist, Date dateNotProsecute, Date dateObsolete, Date dateCreate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id = id;
+        this.webId = id;
         this.idFolder = idFolder;
         this.idMP = idMP;
         this.recidivist = recidivist;
-        this.dateNotProsecute = dateNotProsecute==null?null:sdf.format(dateNotProsecute);
-        this.dateObsolete = dateObsolete==null?null:sdf.format(dateObsolete);
-        this.dateCreate = dateCreate==null?null:sdf.format(dateCreate);
+        this.dateNotProsecute = dateNotProsecute == null ? null : sdf.format(dateNotProsecute);
+        this.dateObsolete = dateObsolete == null ? null : sdf.format(dateObsolete);
+        this.dateCreate = dateCreate == null ? null : sdf.format(dateCreate);
 
     }
 
+    private Long webId;
     private Long id;
     private String idFolder;
     private String idMP;
@@ -121,5 +123,13 @@ public class TabletCaseDto {
 
     public void setVerification(TabletVerificationDto verification) {
         this.verification = verification;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

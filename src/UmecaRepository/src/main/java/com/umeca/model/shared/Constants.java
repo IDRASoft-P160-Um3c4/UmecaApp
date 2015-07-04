@@ -186,4 +186,6 @@ public class Constants {
     public static final String VERIFICATION_ASSIGNMENT_TYPE = "VERIFICATION";
     public static final String HEARING_FORMAT_ASSIGNMENT_TYPE = "HEARING_FORMAT";
 
+    public static final Long VERIFICATION_METHOD_VISIT_ID = 2L;
+
 }

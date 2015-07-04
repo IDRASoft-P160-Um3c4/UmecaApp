@@ -14,6 +14,7 @@ public class TabletJobDto {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
         this.id = id;
+        this.webId = id;
         this.post = post;
         this.nameHead = nameHead;
         this.company = company;
@@ -31,6 +32,7 @@ public class TabletJobDto {
         }
     }
 
+    private Long webId;
     private Long id;
     private String post;
     private String nameHead;
@@ -156,5 +158,13 @@ public class TabletJobDto {
 
     public void setSchedule(List<TabletScheduleDto> schedule) {
         this.schedule = schedule;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

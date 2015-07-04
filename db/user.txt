@@ -1,2 +1,2 @@
 id|username|password|email|fullname|enabled|code role
-1|administrador|$2a$10$q58ILIuvtXBsVt713zXAmumZJCILiOKdF7RU8q3XVEI981OSd3YNO|mail@umeca.gob.mx|Administrador sistema|true|ROLE_ADMIN
+1|administrador|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|mail@umeca.gob.mx|Administrador sistema|true|ROLE_ADMIN

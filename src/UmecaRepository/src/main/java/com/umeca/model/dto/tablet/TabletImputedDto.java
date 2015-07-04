@@ -16,6 +16,7 @@ public class TabletImputedDto {
     public TabletImputedDto(Long id, String name, String lastNameP, String lastNameM, String foneticString, Boolean gender, Date birthDate, String celPhone, Integer yearsMaritalStatus, Integer boys, Integer dependentBoys, String birthMunicipality, String birthState, String birthLocation, String nickname) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id = id;
+        this.webId = id;
         this.name = name;
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
@@ -32,6 +33,7 @@ public class TabletImputedDto {
         this.nickname = nickname;
     }
 
+    private Long webId;
     private Long id;
     private String name;
     private String lastNameP;
@@ -193,6 +195,14 @@ public class TabletImputedDto {
 
     public void setLocation(TabletLocationDto location) {
         this.location = location;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }
 

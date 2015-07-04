@@ -18,6 +18,7 @@ public class TabletLeaveCountryDto {
                                  Long idC, String nameC, String alpha2C, String alpha3C, Long latitudeC, Long longitudeC,
                                  Long idR, String nameR, Boolean isObsoleteR, Boolean specificationR) {
         this.id = id;
+        this.webId = id;
         this.timeAgo = timeAgo;
         this.reason = reason;
         this.state = state;
@@ -36,7 +37,7 @@ public class TabletLeaveCountryDto {
         }
 
         if(idOD!=null){
-            this.familyAnotherCountry = new TabletElectionDto(idOD,nameOD);
+            this.officialDocumentation = new TabletElectionDto(idOD,nameOD);
         }
 
         if(idLC!=null){
@@ -56,6 +57,7 @@ public class TabletLeaveCountryDto {
         }
     }
 
+    private Long webId;
     private Long id;
     private String timeAgo;
     private String reason;
@@ -199,5 +201,13 @@ public class TabletLeaveCountryDto {
 
     public void setRelationship(TabletRelationshipDto relationship) {
         this.relationship = relationship;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

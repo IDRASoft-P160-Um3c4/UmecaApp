@@ -4,12 +4,14 @@ import com.umeca.model.dto.tablet.catalog.TabletDocumentTypeDto;
 import com.umeca.model.dto.tablet.catalog.TabletElectionDto;
 import com.umeca.model.dto.tablet.catalog.TabletRelationshipDto;
 
-public class TabletPersonSocialNetworkDto{
+public class TabletPersonSocialNetworkDto {
 
-    public TabletPersonSocialNetworkDto(){}
+    public TabletPersonSocialNetworkDto() {
+    }
 
     public TabletPersonSocialNetworkDto(Long id, String name, Integer age, String phone, String address, String specification, Boolean isAccompaniment, String specificationRelationship, Boolean block) {
         this.id = id;
+        this.webId = id;
         this.name = name;
         this.age = age;
         this.phone = phone;
@@ -20,6 +22,7 @@ public class TabletPersonSocialNetworkDto{
         this.block = block;
     }
 
+    private Long webId;
     private Long id;
     private String name;
     private Integer age;
@@ -137,5 +140,13 @@ public class TabletPersonSocialNetworkDto{
 
     public void setLivingWith(TabletElectionDto livingWith) {
         this.livingWith = livingWith;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

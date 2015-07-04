@@ -460,7 +460,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     /*DTO PERSON SOCIAL NETWORK RELATIONSHIP MEETING*/
     @Query("select new com.umeca.model.dto.tablet.catalog.TabletRelationshipDto(r.id,r.name,r.isObsolete, r.specification) from PersonSocialNetwork psn " +
             "inner join psn.relationship r " +
-            "where r.id=:personId")
+            "where psn.id=:personId")
     TabletRelationshipDto getRelationshipByPersonId(@Param("personId") Long personId);
 
     /*DTO PERSON SOCIAL NETWORK DEPENDENT MEETING*/

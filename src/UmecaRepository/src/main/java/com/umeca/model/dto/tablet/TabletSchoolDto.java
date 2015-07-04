@@ -6,10 +6,12 @@ import java.util.List;
 
 public class TabletSchoolDto {
 
-    public TabletSchoolDto(){}
+    public TabletSchoolDto() {
+    }
 
     public TabletSchoolDto(Long id, String name, String phone, String address, String specification, Boolean block) {
         this.id = id;
+        this.webId = id;
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -17,6 +19,7 @@ public class TabletSchoolDto {
         this.block = block;
     }
 
+    private Long webId;
     private Long id;
     private String name;
     private String phone;
@@ -88,5 +91,13 @@ public class TabletSchoolDto {
 
     public void setSchedule(List<TabletScheduleDto> schedule) {
         this.schedule = schedule;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

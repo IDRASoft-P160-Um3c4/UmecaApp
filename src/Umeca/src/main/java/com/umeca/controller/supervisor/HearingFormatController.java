@@ -219,7 +219,7 @@ public class HearingFormatController {
             model.setViewName("/supervisor/hearingFormat/indexFormats");
             model.addObject("idCase", idCase);
             model.addObject("showErr", true);
-            model.addObject("msgError", "No es posible agregar mas formatos, el caso tiene un formato de audiencia icompleto.");
+            model.addObject("msgError", "No es posible agregar mas formatos, el caso tiene un formato de audiencia incompleto.");
         } else if (caseRepository.findOne(idCase).getStatus().getName().equals(Constants.CASE_STATUS_CLOSED)) {
             model.setViewName("/supervisor/hearingFormat/indexFormats");
             model.addObject("idCase", idCase);

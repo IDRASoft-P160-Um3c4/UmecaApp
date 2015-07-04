@@ -311,12 +311,20 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             //radios
             $scope.m.ctrlDet = data.controlDetention;
 
-            if ($scope.m.isFinished == true) {
-                $scope.m.ext = data.extension;
+            $scope.m.ext = data.extension;
+
+            //if ($scope.m.isFinished == true) {
                 $scope.m.extDate = $scope.myFormatDate(data.extDate);
-            } else {
-                $scope.m.extDate = "";
-            }
+            //} else {
+            //    $scope.m.extDate = "";
+            //}
+
+            //if ($scope.m.isFinished == true) {
+            //    $scope.m.ext = data.extension;
+            //    $scope.m.extDate = $scope.myFormatDate(data.extDate);
+            //} else {
+            //    $scope.m.extDate = "";
+            //}
 
             $scope.m.formImp = data.impForm;
 

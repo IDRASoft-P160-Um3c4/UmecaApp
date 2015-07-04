@@ -4,13 +4,16 @@ import java.util.List;
 
 public class TabletSocialNetworkDto {
 
-    public TabletSocialNetworkDto(){}
+    public TabletSocialNetworkDto() {
+    }
 
     public TabletSocialNetworkDto(Long id, String comment) {
         this.id = id;
+        this.webId = id;
         this.comment = comment;
     }
 
+    private Long webId;
     private Long id;
     private String comment;
     private List<TabletPersonSocialNetworkDto> peopleSocialNetwork;
@@ -37,5 +40,13 @@ public class TabletSocialNetworkDto {
 
     public void setPeopleSocialNetwork(List<TabletPersonSocialNetworkDto> peopleSocialNetwork) {
         this.peopleSocialNetwork = peopleSocialNetwork;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

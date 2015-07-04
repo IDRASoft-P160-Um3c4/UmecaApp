@@ -2,19 +2,24 @@ package com.umeca.service.tablet;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeca.model.catalog.*;
 import com.umeca.model.dto.tablet.*;
-import com.umeca.model.dto.tablet.catalog.TabletCountryDto;
 import com.umeca.model.dto.tablet.catalog.TabletStatusCaseDto;
-import com.umeca.model.entities.reviewer.Address;
-import com.umeca.model.entities.supervisor.HearingFormat;
+import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.supervisor.HearingFormatView;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
-import com.umeca.repository.reviewer.AddressRepository;
+import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.catalog.*;
+import com.umeca.repository.reviewer.*;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +34,71 @@ public class TabletServiceImpl implements TabletService {
 
     @Autowired
     AddressRepository addressRepository;
+
+    @Autowired
+    MeetingRepository meetingRepository;
+
+    @Autowired
+    ImputedRepository imputedRepository;
+
+    @Autowired
+    SocialNetworkRepository socialNetworkRepository;
+
+    @Autowired
+    PersonSocialNetworkRepository personSocialNetworkRepository;
+
+    @Autowired
+    SchoolRepository schoolRepository;
+
+    @Autowired
+    ScheduleRepository scheduleRepository;
+
+    @Autowired
+    SocialEnvironmentRepository socialEnvironmentRepository;
+
+    @Autowired
+    LeaveCountryRepository leaveCountryRepository;
+
+    @Autowired
+    ReferenceRepository referenceRepository;
+
+    @Autowired
+    ImputedHomeRepository imputedHomeRepository;
+
+    @Autowired
+    JobRepository jobRepository;
+
+    @Autowired
+    DrugRepository drugRepository;
+
+    @Autowired
+    SourceVerificationRepository sourceVerificationRepository;
+
+    @Autowired
+    StatusMeetingRepository statusMeetingRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    VerificationMethodRepository verificationMethodRepository;
+
+    @Autowired
+    StatusFieldVerificationRepository statusFieldVerificationRepository;
+
+    @Autowired
+    FieldVerificationRepository fieldVerificationRepository;
+
+    @Autowired
+    VerificationRepository verificationRepository;
+
+    @Autowired
+    RelSocialEnvironmentActivityRepository relSocialEnvironmentActivityRepository;
+
+    @Autowired
+    ActivityRepository activityRepository;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     private TabletCaseDto getCaseDataByCaseId(Long caseId) {
         return caseRepository.getInfoCaseByCaseId(caseId);
@@ -70,7 +140,7 @@ public class TabletServiceImpl implements TabletService {
         TabletSchoolDto currSch = caseRepository.getSchoolByCaseId(caseId);
         if (currSch != null) {
             currSch.setDegree(caseRepository.getDegreeBySchoolId(currSch.getId()));
-            currSch.setSchedule(caseRepository.getScheduleSchoolId(caseId));
+            currSch.setSchedule(caseRepository.getScheduleSchoolId(currSch.getId()));
         }
 
         return currSch;
@@ -181,12 +251,691 @@ public class TabletServiceImpl implements TabletService {
             currentCase.setStatus(this.getStatusCaseByCaseId(idCase));
             currentCase.setMeeting(this.getMeetingDataByCaseId(idCase));
             currentCase.setVerification(this.getVerificationByCaseId(idCase));
-            currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
+            //currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
             return currentCase;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("error al obtener la info del caso");
+            return null;
         }
-        return null;
     }
+
+    private Case mergeCase(TabletCaseDto tabletCase) {
+        Case webCase;
+
+        if (tabletCase.getWebId() != null) {
+            webCase = caseRepository.findOne(tabletCase.getWebId());
+        } else {
+            webCase = new Case();
+        }
+
+        webCase.setIdFolder(tabletCase.getIdFolder());
+        webCase.setIdMP(tabletCase.getIdMP());
+        webCase.setRecidivist(tabletCase.getRecidivist());
+
+        try {
+            webCase.setDateNotProsecute(tabletCase.getDateNotProsecute() == null ? null : sdf.parse(tabletCase.getDateNotProsecute()));
+            webCase.setDateObsolete(tabletCase.getDateObsolete() == null ? null : sdf.parse(tabletCase.getDateObsolete()));
+            webCase.setDateCreate(tabletCase.getDateCreate() == null ? null : sdf.parse(tabletCase.getDateCreate()));
+        } catch (Exception e) {
+            System.out.println("Error al parsear fechas del caso");
+            return null;
+        }
+
+        StatusCase stC = new StatusCase();
+        stC.setId(webCase.getStatus().getId());
+        webCase.setStatus(stC);
+
+        return webCase;
+    }
+
+    private Imputed mergeImputed(TabletImputedDto tabletImputed) {
+        Imputed webImputed;
+
+        if (tabletImputed.getWebId() != null) {
+            webImputed = imputedRepository.findOne(tabletImputed.getWebId());
+        } else {
+            webImputed = new Imputed();
+        }
+
+        webImputed.setName(tabletImputed.getName());
+        webImputed.setLastNameP(tabletImputed.getLastNameP());
+        webImputed.setLastNameM(tabletImputed.getLastNameM());
+        webImputed.setFoneticString(tabletImputed.getFoneticString());
+        webImputed.setGender(tabletImputed.getGender());
+        try {
+            webImputed.setBirthDate(tabletImputed.getBirthDate() == null ? null : sdf.parse(tabletImputed.getBirthDate()));
+        } catch (Exception e) {
+            System.out.println("error al parsear la fecha de nacimiento de imputado");
+            return null;
+        }
+        webImputed.setCelPhone(tabletImputed.getCelPhone());
+        webImputed.setYearsMaritalStatus(tabletImputed.getYearsMaritalStatus());
+        webImputed.setBoys(tabletImputed.getBoys());
+        webImputed.setDependentBoys(tabletImputed.getDependentBoys());
+        webImputed.setBirthMunicipality(tabletImputed.getBirthMunicipality());
+        webImputed.setBirthState(tabletImputed.getBirthState());
+        webImputed.setBirthLocation(tabletImputed.getBirthLocation());
+        webImputed.setNickname(tabletImputed.getNickname());
+
+        MaritalStatus mst = new MaritalStatus();
+        mst.setId(webImputed.getMaritalStatus().getId());
+        webImputed.setMaritalStatus(mst);
+
+        if (tabletImputed.getBirthCountry() != null) {
+            Country bc = new Country();
+            bc.setId(tabletImputed.getBirthCountry().getId());
+            webImputed.setBirthCountry(bc);
+        }
+
+        if (tabletImputed.getLocation() != null) {
+            Location l = new Location();
+            l.setId(tabletImputed.getLocation().getId());
+            webImputed.setLocation(l);
+        }
+
+        return webImputed;
+    }
+
+    private Meeting mergeMeeting(TabletMeetingDto tabletMeeting) {
+        Meeting webMeeting;
+
+        if (tabletMeeting.getWebId() != null) {
+            webMeeting = meetingRepository.findOne(tabletMeeting.getWebId());
+        } else {
+            webMeeting = new Meeting();
+        }
+
+        webMeeting.setMeetingType(tabletMeeting.getMeetingType());
+        webMeeting.setCommentReference(tabletMeeting.getCommentReference());
+        webMeeting.setCommentJob(tabletMeeting.getCommentJob());
+        webMeeting.setCommentSchool(tabletMeeting.getCommentSchool());
+        webMeeting.setCommentCountry(tabletMeeting.getCommentCountry());
+        webMeeting.setCommentHome(tabletMeeting.getCommentHome());
+        webMeeting.setCommentDrug(tabletMeeting.getCommentDrug());
+
+        try {
+            webMeeting.setDateCreate(tabletMeeting.getDateCreate() == null ? null : sdf.parse(tabletMeeting.getDateCreate()));
+            webMeeting.setDateTerminate(tabletMeeting.getDateTerminate() == null ? null : sdf.parse(tabletMeeting.getDateTerminate()));
+        } catch (Exception e) {
+            System.out.println("Error al parsear fechas del caso");
+            return null;
+        }
+
+        webMeeting.setStatus(statusMeetingRepository.findOne(tabletMeeting.getStatus().getId()));
+        webMeeting.setReviewer(userRepository.findOne(tabletMeeting.getReviewer().getId()));
+
+        return webMeeting;
+    }
+
+    private SocialNetwork mergeSocialNetwork(Meeting m, TabletSocialNetworkDto tabletSN) {
+        SocialNetwork webSN;
+        if (tabletSN.getWebId() != null) {
+            webSN = socialNetworkRepository.findOne(tabletSN.getWebId());
+        } else {
+            webSN = new SocialNetwork();
+        }
+
+        webSN.setComment(tabletSN.getComment());
+
+        List<PersonSocialNetwork> lstPSN = lstPSN = new ArrayList<>();
+
+        for (TabletPersonSocialNetworkDto tabletPerson : tabletSN.getPeopleSocialNetwork()) {
+            PersonSocialNetwork psn = this.mergePersonSN(tabletPerson);
+            psn.setSocialNetwork(webSN);
+            lstPSN.add(psn);
+        }
+
+        webSN.setPeopleSocialNetwork(lstPSN);
+        webSN.setMeeting(m);
+
+        return webSN;
+    }
+
+    private PersonSocialNetwork mergePersonSN(TabletPersonSocialNetworkDto tabletPerson) {
+        PersonSocialNetwork webPerson;
+        if (tabletPerson.getWebId() != null) {
+            webPerson = personSocialNetworkRepository.findOne(tabletPerson.getWebId());
+        } else {
+            webPerson = new PersonSocialNetwork();
+        }
+
+        webPerson.setName(tabletPerson.getName());
+        webPerson.setAge(tabletPerson.getAge());
+        webPerson.setPhone(tabletPerson.getPhone());
+        webPerson.setAddress(tabletPerson.getAddress());
+        webPerson.setSpecification(tabletPerson.getSpecification());
+        webPerson.setIsAccompaniment(tabletPerson.getIsAccompaniment());
+        webPerson.setSpecificationRelationship(tabletPerson.getSpecificationRelationship());
+        webPerson.setBlock(tabletPerson.getBlock());
+
+        Relationship r = new Relationship();
+        r.setId(tabletPerson.getRelationship().getId());
+        webPerson.setRelationship(r);
+
+        DocumentType dt = new DocumentType();
+        dt.setId(tabletPerson.getDocumentType().getId());
+        webPerson.setDocumentType(dt);
+
+        Election dep = new Election();
+        dep.setId(tabletPerson.getDependent().getId());
+        webPerson.setDependent(dep);
+
+        Election lw = new Election();
+        lw.setId(tabletPerson.getLivingWith().getId());
+        webPerson.setLivingWith(lw);
+
+        return webPerson;
+    }
+
+    private School mergeSchool(Meeting m, TabletSchoolDto tabletSchool) {
+        School webSchool;
+
+        if (tabletSchool.getWebId() != null) {
+            webSchool = schoolRepository.findOne(tabletSchool.getWebId());
+        } else {
+            webSchool = new School();
+        }
+
+        webSchool.setName(tabletSchool.getName());
+        webSchool.setPhone(tabletSchool.getPhone());
+        webSchool.setAddress(tabletSchool.getAddress());
+        webSchool.setSpecification(tabletSchool.getSpecification());
+        webSchool.setBlock(tabletSchool.getBlock());
+
+        Degree d = new Degree();
+        d.setId(tabletSchool.getDegree().getId());
+        webSchool.setDegree(d);
+
+        List<Schedule> lstSch = webSchool.getSchedule();
+        webSchool.setSchedule(null);
+
+        if (lstSch != null && lstSch.size() > 0) {
+            for (Schedule s : lstSch) {
+                s.setSchool(null);
+                scheduleRepository.delete(s);
+            }
+        }
+
+        lstSch = new ArrayList<>();
+
+        for (TabletScheduleDto tabletSchedule : tabletSchool.getSchedule()) {
+            Schedule schedule = new Schedule();
+            schedule.setDay(tabletSchedule.getDay());
+            schedule.setStart(tabletSchedule.getStart());
+            schedule.setEnd(tabletSchedule.getEnd());
+            schedule.setSchool(webSchool);
+            lstSch.add(schedule);
+        }
+
+        webSchool.setSchedule(lstSch);
+        webSchool.setMeeting(m);
+
+        return webSchool;
+    }
+
+    private SocialEnvironment mergeSocialEnvironment(Meeting m, TabletSocialEnvironmentDto tabletSE) {
+        SocialEnvironment webSE;
+
+        if (tabletSE.getWebId() != null) {
+            webSE = socialEnvironmentRepository.findOne(tabletSE.getWebId());
+        } else {
+            webSE = new SocialEnvironment();
+        }
+
+        webSE.setPhysicalCondition(tabletSE.getPhysicalCondition());
+        webSE.setComment(tabletSE.getComment());
+
+        List<RelSocialEnvironmentActivity> lstSEA = webSE.getRelSocialEnvironmentActivities();
+        webSE.setRelSocialEnvironmentActivities(null);
+
+        if (lstSEA != null & lstSEA.size() > 0) {
+            for (RelSocialEnvironmentActivity rSEA : lstSEA) {
+                rSEA.setSocialEnvironment(null);
+                relSocialEnvironmentActivityRepository.delete(rSEA);
+            }
+        }
+
+        lstSEA = new ArrayList<>();
+
+        for (TabletRelSocialEnvironmentActivityDto tabletRelActivity : tabletSE.getRelSocialEnvironmentActivities()) {
+            RelSocialEnvironmentActivity webRelAct = new RelSocialEnvironmentActivity();
+            webRelAct.setSpecification(tabletRelActivity.getSpecification());
+            webRelAct.setActivity(activityRepository.findOne(tabletRelActivity.getActivity().getId()));
+            webRelAct.setSocialEnvironment(webSE);
+            lstSEA.add(webRelAct);
+        }
+
+        webSE.setRelSocialEnvironmentActivities(lstSEA);
+        webSE.setMeeting(m);
+
+        return webSE;
+    }
+
+    private LeaveCountry mergeLeaveCountry(Meeting m, TabletLeaveCountryDto tabletLC) {
+        LeaveCountry webLC;
+        if (tabletLC.getWebId() != null) {
+            webLC = leaveCountryRepository.findOne(tabletLC.getWebId());
+        } else {
+            webLC = new LeaveCountry();
+        }
+
+        webLC.setTimeAgo(tabletLC.getTimeAgo());
+        webLC.setReason(tabletLC.getReason());
+        webLC.setState(tabletLC.getState());
+        webLC.setMedia(tabletLC.getMedia());
+        webLC.setAddress(tabletLC.getAddress());
+        webLC.setTimeResidence(tabletLC.getTimeResidence());
+        webLC.setSpecficationImmigranDoc(tabletLC.getSpecficationImmigranDoc());
+        webLC.setSpecificationRelationship(tabletLC.getSpecificationRelationship());
+
+        if(tabletLC.getFamilyAnotherCountry()!=null) {
+            Election fac = new Election();
+            fac.setId(tabletLC.getFamilyAnotherCountry().getId());
+            webLC.setFamilyAnotherCountry(fac);
+        }
+
+        if(tabletLC.getCommunicationFamily()!=null) {
+            Election cf = new Election();
+            cf.setId(tabletLC.getCommunicationFamily().getId());
+            webLC.setCommunicationFamily(cf);
+        }
+
+        if(tabletLC.getOfficialDocumentation()!=null) {
+            Election oD = new Election();
+            oD.setId(tabletLC.getOfficialDocumentation().getId());
+            webLC.setOfficialDocumentation(oD);
+        }
+
+        if(tabletLC.getLivedCountry()!=null) {
+            Election lC = new Election();
+            lC.setId(tabletLC.getLivedCountry().getId());
+            webLC.setLivedCountry(lC);
+        }
+
+        if (tabletLC.getImmigrationDocument() != null) {
+            ImmigrationDocument iD = new ImmigrationDocument();
+            iD.setId(tabletLC.getImmigrationDocument().getId());
+            webLC.setImmigrationDocument(iD);
+        }
+
+        if (tabletLC.getCountry() != null) {
+            Country country = new Country();
+            country.setId(tabletLC.getCountry().getId());
+            webLC.setCountry(country);
+        }
+
+        if (tabletLC.getRelationship() != null) {
+            Relationship r = new Relationship();
+            r.setId(tabletLC.getRelationship().getId());
+            webLC.setRelationship(r);
+        }
+
+        webLC.setMeeting(m);
+
+        return webLC;
+    }
+
+    private List<Reference> mergeReferences(Meeting m, List<TabletReferenceDto> tabletLst) {
+        List<Reference> webList = new ArrayList<>();
+
+        for (TabletReferenceDto tabletReference : tabletLst) {
+            Reference ref;
+            if (tabletReference.getWebId() != null) {
+                ref = referenceRepository.findOne(tabletReference.getWebId());
+            } else {
+                ref = new Reference();
+            }
+
+            ref.setFullName(tabletReference.getFullName());
+            ref.setAge(tabletReference.getAge());
+            ref.setAddress(tabletReference.getAddress());
+            ref.setPhone(tabletReference.getPhone());
+            ref.setSpecification(tabletReference.getSpecification());
+            ref.setIsAccompaniment(tabletReference.getIsAccompaniment());
+            ref.setSpecificationRelationship(tabletReference.getSpecificationRelationship());
+            ref.setBlock(tabletReference.getBlock());
+            ref.setMeeting(m);
+
+            if (tabletReference.getDocumentType() != null) {
+                DocumentType dt = new DocumentType();
+                dt.setId(tabletReference.getDocumentType().getId());
+                ref.setDocumentType(dt);
+            }
+
+            if (tabletReference.getRelationship() != null) {
+                Relationship r = new Relationship();
+                r.setId(tabletReference.getRelationship().getId());
+                ref.setRelationship(r);
+            }
+
+            webList.add(ref);
+        }
+
+        return webList;
+    }
+
+    private List<ImputedHome> mergeImputedHomes(Meeting m, List<TabletImputedHomeDto> tabletLst) {
+
+        List<ImputedHome> webLst = new ArrayList<>();
+
+        for (TabletImputedHomeDto tabletHome : tabletLst) {
+            ImputedHome webHome;
+
+            if (tabletHome.getWebId() != null) {
+                webHome = imputedHomeRepository.findOne(tabletHome.getWebId());
+            } else {
+                webHome = new ImputedHome();
+            }
+
+            webHome.setTimeLive(tabletHome.getTimeLive());
+            webHome.setReasonChange(tabletHome.getReasonChange());
+            webHome.setDescription(tabletHome.getDescription());
+            webHome.setPhone(tabletHome.getPhone());
+            webHome.setSpecification(tabletHome.getSpecification());
+            webHome.setReasonSecondary(tabletHome.getReasonSecondary());
+
+            Address address = webHome.getAddress();
+
+            if (address == null) {
+                address = new Address();
+            }
+
+            address.setStreet(tabletHome.getAddress().getStreet());
+            address.setOutNum(tabletHome.getAddress().getOutNum());
+            address.setInnNum(tabletHome.getAddress().getInnNum());
+            address.setLat(tabletHome.getAddress().getLat());
+            address.setLng(tabletHome.getAddress().getLng());
+            address.setAddressString(address.toString());
+
+            Location l = new Location();
+            l.setId(tabletHome.getAddress().getLocation().getId());
+            address.setLocation(l);
+
+            addressRepository.save(address);
+            webHome.setAddress(address);
+
+            if (tabletHome.getHomeType() != null) {
+                HomeType ht = new HomeType();
+                ht.setId(tabletHome.getHomeType().getId());
+                webHome.setHomeType(ht);
+            }
+
+            if (tabletHome.getRegisterType() != null) {
+                RegisterType rt = new RegisterType();
+                rt.setId(tabletHome.getRegisterType().getId());
+                webHome.setRegisterType(rt);
+            }
+
+            List<Schedule> lstSchedule = webHome.getSchedule();
+            webHome.setSchedule(null);
+
+            if (lstSchedule != null && lstSchedule.size() > 0) {
+                for (Schedule s : lstSchedule) {
+                    s.setImputedHome(null);
+                    scheduleRepository.delete(s);
+                }
+            }
+
+            lstSchedule = new ArrayList<>();
+
+            for (TabletScheduleDto tabletSchedule : tabletHome.getSchedule()) {
+                Schedule schedule = new Schedule();
+                schedule.setDay(tabletSchedule.getDay());
+                schedule.setStart(tabletSchedule.getStart());
+                schedule.setEnd(tabletSchedule.getEnd());
+                schedule.setImputedHome(webHome);
+                lstSchedule.add(schedule);
+            }
+
+            webHome.setSchedule(lstSchedule);
+            webHome.setMeeting(m);
+            webLst.add(webHome);
+        }
+
+        return webLst;
+    }
+
+    private List<Job> mergeJob(Meeting m, List<TabletJobDto> tabletLst) {
+        List<Job> webLst = new ArrayList<>();
+
+        for (TabletJobDto tabletJob : tabletLst) {
+
+            Job webJob;
+            if (tabletJob.getWebId() != null) {
+                webJob = jobRepository.findOne(tabletJob.getWebId());
+            } else {
+                webJob = new Job();
+            }
+
+            webJob.setPost(tabletJob.getPost());
+            webJob.setNameHead(tabletJob.getNameHead());
+            webJob.setCompany(tabletJob.getCompany());
+            webJob.setPhone(tabletJob.getPhone());
+
+            try {
+                webJob.setStartPrev(tabletJob.getStartPrev() == null ? null : sdf.parse(tabletJob.getStartPrev()));
+                webJob.setStart(tabletJob.getStart() == null ? null : sdf.parse(tabletJob.getStart()));
+                webJob.setEnd(tabletJob.getEnd() == null ? null : sdf.parse(tabletJob.getEnd()));
+            } catch (Exception e) {
+                System.out.println("error al parsear fechas de job");
+                return null;
+            }
+
+            webJob.setSalaryWeek(tabletJob.getSalaryWeek());
+            webJob.setReasonChange(tabletJob.getReasonChange());
+            webJob.setAddress(tabletJob.getAddress());
+            webJob.setBlock(tabletJob.getBlock());
+
+            RegisterType rt = new RegisterType();
+            rt.setId(tabletJob.getRegisterType().getId());
+
+            List<Schedule> lstSchedule = webJob.getSchedule();
+            webJob.setSchedule(null);
+
+            if (lstSchedule != null && lstSchedule.size() > 0) {
+                for (Schedule s : lstSchedule) {
+                    s.setJob(null);
+                    scheduleRepository.delete(s);
+                }
+            }
+
+            lstSchedule = new ArrayList<>();
+
+            for (TabletScheduleDto tabletSchedule : tabletJob.getSchedule()) {
+                Schedule schedule = new Schedule();
+                schedule.setDay(tabletSchedule.getDay());
+                schedule.setStart(tabletSchedule.getStart());
+                schedule.setEnd(tabletSchedule.getEnd());
+                schedule.setJob(webJob);
+                lstSchedule.add(schedule);
+            }
+
+            webJob.setSchedule(lstSchedule);
+            webJob.setMeeting(m);
+        }
+
+        return webLst;
+    }
+
+    private List<Drug> mergeDrugs(Meeting m, List<TabletDrugDto> tabletLst) {
+
+        List<Drug> webLst = new ArrayList<>();
+
+        for (TabletDrugDto tabletDrug : tabletLst) {
+            Drug webDrug;
+
+            if (tabletDrug.getWebId() != null) {
+                webDrug = drugRepository.findOne(tabletDrug.getWebId());
+            } else {
+                webDrug = new Drug();
+            }
+
+            webDrug.setQuantity(tabletDrug.getQuantity());
+
+            try {
+                webDrug.setLastUse(tabletDrug.getLastUse() == null ? null : sdf.parse(tabletDrug.getLastUse()));
+            } catch (Exception e) {
+                System.out.println("error al parsear fecha drogas");
+                return null;
+            }
+
+            webDrug.setBlock(tabletDrug.getBlock());
+            webDrug.setSpecificationType(tabletDrug.getSpecificationType());
+            webDrug.setSpecificationPeriodicity(tabletDrug.getSpecificationPeriodicity());
+            webDrug.setOnsetAge(tabletDrug.getOnsetAge());
+
+            DrugType dt = new DrugType();
+            dt.setId(tabletDrug.getDrugType().getId());
+            webDrug.setDrugType(dt);
+
+            Periodicity p = new Periodicity();
+            p.setId(tabletDrug.getPeriodicity().getId());
+            webDrug.setPeriodicity(p);
+
+            webDrug.setMeeting(m);
+            webLst.add(webDrug);
+        }
+
+        return webLst;
+    }
+
+
+    private Case saveCaseMeetingImputedDetention(TabletCaseDto tabletCase) {
+
+        Case c = this.mergeCase(tabletCase);
+
+        Meeting m = this.mergeMeeting(tabletCase.getMeeting());
+        m.setCaseDetention(c);
+        c.setMeeting(m);
+
+        Imputed im = this.mergeImputed(tabletCase.getMeeting().getImputed());
+        im.setMeeting(c.getMeeting());
+        c.getMeeting().setImputed(im);
+
+        caseRepository.save(c);//se guarda caso meeting e imputado
+
+        return c;
+    }
+
+    private List<SourceVerification> mergeVerificationSources(Verification v, List<TabletSourceVerificationDto> tabletLst) {
+
+        List<SourceVerification> webLst = new ArrayList<>();
+
+        for (TabletSourceVerificationDto tabletSource : tabletLst) {
+            SourceVerification webSource;
+            if (tabletSource.getWebId() != null) {
+                webSource = sourceVerificationRepository.findOne(tabletSource.getWebId());
+            } else {
+                webSource = new SourceVerification();
+            }
+
+            webSource.setFullName(tabletSource.getFullName());
+            webSource.setAge(tabletSource.getAge());
+            webSource.setAddress(tabletSource.getAddress());
+            webSource.setPhone(tabletSource.getPhone());
+            webSource.setIsAuthorized(tabletSource.getIsAuthorized());
+
+            try {
+                webSource.setDateComplete(tabletSource.getDateComplete() == null ? null : sdf.parse(tabletSource.getDateComplete()));
+                webSource.setDateAuthorized(tabletSource.getDateAuthorized() == null ? null : sdf.parse(tabletSource.getDateAuthorized()));
+            } catch (Exception e) {
+                System.out.println("error al parsear fechas de fuente de verificacion");
+            }
+
+            webSource.setSpecification(tabletSource.getSpecification());
+            webSource.setVisible(tabletSource.getVisible());
+
+            VerificationMethod vm = new VerificationMethod();
+            vm.setId(Constants.VERIFICATION_METHOD_VISIT_ID);
+            webSource.setVerificationMethod(vm);
+
+            Relationship r = new Relationship();
+            r.setId(tabletSource.getRelationship().getId());
+            webSource.setRelationship(r);
+
+            List<FieldMeetingSource> lstFields = webSource.getFieldMeetingSourceList();
+
+            if (lstFields != null) {
+                lstFields.clear();
+            } else {
+                lstFields = new ArrayList<>();
+            }
+
+            for (TabletFieldMeetingSourceDto tabletField : tabletSource.getFieldMeetingSourceList()) {
+
+                FieldMeetingSource webField = new FieldMeetingSource();
+                webField.setValue(tabletField.getValue());
+                webField.setJsonValue(tabletField.getJsonValue());
+                webField.setFinal(tabletField.getIsFinal());
+                webField.setIdFieldList(tabletField.getIdFieldList());
+                webField.setReason(tabletField.getReason());
+                webField.setStatusFieldVerification(statusFieldVerificationRepository.findOne(tabletField.getStatusFieldVerification().getId()));
+                webField.setFieldVerification(fieldVerificationRepository.findOne(tabletField.getFieldVerification().getId()));
+                webField.setSourceVerification(webSource);
+                lstFields.add(webField);
+            }
+
+            webSource.setFieldMeetingSourceList(lstFields);
+            webLst.add(webSource);
+        }
+
+        return webLst;
+    }
+
+    private Verification mergeVerification(TabletCaseDto tabletCase) {
+        Case webC = caseRepository.findOne(tabletCase.getWebId());
+
+        Verification v = webC.getVerification();
+
+        User u = new User();
+        u.setId(tabletCase.getVerification().getReviewer().getId());
+        v.setReviewer(u);
+
+        StatusVerification stv = new StatusVerification();
+        stv.setId(tabletCase.getVerification().getStatus().getId());
+        v.setStatus(stv);
+
+        v.setSourceVerifications(this.mergeVerificationSources(v, tabletCase.getVerification().getSourceVerifications()));
+
+        return v;
+    }
+
+    //@Transactional
+    public void synchronizeVerification(TabletCaseDto tabletCase) {
+        Verification v = this.mergeVerification(tabletCase);
+        verificationRepository.save(v);
+    }
+
+    //    @Transactional
+    public void synchronizeMeeting(TabletCaseDto tabletCase) {
+
+        Case c = this.saveCaseMeetingImputedDetention(tabletCase);
+        Meeting m = c.getMeeting();
+
+        SocialNetwork sN = this.mergeSocialNetwork(m, tabletCase.getMeeting().getSocialNetwork());
+        socialNetworkRepository.save(sN);
+
+        School school = this.mergeSchool(m, tabletCase.getMeeting().getSchool());
+        schoolRepository.save(school);
+
+        SocialEnvironment se = this.mergeSocialEnvironment(m, tabletCase.getMeeting().getSocialEnvironment());
+        socialEnvironmentRepository.save(se);
+
+        LeaveCountry leaveCountry = this.mergeLeaveCountry(m, tabletCase.getMeeting().getLeaveCountry());
+        leaveCountryRepository.save(leaveCountry);
+
+        List<Reference> lstRef = this.mergeReferences(m, tabletCase.getMeeting().getReferences());
+        referenceRepository.save(lstRef);
+
+        List<ImputedHome> lstImputedHomes = this.mergeImputedHomes(m, tabletCase.getMeeting().getImputedHomes());
+        imputedHomeRepository.save(lstImputedHomes);
+
+        List<Job> lstJob = this.mergeJob(m, tabletCase.getMeeting().getJobs());
+        jobRepository.save(lstJob);
+
+        List<Drug> lstDrug = this.mergeDrugs(m, tabletCase.getMeeting().getDrugs());
+        drugRepository.save(lstDrug);
+    }
+
 
 }

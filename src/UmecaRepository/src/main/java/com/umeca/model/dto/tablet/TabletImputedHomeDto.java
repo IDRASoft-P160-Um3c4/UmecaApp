@@ -14,7 +14,7 @@ import javax.persistence.*;
 import java.util.Comparator;
 import java.util.List;
 
-public class TabletImputedHomeDto{
+public class TabletImputedHomeDto {
 
     public TabletImputedHomeDto(Long id, String timeLive, String reasonChange, String description, String phone, String specification, String reasonSecondary,
                                 Long idA, String streetA, String outNumA, String innNumA, String latA, String lngA, String addressStringA,
@@ -22,6 +22,7 @@ public class TabletImputedHomeDto{
                                 Long idHT, String nameHT, Boolean specificationHT, Boolean obsoleteHT,
                                 Long idRT, String nameRT) {
         this.id = id;
+        this.webId = id;
         this.timeLive = timeLive;
         this.reasonChange = reasonChange;
         this.description = description;
@@ -29,19 +30,20 @@ public class TabletImputedHomeDto{
         this.specification = specification;
         this.reasonSecondary = reasonSecondary;
 
-        if(idA!=null){
-            this.address= new TabletAddressDto(idA,streetA,outNumA,innNumA,latA,lngA,addressStringA,idL,nameL,abbreviationL,descriptionL,zipCodeL);
+        if (idA != null) {
+            this.address = new TabletAddressDto(idA, streetA, outNumA, innNumA, latA, lngA, addressStringA, idL, nameL, abbreviationL, descriptionL, zipCodeL);
         }
 
-        if(idHT!=null){
-            this.homeType = new TabletHomeTypeDto(idHT,nameHT,specificationHT,obsoleteHT);
+        if (idHT != null) {
+            this.homeType = new TabletHomeTypeDto(idHT, nameHT, specificationHT, obsoleteHT);
         }
 
-        if(idRT!=null) {
-            this.registerType = new TabletRegisterTypeDto(idRT,nameRT);
+        if (idRT != null) {
+            this.registerType = new TabletRegisterTypeDto(idRT, nameRT);
         }
     }
 
+    private Long webId;
     private Long id;
     private String timeLive;
     private String reasonChange;
@@ -140,5 +142,13 @@ public class TabletImputedHomeDto{
 
     public void setSchedule(List<TabletScheduleDto> schedule) {
         this.schedule = schedule;
+    }
+
+    public Long getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Long webId) {
+        this.webId = webId;
     }
 }

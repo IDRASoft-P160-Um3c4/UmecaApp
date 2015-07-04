@@ -1,6 +1,7 @@
 package com.umeca.controller.reviewer;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -15,6 +16,7 @@ import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.View.PersonSocialNetworkView;
 import com.umeca.model.shared.Constants;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.repository.CaseRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
 import com.umeca.service.reviewer.ScheduleService;
@@ -28,7 +30,11 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import java.security.Timestamp;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,8 +43,29 @@ public class MeetingController {
     @Autowired
     private MeetingService meetingService;
 
+    @Autowired
+    TabletService tabletService;
+
+    @Autowired
+    CaseRepository caseRepository;
+
     @RequestMapping(value = "/reviewer/meeting/index", method = RequestMethod.GET)
     public String index() {
+        try {
+//            TabletCaseDto tc = tabletService.getAllCaseByIdCase(1L);
+//            String cadena = new Gson().toJson(tc);
+//
+//            TabletCaseDto ttC = new Gson().fromJson("{\"webId\":1,\"id\":1,\"idFolder\":\"CASOWEB\",\"recidivist\":false,\"dateCreate\":\"2015/07/03\",\"status\":{\"id\":3,\"name\":\"ST_CASE_MEETING\",\"description\":\"Entrevista de riesgos procesales\"},\"meeting\":{\"webId\":1,\"id\":1,\"meetingType\":1,\"commentReference\":\"COMENT REFE\",\"commentJob\":\"COMENT JOB\",\"commentSchool\":\"COMENT SCHOOL\",\"commentCountry\":\"COMENT ABANDONAR PAIS\",\"commentHome\":\"COMENT DOM\",\"commentDrug\":\"COMENT DROGAS\",\"dateCreate\":\"2015/07/03\",\"status\":{\"id\":1,\"name\":\"INCOMPLETE\",\"description\":\"Entrevista incompleta\"},\"reviewer\":{\"id\":2,\"fullname\":\"reviewersillo\"},\"imputed\":{\"webId\":1,\"id\":1,\"name\":\"NOMBRE WEB\",\"lastNameP\":\"AP WEB\",\"lastNameM\":\"AM WEB\",\"foneticString\":\"nombre webap webam web\",\"gender\":false,\"birthDate\":\"1997/07/03\",\"celPhone\":\"CELULAR\",\"yearsMaritalStatus\":25,\"boys\":2,\"dependentBoys\":1,\"birthMunicipality\":\"\",\"birthState\":\"\",\"birthLocation\":\"\",\"nickname\":\"APODO\",\"maritalStatus\":{\"id\":2,\"name\":\"Casado\"},\"birthCountry\":{\"id\":1,\"name\":\"Mexico\",\"alpha2\":\"MX\",\"alpha3\":\"MEX\",\"latitude\":23,\"longitude\":-102},\"location\":{\"id\":831,\"name\":\"Acueducto de Guadalupe\",\"abbreviation\":\"Acueducto de Guadalupe\",\"description\":\"Acueducto de Guadalupe\",\"zipCode\":\"07279\"}},\"socialNetwork\":{\"webId\":1,\"id\":1,\"comment\":\"COMENT RED\",\"peopleSocialNetwork\":[{\"webId\":1,\"id\":1,\"name\":\"PERSONA 1\",\"age\":50,\"phone\":\"TELEFONO1\",\"address\":\"\",\"specification\":\"FOLIOIFE\",\"isAccompaniment\":true,\"specificationRelationship\":\"VALEDOR\",\"block\":true,\"relationship\":{\"id\":19,\"name\":\"Otro\",\"isObsolete\":false,\"specification\":true},\"documentType\":{\"id\":1,\"name\":\"Credencial de Elector\",\"isObsolete\":false,\"specification\":true},\"dependent\":{\"id\":1,\"name\":\"Si\"},\"livingWith\":{\"id\":1,\"name\":\"Si\"}}]},\"school\":{\"webId\":1,\"id\":1,\"name\":\"ESCUELA\",\"phone\":\"TELEFONO\",\"address\":\"DIRECCIÓN\",\"specification\":\"\",\"block\":true,\"degree\":{\"id\":31,\"name\":\"Terminado\",\"isObsolete\":false},\"schedule\":[{\"id\":3,\"day\":\"DIA\",\"start\":\"16:22\",\"end\":\"16:22\"}]},\"socialEnvironment\":{\"webId\":1,\"id\":1,\"physicalCondition\":\"ENFERMEDAD\",\"comment\":\"OBS ABANDONAR PAIS\",\"relSocialEnvironmentActivities\":[{\"id\":1,\"activity\":{\"id\":1,\"name\":\"Laborales\",\"specification\":true,\"isObsolete\":false},\"specification\":\"LABORAL\"},{\"activity\":{\"id\":2,\"name\":\"Laborales\",\"specification\":true,\"isObsolete\":false},\"specification\":\"MIERDA\"}]},\"leaveCountry\":{\"webId\":1,\"id\":1,\"timeAgo\":\"\",\"reason\":\"\",\"state\":\"\",\"media\":\"\",\"address\":\"\",\"timeResidence\":\"\",\"specficationImmigranDoc\":\"\",\"specificationRelationship\":\"\",\"familyAnotherCountry\":{\"id\":2,\"name\":\"No\"},\"officialDocumentation\":{\"id\":2,\"name\":\"No\"},\"livedCountry\":{\"id\":2,\"name\":\"No\"},\"immigrationDocument\":{\"id\":1,\"name\":\"Pasaporte\",\"specification\":false,\"obsolete\":false},\"relationship\":{\"id\":18,\"name\":\"Abuelo\",\"isObsolete\":false,\"specification\":false}},\"references\":[{\"webId\":1,\"id\":1,\"fullName\":\"REFE\",\"age\":40,\"address\":\"DIRECCIONREF\",\"phone\":\"TELEFONOR\",\"specification\":\"FOLIOLIC\",\"isAccompaniment\":false,\"specificationRelationship\":\"\",\"block\":true,\"documentType\":{\"id\":2,\"name\":\"Licencia de Manejo\",\"isObsolete\":false,\"specification\":true},\"relationship\":{\"id\":12,\"name\":\"Empleado\",\"isObsolete\":false,\"specification\":false}}],\"imputedHomes\":[{\"webId\":1,\"id\":1,\"timeLive\":\"TIEMPO\",\"reasonChange\":\"\",\"description\":\"COMO LLEGAR\",\"phone\":\"TELEFONO\",\"specification\":\"\",\"reasonSecondary\":\"\",\"address\":{\"id\":1,\"street\":\"CALLE\",\"outNum\":\"EXT\",\"innNum\":\"INT\",\"lat\":\"\",\"lng\":\"\",\"addressString\":\"Calle: CALLE No Ext: EXT No Int:INT,15 de Agosto. CP: 07058. Gustavo A. Madero, Distrito Federal.\",\"location\":{\"id\":764,\"name\":\"15 de Agosto\",\"abbreviation\":\"15 de Agosto\",\"description\":\"15 de Agosto\",\"zipCode\":\"07058\"}},\"homeType\":{\"id\":1,\"name\":\"Propia\",\"specification\":false,\"obsolete\":false},\"registerType\":{\"id\":1,\"name\":\"Actual\"},\"schedule\":[{\"webId\":1,\"id\":1,\"day\":\"DIA\",\"start\":\"10:00\",\"end\":\"20:00\"}]}],\"jobs\":[{\"webId\":1,\"id\":1,\"post\":\"PUEST\",\"nameHead\":\"PATRON\",\"company\":\"EMPRESA\",\"phone\":\"TELEFONO\",\"startPrev\":\"2015/07/03\",\"start\":\"2015/07/03\",\"salaryWeek\":0.0,\"end\":\"2015/07/03\",\"reasonChange\":\"\",\"address\":\"DIRECCION\",\"block\":true,\"registerType\":{\"id\":1,\"name\":\"Actual\"},\"schedule\":[{\"webId\":2,\"id\":2,\"day\":\"DIAS\",\"start\":\"15:00\",\"end\":\"23:00\"},{\"id\":2,\"day\":\"DIAzzzz\",\"start\":\"01:00\",\"end\":\"02:00\"}]}],\"drugs\":[{\"webId\":1,\"id\":1,\"quantity\":\"2 LITROS\",\"lastUse\":\"2015/07/03\",\"block\":true,\"specificationType\":\"\",\"specificationPeriodicity\":\"\",\"onsetAge\":\"15\",\"drugType\":{\"id\":1,\"name\":\"Alcohol\",\"specification\":false,\"isObsolete\":false},\"periodicity\":{\"id\":7,\"name\":\"En reuniones sociales\",\"isObsolete\":false,\"specification\":false}}]}}", new TypeToken<TabletCaseDto>() {
+//            }.getType());
+//
+//            tabletService.synchronizeMeeting(ttC);
+            //tabletService.synchronizeVerification(tc);
+            System.out.println("----");
+
+        } catch (Exception e) {
+            System.out.println(e.getCause());
+            System.out.println(e.getMessage());
+        }
         return "/reviewer/meeting/index";
     }
 
@@ -52,9 +79,6 @@ public class MeetingController {
 
     @Autowired
     SharedUserService sharedUserService;
-
-    @Autowired
-    TabletService tabletService;
 
     @RequestMapping(value = "/reviewer/meeting/list", method = RequestMethod.POST)
     public
@@ -480,10 +504,21 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting, @RequestParam String sch, String activities) {
-        return meetingService.doTerminateMeeting(meeting, sch, activities);
+        try {
+            ResponseMessage result = meetingService.doTerminateMeeting(meeting, sch, activities);
+            result.setUrlToGo("/index.html");
+            return result;
+        } catch (Exception e) {
+            ResponseMessage result = new ResponseMessage();
+            logException.Write(e, this.getClass(), "doTerminateMeeting", userService);
+            result.setHasError(true);
+            result.setMessage("Ha ocurrido un error al terminar la entrevista. Intente m&aacute;s tarde");
+            return result;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/saveProceedingLegal", method = RequestMethod.POST)
+
     public
     @ResponseBody
     ResponseMessage saveProceedingLegal(@ModelAttribute CriminalProceedingView cpv) {
