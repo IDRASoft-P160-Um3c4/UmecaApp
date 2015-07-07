@@ -122,8 +122,6 @@ public class TrackMonitoringPlanController {
     @Autowired
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
     @Autowired
-    private SupervisionActivityRepository supervisionActivityRepository;
-    @Autowired
     private TechnicalReviewRepository qTechnicalReviewRepository;
     @Autowired
     private MonitoringPlanRepository monitoringPlanRepository;

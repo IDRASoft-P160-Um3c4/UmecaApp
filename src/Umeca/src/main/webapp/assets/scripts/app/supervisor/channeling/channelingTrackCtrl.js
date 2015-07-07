@@ -2,14 +2,6 @@ app.controller('channelingTrackController', function($scope, $sce) {
     $scope.m = {};
 
     $scope.initReschedule = function(){
-        if($scope.m.timeStart === undefined || $scope.m.timeStart === null  || $scope.m.timeStart === '' ){
-            var date = new Date();
-            var startTime = window.getTimeFormat(date, false);
-            var endTime = window.getTimeFormat(date, false);
-        }
-        else{
-
-        }
     };
 
     $scope.submitRescheduleIfValid = function(formId, urlToPost, hasReturnId, isValid, submit){

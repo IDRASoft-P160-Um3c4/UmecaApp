@@ -35,6 +35,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.umeca.model.shared.MonitoringConstants.STATUS_ACTIVITY_NEW;
+import static com.umeca.model.shared.MonitoringConstants.STATUS_ACTIVITY_PRE_NEW;
+
 @Controller
 public class ChannelingTrackController {
 
@@ -192,24 +195,31 @@ public class ChannelingTrackController {
                 return new ResponseMessage(true, "La actividad ya ha sido reagendada.");
             }
 
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
             //Validar los tiempos
             if(model.IsValidRescheduleDates() == false){
                 return new ResponseMessage(true, "Las fechas para reagendar la cita no están definidas, son de un día anterior al día actual o la fecha final es menor a la fecha inicial.");
             }
 
             //Clonar la actividad del plan de monitoreo
-            ActivityMonitoringPlan reschedule = amp.copyValues();
-            reschedule.setStart(model.getStart());
-            reschedule.setEnd(model.getEnd());
+            ActivityMonitoringPlan reschedule = amp.rescheduleCopy();
+
+            Calendar cal = model.getStart();
+            reschedule.setStart(cal);
+            reschedule.setSearchStart((cal.get(Calendar.YEAR) * 100) + (cal.get(Calendar.MONTH) + 1));
+            cal = model.getEnd();
+            reschedule.setEnd(cal);
+            reschedule.setSearchEnd((cal.get(Calendar.YEAR) * 100) + (cal.get(Calendar.MONTH) + 1));
+            reschedule.setStatus(STATUS_ACTIVITY_NEW);
+            reschedule.setCreationTime(Calendar.getInstance());
+            reschedule.setSupervisorCreate(user);
 
             activityMonitoringPlanRepository.save(reschedule);
             amp.setRescheduleAppointment(reschedule);
-            activityMonitoringPlanRepository.save(amp);
-            activityMonitoringPlanRepository.flush();
-
-            /*amp.setIsJustified(model.getIsJustified());
-            amp.setCommentsJustification(model.getComment());
-            activityMonitoringPlanRepository.flush();*/
+            activityMonitoringPlanRepository.saveAndFlush(amp);
 
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", userService);

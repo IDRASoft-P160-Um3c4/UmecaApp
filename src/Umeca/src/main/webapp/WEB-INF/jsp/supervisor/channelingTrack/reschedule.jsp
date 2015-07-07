@@ -104,7 +104,7 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <h6><i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp; Reagendar cita (Elija la fecha y la hora)</h6>
+                                        <h6><i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp; {{(m.rescheduleAppointmentId >= 0 ? 'Informaci&oacute; de la cita reagendada' : 'Reagendar cita (Elija la fecha y la hora)')}}</h6>
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -114,7 +114,7 @@
                                                     <div class="col-xs-10">
                                                         <div class="input-group">
                                                             <input class="form-control date-picker" id="id-date-picker-start" readonly="readonly"
-                                                                   type="text" data-date-format="dd-mm-yyyy" ng-model="m.dateStart" ng-init=""/>
+                                                                   type="text" data-date-format="dd-mm-yyyy" ng-model="m.dateStart" />
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
 																	</span>

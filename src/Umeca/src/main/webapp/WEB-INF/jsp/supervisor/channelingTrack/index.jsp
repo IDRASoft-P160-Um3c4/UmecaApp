@@ -44,7 +44,7 @@
                     { name: 'channelingName', index: 'channelingName', width: 160, align: "center", sorttype: 'string', search: false },
                     { name: 'channelingTypeName', index: 'channelingTypeName', width: 160, align: "center", sorttype: 'string', search: false },
                     { name: 'isJustified', index: 'isJustified', hidden: true },
-                    { name: 'isRescheduleAppointment', index: 'isRescheduleAppointment', hidden: true },
+                    { name: 'rescheduleAppointmentId', index: 'rescheduleAppointmentId', hidden: true },
                     { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
@@ -69,9 +69,9 @@
                         else
                             be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Mostrar justificante\" onclick=\"window.justify('" + cl + "');\"><span class=\"glyphicon glyphicon-paperclip\"></span></a>";
 
-                        if(row.isRescheduleAppointment === undefined || row.isRescheduleAppointment === null || row.isRescheduleAppointment === "")
+                        if(row.rescheduleAppointmentId === undefined || row.rescheduleAppointmentId === null || row.rescheduleAppointmentId === "")
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reagendar cita\" onclick=\"window.reschedule('" + cl + "');\"><span class=\"glyphicon glyphicon-calendar\"></span></a>";
-                        else if(row.isRescheduleAppointment === true)
+                        else if(row.rescheduleAppointmentId > 0)
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ver cita reagendada\" onclick=\"window.reschedule('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
