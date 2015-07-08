@@ -2,12 +2,14 @@ package com.umeca.service.tablet;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.dto.tablet.*;
 import com.umeca.model.dto.tablet.catalog.TabletStatusCaseDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.shared.LogCase;
+import com.umeca.model.entities.shared.TabletAssignmentInfo;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
@@ -20,6 +22,7 @@ import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,8 +123,24 @@ public class TabletServiceImpl implements TabletService {
     @Autowired
     HearingFormatService hearingFormatService;
 
+
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     private SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
+
+
+//    public ResponseMessage getAssignmentIdsByUserName(String userName, String guid) {
+//        ResponseMessage response;
+//        try {
+//
+//        } catch (Exception e) {
+//            response = new ResponseMessage(true,"Ha ocurrido un error, intente nuevamente");
+//        }
+//        return response;
+//    }
+
+//    private ResponseMessage findAssignmentsByUserId(){
+//
+//    };
 
     private TabletCaseDto getCaseDataByCaseId(Long caseId) {
         return caseRepository.getInfoCaseByCaseId(caseId);
@@ -130,6 +149,7 @@ public class TabletServiceImpl implements TabletService {
     private TabletStatusCaseDto getStatusCaseByCaseId(Long caseId) {
         return caseRepository.getStatusCaseByCaseId(caseId);
     }
+
 
     private TabletImputedDto getImputedDataByCaseId(Long caseId) {
         TabletImputedDto currentImputed = caseRepository.getImputedDataByCaseId(caseId);

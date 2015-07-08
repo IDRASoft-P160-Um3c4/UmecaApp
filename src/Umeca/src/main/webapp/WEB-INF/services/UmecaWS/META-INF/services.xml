@@ -4,7 +4,10 @@
         <description>Acceso desde tableta</description>
         <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
         <parameter name="SpringBeanName" locked="false">UmecaWS</parameter>
-        <operation name="confirmLoginData">
+        <operation name="loginFromTablet">
+            <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+        </operation>
+        <operation name="getAssignmentsByUser">
             <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
         </operation>
     </service>

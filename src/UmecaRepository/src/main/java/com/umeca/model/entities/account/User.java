@@ -60,6 +60,8 @@ public class User implements EntityGrid {
     @OneToMany(mappedBy="sender", cascade={CascadeType.ALL})
     private List<Message> messagesSent;
 
+    @Column(name="guid_tablet_assignment")
+    private String guidTabletAssignment;
 
     public User(){
 
@@ -161,5 +163,13 @@ public class User implements EntityGrid {
 
     public void setMessagesSent(List<Message> messagesSent) {
         this.messagesSent = messagesSent;
+    }
+
+    public String getGuidTabletAssignment() {
+        return guidTabletAssignment;
+    }
+
+    public void setGuidTabletAssignment(String guidTabletAssignment) {
+        this.guidTabletAssignment = guidTabletAssignment;
     }
 }

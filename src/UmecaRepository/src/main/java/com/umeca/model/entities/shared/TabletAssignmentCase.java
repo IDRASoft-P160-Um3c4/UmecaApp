@@ -6,14 +6,15 @@ import com.umeca.model.entities.reviewer.SourceVerification;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.List;
 
 @Entity
-@Table(name = "tablet_assignment_cases")
+@Table(name = "tablet_assignment_case")
 public class TabletAssignmentCase {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_tablet_assigned_cases")
+    @Column(name = "id_tablet_assignment_case")
     private Long id;
 
     @Column(name = "assignment_date")
@@ -21,6 +22,9 @@ public class TabletAssignmentCase {
 
     @Column(name = "synchronized_date")
     private Calendar synchronizedDate;
+
+    @Column(name = "downloaded_date")
+    private Calendar downloadedDate;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_case")
@@ -30,9 +34,8 @@ public class TabletAssignmentCase {
     @JoinColumn(name = "id_user")
     private User assignedUser;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_source")
-    private SourceVerification sourceVerification;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tabletAssignmentCase", cascade = CascadeType.ALL)
+    private List<TabletRelAssignmentSource> listRelAssignedSources;
 
     @Column(name = "is_obsolete")
     private Boolean isObsolete;
@@ -77,19 +80,27 @@ public class TabletAssignmentCase {
         this.assignedUser = assignedUser;
     }
 
-    public SourceVerification getSourceVerification() {
-        return sourceVerification;
-    }
-
-    public void setSourceVerification(SourceVerification sourceVerification) {
-        this.sourceVerification = sourceVerification;
-    }
-
     public Boolean getIsObsolete() {
         return isObsolete;
     }
 
     public void setIsObsolete(Boolean isObsolete) {
         this.isObsolete = isObsolete;
+    }
+
+    public Calendar getDownloadedDate() {
+        return downloadedDate;
+    }
+
+    public void setDownloadedDate(Calendar downloadedDate) {
+        this.downloadedDate = downloadedDate;
+    }
+
+    public List<TabletRelAssignmentSource> getListRelAssignedSources() {
+        return listRelAssignedSources;
+    }
+
+    public void setListRelAssignedSources(List<TabletRelAssignmentSource> listRelAssignedSources) {
+        this.listRelAssignedSources = listRelAssignedSources;
     }
 }

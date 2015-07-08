@@ -52,8 +52,8 @@ public class MeetingController {
     @RequestMapping(value = "/reviewer/meeting/index", method = RequestMethod.GET)
     public String index() {
         try {
-            TabletCaseDto tc = tabletService.getAllCaseByIdCase(4L, Constants.HEARING_FORMAT_ASSIGNMENT_TYPE);
-            String cadena = new Gson().toJson(tc);
+//            TabletCaseDto tc = tabletService.getAllCaseByIdCase(4L, Constants.HEARING_FORMAT_ASSIGNMENT_TYPE);
+//            String cadena = new Gson().toJson(tc);
 //            tabletService.synchronizeLogCaseActivities(new TabletCaseDto());
             System.out.println("----");
 

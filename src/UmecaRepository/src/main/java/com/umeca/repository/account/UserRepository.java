@@ -83,4 +83,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT r.role FROM User u " +
             "INNER JOIN u.roles r WHERE u.username=:usrname")
     List<String> getRoleByUsername(@Param("usrname") String usrname, Pageable pageable);
+
+    @Query("SELECT u FROM User u " +
+            "WHERE u.username=:usrname and u.guidTabletAssignment=:guid  and u.enabled=true")
+    User findByUserGuid(@Param("usrname") String usrname,@Param("guid") String guid);
 }

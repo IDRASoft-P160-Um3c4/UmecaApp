@@ -89,6 +89,9 @@ public class SourceVerification implements EntityGrid{
     @Column(name="specification", nullable = true, length = 255)
     private String specification;
 
+    @Column(name = "created_from_tablet", columnDefinition = "TINYINT(1) DEFAULT 0")
+    private boolean createdFromTablet;
+
     @Transient
     private Long idCase;
 
@@ -272,5 +275,13 @@ public class SourceVerification implements EntityGrid{
 
     public void setSpecification(String specification) {
         this.specification = specification;
+    }
+
+    public boolean isCreatedFromTablet() {
+        return createdFromTablet;
+    }
+
+    public void setCreatedFromTablet(boolean createdFromTablet) {
+        this.createdFromTablet = createdFromTablet;
     }
 }

@@ -10,6 +10,7 @@ public class TabletUserDto {
     private String fullname;
     private String hPassword;
     private String roleCode;
+    private String guid;
 
     public TabletUserDto() {
 
@@ -56,5 +57,13 @@ public class TabletUserDto {
 
     public void setRoleCode(String roleCode) {
         this.roleCode = roleCode;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 }

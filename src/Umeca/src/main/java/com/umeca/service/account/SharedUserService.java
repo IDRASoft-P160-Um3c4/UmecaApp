@@ -1,8 +1,10 @@
 package com.umeca.service.account;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.security.BcryptUtil;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.CryptoRfc2898;
+import com.umeca.model.dto.tablet.TabletUserDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
@@ -10,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Project: Umeca
@@ -131,6 +135,47 @@ public class SharedUserService {
             return lst.get(0);
         else
             return null;
+    }
+
+    //valida las ceredenciales enviadas desde la tableta y en caso de ser correctas genera un guid para el usuario que sera verificado en cada operacion
+    @Transactional
+    public String confirmLoginData(String user, String encodedPass) {
+
+        Gson g = new Gson();
+
+        if (user == null || user.length() == 0 || encodedPass == null || encodedPass.length() == 0)
+            return g.toJson(new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente"));
+
+        String bdEncodedPass = this.getCodedPassByUsername(user);
+        if (bdEncodedPass == null || bdEncodedPass.length() == 0)
+            return g.toJson(new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente"));
+
+        CryptoRfc2898 rfc2898 = new CryptoRfc2898();
+
+        if (rfc2898.ByteArraysEqual(encodedPass.getBytes(), bdEncodedPass.getBytes())) {
+            ResponseMessage r = new ResponseMessage(false, "Acceso correcto");
+            TabletUserDto info = new TabletUserDto();
+
+            User u = userRepository.findByUsername(user);
+            String guid = UUID.randomUUID().toString();
+            u.setGuidTabletAssignment(guid);
+            userRepository.save(u);
+            info.setGuid(guid);
+            r.setReturnData(g.toJson(info));
+            return g.toJson(r);
+        }
+
+        return g.toJson(new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente"));
+    }
+
+
+    public boolean validateUserGuid(String user, String guid) {
+        User u = userRepository.findByUserGuid(user, guid);
+        if (u != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

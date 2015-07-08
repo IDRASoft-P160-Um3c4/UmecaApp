@@ -5,64 +5,69 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.CryptoRfc2898;
 import com.umeca.model.dto.tablet.TabletCaseDto;
 import com.umeca.model.dto.tablet.TabletUserDto;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.shared.TabletAssignmentInfo;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-public class UmecaWSImp implements UmecaWS{
+import java.util.List;
+import java.util.UUID;
+
+public class UmecaWSImp implements UmecaWS {
 
     @Autowired
     SharedUserService sharedUserService;
 
+    @Autowired
+    CaseRepository caseRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
     public UmecaWSImp() {
     }
 
-    public String confirmLoginData(String user,String encodedPass){
-
-        Gson g = new Gson();
-
-        if(user == null || user.length()==0 || encodedPass == null || encodedPass.length()==0)
-            return g.toJson(new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente"));
-
-        String bdEncodedPass = sharedUserService.getCodedPassByUsername(user);
-        if(bdEncodedPass == null || bdEncodedPass.length()==0)
-            return g.toJson(new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente"));
-
-        CryptoRfc2898 rfc2898 = new CryptoRfc2898();
-
-        if(rfc2898.ByteArraysEqual(encodedPass.getBytes(),bdEncodedPass.getBytes())){
-            ResponseMessage r = new ResponseMessage(false, "Acceso correcto");
-            TabletUserDto info = new TabletUserDto();
-
-            SelectList sl = sharedUserService.getIdAndFullnameByUsername(user);
-            String roleCode = sharedUserService.getRoleByUsername(user);
-
-            info.setId(sl.getId());
-            info.setFullname(sl.getName());
-            info.sethPassword(sl.getDescription());
-            info.setRoleCode(roleCode);
-            r.setReturnData(g.toJson(info));
-            return g.toJson(r);
+    public String loginFromTablet(String user, String encodedPass) {
+        try {
+            return sharedUserService.confirmLoginData(user, encodedPass);
+        } catch (Exception e) {
+            System.out.println("error en loginFromTablet");
+            return new Gson().toJson(new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente"));
         }
-
-        return g.toJson(new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente"));
     }
 
-//    public ResponseMessage downloadInfoTablet(String user,String codePass){
-//
-//        if(user == null || user.length()==0 || codePass == null || codePass.length()==0)
-//            return new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente");
-//
-////        String bdCodePass = sharedUserService.
-////                CryptoRfc2898 c = new CryptoRfc2898();
-//    }
-//
-//    public ResponseMessage synchronizeInfoTablet(){
-//        ResponseMessage responseMessage = new ResponseMessage();
-//        return responseMessage;
-//    }
+    public String getAssignmentsByUser(String user, String guid) {
+        ResponseMessage response;
+        Gson gson = new Gson();
+
+        try {
+
+            if (sharedUserService.validateUserGuid(user, guid)) {
+
+                User u = userRepository.findByUsername(user);
+                List<TabletAssignmentInfo> assignmentInfoList = caseRepository.getAssignmentIdsTypesByUser(u.getId());
+                if(assignmentInfoList!=null &&assignmentInfoList.size()>0) {
+                    response = new ResponseMessage(false, "Acceso correcto");
+                    response.setReturnData(gson.toJson(assignmentInfoList));
+                }else{
+                    response = new ResponseMessage(true, "No existen casos asignados para su usuario.");
+                }
+
+            } else {
+                response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
+            }
+
+        } catch (Exception e) {
+            response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
+        }
+
+        return gson.toJson(response);
+    }
+
 
 }

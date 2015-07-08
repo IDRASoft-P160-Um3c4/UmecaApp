@@ -9,6 +9,7 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.SourceVerification;
 import com.umeca.model.entities.shared.TabletAssignmentCase;
+import com.umeca.model.entities.shared.TabletRelAssignmentSource;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 
 @Service("mobileService")
-public class MobileServiceImpl implements MobileService{
+public class MobileServiceImpl implements MobileService {
 
     @Autowired
     private CaseRepository caseRepository;
@@ -38,10 +39,10 @@ public class MobileServiceImpl implements MobileService{
 
     @Transactional
     @Override
-    public ResponseMessage saveAssignmentCase(Long idCase,Long idUser,String type) {//guarda asignaciones de entrevista de riesgos y de formatos de audiencia
+    public ResponseMessage saveAssignmentCase(Long idCase, Long idUser, String type) {//guarda asignaciones de entrevista de riesgos y de formatos de audiencia
 
         Case c = caseRepository.findOne(idCase);
-        StatusCase stC= statusCaseRepository.findByCode(Constants.CASE_STATUS_TABLET_ASSIGNMENT);
+        StatusCase stC = statusCaseRepository.findByCode(Constants.CASE_STATUS_TABLET_ASSIGNMENT);
 
         TabletAssignmentCase assignment = new TabletAssignmentCase();
 
@@ -58,39 +59,64 @@ public class MobileServiceImpl implements MobileService{
         c.setStatus(stC);
         caseRepository.save(c);
 
-        return  new ResponseMessage(false, "Se ha guardado la información correctamente");
+        return new ResponseMessage(false, "Se ha guardado la información correctamente");
     }
 
     @Transactional
     @Override
-    public ResponseMessage saveAssignmentCaseWhitSources(Long idCase,String type,String sourcesRel){
+    public ResponseMessage saveAssignmentCaseWhitSources(Long idCase, String type, String sourcesRel) {
         Gson gson = new Gson();
+
         Case c = caseRepository.findOne(idCase);
-        StatusCase stC= statusCaseRepository.findByCode(Constants.CASE_STATUS_TABLET_ASSIGNMENT);
-
-        List<SelectList> lstUsrSourceIds = gson.fromJson(sourcesRel, new TypeToken<List<SelectList>>() {
-        }.getType());
-
-        for(SelectList curr :  lstUsrSourceIds) {
-            TabletAssignmentCase assignment = new TabletAssignmentCase();
-            assignment.setAssignmentDate(Calendar.getInstance());
-            assignment.setCaseDetention(c);
-            User u = new User();
-            u.setId(curr.getId());
-            assignment.setAssignedUser(u);
-            SourceVerification sourceVerification = new SourceVerification();
-            sourceVerification.setId(curr.getAux());
-            assignment.setSourceVerification(sourceVerification);
-            assignment.setIsObsolete(false);
-            tabletAssignmentCaseRepository.save(assignment);
-        }
-
         c.setPreviousStateCode(c.getStatus().getName());
-        c.setAssignmentType(type);
+        c.setAssignmentType(Constants.VERIFICATION_ASSIGNMENT_TYPE);
+        StatusCase stC = statusCaseRepository.findByCode(Constants.CASE_STATUS_TABLET_ASSIGNMENT);
         c.setStatus(stC);
         caseRepository.save(c);
 
-        return  new ResponseMessage(false, "Se ha guardado la información correctamente");
+        List<Long> idsUsr = new ArrayList<>();
+        List<SelectList> lstUsrSourceIds = gson.fromJson(sourcesRel, new TypeToken<List<SelectList>>() {
+        }.getType());
+
+        //obtengo los ids de los diferentes usuarios
+        for (SelectList currSource : lstUsrSourceIds) {
+            if (!idsUsr.contains(currSource.getId())) {
+                idsUsr.add(currSource.getId());
+            }
+        }
+
+        //genero las asignaciones con su respectiva lista de fuentes
+        for (Long currUsr : idsUsr) {
+            TabletAssignmentCase tabletAssignmentCase = new TabletAssignmentCase();
+            List<TabletRelAssignmentSource> lstRelSources = new ArrayList<>();
+
+            tabletAssignmentCase.setAssignmentDate(Calendar.getInstance());
+            tabletAssignmentCase.setIsObsolete(false);
+            tabletAssignmentCase.setCaseDetention(c);
+
+            User u = new User();
+            u.setId(currUsr);
+
+            tabletAssignmentCase.setAssignedUser(u);
+
+            tabletAssignmentCaseRepository.save(tabletAssignmentCase);
+
+            for (SelectList currSource : lstUsrSourceIds) {
+                if (currSource.getId().equals(currUsr)) {
+                    TabletRelAssignmentSource rel = new TabletRelAssignmentSource();
+                    SourceVerification sv = new SourceVerification();
+                    sv.setId(currSource.getAux());
+                    rel.setSourceVerification(sv);
+                    rel.setTabletAssignmentCase(tabletAssignmentCase);
+                    lstRelSources.add(rel);
+                }
+            }
+
+            tabletAssignmentCase.setListRelAssignedSources(lstRelSources);
+            tabletAssignmentCaseRepository.save(tabletAssignmentCase);
+        }
+
+        return new ResponseMessage(false, "Se ha guardado la información correctamente");
     }
 
     @Transactional
@@ -102,19 +128,18 @@ public class MobileServiceImpl implements MobileService{
 
         List<TabletAssignmentCase> lstAssign = tabletAssignmentCaseRepository.getAssignmentsByCaseId(idCase);
 
-        for(TabletAssignmentCase assignment: lstAssign){
+        for (TabletAssignmentCase assignment : lstAssign) {
             assignment.setIsObsolete(true);
         }
         tabletAssignmentCaseRepository.save(lstAssign);
 
-        StatusCase stC= statusCaseRepository.findByCode(c.getPreviousStateCode());
+        StatusCase stC = statusCaseRepository.findByCode(c.getPreviousStateCode());
         c.setPreviousStateCode(null);
         c.setStatus(stC);
         caseRepository.save(c);
 
-        return  new ResponseMessage(false, "Se ha guardado la información correctamente");
+        return new ResponseMessage(false, "Se ha guardado la información correctamente");
     }
-
 
 
 }
