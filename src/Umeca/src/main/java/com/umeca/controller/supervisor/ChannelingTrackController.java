@@ -20,6 +20,7 @@ import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.ChannelingRepository;
 import com.umeca.repository.supervisor.ChannelingTrackingRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.MessageService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ChannelingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,9 @@ public class ChannelingTrackController {
 
     @Autowired
     ChannelingTrackingRepository channelingTrackingRepository;
+
+    @Autowired
+    MessageService messageService;
 
     @RequestMapping(value = "/supervisor/channelingTrack/justify", method = RequestMethod.POST)
     public @ResponseBody
@@ -220,6 +224,26 @@ public class ChannelingTrackController {
             activityMonitoringPlanRepository.save(reschedule);
             amp.setRescheduleAppointment(reschedule);
             activityMonitoringPlanRepository.saveAndFlush(amp);
+
+            Case caseDetention = amp.getCaseDetention();
+            Imputed imputed = caseDetention.getMeeting().getImputed();
+            String imputedFullName = imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM();
+            String start = CalendarExt.calendarToFormatString(amp.getStart(), Constants.FORMAT_CALENDAR_I);
+            String end = CalendarExt.calendarToFormatString(amp.getEnd(), Constants.FORMAT_CALENDAR_I);
+            String startReschedule = CalendarExt.calendarToFormatString(reschedule.getStart(), Constants.FORMAT_CALENDAR_I);
+            String endReschedule = CalendarExt.calendarToFormatString(reschedule.getEnd(), Constants.FORMAT_CALENDAR_I);
+            Channeling channeling = amp.getChanneling();
+            String goal = amp.getActivityGoal().getName();
+
+            messageService.sendNotificationToRole(caseDetention.getId(),
+                    String.format("<strong>Descripción:</strong> Se reagendó la cita de canalización de tipo <strong>\"%s\"</strong><br/>" +
+                                    "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Reagendado por el supervisor: <strong>%s</strong><br/>" +
+                                    "Objetivo de la actividad: <b>%s</b><br/>" +
+                                    "Fecha anterior: <b>%s</b> al <b>%s</b><br/>"+
+                                    "Fecha nueva: <b>%s</b> al <b>%s</b>",
+                            channeling.getChannelingType().getName(), imputedFullName, caseDetention.getIdMP(),
+                            userService.getFullNameById(userService.GetLoggedUserId()), goal, start, end, startReschedule, endReschedule),
+                    new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);}}, Constants.CHANNELING_RESCHEDULE_TITLE);
 
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", userService);

@@ -1,5 +1,6 @@
 package com.umeca.controller.supervisor;
 
+import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -22,6 +23,7 @@ import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisor.SupervisionActivityRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.LogCaseService;
+import com.umeca.service.shared.MessageService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.TrackMonPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -227,6 +229,9 @@ public class TrackMonitoringPlanController {
     @Autowired
     LogCaseService logCaseService;
 
+    @Autowired
+    MessageService messageService;
+
     @RequestMapping(value = "/supervisor/trackMonitoringPlan/doActionActivity", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -344,12 +349,35 @@ public class TrackMonitoringPlanController {
                 }
             }
 
-            if(activityMonitoringPlan.getChanneling() != null && activityMonitoringPlan.getActivityGoal() != null
+            Channeling channeling = activityMonitoringPlan.getChanneling();
+            if(channeling != null && activityMonitoringPlan.getActivityGoal() != null
                     && activityMonitoringPlan.getActivityGoal().getId() == Constants.CHANNELING_NOTIFICATION_GOAL_TRACK){
                 //Asistencia a la canalización
                 Integer channelingAssistance = model.getChannelingAssistance();
-                if(channelingAssistance != null)
+                if(channelingAssistance != null){
                     activityMonitoringPlan.setChannelingAssistance(channelingAssistance);
+
+                    try{
+                        if (channelingAssistance == 0){
+                            //Notificar inasistencia
+                            Case caseDetention = activityMonitoringPlan.getCaseDetention();
+                            Imputed imputed = caseDetention.getMeeting().getImputed();
+                            String imputedFullName = imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM();
+                            String start = CalendarExt.calendarToFormatString(activityMonitoringPlan.getStart(), Constants.FORMAT_CALENDAR_I);
+                            String end = CalendarExt.calendarToFormatString(activityMonitoringPlan.getEnd(), Constants.FORMAT_CALENDAR_I);
+
+                            messageService.sendNotificationToRole(caseDetention.getId(),
+                                    String.format("<strong>Descripción:</strong> Se registró una inasistencia a la canalización de tipo <strong>\"%s\"</strong><br/>" +
+                                                    "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong><br/><br/>" +
+                                                    "Fecha de inasistencia: <b>%s</b> al <b>%s</b>",
+                                            channeling.getChannelingType().getName(), imputedFullName, caseDetention.getIdMP(),
+                                            sharedUserService.getFullNameById(user.getId()), start, end),
+                                            new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);}}, Constants.CHANNELING_ABSENCE_TITLE);
+                        }
+                    }catch (Exception ex){
+                        logException.Write(ex, this.getClass(), "doActionActivity-sendNotification", sharedUserService);
+                    }
+                }
             }
 
             activityMonitoringPlan.setStatus(sStatus);

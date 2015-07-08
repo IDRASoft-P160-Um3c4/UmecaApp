@@ -69,7 +69,6 @@ public class ChannelingServiceImpl implements ChannelingService {
     @Autowired
     MessageService messageService;
 
-
     @Override
     public void getChannelingCatalogs(ModelAndView model) {
         Gson gson = new Gson();
