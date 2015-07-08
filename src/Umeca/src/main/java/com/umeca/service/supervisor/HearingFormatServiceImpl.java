@@ -888,7 +888,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 logCommentRepository.save(logComment);
             }
             sb = new StringBuilder();
-            sb.append(request.getContextPath());
+            if(request!=null) {
+                sb.append(request.getContextPath());
+            }
             sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
             sb.append(hearingFormat.getCaseDetention().getId());
             response.setUrlToGo(sb.toString());

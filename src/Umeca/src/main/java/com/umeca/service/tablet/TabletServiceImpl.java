@@ -7,20 +7,27 @@ import com.umeca.model.dto.tablet.*;
 import com.umeca.model.dto.tablet.catalog.TabletStatusCaseDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
-import com.umeca.model.entities.supervisor.HearingFormatView;
+import com.umeca.model.entities.shared.LogCase;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
+import com.umeca.repository.shared.LogCaseRepository;
+import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service("tabletService")
@@ -28,9 +35,6 @@ public class TabletServiceImpl implements TabletService {
 
     @Autowired
     CaseRepository caseRepository;
-
-    @Autowired
-    HearingFormatService hearingFormatService;
 
     @Autowired
     AddressRepository addressRepository;
@@ -98,7 +102,26 @@ public class TabletServiceImpl implements TabletService {
     @Autowired
     ActivityRepository activityRepository;
 
+    @Autowired
+    LogCaseRepository logCaseRepository;
+
+    @Autowired
+    ElectionRepository electionRepository;
+
+    @Autowired
+    CrimeCatalogRepository crimeCatalogRepository;
+
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+
+    @Autowired
+    HearingFormatRepository hearingFormatRepository;
+
+    @Autowired
+    HearingFormatService hearingFormatService;
+
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    private SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
 
     private TabletCaseDto getCaseDataByCaseId(Long caseId) {
         return caseRepository.getInfoCaseByCaseId(caseId);
@@ -232,8 +255,7 @@ public class TabletServiceImpl implements TabletService {
             }
 
             if (hfv.getListCrime() != null) {
-                List<TabletCrimeDto> lstCrime = new ArrayList<>();
-                lstCrime = new Gson().fromJson(hfv.getListCrime(), new TypeToken<List<TabletCrimeDto>>() {
+                List<TabletCrimeDto> lstCrime = new Gson().fromJson(hfv.getListCrime(), new TypeToken<List<TabletCrimeDto>>() {
                 }.getType());
 
                 hf.setCrimeList(lstCrime);
@@ -244,14 +266,17 @@ public class TabletServiceImpl implements TabletService {
         return lstHF;
     }
 
-
-    public TabletCaseDto getAllCaseByIdCase(Long idCase) {
+    //obtiene toda la informacion del caso en DTOS para enviarlos a la tableta
+    public TabletCaseDto getAllCaseByIdCase(Long idCase, String assigmentType) {
         try {
             TabletCaseDto currentCase = this.getCaseDataByCaseId(idCase);
             currentCase.setStatus(this.getStatusCaseByCaseId(idCase));
             currentCase.setMeeting(this.getMeetingDataByCaseId(idCase));
-            currentCase.setVerification(this.getVerificationByCaseId(idCase));
-            //currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
+            if (assigmentType == Constants.VERIFICATION_ASSIGNMENT_TYPE) {
+                currentCase.setVerification(this.getVerificationByCaseId(idCase));
+            } else if (assigmentType == Constants.HEARING_FORMAT_ASSIGNMENT_TYPE) {
+                currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
+            }
             return currentCase;
         } catch (Exception e) {
             System.out.println("error al obtener la info del caso");
@@ -281,9 +306,7 @@ public class TabletServiceImpl implements TabletService {
             return null;
         }
 
-        StatusCase stC = new StatusCase();
-        stC.setId(webCase.getStatus().getId());
-        webCase.setStatus(stC);
+        webCase.setStatus(statusCaseRepository.findOne(webCase.getStatus().getId()));
 
         return webCase;
     }
@@ -528,25 +551,25 @@ public class TabletServiceImpl implements TabletService {
         webLC.setSpecficationImmigranDoc(tabletLC.getSpecficationImmigranDoc());
         webLC.setSpecificationRelationship(tabletLC.getSpecificationRelationship());
 
-        if(tabletLC.getFamilyAnotherCountry()!=null) {
+        if (tabletLC.getFamilyAnotherCountry() != null) {
             Election fac = new Election();
             fac.setId(tabletLC.getFamilyAnotherCountry().getId());
             webLC.setFamilyAnotherCountry(fac);
         }
 
-        if(tabletLC.getCommunicationFamily()!=null) {
+        if (tabletLC.getCommunicationFamily() != null) {
             Election cf = new Election();
             cf.setId(tabletLC.getCommunicationFamily().getId());
             webLC.setCommunicationFamily(cf);
         }
 
-        if(tabletLC.getOfficialDocumentation()!=null) {
+        if (tabletLC.getOfficialDocumentation() != null) {
             Election oD = new Election();
             oD.setId(tabletLC.getOfficialDocumentation().getId());
             webLC.setOfficialDocumentation(oD);
         }
 
-        if(tabletLC.getLivedCountry()!=null) {
+        if (tabletLC.getLivedCountry() != null) {
             Election lC = new Election();
             lC.setId(tabletLC.getLivedCountry().getId());
             webLC.setLivedCountry(lC);
@@ -900,14 +923,269 @@ public class TabletServiceImpl implements TabletService {
         return v;
     }
 
-    //@Transactional
-    public void synchronizeVerification(TabletCaseDto tabletCase) {
+    private List<HearingFormat> mergeFormats(TabletCaseDto tabletCase) {
+
+        Case c;
+        if (tabletCase.getWebId() != null) {
+            c = caseRepository.findOne(tabletCase.getWebId());
+        }
+
+        c = this.saveCaseMeetingImputedDetention(tabletCase);
+
+        List<TabletHearingFormatDto> tabletList = tabletCase.getHearingFormats();
+        List<HearingFormat> webList = new ArrayList<>();
+
+        for (TabletHearingFormatDto tabletHF : tabletList) {
+
+            HearingFormat webHF = new HearingFormat();
+            webHF.setCaseDetention(c);
+
+            webHF.setIdFolder(tabletHF.getIdFolder());
+            webHF.setIdJudicial(tabletHF.getIdJudicial());
+            webHF.setRoom(tabletHF.getRoom());
+
+            try {
+
+                Calendar cal = Calendar.getInstance();
+                Date rt = tabletHF.getRegisterTime() == null ? null : sdf.parse(tabletHF.getRegisterTime());
+
+                if (rt != null) {
+                    cal.setTime(rt);
+                    webHF.setRegisterTime(cal);
+                }
+
+                webHF.setAppointmentDate(tabletHF.getAppointmentDate() == null ? null : sdf.parse(tabletHF.getAppointmentDate()));
+
+                Date it = tabletHF.getInitTime() == null ? null : sdfT.parse(tabletHF.getInitTime());
+                Time initT = it == null ? null : new Time(it.getTime());
+                webHF.setInitTime(initT);
+
+                Date et = tabletHF.getEndTime() == null ? null : sdfT.parse(tabletHF.getEndTime());
+                Time endT = et == null ? null : new Time(et.getTime());
+                webHF.setEndTime(new Time(endT.getTime()));
+
+                webHF.setUmecaDate(tabletHF.getUmecaDate() == null ? null : sdf.parse(tabletHF.getUmecaDate()));
+
+                Date ut = tabletHF.getUmecaTime() == null ? null : sdfT.parse(tabletHF.getInitTime());
+                Time umecaT = it == null ? null : new Time(ut.getTime());
+                webHF.setUmecaTime(umecaT);
+
+            } catch (Exception e) {
+                System.out.println("error al parsear fechas hearingformat");
+                return null;
+            }
+
+            webHF.setJudgeName(tabletHF.getJudgeName());
+            webHF.setMpName(tabletHF.getMpName());
+            webHF.setDefenderName(tabletHF.getDefenderName());
+            webHF.setTerms(tabletHF.getTerms());
+            webHF.setConfirmComment(tabletHF.getConfirmComment());
+            webHF.setIsFinished(tabletHF.getIsFinished());
+            webHF.setComments(tabletHF.getComments());
+
+            webHF.setHearingTypeSpecification(tabletHF.getHearingTypeSpecification());
+            webHF.setImputedPresence(tabletHF.getImputedPresence());
+            webHF.setHearingResult(tabletHF.getHearingResult());
+            webHF.setPreviousHearing(tabletHF.getPreviousHearing());
+            webHF.setShowNotification(tabletHF.getShowNotification());
+
+            if (tabletHF.getHearingType() != null) {
+                HearingType ht = new HearingType();
+                ht.setId(tabletHF.getHearingType().getId());
+                webHF.setHearingType(ht);
+            }
+
+            HearingFormatImputed hi = new HearingFormatImputed();
+
+            hi.setName(tabletHF.getHearingImputed().getName());
+            hi.setLastNameP(tabletHF.getHearingImputed().getLastNameP());
+            hi.setLastNameM(tabletHF.getHearingImputed().getLastNameM());
+
+            try {
+                hi.setBirthDate(tabletHF.getHearingImputed().getBirthDate() == null ? null : sdf.parse(tabletHF.getHearingImputed().getBirthDate()));
+            } catch (Exception e) {
+                System.out.println("error al parasear fecha de hearing imputed");
+                return null;
+            }
+
+            hi.setImputeTel(tabletHF.getHearingImputed().getImputeTel());
+
+            Address add = new Address();
+
+            add.setStreet(tabletHF.getHearingImputed().getAddress().getStreet());
+            add.setOutNum(tabletHF.getHearingImputed().getAddress().getOutNum());
+            add.setInnNum(tabletHF.getHearingImputed().getAddress().getInnNum());
+            Location l = new Location();
+            l.setId(tabletHF.getHearingImputed().getAddress().getLocation().getId());
+            add.setLocation(l);
+            add.setAddressString(add.toString());
+
+            hi.setAddress(add);
+            webHF.setHearingImputed(hi);
+
+            if (tabletHF.getHearingFormatSpecs() != null) {
+                HearingFormatSpecs hearingFormatSpecs = new HearingFormatSpecs();
+                hearingFormatSpecs.setControlDetention(tabletHF.getHearingFormatSpecs().getControlDetention());
+                hearingFormatSpecs.setExtension(tabletHF.getHearingFormatSpecs().getExtension());
+                hearingFormatSpecs.setImputationFormulation(tabletHF.getHearingFormatSpecs().getImputationFormulation());
+
+                try {
+
+                    hearingFormatSpecs.setImputationDate(tabletHF.getHearingFormatSpecs().getImputationDate() == null ? null : sdf.parse(tabletHF.getHearingFormatSpecs().getImputationDate()));
+                    hearingFormatSpecs.setLinkageDate(tabletHF.getHearingFormatSpecs().getLinkageDate() == null ? null : sdf.parse(tabletHF.getHearingFormatSpecs().getLinkageDate()));
+                    hearingFormatSpecs.setExtDate(tabletHF.getHearingFormatSpecs().getExtDate() == null ? null : sdf.parse(tabletHF.getHearingFormatSpecs().getExtDate()));
+
+                    Date ltD = tabletHF.getHearingFormatSpecs().getLinkageTime() == null ? null : sdfT.parse(tabletHF.getHearingFormatSpecs().getLinkageTime());
+                    Time lt = ltD == null ? null : new Time(ltD.getTime());
+
+                    hearingFormatSpecs.setLinkageTime(lt);
+
+
+                } catch (Exception e) {
+                    System.out.println("error al parasear fecha de hearing specs");
+                    return null;
+                }
+
+                hearingFormatSpecs.setLinkageProcess(tabletHF.getHearingFormatSpecs().getLinkageProcess());
+                hearingFormatSpecs.setLinkageRoom(tabletHF.getHearingFormatSpecs().getLinkageRoom());
+
+                hearingFormatSpecs.setArrangementType(tabletHF.getHearingFormatSpecs().getArrangementType());
+                hearingFormatSpecs.setNationalArrangement(tabletHF.getHearingFormatSpecs().getNationalArrangement());
+
+                webHF.setHearingFormatSpecs(hearingFormatSpecs);
+            }
+
+            List<Crime> lstCrime = new ArrayList<>();
+
+            for (TabletCrimeDto tabletCrime : tabletHF.getCrimeList()) {
+                Crime webCrime = new Crime();
+                webCrime.setComment(webCrime.getComment());
+                webCrime.setArticle(webCrime.getArticle());
+                webCrime.setFederal(electionRepository.findOne(tabletCrime.getFederal().getId()));
+                webCrime.setCrime(crimeCatalogRepository.findOne(tabletCrime.getCrime().getId()));
+                webCrime.setHearingFormat(webHF);
+                lstCrime.add(webCrime);
+            }
+
+            webHF.setCrimeList(lstCrime);
+
+            if (tabletHF.getAssignedArrangements() != null) {
+                List<AssignedArrangement> webAA = new ArrayList<>();
+                for (TabletAssignedArrangementDto tabletAA : tabletHF.getAssignedArrangements()) {
+                    AssignedArrangement wAA = new AssignedArrangement();
+                    wAA.setDescription(tabletAA.getDescription());
+                    Arrangement a = new Arrangement();
+                    a.setId(tabletAA.getId());
+                    wAA.setArrangement(a);
+                    wAA.setHearingFormat(webHF);
+                    webAA.add(wAA);
+                }
+                webHF.setAssignedArrangements(webAA);
+            }
+
+            if (tabletHF.getContacts() != null) {
+                List<ContactData> webContacts = new ArrayList<>();
+                for (TabletContactDataDto tabletContact : tabletHF.getContacts()) {
+                    ContactData webCont = new ContactData();
+                    webCont.setAddressTxt(tabletContact.getAddressTxt());
+                    webCont.setNameTxt(tabletContact.getNameTxt());
+                    webCont.setPhoneTxt(tabletContact.getPhoneTxt());
+                    webCont.setHearingFormat(webHF);
+                    webContacts.add(webCont);
+                }
+                webHF.setContacts(webContacts);
+            }
+
+            if (tabletHF.getUmecaSupervisor() != null) {
+                User uu = new User();
+                uu.setId(tabletHF.getUmecaSupervisor().getId());
+                webHF.setUmecaSupervisor(uu);
+            }
+
+            if (tabletHF.getSupervisor() != null) {
+                User u = new User();
+                u.setId(tabletHF.getSupervisor().getId());
+                webHF.setSupervisor(u);
+            }
+        }
+
+        return webList;
+    }
+
+    @Transactional
+    private List<HearingFormat> saveCaseAndGetHearingFormats(TabletCaseDto tabletCaseDto) {
+        Case c = this.saveCaseMeetingImputedDetention(tabletCaseDto);
+        return this.mergeFormats(tabletCaseDto);
+    }
+
+//pasar a metodo del web service
+//    private void updateHearingFormats(TabletCaseDto tabletCaseDto) {
+//        try {
+//            List<HearingFormat> hearingFormats = this.saveCaseAndGetHearingFormats(tabletCaseDto);
+//            for (HearingFormat hearingFormat : hearingFormats) {
+//                ResponseMessage rm = hearingFormatService.save(hearingFormat, null);
+//                System.out.println("");
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            System.out.println("Error al guardar formatos de audiencia ");
+//        }
+//    }
+
+
+    @Transactional
+    private void synchronizeLogCaseActivities(TabletCaseDto caseDto) {
+
+        Case c;
+
+        if (caseDto.getWebId() != null) {
+            c = caseRepository.findOne(caseDto.getWebId());
+        }
+
+        c = this.saveCaseMeetingImputedDetention(caseDto);
+
+        List<TabletLogCaseDto> tabletLogs = caseDto.getLogsCase();
+        List<LogCase> webLogs = new ArrayList<>();
+
+        for (TabletLogCaseDto tabletLog : tabletLogs) {
+            LogCase webLog = new LogCase();
+            Date d;
+            Calendar cal = Calendar.getInstance();
+
+            try {
+                d = tabletLog.getDateString() == null ? null : sdf.parse(tabletLog.getDateString());
+                cal.setTime(d);
+            } catch (Exception e) {
+                System.out.println("error al parsear la fecha de log case");
+            }
+
+            webLog.setDate(cal);
+            webLog.setActivity(tabletLog.getActivityString());
+            webLog.setTitle(tabletLog.getTitle());
+            webLog.setResume(tabletLog.getResume());
+            User u = new User();
+            u.setId(tabletLog.getUserId());
+            webLog.setUser(u);
+
+
+            webLog.setCaseDetention(c);
+            webLogs.add(webLog);
+        }
+
+        logCaseRepository.save(webLogs);
+
+    }
+
+    @Transactional
+    private void synchronizeVerification(TabletCaseDto tabletCase) {
+        Case c = this.saveCaseMeetingImputedDetention(tabletCase);
+        caseRepository.save(c);
         Verification v = this.mergeVerification(tabletCase);
         verificationRepository.save(v);
     }
 
-    //    @Transactional
-    public void synchronizeMeeting(TabletCaseDto tabletCase) {
+    @Transactional
+    private void synchronizeMeeting(TabletCaseDto tabletCase) {
 
         Case c = this.saveCaseMeetingImputedDetention(tabletCase);
         Meeting m = c.getMeeting();
@@ -936,6 +1214,5 @@ public class TabletServiceImpl implements TabletService {
         List<Drug> lstDrug = this.mergeDrugs(m, tabletCase.getMeeting().getDrugs());
         drugRepository.save(lstDrug);
     }
-
 
 }

@@ -1,11 +1,14 @@
 package com.umeca.model.entities.shared;
 
+import com.umeca.infrastructure.extensions.CalendarExt;
+import com.umeca.model.dto.tablet.TabletLogCaseDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +18,7 @@ import java.util.Calendar;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="log_case")
+@Table(name = "log_case")
 public class LogCase {
 
     public LogCase() {
@@ -36,16 +39,16 @@ public class LogCase {
     @Column(name = "id_log_case", nullable = false)
     private Long id;
 
-    @Column(name="date")
+    @Column(name = "date")
     private Calendar date;
 
     @JoinColumn(name = "activity", nullable = false)
     private String activity;
 
-    @Column(name="resume", length = 1500)
+    @Column(name = "resume", length = 1500)
     private String resume;
 
-    @Column(name="title", length = 500)
+    @Column(name = "title", length = 500)
     private String title;
 
     @OneToOne(fetch = FetchType.LAZY)

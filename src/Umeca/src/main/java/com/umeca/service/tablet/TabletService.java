@@ -7,9 +7,8 @@ import com.umeca.model.dto.tablet.catalog.TabletStatusCaseDto;
 import java.util.List;
 
 public interface TabletService {
-    TabletCaseDto getAllCaseByIdCase(Long idCase);
 
-    public void synchronizeMeeting(TabletCaseDto tabletCase);
-    public void synchronizeVerification(TabletCaseDto tabletCase);
+    public TabletCaseDto getAllCaseByIdCase(Long idCase, String assigmentType);
+
 
 }

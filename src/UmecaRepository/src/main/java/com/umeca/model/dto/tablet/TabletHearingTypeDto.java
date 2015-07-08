@@ -10,14 +10,14 @@ public class TabletHearingTypeDto {
         this.id = id;
         this.description = description;
         this.isObsolete = isObsolete;
-        this.lock = lock;
+        this.Lock = lock;
         this.specification = specification;
     }
 
     private Long id;
     private String description;
     private Boolean isObsolete;
-    private Boolean lock;
+    private Boolean Lock;
     private Boolean specification;
 
     public Long getId() {
@@ -44,19 +44,19 @@ public class TabletHearingTypeDto {
         this.isObsolete = isObsolete;
     }
 
-    public Boolean getLock() {
-        return lock;
-    }
-
-    public void setLock(Boolean lock) {
-        this.lock = lock;
-    }
-
     public Boolean getSpecification() {
         return specification;
     }
 
     public void setSpecification(Boolean specification) {
         this.specification = specification;
+    }
+
+    public Boolean getLock() {
+        return Lock;
+    }
+
+    public void setLock(Boolean lock) {
+        Lock = lock;
     }
 }

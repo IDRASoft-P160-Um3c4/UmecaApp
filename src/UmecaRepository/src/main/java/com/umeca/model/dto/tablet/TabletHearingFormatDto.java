@@ -104,6 +104,9 @@ public class TabletHearingFormatDto {
     private List<TabletAssignedArrangementDto> assignedArrangements;
     private List<TabletContactDataDto> contacts;
     private List<TabletCrimeDto> crimeList;
+    private TabletUserDto umecaSupervisor;
+    private TabletUserDto supervisor;
+
 
     public Long getId() {
         return id;
@@ -327,5 +330,21 @@ public class TabletHearingFormatDto {
 
     public void setCrimeList(List<TabletCrimeDto> crimeList) {
         this.crimeList = crimeList;
+    }
+
+    public TabletUserDto getUmecaSupervisor() {
+        return umecaSupervisor;
+    }
+
+    public void setUmecaSupervisor(TabletUserDto umecaSupervisor) {
+        this.umecaSupervisor = umecaSupervisor;
+    }
+
+    public TabletUserDto getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(TabletUserDto supervisor) {
+        this.supervisor = supervisor;
     }
 }

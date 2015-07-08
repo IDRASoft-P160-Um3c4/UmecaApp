@@ -36,6 +36,7 @@ public class TabletCaseDto {
     private TabletMeetingDto meeting;
     private TabletVerificationDto verification;
     private List<TabletHearingFormatDto> hearingFormats;
+    private List<TabletLogCaseDto> logsCase;
 
     public Long getId() {
         return id;
@@ -131,5 +132,13 @@ public class TabletCaseDto {
 
     public void setWebId(Long webId) {
         this.webId = webId;
+    }
+
+    public List<TabletLogCaseDto> getLogsCase() {
+        return logsCase;
+    }
+
+    public void setLogsCase(List<TabletLogCaseDto> logsCase) {
+        this.logsCase = logsCase;
     }
 }

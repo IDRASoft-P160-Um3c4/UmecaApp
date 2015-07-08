@@ -615,7 +615,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     TabletVerificationDto getVerificationByCaseId(@Param("idCase") Long idCase);
 
 
-
+    /*DTO SOURCE VERIFICATION*/
     @Query("select new com.umeca.model.dto.tablet.TabletSourceVerificationDto(sv.id,sv.fullName,sv.age,sv.address,sv.phone,sv.isAuthorized,sv.dateComplete,sv.dateAuthorized,sv.specification,sv.visible," +
             "                                       vm.id,vm.name,vm.isObsolete," +
             "                                       r.id,r.name,r.isObsolete,r.specification) " +
@@ -623,9 +623,10 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "inner join v.sourceVerifications sv " +
             "left join sv.verificationMethod vm " +
             "left join sv.relationship r " +
-            "where v.id=:idVerification")
+            "where v.id=:idVerification and sv.isAuthorized = true")
     List<TabletSourceVerificationDto> getSourceVerificationByVerificationId(@Param("idVerification") Long idVerification);
 
+    /*DTO FIELD MEETING SOURCE */
     @Query("select new com.umeca.model.dto.tablet.TabletFieldMeetingSourceDto(fms.id,fms.value,fms.jsonValue,fms.isFinal,fms.idFieldList,fms.reason," +
             "                                       sfv.id,sfv.name,sfv.description," +
             "                                       fv.id,fv.code,fv.section,fv.sectionCode,fv.fieldName,fv.indexField,fv.isObsolete,fv.idSubsection,fv.type) " +
@@ -636,6 +637,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where sv.id=:idSource")
     List<TabletFieldMeetingSourceDto> getFieldMeetingSourceBySourceId(@Param("idSource") Long idSource);
 
+    /*DTO HEARING FORMAT*/
     @Query("select new com.umeca.model.dto.tablet.TabletHearingFormatDto(hf.id, hf.registerTime,hf.idFolder, hf.idJudicial, hf.room, hf.appointmentDate, " +
             "hf.initTime , hf.endTime, hf.judgeName, hf.mpName, hf.defenderName, hf.terms, hf.confirmComment, hf.isFinished, hf.comments, hf.umecaDate, hf.umecaTime, hf.hearingTypeSpecification, hf.imputedPresence, hf.hearingResult, hf.previousHearing, hf.showNotification, " +
             "                                  ht.id, ht.description, ht.isObsolete, ht.lock, ht.specification,"+
@@ -653,6 +655,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where c.id=:idCase order by hf.id desc ")
     List<TabletHearingFormatDto> getLastHearingFormatByCaseId(@Param("idCase") Long idCase, Pageable pageable);
 
+    /*DTO ASSIGNED ARRANGEMENT*/
     @Query("select new com.umeca.model.dto.tablet.TabletAssignedArrangementDto(aa.id, aa.description," +
             "                                        a.id, a.description, a.type, a.isNational, a.index, a.isObsolete, a.isDefault, a.isExclusive) " +
             "from HearingFormat hf " +
@@ -661,12 +664,14 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where hf.id=:formatId")
     List<TabletAssignedArrangementDto> getAssignedArrangementByFormatId(@Param("formatId") Long formatId);
 
+    /*DTO CONTACTS*/
     @Query("select new com.umeca.model.dto.tablet.TabletContactDataDto(c.id, c.nameTxt, c.phoneTxt, c.addressTxt) " +
             "from HearingFormat hf " +
             "inner join hf.contacts c " +
             "where hf.id=:formatId")
     List<TabletContactDataDto> getContactsByFormatId(@Param("formatId") Long formatId);
 
+    /*DTO CRIME */
     @Query("select new com.umeca.model.dto.tablet.TabletCrimeDto(cl.id, cl.comment, cl.article," +
             "                          f.id, f.name," +
             "                          c.id, c.name, c.description, c.obsolete) " +
