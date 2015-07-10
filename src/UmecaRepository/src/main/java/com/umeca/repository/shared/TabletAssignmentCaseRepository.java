@@ -9,12 +9,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("qTabletAssignmentCaseRepository")
-public interface TabletAssignmentCaseRepository extends JpaRepository<TabletAssignmentCase, Long>{
+public interface TabletAssignmentCaseRepository extends JpaRepository<TabletAssignmentCase, Long> {
 
     @Query("SELECT TAC FROM TabletAssignmentCase TAC " +
             "inner join TAC.caseDetention C " +
             "where C.id=:caseId and TAC.isObsolete=false")
     List<TabletAssignmentCase> getAssignmentsByCaseId(@Param("caseId") Long caseId);
+
+
+    @Query("SELECT TAC FROM TabletAssignmentCase TAC " +
+            "where TAC.id=:assignmentId and TAC.isObsolete=false")
+    TabletAssignmentCase findValidAssignmentByAssignmentId(@Param("assignmentId") Long assignmentId);
 
 }
 

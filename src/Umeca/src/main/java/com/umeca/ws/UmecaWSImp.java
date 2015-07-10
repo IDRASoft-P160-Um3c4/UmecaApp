@@ -7,11 +7,13 @@ import com.umeca.model.dto.tablet.TabletCaseDto;
 import com.umeca.model.dto.tablet.TabletUserDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.shared.TabletAssignmentCase;
 import com.umeca.model.entities.shared.TabletAssignmentInfo;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.tablet.TabletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,9 @@ public class UmecaWSImp implements UmecaWS {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    TabletService tabletService;
 
     public UmecaWSImp() {
     }
@@ -51,10 +56,10 @@ public class UmecaWSImp implements UmecaWS {
 
                 User u = userRepository.findByUsername(user);
                 List<TabletAssignmentInfo> assignmentInfoList = caseRepository.getAssignmentIdsTypesByUser(u.getId());
-                if(assignmentInfoList!=null &&assignmentInfoList.size()>0) {
+                if (assignmentInfoList != null && assignmentInfoList.size() > 0) {
                     response = new ResponseMessage(false, "Acceso correcto");
                     response.setReturnData(gson.toJson(assignmentInfoList));
-                }else{
+                } else {
                     response = new ResponseMessage(true, "No existen casos asignados para su usuario.");
                 }
 
@@ -63,11 +68,30 @@ public class UmecaWSImp implements UmecaWS {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
         }
 
         return gson.toJson(response);
     }
 
+    public String getAssignedCaseByAssignmentId(String user, String guid, Long assignmentId) {
+        ResponseMessage response;
+        Gson gson = new Gson();
+
+        try {
+            if (sharedUserService.validateUserGuid(user, guid)) {
+                response = tabletService.getCaseByAssignmentId(assignmentId);
+
+            } else {
+                response = new ResponseMessage(true, "No existen casos asignados para su usuario.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
+        }
+
+        return gson.toJson(response);
+    }
 
 }

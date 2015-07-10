@@ -25,10 +25,10 @@ public class Case {
     @Column(name = "id_case")
     private Long id;
 
-    @Column(name = "id_folder", length = 25, nullable = false)
+    @Column(name = "id_folder", length = 35, nullable = false)
     private String idFolder;
 
-    @Column(name = "id_mp", length = 25, nullable = true)
+    @Column(name = "id_mp", length = 35, nullable = true)
     private String idMP;
 
     @Column(name = "recidivist", nullable = false)

@@ -9,6 +9,7 @@ import com.umeca.model.dto.tablet.catalog.TabletStatusCaseDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.shared.LogCase;
+import com.umeca.model.entities.shared.TabletAssignmentCase;
 import com.umeca.model.entities.shared.TabletAssignmentInfo;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
@@ -18,6 +19,7 @@ import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.LogCaseRepository;
+import com.umeca.repository.shared.TabletAssignmentCaseRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,24 +125,34 @@ public class TabletServiceImpl implements TabletService {
     @Autowired
     HearingFormatService hearingFormatService;
 
+    @Autowired
+    TabletAssignmentCaseRepository tabletAssignmentCaseRepository;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     private SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
 
 
-//    public ResponseMessage getAssignmentIdsByUserName(String userName, String guid) {
-//        ResponseMessage response;
-//        try {
-//
-//        } catch (Exception e) {
-//            response = new ResponseMessage(true,"Ha ocurrido un error, intente nuevamente");
-//        }
-//        return response;
-//    }
+    public ResponseMessage getCaseByAssignmentId(Long assignmentId) {
+        ResponseMessage response;
+        Gson gson = new Gson();
 
-//    private ResponseMessage findAssignmentsByUserId(){
-//
-//    };
+        try {
+            TabletAssignmentCase tac = tabletAssignmentCaseRepository.findValidAssignmentByAssignmentId(assignmentId);
+
+            if (tac != null) {
+                TabletCaseDto caseDto = this.getAllCaseDataByIdCaseAssignmentType(tac.getId(), tac.getCaseDetention().getAssignmentType());
+                response = new ResponseMessage(false, "Datos correctos");
+                response.setReturnData(gson.toJson(caseDto));
+            } else {
+                response = new ResponseMessage(true, "No fue posible encontrar el caso asignado.");
+            }
+
+        } catch (Exception e) {
+            response = new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
+        }
+
+        return response;
+    }
 
     private TabletCaseDto getCaseDataByCaseId(Long caseId) {
         return caseRepository.getInfoCaseByCaseId(caseId);
@@ -149,7 +161,6 @@ public class TabletServiceImpl implements TabletService {
     private TabletStatusCaseDto getStatusCaseByCaseId(Long caseId) {
         return caseRepository.getStatusCaseByCaseId(caseId);
     }
-
 
     private TabletImputedDto getImputedDataByCaseId(Long caseId) {
         TabletImputedDto currentImputed = caseRepository.getImputedDataByCaseId(caseId);
@@ -287,21 +298,19 @@ public class TabletServiceImpl implements TabletService {
     }
 
     //obtiene toda la informacion del caso en DTOS para enviarlos a la tableta
-    public TabletCaseDto getAllCaseByIdCase(Long idCase, String assigmentType) {
-        try {
-            TabletCaseDto currentCase = this.getCaseDataByCaseId(idCase);
-            currentCase.setStatus(this.getStatusCaseByCaseId(idCase));
-            currentCase.setMeeting(this.getMeetingDataByCaseId(idCase));
-            if (assigmentType == Constants.VERIFICATION_ASSIGNMENT_TYPE) {
-                currentCase.setVerification(this.getVerificationByCaseId(idCase));
-            } else if (assigmentType == Constants.HEARING_FORMAT_ASSIGNMENT_TYPE) {
-                currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
-            }
-            return currentCase;
-        } catch (Exception e) {
-            System.out.println("error al obtener la info del caso");
-            return null;
+    private TabletCaseDto getAllCaseDataByIdCaseAssignmentType(Long idCase, String assigmentType) {
+
+        TabletCaseDto currentCase = this.getCaseDataByCaseId(idCase);
+        currentCase.setStatus(this.getStatusCaseByCaseId(idCase));
+        currentCase.setMeeting(this.getMeetingDataByCaseId(idCase));
+
+        if (assigmentType == Constants.VERIFICATION_ASSIGNMENT_TYPE) {
+            currentCase.setVerification(this.getVerificationByCaseId(idCase));
+        } else if (assigmentType == Constants.HEARING_FORMAT_ASSIGNMENT_TYPE) {
+            currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
         }
+
+        return currentCase;
     }
 
     private Case mergeCase(TabletCaseDto tabletCase) {
