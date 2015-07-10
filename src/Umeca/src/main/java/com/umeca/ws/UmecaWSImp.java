@@ -2,23 +2,15 @@ package com.umeca.ws;
 
 import com.google.gson.Gson;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.infrastructure.security.CryptoRfc2898;
-import com.umeca.model.dto.tablet.TabletCaseDto;
-import com.umeca.model.dto.tablet.TabletUserDto;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.shared.TabletAssignmentCase;
 import com.umeca.model.entities.shared.TabletAssignmentInfo;
-import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.tablet.TabletService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 public class UmecaWSImp implements UmecaWS {
 
@@ -81,10 +73,28 @@ public class UmecaWSImp implements UmecaWS {
 
         try {
             if (sharedUserService.validateUserGuid(user, guid)) {
-                response = tabletService.getCaseByAssignmentId(assignmentId);
-
+                User usr = userRepository.findByUsername(user);
+                response = tabletService.getCaseByAssignmentId(assignmentId, usr.getId());
             } else {
-                response = new ResponseMessage(true, "No existen casos asignados para su usuario.");
+                response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
+        }
+
+        return gson.toJson(response);
+    }
+
+    public String confirmReceivedAssignment(String user, String guid, Long assignmentId) {
+        ResponseMessage response;
+        Gson gson = new Gson();
+
+        try {
+            if (sharedUserService.validateUserGuid(user, guid)) {
+                response = tabletService.setDownloadDateToAssignment(assignmentId);
+            } else {
+                response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
             }
         } catch (Exception e) {
             e.printStackTrace();

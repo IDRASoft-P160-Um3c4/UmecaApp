@@ -620,12 +620,15 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     @Query("select new com.umeca.model.dto.tablet.TabletSourceVerificationDto(sv.id,sv.fullName,sv.age,sv.address,sv.phone,sv.isAuthorized,sv.dateComplete,sv.dateAuthorized,sv.specification,sv.visible," +
             "                                       vm.id,vm.name,vm.isObsolete," +
             "                                       r.id,r.name,r.isObsolete,r.specification) " +
-            "from Verification v " +
-            "inner join v.sourceVerifications sv " +
+            "from TabletRelAssignmentSource trac " +
+            "inner join trac.sourceVerification sv " +
+            "inner join trac.tabletAssignmentCase tac " +
+            "inner join tac.assignedUser au " +
+            "inner join tac.caseDetention cd " +
             "left join sv.verificationMethod vm " +
             "left join sv.relationship r " +
-            "where v.id=:idVerification and sv.isAuthorized = true")
-    List<TabletSourceVerificationDto> getSourceVerificationByVerificationId(@Param("idVerification") Long idVerification);
+            "where cd.id=:idCase and au.id=:idUsr and sv.isAuthorized = true")
+    List<TabletSourceVerificationDto> getAssignedSourcesVerificationByCaseIdUsrId(@Param("idCase") Long idCase, @Param("idUsr") Long idUsr);
 
     /*DTO FIELD MEETING SOURCE */
     @Query("select new com.umeca.model.dto.tablet.TabletFieldMeetingSourceDto(fms.id,fms.value,fms.jsonValue,fms.isFinal,fms.idFieldList,fms.reason," +

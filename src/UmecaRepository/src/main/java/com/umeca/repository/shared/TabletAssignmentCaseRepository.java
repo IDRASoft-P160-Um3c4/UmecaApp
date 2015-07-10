@@ -13,12 +13,12 @@ public interface TabletAssignmentCaseRepository extends JpaRepository<TabletAssi
 
     @Query("SELECT TAC FROM TabletAssignmentCase TAC " +
             "inner join TAC.caseDetention C " +
-            "where C.id=:caseId and TAC.isObsolete=false")
+            "where C.id=:caseId and TAC.isObsolete=false and TAC.downloadedDate is null")
     List<TabletAssignmentCase> getAssignmentsByCaseId(@Param("caseId") Long caseId);
 
 
     @Query("SELECT TAC FROM TabletAssignmentCase TAC " +
-            "where TAC.id=:assignmentId and TAC.isObsolete=false")
+            "where TAC.id=:assignmentId and TAC.isObsolete=false and TAC.downloadedDate is null")
     TabletAssignmentCase findValidAssignmentByAssignmentId(@Param("assignmentId") Long assignmentId);
 
 }

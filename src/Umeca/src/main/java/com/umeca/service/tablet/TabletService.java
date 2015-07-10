@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface TabletService {
 
-    ResponseMessage getCaseByAssignmentId(Long assignmentId);
+    ResponseMessage getCaseByAssignmentId(Long assignmentId, Long usrId);
+    ResponseMessage setDownloadDateToAssignment(Long assignmentId);
 
 //    public TabletCaseDto getAllCaseByIdCase(Long idCase, String assigmentType);
 

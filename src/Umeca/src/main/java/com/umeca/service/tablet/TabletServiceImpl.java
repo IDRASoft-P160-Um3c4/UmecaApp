@@ -10,7 +10,6 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.shared.LogCase;
 import com.umeca.model.entities.shared.TabletAssignmentCase;
-import com.umeca.model.entities.shared.TabletAssignmentInfo;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
@@ -24,7 +23,6 @@ import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -132,7 +130,7 @@ public class TabletServiceImpl implements TabletService {
     private SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
 
 
-    public ResponseMessage getCaseByAssignmentId(Long assignmentId) {
+    public ResponseMessage getCaseByAssignmentId(Long assignmentId, Long usrId) {
         ResponseMessage response;
         Gson gson = new Gson();
 
@@ -140,7 +138,7 @@ public class TabletServiceImpl implements TabletService {
             TabletAssignmentCase tac = tabletAssignmentCaseRepository.findValidAssignmentByAssignmentId(assignmentId);
 
             if (tac != null) {
-                TabletCaseDto caseDto = this.getAllCaseDataByIdCaseAssignmentType(tac.getId(), tac.getCaseDetention().getAssignmentType());
+                TabletCaseDto caseDto = this.getAllCaseDataByIdCaseAssignmentType(tac.getId(), usrId, tac.getCaseDetention().getAssignmentType());
                 response = new ResponseMessage(false, "Datos correctos");
                 response.setReturnData(gson.toJson(caseDto));
             } else {
@@ -232,11 +230,13 @@ public class TabletServiceImpl implements TabletService {
         return lst;
     }
 
-    private TabletVerificationDto getVerificationByCaseId(Long caseId) {
+    //se usa el id de usuario para traer solo las fuentes asignadas a ese usuario
+    private TabletVerificationDto getVerificationByCaseIdUsrId(Long caseId, Long usrId) {
         TabletVerificationDto currVer = caseRepository.getVerificationByCaseId(caseId);
 
         if (currVer != null) {
-            List<TabletSourceVerificationDto> lst = caseRepository.getSourceVerificationByVerificationId(currVer.getId());
+
+            List<TabletSourceVerificationDto> lst = caseRepository.getAssignedSourcesVerificationByCaseIdUsrId(caseId, usrId);
 
             if (lst != null && lst.size() > 0) {
                 for (TabletSourceVerificationDto currSV : lst) {
@@ -298,15 +298,15 @@ public class TabletServiceImpl implements TabletService {
     }
 
     //obtiene toda la informacion del caso en DTOS para enviarlos a la tableta
-    private TabletCaseDto getAllCaseDataByIdCaseAssignmentType(Long idCase, String assigmentType) {
+    private TabletCaseDto getAllCaseDataByIdCaseAssignmentType(Long idCase, Long idUsr, String assignmentType) {
 
         TabletCaseDto currentCase = this.getCaseDataByCaseId(idCase);
         currentCase.setStatus(this.getStatusCaseByCaseId(idCase));
         currentCase.setMeeting(this.getMeetingDataByCaseId(idCase));
 
-        if (assigmentType == Constants.VERIFICATION_ASSIGNMENT_TYPE) {
-            currentCase.setVerification(this.getVerificationByCaseId(idCase));
-        } else if (assigmentType == Constants.HEARING_FORMAT_ASSIGNMENT_TYPE) {
+        if (assignmentType == Constants.VERIFICATION_ASSIGNMENT_TYPE) {
+            currentCase.setVerification(this.getVerificationByCaseIdUsrId(idCase, idUsr));
+        } else if (assignmentType == Constants.HEARING_FORMAT_ASSIGNMENT_TYPE) {
             currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
         }
 
@@ -1242,6 +1242,14 @@ public class TabletServiceImpl implements TabletService {
 
         List<Drug> lstDrug = this.mergeDrugs(m, tabletCase.getMeeting().getDrugs());
         drugRepository.save(lstDrug);
+    }
+
+    @Transactional
+    public ResponseMessage setDownloadDateToAssignment(Long assignmentId) {
+        TabletAssignmentCase tac = tabletAssignmentCaseRepository.findValidAssignmentByAssignmentId(assignmentId);
+        tac.setDownloadedDate(Calendar.getInstance());
+        tabletAssignmentCaseRepository.save(tac);
+        return new ResponseMessage(false, "Se ha guardado la información con éxito");
     }
 
 }
