@@ -138,7 +138,7 @@ public class TabletServiceImpl implements TabletService {
             TabletAssignmentCase tac = tabletAssignmentCaseRepository.findValidAssignmentByAssignmentId(assignmentId);
 
             if (tac != null) {
-                TabletCaseDto caseDto = this.getAllCaseDataByIdCaseAssignmentType(tac.getId(), usrId, tac.getCaseDetention().getAssignmentType());
+                TabletCaseDto caseDto = this.getAllCaseDataByIdCaseAssignmentType(tac.getCaseDetention().getId(), usrId, tac.getCaseDetention().getAssignmentType());
                 response = new ResponseMessage(false, "Datos correctos");
                 response.setReturnData(gson.toJson(caseDto));
             } else {
@@ -237,6 +237,8 @@ public class TabletServiceImpl implements TabletService {
         if (currVer != null) {
 
             List<TabletSourceVerificationDto> lst = caseRepository.getAssignedSourcesVerificationByCaseIdUsrId(caseId, usrId);
+            //se agrega la fuente imputado
+            lst.add(caseRepository.getImputedSourceVerificationByVerificationId(currVer.getId()));
 
             if (lst != null && lst.size() > 0) {
                 for (TabletSourceVerificationDto currSV : lst) {
@@ -304,9 +306,9 @@ public class TabletServiceImpl implements TabletService {
         currentCase.setStatus(this.getStatusCaseByCaseId(idCase));
         currentCase.setMeeting(this.getMeetingDataByCaseId(idCase));
 
-        if (assignmentType == Constants.VERIFICATION_ASSIGNMENT_TYPE) {
+        if (assignmentType.equals(Constants.VERIFICATION_ASSIGNMENT_TYPE)) {
             currentCase.setVerification(this.getVerificationByCaseIdUsrId(idCase, idUsr));
-        } else if (assignmentType == Constants.HEARING_FORMAT_ASSIGNMENT_TYPE) {
+        } else if (assignmentType.equals(Constants.HEARING_FORMAT_ASSIGNMENT_TYPE)) {
             currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
         }
 
@@ -889,7 +891,7 @@ public class TabletServiceImpl implements TabletService {
 
             try {
                 webSource.setDateComplete(tabletSource.getDateComplete() == null ? null : sdf.parse(tabletSource.getDateComplete()));
-                webSource.setDateAuthorized(tabletSource.getDateAuthorized() == null ? null : sdf.parse(tabletSource.getDateAuthorized()));
+//                webSource.setDateAuthorized(tabletSource.getDateAuthorized() == null ? null : sdf.parse(tabletSource.getDateAuthorized()));
             } catch (Exception e) {
                 System.out.println("error al parsear fechas de fuente de verificacion");
             }
@@ -1142,79 +1144,90 @@ public class TabletServiceImpl implements TabletService {
     }
 
     @Transactional
-    private List<HearingFormat> saveCaseAndGetHearingFormats(TabletCaseDto tabletCaseDto) {
+    public Case synchronizeHearingFormats(TabletCaseDto tabletCaseDto, Long assignmentId) {
         Case c = this.saveCaseMeetingImputedDetention(tabletCaseDto);
-        return this.mergeFormats(tabletCaseDto);
-    }
+        List<HearingFormat> hearingFormats = this.mergeFormats(tabletCaseDto);
 
-//pasar a metodo del web service
-//    private void updateHearingFormats(TabletCaseDto tabletCaseDto) {
-//        try {
-//            List<HearingFormat> hearingFormats = this.saveCaseAndGetHearingFormats(tabletCaseDto);
-//            for (HearingFormat hearingFormat : hearingFormats) {
-//                ResponseMessage rm = hearingFormatService.save(hearingFormat, null);
-//                System.out.println("");
-//            }
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            System.out.println("Error al guardar formatos de audiencia ");
-//        }
-//    }
-
-
-    @Transactional
-    private void synchronizeLogCaseActivities(TabletCaseDto caseDto) {
-
-        Case c;
-
-        if (caseDto.getWebId() != null) {
-            c = caseRepository.findOne(caseDto.getWebId());
+        if (hearingFormats != null && hearingFormats.size() > 0) {
+            for (HearingFormat hearingFormat : hearingFormats) {
+                ResponseMessage rm = hearingFormatService.save(hearingFormat, null);
+                System.out.println("");
+            }
         }
 
-        c = this.saveCaseMeetingImputedDetention(caseDto);
+        List<TabletLogCaseDto> tabletLogs = tabletCaseDto.getLogsCase();
 
-        List<TabletLogCaseDto> tabletLogs = caseDto.getLogsCase();
+        if (tabletLogs != null && tabletLogs.size() > 0) {
+            this.synchronizeLogCaseActivities(tabletLogs, c.getId());
+        }
+
+        if (assignmentId != null) {
+            this.finishAssignment(assignmentId);
+        }
+
+        return c;
+    }
+
+
+    private void synchronizeLogCaseActivities(List<TabletLogCaseDto> tabletLogs, Long savedCaseId) {
+
+        Case c = caseRepository.findOne(savedCaseId);
+
         List<LogCase> webLogs = new ArrayList<>();
 
-        for (TabletLogCaseDto tabletLog : tabletLogs) {
-            LogCase webLog = new LogCase();
-            Date d;
-            Calendar cal = Calendar.getInstance();
+        if (tabletLogs != null && tabletLogs.size() > 0) {
+            for (TabletLogCaseDto tabletLog : tabletLogs) {
+                LogCase webLog = new LogCase();
+                Date d;
+                Calendar cal = Calendar.getInstance();
 
-            try {
-                d = tabletLog.getDateString() == null ? null : sdf.parse(tabletLog.getDateString());
-                cal.setTime(d);
-            } catch (Exception e) {
-                System.out.println("error al parsear la fecha de log case");
+                try {
+                    d = tabletLog.getDateString() == null ? null : sdf.parse(tabletLog.getDateString());
+                    cal.setTime(d);
+                } catch (Exception e) {
+                    System.out.println("error al parsear la fecha de log case");
+                }
+
+                webLog.setDate(cal);
+                webLog.setActivity(tabletLog.getActivityString());
+                webLog.setTitle(tabletLog.getTitle());
+                webLog.setResume(tabletLog.getResume());
+                User u = new User();
+                u.setId(tabletLog.getUserId());
+                webLog.setUser(u);
+
+
+                webLog.setCaseDetention(c);
+                webLogs.add(webLog);
             }
 
-            webLog.setDate(cal);
-            webLog.setActivity(tabletLog.getActivityString());
-            webLog.setTitle(tabletLog.getTitle());
-            webLog.setResume(tabletLog.getResume());
-            User u = new User();
-            u.setId(tabletLog.getUserId());
-            webLog.setUser(u);
-
-
-            webLog.setCaseDetention(c);
-            webLogs.add(webLog);
+            logCaseRepository.save(webLogs);
         }
-
-        logCaseRepository.save(webLogs);
 
     }
 
     @Transactional
-    private void synchronizeVerification(TabletCaseDto tabletCase) {
+    public Case synchronizeVerification(TabletCaseDto tabletCase, Long assignmentId) {
         Case c = this.saveCaseMeetingImputedDetention(tabletCase);
         caseRepository.save(c);
         Verification v = this.mergeVerification(tabletCase);
         verificationRepository.save(v);
+
+        List<TabletLogCaseDto> tabletLogs = tabletCase.getLogsCase();
+
+        if (tabletLogs != null && tabletLogs.size() > 0) {
+            this.synchronizeLogCaseActivities(tabletLogs, c.getId());
+        }
+
+        if (assignmentId != null) {
+            this.finishAssignment(assignmentId);
+        }
+
+        return c;
     }
 
     @Transactional
-    private void synchronizeMeeting(TabletCaseDto tabletCase) {
+    public Case synchronizeMeeting(TabletCaseDto tabletCase, Long assignmentId) {
 
         Case c = this.saveCaseMeetingImputedDetention(tabletCase);
         Meeting m = c.getMeeting();
@@ -1242,6 +1255,25 @@ public class TabletServiceImpl implements TabletService {
 
         List<Drug> lstDrug = this.mergeDrugs(m, tabletCase.getMeeting().getDrugs());
         drugRepository.save(lstDrug);
+
+        List<TabletLogCaseDto> tabletLogs = tabletCase.getLogsCase();
+
+        if (tabletLogs != null && tabletLogs.size() > 0) {
+            this.synchronizeLogCaseActivities(tabletLogs, c.getId());
+        }
+
+        if (assignmentId != null) {
+            this.finishAssignment(assignmentId);
+        }
+
+        return c;
+    }
+
+    private void finishAssignment(Long assignmentId) {
+        TabletAssignmentCase tac = tabletAssignmentCaseRepository.findOne(assignmentId);
+        tac.setSynchronizedDate(Calendar.getInstance());
+        tac.setIsObsolete(true);
+        tabletAssignmentCaseRepository.save(tac);
     }
 
     @Transactional
@@ -1250,6 +1282,32 @@ public class TabletServiceImpl implements TabletService {
         tac.setDownloadedDate(Calendar.getInstance());
         tabletAssignmentCaseRepository.save(tac);
         return new ResponseMessage(false, "Se ha guardado la información con éxito");
+    }
+
+    public boolean validateExistCase(String idFolder, String phoneticString, String birthDateStr) {
+        List<Case> lstWebCases = caseRepository.findByIdFolder(idFolder);
+        Date tBD;
+        Long tTBD;
+        try {
+            tBD = sdf.parse(birthDateStr);
+        } catch (Exception e) {
+            System.out.println("error al parasear fecha naciemiento, validacion caso");
+            return false;
+        }
+        tTBD = tBD.getTime();
+
+        if (lstWebCases != null && lstWebCases.size() > 0) {
+            for (Case cAux : lstWebCases) {
+                Imputed iCase = cAux.getMeeting().getImputed();
+                Long iCaseBD = iCase.getBirthDate().getTime();
+
+                if (iCase.getFoneticString().equals(phoneticString) && iCaseBD.equals(tTBD)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 }

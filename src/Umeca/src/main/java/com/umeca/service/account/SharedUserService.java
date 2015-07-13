@@ -160,7 +160,12 @@ public class SharedUserService {
             String guid = UUID.randomUUID().toString();
             u.setGuidTabletAssignment(guid);
             userRepository.save(u);
+
+            info.setId(u.getId());
+            info.setFullname(u.getFullname());
+            info.setRoleCode(u.getRoles().get(0).getRole());
             info.setGuid(guid);
+
             r.setReturnData(g.toJson(info));
             return g.toJson(r);
         }

@@ -1,8 +1,11 @@
 package com.umeca.ws;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.dto.tablet.TabletCaseDto;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.shared.TabletAssignmentInfo;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -10,6 +13,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.tablet.TabletService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class UmecaWSImp implements UmecaWS {
@@ -93,6 +97,88 @@ public class UmecaWSImp implements UmecaWS {
         try {
             if (sharedUserService.validateUserGuid(user, guid)) {
                 response = tabletService.setDownloadDateToAssignment(assignmentId);
+            } else {
+                response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
+        }
+
+        return gson.toJson(response);
+    }
+
+
+    public String synchronizeMeeting(String user, String guid, Long assignmentId, String jsonCase) {
+        ResponseMessage response;
+        Gson gson = new Gson();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            if (sharedUserService.validateUserGuid(user, guid)) {
+
+                TabletCaseDto tabletDto = gson.fromJson(jsonCase, new TypeToken<TabletCaseDto>() {{
+                }}.getType());
+
+                if (tabletDto.getWebId() == null && tabletService.validateExistCase(tabletDto.getIdFolder(), tabletDto.getMeeting().getImputed().getFoneticString(), tabletDto.getMeeting().getImputed().getBirthDate())) {
+                    response = new ResponseMessage(true, "El número de carpeta de investigación y el imputado ya se encuentran registrados.");
+                    return gson.toJson(response);
+                }
+
+                Case c = tabletService.synchronizeMeeting(tabletDto, assignmentId);
+                response = new ResponseMessage(false, "El caso se ha sincronizado con éxito.");
+
+            } else {
+                response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
+        }
+
+        return gson.toJson(response);
+    }
+
+    public String synchronizeSourcesVerification(String user, String guid, Long assignmentId, String jsonCase) {
+        ResponseMessage response;
+        Gson gson = new Gson();
+
+        try {
+            if (sharedUserService.validateUserGuid(user, guid)) {
+
+                TabletCaseDto tabletDto = gson.fromJson(jsonCase, new TypeToken<TabletCaseDto>() {{
+                }}.getType());
+
+                Case c = tabletService.synchronizeVerification(tabletDto, assignmentId);
+
+                response = new ResponseMessage(false, "El caso se ha sincronizado con éxito.");
+            } else {
+                response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
+        }
+
+        return gson.toJson(response);
+    }
+
+    public String synchronizeHearingFormat(String user, String guid, Long assignmentId, String jsonCase) {
+        ResponseMessage response;
+        Gson gson = new Gson();
+
+        try {
+            if (sharedUserService.validateUserGuid(user, guid)) {
+                TabletCaseDto tabletDto = gson.fromJson(jsonCase, new TypeToken<TabletCaseDto>() {{
+                }}.getType());
+
+                if (tabletDto.getWebId() == null && tabletService.validateExistCase(tabletDto.getIdFolder(), tabletDto.getMeeting().getImputed().getFoneticString(), tabletDto.getMeeting().getImputed().getBirthDate())) {
+                    response = new ResponseMessage(true, "El número de carpeta de investigación y el imputado ya se encuentran registrados.");
+                    return gson.toJson(response);
+                }
+
+                Case c = tabletService.synchronizeHearingFormats(tabletDto, assignmentId);
+
+                response = new ResponseMessage(false, "El caso se ha sincronizado con éxito.");
             } else {
                 response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
             }

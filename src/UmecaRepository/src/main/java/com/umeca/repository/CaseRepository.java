@@ -616,7 +616,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     TabletVerificationDto getVerificationByCaseId(@Param("idCase") Long idCase);
 
 
-    /*DTO SOURCE VERIFICATION*/
+    /*DTO SOURCE VERIFICATION**********************************************************/
     @Query("select new com.umeca.model.dto.tablet.TabletSourceVerificationDto(sv.id,sv.fullName,sv.age,sv.address,sv.phone,sv.isAuthorized,sv.dateComplete,sv.dateAuthorized,sv.specification,sv.visible," +
             "                                       vm.id,vm.name,vm.isObsolete," +
             "                                       r.id,r.name,r.isObsolete,r.specification) " +
@@ -629,6 +629,17 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join sv.relationship r " +
             "where cd.id=:idCase and au.id=:idUsr and sv.isAuthorized = true")
     List<TabletSourceVerificationDto> getAssignedSourcesVerificationByCaseIdUsrId(@Param("idCase") Long idCase, @Param("idUsr") Long idUsr);
+
+    @Query("select new com.umeca.model.dto.tablet.TabletSourceVerificationDto(sv.id,sv.fullName,sv.age,sv.address,sv.phone,sv.isAuthorized,sv.dateComplete,sv.dateAuthorized,sv.specification,sv.visible," +
+            "                                       vm.id,vm.name,vm.isObsolete," +
+            "                                       r.id,r.name,r.isObsolete,r.specification) " +
+            "from SourceVerification sv " +
+            "inner join sv.verification v " +
+            "left join sv.verificationMethod vm " +
+            "left join sv.relationship r " +
+            "where v.id=:idVerif " +
+            "and sv.visible=false and sv.isAuthorized = true")
+    TabletSourceVerificationDto getImputedSourceVerificationByVerificationId(@Param("idVerif") Long idVerif);
 
     /*DTO FIELD MEETING SOURCE */
     @Query("select new com.umeca.model.dto.tablet.TabletFieldMeetingSourceDto(fms.id,fms.value,fms.jsonValue,fms.isFinal,fms.idFieldList,fms.reason," +
