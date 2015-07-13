@@ -1,6 +1,5 @@
 package com.umeca.model.entities.supervisor;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.shared.Constants;
 
@@ -31,7 +30,8 @@ public class ChannelingTrackModel {
 
     public ChannelingTrackModel(Long actMonPlanId, String idMP, String name, String lastNameP, String lastNameM,
                                 String channelingName, String channelingTypeName,
-                                Calendar start, Calendar end, Boolean isJustified, String comment, Long rescheduleAppointmentId) {
+                                Calendar start, Calendar end, Boolean isJustified, String comment, Long rescheduleAppointmentId,
+                                Calendar rescheduleStart, Calendar rescheduleEnd) {
         this.actMonPlanId = actMonPlanId;
         this.idMP = idMP;
         this.comment = comment;
@@ -41,8 +41,14 @@ public class ChannelingTrackModel {
         this.absenceDateStart = CalendarExt.calendarToDateString(start);
         this.absenceDateEnd = CalendarExt.calendarToDateString(end);
         this.isJustified = isJustified;
-        this.rescheduleAppointmentId = rescheduleAppointmentId;
         this.dateStart = CalendarExt.calendarToFormatString(Calendar.getInstance(),Constants.FORMAT_CALENDAR_II);
+
+        this.rescheduleAppointmentId = rescheduleAppointmentId;
+        if(rescheduleAppointmentId != null){
+            this.dateStart = CalendarExt.calendarToFormatString(rescheduleStart,Constants.FORMAT_CALENDAR_II);
+            this.timeStart = CalendarExt.calendarToFormatString(rescheduleStart,Constants.FORMAT_TIME_I);
+            this.timeEnd = CalendarExt.calendarToFormatString(rescheduleEnd,Constants.FORMAT_TIME_I);
+        }
     }
 
     public Long getActMonPlanId() {
@@ -158,7 +164,7 @@ public class ChannelingTrackModel {
     }
 
     public boolean IsValidRescheduleDates(){
-        if((dateStart == null || timeStart == null || timeEnd == null) == false)
+        if(dateStart == null || timeStart == null || timeEnd == null)
             return false;
 
         try{
@@ -167,14 +173,14 @@ public class ChannelingTrackModel {
             Calendar today = CalendarExt.getToday();
 
             String[] split = timeStart.split(":");
-            start.set(Calendar.HOUR_OF_DAY, Integer.getInteger(split[0]));
-            start.set(Calendar.MINUTE, Integer.getInteger(split[1]));
+            start.set(Calendar.HOUR_OF_DAY, Integer.parseInt(split[0]));
+            start.set(Calendar.MINUTE, Integer.parseInt(split[1]));
             start.set(Calendar.SECOND, 0);
             start.set(Calendar.MILLISECOND, 0);
 
             split = timeEnd.split(":");
-            end.set(Calendar.HOUR_OF_DAY, Integer.getInteger(split[0]));
-            end.set(Calendar.MINUTE, Integer.getInteger(split[1]));
+            end.set(Calendar.HOUR_OF_DAY, Integer.parseInt(split[0]));
+            end.set(Calendar.MINUTE, Integer.parseInt(split[1]));
             end.set(Calendar.SECOND, 0);
             end.set(Calendar.MILLISECOND, 0);
 

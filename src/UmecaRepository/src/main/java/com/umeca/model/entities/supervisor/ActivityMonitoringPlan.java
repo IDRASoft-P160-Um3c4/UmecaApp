@@ -2,8 +2,10 @@ package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.shared.MonitoringConstants;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -134,7 +136,7 @@ public class ActivityMonitoringPlan {
     @Column(name="isJustified", nullable = true)
     private Boolean isJustified;
 
-    @ManyToOne(fetch = FetchType.LAZY)//Relación a la actividad para reagendar la cita
+    @OneToOne(fetch = FetchType.LAZY)//Relación a la actividad para reagendar la cita
     @JoinColumn(name = "reschedule_appointment_id", nullable = true)
     private ActivityMonitoringPlan rescheduleAppointment;
 
@@ -430,8 +432,29 @@ public class ActivityMonitoringPlan {
         this.rescheduleAppointment = rescheduleAppointment;
     }
 
-    public ActivityMonitoringPlan copyValues() {
+    public ActivityMonitoringPlan rescheduleCopy() {
         ActivityMonitoringPlan model = new ActivityMonitoringPlan();
+        model.setCaseDetention(caseDetention);
+        model.setMonitoringPlan(monitoringPlan);
+        List<ActivityMonitoringPlanArrangement> lstAssArr = new ArrayList<ActivityMonitoringPlanArrangement>();
+        for(ActivityMonitoringPlanArrangement actMonArr : lstAssignedArrangement){
+            actMonArr.setActivityMonitoringPlan(model);
+            actMonArr.setStatus(MonitoringConstants.ACTIVITY_ARRANGEMENT_UNDEFINED);
+            lstAssArr.add(actMonArr);
+        }
+        model.setLstAssignedArrangement(lstAssArr);
+        model.setSupervisionActivity(supervisionActivity);
+        model.setActivityGoal(activityGoal);
+        model.setFramingSelectedSourceRel(framingSelectedSourceRel);
+        model.setAssignedArrangements(assignedArrangements);
+        model.setAssignedArrangementsIds(assignedArrangementsIds);
+        model.setGroup(group);
+        model.setActivitySpec(activitySpec);
+        model.setGoalSpec(goalSpec);
+        model.setSourceSpec(sourceSpec);
+        model.setChanneling(channeling);
+
         return model;
+
     }
 }
