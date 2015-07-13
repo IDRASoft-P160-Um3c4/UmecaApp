@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class MeetingView implements EntityGrid {
 
-    public MeetingView(Long id,String statusCode,  String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description,Long reviewerId,String statusCase) {
+    public MeetingView(Long id, String statusCode, String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description, Long reviewerId, String statusCase) {
         this.id = id;
         this.idFolder = idFolder;
         this.name = name;
@@ -30,13 +30,13 @@ public class MeetingView implements EntityGrid {
         this.reviewerId = reviewerId;
         //this.statusCase = statusCase;
         createFullname();
-        if(gender!=null){
-        if(gender.equals(Constants.GENDER_FEMALE))
-            this.genderString = "Femenino";
-        else
-            this.genderString = "Masculino";
-        }else{
-            this.genderString="Sin proporcionar";
+        if (gender != null) {
+            if (gender.equals(Constants.GENDER_FEMALE))
+                this.genderString = "Femenino";
+            else
+                this.genderString = "Masculino";
+        } else {
+            this.genderString = "Sin proporcionar";
         }
         Date date = Calendar.getInstance().getTime();
         date.setTime(dateBirth.getTime());
@@ -44,6 +44,25 @@ public class MeetingView implements EntityGrid {
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         this.dateBirthString = formatter.format(date);
         this.statusCase = statusCase;
+    }
+
+    public MeetingView(Long id, String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.id = id;
+        this.idFolder = idFolder;
+        this.fullname = name + " " + lastNameP + " " + lastNameM;
+        this.dateBirth = dateBirth;
+        if (gender != null) {
+            if (gender.equals(Constants.GENDER_FEMALE))
+                this.genderString = "Femenino";
+            else
+                this.genderString = "Masculino";
+        } else {
+            this.genderString = "Sin proporcionar";
+        }
+
+        this.dateBirthString = dateBirth == null ? "" : sdf.format(dateBirth);
+        this.description = description;
     }
 
     private Long id;
@@ -73,6 +92,7 @@ public class MeetingView implements EntityGrid {
     private String statusCase;
 
     private String statusCode;
+
     public Long getId() {
         return id;
     }
@@ -188,14 +208,16 @@ public class MeetingView implements EntityGrid {
         this.statusCase = statusCase;
     }
 
-    private void createFullname(){
-        this.fullname="";
-      if(this.name!=null )
-          this.fullname+= this.name+" ";
-      if(this.lastNameP!=null)
-          this.fullname+=this.lastNameP+" ";
-      if(lastNameM!=null)
-          this.fullname+=this.lastNameM;
-    };
+    private void createFullname() {
+        this.fullname = "";
+        if (this.name != null)
+            this.fullname += this.name + " ";
+        if (this.lastNameP != null)
+            this.fullname += this.lastNameP + " ";
+        if (lastNameM != null)
+            this.fullname += this.lastNameM;
+    }
+
+    ;
 
 }

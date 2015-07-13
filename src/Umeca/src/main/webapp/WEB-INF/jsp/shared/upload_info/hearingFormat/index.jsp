@@ -23,19 +23,18 @@
 
   <script>
 
+    var lstSupervisor =${lstSupervisor};
     var arrSelectedCases = [];
+    var prefixId = "id_cmb_";
 
-    onClickCheck = function (id, el) {
-      var idx;
+    var saveAssignment = function (id) {
 
-      idx = arrSelectedCases.indexOf(id);
-
-      if (el.checked == true) {
-        if (idx < 0)
-          arrSelectedCases.push(id);
-      } else if (el.checked == false) {
-        if (idx > -1)
-          arrSelectedCases.splice(idx, 1);
+      var assignedId = $("#" + prefixId + id).val();
+      if (assignedId > 0) {
+        var params = {idCase: id, idUser: assignedId, type:"HEARING_FORMAT"};
+        window.showActionParams(params, "#angJsjqGridId", "<c:url value='/shared/upload_info/saveAssignedCase.json'/>", "#GridId", "Asignar caso a tableta", "Se asignara el caso al evaluador seleccionado &iquest;Desea continuar?", "info");
+      } else {
+        alert("Debe seleccionar un supervisor.")
       }
     };
 
@@ -45,13 +44,13 @@
         autoencode: true,
         datatype: "json",
         mtype: 'POST',
-        colNames: ['ID', 'Carpeta de Investigaci&oacute;n', 'Nombre completo', 'Fecha de nacimiento', 'G&eacute;nero', 'Estatus', 'Id estatus', 'Status case', 'Acci&oacute;n'],
+        colNames: ['ID', 'Carpeta de <br/> Investigaci&oacute;n', 'Nombre completo', 'Fecha de <br> nacimiento', 'G&eacute;nero', 'Estatus', 'Asignar a', 'Acci&oacute;n'],
         colModel: [
           {name: 'id', index: 'id', hidden: true},
           {
             name: 'idFolder',
             index: 'idFolder',
-            width: 200,
+            width: 150,
             align: "center",
             sorttype: 'string',
             searchoptions: {sopt: ['bw']}
@@ -59,7 +58,7 @@
           {
             name: 'fullname',
             index: 'fullname',
-            width: 300,
+            width: 200,
             align: "center",
             sorttype: 'string',
             searchoptions: {sopt: ['bw']}
@@ -67,7 +66,7 @@
           {
             name: 'dateBirthString',
             index: 'dateBirthString',
-            width: 160,
+            width: 80,
             align: "center",
             sortable: false,
             search: false
@@ -75,7 +74,7 @@
           {
             name: 'genderString',
             index: 'genderString',
-            width: 150,
+            width: 80,
             align: "center",
             sortable: false,
             search: false
@@ -83,13 +82,19 @@
           {
             name: 'description',
             index: 'description',
-            width: 250,
+            width: 200,
             align: "center",
             sortable: false,
             search: false
           },
-          {name: 'statusCode', index: 'statusCode', hidden: true},
-          {name: 'reviewerId', index: 'reviewerId', hidden: true},
+          {
+            name: 'assignedUsr',
+            width: 200,
+            align: "center",
+            sortable: false,
+            search: false,
+            formatter: window.actionFormatter
+          },
           {
             name: 'Action',
             width: 70,
@@ -111,10 +116,20 @@
         altRows: true,
         gridComplete: function () {
           var ids = $(this).jqGrid('getDataIDs');
+
           for (var i = 0; i < ids.length; i++) {
             var cl = ids[i];
-            var be = '<input id="chk_' + ids[i] + '" type="checkbox" onChange="onClickCheck(' + ids[i] + ', this);">';
+            var cmb = "<select style=\"width:90%;\" id=\"" + prefixId + cl + "\"><option value=\"-1\" selected>Sin asignar</option>";
+            $.each(lstSupervisor, function (idx, item) {
+              cmb += "<option value=\"" + item.id + "\">" + item.name + "</option>";
+            });
+            cmb += "</select>";
+
+            var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Guardar asignaci&oacute;n\" onclick=\"saveAssignment('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+
+            $(this).jqGrid('setRowData', ids[i], {assignedUsr: cmb});
             $(this).jqGrid('setRowData', ids[i], {Action: be});
+
           }
         },
         loadComplete: function () {
@@ -145,105 +160,24 @@
       });
     });
 
-    app.controller('mobileMeetingController', function ($scope, $timeout, $http, $rootScope, $sce) {
-
-      $scope.WaitFor = false;
-      $scope.errorMsg="";
-      $scope.successMsg="";
-
-      $scope.doSave = function (){
-
-        $scope.WaitFor = true;
-        $scope.errorMsg="";
-        $scope.successMsg="";
-
-        if(!arrSelectedCases.length>0){
-          $scope.errorMsg = $sce.trustAsHtml("Debe seleccionar al menos un caso.");
-          $scope.WaitFor = false;
-          return;
-        }
-
-        var currentTimeout = null;
-        var url = "../saveAssignedCases.json";
-
-        var ajaxConf;
-
-        ajaxConf = {
-          method: "POST",
-          params: {param: JSON.stringify(arrSelectedCases), type:"HEARING_FORMAT"}
-        };
-
-        ajaxConf.url = url;
-
-        if (currentTimeout) {
-          $timeout.cancel(currentTimeout);
-        }
-
-        currentTimeout = $timeout(function () {
-          $http(ajaxConf)
-                  .success(function (data) {
-                    $scope.WaitFor = false;
-
-                    if (data.hasError == undefined) {
-                      data = data.responseMesage;
-                    }
-
-                    if (data.hasError == true) {
-                      $scope.successMsg="";
-                      $scope.errorMsg=$sce.trustAsHtml(data.message);
-                    }
-                    else {
-                      $scope.errorMsg="";
-                      $scope.successMsg=$sce.trustAsHtml(data.message);
-                      $("#GridId").trigger("reloadGrid");
-                    }
-                  })
-                  .error(function () {
-                    $scope.WaitFor = false;
-                    $scope.errorMsg = $sce.trustAsHtml("Error de red, intente m&aacute;s tarde.");
-                  });
-        }, 200); };
-
-    });
-
   </script>
-
-  <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Descargar entrevistas de riesgos
+  <%--<div class="">--%>
+  <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Descargar casos para formato de audiencia
     a tableta</h2>
 
-  <div class="row" ng-controller="mobileMeetingController">
-    <div id="finishConfirm" align="right">
-            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action
-                  confirm-message="&iquest;Est&aacute; seguro que desea asignar a tableta los casos seleccionados?"
-                  confirm-title="Guardar asignaci&oacute;n de casos" confirm-type="info"
-            <%--confirmed-click-action="doSave('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">--%>
-                  confirmed-click-action="doSave();">
-                  Guardar
-            </span>
-    </div>
-
-    <div ng-show="successMsg&&successMsg!=''" class="alert alert-success element-center success-font">
-      <span ng-bind-html="successMsg"></span>
-    </div>
-
-    <div ng-show="errorMsg&&errorMsg!=''" class="alert alert-danger element-center error-font">
-      <span ng-bind-html="errorMsg"></span>
-    </div>
-
-    <div id="angJsjqGridId" ng-controller="modalDlgController">
-      <table id="GridId" class="element-center" style="margin: auto"></table>
-      <div id="GridPager"></div>
-      <div class="blocker" ng-show="working">
-        <div>
-          Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
-        </div>
+  <div id="angJsjqGridId" ng-controller="modalDlgController">
+    <table id="GridId" class="element-center" style="margin: auto"></table>
+    <div id="GridPager"></div>
+    <div class="blocker" ng-show="working">
+      <div>
+        Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
       </div>
     </div>
   </div>
-
-  <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
-  <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>
+
+<%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
+<%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 
 </body>
 </html>

@@ -27,6 +27,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -181,7 +182,7 @@ public class MobileController {
                 else
                     return null;
             }
-        },Case.class, MeetingView.class);
+        }, Case.class, MeetingView.class);
 
         return result;
     }
@@ -207,8 +208,8 @@ public class MobileController {
             private javax.persistence.criteria.Join<Case, SourceVerification> joinSources;
             private HashMap<Object, javax.persistence.criteria.Join<Case, SourceVerification>> mapJoins = new HashMap<>();
 
-            public <T>javax.persistence.criteria.Join<Case, SourceVerification> selectJoin(final Root<T> r){
-                if(mapJoins.containsKey(r)){
+            public <T> javax.persistence.criteria.Join<Case, SourceVerification> selectJoin(final Root<T> r) {
+                if (mapJoins.containsKey(r)) {
                     return mapJoins.get(r);
                 }
 
@@ -264,50 +265,39 @@ public class MobileController {
         opts.extraFilters = new ArrayList<>();
 
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusCase", new ArrayList<String>() {{
-
-        }}, JqGridFilterModel.COMPARE_EQUAL);
+            add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+            add(Constants.CASE_STATUS_HEARING_FORMAT_END);
+            add(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
+            add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+            add(Constants.CASE_STATUS_FRAMING_COMPLETE);
+            add(Constants.CASE_STATUS_NOT_PROSECUTE_OPEN);
+        }}, JqGridFilterModel.COMPARE_IN);
         opts.extraFilters.add(extraFilter);
 
-        extraFilter = new JqGridRulesModel("statusVerif", Constants.VERIFICATION_STATUS_AUTHORIZED, JqGridFilterModel.COMPARE_EQUAL);
-        opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
                 final javax.persistence.criteria.Join<Case, Meeting> joinM = r.join("meeting");
-                final javax.persistence.criteria.Join<Case, Verification> joinVer = r.join("verification");
-                final javax.persistence.criteria.Join<Case, StatusVerification> joinStVer = joinVer.join("status");
                 final javax.persistence.criteria.Join<Meeting, Imputed> joinImp = joinM.join("imputed");
-                final javax.persistence.criteria.Join<Case, User> joinUsr = joinM.join("reviewer");
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
-                    add(joinStVer.get("name").alias("statusCode"));
                     add(r.get("idFolder"));
                     add(joinImp.get("name"));
                     add(joinImp.get("lastNameP"));
                     add(joinImp.get("lastNameM"));
                     add(joinImp.get("birthDate"));
                     add(joinImp.get("gender"));
-                    add(joinStVer.get("description"));
-                    add(joinUsr.get("id").alias("reviewerId"));
-                    add(r.join("status").get("name").alias("statusCase"));
+                    add(r.join("status").get("description"));
                 }};
             }
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
-                if (field.equals("statusVerif"))
-                    return r.join("verification").join("status").get("name");
-                else if (field.equals("statusCase"))
+                if (field.equals("statusCase"))
                     return r.join("status").get("name");
-                else if (field.equals("idFolder"))
-                    return r.get("idFolder");
-                else if (field.equals("fullname"))
-                    return r.join("meeting").join("imputed").get("name");
-                else if (field.equals("reviewerId"))
-                    return r.join("meeting").join("reviewer").get("id");
                 else
                     return null;
             }
@@ -384,13 +374,66 @@ public class MobileController {
         return result;
     }
 
+    @RequestMapping(value = "/shared/upload_info/indexSup", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ModelAndView indexSup() {
+        ModelAndView model = new ModelAndView("/shared/upload_info/indexSup");
+        return model;
+    }
+
+    @RequestMapping(value = "/shared/upload_info/listTabletSup", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listTabletSup(@ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+
+        JqGridRulesModel extraFilter = new JqGridRulesModel("assignmentType", Constants.HEARING_FORMAT_ASSIGNMENT_TYPE, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        extraFilter = new JqGridRulesModel("statusCase", Constants.CASE_STATUS_TABLET_ASSIGNMENT, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Case, Meeting> joinM = r.join("meeting");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinImp = joinM.join("imputed");
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("idFolder"));
+                    add(joinImp.get("name"));
+                    add(joinImp.get("lastNameP"));
+                    add(joinImp.get("lastNameM"));
+                    add(joinImp.get("birthDate"));
+                    add(joinImp.get("gender"));
+                    add(r.join("status").get("description"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("statusCase"))
+                    return r.join("status").get("name");
+                else
+                    return null;
+            }
+        }, Case.class, MeetingView.class);
+
+        return result;
+    }
+
     @RequestMapping(value = "/shared/upload_info/saveAssignedCase", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage saveAssignmentCase(@RequestParam Long idCase, @RequestParam(required = false) Long idUser, @RequestParam String type, @RequestParam(required = false) String sources) {
         ResponseMessage resp = new ResponseMessage();
         try {
-            if (type.equals(Constants.MEETING_ASSIGNMENT_TYPE) || type.equals(Constants.MEETING_ASSIGNMENT_TYPE))
+            if (type.equals(Constants.MEETING_ASSIGNMENT_TYPE) || type.equals(Constants.HEARING_FORMAT_ASSIGNMENT_TYPE))
                 resp = mobileService.saveAssignmentCase(idCase, idUser, type);
             else if (type.equals(Constants.VERIFICATION_ASSIGNMENT_TYPE))
                 resp = mobileService.saveAssignmentCaseWhitSources(idCase, type, sources);
@@ -421,22 +464,6 @@ public class MobileController {
         }
         return resp;
     }
-
-//    @RequestMapping(value = "/shared/upload_info/consumir", method = RequestMethod.POST)
-//    public
-//    @ResponseBody
-//    String consumir() {
-//
-//        SaludaServiceImpl service = new SaludaServiceImpl("aa","bb");
-//
-////        SaludaService hello = service.gets
-//
-//// Possibly set an alternate request URL:
-//// ((BindingProvider) greeter).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-////        "http://localhost:63081/greeter");
-////        String sayHi = hello.sayHi();
-//
-//    }
 
 }
 

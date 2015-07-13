@@ -14,7 +14,6 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/rfcDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/meetingCtrl.js"></script>
-    <title>Entrevistas</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -23,28 +22,18 @@
 
     <script>
 
-        var lstReviewer =${lstReviewer};
-        var arrSelectedCases = [];
-        var prefixId = "id_cmb_";
-
-        var saveAssignment = function (id) {
-
-            var assignedId = $("#" + prefixId + id).val();
-            if (assignedId > 0) {
-                var params = {idCase: id, idUser: assignedId, type:"MEETING"};
-                window.showActionParams(params, "#angJsjqGridId", "<c:url value='/shared/upload_info/saveAssignedCase.json'/>", "#GridId", "Asignar caso a tableta", "Se asignara el caso al evaluador seleccionado &iquest;Desea continuar?", "info");
-            } else {
-                alert("Debe seleccionar un evaluador.")
-            }
+        var saveUnassignment = function (id) {
+            var params = {idCase: id};
+            window.showActionParams(params, "#angJsjqGridId", "<c:url value='/shared/upload_info/unassignCase.json'/>", "#GridId", "Desasociar caso de tableta", "Se desasociar&aacute; el caso de la tableta &iquest;Desea continuar?", "info");
         };
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/shared/upload_info/meeting/list.json' />',
+                url: '<c:url value='/shared/upload_info/listTabletSup.json' />',
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Carpeta de <br/> Investigaci&oacute;n', 'Nombre completo', 'Fecha de <br> nacimiento', 'G&eacute;nero', 'Estatus', 'Id estatus', 'Status case', 'Asignar a', 'Acci&oacute;n'],
+                colNames: ['ID', 'Carpeta de <br/> Investigaci&oacute;n', 'Nombre completo', 'Fecha de <br> nacimiento', 'G&eacute;nero', 'Estatus', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {
@@ -87,16 +76,6 @@
                         sortable: false,
                         search: false
                     },
-                    {name: 'statusCode', index: 'statusCode', hidden: true},
-                    {name: 'reviewerId', index: 'reviewerId', hidden: true},
-                    {
-                        name: 'assignedUsr',
-                        width: 200,
-                        align: "center",
-                        sortable: false,
-                        search: false,
-                        formatter: window.actionFormatter
-                    },
                     {
                         name: 'Action',
                         width: 70,
@@ -118,20 +97,10 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
-
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
-                        var cmb = "<select style=\"width:90%;\" id=\"" + prefixId + cl + "\"><option value=\"-1\" selected>Sin asignar</option>";
-                        $.each(lstReviewer, function (idx, item) {
-                            cmb += "<option value=\"" + item.id + "\">" + item.name + "</option>";
-                        });
-                        cmb += "</select>";
-
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Guardar asignaci&oacute;n\" onclick=\"saveAssignment('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
-
-                        $(this).jqGrid('setRowData', ids[i], {assignedUsr: cmb});
+                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Desasociar caso\" onclick=\"saveUnassignment('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
-
                     }
                 },
                 loadComplete: function () {
@@ -164,8 +133,7 @@
 
     </script>
     <%--<div class="">--%>
-    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Descargar entrevistas de riesgos
-        a tableta</h2>
+    <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Desasociar casos de tableta</h2>
 
     <div id="angJsjqGridId" ng-controller="modalDlgController">
         <table id="GridId" class="element-center" style="margin: auto"></table>

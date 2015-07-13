@@ -245,6 +245,21 @@
                         </li>
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-folder-close"></i>
+                                &nbsp;&nbsp;Casos para tableta
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/upload_info/hearingFormat/index.html' />"><i
+                                        class="icon icon-eye-open"></i>&nbsp;&nbsp;Formato de audiencia</a>
+                                </li>
+                                <li><a href="<c:url value='//shared/upload_info/indexSup.html' />"><i
+                                        class="icon icon-trash"></i>&nbsp;&nbsp;Desasociar casos de tableta</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Planes de seguimiento
                                 <i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
@@ -305,7 +320,8 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="<c:url value='/director/caseRequest/show.html' />"><i
-                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Hist&oacute;rico de solicitudes</a></li>
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Hist&oacute;rico de solicitudes</a>
+                                </li>
                                 <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
