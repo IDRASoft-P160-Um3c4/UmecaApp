@@ -139,16 +139,16 @@ public class SharedUserService {
 
     //valida las ceredenciales enviadas desde la tableta y en caso de ser correctas genera un guid para el usuario que sera verificado en cada operacion
     @Transactional
-    public String confirmLoginData(String user, String encodedPass) {
+    public ResponseMessage confirmLoginData(String user, String encodedPass) {
 
         Gson g = new Gson();
 
         if (user == null || user.length() == 0 || encodedPass == null || encodedPass.length() == 0)
-            return g.toJson(new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente"));
+            return new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente");
 
         String bdEncodedPass = this.getCodedPassByUsername(user);
         if (bdEncodedPass == null || bdEncodedPass.length() == 0)
-            return g.toJson(new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente"));
+            return new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente");
 
         CryptoRfc2898 rfc2898 = new CryptoRfc2898();
 
@@ -167,10 +167,10 @@ public class SharedUserService {
             info.setGuid(guid);
 
             r.setReturnData(g.toJson(info));
-            return g.toJson(r);
+            return r;
         }
 
-        return g.toJson(new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente"));
+        return new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente");
     }
 
 

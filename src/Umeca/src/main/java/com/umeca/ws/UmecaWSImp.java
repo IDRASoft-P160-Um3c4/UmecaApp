@@ -33,16 +33,16 @@ public class UmecaWSImp implements UmecaWS {
     public UmecaWSImp() {
     }
 
-    public String loginFromTablet(String user, String encodedPass) {
+    public ResponseMessage loginFromTablet(String user, String encodedPass) {
         try {
             return sharedUserService.confirmLoginData(user, encodedPass);
         } catch (Exception e) {
             System.out.println("error en loginFromTablet");
-            return new Gson().toJson(new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente"));
+            return new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente");
         }
     }
 
-    public String getAssignmentsByUser(String user, String guid) {
+    public ResponseMessage getAssignmentsByUser(String user, String guid) {
         ResponseMessage response;
         Gson gson = new Gson();
 
@@ -68,10 +68,10 @@ public class UmecaWSImp implements UmecaWS {
             response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
         }
 
-        return gson.toJson(response);
+        return response;
     }
 
-    public String getAssignedCaseByAssignmentId(String user, String guid, Long assignmentId) {
+    public ResponseMessage getAssignedCaseByAssignmentId(String user, String guid, Long assignmentId) {
         ResponseMessage response;
         Gson gson = new Gson();
 
@@ -87,10 +87,10 @@ public class UmecaWSImp implements UmecaWS {
             response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
         }
 
-        return gson.toJson(response);
+        return response;
     }
 
-    public String confirmReceivedAssignment(String user, String guid, Long assignmentId) {
+    public ResponseMessage confirmReceivedAssignment(String user, String guid, Long assignmentId) {
         ResponseMessage response;
         Gson gson = new Gson();
 
@@ -105,11 +105,11 @@ public class UmecaWSImp implements UmecaWS {
             response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
         }
 
-        return gson.toJson(response);
+        return response;
     }
 
 
-    public String synchronizeMeeting(String user, String guid, Long assignmentId, String jsonCase) {
+    public ResponseMessage synchronizeMeeting(String user, String guid, Long assignmentId, String jsonCase) {
         ResponseMessage response;
         Gson gson = new Gson();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -121,7 +121,7 @@ public class UmecaWSImp implements UmecaWS {
 
                 if (tabletDto.getWebId() == null && tabletService.validateExistCase(tabletDto.getIdFolder(), tabletDto.getMeeting().getImputed().getFoneticString(), tabletDto.getMeeting().getImputed().getBirthDate())) {
                     response = new ResponseMessage(true, "El número de carpeta de investigación y el imputado ya se encuentran registrados.");
-                    return gson.toJson(response);
+                    return response;
                 }
 
                 Case c = tabletService.synchronizeMeeting(tabletDto, assignmentId);
@@ -135,10 +135,10 @@ public class UmecaWSImp implements UmecaWS {
             response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
         }
 
-        return gson.toJson(response);
+        return response;
     }
 
-    public String synchronizeSourcesVerification(String user, String guid, Long assignmentId, String jsonCase) {
+    public ResponseMessage synchronizeSourcesVerification(String user, String guid, Long assignmentId, String jsonCase) {
         ResponseMessage response;
         Gson gson = new Gson();
 
@@ -159,10 +159,10 @@ public class UmecaWSImp implements UmecaWS {
             response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
         }
 
-        return gson.toJson(response);
+        return response;
     }
 
-    public String synchronizeHearingFormat(String user, String guid, Long assignmentId, String jsonCase) {
+    public ResponseMessage synchronizeHearingFormat(String user, String guid, Long assignmentId, String jsonCase) {
         ResponseMessage response;
         Gson gson = new Gson();
 
@@ -173,7 +173,7 @@ public class UmecaWSImp implements UmecaWS {
 
                 if (tabletDto.getWebId() == null && tabletService.validateExistCase(tabletDto.getIdFolder(), tabletDto.getMeeting().getImputed().getFoneticString(), tabletDto.getMeeting().getImputed().getBirthDate())) {
                     response = new ResponseMessage(true, "El número de carpeta de investigación y el imputado ya se encuentran registrados.");
-                    return gson.toJson(response);
+                    return response;
                 }
 
                 Case c = tabletService.synchronizeHearingFormats(tabletDto, assignmentId);
@@ -187,7 +187,7 @@ public class UmecaWSImp implements UmecaWS {
             response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
         }
 
-        return gson.toJson(response);
+        return response;
     }
 
 }
