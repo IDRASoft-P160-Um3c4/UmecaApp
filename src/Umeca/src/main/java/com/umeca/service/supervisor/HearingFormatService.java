@@ -26,11 +26,13 @@ public interface HearingFormatService {
 
     HearingFormatView fillIncompleteFormatForView(Long idFormat);
 
-    ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request);
+    ResponseMessage save(HearingFormatView hearingFormatView, HttpServletRequest request);
 
     List<ArrangementView> assignedArrangementForView(List<AssignedArrangement> assignedArrangements);
 
     List<ArrangementView> selectedAssignedArrangementForView(List<ArrangementView> existArrangements, List<AssignedArrangement> assignedArrangements);
 
     ResponseMessage requestObsoleteCase(Long id);
+
+    ResponseMessage doAssignSupervisor(Long idCase, Long idUser);
 }

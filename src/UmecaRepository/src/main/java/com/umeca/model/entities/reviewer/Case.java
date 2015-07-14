@@ -22,10 +22,10 @@ public class Case {
     @Column(name = "id_case")
     private Long id;
 
-    @Column(name = "id_folder", length = 25, nullable = false)
+    @Column(name = "id_folder", length = 35, nullable = false)
     private String idFolder;
 
-    @Column(name = "id_mp", length = 25, nullable = true)
+    @Column(name = "id_mp", length = 35, nullable = true)
     private String idMP;
 
     @Column(name = "recidivist", nullable = false)
@@ -91,8 +91,8 @@ public class Case {
     private User lastSupervisorHF;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "last_preassigned_supervisor")
-    private User lastPreassignedSupervisor;
+    @JoinColumn(name = "id_umeca_supervisor")
+    private User umecaSupervisor;
 
     @OneToOne(mappedBy = "caseDetention")
     private MonitoringPlan monitoringPlan;
@@ -108,6 +108,9 @@ public class Case {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "closer_user")
     private User closerUser;
+
+    @Column(name = "has_hearing_format", columnDefinition = "TINYINT(1) DEFAULT 0")
+    private boolean hasHearingFormat;
 
     @Transient
     private String idString;
@@ -289,12 +292,12 @@ public class Case {
         this.lastSupervisorHF = lastSupervisorHF;
     }
 
-    public User getLastPreassignedSupervisor() {
-        return lastPreassignedSupervisor;
+    public User getUmecaSupervisor() {
+        return umecaSupervisor;
     }
 
-    public void setLastPreassignedSupervisor(User lastPreassignedSupervisor) {
-        this.lastPreassignedSupervisor = lastPreassignedSupervisor;
+    public void setUmecaSupervisor(User umecaSupervisor) {
+        this.umecaSupervisor = umecaSupervisor;
     }
 
     public Date getDateSubstracted() {
@@ -335,5 +338,13 @@ public class Case {
 
     public void setCloserUser(User closerUser) {
         this.closerUser = closerUser;
+    }
+
+    public boolean isHasHearingFormat() {
+        return hasHearingFormat;
+    }
+
+    public void setHasHearingFormat(boolean hasHearingFormat) {
+        this.hasHearingFormat = hasHearingFormat;
     }
 }

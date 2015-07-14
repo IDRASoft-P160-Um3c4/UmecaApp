@@ -69,9 +69,9 @@ public class HearingFormat {
     @Column(name = "umeca_time")
     private Time umecaTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user_umeca")
-    private User umecaSupervisor;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "id_user_umeca")
+//    private User umecaSupervisor;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_hearing_type")
@@ -324,13 +324,13 @@ public class HearingFormat {
         this.umecaTime = umecaTime;
     }
 
-    public User getUmecaSupervisor() {
-        return umecaSupervisor;
-    }
-
-    public void setUmecaSupervisor(User umecaSupervisor) {
-        this.umecaSupervisor = umecaSupervisor;
-    }
+//    public User getUmecaSupervisor() {
+//        return umecaSupervisor;
+//    }
+//
+//    public void setUmecaSupervisor(User umecaSupervisor) {
+//        this.umecaSupervisor = umecaSupervisor;
+//    }
 
     public HearingType getHearingType() {
         return hearingType;

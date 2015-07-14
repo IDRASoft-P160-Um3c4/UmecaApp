@@ -249,7 +249,7 @@ public class LogCaseServiceImpl implements LogCaseService {
         List<String> listCrime = crimeService.getListStringCrimeHFByHF(idHearingFormat);
         String crimes = crimeService.convertListCaseToCaseLog(listCrime);
         List<SelectList> aa = arrangementRepository.findLstArrangementByHearingFormatId(idHearingFormat);
-        User umecaSupervisor = hearingFormatRepository.getLastPreassignedSupervisor(idHearingFormat);
+        User umecaSupervisor = hearingFormatRepository.getAssignedSupervisor(idHearingFormat);
         return hfdto.toString(crimes,aa,umecaSupervisor);
     }
 

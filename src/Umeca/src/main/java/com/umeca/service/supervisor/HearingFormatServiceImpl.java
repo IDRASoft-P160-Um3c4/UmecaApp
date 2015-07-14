@@ -172,8 +172,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             else
                 hearingFormat.setUmecaTime(null);
 
-            if (viewFormat.getUmecaSupervisorId() != null)
-                hearingFormat.setUmecaSupervisor(userRepository.findOne(viewFormat.getUmecaSupervisorId()));
+//            if (viewFormat.getUmecaSupervisorId() != null)
+//                hearingFormat.setUmecaSupervisor(userRepository.findOne(viewFormat.getUmecaSupervisorId()));
 
         } catch (Exception e) {
             System.out.println("Ha ocurrido un error fillHearingFormat");
@@ -517,8 +517,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatView.setUmecaDate(existHF.getUmecaDate());
         hearingFormatView.setUmecaTime(existHF.getUmecaTime());
-        if (existHF.getUmecaSupervisor() != null)
-            hearingFormatView.setUmecaSupervisorId(existHF.getUmecaSupervisor().getId());
+//        if (existHF.getUmecaSupervisor() != null)
+//            hearingFormatView.setUmecaSupervisorId(existHF.getUmecaSupervisor().getId());
 
         if (existHF.getHearingType() != null) {
             hearingFormatView.setHearingTypeId(existHF.getHearingType().getId());
@@ -618,8 +618,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatView.setUmecaDate(existHF.getUmecaDate());
         hearingFormatView.setUmecaTime(existHF.getUmecaTime());
-        if (existHF.getUmecaSupervisor() != null)
-            hearingFormatView.setUmecaSupervisorId(existHF.getUmecaSupervisor().getId());
+//        if (existHF.getUmecaSupervisor() != null)
+//            hearingFormatView.setUmecaSupervisorId(existHF.getUmecaSupervisor().getId());
 
         if (existHF.getHearingType() != null) {
             hearingFormatView.setHearingTypeId(existHF.getHearingType().getId());
@@ -787,14 +787,25 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
     @Override
     @Transactional
-    public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
+    public ResponseMessage save(HearingFormatView hearingFormatView, HttpServletRequest request) {
+
+        HearingFormat hearingFormat = this.fillHearingFormat(hearingFormatView);
+        hearingFormat.setCaseDetention(caseRepository.findOne(hearingFormatView.getIdCase()));
+
         ResponseMessage response = new ResponseMessage();
         StringBuilder sb = new StringBuilder();
         String idFolder = hearingFormat.getCaseDetention().getIdFolder();
         String idJudicial = hearingFormat.getCaseDetention().getIdMP();
         Long idCase = hearingFormat.getCaseDetention().getId();
+        Case currentCase = hearingFormat.getCaseDetention();
 
         if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true) {
+
+            if (currentCase.isHasHearingFormat() == false) {
+                currentCase.setHasHearingFormat(true);
+                caseRepository.save(currentCase);
+            }
+
             hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
             hearingFormat.setEndTime(new Time(new Date().getTime()));
             if (idJudicial == null || idJudicial.trim().equals("")) {
@@ -840,7 +851,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             //se actualiza el ultimo supervisor asignado, se actualiza el ultimo supervisor que registra el formato y las fechas
             hearingFormat.getCaseDetention().setLastSupervisorHF(hearingFormat.getSupervisor());
-            hearingFormat.getCaseDetention().setLastPreassignedSupervisor(hearingFormat.getUmecaSupervisor());
+            //hearingFormat.getCaseDetention().setLastPreassignedSupervisor(hearingFormat.getUmecaSupervisor());
 
             //se sustituye el nombre del imputado por el que acaba de dar en el formato de audiencia
             HearingFormatImputed hIm = hearingFormat.getHearingImputed();
@@ -975,6 +986,41 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             return new ResponseMessage(true, "La contraseña es incorrecta, verifique los datos.");
         }
         return null;
+    }
+
+    @Override
+    @Transactional
+    public ResponseMessage doAssignSupervisor(Long idCase, Long idUser) {
+
+        Case c = caseRepository.findOne(idCase);
+        User u = userRepository.findOne(idUser);
+        User sender = userRepository.findOne(sharedUserService.GetLoggedUserId());
+        c.setUmecaSupervisor(u);
+        caseRepository.save(c);
+
+        LogComment logComment = new LogComment();
+        logComment.setComments("Debe realizar la entrevista de encuadre para el caso");
+        logComment.setAction(ConstantsLogCase.ACT_ASSIGNMENT_SUPERVISOR_CASE);
+        logComment.setCaseDetention(c);
+        logComment.setSenderUser(sender);
+        logComment.setReceiveUser(u);
+        logComment.setTimestamp(Calendar.getInstance());
+        logComment.setType(ConstantsLogCase.ASSIGNMENT_SUPERVISOR_CASE);
+        logComment.setObsolete(false);
+        logCommentRepository.save(logComment);
+
+//        LogComment lSupMan = new LogComment();
+//
+//        lSupMan.setComments("Se ha asignado un supervisor al caso");
+//        lSupMan.setAction(ConstantsLogCase.ACT_ASSIGNMENT_SUPERVISOR_CASE);
+//        lSupMan.setCaseDetention(c);
+//        lSupMan.setSenderUser(sender);
+//        lSupMan.setTimestamp(Calendar.getInstance());
+//        lSupMan.setType(ConstantsLogCase.ASSIGNMENT_SUPERVISOR_CASE);
+//        lSupMan.setObsolete(false);
+//        logCommentRepository.save(lSupMan);
+
+        return new ResponseMessage(false, "Se ha asignado al supervisor con éxito.");
     }
 
 }

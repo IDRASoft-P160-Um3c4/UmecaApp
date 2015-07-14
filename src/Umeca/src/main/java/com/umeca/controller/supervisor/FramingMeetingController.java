@@ -140,7 +140,8 @@ public class FramingMeetingController {
 
                 final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
-                final javax.persistence.criteria.Join<Case, HearingFormat> joinHF = r.join("hearingFormats", JoinType.INNER);
+                final javax.persistence.criteria.Join<Case, StatusCase> joinUS = r.join("umecaSupervisor");
+//                final javax.persistence.criteria.Join<Case, HearingFormat> joinHF = r.join("hearingFormats", JoinType.INNER);
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));

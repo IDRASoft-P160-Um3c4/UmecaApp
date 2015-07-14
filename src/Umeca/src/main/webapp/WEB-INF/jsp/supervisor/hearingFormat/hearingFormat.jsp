@@ -992,14 +992,14 @@
                         <span class="field-validation-valid" data-valmsg-for="umecaTimeStr"
                               data-valmsg-replace="true"></span>
                                 </div>
-                                <div class="col-xs-5">
-                                    <label>Elige el nuevo supervisor para el caso</label>
-                                    <br/>
-                                    <select class="form-control element-center"
-                                            ng-model="m.umecaSupervisor"
-                                            ng-options="e.description for e in lstSupervisor"
-                                            ng-init='lstSupervisor = ${lstSupervisor};'></select>
-                                </div>
+                                <%--<div class="col-xs-5">--%>
+                                    <%--<label>Elige el nuevo supervisor para el caso</label>--%>
+                                    <%--<br/>--%>
+                                    <%--<select class="form-control element-center"--%>
+                                            <%--ng-model="m.umecaSupervisor"--%>
+                                            <%--ng-options="e.description for e in lstSupervisor"--%>
+                                            <%--ng-init='lstSupervisor = ${lstSupervisor};'></select>--%>
+                                <%--</div>--%>
                                 <br/>
                                 <br/>
                                 <br/>

@@ -14,6 +14,7 @@ import com.umeca.model.entities.supervisor.ActivityMonitoringPlanNotice;
 import com.umeca.model.entities.supervisorManager.CommentMonitoringPlanNotice;
 import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -168,6 +169,7 @@ public class MainPageServiceImpl implements MainPageService {
                     add(MonitoringConstants.STATUS_END);
                     add(Constants.ACTION_AUTHORIZE_LOG_COMMENT);
                     add(MonitoringConstants.TYPE_INFORMATION);
+                    add(ConstantsLogCase.ACT_ASSIGNMENT_SUPERVISOR_CASE);
                 }}, userId, new PageRequest(0, 5)
         );
 

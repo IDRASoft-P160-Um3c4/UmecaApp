@@ -16,6 +16,8 @@ public class ForCasesHFGrid implements EntityGrid {
     private Long framingMeetingId;
     private Long idTR;
     private StringBuilder sb;
+    private boolean hasHF;
+    private String assignedSupervisorName;
 
 
     public ForCasesHFGrid(Long id, String status, String idMP, String name, String lastNameP, String lastNameM) {
@@ -36,12 +38,14 @@ public class ForCasesHFGrid implements EntityGrid {
     }
 
     public ForCasesHFGrid(Long id, String status, String statusDesc, String idFolder, String idMP, String name, String lastNameP,
-                          String lastNameM, Long framingMeetingId, Long idTR) {
+                          String lastNameM, Long framingMeetingId, Long idTR, boolean hasHF, String assignedSupervisorName) {
         this(id, status, idMP, name, lastNameP, lastNameM);
         this.statusDesc = statusDesc;
         this.idFolder = idFolder;
         this.framingMeetingId = framingMeetingId;
         this.idTR = idTR;
+        this.hasHF = hasHF;
+        this.assignedSupervisorName = assignedSupervisorName;
     }
 
     public ForCasesHFGrid(Long id, String status, String statusDesc, String idFolder, String idMP, String name, String lastNameP,
@@ -140,4 +144,27 @@ public class ForCasesHFGrid implements EntityGrid {
         this.idTR = idTR;
     }
 
+    public StringBuilder getSb() {
+        return sb;
+    }
+
+    public void setSb(StringBuilder sb) {
+        this.sb = sb;
+    }
+
+    public boolean isHasHF() {
+        return hasHF;
+    }
+
+    public void setHasHF(boolean hasHF) {
+        this.hasHF = hasHF;
+    }
+
+    public String getAssignedSupervisorName() {
+        return assignedSupervisorName;
+    }
+
+    public void setAssignedSupervisorName(String assignedSupervisorName) {
+        this.assignedSupervisorName = assignedSupervisorName;
+    }
 }

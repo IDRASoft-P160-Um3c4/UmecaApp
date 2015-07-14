@@ -41,5 +41,7 @@ public class ConstantsLogCase {
     public static final String EDIT_FRAMING_MEETING = "EDIT_FRAMING_MEETING";
     public static final String TT_EDIT_FRAMING_MEETING = "Se modifica entrevista de encuadre";
     public static final String ACT_EDIT_FRAMING_MEETING = "Modificaci&oacute;n de entrevista de encuadre";
+    public static final String ASSIGNMENT_SUPERVISOR_CASE = "ASSIGNMENT_SUPERVISOR_CASE";
+    public static final String ACT_ASSIGNMENT_SUPERVISOR_CASE = "Se ha asignado un supervisor al caso";
 
 }
