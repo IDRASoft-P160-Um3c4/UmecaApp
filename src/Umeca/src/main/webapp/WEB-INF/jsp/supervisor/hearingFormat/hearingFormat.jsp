@@ -364,7 +364,6 @@
                                                                        class="form-control date-picker"
                                                                        id="id-date-picker-1" type="text"
                                                                        data-date-format="yyyy/mm/dd" data-val="true"
-                                                                       readonly
                                                                        data-val-required="Fecha de audiencia es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
@@ -540,7 +539,7 @@
                                                                        name="imputedBirthDateStr" type="text"
                                                                        data-date-format="yyyy/mm/dd"
                                                                        ng-disabled="m.canEdit==false"
-                                                                       readonly ng-change="calcAge();"
+                                                                       ng-change="calcAge();"
                                                                        ng-model="m.impBthDay" data-val="true"
                                                                        data-val-required="Fecha de nacimiento es un campo requerido"/>
                                                 <span class="input-group-addon">
@@ -749,7 +748,7 @@
                                                             <input class="form-control date-picker"
                                                                    id="imputationDateStr" name="imputationDateStr"
                                                                    ng-model="m.impDate"
-                                                                   data-date-format="yyyy/mm/dd" type="text" readonly
+                                                                   data-date-format="yyyy/mm/dd" type="text"
                                                                    data-val="true"
                                                                    data-val-required="Fecha es un campo requerido">
                             <span class="input-group-addon">
@@ -818,7 +817,7 @@
                                                             <input class="form-control date-picker"
                                                                    id="extDateStr" name="extDateStr"
                                                                    ng-model="m.extDate"
-                                                                   data-date-format="yyyy/mm/dd" type="text" readonly
+                                                                   data-date-format="yyyy/mm/dd" type="text"
                                                                    data-val="true"
                                                                    data-val-required="Fecha es un campo requerido">
                             <span class="input-group-addon">
@@ -894,7 +893,7 @@
                                                                 <input class="form-control date-picker"
                                                                        id="linkageDateStr" data-date-format="yyyy/mm/dd"
                                                                        name="linkageDateStr" ng-model="m.linkageDate"
-                                                                       type="text" readonly data-val="true"
+                                                                       type="text" data-val="true"
                                                                        data-val-required="Fecha es un campo requerido">
                 <span class="input-group-addon">
                     <i class="icon-calendar bigger-110"></i>
@@ -968,7 +967,7 @@
                                         <input id="umecaDateStr" name="umecaDateStr"
                                                ng-model="m.umecaDate"
                                                class="form-control date-picker" id="id-date-picker-umeca" type="text"
-                                               data-date-format="yyyy/mm/dd" data-val="true" readonly
+                                               data-date-format="yyyy/mm/dd" data-val="true"
                                                data-val-required="Cita en la UMECA es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>

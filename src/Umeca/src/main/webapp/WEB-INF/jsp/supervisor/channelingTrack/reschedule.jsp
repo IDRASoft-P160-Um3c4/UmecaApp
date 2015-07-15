@@ -113,7 +113,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-10">
                                                         <div class="input-group">
-                                                            <input class="form-control date-picker" id="id-date-picker-start" readonly="readonly"
+                                                            <input class="form-control date-picker" id="id-date-picker-start"
                                                                    type="text" data-date-format="dd-mm-yyyy" ng-model="m.dateStart" />
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
