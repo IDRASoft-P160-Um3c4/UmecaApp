@@ -79,7 +79,7 @@
                         <div class="row">
                             <div class="col-xs-5 element-left">
                                 Fecha de nacimiento:
-                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (1978/08/30)</small>
+                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (1980/08/30)</small>
                             </div>
                             <div class="col-xs-7">
                                 <div class="input-group">

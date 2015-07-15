@@ -64,12 +64,13 @@
                         <div class="profile-user-info profile-user-info-striped">
                             <div class="profile-info-row two-lines">
                                 <div class="profile-info-name"> Fecha</div>
+                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
                                 <div class="profile-info-value">
                                     <div class="input-group input-large">
                                         <input class="form-control date-picker"
                                                id="hearingDateSt" data-date-format="yyyy/mm/dd"
                                                name="hearingDateSt" ng-model="m.hearingDate"
-                                               type="text" readonly data-val="true"
+                                               type="text" data-val="true"
                                                data-val-required="Fecha es un campo requerido" />
                                         <span class="input-group-addon">
                                             <i class="icon-calendar bigger-110"></i>
@@ -161,12 +162,13 @@
                         <div class="profile-user-info profile-user-info-striped">
                             <div class="profile-info-row two-lines">
                                 <div class="profile-info-name"> Fecha</div>
+                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
                                 <div class="profile-info-value">
                                     <div class="input-group input-large">
                                         <input class="form-control date-picker"
                                                id="hearingReminderDateSt" data-date-format="yyyy/mm/dd"
                                                name="hearingReminderDateSt" ng-model="m.hearingReminderDate"
-                                               type="text" readonly data-val="true"
+                                               type="text" data-val="true"
                                                data-val-required="Fecha es un campo requerido" />
                                             <span class="input-group-addon">
                                                 <i class="icon-calendar bigger-110"></i>

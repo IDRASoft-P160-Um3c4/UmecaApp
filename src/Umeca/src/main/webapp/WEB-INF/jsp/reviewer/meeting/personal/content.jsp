@@ -174,11 +174,12 @@
                 <i class="purple icon-list icon-only bigger-120" onclick="window.showChoices('imputed.birthDate')"
                         ng-show="selectSource"></i>
                 Fecha de nacimiento:
+                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (1980/01/26)</small>
             </div>
             <div class="col-xs-7">
                 <div class="input-group">
                     <input class="form-control date-picker" id="dateBirthV"  type="text"  disabled="disabled"
-                           data-date-format="yyyy/mm/dd" value="${m.imputed.birthDate}" readonly="readonly"
+                           data-date-format="yyyy/mm/dd" value="${m.imputed.birthDate}"
                            name="imputed.birthDate" data-val-required="La fecha de nacimiento es un campo requerido"/>
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>

@@ -110,13 +110,14 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <label for="birthDate">Fecha de nacimiento</label>
+                                    <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (1980/08/06)</small>
 
                                     <div class="input-group">
                                         <input class="form-control date-picker"
                                                id="birthDate"
                                                name="birthDate" type="text"
                                                data-date-format="yyyy/mm/dd"
-                                               readonly ng-model="gd.birthDate" data-val="true"
+                                               ng-model="gd.birthDate" data-val="true"
                                                data-val-required="Fecha de nacimiento es un campo requerido"/>
                     <span class="input-group-addon">
                     <i class="icon-calendar bigger-110"></i>
@@ -244,13 +245,14 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <label for="datePublicServ">Fecha de inicio servidor p&uacute;blico</label>
+                                    <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2010/01/01)</small>
 
                                     <div class="input-group">
                                         <input class="form-control date-picker"
                                                id="datePublicServ"
                                                name="datePublicServ" type="text"
                                                data-date-format="yyyy/mm/dd"
-                                               readonly ng-model="gd.datePublicServ" data-val="true"
+                                               ng-model="gd.datePublicServ" data-val="true"
                                                data-val-required="Fecha de inicio servidor p&uacute;blico es un campo requerido"/>
                         <span class="input-group-addon">
                         <i class="icon-calendar bigger-110"></i>
@@ -261,13 +263,14 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <label for="dateEntryUmeca">Fecha de ingreso UMECA</label>
+                                    <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
 
                                     <div class="input-group">
                                         <input class="form-control date-picker"
                                                id="dateEntryUmeca"
                                                name="dateEntryUmeca" type="text"
                                                data-date-format="yyyy/mm/dd"
-                                               readonly ng-model="gd.dateEntryUmeca" data-val="true"
+                                                ng-model="gd.dateEntryUmeca" data-val="true"
                                                data-val-required="Fecha de ingreso UMECA es un campo requerido"/>
                         <span class="input-group-addon">
                         <i class="icon-calendar bigger-110"></i>

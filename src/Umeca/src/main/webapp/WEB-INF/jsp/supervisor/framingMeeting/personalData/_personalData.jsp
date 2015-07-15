@@ -297,11 +297,12 @@
                 <div class="row">
                     <div class="col-xs-5 col-xs-offset-1">
                         <label for="birthDate">Fecha de nacimiento</label>
+                        <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (1980/11/30)</small>
 
                         <div class="input-group">
                             <input class="form-control date-picker"
                                    id="birthDate" name="birthDate" ng-model="pd.birthDate"
-                                   data-date-format="yyyy/mm/dd" type="text" readonly data-val="true"
+                                   data-date-format="yyyy/mm/dd" type="text"  data-val="true"
                                    data-val-required="Fecha de naciemiento es un campo requerido"
                                    ng-change="calcAge();">
                             <span class="input-group-addon">

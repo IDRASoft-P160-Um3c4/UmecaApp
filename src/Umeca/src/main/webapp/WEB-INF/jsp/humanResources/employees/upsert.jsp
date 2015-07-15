@@ -78,10 +78,11 @@
                         <div class="row">
                             <div class="col-xs-4 element-left">
                                 Fecha de nacimiento:
+                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (1980/08/22)</small>
                             </div>
                             <div class="col-xs-8">
                                 <div class="input-group">
-                                    <input class="form-control date-picker" readonly="readonly" type="text"
+                                    <input class="form-control date-picker"  type="text"
                                            data-date-format="yyyy/mm/dd"
                                            data-val="true"
                                            data-val-required="La fecha de nacimiento es un campo requerido"

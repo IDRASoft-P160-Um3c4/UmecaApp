@@ -63,6 +63,7 @@
                             <div class="row">
                                 <div class="col-xs-6">
                                     <label for="agreementDate">Fecha:</label>
+                                    <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
 
                                     <div class="input-group">
                                         <input id="agreementDate" name="agreementDate"
@@ -71,7 +72,7 @@
                                                class="form-control date-picker"
                                                id="id-date-picker-1" type="text"
                                                data-date-format="yyyy/mm/dd" data-val="true"
-                                               readonly
+
                                                data-val-required="Fecha es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>

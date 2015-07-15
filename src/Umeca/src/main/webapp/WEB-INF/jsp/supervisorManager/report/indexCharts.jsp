@@ -70,6 +70,7 @@
 
                                                             <div class="col-xs-3 col-xs-offset-2">
                                                                 <label for="initDate">Fecha inicio</label>
+                                                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
 
                                                                 <div class="row">
                                                                     <div class="input-group">
@@ -79,7 +80,7 @@
                                                                                type="text"
                                                                                data-date-format="yyyy/mm/dd"
                                                                                data-val="true"
-                                                                               readonly
+
                                                                                data-val-required="Fecha de inicio es un campo requerido"/>
                                                             <span class="input-group-addon">
                                                                 <i class="icon-calendar bigger-110"></i>
@@ -93,6 +94,7 @@
 
                                                             <div class="col-xs-3 col-xs-offset-1">
                                                                 <label for="endDate">Fecha fin</label>
+                                                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
 
                                                                 <div class="row">
                                                                     <div class="input-group">
@@ -101,7 +103,7 @@
                                                                                type="text"
                                                                                data-date-format="yyyy/mm/dd"
                                                                                data-val="true"
-                                                                               readonly
+
                                                                                ng-model="endDate"
                                                                                data-val-required="Fecha de fin es un campo requerido"/>
                                                             <span class="input-group-addon">

@@ -49,7 +49,7 @@
                                                 <div class="col-xs-12">
                                                     <br/>
 
-                                                    <div ng-show="MsgError!=''"
+                                                    <div ng-show="MsgError &&  MsgError!=''"
                                                          class="alert alert-danger element-center"
                                                          ng-bind-html="MsgError">
                                                     </div>
@@ -131,13 +131,13 @@
 
                                                         <div class="col-xs-6">
                                                             <label>Fecha de inicio</label>
-                                                            <br/>
+                                                            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
 
                                                             <div class="input-group">
                                                                 <input id="initDate" class="form-control date-picker"
                                                                        name="initDate" type="text"
                                                                        data-date-format="yyyy/mm/dd"
-                                                                       readonly
+
                                                                        ng-model="detained.initDate" data-val="true"
                                                                        data-val-required="Fecha de inicio es un campo requerido"/>
                                                                     <span class="input-group-addon">

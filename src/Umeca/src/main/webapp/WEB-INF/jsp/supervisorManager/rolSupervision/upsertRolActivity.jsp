@@ -31,10 +31,11 @@
                                         <div class="row">
                                             <div class="col-xs-6">
                                                 <label for="id-date-picker-start" class="control-label">Fecha inicial:</label>
+                                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                                                 <div class="row">
                                                     <div class="col-xs-10">
                                                         <div class="input-group">
-                                                            <input class="form-control date-picker" id="id-date-picker-start" readonly="readonly" type="text" data-date-format="dd-mm-yyyy" />
+                                                            <input class="form-control date-picker" id="id-date-picker-start"  type="text" data-date-format="dd-mm-yyyy" />
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
 																	</span>
@@ -44,10 +45,11 @@
                                             </div>
                                             <div class="col-xs-6">
                                                 <label for="id-date-picker-end" class="control-label">Fecha final:</label>
+                                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                                                 <div class="row">
                                                     <div class="col-xs-10">
                                                         <div class="input-group">
-                                                            <input class="form-control date-picker" id="id-date-picker-end" readonly="readonly" type="text" data-date-format="dd-mm-yyyy" />
+                                                            <input class="form-control date-picker" id="id-date-picker-end"  type="text" data-date-format="dd-mm-yyyy" />
                                                                 <span class="input-group-addon">
                                                                     <i class="icon-calendar bigger-110"></i>
                                                                 </span>

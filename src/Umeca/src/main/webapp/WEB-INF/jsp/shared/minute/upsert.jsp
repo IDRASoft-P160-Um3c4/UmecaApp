@@ -134,6 +134,7 @@
 
                                                     <div class="col-xs-4">
                                                         <label for="minuteDate">Fecha</label>
+                                                        <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
 
                                                         <div class="input-group">
                                                             <input class="form-control date-picker"
@@ -141,7 +142,7 @@
                                                                    name="minuteDate"
                                                                    ng-disabled="minute.isFinished==true"
                                                                    ng-model="minute.minuteDate"
-                                                                   data-date-format="yyyy/mm/dd" type="text" readonly
+                                                                   data-date-format="yyyy/mm/dd" type="text"
                                                                    data-val="true"
                                                                    data-val-required="Fecha es un campo requerido">
                                             <span class="input-group-addon">

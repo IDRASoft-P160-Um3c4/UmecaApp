@@ -82,13 +82,14 @@
 
     <div class="col-xs-4" ng-show='aq.addictionTreatment==1'>
         <label for="addictionTreatmentDate">&iquest;Desde cu&aacute;ndo?</label>
+        <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
         <br/>
 
         <div class="input-group">
             <input class="form-control date-picker"
                    id="addictionTreatmentDate" name="addictionTreatmentDate"
                    type="text"
-                   data-date-format="yyyy/mm/dd" readonly
+                   data-date-format="yyyy/mm/dd"
                    ng-model="aq.addictionTreatmentDate"
                    data-val="true"
                    data-val-required="Fecha de tratamiento es un campo requerido"/>
