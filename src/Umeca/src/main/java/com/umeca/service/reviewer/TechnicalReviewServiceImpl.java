@@ -142,8 +142,6 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
     public TechnicalReviewInfoFileView fillInfoFile(Long idVerification) {
 
-        //TODO TERMINAR/CORREGIR ESTO
-
         TechnicalReviewInfoFileView file = new TechnicalReviewInfoFileView();
 
         Verification ver = verificationRepository.findOne(idVerification);
@@ -168,8 +166,8 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 //        String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";
 //        String templateUnable = "Campo: {0} <br/>Valor: {1}<br/>Raz&oacute;n: {3}<br/>";
 
-        String template = "<td> Campo: {0} </td> <td> Valor: {1}</td> <td>Fuente: {2} <td/> <td>Raz&oacute;n: {3}<br/></td>";
-        String templateUnable = "<td colspan=\"2\"> Campo: {0} </td> <td colspan=\"2\"> Valor: {1}<br/>Raz&oacute;n: {3} </td>";
+        String template = "<td> <b>Campo: {0}</b></td> <td>Valor: {1}</td><td> Fuente: {2}</td> <td>Raz&oacute;n: {3}</td>";
+        String templateUnable = "<td> <b>Campo: {0}</b></td><td> Valor: {1}</td><td></td>Fuente:NA<td>Raz&oacute;n: {3}</td>";
 
 
         for (int i = 0; i < Constants.NAMES_MEETING.length; i++) {
@@ -222,9 +220,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                         v = v.replace("{0}", fms.getFieldVerification().getFieldName());
                         section.getValues().add(Convert.convertToValidString(v));
 
-                        file.getSections().add(section);
                     }
                 }
+                file.getSections().add(section);
             }
         }
 

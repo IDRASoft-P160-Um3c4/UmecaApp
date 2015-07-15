@@ -44,12 +44,16 @@
                 <table style="width:100%;">
                     <c:forEach var="value" items="${section.values}">
                         <tr>
-                            <%--<td>--%>
+                                <%--<td>--%>
                                 <%--<div style="width:100%;border-width:1px;border-color:blue;border-style:none none double none;">--%>
-                                        <%--${value}--%>
+                                ${value}
                                 <%--</div>--%>
-                            <%--</td>--%>
-                                    ${value}//TODO TERMINAR/CORREGIR ESTO
+                                <%--</td>--%>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <hr>
+                            </td>
                         </tr>
                     </c:forEach>
                     <tr>
